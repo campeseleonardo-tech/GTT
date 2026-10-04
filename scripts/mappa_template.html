@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobilità Torino</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --card:#ffffff; --ink:#1d2330; --muted:#5d6678; --line:#dfe3ea; --accent:#1b6f73;
+    --bus:#3b6ea8; --tram:#2e8b57; --metro:#c8102e; --altro:#7a5aa6;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);
+    font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  #mappa{position:fixed;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;display:block}
+  #mappa.trascina{cursor:grabbing}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 10px rgba(20,30,50,.12)}
+  #pannello{position:fixed;top:12px;left:12px;width:min(340px,calc(100vw - 24px));max-height:calc(100vh - 24px);
+    overflow:auto;padding:14px}
+  #pannello h1{font-size:17px;margin:0 0 2px}
+  #pannello .sub{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+  h2{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+  .stato{display:grid;gap:6px}
+  .riga{display:flex;gap:8px;align-items:flex-start;font-size:12.5px}
+  .pallino{flex:none;width:9px;height:9px;border-radius:50%;margin-top:5px;background:#9aa3b2}
+  .ok{background:#3a9a64}.vecchio{background:#d9822b}
+  .seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{flex:1;border:0;background:#fff;padding:7px 4px;font:inherit;cursor:pointer;color:var(--ink)}
+  .seg button+button{border-left:1px solid var(--line)}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+  .ora{display:flex;align-items:center;gap:8px;margin-top:10px}
+  .ora input{flex:1;accent-color:var(--accent)}
+  .ora output{min-width:78px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  .btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;font:inherit;cursor:pointer}
+  .btn:hover{background:#f0f3f7}
+  label.lv{display:flex;align-items:center;gap:8px;padding:3px 0;cursor:pointer}
+  label.lv.off{color:#9aa3b2;cursor:not-allowed}
+  label.lv input{accent-color:var(--accent)}
+  .sw{width:14px;height:14px;border-radius:3px;flex:none;border:1px solid rgba(0,0,0,.15)}
+  details{margin-top:12px;font-size:12.5px;color:var(--muted)}
+  details summary{cursor:pointer;color:var(--ink);font-weight:600}
+  details p{margin:6px 0}
+  #legenda{position:fixed;left:12px;bottom:12px;padding:10px 12px;font-size:12px;max-width:min(340px,calc(100vw - 24px));display:none}
+  #legenda .t{font-weight:600;margin:0 0 4px}
+  #legenda .sc{display:flex;gap:2px;margin:2px 0 8px}
+  #legenda .sc span{height:10px;flex:1}
+  #legenda .et{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-bottom:6px}
+  .puntini{display:flex;gap:10px;flex-wrap:wrap;margin:2px 0 6px}
+  .puntini i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px;border:1px solid rgba(0,0,0,.25)}
+  #tip{position:fixed;pointer-events:none;display:none;max-width:280px;padding:8px 10px;font-size:12.5px;z-index:5}
+  #zoom{position:fixed;right:12px;top:12px;display:flex;flex-direction:column;overflow:hidden}
+  #zoom button{width:36px;height:36px;border:0;background:#fff;font-size:20px;cursor:pointer;color:var(--ink)}
+  #zoom button+button{border-top:1px solid var(--line)}
+  #zoom .zl{font-size:11px;text-align:center;padding:3px 0;color:var(--muted);border-top:1px solid var(--line);background:#fff;font-variant-numeric:tabular-nums}
+  #zoom button.pic{font-size:15px}
+  .sim{display:flex;align-items:center;gap:8px;margin-top:8px}
+  .sim select,#modoSez,#basemap,#filtroLinea{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff}
+  #filtroLinea{width:100%;margin:2px 0 4px}
+  #attrib{position:fixed;right:6px;bottom:4px;font-size:10.5px;color:#444;background:rgba(255,255,255,.8);padding:1px 6px;border-radius:4px}
+  #attrib a{color:inherit}
+  #apri{display:none;position:fixed;top:12px;left:12px;padding:8px 12px;cursor:pointer}
+  @media (max-width:640px){ #pannello{max-height:46vh} #legenda{display:none!important} }
+</style>
+</head>
+<body>
+<canvas id="mappa"></canvas>
+<div id="jsoff" role="alert" style="position:fixed;left:12px;right:12px;bottom:34px;z-index:20;padding:12px 14px;border-radius:10px;background:#fff3cd;border:1px solid #e0b84a;color:#4a3b00;font-size:14px">
+  La mappa non è partita: il programma della pagina (JavaScript) è bloccato o non gira in questo browser.
+  Se hai aperto il file da un'anteprima o da un programma diverso dal browser, chiudila e apri <b>mappa_torino.html</b> con
+  Chrome, Edge o Firefox (tasto destro sul file → Apri con).
+</div>
+
+<div id="pannello" class="card">
+  <button class="btn" id="chiudi" style="float:right;padding:2px 9px" aria-label="Nascondi pannello" title="Nascondi pannello">–</button>
+  <h1>Mobilità Torino</h1>
+  <p class="sub">Offerta GTT programmata, traffico 5T e mezzi GTT all'ultimo aggiornamento.</p>
+
+  <h2>Aggiornamento dati</h2>
+  <div class="stato" id="stato"></div>
+
+  <h2>Offerta programmata: giorno e ora</h2>
+  <div class="seg" id="giorno">
+    <button data-k="0" aria-pressed="true">Feriale</button>
+    <button data-k="1" aria-pressed="false">Sabato</button>
+    <button data-k="2" aria-pressed="false">Domenica</button>
+  </div>
+  <div class="ora">
+    <input id="ora" type="range" min="0" max="1439" step="1" value="480" aria-label="Ora del giorno">
+    <output id="oraTxt">08:00</output>
+    <button class="btn" id="adesso" title="Imposta giorno e ora attuali">Adesso</button>
+  </div>
+
+  <div class="sim">
+    <button class="btn" id="play" title="Avvia o ferma la simulazione" style="min-width:42px">⏸</button>
+    <select id="vel" aria-label="Velocità della simulazione">
+      <option value="1">1× (tempo reale)</option><option value="10">10×</option>
+      <option value="60" selected>60× (1 min al secondo)</option><option value="240">240×</option>
+    </select>
+    <span id="nAtt" style="font-size:12px;color:var(--muted)"></span>
+  </div>
+
+  <h2>Sfondo e filtro</h2>
+  <select id="basemap" aria-label="Sfondo della mappa">
+    <option value="chiara">Mappa chiara (OpenStreetMap)</option>
+    <option value="osm">Mappa stradale a colori</option>
+    <option value="sat">Satellite (Esri)</option>
+  </select>
+  <input id="filtroLinea" list="listaLinee" placeholder="Mostra solo una linea (es. 4, 15, M1)" autocomplete="off">
+  <datalist id="listaLinee"></datalist>
+  <select id="coloreLinee" aria-label="Come colorare le linee" style="width:100%;margin:2px 0 4px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
+    <option value="freq">Linee: spessore = corse/ora programmate</option>
+    <option value="ratio">Linee: mezzi reali rispetto al previsto</option>
+  </select>
+
+  <h2>Livelli</h2>
+  <label class="lv"><input type="checkbox" id="Lcorse" checked><span class="sw" style="background:#fff;border-radius:50%;border:3px solid #3b6ea8"></span>Corse simulate in movimento (posizione stimata)</label>
+  <label class="lv"><input type="checkbox" id="Lzone"><span class="sw" style="background:#7cc0b8"></span>Zone: passaggi/ora per km²</label>
+  <label class="lv" id="rigaSez"><input type="checkbox" id="Lsez" checked><span class="sw" style="background:linear-gradient(90deg,#c8102e,#f2c14e,#4c9f70)"></span>Sezioni di censimento (residenti)</label>
+  <select id="modoSez" aria-label="Cosa colorare nelle sezioni" style="margin:2px 0 6px 26px;max-width:240px">
+    <option value="rapp">Poca offerta per abitante</option>
+    <option value="serv">Passaggi/ora entro 400 m</option>
+    <option value="dens">Abitanti per km²</option>
+  </select>
+  <label class="lv"><input type="checkbox" id="Llinee" checked><span class="sw" style="background:var(--bus)"></span>Linee: corse/ora</label>
+  <label class="lv"><input type="checkbox" id="Lfermate" checked><span class="sw" style="background:#465060;border-radius:50%"></span>Fermate: passaggi/ora (da zoom 14)</label>
+  <label class="lv"><input type="checkbox" id="Lsensori" checked><span class="sw" style="background:#f2c14e;border-radius:50%"></span>Traffico 5T (ultimi 5 minuti)</label>
+  <label class="lv"><input type="checkbox" id="Lmezzi" checked><span class="sw" style="background:#222;border-radius:50%"></span>Mezzi GTT (ultima posizione)</label>
+
+  <h2>Dati raccolti</h2>
+  <div class="stato" id="statoLive"></div>
+  <label class="lv" style="margin-top:6px"><input type="checkbox" id="Lreplay"><span class="sw" style="background:#111;border-radius:50%"></span>Replay: mezzi reali registrati</label>
+  <select id="repGiorno" aria-label="Giornata registrata" style="margin:2px 0 4px 26px;max-width:240px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff"><option value="">(nessuna giornata)</option></select>
+
+  <h2>Segnalazioni adesso</h2>
+  <div id="segn" style="font-size:12.5px;color:var(--muted)">—</div>
+
+  <details>
+    <summary>Cosa stai guardando e limiti</summary>
+    <p><b>Dati raccolti:</b> posizioni reali dei mezzi GTT (ogni minuto) e traffico 5T (ogni 5 minuti) salvati dal programma in background. «Di solito» = media di quello che abbiamo registrato per lo stesso tipo di giorno e ora; con pochi giorni di storico è indicativo, non una norma. «Mezzi reali rispetto al previsto» confronta i veicoli localizzati con quelli degli orari, normalizzato sul rapporto medio di tutte le linee (non tutti i veicoli potrebbero essere localizzati): misura lo scostamento relativo, non il numero assoluto.</p>
+    <p><b>Corse simulate:</b> ogni puntino è una corsa degli orari GTT, spostata a velocità costante lungo il tracciato tra la prima e l'ultima fermata. È una stima dagli orari, non la posizione reale (ritardi, traffico e soste non ci sono). I puntini neri grandi sono invece posizioni reali all'ultimo aggiornamento.</p>
+    <p><b>Offerta:</b> passaggi e corse sono quelli <i>programmati</i> dagli orari GTT per un martedì, un sabato e una domenica tipici. Non sono i passaggi reali.</p>
+    <p><b>Traffico e mezzi:</b> sono una fotografia dell'ultimo aggiornamento scaricato, non un flusso continuo. L'ora e il tipo di giorno scelti qui non li cambiano.</p>
+    <p><b>Sensori 5T:</b> alcuni segnano accuratezza 0 e flusso 0: li mostro in grigio come «dato probabilmente assente», perché non so ancora se significhi sensore spento.</p>
+    <p><b>Residenti (ISTAT 2021):</b> abitanti per sezione di censimento. Sono la popolazione «di notte», non chi si sposta a quell'ora: lavoratori, studenti e pendolari non sono ancora inclusi. «Poca offerta per abitante» = passaggi programmati GTT/ora entro 400 m ogni 1000 abitanti entro 400 m (rosso = pochi). Fuori Torino mancano le linee di altri operatori e i treni: lì il rosso può essere solo mancanza di dati.</p>
+    <p><b>Zone:</b> le 94 zone statistiche del Comune di Torino (2011). I passaggi per zona sommano i passaggi alle fermate dentro la zona.</p>
+  </details>
+</div>
+<button id="apri" class="card">Pannello</button>
+
+<div id="legenda" class="card"></div>
+<div id="zoom" class="card"><button id="zp" aria-label="Ingrandisci" title="Ingrandisci">+</button><button id="zm" aria-label="Riduci" title="Riduci">−</button><button id="zh" class="pic" aria-label="Torino" title="Centra su Torino">⌂</button><button id="zc" class="pic" aria-label="Cintura" title="Vedi anche la cintura">◎</button><div class="zl" id="zl"></div></div>
+<div id="tip" class="card"></div>
+<div id="attrib"></div>
+
+<script>
+window.addEventListener("error", function(e){
+  var b=document.getElementById("jsoff"); if(!b) return;
+  b.style.display="block"; b.textContent="Errore nella pagina: "+(e.message||"sconosciuto")+(e.lineno?" (riga "+e.lineno+")":"")+". Copia questo messaggio e mandalo a Claude.";
+});
+</script>
+<script src="data/live.js"></script>
+<script src="data/stat.js"></script>
+<script>
+const DATI = "__DATI__";
+</script>
+<script>
+(() => {
+"use strict";
+document.getElementById("jsoff").style.display="none";
+const D = DATI;
+function errore(e){ console.error(e); const b=document.getElementById("jsoff"); b.style.display="block"; b.textContent="Errore nella pagina: "+(e&&e.message||e)+". Copia questo messaggio e mandalo a Claude."; }
+function sicuro(f){ try{ f(); }catch(e){ errore(e); } }
+const $ = id => document.getElementById(id);
+const cv = $("mappa"); let cx = cv.getContext("2d");
+const COL = {bus:"#3b6ea8", tram:"#2e8b57", metro:"#c8102e", altro:"#7a5aa6"};
+const tipoCol = t => t===1?COL.metro : t===0?COL.tram : t===3?COL.bus : COL.altro;
+const tipoNome = t => ({0:"tram",1:"metropolitana",3:"bus",7:"funicolare",2:"treno"})[t] || "altro";
+const GIORNI = ["Feriale","Sabato","Domenica"];
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad = n => String(n).padStart(2,"0");
+
+/* ---------- proiezione (Web Mercator, coordinate unitarie 0..1) ---------- */
+const px = lon => (lon+180)/360;
+const py = lat => { const s=Math.sin(lat*Math.PI/180); return 0.5-Math.log((1+s)/(1-s))/(4*Math.PI); };
+const unLon = x => x*360-180;
+const unLat = y => { const n=Math.PI-2*Math.PI*y; return 180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n))); };
+
+/* ---------- preparazione dati ---------- */
+const zone = D.zone.map(z => {
+  const polys = z.g.map(poly => poly.map(r => { const a=new Float64Array(r.length*2); r.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a; }));
+  let x0=1,y0=1,x1=0,y1=0;
+  polys.forEach(p=>p.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}}));
+  return {...z, polys, bb:[x0,y0,x1,y1], dens:z.d.map(v=>v/Math.max(z.km2,0.01))};
+});
+/* sezioni di censimento: centro, abitanti, e fermate/abitanti entro 400 m (griglia spaziale) */
+const RAGGIO=400;
+const sez = (D.sezioni||[]).map(z=>{
+  const polys=z.g.map(poly=>{const a=new Float64Array(poly.length*2); poly.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a;});
+  let x0=1,y0=1,x1=0,y1=0;
+  polys.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
+  const cxn=(x0+x1)/2, cyn=(y0+y1)/2;
+  return {p:z.p, km2:z.a, polys, bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
+});
+let sezOk=false;
+function preparaSezioni(){
+  if(!sez.length) return;
+  const mU = 1/(40075016.7*Math.cos(45.07*Math.PI/180));   // 1 metro in unita' di mappa
+  const r=RAGGIO*mU, G=r, celle=new Map(), cellaS=new Map();
+  const key=(a,b)=>a+"_"+b;
+  D.fermate.forEach((s,i)=>{const x=px(s.lo),y=py(s.la),k=key(Math.floor(x/G),Math.floor(y/G)); (celle.get(k)||celle.set(k,[]).get(k)).push([i,x,y]);});
+  sez.forEach((z,i)=>{const k=key(Math.floor(z.x/G),Math.floor(z.y/G)); (cellaS.get(k)||cellaS.set(k,[]).get(k)).push(i);});
+  for(const z of sez){
+    const gx=Math.floor(z.x/G), gy=Math.floor(z.y/G); let pop=0;
+    for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){
+      const cs=celle.get(key(gx+dx,gy+dy)); if(cs) for(const [i,x,y] of cs){ if(Math.hypot(x-z.x,y-z.y)<=r) z.st.push(i); }
+      const ps=cellaS.get(key(gx+dx,gy+dy)); if(ps) for(const j of ps){ const o=sez[j]; if(Math.hypot(o.x-z.x,o.y-z.y)<=r) pop+=o.p; }
+    }
+    z.pop400=pop;
+  }
+  sezOk=true;
+}
+const sezServ=(z,i)=>{ let s=0; for(const k of z.st) s+=D.fermate[k].d[i]; return s; };
+const sezRapp=(z,i)=>sezServ(z,i)/Math.max(z.pop400,1)*1000;
+let sezSoglie={};
+function calcolaSoglieSez(){
+  if(!sezOk) return;
+  const vals={serv:[],rapp:[],dens:sez.map(z=>z.dens).sort((a,b)=>a-b)};
+  for(const z of sez) for(let h=7;h<=20;h+=1){ vals.serv.push(sezServ(z,h)); vals.rapp.push(sezRapp(z,h)); }
+  for(const k of ["serv","rapp"]) vals[k].sort((a,b)=>a-b);
+  for(const k in vals){ const v=vals[k]; sezSoglie[k]=[0.2,0.4,0.6,0.8].map(q=>v[Math.min(v.length-1,Math.floor(q*v.length))]); }
+}
+const PAL_RAPP=["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"];
+const PAL_BASE=["#e3f1ef","#b5dcd6","#7cc0b8","#3f9a95","#1b6f73"];
+const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP};
+const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
+const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):sezRapp(z,i);
+
+const linee = D.linee.map((l,ii) => {
+  const a=new Float64Array(l.p.length*2); let x0=1,y0=1,x1=0,y1=0;
+  l.p.forEach((p,i)=>{const x=px(p[1]),y=py(p[0]);a[2*i]=x;a[2*i+1]=y;x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);});
+  return {id:l.id, i0:ii, pts:a, bb:[x0,y0,x1,y1], t:(D.rotte[l.id]||{t:3}).t};
+}).sort((a,b)=>({1:3,0:2}[a.t]||1)-({1:3,0:2}[b.t]||1));
+/* lunghezze cumulate dei tracciati e posizione lungo il tracciato (per la simulazione delle corse) */
+const lineaPerIdx=[];
+linee.forEach(l=>{ lineaPerIdx[l.i0]=l; const n=l.pts.length/2, c=new Float64Array(n); for(let k=1;k<n;k++) c[k]=c[k-1]+Math.hypot(l.pts[2*k]-l.pts[2*k-2], l.pts[2*k+1]-l.pts[2*k-1]); l.cum=c; l.tot=c[n-1]||1e-12; l.nome=((D.rotte[l.id]||{}).s||"").toLowerCase(); });
+const filtroL=()=>$("filtroLinea").value.trim().toLowerCase();
+function puntoSu(l,f){
+  const tg=f*l.tot, c=l.cum; let lo=0, hi=c.length-1;
+  while(hi-lo>1){ const m=(lo+hi)>>1; if(c[m]<=tg) lo=m; else hi=m; }
+  const seg=(c[hi]-c[lo])||1e-12, u=Math.max(0,Math.min(1,(tg-c[lo])/seg));
+  return [l.pts[2*lo]+(l.pts[2*hi]-l.pts[2*lo])*u, l.pts[2*lo+1]+(l.pts[2*hi+1]-l.pts[2*lo+1])*u];
+}
+const fermate = D.fermate.map(s=>({...s,x:px(s.lo),y:py(s.la)}));
+const sensori = D.sensori.map(s=>({...s,x:px(s.lo),y:py(s.la)}));
+let mezzi = D.mezzi.map(m=>({...m,x:px(m.lo),y:py(m.la)}));
+let mezziTs = D.meta.mezzi_ts*1000, t5Fine = Date.parse(D.meta.t5.end_time), inLive=false;
+const ST = () => window.STAT || null;
+const LV = () => window.LIVE || null;
+
+/* ora e tipo di giorno reali in Italia */
+function oraItalia(){
+  let dt=0,h=new Date().getHours(),mi=new Date().getMinutes();
+  try{ const p=Object.fromEntries(new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Rome",weekday:"short",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+    dt=p.weekday==="Sat"?1:p.weekday==="Sun"?2:0; h=+p.hour; mi=+p.minute; }catch(e){ const g=new Date().getDay(); dt=g===6?1:g===0?2:0; }
+  return {dt, m:h*60+mi};
+}
+const vicinoAdesso = () => { const a=oraItalia(); return a.dt===S.dt && Math.abs(a.m-S.m)<=90; };
+
+/* applica gli ultimi dati reali (live.js) */
+function applicaLive(){
+  const L=LV(); if(!L) return;
+  inLive=true;
+  if(L.mezzi && L.mezzi.length){ mezzi=L.mezzi.map(m=>({...m,x:px(m.lo),y:py(m.la)})); mezziTs=Date.parse(L.mezzi_letto)||mezziTs; }
+  if(L.t5){ for(const s of sensori){ const e=L.t5[s.id]; if(e){ s.fl=e.fl; s.v=e.v; s.vm=e.vm; s.fm=e.fm; } } if(L.t5_gen) t5Fine=Date.parse(L.t5_gen)||t5Fine; }
+  sicuro(stato); sicuro(statoLive); sicuro(segnalazioni); chiede();
+}
+function ricarica(nome,dopo){
+  const s=document.createElement("script"); s.src="data/"+nome+"?t="+Date.now();
+  s.onload=()=>{ s.remove(); dopo&&dopo(); }; s.onerror=()=>s.remove(); document.head.appendChild(s);
+}
+
+/* traffico tipico per sensore (da storico) */
+function tipicoSens(s,i){ const T=ST(); if(!T||!T.tipico||!T.tipico[s.id]) return null; const c=T.tipico[s.id][i===undefined?idx():i]; return c&&c[0]!=null?{v:c[0],f:c[1],n:c[2]}:null; }
+function piuLento(s){ if(!inLive||!vicinoAdesso()||s.acc===0) return null; const tp=tipicoSens(s); const vv=s.vm!=null?s.vm:s.v; if(!tp||!vv||tp.v<10) return null; return {r:vv/tp.v, tp, vv}; }
+
+/* offerta reale contro programmata, per linea */
+let schedConc=null;
+function calcolaSched(){
+  schedConc={};
+  (D.corse||[]).forEach((C,dt)=>{ for(const c of C){ const l=lineaPerIdx[c[0]]; if(!l) continue; const a=schedConc[l.id]||(schedConc[l.id]=new Float64Array(72));
+    for(let m=Math.floor(c[1]/60)*60; m<c[2]; m+=60){ const ov=Math.min(c[2],m+60)-Math.max(c[1],m); if(ov>0) a[dt*24+((m/60)|0)%24]+=ov/60; } } });
+}
+let ratioCache={chiave:"",vals:null};
+function ratiLinee(i){
+  const T=ST(); if(!T||!T.reale) return null;
+  const chiave=i+"|"+T.generato; if(ratioCache.chiave===chiave) return ratioCache.vals;
+  if(!schedConc) calcolaSched();
+  let sr=0, ss=0; const out={};
+  for(const id in schedConc){ const sc=schedConc[id][i], re=T.reale[id]&&T.reale[id][i]; if(sc>=0.5&&re!=null){ sr+=re; ss+=sc; } }
+  const g=ss>0?sr/ss:0;
+  for(const id in schedConc){ const sc=schedConc[id][i], re=T.reale[id]&&T.reale[id][i]; out[id]= (sc>=0.5&&re!=null&&g>0)? {r:(re/sc)/g, re, sc} : null; }
+  out._g=g; ratioCache={chiave,vals:out}; return out;
+}
+const ratioCol = r => r==null?"#9aa0ad": r<0.5?"#c8102e": r<0.8?"#e8833a": "#4c9f70";
+
+/* replay della giornata registrata */
+let REP=null;
+function caricaReplay(g){
+  REP=null; if(!g){ chiede(); return; }
+  const nome="REPLAY_"+g.replace(/-/g,"_");
+  ricarica("replay_"+g+".js",()=>{ const R=window[nome]; if(!R) return; REP={...R, s:R.s}; S.dt=R.tipo; document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.k===S.dt)); aggiornaOra(); aggiornaLegenda(); });
+}
+function disegnaReplay(ws,ox,oy){
+  if(!REP||!REP.s.length) return;
+  const m=S.m, s=REP.s; let lo=0, hi=s.length-1;
+  if(m<s[0][0]-2||m>s[hi][0]+2) return;
+  while(hi-lo>1){ const k=(lo+hi)>>1; if(s[k][0]<=m) lo=k; else hi=k; }
+  const A=s[lo], B=s[Math.min(lo+1,s.length-1)];
+  const posB=new Map(); for(let k=0;k<B[1].length;k+=3) posB.set(B[1][k],[B[1][k+1],B[1][k+2]]);
+  const dtAB=B[0]-A[0];
+  for(let k=0;k<A[1].length;k+=3){
+    const vi=A[1][k]; let la=A[1][k+1], lo2=A[1][k+2];
+    const pb=posB.get(vi);
+    if(pb && dtAB>0 && dtAB<=3){ const u=Math.max(0,Math.min(1,(m-A[0])/dtAB)); la+=(pb[0]-la)*u; lo2+=(pb[1]-lo2)*u; }
+    else if(m-A[0]>2) continue;
+    const X=px(7+lo2/1e5)*ws-ox, Y=py(44+la/1e5)*ws-oy; if(X<-8||Y<-8||X>W+8||Y>H+8) continue;
+    cx.beginPath(); cx.arc(X,Y,4.6,0,6.2832); cx.fillStyle="#111"; cx.fill(); cx.strokeStyle="#fff"; cx.lineWidth=1.6; cx.stroke();
+  }
+}
+
+/* riquadri informativi */
+function statoLive(){
+  const T=ST(), L=LV(), el=[];
+  if(!T){ $("statoLive").innerHTML='<div class="riga"><span class="pallino vecchio"></span><div>Nessun dato raccolto letto. Avvia la raccolta (installa_raccolta.bat) e riapri la pagina.</div></div>'; return; }
+  const ore=Math.max(T.ore_mezzi||0,T.ore_t5||0), giorni=Object.keys(T.giorni||{}).length;
+  const scarso = ore<72;
+  el.push(`<div class="riga"><span class="pallino ${scarso?"vecchio":"ok"}"></span><div><b>Storico</b>: ${giorni} giorn${giorni===1?"o":"i"}, ${T.ore_mezzi||0} ore di mezzi, ${T.ore_t5||0} ore di traffico${scarso?'<br><span style="color:#b25e00">Dati scarsi: poche ore o giorni di storico, i confronti «rispetto al solito» sono solo indicativi.</span>':""}<br><span style="color:#5d6678">da ${fmt(Date.parse(T.primo))} a ${fmt(Date.parse(T.ultimo))}</span></div></div>`);
+  if(L){ const eta_=(Date.now()-Date.parse(L.generato))/60000; el.push(`<div class="riga"><span class="pallino ${eta_>5?"vecchio":"ok"}"></span><div><b>Dati live</b>: aggiornati ${fmt(Date.parse(L.generato))} (${eta(Date.parse(L.generato))})${eta_>5?"<br>La raccolta potrebbe essere ferma: controlla stato_raccolta.bat":""}</div></div>`); }
+  $("statoLive").innerHTML=el.join("");
+  const sel=$("repGiorno"), att=sel.value; const gs=Object.keys(T.giorni||{});
+  if(sel.options.length-1!==gs.length){ sel.innerHTML='<option value="">(nessuna giornata)</option>'+gs.map(g=>`<option value="${g}">${g} (${T.giorni[g]} letture)</option>`).join(""); sel.value=att; }
+}
+function segnalazioni(){
+  const box=$("segn"), T=ST(); if(!box) return;
+  if(!inLive||!T){ box.textContent="Servono i dati live e lo storico."; return; }
+  if(!vicinoAdesso()){ box.textContent="Porta giorno e ora su «Adesso» per vedere le segnalazioni."; return; }
+  const sc=[], i=idx();
+  for(const s of sensori){ const pl=piuLento(s); if(pl&&pl.r<0.7&&pl.tp.n>=1) sc.push({s,pl}); }
+  sc.sort((a,b)=>a.pl.r-b.pl.r);
+  const rl=ratiLinee(i), ln=[];
+  if(rl) for(const id in rl){ if(id==="_g"||!rl[id]) continue; if(rl[id].r<0.5&&rl[id].sc>=1) ln.push({id,...rl[id]}); }
+  ln.sort((a,b)=>a.r-b.r);
+  const scarso=(Math.max(T.ore_mezzi||0,T.ore_t5||0))<72 ? ' <span style="color:#b25e00">(dati scarsi)</span>' : "";
+  let h=`<div style="margin-bottom:4px"><b>Traffico più lento del solito</b>${scarso}</div>`;
+  h+= sc.length? sc.slice(0,5).map(x=>`<div><a href="#" data-la="${x.s.la}" data-lo="${x.s.lo}" style="color:var(--ink)">${esc(x.s.via)}</a>: ${x.pl.vv.toFixed(0)} km/h invece di ${x.pl.tp.v.toFixed(0)}</div>`).join("") : "<div>nessuno sopra la soglia (velocità sotto il 70% del solito)</div>";
+  h+=`<div style="margin:8px 0 4px"><b>Linee con meno mezzi del previsto</b>${scarso}</div>`;
+  h+= ln.length? ln.slice(0,5).map(x=>`<div>${esc((D.rotte[x.id]||{s:x.id}).s)}: ${x.re.toFixed(1)} reali, ${x.sc.toFixed(1)} previsti</div>`).join("") : "<div>nessuna sotto la metà del rapporto medio</div>";
+  box.innerHTML=h;
+  box.querySelectorAll("a[data-la]").forEach(a=>a.onclick=e=>{e.preventDefault(); vaiA(+a.dataset.la,+a.dataset.lo,15);});
+}
+
+/* scala a classi per le zone: quantili su tutti i valori > 0 (fissi, cosi' lo slider e' confrontabile) */
+const tutti = zone.flatMap(z=>z.dens).filter(v=>v>0).sort((a,b)=>a-b);
+const quant = q => tutti.length ? tutti[Math.min(tutti.length-1, Math.floor(q*tutti.length))] : 1;
+const SOGLIE = [0.2,0.4,0.6,0.8].map(quant);
+const PAL = ["#e3f1ef","#b5dcd6","#7cc0b8","#3f9a95","#1b6f73"];
+const classe = v => v<=0 ? -1 : SOGLIE.filter(s=>v>s).length;
+
+/* ---------- stato ---------- */
+const view = {cx:px(7.6869), cy:py(45.0703), zoom: innerWidth<700?11:12};
+const MINZ=9, MAXZ=18;
+const S = {dt:0, m:480, get h(){return Math.floor(this.m/60)%24;}};
+let baseVer=0;
+const idx = () => S.dt*24+S.h;
+let W=0,H=0,dpr=1,sporco=true,attivi=0;
+const chiede = () => { if(!sporco){sporco=true;requestAnimationFrame(()=>sicuro(disegna));} };
+
+function ridimensiona(){
+  dpr=window.devicePixelRatio||1; W=innerWidth; H=innerHeight;
+  cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); chiede();
+}
+addEventListener("resize",ridimensiona);
+
+/* ---------- mattonelle ---------- */
+const tiles = new Map();
+const BASI={
+  chiara:(z,x,y)=>`https://tile.openstreetmap.org/${z}/${x}/${y}.png`,   /* OpenStreetMap schiarito in grigio: CARTO ora richiede una chiave */
+  osm:(z,x,y)=>`https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
+  sat:(z,x,y)=>`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`
+};
+const CRED={
+  chiara:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
+  osm:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
+  sat:'Immagini © Esri, Maxar, Earthstar Geographics'};
+let baseCorrente="chiara", tileOk=0, tileErr=0;
+function creditiSfondo(){ $("attrib").innerHTML=CRED[baseCorrente]+" · dati GTT, 5T, ISTAT, Comune di Torino"; }
+function tile(z,x,y){
+  const k=baseCorrente+"/"+z+"/"+x+"/"+y; let t=tiles.get(k);
+  if(!t){
+    const img=new Image(); t={img,ok:false,usato:0}; const b=baseCorrente;
+    img.onload=()=>{t.ok=true;tileOk++;baseVer++;chiede();};
+    img.onerror=()=>{ tileErr++; };
+    img.src=BASI[b](z,x,y);
+    tiles.set(k,t);
+    if(tiles.size>600){ const v=[...tiles.entries()].sort((a,b)=>a[1].usato-b[1].usato).slice(0,200); v.forEach(e=>tiles.delete(e[0])); }
+  }
+  t.usato=performance.now(); return t;
+}
+function disegnaMattonelle(ws,ox,oy){
+  const z=Math.max(0,Math.min(19,Math.round(view.zoom))), n=1<<z, ts=256*Math.pow(2,view.zoom-z);
+  const x0=Math.floor(ox/ts), x1=Math.floor((ox+W)/ts), y0=Math.floor(oy/ts), y1=Math.floor((oy+H)/ts);
+  for(let ty=Math.max(0,y0); ty<=Math.min(n-1,y1); ty++) for(let tx=x0; tx<=x1; tx++){
+    const t=tile(z,((tx%n)+n)%n,ty);
+    if(t.ok){ if(baseCorrente==="chiara") cx.filter="grayscale(.95) brightness(1.12) contrast(.85)"; cx.drawImage(t.img, tx*ts-ox, ty*ts-oy, ts+0.5, ts+0.5); cx.filter="none"; }
+  }
+}
+
+/* ---------- disegno ---------- */
+const vis = id => $(id).checked;
+function dentroVista(bb,ws,ox,oy){ return !(bb[2]*ws<ox||bb[0]*ws>ox+W||bb[3]*ws<oy||bb[1]*ws>oy+H); }
+function tracciaAnelli(poly,ws,ox,oy){
+  cx.beginPath();
+  for(const a of poly){ for(let i=0;i<a.length;i+=2){const X=a[i]*ws-ox,Y=a[i+1]*ws-oy; i?cx.lineTo(X,Y):cx.moveTo(X,Y);} cx.closePath(); }
+}
+const bcv=document.createElement("canvas"), bcx=bcv.getContext("2d"), cxPrincipale=cx;
+let baseKey="";
+function disegna(){
+  sporco=false;
+  const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
+  const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),
+    ["Lzone","Lsez","Llinee","Lfermate"].map(vis).join(),$("coloreLinee").value,(ST()||{}).generato].join("|");
+  if(chiave!==baseKey){
+    baseKey=chiave;
+    if(bcv.width!==cv.width||bcv.height!==cv.height){ bcv.width=cv.width; bcv.height=cv.height; }
+    cx=bcx; try{ disegnaBase(ws,ox,oy,i); } finally { cx=cxPrincipale; }
+  }
+  cx.setTransform(1,0,0,1,0,0); cx.drawImage(bcv,0,0);
+  cx.setTransform(dpr,0,0,dpr,0,0);
+  disegnaSopra(ws,ox,oy,i);
+}
+function disegnaBase(ws,ox,oy,i){
+  cx.setTransform(dpr,0,0,dpr,0,0);
+  cx.fillStyle="#e8eaee"; cx.fillRect(0,0,W,H);
+  disegnaMattonelle(ws,ox,oy);
+
+  if(vis("Lsez") && sezOk){
+    const modo=$("modoSez").value, pal=PAL_SEZ[modo], dettaglio=view.zoom>=14;
+    for(const z of sez){
+      if(!dentroVista(z.bb,ws,ox,oy)) continue;
+      const nulla = modo!=="dens" && sezServ(z,i)===0;
+      const c=classeSez(valSez(z,modo,i),modo);
+      cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.42:.66;
+      for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.fill(); }
+      cx.globalAlpha=1;
+      if(dettaglio){ cx.strokeStyle="rgba(40,50,70,.25)"; cx.lineWidth=.5; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
+    }
+  }
+  if(vis("Lzone")){
+    for(const z of zone){
+      if(!dentroVista(z.bb,ws,ox,oy)) continue;
+      const c=classe(z.dens[i]);
+      for(const poly of z.polys){
+        tracciaAnelli(poly,ws,ox,oy);
+        cx.fillStyle = c<0 ? "rgba(120,125,135,.10)" : PAL[c]; cx.globalAlpha = c<0 ? 1 : .62;
+        cx.fill("evenodd"); cx.globalAlpha=1;
+        cx.strokeStyle="rgba(40,50,70,.35)"; cx.lineWidth=.8; cx.stroke();
+      }
+    }
+  }
+  if(vis("Llinee")){
+    cx.lineCap="round"; cx.lineJoin="round";
+    const fl=filtroL(), ratio=$("coloreLinee").value==="ratio", rl=ratio?ratiLinee(i):null;
+    for(const l of linee){
+      if(fl && l.nome!==fl) continue;
+      const f=(D.rotte[l.id]||{f:[]}).f[i]||0; if(!f||!dentroVista(l.bb,ws,ox,oy)) continue;
+      cx.strokeStyle=ratio?ratioCol(rl&&rl[l.id]?rl[l.id].r:null):tipoCol(l.t); cx.globalAlpha=ratio?.9:.8; cx.lineWidth=Math.min(6,1+Math.sqrt(f)*0.55);
+      cx.beginPath(); const a=l.pts;
+      for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y);}
+      cx.stroke();
+    }
+    cx.globalAlpha=1;
+  }
+  if(vis("Lfermate") && view.zoom>=14){
+    cx.fillStyle="rgba(70,80,95,.55)"; cx.strokeStyle="#fff"; cx.lineWidth=.8;
+    for(const s of fermate){
+      const v=s.d[i]; if(!v && view.zoom<15) continue;
+      const X=s.x*ws-ox, Y=s.y*ws-oy; if(X<-10||Y<-10||X>W+10||Y>H+10) continue;
+      cx.beginPath(); cx.arc(X,Y,v?Math.min(5,1.5+Math.sqrt(v)*.5):1.2,0,6.2832); cx.fill(); if(v) cx.stroke();
+    }
+  }
+}
+function disegnaSopra(ws,ox,oy,i){
+  if(vis("Lcorse")){
+    const C=(D.corse||[])[S.dt]||[], fl=filtroL(), R=view.zoom<11?1.8:view.zoom<13?2.6:view.zoom<15?3.4:4.2;
+    let n=0;
+    for(let pass=0;pass<2;pass++){
+      const tt0=pass? S.m+1440 : S.m;
+      for(const c of C){
+        if(c[1]>tt0) break;
+        if(c[2]<tt0) continue;
+        const l=lineaPerIdx[c[0]]; if(!l||(fl&&l.nome!==fl)) continue;
+        n++;
+        const p=puntoSu(l,(tt0-c[1])/(c[2]-c[1]));
+        const X=p[0]*ws-ox, Y=p[1]*ws-oy; if(X<-6||Y<-6||X>W+6||Y>H+6) continue;
+        cx.beginPath(); cx.arc(X,Y,R,0,6.2832); cx.fillStyle=tipoCol(l.t); cx.fill();
+        if(R>2){ cx.strokeStyle="#fff"; cx.lineWidth=1; cx.stroke(); }
+      }
+    }
+    attivi=n;
+  }
+  if(vis("Lsensori")){
+    for(const s of sensori){
+      const X=s.x*ws-ox, Y=s.y*ws-oy; if(X<-12||Y<-12||X>W+12||Y>H+12) continue;
+      const r=Math.min(11,5+Math.sqrt(s.fl||0)*.35); cx.beginPath(); cx.arc(X,Y,r,0,6.2832);
+      if(s.acc===0){ cx.fillStyle="rgba(255,255,255,.85)"; cx.fill(); cx.strokeStyle="#8a8f98"; cx.lineWidth=1.5; cx.setLineDash([2,2]); cx.stroke(); cx.setLineDash([]); }
+      else { cx.fillStyle=velCol(s); cx.fill(); cx.strokeStyle="#1d2330"; cx.lineWidth=1.2; cx.stroke(); }
+      const pl=piuLento(s); if(pl&&pl.r<0.7){ cx.beginPath(); cx.arc(X,Y,r+4,0,6.2832); cx.strokeStyle="#c8102e"; cx.lineWidth=2.4; cx.stroke(); }
+    }
+  }
+  if(vis("Lreplay")) disegnaReplay(ws,ox,oy);
+  if(vis("Lmezzi")){
+    for(const m of mezzi){
+      const X=m.x*ws-ox, Y=m.y*ws-oy; if(X<-8||Y<-8||X>W+8||Y>H+8) continue;
+      cx.beginPath(); cx.arc(X,Y,4.2,0,6.2832); cx.fillStyle=tipoCol((D.rotte[m.r]||{t:3}).t); cx.fill();
+      cx.strokeStyle="#fff"; cx.lineWidth=1.6; cx.stroke(); cx.strokeStyle="#1d2330"; cx.lineWidth=.6; cx.stroke();
+    }
+  }
+}
+function velCol(s){
+  if(!s.fl) return "#c9ced6";
+  const v=s.v||0; return v<15?"#c8102e": v<30?"#e8833a": v<45?"#f2c14e":"#4c9f70";
+}
+
+/* ---------- interazione ---------- */
+function zoomA(nuovo,sx,sy){
+  nuovo=Math.max(MINZ,Math.min(MAXZ,nuovo));
+  const wsV=256*Math.pow(2,view.zoom), wsN=256*Math.pow(2,nuovo);
+  const ux=view.cx+(sx-W/2)/wsV, uy=view.cy+(sy-H/2)/wsV;
+  view.cx=ux-(sx-W/2)/wsN; view.cy=uy-(sy-H/2)/wsN; view.zoom=nuovo; chiede(); aggiornaLegenda(); mostraZoom();
+}
+function mostraZoom(){ const e=$("zl"); if(e) e.textContent="z "+view.zoom.toFixed(1); }
+function vaiA(lat,lon,z){ view.cx=px(lon); view.cy=py(lat); view.zoom=z; chiede(); aggiornaLegenda(); mostraZoom(); }
+const ptrs=new Map(); let ultimaDist=0, mosso=false;
+cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});mosso=false;cv.classList.add("trascina");
+  if(ptrs.size===2){const [a,b]=[...ptrs.values()];ultimaDist=Math.hypot(a.x-b.x,a.y-b.y);} nascondiTip();});
+cv.addEventListener("pointermove",e=>{
+  const p=ptrs.get(e.pointerId);
+  if(!p){ cercaTip(e.clientX,e.clientY); return; }
+  const ws=256*Math.pow(2,view.zoom);
+  if(ptrs.size===1){ view.cx-=(e.clientX-p.x)/ws; view.cy-=(e.clientY-p.y)/ws; if(Math.hypot(e.clientX-p.x,e.clientY-p.y)>0) mosso=true; chiede(); }
+  p.x=e.clientX; p.y=e.clientY;
+  if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(ultimaDist>0) zoomA(view.zoom+Math.log2(d/ultimaDist),(a.x+b.x)/2,(a.y+b.y)/2); ultimaDist=d; mosso=true;}
+});
+const fine=e=>{ if(ptrs.has(e.pointerId)){ ptrs.delete(e.pointerId);} if(!ptrs.size){cv.classList.remove("trascina");}
+  if(e.type==="pointerup" && !mosso && e.pointerType!=="mouse") cercaTip(e.clientX,e.clientY,true); };
+cv.addEventListener("pointerup",fine); cv.addEventListener("pointercancel",fine);
+cv.addEventListener("pointerleave",()=>{ if(!ptrs.size) nascondiTip(); });
+cv.addEventListener("wheel",e=>{e.preventDefault(); zoomA(view.zoom-e.deltaY*(e.deltaMode?0.05:0.0016),e.clientX,e.clientY);},{passive:false});
+cv.addEventListener("dblclick",e=>zoomA(view.zoom+1,e.clientX,e.clientY));
+$("zp").onclick=()=>zoomA(view.zoom+1,W/2,H/2); $("zm").onclick=()=>zoomA(view.zoom-1,W/2,H/2);
+$("zh").onclick=()=>vaiA(45.0703,7.6869,innerWidth<700?11:12.5); $("zc").onclick=()=>vaiA(45.0703,7.6869,innerWidth<700?9.5:10.5);
+addEventListener("keydown",e=>{ if(e.target&&/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
+  if(e.key==="+"||e.key==="=") zoomA(view.zoom+1,W/2,H/2); else if(e.key==="-"||e.key==="_") zoomA(view.zoom-1,W/2,H/2); });
+
+/* ---------- tooltip ---------- */
+const tip=$("tip");
+function tipTxt(s){
+  const tp=tipicoSens(s); if(!tp) return ST()?'<span style="color:#5d6678">Nessuno storico per questo sensore a quest\'ora.</span><br>':"";
+  const pl=piuLento(s);
+  return `Di solito a quest'ora: <b>${tp.v.toFixed(0)} km/h</b>, ${tp.f.toFixed(0)} veicoli/h <span style="color:#5d6678">(${tp.n} ${tp.n===1?"ora":"ore"} di dati${tp.n<24?", scarsi":""})</span><br>`+(pl?(pl.r<0.7?`<b style="color:#c8102e">Più lento del solito</b> (${Math.round(pl.r*100)}% della velocità tipica)<br>`:`In linea con il solito<br>`):"");
+}
+function nascondiTip(){tip.style.display="none";}
+function mostraTip(html,x,y){
+  tip.innerHTML=html; tip.style.display="block";
+  const w=tip.offsetWidth,h=tip.offsetHeight;
+  tip.style.left=Math.max(8,Math.min(innerWidth-w-8,x+14))+"px"; tip.style.top=Math.max(8,Math.min(innerHeight-h-8,y+14))+"px";
+}
+function dentroZona(z,ux,uy){
+  for(const poly of z.polys){ let n=0;
+    for(const a of poly){ const m=a.length/2; let j=m-1;
+      for(let k=0;k<m;k++){ const xi=a[2*k],yi=a[2*k+1],xj=a[2*j],yj=a[2*j+1];
+        if((yi>uy)!==(yj>uy) && ux<(xj-xi)*(uy-yi)/(yj-yi)+xi) n++; j=k; } }
+    if(n%2===1) return true; }
+  return false;
+}
+function cercaTip(sx,sy){
+  const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx(), hh=pad(S.h);
+  const vicino=(arr,r,fn)=>{ let best=null,bd=r*r; for(const o of arr){ const dx=o.x*ws-ox-sx, dy=o.y*ws-oy-sy, d=dx*dx+dy*dy; if(d<bd&&(!fn||fn(o))){bd=d;best=o;} } return best; };
+  if(vis("Lmezzi")){ const m=vicino(mezzi,9);
+    if(m){ const r=D.rotte[m.r]||{s:m.r,t:3,l:""}; return mostraTip(`<b>Linea ${esc(r.s)}</b> (${tipoNome(r.t)})<br>${esc(r.l)}<br>Veicolo ${esc(m.id)}<br>Posizione di ${fmt(m.ts*1000)}`,sx,sy); } }
+  if(vis("Lsensori")){ const s=vicino(sensori,13);
+    if(s){ const sensoTxt = s.dir==="positive"?"senso positivo":s.dir==="negative"?"senso negativo":esc(s.dir);
+      const corpo = s.acc===0 ? `Dato probabilmente assente (accuratezza 0, flusso ${s.fl}).`
+        : `Flusso: <b>${s.fl}</b> veicoli in ${s.per} min (≈ ${Math.round((s.fl||0)*60/s.per)}/h)<br>Velocità media: <b>${s.v==null?"n/d":s.v.toFixed(0)+" km/h"}</b>`;
+      return mostraTip(`<b>${esc(s.via)}</b><br>${sensoTxt} · sensore ${esc(s.id)}<br>${corpo}<br>${tipTxt(s)}<span style="color:#5d6678">Rilevazione 5 minuti fino a ${fmt(t5Fine)}</span>`,sx,sy); } }
+  if(vis("Lfermate") && view.zoom>=14){ const s=vicino(fermate,8,o=>o.d[i]>0||view.zoom>=15);
+    if(s){ const tot=s.d.slice(S.dt*24,S.dt*24+24).reduce((a,b)=>a+b,0);
+      return mostraTip(`<b>${esc(s.n)}</b> · fermata ${esc(s.id)}<br>Linee: ${esc(s.r||"—")}<br>Passaggi alle ${hh}: <b>${s.d[i]}</b><br>Nella giornata (${GIORNI[S.dt].toLowerCase()}): ${tot}`,sx,sy); } }
+  if(vis("Lsez") && sezOk){ const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
+    for(const z of sez){ if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
+      if(dentroZona({polys:[z.polys]},ux,uy)){
+        return mostraTip(`<b>Sezione di censimento</b><br>Residenti: <b>${z.p}</b> (${Math.round(z.dens)} per km²)<br>Entro 400 m: ${z.pop400} abitanti, ${z.st.length} fermate<br>Passaggi GTT programmati alle ${hh}: <b>${sezServ(z,i)}</b> (≈ ${sezRapp(z,i).toFixed(0)} per 1000 abitanti)`,sx,sy); } } }
+  if(vis("Lzone")){ const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
+    for(const z of zone){ if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
+      if(dentroZona(z,ux,uy)){ const v=z.d[i];
+        return mostraTip(`<b>${esc(z.n)}</b> · zona ${esc(z.c)}<br>${z.nf} fermate · ${z.km2.toFixed(2)} km²<br>Passaggi alle ${hh}: <b>${v}</b> (≈ ${(v/Math.max(z.km2,.01)).toFixed(0)} per km²)`,sx,sy); } } }
+  nascondiTip();
+}
+
+/* ---------- pannello, stato dati, legenda ---------- */
+function fmt(ms){
+  try{ return new Date(ms).toLocaleString("it-IT",{timeZone:"Europe/Rome",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); }
+  catch(e){ try{ return new Date(ms).toLocaleString("it-IT"); }catch(e2){ return String(ms); } }
+}
+function eta(ms){ const m=Math.round((Date.now()-ms)/60000); if(m<2) return "adesso"; if(m<90) return m+" min fa"; if(m<2880) return Math.round(m/60)+" h fa"; return Math.round(m/1440)+" giorni fa"; }
+function stato(){
+  const t5=t5Fine, tm=mezziTs, el=[];
+  const riga=(ms,testo)=>{ const vecchio=(Date.now()-ms)>60*60000;
+    return `<div class="riga"><span class="pallino ${vecchio?"vecchio":"ok"}"></span><div>${testo}<br><span style="color:#5d6678">${fmt(ms)} · ${eta(ms)}${vecchio?(inLive?" — dato vecchio: la raccolta potrebbe essere ferma (stato_raccolta.bat)":" — dato vecchio: rilancia gli script 01 e 04, oppure avvia la raccolta"):""}</span></div></div>`; };
+  el.push(riga(tm,`<b>Mezzi GTT</b>: ${mezzi.length} mezzi su ${new Set(mezzi.map(m=>m.r)).size} linee`));
+  const attivi=sensori.filter(s=>s.acc!==0).length;
+  el.push(riga(t5,`<b>Traffico 5T</b>: ${sensori.length} sensori, ${attivi} con dato affidabile`));
+  el.push(`<div class="riga"><span class="pallino ok"></span><div><b>Orari GTT</b>: versione ${esc(D.meta.gtfs.versione)}<br><span style="color:#5d6678">valida ${esc(D.meta.gtfs.inizio)} → ${esc(D.meta.gtfs.fine)} · giorni tipici: ${esc(D.meta.gtfs.giorni.fer)}, ${esc(D.meta.gtfs.giorni.sab)}, ${esc(D.meta.gtfs.giorni.dom)}</span></div></div>`);
+  $("stato").innerHTML=el.join("");
+}
+function aggiornaOra(){ $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); chiede(); }
+document.querySelectorAll("#giorno button").forEach(b=>b.onclick=()=>{ S.dt=+b.dataset.k; document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",x===b)); aggiornaOra(); aggiornaLegenda(); });
+$("ora").oninput=e=>{S.m=+e.target.value; aggiornaOra();};
+function adesso(){
+  let dt=0,h=new Date().getHours(),mi=new Date().getMinutes();
+  try{
+    const p=Object.fromEntries(new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Rome",weekday:"short",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+    dt = p.weekday==="Sat"?1 : p.weekday==="Sun"?2 : 0; h=+p.hour; mi=+p.minute;
+  }catch(e){ const g=new Date().getDay(); dt = g===6?1 : g===0?2 : 0; }
+  S.dt=dt; S.m=(isNaN(h)?8:h)*60+(isNaN(mi)?0:mi);
+  document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.k===S.dt)); aggiornaOra(); aggiornaLegenda();
+}
+$("adesso").onclick=adesso;
+["Lzone","Lsez","Lcorse","Llinee","Lfermate","Lsensori","Lmezzi"].forEach(id=>$(id).onchange=()=>{chiede();aggiornaLegenda();});
+$("modoSez").onchange=()=>{baseVer++;chiede();aggiornaLegenda();};
+$("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; creditiSfondo(); baseVer++; chiede(); };
+$("filtroLinea").oninput=()=>{ baseVer++; chiede(); };
+$("coloreLinee").onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); };
+$("repGiorno").onchange=e=>{ if(e.target.value){ $("Lreplay").checked=true; } caricaReplay(e.target.value); aggiornaLegenda(); };
+$("Lreplay").onchange=()=>{ if($("Lreplay").checked && !REP && $("repGiorno").value) caricaReplay($("repGiorno").value); chiede(); aggiornaLegenda(); };
+let gioca=true, ultimoT=0;
+$("play").onclick=()=>{ gioca=!gioca; $("play").textContent=gioca?"⏸":"▶"; ultimoT=performance.now(); };
+function anima(ts){
+  try{
+    if(gioca){
+      const dt=Math.min(0.25,(ts-ultimoT)/1000); ultimoT=ts;
+      S.m=(S.m+dt*(+$("vel").value)/60)%1440;
+      $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m);
+      chiede();
+    } else ultimoT=ts;
+    $("nAtt").textContent=vis("Lcorse")? attivi+" corse in giro":"";
+  }catch(e){ errore(e); }
+  requestAnimationFrame(anima);
+}
+$("chiudi").onclick=()=>{ $("pannello").style.display="none"; $("apri").style.display="block"; };
+$("apri").onclick=()=>{ $("pannello").style.display="block"; $("apri").style.display="none"; };
+
+const leg=$("legenda");
+function aggiornaLegenda(){
+  const p=[];
+  if(vis("Lsez") && sezOk){
+    const modo=$("modoSez").value, pal=PAL_SEZ[modo], so=sezSoglie[modo]||[0,0,0,0], f=v=>v>=100?Math.round(v):v.toFixed(1);
+    const nome={rapp:"Passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²"}[modo];
+    p.push(`<div class="t">Sezioni: ${nome}</div><div class="sc">${pal.map(c=>`<span style="background:${c}"></span>`).join("")}</div><div class="et"><span>${modo==="rapp"?"poca offerta":"meno"}</span><span>${f(so[1])}</span><span>${f(so[3])}</span><span>${modo==="rapp"?"molta":"più"}</span></div>${modo==="dens"?"":'<div class="puntini"><span><i style="background:#9aa0ad"></i>nessun passaggio GTT programmato</span></div>'}`); }
+  if(vis("Lzone")){
+    const f=v=>v>=100?Math.round(v):v.toFixed(1);
+    p.push(`<div class="t">Zone: passaggi/ora per km²</div><div class="sc">${PAL.map(c=>`<span style="background:${c}"></span>`).join("")}</div><div class="et"><span>meno</span><span>${f(SOGLIE[1])}</span><span>${f(SOGLIE[3])}</span><span>più</span></div>`); }
+  if(vis("Llinee") && $("coloreLinee").value==="ratio"){
+    const T=ST(); const rl=T?ratiLinee(idx()):null;
+    p.push(`<div class="t">Linee: mezzi reali rispetto al previsto</div><div class="puntini"><span><i style="background:#4c9f70"></i>nella norma</span><span><i style="background:#e8833a"></i>meno</span><span><i style="background:#c8102e"></i>molto meno</span><span><i style="background:#9aa0ad"></i>senza dati</span></div><div class="et" style="display:block">${rl?"Rapporto medio localizzati/previsti: "+rl._g.toFixed(2)+" · ore di dati per quest'ora: "+((T.copertura||{})[idx()]||0):"Nessun dato raccolto."}</div>`);
+  } else if(vis("Llinee")) p.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
+  if(vis("Lreplay")) p.push(`<div class="t">Replay: mezzi reali registrati</div><div class="puntini"><span><i style="background:#111"></i>posizione reale registrata${REP?" ("+REP.g+")":""}</span></div>`);
+  if(vis("Lsensori")) p.push(`<div class="t">Traffico 5T (velocità media)</div><div class="puntini"><span><i style="background:#c8102e"></i>&lt;15</span><span><i style="background:#e8833a"></i>15–30</span><span><i style="background:#f2c14e"></i>30–45</span><span><i style="background:#4c9f70"></i>&gt;45 km/h</span><span><i style="background:#c9ced6"></i>nessun veicolo</span><span><i style="background:#fff;border:1.5px dashed #8a8f98"></i>dato assente</span><span><i style="background:#fff;border:2px solid #c8102e"></i>più lento del solito</span></div>`);
+  leg.innerHTML=p.join(""); leg.style.display=p.length?"block":"none";
+}
+
+/* ---------- avvio ---------- */
+creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(stato); sicuro(adesso); sicuro(aggiornaLegenda); setInterval(()=>sicuro(stato),60000);
+sicuro(applicaLive); sicuro(statoLive); sicuro(segnalazioni);
+setInterval(()=>ricarica("live.js",applicaLive),30000);
+setInterval(()=>ricarica("stat.js",()=>{ sicuro(statoLive); sicuro(segnalazioni); baseVer++; chiede(); }),300000);
+setInterval(()=>{ sicuro(segnalazioni); },60000);
+sicuro(disegna); ultimoT=performance.now(); requestAnimationFrame(anima);
+(()=>{ const dl=$("listaLinee"); const nomi=[...new Set(Object.values(D.rotte).map(r=>r.s))].sort((a,b)=>a.localeCompare(b,"it",{numeric:true})); dl.innerHTML=nomi.map(n=>`<option value="${esc(n)}">`).join(""); })();
+})();
+</script>
+</body>
+</html>
