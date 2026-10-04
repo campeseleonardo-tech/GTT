@@ -128,3 +128,31 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - Avviso (finestra, una volta) se l'archivio supera 10 GB; dati senza altro limite di tempo.
 - File: `scripts/supervisore.py`, `scripts/installa_sfondo.py`; doppio clic su `installa_raccolta.bat` (installa/avvia), `stato_raccolta.bat`, `ferma_raccolta.bat`, `riavvia_raccolta.bat`.
 - Testato su Linux (riavvio, log, risposta No, file STOP); NON testato su Windows: finestra, anti-stop e avvio automatico da provare (`python supervisore.py --promemoria-ora`).
+
+<!-- STATO DELL'UFFICIO: inizio. Questa parte la riscrive l'Ufficio dopo ogni task: non scrivere qui, scrivi sopra. -->
+## Stato dell'Ufficio (aggiornato 04/10/2026 22:20)
+
+### Piano
+- [x] Base pronta (git, profilo, raccolta verificata) (fatto)
+- [ ] Mappa più chiara (sfondi, temi esclusivi, legenda misurato/stimato) (in corso) - GT01-sfondi, GT02-temi
+- [ ] Velocità misurata dei mezzi (in corso) - GT04-velocita
+- [ ] Domanda: pendolari ISTAT (in corso) - GT05-pendolari
+- [ ] Punti critici v0 (da fare)
+- [ ] Traffico tipico e simulazione tarata (dopo 1-2 settimane di dati) (da fare)
+- [ ] Raspberry Pi / condivisione (da fare)
+
+### Fatto di recente
+- 2026-10-04 22:20 · GT04-velocita: Aggiunto il tema "Velocità" (velocità commerciale misurata per linea, tipo di giorno e ora) in 04 e nel template; non ho eseguito nulla, quindi non ho numeri reali. · 2 domande per te
+- 2026-10-04 17:53 · GT02-temi: Ho sostituito i "Livelli" con 7 temi (uno alla volta) e 6 sovrapposizioni in `scripts/mappa_template.html`. Non ho potuto eseguire né provare nulla: il controllo spetta al runner. · 3 domande per te
+- 2026-10-04 17:51 · GT01-sfondi: In `scripts/mappa_template.html` ho tolto OpenStreetMap, messo 3 sfondi Esri più "nessuno", il satellite come predefinito e il cursore intensità al 70%. Non ho potuto eseguire la pagina, quindi non è provato.
+
+### Decisioni di Leo (risposte alle domande)
+- (nessuna)
+
+### Domande aperte: 5 (5 a risposta chiusa)
+- «Segnalazioni adesso» anche nel tema Traffico? (sì / solo Tempo reale; scelta provvisoria: sì)
+- Nel tema Tempo reale accendere anche le linee sottili? (no / sì; scelta provvisoria: no)
+- Tema Poca offerta: linee sottili a metà spessore va bene? (metà / un terzo; scelta provvisoria: metà)
+- Soglie colori velocità (12/16/20 km/h) vanno bene? (A tenere / B più strette / C più larghe; scelta provvisoria: A)
+- Minimo campioni per colorare una linea? (10 / 20 / 60; scelta provvisoria: 20)
+<!-- STATO DELL'UFFICIO: fine -->
