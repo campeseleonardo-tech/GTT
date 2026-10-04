@@ -61,6 +61,9 @@
   .tag.scarso{background:#fff3e0;color:#b25e00;border:1px solid #e8b878}
   #legenda .blocco+.blocco{border-top:1px solid var(--line);margin-top:6px;padding-top:6px}
   #tip{position:fixed;pointer-events:none;display:none;max-width:280px;padding:8px 10px;font-size:12.5px;z-index:5}
+  /* [agente GT07-clic-fermate] scheda dettagli: fissa in alto a destra sotto i pulsanti di zoom */
+  #scheda{position:fixed;right:12px;top:190px;display:none;width:min(300px,calc(100vw - 24px));max-height:calc(100vh - 205px);overflow:auto;padding:10px 32px 10px 12px;font-size:12.5px;line-height:1.45;z-index:6}
+  #schedaX{position:absolute;right:4px;top:2px;border:0;background:none;font-size:22px;line-height:1;cursor:pointer;color:var(--muted)}
   #zoom{position:fixed;right:12px;top:12px;display:flex;flex-direction:column;overflow:hidden}
   #zoom button{width:36px;height:36px;border:0;background:#fff;font-size:20px;cursor:pointer;color:var(--ink)}
   #zoom button+button{border-top:1px solid var(--line)}
@@ -129,7 +132,7 @@
 
   <h2>Sovrapposizioni</h2>
   <label class="lv"><input type="checkbox" id="Llinee"><span class="sw" style="background:var(--bus)"></span>Linee: corse/ora</label>
-  <label class="lv"><input type="checkbox" id="Lfermate"><span class="sw" style="background:#465060;border-radius:50%"></span>Fermate: passaggi/ora (da zoom 14)</label>
+  <label class="lv"><input type="checkbox" id="Lfermate"><span class="sw" style="background:#4aa3df;border-radius:50%"></span>Fermate: passaggi/ora (da zoom 14)</label>
   <label class="lv"><input type="checkbox" id="Lcorse"><span class="sw" style="background:#fff;border-radius:50%;border:3px solid #3b6ea8"></span>Corse simulate in movimento (posizione stimata)</label>
   <label class="lv"><input type="checkbox" id="Lmezzi"><span class="sw" style="background:#222;border-radius:50%"></span>Mezzi reali GTT (ultima posizione)</label>
   <label class="lv"><input type="checkbox" id="Lsensori"><span class="sw" style="background:#f2c14e;border-radius:50%"></span>Sensori traffico 5T (ultimi 5 minuti)</label>
@@ -187,6 +190,7 @@
 
 <div id="zoom" class="card"><button id="zp" aria-label="Ingrandisci" title="Ingrandisci">+</button><button id="zm" aria-label="Riduci" title="Riduci">−</button><button id="zh" class="pic" aria-label="Torino" title="Centra su Torino">⌂</button><button id="zc" class="pic" aria-label="Cintura" title="Vedi anche la cintura">◎</button><div class="zl" id="zl"></div></div>
 <div id="tip" class="card"></div>
+<div id="scheda" class="card"><button id="schedaX" aria-label="Chiudi" title="Chiudi (Esc)">×</button><div id="schedaCorpo"></div></div>
 <div id="attrib"></div>
 
 <script>
@@ -573,15 +577,21 @@ function disegnaBase(ws,ox,oy,i){
     cx.globalAlpha=1;
   }
   if(vis("Lfermate") && view.zoom>=14){
-    cx.fillStyle="rgba(70,80,95,.55)"; cx.strokeStyle="#fff"; cx.lineWidth=.8;
+    // [agente GT07-clic-fermate] puntini piu' piccoli (~60%), azzurro pieno senza bordo bianco
+    cx.fillStyle="rgba(74,163,223,.85)"; cx.strokeStyle="rgba(30,95,150,.6)"; cx.lineWidth=.5;
     for(const s of fermate){
       const v=s.d[i]; if(!v && view.zoom<15) continue;
       const X=s.x*ws-ox, Y=s.y*ws-oy; if(X<-10||Y<-10||X>W+10||Y>H+10) continue;
-      cx.beginPath(); cx.arc(X,Y,v?Math.min(5,1.5+Math.sqrt(v)*.5):1.2,0,6.2832); cx.fill(); if(v) cx.stroke();
+      cx.beginPath(); cx.arc(X,Y,v?Math.min(3,.9+Math.sqrt(v)*.3):.8,0,6.2832); cx.fill(); if(v) cx.stroke();
     }
   }
 }
 function disegnaSopra(ws,ox,oy,i){
+  if(schedaSel && schedaSel.polys){   // [agente GT07-clic-fermate] contorno sottile della sezione selezionata
+    cx.strokeStyle="#111"; cx.lineWidth=1.5; cx.beginPath();
+    for(const a of schedaSel.polys){ for(let k=0;k<a.length;k+=2){ const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y); } cx.closePath(); }
+    cx.stroke();
+  }
   if(vis("Lcorse")){
     const C=(D.corse||[])[S.dt]||[], fl=filtroL(), R=view.zoom<11?1.8:view.zoom<13?2.6:view.zoom<15?3.4:4.2;
     let n=0;
@@ -675,8 +685,9 @@ function zoomA(nuovo,sx,sy){
 }
 function mostraZoom(){ const e=$("zl"); if(e) e.textContent="z "+view.zoom.toFixed(1); }
 function vaiA(lat,lon,z){ view.cx=px(lon); view.cy=py(lat); view.zoom=z; chiede(); aggiornaLegenda(); mostraZoom(); }
-const ptrs=new Map(); let ultimaDist=0, mosso=false;
-cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});mosso=false;cv.classList.add("trascina");
+const ptrs=new Map(); let ultimaDist=0, mosso=false, pizzico=false;
+cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY,x0:e.clientX,y0:e.clientY});mosso=false;cv.classList.add("trascina");
+  if(ptrs.size===1) pizzico=false; else pizzico=true;   // [agente GT07-clic-fermate]
   if(ptrs.size===2){const [a,b]=[...ptrs.values()];ultimaDist=Math.hypot(a.x-b.x,a.y-b.y);} nascondiTip();});
 cv.addEventListener("pointermove",e=>{
   const p=ptrs.get(e.pointerId);
@@ -687,8 +698,10 @@ cv.addEventListener("pointermove",e=>{
   if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);
     if(ultimaDist>0) zoomA(view.zoom+Math.log2(d/ultimaDist),(a.x+b.x)/2,(a.y+b.y)/2); ultimaDist=d; mosso=true;}
 });
-const fine=e=>{ if(ptrs.has(e.pointerId)){ ptrs.delete(e.pointerId);} if(!ptrs.size){cv.classList.remove("trascina");}
-  if(e.type==="pointerup" && !mosso && e.pointerType!=="mouse") cercaTip(e.clientX,e.clientY,true); };
+// [agente GT07-clic-fermate] clic = rilascio entro ~5 px dal punto di partenza, senza pizzico a due dita
+const fine=e=>{ const p0=ptrs.get(e.pointerId), era1=ptrs.size===1;
+  if(p0){ ptrs.delete(e.pointerId);} if(!ptrs.size){cv.classList.remove("trascina");}
+  if(e.type==="pointerup" && p0 && era1 && !pizzico && Math.hypot(e.clientX-p0.x0,e.clientY-p0.y0)<=5) cercaTip(e.clientX,e.clientY,true); };
 cv.addEventListener("pointerup",fine); cv.addEventListener("pointercancel",fine);
 cv.addEventListener("pointerleave",()=>{ if(!ptrs.size) nascondiTip(); });
 cv.addEventListener("wheel",e=>{e.preventDefault(); zoomA(view.zoom-e.deltaY*(e.deltaMode?0.05:0.0016),e.clientX,e.clientY);},{passive:false});
@@ -706,7 +719,7 @@ function tipTxt(s){
   return `Di solito a quest'ora: <b>${tp.v.toFixed(0)} km/h</b>, ${tp.f.toFixed(0)} veicoli/h <span style="color:#5d6678">(${tp.n} ${tp.n===1?"ora":"ore"} di dati${tp.n<24?", scarsi":""})</span><br>`+(pl?(pl.r<0.7?`<b style="color:#c8102e">Più lento del solito</b> (${Math.round(pl.r*100)}% della velocità tipica)<br>`:`In linea con il solito<br>`):"");
 }
 function nascondiTip(){tip.style.display="none";}
-function mostraTip(html,x,y){
+function mostraTipBase(html,x,y){
   tip.innerHTML=html; tip.style.display="block";
   const w=tip.offsetWidth,h=tip.offsetHeight;
   tip.style.left=Math.max(8,Math.min(innerWidth-w-8,x+14))+"px"; tip.style.top=Math.max(8,Math.min(innerHeight-h-8,y+14))+"px";
@@ -730,8 +743,24 @@ function pendTip(c){
         :`Entrano a Torino: ${riga(d.i)}<br>Escono da Torino: ${riga(d.u)}`;
   return h+`<br><span style="color:#5d6678">ISTAT 2021, comune→comune</span>`;
 }
-function cercaTip(sx,sy){
+/* [agente GT07-clic-fermate] scheda con i dettagli: si apre con un clic, si chiude con ×, Esc o clic sulla mappa vuota */
+let schedaSel=null;   // sezione evidenziata mentre la scheda e' aperta
+function chiudiScheda(){ $("scheda").style.display="none"; if(schedaSel){ schedaSel=null; chiede(); } }
+function apriScheda(html,sel){
+  $("schedaCorpo").innerHTML=html; $("scheda").style.display="block"; $("scheda").scrollTop=0;
+  schedaSel=sel||null; chiede();
+}
+$("schedaX").onclick=chiudiScheda;
+addEventListener("keydown",e=>{ if(e.key==="Escape") chiudiScheda(); });
+const NOME_MODO={rapp:"Passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²"};
+function cercaTip(sx,sy,click){
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx(), hh=pad(S.h);
+  cv.style.cursor="";
+  // hover: tooltip breve (max 2 righe); clic: scheda completa
+  const corto=h=>h.split("<br>").slice(0,2).join("<br>");
+  const mostraTip=(html)=>{ if(click) apriScheda(html,null); else mostraTipBase(corto(html),sx,sy); };
+  // sezioni e zone: nessun tooltip, solo cursore a manina; i dettagli vanno nella scheda al clic
+  const soloClic=(html,sel)=>{ if(click) apriScheda(html,sel); else { nascondiTip(); cv.style.cursor="pointer"; } };
   const vicino=(arr,r,fn)=>{ let best=null,bd=r*r; for(const o of arr){ const dx=o.x*ws-ox-sx, dy=o.y*ws-oy-sy, d=dx*dx+dy*dy; if(d<bd&&(!fn||fn(o))){bd=d;best=o;} } return best; };
   if(vis("Lmezzi")){ const m=vicino(mezzi,9);
     if(m){ const r=D.rotte[m.r]||{s:m.r,t:3,l:""}; return mostraTip(`<b>Linea ${esc(r.s)}</b> (${tipoNome(r.t)})<br>${esc(r.l)}<br>Veicolo ${esc(m.id)}<br>Posizione di ${fmt(m.ts*1000)}`,sx,sy); } }
@@ -746,16 +775,22 @@ function cercaTip(sx,sy){
       return mostraTip(`<b>${esc(s.n)}</b> · fermata ${esc(s.id)}<br>Linee: ${esc(s.r||"—")}<br>Passaggi alle ${hh}: <b>${s.d[i]}</b><br>Nella giornata (${GIORNI[S.dt].toLowerCase()}): ${tot}`,sx,sy); } }
   if(tema.id==="pendolari" && PEND && vis("Lsez") && sezOk){ const ux=(ox+sx)/ws, uy=(oy+sy)/ws;   // [agente GT05-pendolari]
     for(const z of sez){ if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
-      if(dentroZona({polys:[z.polys]},ux,uy)) return mostraTip(pendTip(z.c),sx,sy); } }
+      if(dentroZona({polys:[z.polys]},ux,uy)) return soloClic(sezScheda(z,i,hh)+"<br>"+pendTip(z.c),z); } }
   if(vis("Lsez") && sezOk){ const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
     for(const z of sez){ if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
-      if(dentroZona({polys:[z.polys]},ux,uy)){
-        return mostraTip(`<b>Sezione di censimento</b><br>Residenti: <b>${z.p}</b> (${Math.round(z.dens)} per km²)<br>Entro 400 m: ${z.pop400} abitanti, ${z.st.length} fermate<br>Passaggi GTT programmati alle ${hh}: <b>${sezServ(z,i)}</b> (≈ ${sezRapp(z,i).toFixed(0)} per 1000 abitanti)`,sx,sy); } } }
+      if(dentroZona({polys:[z.polys]},ux,uy)) return soloClic(sezScheda(z,i,hh),z); } }
   if(vis("Lzone")){ const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
     for(const z of zone){ if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
       if(dentroZona(z,ux,uy)){ const v=z.d[i];
-        return mostraTip(`<b>${esc(z.n)}</b> · zona ${esc(z.c)}<br>${z.nf} fermate · ${z.km2.toFixed(2)} km²<br>Passaggi alle ${hh}: <b>${v}</b> (≈ ${(v/Math.max(z.km2,.01)).toFixed(0)} per km²)`,sx,sy); } } }
+        return soloClic(`<b>${esc(z.n)}</b> · zona ${esc(z.c)}<br>${z.nf} fermate · ${z.km2.toFixed(2)} km²<br>Passaggi alle ${hh}: <b>${v}</b> (≈ ${(v/Math.max(z.km2,.01)).toFixed(0)} per km²)`,null); } } }
   nascondiTip();
+  if(click) chiudiScheda();   // clic su mappa vuota
+}
+// [agente GT07-clic-fermate] testo della scheda di una sezione: tutto il vecchio tooltip + valore del tema attivo
+function sezScheda(z,i,hh){
+  const modo=$("modoSez").value;
+  const tema_=NOME_MODO[modo]?`<br>Tema attivo — ${NOME_MODO[modo]}: <b>${fnum(valSez(z,modo,i))}</b>`:"";
+  return `<b>Sezione di censimento</b><br>Residenti: <b>${z.p}</b> (${Math.round(z.dens)} per km²)<br>Entro 400 m: ${z.pop400} abitanti, ${z.st.length} fermate<br>Passaggi GTT programmati alle ${hh}: <b>${sezServ(z,i)}</b> (≈ ${sezRapp(z,i).toFixed(0)} per 1000 abitanti)`+tema_;
 }
 
 /* ---------- pannello, stato dati, legenda ---------- */
@@ -913,7 +948,7 @@ function aggiornaLegenda(){
       blocchi.push(`<div class="t">Linee: mezzi reali rispetto al previsto ${TAG.mis}${TAG.prog}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#4c9f70"></i>nella norma</span><span><i style="background:#e8833a"></i>meno</span><span><i style="background:#c8102e"></i>molto meno</span><span><i style="background:#9aa0ad"></i>senza dati</span></div><div class="et" style="display:block">${rl?"Rapporto medio localizzati/previsti: "+rl._g.toFixed(2)+" · ore di dati per quest'ora: "+((T.copertura||{})[idx()]||0):"Nessun dato raccolto."}</div>`);
     } else blocchi.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
   }
-  if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14)</div><div class="puntini"><span><i style="background:rgba(70,80,95,.7)"></i>grandezza = passaggi/ora</span></div>`);
+  if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14)</div><div class="puntini"><span><i style="background:rgba(74,163,223,.85)"></i>grandezza = passaggi/ora</span></div>`);
   if(vis("Lcorse")) blocchi.push(`<div class="t">Corse simulate ${TAG.sim}</div><div class="puntini"><span><i style="background:${COL.bus}"></i>posizione stimata dagli orari, non reale</span></div>`);
   if(vis("Lmezzi")) blocchi.push(`<div class="t">Mezzi GTT reali ${TAG.mis}</div><div class="puntini"><span><i style="background:#222"></i>ultima posizione localizzata (colore = tipo di linea)</span></div>`);
   if(vis("Lreplay")) blocchi.push(`<div class="t">Replay: mezzi reali registrati ${TAG.mis}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#111"></i>posizione reale registrata${REP?" ("+REP.g+")":""}</span></div>`);

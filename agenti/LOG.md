@@ -3,3 +3,4 @@
 - 2026-10-04 22:20 | GT04-velocita | done | ramo GT04-velocita | 6 file | costo listino 0.408 USD | velocita' commerciale MISURATA dei mezzi GTT per linea e ora (dallo storico)
 - 2026-10-04 22:23 | GT05-pendolari | done | ramo GT05-pendolari | 6 file | costo listino 0.562 USD | tema Pendolari ISTAT 2021 (comune verso comune, lavoro e studio)
 - 2026-10-05 00:09 | GT06-pannello | done | ramo GT06-pannello | 4 file | costo listino 0.338 USD | pannello piu' chiaro: riga "Quando", tema a discesa, legenda dentro il pannello, sezione Info
+- 2026-10-05 00:11 | GT07-clic-fermate | done | ramo GT07-clic-fermate | 4 file | costo listino 0.281 USD | scheda al clic per sezioni/zone (niente riquadro al passaggio) + fermate piu' piccole azzurre
