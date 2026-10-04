@@ -74,6 +74,9 @@
   #filtroLinea{width:100%;margin:2px 0 4px}
   #attrib{position:fixed;right:6px;bottom:4px;font-size:10.5px;color:#444;background:rgba(255,255,255,.8);padding:1px 6px;border-radius:4px}
   #attrib a{color:inherit}
+  /* [agente GT08-griglia-scala] barra della scala in basso a sinistra */
+  #scala{position:fixed;bottom:22px;left:12px;font-size:11.5px;color:#222;background:rgba(255,255,255,.82);padding:3px 7px;border-radius:5px;pointer-events:none}
+  #scala .barra{height:5px;border:2px solid #222;border-top:none;margin-bottom:2px;box-sizing:content-box}
   #apri{display:none;position:fixed;top:12px;left:12px;padding:8px 12px;cursor:pointer}
   @media (max-width:640px){ #pannello{max-height:46vh} }
 </style>
@@ -149,6 +152,7 @@
   </select>
   <label style="display:block;font-size:12px;margin:4px 0">Intensità sfondo: <span id="intSfondoVal">70%</span>
     <input type="range" id="intSfondo" min="0" max="100" value="70" style="width:100%"></label>
+  <label class="lv"><input type="checkbox" id="Lgriglia" checked>Griglia in metri</label><!-- [agente GT08-griglia-scala] -->
   <div id="avvisoSfondo" style="display:none;font-size:12px;color:#8a4b00;background:#fff4e0;border-radius:6px;padding:3px 6px;margin:2px 0">Sfondo non disponibile (connessione?)</div>
   <input id="filtroLinea" list="listaLinee" placeholder="Mostra solo una linea (es. 4, 15, M1)" autocomplete="off">
   <datalist id="listaLinee"></datalist>
@@ -191,6 +195,7 @@
 <div id="zoom" class="card"><button id="zp" aria-label="Ingrandisci" title="Ingrandisci">+</button><button id="zm" aria-label="Riduci" title="Riduci">−</button><button id="zh" class="pic" aria-label="Torino" title="Centra su Torino">⌂</button><button id="zc" class="pic" aria-label="Cintura" title="Vedi anche la cintura">◎</button><div class="zl" id="zl"></div></div>
 <div id="tip" class="card"></div>
 <div id="scheda" class="card"><button id="schedaX" aria-label="Chiudi" title="Chiudi (Esc)">×</button><div id="schedaCorpo"></div></div>
+<div id="scala"></div>
 <div id="attrib"></div>
 
 <script>
@@ -501,7 +506,7 @@ function disegna(){
   sporco=false;
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
   const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),$("pendTipo").value,$("pendDir").value,$("pendVal").value,
-    ["Lzone","Lsez","Llinee","Lfermate"].map(vis).join(),tema.id,$("coloreLinee").value,(ST()||{}).generato].join("|");
+    ["Lzone","Lsez","Llinee","Lfermate","Lgriglia"].map(vis).join(),tema.id,$("coloreLinee").value,(ST()||{}).generato].join("|");
   if(chiave!==baseKey){
     baseKey=chiave;
     if(bcv.width!==cv.width||bcv.height!==cv.height){ bcv.width=cv.width; bcv.height=cv.height; }
@@ -510,11 +515,51 @@ function disegna(){
   cx.setTransform(1,0,0,1,0,0); cx.drawImage(bcv,0,0);
   cx.setTransform(dpr,0,0,dpr,0,0);
   disegnaSopra(ws,ox,oy,i);
+  aggiornaScala(ws);
+}
+// [agente GT08-griglia-scala] metri per pixel: circonferenza terrestre * cos(latitudine) / larghezza del mondo in pixel
+const CIRC_TERRA=40075016.686;
+const latDaY = y => Math.atan(Math.sinh(Math.PI*(1-2*y)))*180/Math.PI;
+const mPerPx = (ws,lat) => CIRC_TERRA*Math.cos(lat*Math.PI/180)/ws;
+const LAT_TO=45.0703, CX_TO=px(7.6869), CY_TO=py(45.0703);   // origine della griglia: centro di Torino
+function disegnaGriglia(ws,ox,oy){
+  // pixel per metro fissi alla latitudine di Torino: la griglia resta ferma mentre si trascina (errore < 0,5% entro 18 km)
+  const ppm=1/mPerPx(ws,LAT_TO);
+  const PASSI=[10,25,50,100,250,500,1000,2000,5000,10000];
+  let passo=PASSI[PASSI.length-1];
+  for(const p of PASSI){ if(p*ppm>=40){passo=p;break;} }   // cella tra ~40 e ~100 px
+  const s=passo*ppm, ax=CX_TO*ws-ox, ay=CY_TO*ws-oy;       // posizione dello schermo dell'origine
+  const k0=Math.floor(-ax/s), k1=Math.ceil((W-ax)/s), j0=Math.floor(-ay/s), j1=Math.ceil((H-ay)/s);
+  if(k1-k0>400||j1-j0>400) return;
+  // due linee affiancate (scura + chiara) per leggersi sia sul satellite scuro sia sulla mappa chiara
+  const passa=(off,col)=>{
+    cx.beginPath();
+    for(let k=k0;k<=k1;k++){ const X=Math.round(ax+k*s)+off; cx.moveTo(X,0); cx.lineTo(X,H); }
+    for(let j=j0;j<=j1;j++){ const Y=Math.round(ay+j*s)+off; cx.moveTo(0,Y); cx.lineTo(W,Y); }
+    cx.strokeStyle=col; cx.lineWidth=1; cx.stroke();
+  };
+  passa(0.5,"rgba(70,70,70,0.22)"); passa(1.5,"rgba(255,255,255,0.28)");
+  grigliaPasso=passo;
+}
+let grigliaPasso=0;
+function aggiornaScala(ws){
+  const el=$("scala"); if(!el) return;
+  const mpp=mPerPx(ws,latDaY(view.cy));
+  let L=10; for(const c of [10,20,50,100,200,500,1000,2000,5000,10000,20000,50000]){ if(c/mpp<=140) L=c; }
+  const fmt=m=>m>=1000?(m/1000)+" km":m+" m";
+  // passo della griglia: lo ricalcolo qui, cosi' il testo e' giusto anche a griglia spenta (non mostrato)
+  const g=vis("Lgriglia")&&grigliaPasso?"griglia: "+fmt(grigliaPasso):"";
+  const pn=$("pannello").getBoundingClientRect();
+  // a destra del pannello se questo copre l'angolo in basso a sinistra
+  const copre=pn.width>0&&pn.bottom>H-70&&pn.left<200;
+  el.style.left=(copre?(pn.right+12>W-170?Math.max(12,W/2-80):pn.right+12):12)+"px";
+  el.innerHTML='<div style="width:'+Math.round(L/mpp)+'px" class="barra"></div><div>'+fmt(L)+(g?' · '+g:'')+'</div>';
 }
 function disegnaBase(ws,ox,oy,i){
   cx.setTransform(dpr,0,0,dpr,0,0);
   cx.fillStyle="#e8eaee"; cx.fillRect(0,0,W,H);
   disegnaMattonelle(ws,ox,oy);
+  if(vis("Lgriglia")) disegnaGriglia(ws,ox,oy);   // [agente GT08-griglia-scala] sopra lo sfondo, sotto tutti i dati
 
   if(vis("Lsez") && sezOk){
     const modo=$("modoSez").value, pal=PAL_SEZ[modo], dettaglio=view.zoom>=14;
@@ -829,6 +874,7 @@ function adesso(){
 $("adesso").onclick=adesso;
 // [agente GT02-temi] le sovrapposizioni si cambiano a mano; l'area colorata la decide solo il tema
 ["Lcorse","Llinee","Lfermate","Lsensori","Lmezzi"].forEach(id=>$(id).onchange=()=>{chiede();aggiornaLegenda();});
+$("Lgriglia").onchange=()=>chiede();   // [agente GT08-griglia-scala]
 $("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; tileOk=0; aggiornaAvvisoSfondo(); creditiSfondo(); baseVer++; chiede(); }; // [agente GT01-sfondi]
 $("intSfondo").oninput=e=>{ intSfondo=e.target.value/100; $("intSfondoVal").textContent=e.target.value+"%"; baseVer++; chiede(); }; // [agente GT01-sfondi]
 $("filtroLinea").oninput=()=>{ baseVer++; chiede(); };

@@ -4,3 +4,4 @@
 - 2026-10-04 22:23 | GT05-pendolari | done | ramo GT05-pendolari | 6 file | costo listino 0.562 USD | tema Pendolari ISTAT 2021 (comune verso comune, lavoro e studio)
 - 2026-10-05 00:09 | GT06-pannello | done | ramo GT06-pannello | 4 file | costo listino 0.338 USD | pannello piu' chiaro: riga "Quando", tema a discesa, legenda dentro il pannello, sezione Info
 - 2026-10-05 00:11 | GT07-clic-fermate | done | ramo GT07-clic-fermate | 4 file | costo listino 0.281 USD | scheda al clic per sezioni/zone (niente riquadro al passaggio) + fermate piu' piccole azzurre
+- 2026-10-05 00:12 | GT08-griglia-scala | done | ramo GT08-griglia-scala | 4 file | costo listino 0.197 USD | griglia grigio chiaro adattiva allo zoom + barra della scala
