@@ -100,11 +100,16 @@
   </div>
 
   <h2>Sfondo e filtro</h2>
+  <!-- [agente GT01-sfondi] sfondi Esri senza chiave + cursore intensità -->
   <select id="basemap" aria-label="Sfondo della mappa">
-    <option value="chiara">Mappa chiara (OpenStreetMap)</option>
-    <option value="osm">Mappa stradale a colori</option>
-    <option value="sat">Satellite (Esri)</option>
+    <option value="sat" selected>Satellite (Esri)</option>
+    <option value="chiara">Mappa chiara (Esri)</option>
+    <option value="stradale">Mappa stradale (Esri)</option>
+    <option value="nessuno">Nessuno sfondo</option>
   </select>
+  <label style="display:block;font-size:12px;margin:4px 0">Intensità sfondo: <span id="intSfondoVal">70%</span>
+    <input type="range" id="intSfondo" min="0" max="100" value="70" style="width:100%"></label>
+  <div id="avvisoSfondo" style="display:none;font-size:12px;color:#8a4b00;background:#fff4e0;border-radius:6px;padding:3px 6px;margin:2px 0">Sfondo non disponibile (connessione?)</div>
   <input id="filtroLinea" list="listaLinee" placeholder="Mostra solo una linea (es. 4, 15, M1)" autocomplete="off">
   <datalist id="listaLinee"></datalist>
   <select id="coloreLinee" aria-label="Come colorare le linee" style="width:100%;margin:2px 0 4px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
@@ -383,23 +388,29 @@ addEventListener("resize",ridimensiona);
 
 /* ---------- mattonelle ---------- */
 const tiles = new Map();
+// [agente GT01-sfondi] sfondi Esri (senza chiave), ognuno con zoom massimo; oltre si ingrandisce l'ultima mattonella
+const ESRI="https://server.arcgisonline.com/ArcGIS/rest/services/";
 const BASI={
-  chiara:(z,x,y)=>`https://tile.openstreetmap.org/${z}/${x}/${y}.png`,   /* OpenStreetMap schiarito in grigio: CARTO ora richiede una chiave */
-  osm:(z,x,y)=>`https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
-  sat:(z,x,y)=>`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`
+  chiara:(z,x,y)=>`${ESRI}Canvas/World_Light_Gray_Base/MapServer/tile/${z}/${y}/${x}`,
+  stradale:(z,x,y)=>`${ESRI}World_Street_Map/MapServer/tile/${z}/${y}/${x}`,
+  sat:(z,x,y)=>`${ESRI}World_Imagery/MapServer/tile/${z}/${y}/${x}`
 };
+const MAXZ_BASE={chiara:16, stradale:19, sat:19, nessuno:0};
 const CRED={
-  chiara:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
-  osm:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
-  sat:'Immagini © Esri, Maxar, Earthstar Geographics'};
-let baseCorrente="chiara", tileOk=0, tileErr=0;
-function creditiSfondo(){ $("attrib").innerHTML=CRED[baseCorrente]+" · dati GTT, 5T, ISTAT, Comune di Torino"; }
+  chiara:'Mappa © Esri, HERE, Garmin, OpenStreetMap contributors',
+  stradale:'Mappa © Esri, HERE, Garmin, USGS, OpenStreetMap contributors',
+  sat:'Immagini © Esri, Maxar, Earthstar Geographics',
+  nessuno:''};
+let baseCorrente="sat", tileOk=0, tileErr=0, intSfondo=0.7;
+function creditiSfondo(){ const c=CRED[baseCorrente]; $("attrib").innerHTML=(c?c+" · ":"")+"dati GTT, 5T, ISTAT, Comune di Torino"; }
+// avviso non bloccante se molte mattonelle falliscono e nessuna è arrivata
+function aggiornaAvvisoSfondo(){ $("avvisoSfondo").style.display=(baseCorrente!=="nessuno"&&tileErr>20&&tileOk===0)?"block":"none"; }
 function tile(z,x,y){
   const k=baseCorrente+"/"+z+"/"+x+"/"+y; let t=tiles.get(k);
   if(!t){
     const img=new Image(); t={img,ok:false,usato:0}; const b=baseCorrente;
-    img.onload=()=>{t.ok=true;tileOk++;baseVer++;chiede();};
-    img.onerror=()=>{ tileErr++; };
+    img.onload=()=>{t.ok=true; if(b===baseCorrente){tileOk++; aggiornaAvvisoSfondo();} baseVer++;chiede();};
+    img.onerror=()=>{ if(b===baseCorrente){tileErr++; aggiornaAvvisoSfondo();} };
     img.src=BASI[b](z,x,y);
     tiles.set(k,t);
     if(tiles.size>600){ const v=[...tiles.entries()].sort((a,b)=>a[1].usato-b[1].usato).slice(0,200); v.forEach(e=>tiles.delete(e[0])); }
@@ -407,12 +418,16 @@ function tile(z,x,y){
   t.usato=performance.now(); return t;
 }
 function disegnaMattonelle(ws,ox,oy){
-  const z=Math.max(0,Math.min(19,Math.round(view.zoom))), n=1<<z, ts=256*Math.pow(2,view.zoom-z);
+  // [agente GT01-sfondi] nessuno sfondo: niente mattonelle; zoom oltre il massimo: overzoom
+  if(baseCorrente==="nessuno") return;
+  const z=Math.max(0,Math.min(MAXZ_BASE[baseCorrente],Math.round(view.zoom))), n=1<<z, ts=256*Math.pow(2,view.zoom-z);
   const x0=Math.floor(ox/ts), x1=Math.floor((ox+W)/ts), y0=Math.floor(oy/ts), y1=Math.floor((oy+H)/ts);
   for(let ty=Math.max(0,y0); ty<=Math.min(n-1,y1); ty++) for(let tx=x0; tx<=x1; tx++){
     const t=tile(z,((tx%n)+n)%n,ty);
-    if(t.ok){ if(baseCorrente==="chiara") cx.filter="grayscale(.95) brightness(1.12) contrast(.85)"; cx.drawImage(t.img, tx*ts-ox, ty*ts-oy, ts+0.5, ts+0.5); cx.filter="none"; }
+    if(t.ok) cx.drawImage(t.img, tx*ts-ox, ty*ts-oy, ts+0.5, ts+0.5);
   }
+  // [agente GT01-sfondi] schiarisce lo sfondo verso il bianco con un solo rettangolo
+  if(intSfondo<1){ cx.fillStyle="rgba(255,255,255,"+(1-intSfondo).toFixed(2)+")"; cx.fillRect(0,0,W,H); }
 }
 
 /* ---------- disegno ---------- */
@@ -639,7 +654,8 @@ function adesso(){
 $("adesso").onclick=adesso;
 ["Lzone","Lsez","Lcorse","Llinee","Lfermate","Lsensori","Lmezzi"].forEach(id=>$(id).onchange=()=>{chiede();aggiornaLegenda();});
 $("modoSez").onchange=()=>{baseVer++;chiede();aggiornaLegenda();};
-$("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; creditiSfondo(); baseVer++; chiede(); };
+$("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; tileOk=0; aggiornaAvvisoSfondo(); creditiSfondo(); baseVer++; chiede(); }; // [agente GT01-sfondi]
+$("intSfondo").oninput=e=>{ intSfondo=e.target.value/100; $("intSfondoVal").textContent=e.target.value+"%"; baseVer++; chiede(); }; // [agente GT01-sfondi]
 $("filtroLinea").oninput=()=>{ baseVer++; chiede(); };
 $("coloreLinee").onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); };
 $("repGiorno").onchange=e=>{ if(e.target.value){ $("Lreplay").checked=true; } caricaReplay(e.target.value); aggiornaLegenda(); };

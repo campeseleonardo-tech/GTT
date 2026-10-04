@@ -1,0 +1,1 @@
+- 2026-10-04 17:51 | GT01-sfondi | done | ramo GT01-sfondi | 4 file | costo listino 0.190 USD | sfondi della mappa senza OpenStreetMap (bloccato da file://) + intensita' dello sfondo

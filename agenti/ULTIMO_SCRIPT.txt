@@ -1,0 +1,19 @@
+scripts/04_genera_mappa.py -> exit 0
+
+Cartella del progetto: C:\Users\campe\Desktop\GTT
+Uso questi file:
+  gtt_gtfs_20261003_224530.zip
+  5t_flussi_20261003_224539.xml
+  gtt_vehicle_position_20261003_224534.pb
+  zone_statistiche_csv_20261003_224540.zip
+Leggo GTFS (qualche secondo)...
+  corse simulabili (feriale/sabato/domenica): [13683, 10747, 6981]; senza tracciato: 0
+  fermate con passaggi: 7036, linee con tracciato: 429
+  sensori 5T: 112, mezzi GTT: 110
+  zone: 94; fermate fuori da ogni zona (altri comuni): 4731
+  sezioni di censimento abitate: 8317, abitanti 1557493
+
+Mappa creata: C:\Users\campe\Desktop\GTT\mappa_torino.html  (6.1 MB)
+Aprila con doppio clic (serve internet solo per le mattonelle della cartina).
+
+--- STDERR ---
