@@ -40,7 +40,11 @@
   details{margin-top:12px;font-size:12.5px;color:var(--muted)}
   details summary{cursor:pointer;color:var(--ink);font-weight:600}
   details p{margin:6px 0}
-  #legenda{position:fixed;left:12px;bottom:12px;padding:10px 12px;font-size:12px;max-width:min(340px,calc(100vw - 24px));display:none}
+  /* [agente GT06-pannello] legenda dentro il pannello (non più flottante); riga compatta di «Quando» */
+  #legenda{font-size:12px}
+  .quando{display:flex;align-items:center;gap:6px}
+  .quando .seg{flex:1}
+  .quando select{font:inherit;padding:4px 2px;border:1px solid var(--line);border-radius:8px;background:#fff}
   #legenda .t{font-weight:600;margin:0 0 4px}
   #legenda .sc{display:flex;gap:2px;margin:2px 0 8px}
   #legenda .sc span{height:10px;flex:1}
@@ -68,7 +72,7 @@
   #attrib{position:fixed;right:6px;bottom:4px;font-size:10.5px;color:#444;background:rgba(255,255,255,.8);padding:1px 6px;border-radius:4px}
   #attrib a{color:inherit}
   #apri{display:none;position:fixed;top:12px;left:12px;padding:8px 12px;cursor:pointer}
-  @media (max-width:640px){ #pannello{max-height:46vh} #legenda{display:none!important} }
+  @media (max-width:640px){ #pannello{max-height:46vh} }
 </style>
 </head>
 <body>
@@ -84,51 +88,31 @@
   <h1>Mobilità Torino</h1>
   <p class="sub">Offerta GTT programmata, traffico 5T e mezzi GTT all'ultimo aggiornamento.</p>
 
-  <h2>Aggiornamento dati</h2>
-  <div class="stato" id="stato"></div>
-
-  <h2>Offerta programmata: giorno e ora</h2>
-  <div class="seg" id="giorno">
-    <button data-k="0" aria-pressed="true">Feriale</button>
-    <button data-k="1" aria-pressed="false">Sabato</button>
-    <button data-k="2" aria-pressed="false">Domenica</button>
-  </div>
-  <div class="ora">
-    <input id="ora" type="range" min="0" max="1439" step="1" value="480" aria-label="Ora del giorno">
-    <output id="oraTxt">08:00</output>
+  <!-- [agente GT06-pannello] «Quando» in alto, compatto su 2 righe + una frase che si aggiorna da sola -->
+  <h2 style="margin-top:6px">Quando</h2>
+  <div class="quando">
+    <div class="seg" id="giorno">
+      <button data-k="0" aria-pressed="true">Feriale</button>
+      <button data-k="1" aria-pressed="false">Sabato</button>
+      <button data-k="2" aria-pressed="false">Domenica</button>
+    </div>
     <button class="btn" id="adesso" title="Imposta giorno e ora attuali">Adesso</button>
   </div>
-
-  <div class="sim">
-    <button class="btn" id="play" title="Avvia o ferma la simulazione" style="min-width:42px">⏸</button>
-    <select id="vel" aria-label="Velocità della simulazione">
-      <option value="1">1× (tempo reale)</option><option value="10">10×</option>
-      <option value="60" selected>60× (1 min al secondo)</option><option value="240">240×</option>
+  <div class="quando" style="margin-top:6px">
+    <button class="btn" id="play" title="Avvia o ferma la simulazione" style="min-width:36px;padding:4px 8px">⏸</button>
+    <input id="ora" type="range" min="0" max="1439" step="1" value="480" aria-label="Ora del giorno" style="flex:1;min-width:60px;accent-color:var(--accent)">
+    <output id="oraTxt" style="min-width:42px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600">08:00</output>
+    <select id="vel" aria-label="Velocità della simulazione" title="Velocità della simulazione">
+      <option value="1">1×</option><option value="10">10×</option>
+      <option value="60" selected>60×</option><option value="240">240×</option>
     </select>
-    <span id="nAtt" style="font-size:12px;color:var(--muted)"></span>
   </div>
-
-  <h2>Sfondo e filtro</h2>
-  <!-- [agente GT01-sfondi] sfondi Esri senza chiave + cursore intensità -->
-  <select id="basemap" aria-label="Sfondo della mappa">
-    <option value="sat" selected>Satellite (Esri)</option>
-    <option value="chiara">Mappa chiara (Esri)</option>
-    <option value="stradale">Mappa stradale (Esri)</option>
-    <option value="nessuno">Nessuno sfondo</option>
-  </select>
-  <label style="display:block;font-size:12px;margin:4px 0">Intensità sfondo: <span id="intSfondoVal">70%</span>
-    <input type="range" id="intSfondo" min="0" max="100" value="70" style="width:100%"></label>
-  <div id="avvisoSfondo" style="display:none;font-size:12px;color:#8a4b00;background:#fff4e0;border-radius:6px;padding:3px 6px;margin:2px 0">Sfondo non disponibile (connessione?)</div>
-  <input id="filtroLinea" list="listaLinee" placeholder="Mostra solo una linea (es. 4, 15, M1)" autocomplete="off">
-  <datalist id="listaLinee"></datalist>
-  <select id="coloreLinee" aria-label="Come colorare le linee" style="width:100%;margin:2px 0 4px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
-    <option value="freq">Linee: spessore = corse/ora programmate</option>
-    <option value="ratio">Linee: mezzi reali rispetto al previsto</option>
-  </select>
+  <div id="fraseQuando" style="font-size:12.5px;margin:6px 0 0"></div>
+  <span id="nAtt" style="font-size:12px;color:var(--muted)"></span>
 
   <!-- [agente GT02-temi] un solo tema alla volta (colora l'area) + sovrapposizioni -->
   <h2>Tema</h2>
-  <div id="temi" class="temi"></div>
+  <select id="temi" aria-label="Tema della mappa" style="width:100%;font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:600"></select>
   <div id="temaDesc" style="font-size:12px;color:var(--muted);margin:6px 0 0"></div>
   <!-- [agente GT05-pendolari] scelte del tema Pendolari (visibili solo con quel tema) -->
   <div id="boxPend" style="display:none;margin:6px 0">
@@ -152,8 +136,23 @@
   <label class="lv"><input type="checkbox" id="Lreplay"><span class="sw" style="background:#111;border-radius:50%"></span>Replay: mezzi reali registrati</label>
   <select id="repGiorno" aria-label="Giornata registrata" style="margin:2px 0 4px 26px;max-width:240px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff"><option value="">(nessuna giornata)</option></select>
 
-  <h2>Dati raccolti</h2>
-  <div class="stato" id="statoLive"></div>
+  <h2>Sfondo e filtro</h2>
+  <!-- [agente GT01-sfondi] sfondi Esri senza chiave + cursore intensità -->
+  <select id="basemap" aria-label="Sfondo della mappa">
+    <option value="sat" selected>Satellite (Esri)</option>
+    <option value="chiara">Mappa chiara (Esri)</option>
+    <option value="stradale">Mappa stradale (Esri)</option>
+    <option value="nessuno">Nessuno sfondo</option>
+  </select>
+  <label style="display:block;font-size:12px;margin:4px 0">Intensità sfondo: <span id="intSfondoVal">70%</span>
+    <input type="range" id="intSfondo" min="0" max="100" value="70" style="width:100%"></label>
+  <div id="avvisoSfondo" style="display:none;font-size:12px;color:#8a4b00;background:#fff4e0;border-radius:6px;padding:3px 6px;margin:2px 0">Sfondo non disponibile (connessione?)</div>
+  <input id="filtroLinea" list="listaLinee" placeholder="Mostra solo una linea (es. 4, 15, M1)" autocomplete="off">
+  <datalist id="listaLinee"></datalist>
+  <select id="coloreLinee" aria-label="Come colorare le linee" style="width:100%;margin:2px 0 4px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
+    <option value="freq">Linee: spessore = corse/ora programmate</option>
+    <option value="ratio">Linee: mezzi reali rispetto al previsto</option>
+  </select>
 
   <div id="boxSegn">
   <h2>Segnalazioni adesso</h2>
@@ -170,10 +169,22 @@
     <p><b>Residenti (ISTAT 2021):</b> abitanti per sezione di censimento. Sono la popolazione «di notte», non chi si sposta a quell'ora: lavoratori, studenti e pendolari non sono ancora inclusi. «Poca offerta per abitante» = passaggi programmati GTT/ora entro 400 m ogni 1000 abitanti entro 400 m (rosso = pochi). Fuori Torino mancano le linee di altri operatori e i treni: lì il rosso può essere solo mancanza di dati.</p>
     <p><b>Zone:</b> le 94 zone statistiche del Comune di Torino (2011). I passaggi per zona sommano i passaggi alle fermate dentro la zona.</p>
   </details>
+
+  <!-- [agente GT06-pannello] aggiornamento e dati raccolti in una sezione chiusa -->
+  <details id="infoDati">
+    <summary>Info sui dati</summary>
+    <h2>Aggiornamento dati</h2>
+    <div class="stato" id="stato"></div>
+    <h2>Dati raccolti</h2>
+    <div class="stato" id="statoLive"></div>
+  </details>
+
+  <!-- [agente GT06-pannello] la legenda sta dentro il pannello, ultimo blocco -->
+  <h2 id="legendaTit">Legenda</h2>
+  <div id="legenda"></div>
 </div>
 <button id="apri" class="card">Pannello</button>
 
-<div id="legenda" class="card"></div>
 <div id="zoom" class="card"><button id="zp" aria-label="Ingrandisci" title="Ingrandisci">+</button><button id="zm" aria-label="Riduci" title="Riduci">−</button><button id="zh" class="pic" aria-label="Torino" title="Centra su Torino">⌂</button><button id="zc" class="pic" aria-label="Cintura" title="Vedi anche la cintura">◎</button><div class="zl" id="zl"></div></div>
 <div id="tip" class="card"></div>
 <div id="attrib"></div>
@@ -763,7 +774,12 @@ function stato(){
   el.push(`<div class="riga"><span class="pallino ok"></span><div><b>Orari GTT</b>: versione ${esc(D.meta.gtfs.versione)}<br><span style="color:#5d6678">valida ${esc(D.meta.gtfs.inizio)} → ${esc(D.meta.gtfs.fine)} · giorni tipici: ${esc(D.meta.gtfs.giorni.fer)}, ${esc(D.meta.gtfs.giorni.sab)}, ${esc(D.meta.gtfs.giorni.dom)}</span></div></div>`);
   $("stato").innerHTML=el.join("");
 }
-function aggiornaOra(){ $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); chiede(); }
+// [agente GT06-pannello] frase semplice sotto «Quando»
+function fraseQuando(){
+  const t=`La mappa mostra il servizio di ${["un giorno feriale","un sabato","una domenica"][S.dt]||"un giorno"} alle ${pad(S.h)}:${pad(Math.floor(S.m%60))}`;
+  if($("fraseQuando").textContent!==t) $("fraseQuando").textContent=t;
+}
+function aggiornaOra(){ $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando(); chiede(); }
 document.querySelectorAll("#giorno button").forEach(b=>b.onclick=()=>{ S.dt=+b.dataset.k; document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",x===b)); aggiornaOra(); aggiornaLegenda(); });
 $("ora").oninput=e=>{S.m=+e.target.value; aggiornaOra();};
 function adesso(){
@@ -791,7 +807,7 @@ function anima(ts){
     if(gioca){
       const dt=Math.min(0.25,(ts-ultimoT)/1000); ultimoT=ts;
       S.m=(S.m+dt*(+$("vel").value)/60)%1440;
-      $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m);
+      $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando();   // [agente GT06-pannello]
       chiede();
     } else ultimoT=ts;
     $("nAtt").textContent=vis("Lcorse")? attivi+" corse in giro":"";
@@ -816,7 +832,7 @@ function legendaSezioni(modo){
   if(!sezOk) return "";
   const so=sezSoglie[modo]||[0,0,0,0];
   const nome={rapp:"Passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²"}[modo];
-  const tag = modo==="dens"?TAG.cens : modo==="serv"?TAG.prog : TAG.prog+TAG.cens;
+  const tag = modo==="dens"?TAG.cens : modo==="serv"?"" : TAG.prog+TAG.cens;   // [agente GT06-pannello] niente PROGRAMMATO da solo
   return `<div class="t">${nome} ${tag}</div>`+scalaHtml(PAL_SEZ[modo],[modo==="rapp"?"poca offerta":"meno",fnum(so[1]),fnum(so[3]),modo==="rapp"?"molta":"più"])
     +(modo==="dens"?"":'<div class="puntini"><span><i style="background:#9aa0ad"></i>nessun passaggio GTT programmato</span></div>');
 }
@@ -834,7 +850,7 @@ function legendaPendolari(){
     +`<div class="et" style="display:block">Linee dei primi 30 comuni: ${pendNum(pc.totTop)} persone.<br>Altri ${Math.max(0,pc.nCom-pc.top.length)} comuni dell'area (senza linea): ${pendNum(pc.totCom-pc.totTop)}.<br>Comuni fuori dall'area della mappa (${PEND.altri.n}): ${pendNum(fuori)}.<br>Dentro Torino (Torino→Torino, nessuna linea): <b>${pendNum(interno)}</b>.</div>`
     +`<div class="et" style="display:block">ISTAT 2021, comune→comune, senza mezzo né orario; studio = stima. Passa il mouse (o tocca) su un comune per i dettagli.</div>`;
 }
-const legendaZone = () => `<div class="t">Zone statistiche: passaggi/ora per km² ${TAG.prog}</div>`+scalaHtml(PAL,["meno",fnum(SOGLIE[1]),fnum(SOGLIE[3]),"più"]);
+const legendaZone = () => `<div class="t">Zone statistiche: passaggi/ora per km²</div>`+scalaHtml(PAL,["meno",fnum(SOGLIE[1]),fnum(SOGLIE[3]),"più"]);
 
 /* ====== TABELLA DEI TEMI: per aggiungere un tema basta una riga qui ======
    id, etichetta, descrizione,
@@ -875,15 +891,16 @@ function applicaTema(id){
   $("Lsez").checked = !!(a && a.tipo==="sez"); $("Lzone").checked = !!(a && a.tipo==="zone");   // mai due colorazioni insieme
   if(a && a.tipo==="sez") $("modoSez").value=a.modo;
   for(const k in tema.over) $(k).checked = !!tema.over[k];
-  document.querySelectorAll("#temi button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.id===tema.id));
+  $("temi").value=tema.id;   // [agente GT06-pannello]
   $("temaDesc").textContent=tema.desc;
   $("boxSegn").style.display = tema.segnalazioni ? "block" : "none";
   $("boxPend").style.display = tema.pendolari ? "block" : "none";   // [agente GT05-pendolari]
   baseVer++; chiede(); aggiornaLegenda();
 }
 ["pendTipo","pendDir","pendVal"].forEach(id=>$(id).onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); });   // [agente GT05-pendolari]
-$("temi").innerHTML = THEMES.map(t=>`<button data-id="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("");
-document.querySelectorAll("#temi button").forEach(b=>b.onclick=()=>applicaTema(b.dataset.id));
+// [agente GT06-pannello] menu a tendina costruito dalla tabella THEMES (un tema nuovo compare da solo)
+$("temi").innerHTML = THEMES.map(t=>`<option value="${esc(t.id)}">${esc(t.label)}</option>`).join("");
+$("temi").onchange=e=>applicaTema(e.target.value);
 
 /* legenda: solo il tema attivo + le sovrapposizioni accese */
 const leg=$("legenda");
@@ -894,14 +911,14 @@ function aggiornaLegenda(){
     if($("coloreLinee").value==="ratio"){
       const T=ST(); const rl=T?ratiLinee(idx()):null;
       blocchi.push(`<div class="t">Linee: mezzi reali rispetto al previsto ${TAG.mis}${TAG.prog}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#4c9f70"></i>nella norma</span><span><i style="background:#e8833a"></i>meno</span><span><i style="background:#c8102e"></i>molto meno</span><span><i style="background:#9aa0ad"></i>senza dati</span></div><div class="et" style="display:block">${rl?"Rapporto medio localizzati/previsti: "+rl._g.toFixed(2)+" · ore di dati per quest'ora: "+((T.copertura||{})[idx()]||0):"Nessun dato raccolto."}</div>`);
-    } else blocchi.push(`<div class="t">Linee (spessore = corse/ora) ${TAG.prog}</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
+    } else blocchi.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
   }
-  if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14) ${TAG.prog}</div><div class="puntini"><span><i style="background:rgba(70,80,95,.7)"></i>grandezza = passaggi/ora</span></div>`);
+  if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14)</div><div class="puntini"><span><i style="background:rgba(70,80,95,.7)"></i>grandezza = passaggi/ora</span></div>`);
   if(vis("Lcorse")) blocchi.push(`<div class="t">Corse simulate ${TAG.sim}</div><div class="puntini"><span><i style="background:${COL.bus}"></i>posizione stimata dagli orari, non reale</span></div>`);
   if(vis("Lmezzi")) blocchi.push(`<div class="t">Mezzi GTT reali ${TAG.mis}</div><div class="puntini"><span><i style="background:#222"></i>ultima posizione localizzata (colore = tipo di linea)</span></div>`);
   if(vis("Lreplay")) blocchi.push(`<div class="t">Replay: mezzi reali registrati ${TAG.mis}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#111"></i>posizione reale registrata${REP?" ("+REP.g+")":""}</span></div>`);
   if(vis("Lsensori")) blocchi.push(`<div class="t">Traffico 5T (velocità media) ${TAG.mis}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#c8102e"></i>&lt;15</span><span><i style="background:#e8833a"></i>15–30</span><span><i style="background:#f2c14e"></i>30–45</span><span><i style="background:#4c9f70"></i>&gt;45 km/h</span><span><i style="background:#c9ced6"></i>nessun veicolo</span><span><i style="background:#fff;border:1.5px dashed #8a8f98"></i>dato assente</span><span><i style="background:#fff;border:2px solid #c8102e"></i>più lento del solito</span></div>`);
-  leg.innerHTML=blocchi.map(b=>`<div class="blocco">${b}</div>`).join(""); leg.style.display=blocchi.length?"block":"none";
+  leg.innerHTML=blocchi.map(b=>`<div class="blocco">${b}</div>`).join(""); leg.style.display=blocchi.length?"block":"none"; $("legendaTit").style.display=leg.style.display;   // [agente GT06-pannello]
 }
 
 /* ---------- avvio ---------- */

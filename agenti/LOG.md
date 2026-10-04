@@ -2,3 +2,4 @@
 - 2026-10-04 17:53 | GT02-temi | done | ramo GT02-temi | 4 file | costo listino 0.534 USD | temi esclusivi (un solo colore d'area alla volta) + sovrapposizioni + legenda per tema
 - 2026-10-04 22:20 | GT04-velocita | done | ramo GT04-velocita | 6 file | costo listino 0.408 USD | velocita' commerciale MISURATA dei mezzi GTT per linea e ora (dallo storico)
 - 2026-10-04 22:23 | GT05-pendolari | done | ramo GT05-pendolari | 6 file | costo listino 0.562 USD | tema Pendolari ISTAT 2021 (comune verso comune, lavoro e studio)
+- 2026-10-05 00:09 | GT06-pannello | done | ramo GT06-pannello | 4 file | costo listino 0.338 USD | pannello piu' chiaro: riga "Quando", tema a discesa, legenda dentro il pannello, sezione Info
