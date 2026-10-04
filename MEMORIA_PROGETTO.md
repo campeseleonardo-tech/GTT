@@ -130,7 +130,7 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - Testato su Linux (riavvio, log, risposta No, file STOP); NON testato su Windows: finestra, anti-stop e avvio automatico da provare (`python supervisore.py --promemoria-ora`).
 
 <!-- STATO DELL'UFFICIO: inizio. Questa parte la riscrive l'Ufficio dopo ogni task: non scrivere qui, scrivi sopra. -->
-## Stato dell'Ufficio (aggiornato 04/10/2026 22:20)
+## Stato dell'Ufficio (aggiornato 04/10/2026 22:23)
 
 ### Piano
 - [x] Base pronta (git, profilo, raccolta verificata) (fatto)
@@ -142,6 +142,7 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - [ ] Raspberry Pi / condivisione (da fare)
 
 ### Fatto di recente
+- 2026-10-04 22:23 · GT05-pendolari: Aggiunto il tema "Pendolari" (aree per comune, 30 linee verso Torino, selettori, tooltip, legenda) e il parser delle matrici ISTAT lavoro e studio; non l'ho eseguito, quindi i totali non sono verificati. · 3 domande per te
 - 2026-10-04 22:20 · GT04-velocita: Aggiunto il tema "Velocità" (velocità commerciale misurata per linea, tipo di giorno e ora) in 04 e nel template; non ho eseguito nulla, quindi non ho numeri reali. · 2 domande per te
 - 2026-10-04 17:53 · GT02-temi: Ho sostituito i "Livelli" con 7 temi (uno alla volta) e 6 sovrapposizioni in `scripts/mappa_template.html`. Non ho potuto eseguire né provare nulla: il controllo spetta al runner. · 3 domande per te
 - 2026-10-04 17:51 · GT01-sfondi: In `scripts/mappa_template.html` ho tolto OpenStreetMap, messo 3 sfondi Esri più "nessuno", il satellite come predefinito e il cursore intensità al 70%. Non ho potuto eseguire la pagina, quindi non è provato.
@@ -149,10 +150,13 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 ### Decisioni di Leo (risposte alle domande)
 - (nessuna)
 
-### Domande aperte: 5 (5 a risposta chiusa)
+### Domande aperte: 8 (8 a risposta chiusa)
 - «Segnalazioni adesso» anche nel tema Traffico? (sì / solo Tempo reale; scelta provvisoria: sì)
 - Nel tema Tempo reale accendere anche le linee sottili? (no / sì; scelta provvisoria: no)
 - Tema Poca offerta: linee sottili a metà spessore va bene? (metà / un terzo; scelta provvisoria: metà)
 - Soglie colori velocità (12/16/20 km/h) vanno bene? (A tenere / B più strette / C più larghe; scelta provvisoria: A)
 - Minimo campioni per colorare una linea? (10 / 20 / 60; scelta provvisoria: 20)
+- Vuoi i nomi dei comuni (tabella ISTAT codici)? (sì, la scarico / no, bastano i codici; scelta provvisoria: no, bastano i codici)
+- Colore di partenza del tema Pendolari? (per 1000 abitanti / numero assoluto; scelta provvisoria: per 1000 abitanti)
+- Quanti comuni con linea nel tema Pendolari? (15 / 30 / 50; scelta provvisoria: 30)
 <!-- STATO DELL'UFFICIO: fine -->
