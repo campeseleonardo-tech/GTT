@@ -606,6 +606,138 @@ def calcola_velocita():
     return vel, meta
 
 
+# ---------------------------------------------------------------- pendolari ISTAT 2021
+# [agente GT05-pendolari] matrici comune contro comune (lavoro e studio), solo flussi da/verso Torino
+PRO_COM_TORINO = 1272
+# valori attesi dalle note (docs/istat/NOTE_FILE_ISTAT.md): entrano, escono, dentro Torino
+PEND_ATTESI = {"lavoro": (138605, 71297, 212249), "studio": (48730, 6373, 120148)}
+
+
+def _numero(v):
+    """Numero da testo ('12', '12,5', '12.5'); None se non e' un numero."""
+    try:
+        return float(str(v).strip().replace(",", "."))
+    except ValueError:
+        return None
+
+
+def leggi_matrice_pendolari(percorso, etichetta):
+    """Legge una matrice ISTAT (zip con un file di testo separato da tab).
+    Trova da sola la riga di intestazione e le colonne; prova utf-8 poi latin-1.
+    Restituisce {"ent": {comune: n}, "usc": {comune: n}, "int": n, "tot": n}: flussi da/verso Torino."""
+    with zipfile.ZipFile(percorso) as z:
+        nomi = [n for n in z.namelist() if not n.endswith("/")]
+        testuali = [n for n in nomi if n.lower().endswith((".txt", ".csv", ".tsv", ".dat"))] or nomi
+        if not testuali:
+            raise ValueError("zip vuoto")
+        nome = max(testuali, key=lambda n: z.getinfo(n).file_size)   # il file piu' grande e' la matrice
+        grezzo = z.read(nome)
+    try:
+        testo, codifica = grezzo.decode("utf-8-sig"), "utf-8"
+    except UnicodeDecodeError:
+        testo, codifica = grezzo.decode("latin-1"), "latin-1"
+    righe_txt = [r for r in testo.splitlines() if r.strip()]
+    if not righe_txt:
+        raise ValueError("file vuoto")
+    sep = max(["\t", ";", ","], key=righe_txt[0].count)   # atteso: tab
+    righe = list(csv.reader(righe_txt, delimiter=sep))
+    intest = righe[0] if _numero(righe[0][-1]) is None else None
+    n_col = len(righe[0])
+    # colonne: provincia residenza, comune residenza, provincia lavoro/studio, comune lavoro/studio, numero
+    ix = [0, 1, 2, 3, 4] if n_col >= 5 else [None, 0, None, 1, 2]
+    if intest:
+        H = [h.strip().upper() for h in intest]
+        pv = [i for i, h in enumerate(H) if "PROV" in h]
+        cm = [i for i, h in enumerate(H) if "COM" in h and "PROV" not in h]
+        if len(pv) == 2 and len(cm) == 2:
+            ix = [pv[0], cm[0], pv[1], cm[1], len(H) - 1]
+    print(f"  {etichetta}: {Path(percorso).name} -> {nome} ({codifica}, separatore {sep!r}), {len(righe)} righe")
+    print(f"    intestazione: {intest if intest else '(assente)'}; colonne usate (prov.res, com.res, prov.dest, com.dest, n): {ix}")
+
+    def codice(r, ip, ic):
+        c = _numero(r[ic]) if ic is not None and ic < len(r) else None
+        if c is None:
+            return None
+        c = int(c)
+        if c >= 1000 or ip is None:
+            return c                      # gia' PRO_COM
+        p = _numero(r[ip]) if ip < len(r) else None
+        return None if p is None else int(p) * 1000 + c   # PRO_COM = provincia*1000 + comune
+
+    ent, usc, interno, tot, scartate = defaultdict(float), defaultdict(float), 0.0, 0.0, 0
+    for r in (righe[1:] if intest else righe):
+        try:
+            n = _numero(r[ix[4]])
+            a, b = codice(r, ix[0], ix[1]), codice(r, ix[2], ix[3])
+        except IndexError:
+            n = a = b = None
+        if n is None or a is None or b is None:
+            scartate += 1
+            continue
+        tot += n
+        if a == PRO_COM_TORINO and b == PRO_COM_TORINO:
+            interno += n
+        elif b == PRO_COM_TORINO:
+            ent[a] += n
+        elif a == PRO_COM_TORINO:
+            usc[b] += n
+    e, u = sum(ent.values()), sum(usc.values())
+    att = PEND_ATTESI.get(etichetta)
+    print(f"    righe scartate: {scartate}; persone totali nel file: {tot:,.0f}".replace(",", "."))
+    print(f"    Torino {etichetta}: entrano {e:,.0f}, escono {u:,.0f}, dentro {interno:,.0f}".replace(",", "."))
+    if att:
+        print(f"    attesi dalle note:    entrano {att[0]:,}, escono {att[1]:,}, dentro {att[2]:,}".replace(",", "."))
+        for v, a_, et in zip((e, u, interno), att, ("entrano", "escono", "dentro")):
+            if abs(v - a_) > 0.05 * a_:
+                print(f"    ATTENZIONE: '{et}' si scosta di oltre il 5% dal valore atteso ({v:.0f} contro {a_}): colonne o file da controllare")
+    return {"ent": dict(ent), "usc": dict(usc), "int": interno, "tot": tot}
+
+
+def costruisci_pendolari(sezioni):
+    """Oggetto compatto per la mappa: per ogni comune delle sezioni, pendolari verso/da Torino
+    (lavoro, studio), abitanti e baricentro pesato con gli abitanti. None se mancano i file."""
+    docs = RADICE / "docs"
+    f_lav, f_stu = docs / "matrix_pendoLAVORO_2021.zip", docs / "matrix_pendoSTUDIO_2021.zip"
+    if not (f_lav.is_file() and f_stu.is_file()):
+        print("  (matrici pendolarismo ISTAT non trovate in docs/: il tema Pendolari restera' vuoto)")
+        return None
+    try:
+        M = [leggi_matrice_pendolari(f_lav, "lavoro"), leggi_matrice_pendolari(f_stu, "studio")]
+    except Exception as e:   # file strano: non bloccare tutta la mappa
+        print(f"  (matrici pendolarismo non leggibili: {e}; il tema Pendolari restera' vuoto)")
+        return None
+    acc = {}   # comune -> [abitanti, somma lat*ab, somma lon*ab]
+    for s in sezioni:
+        pts = [q for anello in s["g"] for q in anello]
+        if not pts or not s.get("c"):
+            continue
+        la = (min(q[0] for q in pts) + max(q[0] for q in pts)) / 2
+        lo = (min(q[1] for q in pts) + max(q[1] for q in pts)) / 2
+        a = acc.setdefault(int(s["c"]), [0, 0.0, 0.0])
+        a[0] += s["p"]; a[1] += la * s["p"]; a[2] += lo * s["p"]
+    if PRO_COM_TORINO not in acc:
+        print("  (Torino non presente nelle sezioni: tema Pendolari vuoto)")
+        return None
+    ri = lambda x: int(round(x))
+    com = []
+    for c, (p, sla, slo) in sorted(acc.items()):
+        if c == PRO_COM_TORINO or p <= 0:
+            continue
+        com.append({"c": c, "p": p, "la": round(sla / p, 4), "lo": round(slo / p, 4),
+                    "i": [ri(m["ent"].get(c, 0)) for m in M], "u": [ri(m["usc"].get(c, 0)) for m in M]})
+    p, sla, slo = acc[PRO_COM_TORINO]
+    tor = {"p": p, "la": round(sla / p, 4), "lo": round(slo / p, 4),
+           "i": [ri(sum(m["ent"].values())) for m in M], "u": [ri(sum(m["usc"].values())) for m in M],
+           "n": [ri(m["int"]) for m in M]}
+    nell_area = {x["c"] for x in com}
+    altri = {"i": [ri(sum(v for k, v in m["ent"].items() if k not in nell_area)) for m in M],
+             "u": [ri(sum(v for k, v in m["usc"].items() if k not in nell_area)) for m in M],
+             "n": len({k for m in M for k in list(m["ent"]) + list(m["usc"]) if k not in nell_area and k != PRO_COM_TORINO})}
+    print(f"  pendolari: {len(com)} comuni nell'area (+ Torino); da altri comuni fuori area entrano {altri['i']} (lavoro, studio), "
+          f"escono {altri['u']}; flusso interno a Torino {tor['n']}")
+    return {"tor": tor, "com": com, "altri": altri}
+
+
 # ---------------------------------------------------------------- main
 def main():
     print(f"Cartella del progetto: {RADICE}")
@@ -627,15 +759,17 @@ def main():
 
     sez, f_sez = [], RADICE / "data" / "processed" / "sezioni_torino.json"
     if f_sez.is_file():
-        sez = [{"p": x["p"], "a": x["a"], "g": x["g"]} for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]
+        sez = [{"p": x["p"], "a": x["a"], "g": x["g"], "c": x.get("c", 0)} for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]   # [agente GT05-pendolari] "c" = PRO_COM
         print(f"  sezioni di censimento abitate: {len(sez)}, abitanti {sum(x['p'] for x in sez)}")
     else:
         print("  (sezioni di censimento non trovate: lancia 05_prepara_sezioni.py per il livello Domanda)")
 
     vel, vel_meta = calcola_velocita()   # [agente GT04-velocita] None se lo storico non c'e'
+    pend = costruisci_pendolari(sez) if sez else None   # [agente GT05-pendolari] None se mancano sezioni o zip
 
     dati = {
         "vel": vel or {}, "vel_meta": vel_meta,   # [agente GT04-velocita]
+        "pend": pend,   # [agente GT05-pendolari]
         "meta": {
             "costruita_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "gtfs": meta_gtfs, "t5": meta5t, "mezzi_ts": ts_vp,

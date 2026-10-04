@@ -1,3 +1,4 @@
 - 2026-10-04 17:51 | GT01-sfondi | done | ramo GT01-sfondi | 4 file | costo listino 0.190 USD | sfondi della mappa senza OpenStreetMap (bloccato da file://) + intensita' dello sfondo
 - 2026-10-04 17:53 | GT02-temi | done | ramo GT02-temi | 4 file | costo listino 0.534 USD | temi esclusivi (un solo colore d'area alla volta) + sovrapposizioni + legenda per tema
 - 2026-10-04 22:20 | GT04-velocita | done | ramo GT04-velocita | 6 file | costo listino 0.408 USD | velocita' commerciale MISURATA dei mezzi GTT per linea e ora (dallo storico)
+- 2026-10-04 22:23 | GT05-pendolari | done | ramo GT05-pendolari | 6 file | costo listino 0.562 USD | tema Pendolari ISTAT 2021 (comune verso comune, lavoro e studio)

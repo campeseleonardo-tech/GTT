@@ -130,9 +130,18 @@
   <h2>Tema</h2>
   <div id="temi" class="temi"></div>
   <div id="temaDesc" style="font-size:12px;color:var(--muted);margin:6px 0 0"></div>
+  <!-- [agente GT05-pendolari] scelte del tema Pendolari (visibili solo con quel tema) -->
+  <div id="boxPend" style="display:none;margin:6px 0">
+    <select id="pendTipo" aria-label="Lavoro o studio" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
+      <option value="lav">Lavoro</option><option value="stu">Studio (stima)</option><option value="ent">Entrambi</option></select>
+    <select id="pendDir" aria-label="Direzione" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
+      <option value="in">Entrano a Torino</option><option value="out">Escono da Torino</option></select>
+    <select id="pendVal" aria-label="Colore delle aree" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
+      <option value="rel">Colore: ogni 1000 abitanti</option><option value="abs">Colore: numero di persone</option></select>
+  </div>
   <!-- stato interno dell'area colorata: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
   <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez">
-    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option></select></div>
+    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option></select></div>
 
   <h2>Sovrapposizioni</h2>
   <label class="lv"><input type="checkbox" id="Llinee"><span class="sw" style="background:var(--bus)"></span>Linee: corse/ora</label>
@@ -216,7 +225,7 @@ const sez = (D.sezioni||[]).map(z=>{
   let x0=1,y0=1,x1=0,y1=0;
   polys.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
   const cxn=(x0+x1)/2, cyn=(y0+y1)/2;
-  return {p:z.p, km2:z.a, polys, bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
+  return {p:z.p, c:z.c, km2:z.a, polys,bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
 });
 let sezOk=false;
 function preparaSezioni(){
@@ -248,7 +257,29 @@ function calcolaSoglieSez(){
 }
 const PAL_RAPP=["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"];
 const PAL_BASE=["#e3f1ef","#b5dcd6","#7cc0b8","#3f9a95","#1b6f73"];
-const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP};
+const PAL_PEND=["#efe9f6","#cdb9e3","#a98acd","#7d55b0","#51287f"];   // [agente GT05-pendolari]
+const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP, pend:PAL_PEND};
+
+/* [agente GT05-pendolari] pendolari ISTAT 2021 (comune contro comune): D.pend = {tor, com[], altri}; i = entrano a Torino [lavoro,studio], u = escono */
+const TORINO_PC=1272;
+const PEND=D.pend||null, pendCom=new Map();
+let pendTor=null;
+if(PEND){ for(const c of PEND.com) pendCom.set(c.c,{...c,x:px(c.lo),y:py(c.la)}); pendTor={x:px(PEND.tor.lo),y:py(PEND.tor.la)}; }
+const pendOpz=()=>({t:$("pendTipo").value, d:$("pendDir").value, v:$("pendVal").value});
+const pendFlusso=(c,o)=>{ const a=o.d==="in"?c.i:c.u; return o.t==="lav"?a[0]:o.t==="stu"?a[1]:a[0]+a[1]; };
+const pendNum=n=>Math.round(n).toLocaleString("it-IT");
+let pendCache={k:""};
+function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flussi: ricalcolati solo se cambiano le scelte
+  const o=pendOpz(), k=o.t+o.d+o.v; if(pendCache.k===k) return pendCache;
+  const val=new Map(), v=[], ass=[];
+  for(const [id,c] of pendCom){ const f=pendFlusso(c,o), x=o.v==="rel"?f/Math.max(c.p,1)*1000:f; ass.push([id,f]); val.set(id,x); if(x>0) v.push(x); }
+  v.sort((a,b)=>a-b);
+  const sogl=[.2,.4,.6,.8].map(q=>v.length?v[Math.min(v.length-1,Math.floor(q*v.length))]:0);
+  ass.sort((a,b)=>b[1]-a[1]);
+  const top=ass.slice(0,30).filter(a=>a[1]>0);
+  pendCache={k,val,sogl,top,totTop:top.reduce((s,a)=>s+a[1],0),totCom:ass.reduce((s,a)=>s+a[1],0),nCom:ass.filter(a=>a[1]>0).length};
+  return pendCache;
+}
 const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
 const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):sezRapp(z,i);
 
@@ -454,7 +485,7 @@ let baseKey="";
 function disegna(){
   sporco=false;
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
-  const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),
+  const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),$("pendTipo").value,$("pendDir").value,$("pendVal").value,
     ["Lzone","Lsez","Llinee","Lfermate"].map(vis).join(),tema.id,$("coloreLinee").value,(ST()||{}).generato].join("|");
   if(chiave!==baseKey){
     baseKey=chiave;
@@ -472,16 +503,30 @@ function disegnaBase(ws,ox,oy,i){
 
   if(vis("Lsez") && sezOk){
     const modo=$("modoSez").value, pal=PAL_SEZ[modo], dettaglio=view.zoom>=14;
+    const pc=modo==="pend"?pendCalcola():null;   // [agente GT05-pendolari]
     for(const z of sez){
       if(!dentroVista(z.bb,ws,ox,oy)) continue;
-      const nulla = modo!=="dens" && sezServ(z,i)===0;
-      const c=classeSez(valSez(z,modo,i),modo);
+      // [agente GT05-pendolari] tema Pendolari: colore = valore del comune della sezione; grigio = Torino o nessun flusso
+      const vp=pc?(pc.val.get(z.c)||0):0;
+      const nulla = pc ? (z.c===TORINO_PC || !vp) : modo!=="dens" && sezServ(z,i)===0;
+      const c=pc ? (pc.sogl?pc.sogl.filter(x=>vp>x).length:0) : classeSez(valSez(z,modo,i),modo);
       // [agente GT02-temi] riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
       cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:.5;
       for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.fill(); }
       cx.globalAlpha=1;
       if(dettaglio){ cx.strokeStyle="rgba(40,50,70,.25)"; cx.lineWidth=.4; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
     }
+  }
+  if(tema.id==="pendolari" && PEND && pendTor){   // [agente GT05-pendolari] linee dritte dal baricentro di ogni comune a Torino, spessore proporzionale al flusso
+    const pc=pendCalcola(), o=pendOpz(), vmax=pc.top.length?pc.top[0][1]:1, X1=pendTor.x*ws-ox, Y1=pendTor.y*ws-oy;
+    cx.lineCap="round"; cx.strokeStyle=o.d==="in"?"#51287f":"#d9622b"; cx.fillStyle=cx.strokeStyle; cx.globalAlpha=.7;
+    for(const [id,f] of pc.top){
+      const c=pendCom.get(id), X=c.x*ws-ox, Y=c.y*ws-oy;
+      if(Math.max(X,X1)<0||Math.min(X,X1)>W||Math.max(Y,Y1)<0||Math.min(Y,Y1)>H) continue;
+      cx.lineWidth=Math.max(1,16*f/vmax); cx.beginPath(); cx.moveTo(X,Y); cx.lineTo(X1,Y1); cx.stroke();
+      cx.beginPath(); cx.arc(X,Y,3,0,6.2832); cx.fill();
+    }
+    cx.globalAlpha=1; cx.beginPath(); cx.arc(X1,Y1,6,0,6.2832); cx.fillStyle="#fff"; cx.fill(); cx.lineWidth=2.5; cx.strokeStyle="#1d2330"; cx.stroke();
   }
   if(vis("Lzone")){
     for(const z of zone){
@@ -663,6 +708,17 @@ function dentroZona(z,ux,uy){
     if(n%2===1) return true; }
   return false;
 }
+/* [agente GT05-pendolari] scheda di un comune: nome non disponibile (nessuna tabella dei nomi nel progetto) -> codice PRO_COM */
+function pendTip(c){
+  const cod=String(c).padStart(6,"0"), tor=c===TORINO_PC, d=tor?PEND.tor:pendCom.get(c);
+  const nome=tor?"Torino":"Comune "+cod;
+  if(!d) return `<b>${nome}</b> (codice ${cod})<br>Nessun dato di pendolarismo per questo comune.`;
+  const riga=(a)=>`lavoro <b>${pendNum(a[0])}</b> · studio (stima) <b>${pendNum(a[1])}</b>`;
+  let h=`<b>${nome}</b>${tor?"":" (codice "+cod+")"} ${TAG.cens}<br>Residenti nelle sezioni della mappa: <b>${pendNum(d.p)}</b><br>`;
+  h+=tor?`Entrano da altri comuni: ${riga(d.i)}<br>Escono verso altri comuni: ${riga(d.u)}<br>Dentro Torino: ${riga(d.n)}`
+        :`Entrano a Torino: ${riga(d.i)}<br>Escono da Torino: ${riga(d.u)}`;
+  return h+`<br><span style="color:#5d6678">ISTAT 2021, comune→comune</span>`;
+}
 function cercaTip(sx,sy){
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx(), hh=pad(S.h);
   const vicino=(arr,r,fn)=>{ let best=null,bd=r*r; for(const o of arr){ const dx=o.x*ws-ox-sx, dy=o.y*ws-oy-sy, d=dx*dx+dy*dy; if(d<bd&&(!fn||fn(o))){bd=d;best=o;} } return best; };
@@ -677,6 +733,9 @@ function cercaTip(sx,sy){
   if(vis("Lfermate") && view.zoom>=14){ const s=vicino(fermate,8,o=>o.d[i]>0||view.zoom>=15);
     if(s){ const tot=s.d.slice(S.dt*24,S.dt*24+24).reduce((a,b)=>a+b,0);
       return mostraTip(`<b>${esc(s.n)}</b> · fermata ${esc(s.id)}<br>Linee: ${esc(s.r||"—")}<br>Passaggi alle ${hh}: <b>${s.d[i]}</b><br>Nella giornata (${GIORNI[S.dt].toLowerCase()}): ${tot}`,sx,sy); } }
+  if(tema.id==="pendolari" && PEND && vis("Lsez") && sezOk){ const ux=(ox+sx)/ws, uy=(oy+sy)/ws;   // [agente GT05-pendolari]
+    for(const z of sez){ if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
+      if(dentroZona({polys:[z.polys]},ux,uy)) return mostraTip(pendTip(z.c),sx,sy); } }
   if(vis("Lsez") && sezOk){ const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
     for(const z of sez){ if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
       if(dentroZona({polys:[z.polys]},ux,uy)){
@@ -761,6 +820,20 @@ function legendaSezioni(modo){
   return `<div class="t">${nome} ${tag}</div>`+scalaHtml(PAL_SEZ[modo],[modo==="rapp"?"poca offerta":"meno",fnum(so[1]),fnum(so[3]),modo==="rapp"?"molta":"più"])
     +(modo==="dens"?"":'<div class="puntini"><span><i style="background:#9aa0ad"></i>nessun passaggio GTT programmato</span></div>');
 }
+/* [agente GT05-pendolari] legenda del tema Pendolari */
+function legendaPendolari(){
+  if(!PEND) return `<div class="t">Pendolari ${TAG.cens}</div><div class="et" style="display:block">Dati non presenti: servono docs/matrix_pendoLAVORO_2021.zip e docs/matrix_pendoSTUDIO_2021.zip e le sezioni di censimento; poi rilancia 04_genera_mappa.py.</div>`;
+  const o=pendOpz(), pc=pendCalcola(), so=pc.sogl, ent=o.d==="in";
+  const tipo={lav:"lavoro",stu:"studio (stima)",ent:"lavoro + studio"}[o.t];
+  const interno=o.t==="lav"?PEND.tor.n[0]:o.t==="stu"?PEND.tor.n[1]:PEND.tor.n[0]+PEND.tor.n[1];
+  const fuori=pendFlusso({i:PEND.altri.i,u:PEND.altri.u},o);
+  const unita=o.v==="rel"?"persone ogni 1000 abitanti":"persone";
+  return `<div class="t">Pendolari ${ent?"verso Torino":"da Torino"}: ${tipo}, ${unita} ${TAG.cens}</div>`
+    +scalaHtml(PAL_PEND,["meno",fnum(so[1]),fnum(so[3]),"più"])
+    +`<div class="puntini"><span><i style="background:#cfd3da"></i>Torino o nessun flusso</span><span><i style="background:${ent?"#51287f":"#d9622b"}"></i>linee: i 30 comuni con più pendolari (spessore = flusso)</span></div>`
+    +`<div class="et" style="display:block">Linee dei primi 30 comuni: ${pendNum(pc.totTop)} persone.<br>Altri ${Math.max(0,pc.nCom-pc.top.length)} comuni dell'area (senza linea): ${pendNum(pc.totCom-pc.totTop)}.<br>Comuni fuori dall'area della mappa (${PEND.altri.n}): ${pendNum(fuori)}.<br>Dentro Torino (Torino→Torino, nessuna linea): <b>${pendNum(interno)}</b>.</div>`
+    +`<div class="et" style="display:block">ISTAT 2021, comune→comune, senza mezzo né orario; studio = stima. Passa il mouse (o tocca) su un comune per i dettagli.</div>`;
+}
 const legendaZone = () => `<div class="t">Zone statistiche: passaggi/ora per km² ${TAG.prog}</div>`+scalaHtml(PAL,["meno",fnum(SOGLIE[1]),fnum(SOGLIE[3]),"più"]);
 
 /* ====== TABELLA DEI TEMI: per aggiungere un tema basta una riga qui ======
@@ -788,7 +861,10 @@ const THEMES = [
    area:null, over:{...NESSUNA,Lmezzi:1,Lcorse:1}, segnalazioni:true, legenda:()=>""},
   // [agente GT04-velocita] linee colorate con la velocità commerciale misurata (giorno e ora scelti in alto)
   {id:"velocita", label:"Velocità", desc:"Velocità commerciale misurata dei mezzi GTT per linea, giorno tipo e ora (fermate incluse). Passa il mouse (o tocca) una linea per i dettagli.",
-   area:null, over:{...NESSUNA,Llinee:1}, legenda:legendaVelocita}
+   area:null, over:{...NESSUNA,Llinee:1}, legenda:legendaVelocita},
+  // [agente GT05-pendolari] pendolari ISTAT 2021 da/verso Torino, per comune
+  {id:"pendolari", label:"Pendolari", desc:"Quante persone si spostano ogni giorno tra ogni comune e Torino per lavoro o studio (ISTAT 2021, comune→comune: niente mezzo né orario).",
+   area:{tipo:"sez",modo:"pend"}, over:{...NESSUNA}, pendolari:true, legenda:legendaPendolari}
 ];
 let tema = THEMES.find(t=>t.id==="offerta");   // tema di partenza
 
@@ -802,8 +878,10 @@ function applicaTema(id){
   document.querySelectorAll("#temi button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.id===tema.id));
   $("temaDesc").textContent=tema.desc;
   $("boxSegn").style.display = tema.segnalazioni ? "block" : "none";
+  $("boxPend").style.display = tema.pendolari ? "block" : "none";   // [agente GT05-pendolari]
   baseVer++; chiede(); aggiornaLegenda();
 }
+["pendTipo","pendDir","pendVal"].forEach(id=>$(id).onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); });   // [agente GT05-pendolari]
 $("temi").innerHTML = THEMES.map(t=>`<button data-id="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("");
 document.querySelectorAll("#temi button").forEach(b=>b.onclick=()=>applicaTema(b.dataset.id));
 
