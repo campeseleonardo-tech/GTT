@@ -47,6 +47,15 @@
   #legenda .et{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-bottom:6px}
   .puntini{display:flex;gap:10px;flex-wrap:wrap;margin:2px 0 6px}
   .puntini i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px;border:1px solid rgba(0,0,0,.25)}
+  /* [agente GT02-temi] pulsanti dei temi e etichette di origine del dato */
+  .temi{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .temi button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 6px;font:inherit;font-weight:600;cursor:pointer;color:var(--ink)}
+  .temi button:hover{background:#f0f3f7}
+  .temi button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .tag{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.04em;padding:0 5px;border-radius:4px;margin-left:5px;vertical-align:1px;color:#fff}
+  .tag.misurato{background:#2e7d4f}.tag.programmato{background:#3b6ea8}.tag.stimato{background:#b86a12}.tag.censimento{background:#6a4f93}
+  .tag.scarso{background:#fff3e0;color:#b25e00;border:1px solid #e8b878}
+  #legenda .blocco+.blocco{border-top:1px solid var(--line);margin-top:6px;padding-top:6px}
   #tip{position:fixed;pointer-events:none;display:none;max-width:280px;padding:8px 10px;font-size:12.5px;z-index:5}
   #zoom{position:fixed;right:12px;top:12px;display:flex;flex-direction:column;overflow:hidden}
   #zoom button{width:36px;height:36px;border:0;background:#fff;font-size:20px;cursor:pointer;color:var(--ink)}
@@ -117,27 +126,30 @@
     <option value="ratio">Linee: mezzi reali rispetto al previsto</option>
   </select>
 
-  <h2>Livelli</h2>
-  <label class="lv"><input type="checkbox" id="Lcorse" checked><span class="sw" style="background:#fff;border-radius:50%;border:3px solid #3b6ea8"></span>Corse simulate in movimento (posizione stimata)</label>
-  <label class="lv"><input type="checkbox" id="Lzone"><span class="sw" style="background:#7cc0b8"></span>Zone: passaggi/ora per km²</label>
-  <label class="lv" id="rigaSez"><input type="checkbox" id="Lsez" checked><span class="sw" style="background:linear-gradient(90deg,#c8102e,#f2c14e,#4c9f70)"></span>Sezioni di censimento (residenti)</label>
-  <select id="modoSez" aria-label="Cosa colorare nelle sezioni" style="margin:2px 0 6px 26px;max-width:240px">
-    <option value="rapp">Poca offerta per abitante</option>
-    <option value="serv">Passaggi/ora entro 400 m</option>
-    <option value="dens">Abitanti per km²</option>
-  </select>
-  <label class="lv"><input type="checkbox" id="Llinee" checked><span class="sw" style="background:var(--bus)"></span>Linee: corse/ora</label>
-  <label class="lv"><input type="checkbox" id="Lfermate" checked><span class="sw" style="background:#465060;border-radius:50%"></span>Fermate: passaggi/ora (da zoom 14)</label>
-  <label class="lv"><input type="checkbox" id="Lsensori" checked><span class="sw" style="background:#f2c14e;border-radius:50%"></span>Traffico 5T (ultimi 5 minuti)</label>
-  <label class="lv"><input type="checkbox" id="Lmezzi" checked><span class="sw" style="background:#222;border-radius:50%"></span>Mezzi GTT (ultima posizione)</label>
+  <!-- [agente GT02-temi] un solo tema alla volta (colora l'area) + sovrapposizioni -->
+  <h2>Tema</h2>
+  <div id="temi" class="temi"></div>
+  <div id="temaDesc" style="font-size:12px;color:var(--muted);margin:6px 0 0"></div>
+  <!-- stato interno dell'area colorata: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
+  <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez">
+    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option></select></div>
+
+  <h2>Sovrapposizioni</h2>
+  <label class="lv"><input type="checkbox" id="Llinee"><span class="sw" style="background:var(--bus)"></span>Linee: corse/ora</label>
+  <label class="lv"><input type="checkbox" id="Lfermate"><span class="sw" style="background:#465060;border-radius:50%"></span>Fermate: passaggi/ora (da zoom 14)</label>
+  <label class="lv"><input type="checkbox" id="Lcorse"><span class="sw" style="background:#fff;border-radius:50%;border:3px solid #3b6ea8"></span>Corse simulate in movimento (posizione stimata)</label>
+  <label class="lv"><input type="checkbox" id="Lmezzi"><span class="sw" style="background:#222;border-radius:50%"></span>Mezzi reali GTT (ultima posizione)</label>
+  <label class="lv"><input type="checkbox" id="Lsensori"><span class="sw" style="background:#f2c14e;border-radius:50%"></span>Sensori traffico 5T (ultimi 5 minuti)</label>
+  <label class="lv"><input type="checkbox" id="Lreplay"><span class="sw" style="background:#111;border-radius:50%"></span>Replay: mezzi reali registrati</label>
+  <select id="repGiorno" aria-label="Giornata registrata" style="margin:2px 0 4px 26px;max-width:240px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff"><option value="">(nessuna giornata)</option></select>
 
   <h2>Dati raccolti</h2>
   <div class="stato" id="statoLive"></div>
-  <label class="lv" style="margin-top:6px"><input type="checkbox" id="Lreplay"><span class="sw" style="background:#111;border-radius:50%"></span>Replay: mezzi reali registrati</label>
-  <select id="repGiorno" aria-label="Giornata registrata" style="margin:2px 0 4px 26px;max-width:240px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff"><option value="">(nessuna giornata)</option></select>
 
+  <div id="boxSegn">
   <h2>Segnalazioni adesso</h2>
   <div id="segn" style="font-size:12.5px;color:var(--muted)">—</div>
+  </div>
 
   <details>
     <summary>Cosa stai guardando e limiti</summary>
@@ -277,7 +289,7 @@ function applicaLive(){
   inLive=true;
   if(L.mezzi && L.mezzi.length){ mezzi=L.mezzi.map(m=>({...m,x:px(m.lo),y:py(m.la)})); mezziTs=Date.parse(L.mezzi_letto)||mezziTs; }
   if(L.t5){ for(const s of sensori){ const e=L.t5[s.id]; if(e){ s.fl=e.fl; s.v=e.v; s.vm=e.vm; s.fm=e.fm; } } if(L.t5_gen) t5Fine=Date.parse(L.t5_gen)||t5Fine; }
-  sicuro(stato); sicuro(statoLive); sicuro(segnalazioni); chiede();
+  sicuro(stato); sicuro(statoLive); sicuro(segnalazioni); sicuro(aggiornaLegenda); chiede(); // [agente GT02-temi] la legenda dipende dai dati live
 }
 function ricarica(nome,dopo){
   const s=document.createElement("script"); s.src="data/"+nome+"?t="+Date.now();
@@ -443,7 +455,7 @@ function disegna(){
   sporco=false;
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
   const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),
-    ["Lzone","Lsez","Llinee","Lfermate"].map(vis).join(),$("coloreLinee").value,(ST()||{}).generato].join("|");
+    ["Lzone","Lsez","Llinee","Lfermate"].map(vis).join(),tema.id,$("coloreLinee").value,(ST()||{}).generato].join("|");
   if(chiave!==baseKey){
     baseKey=chiave;
     if(bcv.width!==cv.width||bcv.height!==cv.height){ bcv.width=cv.width; bcv.height=cv.height; }
@@ -464,10 +476,11 @@ function disegnaBase(ws,ox,oy,i){
       if(!dentroVista(z.bb,ws,ox,oy)) continue;
       const nulla = modo!=="dens" && sezServ(z,i)===0;
       const c=classeSez(valSez(z,modo,i),modo);
-      cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.42:.66;
+      // [agente GT02-temi] riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
+      cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:.5;
       for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.fill(); }
       cx.globalAlpha=1;
-      if(dettaglio){ cx.strokeStyle="rgba(40,50,70,.25)"; cx.lineWidth=.5; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
+      if(dettaglio){ cx.strokeStyle="rgba(40,50,70,.25)"; cx.lineWidth=.4; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
     }
   }
   if(vis("Lzone")){
@@ -476,9 +489,9 @@ function disegnaBase(ws,ox,oy,i){
       const c=classe(z.dens[i]);
       for(const poly of z.polys){
         tracciaAnelli(poly,ws,ox,oy);
-        cx.fillStyle = c<0 ? "rgba(120,125,135,.10)" : PAL[c]; cx.globalAlpha = c<0 ? 1 : .62;
+        cx.fillStyle = c<0 ? "rgba(120,125,135,.10)" : PAL[c]; cx.globalAlpha = c<0 ? 1 : .5; // [agente GT02-temi] semitrasparente, contorno sottile
         cx.fill("evenodd"); cx.globalAlpha=1;
-        cx.strokeStyle="rgba(40,50,70,.35)"; cx.lineWidth=.8; cx.stroke();
+        cx.strokeStyle="rgba(40,50,70,.35)"; cx.lineWidth=.5; cx.stroke();
       }
     }
   }
@@ -488,7 +501,7 @@ function disegnaBase(ws,ox,oy,i){
     for(const l of linee){
       if(fl && l.nome!==fl) continue;
       const f=(D.rotte[l.id]||{f:[]}).f[i]||0; if(!f||!dentroVista(l.bb,ws,ox,oy)) continue;
-      cx.strokeStyle=ratio?ratioCol(rl&&rl[l.id]?rl[l.id].r:null):tipoCol(l.t); cx.globalAlpha=ratio?.9:.8; cx.lineWidth=Math.min(6,1+Math.sqrt(f)*0.55);
+      cx.strokeStyle=ratio?ratioCol(rl&&rl[l.id]?rl[l.id].r:null):tipoCol(l.t); cx.globalAlpha=ratio?.9:.8; cx.lineWidth=Math.min(6,1+Math.sqrt(f)*0.55)*(tema.lineeSottili?0.5:1); /* [agente GT02-temi] linee sottili in alcuni temi */
       cx.beginPath(); const a=l.pts;
       for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y);}
       cx.stroke();
@@ -526,7 +539,8 @@ function disegnaSopra(ws,ox,oy,i){
   if(vis("Lsensori")){
     for(const s of sensori){
       const X=s.x*ws-ox, Y=s.y*ws-oy; if(X<-12||Y<-12||X>W+12||Y>H+12) continue;
-      const r=Math.min(11,5+Math.sqrt(s.fl||0)*.35); cx.beginPath(); cx.arc(X,Y,r,0,6.2832);
+      const r=Math.min(11,5+Math.sqrt(s.fl||0)*.35)*(tema.sensoriGrandi?1.5:1); cx.beginPath(); // [agente GT02-temi] marcatori piu' grandi nel tema Traffico
+ cx.arc(X,Y,r,0,6.2832);
       if(s.acc===0){ cx.fillStyle="rgba(255,255,255,.85)"; cx.fill(); cx.strokeStyle="#8a8f98"; cx.lineWidth=1.5; cx.setLineDash([2,2]); cx.stroke(); cx.setLineDash([]); }
       else { cx.fillStyle=velCol(s); cx.fill(); cx.strokeStyle="#1d2330"; cx.lineWidth=1.2; cx.stroke(); }
       const pl=piuLento(s); if(pl&&pl.r<0.7){ cx.beginPath(); cx.arc(X,Y,r+4,0,6.2832); cx.strokeStyle="#c8102e"; cx.lineWidth=2.4; cx.stroke(); }
@@ -652,8 +666,8 @@ function adesso(){
   document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.k===S.dt)); aggiornaOra(); aggiornaLegenda();
 }
 $("adesso").onclick=adesso;
-["Lzone","Lsez","Lcorse","Llinee","Lfermate","Lsensori","Lmezzi"].forEach(id=>$(id).onchange=()=>{chiede();aggiornaLegenda();});
-$("modoSez").onchange=()=>{baseVer++;chiede();aggiornaLegenda();};
+// [agente GT02-temi] le sovrapposizioni si cambiano a mano; l'area colorata la decide solo il tema
+["Lcorse","Llinee","Lfermate","Lsensori","Lmezzi"].forEach(id=>$(id).onchange=()=>{chiede();aggiornaLegenda();});
 $("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; tileOk=0; aggiornaAvvisoSfondo(); creditiSfondo(); baseVer++; chiede(); }; // [agente GT01-sfondi]
 $("intSfondo").oninput=e=>{ intSfondo=e.target.value/100; $("intSfondoVal").textContent=e.target.value+"%"; baseVer++; chiede(); }; // [agente GT01-sfondi]
 $("filtroLinea").oninput=()=>{ baseVer++; chiede(); };
@@ -677,27 +691,89 @@ function anima(ts){
 $("chiudi").onclick=()=>{ $("pannello").style.display="none"; $("apri").style.display="block"; };
 $("apri").onclick=()=>{ $("pannello").style.display="block"; $("apri").style.display="none"; };
 
+/* [agente GT02-temi] etichette di origine del dato: MISURATO / PROGRAMMATO / STIMATO / CENSIMENTO + "dati scarsi" (storico < 72 h, come in statoLive) */
+const TAG = {
+  mis:'<span class="tag misurato">MISURATO</span>', prog:'<span class="tag programmato">PROGRAMMATO</span>',
+  sim:'<span class="tag stimato">STIMATO/SIMULATO</span>', cens:'<span class="tag censimento">CENSIMENTO</span>'
+};
+const TAG_SCARSO='<span class="tag scarso">dati scarsi</span>';
+const storicoScarso = () => { const T=ST(); return !T || Math.max(T.ore_mezzi||0,T.ore_t5||0)<72; };
+const fnum = v => v>=100?Math.round(v):v.toFixed(1);
+const scalaHtml = (pal,et) => `<div class="sc">${pal.map(c=>`<span style="background:${c}"></span>`).join("")}</div><div class="et">${et.map(x=>`<span>${x}</span>`).join("")}</div>`;
+
+/* legenda dell'area colorata di una sezione di censimento (modo = rapp / serv / dens) */
+function legendaSezioni(modo){
+  if(!sezOk) return "";
+  const so=sezSoglie[modo]||[0,0,0,0];
+  const nome={rapp:"Passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²"}[modo];
+  const tag = modo==="dens"?TAG.cens : modo==="serv"?TAG.prog : TAG.prog+TAG.cens;
+  return `<div class="t">${nome} ${tag}</div>`+scalaHtml(PAL_SEZ[modo],[modo==="rapp"?"poca offerta":"meno",fnum(so[1]),fnum(so[3]),modo==="rapp"?"molta":"più"])
+    +(modo==="dens"?"":'<div class="puntini"><span><i style="background:#9aa0ad"></i>nessun passaggio GTT programmato</span></div>');
+}
+const legendaZone = () => `<div class="t">Zone statistiche: passaggi/ora per km² ${TAG.prog}</div>`+scalaHtml(PAL,["meno",fnum(SOGLIE[1]),fnum(SOGLIE[3]),"più"]);
+
+/* ====== TABELLA DEI TEMI: per aggiungere un tema basta una riga qui ======
+   id, etichetta, descrizione,
+   area: null (nessuna colorazione) | {tipo:"sez", modo:"rapp|serv|dens"} | {tipo:"zone"},
+   over: preset delle sovrapposizioni (id della casella -> acceso/spento),
+   legenda: funzione che dà l'HTML della legenda del tema (o "" se basta quella delle sovrapposizioni),
+   opzioni di disegno facoltative: lineeSottili, sensoriGrandi, segnalazioni (mostra il riquadro «Segnalazioni adesso») */
+const NESSUNA = {Llinee:0,Lfermate:0,Lcorse:0,Lmezzi:0,Lsensori:0,Lreplay:0};
+const THEMES = [
+  {id:"nessuno", label:"Nessuno", desc:"Solo lo sfondo: accendi tu le sovrapposizioni che vuoi.",
+   area:null, over:{...NESSUNA}, legenda:()=>""},
+  {id:"offerta", label:"Offerta", desc:"Quanto servizio GTT passa vicino a ogni sezione di censimento (entro 400 m), secondo gli orari.",
+   area:{tipo:"sez",modo:"serv"}, over:{...NESSUNA,Llinee:1,Lfermate:1}, legenda:()=>legendaSezioni("serv")},
+  {id:"domanda", label:"Domanda", desc:"Dove abitano le persone (residenti ISTAT 2021, popolazione «di notte»).",
+   area:{tipo:"sez",modo:"dens"}, over:{...NESSUNA}, legenda:()=>legendaSezioni("dens")},
+  {id:"rapporto", label:"Poca offerta per abitante", desc:"Passaggi programmati ogni 1000 abitanti entro 400 m: il rosso indica poca offerta rispetto ai residenti.",
+   area:{tipo:"sez",modo:"rapp"}, over:{...NESSUNA,Llinee:1}, lineeSottili:true, legenda:()=>legendaSezioni("rapp")},
+  {id:"zone", label:"Zone statistiche", desc:"Le 94 zone statistiche di Torino al posto delle sezioni: passaggi/ora per km².",
+   area:{tipo:"zone"}, over:{...NESSUNA}, legenda:legendaZone},
+  {id:"traffico", label:"Traffico", desc:"Sensori 5T: velocità media degli ultimi 5 minuti.",
+   area:null, over:{...NESSUNA,Lsensori:1}, sensoriGrandi:true, segnalazioni:true,
+   legenda:()=> inLive ? "" : '<div class="t" style="color:#b25e00">Nessun dato live: riavvia la raccolta.</div><div class="et" style="display:block">Si vede l\'ultimo traffico salvato nella pagina, non quello attuale.</div>'},
+  {id:"tempo", label:"Tempo reale", desc:"Mezzi GTT localizzati adesso e corse simulate dagli orari (queste sono una stima, non posizioni reali).",
+   area:null, over:{...NESSUNA,Lmezzi:1,Lcorse:1}, segnalazioni:true, legenda:()=>""}
+];
+let tema = THEMES.find(t=>t.id==="offerta");   // tema di partenza
+
+/* cambia tema: imposta area colorata e sovrapposizioni; non ricostruisce dati, cambia solo cosa si disegna */
+function applicaTema(id){
+  tema = THEMES.find(t=>t.id===id) || THEMES[0];
+  const a=tema.area;
+  $("Lsez").checked = !!(a && a.tipo==="sez"); $("Lzone").checked = !!(a && a.tipo==="zone");   // mai due colorazioni insieme
+  if(a && a.tipo==="sez") $("modoSez").value=a.modo;
+  for(const k in tema.over) $(k).checked = !!tema.over[k];
+  document.querySelectorAll("#temi button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.id===tema.id));
+  $("temaDesc").textContent=tema.desc;
+  $("boxSegn").style.display = tema.segnalazioni ? "block" : "none";
+  baseVer++; chiede(); aggiornaLegenda();
+}
+$("temi").innerHTML = THEMES.map(t=>`<button data-id="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("");
+document.querySelectorAll("#temi button").forEach(b=>b.onclick=()=>applicaTema(b.dataset.id));
+
+/* legenda: solo il tema attivo + le sovrapposizioni accese */
 const leg=$("legenda");
 function aggiornaLegenda(){
-  const p=[];
-  if(vis("Lsez") && sezOk){
-    const modo=$("modoSez").value, pal=PAL_SEZ[modo], so=sezSoglie[modo]||[0,0,0,0], f=v=>v>=100?Math.round(v):v.toFixed(1);
-    const nome={rapp:"Passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²"}[modo];
-    p.push(`<div class="t">Sezioni: ${nome}</div><div class="sc">${pal.map(c=>`<span style="background:${c}"></span>`).join("")}</div><div class="et"><span>${modo==="rapp"?"poca offerta":"meno"}</span><span>${f(so[1])}</span><span>${f(so[3])}</span><span>${modo==="rapp"?"molta":"più"}</span></div>${modo==="dens"?"":'<div class="puntini"><span><i style="background:#9aa0ad"></i>nessun passaggio GTT programmato</span></div>'}`); }
-  if(vis("Lzone")){
-    const f=v=>v>=100?Math.round(v):v.toFixed(1);
-    p.push(`<div class="t">Zone: passaggi/ora per km²</div><div class="sc">${PAL.map(c=>`<span style="background:${c}"></span>`).join("")}</div><div class="et"><span>meno</span><span>${f(SOGLIE[1])}</span><span>${f(SOGLIE[3])}</span><span>più</span></div>`); }
-  if(vis("Llinee") && $("coloreLinee").value==="ratio"){
-    const T=ST(); const rl=T?ratiLinee(idx()):null;
-    p.push(`<div class="t">Linee: mezzi reali rispetto al previsto</div><div class="puntini"><span><i style="background:#4c9f70"></i>nella norma</span><span><i style="background:#e8833a"></i>meno</span><span><i style="background:#c8102e"></i>molto meno</span><span><i style="background:#9aa0ad"></i>senza dati</span></div><div class="et" style="display:block">${rl?"Rapporto medio localizzati/previsti: "+rl._g.toFixed(2)+" · ore di dati per quest'ora: "+((T.copertura||{})[idx()]||0):"Nessun dato raccolto."}</div>`);
-  } else if(vis("Llinee")) p.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
-  if(vis("Lreplay")) p.push(`<div class="t">Replay: mezzi reali registrati</div><div class="puntini"><span><i style="background:#111"></i>posizione reale registrata${REP?" ("+REP.g+")":""}</span></div>`);
-  if(vis("Lsensori")) p.push(`<div class="t">Traffico 5T (velocità media)</div><div class="puntini"><span><i style="background:#c8102e"></i>&lt;15</span><span><i style="background:#e8833a"></i>15–30</span><span><i style="background:#f2c14e"></i>30–45</span><span><i style="background:#4c9f70"></i>&gt;45 km/h</span><span><i style="background:#c9ced6"></i>nessun veicolo</span><span><i style="background:#fff;border:1.5px dashed #8a8f98"></i>dato assente</span><span><i style="background:#fff;border:2px solid #c8102e"></i>più lento del solito</span></div>`);
-  leg.innerHTML=p.join(""); leg.style.display=p.length?"block":"none";
+  const blocchi=[], t=tema.legenda();
+  if(t) blocchi.push(t);
+  if(vis("Llinee")){
+    if($("coloreLinee").value==="ratio"){
+      const T=ST(); const rl=T?ratiLinee(idx()):null;
+      blocchi.push(`<div class="t">Linee: mezzi reali rispetto al previsto ${TAG.mis}${TAG.prog}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#4c9f70"></i>nella norma</span><span><i style="background:#e8833a"></i>meno</span><span><i style="background:#c8102e"></i>molto meno</span><span><i style="background:#9aa0ad"></i>senza dati</span></div><div class="et" style="display:block">${rl?"Rapporto medio localizzati/previsti: "+rl._g.toFixed(2)+" · ore di dati per quest'ora: "+((T.copertura||{})[idx()]||0):"Nessun dato raccolto."}</div>`);
+    } else blocchi.push(`<div class="t">Linee (spessore = corse/ora) ${TAG.prog}</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
+  }
+  if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14) ${TAG.prog}</div><div class="puntini"><span><i style="background:rgba(70,80,95,.7)"></i>grandezza = passaggi/ora</span></div>`);
+  if(vis("Lcorse")) blocchi.push(`<div class="t">Corse simulate ${TAG.sim}</div><div class="puntini"><span><i style="background:${COL.bus}"></i>posizione stimata dagli orari, non reale</span></div>`);
+  if(vis("Lmezzi")) blocchi.push(`<div class="t">Mezzi GTT reali ${TAG.mis}</div><div class="puntini"><span><i style="background:#222"></i>ultima posizione localizzata (colore = tipo di linea)</span></div>`);
+  if(vis("Lreplay")) blocchi.push(`<div class="t">Replay: mezzi reali registrati ${TAG.mis}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#111"></i>posizione reale registrata${REP?" ("+REP.g+")":""}</span></div>`);
+  if(vis("Lsensori")) blocchi.push(`<div class="t">Traffico 5T (velocità media) ${TAG.mis}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#c8102e"></i>&lt;15</span><span><i style="background:#e8833a"></i>15–30</span><span><i style="background:#f2c14e"></i>30–45</span><span><i style="background:#4c9f70"></i>&gt;45 km/h</span><span><i style="background:#c9ced6"></i>nessun veicolo</span><span><i style="background:#fff;border:1.5px dashed #8a8f98"></i>dato assente</span><span><i style="background:#fff;border:2px solid #c8102e"></i>più lento del solito</span></div>`);
+  leg.innerHTML=blocchi.map(b=>`<div class="blocco">${b}</div>`).join(""); leg.style.display=blocchi.length?"block":"none";
 }
 
 /* ---------- avvio ---------- */
-creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(stato); sicuro(adesso); sicuro(aggiornaLegenda); setInterval(()=>sicuro(stato),60000);
+creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(stato); sicuro(adesso); sicuro(()=>applicaTema("offerta")); setInterval(()=>sicuro(stato),60000);
 sicuro(applicaLive); sicuro(statoLive); sicuro(segnalazioni);
 setInterval(()=>ricarica("live.js",applicaLive),30000);
 setInterval(()=>ricarica("stat.js",()=>{ sicuro(statoLive); sicuro(segnalazioni); baseVer++; chiede(); }),300000);
