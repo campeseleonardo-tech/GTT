@@ -12,6 +12,7 @@ Leggo GTFS (qualche secondo)...
   sensori 5T: 112, mezzi GTT: 110
   zone: 94; fermate fuori da ogni zona (altri comuni): 4731
   sezioni di censimento abitate: 8317, abitanti 1557493
+  velocita': 81 linee con dati, 1250 celle linea/tipo/ora, 20.6 ore di storico (213827 righe lette, 2064 salti GPS scartati)
 
 Mappa creata: C:\Users\campe\Desktop\GTT\mappa_torino.html  (6.1 MB)
 Aprila con doppio clic (serve internet solo per le mattonelle della cartina).

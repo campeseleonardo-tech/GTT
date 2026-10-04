@@ -486,6 +486,126 @@ def assegna_zone(zone, stops):
     return fuori
 
 
+# ---------------------------------------------------------------- velocita' commerciale misurata
+# [agente GT04-velocita] Ora legale italiana (copiata da 06_dati_live.py, che non si importa ne' si modifica)
+def _ultima_domenica(anno, mese):
+    d = date(anno, mese, 31)
+    while d.weekday() != 6:
+        d -= timedelta(days=1)
+    return d
+
+
+def _locale(dt_utc):
+    a = dt_utc.year
+    inizio = datetime(a, 3, _ultima_domenica(a, 3).day, 1, tzinfo=timezone.utc)
+    fine = datetime(a, 10, _ultima_domenica(a, 10).day, 1, tzinfo=timezone.utc)
+    return dt_utc + timedelta(hours=2 if inizio <= dt_utc < fine else 1)
+
+
+VEL_GIORNI = 28        # quanti giorni di storico si leggono
+VEL_DT_MIN, VEL_DT_MAX = 20, 180   # secondi tra due posizioni consecutive
+VEL_MAX_KMH = 90       # oltre: errore GPS, si scarta
+VEL_FERMO_M = 20       # spostamento sotto cui il mezzo conta come fermo
+VEL_SOSTA_MAX_S = 300  # fermo piu' di 5 minuti di fila = capolinea, si scarta
+
+
+def _haversine_m(la1, lo1, la2, lo2):
+    p1, p2 = math.radians(la1), math.radians(la2)
+    a = math.sin((p2 - p1) / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(math.radians(lo2 - lo1) / 2) ** 2
+    return 12742000 * math.asin(math.sqrt(a))
+
+
+def calcola_velocita():
+    """Velocita' commerciale (fermate incluse) per linea x tipo di giorno x ora, dallo storico dei mezzi. Sola lettura.
+    Ritorna (vel, meta) oppure (None, None) se il database manca o e' bloccato."""
+    import sqlite3
+    db = RADICE / "data" / "storico.sqlite"
+    if not db.is_file():
+        print("  (velocita': storico.sqlite non trovato, livello Velocita' saltato)")
+        return None, None
+    somme = {}   # (linea, tipo, ora) -> [metri, secondi, campioni, {giorni}]
+    primo = ultimo = None
+    righe = scartati = 0
+    try:
+        con = sqlite3.connect(f"file:{db}?mode=ro", uri=True, timeout=30)
+        try:
+            da = (datetime.now(timezone.utc) - timedelta(days=VEL_GIORNI)).isoformat(timespec="seconds")
+            cur = con.execute("SELECT veicolo, linea, ts_feed, lat, lng FROM mezzi_gtt "
+                              "WHERE letto_utc >= ? ORDER BY veicolo, ts_feed", (da,))
+            veic = linea = None
+            base = None          # (ts, lat, lng) ultima posizione di riferimento
+            pend = []            # tratti fermi non ancora decisi: (chiave, secondi)
+
+            def chiudi_sosta():
+                # il fermo si tiene solo se breve (fermata); lungo = capolinea
+                if pend and sum(p[1] for p in pend) <= VEL_SOSTA_MAX_S:
+                    for k, s in pend:
+                        c = somme.get(k)
+                        if c is None:
+                            c = somme[k] = [0.0, 0.0, 0, set()]
+                        c[1] += s
+                        c[2] += 1
+                        c[3].add(k[3])
+                pend.clear()
+
+            for v, ln, ts, la, lo in cur:
+                righe += 1
+                if ts is None or la is None or lo is None or not ln:
+                    continue
+                if v != veic or ln != linea:
+                    chiudi_sosta()
+                    veic, linea, base = v, ln, (ts, la, lo)
+                    continue
+                dt = ts - base[0]
+                if dt < VEL_DT_MIN:
+                    continue                     # feed non aggiornato: si aspetta una posizione piu' nuova
+                if dt > VEL_DT_MAX:
+                    chiudi_sosta()
+                    base = (ts, la, lo)
+                    continue
+                d = _haversine_m(base[1], base[2], la, lo)
+                if d / dt * 3.6 > VEL_MAX_KMH:
+                    scartati += 1
+                    chiudi_sosta()
+                    base = (ts, la, lo)
+                    continue
+                loc = _locale(datetime.fromtimestamp(base[0], timezone.utc))
+                tipo = 1 if loc.weekday() == 5 else 2 if loc.weekday() == 6 else 0
+                chiave = (ln, tipo, loc.hour, loc.toordinal())
+                if primo is None or base[0] < primo: primo = base[0]
+                if ultimo is None or ts > ultimo: ultimo = ts
+                if d < VEL_FERMO_M:
+                    pend.append((chiave, dt))
+                else:
+                    chiudi_sosta()
+                    c = somme.get(chiave)
+                    if c is None:
+                        c = somme[chiave] = [0.0, 0.0, 0, set()]
+                    c[0] += d; c[1] += dt; c[2] += 1; c[3].add(chiave[3])
+                base = (ts, la, lo)
+            chiudi_sosta()
+        finally:
+            con.close()
+    except sqlite3.Error as e:
+        print(f"  (velocita': database non leggibile ora: {e}; livello Velocita' saltato)")
+        return None, None
+    # le chiavi hanno anche il giorno: si riuniscono per linea x tipo x ora
+    tot = {}
+    for (ln, tipo, ora, giorno), (m, s, n, _) in somme.items():
+        c = tot.setdefault((ln, tipo, ora), [0.0, 0.0, 0, set()])
+        c[0] += m; c[1] += s; c[2] += n; c[3].add(giorno)
+    vel = {}
+    for (ln, tipo, ora), (m, s, n, gg) in tot.items():
+        if s > 0:
+            vel.setdefault(ln, {}).setdefault(str(tipo), {})[str(ora)] = [round(m / s * 3.6, 1), n, len(gg)]
+    ore = round((ultimo - primo) / 3600, 1) if primo is not None else 0
+    meta = {"primo": primo, "ultimo": ultimo, "ore": ore, "righe": righe, "scartati_gps": scartati}
+    ore_con_dati = sum(len(o) for t in vel.values() for o in t.values())
+    print(f"  velocita': {len(vel)} linee con dati, {ore_con_dati} celle linea/tipo/ora, {ore} ore di storico "
+          f"({righe} righe lette, {scartati} salti GPS scartati)")
+    return vel, meta
+
+
 # ---------------------------------------------------------------- main
 def main():
     print(f"Cartella del progetto: {RADICE}")
@@ -512,7 +632,10 @@ def main():
     else:
         print("  (sezioni di censimento non trovate: lancia 05_prepara_sezioni.py per il livello Domanda)")
 
+    vel, vel_meta = calcola_velocita()   # [agente GT04-velocita] None se lo storico non c'e'
+
     dati = {
+        "vel": vel or {}, "vel_meta": vel_meta,   # [agente GT04-velocita]
         "meta": {
             "costruita_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "gtfs": meta_gtfs, "t5": meta5t, "mezzi_ts": ts_vp,

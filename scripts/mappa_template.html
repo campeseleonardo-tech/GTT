@@ -500,7 +500,15 @@ function disegnaBase(ws,ox,oy,i){
     const fl=filtroL(), ratio=$("coloreLinee").value==="ratio", rl=ratio?ratiLinee(i):null;
     for(const l of linee){
       if(fl && l.nome!==fl) continue;
-      const f=(D.rotte[l.id]||{f:[]}).f[i]||0; if(!f||!dentroVista(l.bb,ws,ox,oy)) continue;
+      const f=(D.rotte[l.id]||{f:[]}).f[i]||0;
+      if(tema.id==="velocita"){   // [agente GT04-velocita] colore = velocità misurata; grigio = nessun dato o pochi campioni
+        const c=velCella(l.id,S.dt,S.h); if(!f&&!c) continue; if(!dentroVista(l.bb,ws,ox,oy)) continue;
+        const ok=c&&c[1]>=VEL_MIN_CAMP; cx.strokeStyle=ok?VEL_PAL[velClasse(c[0])]:"#9aa0ad"; cx.globalAlpha=ok?.95:.55; cx.lineWidth=ok?3.2:1.8;
+        cx.beginPath(); const a=l.pts;
+        for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y);}
+        cx.stroke(); continue;
+      }
+      if(!f||!dentroVista(l.bb,ws,ox,oy)) continue;
       cx.strokeStyle=ratio?ratioCol(rl&&rl[l.id]?rl[l.id].r:null):tipoCol(l.t); cx.globalAlpha=ratio?.9:.8; cx.lineWidth=Math.min(6,1+Math.sqrt(f)*0.55)*(tema.lineeSottili?0.5:1); /* [agente GT02-temi] linee sottili in alcuni temi */
       cx.beginPath(); const a=l.pts;
       for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y);}
@@ -554,6 +562,48 @@ function disegnaSopra(ws,ox,oy,i){
       cx.strokeStyle="#fff"; cx.lineWidth=1.6; cx.stroke(); cx.strokeStyle="#1d2330"; cx.lineWidth=.6; cx.stroke();
     }
   }
+}
+/* [agente GT04-velocita] velocità commerciale misurata per linea (D.vel[linea][tipo][ora] = [km/h, campioni, giorni]) */
+const VEL_MIN_CAMP = 20;   // sotto questi campioni (≈ 20 minuti-veicolo) la cella resta grigia
+const VEL_PAL = ["#c8102e","#e8833a","#f2c14e","#4c9f70"];
+const velCella = (id,dt,h) => { const v=((D.vel||{})[id]||{})[dt]; return v?v[h]||null:null; };
+const velClasse = k => k<12?0 : k<16?1 : k<20?2 : 3;
+const velScarsa = () => { const M=D.vel_meta; if(!M||M.ore==null||M.ore<72) return true;
+  const g=Object.values(D.vel||{}).flatMap(t=>Object.values(t).flatMap(o=>Object.values(o).map(c=>c[2]))); return !g.length || Math.max(...g)<3; };
+function velOreTxt(id,dt){   // ore con dati sufficienti, in intervalli: "6–9, 12, 15–22"
+  const o=((D.vel||{})[id]||{})[dt]||{}, ore=Object.keys(o).map(Number).filter(h=>o[h][1]>=VEL_MIN_CAMP).sort((a,b)=>a-b);
+  if(!ore.length) return "nessuna";
+  const r=[]; let a=ore[0], b=a;
+  for(let k=1;k<=ore.length;k++){ if(ore[k]===b+1){ b=ore[k]; continue; } r.push(a===b?""+a:a+"–"+b); a=ore[k]; b=a; }
+  return r.join(", ");
+}
+function velTipLinea(sx,sy,ws,ox,oy){   // linea più vicina al puntatore (entro 7 px) tra quelle disegnate
+  let best=null, bd=49; const fl=filtroL();
+  for(const l of linee){
+    if(fl && l.nome!==fl) continue;
+    if(!dentroVista(l.bb,ws,ox,oy)) continue;
+    const a=l.pts;
+    for(let k=2;k<a.length;k+=2){
+      const x1=a[k-2]*ws-ox,y1=a[k-1]*ws-oy,x2=a[k]*ws-ox,y2=a[k+1]*ws-oy, dx=x2-x1,dy=y2-y1, L=dx*dx+dy*dy;
+      let t=L?((sx-x1)*dx+(sy-y1)*dy)/L:0; t=Math.max(0,Math.min(1,t));
+      const d=(x1+t*dx-sx)**2+(y1+t*dy-sy)**2; if(d<bd){bd=d;best=l;}
+    }
+  }
+  return best;
+}
+function velTip(l){
+  const r=D.rotte[l.id]||{s:l.id,t:3,l:""}, c=velCella(l.id,S.dt,S.h);
+  let h=`<b>Linea ${esc(r.s)}</b> (${tipoNome(r.t)})<br>${esc(r.l||"")}<br>`;
+  if(!c) h+=`Alle ${pad(S.h)} (${GIORNI[S.dt].toLowerCase()}): nessun dato misurato<br>`;
+  else h+=`Alle ${pad(S.h)} (${GIORNI[S.dt].toLowerCase()}): <b>${c[0].toFixed(1)} km/h</b>${c[1]<VEL_MIN_CAMP?" <span style='color:#b25e00'>(troppo pochi campioni: non colorata)</span>":""}<br>${c[1]} campioni · ${c[2]} ${c[2]===1?"giorno":"giorni"}<br>`;
+  return h+`Ore con dati (${GIORNI[S.dt].toLowerCase()}): ${velOreTxt(l.id,S.dt)}<br><span style="color:#5d6678">Misurata, fermate incluse</span>`;
+}
+function legendaVelocita(){
+  const M=D.vel_meta, n=Object.keys(D.vel||{}).length;
+  if(!M||!n) return `<div class="t">Velocità commerciale ${TAG.mis}</div><div class="et" style="display:block">Nessun dato di velocità: serve lo storico dei mezzi (data/storico.sqlite) al momento di rigenerare la mappa.</div>`;
+  return `<div class="t">Velocità commerciale misurata ${TAG.mis}${velScarsa()?TAG_SCARSO:""}</div>`
+    +`<div class="puntini"><span><i style="background:${VEL_PAL[0]}"></i>&lt;12</span><span><i style="background:${VEL_PAL[1]}"></i>12–16</span><span><i style="background:${VEL_PAL[2]}"></i>16–20</span><span><i style="background:${VEL_PAL[3]}"></i>&gt;20 km/h</span><span><i style="background:#9aa0ad"></i>nessun dato o meno di ${VEL_MIN_CAMP} campioni</span></div>`
+    +`<div class="et" style="display:block">Velocità commerciale: include le fermate; si aggiorna rigenerando la mappa.<br>Storico usato: ${M.ore} ore (${fmt(M.primo*1000)} → ${fmt(M.ultimo*1000)}), ${n} linee con dati. Non c'è il codice della corsa: nessun ritardo.</div>`;
 }
 function velCol(s){
   if(!s.fl) return "#c9ced6";
@@ -623,6 +673,7 @@ function cercaTip(sx,sy){
       const corpo = s.acc===0 ? `Dato probabilmente assente (accuratezza 0, flusso ${s.fl}).`
         : `Flusso: <b>${s.fl}</b> veicoli in ${s.per} min (≈ ${Math.round((s.fl||0)*60/s.per)}/h)<br>Velocità media: <b>${s.v==null?"n/d":s.v.toFixed(0)+" km/h"}</b>`;
       return mostraTip(`<b>${esc(s.via)}</b><br>${sensoTxt} · sensore ${esc(s.id)}<br>${corpo}<br>${tipTxt(s)}<span style="color:#5d6678">Rilevazione 5 minuti fino a ${fmt(t5Fine)}</span>`,sx,sy); } }
+  if(tema.id==="velocita" && vis("Llinee")){ const l=velTipLinea(sx,sy,ws,ox,oy); if(l) return mostraTip(velTip(l),sx,sy); }   // [agente GT04-velocita]
   if(vis("Lfermate") && view.zoom>=14){ const s=vicino(fermate,8,o=>o.d[i]>0||view.zoom>=15);
     if(s){ const tot=s.d.slice(S.dt*24,S.dt*24+24).reduce((a,b)=>a+b,0);
       return mostraTip(`<b>${esc(s.n)}</b> · fermata ${esc(s.id)}<br>Linee: ${esc(s.r||"—")}<br>Passaggi alle ${hh}: <b>${s.d[i]}</b><br>Nella giornata (${GIORNI[S.dt].toLowerCase()}): ${tot}`,sx,sy); } }
@@ -734,7 +785,10 @@ const THEMES = [
    area:null, over:{...NESSUNA,Lsensori:1}, sensoriGrandi:true, segnalazioni:true,
    legenda:()=> inLive ? "" : '<div class="t" style="color:#b25e00">Nessun dato live: riavvia la raccolta.</div><div class="et" style="display:block">Si vede l\'ultimo traffico salvato nella pagina, non quello attuale.</div>'},
   {id:"tempo", label:"Tempo reale", desc:"Mezzi GTT localizzati adesso e corse simulate dagli orari (queste sono una stima, non posizioni reali).",
-   area:null, over:{...NESSUNA,Lmezzi:1,Lcorse:1}, segnalazioni:true, legenda:()=>""}
+   area:null, over:{...NESSUNA,Lmezzi:1,Lcorse:1}, segnalazioni:true, legenda:()=>""},
+  // [agente GT04-velocita] linee colorate con la velocità commerciale misurata (giorno e ora scelti in alto)
+  {id:"velocita", label:"Velocità", desc:"Velocità commerciale misurata dei mezzi GTT per linea, giorno tipo e ora (fermate incluse). Passa il mouse (o tocca) una linea per i dettagli.",
+   area:null, over:{...NESSUNA,Llinee:1}, legenda:legendaVelocita}
 ];
 let tema = THEMES.find(t=>t.id==="offerta");   // tema di partenza
 
@@ -758,7 +812,7 @@ const leg=$("legenda");
 function aggiornaLegenda(){
   const blocchi=[], t=tema.legenda();
   if(t) blocchi.push(t);
-  if(vis("Llinee")){
+  if(vis("Llinee") && tema.id!=="velocita"){   // [agente GT04-velocita] nel tema Velocità la legenda delle linee è quella del tema
     if($("coloreLinee").value==="ratio"){
       const T=ST(); const rl=T?ratiLinee(idx()):null;
       blocchi.push(`<div class="t">Linee: mezzi reali rispetto al previsto ${TAG.mis}${TAG.prog}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#4c9f70"></i>nella norma</span><span><i style="background:#e8833a"></i>meno</span><span><i style="background:#c8102e"></i>molto meno</span><span><i style="background:#9aa0ad"></i>senza dati</span></div><div class="et" style="display:block">${rl?"Rapporto medio localizzati/previsti: "+rl._g.toFixed(2)+" · ore di dati per quest'ora: "+((T.copertura||{})[idx()]||0):"Nessun dato raccolto."}</div>`);
