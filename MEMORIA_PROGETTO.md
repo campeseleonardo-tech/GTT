@@ -130,11 +130,11 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - Testato su Linux (riavvio, log, risposta No, file STOP); NON testato su Windows: finestra, anti-stop e avvio automatico da provare (`python supervisore.py --promemoria-ora`).
 
 <!-- STATO DELL'UFFICIO: inizio. Questa parte la riscrive l'Ufficio dopo ogni task: non scrivere qui, scrivi sopra. -->
-## Stato dell'Ufficio (aggiornato 04/10/2026 22:23)
+## Stato dell'Ufficio (aggiornato 05/10/2026 00:09)
 
 ### Piano
 - [x] Base pronta (git, profilo, raccolta verificata) (fatto)
-- [ ] Mappa più chiara (sfondi, temi esclusivi, legenda misurato/stimato) (in corso) - GT01-sfondi, GT02-temi
+- [x] Mappa più chiara (sfondi, temi esclusivi, legenda misurato/stimato) (fatto) - GT01-sfondi, GT02-temi
 - [ ] Velocità misurata dei mezzi (in corso) - GT04-velocita
 - [ ] Domanda: pendolari ISTAT (in corso) - GT05-pendolari
 - [ ] Punti critici v0 (da fare)
@@ -142,6 +142,7 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - [ ] Raspberry Pi / condivisione (da fare)
 
 ### Fatto di recente
+- 2026-10-05 00:09 · GT06-pannello: Ho riorganizzato il pannello in `scripts/mappa_template.html` secondo i sei punti richiesti. Non ho potuto eseguire nulla: i controlli sono del runner.
 - 2026-10-04 22:23 · GT05-pendolari: Aggiunto il tema "Pendolari" (aree per comune, 30 linee verso Torino, selettori, tooltip, legenda) e il parser delle matrici ISTAT lavoro e studio; non l'ho eseguito, quindi i totali non sono verificati. · 3 domande per te
 - 2026-10-04 22:20 · GT04-velocita: Aggiunto il tema "Velocità" (velocità commerciale misurata per linea, tipo di giorno e ora) in 04 e nel template; non ho eseguito nulla, quindi non ho numeri reali. · 2 domande per te
 - 2026-10-04 17:53 · GT02-temi: Ho sostituito i "Livelli" con 7 temi (uno alla volta) e 6 sovrapposizioni in `scripts/mappa_template.html`. Non ho potuto eseguire né provare nulla: il controllo spetta al runner. · 3 domande per te
