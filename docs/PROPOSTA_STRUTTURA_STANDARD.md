@@ -9,6 +9,30 @@ Scritto il 05/10/2026. **È una proposta da discutere con Leo, non da applicare.
 
 ---
 
+## 0. Decisioni di Leo (05/10, sera)
+
+**Priorità generali**
+1. Usare tutti i modelli gratis possibili, sempre il più potente disponibile.
+2. Tenere `C:` pulito e ordinato, e così anche ogni progetto.
+3. Fare un backup periodico che si possa ripristinare.
+
+| # | Domanda | Decisione | Cosa vuol dire in pratica |
+|---|---|---|---|
+| 1 | Dove mettere i file di servizio | "decidi tu" → **fuori dal repo**, in `Multiple Agents\progetti\<id>\` | Il progetto contiene solo il lavoro vero. È la soluzione più pulita (priorità 2) |
+| 2 | Il RAPPORTO nella storia git | "se serve" → nel commit va **solo la riga ESITO**. Il rapporto intero resta nel fascicolo | Una riga costa niente e basta a capire cosa ha fatto un ramo. Il resto sarebbe solo rumore nel repo |
+| 3 | Quando una task gratis fallisce | **si ferma e sceglie Leo**. Da ripensare quando ci saranno più motori | "Da sistemare" con i pulsanti delle alternative (sezione 4) |
+| 4 | L'abbonamento Claude per le task | **solo come scelta esplicita** | Niente più ripieghi automatici. Il motore `auto` sparisce |
+| 5 | "Credito cloud" | **non è una cosa sola**: credito AI Studio (Gemini a pagamento), l'uso extra di Claude con il Pro, altro | Le alternative diventano un elenco di "motori a pagamento", ognuno con il suo tetto (sezione 4) |
+| 6 | I rami dopo l'unione | **si cancellano** | Restano solo nel backup `.bundle` |
+| 7 | Il ramo `prova` | **la cosa più pulita**, c'è già il backup | `prova` cresce; i rami delle task si cancellano dopo l'unione. Risultato: in ogni repo restano `main`, `prova` e solo le task aperte |
+| 8 | Le candidature | **diventano task come gli altri progetti** | È il lavoro più grande della lista: va fatto per ultimo (passo 16) |
+| 9 | Il pannello | **Mondo sì** (sarà ampliato). **Contatore delle 5 ore e tetto dei messaggi: no** | Si tolgono il contatore, la calibrazione, la variabile `PER` e il limite della chat. Il limite vero di Claude (`LIMITE_CLAUDE.txt`) resta, perché Claude si può ancora scegliere |
+| 10 | Codex | **se serve, collegarlo** | Vedi sezione 4 |
+| 11 | La mappa di GTT | **fuori da git**, rigenerata in automatico dopo le task | Gli agenti modificano il modello (`scripts/mappa_template.html`). Il runner rigenera la mappa; il controllo `run_py:scripts/04_genera_mappa.py` lo fa già |
+| 12 | Quale `timelive.md` vale per Timelive | **il più recente** | Da controllare sul PC: confrontare le date dei due file. Quello vecchio va in archivio |
+
+---
+
 ## 1. Struttura standard di un progetto (uguale per tutti)
 
 ```
@@ -82,7 +106,9 @@ Multiple Agents\progetti\<id>\ (FUORI dal repo: il "fascicolo" del progetto per 
 - **i doppioni in `generico/`:** `failed/T17-prova-gratis`, `sospesi/GT14-verifica-passaggi`, i 2 file rimasti in `decisions/`.
 - `generico/results/`: tenere solo gli ultimi 30 giorni, o spostare il resto in archivio.
 
-**Da decidere** (domande in fondo): il Mondo, `get_salute`, il contatore delle 5 ore e la variabile `PER`, il limite dei messaggi della chat.
+**Deciso il 05/10:**
+- il Mondo resta;
+- si tolgono il contatore delle 5 ore, la calibrazione, la variabile `PER`, il tetto dei messaggi della chat e `get_salute` (guarda solo le candidature, che diventano task).
 
 **Struttura delle cartelle proposta** (cambia poco rispetto a oggi):
 ```
@@ -131,7 +157,29 @@ In `RAMI_PROGETTI.md` vedo **80 rami** in 4 repo (GTT 23, Langue 31, Preventivi 
 - **Gratis**: OpenRouter gratis, Gemini Flash, Cerebras, Groq.
   - Se fallisce, la task va in "Da sistemare" con il motivo e con dei pulsanti: **Riprova gratis / Claude API (a consumo) / Credito cloud**.
   - **Mai** l'abbonamento Claude in automatico.
-- **Claude (abbonamento)**: solo se Leo lo sceglie esplicitamente su quella task o su quel progetto. [Domanda 4: va ancora bene?]
+- **Claude (abbonamento)**: solo se Leo lo sceglie esplicitamente su quella task o su quel progetto (deciso).
+- **Alternative a pagamento**, scelte da Leo una per una, ognuna con un tetto di spesa per task:
+  - Gemini oltre il gratuito, con il credito di AI Studio;
+  - l'uso extra di Claude con il Pro;
+  - Claude API;
+  - altre da aggiungere.
+
+  [da verificare] Se e come l'"uso extra" del Pro si possa usare da `claude -p` dipende dalle condizioni di Anthropic: va controllato prima di costruirlo.
+
+**"Il più potente possibile" (priorità 1)**
+- Oggi l'ordine `@forte` è scritto fisso: Gemini → Cerebras → Groq → Mistral (`motori.py:658`). Per OpenRouter i modelli sono ordinati per grandezza indovinata dal nome (`motori.py:621`).
+- **Proposta:** un'unica classifica di tutti i modelli gratis, di tutti i fornitori, ordinata così:
+  1. per la percentuale di successi misurata nel log `uso.csv` sulle task vere, appena ci sono abbastanza dati;
+  2. altrimenti per grandezza.
+- Ogni task usa il primo della classifica che non è "in panchina".
+- La classifica si vede in Impostazioni → Motori.
+- **Fornitori gratis in più:** ne esistono altri compatibili con lo stesso sistema. [da verificare] I candidati vanno controllati uno per uno su limiti e condizioni (anche "i dati possono essere usati per addestrare?") prima di aggiungerli. Non li elenco come certi.
+
+**Codex** (domanda 10). Cos'è: un programma di OpenAI simile a Claude Code. È un **agente**: apre i file, li legge e li modifica da solo, in più passi.
+- **A cosa servirebbe:** oggi i modelli gratis lavorano "a colpo singolo". Ricevono i file nel messaggio e rispondono una volta sola, e così sbagliano spesso sui file grandi (GTT, il pannello: vedi PV02 e TL05). Un agente risolve proprio questo.
+- [da verificare] Con un account ChatGPT gratuito Codex può avere limiti bassi o cambiare condizioni. Va provato con una task piccola prima di contarci.
+- **Alternativa con lo stesso scopo:** un programma agente "aperto" (OpenCode, già nel piano v0.5) collegato ai modelli gratis della classifica. Così l'agente userebbe i modelli più potenti gratis, invece di dipendere da un solo account.
+- **Proposta:** provare tutti e due sulla stessa task (come la "gara" del piano v0.5) e tenere quello che funziona.
 - Spariscono `auto` ("Gratis, poi Claude") e `openrouter` ("OpenRouter, modello scelto"). Il modello preciso resta un campo facoltativo della task.
 - **Nel codice:** `runner.py:433-440` non passa più a Claude. Il valore `auto` nei file vecchi (Langue) diventa `gratis`.
 
@@ -188,58 +236,85 @@ Ogni passo si può provare da solo e annullare, e si fa con gli agenti in Pausa.
 | 14 | **"Fatta" più seria:** l'esito non è "ok" se ci sono file rifiutati; le task create dal pannello propongono un controllo in più (per esempio `py_compile` per i `.py`, `node_check` per i `.js`); avviso se un file grande si accorcia di molto | una task che riscrive male un file grande finisce in "Da sistemare" | più task "fallite" all'inizio |
 | 15 | **Progetti:** GTT (mappa: gli agenti modificano il template; la mappa si snellisce con una task sua); Langue (obiettivo giornaliero: decidere se farlo davvero, oggi esiste solo in IDEE.md); schede da completare | — | — |
 
-Restano da decidere con le domande: il Mondo, il contatore delle 5 ore e `PER`, il limite della chat, le azioni automatiche delle candidature, Codex.
+**Passi aggiunti dopo le decisioni del 05/10 sera**
+
+| # | Passo | Come si prova | Cosa può rompersi |
+|---|---|---|---|
+| 16 | **Via il contatore delle 5 ore, la calibrazione, `PER` e il tetto della chat.** Resta il limite vero di Claude | il pannello si apre senza contatore; la chat non ha più "Sblocca messaggi" | il dispatcher oggi si ferma anche con il "contatore al 100%" (`comune.py:180`): quel controllo va tolto insieme, non da solo |
+| 17 | **Classifica unica dei modelli gratis** (sezione 4) | Impostazioni → Motori mostra la classifica; una task usa il primo disponibile | all'inizio la classifica ha pochi dati: si parte dalla grandezza |
+| 18 | **Prova di un motore agente** (Codex e/o OpenCode) su una task piccola già fatta, su un ramo a parte | la task finisce, i controlli passano, nessuna riga `claude` nel log | account e limiti esterni: se non va, non si perde niente |
+| 19 | **Backup periodico** (sezione 7) | dopo una settimana c'è un backup nuovo e il più vecchio è stato tolto | se il disco si riempie il backup fallisce: serve un avviso |
+| 20 | **`C:` in ordine** (sezione 7), un progetto alla volta | il progetto spostato funziona dal pannello (una task di prova) | percorsi scritti fissi nel codice (sezione 7): vanno cambiati tutti insieme |
+| 21 | **Candidature come task** (decisione 8): per ultimo, perché è il pezzo più grande | uno scout, un CV e una lettera vanno a buon fine dal nuovo sistema | per qualche giorno le candidature non sono disponibili: farlo quando non ci sono offerte urgenti |
 
 ---
 
-## 6. Domande per Leo (solo le decisioni vere)
+## 6. Domande del 05/10
 
-1. **Dove mettere i file di servizio dell'Ufficio?**
-   - A = fuori dal repo, in `Multiple Agents\progetti\<id>\`.
-   - B = nel progetto, in `.ufficio\`, ignorata da git.
-   - **Cosa cambia:** con A i progetti restano puliti e i backup separati; con B è tutto in una cartella, ma un `git clean` lo cancella. Consiglio A.
-2. **Il RAPPORTO di una task deve entrare anche nella storia git?**
-   - A = sì, come testo del commit (5 righe).
-   - B = no, solo nel fascicolo.
-   - **Cosa cambia:** con A chi guarda solo il repo capisce cosa ha fatto ogni ramo; con B il repo è più pulito, ma senza fascicolo non si sa nulla.
-3. **Quando una task gratis fallisce:**
-   - A = si ferma in "Da sistemare" e scegli tu (Riprova / API / Cloud).
-   - B = riprova da sola con i gratis più tardi (per esempio dopo 1 ora, una volta sola) e poi si ferma.
-   - **Cosa cambia:** A = più clic per te, zero sorprese; B = meno clic, ma più tempo prima di sapere che non va.
-4. **L'abbonamento Claude per le task:**
-   - A = resta come scelta esplicita su task o progetto.
-   - B = mai più per le task, solo per la chat e per costruire.
-   - **Cosa cambia:** con B il contatore delle 5 ore serve solo alla chat e si può semplificare molto.
-5. **"Credito cloud": che cos'è esattamente?** Credito OpenRouter a pagamento, credito Google Cloud (Gemini oltre il gratuito), o altro? Con un tetto per task?
-   - **Cosa cambia:** decide quale codice va scritto e dove si mette il tetto di spesa.
-6. **I rami delle task, dopo l'unione in `prova`:**
-   - A = si cancellano subito (restano nel backup).
-   - B = si tengono 30 giorni.
-   - **Cosa cambia:** A = elenco corto; B = puoi ripescare un ramo senza aprire il backup.
-7. **Il ramo `prova`:**
-   - A = cresce (ogni task accettata si aggiunge).
-   - B = si ricrea da `main` ogni volta, come oggi.
-   - **Cosa cambia:** con B ogni prova a mano fatta su `prova` si perde a ogni ricostruzione. Consiglio A.
-8. **Le candidature:**
-   - A = restano un programma a parte, con Claude.
-   - B = diventano task come gli altri progetti e possono usare i gratis.
-   - **Cosa cambia:** B toglie metà di `pannello_server.py`, ma è un lavoro grande e le lettere in tedesco potrebbero peggiorare.
-9. **Il pannello, cosa tenere:**
-   - a) Mondo (47 MB di immagini): tenere / spegnere;
-   - b) contatore delle 5 ore e calibrazione: tenere / togliere;
-   - c) tetto dei messaggi di chat al giorno: tenere 200 / togliere.
-   - **Cosa cambia:** ogni "togli" = meno codice da tenere vivo; il contatore serve solo se l'abbonamento resta per le task (domanda 4).
-10. **Codex CLI:**
-    - A = collegarlo come motore "agente" (che legge e modifica più file).
-    - B = lasciar perdere per ora.
-    - **Cosa cambia:** oggi tutti i gratis lavorano "a colpo singolo" e faticano sui file grandi (GTT, il pannello). Un motore agente aiuterebbe proprio lì, ma è un pezzo nuovo da costruire e provare.
-11. **GTT, la mappa:**
-    - A = gli agenti modificano solo `scripts/mappa_template.html` e la mappa si rigenera.
-    - B = `mappa_torino.html` entra in git.
-    - **Cosa cambia:** A = niente modifiche perse, un solo punto da cambiare; B = la mappa (grande) finisce in ogni commit.
-12. **Quale scheda vale per Timelive:** `timelive_repo\timelive.md` o `Desktop\Timelive\timelive.md`?
-    - **Cosa cambia:** gli agenti leggono quella indicata in `progetti/timelive.json`. Se è quella sbagliata, lavorano con regole vecchie.
+Hanno tutte una risposta: vedi la sezione 0.
 
-**Domande che ho io, per capire meglio** (non sono decisioni):
-- Quando dici "centinaia di rami", ne vedi di più sul PC rispetto agli 80 di `RAMI_PROGETTI.md`?
-- Le "azioni automatiche dormienti" delle candidature sono quelle che la chat di progetto non può fare (`chat_progetto`, azioni vuote), o altro?
+---
+
+## 7. `C:` in ordine e backup periodico
+
+### Dove sono le cose oggi (dai percorsi scritti nel codice)
+| Cosa | Dove |
+|---|---|
+| Ufficio | `C:\Users\campe\Desktop\Multiple Agents` |
+| Progetti | `Desktop\GTT`, `Desktop\Langue`, `Desktop\timelive_repo`, `Desktop\Timelive` (scheda vecchia?), `Desktop\Projects\Preventivi_Gigi`, `Desktop\Mercatino` |
+| Documenti delle candidature | `Desktop\CV` |
+| Backup | `C:\BACKUP_UFFICIO` |
+| Copia per GitHub | `C:\GITHUB_UFFICIO\multiple-agents` |
+| Chiavi | `C:\Users\campe\.ufficio` |
+
+Tutto è sparso tra Desktop, `Desktop\Projects` e la radice di `C:`.
+
+### Proposta: una sola cartella madre
+```
+C:\Lavori\                    (il nome lo sceglie Leo)
+  Ufficio\                    oggi "Multiple Agents"
+  Progetti\
+    GTT\  Langue\  Timelive\  Preventivi\  Candidature\  (CV e documenti)
+  Archivio\                   progetti chiusi (Mercatino) e cartelle vecchie (Desktop\Timelive, _backup_v0.*)
+  Backup\                     oggi C:\BACKUP_UFFICIO
+  GitHub\                     oggi C:\GITHUB_UFFICIO
+```
+Sul Desktop resterebbe solo l'icona "Ufficio".
+
+**Cosa può rompersi spostando le cartelle** [visto]. I percorsi sono scritti fissi in molti posti:
+- `Ufficio.vbs`;
+- `pannello_config.json` (sorgenti, cartelle della chat);
+- `progetti/*.json` (cartella, scheda);
+- **ogni file task**, nel campo `repo:`;
+- `crea_prova.py`, `controlla_repo.py`, `esporta_diff.py` (`DESK / ...`);
+- `candidature/runner/state.py` (`DOCS_HOME`);
+- l'attività di Windows.
+
+**Proposta:** prima di spostare, un solo file con i percorsi (`percorsi.json`) che tutti leggono. Poi lo spostamento diventa: sposto la cartella, cambio una riga, avvio una task di prova.
+
+### Backup periodico
+- `backup_completo.py` esiste già e fa zip + bundle + controllo.
+- **Proposta:**
+  - un'attività di Windows lo lancia **una volta alla settimana**, di notte, con gli agenti in pausa durante il backup;
+  - si tengono gli **ultimi 4** backup;
+  - il pannello mostra "ultimo backup: data, esito".
+- **Critica:** un backup sullo stesso disco `C:` protegge da errori ed eliminazioni, **non** da un disco rotto o da un PC perso. Serve anche una copia fuori dal PC (disco esterno o cloud).
+- La copia su GitHub non basta: non ha la storia dei rami e lascia fuori i file grandi.
+
+### Come vedere i rami (oggi, senza comandi)
+- `RAMI_PROGETTI.md` non sta nella cartella dell'Ufficio. Lo crea `CARICA_SU_GITHUB.bat` in `C:\GITHUB_UFFICIO\multiple-agents\RAMI_PROGETTI.md`.
+- In alternativa: doppio clic su `Multiple Agents\pulizia\CONTROLLA_REPO.bat`, che scrive `CONTROLLO_REPO.txt` nella stessa cartella. È solo lettura: non cambia niente.
+- **Proposta:** una pagina "Rami" nel pannello. Per ogni progetto mostra i rami, quali sono già uniti in `prova` e i pulsanti Accetta / Scarta.
+
+---
+
+## 8. Domande rimaste
+
+1. **La cartella madre:** `C:\Lavori`, oppure un altro nome o posto? Il Desktop è sincronizzato con OneDrive?
+   - **Cosa cambia:** se il Desktop è sincronizzato, git e OneDrive possono litigare sui file. Spostare fuori dal Desktop sarebbe un motivo in più.
+2. **Backup fuori dal PC:** hai un disco esterno o un cloud dove copiarlo?
+   - **Cosa cambia:** senza, il backup periodico protegge solo dagli errori, non dalla rottura del disco.
+3. **Ogni quanto il backup:** una volta alla settimana va bene?
+   - **Cosa cambia:** più spesso = meno lavoro perso, più spazio usato (oggi un backup pesa circa quanto tutte le cartelle, comprese le zip di GTT da centinaia di MB).
+4. **Dati e addestramento:** alcuni fornitori gratis usano i messaggi per addestrare i loro modelli. Va bene per tutti i progetti?
+   - **Cosa cambia:** se no, Timelive (dati personali) e Candidature (CV) andrebbero esclusi dai fornitori che lo fanno. Nel piano v0.5 hai scritto "caso per caso".
