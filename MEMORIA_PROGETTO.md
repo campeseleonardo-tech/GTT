@@ -130,18 +130,19 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - Testato su Linux (riavvio, log, risposta No, file STOP); NON testato su Windows: finestra, anti-stop e avvio automatico da provare (`python supervisore.py --promemoria-ora`).
 
 <!-- STATO DELL'UFFICIO: inizio. Questa parte la riscrive l'Ufficio dopo ogni task: non scrivere qui, scrivi sopra. -->
-## Stato dell'Ufficio (aggiornato 05/10/2026 15:25)
+## Stato dell'Ufficio (aggiornato 05/10/2026 15:58)
 
 ### Piano
 - [x] Base pronta (git, profilo, raccolta verificata) (fatto)
 - [x] Mappa più chiara (sfondi, temi esclusivi, legenda misurato/stimato) (fatto) - GT01-sfondi, GT02-temi
 - [ ] Velocità misurata dei mezzi (in corso) - GT04-velocita
-- [ ] Domanda: pendolari ISTAT (in corso) - GT05-pendolari
+- [ ] Domanda: pendolari ISTAT (in corso) - GT05-pendolari, GT19-elaborazione-matrici-pen
 - [x] Punti critici v0 (fatto) - GT18-punti-critici-integrati
 - [ ] Traffico tipico e simulazione tarata (dopo 1-2 settimane di dati) (da fare)
 - [ ] Raspberry Pi / condivisione (da fare)
 
 ### Fatto di recente
+- 2026-10-05 15:58 · GT19-elaborazione-matrici-pen: Creato script di elaborazione matricI pendolarismo ISTAT per Torino e cintura, con relativo rapporto e sintesi documentazione. File prodotto pronto in data/processed/.
 - 2026-10-05 15:25 · GT18-punti-critici-integrati: Ho aggiunto un indice di criticità 0–100 per sezione di censimento, con contorno rosso (80 o più) nei 4 temi e il valore nella scheda al clic. · 2 domande per te
 - 2026-10-05 15:00 · GT17-scheda-unica: Implementata la struttura unica standard a 4 sezioni per tutte le 7 schede informative al clic (fermate, linee, sensori 5T, sezioni di censimento, comuni, mezzi reali e zone statistiche) con funzione generatrice unica in scripts/mappa_template.html.
 - 2026-10-05 14:54 · GT16-temi: Menu della mappa ridotto a 4 temi funzionali, aggiunta la sottoscelta per Servizio e abitanti e raggruppato il blocco temporale «Quando» in scripts/mappa_template.html.
@@ -153,7 +154,6 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - 2026-10-05 03:22 · GT05-risposta2: Creati 2 file (DOMANDE.md e RAPPORTO.md) con 1 domanda registrata e nessuna modifica al codice. · 1 domande per te
 - 2026-10-05 03:16 · GT05-risposta1: Looking at this task, I need to understand what changed: Leo answered "sì, la scarico" to the question about downloading the ISTAT codici comuni table (PRO_COM → comune name).
 - 2026-10-05 03:06 · GT04-risposta1: La risposta «A tenere» è applicata senza modifiche al codice: le soglie colori velocità restano 12/16/20 km/h (velClasse e legenda già coerenti).
-- 2026-10-05 02:41 · GT11-orari-fermate: completato
 
 ### Decisioni di Leo (risposte alle domande)
 - Vuoi i nomi dei comuni (tabella ISTAT codici)? -> **sì, la scarico**
