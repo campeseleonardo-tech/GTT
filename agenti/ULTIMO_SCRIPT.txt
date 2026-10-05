@@ -12,7 +12,7 @@ Leggo GTFS (qualche secondo)...
   sensori 5T: 112, mezzi GTT: 110
   zone: 94; fermate fuori da ogni zona (altri comuni): 4731
   sezioni di censimento abitate: 8317, abitanti 1557493
-  velocita': 129 linee con dati, 2436 celle linea/tipo/ora, 38.2 ore di storico (487096 righe lette, 4889 salti GPS scartati)
+  velocita': 129 linee con dati, 2436 celle linea/tipo/ora, 38.3 ore di storico (489256 righe lette, 4911 salti GPS scartati)
   lavoro: matrix_pendoLAVORO_2021.zip -> matrix_pendoLAVORO_2021.txt (utf-8, separatore '\t'), 523950 righe
     intestazione: ['Prov_res', 'Procom_res', 'Prov_lav', 'Procom_lav', 'Pendolari']; colonne usate (prov.res, com.res, prov.dest, com.dest, n): [0, 1, 2, 3, 4]
     righe scartate: 0; persone totali nel file: 19.565.808
@@ -25,7 +25,7 @@ Leggo GTFS (qualche secondo)...
     attesi dalle note:    entrano 48.730. escono 6.373. dentro 120.148
   pendolari: 68 comuni nell'area (+ Torino); da altri comuni fuori area entrano [37043, 16577] (lavoro, studio), escono [14638, 848]; flusso interno a Torino [212249, 120148]
 
-Mappa creata: C:\Users\campe\Desktop\GTT\mappa_torino.html  (6.2 MB)
+Mappa creata: C:\Users\campe\Desktop\GTT\mappa_torino.html  (6.3 MB)
 Aprila con doppio clic (serve internet solo per le mattonelle della cartina).
 
 --- STDERR ---
