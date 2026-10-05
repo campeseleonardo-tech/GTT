@@ -10,3 +10,4 @@
 - 2026-10-05 12:47 | GT12-prossimi-passaggi | done | ramo GT12-prossimi-passaggi | 4 file | costo listino 0.000 USD | Clic su fermata: prossimi passaggi
 - 2026-10-05 13:58 | GT14-verifica-passaggi | done | ramo GT14-verifica-passaggi | 4 file | costo listino 0.000 USD | Prossimi passaggi: controllo e correzione
 - 2026-10-05 14:30 | GT15-piano-ui-scenari | done | ramo GT15-piano-ui-scenari | 4 file | costo listino 0.000 USD | Piano: mappa piu' semplice, dati di traffico e base per gli scenari
+- 2026-10-05 14:54 | GT16-temi | done | ramo GT16-temi | 4 file | costo listino 0.000 USD | Mappa: da 9 temi a 4

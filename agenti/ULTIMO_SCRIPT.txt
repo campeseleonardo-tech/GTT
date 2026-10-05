@@ -12,7 +12,7 @@ Leggo GTFS (qualche secondo)...
   sensori 5T: 112, mezzi GTT: 110
   zone: 94; fermate fuori da ogni zona (altri comuni): 4731
   sezioni di censimento abitate: 8317, abitanti 1557493
-  velocita': 127 linee con dati, 2332 celle linea/tipo/ora, 36.2 ore di storico (464088 righe lette, 4617 salti GPS scartati)
+  velocita': 129 linee con dati, 2436 celle linea/tipo/ora, 38.2 ore di storico (487096 righe lette, 4889 salti GPS scartati)
   lavoro: matrix_pendoLAVORO_2021.zip -> matrix_pendoLAVORO_2021.txt (utf-8, separatore '\t'), 523950 righe
     intestazione: ['Prov_res', 'Procom_res', 'Prov_lav', 'Procom_lav', 'Pendolari']; colonne usate (prov.res, com.res, prov.dest, com.dest, n): [0, 1, 2, 3, 4]
     righe scartate: 0; persone totali nel file: 19.565.808
