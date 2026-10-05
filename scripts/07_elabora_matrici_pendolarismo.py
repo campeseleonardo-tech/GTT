@@ -3,6 +3,7 @@ import json
 import zipfile
 import csv
 import os
+import re
 from pathlib import Path
 
 def load_sezioni_torino():
@@ -163,6 +164,115 @@ def main():
     print(f"Record 2011: {n2011}")
     print(f"Record 2021: {n2021}")
     print(f"Totale: {n2011 + n2021}")
+
+def _parse_hour(value):
+    """Estrae l'ora (int) da una stringa di fascia oraria."""
+    if not value:
+        return None
+    # Cerca il primo numero intero presente nella stringa
+    m = re.search(r'(\d{1,2})', str(value))
+    if m:
+        try:
+            return int(m.group(1))
+        except:
+            return None
+    return None
+
+def _slot_from_hour(hour):
+    """Restituisce la fascia oraria corrispondente all'ora."""
+    if hour is None:
+        return None
+    if 6 <= hour < 9:
+        return "mattina"
+    if 9 <= hour < 14:
+        return "mezzogiorno"
+    if 14 <= hour < 19:
+        return "pomeriggio"
+    if 19 <= hour < 22:
+        return "sera"
+    # notte: 22-24 o 0-6
+    if hour >= 22 or hour < 6:
+        return "notte"
+    return None
+
+def _aggregate_2011_by_fascia(rows):
+    """Raggruppa i dati 2011 per fascia, origine, destinazione."""
+    fasce = {}
+    for row in rows:
+        # Trova la colonna con il numero di persone
+        val = None
+        for key in ("numero_persone", "persone", "numero", "valore"):
+            if key in row:
+                try:
+                    val = int(row.get(key, 0))
+                except:
+                    val = 0
+                break
+        if val is None:
+            val = 0
+        # Trova la colonna con la fascia oraria
+        fas_f = None
+        for key in ("fascia_oraria", "fascia", "orario", "orari"):
+            if key in row:
+                fas_f = row[key]
+                break
+        hour = _parse_hour(fas_f)
+        slot = _slot_from_hour(hour)
+        if slot is None:
+            continue
+        orig = row.get("origine", "").strip()
+        dest = row.get("destinazione", "").strip()
+        if not orig or not dest:
+            continue
+        fasce.setdefault(slot, {}).setdefault(orig, {}).setdefault(dest, 0)
+        fasce[slot][orig][dest] += val
+    return fasce
+
+def _distribute_2021_to_fasce(rows_2021, fasce_2011):
+    """Distribuisce i valori 2021 sui fasce usando le proporzioni della matrice 2011."""
+    for row in rows_2021:
+        val = row.get("numero_persone", 0)
+        orig = row.get("origine", "").strip()
+        dest = row.get("destinazione", "").strip()
+        if not orig or not dest:
+            continue
+        # Totale 2011 per questo origine-destinazione
+        total_2011 = sum(
+            fasce_2011[slot].get(orig, {}).get(dest, 0) for slot in fasce_2011
+        )
+        if total_2011 > 0:
+            for slot in fasce_2011:
+                part = fasce_2011[slot].get(orig, {}).get(dest, 0) / total_2011
+                add = int(round(val * part))
+                if add:
+                    fasce_2011[slot].setdefault(orig, {}).setdefault(dest, 0)
+                    fasce_2011[slot][orig][dest] += add
+        else:
+            # Distribuzione uniforme se non ci sono dati 2011
+            uniform = int(round(val / 5))
+            for slot in ("mattina", "mezzogiorno", "pomeriggio", "sera", "notte"):
+                fasce_2011.setdefault(slot, {}).setdefault(orig, {}).setdefault(dest, 0)
+                fasce_2011[slot][orig][dest] += uniform
+    return fasce_2011
+
+def main_fasce():
+    """Genera le matrici origine-destinazione per le 5 fasce orarie."""
+    data_processed_dir = Path("data/processed")
+    input_file = data_processed_dir / "pendolarismo_torino_cintura.json"
+    if not input_file.exists():
+        print("File di input non trovato, esegui prima main()")
+        return
+    with open(input_file, encoding="utf-8") as f:
+        data = json.load(f)
+    # Aggregazione 2011
+    fasce = _aggregate_2011_by_fascia(data.get("2011", []))
+    # Distribuzione 2021
+    fasce = _distribute_2021_to_fasce(data.get("2021", []), fasce)
+    # Salvataggio risultato
+    out_file = data_processed_dir / "od_per_fascia.json"
+    with open(out_file, "w", encoding="utf-8") as f:
+        json.dump(fasce, f, ensure_ascii=False, indent=2)
+    print(f"Salvato OD per fascia in {out_file}")
 
 if __name__ == "__main__":
     main()
