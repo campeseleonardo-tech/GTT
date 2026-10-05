@@ -243,7 +243,7 @@ Ogni passo si può provare da solo e annullare, e si fa con gli agenti in Pausa.
 | 16 | **Via il contatore delle 5 ore, la calibrazione, `PER` e il tetto della chat.** Resta il limite vero di Claude | il pannello si apre senza contatore; la chat non ha più "Sblocca messaggi" | il dispatcher oggi si ferma anche con il "contatore al 100%" (`comune.py:180`): quel controllo va tolto insieme, non da solo |
 | 17 | **Classifica unica dei modelli gratis** (sezione 4) | Impostazioni → Motori mostra la classifica; una task usa il primo disponibile | all'inizio la classifica ha pochi dati: si parte dalla grandezza |
 | 18 | **Prova di un motore agente** (Codex e/o OpenCode) su una task piccola già fatta, su un ramo a parte | la task finisce, i controlli passano, nessuna riga `claude` nel log | account e limiti esterni: se non va, non si perde niente |
-| 19 | **Backup periodico** (sezione 7) | dopo una settimana c'è un backup nuovo e il più vecchio è stato tolto | se il disco si riempie il backup fallisce: serve un avviso |
+| 19 | **Backup periodico** (sezione 7) | il giorno dopo c'è un backup nuovo con CONTROLLO.txt tutto OK | se il disco si riempie il backup fallisce: serve un avviso |
 | 20 | **`C:` in ordine** (sezione 7), un progetto alla volta | il progetto spostato funziona dal pannello (una task di prova) | percorsi scritti fissi nel codice (sezione 7): vanno cambiati tutti insieme |
 | 21 | **Candidature come task** (decisione 8): per ultimo, perché è il pezzo più grande | uno scout, un CV e una lettera vanno a buon fine dal nuovo sistema | per qualche giorno le candidature non sono disponibili: farlo quando non ci sono offerte urgenti |
 
@@ -271,7 +271,7 @@ Tutto è sparso tra Desktop, `Desktop\Projects` e la radice di `C:`.
 
 ### Proposta: una sola cartella madre
 ```
-C:\Lavori\                    (il nome lo sceglie Leo)
+C:\projects\                  (deciso da Leo il 05/10)
   Ufficio\                    oggi "Multiple Agents"
   Progetti\
     GTT\  Langue\  Timelive\  Preventivi\  Candidature\  (CV e documenti)
@@ -295,8 +295,8 @@ Sul Desktop resterebbe solo l'icona "Ufficio".
 ### Backup periodico
 - `backup_completo.py` esiste già e fa zip + bundle + controllo.
 - **Proposta:**
-  - un'attività di Windows lo lancia **una volta alla settimana**, di notte, con gli agenti in pausa durante il backup;
-  - si tengono gli **ultimi 4** backup;
+  - un'attività di Windows lo lancia **una volta al giorno**, di notte, con gli agenti in pausa durante il backup (deciso da Leo);
+  - i backup vecchi li cancella Leo a mano;
   - il pannello mostra "ultimo backup: data, esito".
 - **Critica:** un backup sullo stesso disco `C:` protegge da errori ed eliminazioni, **non** da un disco rotto o da un PC perso. Serve anche una copia fuori dal PC (disco esterno o cloud).
 - La copia su GitHub non basta: non ha la storia dei rami e lascia fuori i file grandi.
@@ -308,13 +308,20 @@ Sul Desktop resterebbe solo l'icona "Ufficio".
 
 ---
 
-## 8. Domande rimaste
+## 8. Domande del 05/10 sera: risposte
 
-1. **La cartella madre:** `C:\Lavori`, oppure un altro nome o posto? Il Desktop è sincronizzato con OneDrive?
-   - **Cosa cambia:** se il Desktop è sincronizzato, git e OneDrive possono litigare sui file. Spostare fuori dal Desktop sarebbe un motivo in più.
-2. **Backup fuori dal PC:** hai un disco esterno o un cloud dove copiarlo?
-   - **Cosa cambia:** senza, il backup periodico protegge solo dagli errori, non dalla rottura del disco.
-3. **Ogni quanto il backup:** una volta alla settimana va bene?
-   - **Cosa cambia:** più spesso = meno lavoro perso, più spazio usato (oggi un backup pesa circa quanto tutte le cartelle, comprese le zip di GTT da centinaia di MB).
-4. **Dati e addestramento:** alcuni fornitori gratis usano i messaggi per addestrare i loro modelli. Va bene per tutti i progetti?
-   - **Cosa cambia:** se no, Timelive (dati personali) e Candidature (CV) andrebbero esclusi dai fornitori che lo fanno. Nel piano v0.5 hai scritto "caso per caso".
+1. **Cartella madre:** `C:\projects`. Il Desktop non è sincronizzato con OneDrive (Leo non è collegato).
+2. **Copia fuori dal PC:** il backup è già copiato su un SSD esterno.
+3. **Frequenza:** una volta al giorno; i backup vecchi li cancella Leo.
+4. **Fornitori che usano i dati per addestrare:** vanno bene per tutti i progetti, per ora.
+
+**Avvertenze sulle risposte** [ipotesi da verificare sul PC]
+- **Spazio.** Ogni backup contiene anche le zip ISTAT di GTT (243 + 123 + 74 MB) e il database da 60 MB: almeno 500 MB al giorno, circa 15 GB al mese se nessuno cancella.
+  - Proposta: le zip che non cambiano si copiano una volta sola e i backup giornalieri le saltano. Oppure il pannello avvisa quando lo spazio libero su `C:` scende sotto una soglia.
+- **SSD esterno.** Se la copia sull'SSD si fa a mano, il backup giornaliero su `C:` non arriva da solo sull'SSD. Va chiarito se la copia è automatica.
+- **`C:\projects` e `Desktop\Projects`.** Oggi Preventivi sta in `Desktop\Projects\Preventivi_Gigi`. Dopo lo spostamento `Desktop\Projects` va svuotata e tolta, altrimenti ci sono due cartelle "projects".
+
+## 9. Domande rimaste
+
+1. La copia sull'SSD esterno è automatica o la fai a mano?
+2. Lo spazio libero su `C:`: salto le zip che non cambiano, o basta un avviso?
