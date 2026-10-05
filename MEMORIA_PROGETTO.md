@@ -130,7 +130,7 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - Testato su Linux (riavvio, log, risposta No, file STOP); NON testato su Windows: finestra, anti-stop e avvio automatico da provare (`python supervisore.py --promemoria-ora`).
 
 <!-- STATO DELL'UFFICIO: inizio. Questa parte la riscrive l'Ufficio dopo ogni task: non scrivere qui, scrivi sopra. -->
-## Stato dell'Ufficio (aggiornato 05/10/2026 02:39)
+## Stato dell'Ufficio (aggiornato 05/10/2026 02:43)
 
 ### Piano
 - [x] Base pronta (git, profilo, raccolta verificata) (fatto)
@@ -142,6 +142,7 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - [ ] Raspberry Pi / condivisione (da fare)
 
 ### Fatto di recente
+- 2026-10-05 02:41 · GT11-orari-fermate: completato
 - 2026-10-05 02:39 · GT09-qualita: Il file docs/QUALITA_DATI.md è stato creato con l’analisi dei dati raccolti, evidenziando punti di forza, criticità e azioni consigliate per migliorare la qualità dell’informazione sulla mappa.
 - 2026-10-05 00:12 · GT08-griglia-scala: Ho aggiunto in `scripts/mappa_template.html` la griglia in metri (passi da 10 m a 10 km, celle di circa 40–100 px), la barra della scala e la casella "Griglia in metri", accesa di default.
 - 2026-10-05 00:11 · GT07-clic-fermate: Ho modificato solo `scripts/mappa_template.html`: sezioni e zone ora si aprono in una scheda al clic, senza tooltip al passaggio, e le fermate sono più piccole e azzurre. Non ho eseguito né provato nulla.
@@ -152,15 +153,14 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - 2026-10-04 17:51 · GT01-sfondi: In `scripts/mappa_template.html` ho tolto OpenStreetMap, messo 3 sfondi Esri più "nessuno", il satellite come predefinito e il cursore intensità al 70%. Non ho potuto eseguire la pagina, quindi non è provato.
 
 ### Decisioni di Leo (risposte alle domande)
-- (nessuna)
+- Vuoi i nomi dei comuni (tabella ISTAT codici)? -> **sì, la scarico**
+- Colore di partenza del tema Pendolari? -> **per 1000 abitanti**
+- Quanti comuni con linea nel tema Pendolari? -> **non capisco la domanda**
+- «Segnalazioni adesso» anche nel tema Traffico? -> **sì**
+- Nel tema Tempo reale accendere anche le linee sottili? -> **no**
+- Tema Poca offerta: linee sottili a metà spessore va bene? -> **metà**
+- Soglie colori velocità (12/16/20 km/h) vanno bene? -> **A tenere**
+- Minimo campioni per colorare una linea? -> **20**
 
-### Domande aperte: 8 (8 a risposta chiusa)
-- «Segnalazioni adesso» anche nel tema Traffico? (sì / solo Tempo reale; scelta provvisoria: sì)
-- Nel tema Tempo reale accendere anche le linee sottili? (no / sì; scelta provvisoria: no)
-- Tema Poca offerta: linee sottili a metà spessore va bene? (metà / un terzo; scelta provvisoria: metà)
-- Soglie colori velocità (12/16/20 km/h) vanno bene? (A tenere / B più strette / C più larghe; scelta provvisoria: A)
-- Minimo campioni per colorare una linea? (10 / 20 / 60; scelta provvisoria: 20)
-- Vuoi i nomi dei comuni (tabella ISTAT codici)? (sì, la scarico / no, bastano i codici; scelta provvisoria: no, bastano i codici)
-- Colore di partenza del tema Pendolari? (per 1000 abitanti / numero assoluto; scelta provvisoria: per 1000 abitanti)
-- Quanti comuni con linea nel tema Pendolari? (15 / 30 / 50; scelta provvisoria: 30)
+### Domande aperte: 0 (0 a risposta chiusa)
 <!-- STATO DELL'UFFICIO: fine -->
