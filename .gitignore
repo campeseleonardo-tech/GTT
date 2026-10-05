@@ -7,3 +7,4 @@ mappa_torino.html
 *.doc
 *.crdownload
 __pycache__/
+agenti/
