@@ -130,7 +130,7 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - Testato su Linux (riavvio, log, risposta No, file STOP); NON testato su Windows: finestra, anti-stop e avvio automatico da provare (`python supervisore.py --promemoria-ora`).
 
 <!-- STATO DELL'UFFICIO: inizio. Questa parte la riscrive l'Ufficio dopo ogni task: non scrivere qui, scrivi sopra. -->
-## Stato dell'Ufficio (aggiornato 05/10/2026 00:11)
+## Stato dell'Ufficio (aggiornato 05/10/2026 00:12)
 
 ### Piano
 - [x] Base pronta (git, profilo, raccolta verificata) (fatto)
@@ -142,6 +142,7 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - [ ] Raspberry Pi / condivisione (da fare)
 
 ### Fatto di recente
+- 2026-10-05 00:12 · GT08-griglia-scala: Ho aggiunto in `scripts/mappa_template.html` la griglia in metri (passi da 10 m a 10 km, celle di circa 40–100 px), la barra della scala e la casella "Griglia in metri", accesa di default.
 - 2026-10-05 00:11 · GT07-clic-fermate: Ho modificato solo `scripts/mappa_template.html`: sezioni e zone ora si aprono in una scheda al clic, senza tooltip al passaggio, e le fermate sono più piccole e azzurre. Non ho eseguito né provato nulla.
 - 2026-10-05 00:09 · GT06-pannello: Ho riorganizzato il pannello in `scripts/mappa_template.html` secondo i sei punti richiesti. Non ho potuto eseguire nulla: i controlli sono del runner.
 - 2026-10-04 22:23 · GT05-pendolari: Aggiunto il tema "Pendolari" (aree per comune, 30 linee verso Torino, selettori, tooltip, legenda) e il parser delle matrici ISTAT lavoro e studio; non l'ho eseguito, quindi i totali non sono verificati. · 3 domande per te
