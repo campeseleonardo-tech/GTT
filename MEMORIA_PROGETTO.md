@@ -130,7 +130,7 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - Testato su Linux (riavvio, log, risposta No, file STOP); NON testato su Windows: finestra, anti-stop e avvio automatico da provare (`python supervisore.py --promemoria-ora`).
 
 <!-- STATO DELL'UFFICIO: inizio. Questa parte la riscrive l'Ufficio dopo ogni task: non scrivere qui, scrivi sopra. -->
-## Stato dell'Ufficio (aggiornato 05/10/2026 14:54)
+## Stato dell'Ufficio (aggiornato 05/10/2026 15:00)
 
 ### Piano
 - [x] Base pronta (git, profilo, raccolta verificata) (fatto)
@@ -142,6 +142,7 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - [ ] Raspberry Pi / condivisione (da fare)
 
 ### Fatto di recente
+- 2026-10-05 15:00 · GT17-scheda-unica: Implementata la struttura unica standard a 4 sezioni per tutte le 7 schede informative al clic (fermate, linee, sensori 5T, sezioni di censimento, comuni, mezzi reali e zone statistiche) con funzione generatrice unica in scripts/mappa_template.html.
 - 2026-10-05 14:54 · GT16-temi: Menu della mappa ridotto a 4 temi funzionali, aggiunta la sottoscelta per Servizio e abitanti e raggruppato il blocco temporale «Quando» in scripts/mappa_template.html.
 - 2026-10-05 14:30 · GT15-piano-ui-scenari: Redatto docs/PIANO_UI_E_SCENARI.md con analisi completa di 9 temi e 16 controlli attuali, proposta a 4 temi unificati, struttura uniforme per le schede e architettura per scenari alternativi su base ISTAT.
 - 2026-10-05 13:58 · GT14-verifica-passaggi: (il modello non ha scritto un riassunto)
@@ -153,7 +154,6 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - 2026-10-05 03:06 · GT04-risposta1: La risposta «A tenere» è applicata senza modifiche al codice: le soglie colori velocità restano 12/16/20 km/h (velClasse e legenda già coerenti).
 - 2026-10-05 02:41 · GT11-orari-fermate: completato
 - 2026-10-05 02:39 · GT09-qualita: Il file docs/QUALITA_DATI.md è stato creato con l’analisi dei dati raccolti, evidenziando punti di forza, criticità e azioni consigliate per migliorare la qualità dell’informazione sulla mappa.
-- 2026-10-05 00:12 · GT08-griglia-scala: Ho aggiunto in `scripts/mappa_template.html` la griglia in metri (passi da 10 m a 10 km, celle di circa 40–100 px), la barra della scala e la casella "Griglia in metri", accesa di default.
 
 ### Decisioni di Leo (risposte alle domande)
 - Vuoi i nomi dei comuni (tabella ISTAT codici)? -> **sì, la scarico**
