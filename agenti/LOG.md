@@ -12,3 +12,4 @@
 - 2026-10-05 14:30 | GT15-piano-ui-scenari | done | ramo GT15-piano-ui-scenari | 4 file | costo listino 0.000 USD | Piano: mappa piu' semplice, dati di traffico e base per gli scenari
 - 2026-10-05 14:54 | GT16-temi | done | ramo GT16-temi | 4 file | costo listino 0.000 USD | Mappa: da 9 temi a 4
 - 2026-10-05 15:00 | GT17-scheda-unica | done | ramo GT17-scheda-unica | 4 file | costo listino 0.000 USD | Mappa: una scheda al clic uguale per tutto
+- 2026-10-05 15:25 | GT18-punti-critici-integrati | done | ramo GT18-punti-critici-integrati | 4 file | costo listino 0.419 USD | Punti critici integrati nei temi esistenti
