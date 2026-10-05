@@ -130,7 +130,7 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - Testato su Linux (riavvio, log, risposta No, file STOP); NON testato su Windows: finestra, anti-stop e avvio automatico da provare (`python supervisore.py --promemoria-ora`).
 
 <!-- STATO DELL'UFFICIO: inizio. Questa parte la riscrive l'Ufficio dopo ogni task: non scrivere qui, scrivi sopra. -->
-## Stato dell'Ufficio (aggiornato 05/10/2026 12:47)
+## Stato dell'Ufficio (aggiornato 05/10/2026 14:30)
 
 ### Piano
 - [x] Base pronta (git, profilo, raccolta verificata) (fatto)
@@ -142,6 +142,8 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - [ ] Raspberry Pi / condivisione (da fare)
 
 ### Fatto di recente
+- 2026-10-05 14:30 · GT15-piano-ui-scenari: Redatto docs/PIANO_UI_E_SCENARI.md con analisi completa di 9 temi e 16 controlli attuali, proposta a 4 temi unificati, struttura uniforme per le schede e architettura per scenari alternativi su base ISTAT.
+- 2026-10-05 13:58 · GT14-verifica-passaggi: (il modello non ha scritto un riassunto)
 - 2026-10-05 12:47 · GT12-prossimi-passaggi: Inserito 1 tag script e aggiornato 1 funzione di visualizzazione fermata (2 modifiche totali) per mostrare i prossimi passaggi alle fermate.
 - 2026-10-05 03:31 · GT13-altre-citta: Creato docs/ALTRE_CITTA.md con studio completo (5 sezioni richieste) e rapportino in agenti/GT13-altre-citta/
 - 2026-10-05 03:29 · GT12-prossimi-passaggi: non ha passato i controlli
@@ -152,8 +154,6 @@ Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiorna
 - 2026-10-05 02:39 · GT09-qualita: Il file docs/QUALITA_DATI.md è stato creato con l’analisi dei dati raccolti, evidenziando punti di forza, criticità e azioni consigliate per migliorare la qualità dell’informazione sulla mappa.
 - 2026-10-05 00:12 · GT08-griglia-scala: Ho aggiunto in `scripts/mappa_template.html` la griglia in metri (passi da 10 m a 10 km, celle di circa 40–100 px), la barra della scala e la casella "Griglia in metri", accesa di default.
 - 2026-10-05 00:11 · GT07-clic-fermate: Ho modificato solo `scripts/mappa_template.html`: sezioni e zone ora si aprono in una scheda al clic, senza tooltip al passaggio, e le fermate sono più piccole e azzurre. Non ho eseguito né provato nulla.
-- 2026-10-05 00:09 · GT06-pannello: Ho riorganizzato il pannello in `scripts/mappa_template.html` secondo i sei punti richiesti. Non ho potuto eseguire nulla: i controlli sono del runner.
-- 2026-10-04 22:23 · GT05-pendolari: Aggiunto il tema "Pendolari" (aree per comune, 30 linee verso Torino, selettori, tooltip, legenda) e il parser delle matrici ISTAT lavoro e studio; non l'ho eseguito, quindi i totali non sono verificati. · 3 domande per te
 
 ### Decisioni di Leo (risposte alle domande)
 - Vuoi i nomi dei comuni (tabella ISTAT codici)? -> **sì, la scarico**
