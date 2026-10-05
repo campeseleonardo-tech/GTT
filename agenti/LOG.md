@@ -7,3 +7,4 @@
 - 2026-10-05 00:12 | GT08-griglia-scala | done | ramo GT08-griglia-scala | 4 file | costo listino 0.197 USD | griglia grigio chiaro adattiva allo zoom + barra della scala
 - 2026-10-05 02:39 | GT09-qualita | done | ramo GT09-qualita | 4 file | costo listino 0.000 USD | Analisi qualita' dei dati raccolti
 - 2026-10-05 02:41 | GT11-orari-fermate | done | ramo GT11-orari-fermate | 2 file | costo listino 0.000 USD | File con gli orari programmati di ogni fermata
+- 2026-10-05 12:47 | GT12-prossimi-passaggi | done | ramo GT12-prossimi-passaggi | 4 file | costo listino 0.000 USD | Clic su fermata: prossimi passaggi
