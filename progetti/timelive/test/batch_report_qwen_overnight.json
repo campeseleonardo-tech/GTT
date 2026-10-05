@@ -1,0 +1,252 @@
+{
+  "generated_at": "2026-09-16T08:13:03.338972+00:00",
+  "status": "completed",
+  "backend": "ollama",
+  "model": "qwen2.2:3b",
+  "host": "http://localhost:11434",
+  "max_iterations": 8,
+  "registered_domains": [
+    "chessdotcom",
+    "instagram",
+    "money",
+    "spotify"
+  ],
+  "batch_elapsed_seconds": 0.26,
+  "summary": {
+    "total_questions": 20,
+    "successful": 0,
+    "failed": 20,
+    "hit_max_iterations_count": 0,
+    "hit_max_iterations_ids": [],
+    "failed_ids": [
+      "manifest_01",
+      "money_01",
+      "money_04",
+      "money_13",
+      "money_15",
+      "spotify_01",
+      "spotify_06",
+      "spotify_08",
+      "spotify_12",
+      "chess_01",
+      "chess_09",
+      "chess_10",
+      "instagram_01",
+      "instagram_02",
+      "instagram_03",
+      "instagram_04",
+      "instagram_06",
+      "instagram_07",
+      "cross_02",
+      "adversarial_01"
+    ],
+    "malformed_tool_call_recoveries_count": 0,
+    "malformed_tool_call_recoveries_ids": [],
+    "avg_iterations": null,
+    "avg_elapsed_seconds": 0.01,
+    "total_elapsed_seconds": 0.29,
+    "tool_calls_by_tool": {},
+    "run_sql_queries": []
+  },
+  "results": [
+    {
+      "id": "manifest_01",
+      "domains_tagged": [],
+      "question": "Che tipo di dati hai su di me al momento, e per quale periodo di tempo?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.1
+    },
+    {
+      "id": "money_01",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho speso in totale ad agosto 2026?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "money_04",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho investito su Trade Republic in totale, tra acquisti e vendite?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "money_13",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Ho mai comprato azioni NVIDIA su Trade Republic? Quante volte e con quale spesa totale?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "money_15",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Le entrate più alte che vedi sul mio conto Sella sono davvero stipendio o guadagni, o potrebbero essere giroconti tra i miei stessi conti?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "spotify_01",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Cosa ho ascoltato di più di recente su Spotify?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "spotify_06",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Quanti episodi di podcast ho ascoltato rispetto alle canzoni vere e proprie?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "spotify_08",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Quante volte ho saltato un brano (skip) rispetto a quante l'ho ascoltato fino alla fine?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "spotify_12",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Chi sono i miei 5 artisti più ascoltati in assoluto, considerando tutta la mia storia?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "chess_01",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Come sta andando il mio rating a scacchi in blitz negli ultimi mesi?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "chess_09",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Contro quale avversario ho giocato più partite in assoluto, e qual è il bilancio (vittorie/sconfitte/pareggi) tra noi due?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "chess_10",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Gioco più partite in bullet o in blitz? Dammi i due conteggi.",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "instagram_01",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Quanti post ho pubblicato in totale su Instagram?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "instagram_02",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Con quale contatto ho scambiato più messaggi diretti su Instagram, considerando solo le chat di cui hai il testo completo dei messaggi?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "instagram_03",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Ho delle chat di gruppo nei messaggi diretti di Instagram, o sono tutte conversazioni individuali?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "instagram_04",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Quante persone mi seguono su Instagram rispetto a quante ne seguo io?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "instagram_06",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Hai registrato il mio indirizzo IP negli accessi (login) al mio account Instagram?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "instagram_07",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Hai accesso ai contatti della mia rubrica del telefono sincronizzati con Instagram?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "cross_02",
+      "domains_tagged": [
+        "chessdotcom",
+        "spotify"
+      ],
+      "question": "Quante partite a scacchi ho giocato in totale nella mia storia, e quante canzoni ho ascoltato su Spotify? Dammi i due numeri separatamente.",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    },
+    {
+      "id": "adversarial_01",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho speso su Netflix a dicembre 2025?",
+      "success": false,
+      "error": "404 Client Error: Not Found for url: http://localhost:11434/api/chat",
+      "elapsed_seconds": 0.01
+    }
+  ]
+}

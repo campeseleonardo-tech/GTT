@@ -1,0 +1,27 @@
+{
+  "id": "mercatino",
+  "nome": "Mercatino Austria",
+  "sigla": "MC",
+  "colore": "#9a8f80",
+  "tipo": "generico",
+  "priorita": "bassa",
+  "stato": "archiviato",
+  "obiettivo": "Fattibilita' master franchising Mercatino in Austria",
+  "cartella": "C:\\Users\\campe\\Desktop\\Mercatino",
+  "livello_dati": 2,
+  "prefisso": "M",
+  "motivo_archivio": "L'unica prova e dato davvero valido sarebbe aprirne uno e vedere se funziona; senza questa informazione al momento e' inutile continuare.",
+  "piano": [
+    {
+      "testo": "Studio del documento finale per Giangio e Mercatino + domande",
+      "task": [
+        "M01-mercatino-studio"
+      ]
+    },
+    {
+      "testo": "Documento finale (solo se decidi di andare avanti)",
+      "task": []
+    }
+  ],
+  "frase": "Archiviato il 04/10/2026"
+}

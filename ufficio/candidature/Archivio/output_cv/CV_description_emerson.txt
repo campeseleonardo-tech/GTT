@@ -1,0 +1,97 @@
+LEONARDO CAMPESE - CV DESCRIPTION (Technical Project Manager, Emerson)
+
+CONTACT INFO
+
+LinkedIn: in/leonardocampese
+Phone: (+43) 660 6878927
+Email: campese.leonardo@gmail.com
+Based in Salzburg, Austria - open to relocation - available immediately
+
+ABOUT ME
+
+Development engineer with hands-on prototype testing and electrical integration experience (analog and
+CAN signals), plus training in Innovation & Product Management and Business & Management. I coordinate
+test campaigns, suppliers and cross-functional teams (R&D, Design, Procurement, external test partners
+in Europe, the US and China) across schedule, cost and quality. I enjoy taking ownership, aligning
+people around a goal and turning complex requirements into practical results.
+
+WORK EXPERIENCE
+
+Functional Development Engineer | Thermal Management & Fluid Dynamics
+KTM F&E | 09/2025 - 05/2026
+Coordinated 1D/2D/3D simulation and measurement activities across R&D, Design and Procurement to
+evaluate cooling concepts for electric powertrains against milestones and regulatory targets
+Managed key design and supplier decisions balancing performance, cost and schedule
+Led the feasibility study and delivery of a full virtual prototype engine, incl. electrotechnical work
+on component power supply and electronic control (vehicle ECU, standalone test benches)
+
+System Testing Engineer | Thermal Management
+KTM F&E | 01/2024 - 08/2025
+Planned, budgeted and managed component and system prototype testing (water, air and oil conditioning)
+in a program with an initial budget of about EUR 2M, with international teams and external partners
+Worked with AVL (Germany, China) and supplier and customer test teams on test strategies, vibration,
+noise and standards compliance; presented results to internal stakeholders and global customers
+Specified, and occasionally wired and commissioned, sensors and fans on prototype setups (analog, CAN);
+scripted analysis cut analysis time by 50% and removed the operator need for standard tests
+
+Intern R&D | Aerodynamics & Thermal Management
+KTM F&E | 03/2023 - 12/2023
+Analyzed wind tunnel and radiator mass flow measurements, translating results into development goals
+Defined requirements for new model platforms together with engineering and sales teams
+Aligned and standardized BOM structures in SAP across Procurement, Design and Engineering
+
+SEO Data Analyst
+BPM - POWER | 09/2018 - 06/2019
+Analyzed market data and user behavior to support strategic business decisions
+Optimized search result strategies and features based on data insights
+Built structured reporting to track performance and identify growth opportunities
+
+Event Manager
+Croma SRL | 09/2015 - 12/2016
+Planned and delivered events end to end, managing suppliers, budgets and execution timelines
+Coordinated multiple stakeholders on-site, resolving operational challenges under time pressure
+Led communication, logistics and post-event analysis to improve future projects
+
+EDUCATION
+
+Master of Science in Engineering - Innovation & Product Management
+FH Upper Austria, Campus Wels | 09/2020 - 12/2023
+Development process engineering specialization; passed with highest distinction
+Thesis: Development of a measurement technique for air pressure and velocity across a motorbike radiator
+Pre-master year before the master: mathematics, physics, electronics, mechanics, aerodynamics, mechatronics
+
+University Collaboration - Business Development
+Schneider AG / Heilbronn University | 09/2022 - 01/2023
+Analyzed internal teams and external key accounts to improve strategic supply and delivery chain
+Presented recommendations balancing technical feasibility and business impact
+
+Bachelor of Science in Business & Management
+Universita degli Studi di Torino | 09/2017 - 08/2020
+Thesis: The effects and applications of Industry 4.0 on Smart Cities
+Foundation in corporate strategy, organizational leadership and operational efficiency
+
+Additional training: programming (Python, C, HTML) through university courses and online courses
+
+CERTIFICATIONS
+
+IPMA Level D - Certified Project Management Associate
+PMA Austria, member of IPMA | issued 05/2022, valid until 05/2027
+
+Scrum Certification
+Institut fur Agile Transformation
+
+LANGUAGES
+
+Italian: Native
+English: C1 (Proficient)
+Spanish: C1 (Proficient)
+German: B2 (certified); working language at KTM in meetings, documentation and customer presentations
+
+TOOLS / DIGITAL SKILLS
+
+Test and data acquisition: AVL, Concerto, Temes, Flex Pro, Rotec
+Simulation: Ansys Fluent, OpenFOAM, GT Suite, GOMsuite, Jaamsim
+CAD: PTC Creo, Ansys SpaceClaim, SolidWorks
+Programming and hardware prototyping: Python, C, Matlab, HTML, SQL, GitHub, Raspberry, Arduino
+Project and business tools: MS Project (basic), SAP (BOMs and shipments, limited use), MS Office incl.
+macros, Power BI

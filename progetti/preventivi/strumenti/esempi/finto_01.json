@@ -1,0 +1,20 @@
+{
+  "DATA": "12 ottobre 2026",
+  "PROTOCOLLO": "cp.10.26",
+  "NOME COGNOME / RAGIONE SOCIALE INTESTATARIO": "CLIENTE DI PROVA - Arch. Luca Moretti",
+  "INDIRIZZO INTESTATARIO": "Corso Dante 58, 10126 Torino",
+  "P.IVA INTESTATARIO": "P.IVA 09876543210",
+  "TIPO IMPIANTO / LAVORO": "Rifacimento completo impianto elettrico bilocale civile abitazione",
+  "INDIRIZZO CANTIERE": "Via Garibaldi 22, 10122 Torino",
+  "FORMULA DI APERTURA": "In relazione alla Vostra richiesta, Vi sottoponiamo la nostra migliore offerta per le opere di ristrutturazione dell'impianto elettrico dell'appartamento in epigrafe.",
+  "TOTALE": "3.400,00",
+  "CONDIZIONI / CLAUSOLE PERTINENTI": "Modalità di pagamento: 30% all'inizio dei lavori, 40% al termine dell'infilaggio cavi, saldo 30% all'avvenuto collaudo e rilascio Di.Co. Validità del preventivo: 30 giorni dalla data di emissione.",
+  "VOCI": [
+    "Rimozione vecchio impianto elettrico e predisposizione tracce sottotraccia - € 400,00",
+    "Fornitura e posa nuovo centralino elettrico 24 moduli con interruttore generale differenziale e 4 magnetotermici dedicati - € 650,00",
+    "Realizzazione impianto forza motrice per cucina e prese generali (n. 22 punti presa serie civile) - € 1.100,00",
+    "Realizzazione punti luce interrotti, deviati e invertiti comprensivi di comando (n. 14 punti luce) - € 700,00",
+    "Adeguamento impianto di messa a terra ed equipotenziale con relativi collegamenti ai corpi metallici - € 300,00",
+    "Verifiche strumentali, collaudo finale e rilascio Dichiarazione di Conformità (D.M. 37/08) con allegati tecnici - € 250,00"
+  ]
+}

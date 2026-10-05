@@ -1,0 +1,4 @@
+Ho creato `contenuti/parole_nuove_2.json` con 100 sostantivi (da art-0301 a art-0400), una riga per record e nello stesso formato di `parole_nuove.json`. Non ho potuto eseguire controlli: i duplicati con `parole.json` e `parole_nuove.json` li ho cercati solo a mano, quindi lascio il verdetto al validatore.
+- **Temi:** ne ho coperti 9 su 10, con 10 parole ciascuno. "Hobby e giochi" è rimasto fuori perché ho accorpato cinema e libri in un solo tema e dato spazio a scuola e astratti.
+- **Parole meno sicure:** Band, Note, Ordner, Hitze/Kälte, Herd. Il motivo di ciascuna è nel rapporto `agenti/T12-parole2/RAPPORTO.md`.
+- **Decisioni:** non c'è `DECISIONS.md`; resta solo da decidere se aggiungere in un altro giro il tema hobby e giochi.

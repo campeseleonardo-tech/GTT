@@ -1,0 +1,2 @@
+{"type": "result", "subtype": "success", "is_error": false, "result": "ESITO: Aggiornato 1 file con 1 modifica al dubbio #4 riguardo a ColumnSpec.sensitive.\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/TL01-risposta3/RAPPORTO.md, docs/BRIDGE_V2_b.md", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3-super-120b-a12b:free": {}}, "usage": {"input_tokens": 8600, "output_tokens": 2766}}
+--- STDERR ---

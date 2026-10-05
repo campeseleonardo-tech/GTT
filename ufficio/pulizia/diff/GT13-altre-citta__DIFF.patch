@@ -1,0 +1,169 @@
+diff --git a/docs/ALTRE_CITTA.md b/docs/ALTRE_CITTA.md
+new file mode 100644
+index 0000000..6de9b5c
+--- /dev/null
++++ b/docs/ALTRE_CITTA.md
+@@ -0,0 +1,163 @@
++# Estensione della mappa ad altre città
++
++Studio di fattibilità per rendere il progetto GTT riutilizzabile in altre città italiane, basato sull'analisi di `MEMORIA_PROGETTO.md`, `docs/FONTI_DATI.md` e `scripts/04_genera_mappa.py`.
++
++---
++
++## Cosa e' specifico di Torino oggi
++
++| Cosa | Dove vive (file, funzione/costante) | Note |
++|------|-------------------------------------|------|
++| URL GTFS statico GTT | `docs/FONTI_DATI.md` (tabella) + `01_scarica_dati.py` (non letto ma referenziato) | `https://www.gtt.to.it/open_data/gtt_gtfs.zip` |
++| URL GTFS-RT vehicle positions | `docs/FONTI_DATI.md` + `01_scarica_dati.py` | `https://percorsieorari.gtt.to.it/das_gtfsrt/vehicle_position.aspx` |
++| URL GTFS-RT trip updates | `docs/FONTI_DATI.md` + `01_scarica_dati.py` | `https://percorsieorari.gtt.to.it/das_gtfsrt/trip_update.aspx` |
++| URL GTFS-RT alerts | `docs/FONTI_DATI.md` + `01_scarica_dati.py` | `https://percorsieorari.gtt.to.it/das_gtfsrt/alerts.aspx` |
++| URL flussi 5T | `docs/FONTI_DATI.md` + `01_scarica_dati.py` | `https://opendata.5t.torino.it/get_fdt` (112 sensori, XML con namespace) |
++| Parser 5T | `04_genera_mappa.py` → `leggi_5t()` | Namespace XML, campi `lcd1`, `Road_name`, `speedflow` |
++| Zone statistiche Comune | `04_genera_mappa.py` → `leggi_zone()` + `docs/FONTI_DATI.md` | CSV con separatore `;`, WKT in Gauss-Boaga (EPSG:3003), 94 zone |
++| Conversione Gauss-Boaga → WGS84 | `04_genera_mappa.py` → `gb_a_wgs84()` | Traslazione geocentrica 3 parametri (Hayford → WGS84) |
++| Sezioni censimento ISTAT Piemonte | `04_genera_mappa.py` → `costruisci_pendolari()` + `05_prepara_sezioni.py` (non letto) | File `R01_21.zip`, filtro raggio 18 km da Torino |
++| Codice ISTAT Torino (PRO_COM) | `04_genera_mappa.py` → `PRO_COM_TORINO = 1272` | Hardcoded |
++| Matrici pendolarismo 2021 lavoro/studio | `04_genera_mappa.py` → `costruisci_pendolari()` | File attesi in `docs/matrix_pendoLAVORO_2021.zip` e `matrix_pendoSTUDIO_2021.zip` |
++| Valori attesi pendolarismo | `04_genera_mappa.py` → `PEND_ATTESI` | Controllo qualità hardcoded per Torino |
++| Tabella codici comuni ISTAT | `04_genera_mappa.py` → `leggi_nomi_comuni()` | Cerca in `docs/` e `data/raw/istat/` file con "codic" o "comun" |
++| Fuso orario / ora legale italiana | `04_genera_mappa.py` → `_ultima_domenica()`, `_locale()` | Calcolo DST Italia (ultima domenica marzo/ottobre) |
++| Prefissi file scaricati | `04_genera_mappa.py` → `ultimo()` | `gtt_gtfs_*`, `5t_flussi_*`, `gtt_vehicle_position_*`, `zone_statistiche_csv_*` |
++| Centro mappa / zoom iniziale | `scripts/mappa_template.html` (non letto, ma referenziato in MEMORIA) | Non l'ho visto nel codice Python; sta nel template HTML |
++| Nomi temi e livelli mappa | `scripts/mappa_template.html` (non letto) | 7 temi + 6 sovrapposizioni, etichette in italiano |
++| Soglie velocità commerciale | `04_genera_mappa.py` → `VEL_DT_MIN`, `VEL_DT_MAX`, `VEL_MAX_KMH`, `VEL_FERMO_M`, `VEL_SOSTA_MAX_S` | Tarate su dati GTT/5T torinesi |
++| Minimo campioni per colorare linea | `04_genera_mappa.py` (non visto direttamente, ma in MEMORIA: 20) | Decisione Leo |
++| Numero comuni con linee tema Pendolari | `04_genera_mappa.py` (non visto direttamente, ma in MEMORIA: 30) | Decisione Leo |
++
++---
++
++## Dati che servono per una nuova citta'
++
++| Dato | A cosa serve | Formato tipico | Dove si trova di solito (da verificare) |
++|------|--------------|----------------|------------------------------------------|
++| GTFS statico (orari, fermate, linee, tracciati) | Offerta programmata, corse simulate, fermate, linee | ZIP GTFS (agency, stops, routes, trips, stop_times, shapes, calendar) | Sito agenzia TPL locale o portale open data regionale/comunale |
++| GTFS-RT Vehicle Positions | Mezzi in tempo reale | Protobuf GTFS-RT (feed entity → vehicle → position, trip, vehicle) | Spesso stesso dominio del GTFS statico o sottodominio "realtime" |
++| GTFS-RT Trip Updates | Ritardi, cancellazioni, anticipi | Protobuf GTFS-RT (trip_update → stop_time_update) | Come sopra |
++| GTFS-RT Alerts | Avvisi servizio (scioperi, deviazioni) | Protobuf GTFS-RT (alert → informed_entity, description) | Come sopra |
++| Flussi traffico (sensori stradali) | Velocità e flusso misurati su arterie | JSON/XML proprietario o standard (es. Datex II, UTMC) | Agenzia mobilità locale, società traffico (es. 5T per Torino), portale open data |
++| Zone statistiche / quartieri / aree omogenee | Aggregazione offerta/domanda per area | Shapefile/GeoJSON/CSV con geometrie (WKT, WKB) + attributi | Comune, città metropolitana, ISTAT (sezioni censimento) |
++| Sezioni di censimento ISTAT (confini + popolazione) | Domanda: residenti per area fine | Shapefile ISTAT (basi territoriali) + CSV indicatori | ISTAT → "Basi territoriali" (es. R01_21.zip per Piemonte) |
++| Matrice pendolarismo ISTAT (lavoro/studio) | Domanda: flussi origine-destinazione per ora/mezzo | CSV/TSV (provincia/comune residenza, provincia/comune lavoro, numero, fasce orarie, mezzo) | ISTAT → "Matrici di pendolarismo" (livello sezione 2011, livello comunale 2021) |
++| Tabella codici comuni ISTAT (PRO_COM → nome) | Etichette comuni nel tema Pendolari | CSV (PRO_COM, COMUNE, DENOMINAZIONE, ...) | ISTAT → "Elenco comuni" o dentro basi territoriali |
++| Tile di sfondo (mappa base) | Visualizzazione strade/satellite | XYZ tiles (HTTP/HTTPS) – es. OSM, CartoDB, Esri, Thunderforest | Servizi tile pubblici (alcuni richiedono chiave API) |
++| Fuso orario / regole ora legale | Conversione timestamp UTC → ora locale per aggregazioni orarie | Database IANA (es. Europe/Rome) o regole hardcoded | Standard per paese; in Python `zoneinfo` (std lib 3.9+) |
++| Coordinate bounding box / centro città | Inquadratura iniziale mappa, filtro dati area | [minLat, minLon, maxLat, maxLon] + [centerLat, centerLon, zoom] | Geocoding (Nominatim, ecc.) o dati amministrativi |
++| Prefissi/nome file dati scaricati | Riconoscimento automatico "ultimo file" | Pattern glob (es. `gtfs_*`, `vehicle_position_*`) | Definito dallo scaricatore (script 01) |
++
++---
++
++## Proposta: file di configurazione per citta'
++
++`config/citta/<slug>.json` (es. `config/citta/torino.json`, `config/citta/milano.json`)
++
++```json
++{
++  "nome": "Torino",
++  "slug": "torino",
++  "centro": [45.0703, 7.6869],
++  "zoom_iniziale": 12,
++  "bbox": [44.95, 7.45, 45.20, 7.95],
++  "fuso_orario": "Europe/Rome",
++  "dati": {
++    "gtfs_static": {
++      "url": "https://www.gtt.to.it/open_data/gtt_gtfs.zip",
++      "prefisso_file": "gtt_gtfs_"
++    },
++    "gtfs_rt": {
++      "vehicle_positions": "https://percorsieorari.gtt.to.it/das_gtfsrt/vehicle_position.aspx",
++      "trip_updates": "https://percorsieorari.gtt.to.it/das_gtfsrt/trip_update.aspx",
++      "alerts": "https://percorsieorari.gtt.to.it/das_gtfsrt/alerts.aspx",
++      "prefisso_vehicle": "gtt_vehicle_position_"
++    },
++    "traffico": {
++      "url": "https://opendata.5t.torino.it/get_fdt",
++      "prefisso_file": "5t_flussi_",
++      "parser": "cinque_t"   // nome modulo parser in scripts/parsers/
++    },
++    "zone_statistiche": {
++      "url": "http://geoportale.comune.torino.it/geodati/zip/zone_statistiche_csv.zip",
++      "prefisso_file": "zone_statistiche_csv_",
++      "proiezione_sorgente": "EPSG:3003",
++      "conversione": "gb_a_wgs84"   // funzione in 04_genera_mappa.py
++    },
++    "istat": {
++      "codice_pro_com": 1272,
++      "basi_territoriali_zip": "R01_21.zip",
++      "raggio_sezioni_km": 18,
++      "matrice_lavoro_2021": "matrix_pendoLAVORO_2021.zip",
++      "matrice_studio_2021": "matrix_pendoSTUDIO_2021.zip",
++      "valori_attesi_pendolari": {
++        "lavoro": {"entrano": 138605, "escono": 71297, "dentro": 212249},
++        "studio": {"entrano": 48730, "escono": 6373, "dentro": 120148}
++      }
++    },
++    "tile_sfondo": {
++      "predefinito": "osm",
++      "opzioni": {
++        "osm": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
++        "carto_chiaro": "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
++        "esri_sat": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
++      }
++    }
++  },
++  "soglie": {
++    "velocita": {
++      "dt_min_sec": 20,
++      "dt_max_sec": 180,
++      "max_kmh": 90,
++      "fermo_m": 20,
++      "sosta_max_sec": 300
++    },
++    "min_campioni_linea": 20,
++    "comuni_con_linea_pendolari": 30
++  },
++  "etichette": {
++    "temi": ["Offerta", "Domanda", "Poca offerta", "Velocità", "Pendolari", "Traffico", "Tempo reale"],
++    "sovrapposizioni": ["Fermate", "Linee sottili", "Mezzi", "Sensori 5T", "Segnalazioni adesso", "Griglia metri"]
++  }
++}
++```
++
++**Parti del codice che lo leggerebbero:**
++- `04_genera_mappa.py` → `main()`: al posto di `ultimo()` e costanti hardcoded, carica `config/citta/<slug>.json` (argomento CLI `--citta torino` o variabile d'ambiente).
++- `01_scarica_dati.py` (non letto): userebbe `dati.gtfs_static.url`, `dati.gtfs_rt.*`, `dati.traffico.url`, `dati.zone_statistiche.url` e i prefissi per salvare i file.
++- `scripts/parsers/<parser_name>.py` (nuovi): `leggi_5t()` diventerebbe un parser pluggabile (`cinque_t`, `datex2`, `generico_json`, ecc.).
++- `05_prepara_sezioni.py` (non letto): userebbe `dati.istat.basi_territoriali_zip`, `dati.istat.raggio_sezioni_km`, `dati.istat.codice_pro_com`.
++- `scripts/mappa_template.html`: leggerebbe `centro`, `zoom_iniziale`, `etichette.temi`, `etichette.sovrapposizioni`, `tile_sfondo`.
++
++---
++
++## Piano a passi
++
++| Passo | Descrizione | Difficoltà | Nota |
++|-------|-------------|------------|------|
++| 1 | Estrarre tutte le costanti Torino-specifiche da `04_genera_mappa.py` in un dizionario `CONFIG_TORINO` nello stesso file (nessun cambio di comportamento). | FACILE | Solo rifattorizzazione interna; Torino continua a funzionare. |
++| 2 | Creare `config/citta/torino.json` dal dizionario sopra e modificare `04_genera_mappa.py` per caricarlo (default `torino` se nessun argomento). | FACILE | Nessun cambio logico; solo I/O configurazione. |
++| 3 | Rendere `leggi_5t()` un'interfaccia: creare `scripts/parsers/traffico/cinque_t.py` e un factory `get_parser(nome)` in `04_genera_mappa.py`. | MEDIO | Isola il parsing 5T; permette parser nuovi senza toccare il core. |
++| 4 | Spostare `gb_a_wgs84()` e `leggi_zone()` in un modulo `scripts/parsers/zone/` con strategia per proiezione sorgente (EPSG + funzione conversione). | MEDIO | Zone statistiche di altre città potrebbero essere già in WGS84. |
++| 5 | Parametrizzare `costruisci_pendolari()` e `leggi_nomi_comuni()` con `codice_pro_com`, percorsi file matrici, valori attesi dal config. | MEDIO | Richiede che la nuova città abbia matrici ISTAT 2021 (comune-comune) o 2011 (sezione). |
++| 6 | Aggiornare `01_scarica_dati.py` (fuori scope questo task, ma necessario) per leggere URL e prefissi dal config. | MEDIO | Da fare in task separato; non blocca la generazione mappa se i file ci sono. |
++| 7 | Aggiungere argomento `--citta <slug>` a `04_genera_mappa.py` e passare il config a `mappa_template.html` (centro, zoom, temi, tile). | MEDIO | Il template riceve `CONFIG_CITTA` via `__DATI__` o variabile JS dedicata. |
++| 8 | Testare con una seconda città (es. Milano o Bologna) usando solo dati GTFS statico + zone ISTAT (senza traffico/pendolari all'inizio). | DIFFICILE | Valida l'architettura; richiede dati reali di un'altra città. |
++
++---
++
++## Rischi
++
++1. **Dati non uniformi**: GTFS-RT non è standard de facto; molte città non lo pubblicano o usano formati proprietari. Il parser `vehicle_positions` dovrà gestire varianti (campi mancanti, trip_id assente come a Torino).
++2. **Traffico eterogeneo**: 5T è specifico Torino. Altre città usano Datex II, SIRI, o nulla. Serve un parser per città o un normalizzatore generico (lavoro notevole).
++3. **Zone statistiche**: Non tutti i comuni pubblicano zone/quartieri con geometrie aperte. Fallback: usare solo sezioni ISTAT (già pronte per tutta Italia).
++4. **Pendolarismo ISTAT 2021**: Solo livello comunale (niente mezzi/orari). Il livello sezione 2011 è vecchio e non allineato alle sezioni 2021. Il tema "Pendolari" potrebbe restare vuoto o approssimato.
++5. **Tile di sfondo**: CARTO richiede chiave (già notato in MEMORIA). OSM/Esri/Thunderforest hanno limiti o richiedono registrazione. Il config deve permettere tile locali (MBTiles) per uso offline.
++6. **Prestazioni**: Caricare sezioni ISTAT di tutta Italia (400k+ poligoni) nel browser ucciderebbe la pagina. Il filtro per raggio (oggi 18 km) va parametrizzato e possibilmente fatto lato Python (già fatto in `05_prepara_sezioni.py`).
++7. **Manutenzione config**: Ogni città aggiunge un file JSON + eventuali parser dedicati. Documentare bene lo schema e validare all'avvio (JSON Schema o `pydantic` se si accetta dipendenza; altrimenti validazione manuale in Python stdlib).
++8. **Fuso orario**: Hardcoded per Italia. Per città estere serve `zoneinfo` (stdlib 3.9+) e regole DST diverse.
++
++---
++
++*Documento generato da agente GT13-altre-citta – stato: bozza*

@@ -1,0 +1,2 @@
+{"type": "result", "subtype": "success", "is_error": false, "result": "<<<END>>>\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3-ultra-550b-a55b:free; file scritti: docs/BRIDGE_V2_b.md, agenti/TL01-progetto-b/RAPPORTO.md, agenti/TL01-progetto-b/DOMANDE.md, agenti/TL01-progetto-b/DECISIONS.md", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3-ultra-550b-a55b:free": {}}, "usage": {"input_tokens": 18954, "output_tokens": 6808}}
+--- STDERR ---

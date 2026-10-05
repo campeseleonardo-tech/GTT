@@ -1,0 +1,404 @@
+nohup: ignoring input
+=== Inizio qwen3.5:4b: Wed 16 Sep 15:50:19 CEST 2026 ===
+Filtro --ids: 22 domande selezionate.
+Backend: ollama  Modello: qwen3.5:4b  Host: http://localhost:11434  MAX_ITERATIONS: 8
+Domini registrati in questa architettura: ['chessdotcom', 'instagram', 'money', 'spotify']
+Esecuzione di 22 domande (0 già completate, 22 da eseguire davvero)...
+Checkpoint/report scritto dopo OGNI domanda in: /home/leopi/Timelive/code/batch_report_qwen3.5_4b_full25.json
+
+[1/22] (money_01) Quanto ho speso in totale ad agosto 2026?
+  -> ERRORE dopo 639.5s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[2/22] (money_04) Quanto ho investito su Trade Republic in totale, tra acquisti e vendite?
+  -> ERRORE dopo 284.8s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[3/22] (money_07) Ci sono state operazioni straordinarie sui miei titoli, tipo split o conversioni?
+  -> ERRORE dopo 485.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[4/22] (money_09) Quali sono le mie cinque spese più alte in assoluto, considerando tutta la mia storia?
+  -> ERRORE dopo 520.8s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[5/22] (money_13) Ho mai comprato azioni NVIDIA su Trade Republic? Quante volte e con quale spesa totale?
+  -> 4 iterazioni, 3 tool call, 425.0s
+  Risposta: Sì, hai comprato azioni NVIDIA su Trade Republic. Ecco i dettagli:
+
+- **Numero di acquisti**: 12 volte
+- **Azioni totali acquistate**: 465,274745 azioni
+- **Spesa totale**: € 1.565,96
+- **Periodo**: d...
+
+[6/22] (spotify_01) Cosa ho ascoltato di più di recente su Spotify?
+  -> ERRORE dopo 584.2s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[7/22] (spotify_06) Quanti episodi di podcast ho ascoltato rispetto alle canzoni vere e proprie?
+  -> 4 iterazioni, 3 tool call, 312.3s
+  Risposta: Hai ascoltato **435 episodi** di podcast rispetto a **358.005 canzoni** vere e proprie.
+
+In termini di proporzione, gli episodi rappresentano circa lo 0,12% del tuo totale ascolti musicali (consideran...
+
+[8/22] (spotify_08) Quante volte ho saltato un brano (skip) rispetto a quante l'ho ascoltato fino alla fine?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[9/22] (spotify_12) Chi sono i miei 5 artisti più ascoltati in assoluto, considerando tutta la mia storia?
+  -> 3 iterazioni, 2 tool call, 369.8s
+  Risposta: Ecco i tuoi **5 artisti più ascoltati** in assoluto, considerando tutta la tua storia:
+
+1. **Ed Sheeran** – 5.398 ascolti
+2. **Salmo** – 3.740 ascolti
+3. **White Noise Baby Sleep** – 3.153 ascolti
+4. ...
+
+[10/22] (chess_01) Come sta andando il mio rating a scacchi in blitz negli ultimi mesi?
+  -> ERRORE dopo 675.6s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[11/22] (chess_03) Qual è stata la mia sessione di scacchi più lunga: quante partite ho giocato e con che risultato?
+  -> 3 iterazioni, 2 tool call, 249.7s
+  Risposta: La tua sessione di scacchi più lunga è durata **56 minuti** (3360 secondi) e si è svolta dal 29 dicembre 2022 alle 15:49-16:45.
+
+Durante questa sessione hai giocato **8 partite** con un risultato comp...
+
+[12/22] (chess_06) Chi è l'avversario più forte (per rating) che ho mai battuto?
+  -> 4 iterazioni, 3 tool call, 311.5s
+  Risposta: L'avversario più forte che hai mai battuto è **Coach-David** con un rating di **600**.
+
+[13/22] (chess_10) Gioco più partite in bullet o in blitz? Dammi i due conteggi.
+  -> 4 iterazioni, 3 tool call, 297.8s
+  Risposta: Ecco i conteggi delle partite per modalità di tempo:
+
+*   **Bullet:** 2 partite
+*   **Blitz:** 1.231 partite
+
+Quindi, il gioco ha disputato molto più partite in blitz rispetto a bullet.
+
+[14/22] (instagram_01) Quanti post ho pubblicato in totale su Instagram?
+  -> 3 iterazioni, 2 tool call, 183.2s
+  Risposta: Hai pubblicato in totale **114** post su Instagram.
+
+[15/22] (instagram_02) Con quale contatto ho scambiato più messaggi diretti su Instagram, considerando solo le chat di cui hai il testo completo dei messaggi?
+  -> ERRORE dopo 471.7s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[16/22] (instagram_03) Ho delle chat di gruppo nei messaggi diretti di Instagram, o sono tutte conversazioni individuali?
+  -> 3 iterazioni, 2 tool call, 252.8s
+  Risposta: Hai **sia chat di gruppo che conversazioni individuali**.
+
+In totale ci sono **707 thread** nei messaggi diretti:
+- **655** sono conversazioni individuali (1 su 1)
+- **52** sono chat di gruppo
+
+[17/22] (instagram_05) Ho messo 'mi piace' più spesso a dei post o a dei commenti su Instagram?
+  -> 4 iterazioni, 4 tool call, 400.4s
+  Risposta: Ho messo "mi piace" ben più spesso a dei **post** rispetto ai commenti su Instagram:
+
+- **Post**: 8.080 mi piace
+- **Commenti**: 1.450 mi piace
+
+Quindi hai dato il doppio e mezzo di mi piace ai post r...
+
+[18/22] (instagram_07) Hai accesso ai contatti della mia rubrica del telefono sincronizzati con Instagram?
+  -> 3 iterazioni, 3 tool call, 349.8s
+  Risposta: No, non ho accesso ai contatti della tua rubrica del telefono sincronizzati con Instagram.
+
+I dati disponibili nel vault database riguardano esclusivamente attività su Instagram (follower, following, ...
+
+[19/22] (cross_02) Quante partite a scacchi ho giocato in totale nella mia storia, e quante canzoni ho ascoltato su Spotify? Dammi i due numeri separatamente.
+  -> 4 iterazioni, 4 tool call, 414.8s
+  Risposta: Ecco i tuoi dati:
+
+- **Partite a scacchi giocate:** 1785  
+- **Canzoni ascoltate su Spotify (track):** 358005
+
+[20/22] (cross_04) Il giorno con la mia spesa bancaria più alta coincide con qualche partita a scacchi o messaggio WhatsApp particolare?
+  -> ERRORE dopo 359.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[21/22] (manifest_01) Che tipo di dati hai su di me al momento, e per quale periodo di tempo?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[22/22] (adversarial_01) Quanto ho speso su Netflix a dicembre 2025?
+  -> ERRORE dopo 567.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+======================================================================
+RIEPILOGO
+======================================================================
+{
+  "total_questions": 22,
+  "successful": 11,
+  "failed": 11,
+  "hit_max_iterations_count": 0,
+  "hit_max_iterations_ids": [],
+  "failed_ids": [
+    "money_01",
+    "money_04",
+    "money_07",
+    "money_09",
+    "spotify_01",
+    "spotify_08",
+    "chess_01",
+    "instagram_02",
+    "cross_04",
+    "manifest_01",
+    "adversarial_01"
+  ],
+  "malformed_tool_call_recoveries_count": 0,
+  "malformed_tool_call_recoveries_ids": [],
+  "avg_iterations": 3.55,
+  "avg_elapsed_seconds": 388.88,
+  "total_elapsed_seconds": 8555.35,
+  "tool_calls_by_tool": {
+    "describe_table": 14,
+    "run_sql": 16,
+    "list_tables": 1
+  },
+  "run_sql_queries": [
+    {
+      "question_id": "money_13",
+      "query": "SELECT DISTINCT instrument_name FROM transactions WHERE instrument_name LIKE '%NVIDIA%' OR description_full LIKE '%NVIDIA%'",
+      "error": null,
+      "row_count": 5,
+      "truncated": false
+    },
+    {
+      "question_id": "money_13",
+      "query": "SELECT \n    COUNT(*) as num_acquisti,\n    SUM(CASE WHEN shares > 0 THEN shares ELSE 0 END) as total_shares_acquistate,\n    SUM(CASE WHEN shares > 0 THEN ABS(amount) ELSE 0 END) as totale_spesa_euro,\n    MIN(timestamp_begin) as data_prima_operazione,\n    MAX(timestamp_begin) as data_ultima_operazione\nFROM transactions\nWHERE institution = 'Trade Republic'\n  AND (instrument_name = 'NVIDIA' OR description_full LIKE '%NVIDIA%')\n  AND category_raw LIKE '%/ BUY%'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_06",
+      "query": "SELECT COUNT(*) AS episode_count FROM plays WHERE content_type = 'episode'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_06",
+      "query": "SELECT COUNT(*) AS track_count FROM plays WHERE content_type = 'track'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_12",
+      "query": "SELECT artist_name, COUNT(*) as play_count\nFROM plays\nGROUP BY artist_name\nORDER BY play_count DESC\nLIMIT 5",
+      "error": null,
+      "row_count": 5,
+      "truncated": false
+    },
+    {
+      "question_id": "chess_03",
+      "query": "SELECT * FROM playing_sessions ORDER BY duration_seconds DESC LIMIT 1",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "chess_06",
+      "query": "SELECT DISTINCT result_for_user, user_side FROM games",
+      "error": null,
+      "row_count": 6,
+      "truncated": false
+    },
+    {
+      "question_id": "chess_06",
+      "query": "SELECT opponent_username, opponent_rating \nFROM games \nWHERE result_for_user = 'win' \nORDER BY opponent_rating DESC \nLIMIT 1",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "chess_10",
+      "query": "SELECT COUNT(*) FROM games WHERE time_class = 'bullet'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "chess_10",
+      "query": "SELECT COUNT(*) FROM games WHERE time_class = 'blitz'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "instagram_01",
+      "query": "SELECT COUNT(*) FROM instagram_posts WHERE content_kind = 'post'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "instagram_03",
+      "query": "SELECT is_group, COUNT(*) as thread_count FROM instagram_direct_message_threads GROUP BY is_group",
+      "error": null,
+      "row_count": 2,
+      "truncated": false
+    },
+    {
+      "question_id": "instagram_05",
+      "query": "SELECT COUNT(*) as like_count FROM instagram_likes WHERE content_kind='post'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "instagram_05",
+      "query": "SELECT COUNT(*) as like_count FROM instagram_likes WHERE content_kind='comment'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "cross_02",
+      "query": "SELECT COUNT(*) FROM games",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "cross_02",
+      "query": "SELECT COUNT(*) FROM plays WHERE content_type = 'track'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    }
+  ]
+}
+
+Report completo scritto in: /home/leopi/Timelive/code/batch_report_qwen3.5_4b_full25.json
+Manda questo file per l'analisi.
+=== Fine qwen3.5:4b: Wed 16 Sep 18:12:54 CEST 2026 — inizio nemotron-3-nano:4b ===
+Filtro --ids: 22 domande selezionate.
+Backend: ollama  Modello: nemotron-3-nano:4b  Host: http://localhost:11434  MAX_ITERATIONS: 8
+Domini registrati in questa architettura: ['chessdotcom', 'instagram', 'money', 'spotify']
+Esecuzione di 22 domande (0 già completate, 22 da eseguire davvero)...
+Checkpoint/report scritto dopo OGNI domanda in: /home/leopi/Timelive/code/batch_report_nemotron_nano_4b_full25.json
+
+[1/22] (money_01) Quanto ho speso in totale ad agosto 2026?
+  -> ERRORE dopo 200.5s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[2/22] (money_04) Quanto ho investito su Trade Republic in totale, tra acquisti e vendite?
+  -> ERRORE dopo 201.0s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[3/22] (money_07) Ci sono state operazioni straordinarie sui miei titoli, tipo split o conversioni?
+  -> ERRORE dopo 378.2s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[4/22] (money_09) Quali sono le mie cinque spese più alte in assoluto, considerando tutta la mia storia?
+  -> ERRORE dopo 387.7s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[5/22] (money_13) Ho mai comprato azioni NVIDIA su Trade Republic? Quante volte e con quale spesa totale?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[6/22] (spotify_01) Cosa ho ascoltato di più di recente su Spotify?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[7/22] (spotify_06) Quanti episodi di podcast ho ascoltato rispetto alle canzoni vere e proprie?
+  -> 3 iterazioni, 2 tool call, 446.8s
+  Risposta: 
+
+[8/22] (spotify_08) Quante volte ho saltato un brano (skip) rispetto a quante l'ho ascoltato fino alla fine?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[9/22] (spotify_12) Chi sono i miei 5 artisti più ascoltati in assoluto, considerando tutta la mia storia?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[10/22] (chess_01) Come sta andando il mio rating a scacchi in blitz negli ultimi mesi?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[11/22] (chess_03) Qual è stata la mia sessione di scacchi più lunga: quante partite ho giocato e con che risultato?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[12/22] (chess_06) Chi è l'avversario più forte (per rating) che ho mai battuto?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[13/22] (chess_10) Gioco più partite in bullet o in blitz? Dammi i due conteggi.
+  -> ERRORE dopo 351.7s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[14/22] (instagram_01) Quanti post ho pubblicato in totale su Instagram?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[15/22] (instagram_02) Con quale contatto ho scambiato più messaggi diretti su Instagram, considerando solo le chat di cui hai il testo completo dei messaggi?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[16/22] (instagram_03) Ho delle chat di gruppo nei messaggi diretti di Instagram, o sono tutte conversazioni individuali?
+  -> 3 iterazioni, 2 tool call, 371.3s
+  Risposta: I have both individual 1:1 direct messages and group chats in Instagram direct messages. The `is_group` column distinguishes them: 0 for individual conversations (655 instances) and 1 for group chats ...
+
+[17/22] (instagram_05) Ho messo 'mi piace' più spesso a dei post o a dei commenti su Instagram?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[18/22] (instagram_07) Hai accesso ai contatti della mia rubrica del telefono sincronizzati con Instagram?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[19/22] (cross_02) Quante partite a scacchi ho giocato in totale nella mia storia, e quante canzoni ho ascoltato su Spotify? Dammi i due numeri separatamente.
+  -> 1 iterazioni, 0 tool call, 187.4s
+  Risposta: Hai giocato **1 785 partite a scacchi** nella tua storia, e hai ascoltato **358 440 canzoni** su Spotify.
+
+[20/22] (cross_04) Il giorno con la mia spesa bancaria più alta coincide con qualche partita a scacchi o messaggio WhatsApp particolare?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[21/22] (manifest_01) Che tipo di dati hai su di me al momento, e per quale periodo di tempo?
+  -> ERRORE dopo 200.1s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+[22/22] (adversarial_01) Quanto ho speso su Netflix a dicembre 2025?
+  -> ERRORE dopo 346.0s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)
+
+======================================================================
+RIEPILOGO
+======================================================================
+{
+  "total_questions": 22,
+  "successful": 3,
+  "failed": 19,
+  "hit_max_iterations_count": 0,
+  "hit_max_iterations_ids": [],
+  "failed_ids": [
+    "money_01",
+    "money_04",
+    "money_07",
+    "money_09",
+    "money_13",
+    "spotify_01",
+    "spotify_08",
+    "spotify_12",
+    "chess_01",
+    "chess_03",
+    "chess_06",
+    "chess_10",
+    "instagram_01",
+    "instagram_02",
+    "instagram_05",
+    "instagram_07",
+    "cross_04",
+    "manifest_01",
+    "adversarial_01"
+  ],
+  "malformed_tool_call_recoveries_count": 0,
+  "malformed_tool_call_recoveries_ids": [],
+  "avg_iterations": 2.33,
+  "avg_elapsed_seconds": 248.73,
+  "total_elapsed_seconds": 5472.02,
+  "tool_calls_by_tool": {
+    "describe_table": 2,
+    "run_sql": 2
+  },
+  "run_sql_queries": [
+    {
+      "question_id": "spotify_06",
+      "query": "SELECT SUM(CASE WHEN media_type='podcast' THEN 1 ELSE 0 END) AS podcast_episodes, SUM(CASE WHEN media_type='song' THEN 1 ELSE 0 END) AS song_episodes FROM listening_sessions;",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "instagram_03",
+      "query": "SELECT is_group, COUNT(*) FROM instagram_direct_message_threads GROUP BY is_group;",
+      "error": null,
+      "row_count": 2,
+      "truncated": false
+    }
+  ]
+}
+
+Report completo scritto in: /home/leopi/Timelive/code/batch_report_nemotron_nano_4b_full25.json
+Manda questo file per l'analisi.
+=== Tutto completato: Wed 16 Sep 19:44:07 CEST 2026 ===

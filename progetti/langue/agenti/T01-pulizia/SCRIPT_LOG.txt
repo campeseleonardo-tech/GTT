@@ -1,0 +1,14 @@
+words_db.json: sha256 9c364dbb2a238393..., 200 sostantivi tedeschi
+words_db.txt: identico a words_db.json
+data/words_db.py: identico a words_db.json
+spostato: main.py -> archivio/vecchio_codice/main.py
+spostato: app_ui.py -> archivio/vecchio_codice/app_ui.py
+spostato: ui -> archivio/vecchio_codice/ui
+spostato: core -> archivio/vecchio_codice/core
+spostato: data -> archivio/vecchio_codice/data
+spostato: words_db.txt -> archivio/vecchio_codice/words_db.txt
+spostato: requirements - Copy.txt -> archivio/vecchio_codice/requirements - Copy.txt
+spostato: .gitignore.py -> archivio/vecchio_codice/.gitignore.py
+dopo: sha256 9c364dbb2a238393..., 200 sostantivi
+
+--- STDERR ---

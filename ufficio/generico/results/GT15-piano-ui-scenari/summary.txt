@@ -1,0 +1,3 @@
+ESITO: Redatto docs/PIANO_UI_E_SCENARI.md con analisi completa di 9 temi e 16 controlli attuali, proposta a 4 temi unificati, struttura uniforme per le schede e architettura per scenari alternativi su base ISTAT.
+
+[runner] motore Google AI Studio, modello gemini:gemini-3.8-flash; file scritti: docs/PIANO_UI_E_SCENARI.md, agenti/GT15-piano-ui-scenari/DOMANDE.md, agenti/GT15-piano-ui-scenari/RAPPORTO.md

@@ -1,0 +1,3 @@
+ESITO: Implementato "Ripasso degli sbagli" con sottomenu 3 giochi, fixati bug critici (indice non avanzante, listener duplicati), aggiornati 3 file (index.html, app.js, style.css) e scritto RAPPORTO.md.
+
+[runner] motore OpenRouter, modello nvidia/nemotron-3-ultra-550b-a55b:free; file scritti: agenti/T20-esegui-b/RAPPORTO.md, web/index.html, web/app.js, web/style.css

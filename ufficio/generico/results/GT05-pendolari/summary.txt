@@ -1,0 +1,5 @@
+ESITO: Aggiunto il tema "Pendolari" (aree per comune, 30 linee verso Torino, selettori, tooltip, legenda) e il parser delle matrici ISTAT lavoro e studio; non l'ho eseguito, quindi i totali non sono verificati.
+- Il parser in `04_genera_mappa.py` riconosce intestazione e colonne e prova utf-8 poi latin-1. Stampa i totali di Torino con i valori attesi (138.605 entrano, 71.297 escono per il lavoro) e un ATTENZIONE se lo scarto supera il 5%. Se mancano gli zip salta il tema ed esce 0.
+- Nel template i comuni non hanno il nome (nel progetto non c'è la tabella ISTAT dei codici), quindi la scheda mostra il codice PRO_COM.
+- I residenti di un comune sono la somma delle sezioni entro 18 km, quindi per i comuni di confine "ogni 1000 abitanti" può risultare gonfiato.
+- Il rapporto con i passi da cliccare è in `agenti/GT05-pendolari/RAPPORTO.md`; tre domande per Leo sono in `DOMANDE.md`.

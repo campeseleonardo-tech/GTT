@@ -1,0 +1,39 @@
+{
+  "versione": 1,
+  "comuni": {
+    "id": {"tipo": "testo", "min": 3, "max": 80},
+    "tipo": {"tipo": "testo", "valori": ["articolo", "frase", "errore", "consiglio"]},
+    "lingua": {"tipo": "testo", "valori": ["de"]},
+    "livello": {"tipo": "testo", "valori": ["A1", "A2", "B1", "altro"]},
+    "stato": {"tipo": "testo", "valori": ["bozza", "verificato", "da_verificare"]},
+    "origine": {"tipo": "testo", "min": 3, "max": 60},
+    "fonte": {"tipo": "testo", "obbligatorio": false, "min": 1, "max": 300},
+    "note": {"tipo": "testo", "obbligatorio": false, "min": 1, "max": 500}
+  },
+  "tipi": {
+    "articolo": {
+      "parola": {"tipo": "testo", "min": 1, "max": 60},
+      "articolo": {"tipo": "testo", "valori": ["der", "die", "das"]},
+      "traduzione_it": {"tipo": "testo", "min": 1, "max": 100}
+    },
+    "frase": {
+      "testo_de": {"tipo": "testo", "min": 5, "max": 200},
+      "traduzione_it": {"tipo": "testo", "min": 5, "max": 250},
+      "blocchi": {"tipo": "elenco_testi", "min": 4, "max": 9},
+      "alternative": {"tipo": "elenco_testi", "obbligatorio": false, "min": 1, "max": 5}
+    },
+    "errore": {
+      "frase_sbagliata": {"tipo": "testo", "min": 3, "max": 200},
+      "frase_corretta": {"tipo": "testo", "min": 3, "max": 200},
+      "categoria": {"tipo": "testo", "valori": ["articolo", "ordine_verbo", "genere", "falsi_amici", "preposizioni", "altro"]},
+      "spiegazione_it": {"tipo": "testo", "min": 20, "max": 600}
+    },
+    "consiglio": {
+      "titolo": {"tipo": "testo", "min": 1, "max": 150},
+      "genere": {"tipo": "testo", "valori": ["thriller_crime", "commedia", "fantasy_fantascienza", "musica_pop_rock"]},
+      "supporto": {"tipo": "testo", "valori": ["film", "serie", "libro", "brano"]},
+      "perche_adatto_it": {"tipo": "testo", "min": 10, "max": 600},
+      "parole_utili": {"tipo": "elenco_testi", "min": 3, "max": 5}
+    }
+  }
+}

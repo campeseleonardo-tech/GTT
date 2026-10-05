@@ -1,0 +1,15 @@
+TASK DEI PROGETTI (generico) - aggiornato 04/10/2026
+
+Il runner (runner.py) lo avvia il dispatcher dell'Ufficio: non serve lanciarlo a mano.
+Un task = un file <id>.task.md (intestazione con i campi, poi '---' e le istruzioni per l'agente).
+
+queue\       in coda              done\        fatti            failed\      non hanno passato i controlli
+blocked\     aspettano te         incomplete\  turni o tempo finiti           sospesi\     spenti (li attivi dal pannello)
+results\<id> risposta dell'agente, riassunto, VALIDATORE.log      decisions\   domande che fermano un task
+work\        cartelle di lavoro dei task senza repository        logs\runner.log   cosa fa il runner, riga per riga
+profiles\    regole per gli agenti dei progetti che non hanno ancora la Scheda progetto
+scripts\     script Python che alcuni task eseguono (0 token)
+
+Il consumo NON e' piu' qui: va nel log unico ..\logs\uso.csv (motori.py).
+Per fermare tutto: "Pausa" nel pannello (crea il file STOP qui).
+Prova a mano (PowerShell, in questa cartella):  python runner.py --dry-run   mostra i comandi, non usa Claude

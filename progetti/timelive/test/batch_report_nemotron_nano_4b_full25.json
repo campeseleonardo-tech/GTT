@@ -1,0 +1,543 @@
+{
+  "generated_at": "2026-09-16T17:44:07.012262+00:00",
+  "status": "completed",
+  "backend": "ollama",
+  "model": "nemotron-3-nano:4b",
+  "host": "http://localhost:11434",
+  "max_iterations": 8,
+  "registered_domains": [
+    "chessdotcom",
+    "instagram",
+    "money",
+    "spotify"
+  ],
+  "batch_elapsed_seconds": 5472.08,
+  "summary": {
+    "total_questions": 22,
+    "successful": 3,
+    "failed": 19,
+    "hit_max_iterations_count": 0,
+    "hit_max_iterations_ids": [],
+    "failed_ids": [
+      "money_01",
+      "money_04",
+      "money_07",
+      "money_09",
+      "money_13",
+      "spotify_01",
+      "spotify_08",
+      "spotify_12",
+      "chess_01",
+      "chess_03",
+      "chess_06",
+      "chess_10",
+      "instagram_01",
+      "instagram_02",
+      "instagram_05",
+      "instagram_07",
+      "cross_04",
+      "manifest_01",
+      "adversarial_01"
+    ],
+    "malformed_tool_call_recoveries_count": 0,
+    "malformed_tool_call_recoveries_ids": [],
+    "avg_iterations": 2.33,
+    "avg_elapsed_seconds": 248.73,
+    "total_elapsed_seconds": 5472.02,
+    "tool_calls_by_tool": {
+      "describe_table": 2,
+      "run_sql": 2
+    },
+    "run_sql_queries": [
+      {
+        "question_id": "spotify_06",
+        "query": "SELECT SUM(CASE WHEN media_type='podcast' THEN 1 ELSE 0 END) AS podcast_episodes, SUM(CASE WHEN media_type='song' THEN 1 ELSE 0 END) AS song_episodes FROM listening_sessions;",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_03",
+        "query": "SELECT is_group, COUNT(*) FROM instagram_direct_message_threads GROUP BY is_group;",
+        "error": null,
+        "row_count": 2,
+        "truncated": false
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "money_01",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho speso in totale ad agosto 2026?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.47
+    },
+    {
+      "id": "money_04",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho investito su Trade Republic in totale, tra acquisti e vendite?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.97
+    },
+    {
+      "id": "money_07",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Ci sono state operazioni straordinarie sui miei titoli, tipo split o conversioni?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 378.2
+    },
+    {
+      "id": "money_09",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quali sono le mie cinque spese più alte in assoluto, considerando tutta la mia storia?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 387.68
+    },
+    {
+      "id": "money_13",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Ho mai comprato azioni NVIDIA su Trade Republic? Quante volte e con quale spesa totale?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "spotify_01",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Cosa ho ascoltato di più di recente su Spotify?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "spotify_06",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Quanti episodi di podcast ho ascoltato rispetto alle canzoni vere e proprie?",
+      "success": true,
+      "answer": "",
+      "iterations_used": 3,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "listening_sessions"
+          },
+          "result": {
+            "table": "listening_sessions",
+            "columns": [
+              {
+                "name": "session_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_seconds",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "media_type",
+                "sql_type": "TEXT",
+                "semantic_note": "a session never mixes audio and video plays — see is_compatible in detect_listening_sessions()",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "play_count",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "distinct_artist_count",
+                "sql_type": "INTEGER",
+                "semantic_note": "counts distinct artist_name among track plays in the session; episodes/audiobooks don't contribute an artist",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "skipped_count",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "total_played_seconds",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "confidence_rate",
+                "sql_type": "REAL",
+                "semantic_note": "confidence that this grouping of plays is really one sitting, not that the plays themselves happened",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_begin",
+            "foreign_keys": {},
+            "row_count": 17445
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT SUM(CASE WHEN media_type='podcast' THEN 1 ELSE 0 END) AS podcast_episodes, SUM(CASE WHEN media_type='song' THEN 1 ELSE 0 END) AS song_episodes FROM listening_sessions;"
+          },
+          "result": {
+            "columns": [
+              "podcast_episodes",
+              "song_episodes"
+            ],
+            "rows": [
+              {
+                "podcast_episodes": 0,
+                "song_episodes": 0
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 446.76
+    },
+    {
+      "id": "spotify_08",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Quante volte ho saltato un brano (skip) rispetto a quante l'ho ascoltato fino alla fine?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "spotify_12",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Chi sono i miei 5 artisti più ascoltati in assoluto, considerando tutta la mia storia?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "chess_01",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Come sta andando il mio rating a scacchi in blitz negli ultimi mesi?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "chess_03",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Qual è stata la mia sessione di scacchi più lunga: quante partite ho giocato e con che risultato?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "chess_06",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Chi è l'avversario più forte (per rating) che ho mai battuto?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "chess_10",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Gioco più partite in bullet o in blitz? Dammi i due conteggi.",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 351.69
+    },
+    {
+      "id": "instagram_01",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Quanti post ho pubblicato in totale su Instagram?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "instagram_02",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Con quale contatto ho scambiato più messaggi diretti su Instagram, considerando solo le chat di cui hai il testo completo dei messaggi?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.13
+    },
+    {
+      "id": "instagram_03",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Ho delle chat di gruppo nei messaggi diretti di Instagram, o sono tutte conversazioni individuali?",
+      "success": true,
+      "answer": "I have both individual 1:1 direct messages and group chats in Instagram direct messages. The `is_group` column distinguishes them: 0 for individual conversations (655 instances) and 1 for group chats (52 instances).",
+      "iterations_used": 3,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "instagram_direct_message_threads"
+          },
+          "result": {
+            "table": "instagram_direct_message_threads",
+            "columns": [
+              {
+                "name": "thread_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "thread_path",
+                "sql_type": "TEXT",
+                "semantic_note": "native, unique per conversation — e.g. 'inbox/edoardocavassa_516770459720154'",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "participants",
+                "sql_type": "TEXT",
+                "semantic_note": "native display names, '; '-joined — includes the project owner's own name (Instagram's export lists every participant, not just the other side), so a normal 1:1 DM already shows 2 names here; see is_group for the actual group/1:1 distinction",
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_group",
+                "sql_type": "INTEGER",
+                "semantic_note": "derived, deterministic: 1 when more than one participant besides the project owner, 0 otherwise",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "message_count",
+                "sql_type": "INTEGER",
+                "semantic_note": "native — total messages in this thread across all message_*.json parts, counted regardless of sampling",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "first_message_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "native, ISO 8601 UTC",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "last_message_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, ISO 8601 UTC",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_sampled",
+                "sql_type": "INTEGER",
+                "semantic_note": "1 if this is one of the 20 busiest threads (see instagram_ingest.TOP_N_THREADS_FOR_FULL_TEXT) — only those threads have matching rows in instagram_direct_messages; every other thread has metadata here only, by explicit MVP scoping, not a data gap",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "thread_category",
+                "sql_type": "TEXT",
+                "semantic_note": "'inbox' or 'message_request'",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_folder",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "last_message_timestamp",
+            "foreign_keys": {},
+            "row_count": 707
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT is_group, COUNT(*) FROM instagram_direct_message_threads GROUP BY is_group;"
+          },
+          "result": {
+            "columns": [
+              "is_group",
+              "COUNT(*)"
+            ],
+            "rows": [
+              {
+                "is_group": 0,
+                "COUNT(*)": 655
+              },
+              {
+                "is_group": 1,
+                "COUNT(*)": 52
+              }
+            ],
+            "row_count": 2
+          }
+        }
+      ],
+      "elapsed_seconds": 371.31
+    },
+    {
+      "id": "instagram_05",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Ho messo 'mi piace' più spesso a dei post o a dei commenti su Instagram?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "instagram_07",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Hai accesso ai contatti della mia rubrica del telefono sincronizzati con Instagram?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "cross_02",
+      "domains_tagged": [
+        "chessdotcom",
+        "spotify"
+      ],
+      "question": "Quante partite a scacchi ho giocato in totale nella mia storia, e quante canzoni ho ascoltato su Spotify? Dammi i due numeri separatamente.",
+      "success": true,
+      "answer": "Hai giocato **1 785 partite a scacchi** nella tua storia, e hai ascoltato **358 440 canzoni** su Spotify.",
+      "iterations_used": 1,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [],
+      "elapsed_seconds": 187.45
+    },
+    {
+      "id": "cross_04",
+      "domains_tagged": [
+        "money",
+        "chessdotcom",
+        "whatsapp"
+      ],
+      "question": "Il giorno con la mia spesa bancaria più alta coincide con qualche partita a scacchi o messaggio WhatsApp particolare?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "manifest_01",
+      "domains_tagged": [],
+      "question": "Che tipo di dati hai su di me al momento, e per quale periodo di tempo?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "adversarial_01",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho speso su Netflix a dicembre 2025?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 346.04
+    }
+  ]
+}

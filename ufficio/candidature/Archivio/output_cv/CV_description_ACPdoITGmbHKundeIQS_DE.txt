@@ -1,0 +1,80 @@
+LEONARDO CAMPESE
+
+LinkedIn: in/leonardocampese
+Phone: (+43) 660 6878927
+Email: campese.leonardo@gmail.com
+Salzburg, Österreich | ab sofort verfügbar | Umzug möglich
+
+ABOUT ME
+Ingenieur mit Hintergrund in Engineering, Innovation & Product Management sowie Business & Management. Bei KTM habe ich Testabläufe per Skript automatisiert, Testergebnisse analysiert und Fehlerursachen mit mehreren Abteilungen geklärt. Scrum kenne ich aus Zertifizierung und Studium, mit Jira habe ich bisher nur Berührungspunkte. Ich arbeite strukturiert und vermittle Ergebnisse klar.
+
+WORK EXPERIENCE
+System Testing Engineer | Thermal Management
+KTM F&E | 09/2023 - 06/2025
+Skriptbasierte Testautomatisierung: Analysezeit um 50 % gesenkt, Berichte erstellt
+Prüfstandbediener nur noch für Sicherheit und Aufbau nötig, Tests dadurch spürbar kürzer
+Automatisierung dokumentiert und an Nachfolger übergeben (Nutzung, Pakete, Erweiterung)
+Testfälle und Testmatrix konzipiert, Rückmeldungen aus mehreren Bereichen eingearbeitet
+Testergebnisse analysiert, Abweichungen und Fehlerquellen identifiziert und geklärt
+Ergebnisse und Methodik intern und vor internationalen Kunden präsentiert und verteidigt
+
+Functional Development Engineer | Fluid Dynamics
+KTM F&E | 06/2025 - 06/2026
+1D-, 2D- und 3D-Simulationen mit F&E, Test und Design koordiniert und zeitlich geplant
+Auswertungen mit Python und Matlab; Messdatenbank für alle Kühlkomponenten gepflegt
+Lieferanten und Designentscheidungen zwischen Performance und Kosten mit F&E abgestimmt
+
+Intern R&D | Aerodynamics
+KTM F&E | 03/2023 - 09/2023
+Windkanaldaten ausgewertet und strukturiert, Ergebnisse in Entwicklungsziele übersetzt
+Anforderungen für neue Motorrad-Modellplattformen mit Entwicklung und Vertrieb definiert
+Stücklisten (BOM) in PTC Creo für ganz F&E vereinheitlicht und Varianten reduziert
+
+SEO Data Analyst | Internship / Praktikum
+BPM - POWER | 09/2018 - 06/2019
+Marktdaten und Nutzerverhalten analysiert, um strategische Entscheidungen zu stützen
+Suchstrategien, Keywords und Google-Ads-Inhalte auf Basis von Datenanalysen optimiert
+Strukturiertes Reporting zur Leistungsmessung und Erkennung von Potenzialen aufgebaut
+
+Event Manager | Veranstaltungsorganisation
+Croma SRL | 09/2015 - 12/2016
+Events von der Planung bis zur Durchführung organisiert, inkl. Lieferanten und Budget
+Mehrere Beteiligte vor Ort koordiniert und operative Probleme unter Zeitdruck gelöst
+Kommunikation, Logistik und Nachbereitung für zukünftige Veranstaltungen verbessert
+
+EDUCATION
+Master of Science in Engineering | Innovation & Product Management
+FH Upper Austria, Campus Wels | 09/2020 - 12/2023
+Vertiefung Development Process Engineering: Projektmanagement, Requirements Engineering
+Masterarbeit zur Messtechnik für Luftdruck und Strömung am Motorradkühler, Bestnote
+Praxisprojekt mit einem Unternehmen, Datenanalyse (ETL/BI) und Model Based Engineering
+
+University Collaboration | Business Development
+Schneider AG / Heilbronn University | 09/2022 - 01/2023
+Interne Teams und externe Key Accounts analysiert, um die Lieferkette zu verbessern
+Projekt-Set-up moderiert, Ergebnisse erklärt, Kick-off und Lessons Learned geleitet
+Empfehlungen zur Abwägung von technischer Machbarkeit und Geschäftswirkung präsentiert
+
+Bachelor of Science | Business & Management
+Università degli Studi di Torino | 09/2017 - 08/2020
+Grundlagen in Unternehmensstrategie, Organisationsführung und operativer Effizienz
+Management, Operations, Wirtschaft; Bachelorarbeit zu IoT-Technologien für Smart Cities
+
+CERTIFICATIONS
+IPMA Level D - Certified Project Management Associate | PMA Austria | 05/2022 - 05/2027
+Project Manager - SCRUM Certification | Institut für Agile Transformation
+
+LANGUAGES
+Italienisch: Muttersprache
+Englisch: C1
+Spanisch: C1
+Deutsch: C1
+Französisch: A2
+
+TOOLS / DIGITAL SKILLS
+Testautomatisierung und Analyse: Python, Matlab, SQL, GitHub, C, HTML
+Test- und Messdaten: Concerto, Temes, FlexPro, Rotec, AVL, CAN
+Projektarbeit: Jira (nur gesehen), Trello, Miro, MS Project (teilweise), SharePoint
+MS Office (inkl. Makros, Power BI), SAP (begrenzt, Fiori)
+Simulation und CAD: Ansys Fluent, OpenFOAM, GT Suite, PTC Creo, SolidWorks
+Raspberry Pi, Arduino

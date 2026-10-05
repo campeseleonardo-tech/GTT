@@ -1,0 +1,644 @@
+# Progetto "Mercatino Austria" — Documento di lavoro, Fase 1
+
+**Versione 0.5 — 21 settembre 2026 (giorno 1 della fase 1)**
+**Riservato:** contiene note interne sul progetto e sulle persone coinvolte. Non condividere con terzi (incluse le persone citate) senza averlo prima ripulito.
+**Scopo del file:** essere la fonte di verità da caricare nelle chat successive del Project "Mercatino". Contiene contesto, fatti verificati, ipotesi, rischi, piano di lavoro e fonti.
+
+---
+
+## 0. Leggi prima (istruzioni per Claude nelle chat successive)
+
+1. **Lingua:** italiano (poi eventualmente inglese/tedesco). Le interviste sul campo saranno in tedesco (livello B2 dell'utente).
+2. **Stile richiesto dall'utente:** critico ma non assertivo. Fare notare dubbi e rischi, senza imporre conclusioni. Fare tutte le domande necessarie prima di dare una risposta completa e precisa.
+3. **Non inventare numeri.** Ogni dato va marcato con la legenda sotto. Se un dato non c'è, dirlo.
+4. **Non sono consulenza legale o finanziaria.** Per contratto, fisco e forma societaria serve un professionista locale.
+5. **Giangio** (amico dell'utente, figlio del fondatore) è una fonte utile ma **non verificata**: quello che dice va marcato `[G]` finché non è confermato da un documento.
+6. **Il dossier finale** deve stare in **massimo 15 pagine**, escluse copertina, interviste e allegati, "altrimenti non lo legge nessuno".
+7. **Regole di ingaggio:** vedi sezione 4. Non citare Mercatino come committente nelle interviste senza conferma dell'utente.
+8. Alla fine di ogni chat proporre le righe da aggiungere al **Registro aggiornamenti** (sezione 13).
+9. **Data di riferimento del file: 21/09/2026.** Per leggi, numeri aziendali ed eventi verificare sul web se qualcosa è cambiato dopo questa data e citare la fonte.
+
+**Legenda affidabilità dei dati**
+
+| Sigla | Significato |
+|---|---|
+| `[V]` | Verificato su fonte ufficiale o documento primario |
+| `[S]` | Fonte secondaria (stampa, aggregatori, blog): plausibile ma da confermare |
+| `[D]` | Dichiarato dall'azienda (comunicazione/marketing) |
+| `[G]` | Detto da Giangio, non verificato |
+| `[?]` | Ipotesi, inferenza o calcolo mio, oppure dato da verificare o mancante |
+
+---
+
+## 1. Sintesi
+
+- L'utente vive a **Salisburgo** e vuole proporre a **Mercatino** (Verona, franchising dell'usato in conto vendita) di entrare in Austria, con lui come **master franchisee o partner locale**. Non vuole gestire negozi, se non dove necessario.
+- Ha un accesso privilegiato tramite **Giangio**, amico e figlio del fondatore **Sebastiano Marinaccio**. Giangio ha suggerito un compenso "ibrido" (fisso per negozio aperto più commissioni sul guadagno del negozio).
+- Punto di partenza: **zero progressi**. Nessun documento di Mercatino in mano all'utente.
+- **Obiettivo della fase 1 (14 giorni, circa 40 ore):** produrre un dossier di massimo 15 pagine che permetta a Mercatino di decidere **se, come e con quali risorse** aprire in Austria. Non serve un negozio pilota.
+- **Budget personale:** al massimo 20.000 € "se faccio all-in"; disposto a spendere pochissimo finché non c'è certezza.
+- **Modulo separato:** idea di "crediti di sostenibilità" legati all'uso del gestionale di Mercatino (idea di Giangio, non verificata).
+- **Tre dati che cambiano il quadro** (vedi sezione 2): la casa madre è piccola (circa 3 M€ di ricavi, circa 16 dipendenti) rispetto al giro d'affari della rete (112 M€); il piano estero del 2023 non risulta concretizzato oltre Ibiza; il mercato austriaco dell'usato è grande (circa 2 Mrd €) ma dominato dalle piattaforme online.
+
+### 1.1 To-do list operativa (aggiornata al 21/09/2026)
+
+**Decisioni già prese (21/09/2026)**
+- La **Germania è fuori dalla fase 1**.
+- Nelle interviste ci si presenta come **iniziativa autonoma**, senza nominare Mercatino. **Confermato anche da Giangio il 21/09/2026.**
+- **Vincolo nuovo (21/09/2026): questa settimana l'utente è in Italia**, quindi niente sopralluoghi o interviste di persona a Salisburgo fino al rientro (data di rientro da chiarire). Priorità della settimana: contatti online (sondaggi e interviste a distanza) e la WKO di Salisburgo.
+
+**Legenda:** P1 = da fare subito o blocca altre attività; P2 = importante; P3 = se c'è tempo. Le ore sono indicative (3 ore al giorno).
+
+**Lun 21/09 (oggi)**
+- [ ] (P1, 0,5 h) Leggere questo file e segnare errori, dati che conosci meglio di me e punti che non ti convincono.
+- [x] (P1, 1 h) ~~Scrivere a Giangio~~ **Fatto il 21/09 (chiamata):** ha risposto su piano estero (non lo conosce, vedi 2.3 punto 0), costi di allestimento, royalty (3%), ATECO, regolamentazione, fiere (sezione 2.6), e **ha confermato di presentarsi come autonomo nelle interviste**. **Follow-up ancora da fare:** (a) fonte esatta del dato Italia/Spagna sul valore degli oggetti; (b) nome esatto della terza fiera; (c) cosa comprendono esattamente gli 11.000/20.000 € di allestimento; (d) quando ha senso parlare con Marinaccio.
+- [ ] (P1, 0,5 h) Pensare a una nota semplice su ruoli e proprietà dell'idea e del dossier, da proporre a Giangio al momento giusto (senza formalizzare troppo presto).
+- [ ] (P1, 0,5 h) Preparare il materiale di lavoro: cartella, tracker delle interviste (nome, gruppo, data, consenso, note), tracker delle fonti, foglio vuoto del modello economico.
+- [ ] (P2, 0,5 h) Elencare i contatti raggiungibili per le interviste: privati che vendono usato (amici, colleghi, gruppi locali), gestori di negozi di usato a Salisburgo, conoscenti imprenditori.
+
+**Mar 22/09**
+- [ ] (P1, 1 h) Preparare, in una nuova chat con questo file, le griglie di intervista **in tedesco** e un breve messaggio d'invito (ricerca esplorativa, 15-20 minuti, dati anonimi).
+- [ ] (P1, 1 h) Inviare i primi inviti: 3 privati e 2 gestori di negozi, con l'obiettivo di fissare gli appuntamenti tra il 26/09 e il 30/09.
+- [ ] (P2, 0,5 h) Guardare le risposte di Giangio e annotare cosa è confermato (un dato passa da `[G]` a `[V]` solo con un documento).
+- [ ] (P1, 0,5 h) Contattare la WKO di Salisburgo (Gründerservice), via email o telefono (l'utente è in Italia questa settimana): chiedere se e quanto costa una prima consulenza e se conoscono il commercio di usato in commissione.
+
+**Mer 23/09: Blocco 1 (mercato)**
+- [ ] (P1, 1,5 h) Aggiornare la mappa dei concorrenti a Salisburgo (carla, Humana, TAO, vintage, negozi bimbi/commissione): indirizzo, categorie, modello, condizioni per chi vende.
+- [ ] (P2, 1 h) Leggere per intero lo studio Handelsverband 2025 e segnare i dati utili; annotare cosa manca (per esempio perché chi non vende online non lo fa).
+- [ ] (P2, 0,5 h) Piattaforme: controllare sui siti di willhaben e Vinted commissioni e condizioni per i venditori.
+
+**Gio 24/09: Blocco 2 (legale e fiscale)**
+- [ ] (P1, 1,5 h) Preparare le domande per un avvocato e per uno Steuerberater (Altwarenhandel, commissione, IVA, contratto master, forma societaria) e chiedere un preventivo per una prima consulenza breve.
+- [ ] (P2, 1 h) Leggere il testo di § 154 GewO e § 383 UGB e annotare cosa non è chiaro.
+- [ ] (P3, 0,5 h) Valutare l'evento Franchise Impulse del 24/09 dell'ÖFV: verificare tema, formato e costo; partecipare solo se serve.
+
+**Ven 25/09: Blocco 3 (economia)**
+- [ ] (P1, 1,5 h) Raccogliere affitti commerciali a Salisburgo (annunci) per 80, 200 e 400 mq, in centro, semiperiferia e aree commerciali.
+- [ ] (P1, 1,5 h) Costruire la prima versione del foglio del modello: ricavi (commissione), costi (affitto, personale, utenze), scenari prudente/base/ottimista. Le voci sconosciute restano vuote e vanno segnate come tali.
+
+**Sab 26/09: sopralluoghi — DA RIPROGRAMMARE.** L'utente è in Italia questa settimana: spostare al primo sabato utile dopo il rientro a Salisburgo. Nel frattempo dare priorità alla settimana 1 ai contatti online.
+
+~~Sab 26/09: sopralluoghi~~ (rimando)
+- [ ] (P1, 3 h) Visitare almeno 3 negozi di usato a Salisburgo e compilare una scheda per ciascuno: superficie, categorie, prezzi, modello, flusso di clienti, condizioni per chi vende. Se capita, fare anche la prima intervista a un gestore.
+
+**Dom 27/09: sintesi e controllo**
+- [ ] (P1, 1,5 h) Scrivere una sintesi provvisoria di 1 pagina: cosa sappiamo, cosa manca, prime ipotesi.
+- [ ] (P2, 1 h) Controllare su RIS se ci sono novità sulla direttiva ambientale in Austria (in vigore dal 27/09) e aggiornare la sezione 7.
+- [ ] (P2, 0,5 h) Aggiornare il registro di questo file.
+
+**Settimana 2 (28/09-04/10)**
+- [ ] Lun 28/09: interviste ai gestori (P1); rifinire il modello.
+- [ ] Mar 29/09: interviste ai privati (P1); consulenze con esperti se fissate.
+- [ ] Mer 30/09: interviste ai privati e agli imprenditori (P1); nota di sintesi delle interviste.
+- [ ] Gio 01/10: Blocco 4, matrice delle città (Salisburgo, Linz, Graz, Innsbruck, Vienna); eventuale sopralluogo in un'altra città (P2).
+- [ ] Ven 02/10: Blocco 5, affiliati e canali; ultime interviste agli imprenditori (P1).
+- [ ] Sab 03/10: stesura del dossier (P1); modulo crediti solo se avanza tempo (P3).
+- [ ] Dom 04/10: revisione, decisione provvisoria go/no-go, elenco dei prossimi passi (P1).
+
+**Decisioni da prendere**
+
+| Decisione | Con chi | Entro |
+|---|---|---|
+| Regola d'ingaggio nelle interviste e ruoli (chi parla con Marinaccio) | Giangio | 22/09 |
+| Data dell'incontro con Marinaccio | Giangio | 25/09 |
+| Consulenza a pagamento (avvocato o Steuerberater): sì o no | Tu | 25/09 |
+| Soglie go/no-go (sezione 10) | Tu | 27/09 |
+| Quanto puoi perdere dei 20.000 € | Tu | 01/10 |
+| Formato e lingua del dossier finale (per ora italiano) | Tu | 03/10 |
+
+**Dipendenze da tenere d'occhio**
+- Le risposte di Giangio servono per i blocchi 2 e 3 e per il dossier. Se tardano, procedere con le ipotesi e segnarle come tali.
+- Gli appuntamenti delle interviste dipendono dagli inviti del 22/09: se le risposte sono poche, allargare la lista dei contatti già il 23/09.
+- Il foglio del modello economico resta incompleto finché Mercatino non fornisce commissioni, royalty e fee.
+
+**Se il tempo manca, taglia in quest'ordine:** (1) modulo crediti; (2) sopralluogo in altre città; (3) interviste agli imprenditori (tenerne almeno 1); (4) Blocco 4 ridotto a una tabella. Non tagliare: interviste a privati e gestori, quadro legale, modello economico.
+
+**Chat da aprire (allegando questo file)**
+1. "Griglie e inviti in tedesco": griglie A/B/C e messaggi d'invito.
+2. "Blocco 1, mercato": 3-4 pagine con la tabella dei concorrenti.
+3. "Blocco 2, legale e fiscale": 2-3 pagine e la lista di domande per gli esperti.
+4. "Blocco 3, economia": modello e scenari.
+5. "Blocchi 4 e 5, città e affiliati": matrice delle città e profilo dell'affiliato.
+6. "Dossier finale": bozza di massimo 15 pagine.
+
+Al termine di ogni chat aggiungere una riga al registro (sezione 13).
+
+---
+
+## 2. Chi è Mercatino: fatti e dubbi
+
+### 2.1 Fatti principali
+
+| Tema | Dato | Affidabilità | Fonte |
+|---|---|---|---|
+| Società | Mercatino S.r.l., Verona, via Messedaglia 8/c; capitale sociale 100.000 €; iscritta al Registro Imprese nel 1995 | `[V]` sito / `[S]` aggregatori | M1, M8 |
+| Fondatore | Sebastiano Marinaccio, presidente (in un articolo del 2023 anche amministratore delegato) | `[S]` | M6, M7 |
+| Anno di fondazione | 1995 secondo il sito; 1989 secondo un articolo del 2023. **Discrepanza non risolta** | `[D]`/`[S]` | M2, M7 |
+| Rete | 190 negozi in Italia a inizio 2025, con 7 aperture in arrivo; "oltre 180" nelle pagine franchising del 2025-2026. **Le cifre non coincidono** | `[D]` | M4, M9, M10 |
+| Giro d'affari della rete | Oltre 112 M€ nel 2024 (+5,42% sul 2023); 107 M€ nel 2023 (+11%; controvalore rispetto al nuovo circa 290 M€); 98 M€ nel 2022 (+13,38% sul 2021). **La crescita rallenta** (+13%, +11%, +5%). Il sito lo chiama "venduto" dei negozi, non ricavo della società. I risultati 2025 non risultano pubblicati | `[D]` | M4, M7, M18, M20 |
+| Clienti | Oltre 13 milioni dichiarati | `[D]` | M4 |
+| **Ricavi della casa madre** | **3.050.860 € nel 2024** (2.903.744 € nel 2023); **utile 376.175 €** (311.731 € nel 2023); costo del personale circa 1,1 M€; **circa 15-16 dipendenti**. In alcuni registri il codice di attività prevalente è il 77.4 (concessione di diritti di sfruttamento di proprietà intellettuale), coerente con il ruolo di franchisor. Più aggregatori riportano gli stessi numeri (riverificati il 21/09/2026), ma il dato ufficiale è il bilancio depositato | `[S]` da aggregatori di bilanci (non direttamente dal Registro) | M8, M17 |
+| Modello | I negozi operano come **agenzia d'affari per conto terzi**: intermediano vendite di usato tra privati. Ogni negozio è un imprenditore autonomo e indipendente dalla società affiliante. Diritto italiano, foro di Verona | `[V]` (condizioni del sito) | M1 |
+| Formati | **Mercatino Store** (da circa 400 mq) e **Usato Firmato** (boutique, da circa 80 mq). Marchio luxury separato: **TooMe Preloved** | `[V]` | M3, M14, M15 |
+| Rete e corner | Una scheda secondaria indica circa 180 negozi, di cui 174 gestiti da affiliati e 1 diretto. Usato Firmato dichiara oltre 100 punti vendita in Italia, in gran parte **corner dentro i negozi Mercatino**, più boutique a Milano, Roma e Torino | `[S]`/`[D]` | M9, M22 |
+| Formule | Conto vendita (la merce resta di proprietà del cliente finché non si vende) e compravendita tradizionale | `[D]` | M9 |
+| Costi per l'affiliato | Fonti secondarie che riportano dati dichiarati dall'insegna: investimento tipico 30-50 k€, soluzioni da circa 16 k€ + IVA per dotazione e arredi (locale e utenze esclusi); fee d'ingresso indicata a 5.000 €; "da 50.000 €" su un altro portale | `[D]`/`[S]` | M9, M10 |
+| Tecnologia | Gestionale proprio ("EVO MOBILE®" citato in una scheda), e-commerce proprietario, app **Riù**; formazione presso "Accademia del Riuso"; partnership con GRENKE per il noleggio operativo dell'investimento | `[D]` | M11, M12, M13 |
+| Per chi vende | Esposizione gratuita e percentuale sul prezzo concordato; valutazioni gratuite a domicilio; un negozio dichiara "guadagna fino al 70%" | `[D]` (il 70% è di un singolo negozio) | M13, M16 |
+| Sostenibilità | Metodo LCA con 13 indicatori sviluppato con Eco-Innovazione (spin-off ENEA); 75.858 t di CO₂eq risparmiate nel 2024; un "responsabile sostenibilità" in ogni negozio; i dati sono "interni" | `[D]` | M4, M19 |
+| Estero | Un solo negozio all'estero (Ibiza Sant Josep, oggi ancora presentato sul sito). Un blog locale indica che a Ibiza funziona dal 2018, in franchising e con deposito in commissione (fonte debole). Nel 2023 annunciato un piano triennale per circa 40 negozi in Spagna, Inghilterra, Germania e Francia: **l'Austria non compare tra i paesi obiettivo dichiarati** | `[D]` | M1, M7, M21 |
+| Attività recente | Nuove aperture: Roma Casilina (03/07/2026), Collegno (11/09/2026); evento Indeed e Assofranchising (29/06/2026) | `[V]` sito | M1 |
+| Appartenenze | Assofranchising; certificato Codacons (dichiarato sul sito) | `[D]` | M1 |
+| Concorrenti in Italia | Mercatopoli (dal 2000, oltre 56-60 negozi, circa 60 k€, 500 mq, canone mensile senza royalty); Babybazar (oltre 27 negozi); OkiDoki (abbigliamento) | `[S]` | C1, C2 |
+
+### 2.2 Indicatori derivati (calcoli miei, indicativi)
+
+- Rapporto ricavi casa madre / giro d'affari rete: circa **2,7%**. La composizione dei ricavi della casa madre (fee, royalty, e-commerce, altro) è **sconosciuta**.
+- Giro d'affari medio per negozio: 112 M€ / 190 circa **590.000 € l'anno**, ma include l'e-commerce e non è un dato di redditività.
+- Giro d'affari 2023 dichiarato: 107 M€ (quello ricavato da 112 M€ e +5,42% dà circa 106 M€: differenza trascurabile). Serie 2022-2024: 98, 107, 112 M€ (+13%, +11%, +5%): **rallenta**.
+
+### 2.3 Cosa mi lascia perplesso
+
+0. **Giangio non conosce il piano estero del 2023.** Interpellato il 21/09/2026, ha detto di non aver mai visto "tutta sta roba" del piano triennale riportato dalla stampa (Spagna, UK, Germania, Francia). È una discrepanza importante, che ammette più letture: (a) un problema di comunicazione interna, che renderebbe Giangio una fonte meno completa di quanto sperato sui temi strategici; (b) le dichiarazioni del 2023 erano più un annuncio alla stampa che un piano operativo condiviso in azienda; (c) Giangio non è coinvolto nelle decisioni di internazionalizzazione. Un elemento che aiuta a capire: Giangio ha confermato che smisero di andare al Franchise Expo di Parigi proprio perché volevano aprire in Francia ma non avevano risorse sufficienti per seguirlo (vedi 2.6) — quindi un interesse concreto per la Francia è esistito, anche se lui non collega questo a un "piano" formale. **Vale la pena chiedere direttamente a Marinaccio cosa ne è stato di quel piano, senza affidarsi solo a Giangio su questo punto.**
+1. **Casa madre piccola.** Con circa 3 M€ di ricavi e una quindicina di dipendenti, la capacità di seguire un mercato estero potrebbe essere limitata. Questo può essere un'opportunità (serve un partner locale) o un limite (poco supporto).
+2. **Il piano estero del 2023.** Con le fonti consultate non ho trovato altre aperture fuori Italia oltre a Ibiza. Non ho fatto una ricerca esaustiva. Vale la pena capire perché: costi, modello, partner o priorità cambiate.
+3. **Dati non allineati.** Numero di negozi, anno di fondazione e codice di attività variano tra le fonti.
+4. **Molti dati sono dichiarati dall'azienda.** Le cifre di sostenibilità sono "dati interni".
+5. **Nessuna presenza in Austria** trovata nelle fonti consultate.
+6. **Due partite IVA nelle pagine del sito.** Il piè di pagina riporta la P.IVA 02582620239 (REA VR 248279); il testo delle condizioni generali riporta per "Mercatino S.r.l." un'altra P.IVA (04021490232, REA VR 385074) con lo stesso indirizzo. Può essere un errore o una seconda società collegata. **Da verificare con una visura.**
+7. **La crescita rallenta** (+13%, +11%, +5% tra 2022 e 2024) e i risultati 2025 non risultano pubblicati.
+
+### 2.4 Cosa non ho trovato
+
+- Contratto tipo di affiliazione, commissioni di riferimento (percentuale al venditore), esclusiva territoriale. **La royalty è emersa dalla chiamata del 21/09 (vedi 2.6): 3% del fatturato, dichiarata da Giangio, non ancora verificata su un documento.**
+- Condizioni per un **master franchisee estero** (esistono? sono mai state offerte a qualcuno?).
+- Bilancio consolidato di gruppo e composizione dei ricavi.
+- Dati su chiusure di negozi, tasso di abbandono degli affiliati, redditività media di un negozio.
+- Dettagli sul gestionale e sulla sua eventuale cessione a terzi.
+- Risultati 2025 della rete e della casa madre.
+- Le ragioni per cui il piano estero del 2023 non ha portato aperture (a quanto risulta).
+- Percentuali di ripartizione tra venditore e negozio applicate da Mercatino (l'unico riferimento è un negozio che dichiara "fino al 70%" e Usato Firmato che dichiara "fino all'80%").
+
+### 2.5 Ordine di grandezza dei ricavi di un master (esercizio, non stima)
+
+**Non è una previsione.** Serve solo a capire la scala del ruolo. Va sostituito con i dati reali di Mercatino.
+
+Ipotesi di partenza `[?]`:
+- Volume medio per negozio in Italia: circa **0,59 M€ l'anno** (112 M€ / 190 negozi; include l'e-commerce, quindi è approssimato).
+- Densità italiana: circa 1 negozio ogni 310.000 abitanti (popolazione italiana circa 59 milioni, dato da verificare). Applicata a un'Austria di circa 9,2 milioni di abitanti darebbe circa 30 negozi come **tetto teorico ottimistico** (prezzi, affitti e abitudini sono diversi).
+- Quota trattenuta dalla casa madre: circa **2,7%** del volume di rete (3,05 M€ su 112 M€ nel 2024; 2,90 M€ su 107 M€ nel 2023) `[S]`. Il 21/09 Giangio ha indicato una **royalty del 3% sul fatturato** `[G]`, coerente con quel 2,7% (la differenza può essere il costo di riscossione, sconti o altre voci non-royalty). Se confermata, è il primo dato concreto sulla royalty: un master percepirebbe una frazione di questo 3%, non del volume totale. Non sappiamo come si componga il resto dei ricavi della casa madre (fee d'ingresso, e-commerce, altro).
+
+Quota del master sul volume di rete, in migliaia di euro l'anno, **prima dei costi del master**:
+
+| Negozi in Austria | Volume di rete (M€) | 0,5% | 1% | 2% |
+|---|---|---|---|---|
+| 3 | 1,8 | 9 | 18 | 35 |
+| 8 | 4,7 | 24 | 47 | 94 |
+| 15 | 8,8 | 44 | 88 | 177 |
+| 30 (tetto teorico) | 17,7 | 88 | 177 | 354 |
+
+**Lettura critica `[?]`:** con pochi negozi la quota potrebbe non coprire tempo e costi di reclutamento e supporto. Contano il fisso per negozio aperto (se esiste), cosa fornisce l'azienda, quanti negozi si aprono in 3-5 anni e chi anticipa i costi iniziali. Con la casa madre di questa dimensione (circa 3 M€ di ricavi) è plausibile che la quota disponibile per un master sia piccola: da chiedere apertamente.
+
+**Con la royalty al 3% `[G]`:** su 8 negozi che generano insieme 4,7 M€ di fatturato (stima), la royalty totale sarebbe circa 141.000 €/anno. Se il master ne ricevesse una parte (per esempio un terzo, ipotesi mia `[?]`), sarebbero circa 47.000 €/anno lordi, da cui sottrarre i costi di reclutamento, supporto e adattamento locale. Resta un esercizio: la percentuale che andrebbe al master, e non alla casa madre, è la domanda aperta più importante.
+
+### 2.6 Chiamata con Giangio del 21/09/2026 — informazioni raccolte
+
+**Fonte:** telefonata con Giangio, riportata dall'utente a voce, quindi possibili imprecisioni di trascrizione. Tutti i punti sono `[G]` finché non confermati da un documento o da un'altra fonte. Dove ho trovato riscontri esterni lo indico.
+
+**Piano estero 2023:** vedi il punto 0 della sezione 2.3. Giangio dice di non conoscerlo.
+
+**Tentativo in Spagna (circa 15 anni fa, quindi verso il 2011, non nel 2023):**
+- Aperti circa 10 punti vendita a Barcellona.
+- Non ha funzionato. Due spiegazioni date da Giangio:
+  - Le persone assunte in Spagna non avevano voglia di lavorare, arrivavano tardi in negozio — **opinione personale di Giangio**, riportata come tale anche dall'utente; da trattare come aneddoto, non come dato.
+  - Il valore medio degli oggetti nelle case spagnole sarebbe molto più basso che in quelle italiane; Giangio cita una cifra di circa 1.500 € per l'Italia e menziona **Ipsos, subito.it e Doxa** come fonte. Ho trovato che **BVA Doxa (oggi Ipsos Doxa) realizza per Subito l'Osservatorio Second Hand Economy**, uno studio reale e periodico (dodicesima edizione nel 2025) `[V]` (fonti M23-M26 in Appendice). I dati che ho trovato in quello studio parlano di un **guadagno medio annuo per chi vende**, non del valore degli oggetti posseduti: 1.087 € (2019), circa 1.000 € (2022), 834 € (2025). Una fonte diversa (Wallapop, non Doxa) stima il valore degli oggetti inutilizzati in casa a **1.247 € a persona**. **Non ho trovato un confronto pubblicato tra Italia e Spagna su questo dato specifico**: può esistere in un report Doxa che non ho reperito, oppure il numero riportato da Giangio può essere approssimativo. Da chiedere la fonte esatta.
+
+**Costi di allestimento iniziale (per l'affiliato, in Italia) `[G]`:**
+- Fino a 400 mq: circa 11.000 €.
+- Oltre 800 mq: circa 20.000 €.
+- Nota: questi numeri sono più bassi di quelli riportati da fonti secondarie viste in precedenza (16.000 € + IVA fino a un investimento totale di 30.000-50.000 €, sezione 2.1, fonte M9). Potrebbero riferirsi solo all'**allestimento** (arredi, scaffalature) e non all'investimento complessivo (che include fee, locale, marketing). Anche la fascia "oltre 800 mq" è nuova: prima il negozio di riferimento era descritto come "da 400 mq", non emergeva una fascia più grande. **Da chiarire cosa comprende esattamente ciascuna cifra.**
+
+**Royalty:** 3% del fatturato, sempre uguale indipendentemente dal formato o dalla città `[G]`. Vedi l'aggiornamento alla sezione 2.5.
+
+**ATECO e regolamentazione comunale (solo per l'Italia):** ogni Comune ha politiche diverse verso l'apertura di negozi come questo; il codice ATECO consigliato è **46.19.00**, ma alcuni affiliati ne usano altri perché alcuni Comuni sono più favorevoli con certi codici `[G]`. Ho verificato che il codice 46.19.00 esiste davvero ed è definito come "Attività di intermediari del commercio all'ingrosso non specializzato" `[V]` (fonte M27): coerente con un'attività di intermediazione conto terzi. Da notare: è un codice diverso da quello con cui risulta iscritta Mercatino S.r.l. nei registri (74.90.93 o 77.4 a seconda della fonte, sezione 2.1): il 46.19.00 riguarderebbe quindi il singolo negozio affiliato, non la casa madre.
+
+**Reclutamento attuale:** Mercatino cerca soprattutto **imprenditori strutturati per aperture multiple**, ma accetta anche piccoli negozi singoli ("una tantum") `[G]`.
+
+**Regolamentazione dei locali:** Giangio ha detto che la loro attività commerciale è "non regolamentata", ma che i locali sono regolati da un articolo del TULPS (probabilmente l'art. 115, non un "115 del TULS" come trascritto) `[G]`. Ho verificato l'art. 115 TULPS: disciplina le **agenzie d'affari**, tra cui è esplicitamente elencata la **"vendita di beni usati conto terzi"** `[V]` (fonte M28). Dal 1998 la competenza è dei Comuni (non più delle Questure) e per questa categoria serve una **SCIA al Comune**, non un'autorizzazione preventiva. Questo in parte precisa quanto detto da Giangio: il commercio di beni in sé (comprare e vendere) può essere libero, ma la specifica struttura di **agenzia d'affari per conto terzi**, che è il modello di Mercatino (coerente con le condizioni di vendita sul sito, fonte M1), rientra proprio in questa categoria regolata. È un parallelo utile con l'Austria, dove § 154 GewO impone obblighi simili (ispezioni, registri) a chi tratta beni usati (sezione 8.4): **in entrambi i paesi l'intermediazione di beni usati per conto terzi ha una cornice regolatoria specifica, anche se in Italia il commercio generico è libero.**
+
+**Assofranchising:** confermata l'adesione (già sapevamo, fonte M6).
+
+**Le tre fiere principali per Mercatino, secondo Giangio:**
+1. **Salone Franchising Milano** — verificato: evento reale organizzato da Fiera Milano, edizione 2026 dall'1 al 3 ottobre all'Allianz MiCo, descritto come "la manifestazione di riferimento in Italia per il mondo del franchising e del retail" `[V]` (fonte M29). Ci stanno andando quest'anno secondo Giangio.
+2. **Franchise Expo Paris** — verificato: evento reale, il maggiore salone del franchising in Francia, 44ª edizione nel 2026 (14-16 marzo, Porte de Versailles) `[V]` (fonte M30). Giangio dice che **hanno smesso di andarci** perché volevano aprire in Francia ma non avevano abbastanza persone per seguire lo sviluppo. Questo è un dato concreto e coerente: un tentativo reale verso la Francia c'è stato, anche se Giangio non lo collega esplicitamente al "piano 2023" della stampa.
+3. **"Largo Consumo, summit, imprenditoria e retail"** — trascrizione poco chiara, da confermare con Giangio. Ho verificato che **Largo Consumo** è una testata italiana reale specializzata in retail e beni di consumo (fondata nel 1980, Milano) ed è **media partner di Salone Franchising Milano** `[V]` (fonti M31, M32). Non ho trovato un evento indipendente chiamato "Largo Consumo Summit" dedicato al franchising. Può darsi che Giangio si riferisse a un evento specifico di cui non ho trovato traccia, o che il nome fosse la sintesi di più cose dette insieme. **Da chiedere il nome esatto.**
+
+---
+
+## 3. Il progetto
+
+- **Ruolo ipotizzato:** master franchisee o partner locale per l'Austria. **Non** gestire negozi in proprio, salvo dove necessario.
+- **Compenso ipotizzato `[G]`:** fisso per ogni negozio aperto più commissione sul guadagno del negozio. L'utente dice che **il suo compenso non lo interessa in questa fase**.
+- **Cosa vuole ottenere dal primo incontro:** un interesse di principio e dati abbastanza interessanti da giustificare un test in Austria.
+- **Non è necessario un negozio pilota.** Il dossier deve dare a Mercatino tutte le informazioni per decidere se aprire in Austria, come e con quali risorse. Come alternativa a un negozio, si è accennato a soluzioni leggere (per esempio la parte crediti di sostenibilità).
+- **Territorio:** Salisburgo per residenza, ma altre città austriache vanno benissimo. **La Germania è fuori dalla fase 1** (decisione dell'utente del 21/09/2026): eventualmente in una fase successiva.
+- **Affiliati:** nessuno individuato. Da cercare. Mercatino in Italia usa fiere e imprenditori interessati ad aprire più negozi `[G]`.
+
+---
+
+## 4. Persone e regole d'ingaggio
+
+| Persona | Ruolo | Note |
+|---|---|---|
+| Utente | Promotore del progetto | A Salisburgo, tedesco B2, budget massimo 20.000 € |
+| Giangio | Amico, figlio di Sebastiano Marinaccio | Ha "abbastanza voce in capitolo" `[G]` e opinioni molto decise su come impostare il progetto (dichiarato dall'utente). Ruolo nel progetto: **un misto di sponsor, socio e canale**. Serve chiarezza sui ruoli |
+| Sebastiano Marinaccio | Fondatore e presidente di Mercatino | L'utente vorrebbe avere un contatto diretto con lui |
+
+**Regole di lavoro attuali (dichiarate dall'utente)**
+- Fase iniziale **informale** con Giangio; accordi **per iscritto solo in un secondo momento**.
+- Nelle interviste, per ora il progetto è "mio e di Giangio" e, secondo l'utente, potrebbe presentarlo formalmente. **Confermato dall'utente il 21/09/2026 e da Giangio lo stesso giorno:** finché non c'è un accordo con Mercatino ci si presenta come **iniziativa autonoma**, senza citare Mercatino come committente. Regola chiusa, nessun'altra conferma necessaria.
+
+**Punti di attenzione (miei, da discutere)**
+- Chi possiede l'idea e il dossier? Prima o poi conviene mettere per iscritto ruoli, proprietà del lavoro e riservatezza, anche in forma leggera.
+- Se Giangio filtra le informazioni, servono conferme dirette dall'azienda.
+
+---
+
+## 5. Ipotesi e rischi
+
+### 5.1 Ipotesi da verificare
+
+| N. | Ipotesi | Come verificarla |
+|---|---|---|
+| H1 | In Austria c'è domanda per un intermediario fisico dell'usato (chi vende affiderebbe oggetti in conto vendita) | Interviste, sondaggio |
+| H2 | Il modello "agenzia d'affari conto terzi" è replicabile in Austria dal punto di vista legale e fiscale | Blocco 2, consulente locale |
+| H3 | Esistono imprenditori austriaci interessati ad aprire negozi in franchising | Blocco 5, interviste |
+| H4 | I costi di un negozio (affitto, personale) permettono un punto di pareggio realistico | Blocco 3 |
+| H5 | Mercatino è disposto a offrire condizioni da master franchisee a un partner senza esperienza nel settore | Domande a Giangio e Marinaccio |
+| H6 | Il modello ibrido (fisso più commissione) è sostenibile per l'utente nei primi anni | Blocco 3, simulazioni |
+| H7 | Un modulo crediti di sostenibilità può generare valore | Sezione 7 |
+| H8 | Il piano estero del 2023 si è fermato per motivi che valgono anche per l'Austria | Domande a Giangio e Marinaccio |
+| H9 | La quota spettante al master copre i costi con un numero realistico di negozi | Sezione 2.5 e dati di Mercatino |
+
+### 5.2 Rischi principali (provvisori)
+
+| Rischio | Perché conta | Da fare |
+|---|---|---|
+| Capacità della casa madre | Circa 3 M€ di ricavi e una quindicina di persone | Chiedere che supporto darebbe all'estero |
+| Piano estero non decollato | Potrebbe indicare difficoltà del modello o priorità diverse | Chiedere a Giangio e Marinaccio |
+| Modello poco adatto all'Austria | Il 79% di chi rivende lo fa online; esiste una forte rete sociale (carla) | Blocco 1, interviste |
+| Superficie da 400 mq | Affitto elevato; il formato boutique da 80 mq è di moda e lusso | Blocco 3 |
+| Costi del master ignoti | Fee, formazione, adattamenti, marketing | Chiedere all'azienda |
+| Budget ridotto | 20.000 € sono probabilmente pochi per aprire anche un solo negozio | Chiarire chi finanzia cosa |
+| Dipendenza da Giangio | Filtra o condiziona l'accesso al padre | Definire ruoli, contattare anche Marinaccio |
+| Aspetti legali e fiscali | Licenza commerciale, IVA sui beni usati, garanzia al consumatore | Blocco 2 |
+| Normativa sulle dichiarazioni ambientali | Nuove regole dal 27/09/2026 | Sezione 7 |
+| Qualità dei dati | Molte fonti sono dichiarate o secondarie | Marcatura `[V]/[S]/[D]/[G]` |
+
+---
+
+## 6. Piano della fase 1 (14 giorni, circa 40 ore)
+
+Data di inizio: **lunedì 21/09/2026**. Fine prevista: **domenica 04/10/2026**. Il ritmo è di 3 ore al giorno. Le ore sono un budget indicativo.
+
+| Blocco | Ore | Contenuto |
+|---|---|---|
+| 1. Mercato austriaco dell'usato | 7 | Dimensioni, comportamenti, concorrenti |
+| 2. Quadro legale e fiscale | 5 | Licenza, IVA, contratto di franchising, GDPR |
+| 3. Economia di un negozio e del master | 6 | Costi, ricavi, scenari |
+| 4. Scelta delle città | 3 | Matrice di confronto |
+| 5. Affiliati e canali di reclutamento | 3 | Chi e come raggiungerlo |
+| Interviste e sopralluoghi | 8 | Preparazione, esecuzione, sintesi |
+| Modulo crediti di sostenibilità | 2 | Solo dopo il resto |
+| Dossier finale | 6 | Scrittura e revisione |
+| Riserva | 2 | Imprevisti |
+
+### Blocco 1 — Mercato austriaco dell'usato
+
+**Domande:** quanto vale il mercato, come si distribuisce tra canali e categorie, chi sono i concorrenti diretti, quanto cambia tra le regioni.
+**Dati già raccolti (vedi 8.2):** mercato di circa 2 Mrd €; 73% degli austriaci ha comprato usato; spesa media di 211 € l'anno; a Salisburgo 205 € pro capite; il 79% di chi rivende lo fa online; il 31% ha visitato negozi di usato o vintage negli ultimi 12 mesi.
+**Da fare:**
+- Mappare i concorrenti fisici a Salisburgo (numero, dimensioni, categorie, prezzi, modello: donazione, commissione, acquisto). Fare lo stesso in almeno due altre città.
+- Analizzare le piattaforme (willhaben, Vinted, eBay): commissioni, comportamento dei venditori, logistica.
+- Verificare quanto pesa la rete Caritas "carla" e le reti Re-Use.
+- Cercare studi su chi non vende online perché non ha tempo o voglia (potenziale target di un intermediario).
+**Fonti da usare:** Handelsverband Consumer Check, Statistik Austria, WKO, Re-Use Austria, JKU Linz (Institut für Handel), Statista, sopralluoghi.
+**Output:** 3-4 pagine con tabella dei concorrenti.
+
+### Blocco 2 — Quadro legale e fiscale
+
+**Punti già emersi (da confermare con un professionista):**
+- Il commercio generale è un **"freies Gewerbe"** senza abilitazione professionale; si registra presso l'autorità distrettuale o il Magistrato `[S]` (WKO).
+- L'art. 154, comma 2, della GewO impone a chi commercia in antiquariato e opere d'arte e a chi esercita l'**"Altwarenhandel"** (commercio di merce usata) di consentire ispezioni delle autorità di sicurezza nei locali, esibire prove e mostrare i libri commerciali `[V]` (RIS/JUSLINE). Una scheda professionale (BIC) aggiunge l'obbligo di verificare la provenienza della merce all'acquisto, per evitare merce rubata `[S]`. **Da verificare se e come si applica a un negozio in conto vendita e con quali obblighi di identificazione di chi affida gli oggetti** `[?]`.
+- Il contratto di **commissione** (Kommission, § 383 UGB) esiste nel diritto austriaco: il commissionario vende in proprio nome per conto del committente; alcuni negozi austriaci di usato lo usano nei contratti con i venditori `[S]`. Da verificare come si inquadra il modello Mercatino (mandato a vendere / agenzia d'affari) e con quali obblighi.
+- Il regime di **imposizione sulla differenza (Differenzbesteuerung, § 24 UStG)** riguarda i rivenditori professionali che acquistano da non imprenditori o da chi non addebita IVA; per acquisti fino a 220 € si può usare la "Gesamtdifferenz" `[V]`/`[S]`. Alcuni blog lo dicono applicabile anche al commercio in commissione `[S]` e una fonte tratta la provvigione come fornitura con IVA al 20% `[S]`: **le due affermazioni non sono verificate e non sono necessariamente compatibili.** Da chiarire con un consulente fiscale (Steuerberater).
+- **Non esiste una legge austriaca sul franchising.** Contano il contratto, gli obblighi precontrattuali di informazione (giurisprudenza), il diritto della concorrenza (regolamento UE sulle restrizioni verticali) e, in caso di uscita, un possibile indennizzo analogo a quello dell'agente `[S]` (studio legale Brandauer).
+- WKO consiglia di scrivere ogni accordo e di fissare la **lingua del contratto** con partner stranieri.
+- Esiste l'**Österreichischer Franchise-Verband (ÖFV)**.
+**Domande aperte:**
+- L'"agenzia d'affari" italiana ha un equivalente austriaco? Quali obblighi ha un negozio che vende per conto di privati (garanzia legale, ricevute, IVA)?
+- Che forma societaria conviene (GmbH o altro) e con quali costi minimi?
+- Il marchio "Mercatino" è registrato in Austria/UE?
+- Quale legge e quale foro per un contratto master tra un'azienda italiana e un partner austriaco?
+**Output:** 2-3 pagine più una lista di domande per un avvocato austriaco (una consulenza iniziale breve; **costo da verificare**).
+
+### Blocco 3 — Economia di un negozio e del master
+
+**Da costruire:** un modello semplice in foglio di calcolo con scenari prudente, base, ottimista.
+**Dati da raccogliere:**
+- Affitti commerciali nelle città candidate, per 80, 200 e 400 mq.
+- Costi del personale (contratto collettivo del commercio: **da verificare**), utenze, assicurazioni, marketing.
+- Ricavi tipici: commissione di Mercatino sul prezzo (sconosciuta; indizio: "fino al 70%" al venditore in un negozio italiano `[D]`), rotazione, mix di categorie.
+- Struttura di compenso del master: fisso per negozio più commissione `[G]`, con sensibilità a 1, 3 e 5 negozi.
+- Investimenti iniziali dichiarati per l'affiliato italiano (30-50 k€, da circa 16 k€ + IVA) come riferimento, sapendo che **non valgono per l'Austria**.
+**Domande a Mercatino:** commissione media, ricavi medi per negozio, tassi di chiusura, cosa incassa la casa madre.
+**Output:** 2-3 pagine e il file del modello.
+
+### Blocco 4 — Scelta delle città
+
+**Criteri:** popolazione e bacino, potere d'acquisto, spesa regionale per usato (Salisburgo 205 €, Vienna 190 €, Stiria 219 €, Alta Austria 205 €, Tirolo 196 €), concorrenza, affitti, logistica, vicinanza a Germania.
+**Candidate:** Salisburgo, Linz, Graz, Innsbruck, Vienna. **Germania e Monaco esclusi dalla fase 1** (decisione del 21/09/2026).
+**Da raccogliere:** popolazione e reddito (fonte ufficiale), affitti, densità di concorrenti.
+**Output:** matrice di punteggio e 1-2 pagine.
+
+### Blocco 5 — Affiliati e canali di reclutamento
+
+**Domande:** chi potrebbe aprire un negozio (imprenditori del commercio, gestori di più punti vendita, franchisee di altri marchi, imprese sociali)? Dove trovarli?
+**Da fare:** individuare fiere e associazioni austriache di franchising (ÖFV, portali di franchising, eventi WKO). L'ÖFV dichiara 510 sistemi, 95.600 addetti, 12,4 mld € di fatturato netto, 13.000 sedi e 10.200 partner `[D]`; tra gli eventi elencati sul suo sito ci sono Franchise Impulse (24/09/2026) e Franchise NEXT Colonia (15-16/10/2026, dopo la fase 1); Franchise NEXT Vienna si è già tenuto il 19-20/06/2026. **Reclutamento di Mercatino in Italia (confermato da Giangio il 21/09, sezione 2.6):** Salone Franchising Milano (attivi), Franchise Expo Paris (smesso di andarci per mancanza di risorse per seguire la Francia — segnale di quanto pesi la capacità organizzativa su un'espansione estera), e una terza fiera da chiarire. Cercano soprattutto imprenditori strutturati per aperture multiple, ma accettano anche piccoli negozi singoli `[G]`. Preparare un profilo dell'affiliato ideale.
+**Output:** 1-2 pagine.
+
+### Calendario indicativo
+
+*Il calendario giorno per giorno, più aggiornato, è nella to-do list (sezione 1.1): in caso di differenze prevale quella.*
+
+| Giorni | Attività principale |
+|---|---|
+| 1-2 (21-22/09) | Blocco 1, avvio; preparare domande per Giangio; definire regole di ingaggio |
+| 3-4 (23-24/09) | Blocco 2 e prima ricerca sui concorrenti a Salisburgo |
+| 5-6 (25-26/09) | Blocco 3; prenotare interviste; nota: 27/09 entra in vigore la normativa UE sulle dichiarazioni ambientali |
+| 7-9 (27-29/09) | Interviste a Salisburgo; blocco 4 |
+| 10-11 (30/09-01/10) | Blocco 5; interviste altre città se serve; modulo crediti |
+| 12-13 (02-03/10) | Scrittura del dossier |
+| 14 (04/10) | Revisione e preparazione del materiale di presentazione |
+
+**Sopralluoghi (proposta):** sabato 26/09 a Salisburgo, in almeno tre negozi (per esempio carla, Humana, TAO o un negozio vintage/bimbi), con una scheda per ciascuno: superficie stimata, categorie, prezzi, modello (donazione, commissione, acquisto), flusso di clienti, condizioni per chi vuole vendere.
+**Eventi da valutare:** Franchise Impulse del 24/09 (ÖFV); Franchise NEXT Colonia 15-16/10 (dopo la fase 1). Verificare formato e accesso.
+
+---
+
+## 7. Modulo separato: crediti di sostenibilità
+
+**Idea (da Giangio `[G]`, ripresa dall'utente):** Mercatino spesso fornisce il proprio gestionale a terzi in cambio di crediti; Mercatino potrebbe così **ottenere crediti di sostenibilità da altri marchi** che usano il gestionale, magari gratis. **Non ho trovato conferme pubbliche.** Da trattare come un'ipotesi separata, non come motivo per cui Mercatino dovrebbe aprire in Austria.
+
+**Cosa si sa `[D]`:** Mercatino calcola con metodo LCA (13 indicatori, collaborazione con Eco-Innovazione, spin-off ENEA) il risparmio ambientale del riuso; ogni negozio ha un responsabile sostenibilità; i clienti vedono l'impatto evitato nell'app Riù. I dati sono "interni".
+
+**Contesto normativo (da approfondire con un legale):**
+- La direttiva UE 2024/825 ("Empowering Consumers for the Green Transition") **si applica dal 27 settembre 2026**. Vieta le indicazioni ambientali generiche non dimostrate e le dichiarazioni di neutralità climatica basate solo su compensazioni; le etichette di sostenibilità devono essere certificate.
+- **Recepimento in Austria:** la scadenza del 27/03/2026 è stata mancata; fonti di giugno-luglio 2026 indicano una modifica della legge contro la concorrenza sleale (UWG) prima in bozza (10/06/2026) e poi, secondo alcune fonti, adottata (una cita una novella del 07/07/2026), con una norma transitoria che limita per tre anni le azioni civili sulle merci già immesse sul mercato prima del 27/09/2026 `[S]` (PwC Legal, Ministero dell'Economia, Brandauer). **Verificare il testo in vigore su RIS.** La tutela riguarda i consumatori (B2C): il B2B non è coperto direttamente `[S]`.
+- La direttiva sui "green claims" è sospesa dal giugno 2025.
+- Rimane da chiarire se un "credito" per emissioni evitate dal riuso ricada nei divieti o richieda verifica di terzi. **Da approfondire.**
+- **Contesto di mercato sui gestionali:** per i negozi di usato in conto vendita esistono già software commerciali (in Italia My2hand e reUse GM, in Austria SecondHandling) `[S]`. Un gestionale di Mercatino avrebbe concorrenti; non risulta che sia offerto a terzi `[?]`.
+
+**Domande aperte:**
+1. Chi sono gli "altri marchi" e perché dovrebbero pagare o cedere crediti?
+2. Il gestionale è di proprietà di Mercatino S.r.l.? Ha già cessioni di questo tipo?
+3. Quale standard di certificazione e chi verificherebbe?
+4. Chi è il compratore finale del credito e a quale prezzo?
+5. Giangio ne ha parlato con il padre?
+**Output:** allegato di 1 pagina; peso ridotto se il tempo stringe.
+
+---
+
+## 8. Dati raccolti finora
+
+### 8.1 Mercatino
+Vedi sezione 2 e fonti M1-M19 in Appendice A.
+
+### 8.2 Mercato austriaco (Handelsverband Consumer Check, novembre 2025 `[S]`, a meno di altra indicazione)
+
+- **73%** degli austriaci ha comprato usato; circa **60%** negli ultimi 12 mesi; **18%** almeno una volta al mese; il **36%** prevede di comprarne di più.
+- Spesa media: **211 € l'anno** (195 € nel 2024). Volume di mercato stimato: circa **2 Mrd €** l'anno (stima dell'Handelsverband, confermata da un istituto universitario).
+- Canali: il **55%** compra regolarmente su piattaforme (willhaben, Vinted, refurbed); il **32%** ha comprato in un mercatino delle pulci e il **31%** in un negozio di usato o vintage negli ultimi 12 mesi. **Attenzione:** i dati del 2024 riportano percentuali diverse (piattaforme 59%, pulci 52%, negozi 37%) con formulazioni diverse, quindi **non sono confrontabili direttamente**.
+- **Il 75%** ha rivenduto qualcosa; **il 79%** di questi lo fa su marketplace online; incasso medio di **171 € l'anno**.
+- Categorie più cercate: abbigliamento adulti 38%, libri e media 33%, giocattoli 22%, mobili 21%, articoli per la casa 19%, elettronica 15%, sport 15%, abbigliamento bambini 15%.
+- Spesa pro capite per regione: Bassa Austria e Burgenland 242 €; Carinzia e Stiria 219 €; **Salisburgo e Alta Austria 205 €**; Vorarlberg e Tirolo 196 €; **Vienna 190 €**.
+- Il **70%** dei consumatori gradirebbe zone di usato nei negozi tradizionali.
+- Il settore era dominato da imprese sociali; ora entrano anche i privati (Re-Use Austria lo vede in parte in modo critico).
+- **Vinted** ha aperto agli scambi tra utenti austriaci e tedeschi (aprile 2026).
+- **Caritas "carla"**: rete di negozi di usato con finalità sociali in tutta l'Austria, presenti a Salisburgo, Wörgl, St. Johann in Tirol, Graz (sette negozi) e altre città. A Salisburgo: negozi ad Aigen, Herrnau, Lehen e Kaigasse.
+
+### 8.3 Altri dati di contesto (raccolti in un secondo passaggio; fonti in Appendice A)
+
+- **Piattaforme:** Vinted ha chiuso il 2025 con un volume lordo di 10,8 mld € (+47%), ricavi 1,1 mld €, utile netto 62 mln €, in 26 mercati, con una valutazione di 8 mld € (aprile 2026); willhaben è stata valutata circa 500 mln € in una transazione di marzo 2025 `[S]` (A13).
+- **Negozi a Salisburgo (non esaustivo):** carla (Caritas) ad Aigen, Herrnau, Lehen e Kaigasse, più St. Johann in Tirol; Humana in tre sedi (Linzergasse, Schwarzstraße, Mirabellplatz); TAO (imprenditoria sociale) con negozi in città e nel Tennengau; negozi vintage `[S]` (A14). Sono in gran parte modelli basati su donazioni e finalità sociali, diversi dal conto vendita a provvigione `[?]`.
+- **Quota al venditore in conto vendita:** un negozio tedesco per bambini paga al venditore il 40% del prezzo di vendita, con permanenza di 3 mesi `[S]` (A15). In Italia è tipico circa il 50% `[S]`; Usato Firmato dichiara "fino all'80%" sul lusso `[D]`. Da confrontare con i negozi austriaci intervistati.
+- **Franchising dell'usato in DACH:** esistono sistemi come FLOHKIDS (usato per bambini) e Used Products (elettronica, gioielli, utensili) `[S]` (A16).
+- **Sistema franchising austriaco (ÖFV):** 510 sistemi, 95.600 addetti, 12,4 mld € di fatturato netto, 13.000 sedi, 10.200 partner `[D]` (A17).
+- **Popolazione:** Austria circa 9,2 mln (inizio 2025); Vienna circa 2,04 mln (inizio 2026); Graz circa 307.000; Linz circa 214.000; Salisburgo circa 157.000 (provincia circa 573.000); Innsbruck circa 132.000 `[V]`/`[S]` (A18).
+- **Germania (solo contesto, fuori dalla fase 1):** mercato secondhand circa 14,8 mld € nel 2022 `[S]` (A19). Non analizzare finché l'utente non decide altrimenti.
+- **Handelsverband 2024 (rilevazione diversa da quella 2025):** categorie più acquistate tra chi compra usato: libri, film, musica e giochi 44%; abbigliamento adulti 41%; giocattoli 35%; mobili e casa 32%; elettrodomestici 28%; abbigliamento bimbi 27%; cellulari e computer 27% `[S]` (A20). Le percentuali 2025 riportate sopra usano un'altra metodologia: non vanno confrontate direttamente.
+
+### 8.4 Quadro legale (vedi Blocco 2 e Appendice A, fonti A7-A11 e A22-A26)
+
+---
+
+## 9. Struttura del dossier finale (massimo 15 pagine, esclusi allegati)
+
+1. **Sintesi per Marinaccio** (1 pagina): cosa proponiamo, perché ora, cosa serve da Mercatino.
+2. **Mercato austriaco** (3 pagine).
+3. **Concorrenza e posizionamento** (2 pagine).
+4. **Modello operativo e legale in Austria** (2 pagine).
+5. **Economia di un negozio e del master** (2 pagine).
+6. **Città e piano di ingresso a fasi** (2 pagine): risorse necessarie e alternative a un negozio.
+7. **Affiliati e reclutamento** (1 pagina).
+8. **Rischi e come li gestiamo** (1 pagina).
+9. **Proposta e prossimi passi** (1 pagina).
+**Allegati (fuori dal limite):** copertina, sintesi interviste, note metodologiche, modello di calcolo, modulo crediti di sostenibilità, elenco fonti.
+
+---
+
+## 10. Criteri provvisori per decidere se procedere (da concordare **prima** di guardare i dati)
+
+Le soglie sono **segnaposto** da discutere con l'utente.
+
+| Criterio | Esempio di soglia | Tipo |
+|---|---|---|
+| Domanda | Una parte significativa degli intervistati (per esempio almeno 6 su 10) affiderebbe oggetti in conto vendita a condizioni simili | Qualitativo |
+| Legale | Nessun ostacolo bloccante da avvocato e consulente fiscale | Sì/No |
+| Economia | Punto di pareggio di un negozio in un arco di tempo accettabile | Numerico |
+| Azienda | Mercatino conferma per iscritto le condizioni per un master estero e i costi a carico del partner | Sì/No |
+| Personale | Perdita massima sostenibile per l'utente, sempre entro il tetto di 20.000 € | Da decidere |
+| Alternative | Esiste una versione leggera (senza negozio) per iniziare | Qualitativo |
+| Economia del master | La quota spettante al master (sezione 2.5) copre tempo e costi con un numero realistico di negozi in 3 anni | Numerico |
+| Piano estero 2023 | Spiegazione convincente del perché si è fermato e di come questo caso è diverso | Qualitativo |
+
+**Spesa a scaglioni (proposta):** fase 1 quasi a costo zero, salvo eventuale consulenza legale iniziale; spese maggiori solo dopo una risposta scritta di Mercatino e i risultati del dossier. **Ammettere anche l'esito "non conviene"**: un dossier che lo prevede è più credibile.
+
+---
+
+## 11. Piano interviste e sopralluoghi
+
+**Numeri indicativi (circa 10 in totale):**
+- **Privati che vendono usato** (4-5): quali oggetti, dove vendono, cosa li frena, se affiderebbero oggetti a un negozio e a quali condizioni.
+- **Gestori di negozi di usato** (3): modello (donazione, commissione, acquisto), affitto, ricavi, problemi, come acquisiscono la merce, rapporto con piattaforme.
+- **Imprenditori potenzialmente interessati al franchising** (2-3): appetito, investimenti, rischi percepiti.
+- **In aggiunta (facoltativo):** una chiamata a un consulente WKO o all'ÖFV; una consulenza breve con un avvocato.
+**Luoghi:** Salisburgo di persona; altre città se necessario, per completezza.
+**Lingua:** tedesco (B2). Preparare le griglie in tedesco con l'aiuto di Claude.
+
+**Griglie di domande (in italiano; da tradurre)**
+
+*Privati che vendono*
+1. Cosa vendi o hai venduto negli ultimi 12 mesi? Dove?
+2. Cosa non riesci o non vuoi vendere online e perché?
+3. Quanto tempo ti costa vendere un oggetto? Ne vale la pena?
+4. Ti affideresti a un negozio che espone, vende e ti versa una percentuale? Che percentuale ti sembrerebbe giusta?
+5. Cosa ti farebbe fidare (valutazione a domicilio, pagamento rapido, ritiro)?
+6. Cosa faresti degli oggetti che non si vendono?
+
+*Gestori di negozi*
+1. Come ottenete la merce? Con quale modello economico?
+2. Quali categorie vanno meglio e peggio?
+3. Come si è evoluto il mercato con willhaben e Vinted?
+4. Qual è il costo del locale e la quota di personale sul ricavo? (senza chiedere cifre riservate)
+5. Quali autorizzazioni o problemi legali avete affrontato?
+6. Aprireste un secondo punto vendita? In franchising?
+
+*Imprenditori*
+1. Quali franchising conoscete o avete valutato? Cosa vi ha convinto o frenato?
+2. Come valutate l'usato come attività?
+3. Che investimento e che ritorno vi sembrano ragionevoli?
+4. Dove cerchereste un'opportunità di franchising (fiere, associazioni)?
+
+**Regole di correttezza:** dire chiaramente che è una ricerca esplorativa; chiedere il consenso prima di registrare o prendere appunti; anonimizzare quando richiesto; non promettere niente; conservare i dati in modo conforme al GDPR.
+
+---
+
+## 12. Domande aperte
+
+### Per Giangio (poi eventualmente per Marinaccio)
+1. Che cosa offre Mercatino a un master franchisee estero (esclusiva territoriale, formazione, gestionale, e-commerce, quote iniziali)?
+2. Che cosa è successo al piano internazionale del 2023? Perché finora c'è solo Ibiza?
+3. Ci sono requisiti per un partner estero (capitale, esperienza, numero minimo di negozi)?
+4. Il modello in conto vendita è considerato esportabile così com'è? L'Austria è già stata valutata?
+5. Che dati vorrebbe vedere il padre per decidere?
+6. Il modello ibrido (fisso per negozio più commissione) come funzionerebbe nella pratica e chi paga cosa?
+7. Come funzionano i crediti di sostenibilità e chi altro li ha già usati?
+8. Quali sono le condizioni di uso del gestionale per terzi?
+9. Quale ruolo avrebbe lui nel progetto?
+10. Possiamo avere documenti concreti (contratto tipo, presentazione per aspiranti affiliati)?
+11. Come usa Mercatino le fiere per trovare affiliati? Quali?
+12. Quali percentuali si applicano tra venditore e negozio, e quali royalty/fee paga un affiliato?
+13. Il sito riporta due partite IVA per "Mercatino S.r.l.": sono due società? Quale firmerebbe un master?
+14. Qual è la fonte esatta (Doxa, Ipsos, subito.it) del dato sul valore medio degli oggetti in Italia rispetto alla Spagna?
+15. Come si chiama esattamente la terza fiera ("largo consumo, summit, imprenditoria e retail")?
+16. Gli 11.000 € (fino a 400 mq) e i 20.000 € (oltre 800 mq) di allestimento: cosa comprendono esattamente, e come si collegano alla fascia 30.000-50.000 € di investimento totale che risulta da altre fonti?
+17. La royalty del 3% varrebbe anche per un master estero, o cambierebbe la struttura?
+18. Chiedere direttamente (a lui o a Marinaccio) cosa è successo al piano annunciato nel 2023 per Spagna, UK, Germania e Francia, dato che lui non ne è al corrente.
+
+### Per l'utente
+- Data entro cui vuole incontrare Marinaccio.
+- ~~Chiarire con Giangio la regola d'ingaggio~~ **Fatto il 21/09/2026: confermata da entrambi.**
+- Ore effettive disponibili nel weekend.
+- Quanto dei 20.000 € è disposto a perdere.
+- Preferenza su lingua e formato del dossier finale (italiano; altre lingue in seguito).
+
+---
+
+## 13. Registro aggiornamenti
+
+| Data | Chat | Aggiornamento |
+|---|---|---|
+| 21/09/2026 | Chat iniziale | Creazione del documento (versione 0.1) |
+| 21/09/2026 | Chat iniziale | Versione 0.2: dati su Austria, ÖFV, fisco e GewO; esercizio di ordine di grandezza (2.5); corretto lo stato dell'ECGT in Austria; riverificati i dati di bilancio della casa madre |
+| 21/09/2026 | Chat iniziale | Versione 0.3: Germania esclusa dalla fase 1; confermata la presentazione come iniziativa autonoma (da chiarire con Giangio); aggiunta la to-do list (1.1) |
+| 21/09/2026 | Chat iniziale | Versione 0.4: aggiunta la sezione 2.6 con le informazioni dalla chiamata con Giangio (royalty 3%, costi di allestimento, ATECO, TULPS, fiere); segnalata come perplessità principale il fatto che Giangio non conosca il piano estero 2023; aggiornato il modello economico (2.5) con la royalty; verificate fiere, ATECO e art. 115 TULPS |
+| 21/09/2026 | Chat iniziale | Versione 0.5: Giangio ha confermato la regola d'ingaggio (presentazione come iniziativa autonoma); segnalato che l'utente è in Italia questa settimana, sopralluoghi del 26/09 da riprogrammare, priorità ai contatti online e alla WKO di Salisburgo |
+| | | |
+
+---
+
+# Appendice A — Fonti e riassunti
+
+*I riassunti sono parafrasi, non copie del testo originale. Per il testo integrale aprire il link.*
+
+## A.1 Mercatino
+
+| ID | Fonte | Data | Cosa contiene (parafrasi) | Link |
+|---|---|---|---|---|
+| M1 | Homepage mercatinousato.com | consultata 21/09/2026 | Si presenta come la più grande società europea di franchising dell'usato; categorie; marchi Usato Firmato e TooMe; app Riù; negozio a Ibiza; ultime aperture (Collegno, Roma Casilina); condizioni di vendita: negozi come agenzia d'affari per conto terzi, autonomi e indipendenti dalla società affiliante; diritto italiano e foro di Verona; dati societari (via Messedaglia 8/c, capitale 100.000 €) | https://www.mercatinousato.com/ |
+| M2 | Pagina "Chi siamo" | consultata 21/09/2026 | Indica il 1995 come anno di fondazione di Mercatino S.r.l.; richiama responsabilità sociale e ambientale; link al codice etico 2024 | https://www.mercatinousato.com/chisiamo |
+| M3 | Pagina "Apri franchising" | consultata 21/09/2026 | Due formati: Mercatino Store da 400 mq e Usato Firmato boutique da 80 mq | https://www.mercatinousato.com/apri-franchising |
+| M4 | Verona Economia | 03/02/2025 | Fatturato di rete 2024 oltre 112 M€ (+5,42%); 190 negozi; 7 aperture previste; Accademia Web Mercatino; CO₂ risparmiata (75.858 t nel 2024, 1,9 Mt in 30 anni); metodo LCA con Eco-Innovazione | https://veronaeconomia.it/2025/02/03/leggi-notizia/argomenti/imprese/mercatino-franchising-festeggia-30-anni-con-un-fatturato-record-di-112-milioni-di-euro.html |
+| M5 | Media Key | 04/02/2025 | Ripresa dello stesso comunicato; categorie più vendute online: usato firmato, casa e cucina, arredamento | https://mediakey.it/news/mercatino-franchising-compie-30-anni-e-registra-un-fatturato-record/ |
+| M6 | Distribuzione Moderna | 17/02/2025 | Conferma Marinaccio come fondatore e presidente; adesione ad Assofranchising; citazione di Marinaccio su innovazione e sostenibilità | https://distribuzionemoderna.info/notizia-del-giorno/mercatino-franchising-volano-fatturato-e-sviluppo |
+| M7 | il Nord Est | 25/02/2023 | 175 negozi in Italia più uno a Ibiza; piano triennale di circa 40 aperture in Spagna, Inghilterra, Germania, Francia; fatturato 2022 98 M€ (+13,38%); indica il 1989 come anno di nascita | https://www.ilnordest.it/economia/imprese/second-hand-mercatino-vola-oltre-i-100-milioni-e-apre-allestero-kije2fc1 |
+| M8 | Aggregatori di bilanci (ufficiocamerale.it, aziende.it, reportaziende.it, fatturatoitalia.it, companyreports.it) | aggiornati 2026 | Ricavi 2024 3.050.860 €; utile 376.175 €; costo del personale circa 1,1 M€; 10-16 dipendenti; capitale 100.000 €; codici di attività non coerenti tra loro | https://www.ufficiocamerale.it/8297/mercatino-srl ; https://www.aziende.it/mercatino-s-r-l ; https://www.reportaziende.it/mercatino_srl_vr_02582620239 ; https://www.fatturatoitalia.it/mercatino-srl-02582620239 |
+| M9 | start-franchising.com | 04/05/2026 | Scheda del franchising: investimento tipico 30-50 k€, soluzioni da circa 16 k€ + IVA, negozio di riferimento 400 mq; conto vendita; adempimenti italiani (partita IVA, agenzia d'affari, ecc.); formazione, gestionale, e-commerce, app; dati dichiarati dall'insegna | https://www.start-franchising.com/franchising/mercatino-franchising/ |
+| M10 | Franchising Top | 22/12/2025 | Sintesi: oltre 180 negozi in Italia, 112 M€, investimento da 50.000 € | https://www.franchisingtop.it/mercatino/ |
+| M11 | aprireinfranchising.it | senza data | Descrive il sistema EVO MOBILE® e l'app Riù; formula conto terzi (chi vende espone gratis); 175 negozi al momento della scheda | https://www.aprireinfranchising.it/mercatino-franchising-compra-vendita-usato |
+| M12 | lavoroefranchising.com | senza data | Tecnologia sviluppata internamente; partnership GRENKE per il noleggio operativo dell'investimento; negozi di oltre 400 mq | https://www.lavoroefranchising.com/mercatino-usato-franchising-negozi-compra-vendita/ |
+| M13 | App Store — Riù | consultata 21/09/2026 | Per chi vende: esposizione gratuita, percentuale dopo la vendita, valutazioni a domicilio, trasporto | https://apps.apple.com/it/app/ri%C3%B9-mercatino/id1229069137 |
+| M14 | Usato Firmato | consultata 21/09/2026 | Franchising di usato di grandi firme del gruppo Mercatino S.r.l.; progetto "finanziabile al 100%" (dichiarazione commerciale) | https://www.usatofirmato.com/ |
+| M15 | TooMe Preloved | consultata 21/09/2026 | Marchio dell'usato di lusso; offerta di franchising | https://toome.eco/about-us ; https://www.toome.eco/apri-anche-tu |
+| M16 | Instagram — negozio di Chivasso | consultata 21/09/2026 | Dichiara "vendi e guadagna fino al 70%" | https://www.instagram.com/mercatinofranchisingchivasso/ |
+| M17 | reting.it | 02/09/2025 | Blog: fatturato casa madre 2023 di 2,9 M€, ricavi totali circa 3,8 M€, margine operativo lordo circa 530 k€ (coerente con gli aggregatori, ma fonte debole) | https://www.reting.it/aprire-un-mercatino-dellusato-in-franchising-e-davvero-un-investimento-vincente-numeri-bilanci-e-opportunita/ |
+| M18 | Sito Mercatino — blog nazionale | 2025 | Definisce i 112 M€ come "venduto record" della rete | https://www.mercatinousato.com/news-nazionali/30-anni-di-successi-di-mercatino-franchising-su-verona-economia/7681 |
+| M19 | BricoMagazine | 18/02/2025 | Conferma i dati 2024; le cifre CO₂ sono "dati interni" | https://www.bricomagazine.com/mercatino-franchising-casa-cucina-e-arredamento-in-crescita/ |
+| M20 | il Nord Est | 2024 | 2023: 107 M€ (+11%), controvalore rispetto al nuovo circa 290 M€, 175 negozi | https://www.ilnordest.it/economia/imprese/mercatino-franchising-sopra-i-100-milioni-di-ricavi-g5txlxou |
+| M21 | Blog "Reutilización y segunda mano en Eivissa" | senza data | Il negozio Mercatino di Ibiza risulta attivo dal 2018, in franchising, con deposito in commissione (fonte debole) | http://reutilizacionysegundamanoeneivissa.blogspot.com/p/mercadillos-2-mano.html ; https://ibizasantjosep.mercatinousado.es/ |
+| M22 | Usato Firmato (sito) | consultata 21/09/2026 | Oltre 100 punti vendita e corner in Italia (molti corner dentro i negozi Mercatino), negozi a Milano, Roma e Torino; "fino all'80%" al venditore (dichiarato) | https://www.usatofirmato.com/ |
+| M23 | BVA Doxa / Ipsos Doxa — Osservatorio Second Hand Economy (per Subito) | 2019-2026 | Studio periodico reale sul mercato dell'usato in Italia; guadagno medio annuo per chi vende: 1.087 € (2019), circa 1.000 € (2022), 834 € (2025); valore di mercato 24-27 mld € a seconda dell'anno | https://www.bva-doxa.com/second-hand-economy-a-livelli-record-il-digitale-traina-la-crescita-e-supera-loffline-per-la-prima-volta-anche-a-valore/ ; https://www.panorama.it/lifestyle/economia-circolare-28-milioni-di-italiani-scelgono-il-second-hand |
+| M24 | QuiFinanza (dati Wallapop) | 26/04/2025 | Valore stimato degli oggetti inutilizzati in casa: 1.247 € a persona (fonte diversa da Doxa) | https://quifinanza.it/green/mercato-usato-italia-2024/904322/ |
+| M25-26 | Vari (Panorama, Ecodallecittà, Leasenews) | 2020-2025 | Serie storica dei dati dell'Osservatorio Second Hand Economy | https://www.panorama.it/attualita/economia/risultati-mercato-usato-seconda-mano-subitoit ; https://www.ecodallecitta.it/nona-edizione-dellosservatorio-second-hand-economy/ |
+| M27 | Fiscozen; codiceateco.it | 2025-2026 | Codice ATECO 46.19.00: intermediari del commercio all'ingrosso non specializzato | https://www.fiscozen.it/guide/codice-ateco-461902/ ; https://codiceateco.it/categoria/attivita-di-intermediari-del-commercio-allingrosso-non-specializzato |
+| M28 | Brocardi; Comune di Roma; Comune di Bra; CCIAA Roma | 2026 | Art. 115 TULPS: agenzie d'affari, incluse "vendita beni usati conto terzi"; SCIA al Comune dal 1998 | https://www.brocardi.it/testo-unico-pubblica-sicurezza/titolo-iii/capo-iv/art115.html ; https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF39632 ; https://hosting.pa-online.it/004029/su_approfon_procedim/agenzia-di-affari/ |
+| M29 | Fiera Milano / Il Giornale | 2026 | Salone Franchising Milano 2026: 1-3 ottobre, Allianz MiCo | https://www.ilgiornale.it/news/aziende/salone-franchising-milano-sviluppo-delle-reti-e-crescita-sui-2670036.html |
+| M30 | LSA; Fédération française de la Franchise | 2026 | Franchise Expo Paris 2026: 14-16 marzo, Porte de Versailles, 44ª edizione | https://www.toute-la-franchise.com/article-franchise-expo-paris-salon-incontournable ; https://www.lsa-conso.fr/franchise-expo-paris/annee_2025/ |
+| M31-32 | Largo Consumo (motherbase.ai); Fiera Milano (comunicato Salone Franchising 2023) | 2023-2026 | Largo Consumo: testata reale su retail e beni di consumo, dal 1980; media partner di Salone Franchising Milano | https://my.motherbase.ai/company/136767-largo-consumo ; https://www.confcommerciomilano.it/export/sites/unione/doc/news_comunicati/pdf/2023/CS4-SALONE-FRANCHISING-final.pdf |
+
+## A.2 Concorrenti in Italia
+
+| ID | Fonte | Cosa contiene | Link |
+|---|---|---|---|
+| C1 | infofranchising.it (Mercatopoli) | Investimento medio circa 60 k€, canone mensile senza royalty | https://www.infofranchising.it/mercatopoli-franchising-negozi-usato-conto-vendita/ |
+| C2 | franchising.cloud | Mercatopoli oltre 56 negozi, 500 mq, da 60 k€; Babybazar oltre 27 negozi | https://www.franchising.cloud/category/mercatini-dell-usato-negozi-seconda-mano/ |
+
+## A.3 Austria
+
+| ID | Fonte | Data | Cosa contiene (parafrasi) | Link |
+|---|---|---|---|---|
+| A1 | Handelsverband — Consumer Check 2025 | 03/11/2025 | Dati sul comportamento dei consumatori austriaci (vedi 8.2), spesa per regione, rivendita, categorie | https://www.handelsverband.at/presse/presseaussendungen/secondhand-2025/ |
+| A2 | OTS — Handelsverband 2024 | 11/09/2024 | Mercato di circa 2 Mrd €; spesa media 195 € | https://www.ots.at/presseaussendung/OTS_20240911_OTS0011/hv-studie-oesterreichischer-second-hand-markt-boomt-und-ist-bereits-2-mrd-euro-schwer |
+| A3 | Salzburger Nachrichten | 2025 | Ripresa dell'indagine 2024: quote per canale | https://www.sn.at/wirtschaft/oesterreich/jede-zweite-person-in-oesterreich-kauft-bereits-second-hand-art-558904 |
+| A4 | Re-Use Austria | 24/10/2024 | Storicamente mercato di imprese sociali; ingresso dei privati; punto di vista critico | https://reuseaustria.at/secondhand-markt-in-oesterreich/ |
+| A5 | Internet World Austria | 27/04/2026 | Vinted apre gli scambi tra Austria e Germania | https://internetworld.at/vinted-oeffnet-marktplatz-zwischen-oesterreich-und-deutschland/ |
+| A6 | Caritas Salisburgo — carla; carla.at; Graz Journal | 2026 | Rete carla: negozi a Salisburgo, Wörgl, St. Johann in Tirol; sette negozi a Graz; obiettivo sociale | https://www.caritas-salzburg.at/spenden-helfen/shops/carla/ ; https://www.carla.at/ ; https://grazjournal.at/genuss/second-hand-graz/ |
+| A7 | WKO — Gewerbeanmeldung im Handel | senza data | Commercio generale come "freies Gewerbe", senza abilitazione; autorità competente: distretto/Magistrato | https://www.wko.at/handel/gewerbeanmeldung-im-handel |
+| A8 | JUSLINE — § 154 GewO | senza data | Norma sul commercio con obblighi per l'"Altwarenhandel" (ispezioni delle autorità di sicurezza) | https://www.jusline.at/gesetz/gewo/paragraf/154 |
+| A9 | circle-hand.com; etron.at | 2025 | Imposizione sulla differenza per i negozi di usato, anche in commissione (blog, da verificare) | https://www.circle-hand.com/blog/differenzbesteuerung-fur-second-hand-laden ; https://www.etron.at/blog/wissen/differenzbesteuerung/ |
+| A10 | Brandauer Rechtsanwälte; WKO checklist; ÖFV | 2026 | Nessuna legge sul franchising; obblighi precontrattuali; contratto scritto; lingua contrattuale; associazione ÖFV | https://brandauer-rechtsanwaelte.at/2026/06/04/franchise-vertrag-oesterreich/ ; https://www.wko.at/gruendung/checkliste-vertragsgestaltung-franchise-systeme ; https://www.franchise-welt.com/franchise/oesterreichischer-franchise-verband/ |
+| A11 | Freshfields; ClimatePartner; Cooley; Commissione UE (FAQ) | 2026 | Direttiva 2024/825: applicazione dal 27/09/2026; recepimento in Austria (scadenza del 27/03/2026 mancata, bozza di giugno 2026, poi novella UWG); divieti sulle indicazioni ambientali generiche e sulle compensazioni | https://www.freshfields.com/en/our-thinking/blogs/sustainability/greenwashing-bans-take-shape-austrias-draft-bill-implementing-the-empco-directi-102n7e6 ; https://www.climatepartner.com/en/knowledge/blog/empco-directive-eu-implementation-status-and-what-companies-need-to-know ; https://products.cooley.com/2026/03/16/empowering-consumers-for-the-green-transition-directive-check-your-sustainability-claims-and-warranty-information-for-compliance-with-new-eu-regime/ |
+| A12 | JKU Linz — Institut für Handel | 19/03/2025 | Conferma il volume di mercato di circa 2 Mrd €; ruolo delle piattaforme online | https://www.jku.at/en/institute-for-retailing-sales-and-marketing/news-events/detail/news/default-3479b1a98a/ |
+| A13 | Trending Topics | 27/04/2026 | Vinted: dati 2025 e valutazione; valutazione di willhaben (marzo 2025) | https://www.trendingtopics.eu/vinted-second-hand-marktplatz-aus-litauen-jetzt-bei-8-milliarden-euro/ |
+| A14 | Caritas Salisburgo (carla); Fräulein Flora; 1000things | 2025-2026 | Negozi di usato a Salisburgo: carla, Humana, TAO, vintage | https://www.caritas-salzburg.at/spenden-helfen/shops/carla/standorte-oeffnungszeiten/ ; https://www.fraeuleinflora.at/salzburg/second-hand-shops-in-salzburg/ ; https://www.1000things.at/blog/secondhand-shops-in-salzburg/ |
+| A15 | Kids Second Hand (Germania) | senza data | Esempio di conto vendita: 40% al venditore, permanenza 3 mesi (una sola attività, indicativo) | https://www.kids-second-hand.de/kommission |
+| A16 | FranchisePortal (FLOHKIDS; Used Products) | 2025-2026 | Schede di franchising dell'usato in DACH | https://www.franchiseportal.de/franchise-unternehmen/flohkids-m-20998 ; https://www.franchiseportal.de/franchise-unternehmen/used-products-m-20252 |
+| A17 | Österreichischer Franchise-Verband (ÖFV) | consultato 21/09/2026 | Statistiche del settore (dichiarate), eventi, codice etico | https://www.franchise.at/ |
+| A18 | Statistik Austria; Statista | 2025-2026 | Popolazione dell'Austria, delle città e della provincia di Salisburgo | https://www.statistik.at/fileadmin/publications/OZDF-DE-24-25.pdf ; https://de.statista.com/statistik/daten/studie/217757/umfrage/groesste-staedte-in-oesterreich/ ; https://de.statista.com/statistik/daten/studie/743125/umfrage/bevoelkerung-von-salzburg |
+| A19 | Statista — secondhand in Germania | 2023 | Mercato tedesco circa 14,8 mld € nel 2022 | https://de.statista.com/statistik/daten/studie/1420616/umfrage/beliebteste-secondhand-kanaele-in-deutschland |
+| A20 | oekonews (Handelsverband 2024) | 12/09/2024 | Categorie più acquistate tra chi compra usato | https://oekonews.at/studie-zeigt-oesterreichischer-second-hand-markt-boomt-und-ist-bereits-2-mrd-euro-schwer+2400+1201013 |
+| A21 | SecondHandling; My2hand; reUse GM | senza data | Software di gestione per l'usato in conto vendita | http://www.secondhandling.at/ ; https://www.my2hand.it/software.asp ; https://reusegm.com/ |
+| A22 | RIS/JUSLINE — § 154 GewO; BIC | 2026 | Obblighi di ispezione e registri per Altwarenhandel e antiquariato; obbligo di verificare la provenienza della merce | https://www.jusline.at/gesetz/gewo/paragraf/154 ; https://www.bic.at/berufsinformation_druck.php?brfid=427&regst=0&tab=8 |
+| A23 | JUSLINE — § 24 UStG; Findok | 2019-2026 | Regime del margine (Differenzbesteuerung) | https://www.jusline.at/gesetz/ustg/paragraf/24 |
+| A24 | Secondhandsome | senza data | Esempio di contratto di commissione (§ 383 UGB) | https://www.secondhandsome.at/kommissionsvereinbarung |
+| A25 | PwC Legal Österreich | 11/06/2026 | Stato della trasposizione austriaca della direttiva 2024/825; B2C/B2B | https://blog.pwclegal.at/update-zur-umsetzung-der-empowering-consumers-richtlinie-in-oesterreich/ |
+| A26 | Ministero dell'Economia (BMWET); Brandauer; Greenpeace | 2026 | Applicazione dal 27/09/2026, norma transitoria sulle merci; critiche alla bozza | https://www.bmwet.gv.at/Themen/Europa/Wettbewerbspolitik/EU-Verbraucherschutz-und-Lauterkeitsrecht.html ; https://brandauer-rechtsanwaelte.at/2026/06/24/empco-greenwashing-umweltaussagen-unternehmen-2026/ ; https://greenpeace.at/presse/greenpeace-rechtsgutachten-belegt-geplante-uwg-novelle-gegen-greenwashing-verstoesst-gegen-eu-recht/ |
+
+*Nota: i dati di sostenibilità sono presentati dall'azienda stessa come "dati interni" (vedi M19).*
+
+---
+
+# Appendice B — Prossimi passi immediati
+
+La to-do list aggiornata è nella sezione 1.1.

@@ -1,0 +1,3171 @@
+{
+  "generated_at": "2026-09-16T16:12:54.621916+00:00",
+  "status": "completed",
+  "backend": "ollama",
+  "model": "qwen3.5:4b",
+  "host": "http://localhost:11434",
+  "max_iterations": 8,
+  "registered_domains": [
+    "chessdotcom",
+    "instagram",
+    "money",
+    "spotify"
+  ],
+  "batch_elapsed_seconds": 8555.44,
+  "summary": {
+    "total_questions": 22,
+    "successful": 11,
+    "failed": 11,
+    "hit_max_iterations_count": 0,
+    "hit_max_iterations_ids": [],
+    "failed_ids": [
+      "money_01",
+      "money_04",
+      "money_07",
+      "money_09",
+      "spotify_01",
+      "spotify_08",
+      "chess_01",
+      "instagram_02",
+      "cross_04",
+      "manifest_01",
+      "adversarial_01"
+    ],
+    "malformed_tool_call_recoveries_count": 0,
+    "malformed_tool_call_recoveries_ids": [],
+    "avg_iterations": 3.55,
+    "avg_elapsed_seconds": 388.88,
+    "total_elapsed_seconds": 8555.35,
+    "tool_calls_by_tool": {
+      "describe_table": 14,
+      "run_sql": 16,
+      "list_tables": 1
+    },
+    "run_sql_queries": [
+      {
+        "question_id": "money_13",
+        "query": "SELECT DISTINCT instrument_name FROM transactions WHERE instrument_name LIKE '%NVIDIA%' OR description_full LIKE '%NVIDIA%'",
+        "error": null,
+        "row_count": 5,
+        "truncated": false
+      },
+      {
+        "question_id": "money_13",
+        "query": "SELECT \n    COUNT(*) as num_acquisti,\n    SUM(CASE WHEN shares > 0 THEN shares ELSE 0 END) as total_shares_acquistate,\n    SUM(CASE WHEN shares > 0 THEN ABS(amount) ELSE 0 END) as totale_spesa_euro,\n    MIN(timestamp_begin) as data_prima_operazione,\n    MAX(timestamp_begin) as data_ultima_operazione\nFROM transactions\nWHERE institution = 'Trade Republic'\n  AND (instrument_name = 'NVIDIA' OR description_full LIKE '%NVIDIA%')\n  AND category_raw LIKE '%/ BUY%'",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "spotify_06",
+        "query": "SELECT COUNT(*) AS episode_count FROM plays WHERE content_type = 'episode'",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "spotify_06",
+        "query": "SELECT COUNT(*) AS track_count FROM plays WHERE content_type = 'track'",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "spotify_12",
+        "query": "SELECT artist_name, COUNT(*) as play_count\nFROM plays\nGROUP BY artist_name\nORDER BY play_count DESC\nLIMIT 5",
+        "error": null,
+        "row_count": 5,
+        "truncated": false
+      },
+      {
+        "question_id": "chess_03",
+        "query": "SELECT * FROM playing_sessions ORDER BY duration_seconds DESC LIMIT 1",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "chess_06",
+        "query": "SELECT DISTINCT result_for_user, user_side FROM games",
+        "error": null,
+        "row_count": 6,
+        "truncated": false
+      },
+      {
+        "question_id": "chess_06",
+        "query": "SELECT opponent_username, opponent_rating \nFROM games \nWHERE result_for_user = 'win' \nORDER BY opponent_rating DESC \nLIMIT 1",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "chess_10",
+        "query": "SELECT COUNT(*) FROM games WHERE time_class = 'bullet'",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "chess_10",
+        "query": "SELECT COUNT(*) FROM games WHERE time_class = 'blitz'",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_01",
+        "query": "SELECT COUNT(*) FROM instagram_posts WHERE content_kind = 'post'",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_03",
+        "query": "SELECT is_group, COUNT(*) as thread_count FROM instagram_direct_message_threads GROUP BY is_group",
+        "error": null,
+        "row_count": 2,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_05",
+        "query": "SELECT COUNT(*) as like_count FROM instagram_likes WHERE content_kind='post'",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_05",
+        "query": "SELECT COUNT(*) as like_count FROM instagram_likes WHERE content_kind='comment'",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "cross_02",
+        "query": "SELECT COUNT(*) FROM games",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "cross_02",
+        "query": "SELECT COUNT(*) FROM plays WHERE content_type = 'track'",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "money_01",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho speso in totale ad agosto 2026?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 639.48
+    },
+    {
+      "id": "money_04",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho investito su Trade Republic in totale, tra acquisti e vendite?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 284.84
+    },
+    {
+      "id": "money_07",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Ci sono state operazioni straordinarie sui miei titoli, tipo split o conversioni?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 485.07
+    },
+    {
+      "id": "money_09",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quali sono le mie cinque spese più alte in assoluto, considerando tutta la mia storia?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 520.81
+    },
+    {
+      "id": "money_13",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Ho mai comprato azioni NVIDIA su Trade Republic? Quante volte e con quale spesa totale?",
+      "success": true,
+      "answer": "Sì, hai comprato azioni NVIDIA su Trade Republic. Ecco i dettagli:\n\n- **Numero di acquisti**: 12 volte\n- **Azioni totali acquistate**: 465,274745 azioni\n- **Spesa totale**: € 1.565,96\n- **Periodo**: dalle 25 febbraio 2025 alle 22 settembre 2025\n\nTutte le operazioni sono state effettuate con il broker Trade Republic e rientrano nella categoria di trading (compravendole come \"BUY\").",
+      "iterations_used": 4,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "transactions"
+          },
+          "result": {
+            "table": "transactions",
+            "columns": [
+              {
+                "name": "transaction_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only, not meaningful to read directly",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": "operation/trade date; equals timestamp_end when the source doesn't distinguish it from the value/settlement date",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — value/settlement date when the source distinguishes it (meinElba, Sella), else equal to timestamp_begin. Can precede timestamp_begin: a retroactive value date is real bank behavior, not a parsing error.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "domain",
+                "sql_type": "TEXT",
+                "semantic_note": "'bank' (meinElba, Sella) or 'investment' (Trade Republic cash+trades) — only ever these 2 values. This is NOT a merchant or company name: 'Amazon', 'PayPal', etc. never appear here, they are in the merchant column instead.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source",
+                "sql_type": "TEXT",
+                "semantic_note": "technical exporter id — meinelba_csv_export/sella_csv_export/traderepublic_csv_export/generic_bank_csv_export",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "institution",
+                "sql_type": "TEXT",
+                "semantic_note": "human-readable institution name — exactly one of these 3 literal values: 'meinElba (Raiffeisen)', 'Banca Sella', 'Trade Republic'. Not 'Sella' alone, not 'Raiffeisen' alone — use the full string or LIKE '%Sella%' / LIKE '%Trade Republic%'.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "account_ref",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "amount",
+                "sql_type": "REAL",
+                "semantic_note": "signed: positive=income, negative=expense. Native currency, never auto-converted.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "currency",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "transaction_type",
+                "sql_type": "TEXT",
+                "semantic_note": "income/expense/transfer/investment/interest/tax/cash_deposit/cash_withdrawal/fee/unknown. For Trade Republic, both BUY and SELL rows have transaction_type='investment' — 'buy'/'sell' are never values of this column. To tell a purchase from a sale, use category_raw (LIKE '%/ BUY' or '%/ SELL') or the sign of shares (positive=buy, negative=sell).",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "category",
+                "sql_type": "TEXT",
+                "semantic_note": "from our shared taxonomy — 'unknown' whenever the source gives no explicit native signal (never guessed from generic keywords)",
+                "entity_hint": "category",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "category_raw",
+                "sql_type": "TEXT",
+                "semantic_note": "original native category/type string, always preserved even when category is 'unknown'. For Trade Republic rows this is 'NATIVE_CATEGORY / NATIVE_TYPE' (e.g. 'TRADING / BUY' vs 'TRADING / SELL') — the only place a buy is distinguishable from a sell, since transaction_type and category both collapse to 'investment' for both (see TRADE_REPUBLIC_TYPE_MAP in money_ingest.py). To find purchases only: category_raw LIKE '%/ BUY' or shares > 0; sales: '%/ SELL' or shares < 0.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "merchant",
+                "sql_type": "TEXT",
+                "semantic_note": "normalized merchant name from a small curated list — most real merchants stay unmatched (None) on purpose, see module docstring. Trade Republic is never a value here (it's an institution, not a merchant) — use the institution column for it.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "counterparty_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "description_full",
+                "sql_type": "TEXT",
+                "semantic_note": "free-text description; any 'IBAN: <value>' substring is redacted (see module docstring's privacy note) — ISIN codes in the same text are NOT touched",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "isin",
+                "sql_type": "TEXT",
+                "semantic_note": "security identifier, when this transaction relates to one (native field for Trade Republic trades, extracted from free text for others when present)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "instrument_name",
+                "sql_type": "TEXT",
+                "semantic_note": "native Trade Republic instrument name string, exactly as the broker wrote it (e.g. a company's official listed name, not a translated or colloquial phrase like 'azioni NVIDIA'). Match it with LIKE '%keyword%' or run a discovery query (SELECT DISTINCT instrument_name FROM transactions WHERE instrument_name LIKE '%...%') first — never an exact string you guessed. isin is a more reliable filter when you already know the ISIN.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "shares",
+                "sql_type": "REAL",
+                "semantic_note": "signed quantity, populated only for Trade Republic BUY/SELL rows. Sign is a reliable buy/sell signal in the real data: positive=buy, negative=sell (amount sign runs the other way: negative=buy/cash-out, positive=sell/cash-in) — see category_raw for the same distinction via the native type string",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "unit_price",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "fee",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "tax",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "original_amount",
+                "sql_type": "REAL",
+                "semantic_note": "amount in original_currency before FX conversion, when the source reports one",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "original_currency",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "fx_rate",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "native_id",
+                "sql_type": "TEXT",
+                "semantic_note": "native transaction id when the source provides one (Trade Republic transaction_id, Sella Codice identificativo); None for meinElba/generic",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_unusual",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1 — z-score flag within (category, currency, domain), see ANOMALY_* config; 0 when the group is too small to judge (< 5 comparable transactions)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_end",
+            "foreign_keys": {},
+            "row_count": 3202
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT DISTINCT instrument_name FROM transactions WHERE instrument_name LIKE '%NVIDIA%' OR description_full LIKE '%NVIDIA%'"
+          },
+          "result": {
+            "columns": [
+              "instrument_name"
+            ],
+            "rows": [
+              {
+                "instrument_name": "NVIDIA"
+              },
+              {
+                "instrument_name": "Long 67,61 $"
+              },
+              {
+                "instrument_name": "Short 194,4297 $"
+              },
+              {
+                "instrument_name": "Long 168,9285 $"
+              },
+              {
+                "instrument_name": "Long 174,5965 $"
+              }
+            ],
+            "row_count": 5
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT \n    COUNT(*) as num_acquisti,\n    SUM(CASE WHEN shares > 0 THEN shares ELSE 0 END) as total_shares_acquistate,\n    SUM(CASE WHEN shares > 0 THEN ABS(amount) ELSE 0 END) as totale_spesa_euro,\n    MIN(timestamp_begin) as data_prima_operazione,\n    MAX(timestamp_begin) as data_ultima_operazione\nFROM transactions\nWHERE institution = 'Trade Republic'\n  AND (instrument_name = 'NVIDIA' OR description_full LIKE '%NVIDIA%')\n  AND category_raw LIKE '%/ BUY%'"
+          },
+          "result": {
+            "columns": [
+              "num_acquisti",
+              "total_shares_acquistate",
+              "totale_spesa_euro",
+              "data_prima_operazione",
+              "data_ultima_operazione"
+            ],
+            "rows": [
+              {
+                "num_acquisti": 12,
+                "total_shares_acquistate": 465.274745,
+                "totale_spesa_euro": 1565.96,
+                "data_prima_operazione": "2025-02-25T15:16:27.511000",
+                "data_ultima_operazione": "2025-09-22T16:58:23.428000"
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 424.96
+    },
+    {
+      "id": "spotify_01",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Cosa ho ascoltato di più di recente su Spotify?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 584.24
+    },
+    {
+      "id": "spotify_06",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Quanti episodi di podcast ho ascoltato rispetto alle canzoni vere e proprie?",
+      "success": true,
+      "answer": "Hai ascoltato **435 episodi** di podcast rispetto a **358.005 canzoni** vere e proprie.\n\nIn termini di proporzione, gli episodi rappresentano circa lo 0,12% del tuo totale ascolti musicali (considerando solo i tipi \"track\" e \"episode\").",
+      "iterations_used": 4,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "plays"
+          },
+          "result": {
+            "table": "plays",
+            "columns": [
+              {
+                "name": "play_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only, not meaningful to read directly",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": "derived = timestamp_end - duration_seconds (exact, not estimated: duration_seconds is native)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native (Spotify's own 'ts', the moment playback ended/was reported)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_seconds",
+                "sql_type": "REAL",
+                "semantic_note": "native (from ms_played) — can legitimately be 0 (e.g. a play that never started)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "media_type",
+                "sql_type": "TEXT",
+                "semantic_note": "'audio'/'video' — which export file this came from (which client surface logged it), NOT what was played; see content_type for that",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "content_type",
+                "sql_type": "TEXT",
+                "semantic_note": "'track'/'episode'/'audiobook'/'unknown' — derived from which native id field is populated (see classify_content_type); independent of media_type",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "track_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "artist_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "album_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "track_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "episode_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "show_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "episode_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_title",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_chapter_title",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_chapter_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "platform",
+                "sql_type": "TEXT",
+                "semantic_note": "native device/platform string — format varies a lot across export vintages (e.g. 'ios' vs a full 'Android OS 4.4.4 API 19 (LGE, Nexus 5)' string), kept verbatim, never normalized",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "conn_country",
+                "sql_type": "TEXT",
+                "semantic_note": "2-letter country code, native; coarser than the source export's ip_addr field, which is NOT copied into vault.db (see module docstring)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "reason_start",
+                "sql_type": "TEXT",
+                "semantic_note": "native, verbatim (e.g. 'trackdone', 'fwdbtn', 'clickrow', 'unknown' — 'unknown' is a real value Spotify itself reports, not a gap in this ingest)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "reason_end",
+                "sql_type": "TEXT",
+                "semantic_note": "native, verbatim",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "shuffle",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "skipped",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1 — Spotify's own skip flag, not a heuristic (see module docstring)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "offline",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "offline_timestamp",
+                "sql_type": "INTEGER",
+                "semantic_note": "native raw field (unix seconds); observed non-null even when offline=0 in recent export vintages — meaning unclear from the data alone, kept as-is rather than reinterpreted",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "incognito_mode",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "session_id",
+                "sql_type": "INTEGER",
+                "semantic_note": "NULL if this play is not part of any detected listening session",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_end",
+            "foreign_keys": {
+              "session_id": "listening_sessions(session_id)"
+            },
+            "row_count": 358440
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) AS episode_count FROM plays WHERE content_type = 'episode'"
+          },
+          "result": {
+            "columns": [
+              "episode_count"
+            ],
+            "rows": [
+              {
+                "episode_count": 435
+              }
+            ],
+            "row_count": 1
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) AS track_count FROM plays WHERE content_type = 'track'"
+          },
+          "result": {
+            "columns": [
+              "track_count"
+            ],
+            "rows": [
+              {
+                "track_count": 358005
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 312.3
+    },
+    {
+      "id": "spotify_08",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Quante volte ho saltato un brano (skip) rispetto a quante l'ho ascoltato fino alla fine?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "spotify_12",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Chi sono i miei 5 artisti più ascoltati in assoluto, considerando tutta la mia storia?",
+      "success": true,
+      "answer": "Ecco i tuoi **5 artisti più ascoltati** in assoluto, considerando tutta la tua storia:\n\n1. **Ed Sheeran** – 5.398 ascolti\n2. **Salmo** – 3.740 ascolti\n3. **White Noise Baby Sleep** – 3.153 ascolti\n4. **Hair Dryers for Background Noise** – 2.939 ascolti\n5. **Russ** – 2.927 ascolti\n\nQuesti dati sono calcolati sommando il numero totale di riproduzioni per ogni artista presente nella tua cronologia.",
+      "iterations_used": 3,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "plays"
+          },
+          "result": {
+            "table": "plays",
+            "columns": [
+              {
+                "name": "play_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only, not meaningful to read directly",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": "derived = timestamp_end - duration_seconds (exact, not estimated: duration_seconds is native)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native (Spotify's own 'ts', the moment playback ended/was reported)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_seconds",
+                "sql_type": "REAL",
+                "semantic_note": "native (from ms_played) — can legitimately be 0 (e.g. a play that never started)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "media_type",
+                "sql_type": "TEXT",
+                "semantic_note": "'audio'/'video' — which export file this came from (which client surface logged it), NOT what was played; see content_type for that",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "content_type",
+                "sql_type": "TEXT",
+                "semantic_note": "'track'/'episode'/'audiobook'/'unknown' — derived from which native id field is populated (see classify_content_type); independent of media_type",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "track_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "artist_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "album_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "track_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "episode_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "show_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "episode_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_title",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_chapter_title",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_chapter_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "platform",
+                "sql_type": "TEXT",
+                "semantic_note": "native device/platform string — format varies a lot across export vintages (e.g. 'ios' vs a full 'Android OS 4.4.4 API 19 (LGE, Nexus 5)' string), kept verbatim, never normalized",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "conn_country",
+                "sql_type": "TEXT",
+                "semantic_note": "2-letter country code, native; coarser than the source export's ip_addr field, which is NOT copied into vault.db (see module docstring)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "reason_start",
+                "sql_type": "TEXT",
+                "semantic_note": "native, verbatim (e.g. 'trackdone', 'fwdbtn', 'clickrow', 'unknown' — 'unknown' is a real value Spotify itself reports, not a gap in this ingest)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "reason_end",
+                "sql_type": "TEXT",
+                "semantic_note": "native, verbatim",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "shuffle",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "skipped",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1 — Spotify's own skip flag, not a heuristic (see module docstring)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "offline",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "offline_timestamp",
+                "sql_type": "INTEGER",
+                "semantic_note": "native raw field (unix seconds); observed non-null even when offline=0 in recent export vintages — meaning unclear from the data alone, kept as-is rather than reinterpreted",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "incognito_mode",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "session_id",
+                "sql_type": "INTEGER",
+                "semantic_note": "NULL if this play is not part of any detected listening session",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_end",
+            "foreign_keys": {
+              "session_id": "listening_sessions(session_id)"
+            },
+            "row_count": 358440
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT artist_name, COUNT(*) as play_count\nFROM plays\nGROUP BY artist_name\nORDER BY play_count DESC\nLIMIT 5"
+          },
+          "result": {
+            "columns": [
+              "artist_name",
+              "play_count"
+            ],
+            "rows": [
+              {
+                "artist_name": "Ed Sheeran",
+                "play_count": 5398
+              },
+              {
+                "artist_name": "Salmo",
+                "play_count": 3740
+              },
+              {
+                "artist_name": "White Noise Baby Sleep",
+                "play_count": 3153
+              },
+              {
+                "artist_name": "Hair Dryers for Background Noise",
+                "play_count": 2939
+              },
+              {
+                "artist_name": "Russ",
+                "play_count": 2927
+              }
+            ],
+            "row_count": 5
+          }
+        }
+      ],
+      "elapsed_seconds": 369.84
+    },
+    {
+      "id": "chess_01",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Come sta andando il mio rating a scacchi in blitz negli ultimi mesi?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 675.65
+    },
+    {
+      "id": "chess_03",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Qual è stata la mia sessione di scacchi più lunga: quante partite ho giocato e con che risultato?",
+      "success": true,
+      "answer": "La tua sessione di scacchi più lunga è durata **56 minuti** (3360 secondi) e si è svolta dal 29 dicembre 2022 alle 15:49-16:45.\n\nDurante questa sessione hai giocato **8 partite** con un risultato complessivo di:\n- **2 vittorie**\n- **5 sconfitte**\n- **1 pareggio**",
+      "iterations_used": 3,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "playing_sessions"
+          },
+          "result": {
+            "table": "playing_sessions",
+            "columns": [
+              {
+                "name": "session_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_seconds",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "game_count",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "win_count",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "loss_count",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "draw_count",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "confidence_rate",
+                "sql_type": "REAL",
+                "semantic_note": "confidence that this grouping of games is really one sitting, not that the games themselves happened",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_begin",
+            "foreign_keys": {},
+            "row_count": 364
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT * FROM playing_sessions ORDER BY duration_seconds DESC LIMIT 1"
+          },
+          "result": {
+            "columns": [
+              "session_id",
+              "timestamp_begin",
+              "timestamp_end",
+              "duration_seconds",
+              "game_count",
+              "win_count",
+              "loss_count",
+              "draw_count",
+              "notability_score",
+              "confidence_rate"
+            ],
+            "rows": [
+              {
+                "session_id": 32,
+                "timestamp_begin": "2022-12-29T15:49:20Z",
+                "timestamp_end": "2022-12-29T16:45:20Z",
+                "duration_seconds": 3360,
+                "game_count": 8,
+                "win_count": 2,
+                "loss_count": 5,
+                "draw_count": 1,
+                "notability_score": 0.4,
+                "confidence_rate": 0.8
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 249.73
+    },
+    {
+      "id": "chess_06",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Chi è l'avversario più forte (per rating) che ho mai battuto?",
+      "success": true,
+      "answer": "L'avversario più forte che hai mai battuto è **Coach-David** con un rating di **600**.",
+      "iterations_used": 4,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "games"
+          },
+          "result": {
+            "table": "games",
+            "columns": [
+              {
+                "name": "game_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only, not meaningful to read directly",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": "derived/estimated; equals timestamp_end when no clock data exists to estimate duration",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, when this game actually ended",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_seconds",
+                "sql_type": "REAL",
+                "semantic_note": "only present when the PGN includes %clk annotations; None otherwise, never guessed",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_confidence_rate",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "time_control_raw",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "time_class",
+                "sql_type": "TEXT",
+                "semantic_note": "bullet/blitz/rapid/classical/daily/unlimited/unknown",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "base_time_seconds",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "increment_seconds",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "white",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "black",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "user_side",
+                "sql_type": "TEXT",
+                "semantic_note": "white/black/ambiguous_self_play/unknown",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "user_username",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "opponent_username",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "user_rating",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "opponent_rating",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "rating_diff",
+                "sql_type": "INTEGER",
+                "semantic_note": "user_rating - opponent_rating",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "result_raw",
+                "sql_type": "TEXT",
+                "semantic_note": "PGN Result tag: 1-0 / 0-1 / 1/2-1/2",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "result_for_user",
+                "sql_type": "TEXT",
+                "semantic_note": "win/loss/draw/unknown, from the user's own side",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "termination_raw",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "win_method",
+                "sql_type": "TEXT",
+                "semantic_note": "checkmate/resignation/timeout/abandonment/agreement/repetition/stalemate/insufficient_material/fifty_move_rule/unknown",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_upset",
+                "sql_type": "INTEGER",
+                "semantic_note": "1 if the weaker-rated side (>=150 point gap) won or the stronger side lost, else 0",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "ply_count",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "opening_signature",
+                "sql_type": "TEXT",
+                "semantic_note": "first 6 half-moves in SAN, a fingerprint — NOT a named opening (no ECO data available)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "session_id",
+                "sql_type": "INTEGER",
+                "semantic_note": "NULL if this game is not part of any detected playing session",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_end",
+            "foreign_keys": {
+              "session_id": "playing_sessions(session_id)"
+            },
+            "row_count": 1785
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT DISTINCT result_for_user, user_side FROM games"
+          },
+          "result": {
+            "columns": [
+              "result_for_user",
+              "user_side"
+            ],
+            "rows": [
+              {
+                "result_for_user": "win",
+                "user_side": "white"
+              },
+              {
+                "result_for_user": "loss",
+                "user_side": "white"
+              },
+              {
+                "result_for_user": "win",
+                "user_side": "black"
+              },
+              {
+                "result_for_user": "loss",
+                "user_side": "black"
+              },
+              {
+                "result_for_user": "draw",
+                "user_side": "black"
+              },
+              {
+                "result_for_user": "draw",
+                "user_side": "white"
+              }
+            ],
+            "row_count": 6
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT opponent_username, opponent_rating \nFROM games \nWHERE result_for_user = 'win' \nORDER BY opponent_rating DESC \nLIMIT 1"
+          },
+          "result": {
+            "columns": [
+              "opponent_username",
+              "opponent_rating"
+            ],
+            "rows": [
+              {
+                "opponent_username": "Coach-David",
+                "opponent_rating": 600
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 311.52
+    },
+    {
+      "id": "chess_10",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Gioco più partite in bullet o in blitz? Dammi i due conteggi.",
+      "success": true,
+      "answer": "Ecco i conteggi delle partite per modalità di tempo:\n\n*   **Bullet:** 2 partite\n*   **Blitz:** 1.231 partite\n\nQuindi, il gioco ha disputato molto più partite in blitz rispetto a bullet.",
+      "iterations_used": 4,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "games"
+          },
+          "result": {
+            "table": "games",
+            "columns": [
+              {
+                "name": "game_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only, not meaningful to read directly",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": "derived/estimated; equals timestamp_end when no clock data exists to estimate duration",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, when this game actually ended",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_seconds",
+                "sql_type": "REAL",
+                "semantic_note": "only present when the PGN includes %clk annotations; None otherwise, never guessed",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_confidence_rate",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "time_control_raw",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "time_class",
+                "sql_type": "TEXT",
+                "semantic_note": "bullet/blitz/rapid/classical/daily/unlimited/unknown",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "base_time_seconds",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "increment_seconds",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "white",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "black",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "user_side",
+                "sql_type": "TEXT",
+                "semantic_note": "white/black/ambiguous_self_play/unknown",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "user_username",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "opponent_username",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "user_rating",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "opponent_rating",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "rating_diff",
+                "sql_type": "INTEGER",
+                "semantic_note": "user_rating - opponent_rating",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "result_raw",
+                "sql_type": "TEXT",
+                "semantic_note": "PGN Result tag: 1-0 / 0-1 / 1/2-1/2",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "result_for_user",
+                "sql_type": "TEXT",
+                "semantic_note": "win/loss/draw/unknown, from the user's own side",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "termination_raw",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "win_method",
+                "sql_type": "TEXT",
+                "semantic_note": "checkmate/resignation/timeout/abandonment/agreement/repetition/stalemate/insufficient_material/fifty_move_rule/unknown",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_upset",
+                "sql_type": "INTEGER",
+                "semantic_note": "1 if the weaker-rated side (>=150 point gap) won or the stronger side lost, else 0",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "ply_count",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "opening_signature",
+                "sql_type": "TEXT",
+                "semantic_note": "first 6 half-moves in SAN, a fingerprint — NOT a named opening (no ECO data available)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "session_id",
+                "sql_type": "INTEGER",
+                "semantic_note": "NULL if this game is not part of any detected playing session",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_end",
+            "foreign_keys": {
+              "session_id": "playing_sessions(session_id)"
+            },
+            "row_count": 1785
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) FROM games WHERE time_class = 'bullet'"
+          },
+          "result": {
+            "columns": [
+              "COUNT(*)"
+            ],
+            "rows": [
+              {
+                "COUNT(*)": 2
+              }
+            ],
+            "row_count": 1
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) FROM games WHERE time_class = 'blitz'"
+          },
+          "result": {
+            "columns": [
+              "COUNT(*)"
+            ],
+            "rows": [
+              {
+                "COUNT(*)": 1231
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 297.85
+    },
+    {
+      "id": "instagram_01",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Quanti post ho pubblicato in totale su Instagram?",
+      "success": true,
+      "answer": "Hai pubblicato in totale **114** post su Instagram.",
+      "iterations_used": 3,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "instagram_posts"
+          },
+          "result": {
+            "table": "instagram_posts",
+            "columns": [
+              {
+                "name": "post_media_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "content_kind",
+                "sql_type": "TEXT",
+                "semantic_note": "one of: 'post', 'story', 'reel', 'archived_post', 'other' — which export category this row came from",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "caption",
+                "sql_type": "TEXT",
+                "semantic_note": "native, the project owner's own caption — may be null (many stories/reels have none)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "media_uri",
+                "sql_type": "TEXT",
+                "semantic_note": "relative path into the raw export's media/ folder — a reference only, the file itself is never read or interpreted by this ingest",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "media_index_in_group",
+                "sql_type": "INTEGER",
+                "semantic_note": "position of this media item within its post/carousel — 0 for the first",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "latitude",
+                "sql_type": "REAL",
+                "semantic_note": "native GPS from the post's own metadata, present only on some geotagged posts (see module docstring, finding 2) — null otherwise, never inferred",
+                "entity_hint": "location",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "longitude",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": "location",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "post_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, ISO 8601 UTC; group-level creation time when the export shape provides one, otherwise this media item's own",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "post_timestamp",
+            "foreign_keys": {},
+            "row_count": 1107
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) FROM instagram_posts WHERE content_kind = 'post'"
+          },
+          "result": {
+            "columns": [
+              "COUNT(*)"
+            ],
+            "rows": [
+              {
+                "COUNT(*)": 114
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 183.19
+    },
+    {
+      "id": "instagram_02",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Con quale contatto ho scambiato più messaggi diretti su Instagram, considerando solo le chat di cui hai il testo completo dei messaggi?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 471.74
+    },
+    {
+      "id": "instagram_03",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Ho delle chat di gruppo nei messaggi diretti di Instagram, o sono tutte conversazioni individuali?",
+      "success": true,
+      "answer": "Hai **sia chat di gruppo che conversazioni individuali**.\n\nIn totale ci sono **707 thread** nei messaggi diretti:\n- **655** sono conversazioni individuali (1 su 1)\n- **52** sono chat di gruppo",
+      "iterations_used": 3,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "instagram_direct_message_threads"
+          },
+          "result": {
+            "table": "instagram_direct_message_threads",
+            "columns": [
+              {
+                "name": "thread_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "thread_path",
+                "sql_type": "TEXT",
+                "semantic_note": "native, unique per conversation — e.g. 'inbox/edoardocavassa_516770459720154'",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "participants",
+                "sql_type": "TEXT",
+                "semantic_note": "native display names, '; '-joined — includes the project owner's own name (Instagram's export lists every participant, not just the other side), so a normal 1:1 DM already shows 2 names here; see is_group for the actual group/1:1 distinction",
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_group",
+                "sql_type": "INTEGER",
+                "semantic_note": "derived, deterministic: 1 when more than one participant besides the project owner, 0 otherwise",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "message_count",
+                "sql_type": "INTEGER",
+                "semantic_note": "native — total messages in this thread across all message_*.json parts, counted regardless of sampling",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "first_message_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "native, ISO 8601 UTC",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "last_message_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, ISO 8601 UTC",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_sampled",
+                "sql_type": "INTEGER",
+                "semantic_note": "1 if this is one of the 20 busiest threads (see instagram_ingest.TOP_N_THREADS_FOR_FULL_TEXT) — only those threads have matching rows in instagram_direct_messages; every other thread has metadata here only, by explicit MVP scoping, not a data gap",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "thread_category",
+                "sql_type": "TEXT",
+                "semantic_note": "'inbox' or 'message_request'",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_folder",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "last_message_timestamp",
+            "foreign_keys": {},
+            "row_count": 707
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT is_group, COUNT(*) as thread_count FROM instagram_direct_message_threads GROUP BY is_group"
+          },
+          "result": {
+            "columns": [
+              "is_group",
+              "thread_count"
+            ],
+            "rows": [
+              {
+                "is_group": 0,
+                "thread_count": 655
+              },
+              {
+                "is_group": 1,
+                "thread_count": 52
+              }
+            ],
+            "row_count": 2
+          }
+        }
+      ],
+      "elapsed_seconds": 252.75
+    },
+    {
+      "id": "instagram_05",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Ho messo 'mi piace' più spesso a dei post o a dei commenti su Instagram?",
+      "success": true,
+      "answer": "Ho messo \"mi piace\" ben più spesso a dei **post** rispetto ai commenti su Instagram:\n\n- **Post**: 8.080 mi piace\n- **Commenti**: 1.450 mi piace\n\nQuindi hai dato il doppio e mezzo di mi piace ai post rispetto ai commenti.",
+      "iterations_used": 4,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "instagram_likes"
+          },
+          "result": {
+            "table": "instagram_likes",
+            "columns": [
+              {
+                "name": "like_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "content_kind",
+                "sql_type": "TEXT",
+                "semantic_note": "'post' or 'comment' — what was liked",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "content_text",
+                "sql_type": "TEXT",
+                "semantic_note": "native — the liked post's own caption (content_kind='post') or the liked comment's own text (content_kind='comment'); public content someone else chose to publish, not a private message (see module docstring, finding 3)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "target_url",
+                "sql_type": "TEXT",
+                "semantic_note": "native permalink to the liked post/comment, when the export provides one",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "owner_name",
+                "sql_type": "TEXT",
+                "semantic_note": "native display name of the post's owner — only populated for content_kind='post' (liked_posts.json carries it, liked_comments.json does not)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "owner_username",
+                "sql_type": "TEXT",
+                "semantic_note": "native username of the post/comment owner — NOT the project owner",
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "like_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, ISO 8601 UTC",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "like_timestamp",
+            "foreign_keys": {},
+            "row_count": 9530
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "instagram_comments"
+          },
+          "result": {
+            "table": "instagram_comments",
+            "columns": [
+              {
+                "name": "comment_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "content_kind",
+                "sql_type": "TEXT",
+                "semantic_note": "'post', 'reel', or 'story' — which media type this comment was made on",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "comment_text",
+                "sql_type": "TEXT",
+                "semantic_note": "native, the project owner's own comment",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "media_owner_username",
+                "sql_type": "TEXT",
+                "semantic_note": "native username of the account that owns the post/reel/story commented on — NOT the project owner",
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "media_uri",
+                "sql_type": "TEXT",
+                "semantic_note": "reference only, see instagram_posts.media_uri",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "comment_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, ISO 8601 UTC",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "comment_timestamp",
+            "foreign_keys": {},
+            "row_count": 475
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) as like_count FROM instagram_likes WHERE content_kind='post'"
+          },
+          "result": {
+            "columns": [
+              "like_count"
+            ],
+            "rows": [
+              {
+                "like_count": 8080
+              }
+            ],
+            "row_count": 1
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) as like_count FROM instagram_likes WHERE content_kind='comment'"
+          },
+          "result": {
+            "columns": [
+              "like_count"
+            ],
+            "rows": [
+              {
+                "like_count": 1450
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 400.41
+    },
+    {
+      "id": "instagram_07",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Hai accesso ai contatti della mia rubrica del telefono sincronizzati con Instagram?",
+      "success": true,
+      "answer": "No, non ho accesso ai contatti della tua rubrica del telefono sincronizzati con Instagram.\n\nI dati disponibili nel vault database riguardano esclusivamente attività su Instagram (follower, following, commenti, messaggi, like) e altre categorie come partite da scacchi, ascolti musicali, transazioni finanziarie ed eventi di sicurezza. Non ci sono tabelle o dati relativi alla rubrica telefonica o al telefono in generale.",
+      "iterations_used": 3,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "list_tables",
+          "arguments": {},
+          "result": {
+            "tables": [
+              "game_moves",
+              "games",
+              "instagram_comments",
+              "instagram_direct_message_threads",
+              "instagram_direct_messages",
+              "instagram_followers",
+              "instagram_following",
+              "instagram_likes",
+              "instagram_login_activity",
+              "instagram_posts",
+              "listening_sessions",
+              "playing_sessions",
+              "plays",
+              "private_market_legs",
+              "security_events",
+              "transactions"
+            ]
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "instagram_followers"
+          },
+          "result": {
+            "table": "instagram_followers",
+            "columns": [
+              {
+                "name": "follower_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "username",
+                "sql_type": "TEXT",
+                "semantic_note": "native — someone who follows the project owner",
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "profile_url",
+                "sql_type": "TEXT",
+                "semantic_note": "native",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "followed_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, ISO 8601 UTC; when this account started following the project owner",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "followed_timestamp",
+            "foreign_keys": {},
+            "row_count": 1122
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "instagram_following"
+          },
+          "result": {
+            "table": "instagram_following",
+            "columns": [
+              {
+                "name": "following_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "username",
+                "sql_type": "TEXT",
+                "semantic_note": "native — someone the project owner follows",
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "profile_url",
+                "sql_type": "TEXT",
+                "semantic_note": "native",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "followed_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, ISO 8601 UTC; when the project owner started following this account",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "followed_timestamp",
+            "foreign_keys": {},
+            "row_count": 998
+          }
+        }
+      ],
+      "elapsed_seconds": 349.84
+    },
+    {
+      "id": "cross_02",
+      "domains_tagged": [
+        "chessdotcom",
+        "spotify"
+      ],
+      "question": "Quante partite a scacchi ho giocato in totale nella mia storia, e quante canzoni ho ascoltato su Spotify? Dammi i due numeri separatamente.",
+      "success": true,
+      "answer": "Ecco i tuoi dati:\n\n- **Partite a scacchi giocate:** 1785  \n- **Canzoni ascoltate su Spotify (track):** 358005",
+      "iterations_used": 4,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "games"
+          },
+          "result": {
+            "table": "games",
+            "columns": [
+              {
+                "name": "game_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only, not meaningful to read directly",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": "derived/estimated; equals timestamp_end when no clock data exists to estimate duration",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, when this game actually ended",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_seconds",
+                "sql_type": "REAL",
+                "semantic_note": "only present when the PGN includes %clk annotations; None otherwise, never guessed",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_confidence_rate",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "time_control_raw",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "time_class",
+                "sql_type": "TEXT",
+                "semantic_note": "bullet/blitz/rapid/classical/daily/unlimited/unknown",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "base_time_seconds",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "increment_seconds",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "white",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "black",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "user_side",
+                "sql_type": "TEXT",
+                "semantic_note": "white/black/ambiguous_self_play/unknown",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "user_username",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "opponent_username",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "user_rating",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "opponent_rating",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "rating_diff",
+                "sql_type": "INTEGER",
+                "semantic_note": "user_rating - opponent_rating",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "result_raw",
+                "sql_type": "TEXT",
+                "semantic_note": "PGN Result tag: 1-0 / 0-1 / 1/2-1/2",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "result_for_user",
+                "sql_type": "TEXT",
+                "semantic_note": "win/loss/draw/unknown, from the user's own side",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "termination_raw",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "win_method",
+                "sql_type": "TEXT",
+                "semantic_note": "checkmate/resignation/timeout/abandonment/agreement/repetition/stalemate/insufficient_material/fifty_move_rule/unknown",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_upset",
+                "sql_type": "INTEGER",
+                "semantic_note": "1 if the weaker-rated side (>=150 point gap) won or the stronger side lost, else 0",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "ply_count",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "opening_signature",
+                "sql_type": "TEXT",
+                "semantic_note": "first 6 half-moves in SAN, a fingerprint — NOT a named opening (no ECO data available)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "session_id",
+                "sql_type": "INTEGER",
+                "semantic_note": "NULL if this game is not part of any detected playing session",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_end",
+            "foreign_keys": {
+              "session_id": "playing_sessions(session_id)"
+            },
+            "row_count": 1785
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "plays"
+          },
+          "result": {
+            "table": "plays",
+            "columns": [
+              {
+                "name": "play_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only, not meaningful to read directly",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": "derived = timestamp_end - duration_seconds (exact, not estimated: duration_seconds is native)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native (Spotify's own 'ts', the moment playback ended/was reported)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "duration_seconds",
+                "sql_type": "REAL",
+                "semantic_note": "native (from ms_played) — can legitimately be 0 (e.g. a play that never started)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "media_type",
+                "sql_type": "TEXT",
+                "semantic_note": "'audio'/'video' — which export file this came from (which client surface logged it), NOT what was played; see content_type for that",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "content_type",
+                "sql_type": "TEXT",
+                "semantic_note": "'track'/'episode'/'audiobook'/'unknown' — derived from which native id field is populated (see classify_content_type); independent of media_type",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "track_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "artist_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "album_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "track_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "episode_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "show_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "episode_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_title",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_chapter_title",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "audiobook_chapter_uri",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "platform",
+                "sql_type": "TEXT",
+                "semantic_note": "native device/platform string — format varies a lot across export vintages (e.g. 'ios' vs a full 'Android OS 4.4.4 API 19 (LGE, Nexus 5)' string), kept verbatim, never normalized",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "conn_country",
+                "sql_type": "TEXT",
+                "semantic_note": "2-letter country code, native; coarser than the source export's ip_addr field, which is NOT copied into vault.db (see module docstring)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "reason_start",
+                "sql_type": "TEXT",
+                "semantic_note": "native, verbatim (e.g. 'trackdone', 'fwdbtn', 'clickrow', 'unknown' — 'unknown' is a real value Spotify itself reports, not a gap in this ingest)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "reason_end",
+                "sql_type": "TEXT",
+                "semantic_note": "native, verbatim",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "shuffle",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "skipped",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1 — Spotify's own skip flag, not a heuristic (see module docstring)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "offline",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "offline_timestamp",
+                "sql_type": "INTEGER",
+                "semantic_note": "native raw field (unix seconds); observed non-null even when offline=0 in recent export vintages — meaning unclear from the data alone, kept as-is rather than reinterpreted",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "incognito_mode",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "session_id",
+                "sql_type": "INTEGER",
+                "semantic_note": "NULL if this play is not part of any detected listening session",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_end",
+            "foreign_keys": {
+              "session_id": "listening_sessions(session_id)"
+            },
+            "row_count": 358440
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) FROM games"
+          },
+          "result": {
+            "columns": [
+              "COUNT(*)"
+            ],
+            "rows": [
+              {
+                "COUNT(*)": 1785
+              }
+            ],
+            "row_count": 1
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) FROM plays WHERE content_type = 'track'"
+          },
+          "result": {
+            "columns": [
+              "COUNT(*)"
+            ],
+            "rows": [
+              {
+                "COUNT(*)": 358005
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 414.76
+    },
+    {
+      "id": "cross_04",
+      "domains_tagged": [
+        "money",
+        "chessdotcom",
+        "whatsapp"
+      ],
+      "question": "Il giorno con la mia spesa bancaria più alta coincide con qualche partita a scacchi o messaggio WhatsApp particolare?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 359.06
+    },
+    {
+      "id": "manifest_01",
+      "domains_tagged": [],
+      "question": "Che tipo di dati hai su di me al momento, e per quale periodo di tempo?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 200.11
+    },
+    {
+      "id": "adversarial_01",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho speso su Netflix a dicembre 2025?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=200.0)",
+      "elapsed_seconds": 567.09
+    }
+  ]
+}

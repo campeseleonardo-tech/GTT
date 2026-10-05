@@ -1,0 +1,305 @@
+diff --git a/code/table_router.py b/code/table_router.py
+new file mode 100644
+index 0000000..7b3f822
+--- /dev/null
++++ b/code/table_router.py
+@@ -0,0 +1,299 @@
++# origine: agente TL02-router
++# stato: bozza
++"""
++Table routing module for Personal Data Vault.
++
++Provides:
++- KeywordBackend: pure Python word-overlap/TF-IDF on table name+description
++- EmbeddingBackend stub: raises NotImplementedError (requires Ollama)
++- LocalLLMBackend stub: raises NotImplementedError (requires Ollama)
++- route(question, tables, backend, k): returns ranked list of (table_name, score)
++- evaluate(backend, cases, tables, k): computes top1, top3, recall@k
++- shuffle_tables_evaluate(backend, cases, tables, k, n_shuffles): tests robustness to table order
++- Self-test with synthetic data under __main__
++"""
++
++from __future__ import annotations
++
++import math
++import random
++import re
++from typing import Dict, List, Tuple, Any
++
++
++class Backend:
++    """Base class for table ranking backends."""
++    def rank(self, question: str, tables: List[Dict[str, str]]) -> List[Tuple[str, float]]:
++        raise NotImplementedError
++
++
++class KeywordBackend(Backend):
++    """
++    Pure Python word-overlap/TF-IDF on table name+description.
++    - Tokenizes by splitting on non-alphanumeric (keeps underscores as part of words).
++    - Uses TF-IDF: term frequency in table text * inverse document frequency across tables.
++    - Score = sum of TF-IDF weights for query terms present in table text.
++    """
++
++    def __init__(self) -> None:
++        self._stopwords = {
++            "il", "lo", "la", "i", "gli", "le", "un", "uno", "una", "di", "a", "da", "in",
++            "con", "su", "per", "tra", "fra", "e", "o", "ma", "se", "che", "cui", "non",
++            "mi", "ti", "si", "ci", "vi", "al", "del", "dello", "della", "dei", "degli",
++            "delle", "agl", "allo", "alla", "ai", "agli", "alle", "dal", "dallo", "dalla",
++            "dai", "dagli", "dalle", "col", "collo", "colla", "coi", "cogli", "colle",
++            "sul", "sullo", "sulla", "sui", "sugli", "sulle", "il", "lo", "la", "i", "gli",
++            "le", "un", "uno", "una", "di", "a", "da", "in", "con", "su", "per", "tra",
++            "fra", "e", "o", "ma", "se", "che", "cui", "non"
++        }
++
++    def _tokenize(self, text: str) -> List[str]:
++        # Simple tokenization: lowercase, split on non-alnum, keep words with at least 2 chars
++        tokens = re.findall(r"[a-zA-Z0-9_]+", text.lower())
++        return [t for t in tokens if t not in self._stopwords and len(t) >= 2]
++
++    def rank(self, question: str, tables: List[Dict[str, str]]) -> List[Tuple[str, float]]:
++        # Preprocess question
++        q_tokens = self._tokenize(question)
++        if not q_tokens:
++            return [(t["name"], 0.0) for t in tables]
++
++        # Build vocabulary from all table texts (name + description)
++        table_texts = []
++        for t in tables:
++            text = f"{t['name']} {t.get('description', '')}"
++            table_texts.append(self._tokenize(text))
++
++        # Compute document frequency (DF) for each token in tables
++        df: Dict[str, int] = {}
++        for tokens in table_texts:
++            seen = set(tokens)
++            for token in seen:
++                df[token] = df.get(token, 0) + 1
++
++        num_tables = len(tables)
++        # Avoid division by zero: if df=0 (shouldn't happen) treat as 1
++        idf: Dict[str, float] = {
++            token: math.log(num_tables / (df.get(token, 1) + 1)) for token in set(q_tokens)
++        }
++
++        # Score each table: sum of (TF in table * IDF) for query tokens
++        scores: List[float] = []
++        for tokens in table_texts:
++            tf: Dict[str, int] = {}
++            for token in tokens:
++                tf[token] = tf.get(token, 0) + 1
++            score = 0.0
++            for token in q_tokens:
++                if token in tf:
++                    # TF = raw count (could normalize, but raw is fine for ranking)
++                    score += tf[token] * idf.get(token, 0.0)
++            scores.append(score)
++
++        # Return sorted by score descending
++        ranked = sorted(zip([t["name"] for t in tables], scores), key=lambda x: x[1], reverse=True)
++        return ranked
++
++
++class EmbeddingBackend(Backend):
++    """
++    Stub for embedding-based ranking (requires Ollama embedding model).
++    Not implemented; raises NotImplementedError with guidance.
++    """
++
++    def rank(self, question: str, tables: List[Dict[str, str]]) -> List[Tuple[str, float]]:
++        raise NotImplementedError(
++            "EmbeddingBackend requires Ollama with an embedding model (e.g., nomic-embed-text). "
++            "Implement by computing embeddings for question and table descriptions, then cosine similarity."
++        )
++
++
++class LocalLLMBackend(Backend):
++    """
++    Stub for local LLM ranking (requires Ollama LLM).
++    Not implemented; raises NotImplementedError with guidance.
++    """
++
++    def rank(self, question: str, tables: List[Dict[str, str]]) -> List[Tuple[str, float]]:
++        raise NotImplementedError(
++            "LocalLLMBackend requires Ollama with a chat model (e.g., qwen3.5:4b). "
++            "Implement by prompting the LLM to rank tables by relevance to the question."
++        )
++
++
++def route(
++    question: str,
++    tables: List[Dict[str, str]],
++    backend: Backend = KeywordBackend(),
++    k: int = 3,
++) -> List[Tuple[str, float]]:
++    """
++    Rank tables by relevance to question using given backend.
++    Returns list of (table_name, score) sorted descending, truncated to k.
++    """
++    ranked = backend.rank(question, tables)
++    return ranked[:k]
++
++
++def evaluate(
++    backend: Backend,
++    cases: List[Dict[str, Any]],
++    tables: List[Dict[str, str]],
++    k: int = 3,
++) -> Dict[str, float]:
++    """
++    Compute evaluation metrics:
++    - top1: fraction of cases where the first needed table is in position 0
++    - top3: fraction of cases where all needed tables are in top k
++    - recall_at_k: fraction of needed tables recovered in top k (averaged over cases)
++    """
++    top1_hits = 0
++    top3_hits = 0
++    recall_sum = 0.0
++    total_needed = 0
++
++    for case in cases:
++        needed = set(case["needed_tables"])
++        ranked = route(case["question"], tables, backend, k=len(tables))  # full ranking
++        top_k_names = [name for name, _ in ranked[:k]]
++
++        # top1: if needed set non-empty, check if highest ranked is in needed
++        if needed:
++            if ranked[0][0] in needed:
++                top1_hits += 1
++
++        # top3: all needed tables in top k?
++        if needed.issubset(set(top_k_names)):
++            top3_hits += 1
++
++        # recall_at_k: |needed ∩ top_k| / |needed|
++        hit = len(needed.intersection(set(top_k_names)))
++        recall_sum += hit / len(needed) if needed else 0.0
++        total_needed += len(needed)
++
++    n_cases = len(cases)
++    return {
++        "top1": top1_hits / n_cases if n_cases else 0.0,
++        "top3": top3_hits / n_cases if n_cases else 0.0,
++        "recall_at_k": recall_sum / n_cases if n_cases else 0.0,
++    }
++
++
++def shuffle_tables_evaluate(
++    backend: Backend,
++    cases: List[Dict[str, Any]],
++    tables: List[Dict[str, str]],
++    k: int = 3,
++    n_shuffles: int = 100,
++) -> Dict[str, float]:
++    """
++    Evaluate robustness to table order by shuffling table list n_shuffles times
++    (fixed seed per shuffle for reproducibility) and reporting metric variation.
++    Returns dict with mean and std of top1, top3, recall_at_k across shuffles.
++    """
++    random.seed(42)  # fixed seed for reproducibility
++    metrics_list = []
++
++    for _ in range(n_shuffles):
++        shuffled = tables.copy()
++        random.shuffle(shuffled)
++        metrics = evaluate(backend, cases, shuffled, k)
++        metrics_list.append(metrics)
++
++    # Compute mean and std for each metric
++    keys = metrics_list[0].keys() if metrics_list else []
++    result: Dict[str, float] = {}
++    for key in keys:
++        values = [m[key] for m in metrics_list]
++        mean = sum(values) / len(values)
++        variance = sum((x - mean) ** 2 for x in values) / len(values)
++        std = math.sqrt(variance)
++        result[f"{key}_mean"] = mean
++        result[f"{key}_std"] = std
++
++    return result
++
++
++if __name__ == "__main__":
++    # Tiny self-test with synthetic data
++    synthetic_tables = [
++        {"name": "spotify_plays", "description": "Ascolti musicali: timestamp, brano, artista, album, durata secondi"},
++        {"name": "money_transactions", "description": "Movimenti bancari: data, importo, causale, conto, categoria"},
++        {"name": "chess_games", "description": "Partite giocate: data, apertura, risultato, avversario, tempo impiegato"},
++        {"name": "apple_workouts", "description": "Attività fisiche: tipo, durata, calorie, frequenza cardiaca, GPS"},
++        {"name": "whatsapp_messages", "description": "Chat: mittente, destinatario, testo, timestamp, allegati"},
++    ]
++
++    synthetic_cases = [
++        {
++            "question": "Qual è stato il mio brano più ascoltato lo scorso mese?",
++            "needed_tables": ["spotify_plays"]
++        },
++        {
++            "question": "Quanto ho speso in ristoranti quest'anno?",
++            "needed_tables": ["money_transactions"]
++        },
++        {
++            "question": "Qual è la mia apertura scacchistica preferita?",
++            "needed_tables": ["chess_games"]
++        },
++        {
++            "question": "Quante calorie ho bruciato correndo questa settimana?",
++            "needed_tables": ["apple_workouts"]
++        },
++        {
++            "question": "Chi mi ha scritto più volte su WhatsApp oggi?",
++            "needed_tables": ["whatsapp_messages"]
++        },
++        {
++            "question": "Qual è la correlazione tra i miei ascolti musicali e il mio umore?",
++            "needed_tables": ["spotify_plays", "apple_workouts"]  # hypothetical mood from workouts
++        },
++        {
++            "question": "Ho fatto più operazioni in banca o più partite a scacchi?",
++            "needed_tables": ["money_transactions", "chess_games"]
++        },
++        {
++            "question": "Quale canzone ho ascoltato dopo la mia ultima corsa?",
++            "needed_tables": ["apple_workouts", "spotify_plays"]
++        },
++        {
++            "question": "Quanti messaggi ho scambiato con il mio migliore amico?",
++            "needed_tables": ["whatsapp_messages"]
++        },
++        {
++            "question": "Qual è stato il mio guadagno netto dagli investimenti?",
++            "needed_tables": ["money_transactions"]
++        },
++        {
++            "question": "Come variano le mie frequenze cardiache durante le partite di scacchi intense?",
++            "needed_tables": ["chess_games", "apple_workouts"]
++        },
++        {
++            "question": "Qual è l'artista che ho ascoltato di più durante le mie attività fisiche?",
++            "needed_tables": ["spotify_plays", "apple_workouts"]
++        },
++    ]
++
++    backend = KeywordBackend()
++    metrics = evaluate(backend, synthetic_cases, synthetic_tables, k=3)
++    print("Metriche sui dati sintetici:")
++    print(f"  top1: {metrics['top1']:.2f}")
++    print(f"  top3: {metrics['top3']:.2f}")
++    print(f"  recall@3: {metrics['recall_at_k']:.2f}")
++
++    # Test robustness to table order
++    shuffle_metrics = shuffle_tables_evaluate(
++        backend, synthetic_cases, synthetic_tables, k=3, n_shuffles=50
++    )
++    print("\nRobustezza all'ordine delle tabelle (50 shuffles):")
++    print(f"  top1_mean: {shuffle_metrics['top1_mean']:.2f} ± {shuffle_metrics['top1_std']:.2f}")
++    print(f"  top3_mean: {shuffle_metrics['top3_mean']:.2f} ± {shuffle_metrics['top3_std']:.2f}")
++    print(f"  recall@3_mean: {shuffle_metrics['recall_at_k_mean']:.2f} ± {shuffle_metrics['recall_at_k_std']:.2f}")
++
++    # Example route call
++    example_question = "Qual è stato il mio brano più ascoltato lo scorso mese?"
++    ranked = route(example_question, synthetic_tables, backend, k=3)
++    print(f"\nEsempio di routing per: '{example_question}'")
++    for table, score in ranked:
++        print(f"  {table}: {score:.2f}")

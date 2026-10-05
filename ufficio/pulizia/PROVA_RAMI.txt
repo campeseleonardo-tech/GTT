@@ -1,0 +1,29 @@
+Ramo 'prova' - 2026-10-05 14:12
+
+=== Langue
+  messe da parte 1 modifiche non salvate (git stash): PROGETTO.md
+  - T22-ripasso-fix: unito
+  - T23-risposta1: SALTATO per conflitto su: PROGETTO.md, agenti/LOG.md
+  - T23-risposta2: SALTATO per conflitto su: PROGETTO.md, agenti/LOG.md
+  ora il progetto e' sul ramo 'prova' (5cff9e6 Merge branch 'T22-ripasso-fix' into prova)
+
+=== GTT
+  messe da parte 1 modifiche non salvate (git stash): MEMORIA_PROGETTO.md
+  - GT14-verifica-passaggi: unito
+  - GT13-altre-citta: SALTATO per conflitto su: MEMORIA_PROGETTO.md, agenti/LOG.md, agenti/ULTIMO_SCRIPT.txt
+  - GT05-risposta2: SALTATO per conflitto su: MEMORIA_PROGETTO.md, agenti/LOG.md, agenti/ULTIMO_SCRIPT.txt
+  - GT04-risposta1: SALTATO per conflitto su: MEMORIA_PROGETTO.md, agenti/LOG.md, agenti/ULTIMO_SCRIPT.txt
+  ora il progetto e' sul ramo 'prova' (0f05b9c Merge branch 'GT14-verifica-passaggi' into prova)
+
+=== Timelive
+  - TL06-risposta1: unito
+  - TL06-log-ollama: unito
+  - TL07-risposta1: SALTATO per conflitto su: agenti/LOG.md
+  - TL07-bridge-v2: SALTATO per conflitto su: agenti/LOG.md
+  ora il progetto e' sul ramo 'prova' (f7ec73c Merge branch 'TL06-risposta1' into prova)
+
+=== Preventivi
+  messe da parte 1 modifiche non salvate (git stash): PROGETTO.md
+  - PV04-controllo: unito
+  - PV03-istruzioni: SALTATO per conflitto su: PROGETTO.md, agenti/LOG.md
+  ora il progetto e' sul ramo 'prova' (5580079 Merge branch 'PV04-controllo' into prova)

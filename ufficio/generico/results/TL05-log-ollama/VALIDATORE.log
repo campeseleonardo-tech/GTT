@@ -1,0 +1,11 @@
+# Validatore - TL05-log-ollama - 2026-10-05 03:59
+
+## Giro 0: 1 controlli falliti
+- OK     py_compile:code/llm_bridge.py
+- AVVISO contains_all:code/llm_bridge.py;prompt_eval_count;prompt_eval_duration;[agente TL05]
+    - code/llm_bridge.py: manca «[agente TL05]»
+  -> correzione 1: agente richiamato (1 turni, costo listino 0.000 USD)
+
+## Giro 1: tutti i controlli OK
+- OK     py_compile:code/llm_bridge.py
+- OK     contains_all:code/llm_bridge.py;prompt_eval_count;prompt_eval_duration;[agente TL05]

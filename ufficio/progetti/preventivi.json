@@ -1,0 +1,42 @@
+{
+  "id": "preventivi",
+  "nome": "Preventivi papa'",
+  "sigla": "PV",
+  "colore": "#d07a2a",
+  "tipo": "generico",
+  "priorita": "bassa",
+  "stato": "attivo",
+  "obiettivo": "Generatore automatico di preventivi per papa'",
+  "cartella": "C:\\Users\\campe\\Desktop\\Projects\\Preventivi_Gigi",
+  "livello_dati": 2,
+  "prefisso": "PV",
+  "piano": [
+    {
+      "testo": "Ricontrolla logo e documento Word",
+      "task": [],
+      "stato": "in_corso"
+    },
+    {
+      "testo": "Sistema il Word",
+      "task": [],
+      "stato": "in_corso"
+    },
+    {
+      "testo": "Test: il logo ora si vede bene?",
+      "task": []
+    },
+    {
+      "testo": "Prova con LibreOffice",
+      "task": []
+    }
+  ],
+  "frase": "Programma fatto, resta il logo nel documento Word",
+  "decisioni": [
+    {
+      "quando": "2026-10-05 14:31",
+      "task": "PV05-preventivo-finto",
+      "domanda": "Vuoi altri preventivi finti per tipologie diverse (es. villa, negozio, riparazione guasto)?",
+      "risposta": "No"
+    }
+  ]
+}

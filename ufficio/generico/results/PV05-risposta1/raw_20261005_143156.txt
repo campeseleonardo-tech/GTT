@@ -1,0 +1,2 @@
+{"type": "result", "subtype": "success", "is_error": false, "result": "ESITO: Registrata la decisione di Leo: nessun ulteriore preventivo finto da creare, mantenuto finto_01.json come unico riferimento.\n\n[runner] motore Google AI Studio, modello gemini:gemini-3.8-flash; file scritti: agenti/PV05-risposta1/RAPPORTO.md", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"gemini:gemini-3.8-flash": {}}, "usage": {"input_tokens": 5937, "output_tokens": 267}}
+--- STDERR ---

@@ -1,0 +1,13 @@
+Guten Tag Torun Tek,
+
+Sie suchen jemanden, der Testfälle konzipiert, automatisiert und wartet, Ergebnisse analysiert, Fehler an das Scrum-Team weitergibt und eine Teststrategie mitentwickelt. Genau diese Arbeit habe ich bei KTM drei Jahre lang gemacht, nur an Prüfständen statt an Software.
+
+Im Testing habe ich die Auswertung per Skript automatisiert. Die Analysezeit ist dadurch um 50 Prozent gesunken, und der Prüfstandbediener wurde nur noch für Sicherheit und Aufbau gebraucht. Ich habe die Automatisierung dokumentiert und an meine Nachfolger übergeben, mit Anleitung zur Nutzung und zur Erweiterung. Vorher habe ich die Testmatrix mit den Leuten abgestimmt, die später mit den Ergebnissen arbeiten, von den Mechanikern bis zum Vertrieb.
+
+Abweichungen in den Ergebnissen habe ich selbst analysiert und die Ursache mit den zuständigen Abteilungen geklärt. Das tägliche Abstimmen mit Kolleginnen und Kollegen, bis ein Fehler wirklich behoben ist, kenne ich also gut. Ergebnisse habe ich intern und vor internationalen Kunden präsentiert und die Methodik dahinter erklärt.
+
+Scrum kenne ich aus meiner Zertifizierung, den IPMA Level D habe ich zusätzlich. Mit Jira habe ich bisher nur am Rand gearbeitet, mit Python und Matlab dagegen regelmäßig. Ein Zertifikat für Tosca oder Playwright habe ich noch nicht, und professionell habe ich bisher keine Software getestet. Ich arbeite mich schnell ein und fange gerne mit Playwright an.
+
+Ich wohne in Salzburg, kann ab sofort starten und arbeite seit drei Jahren auf Deutsch. Die 30 Stunden pro Woche passen für mich.
+
+Leonardo Campese

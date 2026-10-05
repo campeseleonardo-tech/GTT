@@ -1,0 +1,5 @@
+Ho creato `contenuti/frasi.json` con 50 frasi, da `fra-0001` a `fra-0050`, tutte "bozza" e con livello A1 o A2.
+- **Distribuzione:** 15 frasi con verbo in seconda posizione, 8 con inizio invertito, 8 domande, 8 con verbo modale, 6 con verbo separabile e 5 con sequenza tempo-modo-luogo.
+- **Alternative:** dove un altro ordine è corretto l'ho elencato in `alternative`, in genere la versione non invertita.
+- **Non verificato:** non ho potuto eseguire script, perché Bash non era disponibile. Il JSON valido e l'uguaglianza tra blocchi e `testo_de` li ho controllati solo a mano, quindi conviene lanciare il validatore del progetto.
+- **Da guardare:** nel rapporto in `agenti/T08-frasi/RAPPORTO.md` ci sono le 5 frasi di cui sono meno sicuro. Sono la 0002, 0014, 0020, 0028 e 0035: sono corrette, ma ammettono altri ordini che non ho elencato.

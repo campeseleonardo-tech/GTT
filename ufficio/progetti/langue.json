@@ -1,0 +1,98 @@
+{
+  "id": "langue",
+  "nome": "Langue",
+  "sigla": "LG",
+  "colore": "#2f8fd8",
+  "tipo": "generico",
+  "priorita": "media",
+  "stato": "attivo",
+  "obiettivo": "Sito per italiani che imparano il tedesco (A1-A2) con 3 giochi",
+  "cartella": "C:\\Users\\campe\\Desktop\\Langue",
+  "livello_dati": 0,
+  "prefisso": "T",
+  "profilo": "profiles/langue.md",
+  "piano": [
+    {
+      "testo": "Pulizia + schema",
+      "task": [
+        "T01-pulizia",
+        "T02-schema",
+        "T03-conversione"
+      ]
+    },
+    {
+      "testo": "Contenuti v1",
+      "task": [
+        "T07-parole",
+        "T08-frasi",
+        "T10-errori",
+        "T11-revisione"
+      ]
+    },
+    {
+      "testo": "Contenuti v2",
+      "task": [
+        "T12-parole2",
+        "T13-frasi2",
+        "T14-errori2"
+      ]
+    },
+    {
+      "testo": "Sito",
+      "task": [
+        "T15-dati-web",
+        "T16-sito"
+      ]
+    },
+    {
+      "testo": "Prova con utenti",
+      "task": []
+    }
+  ],
+  "frase": "",
+  "motore": "auto",
+  "decisioni": [
+    {
+      "quando": "2026-10-05 03:08",
+      "task": "T18-idee-c",
+      "domanda": "quale idea di IDEE.md partiamo a implementare?",
+      "risposta": "tutte e tre, ognuna in task separate. procedi a creare anche delle task per i problemi che vedi nel codice attuale. sempre come task indipendenti e separate."
+    },
+    {
+      "quando": "2026-10-05 03:10",
+      "task": "T18-idee-c",
+      "domanda": "che obiettivo giornaliero di default?",
+      "risposta": "5"
+    },
+    {
+      "quando": "2026-10-05 12:24",
+      "task": "T20-esegui-b",
+      "domanda": "La scheda Ripasso mostra il totale debiti ma parte solo per articoli: va bene così?",
+      "risposta": "Sì"
+    },
+    {
+      "quando": "2026-10-05 12:24",
+      "task": "T20-esegui-b",
+      "domanda": "Il bottone \"Ripasso\" in home deve avviare il ripasso per un gioco specifico (qual'è?) o aprire un sottomenu per scegliere?",
+      "risposta": "B: sottomenu 3 giochi"
+    },
+    {
+      "quando": "2026-10-05 12:46",
+      "task": "T21-critico-a",
+      "domanda": "Il ripasso: scheda unica mista o tre schede per gioco?",
+      "risposta": "l'opzione piu semplice al momento, poi in un secondo  momento potremmo ampliarla"
+    },
+    {
+      "quando": "2026-10-05 14:02",
+      "task": "T23-prova-guidata",
+      "domanda": "L'obiettivo giornaliero (contatore 'Oggi: X/5') c'è già nel sito?",
+      "risposta": "non capisco a cosa ti riferisci"
+    },
+    {
+      "quando": "2026-10-05 14:02",
+      "task": "T23-prova-guidata",
+      "domanda": "Azzerare i progressi deve togliere anche gli errori da ripassare?",
+      "risposta": "A: sì, tutto insieme"
+    }
+  ]
+}

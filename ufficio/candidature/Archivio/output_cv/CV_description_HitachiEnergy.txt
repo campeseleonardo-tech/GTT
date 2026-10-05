@@ -1,0 +1,96 @@
+LEONARDO CAMPESE - CV DESCRIPTION (Technical Project Manager, Hitachi Energy Transformers)
+
+CONTACT INFO
+
+LinkedIn: in/leonardocampese
+Phone: (+43) 660 6878927
+Email: campese.leonardo@gmail.com
+Based in Salzburg, Austria - open to relocation to Ticino - available immediately
+
+ABOUT ME
+
+Engineer with 3+ years at KTM R&D, owning test and simulation projects on the cooling of electrical components: schedules, budgets, suppliers, safety and customer results. MSc Innovation & Product Management, IPMA Level D. Native Italian, fluent English.
+
+WORK EXPERIENCE
+
+Functional Development Engineer | Thermal Management & Fluid Dynamics
+KTM F&E | 09/2025 - 06/2026
+Planned schedules and resources for 1D/2D/3D simulations and tests of e-powertrain cooling
+Ran multiple interrelated projects in parallel, prioritizing them by R&D targets, test bench capacity and in-house vs external cost, and rescheduling when scope or timing changed
+Managed supplier and design decisions balancing performance, cost and timing across R&D, Design and Procurement, presenting the trade-offs and recommendations to management
+Owned the cross-department database of thermal components and their data for all models
+
+System Testing Engineer | Thermal Management
+KTM F&E | 01/2024 - 08/2025
+Planned, budgeted and delivered prototype test projects in a program of about EUR 2M, from test specification to validated results, reporting status on cost, timing and scope
+Coordinated mechanics, AVL (Germany, China) and external test partners; integrated vendor tasks into the project plan, tracked them and reviewed all the vendor deliverables
+Supported customers (McLaren, Pankl, Harbinger) on e-powertrain cooling, incl. after-sales follow-up and visits; aligned test methods so customer re-tests stayed comparable
+Owned safety of water, air and oil conditioning test benches: ventilation, enclosures and sprinkler fire suppression for oil and electrical fires, in line with internal rules
+Automated testing and analysis with scripts, cutting the analysis time by 50% and operator time on standard tests; documented the whole process and handed it over to the team
+
+Intern R&D | Aerodynamics & Thermal Management
+KTM F&E | 03/2023 - 12/2023
+Analyzed wind tunnel and radiator mass flow data, turning results into development goals
+Defined requirements for new model platforms together with the engineering and sales teams
+Standardized BOMs across Procurement, Design and Engineering to cut internal part variants
+
+Electrician (Seasonal) | Industrial & Civil Electrical Systems
+Family electrical contracting business | 06/2014 - 09/2018 (summers, full time)
+Joined client meetings on medium-size industrial systems: power sizing, equipment selection, measurements and quote requests, together with the contractors and plant owners
+Installed and commissioned LV systems, switchboards, solar PV and EV charging stations on civil and industrial sites, with some work on MV/LV substations and power distribution
+Worked on site with electricians, contractors and owners under safety rules and deadlines
+
+SEO Data Analyst
+BPM - POWER | 09/2018 - 06/2019
+Analyzed market data and user behavior to support strategic business and campaign choices
+Optimized search result strategies and product features based on data insights and testing
+Built structured reporting to track performance and to identify new growth opportunities
+
+Event Manager
+Croma SRL | 09/2015 - 12/2016
+Delivered events of about 1,000 guests each, managing suppliers, budgets and timelines
+Coordinated stakeholders on-site, resolving operational problems fast under time pressure
+Led communication, logistics and post-event analysis to improve the following projects
+
+EDUCATION
+
+Master of Science in Engineering - Innovation & Product Management
+FH Upper Austria, Campus Wels | 09/2020 - 12/2023
+Development Process Engineering: multi-project management, PLM and R&D cost controlling
+Thesis: Development of a measurement technique for air pressure and velocity across a motorbike radiator, passed with the highest distinction (FH Upper Austria, 11/2023 exam)
+Pre-master year: mathematics, physics, electronics, mechanics, aerodynamics, mechatronics
+
+University Collaboration - Business Development
+Schneider AG / Heilbronn University | 09/2022 - 01/2023
+Analyzed internal teams and external key accounts to improve the supply and delivery chain
+Moderated project set-up, kick-off meetings and lessons learned with industrial partners
+Presented recommendations balancing technical feasibility and business impact to partners
+
+Bachelor of Science in Business & Management
+Universita degli Studi di Torino | 09/2017 - 08/2020
+Thesis: The effects and applications of Industry 4.0 on Smart Cities (IoT, digitalization)
+Foundation in corporate strategy, organizational leadership and operational efficiency
+Studied operations, economics and marketing, incl. projects with university partner firms
+
+CERTIFICATIONS
+
+IPMA Level D - Certified Project Management Associate
+PMA Austria, member of IPMA | issued 05/2022, valid until 05/2027
+
+Scrum Certification
+Institut fur Agile Transformation
+
+LANGUAGES
+
+Italian: Native
+English: C1 (Proficient)
+German: C1 (Fluent)
+Spanish: C1 (Proficient)
+
+TOOLS / DIGITAL SKILLS
+
+Project and business tools: MS Project, Trello, Miro, SAP (BOMs), MS Office, Power BI
+Test and data acquisition: AVL, Concerto, Temes, FlexPro, Rotec, CAN
+Simulation: Ansys Fluent, OpenFOAM, GT Suite, GOMsuite, Jaamsim
+CAD: PTC Creo, Ansys SpaceClaim, SolidWorks
+Programming and prototyping: Python, C, Matlab, SQL, GitHub, Raspberry Pi, Arduino

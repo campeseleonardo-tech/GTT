@@ -1,0 +1,2 @@
+{"type": "result", "subtype": "success", "is_error": false, "result": "ESITO: (il modello non ha scritto un riassunto)\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3-ultra-550b-a55b:free; file scritti: agenti/T18-idee-b/IDEE.md, agenti/T18-idee-b/RAPPORTO.md", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3-ultra-550b-a55b:free": {}}, "usage": {"input_tokens": 15888, "output_tokens": 6196}}
+--- STDERR ---

@@ -1,0 +1,2 @@
+{"type": "result", "subtype": "success", "is_error": true, "result": "Il modello non ha scritto nessun file valido. User Safety: safe\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3.5-content-safety:free; file scritti: nessuno", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3.5-content-safety:free": {}}, "usage": {"input_tokens": 17375, "output_tokens": 205}}
+--- STDERR ---

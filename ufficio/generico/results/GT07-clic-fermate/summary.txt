@@ -1,0 +1,5 @@
+ESITO: Ho modificato solo `scripts/mappa_template.html`: sezioni e zone ora si aprono in una scheda al clic, senza tooltip al passaggio, e le fermate sono più piccole e azzurre. Non ho eseguito né provato nulla.
+- La scheda sta in alto a destra sotto lo zoom e si chiude con ×, Esc o clic sulla mappa vuota. La sezione scelta ha un contorno nero finché la scheda è aperta, e il trascinamento (oltre 5 px) non la apre.
+- Gli altri oggetti hanno un tooltip di 2 righe al passaggio e i dettagli completi nella scheda al clic.
+- Fermate: raggio massimo 3 px (prima 5), colore `#4aa3df`, nessun bordo bianco. Ho aggiornato la legenda e il raggio di clic resta 8 px.
+- Le istruzioni di prova sono in `agenti/GT07-clic-fermate/RAPPORTO.md`.

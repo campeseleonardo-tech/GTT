@@ -1,0 +1,48 @@
+diff --git a/web/app.js b/web/app.js
+index 2771a3a..820e10f 100644
+--- a/web/app.js
++++ b/web/app.js
+@@ -148,7 +148,7 @@ function caricaDebiti(storage) {
+       const arr = Array.isArray(grezzo[g]) ? grezzo[g] : [];
+       d[g] = arr
+         .filter(function (x) { return x && typeof x.id === 'string' && typeof x.volte === 'number'; })
+-        .map(function (x) { return { id: x.id, volte: Math.max(1, Math.floor(x.volte)) }; })
++        .map(function (x) { return { id: x.id, volte: Math.max(1, interoSicuro(x.volte)) }; }) // [agente T22]
+         .slice(0, MAX_DEBITI_PER_GIOCO);
+     });
+     return d;
+@@ -320,9 +320,10 @@ function avviaSito() {
+   }
+ 
+   function salva() {
+-    const ok = salvaProgresso(storage, progresso);
+-    salvaDebiti(storage, debito);
+-    avvisoSalvataggio.hidden = ok;
++    // [agente T22] avviso corretto anche se il salvataggio dei debiti fallisce
++    const okProgressi = salvaProgresso(storage, progresso);
++    const okDebiti = salvaDebiti(storage, debito);
++    avvisoSalvataggio.hidden = okProgressi && okDebiti;
+   }
+ 
+   /* --- home --- */
+@@ -776,6 +777,7 @@ function avviaSito() {
+       aggiornaHome();
+       // rimuovi anche dalla lista locale
+       sessione.debitiRimasti = sessione.debitiRimasti.filter(function (d) { return d.id !== id; });
++      aggiornaBarra(); // [agente T22]
+     };
+ 
+     return sessione;
+@@ -1053,7 +1055,11 @@ function avviaSito() {
+   function apriSottomenuRipasso() {
+     document.getElementById('sottomenu-ripasso').hidden = false;
+     document.getElementById('gioca-ripasso').setAttribute('aria-expanded', 'true');
+-    document.getElementById('ripasso-articoli').focus();
++    // [agente T22] mette il focus sulla prima voce abilitata
++    const prima = ['ripasso-articoli', 'ripasso-frasi', 'ripasso-errori']
++      .map(function (id) { return document.getElementById(id); })
++      .find(function (b) { return b && !b.disabled; });
++    if (prima) prima.focus();
+   }
+ 
+   function chiudiSottomenuRipasso() {

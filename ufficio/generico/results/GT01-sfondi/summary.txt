@@ -1,0 +1,5 @@
+ESITO: In `scripts/mappa_template.html` ho tolto OpenStreetMap, messo 3 sfondi Esri più "nessuno", il satellite come predefinito e il cursore intensità al 70%. Non ho potuto eseguire la pagina, quindi non è provato.
+- Mappa chiara con zoom massimo 16, stradale e satellite con zoom massimo 19. Oltre il massimo viene ingrandita la mattonella dello zoom massimo. Ho tenuto i limiti della cache.
+- Il cursore schiarisce verso il bianco, con un solo rettangolo per fotogramma. Ho tolto il filtro grigio sulla "chiara", perché lo sfondo Esri è già grigio chiaro.
+- Ci sono i crediti Esri per ogni sfondo, più "dati GTT, 5T, ISTAT, Comune di Torino". L'avviso "Sfondo non disponibile (connessione?)" compare se falliscono più di 20 mattonelle e nessuna arriva. I testi dei crediti sono quelli abituali Esri, da controllare sui loro termini.
+- Il rapporto è in `agenti/GT01-sfondi/RAPPORTO.md`, con i clic da fare per provare: ogni sfondo, zoom 17-18 su "chiara", cursore.

@@ -1,0 +1,2 @@
+Un file per progetto: nome, obiettivo, cartella, priorita' (alta/media/bassa), stato (attivo/archiviato), piano (tappe).
+Li legge l'Ufficio e il dispatcher (ordine dei lavori). Si modificano dal pannello o dalla chat con Claude.

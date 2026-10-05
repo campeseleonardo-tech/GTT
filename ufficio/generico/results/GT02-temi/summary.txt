@@ -1,0 +1,7 @@
+ESITO: Ho sostituito i "Livelli" con 7 temi (uno alla volta) e 6 sovrapposizioni in `scripts/mappa_template.html`. Non ho potuto eseguire né provare nulla: il controllo spetta al runner.
+
+- **Temi:** Nessuno, Offerta (parte all'avvio), Domanda, Poca offerta per abitante, Zone statistiche, Traffico e Tempo reale stanno nella tabella `THEMES`. Per aggiungere "Velocità" o "Pendolari" basta una riga lì; un nuovo tipo di area colorata richiede anche una modifica in `disegnaBase`.
+- **Sovrapposizioni e area:** ogni tema imposta le caselle Linee, Fermate, Corse simulate, Mezzi reali, Sensori 5T e Replay, e poi si possono cambiare a mano. Sezioni e zone non sono mai accese insieme. Nessuna funzione è stata rimossa.
+- **Legenda:** mostra solo il tema attivo e le sovrapposizioni accese, con le etichette MISURATO, PROGRAMMATO, STIMATO/SIMULATO e CENSIMENTO. "Dati scarsi" compare con meno di 72 ore di storico. Nel tema Traffico, senza dati live, compare "Nessun dato live: riavvia la raccolta."
+- **Disegno:** i riempimenti sono a 0,5 di trasparenza (prima 0,62-0,66), con contorni più sottili. Il cambio tema non ricalcola dati pesanti.
+- **Decisioni mie:** ho scritto 3 domande in `agenti/GT02-temi/DOMANDE.md`. La principale: "Segnalazioni adesso" resta visibile solo nei temi Traffico e Tempo reale. I clic da fare per provare ogni tema sono in `agenti/GT02-temi/RAPPORTO.md`.

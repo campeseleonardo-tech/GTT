@@ -1,0 +1,5 @@
+ESITO: Documento di architettura BRIDGE_V2.md completato, unificando le visioni con un piano di implementazione in 6 passi.
+Ho delineato chiaramente il router tabelle, la politica privacy L0/L1/L2 come filtro in uscita, e sollevato 3 domande per chiarire i parametri di base.
+Nessun dubbio era bloccante per la progettazione; le scelte temporanee sono documentate nel rapporto.
+
+[runner] motore Google AI Studio, modello gemini:gemini-pro-latest; file scritti: docs/BRIDGE_V2.md, agenti/TL07-bridge-v2/RAPPORTO.md, agenti/TL07-bridge-v2/DOMANDE.md

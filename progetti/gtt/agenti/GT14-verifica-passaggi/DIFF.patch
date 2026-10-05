@@ -1,0 +1,78 @@
+diff --git a/scripts/mappa_template.html b/scripts/mappa_template.html
+index 9ff93c2..a70054a 100644
+--- a/scripts/mappa_template.html
++++ b/scripts/mappa_template.html
+@@ -816,47 +816,39 @@ function cercaTip(sx,sy,click){
+         : `Flusso: <b>${s.fl}</b> veicoli in ${s.per} min (≈ ${Math.round((s.fl||0)*60/s.per)}/h)<br>Velocità media: <b>${s.v==null?"n/d":s.v.toFixed(0)+" km/h"}</b>`;
+       return mostraTip(`<b>${esc(s.via)}</b><br>${sensoTxt} · sensore ${esc(s.id)}<br>${corpo}<br>${tipTxt(s)}<span style="color:#5d6678">Rilevazione 5 minuti fino a ${fmt(t5Fine)}</span>`,sx,sy); } }
+   if(tema.id==="velocita" && vis("Llinee")){ const l=velTipLinea(sx,sy,ws,ox,oy); if(l) return mostraTip(velTip(l),sx,sy); }   // [agente GT04-velocita]
+-  // [agente GT12]
++  // [agente GT12] verificato e corretto da [agente GT14]
+ if(vis("Lfermate") && view.zoom>=14){ const s=vicino(fermate,8,o=>o.d[i]>0||view.zoom>=15);
+     if(s){ const tot=s.d.slice(S.dt*24,S.dt*24+24).reduce((a,b)=>a+b,0);
+       let extra = "";
+-      if (window.ORARI && window.ORARI.s && window.ORARI.s[s.id]) {
+-          extra += `<i>Orario programmato (non è il tempo reale)</i><br>`;
+-          const lineeString = s.r || "";
+-          const lineNames = lineeString.split(",").map(n=>n.trim()).filter(Boolean);
+-          for (const name of lineNames) {
+-              let lid = null;
++      // [agente GT14] i passaggi programmati si calcolano solo al clic, non al passaggio del mouse
++      if (click && window.ORARI && window.ORARI.s && window.ORARI.s[s.id]) {
++          const sArr = window.ORARI.s[s.id];
++          const righeProssimi = [];
++          // [agente GT14] l'ultimo nome della lista s.r puo' finire con "…": lo tolgo cosi' la linea si ritrova
++          const nomi = (s.r || "").split(",").map(n => n.trim().replace(/\u2026$/, "")).filter(Boolean);
++          for (const nome of nomi) {
++              let arr = null;
++              // [agente GT14] una linea GTT spesso ha 2 id (andata e ritorno): metto insieme le loro voci
+               for (const id in D.rotte) {
+-                  if (D.rotte[id].s === name) { lid = id; break; }
++                  if (D.rotte[id].s !== nome) continue;
++                  const a = (sArr[id] || [])[S.dt];
++                  if (a && a.length) arr = arr ? arr.concat(a) : a.slice();
+               }
+-              if (!lid) continue;
+-              const arr = window.ORARI.s[s.id][lid][S.dt];
++              // [agente GT14] se gli orari sono tenuti a nome linea invece che a id, li prendo da qui
++              if (!arr) { const a = (sArr[nome] || [])[S.dt]; if (a && a.length) arr = a.slice().sort((x,y) => x-y); }
++              if (arr && arr.length > 1) arr = [...new Set(arr)].sort((x,y) => x-y);
+               if (!arr || !arr.length) continue;
+-              const now = S.m;
+-              const today = arr.filter(t => t >= now).slice(0,4);
+-              let tomorrow = [];
+-              if (today.length < 4) {
+-                  const first = arr[0];
+-                  if (first !== undefined) {
+-                      tomorrow = [first + 1440];
+-                  }
+-              }
+-              const times = [...today, ...tomorrow];
+-              const formatted = times.map(t => {
+-                  let display = t;
+-                  let suffix = "";
+-                  if (t >= 1440) {
+-                      display = t - 1440;
+-                      suffix = " <small>(domani)</small>";
+-                  }
+-                  const hours = Math.floor(display/60);
+-                  const mins = display % 60;
+-                  const timeStr = pad(hours)+":"+pad(mins);
+-                  const minsFromNow = t - now;
+-                  return `${timeStr} (${minsFromNow}')` + suffix;
+-              });
+-              extra += `<b>${esc(name)}</b>: ${formatted.join(", ")}<br>`;
++              const ora = S.m;
++              const prossimi = arr.filter(t => t >= ora).slice(0,4);
++              // [agente GT14] se until mezzanotte non ne arrivano 4, aggiungo la prima corsa del giorno dopo (senza doppioni)
++              if (prossimi.length < 4 && arr[0] < 1440 && !prossimi.includes(arr[0] + 1440)) prossimi.push(arr[0] + 1440);
++              righeProssimi.push(`<b>${esc(nome)}</b>: ` + prossimi.map(t => {
++                  const d = t % 1440;
++                  return `${pad(Math.floor(d/60))}:${pad(d % 60)} (${Math.round(t - ora)}')` + (t >= 1440 ? " <small>(domani)</small>" : "");
++              }).join(", "));
+           }
++          // [agente GT14] l'etichetta «Orario programmato» esce solo se c'e' almeno una linea con orari
++          if (righeProssimi.length) extra = `<i>Orario programmato (non è il tempo reale)</i><br>` + righeProssimi.join("<br>");
+       }
+       return mostraTip(`<b>${esc(s.n)}</b> · fermata ${esc(s.id)}<br>Linee: ${esc(s.r||"—")}<br>Passaggi alle ${hh}: <b>${s.d[i]}</b><br>Nella giornata (${GIORNI[S.dt].toLowerCase()}): ${tot}` + (extra ? `<br><b>Prossimi passaggi:</b><br>` + extra : ""),sx,sy); } }
+   if(tema.id==="pendolari" && PEND && vis("Lsez") && sezOk){ const ux=(ox+sx)/ws, uy=(oy+sy)/ws;   // [agente GT05-pendolari]

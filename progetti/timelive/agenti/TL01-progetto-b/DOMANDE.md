@@ -1,0 +1,8 @@
+- Modello embedding per EmbeddingRouter? | opzioni: MiniLM-L6-v2 (locale CPU) / nomic-embed-text (via Ollama) / entrambi (A/B test) | scelta: MiniLM-L6-v2 | dove: docs/BRIDGE_V2_b.md §Dubbi aperti #1
+- Soglia confidence default per pre-inject describe_table? | opzioni: 0.55 / 0.65 / 0.75 / tarare su ground truth | scelta: 0.65 (provvisorio) | dove: docs/BRIDGE_V2_b.md §Interfaccia router, §Dubbi #2
+- Ground truth: bastano i 66 report Sonnet? | opzioni: sì / no, aggiungere 10-15 cross-domain manuali / no, generare sintetici | scelta: sì, partire da quelli | dove: docs/BRIDGE_V2_b.md §Dubbi #3
+- ColumnSpec.sensitive esiste in ingest_engine? | opzioni: sì / no, va aggiunto / non so (da verificare) | scelta: da verificare | dove: docs/BRIDGE_V2_b.md §Dubbi #4, Politica online/offline
+- Router come dipendenza iniettata in run_query o fusione? | opzioni: iniettata (separata) / fusa dentro run_query | scelta: iniettata | dove: docs/BRIDGE_V2_b.md §Dubbi #5
+- Invalidazione cache embeddings: hash semantic_note o timestamp vault.db? | opzioni: hash semantic_note / timestamp vault.db / entrambi | scelta: hash semantic_note | dove: docs/BRIDGE_V2_b.md §Dubbi #6
+- Ollama espone logprobs per confidence calibrata LLMRouter? | opzioni: sì / no / da verificare | scelta: da verificare | dove: docs/BRIDGE_V2_b.md §Dubbi #7
+- Priorità: completare router (Fase 1-2) prima di policy online/offline (Fase 4)? | opzioni: sì / no, parallelo / no, policy prima | scelta: sì | dove: docs/BRIDGE_V2_b.md §Dubbi #8, §Ordine di lavoro
