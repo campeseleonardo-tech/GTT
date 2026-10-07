@@ -1444,7 +1444,10 @@ const THEMES = [
    area:null, over:{...NESSUNA,Lmezzi:1,Lcorse:1}, segnalazioni:true, critici:true, legenda:()=>""},   // [agente GT18-punti-critici-integrati]
   // 4. Pendolarismo (relazioni ISTAT comune-comune per lavoro e studio)
   {id:"pendolari", label:"Pendolarismo", desc:"Quante persone si spostano ogni giorno tra ogni comune e Torino per lavoro o studio (ISTAT 2021, comune→comune: niente mezzo né orario).",
-   area:{tipo:"sez",modo:"pend"}, over:{...NESSUNA}, pendolari:true, critici:true, legenda:legendaPendolari}   // [agente GT18-punti-critici-integrati]
+   area:{tipo:"sez",modo:"pend"}, over:{...NESSUNA}, pendolari:true, critici:true, legenda:legendaPendolari},   // [agente GT18-punti-critici-integrati]
+  // 5. Nessuno: solo la mappa di sfondo, senza colori ne' criticita' (le sovrapposizioni si riaccendono a mano)
+  {id:"nulla", label:"Nessuno (solo mappa)", desc:"Solo la mappa di sfondo: niente colorazioni, criticita' ne' sovrapposizioni. Puoi riaccenderle a mano sotto «Sovrapposizioni».",
+   area:null, over:{...NESSUNA}, legenda:()=>""}
 ];
 let tema = THEMES[0];   // [agente GT16] tema di partenza: Servizio e abitanti
 
