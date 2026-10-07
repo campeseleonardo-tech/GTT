@@ -138,6 +138,64 @@ Tutte le schede informative condivideranno lo stesso schema fisso a quattro sezi
 - **Affollamento reale a bordo:** mancano i dati dei tornelli o dei sensori passeggeri a bordo bus; non è possibile determinare se un mezzo viaggia vuoto o saturo.
 - **Motore di calcolo percorsi con trasbordo:** manca un algoritmo di itinerario pedonale integrato con cambi linea per stimare il tempo porta a porta degli utenti.
 
+## Simulazioni
+### Formato del file di scenario (input)
+Il formato previsto è un file JSON in `data/scenari/<nome_scenario>.json`, con **solo le variazioni** rispetto al GTFS di base. `origine` e `stato` identificano la provenienza del contenuto: per gli scenari creati dall'agente valgono i valori mostrati nell'esempio. `base_gtfs` è il nome esatto del file di riferimento, non il nome commerciale della linea. Per identificare una linea esistente si usa `route_id` di `routes.txt`; `direction_id` di `trips.txt` è rappresentato come stringa `"0"` o `"1"`.
+
+Esempio di scenario di input con le tipologie di modifica previste:
+
+```json
+{
+  "origine": "agente GT26-definire-il-formato-dell",
+  "stato": "bozza",
+  "nome": "piu_corse_linea",
+  "descrizione": "Aumentare la frequenza di una linea esistente",
+  "base_gtfs": "gtt_gtfs_20261002.zip",
+  "giorno_tipo": "fer",
+  "linee_modificate": [
+    {
+      "route_id": "route_id_esistente",
+      "direzione": "0",
+      "intervallo_minuti": 6
+    }
+  ],
+  "linee_nuove": [],
+  "linee_soppresse": [],
+  "linee_deviate": []
+}
+```
+
+I valori `route_id_esistente` e `gtt_gtfs_20261002.zip` sono segnaposto illustrativi: vanno sostituiti con identificativi e file effettivamente presenti nel GTFS locale. I campi delle varianti più ampie sono descritti qui sotto; la loro presenza nel formato non implica che siano già elaborati dal motore.
+
+**Regole previste per la validazione:**
+1. `origine` e `stato` devono essere presenti; per i contenuti creati dall'agente si usano rispettivamente `agente GT26-definire-il-formato-dell` e `bozza`.
+2. `base_gtfs` deve corrispondere al nome esatto di un file GTFS esistente in `data/raw/`. La rete di confronto è solo quel feed.
+3. `giorno_tipo` deve essere uno tra `fer`, `sab`, `dom`.
+4. Ogni `route_id` usato per modificare, sopprimere o deviare una linea deve esistere in `routes.txt` del GTFS indicato. Il nome breve mostrato all'utente non sostituisce l'identificativo.
+5. Se `direzione` è omessa, la modifica vale per entrambe le direzioni; se presente, accetta solo `"0"` o `"1"`, coerentemente con `direction_id` in `trips.txt`. Un valore vuoto non è ammesso.
+6. `intervallo_minuti` deve essere maggiore di 0 e non superiore a 120.
+7. I codici fermata citati nelle varianti devono esistere in `stops.txt` del medesimo GTFS. Un nome testuale o una coordinata non sostituiscono il codice.
+8. L'identificativo di una linea nuova non deve collidere con un `route_id` esistente.
+
+**Perimetro e limiti della prima simulazione:**
+- Il primo esempio operativo dovrebbe limitarsi a modificare l'intervallo di una linea esistente, per un giorno tipo e una o entrambe le direzioni. Le linee nuove, soppresse o deviate e le modifiche alle fermate restano estensioni previste, non funzionalità da considerare già disponibili.
+- `routes.txt`, `trips.txt`, `stop_times.txt`, `stops.txt` e `shapes.txt` descrivono parti diverse del GTFS: la sola sequenza di fermate non fornisce una geometria stradale verificata. Non si presume quindi che il motore possa ricostruire un percorso o calcolare tempi di viaggio dal solo scenario.
+- L'esempio del JSON è un modello documentale, non un file già installabile né una conferma che esista un motore di simulazione. L'elaborazione e la verifica dei risultati sono attività successive.
+
+### Avviso sui risultati della simulazione (obbligatorio in ogni output)
+**Ogni mappa, tabella o scheda generata da uno scenario deve mostrare in evidenza il seguente avviso. Vale anche per esportazioni e riepiloghi; se un risultato non è disponibile, non va sostituito con una stima presentata come misurata:**
+
+> ⚠ **SIMULAZIONE SU ORARIO PROGRAMMATO**  
+> I risultati mostrano l'**offerta potenziale** (passaggi/ora, residenti raggiunti, tempi di attesa teorici) calcolata applicando le variazioni indicate all'orario ufficiale GTFS.  
+> **Non tengono conto di:** traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri, regolarità del servizio.  
+> Un aumento di corse sulla carta non garantisce che i bus arrivino in orario.  
+> Dati `[PROGRAMMATO]` / `[STIMATO]` — **non** `[MISURATO]`.
+
+L'avviso deve apparire:
+- Nella legenda del tema "Scenario" sulla mappa.
+- Nella scheda di riepilogo dello scenario (guadagno residenti coperti, variazione corse, km-vettura stimati).
+- In ogni esportazione (immagine, CSV, report).
+
 ## Ordine di lavoro
 Il piano è articolato in passi piccoli e autosufficienti, ciascuno realizzabile come compito autonomo:
 
