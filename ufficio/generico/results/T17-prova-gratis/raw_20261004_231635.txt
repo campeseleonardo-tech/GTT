@@ -1,2 +1,0 @@
-{"type": "result", "subtype": "success", "is_error": false, "result": "ESITO: (il modello non ha scritto un riassunto)\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free; file scritti: contenuti/frasi_prova_gratis.json", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free": {}}, "usage": {"input_tokens": 16405, "output_tokens": 12034}}
---- STDERR ---

@@ -1,6 +1,0 @@
-# Validatore - PV03-istruzioni - 2026-10-05 03:32
-
-## Giro 0: tutti i controlli OK
-- OK     files_exist:strumenti/ISTRUZIONI_CHAT.md
-- OK     min_chars:strumenti/ISTRUZIONI_CHAT.md;1200
-- OK     contains_all:strumenti/ISTRUZIONI_CHAT.md;## Come funziona;## Come generare il Word;## Se qualcosa non va

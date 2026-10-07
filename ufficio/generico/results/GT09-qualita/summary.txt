@@ -1,3 +1,0 @@
-ESITO: Il file docs/QUALITA_DATI.md è stato creato con l’analisi dei dati raccolti, evidenziando punti di forza, criticità e azioni consigliate per migliorare la qualità dell’informazione sulla mappa.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: docs/QUALITA_DATI.md

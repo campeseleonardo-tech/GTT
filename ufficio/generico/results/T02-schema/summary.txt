@@ -1,8 +1,0 @@
-Ho scritto lo schema, i due file di esempi, `SCHEMA.md` e il rapporto. Non ho eseguito il validatore: ho controllato gli esempi solo a mente.
-
-- **Esempi validi:** 4 record, uno per tipo.
-- **Esempi errati:** 13 record, ognuno con una sola violazione.
-- **Da controllare:** l'esempio "consiglio" usa "Tatort", una serie tedesca reale con descrizione generica, segnata nelle `note`. Due esempi errati dipendono dal validatore: quello in cui i blocchi uniti non coincidono con `testo_de` e quello con tipo "verbo".
-- **Scelte:** ho aggiunto limiti di lunghezza non richiesti, elencati nel rapporto. Non c'è DECISIONS.md: nessuna decisione bloccante.
-
-Il rapporto è in `agenti/T02-schema/RAPPORTO.md`.

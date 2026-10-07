@@ -1,3 +1,0 @@
-ESITO: Aggiornato il passo 10 di PROVA_SITO.md con la risposta di Leo che non ha compreso la domanda.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: docs/PROVA_SITO.md

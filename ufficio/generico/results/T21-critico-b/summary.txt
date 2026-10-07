@@ -1,3 +1,0 @@
-ESITO: L'implementazione presenta errori critici che impediscono il funzionamento del sistema di ripasso, con un voto di 2/5 dovuto a variabili non definite e deviazioni dalle specifiche.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/T21-critico-b/CRITICA.md

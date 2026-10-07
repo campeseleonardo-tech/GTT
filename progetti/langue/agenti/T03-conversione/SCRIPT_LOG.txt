@@ -1,3 +1,0 @@
-scritti 200 record in contenuti/parole.json
-
---- STDERR ---

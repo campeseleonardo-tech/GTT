@@ -1,4 +1,0 @@
-ESITO: Aggiunto il tema "Velocità" (velocità commerciale misurata per linea, tipo di giorno e ora) in 04 e nel template; non ho eseguito nulla, quindi non ho numeri reali.
-- 04 legge `storico.sqlite` in sola lettura (ultimi 28 giorni) e aggiunge `vel` e `vel_meta` ai dati della pagina. Stampa le linee con dati e le ore di storico. Se il database manca o è bloccato salta il livello e termina con exit 0.
-- Il tema colora le linee (< 12 / 12–16 / 16–20 / > 20 km/h; grigio sotto 20 campioni), mostra il dettaglio al passaggio del mouse e ha la legenda con MISURATO e "dati scarsi".
-- Scelte, limiti e clic da provare sono in `agenti/GT04-velocita/RAPPORTO.md`; due domande leggere in `DOMANDE.md`.

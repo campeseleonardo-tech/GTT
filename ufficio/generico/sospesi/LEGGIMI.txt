@@ -1,8 +1,0 @@
-Task SOSPESI: il runner NON li guarda. Restano qui finche' non decidi di farli partire.
-Per attivarne uno: sposta il file .task.md nella cartella queue\ (il nuovo pannello avra' un pulsante "Attiva").
-
-M01-mercatino-studio.task.md  (aggiunto 04/10/2026 dalla chat di controllo)
-  Mercatino e' archiviato. Questo task fa SOLO lo studio di come fare il documento finale per Giangio e Mercatino
-  e ti prepara le domande (poi si ferma in "blocked" con le domande in decisions\). Non scrive il documento.
-  Legge una copia dei tuoi file (la cartella Mercatino non viene toccata); risultato in results\M01-mercatino-studio\.
-  Consumo stimato: ~10-15% del contatore.

@@ -1,3 +1,0 @@
-ESITO: (il modello non ha scritto un riassunto)
-
-[runner] motore Cerebras, modello cerebras:qwen-3.8-27b; file scritti: agenti/GT14-verifica-passaggi/RAPPORTO.md, scripts/mappa_template.html; cambio modello per sovraccarico: gemini:gemini-pro-latest: Google AI Studio: limite gratuito raggiunto (troppe richieste o token) | gemini:gemini-3.1-pro-preview: Google AI Studio: limite gratuito raggiunto (troppe richieste o token) | cerebras:gpt-oss-120b: Cerebras: limite gratuito raggiunto (troppe richieste o token)

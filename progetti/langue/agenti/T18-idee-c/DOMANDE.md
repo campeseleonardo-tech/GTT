@@ -1,2 +1,0 @@
-- quale idea di IDEE.md partiamo a implementare? | opzioni: 1 ripasso / 2 test suite / 3 diff errori | scelta: 1 | dove: agenti/T18-idee-c/IDEE.md
-- che obiettivo giornaliero di default? | opzioni: 5 / 10 / 20 | scelta: 10 | dove: idea 6 di agenti/T18-idee-c/IDEE.md

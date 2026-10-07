@@ -1,5 +1,0 @@
-# Validatore - T23-risposta2 - 2026-10-05 14:03
-
-## Giro 0: tutti i controlli OK
-- OK     files_exist:docs/PROVA_SITO.md
-- OK     git_unchanged:web;contenuti;schema;words_db.json;archivio

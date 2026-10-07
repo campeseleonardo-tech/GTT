@@ -1,3 +1,0 @@
-ESITO: Aggiunti controlli di errore, supporto output cartella e commenti a 4 funzioni.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/PV02-generatore/RAPPORTO.md, strumenti/genera_preventivo.py

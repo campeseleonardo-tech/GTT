@@ -1,3 +1,0 @@
-ESITO: (il modello non ha scritto un riassunto)
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-ultra-550b-a55b:free; file scritti: agenti/T18-idee-b/IDEE.md, agenti/T18-idee-b/RAPPORTO.md

@@ -1,3 +1,0 @@
-ESITO: Aggiornato 1 dubbio su 8 nel documento BRIDGE_V2_b.md riguardo la sufficientia del ground truth.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/TL01-risposta2/RAPPORTO.md, docs/BRIDGE_V2_b.md

@@ -1,3 +1,0 @@
-- «Segnalazioni adesso» anche nel tema Traffico? | opzioni: sì / solo Tempo reale | scelta: sì | dove: THEMES (traffico) in scripts/mappa_template.html
-- Nel tema Tempo reale accendere anche le linee sottili? | opzioni: no / sì | scelta: no | dove: THEMES (tempo)
-- Tema Poca offerta: linee sottili a metà spessore va bene? | opzioni: metà / un terzo | scelta: metà | dove: lineeSottili in disegnaBase

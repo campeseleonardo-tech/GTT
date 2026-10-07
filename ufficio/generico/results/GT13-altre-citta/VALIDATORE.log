@@ -1,7 +1,0 @@
-# Validatore - GT13-altre-citta - 2026-10-05 03:31
-
-## Giro 0: tutti i controlli OK
-- OK     files_exist:docs/ALTRE_CITTA.md
-- OK     git_unchanged:scripts/03_raccolta_continua.py;scripts/06_dati_live.py;scripts/supervisore.py;scripts/installa_sfondo.py
-- OK     min_chars:docs/ALTRE_CITTA.md;2500
-- OK     contains_all:docs/ALTRE_CITTA.md;## Cosa e' specifico di Torino oggi;## Dati che servono per una nuova citta';## Piano a passi;## Rischi

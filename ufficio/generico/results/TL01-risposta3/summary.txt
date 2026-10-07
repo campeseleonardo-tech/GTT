@@ -1,3 +1,0 @@
-ESITO: Aggiornato 1 file con 1 modifica al dubbio #4 riguardo a ColumnSpec.sensitive.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/TL01-risposta3/RAPPORTO.md, docs/BRIDGE_V2_b.md

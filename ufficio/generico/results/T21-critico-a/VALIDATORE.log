@@ -1,6 +1,0 @@
-# Validatore - T21-critico-a - 2026-10-05 12:45
-
-## Giro 0: tutti i controlli OK
-- OK     files_exist:agenti/T21-critico-a/CRITICA.md
-- OK     min_chars:agenti/T21-critico-a/CRITICA.md;800
-- OK     contains_all:agenti/T21-critico-a/CRITICA.md;## Errori probabili;## Voto

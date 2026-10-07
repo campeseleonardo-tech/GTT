@@ -1,6 +1,0 @@
-# Validatore - TL01-progetto-b - 2026-10-05 12:17
-
-## Giro 0: tutti i controlli OK
-- OK     files_exist:docs/BRIDGE_V2_b.md
-- OK     min_chars:docs/BRIDGE_V2_b.md;3000
-- OK     contains_all:docs/BRIDGE_V2_b.md;## Cosa cambia in v2;## Dubbi aperti per Leo

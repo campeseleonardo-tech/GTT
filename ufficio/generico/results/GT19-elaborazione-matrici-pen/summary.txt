@@ -1,3 +1,0 @@
-ESITO: Creato script di elaborazione matricI pendolarismo ISTAT per Torino e cintura, con relativo rapporto e sintesi documentazione. File prodotto pronto in data/processed/.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: scripts/07_elabora_matrici_pendolarismo.py, docs/istat/RISULTATI_ELABORAZIONE.md, agenti/GT19-elaborazione-matrici-pen/RAPPORTO.md

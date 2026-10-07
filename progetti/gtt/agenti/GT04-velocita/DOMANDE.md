@@ -1,2 +1,0 @@
-- Soglie colori velocità (12/16/20 km/h) vanno bene? | opzioni: A tenere / B più strette / C più larghe | scelta: A | dove: mappa_template.html velClasse
-- Minimo campioni per colorare una linea? | opzioni: 10 / 20 / 60 | scelta: 20 | dove: mappa_template.html VEL_MIN_CAMP

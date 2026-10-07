@@ -1,4 +1,0 @@
-ESITO: Ho creato il sito statico in `web/` (`index.html`, `style.css`, `app.js`) con home, filtro A1/A2/Tutti e i 3 giochi. Non l'ho eseguito, quindi non è provato.
-- Salvo i progressi solo in `localStorage` (chiave `langue_progress_v1`, con try/catch) e uso `textContent` ovunque, senza `innerHTML` né `eval`.
-- Scelta da rivedere: in "Rimetti in ordine" il confronto ignora tutte le maiuscole, non solo la prima lettera. Nei dati un blocco `Ich` a metà frase deve valere come `ich` nelle alternative.
-- Il resto delle scelte è in `agenti/T16-sito/RAPPORTO.md`. Per provarlo apri `web/index.html` e fai un giro per gioco. Nessuna decisione bloccante, quindi non c'è `DECISIONS.md`.

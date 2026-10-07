@@ -1,7 +1,0 @@
-- 2026-10-05 02:39 | PV01-ispeziona | done | ramo PV01-ispeziona | 28 file | costo listino 0.000 USD | Ispeziona il modello Word e installa gli strumenti
-- 2026-10-05 03:26 | PV02-generatore | failed | ramo PV02-generatore | 4 file | costo listino 0.000 USD | Generatore di preventivi piu' chiaro
-- 2026-10-05 12:49 | PV02-generatore | done | ramo PV02-generatore | 3 file | costo listino 0.000 USD | Generatore di preventivi piu' chiaro
-- 2026-10-05 13:52 | PV04-controllo | failed | ramo PV04-controllo | 0 file | costo listino 0.000 USD | Generatore: controllo finale e lista di prova
-- 2026-10-05 13:55 | PV04-controllo | done | ramo PV04-controllo | 3 file | costo listino 0.000 USD | Generatore: controllo finale e lista di prova
-- 2026-10-05 14:27 | PV05-preventivo-finto | done | ramo PV05-preventivo-finto | 6 file | costo listino 0.000 USD | Preventivo finto completo e verifica automatica
-- 2026-10-05 14:32 | PV05-risposta1 | done | ramo PV05-risposta1 | 2 file | costo listino 0.000 USD | correzione di PV05 dopo la tua risposta

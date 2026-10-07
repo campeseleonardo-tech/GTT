@@ -1,9 +1,0 @@
-# GTT - file che git NON salva (grandi, generati o scritti di continuo dalla raccolta)
-data/
-logs/
-mappa_torino.html
-*.zip
-*.pdf
-*.doc
-*.crdownload
-__pycache__/

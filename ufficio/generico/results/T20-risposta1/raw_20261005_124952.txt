@@ -1,2 +1,0 @@
-{"type": "result", "subtype": "success", "is_error": false, "result": "ESITO: Aggiornato il bottone Ripasso per aprire un sottomenu con scelta tra i tre giochi di ripasso.\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: web/index.html, web/style.css, web/app.js", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3-super-120b-a12b:free": {}}, "usage": {"input_tokens": 21092, "output_tokens": 5331}}
---- STDERR ---

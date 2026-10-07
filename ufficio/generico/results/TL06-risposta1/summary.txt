@@ -1,3 +1,0 @@
-ESITO: 0 file modificati; il CLI di llm_bridge.py già non stampa le misure prompt_eval.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/TL06-risposta1/RAPPORTO.md

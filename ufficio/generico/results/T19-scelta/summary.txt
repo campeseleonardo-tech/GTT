@@ -1,3 +1,0 @@
-ESITO: Scelto il ripasso degli sbagli da implementare modificando solo web/app.js, web/style.css e web/index.html.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/T19-scelta/SCELTA.md

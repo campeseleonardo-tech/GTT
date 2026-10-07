@@ -1,2 +1,0 @@
-{"type": "result", "subtype": "success", "is_error": false, "result": "ESITO: Creati 2 file (DOMANDE.md e RAPPORTO.md) con 1 domanda registrata e nessuna modifica al codice.\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/GT05-risposta2/DOMANDE.md, agenti/GT05-risposta2/RAPPORTO.md", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3-super-120b-a12b:free": {}}, "usage": {"input_tokens": 45185, "output_tokens": 3142}}
---- STDERR ---

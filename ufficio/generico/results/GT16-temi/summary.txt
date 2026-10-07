@@ -1,3 +1,0 @@
-ESITO: Menu della mappa ridotto a 4 temi funzionali, aggiunta la sottoscelta per Servizio e abitanti e raggruppato il blocco temporale «Quando» in scripts/mappa_template.html.
-
-[runner] motore Google AI Studio, modello gemini:gemini-3.8-flash; file scritti: agenti/GT16-temi/RAPPORTO.md, scripts/mappa_template.html

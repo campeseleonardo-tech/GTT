@@ -1,1 +1,0 @@
-- Vuoi altri preventivi finti per tipologie diverse (es. villa, negozio, riparazione guasto)? | opzioni: Si / No | scelta: Si | dove: strumenti/esempi/ | perche: Altri esempi realistici possono aiutare papa a trovare testi gia pronti per vari tipi di lavoro | cambia: Si = aggiungiamo altri esempi, No = teniamo solo finto_01.json

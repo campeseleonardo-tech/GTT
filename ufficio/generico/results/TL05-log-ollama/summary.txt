@@ -1,3 +1,0 @@
-ESITO: Modificato code/llm_bridge.py per registrare prompt_eval_count e prompt_eval_duration per ogni chiamata a Ollama e creato il rapporto in agenti/TL05-log-ollama/RAPPORTO.md.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/TL05-log-ollama/RAPPORTO.md, code/llm_bridge.py; MODIFICHE NON APPLICATE: code/llm_bridge.py, modifica 4: SEARCH non trovato (deve essere copiato esatto dal file) | code/llm_bridge.py, modifica 5: SEARCH non trovato (deve essere copiato esatto dal file) | code/llm_bridge.py, modifica 6: SEARCH non trovato (deve essere copiato esatto dal file) | code/llm_bridge.py, modifica 7: SEARCH non trovato (deve essere copiato esatto dal file)

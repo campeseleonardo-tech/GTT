@@ -1,3 +1,0 @@
-ESITO: Aggiornato docs/BRIDGE_V2_b.md in 2 punti per impostare la soglia di confidenza a 0.65.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/TL01-risposta1/RAPPORTO.md, docs/BRIDGE_V2_b.md

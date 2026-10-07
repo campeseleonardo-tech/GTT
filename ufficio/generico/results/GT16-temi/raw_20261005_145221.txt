@@ -1,2 +1,0 @@
-{"type": "result", "subtype": "success", "is_error": false, "result": "ESITO: Menu della mappa ridotto a 4 temi funzionali, aggiunta la sottoscelta per Servizio e abitanti e raggruppato il blocco temporale «Quando» in scripts/mappa_template.html.\n\n[runner] motore Google AI Studio, modello gemini:gemini-3.8-flash; file scritti: agenti/GT16-temi/RAPPORTO.md, scripts/mappa_template.html", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"gemini:gemini-3.8-flash": {}}, "usage": {"input_tokens": 56988, "output_tokens": 6732}}
---- STDERR ---

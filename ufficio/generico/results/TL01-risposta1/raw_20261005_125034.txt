@@ -1,2 +1,0 @@
-{"type": "result", "subtype": "success", "is_error": false, "result": "ESITO: Aggiornato docs/BRIDGE_V2_b.md in 2 punti per impostare la soglia di confidenza a 0.65.\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/TL01-risposta1/RAPPORTO.md, docs/BRIDGE_V2_b.md", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3-super-120b-a12b:free": {}}, "usage": {"input_tokens": 8624, "output_tokens": 4748}}
---- STDERR ---

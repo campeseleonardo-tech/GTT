@@ -1,4 +1,0 @@
-ESITO: Ho aggiunto in IDEE.md una sezione "Decisione di Leo" con la tua risposta (tutte e tre le idee in task separate, più task per i 7 problemi del codice). Non ho creato nessuna task.
-- Il resto di IDEE.md è invariato. Il rapporto è in `agenti/T18-risposta1/RAPPORTO.md`.
-- Le task vanno create da te o dall'Ufficio: i percorsi consentiti non me lo permettevano.
-- "Tutte e tre" è ambiguo, perché IDEE.md ha 8 idee. Ho assunto le idee 1, 2 e 3 (ripasso sbagli, test, diff errori); se intendevi altre, va corretto.

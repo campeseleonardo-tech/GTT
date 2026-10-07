@@ -1,3 +1,0 @@
-ESITO: Inserito 1 tag script e aggiornato 1 funzione di visualizzazione fermata (2 modifiche totali) per mostrare i prossimi passaggi alle fermate.
-
-[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/GT12-prossimi-passaggi/RAPPORTO.md, scripts/mappa_template.html

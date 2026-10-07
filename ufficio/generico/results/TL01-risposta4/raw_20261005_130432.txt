@@ -1,2 +1,0 @@
-{"type": "result", "subtype": "success", "is_error": false, "result": "ESITO: Aggiornato Dubbi #6 in docs/BRIDGE_V2_b.md con raccomandazione da_verificare e creato rapporto in agenti/TL01-risposta4/RAPPORTO.md.\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/TL01-risposta4/RAPPORTO.md, docs/BRIDGE_V2_b.md", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3-super-120b-a12b:free": {}}, "usage": {"input_tokens": 8603, "output_tokens": 3218}}
---- STDERR ---

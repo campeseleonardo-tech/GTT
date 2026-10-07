@@ -1,2 +1,0 @@
-- Il bottone "Ripasso" in home deve avviare il ripasso per un gioco specifico (qual'è?) o aprire un sottomenu per scegliere? | opzioni: A: sempre articoli / B: sottomenu 3 giochi / C: cicla auto tra giochi con debiti | scelta: A | dove: web/app.js (avviaRipasso), web/index.html (listener)
-- La scheda Ripasso mostra il totale debiti ma parte solo per articoli: va bene così? | opzioni: Sì / No, fare sottomenu / No, cicla auto | scelta: Sì | dove: web/app.js, web/index.html

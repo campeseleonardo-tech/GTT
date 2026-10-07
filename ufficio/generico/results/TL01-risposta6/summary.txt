@@ -1,4 +1,0 @@
-ESITO: Ho aggiornato 2 punti di docs/BRIDGE_V2_b.md (Dubbi aperti #1 e Fase 2), perché Leo non aveva capito la domanda sul modello embedding.
-- In Dubbi aperti #1 ho aggiunto una spiegazione breve di cosa fa il modello embedding. Ho confermato il default provvisorio MiniLM-L6-v2, che si può cambiare in seguito.
-- In Fase 2 ho tolto "decisione Leo" e l'ho sostituito con il default provvisorio.
-- Il resto del documento è invariato. Non ho aggiunto domande né toccato PROGETTO.md. Il rapporto è in agenti/TL01-risposta6/RAPPORTO.md e non ho eseguito nessuna validazione.

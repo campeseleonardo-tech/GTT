@@ -1,2 +1,0 @@
-{"type": "result", "subtype": "success", "is_error": false, "result": "ESITO: Inserito 1 tag script e aggiornato 1 funzione di visualizzazione fermata (2 modifiche totali) per mostrare i prossimi passaggi alle fermate.\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: agenti/GT12-prossimi-passaggi/RAPPORTO.md, scripts/mappa_template.html", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3-super-120b-a12b:free": {}}, "usage": {"input_tokens": 33570, "output_tokens": 9312}}
---- STDERR ---

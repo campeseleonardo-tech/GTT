@@ -1,4 +1,0 @@
-ESITO: Ho portato a 5 l'obiettivo giornaliero nell'idea 6 di IDEE.md (prima era 10), cambiando 1 riga.
-Nell'esempio ora c'è "Oggi: 3/5" e il giorno si chiude con 5 risposte giuste.
-Il resto del file è invariato. Il rapporto è in agenti/T18-risposta2/RAPPORTO.md.
-Non ho nuove domande.

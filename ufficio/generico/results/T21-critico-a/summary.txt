@@ -1,7 +1,0 @@
-ESITO: Critica di T20 scritta in agenti/T21-critico-a/CRITICA.md: 13 errori elencati per funzione e riga del diff, voto 1/5 (ripasso inoperante e 3 giochi bloccati al primo errore).
-- Causa principale: le funzioni di debito usano `debito`/`storage`/`aggiornaHome` che sono locali ad `avviaSito` → ReferenceError; nessun debito viene mai salvato.
-- Se forzata, la sessione mista crasha (variabile `currente`, ricorsione infinita `mostraFrase`/`disegnaFrase`, id non verificati).
-- Scritti anche RAPPORTO.md e una domanda in DOMANDE.md (ripasso misto vs per-gioco).
-- Nessun file del progetto modificato.
-
-[runner] motore OpenRouter, modello qwen/qwen3.8-27b:free; file scritti: agenti/T21-critico-a/CRITICA.md, agenti/T21-critico-a/RAPPORTO.md, agenti/T21-critico-a/DOMANDE.md

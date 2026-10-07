@@ -1,3 +1,0 @@
-- Vuoi i nomi dei comuni (tabella ISTAT codici)? | opzioni: sì, la scarico / no, bastano i codici | scelta: no, bastano i codici | dove: scheda comune, tema Pendolari
-- Colore di partenza del tema Pendolari? | opzioni: per 1000 abitanti / numero assoluto | scelta: per 1000 abitanti | dove: #pendVal nel template
-- Quanti comuni con linea nel tema Pendolari? | opzioni: 15 / 30 / 50 | scelta: 30 | dove: pendCalcola nel template
