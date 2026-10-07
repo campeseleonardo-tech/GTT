@@ -88,6 +88,15 @@
   .sim{display:flex;align-items:center;gap:8px;margin-top:8px}
   .sim select,#modoSez,#basemap,#filtroLinea{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff}
   #filtroLinea{width:100%;margin:2px 0 4px}
+  /* [agente GT29-integrazione-simulazioni] riepilogo del risultato caricato */
+  #boxSim label{display:block;font-size:12px;color:var(--muted);margin-top:6px}
+  #avvisoSim{margin:8px 0;padding:8px;border:1px solid #e0b84a;border-radius:8px;background:#fff3cd;color:#4a3b00;font-size:11.5px}
+  #avvisoSim strong{display:block;margin-bottom:3px}
+  #risultatoSim{display:none;margin-top:8px;padding:8px;border:1px solid var(--line);border-radius:8px;background:#f8f9fb}
+  #risultatoSim .sim-riga{display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:12px}
+  #risultatoSim .sim-val{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+  #differenzaSim.positivo{color:#237347} #differenzaSim.negativo{color:#b42332}
+  #statoSim{font-size:11.5px;color:var(--muted);margin-top:5px}
   #attrib{position:fixed;right:6px;bottom:4px;font-size:10.5px;color:#444;background:rgba(255,255,255,.8);padding:1px 6px;border-radius:4px}
   #attrib a{color:inherit}
   /* [agente GT08-griglia-scala] barra della scala in basso a sinistra */
@@ -191,6 +200,26 @@
   <h2>Segnalazioni adesso</h2>
   <div id="segn" style="font-size:12.5px;color:var(--muted)">—</div>
   </div>
+
+  <!-- [agente GT29-integrazione-simulazioni] carica il riepilogo JSON stampato da calcola_simulazione.py -->
+  <section id="boxSim">
+    <h2>Risultato simulazione</h2>
+    <button class="btn" id="scegliSim" type="button">Carica risultato</button>
+    <input id="fileSim" type="file" accept=".json,.txt,.log,application/json,text/plain" style="display:none">
+    <label for="fileSim">Scegli il file con il risultato dello script. Puoi caricare il JSON finale o l'output completo salvato dalla console.</label>
+    <div id="statoSim" role="status">Nessun risultato caricato.</div>
+    <div id="risultatoSim" aria-live="polite">
+      <div class="sim-riga"><span>Passaggi totali, base</span><span class="sim-val" id="baseSim"></span></div>
+      <div class="sim-riga"><span>Passaggi totali, scenario</span><span class="sim-val" id="totSim"></span></div>
+      <div class="sim-riga"><span>Differenza (scenario − base)</span><span class="sim-val" id="differenzaSim"></span></div>
+      <div class="sim-riga"><span>Fermate con variazione</span><span class="sim-val" id="fermateSim"></span></div>
+      <div id="avvisoSim">
+        <strong>⚠ SIMULAZIONE SU ORARIO PROGRAMMATO</strong>
+        I risultati mostrano l'offerta potenziale calcolata applicando le variazioni all'orario GTFS. Non tengono conto di traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri o regolarità del servizio. Un aumento di corse sulla carta non garantisce che i bus arrivino in orario. Dati programmati/stimati, non misurati.
+      </div>
+      <div style="font-size:11.5px;color:var(--muted)">Residenti raggiunti e km-vettura non sono inclusi nel risultato fornito da questo calcolo.</div>
+    </div>
+  </section>
 
   <details>
     <summary>Cosa stai guardando e limiti</summary>
@@ -1285,6 +1314,38 @@ $("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; tileOk=0; agg
 $("intSfondo").oninput=e=>{ intSfondo=e.target.value/100; $("intSfondoVal").textContent=e.target.value+"%"; baseVer++; chiede(); }; // [agente GT01-sfondi]
 $("filtroLinea").oninput=()=>{ baseVer++; chiede(); };
 $("coloreLinee").onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); };
+// [agente GT29-integrazione-simulazioni] legge i quattro indicatori prodotti da calcola_simulazione.py; accetta anche il log con il JSON finale.
+$("scegliSim").onclick=()=> $("fileSim").click();
+$("fileSim").onchange=async e=>{
+  const file=e.target.files&&e.target.files[0];
+  if(!file) return;
+  const stato=$("statoSim"), box=$("risultatoSim");
+  box.style.display="none";
+  stato.textContent="Lettura del risultato…";
+  try{
+    const testo=await file.text();
+    const inizioLog=testo.lastIndexOf("\\n{");
+    const json=testo.slice(inizioLog>=0?inizioLog+1:0).trim();
+    const r=JSON.parse(json);
+    const campi=["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica"];
+    if(!r||typeof r!=="object"||campi.some(k=>typeof r[k]!=="number"||!Number.isFinite(r[k]))||
+       r.passaggi_totali_baseline<0||r.passaggi_totali_scenario<0||r.fermate_con_modifica<0){
+      throw new Error("Il file non contiene tutti e quattro i valori numerici attesi.");
+    }
+    const numero=n=>Math.round(n).toLocaleString("it-IT");
+    $("baseSim").textContent=numero(r.passaggi_totali_baseline);
+    $("totSim").textContent=numero(r.passaggi_totali_scenario);
+    const diff=$("differenzaSim");
+    diff.textContent=(r.differenza_passaggi>0?"+":"")+numero(r.differenza_passaggi);
+    diff.className="sim-val"+(r.differenza_passaggi>0?" positivo":r.differenza_passaggi<0?" negativo":"");
+    $("fermateSim").textContent=numero(r.fermate_con_modifica);
+    box.style.display="block";
+    stato.textContent="Risultato caricato: "+file.name;
+  }catch(err){
+    stato.textContent="Non riesco a leggere un risultato valido: "+(err&&err.message?err.message:"formato non riconosciuto")+".";
+  }
+  e.target.value="";
+};
 $("repGiorno").onchange=e=>{ if(e.target.value){ $("Lreplay").checked=true; } caricaReplay(e.target.value); aggiornaLegenda(); };
 $("Lreplay").onchange=()=>{ if($("Lreplay").checked && !REP && $("repGiorno").value) caricaReplay($("repGiorno").value); chiede(); aggiornaLegenda(); };
 let gioca=true, ultimoT=0;
