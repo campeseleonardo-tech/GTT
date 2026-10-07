@@ -138,6 +138,77 @@ Tutte le schede informative condivideranno lo stesso schema fisso a quattro sezi
 - **Affollamento reale a bordo:** mancano i dati dei tornelli o dei sensori passeggeri a bordo bus; non è possibile determinare se un mezzo viaggia vuoto o saturo.
 - **Motore di calcolo percorsi con trasbordo:** manca un algoritmo di itinerario pedonale integrato con cambi linea per stimare il tempo porta a porta degli utenti.
 
+## Simulazioni
+### Formato del file di scenario (input)
+Il file di scenario è un JSON salvato in `data/scenari/<nome_scenario>.json`. Deve contenere **solo le variazioni** rispetto alla rete base (GTFS ufficiale). Campi obbligatori e facoltativi:
+
+```json
+{
+  "nome": "stringa breve, es. 'piu_corse_linea_4'",
+  "descrizione": "testo libero per l'utente",
+  "base_gtfs": "nome del file GTFS di riferimento (es. 'gtt_gtfs_20261002.zip')",
+  "giorno_tipo": "fer | sab | dom",
+  "linee_modificate": [
+    {
+      "linea": "4",
+      "direzione": "0 | 1 | \"\"",
+      "intervallo_minuti": 6,
+      "nuovo_capolinea": "nome fermata o coordinate [lat, lon]  (facoltativo)",
+      "fermate_aggiunte": ["codice_fermata_1", "codice_fermata_2"]  (facoltativo),
+      "fermate_rimesse": ["codice_fermata_3"]  (facoltativo)
+    }
+  ],
+  "linee_nuove": [
+    {
+      "id": "NEW_1",
+      "nome_breve": "N1",
+      "nome_lungo": "Nuova linea circolare",
+      "tipo": 3,
+      "fermate": ["codice_1", "codice_2", "codice_3"],
+      "intervallo_minuti": 10,
+      "direzioni": {
+        "0": ["codice_1", "codice_2", "codice_3"],
+        "1": ["codice_3", "codice_2", "codice_1"]
+      }
+    }
+  ],
+  "linee_soppresse": ["15", "30"],
+  "linee_deviate": [
+    {
+      "linea": "15",
+      "direzione": "0",
+      "da_fermata": "codice_A",
+      "a_fermata": "codice_B",
+      "nuovo_percorso": ["codice_A", "codice_X", "codice_Y", "codice_B"]
+    }
+  ]
+}
+```
+
+**Regole di validazione (il motore le applica in ordine):**
+1. `base_gtfs` deve corrispondere a un file esistente in `data/raw/`.
+2. `giorno_tipo` deve essere uno tra `fer`, `sab`, `dom`.
+3. `linea` in `linee_modificate`/`linee_soppresse`/`linee_deviate` deve esistere nel GTFS base.
+4. `direzione` se omessa vale per entrambe le direzioni; se presente deve essere `"0"` o `"1"`.
+5. `intervallo_minuti` > 0 e ≤ 120.
+6. I codici fermata in `fermate_aggiunte`, `fermate_rimesse`, `linee_nuove.fermate`, `linee_deviate.nuovo_percorso` devono esistere in `stops.txt` del GTFS base.
+7. `linee_nuove.id` non deve collidere con `route_id` esistenti.
+8. Un scenario non può modificare la geometria dei tracciati (`shapes.txt`): `nuovo_capolinea` e `nuovo_percorso` usano fermate esistenti; il motore stima il percorso più breve lungo la rete stradale di sfondo (solo per visualizzazione, non per calcolo tempi).
+
+### Avviso sui risultati della simulazione (obbligatorio in ogni output)
+**Ogni mappa, tabella o scheda generata da uno scenario deve mostrare in evidenza il seguente avviso:**
+
+> ⚠ **SIMULAZIONE SU ORARIO PROGRAMMATO**  
+> I risultati mostrano l'**offerta potenziale** (passaggi/ora, residenti raggiunti, tempi di attesa teorici) calcolata applicando le variazioni indicate all'orario ufficiale GTFS.  
+> **Non tengono conto di:** traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri, regolarità del servizio.  
+> Un aumento di corse sulla carta non garantisce che i bus arrivino in orario.  
+> Dati `[PROGRAMMATO]` / `[STIMATO]` — **non** `[MISURATO]`.
+
+L'avviso deve apparire:
+- Nella legenda del tema "Scenario" sulla mappa.
+- Nella scheda di riepilogo dello scenario (guadagno residenti coperti, variazione corse, km-vettura stimati).
+- In ogni esportazione (immagine, CSV, report).
+
 ## Ordine di lavoro
 Il piano è articolato in passi piccoli e autosufficienti, ciascuno realizzabile come compito autonomo:
 
