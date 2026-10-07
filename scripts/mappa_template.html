@@ -1324,7 +1324,7 @@ $("fileSim").onchange=async e=>{
   stato.textContent="Lettura del risultato…";
   try{
     const testo=await file.text();
-    const inizioLog=testo.lastIndexOf("\\n{");
+    const inizioLog=testo.lastIndexOf("\n{");
     const json=testo.slice(inizioLog>=0?inizioLog+1:0).trim();
     const r=JSON.parse(json);
     const campi=["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica"];
