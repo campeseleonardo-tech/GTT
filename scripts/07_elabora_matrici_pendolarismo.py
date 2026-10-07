@@ -6,20 +6,39 @@ import os
 import re
 from pathlib import Path
 
+# [agente GT25-correggere-l-elaborazion]
+def _project_root():
+    """Restituisce la radice del progetto anche se lo script parte da scripts/."""
+    return Path(__file__).resolve().parent.parent
+
 def load_sezioni_torino():
-    """Carica le sezioni di Torino e cintura da data/processed/sezioni_torino.json"""
-    path = Path("data/processed/sezioni_torino.json")
+    """Carica le sezioni, sia da una lista JSON sia dall'oggetto che la contiene."""
+    path = _project_root() / "data" / "processed" / "sezioni_torino.json"
     if not path.exists():
         raise FileNotFoundError("Eseguire prima scripts/05_prepara_sezioni.py")
     with open(path, encoding='utf-8') as f:
         data = json.load(f)
-    # Estrarre codici sezione e mapping sezione->comune
+
+    # [agente GT25-correggere-l-elaborazion] Accetta la lista diretta o il campo "sezioni".
+    if isinstance(data, list):
+        sezioni = data
+    elif isinstance(data, dict):
+        sezioni = data.get("sezioni", [])
+        if isinstance(sezioni, dict):
+            sezioni = list(sezioni.values())
+    else:
+        sezioni = []
+
     sezione_set = set()
     sezione_comune = {}
-    for sezione in data.get("sezioni", []):
+    for sezione in sezioni:
+        if not isinstance(sezione, dict):
+            continue
         codice = sezione.get("codice")
         comune = sezione.get("comune")
-        if codice and comune:
+        if codice is not None and comune is not None and str(codice).strip() and str(comune).strip():
+            codice = str(codice).strip()
+            comune = str(comune).strip()
             sezione_set.add(codice)
             sezione_comune[codice] = comune
     return sezione_set, sezione_comune
@@ -105,10 +124,12 @@ def processa_matrice_2021(zip_path, tipo, comuni_set, output_data):
     except Exception as e:
         print(f"Errore elaborando {zip_path}: {e}")
 
+# [agente GT25-correggere-l-elaborazion]
 def main():
-    # Percorsi
-    docs_dir = Path("docs")
-    data_processed_dir = Path("data/processed")
+    # I percorsi sono ancorati alla radice del progetto: funzionano anche da scripts/.
+    root = _project_root()
+    docs_dir = root / "docs"
+    data_processed_dir = root / "data" / "processed"
     data_processed_dir.mkdir(parents=True, exist_ok=True)
     
     # Caricare riferimento sezioni Torino
@@ -164,6 +185,9 @@ def main():
     print(f"Record 2011: {n2011}")
     print(f"Record 2021: {n2021}")
     print(f"Totale: {n2011 + n2021}")
+
+    # [agente GT25-correggere-l-elaborazion] Completa l'elaborazione generando anche le matrici per fascia.
+    main_fasce()
 
 def _parse_hour(value):
     """Estrae l'ora (int) da una stringa di fascia oraria."""
@@ -255,9 +279,10 @@ def _distribute_2021_to_fasce(rows_2021, fasce_2011):
                 fasce_2011[slot][orig][dest] += uniform
     return fasce_2011
 
+# [agente GT25-correggere-l-elaborazion]
 def main_fasce():
     """Genera le matrici origine-destinazione per le 5 fasce orarie."""
-    data_processed_dir = Path("data/processed")
+    data_processed_dir = _project_root() / "data" / "processed"
     input_file = data_processed_dir / "pendolarismo_torino_cintura.json"
     if not input_file.exists():
         print("File di input non trovato, esegui prima main()")
