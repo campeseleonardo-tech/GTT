@@ -1,0 +1,63 @@
+diff --git a/strumenti/genera_preventivo.py b/strumenti/genera_preventivo.py
+index 60d34e0..cbf151e 100644
+--- a/strumenti/genera_preventivo.py
++++ b/strumenti/genera_preventivo.py
+@@ -34,6 +34,17 @@ def testo_par(p):
+ def _un(s):
+     return s.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", '"').replace("&apos;", "'").replace("&amp;", "&")
+ 
++# Restituisce una stringa sicura da usare come nome di file, sostituendo i caratteri non ammessi con underscore.
++def _nome_file_sicuro(nome):
++    # Sostituisce i caratteri non ammessi nei nomi file con underscore
++    import re
++    # Caratteri non ammessi: < > : " / \ | ? * e caratteri di controllo (0-31, 127)
++    nome = re.sub(r'[<>:\\"/|?*\x00-\x1f\x7f]', '_', nome)
++    # Se il nome risultante è vuoto, usiamo "preventivo"
++    if not nome:
++        nome = "preventivo"
++    return nome
++
+ 
+ RE_SUGG = re.compile(r"\s*\(iniziale nome[^)]*\)")      # suggerimento dopo il protocollo: non va nel documento finale
+ 
+@@ -67,6 +78,7 @@ def sostituisci_par(p, dati):
+     return "".join(res)
+ 
+ 
++# Prepara le voci della tabella, replicando il prototipo per ogni voce fornita.
+ # Prepara le voci della tabella, replicando il prototipo per ogni voce fornita.
+ def prepara_voci(xml, voci):
+     """Le righe '•<TAB>[[Voce N ...]]' del modello sono il prototipo: si replicano una per voce (le altre si tolgono)."""
+@@ -85,6 +97,7 @@ def prepara_voci(xml, voci):
+     return xml[:primo] + "".join(nuove) + xml[ultimo:]
+ 
+ 
++# Compila il documento Word sostituendo segnaposto e voci, poi lo salva nel file di uscita.
+ # Compila il documento Word sostituendo segnaposto e voci, poi lo salva nel file di uscita.
+ def compila(modello, dati, uscita):
+     with zipfile.ZipFile(modello) as zin:
+@@ -99,6 +112,7 @@ def compila(modello, dati, uscita):
+                 zout.writestr(it, data)
+ 
+ 
++# Estrae dal modello Word le chiavi necessarie (esclusi i segnaposto delle VOCI).
+ def _required_keys_from_model(modello_path):
+     with zipfile.ZipFile(modello_path) as zin:
+         xml = zin.read("word/document.xml").decode("utf-8")
+@@ -114,6 +128,7 @@ def _required_keys_from_model(modello_path):
+ 
+ 
+ # Funzione principale: gestisce argomenti, legge JSON, chiama il compilatore e stampa risultato.
++# Gestisce argomenti, legge JSON, chiama il compilatore e stampa risultato.
+ def main():
+     if len(sys.argv) < 3:
+         sys.exit(__doc__)
+@@ -125,7 +140,7 @@ def main():
+     except json.JSONDecodeError:
+         sys.exit("Errore: il file JSON non è valido.")
+     except Exception as e:
+-        sys.exit(f"Errore nella lettura del JSON: {e}")
++        sys.exit("Errore imprevisto nella lettura del JSON.")
+     modello = Path(sys.argv[3]) if len(sys.argv) > 3 else MODELLO
+     # Verifica chiavi necessarie nel modello
+     chiavi_necessarie = _required_keys_from_model(modello)

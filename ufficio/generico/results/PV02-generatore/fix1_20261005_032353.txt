@@ -1,0 +1,2 @@
+{"type": "result", "subtype": "success", "is_error": false, "result": "Aggiunta della funzione mancante `_required_keys_from_model` per estrarre le chiavi necessarie dal modello, escludendo i placeholder delle VOCI.\n\n[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: strumenti/genera_preventivo.py", "num_turns": 1, "total_cost_usd": 0.0, "modelUsage": {"nvidia/nemotron-3-super-120b-a12b:free": {}}, "usage": {"input_tokens": 4121, "output_tokens": 7635}}
+--- STDERR ---

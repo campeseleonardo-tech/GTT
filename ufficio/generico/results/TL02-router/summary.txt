@@ -1,0 +1,3 @@
+ESITO: Creato file code/table_router.py con implementazione KeywordBackend, stub per EmbeddingBackend e LocalLLMBackend, funzioni di valutazione e auto-test con dati sintetici; scritto rapporto in agenti/TL02-router/RAPPORTO.md.
+
+[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: code/table_router.py, agenti/TL02-router/RAPPORTO.md

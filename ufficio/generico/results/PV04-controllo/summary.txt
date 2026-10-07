@@ -1,0 +1,3 @@
+ESITO: Nessun bug trovato; script invariato e guida di test aggiunta.
+
+[runner] motore Cerebras, modello cerebras:gpt-oss-120b; file scritti: strumenti/PROVA_PREVENTIVO.md, agenti/PV04-controllo/RAPPORTO.md; cambio modello per sovraccarico: gemini:gemini-pro-latest: Google AI Studio: limite gratuito raggiunto (troppe richieste o token) | gemini:gemini-3.1-pro-preview: Google AI Studio: limite gratuito raggiunto (troppe richieste o token)

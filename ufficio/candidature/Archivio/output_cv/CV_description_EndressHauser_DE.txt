@@ -1,0 +1,87 @@
+LEONARDO CAMPESE
+
+KONTAKT
+LinkedIn: in/leonardocampese
+Telefon: (+43) 660 6878927
+E-Mail: campese.leonardo@gmail.com
+Salzburg, Österreich – umzugsbereit in die Schweiz, verfügbar ab sofort
+
+ÜBER MICH
+Ich arbeite dort, wo Technik auf Entscheidungen trifft: zwischen Testdaten, Kosten und Stakeholdern. Mit Engineering-, Produktmanagement- und Business-Hintergrund analysiere ich Prozesse, hinterfrage Abläufe und setze Verbesserungen tatsächlich um, nicht nur auf dem Papier.
+
+BERUFSERFAHRUNG
+
+Functional Development Engineer | Fluid Dynamics
+KTM F&E | 06/2025 – 07/2026
+1D/2D/3D-Simulationen zwischen F&E, Testing und Design koordiniert und priorisiert
+Lieferanten- und Designentscheidungen mit Design, F&E und Einkauf abgestimmt
+Kundenanforderungen (z. B. McLaren) zu Leistung, Gewicht und Kosten umgesetzt
+
+System Testing Engineer | Thermal Management
+KTM F&E | 09/2023 – 06/2025
+Internationale Testprogramme geplant, budgetiert und bereichsübergreifend gesteuert
+Test- und Reportingprozess eigenständig automatisiert: -50 % Analysezeit, weniger
+Bedienaufwand, Prozess dokumentiert und an Nachfolger übergeben (Wissenstransfer)
+Messtechnik (u. a. Coriolis-Durchflussmesser) nach Kosten-Nutzen-Kriterien bewertet
+und Make-or-buy-Entscheidung mit klarer Wirtschaftlichkeitsargumentation vertreten
+Ergebnisse und Optimierungsvorschläge regelmässig vor Management und Kunden präsentiert
+
+Intern R&D | Aerodynamics
+KTM F&E | 03/2023 – 09/2023
+BOM-Kriterien für die gesamte F&E vereinheitlicht und interne Teilevarianten reduziert
+Anforderungen an neue Modellplattformen mit Engineering und Vertrieb definiert
+Ablagestruktur der Abteilung neu organisiert und Windkanaldaten strukturiert aufbereitet
+
+SEO Data Analyst
+BPM - POWER | 09/2018 – 06/2019
+Markt- und Nutzerdaten als Basis für strategische Geschäftsentscheidungen analysiert
+Kennzahlenbasiertes Reporting zur Erfolgsmessung und Optimierung aufgebaut
+Keyword-basierte Inhalte und Google-Ads-Kampagnen datengetrieben optimiert
+
+Event Manager
+Croma SRL | 09/2015 – 12/2016
+Events mit ca. 1.000 Gästen und rund 10.000 EUR Budget von A bis Z umgesetzt
+Lieferanten, Budgets und Zeitpläne gesteuert, Stakeholder vor Ort koordiniert
+Kommunikation, Logistik und Nachanalyse zur Verbesserung künftiger Events verantwortet
+
+AUSBILDUNG
+
+Master of Science in Engineering – Innovation & Product Management
+FH Oberösterreich, Campus Wels | 09/2020 – 12/2023
+Vertiefung Entwicklungsprozesse, Schnittstelle Technik–Business, Produktlebenszyklus
+Methoden: BPMN, Wertstromanalyse, FMEA, Ishikawa, 5 Why, PDCA, 8D
+Masterarbeit: Messmethode für Luftdruck und -geschwindigkeit am Kühler (Auszeichnung)
+
+University Collaboration – Business Development
+Schneider AG / Hochschule Heilbronn | 09/2022 – 01/2023
+Projekt-Setup, Kick-off und Lessons Learned mit Industriepartnern moderiert
+Lieferkette mit internen Teams und Key Accounts analysiert, Verbesserungen abgeleitet
+Empfehlungen zu Machbarkeit und Business Impact präsentiert, Partner u. a. Bosch
+
+Bachelor of Science in Business & Management
+Università degli Studi di Torino | 09/2017 – 08/2020
+Bachelorarbeit: Auswirkungen und Anwendungen von Industrie 4.0 auf Smart Cities
+Grundlagen in Unternehmensstrategie, Organisation und operativer Effizienz
+Betriebswirtschaftliche Basis: Operations, Management und Volkswirtschaft
+
+ZERTIFIKATE
+IPMA Level D – Certified Project Management Associate (PMA Austria), gültig bis 05/2027
+Project Manager – SCRUM Certification, Institut für Agile Transformation
+
+PROJEKTE
+Angebotsprozess eines Elektrobetriebs digitalisiert: KI-Angebotsgenerator (in Entwicklung)
+Timelive: persönlicher Datentresor, Inferenzen über ein lokales LLM
+Machbarkeitsstudie Markteintritt Handelsfranchise Österreich; Sprachlern-App-Prototyp
+
+KENNTNISSE
+Prozesse: Analyse, Automatisierung, Standardisierung, KVP, Lean, Problemlösungsmethoden
+Moderation: Workshops, Kick-offs, Präsentationen vor Management und Kunden
+Digital & KI: KI gezielt zur Aufgabenautomatisierung genutzt; Python, SQL, Power BI
+Systeme: SAP (Fiori, Stücklisten), MS Office, MS Project, Trello, Miro, Jira
+Engineering: PTC Creo, Ansys, GT Suite, Matlab, Concerto (Messdatenauswertung)
+
+SPRACHEN
+Italienisch: Muttersprache
+Deutsch: C1 (fliessend)
+Englisch: C1 (fliessend)
+Spanisch: C1 (fliessend)

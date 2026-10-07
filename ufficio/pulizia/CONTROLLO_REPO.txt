@@ -1,0 +1,88 @@
+Controllo repo - 2026-10-05 13:40
+
+=== Langue (C:\Users\campe\Desktop\Langue)
+  ramo attivo: T20-esegui-b
+  modifiche non salvate: 1
+    M PROGETTO.md
+  rami (piu' recenti prima):
+    T20-esegui-b | 2026-10-05 | [agente T20-esegui-b] Realizzazione (modello b)
+    T21-risposta1 | 2026-10-05 | [runner] salvataggio automatico: prima di passare a T20-esegui-b
+    T20-risposta1 | 2026-10-05 | [runner] salvataggio automatico: prima di passare a T21-risposta1
+    T21-critico-a | 2026-10-05 | [runner] salvataggio automatico: prima di passare a T20-risposta1
+    T21-critico-b | 2026-10-05 | [runner] salvataggio automatico: prima di passare a T20-esegui-b
+    T18-risposta2 | 2026-10-05 | [agente T18-risposta2] correzione di T18 dopo la tua risposta
+    T18-risposta1 | 2026-10-05 | [agente T18-risposta1] correzione di T18 dopo la tua risposta
+    T20-esegui-a | 2026-10-05 | [agente T20-esegui-a] Realizzazione (modello a)
+    T19-scelta | 2026-10-05 | [agente T19-scelta] Scelta dell'idea da realizzare
+    T18-idee-c | 2026-10-05 | [agente T18-idee-c] Idee autonome (modello c)
+    T18-idee-b | 2026-10-05 | [agente T18-idee-b] Idee autonome (modello b)
+    T18-idee-a | 2026-10-05 | [agente T18-idee-a] Idee autonome (modello a)
+    T17-prova-gratis | 2026-10-04 | [agente T17-prova-gratis] prova modello gratuito: 10 frasi A1 da riordinare (contenuti/frasi_prova_gratis.json)
+    T16-sito | 2026-10-04 | [agente T16-sito] sito statico di Langue con i tre giochi (web/)
+    T15-dati-web | 2026-10-04 | [agente T15-dati-web] dati per il sito (web/data.js) generati dai contenuti
+    T14-errori2 | 2026-10-04 | [agente T14-errori2] altri 30 errori tipici di italiani (contenuti/errori_2.json)
+    T13-frasi2 | 2026-10-04 | [agente T13-frasi2] altre 50 frasi A1-A2 da riordinare (contenuti/frasi_2.json)
+    T12-parole2 | 2026-10-04 | [agente T12-parole2] altri 100 sostantivi A1-A2 (contenuti/parole_nuove_2.json)
+    T11-revisione | 2026-10-04 | [agente T11-revisione] seconda lettura indipendente di parole, frasi ed errori gia' scritti (T07, T08, T10)
+    T10-errori | 2026-10-04 | [agente T10-errori] 30 errori tipici di italiani che imparano il tedesco
+    T08-frasi | 2026-10-04 | [agente T08-frasi] 50 frasi A1-A2 da riordinare, con traduzione e blocchi
+    T07-parole | 2026-10-04 | [agente T07-parole] 100 nuovi sostantivi A1-A2 con articolo e traduzione
+    T03-conversione | 2026-10-04 | [agente T03-conversione] conversione dei 200 sostantivi nello schema (contenuti/parole.json)
+    T02-schema | 2026-10-04 | [agente T02-schema] schema unico dei contenuti, esempi e SCHEMA.md
+    T01-pulizia | 2026-10-04 | [agente T01-pulizia] pulizia cartella (duplicati e vecchio codice in archivio/, .gitignore corretto)
+    main | 2026-03-25 | Primo caricamento: struttura cartelle e database JSON
+
+=== GTT (C:\Users\campe\Desktop\GTT)
+  ramo attivo: GT12-prossimi-passaggi
+  modifiche non salvate: 1
+    M MEMORIA_PROGETTO.md
+  rami (piu' recenti prima):
+    GT12-prossimi-passaggi | 2026-10-05 | [agente GT12-prossimi-passaggi] Clic su fermata: prossimi passaggi
+    GT13-altre-citta | 2026-10-05 | [runner] salvataggio automatico: prima di passare a GT12-prossimi-passaggi
+    GT05-risposta2 | 2026-10-05 | [agente GT05-risposta2] correzione di GT05 dopo la tua risposta
+    GT05-risposta1 | 2026-10-05 | [agente GT05-risposta1] correzione di GT05 dopo la tua risposta
+    GT04-risposta1 | 2026-10-05 | [agente GT04-risposta1] correzione di GT04 dopo la tua risposta
+    GT11-orari-fermate | 2026-10-05 | [agente GT11-orari-fermate] File con gli orari programmati di ogni fermata
+    GT09-qualita | 2026-10-05 | [agente GT09-qualita] Analisi qualita' dei dati raccolti
+    GT08-griglia-scala | 2026-10-05 | [agente GT08-griglia-scala] griglia grigio chiaro adattiva allo zoom + barra della scala
+    GT07-clic-fermate | 2026-10-05 | [agente GT07-clic-fermate] scheda al clic per sezioni/zone (niente riquadro al passaggio) + fermate piu' piccole azzu
+    GT06-pannello | 2026-10-05 | [agente GT06-pannello] pannello piu' chiaro: riga "Quando", tema a discesa, legenda dentro il pannello, sezione Info
+    GT05-pendolari | 2026-10-04 | [agente GT05-pendolari] tema Pendolari ISTAT 2021 (comune verso comune, lavoro e studio)
+    GT04-velocita | 2026-10-04 | [agente GT04-velocita] velocita' commerciale MISURATA dei mezzi GTT per linea e ora (dallo storico)
+    GT02-temi | 2026-10-04 | [agente GT02-temi] temi esclusivi (un solo colore d'area alla volta) + sovrapposizioni + legenda per tema
+    GT01-sfondi | 2026-10-04 | [agente GT01-sfondi] sfondi della mappa senza OpenStreetMap (bloccato da file://) + intensita' dello sfondo
+    main | 2026-10-04 | Stato iniziale GTT (prima degli agenti)
+
+=== Timelive (C:\Users\campe\Desktop\timelive_repo)
+  ramo attivo: TL01-risposta6
+  modifiche non salvate: 0
+  rami (piu' recenti prima):
+    TL01-risposta6 | 2026-10-05 | [agente TL01-risposta6] correzione di TL01 dopo la tua risposta
+    TL01-risposta5 | 2026-10-05 | [agente TL01-risposta5] correzione di TL01 dopo la tua risposta
+    TL01-risposta4 | 2026-10-05 | [agente TL01-risposta4] correzione di TL01 dopo la tua risposta
+    TL01-risposta3 | 2026-10-05 | [agente TL01-risposta3] correzione di TL01 dopo la tua risposta
+    TL01-risposta2 | 2026-10-05 | [agente TL01-risposta2] correzione di TL01 dopo la tua risposta
+    TL01-risposta1 | 2026-10-05 | [agente TL01-risposta1] correzione di TL01 dopo la tua risposta
+    TL01-progetto-b | 2026-10-05 | [agente TL01-progetto-b] Progetto bridge v2 (versione B)
+    TL05-log-ollama | 2026-10-05 | [agente TL05-log-ollama] Registrare prompt_eval in llm_bridge
+    TL04-test-v2 | 2026-10-05 | [agente TL04-test-v2] Test per router e policy
+    TL03-policy | 2026-10-05 | [agente TL03-policy] Politica online/offline (nuovo file)
+    TL02-router | 2026-10-05 | [agente TL02-router] Router di tabelle (nuovo file)
+    TL01-progetto-a | 2026-10-05 | [agente TL01-progetto-a] Progetto bridge v2 (versione A)
+    main | 2026-10-01 | Export iniziale: codice, test, docs (senza dati personali)
+
+=== Preventivi (C:\Users\campe\Desktop\Projects\Preventivi_Gigi)
+  ramo attivo: PV02-generatore
+  modifiche non salvate: 1
+    M PROGETTO.md
+  rami (piu' recenti prima):
+    PV02-generatore | 2026-10-05 | [agente PV02-generatore] Generatore di preventivi piu' chiaro
+    PV03-istruzioni | 2026-10-05 | [runner] salvataggio automatico: prima di passare a PV02-generatore
+    PV01-ispeziona | 2026-10-05 | [agente PV01-ispeziona] Ispeziona il modello Word e installa gli strumenti
+    main | 2026-10-05 | Stato iniziale (prima degli agenti)
+
+=== Prove di compilazione (lettura dal ramo, senza cambiare ramo)
+  Timelive TL05-log-ollama:code/llm_bridge.py -> OK, si compila (1275 righe)
+    ultimo commit del ramo:  agenti/TL05-log-ollama/VALIDATORE.md | 11 ++++++++++ /  code/llm_bridge.py                   | 10 ++++++++- /  6 files changed, 85 insertions(+), 1 deletion(-)
+  Preventivi PV02-generatore:strumenti/genera_preventivo.py -> OK, si compila (163 righe)
+    ultimo commit del ramo:  agenti/PV02-generatore/VALIDATORE.md |  11 +-- /  strumenti/genera_preventivo.py       |  17 ++++- /  6 files changed, 62 insertions(+), 125 deletions(-)

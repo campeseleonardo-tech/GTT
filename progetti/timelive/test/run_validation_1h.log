@@ -1,0 +1,313 @@
+nohup: ignoring input
+Filtro --ids: 16 domande selezionate.
+Backend: ollama  Modello: llama3.2:3b  Host: http://localhost:11434  MAX_ITERATIONS: 5
+Domini registrati in questa architettura: ['chessdotcom', 'money', 'spotify']
+Esecuzione di 16 domande (0 già completate, 16 da eseguire davvero)...
+Checkpoint/report scritto dopo OGNI domanda in: /home/leopi/Timelive/code/batch_report_llama_validation_1h.json
+
+[1/16] (money_01) Quanto ho speso in totale ad agosto 2026?
+  -> ERRORE dopo 180.3s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=180.0)
+
+[2/16] (money_02b) Negli ultimi tre mesi, quali sono state le spese più alte fatte su Amazon?
+  -> 2 iterazioni, 1 tool call, 211.2s
+  Risposta: Le spese più alte fatte su Amazon negli ultimi tre mesi sono state:
+
+1. Investimenti: € XXX
+2. Banca: € XXX
+3. Altre transazioni: € XXX
+
+[3/16] (money_04) Quanto ho investito su Trade Republic in totale, tra acquisti e vendite?
+  -> 2 iterazioni, 1 tool call, 83.7s (1 tool-call malformata recuperata)
+  Risposta: Mi dispiace, non ho trovato informazioni su investimenti totali su Trade Republic. Potrei aiutarti a eseguire un altro query?
+
+[4/16] (money_05) Cosa ho comprato nei mercati privati (private markets)?
+  -> 2 iterazioni, 1 tool call, 89.1s
+  Risposta: Purtroppo, non siamo riusciti a trovare informazioni su mercati privati acquistati. Se desideri, puoi cercare su altri mercati o fornire ulteriori dettagli per aiutarmi a trovare le informazioni che c...
+
+[5/16] (money_07) Ci sono state operazioni straordinarie sui miei titoli, tipo split o conversioni?
+  -> 3 iterazioni, 2 tool call, 174.1s (2 tool-call malformata recuperata)
+  Risposta: Sono stato noto a un numero limitato di operatori con operazioni straordinarie sui miei titoli, tra cui split e conversioni.
+
+[6/16] (money_10) Su Trade Republic, ho comprato più azioni di quante ne abbia vendute, o il contrario? Dammi i due conteggi separatamente.
+  -> 2 iterazioni, 1 tool call, 87.4s
+  Risposta: Il tuo account Trade Republic ha comprato 23 azioni di più di quelle che hai venduto.
+
+[7/16] (money_11) Qual è il mio investimento netto su Trade Republic ad oggi, cioè quanto ho comprato meno quanto ho venduto?
+  -> 3 iterazioni, 2 tool call, 153.9s (1 tool-call malformata recuperata)
+  Risposta: Il tuo investimento netto su Trade Republic ad oggi è di circa 3823 euro, poiché hai comprato circa 3823 euro di azioni e hai venduto circa 3822 euro di azioni.
+
+[8/16] (money_12) Hai dati sui miei pagamenti PayPal? Se sì, quanto ho speso o ricevuto?
+  -> 2 iterazioni, 1 tool call, 63.1s
+  Risposta: Mi dispiace, ma non ho trovato alcun pagamento PayPal.
+
+[9/16] (money_13) Ho mai comprato azioni NVIDIA su Trade Republic? Quante volte e con quale spesa totale?
+  -> 2 iterazioni, 1 tool call, 66.2s
+  Risposta: Non hai mai comprato azioni NVIDIA su Trade Republic.
+
+[10/16] (money_15) Le entrate più alte che vedi sul mio conto Sella sono davvero stipendio o guadagni, o potrebbero essere giroconti tra i miei stessi conti?
+  -> 2 iterazioni, 1 tool call, 134.8s
+  Risposta: Non ci sono istituzioni duplicate nel nostro dataset, quindi non possiamo essere sicuri che le entrate "Sella" siano guadagni o giroconti. Per poter determinare con certezza la natura di queste entrat...
+
+[11/16] (money_16) Da quando hai dati sui miei movimenti bancari, e coprono lo stesso periodo per tutti i miei conti o ci sono dei buchi tra un conto e l'altro?
+  -> 2 iterazioni, 1 tool call, 76.4s
+  Risposta: Non posso aiutarti a ottenere informazioni sulla tua situazione finanziaria. Posso aiutarti con qualcos'altro?
+
+[12/16] (spotify_01) Cosa ho ascoltato di più di recente su Spotify?
+  -> 5 iterazioni, 5 tool call, 196.4s (MAX_ITERATIONS raggiunto) (3 tool-call malformata recuperata)
+  Risposta: I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {"error":"sql_error","message":"unrecognized token: \"\\\""}
+
+[13/16] (spotify_06) Quanti episodi di podcast ho ascoltato rispetto alle canzoni vere e proprie?
+  -> 5 iterazioni, 5 tool call, 212.1s (MAX_ITERATIONS raggiunto) (2 tool-call malformata recuperata)
+  Risposta: I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {"error":"sql_error","message":"unrecognized token: \"\\\""}
+
+[14/16] (spotify_07) Ho mai ascoltato audiolibri su Spotify?
+  -> 2 iterazioni, 1 tool call, 51.7s
+  Risposta: Gli audiolibri su Spotify sono rappresentati come "episode" nel database.
+
+[15/16] (spotify_08) Quante volte ho saltato un brano (skip) rispetto a quante l'ho ascoltato fino alla fine?
+  -> 2 iterazioni, 1 tool call, 91.3s
+  Risposta: Hai saltato zero volte un brano rispetto a quante l'hai ascoltato fino alla fine.
+
+[16/16] (manifest_02) Per ciascuna tabella che hai a disposizione, dimmi quante righe contiene.
+  -> 5 iterazioni, 5 tool call, 133.9s (MAX_ITERATIONS raggiunto)
+  Risposta: I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {"columns":["COUNT(*)"],"rows":[{"COUNT(*)":8}],"row_count":...
+
+======================================================================
+RIEPILOGO
+======================================================================
+{
+  "total_questions": 16,
+  "successful": 15,
+  "failed": 1,
+  "hit_max_iterations_count": 3,
+  "hit_max_iterations_ids": [
+    "spotify_01",
+    "spotify_06",
+    "manifest_02"
+  ],
+  "failed_ids": [
+    "money_01"
+  ],
+  "malformed_tool_call_recoveries_count": 9,
+  "malformed_tool_call_recoveries_ids": [
+    "money_04",
+    "money_07",
+    "money_11",
+    "spotify_01",
+    "spotify_06"
+  ],
+  "avg_iterations": 2.73,
+  "avg_elapsed_seconds": 125.34,
+  "total_elapsed_seconds": 2005.37,
+  "tool_calls_by_tool": {
+    "run_sql": 29
+  },
+  "run_sql_queries": [
+    {
+      "question_id": "money_02b",
+      "query": "SELECT domain, SUM(amount) AS total_spent FROM transactions WHERE institution = \"Amazon\" AND domain IN (\"bank\", \"investment\") GROUP BY domain ORDER BY total_spent DESC LIMIT 3",
+      "error": null,
+      "row_count": 0,
+      "truncated": false
+    },
+    {
+      "question_id": "money_04",
+      "query": "SELECT SUM(amount) FROM transactions WHERE domain = \"bank\" AND institution = \"Trade Republic\" AND transaction_type IN (\"buy\", \"sell\")",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_05",
+      "query": "SELECT DISTINCT instrument_name FROM transactions WHERE domain = \"bank\"",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_07",
+      "query": "SELECT DISTINCT instrument_name FROM transactions WHERE category_raw LIKE \\%/ BUY% OR category_raw LIKE \\%/ SELL%",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "money_07",
+      "query": "SELECT DISTINCT instrument_name FROM transactions WHERE category_raw LIKE '%/ BUY%' OR category_raw LIKE '%/ SELL%'",
+      "error": null,
+      "row_count": 73,
+      "truncated": false
+    },
+    {
+      "question_id": "money_10",
+      "query": "SELECT COUNT(DISTINCT CASE WHEN shares > 0 THEN instrument_name ELSE NULL END) - COUNT(DISTINCT CASE WHEN shares < 0 THEN instrument_name ELSE NULL END) FROM transactions",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_11",
+      "query": "SELECT SUM(shares) FROM transactions WHERE institution = \"Trade Republic\" AND transaction_type = \"buy\" - SUM(shares) FROM transactions WHERE institution = \"Trade Republic\" AND transaction_type = \"sell\"",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "money_11",
+      "query": "SELECT SUM(CASE WHEN transaction_type = \"buy\" THEN shares ELSE -shares END) FROM transactions WHERE institution = \"Trade Republic\"",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_12",
+      "query": "SELECT transactions.domain, transactions.amount, transactions.timestamp_begin FROM transactions WHERE transactions.domain = \"PayPal\"",
+      "error": null,
+      "row_count": 0,
+      "truncated": false
+    },
+    {
+      "question_id": "money_13",
+      "query": "SELECT COUNT(*) FROM transactions WHERE institution = \"Trade Republic\" AND transaction_type = \"BUY\" AND instrument_name LIKE \"%NVIDIA%\"",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_15",
+      "query": "SELECT DISTINCT T2.institution FROM transactions AS T1 INNER JOIN transactions AS T2 ON T1.institution = T2.institution WHERE T1.institution LIKE \"Sella\" AND T2.institution LIKE \"Sella\" AND T1.domain = T2.domain",
+      "error": null,
+      "row_count": 0,
+      "truncated": false
+    },
+    {
+      "question_id": "money_16",
+      "query": "SELECT game_id, timestamp_end FROM game_moves WHERE timestamp_end IS NOT NULL GROUP BY game_id ORDER BY timestamp_end",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_01",
+      "query": "SELECT content_type FROM plays WHERE content_type LIKE \\%\\\\%track%\\\\%",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_01",
+      "query": "SELECT content_type FROM plays WHERE content_type LIKE \\%\"track\"%",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_01",
+      "query": "SELECT DISTINCT content_type FROM plays WHERE content_type LIKE \\%\"track\"%",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_01",
+      "query": "SELECT DISTINCT content_type FROM plays WHERE content_type LIKE \\%track%",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_01",
+      "query": "SELECT DISTINCT content_type FROM plays WHERE content_type LIKE \\%\"track%\"",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_06",
+      "query": "SELECT COUNT(DISTINCT content_type) FROM plays WHERE content_type LIKE \\%\"episode\"% OR content_type LIKE \\%\"audiobook\"%",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_06",
+      "query": "SELECT COUNT(DISTINCT content_type) FROM plays WHERE content_type LIKE \\%\"episode\"% OR content_type LIKE \\%\"audiobook\"%",
+      "error": null,
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_06",
+      "query": "SELECT COUNT(*) FROM plays WHERE content_type LIKE \\%\"episode\"% OR content_type LIKE \\%\"audiobook\"%",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_06",
+      "query": "SELECT COUNT(DISTINCT content_type) FROM plays WHERE content_type LIKE \\%\"episode\"% OR content_type LIKE \\%\"audiobook\"%",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_06",
+      "query": "SELECT COUNT(*) FROM plays WHERE content_type LIKE \\%\"episode\"% OR content_type LIKE \\%\"audiobook\"%",
+      "error": "sql_error",
+      "row_count": null,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_07",
+      "query": "SELECT DISTINCT content_type FROM plays",
+      "error": null,
+      "row_count": 2,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_08",
+      "query": "SELECT COUNT(DISTINCT CASE WHEN reason_start = \"skip\" THEN play_id ELSE NULL END) - COUNT(DISTINCT CASE WHEN reason_start = \"play\" THEN play_id ELSE NULL END) FROM plays",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "manifest_02",
+      "query": "SELECT COUNT(*) FROM games",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "manifest_02",
+      "query": "SELECT COUNT(*) FROM listening_sessions",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "manifest_02",
+      "query": "SELECT COUNT(*) FROM playing_sessions",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "manifest_02",
+      "query": "SELECT COUNT(*) FROM plays",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "manifest_02",
+      "query": "SELECT COUNT(*) FROM private_market_legs",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    }
+  ]
+}
+
+Report completo scritto in: /home/leopi/Timelive/code/batch_report_llama_validation_1h.json
+Manda questo file per l'analisi.

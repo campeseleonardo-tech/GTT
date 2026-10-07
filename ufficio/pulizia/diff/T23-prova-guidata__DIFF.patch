@@ -1,0 +1,158 @@
+diff --git a/docs/PROVA_SITO.md b/docs/PROVA_SITO.md
+new file mode 100644
+index 0000000..ae2952a
+--- /dev/null
++++ b/docs/PROVA_SITO.md
+@@ -0,0 +1,152 @@
++# Prova guidata del sito – Langue (circa 10 minuti)
++
++**Per chi:** Leo, con Chrome.
++**Cosa serve:** la cartella `web/` (con `index.html` dentro). Non serve internet e non serve programmare.
++**Come aprire:** tasto destro su `web/index.html` → *Apri con* → *Google Chrome* (oppure trascina il file dentro una finestra di Chrome).
++**Legenda dei risultati:**
++- `- [ ] ok` = è andata come scritto;
++- `- [ ] non va` = era diverso: nello **spazio Nota** scrivi esattamente cosa hai visto e il numero del passo;
++- "da verificare" = passo in cui l'agente non poteva essere al 100% (non ha i file dei contenuti): leggi con cura e annota quello che vedi.
++
++---
++
++## Passo 1 – Il sito si apre (30 secondi)
++Cosa fare: apri la pagina come spiegato sopra.
++Cosa dovresti vedere:
++- In alto a sinistra "Langue" e il titolo "Impara il tedesco, un po' alla volta".
++- **Nessuna** scritta gialla "Non trovo i contenuti (il file data.js)". Se appare, fermati qui: è il problema più importante da segnalarci (il file `data.js` è mancante o non si carica).
++- La scritta gialla "Il browser non permette di salvare i progressi" non dovrebbe comparire; se compare, annotala (in locale non è normale; il passo 7 non funzionerebbe).
++
++- [ ] ok
++- [ ] non va
++Nota: ______________________________________
++
++## Passo 2 – La home (1 minuto)
++Cosa dovresti vedere senza cliccare nulla:
++- Selettore "Livello" con A1, A2 e Tutti; "Tutti" è quello selezionato.
++- Quattro riquadri: "Der, die o das?", "Rimetti in ordine", "Trova l'errore", "Ripasso".
++- Sotto i primi tre: un conteggio tipo "N parole disponibili" / "N frasi disponibili" / "N errori disponibili" e la riga "Giuste: 0 · Sbagliate: 0 · Serie migliore: 0".
++- Il riquadro "Ripasso": "Nessun errore da ripassare", grigio e non cliccabile.
++- In fondo, sotto "I tuoi progressi": "Non hai ancora risposto a nulla: scegli un gioco e inizia!".
++- Se vedi già dei numeri (avevi già giocato con questo Chrome): clicca "Azzera i progressi" e conferma con OK per ripartire da zero (il tasto non cancella gli errori da ripassare: vedi passo 9).
++
++- [ ] ok
++- [ ] non va
++Nota: ______________________________________
++
++## Passo 3 – Il selettore "Livello" (30 secondi)
++Cosa fare: clicca **A1**, guarda i numeri; poi clicca di nuovo **Tutti**.
++Cosa dovresti vedere: i conteggi sulle schede cambiano (a A1 possono scendere, o la scheda diventa grigia con "Nessun contenuto per questo livello"); tornando a Tutti tornano i numeri totali.
++(da verificare: i contenuti di `data.js` non mi sono stati forniti, quindi non so quanti elementi ci siano per livello: annota solo i numeri che vedi → A1: ___ · Tutti: ___)
++
++- [ ] ok
++- [ ] non va
++Nota: ______________________________________
++
++## Passo 4 – Gioco "Der, die o das?" (2 minuti)
++Cosa fare: clicca la scheda "Der, die o das?". Rispondi almeno due volte: una a caso, e una **sbagliando di proposito** (sai il tedesco: per la seconda scegli un articolo che non lo è).
++Cosa dovresti vedere:
++- Titolo "Der, die o das?" e in alto la barra "Serie: 0 · Record: 0".
++- La parola tedesca grande, sotto tre bottoni: der, die, das.
++- Se rispondi **giusto**: il bottone giusto diventa verde con "✓" davanti, messaggio verde "Giusto!" + la parola con l'articolo + "In italiano: …", e compare il bottone "Avanti →" già selezionato; "Serie" sale di 1.
++- Se rispondi **sbagliato**: il tuo bottone diventa rosso con "✗", quello giusto resta verde con "✓", messaggio rosso "Non proprio." + soluzione + traduzione; "Serie" torna a 0.
++- "Avanti →" porta a una parola nuova; appena hai risposto i tre bottoni si "spengono" (non puoi rispondere due volte).
++- Lo sbaglio fatto di proposito verrà chiesto di nuovo nel ripasso (passo 8).
++
++- [ ] ok
++- [ ] non va
++Nota: ______________________________________
++
++## Passo 5 – Gioco "Rimetti in ordine" (2 minuti)
++Cosa fare: "← Torna alla home" → scheda "Rimetti in ordine". Poi:
++1. Clicca **Controlla** subito, senza toccare nessun blocco → messaggio "Usa tutti i blocchi prima di controllare." (non conta come errore).
++2. Metti i blocchi in modo che l'ordine sbagliato di almeno due blocchi: clicca **Controlla** → messaggio rosso "Non è ancora giusto: riprova, oppure guarda la soluzione.". I blocchi restano dove li hai messi.
++3. Sistemali (tocca i blocchi in alto per toglierli, quelli in basso per rimetterli) e di nuovo **Controlla** → "Giusto!" + frase completa + traduzione + "Avanti →".
++4. (Facoltativo) con "Avanti →", su una frase nuova, clicca subito **Mostra la soluzione**: vedi "Una soluzione possibile:" + frase + "Avanti →". Conta come **una risposta sbagliata** e crea un ripasso: tienilo conto per il passo 8.
++
++Cosa dovresti vedere inoltre: "Suggerimento: …" con il significato in italiano; sotto, i blocchi tedeschi; sopra, il riquadro tratteggiato "La tua frase comparirà qui".
++
++- [ ] ok
++- [ ] non va
++Nota: ______________________________________
++
++## Passo 6 – Gioco "Trova l'errore" (1 minuto)
++Cosa fare: "← Torna alla home" → scheda "Trova l'errore". Rispondi almeno due volte: una giusta e una **sbagliando di proposito**.
++Cosa dovresti vedere:
++- Titolo "Trova l'errore", domanda "Quale frase è scritta correttamente?" e due frasi tedesche.
++- Se scegli la **giusta**: "✓" verde sulla tua, "Giusto!", "Frase corretta: …" + spiegazione in italiano.
++- Se **sbagli**: "✗" rosso sulla tua, "✓" verde sul testo giusto, "Non proprio." + frase corretta + spiegazione in italiano.
++- "Avanti →" porta a una nuova coppia (il ordine delle due frasi è rimescolato).
++
++- [ ] ok
++- [ ] non va
++Nota: ______________________________________
++
++## Passo 7 – Ricarica la pagina (F5): i numeri devono restare (30 secondi)
++Cosa fare: premi **F5** (oppure Ctrl+R).
++Cosa dovresti vedere:
++- Sotto "I tuoi progressi": "Risposte giuste: X su Y (Z%) · Serie migliore: W" con i tuoi numeri → annota: X = ___ · Y = ___.
++- Le righe "Giuste/Sbagliate" di ogni scheda sono come prima (sommando le tre schede ritrovi X e Y).
++- La scheda "Ripasso" è adesso attiva: "N errori da ripassare", dove N = numero di risposte **diverse** sbagliate nei passi 4–6 (se hai sbagliato due volte la stessa parola conta una sola) → annota: N = ___. Sotto c'è un dettaglio tipo "articoli: 1 · frasi: 1 · errori: 1".
++- Se N = 0 (non hai sbagliato nulla): rifai il passo 4 sbagliando di proposito e torna qui a ricontare.
++
++- [ ] ok
++- [ ] non va
++Nota: ______________________________________
++
++## Passo 8 – "Ripasso": l'errore che torna e poi scompare (3 minuti)
++Cosa fare:
++1. Clicca "Ripasso" → si apre il sottomenu "Scegli cosa ripassare" con 3 riquadri (uno per gioco) e il bottone "Chiudi". Prova "Chiudi" (il sottomenu sparisce) e riapri.
++2. Scegli il riquadro più facile tra quelli attivi (suggerimento: "Ripasso Errori" o "Ripasso Articoli": si risponde con un solo click). I giochi senza errori sono grigi.
++3. Alla prima domanda: rispondi **sbagliando di proposito** → in rosso "Non proprio." (oppure, per le frasi, "Non è ancora giusto: riprova, oppure guarda la soluzione."). "Avanti →".
++4. La domanda sbagliata torna (se non era l'unica va in fondo alla fila, altrimenti arriva subito dopo): rispondi **giusto** → "Giusto!" e nella barra in alto "Rimasti" scende di 1.
++5.Continua rispondendo giusto a tutte: dopo l'ultima, "Avanti →" riporta **alla home**.
++
++Cosa dovresti vedere:
++- Titolo "Ripasso — Errori / Frasi / Articoli"; barra "Ripasso — Serie: n · Rimasti: m".
++- "Rimasti" scende di 1 a ogni risposta giusta; le risposte del ripasso entrano anche nei contatori "Giuste/Sbagliate".
++- Tornato in home: se hai chiuso tutte le liste, "Ripasso" torna grigio con "Nessun errore da ripassare" (se ne hai lasciate aperte, il contatore mostra quelli rimasti).
++
++- [ ] ok
++- [ ] non va
++Nota: ______________________________________
++
++## Passo 9 – "Azzera i progressi" (30 secondi)
++Cosa fare: clicca "Azzera i progressi". Nella finestrella di conferma premi prima **Annulla** (non deve succedere niente), poi di nuovo "Azzera i progressi" e **OK**.
++Cosa dovresti vedere:
++- Tutti i contatori dei tre giochi e "I tuoi progressi" tornano a zero ("Non hai ancora risposto a nulla…"). Il livello (A1/A2/Tutti) resta quello che avevi scelto.
++- Da annotare (non è un errore): questo pulsante **non** svuota la lista del ripasso: gli errori da ripassare restano così com'erano. Se non te lo aspettavi, scrivilo nel Nota (è la domanda 2 in DOMANDE.md).
++
++- [ ] ok
++- [ ] non va
++Nota: ______________________________________
++
++## Passo 10 – "Obiettivo giornaliero" — da verificare (30 secondi)
++Cosa fare: guarda tutta la home e cerca qualcosa tipo "Oggi: 0/5" o "Obiettivo: 5".
++Cosa aspettarsi: **secondo il codice che l'agente ha letto (web/app.js e web/index.html) questa funzione non è presente in questa versione**, quindi è atteso che non la trovi.
++- Non la vedi → spunta la prima casella e scrivi "assente, come atteso".
++- La vedi (o ti era stato detto che fosse già attiva) → spunta "non va" e descrivi esattamente com'è scritta e cosa fa: serve un controllo a parte.
++
++- [ ] ok – assente, come atteso
++- [ ] non va
++Nota: ______________________________________
++
++## Passo 11 – Gli errori in rosso: come recuperarli (1 minuto)
++Cosa fare:
++1. Premi **F12** (oppure tasto destro sulla pagina → "Ispeziona"): si apre un pannello. Nella sua barra in alto clicca la scheda **Console**.
++2. Clicca l'icona della **spazzola** (🧹) in cima alla console per svuotarla, così vedi solo i messaggi nuovi.
++3. Rifai il passo in cui qualcosa "non va". Se compaiono righe **rosse** (di solito iniziano con "Uncaught … Error"), fermati.
++4. Copiale: tasto destro sulla riga rossa → "Copy message" (oppure seleziona il testo e Ctrl+C).
++5. Inviaci il messaggio **esatto** + il numero del passo + una riga su cosa stavi facendo. Se ci sono più errori, manda il primo.
++
++Utile (facoltativo): per ricominciare la prova da zero in assoluto (progressi **e** errori da ripassare), digita nella console `localStorage.clear()` + Invio, poi F5.
++
++- [ ] nessun errore rosso
++- [ ] c'era un errore (inviato / da inviare)
++Nota: ______________________________________
++
++---
++
++**Fine della prova.** Inviaci: le caselle "non va" con le note, i numeri annotati nei passi "da verificare" e, se ci sono, gli errori rossi del passo 11.
++
++> Documento creato da: agente T23-prova-guidata · Stato: bozza · dati dalla lettura dei file web/ in data 05/10/2026

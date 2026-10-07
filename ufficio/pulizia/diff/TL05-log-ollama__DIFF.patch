@@ -1,0 +1,42 @@
+diff --git a/code/llm_bridge.py b/code/llm_bridge.py
+index df62d42..e849e87 100644
+--- a/code/llm_bridge.py
++++ b/code/llm_bridge.py
+@@ -576,6 +576,8 @@ class AssistantTurn:
+     """One model turn: either a final answer, or one or more tool calls."""
+     content: Optional[str] = None
+     tool_calls: List[ToolCall] = field(default_factory=list)
++    ollama_prompt_eval_count: Optional[int] = None  # [agente TL05]
++    ollama_prompt_eval_duration: Optional[float] = None  # [agente TL05]
+ 
+     @property
+     def is_final(self) -> bool:
+@@ -684,7 +686,10 @@ class OllamaClient(LLMClient):
+                     "[risposta finale mancante — riportato il ragionamento "
+                     "grezzo del modello, non verificato: " + thinking.strip() + "]"
+                 )
+-        return AssistantTurn(content=content, tool_calls=tool_calls)
++        turn = AssistantTurn(content=content, tool_calls=tool_calls)
++        turn.ollama_prompt_eval_count = payload.get("prompt_eval_count")  # [agente TL05]
++        turn.ollama_prompt_eval_duration = payload.get("prompt_eval_duration")  # [agente TL05>
++        return turn
+ 
+ 
+ def _coerce_arguments(arguments: Any) -> Dict[str, Any]:
+@@ -985,6 +990,8 @@ class QueryResult:
+     # model/backend needs this crutch, worth watching per-model in batch
+     # reports rather than silently absorbing it.
+     malformed_tool_call_recoveries: int = 0
++    # Ollama metrics per iteration: list of dicts with keys 'prompt_eval_count' and 'prompt_eval_duration'
++    ollama_metrics: List[Dict[str, Optional[Union[int, float]]]] = field(default_factory=list)  # [agente TL05]
+ 
+ 
+ def _canonical_call(name: str, arguments: Dict[str, Any]) -> Tuple[str, str]:
+@@ -1133,6 +1140,7 @@ def run_query(
+     # A run_sql call referencing a table not in this set is intercepted
+     # below instead of being sent to SQLite.
+     described_tables: set[str] = set()
++    ollama_metrics_list: List[Dict[str, Optional[Union[int, float]]]] = []  # [agente TL05]
+ 
+     for iteration in range(1, max_iterations + 1):
+         is_last_allowed_iteration = iteration == max_iterations

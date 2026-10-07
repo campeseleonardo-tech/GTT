@@ -1,0 +1,8 @@
+- 2026-10-05 02:41 | TL01-progetto-a | done | ramo TL01-progetto-a | 2 file | costo listino 0.000 USD | Progetto bridge v2 (versione A)
+- 2026-10-05 03:29 | TL01-progetto-b | blocked | ramo TL01-progetto-b | 4 file | costo listino 0.000 USD | Progetto bridge v2 (versione B)
+- 2026-10-05 03:33 | TL02-router | done | ramo TL02-router | 4 file | costo listino 0.000 USD | Router di tabelle (nuovo file)
+- 2026-10-05 03:36 | TL03-policy | done | ramo TL03-policy | 5 file | costo listino 0.000 USD | Politica online/offline (nuovo file)
+- 2026-10-05 03:57 | TL04-test-v2 | done | ramo TL04-test-v2 | 4 file | costo listino 0.000 USD | Test per router e policy
+- 2026-10-05 13:51 | TL06-log-ollama | failed | ramo TL06-log-ollama | 0 file | costo listino 0.000 USD | Registrare prompt_eval in llm_bridge (rifatta)
+- 2026-10-05 13:55 | TL06-log-ollama | done | ramo TL06-log-ollama | 4 file | costo listino 0.000 USD | Registrare prompt_eval in llm_bridge (rifatta)
+- 2026-10-05 13:59 | TL06-risposta1 | done | ramo TL06-risposta1 | 2 file | costo listino 0.000 USD | correzione di TL06 dopo la tua risposta

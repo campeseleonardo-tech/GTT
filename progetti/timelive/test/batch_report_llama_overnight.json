@@ -1,0 +1,2252 @@
+{
+  "generated_at": "2026-09-16T08:13:02.942738+00:00",
+  "status": "completed",
+  "backend": "ollama",
+  "model": "llama3.2:3b",
+  "host": "http://localhost:11434",
+  "max_iterations": 8,
+  "registered_domains": [
+    "chessdotcom",
+    "instagram",
+    "money",
+    "spotify"
+  ],
+  "batch_elapsed_seconds": 2380.67,
+  "summary": {
+    "total_questions": 20,
+    "successful": 20,
+    "failed": 0,
+    "hit_max_iterations_count": 11,
+    "hit_max_iterations_ids": [
+      "manifest_01",
+      "money_13",
+      "money_15",
+      "spotify_01",
+      "spotify_08",
+      "chess_01",
+      "chess_10",
+      "instagram_02",
+      "instagram_04",
+      "instagram_07",
+      "adversarial_01"
+    ],
+    "failed_ids": [],
+    "malformed_tool_call_recoveries_count": 16,
+    "malformed_tool_call_recoveries_ids": [
+      "manifest_01",
+      "money_01",
+      "money_04",
+      "money_13",
+      "money_15",
+      "spotify_01",
+      "spotify_08",
+      "spotify_12",
+      "chess_01",
+      "chess_10",
+      "instagram_01",
+      "instagram_02",
+      "instagram_04",
+      "instagram_06",
+      "instagram_07",
+      "adversarial_01"
+    ],
+    "avg_iterations": 6.1,
+    "avg_elapsed_seconds": 119.03,
+    "total_elapsed_seconds": 2380.6,
+    "tool_calls_by_tool": {
+      "run_sql": 28,
+      "describe_table": 85,
+      "list_tables": 1
+    },
+    "run_sql_queries": [
+      {
+        "question_id": "manifest_01",
+        "query": "SELECT timestamp_end FROM games WHERE timestamp_begin LIKE \"%2023-01-01%\"",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "money_01",
+        "query": "SELECT SUM(amount) FROM transactions WHERE timestamp_begin LIKE \"2026-08%\"",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "money_01",
+        "query": "SELECT SUM(amount) FROM transactions WHERE timestamp_begin LIKE \"2026-08%\"",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "money_04",
+        "query": "SELECT SUM(amount) FROM transactions WHERE category = \"investments\" AND transaction_type = \"buy\"",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "money_04",
+        "query": "SELECT SUM(amount) FROM transactions WHERE category = \"investments\" AND transaction_type = \"buy\"",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      },
+      {
+        "question_id": "money_13",
+        "query": "SELECT COUNT(DISTINCT transaction_id) , SUM(amount) FROM transactions WHERE category_raw = \"Actions NVIDIA\"",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "money_15",
+        "query": "SELECT MAX(duration_seconds) FROM transactions WHERE transaction_type = \"Giroconto\"",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "spotify_01",
+        "query": "SELECT content_text FROM instagram_likes WHERE content_kind = \"track\" LIMIT 100",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "spotify_06",
+        "query": "SELECT COUNT(DISTINCT media_type) FROM plays WHERE media_type = \"podcast\"",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "spotify_08",
+        "query": "SELECT SUM(CASE WHEN ply_number > 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN ply_number = 0 THEN 1 ELSE 0 END) AS diff FROM game_moves",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "spotify_12",
+        "query": "SELECT track_name, artist_name, SUM(offline) AS total_offline FROM plays GROUP BY track_name, artist_name ORDER BY total_offline DESC LIMIT 5",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "spotify_12",
+        "query": "SELECT track_name, artist_name, SUM(offline) AS total_offline FROM plays GROUP BY track_name, artist_name ORDER BY total_offline DESC LIMIT 5",
+        "error": null,
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "chess_01",
+        "query": "SELECT user_rating, opponent_rating, rating_diff FROM games WHERE result_for_user = \"win\" AND timestamp_end IS NOT NULL ORDER BY timestamp_end DESC LIMIT 1",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "chess_01",
+        "query": "SELECT user_rating, opponent_rating, rating_diff FROM games WHERE result_for_user = \"win\" AND timestamp_end IS NOT NULL ORDER BY timestamp_end DESC LIMIT 1",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "chess_09",
+        "query": "SELECT user_rating, opponent_rating, rating_diff, result_for_user, result_raw, is_upset, ply_count, white, black, user_side, user_username, opponent_username, base_time_seconds, increment_seconds, time_class, source, time_control_raw, duration_seconds, duration_confidence_rate, timestamp_begin, timestamp_end, win_method, termination_raw, ply_count, opening_signature, session_id, notability_score, source_file FROM games WHERE user_username = ? AND opponent_username = ?",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "chess_10",
+        "query": "SELECT game_id, SUM(CASE WHEN time_class = \"blitz\" THEN 1 ELSE 0 END) AS blitz_games, SUM(CASE WHEN time_class = \"normal\" THEN 1 ELSE 0 END) AS normal_games FROM games GROUP BY game_id",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "chess_10",
+        "query": "SELECT game_id, SUM(CASE WHEN time_class = \"blitz\" THEN 1 ELSE 0 END) AS blitz_games, SUM(CASE WHEN time_class = \"normal\" THEN 1 ELSE 0 END) AS normal_games FROM games GROUP BY game_id",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_01",
+        "query": "SELECT COUNT(*) FROM instagram_posts",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_02",
+        "query": "SELECT participants FROM instagram_direct_message_threads WHERE is_sampled = 0 LIMIT 1",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_02",
+        "query": "SELECT participants FROM instagram_direct_message_threads WHERE is_sampled = 0 LIMIT 1",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_04",
+        "query": "SELECT follower_count - following_count AS follower_diff FROM instagram_following",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_06",
+        "query": "SELECT * FROM instagram_login_activity WHERE event_kind = \"login\"",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_07",
+        "query": "SELECT * FROM instagram_comments WHERE content_kind = \"comment\" AND media_owner_username = \"contatti\" AND source_file = \"rubrica_del_telefono\"",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_07",
+        "query": "SELECT instagram_comments.dedup_key FROM instagram_comments WHERE content_kind = \"comment\" AND media_owner_username = \"contatti\" AND source_file = \"rubrica_del_telefono\"",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "instagram_07",
+        "query": "SELECT instagram_followers.username FROM instagram_followers WHERE instagram_followers.dedup_key IN (SELECT instagram_comments.dedup_key FROM instagram_comments WHERE instagram_comments.content_kind = \"comment\" AND instagram_comments.media_owner_username = \"contatti\" AND instagram_comments.source_file = \"rubrica_del_telefono\"))",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "cross_02",
+        "query": "SELECT COUNT(ply_count) FROM games",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "cross_02",
+        "query": "SELECT COUNT(play_count) FROM plays",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      },
+      {
+        "question_id": "adversarial_01",
+        "query": "SELECT SUM(amount) FROM transactions WHERE institution = \"Netflix\" AND timestamp_begin >= \"2025-12-01\" AND timestamp_begin < \"2026-01-01\"",
+        "error": "describe_table_required",
+        "row_count": null,
+        "truncated": false
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "manifest_01",
+      "domains_tagged": [],
+      "question": "Che tipo di dati hai su di me al momento, e per quale periodo di tempo?",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"note\":\"You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have.\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT timestamp_end FROM games WHERE timestamp_begin LIKE \"%2023-01-01%\""
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references games, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "q": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "q": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "q": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "q": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "q": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "q": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "q": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        }
+      ],
+      "elapsed_seconds": 214.37
+    },
+    {
+      "id": "money_01",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho speso in totale ad agosto 2026?",
+      "success": true,
+      "answer": "Hai speso circa 148,10€ ad agosto 2026.",
+      "iterations_used": 4,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT SUM(amount) FROM transactions WHERE timestamp_begin LIKE \"2026-08%\""
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references transactions, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "transactions"
+          },
+          "result": {
+            "table": "transactions",
+            "columns": [
+              {
+                "name": "transaction_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only, not meaningful to read directly",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": "operation/trade date; equals timestamp_end when the source doesn't distinguish it from the value/settlement date",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — value/settlement date when the source distinguishes it (meinElba, Sella), else equal to timestamp_begin. Can precede timestamp_begin: a retroactive value date is real bank behavior, not a parsing error.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "domain",
+                "sql_type": "TEXT",
+                "semantic_note": "'bank' (meinElba, Sella) or 'investment' (Trade Republic cash+trades) — only ever these 2 values. This is NOT a merchant or company name: 'Amazon', 'PayPal', etc. never appear here, they are in the merchant column instead.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source",
+                "sql_type": "TEXT",
+                "semantic_note": "technical exporter id — meinelba_csv_export/sella_csv_export/traderepublic_csv_export/generic_bank_csv_export",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "institution",
+                "sql_type": "TEXT",
+                "semantic_note": "human-readable institution name — exactly one of these 3 literal values: 'meinElba (Raiffeisen)', 'Banca Sella', 'Trade Republic'. Not 'Sella' alone, not 'Raiffeisen' alone — use the full string or LIKE '%Sella%' / LIKE '%Trade Republic%'.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "account_ref",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "amount",
+                "sql_type": "REAL",
+                "semantic_note": "signed: positive=income, negative=expense. Native currency, never auto-converted.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "currency",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "transaction_type",
+                "sql_type": "TEXT",
+                "semantic_note": "income/expense/transfer/investment/interest/tax/cash_deposit/cash_withdrawal/fee/unknown. For Trade Republic, both BUY and SELL rows have transaction_type='investment' — 'buy'/'sell' are never values of this column. To tell a purchase from a sale, use category_raw (LIKE '%/ BUY' or '%/ SELL') or the sign of shares (positive=buy, negative=sell).",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "category",
+                "sql_type": "TEXT",
+                "semantic_note": "from our shared taxonomy — 'unknown' whenever the source gives no explicit native signal (never guessed from generic keywords)",
+                "entity_hint": "category",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "category_raw",
+                "sql_type": "TEXT",
+                "semantic_note": "original native category/type string, always preserved even when category is 'unknown'. For Trade Republic rows this is 'NATIVE_CATEGORY / NATIVE_TYPE' (e.g. 'TRADING / BUY' vs 'TRADING / SELL') — the only place a buy is distinguishable from a sell, since transaction_type and category both collapse to 'investment' for both (see TRADE_REPUBLIC_TYPE_MAP in money_ingest.py). To find purchases only: category_raw LIKE '%/ BUY' or shares > 0; sales: '%/ SELL' or shares < 0.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "merchant",
+                "sql_type": "TEXT",
+                "semantic_note": "normalized merchant name from a small curated list — most real merchants stay unmatched (None) on purpose, see module docstring. Trade Republic is never a value here (it's an institution, not a merchant) — use the institution column for it.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "counterparty_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "description_full",
+                "sql_type": "TEXT",
+                "semantic_note": "free-text description; any 'IBAN: <value>' substring is redacted (see module docstring's privacy note) — ISIN codes in the same text are NOT touched",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "isin",
+                "sql_type": "TEXT",
+                "semantic_note": "security identifier, when this transaction relates to one (native field for Trade Republic trades, extracted from free text for others when present)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "instrument_name",
+                "sql_type": "TEXT",
+                "semantic_note": "native Trade Republic instrument name string, exactly as the broker wrote it (e.g. a company's official listed name, not a translated or colloquial phrase like 'azioni NVIDIA'). Match it with LIKE '%keyword%' or run a discovery query (SELECT DISTINCT instrument_name FROM transactions WHERE instrument_name LIKE '%...%') first — never an exact string you guessed. isin is a more reliable filter when you already know the ISIN.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "shares",
+                "sql_type": "REAL",
+                "semantic_note": "signed quantity, populated only for Trade Republic BUY/SELL rows. Sign is a reliable buy/sell signal in the real data: positive=buy, negative=sell (amount sign runs the other way: negative=buy/cash-out, positive=sell/cash-in) — see category_raw for the same distinction via the native type string",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "unit_price",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "fee",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "tax",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "original_amount",
+                "sql_type": "REAL",
+                "semantic_note": "amount in original_currency before FX conversion, when the source reports one",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "original_currency",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "fx_rate",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "native_id",
+                "sql_type": "TEXT",
+                "semantic_note": "native transaction id when the source provides one (Trade Republic transaction_id, Sella Codice identificativo); None for meinElba/generic",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_unusual",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1 — z-score flag within (category, currency, domain), see ANOMALY_* config; 0 when the group is too small to judge (< 5 comparable transactions)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_end",
+            "foreign_keys": {},
+            "row_count": 3202
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT SUM(amount) FROM transactions WHERE timestamp_begin LIKE \"2026-08%\""
+          },
+          "result": {
+            "columns": [
+              "SUM(amount)"
+            ],
+            "rows": [
+              {
+                "SUM(amount)": 148.10000000000005
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 187.58
+    },
+    {
+      "id": "money_04",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho investito su Trade Republic in totale, tra acquisti e vendite?",
+      "success": true,
+      "answer": "La somma totale degli investimenti su Trade Republic è di null.",
+      "iterations_used": 5,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT SUM(amount) FROM transactions WHERE category = \"investments\" AND transaction_type = \"buy\""
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references transactions, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "db": "database",
+            "table": "transactions"
+          },
+          "result": {
+            "error": "tool_execution_error",
+            "message": "tool_describe_table() got an unexpected keyword argument 'db'"
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "transactions"
+          },
+          "result": {
+            "table": "transactions",
+            "columns": [
+              {
+                "name": "transaction_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only, not meaningful to read directly",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_begin",
+                "sql_type": "TEXT",
+                "semantic_note": "operation/trade date; equals timestamp_end when the source doesn't distinguish it from the value/settlement date",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "timestamp_end",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — value/settlement date when the source distinguishes it (meinElba, Sella), else equal to timestamp_begin. Can precede timestamp_begin: a retroactive value date is real bank behavior, not a parsing error.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "domain",
+                "sql_type": "TEXT",
+                "semantic_note": "'bank' (meinElba, Sella) or 'investment' (Trade Republic cash+trades) — only ever these 2 values. This is NOT a merchant or company name: 'Amazon', 'PayPal', etc. never appear here, they are in the merchant column instead.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source",
+                "sql_type": "TEXT",
+                "semantic_note": "technical exporter id — meinelba_csv_export/sella_csv_export/traderepublic_csv_export/generic_bank_csv_export",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "institution",
+                "sql_type": "TEXT",
+                "semantic_note": "human-readable institution name — exactly one of these 3 literal values: 'meinElba (Raiffeisen)', 'Banca Sella', 'Trade Republic'. Not 'Sella' alone, not 'Raiffeisen' alone — use the full string or LIKE '%Sella%' / LIKE '%Trade Republic%'.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "account_ref",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "amount",
+                "sql_type": "REAL",
+                "semantic_note": "signed: positive=income, negative=expense. Native currency, never auto-converted.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "currency",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "transaction_type",
+                "sql_type": "TEXT",
+                "semantic_note": "income/expense/transfer/investment/interest/tax/cash_deposit/cash_withdrawal/fee/unknown. For Trade Republic, both BUY and SELL rows have transaction_type='investment' — 'buy'/'sell' are never values of this column. To tell a purchase from a sale, use category_raw (LIKE '%/ BUY' or '%/ SELL') or the sign of shares (positive=buy, negative=sell).",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "category",
+                "sql_type": "TEXT",
+                "semantic_note": "from our shared taxonomy — 'unknown' whenever the source gives no explicit native signal (never guessed from generic keywords)",
+                "entity_hint": "category",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "category_raw",
+                "sql_type": "TEXT",
+                "semantic_note": "original native category/type string, always preserved even when category is 'unknown'. For Trade Republic rows this is 'NATIVE_CATEGORY / NATIVE_TYPE' (e.g. 'TRADING / BUY' vs 'TRADING / SELL') — the only place a buy is distinguishable from a sell, since transaction_type and category both collapse to 'investment' for both (see TRADE_REPUBLIC_TYPE_MAP in money_ingest.py). To find purchases only: category_raw LIKE '%/ BUY' or shares > 0; sales: '%/ SELL' or shares < 0.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "merchant",
+                "sql_type": "TEXT",
+                "semantic_note": "normalized merchant name from a small curated list — most real merchants stay unmatched (None) on purpose, see module docstring. Trade Republic is never a value here (it's an institution, not a merchant) — use the institution column for it.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "counterparty_name",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "description_full",
+                "sql_type": "TEXT",
+                "semantic_note": "free-text description; any 'IBAN: <value>' substring is redacted (see module docstring's privacy note) — ISIN codes in the same text are NOT touched",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "isin",
+                "sql_type": "TEXT",
+                "semantic_note": "security identifier, when this transaction relates to one (native field for Trade Republic trades, extracted from free text for others when present)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "instrument_name",
+                "sql_type": "TEXT",
+                "semantic_note": "native Trade Republic instrument name string, exactly as the broker wrote it (e.g. a company's official listed name, not a translated or colloquial phrase like 'azioni NVIDIA'). Match it with LIKE '%keyword%' or run a discovery query (SELECT DISTINCT instrument_name FROM transactions WHERE instrument_name LIKE '%...%') first — never an exact string you guessed. isin is a more reliable filter when you already know the ISIN.",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "shares",
+                "sql_type": "REAL",
+                "semantic_note": "signed quantity, populated only for Trade Republic BUY/SELL rows. Sign is a reliable buy/sell signal in the real data: positive=buy, negative=sell (amount sign runs the other way: negative=buy/cash-out, positive=sell/cash-in) — see category_raw for the same distinction via the native type string",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "unit_price",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "fee",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "tax",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "original_amount",
+                "sql_type": "REAL",
+                "semantic_note": "amount in original_currency before FX conversion, when the source reports one",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "original_currency",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "fx_rate",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "native_id",
+                "sql_type": "TEXT",
+                "semantic_note": "native transaction id when the source provides one (Trade Republic transaction_id, Sella Codice identificativo); None for meinElba/generic",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_unusual",
+                "sql_type": "INTEGER",
+                "semantic_note": "native boolean, 0/1 — z-score flag within (category, currency, domain), see ANOMALY_* config; 0 when the group is too small to judge (< 5 comparable transactions)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "notability_score",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "timestamp_end",
+            "foreign_keys": {},
+            "row_count": 3202
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT SUM(amount) FROM transactions WHERE category = \"investments\" AND transaction_type = \"buy\""
+          },
+          "result": {
+            "columns": [
+              "SUM(amount)"
+            ],
+            "rows": [
+              {
+                "SUM(amount)": null
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 178.95
+    },
+    {
+      "id": "money_13",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Ho mai comprato azioni NVIDIA su Trade Republic? Quante volte e con quale spesa totale?",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"error\":\"validation_error\",\"message\":\"Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions'].\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(DISTINCT transaction_id) , SUM(amount) FROM transactions WHERE category_raw = \"Actions NVIDIA\""
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references transactions, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "transactions"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "transactions"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "category_raw"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "category"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "category_raw"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "instrument_name"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "domain"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        }
+      ],
+      "elapsed_seconds": 102.94
+    },
+    {
+      "id": "money_15",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Le entrate più alte che vedi sul mio conto Sella sono davvero stipendio o guadagni, o potrebbero essere giroconti tra i miei stessi conti?",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"error\":\"validation_error\",\"message\":\"Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions'].\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT MAX(duration_seconds) FROM transactions WHERE transaction_type = \"Giroconto\""
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references transactions, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "transactions"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "transactions"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "plays"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "transactions"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "transactions"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        }
+      ],
+      "elapsed_seconds": 104.92
+    },
+    {
+      "id": "spotify_01",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Cosa ho ascoltato di più di recente su Spotify?",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"error\":\"validation_error\",\"message\":\"Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions'].\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT content_text FROM instagram_likes WHERE content_kind = \"track\" LIMIT 100"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references instagram_likes, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_likes"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_likes"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_likes"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_likes"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "list_tables",
+          "arguments": {},
+          "result": {
+            "tables": [
+              "game_moves",
+              "games",
+              "instagram_comments",
+              "instagram_direct_message_threads",
+              "instagram_direct_messages",
+              "instagram_followers",
+              "instagram_following",
+              "instagram_likes",
+              "instagram_login_activity",
+              "instagram_posts",
+              "listening_sessions",
+              "playing_sessions",
+              "plays",
+              "private_market_legs",
+              "security_events",
+              "transactions"
+            ]
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_likes"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        }
+      ],
+      "elapsed_seconds": 105.91
+    },
+    {
+      "id": "spotify_06",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Quanti episodi di podcast ho ascoltato rispetto alle canzoni vere e proprie?",
+      "success": true,
+      "answer": "Chiedi di descrivere la tabella \"plays\" e \"podcast\" per capire cosa sono i campi \"media_type\" e \"media_uri\".",
+      "iterations_used": 2,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(DISTINCT media_type) FROM plays WHERE media_type = \"podcast\""
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references plays, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        }
+      ],
+      "elapsed_seconds": 42.8
+    },
+    {
+      "id": "spotify_08",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Quante volte ho saltato un brano (skip) rispetto a quante l'ho ascoltato fino alla fine?",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"error\":\"validation_error\",\"message\":\"Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions'].\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT SUM(CASE WHEN ply_number > 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN ply_number = 0 THEN 1 ELSE 0 END) AS diff FROM game_moves"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references game_moves, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "game_moves"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "game_moves"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "game_moves"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "game_moves"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "tn": "plays"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        }
+      ],
+      "elapsed_seconds": 127.26
+    },
+    {
+      "id": "spotify_12",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Chi sono i miei 5 artisti più ascoltati in assoluto, considerando tutta la mia storia?",
+      "success": true,
+      "answer": "SELECT track_name, artist_name FROM plays GROUP BY track_name, artist_name ORDER BY SUM(offline) DESC LIMIT 5",
+      "iterations_used": 3,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT track_name, artist_name, SUM(offline) AS total_offline FROM plays GROUP BY track_name, artist_name ORDER BY total_offline DESC LIMIT 5"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references plays, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT track_name, artist_name, SUM(offline) AS total_offline FROM plays GROUP BY track_name, artist_name ORDER BY total_offline DESC LIMIT 5"
+          },
+          "result": {
+            "note": "You already called run_sql with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        }
+      ],
+      "elapsed_seconds": 153.37
+    },
+    {
+      "id": "chess_01",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Come sta andando il mio rating a scacchi in blitz negli ultimi mesi?",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"note\":\"You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have.\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT user_rating, opponent_rating, rating_diff FROM games WHERE result_for_user = \"win\" AND timestamp_end IS NOT NULL ORDER BY timestamp_end DESC LIMIT 1"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references games, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT user_rating, opponent_rating, rating_diff FROM games WHERE result_for_user = \"win\" AND timestamp_end IS NOT NULL ORDER BY timestamp_end DESC LIMIT 1"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references games, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        }
+      ],
+      "elapsed_seconds": 124.51
+    },
+    {
+      "id": "chess_09",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Contro quale avversario ho giocato più partite in assoluto, e qual è il bilancio (vittorie/sconfitte/pareggi) tra noi due?",
+      "success": true,
+      "answer": "Call describe_table for the table \"games\".",
+      "iterations_used": 2,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT user_rating, opponent_rating, rating_diff, result_for_user, result_raw, is_upset, ply_count, white, black, user_side, user_username, opponent_username, base_time_seconds, increment_seconds, time_class, source, time_control_raw, duration_seconds, duration_confidence_rate, timestamp_begin, timestamp_end, win_method, termination_raw, ply_count, opening_signature, session_id, notability_score, source_file FROM games WHERE user_username = ? AND opponent_username = ?"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references games, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        }
+      ],
+      "elapsed_seconds": 68.15
+    },
+    {
+      "id": "chess_10",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Gioco più partite in bullet o in blitz? Dammi i due conteggi.",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"error\":\"validation_error\",\"message\":\"Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions'].\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT game_id, SUM(CASE WHEN time_class = \"blitz\" THEN 1 ELSE 0 END) AS blitz_games, SUM(CASE WHEN time_class = \"normal\" THEN 1 ELSE 0 END) AS normal_games FROM games GROUP BY game_id"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references games, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT game_id, SUM(CASE WHEN time_class = \"blitz\" THEN 1 ELSE 0 END) AS blitz_games, SUM(CASE WHEN time_class = \"normal\" THEN 1 ELSE 0 END) AS normal_games FROM games GROUP BY game_id"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references games, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "time_class"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        }
+      ],
+      "elapsed_seconds": 146.85
+    },
+    {
+      "id": "instagram_01",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Quanti post ho pubblicato in totale su Instagram?",
+      "success": true,
+      "answer": "SELECT COUNT(*) FROM instagram_posts",
+      "iterations_used": 4,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) FROM instagram_posts"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references instagram_posts, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_posts"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_posts"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        }
+      ],
+      "elapsed_seconds": 58.62
+    },
+    {
+      "id": "instagram_02",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Con quale contatto ho scambiato più messaggi diretti su Instagram, considerando solo le chat di cui hai il testo completo dei messaggi?",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"note\":\"You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have.\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT participants FROM instagram_direct_message_threads WHERE is_sampled = 0 LIMIT 1"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references instagram_direct_message_threads, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "fn": "instagram_direct_message_threads"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "fn": "instagram_direct_message_threads"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "fn": "instagram_direct_message_threads"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT participants FROM instagram_direct_message_threads WHERE is_sampled = 0 LIMIT 1"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references instagram_direct_message_threads, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "fn": "instagram_direct_message_threads"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "fn": "instagram_direct_message_threads"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "fn": "instagram_direct_message_threads"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        }
+      ],
+      "elapsed_seconds": 118.71
+    },
+    {
+      "id": "instagram_03",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Ho delle chat di gruppo nei messaggi diretti di Instagram, o sono tutte conversazioni individuali?",
+      "success": true,
+      "answer": "Basato sulle informazioni disponibili, sembra che le chat di gruppo nei messaggi diretti di Instagram siano effettivamente conversazioni di gruppo, poiché la colonna \"participants\" contiene più di un nome, indicando la presenza di più utenti nella conversazione. La colonna \"is_group\" conferma che le conversazioni di gruppo hanno un valore di 1, mentre le conversazioni individuali hanno un valore di 0.",
+      "iterations_used": 2,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "instagram_direct_message_threads"
+          },
+          "result": {
+            "table": "instagram_direct_message_threads",
+            "columns": [
+              {
+                "name": "thread_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "thread_path",
+                "sql_type": "TEXT",
+                "semantic_note": "native, unique per conversation — e.g. 'inbox/edoardocavassa_516770459720154'",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "participants",
+                "sql_type": "TEXT",
+                "semantic_note": "native display names, '; '-joined — includes the project owner's own name (Instagram's export lists every participant, not just the other side), so a normal 1:1 DM already shows 2 names here; see is_group for the actual group/1:1 distinction",
+                "entity_hint": "person",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_group",
+                "sql_type": "INTEGER",
+                "semantic_note": "derived, deterministic: 1 when more than one participant besides the project owner, 0 otherwise",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "message_count",
+                "sql_type": "INTEGER",
+                "semantic_note": "native — total messages in this thread across all message_*.json parts, counted regardless of sampling",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "first_message_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "native, ISO 8601 UTC",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "last_message_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, ISO 8601 UTC",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "is_sampled",
+                "sql_type": "INTEGER",
+                "semantic_note": "1 if this is one of the 20 busiest threads (see instagram_ingest.TOP_N_THREADS_FOR_FULL_TEXT) — only those threads have matching rows in instagram_direct_messages; every other thread has metadata here only, by explicit MVP scoping, not a data gap",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "thread_category",
+                "sql_type": "TEXT",
+                "semantic_note": "'inbox' or 'message_request'",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_folder",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "last_message_timestamp",
+            "foreign_keys": {},
+            "row_count": 707
+          }
+        }
+      ],
+      "elapsed_seconds": 82.13
+    },
+    {
+      "id": "instagram_04",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Quante persone mi seguono su Instagram rispetto a quante ne seguo io?",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"note\":\"You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have.\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT follower_count - following_count AS follower_diff FROM instagram_following"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references instagram_following, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_following"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_followers"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_following"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_following"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_following"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_following"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_following"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        }
+      ],
+      "elapsed_seconds": 118.37
+    },
+    {
+      "id": "instagram_06",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Hai registrato il mio indirizzo IP negli accessi (login) al mio account Instagram?",
+      "success": true,
+      "answer": "Non sono registrato nell'accesso (login) al mio account Instagram.",
+      "iterations_used": 4,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT * FROM instagram_login_activity WHERE event_kind = \"login\""
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references instagram_login_activity, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_login_activity"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_login_activity"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        }
+      ],
+      "elapsed_seconds": 62.94
+    },
+    {
+      "id": "instagram_07",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Hai accesso ai contatti della mia rubrica del telefono sincronizzati con Instagram?",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"error\":\"describe_table_required\",\"message\":\"This query references instagram_followers, instagram_comments, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query.\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT * FROM instagram_comments WHERE content_kind = \"comment\" AND media_owner_username = \"contatti\" AND source_file = \"rubrica_del_telefono\""
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references instagram_comments, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_comments"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_comments"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT instagram_comments.dedup_key FROM instagram_comments WHERE content_kind = \"comment\" AND media_owner_username = \"contatti\" AND source_file = \"rubrica_del_telefono\""
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references instagram_comments, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_followers"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "instagram_following"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT instagram_followers.username FROM instagram_followers WHERE instagram_followers.dedup_key IN (SELECT instagram_comments.dedup_key FROM instagram_comments WHERE instagram_comments.content_kind = \"comment\" AND instagram_comments.media_owner_username = \"contatti\" AND instagram_comments.source_file = \"rubrica_del_telefono\"))"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references instagram_followers, instagram_comments, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        }
+      ],
+      "elapsed_seconds": 145.56
+    },
+    {
+      "id": "cross_02",
+      "domains_tagged": [
+        "chessdotcom",
+        "spotify"
+      ],
+      "question": "Quante partite a scacchi ho giocato in totale nella mia storia, e quante canzoni ho ascoltato su Spotify? Dammi i due numeri separatamente.",
+      "success": true,
+      "answer": "Dati disponibili:\n\n- Partite a scacchi: SELECT COUNT(ply_count) FROM games\n- Canzoni ascoltate su Spotify: SELECT COUNT(play_count) FROM plays",
+      "iterations_used": 8,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(ply_count) FROM games"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references games, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(play_count) FROM plays"
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references plays, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "query": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "query": "plays"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "query": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "query": "plays"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "query": "games"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "query": "plays"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        }
+      ],
+      "elapsed_seconds": 119.01
+    },
+    {
+      "id": "adversarial_01",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho speso su Netflix a dicembre 2025?",
+      "success": true,
+      "answer": "I could not fully answer within the allotted number of tool calls. Here is the last relevant information I retrieved, which may be partial: {\"error\":\"validation_error\",\"message\":\"Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions'].\"}",
+      "iterations_used": 8,
+      "hit_max_iterations": true,
+      "malformed_tool_call_recoveries": 1,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT SUM(amount) FROM transactions WHERE institution = \"Netflix\" AND timestamp_begin >= \"2025-12-01\" AND timestamp_begin < \"2026-01-01\""
+          },
+          "result": {
+            "error": "describe_table_required",
+            "message": "This query references transactions, which you have not called describe_table on yet this conversation. Call describe_table for each of those tables first (to learn what the columns actually mean), then retry this exact query."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "transactions"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "transactions"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "institution"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "institution"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "amount"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "amount"
+          },
+          "result": {
+            "note": "You already called describe_table with these exact arguments and got the result above. Try different arguments, or answer with what you already have."
+          }
+        },
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "t": "domain"
+          },
+          "result": {
+            "error": "validation_error",
+            "message": "Unknown table None. Known tables: ['game_moves', 'games', 'instagram_comments', 'instagram_direct_message_threads', 'instagram_direct_messages', 'instagram_followers', 'instagram_following', 'instagram_likes', 'instagram_login_activity', 'instagram_posts', 'listening_sessions', 'playing_sessions', 'plays', 'private_market_legs', 'security_events', 'transactions']."
+          }
+        }
+      ],
+      "elapsed_seconds": 117.65
+    }
+  ]
+}

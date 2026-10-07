@@ -1,0 +1,6 @@
+# Validatore - T23-prova-guidata - 2026-10-05 13:59
+
+## Giro 0: tutti i controlli OK
+- OK     files_exist:docs/PROVA_SITO.md
+- OK     git_unchanged:web;contenuti;schema;words_db.json;archivio
+- OK     min_chars:docs/PROVA_SITO.md;1200

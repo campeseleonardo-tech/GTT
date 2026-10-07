@@ -1,0 +1,6 @@
+# Validatore - T20-risposta1 - 2026-10-05 12:50
+
+## Giro 0: tutti i controlli OK
+- OK     node_check:web/app.js
+- OK     html_js_check:web/index.html
+- OK     git_unchanged:contenuti;schema;words_db.json;archivio;web/data.js

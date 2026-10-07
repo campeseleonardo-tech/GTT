@@ -1,0 +1,87 @@
+LEONARDO CAMPESE
+
+LinkedIn: in/leonardocampese
+Phone: (+43) 660 6878927
+Email: campese.leonardo@gmail.com
+Salzburg, Österreich | ab sofort verfügbar | Umzug möglich
+
+ABOUT ME
+Ingenieur mit drei Jahren Prüfstandspraxis bei KTM: Testfälle planen, Konditioniersysteme warten, Fehler suchen, Messdaten und CAN-Signale auswerten. Dazu elektrotechnische Praxis aus Photovoltaik und E-Ladestationen, saubere Dokumentation sowie Kundenkontakt bei Präsentationen und Events. Ich wohne in Salzburg, mein Deutsch ist C1, und ich kann sofort starten.
+
+WORK EXPERIENCE
+Functional Development Engineer | Fluid Dynamics
+KTM F&E | 06/2025 - 06/2026
+Koordination und Terminplanung von 1D/2D/3D-Simulationen mit F&E, Test und Design
+Lieferantenkontakt und Entscheidungen zu Leistung und Kosten mit dem Einkauf
+Messdatenbank für Kühlkomponenten verwaltet, Wärmebildkamera betreut und gewartet
+
+System Testing Engineer | Thermal Management
+KTM F&E | 09/2023 - 06/2025
+Testautomatisierung per Skript: Auswertezeit um 50 Prozent gesenkt, übergeben an Nachfolger
+Testfälle und Versuche an Prüfständen mit Konditionierung für Wasser, Luft und Öl
+Wartung des Konditioniersystems, Erweiterung um Sensoren, Pumpen und Heizwiderstände
+Inbetriebnahme und technische Zeichnungen des Konditioniersystems selbst erstellt
+Sicherheit der Prüfstände verantwortet: Belüftung, Einhausung, Sprinkler-Glasampullen
+CAN-Signale gelesen, mitgeloggt und diagnostiziert, Fehlersuche an Komponenten
+Relais, Taster und Aktoren an Prüfständen und Prototypen eingesetzt
+Ergebnisse vor internen Stakeholdern und internationalen Kunden präsentiert
+
+Intern R&D | Aerodynamics
+KTM F&E | 03/2023 - 09/2023
+Windkanaldaten und Massenstrommessungen ausgewertet und in Entwicklungsziele übersetzt
+Anforderungen für neue Modellplattformen mit Entwicklung und Vertrieb definiert
+Stücklisten (BOM) in Einkauf, Design und Entwicklung vereinheitlicht
+
+Electrician (Seasonal) | Solar PV & EV Charging Installation
+Family-owned business | 06/2014 - 09/2018
+Wechselrichter auf Photovoltaikanlagen installiert, verkabelt und in Betrieb genommen
+Ladestationen für E-Fahrzeuge installiert, verkabelt und in Betrieb genommen
+Mit Elektrikern auf Baustellen im Wohn- und Industriebereich gearbeitet
+
+Event Manager
+Croma SRL | 09/2015 - 12/2016
+Events mit rund 1.000 Gästen und einem Budget von rund 10.000 EUR geplant
+Lieferanten, Abläufe und Zeitplan vor Ort koordiniert, Probleme unter Zeitdruck gelöst
+Kommunikation, Logistik und Nachbereitung der Events übernommen
+
+SEO Data Analyst | Internship / Praktikum
+BPM - POWER | 09/2018 - 06/2019
+Marktdaten und Nutzerverhalten analysiert, Google Ads und Keyword-Arbeit
+Suchstrategien anhand der Daten optimiert, redaktionelle Inhalte erstellt
+Strukturiertes Reporting zur Erfolgsmessung aufgebaut
+
+EDUCATION
+Master of Science in Engineering - Innovation & Product Management
+FH Upper Austria, Campus Wels | 09/2020 - 12/2023
+Schwerpunkt Development Process Engineering
+Technik, Produktlebenszyklus und Business Strategy verbunden
+Masterarbeit: Messtechnik für Luftdruck und Geschwindigkeit an einem Motorradkühler
+
+University Collaboration - Business Development
+Schneider AG / Heilbronn University | 09/2022 - 01/2023
+Interne Teams und externe Key Accounts für die Liefer- und Supply Chain analysiert
+Empfehlungen zu technischer Machbarkeit und Business Impact präsentiert
+
+Bachelor of Science in Business & Management
+Università degli Studi di Torino | 09/2017 - 08/2020
+Grundlagen in Unternehmensstrategie, Organisation und operativer Effizienz
+Bachelorarbeit: IoT Technologies for Smart Cities
+
+CERTIFICATIONS
+IPMA Level D - Certified Project Management Associate, PMA Austria (05/2022 - 05/2027)
+Project Manager - SCRUM Certification, Institut fur Agile Transformation
+
+LANGUAGES
+Italienisch: Muttersprache
+Englisch: C1
+Spanisch: C1
+Deutsch: C1
+Französisch: A2
+
+TOOLS / DIGITAL SKILLS
+MS Office (inkl. Makros, Power BI), MS Project (teilweise), SAP (eingeschränkt, Fiori)
+Testautomatisierung, Testfälle, Fehlersuche, Wartung, Inbetriebnahme, Dokumentation
+CAN, AVL Messdatenerfassung, Concerto, Temes, FlexPro, Rotec, Raspberry, Arduino
+Python, Matlab, SQL, C, HTML, GitHub
+PTC Creo, SolidWorks, Ansys, OpenFOAM, GT Suite
+Trello, Miro

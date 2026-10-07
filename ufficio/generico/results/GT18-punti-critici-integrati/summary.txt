@@ -1,0 +1,5 @@
+ESITO: Ho aggiunto un indice di criticità 0–100 per sezione di censimento, con contorno rosso (80 o più) nei 4 temi e il valore nella scheda al clic.
+- Ho modificato solo `scripts/mappa_template.html`. `04_genera_mappa.py` non serviva toccarlo e la mappa generata la rigenera il runner.
+- L'indice usa i passaggi GTT programmati ogni 1000 residenti entro 400 m, confrontati con le altre sezioni nelle ore 7–20. Segue giorno e ora scelti con i controlli attuali.
+- Nei temi Traffico e Tempo reale, il clic risponde solo dentro i contorni rossi.
+- Non ho eseguito nulla: aspetto il validatore. I passi di prova per Leo sono in `RAPPORTO.md`, insieme alle scelte fatte. In `DOMANDE.md` ci sono 2 domande, una sul rosso di notte e una sui pendolari.

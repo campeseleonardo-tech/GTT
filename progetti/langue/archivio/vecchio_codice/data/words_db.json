@@ -1,0 +1,108 @@
+{
+  "vocabulary": {
+    "it-en": [
+      {"id": "v1", "word": "Mela", "translation": "Apple", "category": "Food"},
+      {"id": "v2", "word": "Gatto", "translation": "Cat", "category": "Animals"}
+    ]
+  },
+  
+  "articles_game": {
+    "de": [
+      {"id": "art_de_1", "word": "Apfel", "correct_article": "der", "options": ["der", "die", "das"], "translation": "Mela"},
+      {"id": "art_de_2", "word": "Frau", "correct_article": "die", "options": ["der", "die", "das"], "translation": "Donna"},
+      {"id": "art_de_3", "word": "Mädchen", "correct_article": "das", "options": ["der", "die", "das"], "translation": "Ragazza"}
+    ],
+    "it": [
+      {"id": "art_it_1", "word": "Zaino", "correct_article": "lo", "options": ["il", "lo", "la", "i", "gli", "le"], "translation": "Backpack"}
+    ]
+  },
+
+  "authentic_fragments": [
+    {
+      "id": "frag_1",
+      "language": "en",
+      "text": "To be, or not to be, that is the question.",
+      "source": "William Shakespeare, Hamlet",
+      "translation": "Essere o non essere, questo è il problema.",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "frag_2",
+      "language": "es",
+      "text": "Me pareció que la tierra no habría sido habitable si no hubiese habido nadie a quien admirar.",
+      "source": "Gabriel García Márquez, Cien años de soledad",
+      "translation": "Mi parve che la terra non sarebbe stata abitabile se non ci fosse stato nessuno da ammirare.",
+      "difficulty": "Hard"
+    }
+  ],
+
+  "multimedia_recommendations": [
+    {
+      "id": "media_1",
+      "language": "es",
+      "title": "La Casa de Papel",
+      "type": "TV Series",
+      "genre": "Crime",
+      "platforms": ["Netflix"],
+      "description": "Un gruppo di ladri organizza la più grande rapina della storia alla Zecca di Stato spagnola."
+    },
+    {
+      "id": "media_2",
+      "language": "de",
+      "title": "Dark",
+      "type": "TV Series",
+      "genre": "Sci-Fi / Drama",
+      "platforms": ["Netflix"],
+      "description": "La scomparsa di due bambini in una città tedesca porta alla luce i segreti di quattro famiglie."
+    }
+  ],
+
+  "sentences_order": {
+    "en": [
+      {
+        "id": "ord_en_1",
+        "correct_sentence": "I usually drink coffee in the morning.",
+        "blocks": ["I", "usually", "drink", "coffee", "in", "the", "morning."],
+        "translation": "Di solito bevo caffè al mattino."
+      }
+    ]
+  },
+
+  "error_identification": {
+    "en": [
+      {
+        "id": "err_en_1",
+        "wrong_sentence": "I have 25 years.",
+        "correct_sentence": "I am 25 years old.",
+        "explanation": "In inglese, per esprimere l'età si usa il verbo 'to be' (essere), non il verbo 'to have' (avere).",
+        "translation": "Ho 25 anni."
+      },
+      {
+        "id": "err_en_2",
+        "wrong_sentence": "She don't like apples.",
+        "correct_sentence": "She doesn't like apples.",
+        "explanation": "Alla terza persona singolare (he/she/it) l'ausiliare negativo è 'doesn't', non 'don't'.",
+        "translation": "A lei non piacciono le mele."
+      }
+    ]
+  },
+
+  "similar_words": {
+    "it-es": [
+      {
+        "id": "sim_1",
+        "word_lang1": "Burro",
+        "word_lang2": "Burro",
+        "is_false_friend": true,
+        "explanation": "Falso amico! In italiano significa 'butter' (alimento), in spagnolo significa 'asino' (animale)."
+      },
+      {
+        "id": "sim_2",
+        "word_lang1": "Problema",
+        "word_lang2": "Problema",
+        "is_false_friend": false,
+        "explanation": "Stesso significato in entrambe le lingue."
+      }
+    ]
+  }
+}

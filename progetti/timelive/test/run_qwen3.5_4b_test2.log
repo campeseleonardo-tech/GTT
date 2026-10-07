@@ -1,0 +1,48 @@
+nohup: ignoring input
+Filtro --ids: 2 domande selezionate.
+Backend: ollama  Modello: qwen3.5:4b  Host: http://localhost:11434  MAX_ITERATIONS: 8
+Domini registrati in questa architettura: ['chessdotcom', 'instagram', 'money', 'spotify']
+Esecuzione di 2 domande (0 già completate, 2 da eseguire davvero)...
+Checkpoint/report scritto dopo OGNI domanda in: /home/leopi/Timelive/code/batch_report_qwen3.5_4b_test2.json
+
+[1/2] (manifest_01) Che tipo di dati hai su di me al momento, e per quale periodo di tempo?
+  -> ERRORE dopo 300.2s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=300.0)
+
+[2/2] (money_01) Quanto ho speso in totale ad agosto 2026?
+  -> 3 iterazioni, 2 tool call, 329.2s
+  Risposta: Nessuna transazione registrata per agosto 2026 nei tuoi dati. Le ultime transazioni disponibili risalgono ad agosto 2023.
+
+======================================================================
+RIEPILOGO
+======================================================================
+{
+  "total_questions": 2,
+  "successful": 1,
+  "failed": 1,
+  "hit_max_iterations_count": 0,
+  "hit_max_iterations_ids": [],
+  "failed_ids": [
+    "manifest_01"
+  ],
+  "malformed_tool_call_recoveries_count": 0,
+  "malformed_tool_call_recoveries_ids": [],
+  "avg_iterations": 3.0,
+  "avg_elapsed_seconds": 314.74,
+  "total_elapsed_seconds": 629.47,
+  "tool_calls_by_tool": {
+    "describe_table": 1,
+    "run_sql": 1
+  },
+  "run_sql_queries": [
+    {
+      "question_id": "money_01",
+      "query": "SELECT DISTINCT timestamp_end FROM transactions WHERE timestamp_end LIKE '%-08-%' ORDER BY timestamp_end LIMIT 10",
+      "error": null,
+      "row_count": 10,
+      "truncated": false
+    }
+  ]
+}
+
+Report completo scritto in: /home/leopi/Timelive/code/batch_report_qwen3.5_4b_test2.json
+Manda questo file per l'analisi.

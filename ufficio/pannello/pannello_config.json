@@ -1,0 +1,78 @@
+{
+  "porta": 8765,
+  "soglia_stop_pct": 60,
+  "sorgenti": [
+    {
+      "id": "cv",
+      "tipo": "cv_runner",
+      "nome": "Candidature",
+      "sub": "CV e lettere dalle offerte",
+      "colore": "#E27FB8",
+      "radice": "C:\\Users\\campe\\Desktop\\Multiple Agents\\candidature",
+      "runner": "auto",
+      "attivo": true
+    },
+    {
+      "id": "agents",
+      "tipo": "generico",
+      "nome": "Agenti",
+      "sub": "task generici in coda",
+      "colore": "#A58BFF",
+      "radice": "C:\\Users\\campe\\Desktop\\Multiple Agents\\generico",
+      "attivo": true
+    }
+  ],
+  "nome": "Ufficio",
+  "chat_limite_giorno": 20,
+  "cartelle_consultabili": [
+    "C:\\Users\\campe\\Desktop",
+    "C:\\Users\\campe\\Desktop\\Multiple Agents",
+    "C:\\Users\\campe\\Desktop\\CV",
+    "C:\\Users\\campe\\Desktop\\Timelive",
+    "C:\\Users\\campe\\Desktop\\Langue",
+    "C:\\Users\\campe\\Desktop\\GTT"
+  ],
+  "chat_cartelle": [
+    "C:\\Users\\campe\\Desktop\\Multiple Agents",
+    "C:\\Users\\campe\\Desktop\\CV",
+    "C:\\Users\\campe\\Desktop\\Timelive",
+    "C:\\Users\\campe\\Desktop\\Langue",
+    "C:\\Users\\campe\\Desktop\\Projects\\Preventivi_Gigi",
+    "C:\\Users\\campe\\Desktop\\GTT"
+  ],
+  "progetti": [
+    {
+      "nome": "Timelive",
+      "cartella": "C:\\Users\\campe\\Desktop\\timelive_repo",
+      "stato": "da far partire tramite agenti dando task ben specifiche",
+      "idee": [
+        "Riscrivere test_llm_bridge.py per i 3 nuovi strumenti (la parte di test richiede WSL2)",
+        "Pulizia di config.json / config.py e generatore di dati sintetici",
+        "Analisi dei report dei batch (dati livello 2)",
+        "Nessun nuovo dominio finche' non si rifa' il batch di validazione"
+      ]
+    },
+    {
+      "nome": "Mercatino Austria",
+      "cartella": "C:\\Users\\campe\\Desktop\\Mercatino",
+      "stato": "ARCHIVIATO (04/10/2026): l'unica prova e dato davvero valido sarebbe aprirne uno e vedere se funziona; senza questa informazione al momento e' inutile continuare.",
+      "idee": [
+        "Chiusura (spenta, la attivi tu): studio di come fare il documento finale per Giangio e Mercatino + domande per te -> generico/sospesi/M01-mercatino-studio.task.md"
+      ],
+      "archiviato": true
+    },
+    {
+      "nome": "Preventivi per papa'",
+      "cartella": "C:\\Users\\campe\\Desktop\\Projects\\Preventivi_Gigi",
+      "stato": "",
+      "idee": [
+        "il progetto è fatto - bisogna mettere a posto il documento word che il logo non funziona bene"
+      ]
+    }
+  ],
+  "generico_auto": true,
+  "modifiche_auto": false,
+  "contatore_token_100": 1000000,
+  "motore_predefinito": "gratis",
+  "sforzo_agenti": "auto"
+}

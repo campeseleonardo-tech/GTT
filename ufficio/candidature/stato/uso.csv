@@ -1,0 +1,6 @@
+﻿offer,phase,started,ended,wall_s,api_s,turns,model,effort,input_tokens,cache_creation,cache_read,output_tokens,cost_usd_listprice,status,subtype,issues
+scout,scout,2026-10-03 19:07:06,2026-10-03 19:09:02,116,197,47,"claude-sonnet-5-5,claude-haiku-4-5-20251001",medium,30,59509,782103,8243,0.9150805999999998,ok,success,0
+scout,scout,2026-10-03 19:20:25,2026-10-03 19:21:12,47,48,15,"claude-sonnet-5-5,claude-haiku-4-5-20251001",medium,20,19038,289156,2692,0.22868619999999998,ok,success,0
+scout,scout,2026-10-04 00:16:27,2026-10-04 00:17:56,89,108,21,"claude-sonnet-5-5,claude-haiku-4-5-20251001",medium,26,29857,427542,3751,0.44252440000000004,ok,success,0
+scout,scout,2026-10-04 01:57:11,2026-10-04 02:03:25,374,388,71,"claude-sonnet-5-5,claude-haiku-4-5-20251001",high,56,82914,1788824,16541,1.4734488,ok,success,0
+scout,scout,2026-10-04 02:03:27,2026-10-04 02:05:08,100,144,30,"claude-sonnet-5-5,claude-haiku-4-5-20251001",high,22,46204,508296,4405,0.5900952000000002,LIMIT,success,0

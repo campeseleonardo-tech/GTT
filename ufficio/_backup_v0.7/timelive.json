@@ -1,0 +1,72 @@
+{
+  "id": "timelive",
+  "nome": "Timelive",
+  "sigla": "TL",
+  "colore": "#7a5cd6",
+  "tipo": "generico",
+  "priorita": "bassa",
+  "stato": "attivo",
+  "obiettivo": "Archivio personale dei miei dati, locale (Raspberry Pi)",
+  "cartella": "C:\\Users\\campe\\Desktop\\timelive_repo",
+  "livello_dati": 2,
+  "prefisso": "TL",
+  "piano": [],
+  "frase": "Da far partire con task ben specifiche (da decidere in chat)",
+  "idee": [
+    "Riscrivere test_llm_bridge.py per i 3 nuovi strumenti (i test richiedono WSL2)",
+    "Pulizia di config.json / config.py e generatore di dati sintetici",
+    "Analisi dei report dei batch (dati livello 2)",
+    "Nessun nuovo dominio finche' non si rifa' il batch di validazione"
+  ],
+  "scheda": "C:\\Users\\campe\\Desktop\\Timelive\\timelive.md",
+  "decisioni": [
+    {
+      "quando": "2026-10-05 12:18",
+      "task": "TL01-progetto-b",
+      "domanda": "Soglia confidence default per pre-inject describe_table?",
+      "risposta": "0.65"
+    },
+    {
+      "quando": "2026-10-05 12:18",
+      "task": "TL01-progetto-b",
+      "domanda": "Ground truth: bastano i 66 report Sonnet?",
+      "risposta": "sì"
+    },
+    {
+      "quando": "2026-10-05 12:18",
+      "task": "TL01-progetto-b",
+      "domanda": "ColumnSpec.sensitive esiste in ingest_engine?",
+      "risposta": "non so (da verificare)"
+    },
+    {
+      "quando": "2026-10-05 12:19",
+      "task": "TL01-progetto-b",
+      "domanda": "Ollama espone logprobs per confidence calibrata LLMRouter?",
+      "risposta": "da verificare"
+    },
+    {
+      "quando": "2026-10-05 12:19",
+      "task": "TL01-progetto-b",
+      "domanda": "Priorità: completare router (Fase 1-2) prima di policy online/offline (Fase 4)?",
+      "risposta": "sì"
+    },
+    {
+      "quando": "2026-10-05 12:20",
+      "task": "TL01-progetto-b",
+      "domanda": "Invalidazione cache embeddings: hash semantic_note o timestamp vault.db?",
+      "risposta": "non sono sicuro di cosa mi sta venendo chiesto"
+    },
+    {
+      "quando": "2026-10-05 12:20",
+      "task": "TL01-progetto-b",
+      "domanda": "Router come dipendenza iniettata in run_query o fusione?",
+      "risposta": "non sono sicuro di cosa mi sta venendo chiesto"
+    },
+    {
+      "quando": "2026-10-05 12:20",
+      "task": "TL01-progetto-b",
+      "domanda": "Modello embedding per EmbeddingRouter?",
+      "risposta": "non sono sicuro di cosa mi sta venendo chiesto"
+    }
+  ]
+}

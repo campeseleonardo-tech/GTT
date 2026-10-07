@@ -1,0 +1,146 @@
+[
+  {
+    "id": "errato-manca-traduzione",
+    "tipo": "articolo",
+    "lingua": "de",
+    "livello": "A1",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "parola": "Tisch",
+    "articolo": "der"
+  },
+  {
+    "id": "errato-articolo-non-valido",
+    "tipo": "articolo",
+    "lingua": "de",
+    "livello": "A1",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "parola": "Tisch",
+    "articolo": "dem",
+    "traduzione_it": "tavolo"
+  },
+  {
+    "id": "errato-pochi-blocchi",
+    "tipo": "frase",
+    "lingua": "de",
+    "livello": "A1",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "testo_de": "Ich lerne Deutsch",
+    "traduzione_it": "Studio tedesco",
+    "blocchi": ["Ich", "lerne", "Deutsch"]
+  },
+  {
+    "id": "errato-troppi-blocchi",
+    "tipo": "frase",
+    "lingua": "de",
+    "livello": "A2",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "testo_de": "Ich gehe am Abend mit meiner Freundin in das Kino hier",
+    "traduzione_it": "La sera vado al cinema con la mia ragazza",
+    "blocchi": ["Ich", "gehe", "am", "Abend", "mit", "meiner", "Freundin", "in", "das", "Kino", "hier"]
+  },
+  {
+    "id": "errato-blocchi-diversi-dal-testo",
+    "tipo": "frase",
+    "lingua": "de",
+    "livello": "A1",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "testo_de": "Ich lerne heute Deutsch",
+    "traduzione_it": "Oggi studio tedesco",
+    "blocchi": ["Ich", "lerne", "morgen", "Deutsch"]
+  },
+  {
+    "id": "errato-campo-sconosciuto",
+    "tipo": "articolo",
+    "lingua": "de",
+    "livello": "A1",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "parola": "Tisch",
+    "articolo": "der",
+    "traduzione_it": "tavolo",
+    "plurale": "Tische"
+  },
+  {
+    "id": "errato-tipo-campo-sbagliato",
+    "tipo": "articolo",
+    "lingua": "de",
+    "livello": "A1",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "parola": "Tisch",
+    "articolo": "der",
+    "traduzione_it": ["tavolo"]
+  },
+  {
+    "id": "errato-spiegazione-corta",
+    "tipo": "errore",
+    "lingua": "de",
+    "livello": "A1",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "frase_sbagliata": "Ich habe ein Hund.",
+    "frase_corretta": "Ich habe einen Hund.",
+    "categoria": "articolo",
+    "spiegazione_it": "Accusativo."
+  },
+  {
+    "id": "errato-categoria-non-valida",
+    "tipo": "errore",
+    "lingua": "de",
+    "livello": "A1",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "frase_sbagliata": "Ich habe ein Hund.",
+    "frase_corretta": "Ich habe einen Hund.",
+    "categoria": "grammatica",
+    "spiegazione_it": "Hund è maschile e va all'accusativo: einen."
+  },
+  {
+    "id": "errato-troppe-parole-utili",
+    "tipo": "consiglio",
+    "lingua": "de",
+    "livello": "A2",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "titolo": "Tatort",
+    "genere": "thriller_crime",
+    "supporto": "serie",
+    "perche_adatto_it": "Serie poliziesca tedesca con vocabolario ricorrente legato alle indagini.",
+    "parole_utili": ["die Polizei", "der Mord", "die Leiche", "der Täter", "das Opfer", "der Zeuge"]
+  },
+  {
+    "id": "errato-lingua-non-valida",
+    "tipo": "articolo",
+    "lingua": "it",
+    "livello": "A1",
+    "stato": "bozza",
+    "origine": "agente T02-schema",
+    "parola": "Tisch",
+    "articolo": "der",
+    "traduzione_it": "tavolo"
+  },
+  {
+    "id": "errato-stato-non-valido",
+    "tipo": "articolo",
+    "lingua": "de",
+    "livello": "A1",
+    "stato": "approvato",
+    "origine": "agente T02-schema",
+    "parola": "Tisch",
+    "articolo": "der",
+    "traduzione_it": "tavolo"
+  },
+  {
+    "id": "errato-tipo-sconosciuto",
+    "tipo": "verbo",
+    "lingua": "de",
+    "livello": "A1",
+    "stato": "bozza",
+    "origine": "agente T02-schema"
+  }
+]

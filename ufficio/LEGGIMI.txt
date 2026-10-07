@@ -1,0 +1,22 @@
+MULTIPLE AGENTS - come e' fatto (aggiornato 04/10/2026, piano v0.5 fase A)
+
+Icona "Ufficio" sul desktop  -> apre il pannello (senza finestra nera). Se e' gia' aperto, apre solo il browser.
+Menu > Spegni Ufficio         -> chiude il pannello. Gli agenti continuano lo stesso.
+Agenti                        -> li fa lavorare dispatcher.py, uno alla volta, ogni 5 minuti (attivita' di Windows "UfficioAgenti"),
+                                 con rotazione 3-2-1 tra i progetti (priorita' alta/media/bassa).
+
+progetti\        un file per progetto (obiettivo, cartella, priorita', piano, stato)
+generico\        task dei progetti (queue = in coda, done = fatti, sospesi = spenti, failed, blocked = domande per te)
+candidature\     il progetto candidature (runner e stato)
+pannello\        il pannello: ufficio.html (pagina principale) e mondo.html (la mappa gioco)
+logs\uso.csv     L'UNICO LOG DEL CONSUMO: una riga per ogni chiamata a un modello (chi, progetto, task, fase, motore,
+                 modello, token, costo di listino, secondi, esito) + una riga "esito" per ogni task finito.
+diario.jsonl     il diario di quello che fanno gli agenti (lo scrive il dispatcher, 0 token)
+motori.py        l'UNICO punto da cui passano le chiamate ai modelli (oggi solo Claude; nella fase B i motori gratuiti)
+comune.py        regole comuni: un agente alla volta, limite di Claude, contatore d'uso (legge logs\uso.csv)
+scheda.py        Scheda progetto, Consigli, Revisione critica
+PIANO_v0.5.md    il piano: fase A (fatta), B (motori gratuiti), C (due alla volta), "Dopo"
+INSTALLA_UFFICIO.bat  da lanciare una volta (icona + attivita' di Windows)
+
+File vecchi che non vengono piu' letti ne' scritti (copiati in logs\uso.csv il primo giorno, poi si possono cancellare):
+  generico\logs\usage.csv, candidature\stato\uso.csv, pannello\chat_uso.csv

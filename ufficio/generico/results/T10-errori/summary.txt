@@ -1,0 +1,4 @@
+Ho creato `contenuti/errori.json` con 30 record "errore" (err-0001..0030), tutti in stato `bozza`. Non ho eseguito un validatore sullo schema, ho solo seguito a mano campi, lunghezze e valori.
+Distribuzione: 6 articolo, 6 genere, 6 ordine_verbo, 6 falsi_amici, 3 preposizioni, 3 altro. Gli id non sono raggruppati per categoria: err-0013 è un «altro» e sta in mezzo ai «genere».
+Nel report (`agenti/T10-errori/RAPPORTO.md`) ci sono le scelte e i 5 item di cui sono meno sicuro: err-0025, 0028, 0009, 0020, 0022.
+Non ho creato DECISIONS.md: non c'erano decisioni da prendere.

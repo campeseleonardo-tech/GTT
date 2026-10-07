@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-09-14T22:37:16.347909+00:00",
+  "backend": "ollama",
+  "model": "llama3.2:3b",
+  "host": "http://localhost:11434",
+  "max_iterations": 2,
+  "registered_domains": [
+    "chessdotcom",
+    "money",
+    "spotify"
+  ],
+  "batch_elapsed_seconds": 323.13,
+  "summary": {
+    "total_questions": 2,
+    "successful": 2,
+    "failed": 0,
+    "hit_max_iterations_count": 0,
+    "hit_max_iterations_ids": [],
+    "failed_ids": [],
+    "avg_iterations": 1.5,
+    "avg_elapsed_seconds": 161.56,
+    "total_elapsed_seconds": 323.13,
+    "tool_calls_by_tool": {
+      "run_sql": 1
+    },
+    "run_sql_queries": [
+      {
+        "question_id": "money_05",
+        "query": "SELECT instrument_name FROM private_market_legs"
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "money_04",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho investito su Trade Republic in totale, tra acquisti e vendite?",
+      "success": true,
+      "answer": "{\"name\":\"run_sql\",\"parameters\":{\"query\":\"SELECT SUM(amount) FROM transactions WHERE domain = \"bank\" AND transaction_type IN (\\\"income\\\", \\\"expense\\\")\"}}",
+      "iterations_used": 1,
+      "hit_max_iterations": false,
+      "tool_calls_made": [],
+      "elapsed_seconds": 288.35
+    },
+    {
+      "id": "money_05",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Cosa ho comprato nei mercati privati (private markets)?",
+      "success": true,
+      "answer": "Hai comprato Private Equity nei mercati privati.",
+      "iterations_used": 2,
+      "hit_max_iterations": false,
+      "tool_calls_made": [
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT instrument_name FROM private_market_legs"
+          }
+        }
+      ],
+      "elapsed_seconds": 34.78
+    }
+  ]
+}

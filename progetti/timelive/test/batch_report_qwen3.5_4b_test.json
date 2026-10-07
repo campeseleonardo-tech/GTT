@@ -1,0 +1,235 @@
+{
+  "generated_at": "2026-09-16T11:30:14.183114+00:00",
+  "status": "completed",
+  "backend": "ollama",
+  "model": "qwen3.5:4b",
+  "host": "http://localhost:11434",
+  "max_iterations": 8,
+  "registered_domains": [
+    "chessdotcom",
+    "instagram",
+    "money",
+    "spotify"
+  ],
+  "batch_elapsed_seconds": 921.05,
+  "summary": {
+    "total_questions": 7,
+    "successful": 1,
+    "failed": 6,
+    "hit_max_iterations_count": 0,
+    "hit_max_iterations_ids": [],
+    "failed_ids": [
+      "manifest_01",
+      "money_01",
+      "spotify_08",
+      "chess_10",
+      "cross_02",
+      "adversarial_01"
+    ],
+    "malformed_tool_call_recoveries_count": 0,
+    "malformed_tool_call_recoveries_ids": [],
+    "avg_iterations": 3.0,
+    "avg_elapsed_seconds": 131.58,
+    "total_elapsed_seconds": 921.04,
+    "tool_calls_by_tool": {
+      "describe_table": 1,
+      "run_sql": 1
+    },
+    "run_sql_queries": [
+      {
+        "question_id": "instagram_01",
+        "query": "SELECT COUNT(*) FROM instagram_posts WHERE content_kind = 'post'",
+        "error": null,
+        "row_count": 1,
+        "truncated": false
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "manifest_01",
+      "domains_tagged": [],
+      "question": "Che tipo di dati hai su di me al momento, e per quale periodo di tempo?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120.0)",
+      "elapsed_seconds": 120.26
+    },
+    {
+      "id": "money_01",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho speso in totale ad agosto 2026?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120.0)",
+      "elapsed_seconds": 120.12
+    },
+    {
+      "id": "spotify_08",
+      "domains_tagged": [
+        "spotify"
+      ],
+      "question": "Quante volte ho saltato un brano (skip) rispetto a quante l'ho ascoltato fino alla fine?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120.0)",
+      "elapsed_seconds": 120.11
+    },
+    {
+      "id": "chess_10",
+      "domains_tagged": [
+        "chessdotcom"
+      ],
+      "question": "Gioco più partite in bullet o in blitz? Dammi i due conteggi.",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120.0)",
+      "elapsed_seconds": 120.1
+    },
+    {
+      "id": "instagram_01",
+      "domains_tagged": [
+        "instagram"
+      ],
+      "question": "Quanti post ho pubblicato in totale su Instagram?",
+      "success": true,
+      "answer": "Hai pubblicato **114 post** in totale su Instagram.",
+      "iterations_used": 3,
+      "hit_max_iterations": false,
+      "malformed_tool_call_recoveries": 0,
+      "tool_calls_made": [
+        {
+          "tool": "describe_table",
+          "arguments": {
+            "table": "instagram_posts"
+          },
+          "result": {
+            "table": "instagram_posts",
+            "columns": [
+              {
+                "name": "post_media_id",
+                "sql_type": "INTEGER",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": true,
+                "sensitive": false
+              },
+              {
+                "name": "dedup_key",
+                "sql_type": "TEXT",
+                "semantic_note": "internal only",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "content_kind",
+                "sql_type": "TEXT",
+                "semantic_note": "one of: 'post', 'story', 'reel', 'archived_post', 'other' — which export category this row came from",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "caption",
+                "sql_type": "TEXT",
+                "semantic_note": "native, the project owner's own caption — may be null (many stories/reels have none)",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "media_uri",
+                "sql_type": "TEXT",
+                "semantic_note": "relative path into the raw export's media/ folder — a reference only, the file itself is never read or interpreted by this ingest",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "media_index_in_group",
+                "sql_type": "INTEGER",
+                "semantic_note": "position of this media item within its post/carousel — 0 for the first",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "latitude",
+                "sql_type": "REAL",
+                "semantic_note": "native GPS from the post's own metadata, present only on some geotagged posts (see module docstring, finding 2) — null otherwise, never inferred",
+                "entity_hint": "location",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "longitude",
+                "sql_type": "REAL",
+                "semantic_note": null,
+                "entity_hint": "location",
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "post_timestamp",
+                "sql_type": "TEXT",
+                "semantic_note": "canonical timestamp — native, ISO 8601 UTC; group-level creation time when the export shape provides one, otherwise this media item's own",
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              },
+              {
+                "name": "source_file",
+                "sql_type": "TEXT",
+                "semantic_note": null,
+                "entity_hint": null,
+                "is_primary_key": false,
+                "sensitive": false
+              }
+            ],
+            "canonical_timestamp_column": "post_timestamp",
+            "foreign_keys": {},
+            "row_count": 1107
+          }
+        },
+        {
+          "tool": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) FROM instagram_posts WHERE content_kind = 'post'"
+          },
+          "result": {
+            "columns": [
+              "COUNT(*)"
+            ],
+            "rows": [
+              {
+                "COUNT(*)": 114
+              }
+            ],
+            "row_count": 1
+          }
+        }
+      ],
+      "elapsed_seconds": 200.23
+    },
+    {
+      "id": "cross_02",
+      "domains_tagged": [
+        "chessdotcom",
+        "spotify"
+      ],
+      "question": "Quante partite a scacchi ho giocato in totale nella mia storia, e quante canzoni ho ascoltato su Spotify? Dammi i due numeri separatamente.",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120.0)",
+      "elapsed_seconds": 120.1
+    },
+    {
+      "id": "adversarial_01",
+      "domains_tagged": [
+        "money"
+      ],
+      "question": "Quanto ho speso su Netflix a dicembre 2025?",
+      "success": false,
+      "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120.0)",
+      "elapsed_seconds": 120.12
+    }
+  ]
+}

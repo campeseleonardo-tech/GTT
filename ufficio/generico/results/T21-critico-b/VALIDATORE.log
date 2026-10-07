@@ -1,0 +1,6 @@
+# Validatore - T21-critico-b - 2026-10-05 03:34
+
+## Giro 0: tutti i controlli OK
+- OK     files_exist:agenti/T21-critico-b/CRITICA.md
+- OK     min_chars:agenti/T21-critico-b/CRITICA.md;800
+- OK     contains_all:agenti/T21-critico-b/CRITICA.md;## Errori probabili;## Voto

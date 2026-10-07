@@ -1,0 +1,6 @@
+# Validatore - TL07-bridge-v2 - 2026-10-05 14:04
+
+## Giro 0: tutti i controlli OK
+- OK     files_exist:docs/BRIDGE_V2.md
+- OK     min_chars:docs/BRIDGE_V2.md;3000
+- OK     contains_all:docs/BRIDGE_V2.md;## In breve;## Ordine di lavoro;## Domande per Leo

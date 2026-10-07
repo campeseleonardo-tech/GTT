@@ -1,0 +1,48 @@
+{
+  "id": "timelive",
+  "nome": "Timelive",
+  "sigla": "TL",
+  "colore": "#7a5cd6",
+  "tipo": "generico",
+  "priorita": "bassa",
+  "stato": "attivo",
+  "obiettivo": "Archivio personale dei miei dati, locale (Raspberry Pi)",
+  "cartella": "C:\\Users\\campe\\Desktop\\timelive_repo",
+  "livello_dati": 2,
+  "prefisso": "TL",
+  "piano": [],
+  "frase": "Da far partire con task ben specifiche (da decidere in chat)",
+  "idee": [
+    "Riscrivere test_llm_bridge.py per i 3 nuovi strumenti (i test richiedono WSL2)",
+    "Pulizia di config.json / config.py e generatore di dati sintetici",
+    "Analisi dei report dei batch (dati livello 2)",
+    "Nessun nuovo dominio finche' non si rifa' il batch di validazione"
+  ],
+  "scheda": "C:\\Users\\campe\\Desktop\\Timelive\\timelive.md",
+  "decisioni": [
+    {
+      "quando": "2026-10-05 13:56",
+      "task": "TL06-log-ollama",
+      "domanda": "Le misure prompt_eval vanno stampate anche nel CLI manuale?",
+      "risposta": "B (niente, solo nei dati)"
+    },
+    {
+      "quando": "2026-10-05 14:04",
+      "task": "TL07-bridge-v2",
+      "domanda": "Motore embedding per router?",
+      "risposta": "Ollama (nomic)"
+    },
+    {
+      "quando": "2026-10-05 14:05",
+      "task": "TL07-bridge-v2",
+      "domanda": "Il flag sensitive è già attivo?",
+      "risposta": "non lo so"
+    },
+    {
+      "quando": "2026-10-05 14:05",
+      "task": "TL07-bridge-v2",
+      "domanda": "Privacy default se config manca?",
+      "risposta": "L0 (Offline)"
+    }
+  ]
+}

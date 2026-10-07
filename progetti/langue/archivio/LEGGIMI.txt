@@ -1,0 +1,3 @@
+Vecchio codice di Langue (versione Flet / console), spostato qui dall'agente T01.
+Non e' usato dal nuovo sito. Dei vecchi file si riusano solo i dati (words_db.json) e la logica dei punteggi.
+Per tornare alla situazione precedente: git, ramo main.

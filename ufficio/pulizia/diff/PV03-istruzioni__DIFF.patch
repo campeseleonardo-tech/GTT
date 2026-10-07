@@ -1,0 +1,100 @@
+diff --git a/strumenti/ISTRUZIONI_CHAT.md b/strumenti/ISTRUZIONI_CHAT.md
+new file mode 100644
+index 0000000..a751b9c
+--- /dev/null
++++ b/strumenti/ISTRUZIONI_CHAT.md
+@@ -0,0 +1,94 @@
++# Istruzioni per preparare un preventivo con la chat
++
++Questo documento spiega a una persona non tecnica (es. il papà di Leo) come usare una chat Claude per raccogliere i dati del preventivo e poi generare il file Word finale senza rischiare di rovinare logo, intestazione o impaginazione.
++
++---
++
++## Come funziona (5 righe)
++
++1. La chat **non crea il Word**: raccoglie solo i dati e li salva in un file `dati.json`.
++2. Il file `dati.json` contiene tutti i campi del preventivo (date, nomi, importi, voci di lavorazione).
++3. Uno script Python (`genera_preventivo.py`) prende il `dati.json` e riempie il **modello Word originale** (`MOD_PREVENTIVO_v4_1.docx`).
++4. Il modello resta intatto: logo, intestazioni, piè di pagina, stili e layout non cambiano mai.
++5. Il risultato è un file `.docx` perfetto, pronto da stampare o inviare.
++
++---
++
++## Cosa chiedere alla chat
++
++Incolla questo testo **esattamente così** nella chat Claude all'inizio di ogni nuovo preventivo:
++
++> **Istruzioni per la chat (incolla qui sotto):**
++>
++> Fai da assistente per compilare un preventivo. Devi raccogliere **un campo alla volta** i dati seguenti e alla fine produrre **SOLO** un oggetto JSON valido (niente spiegazioni, niente markdown, niente testo extra).
++>
++> Campi obbligatori (usa questi nomi esatti come chiavi):
++> - `DATA` — es. "6 ottobre 2026"
++> - `PROTOCOLLO` — es. "m.r.10.26"
++> - `NOME COGNOME / RAGIONE SOCIALE INTESTATARIO` — es. "Mario Rossi (dati di prova)"
++> - `INDIRIZZO INTESTATARIO` — es. "Via Prova 1, 10000 Città"
++> - `P.IVA INTESTATARIO` — es. "P.IVA 00000000000" (se privato scrivi "—")
++> - `TIPO IMPIANTO / LAVORO` — es. "Impianto elettrico appartamento"
++> - `INDIRIZZO CANTIERE` — es. "Via Esempio 2, Pianezza"
++> - `FORMULA DI APERTURA` — es. "Con la presente Vi sottoponiamo il preventivo per i lavori in oggetto."
++> - `TOTALE` — es. "1.250,00" (formato italiano con virgola)
++> - `CONDIZIONI / CLAUSOLE PERTINENTI` — es. "Pagamento a 30 giorni. Validità 30 giorni."
++> - `VOCI` — **array di stringhe**, una per riga di lavorazione. Esempio:
++>   ```json
++>   [
++>     "Fornitura e posa quadro elettrico - € 450,00",
++>     "Punti luce e prese - € 600,00",
++>     "Certificazione dichiarazione di conformità - € 150,00",
++>     "Voce extra & prova <speciali> - € 50,00"
++>   ]
++>   ```
++>
++> Regole ferree:
++> - **Non inventare MAI importi, date, nomi o indirizzi**: se manca un dato, chiedi all'utente.
++> - Chiedi **un campo per volta**, in qualunque ordine, finché non hai tutto.
++> - Per `VOCI` chiedi quante righe servono e raccogli ogni riga completa (descrizione + importo).
++> - L'output finale deve essere **SOLO il JSON** (inizia con `{` e finisce con `}`), senza virgole finali, senza commenti, senza testo prima o dopo.
++> - Usa dati di esempio inventati (come quelli sopra) solo per mostrare il formato; i dati reali li dai tu.
++>
++> Quando hai tutti i campi, stampa il JSON e basta.
++
++---
++
++## Come generare il Word
++
++1. Salva il JSON che la chat ti ha dato in un file chiamato `dati.json` (nella cartella `strumenti/` o dove preferisci).
++2. Apri il terminale (Prompt dei comandi / PowerShell / Terminale) nella cartella del progetto.
++3. Esegui **uno** di questi comandi:
++
++   **Opzione A — output con nome fisso:**
++   ```bash
++   python strumenti/genera_preventivo.py dati.json preventivo_finale.docx
++   ```
++
++   **Opzione B — output in una cartella (il file prende il nome dal PROTOCOLLO):**
++   ```bash
++   python strumenti/genera_preventivo.py dati.json ./output/
++   ```
++   (Crea la cartella `output/` se non esiste.)
++
++   Il modello `MOD_PREVENTIVO_v4_1.docx` nella cartella `Preventivo Automatico/` viene usato automaticamente.
++
++4. Troverai il file `.docx` pronto nella posizione indicata.
++
++---
++
++## Se qualcosa non va
++
++| Problema | Cosa fare |
++|----------|-----------|
++| **Logo storto / mancante / diventato testo** | Non aprire il Word per "aggiustarlo". Il logo è un'immagine nell'intestazione del modello: lo script non lo tocca. Se non si vede, il modello originale è danneggiato → avvisa Leo. |
++| **Campi vuoti o `[[CAMPO]]` visibili nel Word** | Il JSON manca di quella chiave. Controlla `dati.json`: ogni segnaposto del modello deve avere la sua chiave (es. `DATA`, `PROTOCOLLO`, `TOTALE`, ecc.). Riesegui lo script dopo aver corretto il JSON. |
++| **Caratteri strani (`&amp;`, `&lt;`, `&gt;` o simboli rotti)** | Lo script escapa automaticamente `&`, `<`, `>`, `"`, `'`. Se vedi entità XML, il JSON le contiene già -> rimuovile dal JSON (scrivi `&` non `&amp;`). |
++| **Errore "mancante la chiave JSON: ..."** | Il modello richiede una chiave che nel JSON non c'è. Aggiungila al JSON (anche vuota: `""`) e rilancia. |
++| **Errore "il file JSON non è valido"** | Il JSON ha sintassi sbagliata (virgola in più, parentesi mancanti, apici sbagliati). Incollalo in un validatore JSON online (es. jsonlint.com) o chiedi alla chat di rifarlo **solo JSON**. |
++| **Le voci non compaiono o sono sbagliate** | `VOCI` deve essere un array di stringhe (vedi esempio sopra). Ogni stringa = una riga completa. Non mettere oggetti, solo testo. |
++| **Il file output non si apre / è corrotto** | Cancella l'output e rilancia il comando. Se persiste, il modello Word potrebbe essere danneggiato → avvisa Leo. |
++
++---
++
++**Nota:** I dati negli esempi sopra sono **inventati** (Mario Rossi, Via Prova, ecc.). Usa sempre i dati reali del cliente quando compili il vero preventivo.

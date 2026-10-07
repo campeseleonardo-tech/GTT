@@ -1,0 +1,53 @@
+diff --git a/docs/BRIDGE_V2.md b/docs/BRIDGE_V2.md
+new file mode 100644
+index 0000000..247f5f8
+--- /dev/null
++++ b/docs/BRIDGE_V2.md
+@@ -0,0 +1,47 @@
++# BRIDGE v2 — Architettura
++
++**origine**: agente TL07-bridge-v2
++**stato**: bozza
++
++## In breve
++Il ponte v2 aggiunge due elementi principali: un "router" che indovina quali tabelle servono per rispondere a una domanda (risparmiando passaggi lenti per descriverle tutte), e una modalità "Privacy" (Online/Offline) per decidere esplicitamente se i dati personali possono uscire dal computer quando si usano modelli cloud. L'architettura SQL esistente rimane invariata.
++
++## Come funziona oggi
++Il modello legge un elenco riassuntivo di tutte le tabelle (solo i nomi delle colonne, senza spiegarne il significato). Prima di scrivere una query SQL, deve usare lo strumento `describe_table` per farsi spiegare le tabelle che gli interessano. 
++Attualmente, se si usa un modello su internet (cloud come Claude o Together), tutti i dati vengono inviati fuori dal computer senza limiti: la domanda, le spiegazioni dello schema e le righe esatte trovate nel database. 
++Inoltre, per il modello locale (Ollama), non misuriamo quanto tempo impiega a leggere le istruzioni iniziali (prompt).
++
++## Cosa cambia in v2
++1. **Router delle tabelle**: Un meccanismo interviene *prima* del loop del modello. Analizza la domanda e decide quali tabelle servono. Se è molto sicuro, fornisce subito al modello le descrizioni complete di quelle tabelle. Il modello salta il passaggio di scoperta e va diretto a cercare i dati (`run_sql`). Se il router è insicuro, si usa il metodo di fallback di oggi (indice riassuntivo).
++2. **Filtro Privacy (Online/Offline)**: Tre livelli di sicurezza globali:
++   - **L0 (Offline)**: Nessun dato va su internet. Funzionano solo i modelli locali.
++   - **L1 (Schema)**: Al cloud vanno la domanda e i nomi/spiegazioni delle tabelle. I risultati del database e le righe reali vengono rimossi prima dell'invio.
++   - **L2 (Completo)**: I risultati delle ricerche vanno al cloud, ma i valori delle colonne contrassegnate come "sensibili" vengono oscurate (sostituite con `[REDACTED]`).
++3. **Metriche Ollama**: Il sistema estrarrà dalle risposte di Ollama i tempi e i conteggi di lettura del prompt (`prompt_eval_count` e durata) per salvarli nei dati finali, senza stamparli a schermo.
++
++## Dove A e B non sono d'accordo
++- **Complessità della Privacy**: La proposta B suggeriva regole di privacy personalizzate per ogni singolo dominio o colonna. La proposta A suggeriva una regola fissa globale.
++  *Scelta*: Regola globale per l'intera app (L0/L1/L2). È l'approccio più semplice e meno incline a disattenzioni.
++- **Dove oscurare i dati sensibili**: A suggeriva di oscurarli direttamente dentro l'esecuzione di `run_sql`. B suggeriva un filtro "in uscita" prima di mandare la richiesta via rete.
++  *Scelta*: Filtro in uscita (`OutboundFilter`, da B). Separa le responsabilità e protegge i dati nel punto esatto di uscita dalla rete locale, rendendolo sicuro anche se in futuro aggiungiamo nuovi tool.
++- **Motore per la somiglianza (Embedding)**: A non specifica la tecnologia, B propone un modello Python separato (`sentence-transformers`).
++  *Scelta provvisoria*: Usare Ollama (es. `nomic-embed-text`) per non aggiungere librerie esterne pesanti, dato che Ollama è già attivo per il database locale. (Aggiunta una domanda per confermare con Leo).
++
++## Ordine di lavoro
++1. **Dati di prova (Ground Truth)**: Analizzare le vecchie risposte di Sonnet (~66 domande) per estrarre quali tabelle servivano davvero, creando un file per testare il router in modo automatico. (File toccati: `eval_router.py` futuro script, `reports/`)
++2. **Scheletro Router**: Creare l'interfaccia base del router. Modificare `run_query()` per chiamare il router e fornire subito le tabelle. (File toccati: `bridge/router.py`, `code/llm_bridge.py`)
++3. **Router a Embedding (A)**: Creare un backend per il router che usa la somiglianza del testo (embedding tramite Ollama o Python) tra la domanda e le note delle tabelle, salvando i calcoli su disco. (File toccati: `bridge/router.py`)
++4. **Router a Modello Locale (B)**: Implementare un backend alternativo che chiede a un modello locale piccolo (es. qwen3.5:4b) quali tabelle usare, per confrontarlo con l'embedding. (File toccati: `bridge/router.py`)
++5. **Livelli di Privacy**: Implementare la lettura di `config.json` e il filtro in uscita nei client cloud (`ClaudeAPIClient`, `TogetherAIClient`) per bloccare/oscurare i messaggi in base a L0, L1 o L2. (File toccati: `code/llm_bridge.py`, nuovo `config.json`)
++6. **Metriche Ollama**: Estrarre le misure sul caricamento del prompt dalle risposte grezze di Ollama e salvarle nell'oggetto `QueryResult`. (File toccati: `code/llm_bridge.py`)
++
++## Rischi
++- **Tabelle sbagliate**: Se il router si sbaglia, il danno è marginale. Il modello riceverà comunque l'elenco riassuntivo completo per poter rimediare in autonomia, si perderà solo il beneficio della velocità.
++- **Lentezza del router**: Il tempo impiegato dal router locale potrebbe vanificare il tempo risparmiato. Va misurato sul Raspberry Pi.
++- **Dati sensibili (da verificare)**: I commenti nel codice menzionano l'esistenza di un flag `sensitive` per le colonne. Qualora negli adapter attuali non fosse realmente applicato, il livello L2 si comporterebbe come se nessun dato fosse da oscurare.
++
++## Domande per Leo
++(Vedi `DOMANDE.md` per il dettaglio)
++1. Quale motore di embedding preferisci per il router?
++2. Il flag sensitive per le colonne è già assegnato e pronto negli adapter?
++3. Quale livello di privacy assumiamo di default se manca il config?

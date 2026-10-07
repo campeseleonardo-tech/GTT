@@ -1,0 +1,585 @@
+2026-10-04 01:04:40 T01-pulizia: ramo T01-pulizia creato; base 0804e730; .gitignore +5
+2026-10-04 01:04:41 T01-pulizia: done, commit 5cfa13e9 (turni None, costo listino 0.000 USD)
+2026-10-04 01:04:41 T02-schema: ramo T02-schema creato; base 5cfa13e9; .gitignore +0
+2026-10-04 01:04:41 T02-schema: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 01:05:26 T02-schema: failed, commit 03b909c9 (turni 8, costo listino 0.139 USD)
+2026-10-04 01:05:26 Fine. Task avviati: 2, costo stimato di listino: 0.139 USD
+2026-10-04 01:30:23 T02-schema: ramo T02-schema riusato; base ee7cacaa; .gitignore +0
+2026-10-04 01:30:23 T02-schema: done, commit 7c812c6a (turni None, costo listino 0.000 USD)
+2026-10-04 01:30:24 T03-conversione: ramo T03-conversione creato; base 7c812c6a; .gitignore +0
+2026-10-04 01:30:24 T03-conversione: done, commit fa8f300b (turni None, costo listino 0.000 USD)
+2026-10-04 01:30:25 T07-parole: ramo T07-parole creato; base fa8f300b; .gitignore +0
+2026-10-04 01:30:25 T07-parole: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 01:32:15 T07-parole: done, commit 59e45d55 (turni 9, costo listino 0.339 USD)
+2026-10-04 01:32:16 T08-frasi: ramo T08-frasi creato; base 59e45d55; .gitignore +0
+2026-10-04 01:32:16 T08-frasi: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 01:33:58 T08-frasi: done, commit 555dd780 (turni 7, costo listino 0.311 USD)
+2026-10-04 01:33:59 T10-errori: ramo T10-errori creato; base 555dd780; .gitignore +0
+2026-10-04 01:33:59 T10-errori: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 01:35:56 T10-errori: done, commit 82513eb6 (turni 6, costo listino 0.285 USD)
+2026-10-04 01:35:56 Fine. Task avviati: 5, costo stimato di listino: 0.935 USD
+2026-10-04 01:45:21 Fine. Task avviati: 0, costo stimato di listino: 0.000 USD
+2026-10-04 02:00:21 T11-revisione: ramo T11-revisione creato; base 82513eb6; .gitignore +0
+2026-10-04 02:00:21 T11-revisione: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 02:01:56 T11-revisione: validatore: tutti i controlli OK
+2026-10-04 02:01:57 T11-revisione: done, commit 6f254d4b (turni 24, costo listino 0.401 USD)
+2026-10-04 02:01:57 T12-parole2: ramo T12-parole2 creato; base 6f254d4b; .gitignore +0
+2026-10-04 02:01:57 T12-parole2: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 02:03:35 T12-parole2: validatore: tutti i controlli OK
+2026-10-04 02:03:36 T12-parole2: done, commit 72569c11 (turni 5, costo listino 0.338 USD)
+2026-10-04 02:03:36 T13-frasi2: ramo T13-frasi2 creato; base 72569c11; .gitignore +0
+2026-10-04 02:03:36 T13-frasi2: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 02:05:04 T13-frasi2: limite d'uso rilevato; il task resta in coda (il lavoro parziale sara' salvato dal prossimo snapshot)
+2026-10-04 02:05:04 Fermo tutto: limite d'uso raggiunto. Riprovo dopo 60 minuti.
+2026-10-04 02:05:04 Fine. Task avviati: 3, costo stimato di listino: 0.739 USD
+2026-10-04 02:15:21 Limite d'uso: aspetto fino alle 03:05.
+2026-10-04 02:17:52 Limite d'uso: aspetto fino alle 03:05.
+2026-10-04 02:27:00 Limite d'uso: aspetto fino alle 03:05.
+2026-10-04 02:30:21 Limite d'uso: aspetto fino alle 03:05.
+2026-10-04 02:45:21 File STOP presente: mi fermo.
+2026-10-04 03:00:21 File STOP presente: mi fermo.
+2026-10-04 03:15:21 File STOP presente: mi fermo.
+2026-10-04 03:30:21 File STOP presente: mi fermo.
+2026-10-04 03:45:21 File STOP presente: mi fermo.
+2026-10-04 04:00:21 File STOP presente: mi fermo.
+2026-10-04 04:15:21 File STOP presente: mi fermo.
+2026-10-04 04:30:21 File STOP presente: mi fermo.
+2026-10-04 04:45:21 File STOP presente: mi fermo.
+2026-10-04 05:00:21 File STOP presente: mi fermo.
+2026-10-04 05:15:21 File STOP presente: mi fermo.
+2026-10-04 05:30:21 File STOP presente: mi fermo.
+2026-10-04 05:45:21 File STOP presente: mi fermo.
+2026-10-04 06:00:21 File STOP presente: mi fermo.
+2026-10-04 06:15:21 File STOP presente: mi fermo.
+2026-10-04 06:30:21 File STOP presente: mi fermo.
+2026-10-04 06:45:21 File STOP presente: mi fermo.
+2026-10-04 07:00:21 File STOP presente: mi fermo.
+2026-10-04 07:15:21 File STOP presente: mi fermo.
+2026-10-04 07:30:21 File STOP presente: mi fermo.
+2026-10-04 07:45:21 File STOP presente: mi fermo.
+2026-10-04 08:00:21 File STOP presente: mi fermo.
+2026-10-04 08:15:21 File STOP presente: mi fermo.
+2026-10-04 08:30:21 File STOP presente: mi fermo.
+2026-10-04 08:45:21 File STOP presente: mi fermo.
+2026-10-04 09:00:21 File STOP presente: mi fermo.
+2026-10-04 09:15:21 File STOP presente: mi fermo.
+2026-10-04 09:30:21 File STOP presente: mi fermo.
+2026-10-04 09:45:21 File STOP presente: mi fermo.
+2026-10-04 10:00:21 File STOP presente: mi fermo.
+2026-10-04 10:15:21 File STOP presente: mi fermo.
+2026-10-04 10:30:21 File STOP presente: mi fermo.
+2026-10-04 10:45:21 File STOP presente: mi fermo.
+2026-10-04 11:00:21 File STOP presente: mi fermo.
+2026-10-04 11:15:21 File STOP presente: mi fermo.
+2026-10-04 11:30:21 File STOP presente: mi fermo.
+2026-10-04 11:45:21 File STOP presente: mi fermo.
+2026-10-04 12:00:21 File STOP presente: mi fermo.
+2026-10-04 12:15:21 File STOP presente: mi fermo.
+2026-10-04 12:30:21 File STOP presente: mi fermo.
+2026-10-04 12:45:22 File STOP presente: mi fermo.
+2026-10-04 13:00:21 File STOP presente: mi fermo.
+2026-10-04 13:15:22 File STOP presente: mi fermo.
+2026-10-04 13:30:21 File STOP presente: mi fermo.
+2026-10-04 13:45:22 File STOP presente: mi fermo.
+2026-10-04 14:00:21 File STOP presente: mi fermo.
+2026-10-04 14:15:22 File STOP presente: mi fermo.
+2026-10-04 14:30:22 File STOP presente: mi fermo.
+2026-10-04 14:45:22 File STOP presente: mi fermo.
+2026-10-04 15:00:21 File STOP presente: mi fermo.
+2026-10-04 15:15:22 File STOP presente: mi fermo.
+2026-10-04 15:30:22 File STOP presente: mi fermo.
+2026-10-04 15:45:22 File STOP presente: mi fermo.
+2026-10-04 16:00:22 File STOP presente: mi fermo.
+2026-10-04 16:03:22 T13-frasi2: ramo T13-frasi2 riusato; base ca730f39; .gitignore +0
+2026-10-04 16:03:23 T13-frasi2: lavoro gia' completo dal tentativo precedente: lo adotto senza richiamare l'agente
+2026-10-04 16:03:23 T13-frasi2: done, commit c71aeb59 (turni None, costo listino 0.000 USD)
+2026-10-04 16:03:23 T14-errori2: ramo T14-errori2 creato; base c71aeb59; .gitignore +0
+2026-10-04 16:03:23 T14-errori2: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 16:04:22 Un'altra esecuzione e' gia' in corso: esco.
+2026-10-04 16:05:18 T14-errori2: validatore: tutti i controlli OK
+2026-10-04 16:05:19 T14-errori2: done, commit 5759f6ce (turni 8, costo listino 0.297 USD)
+2026-10-04 16:05:19 in attesa - T15-dati-web: in attesa della tua approvazione (scrivi 'approved: yes' nel file del task)
+2026-10-04 16:05:19 in attesa - T16-sito: in attesa della tua approvazione (scrivi 'approved: yes' nel file del task)
+2026-10-04 16:05:19 Fine. Task avviati: 2, costo stimato di listino: 0.297 USD
+2026-10-04 16:05:22 in attesa - T15-dati-web: in attesa della tua approvazione (scrivi 'approved: yes' nel file del task)
+2026-10-04 16:05:22 in attesa - T16-sito: in attesa della tua approvazione (scrivi 'approved: yes' nel file del task)
+2026-10-04 16:05:22 Fine. Task avviati: 0, costo stimato di listino: 0.000 USD
+2026-10-04 16:15:22 in attesa - T15-dati-web: in attesa della tua approvazione (scrivi 'approved: yes' nel file del task)
+2026-10-04 16:15:22 in attesa - T16-sito: in attesa della tua approvazione (scrivi 'approved: yes' nel file del task)
+2026-10-04 16:15:22 Fine. Task avviati: 0, costo stimato di listino: 0.000 USD
+2026-10-04 16:30:22 in attesa - T15-dati-web: in attesa della tua approvazione (scrivi 'approved: yes' nel file del task)
+2026-10-04 16:30:22 in attesa - T16-sito: in attesa della tua approvazione (scrivi 'approved: yes' nel file del task)
+2026-10-04 16:30:22 Fine. Task avviati: 0, costo stimato di listino: 0.000 USD
+2026-10-04 16:45:22 in attesa - T15-dati-web: in attesa della tua approvazione (scrivi 'approved: yes' nel file del task)
+2026-10-04 16:45:22 in attesa - T16-sito: in attesa della tua approvazione (scrivi 'approved: yes' nel file del task)
+2026-10-04 16:45:22 Fine. Task avviati: 0, costo stimato di listino: 0.000 USD
+2026-10-04 16:49:33 T15-dati-web: ramo T15-dati-web creato; base 5759f6ce; .gitignore +0
+2026-10-04 16:49:34 T15-dati-web: done, commit 1404f22d (turni None, costo listino 0.000 USD)
+2026-10-04 16:49:34 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-04 17:03:51 T16-sito: ramo T16-sito creato; base 1404f22d; .gitignore +0
+2026-10-04 17:03:51 T16-sito: avvio agente (tier large, modello sonnet, max turni 100, timeout 5400s)
+2026-10-04 17:06:52 T16-sito: validatore: tutti i controlli OK
+2026-10-04 17:06:52 T16-sito: done, commit f078d23a (turni 16, costo listino 0.464 USD)
+2026-10-04 17:06:52 Fine. Task avviati: 1, costo stimato di listino: 0.464 USD
+2026-10-04 17:49:56 GT01-sfondi: ramo GT01-sfondi creato; base 47ffe853; .gitignore +0
+2026-10-04 17:49:56 GT01-sfondi: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-04 17:50:56 GT01-sfondi: validatore: tutti i controlli OK (agente richiamato 1 volte)
+2026-10-04 17:51:02 GT01-sfondi: done, commit 3a3b89a2 (turni 13, costo listino 0.190 USD)
+2026-10-04 17:51:02 Fine. Task avviati: 1, costo stimato di listino: 0.190 USD
+2026-10-04 17:51:04 GT02-temi: ramo GT02-temi creato; base 3a3b89a2; .gitignore +0
+2026-10-04 17:51:04 GT02-temi: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 17:53:31 GT02-temi: validatore: tutti i controlli OK
+2026-10-04 17:53:36 GT02-temi: done, commit 35dd018b (turni 22, costo listino 0.534 USD)
+2026-10-04 17:53:36 File STOP presente: mi fermo.
+2026-10-04 17:53:36 Fine. Task avviati: 1, costo stimato di listino: 0.534 USD
+2026-10-04 22:18:31 GT04-velocita: ramo GT04-velocita creato; base 35dd018b; .gitignore +0
+2026-10-04 22:18:31 GT04-velocita: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 22:20:12 GT04-velocita: validatore: tutti i controlli OK
+2026-10-04 22:20:20 GT04-velocita: done, commit e5e651cc (turni 23, costo listino 0.408 USD)
+2026-10-04 22:20:20 Fine. Task avviati: 1, costo stimato di listino: 0.408 USD
+2026-10-04 22:20:21 GT05-pendolari: ramo GT05-pendolari creato; base 7d0aa440; .gitignore +0
+2026-10-04 22:20:21 GT05-pendolari: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-04 22:23:15 GT05-pendolari: validatore: tutti i controlli OK
+2026-10-04 22:23:24 GT05-pendolari: done, commit b17ebe52 (turni 31, costo listino 0.562 USD)
+2026-10-04 22:23:24 Fine. Task avviati: 1, costo stimato di listino: 0.562 USD
+2026-10-04 23:16:35 T17-prova-gratis: ramo T17-prova-gratis creato; base f91e12dc; .gitignore +0
+2026-10-04 23:16:35 T17-prova-gratis: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-04 23:21:43 T17-prova-gratis: agente con Solo gratis · modello nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free · ok in 308 s
+2026-10-04 23:21:48 T17-prova-gratis: fix1 con Solo gratis · modello nvidia/nemotron-3.5-content-safety:free · errore in 5 s
+2026-10-04 23:23:38 T17-prova-gratis: fix2 con Solo gratis · modello nvidia/nemotron-3.5-lightning:free · errore in 110 s
+2026-10-04 23:23:38 T17-prova-gratis: validatore: 7 controlli falliti
+2026-10-04 23:23:39 T17-prova-gratis: failed, commit 11e62098 (turni 1, costo listino 0.000 USD)
+2026-10-04 23:23:39 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-04 23:53:55 T17-prova-gratis: ramo T17-prova-gratis riusato; base 1d28b3f7; .gitignore +0
+2026-10-04 23:53:55 T17-prova-gratis: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-04 23:54:25 T17-prova-gratis: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 29 s
+2026-10-04 23:54:25 T17-prova-gratis: validatore: tutti i controlli OK
+2026-10-04 23:54:25 T17-prova-gratis: done, commit 6a4c5ce2 (turni 1, costo listino 0.000 USD)
+2026-10-04 23:54:25 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 00:07:46 GT06-pannello: ramo GT06-pannello creato; base 50426140; .gitignore +0
+2026-10-05 00:07:46 GT06-pannello: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-05 00:09:13 GT06-pannello: validatore: tutti i controlli OK
+2026-10-05 00:09:23 GT06-pannello: done, commit bb207822 (turni 21, costo listino 0.338 USD)
+2026-10-05 00:09:23 Fine. Task avviati: 1, costo stimato di listino: 0.338 USD
+2026-10-05 00:09:24 GT07-clic-fermate: ramo GT07-clic-fermate creato; base c1f80195; .gitignore +0
+2026-10-05 00:09:24 GT07-clic-fermate: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 00:11:00 GT07-clic-fermate: validatore: tutti i controlli OK
+2026-10-05 00:11:10 GT07-clic-fermate: done, commit cb152cbc (turni 22, costo listino 0.281 USD)
+2026-10-05 00:11:10 Fine. Task avviati: 1, costo stimato di listino: 0.281 USD
+2026-10-05 00:11:12 GT08-griglia-scala: ramo GT08-griglia-scala creato; base bbc181cc; .gitignore +0
+2026-10-05 00:11:12 GT08-griglia-scala: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 00:12:27 GT08-griglia-scala: validatore: tutti i controlli OK
+2026-10-05 00:12:37 GT08-griglia-scala: done, commit 2a9894bb (turni 15, costo listino 0.197 USD)
+2026-10-05 00:12:37 Fine. Task avviati: 1, costo stimato di listino: 0.197 USD
+2026-10-05 02:37:58 T18-idee-a: ramo T18-idee-a creato; base 58fb00cc; .gitignore +0
+2026-10-05 02:37:58 T18-idee-a: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 02:38:41 T18-idee-a: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 43 s
+2026-10-05 02:38:41 T18-idee-a: validatore: tutti i controlli OK
+2026-10-05 02:38:42 T18-idee-a: done, commit 8e5f75c9 (turni 1, costo listino 0.000 USD)
+2026-10-05 02:38:42 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 02:38:44 GT09-qualita: ramo GT09-qualita creato; base 5a1f7526; .gitignore +0
+2026-10-05 02:38:45 GT09-qualita: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 02:39:04 GT09-qualita: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 19 s
+2026-10-05 02:39:04 GT09-qualita: validatore: tutti i controlli OK
+2026-10-05 02:39:05 GT09-qualita: done, commit d5781285 (turni 1, costo listino 0.000 USD)
+2026-10-05 02:39:05 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 02:39:06 PV01-ispeziona: git attivato in C:\Users\campe\Desktop\Projects\Preventivi_Gigi (commit iniziale)
+2026-10-05 02:39:07 PV01-ispeziona: ramo PV01-ispeziona creato; base b8c4a3ca; .gitignore +0
+2026-10-05 02:39:08 PV01-ispeziona: done, commit 4769cecb (turni None, costo listino 0.000 USD)
+2026-10-05 02:39:08 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 02:39:09 T18-idee-b: ramo T18-idee-b creato; base 1f63069e; .gitignore +0
+2026-10-05 02:39:09 T18-idee-b: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 02:41:13 T18-idee-b: agente con Solo gratis · modello nvidia/nemotron-3-ultra-550b-a55b:free · ok in 125 s
+2026-10-05 02:41:14 T18-idee-b: validatore: tutti i controlli OK
+2026-10-05 02:41:14 T18-idee-b: done, commit 673cf076 (turni 1, costo listino 0.000 USD)
+2026-10-05 02:41:14 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 02:41:17 GT11-orari-fermate: ramo GT11-orari-fermate creato; base b3c8fc99; .gitignore +0
+2026-10-05 02:41:20 GT11-orari-fermate: done, commit 68d5dcb0 (turni None, costo listino 0.000 USD)
+2026-10-05 02:41:20 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 02:41:21 TL01-progetto-a: ramo TL01-progetto-a creato; base 3bd6ab5c; .gitignore +0
+2026-10-05 02:41:21 TL01-progetto-a: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 02:41:52 TL01-progetto-a: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 32 s
+2026-10-05 02:41:52 TL01-progetto-a: validatore: tutti i controlli OK
+2026-10-05 02:41:53 TL01-progetto-a: done, commit 6df5f808 (turni 1, costo listino 0.000 USD)
+2026-10-05 02:41:53 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 02:41:55 T18-idee-c: ramo T18-idee-c creato; base b5af8afa; .gitignore +0
+2026-10-05 02:41:55 T18-idee-c: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 02:49:28 T18-idee-c: agente con Solo gratis · modello google/gemma-4-31b-it:free · errore in 453 s
+2026-10-05 02:49:28 T18-idee-c: il modello gratuito non ha prodotto nulla di valido (OpenRouter: troppe richieste ai modelli gratuiti, riprovare piu' tardi): riprovo (2/3)
+2026-10-05 02:57:01 T18-idee-c: agente con Solo gratis · modello google/gemma-4-31b-it:free · errore in 453 s
+2026-10-05 02:57:01 T18-idee-c: il modello gratuito non ha prodotto nulla di valido (OpenRouter: troppe richieste ai modelli gratuiti, riprovare piu' tardi): riprovo (3/3)
+2026-10-05 03:05:18 T18-idee-c: agente con Solo gratis · modello qwen/qwen3.8-27b:free · ok in 498 s
+2026-10-05 03:05:18 T18-idee-c: validatore: tutti i controlli OK
+2026-10-05 03:05:19 T18-idee-c: done, commit 5ecd3355 (turni 1, costo listino 0.000 USD)
+2026-10-05 03:05:19 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:05:21 GT04-risposta1: ramo GT04-risposta1 creato; base c40e2e17; .gitignore +0
+2026-10-05 03:05:21 GT04-risposta1: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:06:33 GT04-risposta1: agente con Gratis, poi Claude · modello qwen/qwen3.8-27b:free · ok in 71 s
+2026-10-05 03:06:42 GT04-risposta1: validatore: tutti i controlli OK
+2026-10-05 03:06:52 GT04-risposta1: done, commit 996e7881 (turni 1, costo listino 0.000 USD)
+2026-10-05 03:06:52 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:06:53 T19-scelta: ramo T19-scelta creato; base 88f52f7e; .gitignore +0
+2026-10-05 03:06:53 T19-scelta: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:07:33 T19-scelta: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 39 s
+2026-10-05 03:07:33 T19-scelta: validatore: tutti i controlli OK
+2026-10-05 03:07:33 T19-scelta: done, commit badc01cb (turni 1, costo listino 0.000 USD)
+2026-10-05 03:07:33 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:07:35 GT05-risposta1: ramo GT05-risposta1 creato; base 690b997d; .gitignore +0
+2026-10-05 03:07:35 GT05-risposta1: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:16:22 GT05-risposta1: agente con Gratis, poi Claude · modello poolside/laguna-s-2.1:free · ok in 527 s
+2026-10-05 03:16:31 GT05-risposta1: validatore: tutti i controlli OK
+2026-10-05 03:16:41 GT05-risposta1: done, commit d72ea64e (turni 1, costo listino 0.000 USD)
+2026-10-05 03:16:41 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:16:44 T20-esegui-a: ramo T20-esegui-a creato; base 17a1b751; .gitignore +0
+2026-10-05 03:16:44 T20-esegui-a: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:21:12 T20-esegui-a: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 269 s
+2026-10-05 03:21:13 T20-esegui-a: validatore: tutti i controlli OK
+2026-10-05 03:21:13 T20-esegui-a: done, commit 331b9edc (turni 1, costo listino 0.000 USD)
+2026-10-05 03:21:13 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:21:16 GT05-risposta2: ramo GT05-risposta2 creato; base 5ddbc37d; .gitignore +0
+2026-10-05 03:21:16 GT05-risposta2: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:21:51 GT05-risposta2: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 35 s
+2026-10-05 03:22:00 GT05-risposta2: validatore: tutti i controlli OK
+2026-10-05 03:22:10 GT05-risposta2: done, commit 2c0a6a00 (turni 1, costo listino 0.000 USD)
+2026-10-05 03:22:10 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:22:34 PV02-generatore: ramo PV02-generatore creato; base 57008220; .gitignore +0
+2026-10-05 03:22:34 PV02-generatore: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:23:52 PV02-generatore: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 78 s
+2026-10-05 03:26:55 PV02-generatore: fix1 con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 182 s
+2026-10-05 03:26:55 PV02-generatore: validatore: tutti i controlli OK
+2026-10-05 03:26:57 PV02-generatore: failed, commit 4a283ef8 (turni 1, costo listino 0.000 USD)
+2026-10-05 03:26:57 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:26:58 T18-risposta1: ramo T18-risposta1 creato; base 504a8aaa; .gitignore +0
+2026-10-05 03:26:58 T18-risposta1: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:27:24 T18-risposta1: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · errore in 26 s
+2026-10-05 03:27:24 T18-risposta1: il modello gratuito non ha funzionato (ESITO: Aggiornato IDEE.md per indicare l'implementazione delle idee 1, 2 e 3 e la creazione di task per i problemi del c): passo a Claude
+2026-10-05 03:27:39 T18-risposta1: validatore: tutti i controlli OK
+2026-10-05 03:27:39 T18-risposta1: done, commit 4c8a2178 (turni 4, costo listino 0.080 USD)
+2026-10-05 03:27:39 Fine. Task avviati: 1, costo stimato di listino: 0.080 USD
+2026-10-05 03:27:40 TL01-progetto-b: ramo TL01-progetto-b creato; base 6df5f808; .gitignore +0
+2026-10-05 03:27:40 TL01-progetto-b: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:29:22 TL01-progetto-b: agente con Solo gratis · modello nvidia/nemotron-3-ultra-550b-a55b:free · ok in 102 s
+2026-10-05 03:29:23 TL01-progetto-b: blocked, commit 509c9ff6 (turni 1, costo listino 0.000 USD)
+2026-10-05 03:29:23 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:29:24 GT12-prossimi-passaggi: failed (git: git checkout -b GT12-prossimi-passaggi GT11-orari-fermate: error: Your local changes to the following files would be overwritten by checkout:
+	MEMORIA_PROGETTO.md
+Please commit your changes or stash them before you switch branches.
+Aborting)
+2026-10-05 03:29:24 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:29:26 T18-risposta2: ramo T18-risposta2 creato; base 75cefb38; .gitignore +0
+2026-10-05 03:29:26 T18-risposta2: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:29:39 T18-risposta2: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · errore in 12 s
+2026-10-05 03:29:39 T18-risposta2: il modello gratuito non ha funzionato (ESITO: Aggiornato l'obiettivo giornaliero da 10 a 5 risposte nell'idea 6 di IDEE.md.
+
+[runner] motore OpenRouter, modell): passo a Claude
+2026-10-05 03:29:52 T18-risposta2: validatore: tutti i controlli OK
+2026-10-05 03:29:52 T18-risposta2: done, commit a3240e9d (turni 4, costo listino 0.057 USD)
+2026-10-05 03:29:52 Fine. Task avviati: 1, costo stimato di listino: 0.057 USD
+2026-10-05 03:29:54 GT13-altre-citta: ramo GT13-altre-citta creato (ramo di partenza GT12-prossimi-passaggi mancante: partito da GT05-risposta2); base 191771e7; .gitignore +0
+2026-10-05 03:29:54 GT13-altre-citta: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:31:30 GT13-altre-citta: agente con Solo gratis · modello nvidia/nemotron-3-ultra-550b-a55b:free · ok in 96 s
+2026-10-05 03:31:31 GT13-altre-citta: validatore: tutti i controlli OK
+2026-10-05 03:31:31 GT13-altre-citta: done, commit 0f247b89 (turni 1, costo listino 0.000 USD)
+2026-10-05 03:31:31 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:31:32 PV03-istruzioni: ramo PV03-istruzioni creato; base 1d8dcf38; .gitignore +0
+2026-10-05 03:31:32 PV03-istruzioni: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:32:47 PV03-istruzioni: agente con Solo gratis · modello nvidia/nemotron-3-ultra-550b-a55b:free · ok in 75 s
+2026-10-05 03:32:47 PV03-istruzioni: validatore: tutti i controlli OK
+2026-10-05 03:32:48 PV03-istruzioni: done, commit 36e9d5d9 (turni 1, costo listino 0.000 USD)
+2026-10-05 03:32:48 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:32:48 T20-esegui-b: failed (git: git checkout -b T20-esegui-b T19-scelta: error: Your local changes to the following files would be overwritten by checkout:
+	PROGETTO.md
+Please commit your changes or stash them before you switch branches.
+Aborting)
+2026-10-05 03:32:48 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:32:50 TL02-router: ramo TL02-router creato; base 509c9ff6; .gitignore +0
+2026-10-05 03:32:50 TL02-router: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:33:20 TL02-router: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 29 s
+2026-10-05 03:33:20 TL02-router: validatore: tutti i controlli OK
+2026-10-05 03:33:20 TL02-router: done, commit fe8cdd98 (turni 1, costo listino 0.000 USD)
+2026-10-05 03:33:20 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:33:22 T21-critico-a: failed (git: git checkout -b T21-critico-a T20-esegui-a: error: Your local changes to the following files would be overwritten by checkout:
+	PROGETTO.md
+Please commit your changes or stash them before you switch branches.
+Aborting)
+2026-10-05 03:33:22 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:33:25 T21-critico-b: ramo T21-critico-b creato (ramo di partenza T20-esegui-b mancante: partito da T18-risposta2); base c4bb9adf; .gitignore +0
+2026-10-05 03:33:25 T21-critico-b: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:34:47 T21-critico-b: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 83 s
+2026-10-05 03:34:47 T21-critico-b: validatore: tutti i controlli OK
+2026-10-05 03:34:48 T21-critico-b: done, commit 04ead4fb (turni 1, costo listino 0.000 USD)
+2026-10-05 03:34:48 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:34:49 TL03-policy: ramo TL03-policy creato; base fe8cdd98; .gitignore +0
+2026-10-05 03:34:49 TL03-policy: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:36:47 TL03-policy: agente con Solo gratis · modello nvidia/nemotron-3-ultra-550b-a55b:free · ok in 118 s
+2026-10-05 03:36:47 TL03-policy: validatore: tutti i controlli OK
+2026-10-05 03:36:47 TL03-policy: done, commit 2815ddfd (turni 1, costo listino 0.000 USD)
+2026-10-05 03:36:47 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:36:49 TL01-progetto-b: failed (git: il ramo TL01-progetto-b esiste gia' ma non e' quello attivo (ora: TL03-policy))
+2026-10-05 03:36:49 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:36:51 TL04-test-v2: ramo TL04-test-v2 creato; base 2815ddfd; .gitignore +0
+2026-10-05 03:36:51 TL04-test-v2: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:44:25 TL04-test-v2: agente con Solo gratis · modello google/gemma-4-31b-it:free · errore in 454 s
+2026-10-05 03:44:25 TL04-test-v2: il modello gratuito non ha prodotto nulla di valido (OpenRouter: troppe richieste ai modelli gratuiti, riprovare piu' tardi): riprovo (2/3)
+2026-10-05 03:51:59 TL04-test-v2: agente con Solo gratis · modello google/gemma-4-31b-it:free · errore in 454 s
+2026-10-05 03:51:59 TL04-test-v2: il modello gratuito non ha prodotto nulla di valido (OpenRouter: troppe richieste ai modelli gratuiti, riprovare piu' tardi): riprovo (3/3)
+2026-10-05 03:57:39 TL04-test-v2: agente con Solo gratis · modello qwen/qwen3.8-27b:free · ok in 340 s
+2026-10-05 03:57:39 TL04-test-v2: validatore: tutti i controlli OK
+2026-10-05 03:57:40 TL04-test-v2: done, commit 39a1e1e1 (turni 1, costo listino 0.000 USD)
+2026-10-05 03:57:40 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 03:57:41 TL05-log-ollama: ramo TL05-log-ollama creato; base 39a1e1e1; .gitignore +0
+2026-10-05 03:57:41 TL05-log-ollama: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 03:59:13 TL05-log-ollama: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 92 s
+2026-10-05 03:59:53 TL05-log-ollama: fix1 con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 40 s
+2026-10-05 03:59:53 TL05-log-ollama: validatore: tutti i controlli OK
+2026-10-05 03:59:54 TL05-log-ollama: done, commit 47f49070 (turni 1, costo listino 0.000 USD)
+2026-10-05 03:59:54 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 12:14:13 TL01-progetto-b: ramo TL01-progetto-b gia' esistente: ci sono passato sopra (ero su TL05-log-ollama); base 509c9ff6; .gitignore +0
+2026-10-05 12:14:13 TL01-progetto-b: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 12:17:45 TL01-progetto-b: agente con Solo gratis · modello nvidia/nemotron-3-ultra-550b-a55b:free · ok in 212 s
+2026-10-05 12:17:45 TL01-progetto-b: validatore: tutti i controlli OK
+2026-10-05 12:17:46 TL01-progetto-b: done, commit f6801756 (turni 1, costo listino 0.000 USD)
+2026-10-05 12:17:46 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 12:17:47 T20-esegui-b: ramo T20-esegui-b creato; base badc01cb; .gitignore +0
+2026-10-05 12:17:47 T20-esegui-b: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 12:23:18 T20-esegui-b: agente con Solo gratis · modello nvidia/nemotron-3-ultra-550b-a55b:free · ok in 330 s
+2026-10-05 12:23:18 T20-esegui-b: blocked, commit 52829db3 (turni 1, costo listino 0.000 USD)
+2026-10-05 12:23:18 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 12:23:19 T21-critico-a: ramo T21-critico-a creato; base 331b9edc; .gitignore +0
+2026-10-05 12:23:19 T21-critico-a: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 12:30:53 T21-critico-a: agente con Solo gratis · modello google/gemma-4-31b-it:free · errore in 454 s
+2026-10-05 12:30:53 T21-critico-a: il modello gratuito non ha prodotto nulla di valido (OpenRouter: troppe richieste ai modelli gratuiti, riprovare piu' tardi): riprovo (2/3)
+2026-10-05 12:38:27 T21-critico-a: agente con Solo gratis · modello google/gemma-4-31b-it:free · errore in 454 s
+2026-10-05 12:38:27 T21-critico-a: il modello gratuito non ha prodotto nulla di valido (OpenRouter: troppe richieste ai modelli gratuiti, riprovare piu' tardi): riprovo (3/3)
+2026-10-05 12:45:58 T21-critico-a: agente con Solo gratis · modello qwen/qwen3.8-27b:free · ok in 451 s
+2026-10-05 12:45:58 T21-critico-a: validatore: tutti i controlli OK
+2026-10-05 12:45:59 T21-critico-a: done, commit c1372783 (turni 1, costo listino 0.000 USD)
+2026-10-05 12:45:59 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 12:46:00 GT12-prossimi-passaggi: ramo GT12-prossimi-passaggi creato; base 68d5dcb0; .gitignore +0
+2026-10-05 12:46:00 GT12-prossimi-passaggi: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 12:47:03 GT12-prossimi-passaggi: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 63 s
+2026-10-05 12:47:15 GT12-prossimi-passaggi: validatore: tutti i controlli OK
+2026-10-05 12:47:27 GT12-prossimi-passaggi: done, commit b5354b98 (turni 1, costo listino 0.000 USD)
+2026-10-05 12:47:27 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 12:47:30 PV02-generatore: ramo PV02-generatore gia' esistente: ci sono passato sopra (ero su PV03-istruzioni); base 4a283ef8; .gitignore +0
+2026-10-05 12:47:30 PV02-generatore: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 12:49:48 PV02-generatore: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 138 s
+2026-10-05 12:49:48 PV02-generatore: validatore: tutti i controlli OK
+2026-10-05 12:49:49 PV02-generatore: done, commit 331ed7fe (turni 1, costo listino 0.000 USD)
+2026-10-05 12:49:49 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 12:49:52 T20-risposta1: ramo T20-risposta1 creato; base 62de48ca; .gitignore +0
+2026-10-05 12:49:52 T20-risposta1: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 12:50:30 T20-risposta1: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 38 s
+2026-10-05 12:50:31 T20-risposta1: validatore: tutti i controlli OK
+2026-10-05 12:50:31 T20-risposta1: done, commit b58e144e (turni 1, costo listino 0.000 USD)
+2026-10-05 12:50:31 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 12:50:34 TL01-risposta1: ramo TL01-risposta1 creato; base f6801756; .gitignore +0
+2026-10-05 12:50:34 TL01-risposta1: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 12:51:16 TL01-risposta1: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 42 s
+2026-10-05 12:51:16 TL01-risposta1: validatore: tutti i controlli OK
+2026-10-05 12:51:17 TL01-risposta1: done, commit 8727d0e6 (turni 1, costo listino 0.000 USD)
+2026-10-05 12:51:17 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 12:51:18 T21-risposta1: ramo T21-risposta1 creato; base 9c31f051; .gitignore +0
+2026-10-05 12:51:18 T21-risposta1: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 12:53:32 T21-risposta1: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 134 s
+2026-10-05 12:53:32 T21-risposta1: validatore: tutti i controlli OK
+2026-10-05 12:53:32 T21-risposta1: done, commit 073b80fe (turni 1, costo listino 0.000 USD)
+2026-10-05 12:53:32 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 12:53:34 T20-esegui-b: ramo T20-esegui-b gia' esistente: ci sono passato sopra (ero su T21-risposta1); base 0a8831af; .gitignore +0
+2026-10-05 12:53:34 T20-esegui-b: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 13:03:50 T20-esegui-b: agente con Solo gratis · modello nvidia/nemotron-3-ultra-550b-a55b:free · ok in 616 s
+2026-10-05 13:03:50 T20-esegui-b: validatore: tutti i controlli OK
+2026-10-05 13:03:51 T20-esegui-b: done, commit e144467f (turni 1, costo listino 0.000 USD)
+2026-10-05 13:03:51 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:03:52 TL01-risposta2: ramo TL01-risposta2 creato; base 8727d0e6; .gitignore +0
+2026-10-05 13:03:52 TL01-risposta2: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 13:04:10 TL01-risposta2: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 18 s
+2026-10-05 13:04:11 TL01-risposta2: validatore: tutti i controlli OK
+2026-10-05 13:04:11 TL01-risposta2: done, commit 8e3823a4 (turni 1, costo listino 0.000 USD)
+2026-10-05 13:04:11 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:04:12 TL01-risposta3: ramo TL01-risposta3 creato; base 8e3823a4; .gitignore +0
+2026-10-05 13:04:12 TL01-risposta3: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 13:04:31 TL01-risposta3: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 18 s
+2026-10-05 13:04:31 TL01-risposta3: validatore: tutti i controlli OK
+2026-10-05 13:04:31 TL01-risposta3: done, commit 0d8aa7d1 (turni 1, costo listino 0.000 USD)
+2026-10-05 13:04:31 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:04:32 TL01-risposta4: ramo TL01-risposta4 creato; base 0d8aa7d1; .gitignore +0
+2026-10-05 13:04:32 TL01-risposta4: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 13:04:59 TL01-risposta4: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 27 s
+2026-10-05 13:04:59 TL01-risposta4: validatore: tutti i controlli OK
+2026-10-05 13:05:00 TL01-risposta4: done, commit b0286561 (turni 1, costo listino 0.000 USD)
+2026-10-05 13:05:00 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:05:01 TL01-risposta5: ramo TL01-risposta5 creato; base b0286561; .gitignore +0
+2026-10-05 13:05:01 TL01-risposta5: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 13:05:20 TL01-risposta5: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 19 s
+2026-10-05 13:05:20 TL01-risposta5: validatore: tutti i controlli OK
+2026-10-05 13:05:20 TL01-risposta5: done, commit 3a9e06bb (turni 1, costo listino 0.000 USD)
+2026-10-05 13:05:20 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:05:23 TL01-risposta6: ramo TL01-risposta6 creato; base 3a9e06bb; .gitignore +0
+2026-10-05 13:05:23 TL01-risposta6: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 13:06:20 TL01-risposta6: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · errore in 58 s
+2026-10-05 13:06:20 TL01-risposta6: il modello gratuito non ha funzionato (ESITO: Aggiornato il file docs/BRIDGE_V2_b.md nella sezione Dubbi aperti per Leo, punto 1, in base alla risposta di Leo.): passo a Claude
+2026-10-05 13:06:39 TL01-risposta6: validatore: tutti i controlli OK
+2026-10-05 13:06:40 TL01-risposta6: done, commit 5ead7944 (turni 7, costo listino 0.093 USD)
+2026-10-05 13:06:40 Fine. Task avviati: 1, costo stimato di listino: 0.093 USD
+2026-10-05 13:51:42 T23-prova-guidata: ramo T23-prova-guidata creato (ramo di partenza T22-ripasso-fix mancante: partito da T20-esegui-b); base a79fefb6; .gitignore +0
+2026-10-05 13:51:42 T23-prova-guidata: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:51:45 T23-prova-guidata: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 2 s
+2026-10-05 13:51:45 T23-prova-guidata: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 404): riprovo (2/3)
+2026-10-05 13:51:46 T23-prova-guidata: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 1 s
+2026-10-05 13:51:46 T23-prova-guidata: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 404): riprovo (3/3)
+2026-10-05 13:51:47 T23-prova-guidata: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 1 s
+2026-10-05 13:51:47 T23-prova-guidata: failed, commit e9097acd (turni 1, costo listino 0.000 USD)
+2026-10-05 13:51:47 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:51:50 T22-ripasso-fix: ramo T22-ripasso-fix creato; base a79fefb6; .gitignore +0
+2026-10-05 13:51:50 T22-ripasso-fix: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:51:51 T22-ripasso-fix: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 2 s
+2026-10-05 13:51:51 T22-ripasso-fix: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 404): riprovo (2/3)
+2026-10-05 13:51:52 T22-ripasso-fix: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 1 s
+2026-10-05 13:51:52 T22-ripasso-fix: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 404): riprovo (3/3)
+2026-10-05 13:51:53 T22-ripasso-fix: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 1 s
+2026-10-05 13:51:54 T22-ripasso-fix: failed, commit cd8866bd (turni 1, costo listino 0.000 USD)
+2026-10-05 13:51:54 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:51:56 TL06-log-ollama: ramo TL06-log-ollama creato; base 39a1e1e1; .gitignore +0
+2026-10-05 13:51:56 TL06-log-ollama: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:51:57 TL06-log-ollama: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 1 s
+2026-10-05 13:51:57 TL06-log-ollama: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 404): riprovo (2/3)
+2026-10-05 13:51:59 TL06-log-ollama: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 2 s
+2026-10-05 13:51:59 TL06-log-ollama: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 404): riprovo (3/3)
+2026-10-05 13:51:59 TL06-log-ollama: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 1 s
+2026-10-05 13:52:00 TL06-log-ollama: failed, commit 1273af98 (turni 1, costo listino 0.000 USD)
+2026-10-05 13:52:00 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:52:02 PV04-controllo: ramo PV04-controllo creato; base 9d091ed9; .gitignore +0
+2026-10-05 13:52:02 PV04-controllo: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:52:03 PV04-controllo: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 1 s
+2026-10-05 13:52:03 PV04-controllo: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 404): riprovo (2/3)
+2026-10-05 13:52:04 PV04-controllo: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 0 s
+2026-10-05 13:52:04 PV04-controllo: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 404): riprovo (3/3)
+2026-10-05 13:52:04 PV04-controllo: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 1 s
+2026-10-05 13:52:05 PV04-controllo: failed, commit 5a24d9e8 (turni 1, costo listino 0.000 USD)
+2026-10-05 13:52:05 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:52:06 TL07-bridge-v2: ramo TL07-bridge-v2 creato; base f6801756; .gitignore +0
+2026-10-05 13:52:06 TL07-bridge-v2: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:52:07 TL07-bridge-v2: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 1 s
+2026-10-05 13:52:07 TL07-bridge-v2: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 404): riprovo (2/3)
+2026-10-05 13:52:09 TL07-bridge-v2: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 2 s
+2026-10-05 13:52:09 TL07-bridge-v2: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 404): riprovo (3/3)
+2026-10-05 13:52:10 TL07-bridge-v2: agente con Solo gratis · modello gemini:gemini-2.5-pro · errore in 1 s
+2026-10-05 13:52:10 TL07-bridge-v2: failed, commit 7d1d6c2f (turni 1, costo listino 0.000 USD)
+2026-10-05 13:52:10 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:55:24 TL06-log-ollama: ramo TL06-log-ollama gia' esistente: ci sono passato sopra (ero su TL07-bridge-v2); base 1273af98; .gitignore +0
+2026-10-05 13:55:24 TL06-log-ollama: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:55:44 TL06-log-ollama: agente con Solo gratis · modello cerebras:qwen-3.8-27b · ok in 21 s
+2026-10-05 13:55:44 TL06-log-ollama: validatore: tutti i controlli OK
+2026-10-05 13:55:45 TL06-log-ollama: done, commit f607fbde (turni 1, costo listino 0.000 USD)
+2026-10-05 13:55:45 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:55:46 PV04-controllo: ramo PV04-controllo riusato; base 7ee15881; .gitignore +0
+2026-10-05 13:55:46 PV04-controllo: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:55:49 PV04-controllo: agente con Solo gratis · modello cerebras:gpt-oss-120b · ok in 3 s
+2026-10-05 13:55:50 PV04-controllo: validatore: tutti i controlli OK
+2026-10-05 13:55:50 PV04-controllo: done, commit ea469db0 (turni 1, costo listino 0.000 USD)
+2026-10-05 13:55:50 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:55:52 T22-ripasso-fix: ramo T22-ripasso-fix riusato; base 1c0a6531; .gitignore +0
+2026-10-05 13:55:52 T22-ripasso-fix: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:57:23 T22-ripasso-fix: agente con Solo gratis · modello cerebras:qwen-3.8-27b · ok in 91 s
+2026-10-05 13:57:29 T22-ripasso-fix: fix1 con Solo gratis · modello cerebras:qwen-3.8-27b · ok in 6 s
+2026-10-05 13:57:30 T22-ripasso-fix: validatore: tutti i controlli OK
+2026-10-05 13:57:31 T22-ripasso-fix: done, commit 3306a03d (turni 1, costo listino 0.000 USD)
+2026-10-05 13:57:31 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:57:32 GT14-verifica-passaggi: ramo GT14-verifica-passaggi creato; base e476283d; .gitignore +0
+2026-10-05 13:57:32 GT14-verifica-passaggi: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:58:21 GT14-verifica-passaggi: agente con Solo gratis · modello cerebras:qwen-3.8-27b · ok in 48 s
+2026-10-05 13:58:34 GT14-verifica-passaggi: validatore: tutti i controlli OK
+2026-10-05 13:58:46 GT14-verifica-passaggi: done, commit ce60f317 (turni 1, costo listino 0.000 USD)
+2026-10-05 13:58:46 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:58:48 T23-prova-guidata: ramo T23-prova-guidata gia' esistente: ci sono passato sopra (ero su T22-ripasso-fix); base 207e8f3c; .gitignore +0
+2026-10-05 13:58:48 T23-prova-guidata: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:59:18 T23-prova-guidata: agente con Solo gratis · modello cerebras:qwen-3.8-27b · ok in 30 s
+2026-10-05 13:59:18 T23-prova-guidata: validatore: tutti i controlli OK
+2026-10-05 13:59:19 T23-prova-guidata: done, commit 0b1940a0 (turni 1, costo listino 0.000 USD)
+2026-10-05 13:59:19 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:59:20 TL06-risposta1: ramo TL06-risposta1 creato; base f607fbde; .gitignore +0
+2026-10-05 13:59:20 TL06-risposta1: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 13:59:43 TL06-risposta1: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 23 s
+2026-10-05 13:59:43 TL06-risposta1: validatore: tutti i controlli OK
+2026-10-05 13:59:43 TL06-risposta1: done, commit dad81af4 (turni 1, costo listino 0.000 USD)
+2026-10-05 13:59:43 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 13:59:44 TL07-bridge-v2: ramo TL07-bridge-v2 gia' esistente: ci sono passato sopra (ero su TL06-risposta1); base 7d1d6c2f; .gitignore +0
+2026-10-05 13:59:44 TL07-bridge-v2: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 13:59:45 TL07-bridge-v2: agente con Solo gratis · modello gemini:gemini-pro-latest · errore in 1 s
+2026-10-05 13:59:45 TL07-bridge-v2: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 402): riprovo (2/3)
+2026-10-05 13:59:45 TL07-bridge-v2: agente con Solo gratis · modello gemini:gemini-pro-latest · errore in 0 s
+2026-10-05 13:59:45 TL07-bridge-v2: il modello gratuito non ha prodotto nulla di valido (Google AI Studio: errore 402): riprovo (3/3)
+2026-10-05 13:59:46 TL07-bridge-v2: agente con Solo gratis · modello gemini:gemini-pro-latest · errore in 0 s
+2026-10-05 13:59:46 TL07-bridge-v2: failed, commit 5de88a0a (turni 1, costo listino 0.000 USD)
+2026-10-05 13:59:46 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 14:02:01 T23-risposta1: ramo T23-risposta1 creato; base d3686a00; .gitignore +0
+2026-10-05 14:02:01 T23-risposta1: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 14:02:23 T23-risposta1: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 22 s
+2026-10-05 14:02:24 T23-risposta1: validatore: tutti i controlli OK
+2026-10-05 14:02:24 T23-risposta1: done, commit ae0ee2cf (turni 1, costo listino 0.000 USD)
+2026-10-05 14:02:24 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 14:02:25 T23-risposta2: ramo T23-risposta2 creato; base 96101059; .gitignore +0
+2026-10-05 14:02:25 T23-risposta2: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 14:03:07 T23-risposta2: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 42 s
+2026-10-05 14:03:08 T23-risposta2: validatore: tutti i controlli OK
+2026-10-05 14:03:08 T23-risposta2: done, commit 465d182f (turni 1, costo listino 0.000 USD)
+2026-10-05 14:03:08 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 14:03:09 TL07-bridge-v2: ramo TL07-bridge-v2 riusato; base 5de88a0a; .gitignore +0
+2026-10-05 14:03:09 TL07-bridge-v2: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 14:04:28 TL07-bridge-v2: agente con Solo gratis · modello gemini:gemini-pro-latest · ok in 79 s
+2026-10-05 14:04:28 TL07-bridge-v2: validatore: tutti i controlli OK
+2026-10-05 14:04:29 TL07-bridge-v2: done, commit 84a96904 (turni 1, costo listino 0.000 USD)
+2026-10-05 14:04:29 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 14:05:11 TL07-risposta1: ramo TL07-risposta1 creato; base 84a96904; .gitignore +0
+2026-10-05 14:05:11 TL07-risposta1: avvio agente (tier small, modello sonnet, max turni 15, timeout 600s)
+2026-10-05 14:06:00 TL07-risposta1: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 49 s
+2026-10-05 14:06:00 TL07-risposta1: validatore: tutti i controlli OK
+2026-10-05 14:06:00 TL07-risposta1: done, commit 23c6b70c (turni 1, costo listino 0.000 USD)
+2026-10-05 14:06:00 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 14:25:42 PV05-preventivo-finto: ramo PV05-preventivo-finto creato; base ea469db0; .gitignore +0
+2026-10-05 14:25:42 PV05-preventivo-finto: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 14:27:21 PV05-preventivo-finto: agente con Solo gratis · modello gemini:gemini-3.8-flash · ok in 97 s
+2026-10-05 14:27:21 PV05-preventivo-finto: validatore: tutti i controlli OK
+2026-10-05 14:27:22 PV05-preventivo-finto: done, commit c097cf5a (turni 1, costo listino 0.000 USD)
+2026-10-05 14:27:22 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 14:29:36 GT15-piano-ui-scenari: ramo GT15-piano-ui-scenari creato; base ce60f317; .gitignore +0
+2026-10-05 14:29:36 GT15-piano-ui-scenari: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 14:30:34 GT15-piano-ui-scenari: agente con Solo gratis · modello gemini:gemini-3.8-flash · ok in 59 s
+2026-10-05 14:30:35 GT15-piano-ui-scenari: validatore: tutti i controlli OK
+2026-10-05 14:30:35 GT15-piano-ui-scenari: done, commit 90d86fbd (turni 1, costo listino 0.000 USD)
+2026-10-05 14:30:35 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 14:31:56 PV05-risposta1: ramo PV05-risposta1 creato; base 581608e5; .gitignore +0
+2026-10-05 14:31:56 PV05-risposta1: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 14:32:04 PV05-risposta1: agente con Solo gratis · modello gemini:gemini-3.8-flash · ok in 8 s
+2026-10-05 14:32:04 PV05-risposta1: validatore: tutti i controlli OK
+2026-10-05 14:32:05 PV05-risposta1: done, commit d02f1d2c (turni 1, costo listino 0.000 USD)
+2026-10-05 14:32:05 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 14:52:21 GT16-temi: ramo GT16-temi creato; base ebb2fd50; .gitignore +0
+2026-10-05 14:52:21 GT16-temi: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 14:54:20 GT16-temi: agente con Solo gratis · modello gemini:gemini-3.8-flash · ok in 119 s
+2026-10-05 14:54:33 GT16-temi: validatore: tutti i controlli OK
+2026-10-05 14:54:46 GT16-temi: done, commit 8df6ccf4 (turni 1, costo listino 0.000 USD)
+2026-10-05 14:54:46 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 14:54:47 GT17-scheda-unica: ramo GT17-scheda-unica creato; base 37d914a7; .gitignore +0
+2026-10-05 14:54:47 GT17-scheda-unica: avvio agente (tier small, motore gratis, max turni 15, timeout 600s)
+2026-10-05 14:57:20 GT17-scheda-unica: agente con Solo gratis · modello gemini:gemini-3.8-flash · errore in 153 s
+2026-10-05 14:57:20 GT17-scheda-unica: il modello gratuito non ha prodotto nulla di valido (ESITO: Uniformate a una struttura standard in 4 parti tutte le schede informative al clic (fermate, ): riprovo (2/3)
+2026-10-05 14:59:53 GT17-scheda-unica: agente con Solo gratis · modello gemini:gemini-3.8-flash · ok in 152 s
+2026-10-05 15:00:05 GT17-scheda-unica: validatore: tutti i controlli OK
+2026-10-05 15:00:18 GT17-scheda-unica: done, commit 112a3af9 (turni 1, costo listino 0.000 USD)
+2026-10-05 15:00:18 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 15:21:32 GT18-punti-critici-integrati: ramo GT18-punti-critici-integrati creato; base b011d0f1; .gitignore +0
+2026-10-05 15:21:32 GT18-punti-critici-integrati: avvio agente (tier medium, modello sonnet, max turni 40, timeout 1800s)
+2026-10-05 15:23:12 GT18-punti-critici-integrati: agente con Gratis, poi Claude · modello nvidia/nemotron-3-super-120b-a12b:free · errore in 100 s
+2026-10-05 15:23:12 GT18-punti-critici-integrati: il modello gratuito non ha funzionato (ESITO: Aggiunto il campo di popolazione per zona (da sezioni ISTAT 2021) e visualizzato l'offerta per abitante nella sch): passo a Claude
+2026-10-05 15:25:04 GT18-punti-critici-integrati: validatore: tutti i controlli OK
+2026-10-05 15:25:04 GT18-punti-critici-integrati: done, commit 8d5662c9 (turni 31, costo listino 0.419 USD)
+2026-10-05 15:25:04 Fine. Task avviati: 1, costo stimato di listino: 0.419 USD
+2026-10-05 15:57:32 GT19-elaborazione-matrici-pen: ramo GT19-elaborazione-matrici-pen creato; base 35082180; .gitignore +0
+2026-10-05 15:57:32 GT19-elaborazione-matrici-pen: avvio agente (tier medium, motore gratis, max turni 40, timeout 1800s)
+2026-10-05 15:58:53 GT19-elaborazione-matrici-pen: agente con Solo gratis · modello nvidia/nemotron-3-super-120b-a12b:free · ok in 81 s
+2026-10-05 15:58:54 GT19-elaborazione-matrici-pen: done, commit 7acaae5b (turni 1, costo listino 0.000 USD)
+2026-10-05 15:58:54 Fine. Task avviati: 1, costo stimato di listino: 0.000 USD
+2026-10-05 16:06:32 GT20-pulizia-grafica-della-ma: ramo GT20-pulizia-grafica-della-ma creato; base 8935e270; .gitignore +0
+2026-10-05 16:06:32 GT20-pulizia-grafica-della-ma: avvio agente (tier medium, motore gratis, max turni 40, timeout 1800s)

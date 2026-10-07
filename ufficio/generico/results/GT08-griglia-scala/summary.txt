@@ -1,0 +1,5 @@
+ESITO: Ho aggiunto in `scripts/mappa_template.html` la griglia in metri (passi da 10 m a 10 km, celle di circa 40–100 px), la barra della scala e la casella "Griglia in metri", accesa di default.
+Non l'ho provato: non posso eseguire programmi, quindi tocca al validatore del runner e a un tuo controllo a occhio.
+Le linee sono doppie, una scura e una chiara, così dovrebbero vedersi sia sul satellite sia su "Mappa chiara".
+Ho aggiunto i passi da 10, 25 e 50 m per gli zoom alti. La barra sta in basso a sinistra e si sposta a destra del pannello se questo la copre.
+Il rapporto con i clic da provare è in `agenti/GT08-griglia-scala/RAPPORTO.md`.

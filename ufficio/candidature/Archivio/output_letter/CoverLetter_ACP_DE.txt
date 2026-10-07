@@ -1,0 +1,14 @@
+Guten Tag Torun Tek
+
+Ich habe bei KTM Prüfstandstests per Skript automatisiert, die Durchläufe ausgewertet und die Ergebnisse an Kollegen, Lieferanten und Kunden weitergegeben. Das ist Testautomatisierung an Hardware und nicht an Software. Die Aufgaben sind aber verwandt: Testabläufe planen, Auswertungen automatisieren, Abweichungen klären. Ich habe die Auswertungszeit damit um 50 Prozent gesenkt.
+
+Ich habe die Automatisierung so gebaut, dass meine Nachfolger sie ohne mich weiterführen konnten. Ich habe sie formalisiert und übergeben, mit Nutzung, benötigten Paketen und Erweiterung. Ich habe vor dem Rollout die Mechaniker in den Aufbau eingewiesen, die Wünsche des Vertriebs für den automatischen Bericht gesammelt und alles in einer Vorlage festgehalten.
+
+Ich kenne Scrum aus meiner Zertifizierung an der Universität. Ich arbeite hauptsächlich mit Trello und Miro, Jira habe ich bisher nur gesehen. Ich habe bisher nicht beruflich an Software getestet und habe kein Tosca- oder Playwright-Zertifikat. Ich nutze Python für Analyse und Automatisierung.
+
+Ich habe drei Jahre bei KTM auf Deutsch gearbeitet, in Meetings, Dokumentation und Kundenpräsentationen. Ich habe Ergebnisse intern und vor internationalen Kunden präsentiert und erklärt, wie belastbar die Messmethode dahinter ist.
+
+Ich wohne in Salzburg und bin ab sofort verfügbar.
+
+Mit freundlichen Grüßen
+Leonardo Campese

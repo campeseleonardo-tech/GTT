@@ -1,0 +1,2 @@
+{"type": "result", "subtype": "error", "is_error": true, "result": "Google AI Studio: errore 402", "num_turns": 1, "total_cost_usd": 0.0, "usage": {}, "modelUsage": {"gemini:gemini-pro-latest": {}}}
+--- STDERR ---

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mockup · Cosa succede v3</title>
+<style>
+:root{
+  --bg:#141519;--card:#1d1e24;--card2:#24252c;--line:#2f3038;--tx:#f0f0f4;--mut:#8d8e99;--faint:#5d5e68;
+  --run:#4cc38a;--you:#f0b44c;--bad:#e26a6a;--idle:#5d5e68;
+  --cv:#d9468f;--gtt:#5fa8a0;--lg:#2f8fd8;--pv:#d07a2a;--tl:#7a5cd6;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 "Segoe UI",system-ui,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:18px}
+.num{font-variant-numeric:tabular-nums}
+.mut{color:var(--mut)}
+.q{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:1px solid var(--faint);color:var(--mut);font-size:11px;font-weight:600;cursor:help;position:relative;margin-left:6px;vertical-align:middle}
+.q:hover::after{content:attr(data-tip);position:absolute;top:22px;left:-8px;width:270px;background:#2b2c34;border:1px solid var(--line);color:var(--tx);padding:8px 10px;border-radius:8px;font-size:12.5px;font-weight:400;line-height:1.4;z-index:5;text-align:left}
+.lab{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:22px 0 8px}
+.mock{font-size:12.5px;color:#b8a6ff;margin-bottom:12px}
+.divider{margin:36px 0 14px;padding-top:18px;border-top:1px dashed #3a3b45;font-size:13px;color:#b8a6ff}
+
+/* header */
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+h1{font-size:20px;margin:0 6px 0 0;font-weight:700}
+.sema{flex:1;min-width:280px;display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;background:var(--card);border:1px solid var(--line);cursor:pointer}
+.pill{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.pill .d{width:9px;height:9px;border-radius:50%}
+.sep{width:1px;height:18px;background:var(--line)}
+.use{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:var(--card);border:1px solid var(--line);cursor:pointer}
+.use .bar{width:110px}
+.bar{height:7px;background:#2c2d35;border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;border-radius:4px}
+
+.grid{display:grid;grid-template-columns:1.6fr .9fr;gap:16px;margin-top:16px;align-items:start}
+@media(max-width:950px){.grid{grid-template-columns:1fr}}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.box h2{font-size:16px;margin:0;font-weight:700;display:flex;align-items:center}
+
+/* sections and rows */
+.sec{display:flex;align-items:center;gap:8px;margin:18px 0 2px;font-weight:700;font-size:13.5px;color:var(--tx)}
+.sec .n{color:var(--mut);font-weight:400}
+.item{display:flex;align-items:center;gap:12px;padding:9px 0 9px 12px;border-top:1px solid #26272e;position:relative}
+.item::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:2px;background:var(--s,var(--idle))}
+.item.run{--s:var(--run)}.item.you{--s:var(--you)}.item.bad{--s:var(--bad)}
+.item .main{flex:1;min-width:0}
+.item .tt{font-weight:600;font-size:15px}
+.item .sub{font-size:13.5px;color:var(--mut)}
+.item .sub b{color:var(--tx);font-weight:600}
+.item .tm{text-align:right;white-space:nowrap}
+.item .tm .t1{font-size:15px;font-weight:600}
+.item .tm .t2{font-size:12px;color:var(--mut)}
+.prog{height:4px;background:#2c2d35;border-radius:3px;margin-top:6px;overflow:hidden;max-width:320px}.prog i{display:block;height:100%;background:var(--run)}
+.btn{border:1px solid var(--line);background:var(--card2);color:var(--tx);border-radius:8px;padding:5px 11px;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:#4a4b56}
+.btn.y{border-color:#6b5525;color:#ffd58a}
+.btn.r{border-color:#6b3030;color:#ffb0b0}
+.btn.p{background:#2d3a33;border-color:#3d6b52}
+.foot{margin-top:14px;padding-top:10px;border-top:1px solid #26272e;font-size:13px;color:var(--mut);display:flex;gap:14px;flex-wrap:wrap}
+
+/* consumo */
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-left:auto}
+.seg span{padding:3px 9px;font-size:12.5px;color:var(--mut);cursor:pointer}
+.seg span.on{background:var(--card2);color:var(--tx);font-weight:600}
+.big{font-size:26px;font-weight:700;margin:10px 0 2px}
+.big small{font-size:14px;color:var(--mut);font-weight:400}
+.prow{display:grid;grid-template-columns:100px 1fr 52px;align-items:center;gap:10px;padding:5px 0;font-size:14px}
+.prow .v{text-align:right;color:var(--mut)}
+.cal{display:flex;align-items:center;gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid #26272e;font-size:13.5px;flex-wrap:wrap}
+.cal input{width:52px;background:var(--bg);border:1px solid var(--line);color:var(--tx);border-radius:6px;padding:3px 6px;font:inherit;font-size:13px}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.pc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;border-left:4px solid var(--c);cursor:pointer}
+.pc:hover{border-color:#4a4b56;border-left-color:var(--c)}
+.pc b{font-size:15.5px}
+.pc .goal{font-size:13px;color:var(--mut);margin-top:2px}
+.pc .st{margin-top:8px;font-size:14px;display:flex;align-items:center;gap:6px}
+.pc .bar{margin-top:10px}
+
+/* project page */
+.pp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;border-top:4px solid var(--gtt)}
+.pph{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.pph h2{font-size:22px;margin:0}
+.pph .goal{color:var(--mut);font-size:14.5px;margin-top:2px}
+.acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.cols{display:grid;grid-template-columns:1.5fr 1fr;gap:22px;margin-top:16px}
+@media(max-width:950px){.cols{grid-template-columns:1fr}}
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid #26272e;font-size:14.5px}
+.step .ck{width:18px;height:18px;border-radius:50%;border:2px solid var(--faint);flex:none;display:flex;align-items:center;justify-content:center;font-size:11px}
+.step.ok .ck{background:var(--gtt);border-color:var(--gtt);color:#0d1f1c}
+.step.now .ck{border-color:var(--gtt)}
+.step.ok span{color:var(--mut)}
+.step.now span{font-weight:700}
+.side h3{font-size:13.5px;margin:16px 0 6px}
+.kv{display:flex;justify-content:space-between;padding:4px 0;font-size:14px}
+.kv span:first-child{color:var(--mut)}
+</style></head><body><div class="wrap">
+
+<div class="mock">Mockup v3 · dati inventati · esempio con 2 agenti al lavoro insieme</div>
+
+<header>
+  <h1>Ufficio</h1>
+  <div class="sema" title="porta a Cosa succede">
+    <span class="pill"><span class="d" style="background:var(--run)"></span>2 al lavoro</span>
+    <span class="sep"></span>
+    <span class="pill"><span class="d" style="background:var(--you)"></span>2 aspettano te</span>
+    <span class="sep"></span>
+    <span class="pill"><span class="d" style="background:var(--bad)"></span>1 da sistemare</span>
+    <span class="sep"></span>
+    <span class="mut">2 in coda</span>
+  </div>
+  <div class="use" title="apre Consumo">
+    <span class="mut">5 ore</span>
+    <span class="bar"><i style="width:31%;background:var(--run)"></i></span>
+    <b class="num">312k</b>
+  </div>
+</header>
+
+<div class="grid">
+
+  <div class="box">
+    <h2>Cosa succede<span class="q" data-tip="Solo quello che serve adesso. Tre colori: verde = al lavoro, giallo = serve te, rosso = qualcosa è andato storto. Grigio = niente da fare per te. Dipendenze e task finiti sono nella pagina di ogni progetto.">?</span></h2>
+
+    <div class="sec">Al lavoro <span class="n">2</span></div>
+    <div class="item run">
+      <div class="main"><div class="tt">Velocità misurata dei mezzi</div>
+        <div class="sub">GTT · Claude · <b>sta modificando la mappa</b></div>
+        <div class="prog"><i style="width:55%"></i></div></div>
+      <div class="tm"><div class="t1 num">3 min</div><div class="t2">di solito 4</div></div>
+    </div>
+    <div class="item run">
+      <div class="main"><div class="tt">Cerca nuove offerte</div>
+        <div class="sub">Candidature · Claude · <b>sta leggendo i siti delle aziende</b></div>
+        <div class="prog"><i style="width:80%"></i></div></div>
+      <div class="tm"><div class="t1 num">11 min</div><div class="t2">di solito 8</div></div>
+    </div>
+
+    <div class="sec">Serve te <span class="n">2</span></div>
+    <div class="item you">
+      <div class="main"><div class="tt">Esercizi sui verbi separabili</div>
+        <div class="sub">Langue · <b>da approvare</b> · piccola, tocca 1 file</div></div>
+      <div class="tm"><div class="t1 num">5 h</div></div><button class="btn y">Approva</button><button class="btn">Apri</button>
+    </div>
+    <div class="item you">
+      <div class="main"><div class="tt">Analisi e CV · Kistler</div>
+        <div class="sub">Candidature · <b>3 domande</b> · il lavoro va avanti con risposte provvisorie</div></div>
+      <div class="tm"><div class="t1 num">1 giorno</div></div><button class="btn y">Rispondi</button>
+    </div>
+
+    <div class="sec">Da sistemare <span class="n">1</span></div>
+    <div class="item bad">
+      <div class="main"><div class="tt">Pendolari ISTAT</div>
+        <div class="sub">GTT · <b>non ha passato i controlli</b> dopo 2 correzioni</div></div>
+      <div class="tm"><div class="t1 num">2 h</div></div><button class="btn r">Vedi cosa manca</button><button class="btn">Rifai</button>
+    </div>
+
+    <div class="sec">In coda <span class="n">2</span><span class="q" data-tip="Partono in quest'ordine appena si libera un posto, alternando i progetti per priorità. Nessun orario fisso: il controllo è subito dopo ogni tua azione, poi ogni minuto (pannello aperto) o ogni 5 minuti (pannello chiuso).">?</span></div>
+    <div class="item">
+      <div class="main"><div class="tt">Altre 50 frasi</div><div class="sub">Langue · parte appena si libera un posto</div></div>
+      <button class="btn">In cima</button>
+    </div>
+    <div class="item">
+      <div class="main"><div class="tt">Lettera · Andritz</div><div class="sub">Candidature · dopo le frasi</div></div>
+      <button class="btn">In cima</button>
+    </div>
+
+    <div class="sec">In pausa <span class="n">1</span></div>
+    <div class="item">
+      <div class="main"><div class="tt">Preventivi papà</div><div class="sub">messo in pausa da te</div></div>
+      <div class="tm"><div class="t1 num">2 h</div></div><button class="btn">Riprendi</button>
+    </div>
+
+    <div class="foot"><span>Ultimo finito: <b style="color:var(--tx)">Temi esclusivi</b> (GTT), 20 min fa</span><span>Limite di Claude: nessuno</span></div>
+  </div>
+
+  <div class="box">
+    <h2>Consumo<span class="q" data-tip="Token contati dai log del PC (agenti, candidature, chat del pannello). La chat Cowork non è contata. Le barre sono relative al progetto che ha consumato di più nel periodo scelto.">?</span>
+      <span class="seg"><span class="on">5 ore</span><span>oggi</span><span>7 giorni</span></span></h2>
+    <div class="big num">312k <small>token</small></div>
+    <div class="bar" style="margin-bottom:12px"><i style="width:31%;background:var(--run)"></i></div>
+    <div class="prow"><span>GTT</span><span class="bar"><i style="width:100%;background:var(--gtt)"></i></span><span class="v num">240k</span></div>
+    <div class="prow"><span>Langue</span><span class="bar"><i style="width:30%;background:var(--lg)"></i></span><span class="v num">72k</span></div>
+    <div class="prow"><span>Candidature</span><span class="bar"><i style="width:0%"></i></span><span class="v num">—</span></div>
+    <div class="prow"><span>Chat</span><span class="bar"><i style="width:0%"></i></span><span class="v num">—</span></div>
+    <div class="cal">Claude dice <input placeholder="5h %"> <input placeholder="7g %"> <button class="btn">Annota</button>
+      <span class="q" data-tip="Facoltativo. Scrivi i % che vedi in Claude: il pannello li salva accanto ai token contati in quel momento. Con 5-10 annotazioni stima quanti token valgono il 100% e prevede quando arriverai al limite.">?</span></div>
+  </div>
+</div>
+
+<div class="lab">Progetti</div>
+<div class="cards">
+  <div class="pc" style="--c:var(--cv)"><b>Candidature</b><div class="goal">Scout offerte</div><div class="st"><span class="pill"><span class="d" style="background:var(--run)"></span>al lavoro</span></div><div class="bar"><i style="width:0%"></i></div></div>
+  <div class="pc" style="--c:var(--gtt)"><b>GTT</b><div class="goal">Mappa più chiara · 2 di 4</div><div class="st"><span class="pill"><span class="d" style="background:var(--run)"></span>al lavoro</span></div><div class="bar"><i style="width:100%;background:var(--gtt)"></i></div></div>
+  <div class="pc" style="--c:var(--lg)"><b>Langue</b><div class="goal">Prova con utenti</div><div class="st"><span class="pill"><span class="d" style="background:var(--you)"></span>serve te · 5 h</span></div><div class="bar"><i style="width:30%;background:var(--lg)"></i></div></div>
+  <div class="pc" style="--c:var(--pv)"><b>Preventivi papà</b><div class="goal">Logo nel Word</div><div class="st mut"><span class="pill"><span class="d" style="background:var(--idle)"></span>in pausa · 2 h</span></div><div class="bar"><i style="width:0%"></i></div></div>
+  <div class="pc" style="--c:var(--tl)"><b>Timelive</b><div class="goal">Da far partire</div><div class="st mut"><span class="pill"><span class="d" style="background:var(--idle)"></span>nessuna task</span></div><div class="bar"><i style="width:0%"></i></div></div>
+</div>
+
+<div class="divider">Sotto: la pagina di un progetto, che si apre cliccando la sua scheda. Non è nella prima vista.</div>
+
+<div class="pp">
+  <div class="pph">
+    <div><h2>GTT</h2><div class="goal">Mappa interattiva di Torino e cintura: offerta, domanda, punti critici, flussi simulati</div></div>
+    <div class="acts">
+      <button class="btn p">+ Task</button>
+      <button class="btn">Scheda progetto</button>
+      <button class="btn">Consigli</button>
+      <button class="btn">Revisione critica</button>
+      <button class="btn">Apri cartella</button>
+      <button class="btn">Pausa</button>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <div class="sec" style="margin-top:4px">Al lavoro</div>
+      <div class="item run"><div class="main"><div class="tt">Velocità misurata dei mezzi</div><div class="sub">Claude · <b>sta modificando la mappa</b></div><div class="prog"><i style="width:55%"></i></div></div>
+        <div class="tm"><div class="t1 num">3 min</div><div class="t2">di solito 4</div></div></div>
+
+      <div class="sec">Serve te</div>
+      <div class="item you"><div class="main"><div class="tt">3 domande dell'agente</div><div class="sub">temi della mappa · risposte provvisorie già applicate</div></div><button class="btn y">Rispondi</button></div>
+
+      <div class="sec">Da sistemare</div>
+      <div class="item bad"><div class="main"><div class="tt">Pendolari ISTAT</div><div class="sub"><b>non ha passato i controlli</b> dopo 2 correzioni</div></div><button class="btn r">Vedi cosa manca</button><button class="btn">Rifai</button></div>
+
+      <div class="sec">Aspettano un altro task</div>
+      <div class="item"><div class="main"><div class="tt">Traffico tipico</div><div class="sub">dopo Pendolari ISTAT</div></div><button class="btn">Apri</button></div>
+
+      <div class="sec">Finiti</div>
+      <div class="item"><div class="main"><div class="tt">Temi esclusivi</div><div class="sub">ieri 17:53 · controlli OK</div></div><button class="btn">Risultato</button></div>
+      <div class="item"><div class="main"><div class="tt">Sfondi della mappa</div><div class="sub">ieri 17:51 · controlli OK dopo 1 correzione</div></div><button class="btn">Risultato</button></div>
+      <div class="foot"><span>Mostra tutti i 6 finiti</span></div>
+    </div>
+
+    <div class="side">
+      <h3 style="margin-top:4px">Tappe</h3>
+      <div class="steps">
+        <div class="step ok"><span class="ck">✓</span><span>Base pronta</span></div>
+        <div class="step now"><span class="ck"></span><span>Mappa più chiara</span></div>
+        <div class="step"><span class="ck"></span><span>Velocità misurata</span></div>
+        <div class="step"><span class="ck"></span><span>Pendolari ISTAT</span></div>
+        <div class="step"><span class="ck"></span><span>Punti critici v0</span></div>
+      </div>
+
+      <h3>Consumo</h3>
+      <div class="prow"><span class="mut">Oggi</span><span class="bar"><i style="width:60%;background:var(--gtt)"></i></span><span class="v num">240k</span></div>
+      <div class="prow"><span class="mut">7 giorni</span><span class="bar"><i style="width:25%;background:var(--gtt)"></i></span><span class="v num">240k</span></div>
+
+      <h3>Impostazioni</h3>
+      <div class="kv"><span>Priorità</span><span>media</span></div>
+      <div class="kv"><span>Dati</span><span>livello 0 · pubblici</span></div>
+      <div class="kv"><span>Cartella</span><span>Desktop\GTT</span></div>
+      <div style="margin-top:8px"><button class="btn">Modifica progetto</button></div>
+    </div>
+  </div>
+</div>
+
+</div></body></html>

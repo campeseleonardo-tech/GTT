@@ -1,0 +1,83 @@
+CONTACT INFO
+
+LinkedIn: in/leonardocampese
+Phone: (+43) 660 6878927
+Email: campese.leonardo@gmail.com
+Based in Salzburg, Austria - available for mobility within Austria
+
+ABOUT ME
+
+Technical project professional combining engineering, hands-on electrotechnical experience and
+business/product management. I connect technical execution, supplier and stakeholder coordination, and
+cost/quality/schedule ownership - comfortable leading projects end-to-end and acting as the direct point
+of contact for technical and commercial questions.
+
+WORK EXPERIENCE
+
+Functional Development Engineer | Fluid Dynamics
+KTM F&E | 06/2025 - 07/2026
+Coordinated simulation activities and supplier/design decisions, balancing performance and cost across
+R&D, Design and Procurement
+Delivered a full virtual prototype engine from feasibility study to completion, including electrotechnical
+work on component power supply and electronic control (vehicle ECU and standalone test benches)
+Aligned cross-functional teams around project milestones, budget and regulatory targets
+
+System Testing Engineer | Thermal Management
+KTM F&E | 09/2023 - 06/2025
+Planned, budgeted and managed internationally dislocated testing projects from concept to validation
+Managed suppliers and test strategies, balancing quality, timing and cost
+Presented results to internal stakeholders and global customers, driving cross-departmental decisions
+
+Intern R&D | Aerodynamics
+KTM F&E | 03/2023 - 09/2023
+Analyzed wind tunnel data and translated results into development requirements with engineering and
+sales teams
+Standardized BOM structures across Procurement, Design and Engineering
+Supported cross-functional feasibility and validation decisions
+
+SEO Data Analyst
+BPM - POWER | 09/2018 - 06/2019
+Analyzed market data and user behavior to support strategic business decisions
+Built structured reporting to track performance and identify improvement opportunities
+Aligned stakeholders on priorities and measurable actions
+
+Event Manager
+Croma SRL | 09/2015 - 12/2016
+Planned and delivered events end to end, managing suppliers, budgets and execution timelines
+Coordinated multiple stakeholders on-site, resolving operational challenges under time pressure
+Led logistics, communication and post-event reporting
+
+EDUCATION
+
+Master of Science in Engineering - Innovation & Product Management
+FH Upper Austria, Campus Wels | 09/2020 - 12/2023
+Development process engineering specialization, bridging technical development with commercial
+viability
+
+University Collaboration - Business Development (Schneider AG)
+Heilbronn University | 09/2022 - 01/2023
+Analyzed key accounts and internal teams to improve strategic supply chain; presented recommendations
+balancing technical feasibility and business impact, direct exposure to Schneider's electrification and
+automation business
+
+Bachelor of Science in Business & Management
+Universita degli Studi di Torino | 09/2017 - 08/2020
+Foundation in corporate strategy, organizational leadership and operational efficiency
+
+CERTIFICATIONS
+
+IPMA Level D - Certified Project Management Associate, PMA Austria (issued 05/2022, valid until 05/2027)
+Project Manager - SCRUM Certification, Institut fur Agile Transformation
+
+LANGUAGES
+
+Italian: Native
+German: Strong working proficiency (B2 certified, daily practice closer to C1)
+English: C1
+Spanish: C1
+
+TOOLS / DIGITAL SKILLS
+
+MS Office (incl. macros, Power BI), Jira, SAP (Fiori)
+PTC Creo, SolidWorks, Ansys Suite, GOMsuite
+Matlab, Python, SQL

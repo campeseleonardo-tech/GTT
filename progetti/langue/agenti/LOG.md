@@ -1,0 +1,23 @@
+- 2026-10-04 01:04 | T01-pulizia | done | ramo T01-pulizia | 24 file | costo listino 0.000 USD | pulizia cartella (duplicati e vecchio codice in archivio/, .gitignore corretto)
+- 2026-10-04 01:05 | T02-schema | failed | ramo T02-schema | 5 file | costo listino 0.139 USD | schema unico dei contenuti, esempi e SCHEMA.md
+- 2026-10-04 01:30 | T02-schema | done | ramo T02-schema | 0 file | costo listino 0.000 USD | schema unico dei contenuti, esempi e SCHEMA.md
+- 2026-10-04 01:30 | T03-conversione | done | ramo T03-conversione | 2 file | costo listino 0.000 USD | conversione dei 200 sostantivi nello schema (contenuti/parole.json)
+- 2026-10-04 01:32 | T07-parole | done | ramo T07-parole | 2 file | costo listino 0.339 USD | 100 nuovi sostantivi A1-A2 con articolo e traduzione
+- 2026-10-04 01:33 | T08-frasi | done | ramo T08-frasi | 2 file | costo listino 0.311 USD | 50 frasi A1-A2 da riordinare, con traduzione e blocchi
+- 2026-10-04 01:35 | T10-errori | done | ramo T10-errori | 2 file | costo listino 0.285 USD | 30 errori tipici di italiani che imparano il tedesco
+- 2026-10-04 02:01 | T11-revisione | done | ramo T11-revisione | 5 file | costo listino 0.401 USD | seconda lettura indipendente di parole, frasi ed errori gia' scritti (T07, T08, T10)
+- 2026-10-04 02:03 | T12-parole2 | done | ramo T12-parole2 | 3 file | costo listino 0.338 USD | altri 100 sostantivi A1-A2 (contenuti/parole_nuove_2.json)
+- 2026-10-04 16:03 | T13-frasi2 | done | ramo T13-frasi2 | 0 file | costo listino 0.000 USD | altre 50 frasi A1-A2 da riordinare (contenuti/frasi_2.json)
+- 2026-10-04 16:05 | T14-errori2 | done | ramo T14-errori2 | 3 file | costo listino 0.297 USD | altri 30 errori tipici di italiani (contenuti/errori_2.json)
+- 2026-10-04 16:49 | T15-dati-web | done | ramo T15-dati-web | 2 file | costo listino 0.000 USD | dati per il sito (web/data.js) generati dai contenuti
+- 2026-10-04 17:06 | T16-sito | done | ramo T16-sito | 5 file | costo listino 0.464 USD | sito statico di Langue con i tre giochi (web/)
+- 2026-10-04 23:23 | T17-prova-gratis | failed | ramo T17-prova-gratis | 2 file | costo listino 0.000 USD | prova modello gratuito: 10 frasi A1 da riordinare (contenuti/frasi_prova_gratis.json)
+- 2026-10-04 23:54 | T17-prova-gratis | done | ramo T17-prova-gratis | 3 file | costo listino 0.000 USD | prova modello gratuito: 10 frasi A1 da riordinare (contenuti/frasi_prova_gratis.json)
+- 2026-10-05 02:38 | T18-idee-a | done | ramo T18-idee-a | 2 file | costo listino 0.000 USD | Idee autonome (modello a)
+- 2026-10-05 02:41 | T18-idee-b | done | ramo T18-idee-b | 3 file | costo listino 0.000 USD | Idee autonome (modello b)
+- 2026-10-05 03:05 | T18-idee-c | done | ramo T18-idee-c | 4 file | costo listino 0.000 USD | Idee autonome (modello c)
+- 2026-10-05 03:07 | T19-scelta | done | ramo T19-scelta | 2 file | costo listino 0.000 USD | Scelta dell'idea da realizzare
+- 2026-10-05 12:23 | T20-esegui-b | blocked | ramo T20-esegui-b | 4 file | costo listino 0.000 USD | Realizzazione (modello b)
+- 2026-10-05 13:03 | T20-esegui-b | done | ramo T20-esegui-b | 7 file | costo listino 0.000 USD | Realizzazione (modello b)
+- 2026-10-05 13:51 | T22-ripasso-fix | failed | ramo T22-ripasso-fix | 0 file | costo listino 0.000 USD | Ripasso: trovare e correggere gli errori veri
+- 2026-10-05 13:57 | T22-ripasso-fix | done | ramo T22-ripasso-fix | 3 file | costo listino 0.000 USD | Ripasso: trovare e correggere gli errori veri

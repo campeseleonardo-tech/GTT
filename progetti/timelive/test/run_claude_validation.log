@@ -1,0 +1,256 @@
+Filtro --ids: 12 domande selezionate.
+Backend: claude  Modello: claude-sonnet-5  Host: (Anthropic API, non Ollama)  MAX_ITERATIONS: 5
+Domini registrati in questa architettura: ['chessdotcom', 'money', 'spotify']
+Esecuzione di 12 domande (0 già completate, 12 da eseguire davvero)...
+Checkpoint/report scritto dopo OGNI domanda in: /home/leopi/Timelive/code/batch_report_claude_validation.json
+
+[1/12] (money_02b) Negli ultimi tre mesi, quali sono state le spese più alte fatte su Amazon?
+  -> 3 iterazioni, 3 tool call, 12.5s
+  Risposta: Ecco le spese su Amazon negli ultimi tre mesi (dal 25 maggio al 25 agosto 2026), ordinate dalla più alta alla più bassa:
+
+| Data | Importo | Dettaglio |
+|---|---|---|
+| 25/08/2026 | **-198,32 €** | AM...
+
+[2/12] (money_04) Quanto ho investito su Trade Republic in totale, tra acquisti e vendite?
+  -> 3 iterazioni, 2 tool call, 13.2s
+  Risposta: Ecco il riepilogo delle tue operazioni di trading su Trade Republic (tutte in EUR):
+
+| Tipo | N. operazioni | Importo totale |
+|---|---|---|
+| **Acquisti (BUY)** | 195 | -24.159,84 € (uscita di cassa)...
+
+[3/12] (money_05) Cosa ho comprato nei mercati privati (private markets)?
+  -> 2 iterazioni, 1 tool call, 9.5s
+  Risposta: Nel tuo conto Trade Republic risultano acquisti nella sezione **Private Markets**, entrambi genericamente etichettati come "Private Equity" (distinti solo dall'ISIN):
+
+**1) ISIN LU3170240538** — acqui...
+
+[4/12] (money_10) Su Trade Republic, ho comprato più azioni di quante ne abbia vendute, o il contrario? Dammi i due conteggi separatamente.
+  -> 2 iterazioni, 1 tool call, 7.1s
+  Risposta: Ecco i dati da Trade Republic:
+
+**Numero di transazioni:**
+- Acquisti (BUY): **195**
+- Vendite (SELL): **105**
+
+**Totale azioni scambiate (quantità di shares):**
+- Azioni acquistate: **13.946,93**
+- A...
+
+[5/12] (money_11) Qual è il mio investimento netto su Trade Republic ad oggi, cioè quanto ho comprato meno quanto ho venduto?
+  -> 2 iterazioni, 1 tool call, 11.7s
+  Risposta: Ecco il quadro delle tue operazioni di trading su Trade Republic (categoria "TRADING", esclusi eventuali interessi/cash):
+
+- **Totale acquistato (BUY)**: €24.159,84 spesi (per un totale di ~13.946,93 ...
+
+[6/12] (money_13) Ho mai comprato azioni NVIDIA su Trade Republic? Quante volte e con quale spesa totale?
+  -> 3 iterazioni, 2 tool call, 8.5s
+  Risposta: Sì, hai acquistato azioni NVIDIA su Trade Republic **7 volte**.
+
+- **Spesa totale**: €822,68 (importo negativo in conto = uscita di cassa)
+- **Azioni totali acquistate**: circa 7,27 azioni
+- **Commiss...
+
+[7/12] (money_15) Le entrate più alte che vedi sul mio conto Sella sono davvero stipendio o guadagni, o potrebbero essere giroconti tra i miei stessi conti?
+  -> 3 iterazioni, 3 tool call, 24.7s
+  Risposta: Ho guardato le entrate più alte registrate sul tuo conto Sella, ordinate per importo: **nessuna di queste appare essere stipendio**. Ecco cosa emerge:
+
+**Le due più alte (29/04/2024) sono giroconti, e...
+
+[8/12] (money_16) Da quando hai dati sui miei movimenti bancari, e coprono lo stesso periodo per tutti i miei conti o ci sono dei buchi tra un conto e l'altro?
+  -> 3 iterazioni, 2 tool call, 19.6s
+  Risposta: Ecco cosa risulta dai dati:
+
+**Copertura temporale per conto/istituto:**
+
+| Istituto | Dominio | Da | A | N. transazioni |
+|---|---|---|---|---|
+| **meinElba (Raiffeisen)** | banca | 01/08/2023 | 25/0...
+
+[9/12] (spotify_01) Cosa ho ascoltato di più di recente su Spotify?
+  -> 2 iterazioni, 1 tool call, 7.6s
+  Risposta: Ecco l'ultimo brano ascoltato su Spotify, in ordine cronologico dal più recente:
+
+1. **"Lento Violento"** – Canova (album *Lento Violento*) — 20 agosto 2026, ore 21:14
+2. "Rob Zombie" – Salmo (*Midnit...
+
+[10/12] (spotify_06) Quanti episodi di podcast ho ascoltato rispetto alle canzoni vere e proprie?
+  -> 2 iterazioni, 1 tool call, 4.6s
+  Risposta: Ecco il confronto tra i contenuti ascoltati su Spotify:
+
+- **Canzoni (track)**: 358.005 riproduzioni
+- **Episodi di podcast**: 435 riproduzioni
+
+Le canzoni dominano nettamente il tuo ascolto: rapprese...
+
+[11/12] (spotify_08) Quante volte ho saltato un brano (skip) rispetto a quante l'ho ascoltato fino alla fine?
+  -> 2 iterazioni, 1 tool call, 7.5s
+  Risposta: Ecco i risultati sui brani (content_type = 'track') nel tuo storico ascolti:
+
+- **Saltati (skip = 1):** 59.270 riproduzioni
+- **Non saltati (skip = 0):** 298.735 riproduzioni
+
+Quindi hai saltato un br...
+
+[12/12] (manifest_02) Per ciascuna tabella che hai a disposizione, dimmi quante righe contiene.
+  -> 1 iterazioni, 0 tool call, 3.3s
+  Risposta: Ecco il numero di righe per ciascuna tabella disponibile nel vault:
+
+| Tabella | Righe |
+|---|---|
+| game_moves | 103.998 |
+| games | 1.785 |
+| listening_sessions | 17.445 |
+| playing_sessions | 364 |...
+
+======================================================================
+RIEPILOGO
+======================================================================
+{
+  "total_questions": 12,
+  "successful": 12,
+  "failed": 0,
+  "hit_max_iterations_count": 0,
+  "hit_max_iterations_ids": [],
+  "failed_ids": [],
+  "malformed_tool_call_recoveries_count": 0,
+  "malformed_tool_call_recoveries_ids": [],
+  "avg_iterations": 2.33,
+  "avg_elapsed_seconds": 10.8,
+  "total_elapsed_seconds": 129.64,
+  "tool_calls_by_tool": {
+    "run_sql": 18
+  },
+  "run_sql_queries": [
+    {
+      "question_id": "money_02b",
+      "query": "SELECT DISTINCT merchant FROM transactions WHERE merchant LIKE '%Amazon%'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_02b",
+      "query": "SELECT MAX(timestamp_end) as max_ts FROM transactions",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_02b",
+      "query": "SELECT timestamp_end, amount, currency, description_full, institution\nFROM transactions\nWHERE merchant = 'Amazon'\nAND timestamp_end >= date('2026-08-25','-3 months')\nORDER BY amount ASC\nLIMIT 20",
+      "error": null,
+      "row_count": 8,
+      "truncated": false
+    },
+    {
+      "question_id": "money_04",
+      "query": "SELECT category_raw, COUNT(*), SUM(amount) as total_amount, SUM(shares) as total_shares FROM transactions WHERE institution = 'Trade Republic' AND (category_raw LIKE '%/ BUY' OR category_raw LIKE '%/ SELL') GROUP BY category_raw",
+      "error": null,
+      "row_count": 2,
+      "truncated": false
+    },
+    {
+      "question_id": "money_04",
+      "query": "SELECT DISTINCT currency FROM transactions WHERE institution = 'Trade Republic' AND (category_raw LIKE '%/ BUY' OR category_raw LIKE '%/ SELL')",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_05",
+      "query": "SELECT * FROM private_market_legs ORDER BY timestamp_end",
+      "error": null,
+      "row_count": 8,
+      "truncated": false
+    },
+    {
+      "question_id": "money_10",
+      "query": "SELECT \n  SUM(CASE WHEN category_raw LIKE '%/ BUY' THEN shares ELSE 0 END) AS total_shares_bought,\n  SUM(CASE WHEN category_raw LIKE '%/ SELL' THEN -shares ELSE 0 END) AS total_shares_sold,\n  COUNT(CASE WHEN category_raw LIKE '%/ BUY' THEN 1 END) AS buy_transactions,\n  COUNT(CASE WHEN category_raw LIKE '%/ SELL' THEN 1 END) AS sell_transactions\nFROM transactions\nWHERE institution LIKE '%Trade Republic%'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_11",
+      "query": "SELECT category_raw, SUM(amount) as total_amount, SUM(CASE WHEN shares>0 THEN shares ELSE 0 END) as shares_bought, SUM(CASE WHEN shares<0 THEN -shares ELSE 0 END) as shares_sold, COUNT(*) as n\nFROM transactions\nWHERE institution LIKE '%Trade Republic%' AND transaction_type='investment'\nGROUP BY category_raw",
+      "error": null,
+      "row_count": 3,
+      "truncated": false
+    },
+    {
+      "question_id": "money_13",
+      "query": "SELECT DISTINCT instrument_name FROM transactions WHERE instrument_name LIKE '%NVIDIA%' OR isin LIKE '%NVDA%'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_13",
+      "query": "SELECT COUNT(*) AS num_acquisti, SUM(amount) AS spesa_totale, SUM(shares) AS azioni_totali, SUM(fee) AS commissioni_totali\nFROM transactions\nWHERE instrument_name = 'NVIDIA' AND institution LIKE '%Trade Republic%' AND category_raw LIKE '%/ BUY'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_15",
+      "query": "SELECT timestamp_end, amount, currency, transaction_type, category, category_raw, merchant, counterparty_name, description_full\nFROM transactions\nWHERE institution LIKE '%Sella%' AND amount > 0\nORDER BY amount DESC\nLIMIT 30",
+      "error": null,
+      "row_count": 30,
+      "truncated": false
+    },
+    {
+      "question_id": "money_15",
+      "query": "SELECT DISTINCT transaction_type, category, category_raw FROM transactions WHERE institution LIKE '%Sella%' AND description_full LIKE '%Campese Leonardo%'",
+      "error": null,
+      "row_count": 1,
+      "truncated": false
+    },
+    {
+      "question_id": "money_15",
+      "query": "SELECT timestamp_end, amount, description_full FROM transactions WHERE institution LIKE '%Sella%' AND description_full LIKE '%Campese Leonardo%' ORDER BY timestamp_end",
+      "error": null,
+      "row_count": 3,
+      "truncated": false
+    },
+    {
+      "question_id": "money_16",
+      "query": "SELECT institution, domain, MIN(timestamp_begin) as first_ts, MAX(timestamp_end) as last_ts, COUNT(*) as n\nFROM transactions\nGROUP BY institution, domain\nORDER BY institution",
+      "error": null,
+      "row_count": 3,
+      "truncated": false
+    },
+    {
+      "question_id": "money_16",
+      "query": "SELECT institution, strftime('%Y-%m', timestamp_begin) as ym, COUNT(*) as n\nFROM transactions\nGROUP BY institution, ym\nORDER BY institution, ym",
+      "error": null,
+      "row_count": 85,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_01",
+      "query": "SELECT timestamp_end, content_type, track_name, artist_name, album_name, episode_name, show_name, audiobook_title, audiobook_chapter_title\nFROM plays\nORDER BY timestamp_end DESC\nLIMIT 10",
+      "error": null,
+      "row_count": 10,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_06",
+      "query": "SELECT content_type, COUNT(*) FROM plays GROUP BY content_type",
+      "error": null,
+      "row_count": 2,
+      "truncated": false
+    },
+    {
+      "question_id": "spotify_08",
+      "query": "SELECT skipped, COUNT(*) as cnt FROM plays WHERE content_type='track' GROUP BY skipped",
+      "error": null,
+      "row_count": 2,
+      "truncated": false
+    }
+  ]
+}
+
+Report completo scritto in: /home/leopi/Timelive/code/batch_report_claude_validation.json
+Manda questo file per l'analisi.

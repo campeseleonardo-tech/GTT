@@ -1,0 +1,3 @@
+ESITO: Aggiornato il bottone Ripasso per aprire un sottomenu con scelta tra i tre giochi di ripasso.
+
+[runner] motore OpenRouter, modello nvidia/nemotron-3-super-120b-a12b:free; file scritti: web/index.html, web/style.css, web/app.js

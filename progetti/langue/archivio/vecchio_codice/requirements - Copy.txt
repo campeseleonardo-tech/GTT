@@ -1,0 +1,164 @@
+# FRAMEWORK CANDIDATURE — Leonardo Campese
+
+Versione consolidata 2026-10-02 (copia di archivio di Leonardo sul PC: Leonardo_Application_Framework_v4). Sostituisce `Job_Search_Framework.md` (root, 09/2026), la copia
+`claude/Job_Search_Framework.md`, il `CV_Baseline_Addendum` e la vecchia project description. Le versioni
+precedenti sono in `archive/` (datate 2026-10-02). Dove due fonti si contraddicono, vale questo documento.
+
+I FATTI (esperienze, date, titoli, certificazioni, numeri) vivono SOLO in `CV_description_baseline.txt`.
+Questo documento contiene regole, processo e posizionamento.
+
+---
+
+## SCOPO
+
+Ottimizzare le candidature di Leonardo. Non si inventa esperienza. Si presenta la stessa esperienza reale
+dalla prospettiva più rilevante per ogni offerta, massimizzando ATS match e interesse del recruiter,
+restando aderenti alla realtà.
+
+## PROCESSO PER OGNI OFFERTA (in quest'ordine)
+
+1. Leggere baseline, memoria di progetto e questo framework PRIMA di chiedere qualsiasi cosa. Leonardo
+   odia ripetere fatti già dati: si chiede solo ciò che manca davvero.
+2. Prima lettura critica dell'offerta (punti di forza, gap, rischi ATS/screening), critica ma non assertiva.
+3. Per ruoli tecnici o dove la sua esperienza pratica può ampliare la candidatura: UN solo messaggio con
+   tutte le domande necessarie, raggruppate per tema, con le più decisive evidenziate. Poi fermarsi: niente
+   CV né lettera prima delle risposte. Prima di scrivere una lettera chiedere anche forma e struttura che
+   vuole e non vuole.
+4. Output: Match Analysis (in chat), CV_description.txt (file), Cover Letter (file .txt separato).
+5. Chiudere con l'elenco "da verificare" (cifre, frasi negative, formulazioni incerte).
+6. Ogni dettaglio nuovo dato da Leonardo, in qualsiasi candidatura (anche non perfetta o poco in linea),
+   entra nella BASELINE senza filtrarlo per l'offerta in corso: sarà Claude a proporre ogni volta cosa è
+   rilevante e Leonardo a decidere cosa entra davvero. Anche le offerte già fatte arricchiscono la baseline.
+7. Non si salva ogni versione per-offerta come doc di progetto: restano permanenti solo framework, baseline
+   e file di esempi lettere.
+Per aziende a cui è genuinamente interessato: offrire anche idee per un piccolo progetto/case study.
+
+## FILE DI OUTPUT
+
+- **CV_description.txt**: TXT puro, ATS friendly, file scaricabile.
+- **Cover letter**: SEMPRE file .txt separato (es. `CoverLetter_<Azienda>_<lingua>.txt`), non solo nella chat.
+- **Match Analysis**: testo in chat.
+- Lingua di CV e lettera = lingua dell'offerta (può cambiare per candidatura; versione tedesca su richiesta).
+
+## REGOLE FERREE (non negoziabili)
+
+- Nessuna invenzione di esperienza, responsabilità, risultati o certificazioni; keyword ATS solo se
+  supportate dalla realtà.
+- **Onestà sui gap**: mai coprire un gap adattando o "vendendo" altre voci. I gap veri si dichiarano nella
+  Match Analysis, e in ogni lettera compare una breve frase onesta sul gap principale (decisione 10/2026).
+- Titoli di ruolo: modificare il minimo indispensabile, solo se aumenta la rilevanza ATS, sempre veritieri.
+- IPMA Level D sempre in ogni CV_description.
+- **Nessun punto di forza diventa l'unico angolo** di CV o lettera (Virtual Prototype, elettricista, AI,
+  qualunque altro). Si usa al massimo ciò che è pertinente, ma la presentazione ruota intorno a TUTTI i
+  punti rilevanti. Cornice centrale sempre Product/Project Management (è ciò che ha studiato).
+- **Virtual Prototype**: non enfatizzarlo; non è stato il suo unico progetto principale in quei due anni.
+  Formula valida: workstream di simulazione e test motore dentro un programma di circa 2 anni. Mai "ho
+  consegnato un virtual prototype completo". Budget ~2M = budget del testing, mai "ho gestito 2M".
+- **Elettricista**: un'esperienza vera, ma non il punto centrale. Default: non nel CV, una frase in lettera,
+  salvo offerte energy/EV/elettrificazione dove diventa una voce del CV. Non dichiarare mai che il lavoro
+  era informale.
+- **AI/KI**: menzionarla solo se l'offerta la richiede. Se sì: uso mirato per automatizzare i task dove l'AI
+  è più efficace (scripting, analisi, contenuti ripetitivi) più progetti personali reali (Timelive, case
+  study). Mai hype generico.
+- **Nomi di clienti** noti (McLaren ecc.): nei testi esterni usare descrittori generici.
+- **Niente storie tecniche di nicchia** dove non servono (es. Coriolis solo per Endress+Hauser).
+- Mai offrire di "mostrare" materiale KTM (non ne ha più accesso).
+- Altre esperienze (SEO, Event Manager): come in baseline, solo adattamento linguistico all'offerta.
+  SEO va indicato come Internship/Praktikum.
+- Non chiedere mai: trasferimento (sempre ok), date KTM (chiuse), livello di tedesco (C1).
+
+## FORMATO CV_description.txt
+
+- TXT puro: nessuna tabella, grafica, icona, markdown. Date `MM/YYYY – MM/YYYY`.
+- **Date KTM, sempre**: Intern 03/2023 – 09/2023; System Testing 09/2023 – 06/2025; Functional Development
+  06/2025 – 06/2026. Mai la divisione della lettera di referenza, mai 07/2026.
+- **Lunghezza righe di descrizione** (WORK EXPERIENCE ed EDUCATION), spazi inclusi: la maggior parte delle
+  righe sta a circa 84–90 caratteri (mai oltre 90; 92 è il massimo assoluto tollerato); poche righe
+  importanti possono arrivare a due righe piene (172–180). Mai 91–171 (seconda riga mezza vuota). Il limite è
+  identico in ogni lingua (in tedesco costa più attenzione). Contare per davvero, riga per riga, con uno
+  script, prima di consegnare: la regola è stata violata più volte.
+- **Righe per voce**: 3 di default, anche per EDUCATION. Quarta riga o più per le voci particolarmente
+  rilevanti per quell'offerta. Se manca un fatto reale, chiedere: mai riempire con frasi generiche.
+- **Tailoring**: ampliare o ridurre le descrizioni in base all'offerta, aggiungendo attività reali che
+  toccano il mondo dell'azienda. Claude propone, Leonardo decide.
+- **ABOUT ME**: paragrafo libero di circa 400 caratteri (decisione 10/2026, prima era 300).
+- **BSc Torino**: righe adattate per offerta (marketing solo per ruoli marketing; altrimenti strategia,
+  management, operations, economia).
+- **Lingue** in ogni CV: Italiano madrelingua, Inglese C1, Spagnolo C1, Tedesco C1, Francese base (A2).
+
+## FORMATO COVER LETTER
+
+- File .txt separato. Lingua dell'offerta. Concisa ma non asciutta: sostanza reale per paragrafo, senza
+  essere troppo corta né troppo tecnica (lettura iniziale da HR).
+- Tono: naturale, sicuro, diretto, umano, un po' spavaldo ("spocchioso"), non morbido né imbottito.
+  Grammatica piena e corretta, mai verbi troncati ("hab", "wohn"): la naturalezza viene dal ritmo.
+- **Apertura**: elencare i punti critici dell'offerta e collegarli a ciò che ha fatto in KTM. Non aprire con
+  un gancio su un risultato specifico, non aprire con "ho letto l'offerta/mi ha incuriosito", non aprire con
+  la formula "periodo di tempo + risultato" ("Drei Jahre bei KTM habe ich...").
+- **Ordine dei paragrafi**: parte dall'esperienza più rilevante per QUELL'offerta, non dalla cronologia.
+- Vietati: domande retoriche; frasi-morale a chiusura di paragrafo; trattini lunghi come pausa (virgole,
+  punti o frasi separate; il trattino semplice nei nomi va bene); chiusure standard ("Über ein Gespräch würde
+  ich mich freuen"); "I am excited to apply" e simili. Chiusura naturale e varia.
+- Varietà vera di frasi (anche semplici soggetto-verbo-oggetto), ma senza applicare un pattern di varietà in
+  modo meccanico. Evitare simmetria troppo pulita tra paragrafi.
+- **Tedesco**: tedesco semplice, stile austriaco (per la Svizzera ortografia "ss"). Sempre forme con
+  soggetto in prima posizione ("Ich bin ab sofort verfügbar", "Ich kenne..."), mai inversioni tipo
+  "Verfügbar bin ich ab sofort", "Studiert habe ich".
+- Preferire osservazioni personali, prospettive non visibili dal CV, dettagli concreti (numeri, strumenti).
+- Più punti di forza, nessuno come unico filo conduttore. Una breve frase onesta sul gap principale.
+- Prima di scrivere: consultare `Cover_Letter_Approved_Examples.md`.
+
+## CORE POSITIONING
+
+Engineering + Product + Business. Non specialista tecnico puro, non puro manager: profilo ponte tra
+tecnologia, sviluppo prodotto, stakeholder, business ed esecuzione. Il recruiter deve percepire
+"persona con background tecnico che lavora tra tecnologia, stakeholder, decisioni e business", non "CFD
+specialist" né "puro testing engineer".
+
+Ruoli coerenti: Technical Project Manager, Technical Product Manager, Program Manager, PMO, Business
+Development. Estensioni: Technical Sales, Key Account, Innovation Management, Product Strategy, Operations,
+R&D management. Saltare ruoli che richiedono molto più di ~5 anni di esperienza.
+
+Cosa apprezza davvero: discutere risultati, decision making, interazione con stakeholder, trade-off,
+guidare lo sviluppo, trovare soluzioni, collegare team. No: CFD/analisi tecnica come fine a sé stessa.
+
+Stile di lavoro: Organizer, Problem Solver, Strategic Thinker, Creative Contributor.
+
+## KTM — VERA INTERPRETAZIONE
+
+I titoli erano tecnici; il valore creato includeva coordinamento tecnico di progetto, pianificazione,
+ownership end-to-end (requisiti test, sensori, RFQ fornitori, modifiche CAD, simulazioni, test, analisi,
+presentazioni), interazione con fornitori e clienti, consapevolezza di budget, decision making reale (make
+vs buy, test interno vs esterno, premium vs standard) ed esposizione a go/no-go e feasibility (limitata su
+ROI/payback formali). Enfatizzare selettivamente in base all'offerta. I dettagli e i numeri sono nella
+baseline. Gap noti, da non coprire: nessun titolo di PM, nessun gate formale, nessuna industrializzazione o
+lancio fatti in prima persona, nessuna esperienza EMC/firmware, SAP solo limitato (Fiori), QM formale no.
+
+## FORMAZIONE E ALTRE ESPERIENZE
+
+- MSc Innovation & Product Management (Development Process Engineering): corsi reali nella baseline;
+  strumenti Lean/QM studiati e usati indirettamente.
+- BSc Business & Management; Heilbronn/Schneider (moderazione set-up, kick-off, lessons learned) con enfasi
+  adattabile; diploma di liceo di norma omesso.
+- Danza: esperienza reale, non hobby. World Champion 2016, insegnante, performer (matrimoni, eventi aziendali,
+  video), organizzatore di piccole serate e workshop in Italia e Austria. Usare solo se rilevante.
+- Event Manager (Croma SRL, organizzazione di eventi del liceo a 17–19 anni): presentato come in baseline,
+  restando veritiero.
+
+## ABOUT ME (versione base, adattabile, circa 400 caratteri)
+
+"Most of my official roles were technical, but much of my contribution happened between teams, decisions
+and execution. My background combines Engineering, Innovation & Product Management and Business &
+Management, allowing me to connect technical development, stakeholder needs and project delivery. I enjoy
+taking ownership, aligning people around a goal and turning complex requirements into practical results."
+
+## PRIORITÀ NELL'ADATTARE IL CV
+
+1. Cosa ha fatto realmente  2. Come ha lavorato  3. Perché era coinvolto  4. Che valore ha creato
+5. Quali competenze trasferibili emergono. Non puntare su aspirazioni future: l'offerta definisce il target.
+
+## PREFERENZE DI RICERCA (per la Match Analysis)
+
+Ruolo conta più della sede, mobilità sempre ok, Svizzera benvenuta, settori verso infrastruttura, high tech,
+difesa, ricerca, prodotti fisici; non software; criterio più pesante "physical product/engineering". Per
+case study proattivi: da pochi giorni a 2–3 settimane, solo se vale la pena.S

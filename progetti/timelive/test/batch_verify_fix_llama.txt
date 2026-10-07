@@ -1,0 +1,84 @@
+Filtro --only=['chessdotcom', 'whatsapp']: 12/19 domande selezionate.
+Modello: llama3.2:3b  Host: http://localhost:11434  MAX_ITERATIONS: 5
+Domini attivi in questo bridge: ['bank', 'chessdotcom', 'maps', 'spotify', 'whatsapp']
+Esecuzione di 12 domande...
+
+[1/12] (whatsapp_01) In quali delle mie chat WhatsApp sono stato più attivo ultimamente?
+  -> ERRORE dopo 120.7s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120.0)
+
+[2/12] (whatsapp_02) Quante videochiamate ho fatto di recente e quanto sono durate in totale?
+  -> 2 iterazioni, 1 tool call, 88.0s
+  Risposta: Non sono riuscito a trovare informazioni sulla tua attività di chiamata recente sul WhatsApp. Questo potrebbe essere perché le chiamate sono state esportate in modo non notificato o perché la tua atti...
+
+[3/12] (whatsapp_03) Ho condiviso qualche posizione GPS su WhatsApp di recente? Con chi e dove?
+  -> 2 iterazioni, 1 tool call, 99.1s
+  Risposta: Mi dispiace, ma non posso fornire informazioni sulla tua attività su WhatsApp. Tuttavia, posso aiutarti a trovare le posizioni GPS su WhatsApp che hai condiviso recentemente. Per farlo, posso cercare ...
+
+[4/12] (whatsapp_04) Cosa diceva esattamente l'ultimo messaggio di testo che ho ricevuto?
+  -> 2 iterazioni, 1 tool call, 83.8s
+  Risposta: Mi dispiace, ma non riesco a trovare l'ultimo messaggio di testo che hai ricevuto. Per rispondere alla tua domanda, devo fare un nuovo search() con una query più specifica. Potresti per favore fornirm...
+
+[5/12] (chess_01) Come sta andando il mio rating a scacchi in blitz negli ultimi mesi?
+  -> ERRORE dopo 161.9s: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=120.0)
+
+[6/12] (chess_02) Quali sono state le mie vittorie più sorprendenti a scacchi contro avversari molto più forti di me?
+  -> 2 iterazioni, 1 tool call, 142.4s
+  Risposta: Non sono riuscito a trovare alcune vittorie sorprendenti a scacchi contro avversari molto più forti di te. Tuttavia, posso dirti che hai giocato un totale di 1785 partite, delle quali 1785 sono state ...
+
+[7/12] (chess_03) Qual è stata la mia sessione di scacchi più lunga: quante partite ho giocato e con che risultato?
+  -> 2 iterazioni, 2 tool call, 123.6s
+  Risposta: Mi scuso per l'errore. Ecco la sessione di scacchi più lunga:
+
+La mia sessione di scacchi più lunga è stata una partita che ha durato 7 ore e 30 minuti. La partita è stata giocata il 11 settembre 2026...
+
+[8/12] (chess_04) Quante partite ho perso per scacco matto rispetto a quante per tempo scaduto?
+  -> 2 iterazioni, 1 tool call, 76.0s
+  Risposta: Non ho trovato informazioni sulla tua partita per scacco matto. Tuttavia, ho trovato informazioni sulle tue partite per tempo scaduto. Nel mese di settembre 2026, hai perso 60 partite per tempo scadut...
+
+[9/12] (chess_05) Raccontami nel dettaglio l'ultima partita di scacchi che ho giocato, comprese le mosse.
+  -> 2 iterazioni, 1 tool call, 112.4s
+  Risposta: Mi dispiace, ma non posso fornire informazioni dettagliate sulle mosse specifiche della tua ultima partita di scacchi senza una ricerca precedente che abbia restituito il full_ref corretto. Per favore...
+
+[10/12] (manifest_01) Che tipo di dati hai su di me al momento, e per quale periodo di tempo?
+  -> 2 iterazioni, 1 tool call, 100.1s
+  Risposta: Mi scuso per l'errore. Ecco la risposta alla tua domanda:
+
+Attualmente ho dati su di te riguardanti i tuoi trasferimenti bancari per il periodo di tempo di un giorno, dal 1 agosto 2026 al 31 agosto 20...
+
+[11/12] (cross_01) Ho dati sia sugli scacchi che su WhatsApp — che periodo di tempo coprono entrambi?
+  -> 2 iterazioni, 1 tool call, 119.4s
+  Risposta: Per rispondere alla tua domanda, dobbiamo coprire il periodo di tempo in cui entrambi gli scacchi e WhatsApp hanno dati disponibili. Il dataset di scacchi copre fino al 11 settembre 2026, mentre Whats...
+
+[12/12] (cross_02) Quante partite a scacchi ho giocato in totale nella mia storia, e quante canzoni ho ascoltato su Spotify? Dammi i due numeri separatamente.
+  -> 2 iterazioni, 2 tool call, 77.6s
+  Risposta: Hai giocato 1783 partite di scacchi nella tua storia.
+
+Hai ascoltato 357737 canzoni su Spotify.
+
+======================================================================
+RIEPILOGO
+======================================================================
+{
+  "total_questions": 12,
+  "successful": 10,
+  "failed": 2,
+  "hit_max_iterations_count": 0,
+  "hit_max_iterations_ids": [],
+  "failed_ids": [
+    "whatsapp_01",
+    "chess_01"
+  ],
+  "avg_iterations": 2.0,
+  "avg_elapsed_seconds": 108.75,
+  "total_elapsed_seconds": 1304.95,
+  "tool_calls_by_domain": {
+    "whatsapp": 2,
+    "maps": 1,
+    "chessdotcom": 7,
+    "bank": 1,
+    "spotify": 1
+  }
+}
+
+Report completo scritto in: /home/leopi/Timelive/code/batch_verify_fix_llama.json
+Manda questo file per l'analisi.

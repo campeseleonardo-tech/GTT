@@ -1,0 +1,4 @@
+Ho creato `contenuti/parole_nuove.json` con 100 sostantivi nuovi, da art-0201 a art-0300, tutti in stato "bozza". Sono 10 per ognuno dei 10 temi: abbigliamento, acquisti, ristorante, viaggio, salute, sport, tecnologia, posta/banca, sentimenti, feste.
+- **Controlli:** ho confrontato a mano ogni parola con le 200 esistenti e tra loro: nessun doppione. Non ho potuto eseguire script (Bash disabilitato), quindi il JSON non è stato validato automaticamente. Conviene lanciare una validazione.
+- **Dubbi:** nel rapporto elenco le 5 parole di cui sono meno sicuro (Gleis, Fußball, Bank, Glück, Humor). Riguardano livello o traduzione, non l'articolo.
+- **Rapporto:** `agenti/T07-parole/RAPPORTO.md`. Non ho creato `DECISIONS.md`, perché non c'erano decisioni da prendere.

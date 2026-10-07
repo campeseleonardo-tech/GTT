@@ -1,0 +1,223 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mappa Aziende Target</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#F4F6F4; --surface:#FFFFFF; --ink:#18201E; --muted:#5C6763; --line:#DCE2DF;
+  --accent:#0F6E6A; --accent-soft:#E0EFEE;
+  --def:#5B6B2E; --def-soft:#ECEFDF; --inf:#2F5D8A; --inf-soft:#E3ECF5; --hit:#6A4C93; --hit-soft:#EEE8F5; --oth:#6B6258; --oth-soft:#EFECE8;
+  --warn:#A2561B; --warn-soft:#F7EADF; --good:#2D7A3E; --good-soft:#E2F1E5; --bad:#8C3B3B; --bad-soft:#F4E3E3;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#121716; --surface:#1A201F; --ink:#E6ECEA; --muted:#9AA7A3; --line:#2C3533;
+  --accent:#4FB8B1; --accent-soft:#193331;
+  --def:#B5C57C; --def-soft:#262C18; --inf:#8DB5E0; --inf-soft:#18263A; --hit:#C3A6EA; --hit-soft:#2A2238; --oth:#C9BEB1; --oth-soft:#2A2622;
+  --warn:#E3A06A; --warn-soft:#33251A; --good:#7FCB8E; --good-soft:#18301E; --bad:#E39B9B; --bad-soft:#3A1F1F;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121716; --surface:#1A201F; --ink:#E6ECEA; --muted:#9AA7A3; --line:#2C3533;
+  --accent:#4FB8B1; --accent-soft:#193331;
+  --def:#B5C57C; --def-soft:#262C18; --inf:#8DB5E0; --inf-soft:#18263A; --hit:#C3A6EA; --hit-soft:#2A2238; --oth:#C9BEB1; --oth-soft:#2A2622;
+  --warn:#E3A06A; --warn-soft:#33251A; --good:#7FCB8E; --good-soft:#18301E; --bad:#E39B9B; --bad-soft:#3A1F1F;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 16px 64px}
+header h1{font-size:28px;font-weight:700;letter-spacing:-.01em;margin:0 0 4px;text-wrap:balance}
+header p{margin:0;color:var(--muted);max-width:70ch}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.pipeline{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 28px}
+.pipe{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-width:110px;cursor:pointer;text-align:left;color:var(--ink);font:inherit}
+.pipe b{display:block;font-family:var(--mono);font-size:20px;font-variant-numeric:tabular-nums}
+.pipe span{font-size:12px;color:var(--muted)}
+.pipe[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+h2{font-size:15px;font-weight:600;margin:0 0 10px}
+.salary{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-bottom:28px}
+.sal{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.sal .reg{font-weight:600}
+.sal .ask{font-family:var(--mono);font-size:17px;color:var(--accent);margin:2px 0 4px;font-variant-numeric:tabular-nums}
+.sal .why{font-size:12px;color:var(--muted)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.bar input[type=search],.bar select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 10px}
+.bar input[type=search]{flex:1 1 220px;min-width:0}
+.bar .count{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.list{display:flex;flex-direction:column;gap:8px}
+.row{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;grid-template-columns:34px minmax(0,2.1fr) minmax(0,2.6fr) 170px;gap:6px 16px;align-items:start}
+.prio{font-family:var(--mono);font-weight:500;font-size:13px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);color:var(--muted)}
+.prio.A{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.prio.B{border-color:var(--accent);color:var(--accent)}
+.name{font-weight:600;font-size:15px}
+.loc{color:var(--muted);font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.chip{font-size:11px;padding:2px 7px;border-radius:999px;font-weight:500;white-space:nowrap}
+.s-Difesa{background:var(--def-soft);color:var(--def)}
+.s-Infrastrutture{background:var(--inf-soft);color:var(--inf)}
+.s-High-tech{background:var(--hit-soft);color:var(--hit)}
+.s-Altro{background:var(--oth-soft);color:var(--oth)}
+.e-Alta{background:var(--good-soft);color:var(--good)}.e-Media{background:var(--hit-soft);color:var(--hit)}.e-Bassa{background:var(--bad-soft);color:var(--bad)}
+.chip.weap{background:var(--warn-soft);color:var(--warn)}
+.chip.cc{background:var(--bad-soft);color:var(--bad)}
+.detail{font-size:13px}
+.detail .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.detail p{margin:0 0 6px}
+.side{display:flex;flex-direction:column;gap:6px}
+.side select,.side textarea{font:inherit;font-size:13px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 8px;width:100%}
+.side textarea{resize:vertical;min-height:34px}
+.side a{color:var(--accent);font-weight:500;text-decoration:none;font-size:13px}
+.side a:hover{text-decoration:underline}
+.st-Candidato,.st-Colloquio{border-color:var(--accent)!important}
+.st-Offerta{border-color:var(--good)!important}
+.st-Scartato{opacity:.65}
+.unv{font-size:11px;color:var(--warn)}
+details.add{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+details.add summary{cursor:pointer;font-weight:600}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-top:10px}
+.form input,.form select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 10px;width:100%}
+.btn{font:inherit;font-weight:600;background:var(--accent);color:var(--surface);border:0;border-radius:6px;padding:8px 14px;cursor:pointer}
+.msg{padding:14px;border:1px dashed var(--line);border-radius:8px;color:var(--muted);text-align:center}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:820px){.row{grid-template-columns:34px minmax(0,1fr)}.row .detail,.row .side{grid-column:2}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Ricerca lavoro · 100 aziende · prodotti fisici, energia, termica, ricerca</div>
+    <h1>Mappa Aziende Target</h1>
+    <p>Scelte in base a quanto il tuo profilo è spendibile (termica, test, veicoli, fornitori, clienti), alla possibilità di entrare e ai tuoi criteri: stipendi, città con natura vicino, distanza da Torino, lingua. Aggiorna lo stato e le note: vengono salvati.</p>
+  </header>
+
+  <div class="pipeline" id="pipeline"></div>
+
+  <h2>Quanto chiedere, per zona</h2>
+  <div class="salary">
+    <div class="sal"><div class="reg">Svizzera tedesca (Zurigo, Zugo, Lucerna)</div><div class="ask">CHF 95–100k</div><div class="why">jobs.ch, Product Manager Zurigo: 0–2 anni CHF 91k, 3–5 anni CHF 100k (13ª inclusa). Costo della vita molto più alto.</div></div>
+    <div class="sal"><div class="reg">Baviera / Monaco</div><div class="ask">€ 60–65k</div><div class="why">StepStone Monaco: mediana € 56k (48–67k). jobvector Baviera: media € 70k (60–81k).</div></div>
+    <div class="sal"><div class="reg">Austria</div><div class="ask">€ 55–60k</div><div class="why">Lordo annuo, 14 mensilità incluse. Ultimo stipendio KTM ≈ € 60k: non scendere molto sotto.</div></div>
+    <div class="sal"><div class="reg">Nord Italia (Torino, Bolzano)</div><div class="ask">€ 42–48k</div><div class="why">Glassdoor Torino: media € 44,5k. Experteer Italia: mediana € 46k. Ticino: dato non verificato.</div></div>
+  </div>
+
+  <div class="bar">
+    <input type="search" id="q" placeholder="Cerca azienda, città, ruolo…" aria-label="Cerca">
+    <select id="fSector" aria-label="Settore"><option value="all">Tutti i settori</option></select>
+    <select id="fEntry" aria-label="Possibilità di entrare"><option value="all">Entrata: tutte</option><option>Alta</option><option>Media</option><option>Bassa</option></select>
+    <select id="fCountry" aria-label="Paese"><option value="all">Tutti i paesi</option><option>Svizzera</option><option>Germania</option><option>Austria</option><option>Italia</option><option>Liechtenstein</option></select>
+    <select id="fWeap" aria-label="Armi"><option value="all">Armi: tutte</option><option value="no">Senza armi</option></select>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="list" id="list"><div class="msg">Caricamento…</div></div>
+
+  <details class="add" id="addBox">
+    <summary>Aggiungi un'azienda</summary>
+    <form class="form" id="addForm">
+      <input id="aName" placeholder="Azienda" required>
+      <input id="aCity" placeholder="Città">
+      <select id="aCountry"><option>Svizzera</option><option>Germania</option><option>Austria</option><option>Italia</option><option>Liechtenstein</option></select>
+      <input id="aSector" placeholder="Settore">
+      <input id="aUrl" placeholder="Link pagina carriere">
+      <input id="aRoles" placeholder="Ruoli da cercare">
+      <button class="btn" type="submit">Aggiungi</button>
+    </form>
+  </details>
+</div>
+
+<script>
+(function(){
+  var STATI=["Da esplorare","Monitorando","Candidato","Colloquio","Offerta","Scartato"];
+  var rows=[], col=null, canWrite=true;
+  var f={q:"",sector:"all",country:"all",weap:"all",status:"all",entry:"all"};
+  var $=function(id){return document.getElementById(id)};
+  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+  function safeUrl(u){return /^https?:\/\//i.test(u||"")?u:""}
+
+  function renderPipeline(){
+    var h='<button class="pipe" data-st="all" aria-pressed="'+(f.status==="all")+'"><b>'+rows.length+'</b><span>Tutte</span></button>';
+    STATI.forEach(function(s){
+      var n=rows.filter(function(r){return (r.status||"Da esplorare")===s}).length;
+      h+='<button class="pipe" data-st="'+esc(s)+'" aria-pressed="'+(f.status===s)+'"><b>'+n+'</b><span>'+esc(s)+'</span></button>';
+    });
+    $("pipeline").innerHTML=h;
+  }
+  function visible(){
+    var q=f.q.toLowerCase();
+    return rows.filter(function(r){
+      if(f.sector!=="all"&&r.sector!==f.sector)return false;
+      if(f.country!=="all"&&r.country!==f.country)return false;
+      if(f.weap==="no"&&r.weapons)return false;
+      if(f.entry!=="all"&&r.entry!==f.entry)return false;
+      if(f.status!=="all"&&(r.status||"Da esplorare")!==f.status)return false;
+      if(q){var hay=[r.name,r.city,r.country,r.roles,r.bridge,r.focus,r.notes].join(" ").toLowerCase();if(hay.indexOf(q)<0)return false}
+      return true;
+    }).sort(function(a,b){return (a.priority||"C").localeCompare(b.priority||"C")||String(a.name).localeCompare(String(b.name))});
+  }
+  function fillSectors(){var sel=$("fSector"),cur=sel.value,seen={};rows.forEach(function(r){if(r.sector)seen[r.sector]=1});
+    sel.innerHTML='<option value="all">Tutti i settori</option>'+Object.keys(seen).sort().map(function(x){return "<option"+(x===cur?" selected":"")+">"+esc(x)+"</option>"}).join("")}
+  function render(){
+    fillSectors();renderPipeline();
+    var v=visible();
+    $("count").textContent=v.length+" di "+rows.length;
+    if(!rows.length){$("list").innerHTML='<div class="msg">Nessuna azienda salvata.</div>';return}
+    if(!v.length){$("list").innerHTML='<div class="msg">Nessuna azienda con questi filtri.</div>';return}
+    $("list").innerHTML=v.map(function(r){
+      var st=r.status||"Da esplorare", url=safeUrl(r.url);
+      var opts=STATI.map(function(s){return '<option'+(s===st?' selected':'')+'>'+esc(s)+'</option>'}).join("");
+      return '<article class="row st-'+esc(st)+'" data-id="'+esc(r.id)+'">'+
+        '<div class="prio '+esc(r.priority||"C")+'" title="Priorità">'+esc(r.priority||"C")+'</div>'+
+        '<div><div class="name">'+esc(r.name)+'</div><div class="loc">'+esc(r.city)+' · '+esc(r.country)+'</div>'+
+          '<div class="chips"><span class="chip s-Infrastrutture">'+esc(r.sector)+'</span>'+(r.entry&&r.entry!=="—"?'<span class="chip e-'+esc(r.entry)+'">entrata: '+esc(r.entry)+'</span>':'')+
+          (r.focus?'<span class="chip s-Altro">'+esc(r.focus)+'</span>':'')+
+          (r.weapons?'<span class="chip weap">anche armi</span>':'')+
+          (r.clearance?'<span class="chip cc">possibili vincoli di cittadinanza</span>':'')+'</div></div>'+
+        '<div class="detail"><p><span class="lbl">Ruoli da cercare</span><br>'+esc(r.roles)+'</p>'+
+          '<p><span class="lbl">Perché il tuo profilo</span><br>'+esc(r.bridge)+'</p></div>'+
+        '<div class="side">'+(url?'<a href="'+esc(url)+'" target="_blank" rel="noopener">Pagina carriere ↗</a>':'')+
+          (r.urlCheck?'<span class="unv">'+esc(r.urlCheck)+'</span>':'')+
+          '<select class="stSel" id="st-'+esc(r.id)+'" aria-label="Stato"'+(canWrite?'':' disabled')+'>'+opts+'</select>'+
+          '<textarea class="notes" id="nt-'+esc(r.id)+'" rows="2" placeholder="Note"'+(canWrite?'':' disabled')+'>'+esc(r.notes)+'</textarea></div>'+
+      '</article>';
+    }).join("");
+  }
+  function today(){return new Date().toISOString().slice(0,10)}
+  async function save(id,patch){
+    if(!col)return;
+    try{patch.updated=today();await col.doc(id).update(patch)}
+    catch(e){if(e&&e.code==="invalid_argument"){canWrite=false;render()} console.warn(e)}
+  }
+
+  $("pipeline").addEventListener("click",function(e){var b=e.target.closest(".pipe");if(!b)return;f.status=b.dataset.st;render()});
+  $("q").addEventListener("input",function(e){f.q=e.target.value;render()});
+  $("fSector").addEventListener("change",function(e){f.sector=e.target.value;render()});
+  $("fCountry").addEventListener("change",function(e){f.country=e.target.value;render()});
+  $("fEntry").addEventListener("change",function(e){f.entry=e.target.value;render()});
+  $("fWeap").addEventListener("change",function(e){f.weap=e.target.value;render()});
+  $("list").addEventListener("change",function(e){
+    var row=e.target.closest(".row");if(!row)return;var id=row.dataset.id;
+    if(e.target.classList.contains("stSel"))save(id,{status:e.target.value});
+    if(e.target.classList.contains("notes"))save(id,{notes:e.target.value});
+  });
+  $("addForm").addEventListener("submit",async function(e){
+    e.preventDefault(); if(!col)return;
+    var d={name:$("aName").value.trim(),city:$("aCity").value.trim(),country:$("aCountry").value,sector:$("aSector").value,
+      url:$("aUrl").value.trim(),roles:$("aRoles").value.trim(),bridge:"",priority:"B",status:"Da esplorare",notes:"",weapons:false,updated:today()};
+    if(!d.name)return;
+    try{await col.add(d);e.target.reset();$("addBox").open=false}catch(err){console.warn(err)}
+  });
+
+  async function init(){
+    var c=window.claude;
+    var db=c&&c.use?await c.use("db"):null;
+    if(!db){$("list").innerHTML='<div class="msg">I dati salvati non sono disponibili in questa vista.</div>';return}
+    col=db.collection("companies");
+    col.onSnapshot(function(s){rows=s.docs.map(function(d){var o=Object.assign({},d.data());o.id=d.id;return o});render()},
+      function(){ $("list").innerHTML='<div class="msg">Collegamento ai dati interrotto. Ricarica la pagina.</div>'});
+  }
+  init();
+})();
+</script>
+
+</body></html>

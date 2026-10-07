@@ -1,0 +1,6 @@
+ESITO: Ho riorganizzato il pannello in `scripts/mappa_template.html` secondo i sei punti richiesti. Non ho potuto eseguire nulla: i controlli sono del runner.
+- "Quando" è in alto su 2 righe, con la frase automatica ("La mappa mostra il servizio di un giorno feriale alle HH:MM").
+- Il tema è un unico menu a tendina generato dalla tabella THEMES, che comprende Velocità e Pendolari.
+- La legenda è dentro il pannello come ultimo blocco, e "Info sui dati" è una sezione chiusa sopra di essa.
+- Il tag PROGRAMMATO resta solo nei blocchi con più tag; l'ho tolto dove era da solo (4 punti).
+- Il rapporto con i click da provare è in `agenti/GT06-pannello/RAPPORTO.md`.
