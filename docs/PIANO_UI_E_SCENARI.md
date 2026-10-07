@@ -140,63 +140,50 @@ Tutte le schede informative condivideranno lo stesso schema fisso a quattro sezi
 
 ## Simulazioni
 ### Formato del file di scenario (input)
-Il file di scenario è un JSON salvato in `data/scenari/<nome_scenario>.json`. Deve contenere **solo le variazioni** rispetto alla rete base (GTFS ufficiale). Campi obbligatori e facoltativi:
+Il formato previsto è un file JSON in `data/scenari/<nome_scenario>.json`, con **solo le variazioni** rispetto al GTFS di base. `origine` e `stato` identificano la provenienza del contenuto: per gli scenari creati dall'agente valgono i valori mostrati nell'esempio. `base_gtfs` è il nome esatto del file di riferimento, non il nome commerciale della linea. Per identificare una linea esistente si usa `route_id` di `routes.txt`; `direction_id` di `trips.txt` è rappresentato come stringa `"0"` o `"1"`.
+
+Esempio di scenario di input con le tipologie di modifica previste:
 
 ```json
 {
-  "nome": "stringa breve, es. 'piu_corse_linea_4'",
-  "descrizione": "testo libero per l'utente",
-  "base_gtfs": "nome del file GTFS di riferimento (es. 'gtt_gtfs_20261002.zip')",
-  "giorno_tipo": "fer | sab | dom",
+  "origine": "agente GT26-definire-il-formato-dell",
+  "stato": "bozza",
+  "nome": "piu_corse_linea",
+  "descrizione": "Aumentare la frequenza di una linea esistente",
+  "base_gtfs": "gtt_gtfs_20261002.zip",
+  "giorno_tipo": "fer",
   "linee_modificate": [
     {
-      "linea": "4",
-      "direzione": "0 | 1 | \"\"",
-      "intervallo_minuti": 6,
-      "nuovo_capolinea": "nome fermata o coordinate [lat, lon]  (facoltativo)",
-      "fermate_aggiunte": ["codice_fermata_1", "codice_fermata_2"]  (facoltativo),
-      "fermate_rimesse": ["codice_fermata_3"]  (facoltativo)
-    }
-  ],
-  "linee_nuove": [
-    {
-      "id": "NEW_1",
-      "nome_breve": "N1",
-      "nome_lungo": "Nuova linea circolare",
-      "tipo": 3,
-      "fermate": ["codice_1", "codice_2", "codice_3"],
-      "intervallo_minuti": 10,
-      "direzioni": {
-        "0": ["codice_1", "codice_2", "codice_3"],
-        "1": ["codice_3", "codice_2", "codice_1"]
-      }
-    }
-  ],
-  "linee_soppresse": ["15", "30"],
-  "linee_deviate": [
-    {
-      "linea": "15",
+      "route_id": "route_id_esistente",
       "direzione": "0",
-      "da_fermata": "codice_A",
-      "a_fermata": "codice_B",
-      "nuovo_percorso": ["codice_A", "codice_X", "codice_Y", "codice_B"]
+      "intervallo_minuti": 6
     }
-  ]
+  ],
+  "linee_nuove": [],
+  "linee_soppresse": [],
+  "linee_deviate": []
 }
 ```
 
-**Regole di validazione (il motore le applica in ordine):**
-1. `base_gtfs` deve corrispondere a un file esistente in `data/raw/`.
-2. `giorno_tipo` deve essere uno tra `fer`, `sab`, `dom`.
-3. `linea` in `linee_modificate`/`linee_soppresse`/`linee_deviate` deve esistere nel GTFS base.
-4. `direzione` se omessa vale per entrambe le direzioni; se presente deve essere `"0"` o `"1"`.
-5. `intervallo_minuti` > 0 e ≤ 120.
-6. I codici fermata in `fermate_aggiunte`, `fermate_rimesse`, `linee_nuove.fermate`, `linee_deviate.nuovo_percorso` devono esistere in `stops.txt` del GTFS base.
-7. `linee_nuove.id` non deve collidere con `route_id` esistenti.
-8. Un scenario non può modificare la geometria dei tracciati (`shapes.txt`): `nuovo_capolinea` e `nuovo_percorso` usano fermate esistenti; il motore stima il percorso più breve lungo la rete stradale di sfondo (solo per visualizzazione, non per calcolo tempi).
+I valori `route_id_esistente` e `gtt_gtfs_20261002.zip` sono segnaposto illustrativi: vanno sostituiti con identificativi e file effettivamente presenti nel GTFS locale. I campi delle varianti più ampie sono descritti qui sotto; la loro presenza nel formato non implica che siano già elaborati dal motore.
+
+**Regole previste per la validazione:**
+1. `origine` e `stato` devono essere presenti; per i contenuti creati dall'agente si usano rispettivamente `agente GT26-definire-il-formato-dell` e `bozza`.
+2. `base_gtfs` deve corrispondere al nome esatto di un file GTFS esistente in `data/raw/`. La rete di confronto è solo quel feed.
+3. `giorno_tipo` deve essere uno tra `fer`, `sab`, `dom`.
+4. Ogni `route_id` usato per modificare, sopprimere o deviare una linea deve esistere in `routes.txt` del GTFS indicato. Il nome breve mostrato all'utente non sostituisce l'identificativo.
+5. Se `direzione` è omessa, la modifica vale per entrambe le direzioni; se presente, accetta solo `"0"` o `"1"`, coerentemente con `direction_id` in `trips.txt`. Un valore vuoto non è ammesso.
+6. `intervallo_minuti` deve essere maggiore di 0 e non superiore a 120.
+7. I codici fermata citati nelle varianti devono esistere in `stops.txt` del medesimo GTFS. Un nome testuale o una coordinata non sostituiscono il codice.
+8. L'identificativo di una linea nuova non deve collidere con un `route_id` esistente.
+
+**Perimetro e limiti della prima simulazione:**
+- Il primo esempio operativo dovrebbe limitarsi a modificare l'intervallo di una linea esistente, per un giorno tipo e una o entrambe le direzioni. Le linee nuove, soppresse o deviate e le modifiche alle fermate restano estensioni previste, non funzionalità da considerare già disponibili.
+- `routes.txt`, `trips.txt`, `stop_times.txt`, `stops.txt` e `shapes.txt` descrivono parti diverse del GTFS: la sola sequenza di fermate non fornisce una geometria stradale verificata. Non si presume quindi che il motore possa ricostruire un percorso o calcolare tempi di viaggio dal solo scenario.
+- L'esempio del JSON è un modello documentale, non un file già installabile né una conferma che esista un motore di simulazione. L'elaborazione e la verifica dei risultati sono attività successive.
 
 ### Avviso sui risultati della simulazione (obbligatorio in ogni output)
-**Ogni mappa, tabella o scheda generata da uno scenario deve mostrare in evidenza il seguente avviso:**
+**Ogni mappa, tabella o scheda generata da uno scenario deve mostrare in evidenza il seguente avviso. Vale anche per esportazioni e riepiloghi; se un risultato non è disponibile, non va sostituito con una stima presentata come misurata:**
 
 > ⚠ **SIMULAZIONE SU ORARIO PROGRAMMATO**  
 > I risultati mostrano l'**offerta potenziale** (passaggi/ora, residenti raggiunti, tempi di attesa teorici) calcolata applicando le variazioni indicate all'orario ufficiale GTFS.  
