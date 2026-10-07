@@ -109,7 +109,8 @@ def leggi_gtfs_base(percorso_gtfs, giorno_tipo):
     linee_fermata = defaultdict(set)
     inizio_corsa = {}  # trip_id -> (first_sequence, first_hour)
     tempi = {}  # trip_id -> [first_seq, first_min, last_seq, last_min]
-    partenze_per_fermata = defaultdict(int)  # stop_id -> count di partenze nel giorno
+    partenze_per_fermata = defaultdict(int)  # stop_id -> contatore partenze nel giorno
+    partenze_linea_fermata = defaultdict(lambda: defaultdict(int))  # route_id -> stop_id -> contatori
 
     with z.open("stop_times.txt") as f:
         rd = csv.reader(io.TextIOWrapper(f, encoding="utf-8-sig"))
@@ -122,7 +123,7 @@ def leggi_gtfs_base(percorso_gtfs, giorno_tipo):
             if not v:
                 continue
             rid, flags, dir_id = v
-            if not any(flags[k] for k in range(3) if attivi_oggi.__contains__(list(attivi)[k].__iter__().__next__() if k < len(attivi) else False)):
+            if not flags[giorno_index]:
                 continue  # servizio non attivo oggi
             ora_partenza = riga[i_d]
             if not ora_partenza or len(ora_partenza) < 2:
@@ -137,8 +138,9 @@ def leggi_gtfs_base(percorso_gtfs, giorno_tipo):
             stop_id = riga[i_s]
             sequenza = int(riga[i_q])
             linee_fermata[stop_id].add(rid)
-            # Aggiorna contatore partenze per fermata
             partenze_per_fermata[stop_id] += 1
+            # conteggio partenze per linea (utile per la simulazione)
+            partenze_linea_fermata[rid][stop_id] += 1
             # Aggiorna tempi del viaggio per calcolare direzione (se necessario)
             tt = tempi.get(trip_id)
             if tt is None:
@@ -157,24 +159,23 @@ def leggi_gtfs_base(percorso_gtfs, giorno_tipo):
         "linee_fermata": linee_fermata,
         "fermate": fermate,
         "partenze_per_fermata": dict(partenze_per_fermata),
+        "partenze_linea_fermata": {rid: dict(d) for rid, d in partenze_linea_fermata.items()},
         "viaggi": viaggi,
         "attivi_oggi": attivi_oggi,
-        "giorno_tipo": giorno_tipo
+        "giorno_tipo": giorno_tipo,
+        "giorno_index": giorno_index,
     }
 
 def applica_modifica_frequenza(gtfs_base, route_id, direzione, intervallo_minuti):
     """Applica una modifica di frequenza a una linea e direzione specificate.
     Restituisce un nuovo dizionario partenze_per_fermata con le partenze aggiornate.
     """
-    # In questa versione semplificata, assumiamo che la modifica di frequenza si applichi a tutte le corse della linea e direzione
-    # e che il giorno di servizio sia intero (24 ore). Generiamo nuove partenze distribuite uniformemente.
-    # Nota: Questa è una semplificazione. In realtà, dovremmo rispettare il calendario di servizio esistente.
-    # Per ora, distribuiamo le partenze in modo uniforme nell'arco della giornata (0-24 ore) per il numero di corse calcolato.
+    # Copia del totale delle partenze per fermata (tutte le linee)
     partenze_per_fermata = gtfs_base["partenze_per_fermata"].copy()
     if route_id not in gtfs_base["rotte"]:
         return partenze_per_fermata  # linea non trovata, nessuna modifica
 
-    # Calcoliamo il numero di corse al giorno per la linea e direzione nella base
+    # Calcola il numero di corse al giorno per la linea e direzione nella base
     corse_base_per_direzione = defaultdict(int)
     for trip_id, (rid, flags, dir_id) in gtfs_base["viaggi"].items():
         if rid == route_id and (direzione is None or dir_id == direzione):
@@ -187,7 +188,7 @@ def applica_modifica_frequenza(gtfs_base, route_id, direzione, intervallo_minuti
     else:
         direzioni_da_modificare = [direzione]
 
-    # Per ogni direzione da modificare, sostituiamo le corse base con nuove corse all'intervallo specificato
+    # Per ogni direzione da modificare, sostituiremo le corse base con nuove corse all'intervallo specificato
     for dir_id in direzioni_da_modificare:
         num_corse_base = corse_base_per_direzione.get(dir_id, 0)
         if num_corse_base == 0:
@@ -221,18 +222,17 @@ def applica_modifica_frequenza(gtfs_base, route_id, direzione, intervallo_minuti
 
         # Sottraiamo le partenze base di questa linea e direzione
         for stop_id in fermate_linea_direzione:
-            partenze_base = partenze_per_fermata.get(stop_id, 0)
-            # Non conosciamo la distribuzione per direzione, quindi distribuiamo proporzionalmente
-            # Assumiamo che le partenze della linea siano divise equamente tra le direzioni (se ci sono entrambe)
-            tot_direzioni = len([d for d in ["0", "1"] if corse_base_per_direzione.get(d, 0) > 0])
-            if tot_direzioni == 0:
-                tot_direzioni = 1
-            parte_per_direzione = partenze_base / tot_direzioni if tot_direzioni > 0 else 0
-            nuove_partenze = parte_per_direzione * (num_corse_nuove / num_corse_base) if num_corse_base > 0 else 0
-            partenze_per_fermata[stop_id] = nuove_partenze * num_fermate_linea  # approssimazione: ogni corsa ferma in tutte le fermate della linea
-        # Questa è una forte semplificazione. Per uno scenario reale, servirà il percorso effettivo.
+            # Partenze della linea in quella fermata (prima della modifica)
+            old_partenza_linea = gtfs_base["partenze_linea_fermata"].get(route_id, {}).get(stop_id, 0)
+            if old_partenza_linea == 0:
+                continue
+            # Nuove partenze della stessa linea con la nuova frequenza
+            new_partenza_linea = old_partenza_linea * num_corse_nuove / num_corse_base
+            # Delta da aggiungere al totale della fermata
+            delta = new_partenza_linea - old_partenza_linea
+            current = partenze_per_fermata.get(stop_id, 0)
+            partenze_per_fermata[stop_id] = current + delta
     return partenze_per_fermata
-
 def main():
     import argparse
     parser = argparse.ArgumentParser(description='Calcolare differenza di passaggi tra base e scenario.')
