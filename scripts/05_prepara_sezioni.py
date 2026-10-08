@@ -121,7 +121,7 @@ def main():
         ex = [(pts[2*i], pts[2*i+1]) for i in range(parti[0], parti[1])]
         ar = abs(sum(ex[i][0]*ex[i+1][1]-ex[i+1][0]*ex[i][1] for i in range(len(ex)-1)))/2/1e6
         out.append({"id": r["SEZ21_ID"], "c": int(r["PRO_COM"]), "p": int(r["POP21"] or 0), "a": round(ar, 5),
-                    "t": int(r["COD_TIPO_S"] or 0), "g": anelli})
+                    "t": int(r["COD_TIPO_S"] or 0), "f": int(r["FAM21"] or 0), "ab": int(r["ABI21"] or 0), "g": anelli})
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(out, separators=(",", ":")), encoding="utf-8")
     tor = [s for s in out if s["c"] == PRO_COM_TORINO]
