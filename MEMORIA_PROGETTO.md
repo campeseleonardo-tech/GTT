@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: 8 ottobre 2026. OMI completato (O1–O5); A0 completato e tre indicatori ISTAT integrati in mappa: occupati 15–64, residenti 5–14, residenti 65+. Prossima priorità: analisi dei dati raccolti di giorno.
+Ultimo aggiornamento: 8 ottobre 2026. OMI completato (O1–O5); tre indicatori ISTAT integrati e verificati in mappa. Corretto anche un errore che faceva perdere i campi durante la preparazione delle sezioni JavaScript. Prossima priorità: analisi dei dati raccolti di giorno.
 Questo è l'unico file di memoria e di passaggio. Non creare altri documenti di memoria.
 Leggila all'inizio di ogni sessione e aggiornala alla fine.
 
@@ -49,7 +49,7 @@ orari veri. Per ora solo studio personale, forse da condividere. Area: Torino ci
 - Zone statistiche Torino (CSV e shapefile, dati del 2011): 94 zone.
 - Pendolarismo ISTAT 2021 (lavoro e studio): verificato con lo script 04 l'8/10. Numeri uguali alle note: Torino lavoro entrano 138.605, escono 71.297, dentro 212.249; studio entrano 48.730, escono 6.373, dentro 120.148.
 - Sezioni di censimento 2021 (Torino): 6.916 sezioni a Torino, 848.748 abitanti; 8.317 sezioni abitate entro 18 km, 1.557.493 abitanti (script 05 e 04).
-- Indicatori regionali ISTAT R01 integrati sulle 8.317 sezioni abitate dell'area (aggancio 100%, nessun valore negativo). Torino: 346.734 occupati residenti 15–64 su 528.512 residenti 15–64 (65,6%); 69.900 residenti 5–14; 220.883 residenti 65+.
+- Indicatori regionali ISTAT R01 integrati sulle 8.317 sezioni abitate dell'area (aggancio 100%, nessun valore negativo). Torino: 346.734 occupati residenti 15–64 su 528.512 residenti 15–64 (65,6%); 69.900 residenti 5–14; 220.883 residenti 65+. La conversione delle sezioni per il browser conserva tutti i campi; prova JavaScript di regressione superata.
 - Quotazioni OMI 2025/2 (Agenzia delle Entrate): VERIFICATO l'8/10. Provincia di Torino, 312 comuni, 953 zone, 3.119 righe di valori; Torino 47 zone; 14 tipologie edilizie. Join CSV-KML verificato (47=47). Piano di integrazione nella sezione "Piano OMI".
 - Raccolta in background: verificata dal log dell'8/10 (5T ogni 5 minuti, mezzi GTT ogni minuto, nessuna interruzione vista). Il file `storico.sqlite` cresce.
 
@@ -189,7 +189,7 @@ A4. Priorità secondaria (decisione di Leo): tooltip pendolari sui comuni.
 
 A5. FATTA: P101 occupati residenti 15–64 (mostrati come numero e quota sulla popolazione 15–64), P15+P16 residenti 5–14, P27+P28+P29 residenti 65+.
 
-A6. Verificato: 8.317/8.317 sezioni abitate agganciate (0 mancanti); nessun valore negativo; occupati non superiori ai residenti 15–64; fasce 5–14, 15–64 e 65+ non superano la popolazione residente. Mappa rigenerata e HTML controllato; interazione grafica non verificata visivamente.
+A6. Verificato: 8.317/8.317 sezioni abitate agganciate (0 mancanti); nessun valore negativo; occupati non superiori ai residenti 15–64; fasce 5–14, 15–64 e 65+ non superano la popolazione residente. Mappa rigenerata; test Node sulla trasformazione JS delle sezioni e `toLocaleString` superato; interazione grafica non verificata visivamente.
 
 A7. Memoria e commit: a ogni fase, aggiornare l'inventario e lo stato in questo file, un commit per fase.
 

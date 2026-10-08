@@ -308,7 +308,8 @@ const sez = (D.sezioni||[]).map(z=>{
   let x0=1,y0=1,x1=0,y1=0;
   polys.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
   const cxn=(x0+x1)/2, cyn=(y0+y1)/2;
-  return {p:z.p, c:z.c, km2:z.a, polys,bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
+  return {p:z.p, c:z.c, km2:z.a, occ:z.occ, p1564:z.p1564, sc:z.sc, sen:z.sen,
+    polys,bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
 });
   let sezOk=false;
 
@@ -1121,13 +1122,13 @@ function schedaSezione(z){
     val = `${Math.round(z.dens)} ab./km²`;
     stato = `${z.p} residenti nella sezione`;
   } else if(modo === "occ"){
-    val = z.p1564>0 ? `${z.occ.toLocaleString("it-IT")} occupati · ${(z.occ/z.p1564*100).toFixed(1)}%` : "Quota non calcolabile";
+    val = z.occ!=null && z.p1564>0 ? `${z.occ.toLocaleString("it-IT")} occupati · ${(z.occ/z.p1564*100).toFixed(1)}%` : "Dato non disponibile";
     stato = `Residenti occupati di 15–64 anni, sul totale dei residenti della stessa età`;
   } else if(modo === "sc"){
-    val = `${z.sc.toLocaleString("it-IT")} residenti · ${z.p>0?(z.sc/z.p*100).toFixed(1):"0.0"}%`;
+    val = z.sc!=null ? `${z.sc.toLocaleString("it-IT")} residenti · ${z.p>0?(z.sc/z.p*100).toFixed(1):"0.0"}%` : "Dato non disponibile";
     stato = `Residenti di 5–14 anni; quota sul totale dei residenti della sezione`;
   } else if(modo === "sen"){
-    val = `${z.sen.toLocaleString("it-IT")} residenti · ${z.p>0?(z.sen/z.p*100).toFixed(1):"0.0"}%`;
+    val = z.sen!=null ? `${z.sen.toLocaleString("it-IT")} residenti · ${z.p>0?(z.sen/z.p*100).toFixed(1):"0.0"}%` : "Dato non disponibile";
     stato = `Residenti di 65 anni e oltre; quota sul totale dei residenti della sezione`;
   } else if(modo === "crit"){
     val = crit === null ? "non calcolabile" : `Criticità ${crit}/100`;
@@ -1138,12 +1139,12 @@ function schedaSezione(z){
   }
   const codComune = z.c ? String(z.c).padStart(6, "0") : "Torino";
   const profilo = modo === "occ" ? [
-    { k: "Occupati residenti 15–64 anni", v: z.occ.toLocaleString("it-IT") },
-    { k: "Residenti 15–64 anni", v: z.p1564.toLocaleString("it-IT") }
+    { k: "Occupati residenti 15–64 anni", v: z.occ==null ? "n/d" : z.occ.toLocaleString("it-IT") },
+    { k: "Residenti 15–64 anni", v: z.p1564==null ? "n/d" : z.p1564.toLocaleString("it-IT") }
   ] : modo === "sc" ? [
-    { k: "Residenti 5–14 anni", v: `${z.sc.toLocaleString("it-IT")} (${z.p>0?(z.sc/z.p*100).toFixed(1):"0.0"}%)` }
+    { k: "Residenti 5–14 anni", v: z.sc==null ? "n/d" : `${z.sc.toLocaleString("it-IT")} (${z.p>0?(z.sc/z.p*100).toFixed(1):"0.0"}%)` }
   ] : modo === "sen" ? [
-    { k: "Residenti 65 anni e oltre", v: `${z.sen.toLocaleString("it-IT")} (${z.p>0?(z.sen/z.p*100).toFixed(1):"0.0"}%)` }
+    { k: "Residenti 65 anni e oltre", v: z.sen==null ? "n/d" : `${z.sen.toLocaleString("it-IT")} (${z.p>0?(z.sen/z.p*100).toFixed(1):"0.0"}%)` }
   ] : [];
   const det = [...profilo,
     { k: "Indice di criticità (ore " + hh + ")", v: critTxt },   // [agente GT18-punti-critici-integrati]
