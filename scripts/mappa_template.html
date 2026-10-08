@@ -160,8 +160,27 @@
     <select id="pendVal" aria-label="Colore delle aree" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
       <option value="rel">Colore: ogni 1000 abitanti</option><option value="abs">Colore: numero di persone</option></select>
   </div>
+  <!-- [agente GT30-omi] scelta tipologia OMI (visibile solo con il tema OMI) -->
+  <div id="boxOmi" style="display:none;margin:6px 0">
+    <select id="omiTipo" aria-label="Tipologia immobiliare (OMI)" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
+      <option value="ab" selected>Abitazioni civili</option>
+      <option value="as">Abitazioni signorili</option>
+      <option value="ae">Abitazioni economiche</option>
+      <option value="vi">Ville e villini</option>
+      <option value="bo">Box</option>
+      <option value="pa">Posti auto coperti</option>
+      <option value="ps">Posti auto scoperti</option>
+      <option value="ne">Negozi</option>
+      <option value="uf">Uffici</option>
+      <option value="la">Laboratori</option>
+      <option value="ci">Capannoni tipici</option>
+      <option value="in">Capannoni industriali</option>
+      <option value="ma">Magazzini</option>
+      <option value="cc">Centri commerciali</option>
+    </select>
+  </div>
   <!-- stato interno dell'area colorata: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
-  <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez">
+  <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi">
     <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option><option value="crit"></option></select></div>
 
   <h2>Sovrapposizioni</h2>
@@ -270,8 +289,8 @@ const py = lat => { const s=Math.sin(lat*Math.PI/180); return 0.5-Math.log((1+s)
 const unLon = x => x*360-180;
 const unLat = y => { const n=Math.PI-2*Math.PI*y; return 180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n))); };
 
-/* ---------- preparazione dati ---------- */
-const zone = D.zone.map(z => {
+  /* ---------- preparazione dati ---------- */
+  const zone = D.zone.map(z => {
   const polys = z.g.map(poly => poly.map(r => { const a=new Float64Array(r.length*2); r.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a; }));
   let x0=1,y0=1,x1=0,y1=0;
   polys.forEach(p=>p.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}}));
@@ -286,8 +305,26 @@ const sez = (D.sezioni||[]).map(z=>{
   const cxn=(x0+x1)/2, cyn=(y0+y1)/2;
   return {p:z.p, c:z.c, km2:z.a, polys,bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
 });
-let sezOk=false;
-function preparaSezioni(){
+  let sezOk=false;
+
+  /* ---------- OMI (zone immobiliari) ---------- */
+  const OMI = D.omi || null;
+  const OMI_TIPI = {
+    ab:"Abitazioni civili", as:"Abitazioni signorili", ae:"Abitazioni economiche", vi:"Ville e villini",
+    bo:"Box", pa:"Posti auto coperti", ps:"Posti auto scoperti", ne:"Negozi", uf:"Uffici", la:"Laboratori",
+    ci:"Capannoni tipici", in:"Capannoni industriali", ma:"Magazzini", cc:"Centri commerciali"
+  };
+  const OMI_SOGLIE=[1000,1500,2000,2500,3500];
+  const OMI_PAL=["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e","#7f0015"]; // basso->alto
+  const omi = (OMI||[]).flatMap(c => (c.zone||[]).map(z => {
+    const rings=(z.g||[]).map(r=>{ const a=new Float64Array(r.length*2); r.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a; });
+    let x0=1,y0=1,x1=0,y1=0;
+    rings.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
+    return {c:c.c,z:z.z,n:z.n,f:z.f,v:z.v||{}, rings, bb:[x0,y0,x1,y1]};
+  }));
+  const omiOk=!!omi.length;
+
+  function preparaSezioni(){
   if(!sez.length) return;
   const mU = 1/(40075016.7*Math.cos(45.07*Math.PI/180));   // 1 metro in unita' di mappa
   const r=RAGGIO*mU, G=r, celle=new Map(), cellaS=new Map();
@@ -563,8 +600,8 @@ let baseKey="";
 function disegna(){
   sporco=false;
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
-  const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),$("pendTipo").value,$("pendDir").value,$("pendVal").value,
-    ["Lzone","Lsez","Llinee","Lfermate","Lgriglia"].map(vis).join(),tema.id,$("coloreLinee").value,(ST()||{}).generato].join("|");
+  const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),$("pendTipo").value,$("pendDir").value,$("pendVal").value,$("omiTipo")?$("omiTipo").value:"ab",
+    ["Lzone","Lsez","Lomi","Llinee","Lfermate","Lgriglia"].map(vis).join(),tema.id,$("coloreLinee").value,(ST()||{}).generato].join("|");
   if(chiave!==baseKey){
     baseKey=chiave;
     if(bcv.width!==cv.width||bcv.height!==cv.height){ bcv.width=cv.width; bcv.height=cv.height; }
@@ -665,6 +702,24 @@ function disegnaBase(ws,ox,oy,i){
         cx.fill("evenodd"); cx.globalAlpha=1;
         cx.strokeStyle="rgba(40,50,70,.35)"; cx.lineWidth=.5; cx.stroke();
       }
+    }
+  }
+  if(vis("Lomi") && omiOk){
+    const tip=$("omiTipo")?$("omiTipo").value:"ab";
+    for(const z of omi){
+      if(!dentroVista(z.bb,ws,ox,oy)) continue;
+      const vv=z.v&&z.v[tip];
+      let col="#9aa0ad", a=.22;
+      if(vv){
+        const m=(vv[0]+vv[1])/2;
+        const cls=OMI_SOGLIE.filter(s=>m>s).length;
+        col=OMI_PAL[Math.min(OMI_PAL.length-1,cls)];
+        a=.50;
+      }
+      cx.fillStyle=col; cx.globalAlpha=a;
+      for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.fill(); }
+      cx.globalAlpha=1;
+      if(view.zoom>=14){ cx.strokeStyle="rgba(40,50,70,.22)"; cx.lineWidth=.4; for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.stroke(); } }
     }
   }
   if(vis("Llinee")){
@@ -1399,6 +1454,20 @@ function impostaSubServizio(sub, aggiornaOver){
   $("temaDesc").textContent = tema.desc;
 }
 
+// ---------- legenda OMI ----------
+function legendaOmi(){
+  const tip=$("omiTipo")?$("omiTipo").value:"ab";
+  const nome=OMI_TIPI[tip]||tip;
+  const righe=[];
+  const et=["≤ 1000","1000–1500","1500–2000","2000–2500","2500–3500","> 3500"];
+  const sc=OMI_PAL.map(c=>`<span style="background:${c}"></span>`).join("");
+  righe.push(`<div class="t">Valore immobiliare (OMI): ${esc(nome)} (€/m²) <span class="tag stimato">OMI</span></div>`);
+  righe.push(`<div class="sc">${sc}</div><div class="et"><span>${et[0]}</span><span>${et[et.length-1]}</span></div>`);
+  righe.push(`<div class="puntini"><span><i style="background:#9aa0ad;border-color:rgba(0,0,0,.15)"></i>zona senza questa tipologia</span></div>`);
+  righe.push(`<div class="et" style="display:block">Fonte: Agenzia delle Entrate – OMI · stato NORMALE (se presente) · valori ordinari (pregio/degrado esclusi). Non è la stima di un singolo immobile.</div>`);
+  return righe.join("");
+}
+
 const THEMES = [
   // 1. Servizio e abitanti (unifica Poca offerta, Offerta e Domanda)
   {id:"servizio", label:"Servizio e abitanti", desc:"Confronto tra dove vivono le persone e l'offerta di trasporto pubblico entro 400 m.",
@@ -1417,6 +1486,9 @@ const THEMES = [
   // 4. Pendolarismo (relazioni ISTAT comune-comune per lavoro e studio)
   {id:"pendolari", label:"Pendolarismo", desc:"Quante persone si spostano ogni giorno tra ogni comune e Torino per lavoro o studio (ISTAT 2021, comune→comune: niente mezzo né orario).",
    area:{tipo:"sez",modo:"pend"}, over:{...NESSUNA}, pendolari:true, critici:true, legenda:legendaPendolari},   // [agente GT18-punti-critici-integrati]
+  // 5. Valore immobiliare (OMI)
+  {id:"omi", label:"Valore immobiliare (OMI)", desc:"Valori di mercato e locazione per zona OMI e tipologia edilizia (Agenzia delle Entrate – OMI, semestre 2025/2). Valori ordinari: pregio e degrado esclusi. Non è la stima di un singolo immobile.",
+   area:{tipo:"omi"}, over:{...NESSUNA}, omi:true, critici:true, legenda:legendaOmi},
   // 5. Zone critiche: indice di criticità (stima: poca offerta programmata per i residenti)
   {id:"critici", label:"Zone critiche", desc:"Indice di criticità 0-100: dove l'offerta GTT programmata è più scarsa rispetto ai residenti (stima, non misura). Rosso = critico, verde = servizio adeguato.",
    area:{tipo:"sez",modo:"crit"}, over:{...NESSUNA}, critici:false,
@@ -1437,18 +1509,20 @@ function applicaTema(id){
 
   tema = THEMES.find(t=>t.id===id) || THEMES[0];
   const a=tema.area;
-  $("Lsez").checked = !!(a && a.tipo==="sez"); $("Lzone").checked = !!(a && a.tipo==="zone");   // mai due colorazioni insieme
+  $("Lsez").checked = !!(a && a.tipo==="sez"); $("Lzone").checked = !!(a && a.tipo==="zone"); $("Lomi").checked = !!(a && a.tipo==="omi");   // mai due colorazioni insieme
   if(a && a.tipo==="sez") $("modoSez").value=a.modo;
   for(const k in tema.over) $(k).checked = !!tema.over[k];
   $("temi").value=tema.id;
   $("temaDesc").textContent=tema.desc;
   $("boxSegn").style.display = tema.segnalazioni ? "block" : "none";
   $("boxPend").style.display = tema.pendolari ? "block" : "none";
+  $("boxOmi").style.display = tema.omi ? "block" : "none";
   $("boxServizio").style.display = tema.subServizio ? "block" : "none";   // [agente GT16]
   if(tema.subServizio) impostaSubServizio($("subServizio").value, false);  // [agente GT16]
   baseVer++; chiede(); aggiornaLegenda();
 }
 ["pendTipo","pendDir","pendVal"].forEach(id=>$(id).onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); });   // [agente GT05-pendolari]
+$("omiTipo").onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); };
 $("subServizio").onchange=()=>{ impostaSubServizio($("subServizio").value, true); baseVer++; chiede(); aggiornaLegenda(); }; // [agente GT16]
 // [agente GT06-pannello] menu a tendina costruito dalla tabella THEMES (un tema nuovo compare da solo)
 $("temi").innerHTML = THEMES.map(t=>`<option value="${esc(t.id)}">${esc(t.label)}</option>`).join("");
