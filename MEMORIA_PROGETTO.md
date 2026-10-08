@@ -69,7 +69,8 @@ Regola: ogni volta che si scarica o si sposta un file ISTAT, si aggiorna questa 
   - `matrix_pendoSTUDIO_2021.txt` (3,4 MB): pendolari studio, stesso formato. Usato da script 04. È una stima con modelli statistici, non un conteggio diretto.
   - `leggimi_file_matrix_pendoLAVORO_2021.doc`, `leggimi_file_matrix_pendoSTUDIO_2021.doc`: descrizione delle colonne.
 - `data/raw/istat/2011_sezioni/`
-  - `per_provincia/`: 110 zip della matrice pendolarismo 2011 per sezione di censimento, una per provincia italiana. Il file rilevante è `Piemonte_Torino_pendolarismo_2011.zip` (5,7 MB): dentro c'è `Piemonte_Torino_pendolarismo_2011.csv` (120 MB) e la nota metodologica PDF.
+  - `per_provincia/`: 110 zip della matrice pendolarismo 2011 per sezione di censimento, una per provincia di ORIGINE (dove vive il pendolare). Il file di Torino è `Piemonte_Torino_pendolarismo_2011.zip` (5,7 MB): dentro c'è `Piemonte_Torino_pendolarismo_2011.csv` (120 MB) e la nota metodologica PDF.
+  - ATTENZIONE: gli altri zip NON sono inutili. Contengono i pendolari che entrano a Torino da altre province (verificato l'8/10: `Piemonte_Asti` ha 7.802 righe con destinazione Torino, 9.112 pendolari; `Lombardia_Milano` ha 967 righe, 976 pendolari). Non cancellarli.
   - `nazionale/`: `matrix_pendo2011_10112014.txt` (293 MB, matrice nazionale 2011), con il `.doc` di spiegazione e la cartella "Pendolo 2011 documenti_utili" (classificazioni comuni e questionari). Non ancora confrontato con gli zip provinciali.
 - `data/raw/istat/basi_territoriali_2021/`
   - `R01_21.zip` (74 MB): basi territoriali del Piemonte, con confini (SHP) e tabelle di popolazione per sezione. Usato da script 05. Il file è identico al vecchio duplicato, verificato con hash.
@@ -84,7 +85,7 @@ Regola: ogni volta che si scarica o si sposta un file ISTAT, si aggiorna questa 
 ### Cosa c'è e cosa si sa
 
 - Pendolarismo 2021 (lavoro e studio): c'è, comune contro comune. Niente mezzo, niente orario, niente zone dentro Torino. Chi si sposta almeno tre giorni a settimana, al 31/12/2021. Torino = codice 001272. Totale Italia lavoro 19.565.808 persone, studio 9.279.329.
-- Pendolarismo 2011 per sezione: c'è per tutte le province (zip). Il dettaglio (mezzo, fascia oraria) va verificato nel CSV di Torino. Lo script 07 NON lo legge ancora (vedi sotto).
+- Pendolarismo 2011 per sezione: c'è per tutte le province (zip). Ogni riga è un flusso origine→destinazione: sezione di censimento di residenza, sezione di lavoro/studio, e numero di studenti, lavoratori e totale. NON ci sono mezzo di trasporto né fascia oraria (verificato sul tracciato del file). Lo script 07 NON lo legge ancora (vedi sotto).
 - Basi territoriali 2021 Piemonte: c'è (confini e popolazione per sezione).
 - Pendolarismo 2011 nazionale: c'è, ma non ancora confrontato con gli zip provinciali.
 - Tempi di viaggio tra comuni (matrice 2021): NON scaricata. Solo la nota tecnica (per stimare i ritardi dovuti al traffico tra comuni).
@@ -128,14 +129,35 @@ Regola: ogni volta che si scarica o si sposta un file ISTAT, si aggiorna questa 
 
 ## Da decidere con Leo (non ancora fatto)
 
-- Spazio in più usato da dati che il progetto non usa: `storiche/` (1991, 2001: circa 270 MB), `Dati_regionali_2021/` R02-R20 (circa 190 MB), gli 106 zip delle altre province 2011 (circa 100 MB), la matrice nazionale 2011 (293 MB, se gli zip provinciali bastano).
+- Spazio in più usato da dati che il progetto non usa: `storiche/` (1991, 2001: circa 270 MB), `Dati_regionali_2021/` R02-R20 (circa 190 MB), la matrice nazionale 2011 (293 MB, da confrontare con gli zip provinciali: se contiene tutto, gli zip si possono togliere; per ora NON si tolgono gli zip).
 - Script 07 e `od_per_fascia.json` (vedi problemi aperti sopra).
+
+## Dati: cosa si può usare e cosa manca (8/10/2026)
+
+Usabili subito:
+- Pendolari 2021 comune contro comune (lavoro e studio): già in mappa. Dà i flussi con la cintura, ma non dentro Torino.
+- Pendolari 2011 per sezione (tutti gli zip): flussi sezione→sezione, ideali per la domanda dentro Torino. Senza mezzo né ora.
+- Basi territoriali 2021 Piemonte (R01): popolazione e confini per sezione. Già in uso (script 05).
+- Dati regionali 2021 R01 (Piemonte): indicatori per sezione (da leggere: possibili età, famiglie, ecc.). Non ancora aperti.
+- Raccolta propria (storico.sqlite): mezzi GTT ogni minuto, sensori 5T ogni 5 minuti. È il dato più prezioso che cresce ogni giorno.
+- GTFS GTT: orari programmati, tracciati, fermate.
+- Zone statistiche Torino (94 zone, dati 2011, senza popolazione).
+
+Dati importanti che mancano:
+1. Domanda per ora (chi sale a che ora, a che fermata): né ISTAT né GTT pubblici lo danno. È il dato che più cambierebbe la mappa. Strade possibili: dati di validazione biglietti GTT (chiesti all'azienda), oppure dati aggregati di telefonia mobile (bozza già scritta in `docs/richiesta_dati_telefonia.md`).
+2. Mezzo di trasporto per flusso: ISTAT 2011 per sezione non ce l'ha. Va chiesto a ISTAT (micro.zone@istat.it) o a GTT.
+3. Pendolari 2021 per sezione: non pubblici a livello di sezione. Solo comune.
+4. Tempi di viaggio stradali (matrice 2021): la nota tecnica c'è, la matrice no. Serve per stimare il traffico tra comuni.
+5. Ritardi GTT di giorno: il feed `trip_update` era vuoto di notte; da verificare sui dati diurni già raccolti.
+6. Offerta fuori GTT: treni (SFM), altri bus provinciali, bici e sharing, parcheggi. Non trovati.
+7. Attrattori (scuole, uffici, ospedali, centri commerciali): non scaricati. Possibili fonti aperte da cercare.
+8. Dati turistici ed eventi: nessuno.
 
 ## Prossimi passi (in ordine)
 
 1. [ ] Analisi dei dati diurni della raccolta (dall'8/10): sensori 5T con accuracy=0, ritardi GTT (trip_update) di giorno.
 2. [ ] Confrontare la matrice nazionale 2011 con gli zip provinciali; decidere quale tenere.
-3. [ ] Leggere il CSV 2011 di Torino (`Piemonte_Torino_pendolarismo_2011.csv`): colonne, mezzo, fascia oraria. Serve per il livello Domanda per ora.
+3. [ ] Usare la matrice 2011 per sezione (flussi sezione→sezione, senza mezzo né orario) per il livello Domanda dentro Torino. Per l'ora serve un dato che non abbiamo (vedi "Dati mancanti" in fondo).
 4. [ ] Scaricare, se serve, la matrice dei tempi di viaggio 2021 (a mano, sul PC).
 5. [ ] Indicatore combinato "punti critici" (poca offerta + traffico lento + scostamenti), con etichetta "dati scarsi" sotto 72 ore di storico.
 6. [ ] Dopo una-due settimane di dati: traffico tipico affidabile, simulazione calibrata sui sensori 5T (misurato e stimato sempre distinti).
