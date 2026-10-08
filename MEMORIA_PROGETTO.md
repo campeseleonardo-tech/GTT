@@ -22,7 +22,7 @@ orari veri. Per ora solo studio personale, forse da condividere. Area: Torino ci
   - `data/processed/`: file prodotti dagli script (sezioni, pendolari, OMI, catalogo).
   - `data/processed/catalogo/`: indice e dati per gruppo del catalogo (script 11).
   - `data/catalogo/`: file `.js` per gruppo generati da 04, caricati dalla mappa su richiesta.
-  - `data/storico.sqlite`: archivio della raccolta continua (165 MB l'8/10). Non spostare mentre la raccolta gira.
+  - `data/storico.sqlite`: archivio della raccolta continua (~189 MB la sera dell'8/10). Non spostare mentre la raccolta gira.
   - `data/live.js`, `data/stat.js`, `data/replay_*.js`, `data/agg_cache.json`: generati ogni minuto/5 minuti dalla raccolta, usati dalla mappa.
 - `docs/`: solo documenti di testo (fonti, diagnosi, richieste, piani). Niente dati grezzi.
 - `logs/`: log della raccolta (non su git).
@@ -63,11 +63,12 @@ orari veri. Per ora solo studio personale, forse da condividere. Area: Torino ci
 
 ## 2. Raccolta continua (attiva)
 
-- `scripts/03_raccolta_continua.py`: SQLite `data/storico.sqlite`, tabelle `sensori_5t`, `flussi_5t`, `mezzi_gtt`, `errori`. 5T ogni 300 s, mezzi GTT ogni 60 s. Senza librerie esterne.
+- `scripts/03_raccolta_continua.py`: SQLite `data/storico.sqlite`, tabelle `sensori_5t`, `flussi_5t`, `accuratezza_5t` (dal riavvio dell'8/10, sezione 9), `mezzi_gtt`, `errori`. 5T ogni 300 s, mezzi GTT ogni 60 s. Senza librerie esterne.
 - `scripts/supervisore.py`: avvio nascosto all'accesso a Windows, riavvio dopo 30 s, log mensili in `logs/`, impedisce lo stop del PC, finestra domenicale dopo le 20:00 ("continuiamo?"; nessuna risposta in 1 ora = continua; No = ferma, con file `data/STOP_RACCOLTA.txt`), avviso oltre 10 GB. Ogni minuto lancia `06_dati_live.py`, ogni 15 minuti statistiche e replay.
 - Comandi: `installa_raccolta.bat`, `stato_raccolta.bat`, `ferma_raccolta.bat`, `riavvia_raccolta.bat`; `raccolta_continua.bat` è solo manuale.
 - Scelte dell'utente: avvio automatico, nessuna finestra; log mensili conservati senza limite; dati senza limite di tempo.
-- Stato all'8/10 (dal log): attiva e regolare, ~407–408 mezzi GTT localizzati ogni minuto. `storico.sqlite` cresce.
+- Stato all'8/10 (dal log): attiva e regolare. Misure della prima analisi (sezione 8):
+  ~306 mezzi localizzati per lettura in media (mediana 337, punta mattutina ~555). `storico.sqlite` cresce.
 
 ## 3. Mappa (funzionante)
 
@@ -112,6 +113,38 @@ Quotazioni OMI (Agenzia delle Entrate) semestre 2025/2, €/m² per zona e tipol
 - Anagrafe scuole 2026/27: col filtro provincia+comune TORINO risultano 410 statali e 195 paritari, non 431+196 come nel piano: da chiarire. Non è collegata alle 610 sedi geografiche.
 - Verificato in Node (dati veri e funzioni reali del template): preparazione gruppi, ricerca elemento, punto-in-poligono, chiave di disegno. **Verificato a video da Leo l'8/10: funziona bene.**
 
+## 8. Analisi dei dati diurni 5T e mezzi GTT (8/10/2026)
+
+Prima analisi in sola lettura di `data/storico.sqlite` (dati 4–8/10/2026, 5 giorni).
+
+- `scripts/09_analisi_dati_diurni.py` (nuovo, consolidato): analizza flussi 5T e mezzi GTT
+  senza mai scrivere sul DB; timestamp UTC aggregati in ora locale Europe/Rome (regola UE,
+  verificata ai confini del cambio d'ora); conteggi con denominatori espliciti. Produce
+  `docs/RAPPORTO_ANALISI_5T.txt` e `data/processed/analisi_5t.json`. Sostituisce le
+  funzioni utili di `10_analisi_sensori_5t.py` (che aveva un errore di sintassi e univa il
+  passato all'accuratezza attuale, risultato fuorviante): **10 eliminato** dopo i test.
+- Esiti numerici (snapshot 8/10 ~23:20): 122.189 misure 5T in 1.121 snapshot su 109 sensori,
+  ogni snapshot completo (0 sensori sotto copertura); flusso=0 il 19,7%, flusso>0 l'80,3%,
+  flusso/velocità NULL lo 0%; sabato assente dal campione; buco raccolta ~16,7 h il 6–7/10
+  (probabile PC spento). Mezzi GTT: 1.580.712 righe, 5.163 snapshot, ~306 veicoli localizzati
+  per snapshot (mediana 337), punta feriale alle 08:00 (555,5/snapshot), domenica alle 18:00
+  (255,7); 0 duplicati (letto_utc,veicolo); 31 buchi >90 s.
+- Accuratezza: non salvata per misura nel passato → per i flussi storici è "non disponibile",
+  MAI attribuita a posteriori. La raccolta ora la salva (vedi sezione raccolta).
+- Limiti chiari: 5 giorni soli, copertura notturna ridotta per buchi della raccolta, conteggio
+  mezzi = mezzi localizzati dal feed (non flotta), sensori fuori area/periferia sempre a 0.
+  Rapporto completo: `docs/RAPPORTO_ANALISI_5T.md`.
+
+## 9. Raccolta: accuratezza salvata per misura (8/10/2026)
+
+- `scripts/03_raccolta_continua.py`: nuova tabella `accuratezza_5t(generato_utc,lcd1,accuratezza)`,
+  riempita nello stesso ciclo/transazione dei flussi 5T. Il passato non viene riscritto
+  (INSERT OR IGNORE) e non si inventano valori retroattivi. Provata su DB di prova: insiemi
+  flusso/accuratezza coincidono, snapshot ripetuti non sovrascrivono, accuratezza=0 salvata
+  come 0 (distinta da NULL).
+- **La tabella sul DB vero compare solo al riavvio della raccolta** (supervisore): da decidere
+  con Leo quando farlo (richiede una breve pausa coordinata).
+
 ## 7. Pulizia dei file (8/10/2026)
 
 - Eliminati perché inutili o ridondanti: `scripts/07_elabora_matrici_pendolarismo.py` (rotto e non usato: cercava zip inesistenti; si riscriverà da capo solo se servirà la domanda 2011), i suoi output vuoti `data/processed/pendolarismo_torino_cintura.json` e `data/processed/od_per_fascia.json`, e i controlli temporanei `scripts/tmp_check_*.py` (erano della sessione OMI).
@@ -125,7 +158,10 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 
 ## Priorità alta
 
-1. **Analisi dei dati di giorno già raccolti (5T)**: profilo dei flussi e degli zeri per giorno/ora, mezzi in ora di punta. Prima va salvata l'accuratezza con ogni misura: oggi non c'è nello schema, quindi lo studio di `accuratezza=0` nel tempo non è possibile finché non si cambia la raccolta. Script di appoggio già presenti: `09_analisi_dati_diurni.py`, `10_analisi_sensori_5t.py`.
+1. **Analisi dei dati di giorno già raccolti (5T)**: FATTA l'8/10 (vedi sezione 8;
+   rapporto in `docs/RAPPORTO_ANALISI_5T.md`). Resta da analizzare l'associazione
+   accuratezza ↔ flusso ↔ ora sui NUOVI campioni (con `accuratezza_5t`) dopo 7–14 giorni
+   di raccolta con feriali e weekend: serve prima il riavvio della raccolta (sezione 9).
 2. **Ritardi GTT**: acquisire campioni diurni di `trip_update` (non è nella raccolta continua), poi contare corse e ritardi. Decodificare anche gli avvisi GTT (134 KB).
 
 ## Priorità media
@@ -158,8 +194,11 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 ## In mappa
 
 - **GTFS GTT statico**: valido 1/10/2026–31/1/2027 (versione 20261002). 215 linee, 7.045 fermate, 966.946 passaggi programmati.
-- **Mezzi GTT in tempo reale**: ~407–408 mezzi al minuto; il feed non ha il `trip_id` (il mezzo si lega alla linea, non alla corsa).
-- **Traffico 5T**: 112 sensori, area più ampia di Torino. Salva le misure ma non l'accuratezza associata; `sensori_5t.accuratezza` tiene solo il valore più recente. Significato di accuratezza 0 non verificato.
+- **Mezzi GTT in tempo reale**: ~306 mezzi localizzati al minuto in media (mediana 337, punte ~555 in ora di punta, minimo notturno ~1–5); il feed non ha il `trip_id` (il mezzo si lega alla linea, non alla corsa).
+- **Traffico 5T**: 109 sensori, area più ampia di Torino. Ogni snapshot è completo.
+  L'accuratezza non è salvata con le misure passate (studiata l'8/10: vedi sezione 8);
+  dal riavvio della raccolta sarà salvata per misura in `accuratezza_5t` (sezione 9).
+  Significato di accuratezza 0 non verificato.
 - **Zone statistiche Torino**: 94 zone (dati 2011, senza popolazione).
 - **Pendolarismo ISTAT 2021** (lavoro e studio, comune↔comune): Torino lavoro entrano 138.605, escono 71.297, dentro 212.249; studio entrano 48.730, escono 6.373, dentro 120.148 (numeri uguali alle note).
 - **Sezioni di censimento 2021**: Torino 6.916 sezioni / 848.748 abitanti; area entro 18 km 8.317 sezioni abitate / 1.557.493 abitanti.
@@ -224,7 +263,10 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 - OMI sono valori ordinari per zona/tipologia: non è la stima di un singolo immobile.
 - Geometrie dei nuovi dati comunali convertite da EPSG:3003: il dato di mercati_tematici ha COORD_X/Y errate (~10×) e si usa il WKT.
 - Dati di anni diversi: le sezioni 2011 e 2021 non hanno codice in comune (accorpamento approssimato); la mappa mostra i dati 2011 solo se aggiungono informazione.
-- Qualità dei dati di giorno non ancora analizzata (flussi 5T, zeri, accuratezza; ritardi GTT assenti).
+- Qualità dei dati di giorno analizzata l'8/10 (sezione 8 e `docs/RAPPORTO_ANALISI_5T.md`):
+  campione di 5 giorni senza sabato, buchi notturni e un buco di ~16,7 h da PC spento;
+  l'accuratezza passata è "non disponibile", mezzi GTT = mezzi localizzati dal feed;
+  questi limiti valgono per ogni uso futuro dei numeri. Ritardi GTT ancora assenti.
 - Windows: finestra settimanale, anti-stop e avvio automatico non provati (testati solo su Linux).
 - Lo sfondo della mappa (mattonelle Esri/OSM) non è stato provato dal mio ambiente, che non raggiunge i server delle mattonelle; il browser del mio ambiente non apre `file://`. La mappa è stata comunque verificata a video da Leo (funziona).
 - Il progetto è di studio: niente dati personali, niente invio di niente a nome di Leo.
