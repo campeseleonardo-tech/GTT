@@ -235,8 +235,8 @@ def analizza_5t(cur):
                                mediana_vel=medv))
             scrivi(f"    {h:02d}:00  misure {d['n']:5d}  snap {snap_osservati:3d}/{attesi_h:3d} "
                    f"({snap_osservati / attesi_h:5.1%})  zero {d['f0'] / d['n']:5.1%}  "
-                   f">0 {d['fp'] / d['n']:5.1%}  mediana {med or 0:6.1f}  p95 {p95 or 0:6.1f}  "
-                   f"velNULL {d['vnull'] / d['n']:5.1%}  mediana_vel {medv or 0:5.1f}")
+                   f">0 {d['fp'] / d['n']:5.1%}  med>0 {med or 0:6.1f}  p95>0 {p95 or 0:6.1f}  "
+                   f"velNULL {d['vnull'] / d['n']:5.1%}  med_vel {medv or 0:5.1f}")
 
     # --- distribuzione globale (zeri reali separati da NULL; NULL assenti in 5T) ---
     n0 = sum(1 for r in dati if r[3] == 0)
@@ -290,7 +290,7 @@ def analizza_5t(cur):
     scrivi(f"  sensori sotto copertura: {sotto} su {len(per_sens)}")
 
     # --- sintesi per strada+direzione ---
-    scrivi("\n-- Sintesi per strada + direzione (media tra sensori dello stesso tratto) --")
+    scrivi("\n-- Sintesi per strada + direzione (media (>0) tra sensori dello stesso tratto) --")
     per_strada = {}
     for d in per_sens.values():
         per_strada.setdefault((d["strada"], d["dir"]), []).append(d)
@@ -302,7 +302,7 @@ def analizza_5t(cur):
                                flusso_medio=media))
         if media is not None:
             scrivi(f"    {strada[:44]:44s} {dir_:8s} sensori {len(lista):2d}  "
-                   f"flusso medio {media:.1f}")
+                   f"flusso medio (>0) {media:.1f}")
         else:
             scrivi(f"    {strada[:44]:44s} {dir_:8s} sensori {len(lista):2d}  (sempre 0 o NULL)")
 
@@ -476,6 +476,11 @@ def main():
             scrivi(f"  sensori_5t: {n_sens} righe, accuratezza=0: {n_acc0} "
                    f"({n_acc0 / n_sens:5.1%})")
             risultato["sensori_attuali"] = dict(n=n_sens, accuratezza0=n_acc0)
+        trip = [t for t in tabs
+                if any(k in t.lower() for k in ("trip", "rit", "update"))]
+        scrivi("\n-- Feed trip_update (ritardi): solo controllo di presenza, non analisi --")
+        scrivi(f"  tabelle trip/ritardi/update: {trip if trip else '(nessuna: il feed non è raccolto)'}")
+        risultato["trip_update_presente"] = bool(trip)
     finally:
         con.close()
 

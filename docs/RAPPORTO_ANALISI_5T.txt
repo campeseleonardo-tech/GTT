@@ -1,15 +1,15 @@
-DB (sola lettura): C:\projects\Progetti\GTT\data\storico.sqlite  (189.2 MB)
+DB (sola lettura): C:\projects\Progetti\GTT\data\storico.sqlite  (189.3 MB)
 Tabelle: errori, flussi_5t, mezzi_gtt, sensori_5t
 
 ========================================================================
 FLUSSI 5T  (storico non riscritto; accuratezza storica NON disponibile)
 ========================================================================
-  controllo conteggio flussi_5t: SQL=122080  script=122080  OK
-  righe totali: 122080
-  snapshot distinti (generato_utc): 1120
+  controllo conteggio flussi_5t: SQL=122189  script=122189  OK
+  righe totali: 122189
+  snapshot distinti (generato_utc): 1121
   sensori distinti: 109
-  intervallo UTC:  2026-10-03T23:41:02.415000+00:00 -> 2026-10-08T21:15:00.780000+00:00
-  intervallo ora locale: 2026-10-04T01:41:02.415000+00:00 -> 2026-10-08T23:15:00.780000+00:00
+  intervallo UTC:  2026-10-03T23:41:02.415000+00:00 -> 2026-10-08T21:20:01.116000+00:00
+  intervallo ora locale: 2026-10-04T01:41:02.415000+00:00 -> 2026-10-08T23:20:01.116000+00:00
   duplicati (generato_utc,lcd1): 0
   periodo_min valori: [5]
 
@@ -18,167 +18,167 @@ FLUSSI 5T  (storico non riscritto; accuratezza storica NON disponibile)
   2026-10-05 (feriale  ) snapshot  262/287 (91.3%)  buchi>6': 11 [8.0, 6.2, 7.0, 7.0, 7.9]...
   2026-10-06 (feriale  ) snapshot  196/225 (87.1%)  buchi>6': 4 [7.3, 119.0, 20.0, 7.6]
   2026-10-07 (feriale  ) snapshot  148/151 (98.0%)  buchi>6': 3 [7.9, 6.4, 7.6]
-  2026-10-08 (feriale  ) snapshot  258/279 (92.5%)  buchi>6': 4 [87.2, 7.9, 6.2, 10.0]
+  2026-10-08 (feriale  ) snapshot  259/280 (92.5%)  buchi>6': 4 [87.2, 7.9, 6.2, 10.0]
 
 -- Per tipo di giorno e ora locale --
    (coper. = snapshot osservati su 12 all'ora per ogni giorno presente del tipo;
     giorni parziali o buchi della raccolta abbassano la copertura)
   -- feriale (4 giorno/i) --
-    00:00  misure  3924  snap  36/ 48 (75.0%)  zero 57.4%  >0 42.6%  mediana   72.0  p95  624.0  velNULL  0.0%  mediana_vel   0.0
-    01:00  misure  3597  snap  33/ 48 (68.8%)  zero 77.3%  >0 22.7%  mediana   84.0  p95  948.0  velNULL  0.0%  mediana_vel   0.0
-    02:00  misure  3924  snap  36/ 48 (75.0%)  zero 55.0%  >0 45.0%  mediana   24.0  p95  528.0  velNULL  0.0%  mediana_vel   0.0
-    03:00  misure  3924  snap  36/ 48 (75.0%)  zero 46.7%  >0 53.3%  mediana   24.0  p95  516.0  velNULL  0.0%  mediana_vel  35.0
-    04:00  misure  3815  snap  35/ 48 (72.9%)  zero 31.3%  >0 68.7%  mediana   24.0  p95  396.0  velNULL  0.0%  mediana_vel  58.9
-    05:00  misure  3924  snap  36/ 48 (75.0%)  zero 15.1%  >0 84.9%  mediana   84.0  p95  456.0  velNULL  0.0%  mediana_vel  65.0
-    06:00  misure  3815  snap  35/ 48 (72.9%)  zero 11.9%  >0 88.1%  mediana  168.0  p95  684.0  velNULL  0.0%  mediana_vel  64.8
-    07:00  misure  3706  snap  34/ 48 (70.8%)  zero 11.7%  >0 88.3%  mediana  408.0  p95 1572.0  velNULL  0.0%  mediana_vel  59.7
-    08:00  misure  3815  snap  35/ 48 (72.9%)  zero 11.7%  >0 88.3%  mediana  528.0  p95 1644.0  velNULL  0.0%  mediana_vel  58.7
-    09:00  misure  3488  snap  32/ 48 (66.7%)  zero 11.8%  >0 88.2%  mediana  396.0  p95 1488.0  velNULL  0.0%  mediana_vel  59.0
-    10:00  misure  2616  snap  24/ 48 (50.0%)  zero 11.9%  >0 88.1%  mediana  360.0  p95 1152.0  velNULL  0.0%  mediana_vel  58.6
-    11:00  misure  3161  snap  29/ 48 (60.4%)  zero 12.1%  >0 87.9%  mediana  342.0  p95 1068.0  velNULL  0.0%  mediana_vel  58.9
-    12:00  misure  3924  snap  36/ 48 (75.0%)  zero 12.0%  >0 88.0%  mediana  336.0  p95 1092.0  velNULL  0.0%  mediana_vel  59.9
-    13:00  misure  4796  snap  44/ 48 (91.7%)  zero 12.1%  >0 87.9%  mediana  348.0  p95 1128.0  velNULL  0.0%  mediana_vel  60.8
-    14:00  misure  5123  snap  47/ 48 (97.9%)  zero 12.0%  >0 88.0%  mediana  384.0  p95 1332.0  velNULL  0.0%  mediana_vel  59.2
-    15:00  misure  5232  snap  48/ 48 (100.0%)  zero 12.0%  >0 88.0%  mediana  384.0  p95 1248.0  velNULL  0.0%  mediana_vel  58.9
-    16:00  misure  4796  snap  44/ 48 (91.7%)  zero 12.2%  >0 87.8%  mediana  432.0  p95 1404.0  velNULL  0.0%  mediana_vel  58.6
-    17:00  misure  5232  snap  48/ 48 (100.0%)  zero 12.0%  >0 88.0%  mediana  528.0  p95 1716.0  velNULL  0.0%  mediana_vel  58.0
-    18:00  misure  4905  snap  45/ 48 (93.8%)  zero 12.0%  >0 88.0%  mediana  480.0  p95 1572.0  velNULL  0.0%  mediana_vel  59.0
-    19:00  misure  3815  snap  35/ 48 (72.9%)  zero 12.1%  >0 87.9%  mediana  348.0  p95 1272.0  velNULL  0.0%  mediana_vel  59.0
-    20:00  misure  2616  snap  24/ 48 (50.0%)  zero 12.2%  >0 87.8%  mediana  204.0  p95  948.0  velNULL  0.0%  mediana_vel  60.2
-    21:00  misure  3270  snap  30/ 48 (62.5%)  zero 13.4%  >0 86.6%  mediana  144.0  p95  648.0  velNULL  0.0%  mediana_vel  64.0
-    22:00  misure  3815  snap  35/ 48 (72.9%)  zero 14.3%  >0 85.7%  mediana  108.0  p95  660.0  velNULL  0.0%  mediana_vel  64.0
-    23:00  misure  2943  snap  27/ 48 (56.2%)  zero 15.5%  >0 84.5%  mediana   84.0  p95  516.0  velNULL  0.0%  mediana_vel  65.0
+    00:00  misure  3924  snap  36/ 48 (75.0%)  zero 57.4%  >0 42.6%  med>0   72.0  p95>0  624.0  velNULL  0.0%  med_vel   0.0
+    01:00  misure  3597  snap  33/ 48 (68.8%)  zero 77.3%  >0 22.7%  med>0   84.0  p95>0  948.0  velNULL  0.0%  med_vel   0.0
+    02:00  misure  3924  snap  36/ 48 (75.0%)  zero 55.0%  >0 45.0%  med>0   24.0  p95>0  528.0  velNULL  0.0%  med_vel   0.0
+    03:00  misure  3924  snap  36/ 48 (75.0%)  zero 46.7%  >0 53.3%  med>0   24.0  p95>0  516.0  velNULL  0.0%  med_vel  35.0
+    04:00  misure  3815  snap  35/ 48 (72.9%)  zero 31.3%  >0 68.7%  med>0   24.0  p95>0  396.0  velNULL  0.0%  med_vel  58.9
+    05:00  misure  3924  snap  36/ 48 (75.0%)  zero 15.1%  >0 84.9%  med>0   84.0  p95>0  456.0  velNULL  0.0%  med_vel  65.0
+    06:00  misure  3815  snap  35/ 48 (72.9%)  zero 11.9%  >0 88.1%  med>0  168.0  p95>0  684.0  velNULL  0.0%  med_vel  64.8
+    07:00  misure  3706  snap  34/ 48 (70.8%)  zero 11.7%  >0 88.3%  med>0  408.0  p95>0 1572.0  velNULL  0.0%  med_vel  59.7
+    08:00  misure  3815  snap  35/ 48 (72.9%)  zero 11.7%  >0 88.3%  med>0  528.0  p95>0 1644.0  velNULL  0.0%  med_vel  58.7
+    09:00  misure  3488  snap  32/ 48 (66.7%)  zero 11.8%  >0 88.2%  med>0  396.0  p95>0 1488.0  velNULL  0.0%  med_vel  59.0
+    10:00  misure  2616  snap  24/ 48 (50.0%)  zero 11.9%  >0 88.1%  med>0  360.0  p95>0 1152.0  velNULL  0.0%  med_vel  58.6
+    11:00  misure  3161  snap  29/ 48 (60.4%)  zero 12.1%  >0 87.9%  med>0  342.0  p95>0 1068.0  velNULL  0.0%  med_vel  58.9
+    12:00  misure  3924  snap  36/ 48 (75.0%)  zero 12.0%  >0 88.0%  med>0  336.0  p95>0 1092.0  velNULL  0.0%  med_vel  59.9
+    13:00  misure  4796  snap  44/ 48 (91.7%)  zero 12.1%  >0 87.9%  med>0  348.0  p95>0 1128.0  velNULL  0.0%  med_vel  60.8
+    14:00  misure  5123  snap  47/ 48 (97.9%)  zero 12.0%  >0 88.0%  med>0  384.0  p95>0 1332.0  velNULL  0.0%  med_vel  59.2
+    15:00  misure  5232  snap  48/ 48 (100.0%)  zero 12.0%  >0 88.0%  med>0  384.0  p95>0 1248.0  velNULL  0.0%  med_vel  58.9
+    16:00  misure  4796  snap  44/ 48 (91.7%)  zero 12.2%  >0 87.8%  med>0  432.0  p95>0 1404.0  velNULL  0.0%  med_vel  58.6
+    17:00  misure  5232  snap  48/ 48 (100.0%)  zero 12.0%  >0 88.0%  med>0  528.0  p95>0 1716.0  velNULL  0.0%  med_vel  58.0
+    18:00  misure  4905  snap  45/ 48 (93.8%)  zero 12.0%  >0 88.0%  med>0  480.0  p95>0 1572.0  velNULL  0.0%  med_vel  59.0
+    19:00  misure  3815  snap  35/ 48 (72.9%)  zero 12.1%  >0 87.9%  med>0  348.0  p95>0 1272.0  velNULL  0.0%  med_vel  59.0
+    20:00  misure  2616  snap  24/ 48 (50.0%)  zero 12.2%  >0 87.8%  med>0  204.0  p95>0  948.0  velNULL  0.0%  med_vel  60.2
+    21:00  misure  3270  snap  30/ 48 (62.5%)  zero 13.4%  >0 86.6%  med>0  144.0  p95>0  648.0  velNULL  0.0%  med_vel  64.0
+    22:00  misure  3815  snap  35/ 48 (72.9%)  zero 14.3%  >0 85.7%  med>0  108.0  p95>0  660.0  velNULL  0.0%  med_vel  64.0
+    23:00  misure  3052  snap  28/ 48 (58.3%)  zero 15.4%  >0 84.6%  med>0   84.0  p95>0  516.0  velNULL  0.0%  med_vel  64.9
   -- sabato: nessun giorno --
   -- domenica (1 giorno/i) --
     00:00  nessun dato
-    01:00  misure   436  snap   4/ 12 (33.3%)  zero 75.2%  >0 24.8%  mediana  204.0  p95  792.0  velNULL  0.0%  mediana_vel   0.0
-    02:00  misure  1308  snap  12/ 12 (100.0%)  zero 28.1%  >0 71.9%  mediana   60.0  p95  396.0  velNULL  0.0%  mediana_vel  61.0
-    03:00  misure  1308  snap  12/ 12 (100.0%)  zero 24.7%  >0 75.3%  mediana   36.0  p95  252.0  velNULL  0.0%  mediana_vel  64.0
-    04:00  misure  1308  snap  12/ 12 (100.0%)  zero 29.3%  >0 70.7%  mediana   36.0  p95  216.0  velNULL  0.0%  mediana_vel  60.3
-    05:00  misure  1308  snap  12/ 12 (100.0%)  zero 23.1%  >0 76.9%  mediana   36.0  p95  240.0  velNULL  0.0%  mediana_vel  64.0
-    06:00  misure  1199  snap  11/ 12 (91.7%)  zero 15.9%  >0 84.1%  mediana   60.0  p95  360.0  velNULL  0.0%  mediana_vel  65.0
-    07:00  misure  1199  snap  11/ 12 (91.7%)  zero 14.0%  >0 86.0%  mediana   84.0  p95  360.0  velNULL  0.0%  mediana_vel  65.0
-    08:00  misure  1308  snap  12/ 12 (100.0%)  zero 12.2%  >0 87.8%  mediana  144.0  p95  492.0  velNULL  0.0%  mediana_vel  66.0
-    09:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.3%  >0 87.7%  mediana  252.0  p95  720.0  velNULL  0.0%  mediana_vel  63.8
-    10:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.0%  >0 88.0%  mediana  312.0  p95  864.0  velNULL  0.0%  mediana_vel  62.0
-    11:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.0%  >0 88.0%  mediana  324.0  p95 1020.0  velNULL  0.0%  mediana_vel  62.0
-    12:00  misure  1199  snap  11/ 12 (91.7%)  zero 11.2%  >0 88.8%  mediana  312.0  p95 1080.0  velNULL  0.0%  mediana_vel  63.0
-    13:00  misure  1199  snap  11/ 12 (91.7%)  zero 11.5%  >0 88.5%  mediana  240.0  p95  864.0  velNULL  0.0%  mediana_vel  64.8
-    14:00  misure  1308  snap  12/ 12 (100.0%)  zero 11.7%  >0 88.3%  mediana  264.0  p95  936.0  velNULL  0.0%  mediana_vel  64.0
-    15:00  misure  1199  snap  11/ 12 (91.7%)  zero 11.9%  >0 88.1%  mediana  342.0  p95 1164.0  velNULL  0.0%  mediana_vel  62.0
-    16:00  misure  1199  snap  11/ 12 (91.7%)  zero 11.9%  >0 88.1%  mediana  372.0  p95 1428.0  velNULL  0.0%  mediana_vel  61.0
-    17:00  misure  1308  snap  12/ 12 (100.0%)  zero 12.0%  >0 88.0%  mediana  408.0  p95 1572.0  velNULL  0.0%  mediana_vel  61.0
-    18:00  misure  1308  snap  12/ 12 (100.0%)  zero 12.0%  >0 88.0%  mediana  432.0  p95 1572.0  velNULL  0.0%  mediana_vel  60.8
-    19:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.3%  >0 87.7%  mediana  396.0  p95 1668.0  velNULL  0.0%  mediana_vel  60.0
-    20:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.3%  >0 87.7%  mediana  252.0  p95 1212.0  velNULL  0.0%  mediana_vel  61.2
-    21:00  misure  1308  snap  12/ 12 (100.0%)  zero 12.3%  >0 87.7%  mediana  180.0  p95  720.0  velNULL  0.0%  mediana_vel  64.0
-    22:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.8%  >0 87.2%  mediana  144.0  p95  624.0  velNULL  0.0%  mediana_vel  64.8
-    23:00  misure  1308  snap  12/ 12 (100.0%)  zero 14.0%  >0 86.0%  mediana   96.0  p95  528.0  velNULL  0.0%  mediana_vel  64.8
+    01:00  misure   436  snap   4/ 12 (33.3%)  zero 75.2%  >0 24.8%  med>0  204.0  p95>0  792.0  velNULL  0.0%  med_vel   0.0
+    02:00  misure  1308  snap  12/ 12 (100.0%)  zero 28.1%  >0 71.9%  med>0   60.0  p95>0  396.0  velNULL  0.0%  med_vel  61.0
+    03:00  misure  1308  snap  12/ 12 (100.0%)  zero 24.7%  >0 75.3%  med>0   36.0  p95>0  252.0  velNULL  0.0%  med_vel  64.0
+    04:00  misure  1308  snap  12/ 12 (100.0%)  zero 29.3%  >0 70.7%  med>0   36.0  p95>0  216.0  velNULL  0.0%  med_vel  60.3
+    05:00  misure  1308  snap  12/ 12 (100.0%)  zero 23.1%  >0 76.9%  med>0   36.0  p95>0  240.0  velNULL  0.0%  med_vel  64.0
+    06:00  misure  1199  snap  11/ 12 (91.7%)  zero 15.9%  >0 84.1%  med>0   60.0  p95>0  360.0  velNULL  0.0%  med_vel  65.0
+    07:00  misure  1199  snap  11/ 12 (91.7%)  zero 14.0%  >0 86.0%  med>0   84.0  p95>0  360.0  velNULL  0.0%  med_vel  65.0
+    08:00  misure  1308  snap  12/ 12 (100.0%)  zero 12.2%  >0 87.8%  med>0  144.0  p95>0  492.0  velNULL  0.0%  med_vel  66.0
+    09:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.3%  >0 87.7%  med>0  252.0  p95>0  720.0  velNULL  0.0%  med_vel  63.8
+    10:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.0%  >0 88.0%  med>0  312.0  p95>0  864.0  velNULL  0.0%  med_vel  62.0
+    11:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.0%  >0 88.0%  med>0  324.0  p95>0 1020.0  velNULL  0.0%  med_vel  62.0
+    12:00  misure  1199  snap  11/ 12 (91.7%)  zero 11.2%  >0 88.8%  med>0  312.0  p95>0 1080.0  velNULL  0.0%  med_vel  63.0
+    13:00  misure  1199  snap  11/ 12 (91.7%)  zero 11.5%  >0 88.5%  med>0  240.0  p95>0  864.0  velNULL  0.0%  med_vel  64.8
+    14:00  misure  1308  snap  12/ 12 (100.0%)  zero 11.7%  >0 88.3%  med>0  264.0  p95>0  936.0  velNULL  0.0%  med_vel  64.0
+    15:00  misure  1199  snap  11/ 12 (91.7%)  zero 11.9%  >0 88.1%  med>0  342.0  p95>0 1164.0  velNULL  0.0%  med_vel  62.0
+    16:00  misure  1199  snap  11/ 12 (91.7%)  zero 11.9%  >0 88.1%  med>0  372.0  p95>0 1428.0  velNULL  0.0%  med_vel  61.0
+    17:00  misure  1308  snap  12/ 12 (100.0%)  zero 12.0%  >0 88.0%  med>0  408.0  p95>0 1572.0  velNULL  0.0%  med_vel  61.0
+    18:00  misure  1308  snap  12/ 12 (100.0%)  zero 12.0%  >0 88.0%  med>0  432.0  p95>0 1572.0  velNULL  0.0%  med_vel  60.8
+    19:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.3%  >0 87.7%  med>0  396.0  p95>0 1668.0  velNULL  0.0%  med_vel  60.0
+    20:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.3%  >0 87.7%  med>0  252.0  p95>0 1212.0  velNULL  0.0%  med_vel  61.2
+    21:00  misure  1308  snap  12/ 12 (100.0%)  zero 12.3%  >0 87.7%  med>0  180.0  p95>0  720.0  velNULL  0.0%  med_vel  64.0
+    22:00  misure  1199  snap  11/ 12 (91.7%)  zero 12.8%  >0 87.2%  med>0  144.0  p95>0  624.0  velNULL  0.0%  med_vel  64.8
+    23:00  misure  1308  snap  12/ 12 (100.0%)  zero 14.0%  >0 86.0%  med>0   96.0  p95>0  528.0  velNULL  0.0%  med_vel  64.8
 
 -- Distribuzione globale (denominatori espliciti) --
-  flusso=0:          24034 / 122080 (19.69%)
-  flusso>0:          98046 / 122080 (80.31%)
-  flusso NULL:           0 / 122080 ( 0.00%)
-  velocita NULL:         0 / 122080 ( 0.00%)
+  flusso=0:          24049 / 122189 (19.68%)
+  flusso>0:          98140 / 122189 (80.32%)
+  flusso NULL:           0 / 122189 ( 0.00%)
+  velocita NULL:         0 / 122189 ( 0.00%)
   flusso>0: mediana 276.0  quartili [276.0, 492.0]  max 5916.0
   velocita (non NULL): mediana 59.2  media 51.0  max 167.0
 
 -- Per sensore (copertura = snapshot in cui il sensore compare su tutti quelli osservati) --
   sensori sotto copertura: 0 su 109
 
--- Sintesi per strada + direzione (media tra sensori dello stesso tratto) --
-    SS10 Padana Inferiore                        positive sensori  4  flusso medio 267.6
-    SS10 Padana Inferiore                        negative sensori  4  flusso medio 278.0
-    SS11 Padana Superiore                        positive sensori  3  flusso medio 250.3
-    SS11 Padana Superiore                        negative sensori  3  flusso medio 380.2
-    Corso Orbassano(TO)                          positive sensori  3  flusso medio 874.5
-    Corso Regina Margherita(TO)                  positive sensori  3  flusso medio 632.7
-    SS460 Di Ceresole                            positive sensori  2  flusso medio 163.4
-    SS460 Di Ceresole                            negative sensori  2  flusso medio 176.4
-    SS662 Di Savigliano                          negative sensori  2  flusso medio 272.3
-    Corso Francia(TO)                            positive sensori  2  flusso medio 649.5
-    Corso Giulio Cesare(TO)                      positive sensori  2  flusso medio 733.4
-    SS29 Del Colle Di Cadibona                   positive sensori  2  flusso medio 351.0
-    SS29 Del Colle Di Cadibona                   negative sensori  2  flusso medio 325.2
-    SS31 Del Monferrato                          positive sensori  2  flusso medio 215.5
-    SS31 Del Monferrato                          negative sensori  2  flusso medio 97.2
-    SS142 Biellese                               positive sensori  2  flusso medio 282.7
-    SS142 Biellese                               negative sensori  2  flusso medio 290.4
-    SS455 Di Pontestura                          positive sensori  1  flusso medio 148.3
-    SS455 Di Pontestura                          negative sensori  1  flusso medio 127.5
-    SS456 Del Turchino                           positive sensori  1  flusso medio 318.2
-    SS456 Del Turchino                           negative sensori  1  flusso medio 300.7
-    SS457 Di Moncalvo                            positive sensori  1  flusso medio 151.6
-    SS457 Di Moncalvo                            negative sensori  1  flusso medio 146.1
-    SS458 Di Casalborgone                        positive sensori  1  flusso medio 134.7
-    SS458 Di Casalborgone                        negative sensori  1  flusso medio 23.0
+-- Sintesi per strada + direzione (media (>0) tra sensori dello stesso tratto) --
+    SS10 Padana Inferiore                        positive sensori  4  flusso medio (>0) 267.5
+    SS10 Padana Inferiore                        negative sensori  4  flusso medio (>0) 277.9
+    SS11 Padana Superiore                        positive sensori  3  flusso medio (>0) 250.2
+    SS11 Padana Superiore                        negative sensori  3  flusso medio (>0) 380.1
+    Corso Orbassano(TO)                          positive sensori  3  flusso medio (>0) 874.0
+    Corso Regina Margherita(TO)                  positive sensori  3  flusso medio (>0) 632.4
+    SS460 Di Ceresole                            positive sensori  2  flusso medio (>0) 163.4
+    SS460 Di Ceresole                            negative sensori  2  flusso medio (>0) 176.3
+    SS662 Di Savigliano                          negative sensori  2  flusso medio (>0) 272.0
+    Corso Francia(TO)                            positive sensori  2  flusso medio (>0) 649.2
+    Corso Giulio Cesare(TO)                      positive sensori  2  flusso medio (>0) 733.3
+    SS29 Del Colle Di Cadibona                   positive sensori  2  flusso medio (>0) 350.8
+    SS29 Del Colle Di Cadibona                   negative sensori  2  flusso medio (>0) 324.9
+    SS31 Del Monferrato                          positive sensori  2  flusso medio (>0) 215.4
+    SS31 Del Monferrato                          negative sensori  2  flusso medio (>0) 97.2
+    SS142 Biellese                               positive sensori  2  flusso medio (>0) 282.5
+    SS142 Biellese                               negative sensori  2  flusso medio (>0) 290.2
+    SS455 Di Pontestura                          positive sensori  1  flusso medio (>0) 148.1
+    SS455 Di Pontestura                          negative sensori  1  flusso medio (>0) 127.4
+    SS456 Del Turchino                           positive sensori  1  flusso medio (>0) 318.0
+    SS456 Del Turchino                           negative sensori  1  flusso medio (>0) 300.6
+    SS457 Di Moncalvo                            positive sensori  1  flusso medio (>0) 151.4
+    SS457 Di Moncalvo                            negative sensori  1  flusso medio (>0) 146.0
+    SS458 Di Casalborgone                        positive sensori  1  flusso medio (>0) 134.6
+    SS458 Di Casalborgone                        negative sensori  1  flusso medio (>0) 23.0
     SS494 Vigevanese                             positive sensori  1  (sempre 0 o NULL)
     SS494 Vigevanese                             negative sensori  1  (sempre 0 o NULL)
-    SS527 Bustese                                positive sensori  1  flusso medio 292.4
-    SS527 Bustese                                negative sensori  1  flusso medio 293.5
-    SS564 Monregalese                            positive sensori  1  flusso medio 230.2
-    SS564 Monregalese                            negative sensori  1  flusso medio 222.8
-    SS565 Di Castellamonte                       positive sensori  1  flusso medio 264.0
-    SS565 Di Castellamonte                       negative sensori  1  flusso medio 278.6
-    SS589 Dei Laghi Di Avigliana                 positive sensori  1  flusso medio 224.8
-    SS589 Dei Laghi Di Avigliana                 negative sensori  1  flusso medio 225.4
-    SS594 Destra Sesia                           positive sensori  1  flusso medio 71.5
-    SS594 Destra Sesia                           negative sensori  1  flusso medio 81.8
-    SS661 Delle Langhe                           positive sensori  1  flusso medio 143.7
-    SS661 Delle Langhe                           negative sensori  1  flusso medio 108.1
-    SS662 Di Savigliano                          positive sensori  1  flusso medio 335.4
+    SS527 Bustese                                positive sensori  1  flusso medio (>0) 292.3
+    SS527 Bustese                                negative sensori  1  flusso medio (>0) 293.3
+    SS564 Monregalese                            positive sensori  1  flusso medio (>0) 230.2
+    SS564 Monregalese                            negative sensori  1  flusso medio (>0) 222.6
+    SS565 Di Castellamonte                       positive sensori  1  flusso medio (>0) 263.8
+    SS565 Di Castellamonte                       negative sensori  1  flusso medio (>0) 278.4
+    SS589 Dei Laghi Di Avigliana                 positive sensori  1  flusso medio (>0) 224.7
+    SS589 Dei Laghi Di Avigliana                 negative sensori  1  flusso medio (>0) 225.2
+    SS594 Destra Sesia                           positive sensori  1  flusso medio (>0) 71.4
+    SS594 Destra Sesia                           negative sensori  1  flusso medio (>0) 81.7
+    SS661 Delle Langhe                           positive sensori  1  flusso medio (>0) 143.6
+    SS661 Delle Langhe                           negative sensori  1  flusso medio (>0) 108.0
+    SS662 Di Savigliano                          positive sensori  1  flusso medio (>0) 335.1
     SP155(AL)                                    positive sensori  1  (sempre 0 o NULL)
     SP155(AL)                                    negative sensori  1  (sempre 0 o NULL)
-    R24 Raccordo Torino-Aeroporto Caselle        negative sensori  1  flusso medio 729.0
-    SP4(NO) Ovest Ticino                         positive sensori  1  flusso medio 349.6
-    SP4(NO) Ovest Ticino                         negative sensori  1  flusso medio 327.3
-    SS35 Bis Dei Giovi                           positive sensori  1  flusso medio 300.5
-    SP1(TO) delle Valli di Lanzo                 positive sensori  1  flusso medio 388.7
-    SP1(TO) delle Valli di Lanzo                 negative sensori  1  flusso medio 355.6
-    SP122(TO) di Chieri                          positive sensori  1  flusso medio 158.8
-    SP122(TO) di Chieri                          negative sensori  1  flusso medio 177.1
-    SP13(TO) di Front                            positive sensori  1  flusso medio 188.7
-    SP13(TO) di Front                            negative sensori  1  flusso medio 188.9
-    SP2(TO) Di Germagnano                        positive sensori  1  flusso medio 569.7
-    SP2(TO) Di Germagnano                        negative sensori  1  flusso medio 592.9
-    SP8(TO) di Druento                           positive sensori  1  flusso medio 489.6
-    SP8(TO) di Druento                           negative sensori  1  flusso medio 445.5
-    Corso Agnelli(TO)                            positive sensori  1  flusso medio 466.1
-    Corso Allamano(TO)                           positive sensori  1  flusso medio 269.9
+    R24 Raccordo Torino-Aeroporto Caselle        negative sensori  1  flusso medio (>0) 728.5
+    SP4(NO) Ovest Ticino                         positive sensori  1  flusso medio (>0) 349.4
+    SP4(NO) Ovest Ticino                         negative sensori  1  flusso medio (>0) 327.1
+    SS35 Bis Dei Giovi                           positive sensori  1  flusso medio (>0) 300.2
+    SP1(TO) delle Valli di Lanzo                 positive sensori  1  flusso medio (>0) 388.3
+    SP1(TO) delle Valli di Lanzo                 negative sensori  1  flusso medio (>0) 355.3
+    SP122(TO) di Chieri                          positive sensori  1  flusso medio (>0) 158.7
+    SP122(TO) di Chieri                          negative sensori  1  flusso medio (>0) 177.0
+    SP13(TO) di Front                            positive sensori  1  flusso medio (>0) 188.5
+    SP13(TO) di Front                            negative sensori  1  flusso medio (>0) 188.8
+    SP2(TO) Di Germagnano                        positive sensori  1  flusso medio (>0) 569.3
+    SP2(TO) Di Germagnano                        negative sensori  1  flusso medio (>0) 592.4
+    SP8(TO) di Druento                           positive sensori  1  flusso medio (>0) 489.4
+    SP8(TO) di Druento                           negative sensori  1  flusso medio (>0) 445.2
+    Corso Agnelli(TO)                            positive sensori  1  flusso medio (>0) 466.8
+    Corso Allamano(TO)                           positive sensori  1  flusso medio (>0) 269.8
     Corso Moncalieri(TO)                         positive sensori  1  (sempre 0 o NULL)
-    Corso Sebastopoli(TO)                        positive sensori  1  flusso medio 385.4
-    Corso Trieste(TO)                            positive sensori  1  flusso medio 1522.9
-    Corso Unione Sovietica(TO)                   positive sensori  1  flusso medio 398.0
-    Corso Unita' D'italia(TO)                    positive sensori  1  flusso medio 1830.6
-    Corso Unita' D'italia(TO)                    negative sensori  1  flusso medio 1572.0
-    Corso Vercelli(TO)                           positive sensori  1  flusso medio 554.2
-    Ponte Amedeo VIII(TO)                        positive sensori  1  flusso medio 744.7
-    Strada Di Settimo(TO)                        positive sensori  1  flusso medio 385.3
-    SS22 Di Val Macra                            positive sensori  1  flusso medio 490.2
-    SS22 Di Val Macra                            negative sensori  1  flusso medio 490.0
-    SS28 Del Colle Di Nava                       positive sensori  1  flusso medio 229.5
-    SS28 Del Colle Di Nava                       negative sensori  1  flusso medio 235.0
+    Corso Sebastopoli(TO)                        positive sensori  1  flusso medio (>0) 385.2
+    Corso Trieste(TO)                            positive sensori  1  flusso medio (>0) 1522.2
+    Corso Unione Sovietica(TO)                   positive sensori  1  flusso medio (>0) 397.6
+    Corso Unita' D'italia(TO)                    positive sensori  1  flusso medio (>0) 1830.3
+    Corso Unita' D'italia(TO)                    negative sensori  1  flusso medio (>0) 1572.0
+    Corso Vercelli(TO)                           positive sensori  1  flusso medio (>0) 554.0
+    Ponte Amedeo VIII(TO)                        positive sensori  1  flusso medio (>0) 744.3
+    Strada Di Settimo(TO)                        positive sensori  1  flusso medio (>0) 385.0
+    SS22 Di Val Macra                            positive sensori  1  flusso medio (>0) 489.8
+    SS22 Di Val Macra                            negative sensori  1  flusso medio (>0) 489.6
+    SS28 Del Colle Di Nava                       positive sensori  1  flusso medio (>0) 229.3
+    SS28 Del Colle Di Nava                       negative sensori  1  flusso medio (>0) 234.9
     SS30 Di Val Bormida                          positive sensori  1  (sempre 0 o NULL)
     SS30 Di Val Bormida                          negative sensori  1  (sempre 0 o NULL)
-    SS33 Racc Del Sempione                       positive sensori  1  flusso medio 346.0
-    SS33 Racc Del Sempione                       negative sensori  1  flusso medio 358.5
-    SS35 Bis Dei Giovi                           negative sensori  1  flusso medio 284.1
-    SS143 Vercellese                             positive sensori  1  flusso medio 253.2
-    SS143 Vercellese                             negative sensori  1  flusso medio 260.1
-    SS229 Del Lago D Orta                        positive sensori  1  flusso medio 373.8
-    SS229 Del Lago D Orta                        negative sensori  1  flusso medio 378.7
-    SS230 Di Massazza                            positive sensori  1  flusso medio 195.2
-    SS230 Di Massazza                            negative sensori  1  flusso medio 221.5
-    SS299 Di Alagna                              positive sensori  1  flusso medio 241.4
-    SS299 Di Alagna                              negative sensori  1  flusso medio 279.0
+    SS33 Racc Del Sempione                       positive sensori  1  flusso medio (>0) 345.8
+    SS33 Racc Del Sempione                       negative sensori  1  flusso medio (>0) 358.3
+    SS35 Bis Dei Giovi                           negative sensori  1  flusso medio (>0) 283.9
+    SS143 Vercellese                             positive sensori  1  flusso medio (>0) 253.0
+    SS143 Vercellese                             negative sensori  1  flusso medio (>0) 259.9
+    SS229 Del Lago D Orta                        positive sensori  1  flusso medio (>0) 373.5
+    SS229 Del Lago D Orta                        negative sensori  1  flusso medio (>0) 378.5
+    SS230 Di Massazza                            positive sensori  1  flusso medio (>0) 195.1
+    SS230 Di Massazza                            negative sensori  1  flusso medio (>0) 221.3
+    SS299 Di Alagna                              positive sensori  1  flusso medio (>0) 241.2
+    SS299 Di Alagna                              negative sensori  1  flusso medio (>0) 278.7
 
 ========================================================================
 MEZZI GTT  (vehicle_position; conta veicoli DISTINTI, non righe)
 ========================================================================
-  controllo conteggio mezzi_gtt: SQL=1580712  script=1580712  OK
-  righe: 1580712   duplicati (letto_utc,veicolo): 0   righe con veicolo/linea vuoti: 0
-  snapshot distinti (letto_utc): 5158
-  veicoli distinti per snapshot: minimo 1  mediana 338.5  media 306.5  massimo 577
+  controllo conteggio mezzi_gtt: SQL=1581800  script=1581800  OK
+  righe: 1581800   duplicati (letto_utc,veicolo): 0   righe con veicolo/linea vuoti: 0
+  snapshot distinti (letto_utc): 5166
+  veicoli distinti per snapshot: minimo 1  mediana 336.5  media 306.2  massimo 577
   NOTA: ~306 mezzi localizzati per snapshot e' il volume del FEED,
         non necessariamente l'intera flotta in servizio.
   buchi > 90 s: 31
@@ -195,7 +195,7 @@ MEZZI GTT  (vehicle_position; conta veicoli DISTINTI, non righe)
     2026-10-05T23:34+00:00 -> 2026-10-05T23:46+00:00  12.1 min
     2026-10-06T02:31+00:00 -> 2026-10-06T03:52+00:00  81.7 min
     ... altre 19
-  snapshot con < 50 veicoli distinti: 400 su 5158
+  snapshot con < 50 veicoli distinti: 400 su 5166
     2026-10-05T00:19:08+00:00  veicoli distinti 1
     2026-10-05T00:20:09+00:00  veicoli distinti 1
     2026-10-05T00:21:10+00:00  veicoli distinti 1
@@ -232,7 +232,7 @@ MEZZI GTT  (vehicle_position; conta veicoli DISTINTI, non righe)
     20:00  righe  43526  snap  119  media veicoli/snap  365.8  veicoli union 675  linee  90
     21:00  righe  31625  snap  141  media veicoli/snap  224.3  veicoli union 550  linee  90
     22:00  righe  24357  snap  166  media veicoli/snap  146.7  veicoli union 391  linee  82
-    23:00  righe  15041  snap  111  media veicoli/snap  135.5  veicoli union 349  linee  73
+    23:00  righe  16129  snap  119  media veicoli/snap  135.5  veicoli union 349  linee  73
     -> punta osservata feriale: ora 08:00 (555.5 mezzi/snapshot)
   -- sabato: nessun giorno --
   -- domenica (1 giorno/i) --
@@ -262,34 +262,37 @@ MEZZI GTT  (vehicle_position; conta veicoli DISTINTI, non righe)
     -> punta osservata domenica: ora 18:00 (255.7 mezzi/snapshot)
 
 -- Per linea (top 25 per media veicoli/snapshot nei momenti in cui compare) --
-      4U  media 17.50/snap  n_snap 5008  veicoli dist.  64
-      2U  media 10.95/snap  n_snap 4832  veicoli dist.  57
-     15U  media  9.82/snap  n_snap 4916  veicoli dist.  56
-     62U  media  8.38/snap  n_snap 4956  veicoli dist.  71
-     56U  media  8.15/snap  n_snap 4805  veicoli dist.  53
-     18U  media  7.98/snap  n_snap 4844  veicoli dist.  40
-     13U  media  7.88/snap  n_snap 4825  veicoli dist.  39
-     10U  media  7.86/snap  n_snap 4946  veicoli dist.  55
-     55U  media  7.57/snap  n_snap 4834  veicoli dist.  38
-     17U  media  7.39/snap  n_snap 4867  veicoli dist.  56
-     33U  media  6.35/snap  n_snap 4752  veicoli dist.  33
-      9U  media  6.31/snap  n_snap 4894  veicoli dist.  47
-     49U  media  6.31/snap  n_snap 4845  veicoli dist.  52
-     11U  media  6.10/snap  n_snap 4851  veicoli dist.  40
-     68U  media  6.07/snap  n_snap 4927  veicoli dist.  37
-      3U  media  6.06/snap  n_snap 4949  veicoli dist.  33
-     52U  media  5.95/snap  n_snap 3564  veicoli dist.  46
-     67U  media  5.95/snap  n_snap 4736  veicoli dist.  28
-     46U  media  5.92/snap  n_snap 4778  veicoli dist.  49
-     75U  media  5.56/snap  n_snap 4538  veicoli dist.  47
-     71U  media  5.34/snap  n_snap 4540  veicoli dist.  44
-      5U  media  5.17/snap  n_snap 4809  veicoli dist.  26
-      8U  media  5.12/snap  n_snap 4959  veicoli dist.  24
-    M1SU  media  4.93/snap  n_snap  877  veicoli dist.  30
-     34U  media  4.76/snap  n_snap 3374  veicoli dist.  23
+      4U  media 17.48/snap  n_snap 5016  veicoli dist.  64
+      2U  media 10.94/snap  n_snap 4840  veicoli dist.  57
+     15U  media  9.81/snap  n_snap 4924  veicoli dist.  56
+     62U  media  8.37/snap  n_snap 4964  veicoli dist.  71
+     56U  media  8.14/snap  n_snap 4813  veicoli dist.  53
+     18U  media  7.97/snap  n_snap 4852  veicoli dist.  40
+     13U  media  7.87/snap  n_snap 4833  veicoli dist.  39
+     10U  media  7.85/snap  n_snap 4954  veicoli dist.  55
+     55U  media  7.57/snap  n_snap 4842  veicoli dist.  38
+     17U  media  7.38/snap  n_snap 4875  veicoli dist.  56
+     33U  media  6.34/snap  n_snap 4760  veicoli dist.  33
+      9U  media  6.31/snap  n_snap 4902  veicoli dist.  47
+     49U  media  6.31/snap  n_snap 4853  veicoli dist.  52
+     11U  media  6.09/snap  n_snap 4859  veicoli dist.  40
+     68U  media  6.06/snap  n_snap 4935  veicoli dist.  37
+      3U  media  6.06/snap  n_snap 4957  veicoli dist.  33
+     67U  media  5.94/snap  n_snap 4744  veicoli dist.  28
+     52U  media  5.94/snap  n_snap 3572  veicoli dist.  46
+     46U  media  5.91/snap  n_snap 4786  veicoli dist.  49
+     75U  media  5.56/snap  n_snap 4546  veicoli dist.  47
+     71U  media  5.33/snap  n_snap 4548  veicoli dist.  44
+      5U  media  5.17/snap  n_snap 4817  veicoli dist.  26
+      8U  media  5.12/snap  n_snap 4967  veicoli dist.  24
+    M1SU  media  4.95/snap  n_snap  885  veicoli dist.  30
+     34U  media  4.76/snap  n_snap 3382  veicoli dist.  23
 
   NOTA: il conteggio misura i MEZZI LOCALIZZATI dal feed, non necessariamente
         l'intera flotta in servizio (il feed non contiene il trip_id).
 
 -- Fotografia attuale dei sensori (NON storica, NON usata per i flussi) --
-  sensori_5t: 109 righe, accuratezza=0: 15 (13.8%)
+  sensori_5t: 109 righe, accuratezza=0: 17 (15.6%)
+
+-- Feed trip_update (ritardi): solo controllo di presenza, non analisi --
+  tabelle trip/ritardi/update: (nessuna: il feed non è raccolto)
