@@ -129,7 +129,7 @@ Regola: ogni volta che si scarica o si sposta un file ISTAT, si aggiorna questa 
 
 ## Da decidere con Leo (non ancora fatto)
 
-- Spazio in più usato da dati che il progetto non usa: `storiche/` (1991, 2001: circa 270 MB), `Dati_regionali_2021/` R02-R20 (circa 190 MB), la matrice nazionale 2011 (293 MB, da confrontare con gli zip provinciali: se contiene tutto, gli zip si possono togliere; per ora NON si tolgono gli zip).
+- Spazio in più usato da dati che il progetto non usa: `storiche/` (1991, 2001: circa 270 MB), `Dati_regionali_2021/` R02-R20 (circa 190 MB), la matrice nazionale 2011 NON si toglie (ha mezzo e orario). Gli zip per provincia non si tolgono.
 - Script 07 e `od_per_fascia.json` (vedi problemi aperti sopra).
 
 ## Dati: cosa si può usare e cosa manca (8/10/2026)
@@ -145,7 +145,7 @@ Usabili subito:
 
 Dati importanti che mancano:
 1. Domanda per ora (chi sale a che ora, a che fermata): né ISTAT né GTT pubblici lo danno. È il dato che più cambierebbe la mappa. Strade possibili: dati di validazione biglietti GTT (chiesti all'azienda), oppure dati aggregati di telefonia mobile (bozza già scritta in `docs/richiesta_dati_telefonia.md`).
-2. Mezzo di trasporto per flusso: ISTAT 2011 per sezione non ce l'ha. Va chiesto a ISTAT (micro.zone@istat.it) o a GTT.
+2. Mezzo di trasporto e orario: CORRETTO l'8/10 dopo lettura del tracciato. La matrice NAZIONALE 2011 li ha (record tipo L): mezzo (12 categorie, treno, tram, metro, bus, auto, bici, a piedi...), orario di uscita (4 fasce: prima delle 7:15, 7:15-8:14, 8:15-9:14, dopo le 9:14), tempo di viaggio (4 classi). Livello: comune di residenza -> comune di lavoro/studio, tutta Italia, anno 2011. NON a livello di sezione. Per Torino i dati sono su comuni, non sulle sezioni.
 3. Pendolari 2021 per sezione: non pubblici a livello di sezione. Solo comune.
 4. Tempi di viaggio stradali (matrice 2021): la nota tecnica c'è, la matrice no. Serve per stimare il traffico tra comuni.
 5. Ritardi GTT di giorno: il feed `trip_update` era vuoto di notte; da verificare sui dati diurni già raccolti.
@@ -200,12 +200,12 @@ Rischi da dichiarare sulla mappa:
 - Il tooltip dice "residenti", non "persone in movimento".
 - Gli indicatori regionali vanno scelti solo se sono 2021 e spiegati in una riga.
 
-Archivio per le simulazioni future (non mostrato ora): matrice 2011 sezione→sezione (tutti gli zip per provincia), con il limite che non ha il mezzo né l'ora. Matrice nazionale 2011 (293 MB): da decidere con Leo se tenerla o toglierla dopo il controllo di somma.
+Archivio per le simulazioni future (non mostrato ora): matrice 2011 sezione→sezione (tutti gli zip per provincia), con il limite che non ha il mezzo né l'ora. Matrice nazionale 2011 (293 MB): TENERLA. Ha mezzo, orario e tempo di viaggio per comune (vedi punto 2 dei dati mancanti). Non è un doppione degli zip.
 
 ## Prossimi passi (in ordine)
 
 1. [ ] Analisi dei dati diurni della raccolta (dall'8/10): sensori 5T con accuracy=0, ritardi GTT (trip_update) di giorno.
-2. [ ] Confrontare la matrice nazionale 2011 con gli zip provinciali; decidere quale tenere.
+2. [ ] (CAMBIATO l'8/10) La matrice nazionale 2011 NON si confronta per cancellarla: ha mezzo e orario, che gli zip non hanno. Va TENUTA. Ora è nel piano come dato candidato (da decidere con Leo, vedi "Da decidere").
 3. [ ] Usare la matrice 2011 per sezione (flussi sezione→sezione, senza mezzo né orario) per il livello Domanda dentro Torino. Per l'ora serve un dato che non abbiamo (vedi "Dati mancanti" in fondo).
 4. [ ] Scaricare, se serve, la matrice dei tempi di viaggio 2021 (a mano, sul PC).
 5. [ ] Indicatore combinato "punti critici" (poca offerta + traffico lento + scostamenti), con etichetta "dati scarsi" sotto 72 ore di storico.

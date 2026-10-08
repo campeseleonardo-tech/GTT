@@ -763,8 +763,8 @@ def main():
 
     sez, f_sez = [], RADICE / "data" / "processed" / "sezioni_torino.json"
     if f_sez.is_file():
-        sez = [{"p": x["p"], "a": x["a"], "g": x["g"], "c": x.get("c", 0)} for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]   # [agente GT05-pendolari] "c" = PRO_COM
-        print(f"  sezioni di censimento abitate: {len(sez)}, abitanti {sum(x['p'] for x in sez)}")
+        sez = [{"p": x["p"], "a": x["a"], "g": x["g"], "c": x.get("c", 0), "f": x.get("f", 0), "ab": x.get("ab", 0)} for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]   # [agente GT05-pendolari] "c" = PRO_COM; "f" famiglie, "ab" abitazioni (ISTAT 2021)
+        print(f"  sezioni di censimento abitate: {len(sez)}, abitanti {sum(x['p'] for x in sez)}, famiglie {sum(x['f'] for x in sez)}, abitazioni {sum(x['ab'] for x in sez)}")
     else:
         print("  (sezioni di censimento non trovate: lancia 05_prepara_sezioni.py per il livello Domanda)")
 
