@@ -1,130 +1,157 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: 4 ottobre 2026 (mappa funzionante sul PC dell'utente). Tienila aggiornata: è il file da incollare/farmi leggere
-all'inizio di ogni nuova sessione, così non si riparte da zero.
+Ultimo aggiornamento: 8 ottobre 2026 (riordino cartelle, inventario ISTAT, mappa rigenerata con pendolari).
+Questo è l'unico file di memoria e di passaggio. Non creare altri documenti di memoria.
+Leggila all'inizio di ogni sessione e aggiornala alla fine.
 
 ## Obiettivo
 
 Mappa web interattiva di Torino (stile Google Maps, in HTML) con: domanda e offerta di mezzi,
 punti critici, flussi in tempo reale (simulati dove non misurati), il più vicino possibile agli
-orari veri. Per ora solo studio personale, forse da condividere. Tutti i mezzi e tutta l'area
-possibile; si parte da Torino città più cintura.
+orari veri. Per ora solo studio personale, forse da condividere. Area: Torino città più cintura (entro 18 km).
+
+## Struttura delle cartelle (dall'8/10/2026)
+
+- `mappa_torino.html`: la mappa (si apre con doppio clic; generata da `scripts/04_genera_mappa.py`).
+- `simulazione.html`: pagina separata della simulazione.
+- `MEMORIA_PROGETTO.md`, `AGENTS.md`: questo file e le regole.
+- `scripts/`: gli script Python e i file .bat/.py della raccolta. Nessuna cartella dati dentro scripts/.
+- `data/` (non va su git): dati veri e generati.
+  - `data/raw/`: file scaricati (GTFS, feed tempo reale, 5T, zone statistiche).
+  - `data/raw/istat/`: dati ISTAT, divisi per tema (vedi sezione ISTAT sotto).
+  - `data/processed/`: file prodotti dagli script (sezioni, pendolari).
+  - `data/storico.sqlite`: archivio della raccolta continua (165 MB l'8/10). Non spostare mentre la raccolta gira.
+  - `data/live.js`, `data/stat.js`, `data/replay_*.js`, `data/agg_cache.json`: generati ogni minuto/5 minuti dalla raccolta, usati dalla mappa.
+- `docs/`: solo documenti di testo (fonti, diagnosi, richieste, piani). Niente dati grezzi.
+- `logs/`: log della raccolta (non su git).
 
 ## Decisioni prese
 
-- Pagina HTML locale, senza server esterno.
-- Raccolta continua dei dati reali: per ora sul PC, più avanti sul Raspberry Pi se necessario (192.168.8.200).
-- Dati locali (SQLite), nessun cloud. Pochi token: i calcoli pesanti girano in Python, non in chat.
+- Pagina HTML locale, senza server esterno. Dati locali (SQLite), nessun cloud.
+- Raccolta continua dei dati: per ora sul PC (funziona, vedi sotto), più avanti sul Raspberry Pi (192.168.8.200) se serve.
 - Nessuna costruzione della mappa finché i dati non sono ispezionati.
-- Gli script trovano da soli la cartella chiamata GTT: i dati vanno in `GTT\\data\\raw` e i rapporti in `GTT\\docs`, ovunque si lanci lo script.
-- Provare gli script su copie: i file in `data/raw` non si toccano.
+- Gli script trovano da soli la cartella GTT: i dati vanno in `data\raw`, i rapporti in `docs`, ovunque si lanci lo script.
+- Provare gli script su copie; i file in `data/raw` non si modificano.
+- Per il progetto si tiene solo quello che serve: doppioni e file inutili si tolgono (decisione dell'8/10).
+- Documenti: niente README o file di passaggio separati. Tutto va in questo file.
+- Sezioni di censimento cambiate tra 2011 e 2021: accettato un accorpamento approssimato.
+- Richieste dati (MTM, telefonia): rimandate a più avanti (bozze in `docs/`).
+- Direzione del progetto: ancora da decidere con Leo (tra simulare le infrastrutture, mappa con gamification, raccolta dati).
 
-## Cosa è verificato (aggiornato 4/10/2026 con i file veri scaricati dall'utente)
+## Dati verificati
 
-- GTFS GTT statico: valido dal 1/10/2026 al 31/1/2027 (versione 20261002). 215 linee (tram, metro, bus, funicolare),
-  7045 fermate, 966.946 passaggi programmati, 201.302 punti di tracciato. Le corse hanno direction_id.
-- Posizioni dei mezzi GTT (tempo reale): funzionano. 110 mezzi su 58 linee il sabato sera alle 22:45. Ogni mezzo ha
-  linea, coordinate e id veicolo, ma NON il trip_id: si lega alla linea, non alla corsa. Gli id linea coincidono con il GTFS.
-- Ritardi corse GTT (trip_update): al momento della prova il file conteneva 0 corse. Da riprovare di giorno.
+- GTFS GTT statico: valido dal 1/10/2026 al 31/1/2027 (versione 20261002). 215 linee, 7.045 fermate, 966.946 passaggi programmati.
+- Posizioni dei mezzi GTT (tempo reale): funzionano. Circa 407-408 mezzi ogni minuto (dato del log dell'8/10). Il feed non ha il trip_id: il mezzo si lega alla linea, non alla corsa.
+- Ritardi GTT (trip_update): il file era vuoto di notte (4/10). Di giorno NON ancora verificato.
 - Avvisi GTT: file di 134 KB, non ancora decodificato.
-- Feed 5T flussi: 112 sensori (non 91), su un'area che va oltre Torino (lat 44,39-45,93; lng 7,48-8,89). Al momento
-  della prova 83 sensori avevano accuracy=0 e flusso 0, e 29 avevano flusso > 0. Da riconfrontare di giorno: non so
-  ancora se accuracy=0 significa "nessun dato" o "sensore spento". Il file usa uno schema XML con namespace.
-- Zone statistiche Torino scaricate (CSV e shapefile, dati del 2011).
-- ISTAT pendolarismo 2011 (scaricabile, non ancora scaricato): comune e sezione di censimento, con sesso, mezzo, fascia
-  oraria di partenza, durata. Lavoro e studio.
-- ISTAT pendolarismo 2021: lavoro solo nel browser dati ISTAT; studio (pubblicato 22/9/2026) è una stima a livello comunale.
-- Basi territoriali ISTAT 2021: sezioni di censimento con popolazione/famiglie/abitazioni (Piemonte: R01_21.zip).
-- PUMS Torino: dati del 2008 in PDF. Utile come confronto storico, non come base.
+- Feed 5T flussi: 112 sensori, su un'area più ampia di Torino. Molti hanno accuracy=0 e flusso 0 (4/10). Non si sa ancora se accuracy=0 vuol dire "nessun dato" o "sensore spento".
+- Zone statistiche Torino (CSV e shapefile, dati del 2011): 94 zone.
+- Pendolarismo ISTAT 2021 (lavoro e studio): verificato con lo script 04 l'8/10. Numeri uguali alle note: Torino lavoro entrano 138.605, escono 71.297, dentro 212.249; studio entrano 48.730, escono 6.373, dentro 120.148.
+- Sezioni di censimento 2021 (Torino): 6.916 sezioni a Torino, 848.748 abitanti; 8.317 sezioni abitate entro 18 km, 1.557.493 abitanti (script 05 e 04).
+- Raccolta in background: verificata dal log dell'8/10 (5T ogni 5 minuti, mezzi GTT ogni minuto, nessuna interruzione vista). Il file `storico.sqlite` cresce.
 
-## Cosa NON è verificato
+## Dati NON verificati
 
-- Qualità dei dati di giorno (ritardi, sensori 5T, numero di mezzi in ora di punta): serve un campione diurno.
+- Qualità dei dati di giorno: ritardi, sensori 5T con accuracy=0, numero di mezzi in ora di punta. Dal 8/10 la raccolta ha già dati diurni: da analizzare.
 - Esistenza di dati su bici/sharing, parcheggi, treni (SFM): non trovati.
 - Dati ISTAT sugli addetti (dove si lavora) a livello di sezione: non risultano.
+- Windows: finestra settimanale, anti-stop e avvio automatico non provati (testati solo su Linux).
+- Lo sfondo della mappa (mattonelle OpenStreetMap, CARTO, Esri) non è stato provato dal mio ambiente, che non raggiunge i server delle mattonelle.
 
-## Limiti da ricordare quando si legge la mappa
+## ISTAT - inventario (aggiornato 8/10/2026)
 
-- Il traffico è misurato solo in 91 punti; il resto è stima.
-- La domanda per orario viene dal 2011 (residenti che vanno a lavorare o studiare): mancano turisti, acquisti, svago.
-- Bici e pedoni: nessun dato.
-- Distinguere sempre sulla mappa "misurato" da "stimato".
+Regola: ogni volta che si scarica o si sposta un file ISTAT, si aggiorna questa sezione.
 
-## Mappa (4/10/2026)
+### Dove stanno i file
 
-`mappa_torino.html` generata da `scripts/04_genera_mappa.py` (+ `mappa_template.html`). Tutto in un file, motore di mappa
-scritto a mano (nessuna libreria), sfondo CARTO/OpenStreetMap da internet. Livelli: zone (passaggi/ora per km²), linee
-(corse/ora), fermate (passaggi/ora), traffico 5T, mezzi GTT. Offerta per giorno tipo (feriale/sabato/domenica) e ora.
-Proiezione delle zone verificata: area totale 130,0 km² (Torino ~130 km²) e coordinate corrette.
-NON include la domanda (persone): le zone statistiche del Comune non hanno la popolazione; servono i dati ISTAT.
-NON testata con lo sfondo reale (il mio ambiente non raggiunge i server delle mattonelle): provata solo con sfondo assente.
-Il traffico e i mezzi sono una fotografia dell'ultimo scaricamento: per aggiornarli rilanciare 01 e 04.
+- `data/raw/istat/pendolarismo_2021/`
+  - `matrix_pendoLAVORO_2021.txt` (12,6 MB): pendolari lavoro, comune contro comune, tabulazione con tab. Usato da script 04.
+  - `matrix_pendoSTUDIO_2021.txt` (3,4 MB): pendolari studio, stesso formato. Usato da script 04. È una stima con modelli statistici, non un conteggio diretto.
+  - `leggimi_file_matrix_pendoLAVORO_2021.doc`, `leggimi_file_matrix_pendoSTUDIO_2021.doc`: descrizione delle colonne.
+- `data/raw/istat/2011_sezioni/`
+  - `per_provincia/`: 110 zip della matrice pendolarismo 2011 per sezione di censimento, una per provincia italiana. Il file rilevante è `Piemonte_Torino_pendolarismo_2011.zip` (5,7 MB): dentro c'è `Piemonte_Torino_pendolarismo_2011.csv` (120 MB) e la nota metodologica PDF.
+  - `nazionale/`: `matrix_pendo2011_10112014.txt` (293 MB, matrice nazionale 2011), con il `.doc` di spiegazione e la cartella "Pendolo 2011 documenti_utili" (classificazioni comuni e questionari). Non ancora confrontato con gli zip provinciali.
+- `data/raw/istat/basi_territoriali_2021/`
+  - `R01_21.zip` (74 MB): basi territoriali del Piemonte, con confini (SHP) e tabelle di popolazione per sezione. Usato da script 05. Il file è identico al vecchio duplicato, verificato con hash.
+- `data/raw/istat/altro/`
+  - `Dati_regionali_2021/`: indicatori per sezione 2021, R01 (Piemonte) a R20 (tutte le regioni), più il tracciato. Solo R01 ha un uso potenziale per Torino; gli altri non servono al progetto. Non usato da nessuno script.
+  - `MatriciContiguita_Province_2019_2025/`: contiguità tra province 2019-2025 (xlsx). Non usato. Per ora non serve.
+- `data/raw/istat/storiche/`
+  - `matrici_pendolarismo_1991/` (Pen_91It.txt, 92 MB) e `matrici_pendolarismo_2001/` (matrix_pendo2001.txt, 166 MB) con i leggimi. Non usati. Non servono al progetto attuale.
+- `data/raw/istat/documentazione/`
+  - Note tecniche PDF: nota metodologica pendolarismo sub-comunale 2011, nota sulla matrice di contiguità 2025, nota tecnica sulle matrici delle distanze (maggio 2023).
 
-## Stato
+### Cosa c'è e cosa si sa
 
-- Mappa funzionante: `mappa_torino.html`. Se la pagina appare bianca, la causa è il programma con cui si apre (anteprima che blocca
-  gli script): aprirla con Chrome, Edge o Firefox. La pagina mostra un avviso giallo quando gli script non partono.
-- Per aggiornarla: `01_scarica_dati.py`, poi `04_genera_mappa.py`, poi riaprire il file.
-- Gli script vanno lanciati da `GTT\scripts`: trovano da soli la cartella GTT.
+- Pendolarismo 2021 (lavoro e studio): c'è, comune contro comune. Niente mezzo, niente orario, niente zone dentro Torino. Chi si sposta almeno tre giorni a settimana, al 31/12/2021. Torino = codice 001272. Totale Italia lavoro 19.565.808 persone, studio 9.279.329.
+- Pendolarismo 2011 per sezione: c'è per tutte le province (zip). Il dettaglio (mezzo, fascia oraria) va verificato nel CSV di Torino. Lo script 07 NON lo legge ancora (vedi sotto).
+- Basi territoriali 2021 Piemonte: c'è (confini e popolazione per sezione).
+- Pendolarismo 2011 nazionale: c'è, ma non ancora confrontato con gli zip provinciali.
+- Tempi di viaggio tra comuni (matrice 2021): NON scaricata. Solo la nota tecnica (per stimare i ritardi dovuti al traffico tra comuni).
+- Addetti per sezione (dove si lavora): NON risultano.
+- Pendolarismo 2021 per mezzo e fascia oraria: NON disponibile (nel file 2021 ci sono solo comune e numero).
 
-## Decisioni del 4/10/2026
+### Problemi aperti sui file ISTAT
 
-- Primo passo: livello Domanda con ISTAT (matrice pendolarismo 2011 a livello di sezione di censimento, scaricata dall'utente a mano).
-- Punti critici = poca offerta per la gente, traffico lento, mezzi in ritardo.
-- Area: Torino e cintura.
-- Raccolta continua: per ora sul PC (giorno e notte), poi sul Raspberry Pi se necessario (ultima parola del 4/10/2026).
-- Sezioni di censimento cambiate tra 2011 e 2021: accettato un accorpamento approssimato.
-- Richieste dati (MTM, telefonia): rimandate a più avanti.
+- Script 07 (`scripts/07_elabora_matrici_pendolarismo.py`) cerca un zip unico `docs/matrici-pendolarismo-sezione-censimento-2011.zip` che non esiste, e cerca i file 2021 in `docs/`. Il suo output `data/processed/pendolarismo_torino_cintura.json` è vuoto (`{"2011": [], "2021": []}`). Non è usato dalla mappa. Va riscritto o tolto (decisione di Leo).
+- `data/processed/od_per_fascia.json` contiene solo `{}`: non ha un uso noto. Da controllare.
 
-## File ISTAT in cartella (4/10/2026)
+## Mappa (aggiornata 8/10/2026)
 
-- Arrivati: pendolarismo 2021 lavoro e studio (comune contro comune, niente mezzo/orario), note e "leggimi", note sulle matrici di contiguità e dei tempi di viaggio.
-- Mancano: matrice 2011 a livello di sezione (download .crdownload incompleto), basi territoriali 2021 Piemonte (confini e popolazione).
-- Dettagli in `docs/istat/NOTE_FILE_ISTAT.md`. Organizzazione cartelle: `data/raw/istat/...` per i dati, `docs/istat/` per i documenti.
+`mappa_torino.html` generata da `scripts/04_genera_mappa.py` (+ `scripts/mappa_template.html`). Tutto in un file, motore di mappa scritto a mano, sfondo da internet.
+
+- Livelli: sezioni di censimento (3 colorazioni: poca offerta per abitante, passaggi/ora, abitanti/km²; grigio = nessun passaggio), zone, linee, fermate, traffico 5T, mezzi GTT reali, corse simulate, pendolari, segnalazioni, dati raccolti.
+- Corse simulate: ogni corsa degli orari GTT (feriali 13.683, sabato 10.747, domenica 6.981) si muove a velocità costante lungo il tracciato. STIMA dagli orari, NON posizione reale.
+- Sfondi: chiara (OSM schiarito), stradale (OSM), satellite (Esri). CARTO non si usa (richiede chiave).
+- Comandi: giorno tipo, slider al minuto, play/pausa, velocità 1x-240x, zoom, filtro per linea, colore linee per corse/ora o per mezzi reali rispetto al previsto.
+- Il tema Pendolari era vuoto fino all'8/10 (script 04 cercava zip che non c'erano). Ora legge i txt in `data/raw/istat/pendolarismo_2021`: i numeri coincidono con le note.
+- Scenari alternativi: script `scripts/07_elabora_scenario.py` e `scripts/calcola_simulazione.py` (usati in `data/scenari/`).
+- Limiti: traffico misurato solo in 112 punti; resto stimato. Domanda: residenti (popolazione di notte) e pendolari 2021, senza orari. Fuori Torino mancano altri operatori e treni (il rosso in cintura può essere mancanza di dati). Bici e pedoni: nessun dato. Distinguere sempre "misurato" da "stimato".
+- Google Maps: non usato. Servirebbe una chiave API a pagamento, creata da Leo.
+
+## Raccolta in background
+
+- `scripts/03_raccolta_continua.py`: SQLite `data/storico.sqlite` (tabelle sensori_5t, flussi_5t, mezzi_gtt, errori). 5T ogni 300 s, mezzi GTT ogni 60 s. Senza librerie esterne.
+- `scripts/supervisore.py`: avvio nascosto all'accesso a Windows, riavvio dopo 30 s, log mensili in `logs/`, impedisce lo stop del PC, finestra domenicale dopo le 20:00 ("continuiamo?"; nessuna risposta in 1 ora = continua; No = ferma, con file `data/STOP_RACCOLTA.txt`), avviso oltre 10 GB. Ogni minuto lancia `06_dati_live.py`, ogni 15 minuti statistiche e replay.
+- Comandi: `installa_raccolta.bat`, `stato_raccolta.bat`, `ferma_raccolta.bat`, `riavvia_raccolta.bat`. `raccolta_continua.bat` è solo manuale.
+- Scelte dell'utente: avvio automatico, nessuna finestra; log mensili conservati senza limite; dati senza limite di tempo.
+- Stato all'8/10 (dal log): raccolta attiva e regolare.
+
+## Pulizia dell'8/10/2026 (cosa è stato fatto)
+
+- Tolti da git: `README.md`, `PASSAGGIO_CONSEGNE.md`. Il loro contenuto utile è in questo file.
+- Cancellati: `scripts/data/` (duplicato di R01_21.zip), `scripts/__pycache__/`, `docs/R01_21/` (copia estratta di R01_21.zip, stesse dimensioni), `docs/BT21-sez-M04/` (file sbagliato, POP21=0, come già scritto), `__MACOSX` e file `Thumbs.db`, `._*`, `.DS_Store`.
+- Spostati: tutti i dati ISTAT da `docs/` a `data/raw/istat/` (vedi inventario).
+- Script 04 corretto: legge i txt in `data/raw/istat/pendolarismo_2021/` e accetta anche zip. Test: la mappa è stata rigenerata, i numeri pendolari sono uguali alle note, il file contiene il valore atteso.
+- `.gitignore`: tolta la riga che ignorava `mappa_torino.html` (committato a parte).
+- Da cancellare insieme alla cartella `docs/istat/`: `NOTE_FILE_ISTAT.md` (ora in questo file), `LEGGIMI.txt`, `RISULTATI_ELABORAZIONE.md` (template mai compilato).
+
+## Da decidere con Leo (non ancora fatto)
+
+- Spazio in più usato da dati che il progetto non usa: `storiche/` (1991, 2001: circa 270 MB), `Dati_regionali_2021/` R02-R20 (circa 190 MB), gli 106 zip delle altre province 2011 (circa 100 MB), la matrice nazionale 2011 (293 MB, se gli zip provinciali bastano).
+- Script 07 e `od_per_fascia.json` (vedi problemi aperti sopra).
 
 ## Prossimi passi (in ordine)
 
-1. [ ] (dopo ISTAT) Campione diurno: rilanciare 01 di giorno (meglio ora di punta) e 02; guardare cosa significa accuracy=0 nei sensori 5T,
-   e se i ritardi corse (trip_update) di giorno contengono dati.
-2. [ ] Scaricare a mano i file ISTAT (vedi `docs/FONTI_DATI.md`): pendolarismo 2011 a livello di sezione, basi territoriali 2021
-   Piemonte, pendolarismo lavoro 2021. Servono per la domanda.
-3. [ ] Aggiungere alla mappa il livello Domanda (residenti e spostamenti per zona e fascia oraria) e un primo indicatore di
-   punti critici (domanda alta contro offerta bassa, per ora e tipo di giorno).
-4. [ ] Avviare la raccolta sul PC con `raccolta_continua.bat` (doppio clic; PC acceso e senza stop). Script 03 ora senza librerie, parte GTT provata su file reale (110 mezzi). Controllare dopo un giorno la dimensione di `data/storico.sqlite`.
-5. [ ] Mandare le richieste dati (bozze in `docs/`): MTM per IMQ 2022; telefonia mobile.
-6. [ ] Dopo qualche settimana di raccolta: mappa dei flussi reali, punti critici da dati misurati, simulazione dei flussi tarata
-   sui sensori 5T (misurato e stimato sempre distinti sulla mappa).
-7. [ ] Eventuale condivisione della mappa (per ora solo uso personale).
+1. [ ] Analisi dei dati diurni della raccolta (dall'8/10): sensori 5T con accuracy=0, ritardi GTT (trip_update) di giorno.
+2. [ ] Confrontare la matrice nazionale 2011 con gli zip provinciali; decidere quale tenere.
+3. [ ] Leggere il CSV 2011 di Torino (`Piemonte_Torino_pendolarismo_2011.csv`): colonne, mezzo, fascia oraria. Serve per il livello Domanda per ora.
+4. [ ] Scaricare, se serve, la matrice dei tempi di viaggio 2021 (a mano, sul PC).
+5. [ ] Indicatore combinato "punti critici" (poca offerta + traffico lento + scostamenti), con etichetta "dati scarsi" sotto 72 ore di storico.
+6. [ ] Dopo una-due settimane di dati: traffico tipico affidabile, simulazione calibrata sui sensori 5T (misurato e stimato sempre distinti).
+7. [ ] Richieste dati (MTM IMQ 2022, telefonia): bozze in `docs/`.
+8. [ ] Eventuale passaggio sul Raspberry Pi e condivisione della mappa (per ora solo uso personale).
 
 ## Piano per fasi
 
-1. Verifica dei dati (in corso).
-2. Raccolta continua (5T ogni 5 minuti, mezzi GTT ogni ~60 secondi).
-3. Mappa statica: offerta (passaggi GTT per ora) contro domanda (popolazione e pendolarismo).
+1. Verifica dei dati e riordino (in corso: riordino fatto l'8/10).
+2. Raccolta continua (in corso).
+3. Mappa statica: offerta (passaggi GTT per ora) contro domanda (popolazione e pendolarismo). Fatto in forma parziale.
 4. Simulazione animata tarata sui conteggi reali.
 5. Punti critici da dati misurati dopo qualche settimana di raccolta.
 
-## Dati ISTAT 4/10/2026
-- `Dati_regionali_2021.zip` = indicatori per sezione (R01 = Piemonte: Torino 4.292 sezioni, 848.748 abitanti), SENZA confini. Servono i confini `R01_21.zip` (https://www.istat.it/storage/cartografia/basi_territoriali/2021/R01_21.zip): da scaricare a mano, il mio ambiente non può.
-- `BT21-sez-M04.zip` = sezioni di infrastrutture di trasporto (POP21=0): file sbagliato, non serve.
-- Matrice pendolarismo 2011 per sezione: non trovata sulla pagina ISTAT; chiedere a micro.zone@istat.it o cercare nei dati del Censimento 2011.
+## Limiti e rischi da ricordare
 
-## Livello Domanda (4/10/2026) - fatto in forma parziale
-- `scripts/05_prepara_sezioni.py` legge `R01_21.zip` (nella cartella GTT) e crea `data/processed/sezioni_torino.json`: 14.127 sezioni entro 18 km da Torino (6.916 a Torino, 848.748 abitanti; 8.317 abitate in tutta l'area, 1,56 milioni di abitanti).
-- Mappa: livello "Sezioni di censimento" con 3 colorazioni: poca offerta per abitante (passaggi/ora entro 400 m ogni 1000 abitanti entro 400 m), passaggi/ora entro 400 m, abitanti per km2. Grigio = nessun passaggio GTT programmato.
-- Limiti: residenti = popolazione "di notte", non chi si sposta a quell'ora; fuori Torino mancano altri operatori e treni (il rosso puo' essere mancanza di dati); offerta = orari programmati.
-- Ordine di lancio: 05 (una volta) -> 01 -> 04. Prossimo: pendolari/lavoratori/studenti (matrici ISTAT 2021 comune-comune gia' scaricate, 2011 per sezione da cercare), indicatore ritardi/traffico lento da dati raccolti.
-
-## Mappa interattiva - aggiornamento 4/10/2026 (sera)
-- Corse simulate: ogni corsa degli orari GTT (13.683 feriali, 10.747 sabato, 6.981 domenica) si muove a velocita' costante lungo il tracciato tra prima e ultima fermata. Stima dagli orari, NON posizione reale. Play/pausa, velocita' 1x-240x, orologio al minuto.
-- Sfondi: chiara (CARTO), stradale (OSM), satellite (Esri); ripiego automatico su OSM se CARTO non carica. Filtro per linea. Pannello zoom: +, -, Torino, cintura, tasti + e -.
-- NON fatto: puntini di persone (manca la matrice origine-destinazione per ora); richiesta con account Google Maps (vedi sotto).
-- Google Maps: non usato. Servirebbe accedere con l'account personale e Google non offre l'export del traffico; la strada corretta, se vuoi, e' una chiave API di Google Maps Platform creata da te (a pagamento oltre la soglia gratuita).
-
-## Raccolta in background (4/10/2026) - scelte dell'utente
-- Avvio automatico all'accesso a Windows, senza finestra (file in "Esecuzione automatica"); impedisce lo stop del PC (schermo puo' spegnersi).
-- Log in `logs/raccolta_AAAA-MM.log`, un file al mese, conservati senza limite. Riavvio automatico del raccoglitore dopo 30 s se si ferma.
-- Promemoria: domenica dopo le 20:00, finestra "continuiamo?" con riepilogo; nessuna risposta in 1 ora = continua; "No" = si ferma (file `data/STOP_RACCOLTA.txt`).
-- Avviso (finestra, una volta) se l'archivio supera 10 GB; dati senza altro limite di tempo.
-- File: `scripts/supervisore.py`, `scripts/installa_sfondo.py`; doppio clic su `installa_raccolta.bat` (installa/avvia), `stato_raccolta.bat`, `ferma_raccolta.bat`, `riavvia_raccolta.bat`.
-- Testato su Linux (riavvio, log, risposta No, file STOP); NON testato su Windows: finestra, anti-stop e avvio automatico da provare (`python supervisore.py --promemoria-ora`).
+- Il sistema non è ancora una simulazione del traffico reale: le corse sono stimate dagli orari.
+- Il dato di domanda non ha orari né mezzi (solo i pendolari 2021 per comune, e i residenti).
+- Il progetto è di studio: niente dati personali, niente invio di niente a nome di Leo.

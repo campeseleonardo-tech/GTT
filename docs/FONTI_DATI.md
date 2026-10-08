@@ -17,7 +17,7 @@ Pagina di riferimento aperTO per GTT tempo reale: https://aperto.comune.torino.i
 
 ## ISTAT: stato al 4/10/2026
 
-- Pendolarismo 2021 lavoro e studio: SCARICATI dall'utente (file di testo, comune contro comune, nessun mezzo né orario). Vedi `docs/istat/NOTE_FILE_ISTAT.md`.
+- Pendolarismo 2021 lavoro e studio: SCARICATI dall'utente (file di testo, comune contro comune, nessun mezzo né orario). Vedi l'inventario ISTAT in `MEMORIA_PROGETTO.md`.
 - Matrice 2011 a livello di sezione: download incompleto, da rifare/finire.
 - Basi territoriali 2021 Piemonte (R01_21.zip): ancora da scaricare.
 
