@@ -110,25 +110,46 @@ Quotazioni OMI (Agenzia delle Entrate) semestre 2025/2, €/m² per zona e tipol
 - Tema "Catalogo dei dati" in mappa: tendina del gruppo, caselle per singolo dato, legenda, tooltip/scheda dell'elemento e pulsante "i" con la scheda del dato (fonte, anno, licenza, formato, copertura, coordinate, record, duplicati, campi mancanti, anomalie). I gruppi voluminosi (attività 31.271 punti) si disegnano solo da zoom 14.
 - Anomalie e controlli registrati: `mercati_tematici` ha COORD_X/Y ≈10 volte più piccole del WKT (si usa il WKT); 1 stazione car sharing fuori area (45.5597/8.0492, "Unità d'Italia"); `strutture_socio_assistenziali` ha 38 `IDCIVICO` ripetuti (non è un id univoco); mercati 42 record→57 elementi e zona blu 19→23 (poligoni multipli); `alberate` 131.994 alberi→1.928 aggregati per ambito (non si disegnano i singoli alberi).
 - Anagrafe scuole 2026/27: col filtro provincia+comune TORINO risultano 410 statali e 195 paritari, non 431+196 come nel piano: da chiarire. Non è collegata alle 610 sedi geografiche.
-- Verificato in Node (dati veri e funzioni reali del template): preparazione gruppi, ricerca elemento, punto-in-poligono, chiave di disegno. NON verificato a video in un browser.
+- Verificato in Node (dati veri e funzioni reali del template): preparazione gruppi, ricerca elemento, punto-in-poligono, chiave di disegno. **Verificato a video da Leo l'8/10: funziona bene.**
+
+## 7. Pulizia dei file (8/10/2026)
+
+- Eliminati perché inutili o ridondanti: `scripts/07_elabora_matrici_pendolarismo.py` (rotto e non usato: cercava zip inesistenti; si riscriverà da capo solo se servirà la domanda 2011), i suoi output vuoti `data/processed/pendolarismo_torino_cintura.json` e `data/processed/od_per_fascia.json`, e i controlli temporanei `scripts/tmp_check_*.py` (erano della sessione OMI).
+- NON toccati: `scripts/07_elabora_scenario.py` (usato dagli scenari), `scripts/09_analisi_dati_diurni.py` e `scripts/10_analisi_sensori_5t.py` (utili per l'analisi dei dati di giorno).
 
 ---
 
-# ATTIVITÀ DA FARE (prossimi passi, in ordine)
+# ATTIVITÀ DA FARE (in ordine di priorità)
 
-1. Verifica a video della mappa e del tema "Catalogo dei dati" (grafica e caricamento su richiesta); il browser del mio ambiente non apre `file://`.
-2. Catalogo gruppo 6 — **MEF 2024**: normalizzare il codice comunale e confrontare la copia locale (312 comuni della provincia di Torino) con lo ZIP nazionale (7.897 record comunali). Dato comunale: utile per confronti tra comuni, NON per individuare quartieri poveri.
-3. Catalogo gruppo 6 — **IMQ 2022** (database Access, 41.933 interviste, 95.608 spostamenti, 212 zone; Torino 23 zone, cintura 32): esportare e aggregare per zona, scopo, ora e modo rispettando i pesi; escludere `PHONE` e gli identificativi individuali. Prima serve la geometria delle zone campionarie.
-4. Catalogo gruppo 7 — **DWG dei parchi**: convertire `carta_sintesi_aree_dwg.zip` senza modificare l'archivio, leggere livelli e codici, riconoscere i livelli di parco/verde pubblico, confrontare casi noti, poi preparare il livello. Nessun convertitore CAD installato: serve un'esportazione o una fonte alternativa.
-5. Attività commerciali: mostrare prima un aggregato per categoria (oggi solo conteggi in scheda/legenda), singoli punti solo a zoom ravvicinato.
-6. Anagrafe scuole: collegare le liste 2026/27 alle 610 sedi geografiche e chiarire la differenza di conteggio (410+195 contro 431+196).
-7. Analisi dei dati di giorno già raccolti: profilo dei flussi 5T e zeri per giorno/ora, numero di mezzi in ora di punta. Per studiare `accuratezza=0` nel tempo, prima salvare l'accuratezza con ogni misura (oggi non c'è nello schema).
-8. Ritardi GTT: acquisire campioni diurni di `trip_update` (il feed non è nella raccolta continua), poi contare corse e ritardi. Avvisi GTT (134 KB) da decodificare.
-9. Domanda dentro Torino: usare la matrice ISTAT 2011 sezione→sezione (senza mezzo né orario) per un livello di domanda interno.
-10. Matrice dei tempi di viaggio stradali 2021 tra comuni (c'è solo la nota tecnica): servirà per stimare il traffico tra comuni.
-11. Decisioni sospese: riscrivere o togliere lo script 07 rotto; controllare `data/processed/od_per_fascia.json` (vuoto); decidere sullo spazio occupato dai dati non usati (vedi "Dati presenti ma non utilizzati").
-12. Richieste dati esterne: validazione biglietti GTT (domanda reale per ora/fermata) e telefonia mobile (bozza in `docs/richiesta_dati_telefonia.md`).
-13. Più avanti: Raspberry Pi per la raccolta, direzione del progetto (infrastrutture / gamification / raccolta dati), mappa statica offerta-domanda come sintesi.
+Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino coprono **solo la città**; mancano i cataloghi equivalenti dei comuni dell'area metropolitana. Quando studieremo come si muovono gli abitanti, attenzione al bias: la città è coperta, la cintura no.
+
+## Priorità alta
+
+1. **Analisi dei dati di giorno già raccolti (5T)**: profilo dei flussi e degli zeri per giorno/ora, mezzi in ora di punta. Prima va salvata l'accuratezza con ogni misura: oggi non c'è nello schema, quindi lo studio di `accuratezza=0` nel tempo non è possibile finché non si cambia la raccolta. Script di appoggio già presenti: `09_analisi_dati_diurni.py`, `10_analisi_sensori_5t.py`.
+2. **Ritardi GTT**: acquisire campioni diurni di `trip_update` (non è nella raccolta continua), poi contare corse e ritardi. Decodificare anche gli avvisi GTT (134 KB).
+
+## Priorità media
+
+3. **Catalogo gruppo 6 — MEF 2024** (redditi IRPEF): normalizzare il codice comunale e confrontare la copia locale (312 comuni della provincia di Torino) con lo ZIP nazionale (7.897 record). Dato comunale: confronti tra comuni, NON per individuare quartieri poveri.
+4. **Catalogo gruppo 6 — IMQ 2022** (database Access): esportare e aggregare per zona, scopo, ora e modo rispettando i pesi; escludere `PHONE` e gli identificativi individuali. Serve la geometria delle zone campionarie. IMQ copre anche la cintura (212 zone, 32 in cintura): utile per ridurre il bias città/cintura.
+5. **Parchi da shapefile, non dal DWG**: scaricare `http://geoportale.comune.torino.it/geodati/zip/carta_sintesi_geo.zip` (ESRI Shapefile, EPSG:3003, licenza CC BY 4.0); contiene i temi aree verdi, fiumi, isolati e passerelle. Isolare il livello "aree verdi". In alternativa WFS/WMS dal GeoPortale Piemonte (record "Dati di base – Carta di sintesi – Aree"). Il DWG non serve più.
+6. **Matrice di tempi di percorrenza e distanze 2021**: scaricare `Piemonte.zip` da `https://www.istat.it/storage/cartografia/matrici_distanze/Piemonte.zip` (CSV: distanze in km e tempi in minuti tra tutti i comuni della provincia e i 7.903 comuni italiani; geografia al 1/1/2021). La nota tecnica è già in `docs/`. Serve per stimare il traffico tra comuni. (Facoltativo: `MatriciContiguita_Comuni_2019_2025.zip` per la contiguità tra comuni, oggi abbiamo solo quella tra province.)
+7. **Anagrafe scuole**: collegare le liste 2026/27 alle 610 sedi geografiche e chiarire il conteggio (410 statali + 195 paritarie col filtro provincia+comune, contro 431+196 del piano).
+
+## Priorità bassa / da valutare
+
+8. **Domanda dentro Torino dalla matrice ISTAT 2011 sezione→sezione**: ha senso? È del 9 ottobre 2011 (15 anni fa), senza mezzo né orario, e la città nel frattempo è cambiata. È l'unico dato sub-comunale di origine-destinazione disponibile. Proposta: usarlo solo come riferimento storico o per provare la meccanica della simulazione, non come domanda attuale. Non c'è più uno script: si riscrive solo se Leo decide di usarlo.
+9. **Attività commerciali — aggregato spaziale per categoria**: accettata così com'è (conteggi in scheda/legenda, punti solo da zoom 14). Un vero aggregato per categoria/area si farà solo se serve.
+10. **Bias città/cintura**: capire come aggiungere al catalogo i comuni dell'area metropolitana, perché oggi il confronto Torino/cintura è sbilanciato.
+
+## Più avanti
+
+11. **Richieste dati esterne**: validazione biglietti GTT (domanda reale per ora/fermata) e telefonia mobile (bozza in `docs/richiesta_dati_telefonia.md`).
+12. **Raspberry Pi** per la raccolta; **direzione del progetto** (infrastrutture / gamification / raccolta dati); mappa statica offerta-domanda come sintesi.
+
+## Domanda aperta per Leo
+
+- Nel suo messaggio c'è un "6" da solo in fondo, dopo la frase "fammi domande se ti serve": non è chiaro. Se intendeva l'attività 6 (anagrafe scuole) o altro, lo dica e la aggiorno.
 
 ---
 
@@ -168,10 +189,9 @@ Quotazioni OMI (Agenzia delle Entrate) semestre 2025/2, €/m² per zona e tipol
 
 - **MEF 2024** (redditi IRPEF): ZIP nazionale 7.897 record comunali; la copia locale ha 312 comuni della provincia di Torino e usa una forma diversa del codice comunale; Torino ha una riga. Non ancora normalizzato né confrontato.
 - **IMQ 2022** (mobilità, database Access): 41.933 interviste, 95.608 spostamenti, 212 zone campionarie. Contiene scopo, orari, origine/destinazione, mezzi e pesi campionari. Non ancora esportato; manca la geometria delle zone.
-- **DWG delle aree** (`carta_sintesi_aree_dwg.zip`): non convertito (nessun CAD installato). È un disegno generale, non un elenco già classificato di parchi.
+- **Carta di sintesi – Aree** (aree verdi, fiumi, isolati, passerelle): la versione DWG scaricata (`carta_sintesi_aree_dwg.zip`) non serve; esiste lo shapefile `carta_sintesi_geo.zip` (vedi attività 5).
 - **Pendolarismo 1991 e 2001** (~270 MB), **Dati regionali 2021 R02–R20** (~190 MB), **Matrici di contiguità provinciali 2019–2025**: presenti, non servono al progetto attuale (da decidere se togliere).
 - **Documentazione di supporto** (rapporto IMQ, PDF struttura piste ciclabili): non sono livelli di mappa.
-- **Output rotti/vuoti**: `data/processed/pendolarismo_torino_cintura.json` (script 07 cerca zip inesistenti), `data/processed/od_per_fascia.json` (`{}`).
 - **Feed `trip_update`**: l'unico file salvato (3/10) è di 15 byte (solo intestazione); la raccolta continua non salva questo feed.
 
 ---
@@ -181,7 +201,7 @@ Quotazioni OMI (Agenzia delle Entrate) semestre 2025/2, €/m² per zona e tipol
 1. **Domanda per ora e per fermata** (chi sale a che ora): né ISTAT né GTT pubblici la danno. È il dato che più cambierebbe la mappa. Strade: validazione biglietti GTT (da chiedere) o telefonia mobile aggregata (bozza in `docs/`).
 2. **Pendolarismo 2021 per sezione**: non pubblico (solo comune).
 3. **Mezzo e orario a livello di sezione**: disponibili solo a livello comunale e solo nel 2011 (matrice nazionale).
-4. **Tempi di viaggio stradali 2021**: solo nota tecnica, manca la matrice.
+4. **Tempi di viaggio e distanze stradali 2021**: solo nota tecnica in `docs/`; manca la matrice `Piemonte.zip` (vedi attività 6).
 5. **Ritardi GTT di giorno**: non raccolti (il feed `trip_update` non è nello storico).
 6. **Offerta di altri operatori**: treni SFM e bus provinciali non trovati.
 7. **Capienze, iscritti, flussi e calendari** di scuole, ospedali, impianti sportivi, musei: i luoghi ci sono (catalogo), i numeri no. Quindi restano attrattori potenziali, non conteggi di viaggi.
@@ -189,6 +209,7 @@ Quotazioni OMI (Agenzia delle Entrate) semestre 2025/2, €/m² per zona e tipol
 9. **Addetti per sezione** (dove si lavora): non risultano.
 10. **Dati turistici ed eventi**: nessuno (musei presenti, visitatori no).
 11. **Geometria delle zone campionarie IMQ**: da trovare per disegnare i flussi IMQ.
+12. **Cataloghi dell'area metropolitana**: mancano i dati equivalenti (scuole, servizi, attività, ecc.) per i comuni della cintura: oggi ci sono solo quelli del Comune di Torino. Da tenere presente per non essere sbilanciati verso la città.
 
 ---
 
@@ -198,13 +219,14 @@ Quotazioni OMI (Agenzia delle Entrate) semestre 2025/2, €/m² per zona e tipol
 - Il dato di domanda non ha orari né mezzi (pendolari 2021 per comune e residenti; pendolari 2011 per sezione senza mezzo né orario).
 - Traffico misurato solo in 112 punti; il resto è stimato. Domanda = residenti (popolazione "di notte") e pendolari, non persone in movimento.
 - Fuori Torino mancano altri operatori e treni: il rosso in cintura può essere solo mancanza di dati. Distinguere sempre "misurato" da "stimato".
+- **Bias città/cintura**: i cataloghi dei luoghi (scuole, servizi, attività, ecc.) coprono solo Torino città. Analizzando come si muovono gli abitanti, la città risulterà più "ricca" di attrattori della cintura anche solo perché i dati della cintura mancano: non leggere questa differenza come una differenza reale.
 - Il tooltip dice "residenti", non "persone in movimento". Famiglie e abitazioni sono il censimento dei residenti: non dicono chi si sposta.
 - OMI sono valori ordinari per zona/tipologia: non è la stima di un singolo immobile.
 - Geometrie dei nuovi dati comunali convertite da EPSG:3003: il dato di mercati_tematici ha COORD_X/Y errate (~10×) e si usa il WKT.
 - Dati di anni diversi: le sezioni 2011 e 2021 non hanno codice in comune (accorpamento approssimato); la mappa mostra i dati 2011 solo se aggiungono informazione.
 - Qualità dei dati di giorno non ancora analizzata (flussi 5T, zeri, accuratezza; ritardi GTT assenti).
 - Windows: finestra settimanale, anti-stop e avvio automatico non provati (testati solo su Linux).
-- Lo sfondo della mappa (mattonelle Esri/OSM) non è stato provato dal mio ambiente, che non raggiunge i server delle mattonelle; il browser del mio ambiente non apre `file://`.
+- Lo sfondo della mappa (mattonelle Esri/OSM) non è stato provato dal mio ambiente, che non raggiunge i server delle mattonelle; il browser del mio ambiente non apre `file://`. La mappa è stata comunque verificata a video da Leo (funziona).
 - Il progetto è di studio: niente dati personali, niente invio di niente a nome di Leo.
 
 ---
@@ -212,5 +234,5 @@ Quotazioni OMI (Agenzia delle Entrate) semestre 2025/2, €/m² per zona e tipol
 # DA DECIDERE CON LEO (aperte)
 
 - Spazio dati: togliere `storiche/` (1991, 2001, ~270 MB) e `Dati_regionali_2021/` R02–R20 (~190 MB)? La matrice nazionale 2011 NON si toglie (ha mezzo e orario); gli zip provinciali non si tolgono.
-- Script 07 rotto e `od_per_fascia.json` vuoto: riscrivere o togliere?
+- Matrice ISTAT 2011 sezione→sezione per la domanda dentro Torino: usarla (come riferimento storico) o lasciarla in archivio? (vedi attività 8)
 - Direzione del progetto: simulare le infrastrutture, mappa con gamification, o raccolta dati?
