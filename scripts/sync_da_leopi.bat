@@ -10,9 +10,10 @@ rem Se il nome utente sul Pi e' diverso da "leopi", cambialo sotto (es. pi@...).
 set PI=leopi@192.168.8.200
 set SRC=/home/leopi/GTT/data
 set DEST=C:\projects\Progetti\GTT\data
+set CHIAVE=%USERPROFILE%\.ssh\id_gtt_leopi
 
 rem File vivi della mappa (fallisce in silenzio se manca qualcosa: la mappa resta com'e')
-scp -q -o BatchMode=yes -o ConnectTimeout=10 "%PI%:%SRC%/live.js" "%PI%:%SRC%/stat.js" "%PI%:%SRC%/agg_cache.json" "%DEST%\" 2>nul
-scp -q -o BatchMode=yes -o ConnectTimeout=10 "%PI%:%SRC%/replay_*.js" "%DEST%\" 2>nul
+scp -q -i "%CHIAVE%" -o BatchMode=yes -o ConnectTimeout=10 "%PI%:%SRC%/live.js" "%PI%:%SRC%/stat.js" "%PI%:%SRC%/agg_cache.json" "%DEST%\" 2>nul
+scp -q -i "%CHIAVE%" -o BatchMode=yes -o ConnectTimeout=10 "%PI%:%SRC%/replay_*.js" "%DEST%\" 2>nul
 
 exit /b 0

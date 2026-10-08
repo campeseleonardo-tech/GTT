@@ -30,7 +30,7 @@ orari veri. Per ora solo studio personale, forse da condividere. Area: Torino ci
 ## Decisioni prese (valgono per tutto il progetto)
 
 - Pagina HTML locale, senza server esterno. Dati locali (SQLite), nessun cloud.
-- Raccolta continua dei dati: per ora sul PC (funziona), più avanti sul Raspberry Pi (192.168.8.200) se serve.
+- Raccolta continua dei dati: ora sul Raspberry Pi "leopi" (192.168.8.200, attiva dal 9/10, sezione 11); il PC è in parallelo per il periodo di verifica e poi si ferma.
 - Nessuna costruzione della mappa finché i dati non sono ispezionati.
 - Python scelto con Leo per le prove: interprete di sistema, versione 3.14.3 (8/10/2026).
 - Gli script trovano da soli la cartella GTT: i dati vanno in `data\raw`, i rapporti in `docs`, ovunque si lanci lo script.
@@ -173,6 +173,32 @@ Prima analisi in sola lettura di `data/storico.sqlite` (dati 4–8/10/2026, 5 gi
   ogni riga salva anche `con_delay` e `con_stu` (per la verifica diurna della presenza di
   delay/stop_time_update).
 
+## 11. Raccolta passata al Raspberry Pi "leopi" (9/10/2026)
+
+- Il Pi (192.168.8.200, utente `leopi`, Python 3.13.5) raccoglie ora in parallelo al PC.
+  Accesso SSH da questo PC con la chiave `%USERPROFILE%\.ssh\id_gtt_leopi` (nessuna password;
+  WinSCP resta utile per i file). Sudo senza password configurato.
+- Copiato lo storico: `data/storico_copia_leopi.sqlite` (snapshot consistente via backup
+  API, 191 MB) → `/home/leopi/GTT/data/storico.sqlite`, verifica identica (124.805 flussi
+  al momento della copia, integro). Il file locale è un backup del passaggio: si può
+  cancellare quando non serve (chiedere a Leo prima).
+- Servizio: unit systemd `gtt-raccolta` **attiva dal 9/10 ~01:25**; lancia
+  `/home/leopi/GTT/scripts/supervisore.py` = 03 (5T + mezzi + accuratezza_5t) + 06 (file
+  per la mappa). Fuso `Europe/Rome` sul Pi. Log: `/home/leopi/GTT/logs/`.
+- Verifiche: DB sul Pi cresce (flussi 124.914 dopo pochi minuti, accuratezza_5t 2.616);
+  genera `live.js`, `stat.js`, `agg_cache.json`, `replay_*.js`.
+- Sync verso il PC: `scripts/sync_da_leopi.bat` (usa la chiave) pianificata come attività
+  di Windows **"GTT sync da leopi"** ogni 5 minuti (live.js/stat.js/agg_cache/replay →
+  `data/` del PC).
+- **Attenzione periodo parallelo**: finché gira anche la raccolta del PC, il PC riscrive
+  `live.js` ogni minuto e la sync riporta quelli del Pi ogni 5': la mappa alterna i due.
+  Quando si ferma la raccolta del PC (decisione di Leo, ~3 giorni feriali), resta solo il Pi.
+- Comandi utili sul Pi: `systemctl status gtt-raccolta`, `journalctl -u gtt-raccolta -f`,
+  `sudo systemctl stop|start|restart gtt-raccolta`.
+- Da fare: fermare il PC dopo il periodo di parallelo; valutare se scaricare lo storico dal
+  Pi ogni tanto per le analisi (09/12 accettano `--db`); `installa_leopi.sh` è il file di
+  installazione (già usato).
+
 # ATTIVITÀ DA FARE (in ordine di priorità)
 
 Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino coprono **solo la città**; mancano i cataloghi equivalenti dei comuni dell'area metropolitana. Quando studieremo come si muovono gli abitanti, attenzione al bias: la città è coperta, la cintura no.
@@ -205,7 +231,8 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 ## Più avanti
 
 11. **Richieste dati esterne**: validazione biglietti GTT (domanda reale per ora/fermata) e telefonia mobile (bozza in `docs/richiesta_dati_telefonia.md`).
-12. **Raspberry Pi** per la raccolta; **direzione del progetto** (infrastrutture / gamification / raccolta dati); mappa statica offerta-domanda come sintesi.
+12. **Direzione del progetto** (infrastrutture / gamification / raccolta dati); mappa statica
+    offerta-domanda come sintesi. (Il Raspberry Pi per la raccolta è ATTIVO: vedi sezione 11.)
 
 ---
 
