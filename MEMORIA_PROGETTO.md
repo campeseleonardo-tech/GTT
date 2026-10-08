@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: 8 ottobre 2026.
+Ultimo aggiornamento: 9 ottobre 2026.
 Questo è l'unico file di memoria e di passaggio. Non creare altri documenti di memoria.
 Leggila all'inizio di ogni sessione e aggiornala alla fine.
 
@@ -113,6 +113,11 @@ Quotazioni OMI (Agenzia delle Entrate) semestre 2025/2, €/m² per zona e tipol
 - Anagrafe scuole 2026/27: col filtro provincia+comune TORINO risultano 410 statali e 195 paritari, non 431+196 come nel piano: da chiarire. Non è collegata alle 610 sedi geografiche.
 - Verificato in Node (dati veri e funzioni reali del template): preparazione gruppi, ricerca elemento, punto-in-poligono, chiave di disegno. **Verificato a video da Leo l'8/10: funziona bene.**
 
+## 7. Pulizia dei file (8/10/2026)
+
+- Eliminati perché inutili o ridondanti: `scripts/07_elabora_matrici_pendolarismo.py` (rotto e non usato: cercava zip inesistenti; si riscriverà da capo solo se servirà la domanda 2011), i suoi output vuoti `data/processed/pendolarismo_torino_cintura.json` e `data/processed/od_per_fascia.json`, e i controlli temporanei `scripts/tmp_check_*.py` (erano della sessione OMI).
+- NON toccati in quella sessione: `scripts/07_elabora_scenario.py` (usato dagli scenari); `09_analisi_dati_diurni.py` e `10_analisi_sensori_5t.py` sono stati poi consolidati l'8/10 in un unico 09 (10 eliminato: vedi sezione 8).
+
 ## 8. Analisi dei dati diurni 5T e mezzi GTT (8/10/2026)
 
 Prima analisi in sola lettura di `data/storico.sqlite` (dati 4–8/10/2026, 5 giorni).
@@ -168,28 +173,20 @@ Prima analisi in sola lettura di `data/storico.sqlite` (dati 4–8/10/2026, 5 gi
   ogni riga salva anche `con_delay` e `con_stu` (per la verifica diurna della presenza di
   delay/stop_time_update).
 
-## 7. Pulizia dei file (8/10/2026)
-
-- Eliminati perché inutili o ridondanti: `scripts/07_elabora_matrici_pendolarismo.py` (rotto e non usato: cercava zip inesistenti; si riscriverà da capo solo se servirà la domanda 2011), i suoi output vuoti `data/processed/pendolarismo_torino_cintura.json` e `data/processed/od_per_fascia.json`, e i controlli temporanei `scripts/tmp_check_*.py` (erano della sessione OMI).
-- NON toccati: `scripts/07_elabora_scenario.py` (usato dagli scenari), `scripts/09_analisi_dati_diurni.py` e `scripts/10_analisi_sensori_5t.py` (utili per l'analisi dei dati di giorno).
-
----
-
 # ATTIVITÀ DA FARE (in ordine di priorità)
 
 Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino coprono **solo la città**; mancano i cataloghi equivalenti dei comuni dell'area metropolitana. Quando studieremo come si muovono gli abitanti, attenzione al bias: la città è coperta, la cintura no.
 
 ## Priorità alta
 
-1. **Analisi dei dati di giorno già raccolti (5T)**: FATTA l'8/10 (vedi sezione 8;
-   rapporto in `docs/RAPPORTO_ANALISI_5T.md`). Resta da analizzare l'associazione
-   accuratezza ↔ flusso ↔ ora sui NUOVI campioni (`accuratezza_5t`, attiva dall'8/10 21:30):
-   servono 7–14 giorni di raccolta con feriali e weekend (finestra indicativa 15–22/10).
+1. **Associazione accuratezza ↔ flusso ↔ ora sui NUOVI campioni 5T** (`accuratezza_5t`,
+   attiva dall'8/10 21:30): servono 7–14 giorni di raccolta con feriali e weekend
+   (finestra indicativa 15–22/10). L'analisi dei dati già raccolti è FATTA (sezione 8).
 2. **Verifica diurna dei `trip_update`**: confermare su un campione feriale diurno che il
    feed non porta `delay`/`stop_time_update` (per ora si contano solo corse attive/soppresse,
-   vedi sezione 10). Dopo la raccolta una tantum del 9/10 lanciare
-   `python scripts\12_ritardi_gtt.py analizza` sui campioni diurni e consolidare il
-   rapporto in `docs/RAPPORTO_RITARDI_GTT.txt`. (Strumento pronto: `12_ritardi_gtt.py`.)
+   vedi sezione 10). A raccolta una tantum finita (~20:30 del 9/10) lanciare
+   `python scripts\12_ritardi_gtt.py analizza` e consolidare
+   `docs/RAPPORTO_RITARDI_GTT.txt`. (Strumento pronto: `12_ritardi_gtt.py`.)
 
 ## Priorità media
 
@@ -210,10 +207,6 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 11. **Richieste dati esterne**: validazione biglietti GTT (domanda reale per ora/fermata) e telefonia mobile (bozza in `docs/richiesta_dati_telefonia.md`).
 12. **Raspberry Pi** per la raccolta; **direzione del progetto** (infrastrutture / gamification / raccolta dati); mappa statica offerta-domanda come sintesi.
 
-## Domanda aperta per Leo
-
-- Nel suo messaggio c'è un "6" da solo in fondo, dopo la frase "fammi domande se ti serve": non è chiaro. Se intendeva l'attività 6 (anagrafe scuole) o altro, lo dica e la aggiorno.
-
 ---
 
 # DATI PRESENTI E VERIFICATI
@@ -221,7 +214,7 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 ## In mappa
 
 - **GTFS GTT statico**: valido 1/10/2026–31/1/2027 (versione 20261002). 215 linee, 7.045 fermate, 966.946 passaggi programmati.
-- **Mezzi GTT in tempo reale**: ~306 mezzi localizzati al minuto in media (mediana 337, punte ~555 in ora di punta, minimo notturno ~1–5); il feed non ha il `trip_id` (il mezzo si lega alla linea, non alla corsa).
+- **Mezzi GTT in tempo reale**: ~306 mezzi localizzati al minuto in media (mediana 337, punte ~555 in ora di punta, minimo notturno ~1–5); il campo `corsa` (trip_id) è pieno solo in ~31% delle righe (verificato il 9/10), quindi il mezzo si lega alla linea, alla corsa solo in parte.
 - **Traffico 5T**: 109 sensori, area più ampia di Torino. Ogni snapshot è completo.
   L'accuratezza non è salvata con le misure passate (studiata l'8/10: vedi sezione 8);
   dall'8/10 21:30 è salvata per misura in `accuratezza_5t` (sezione 9).
@@ -287,7 +280,7 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 
 - Il sistema non è ancora una simulazione del traffico reale: le corse sono stimate dagli orari.
 - Il dato di domanda non ha orari né mezzi (pendolari 2021 per comune e residenti; pendolari 2011 per sezione senza mezzo né orario).
-- Traffico misurato solo in 112 punti; il resto è stimato. Domanda = residenti (popolazione "di notte") e pendolari, non persone in movimento.
+- Traffico misurato solo in 109 punti (sensori 5T); il resto è stimato. Domanda = residenti (popolazione "di notte") e pendolari, non persone in movimento.
 - Fuori Torino mancano altri operatori e treni: il rosso in cintura può essere solo mancanza di dati. Distinguere sempre "misurato" da "stimato".
 - **Bias città/cintura**: i cataloghi dei luoghi (scuole, servizi, attività, ecc.) coprono solo Torino città. Analizzando come si muovono gli abitanti, la città risulterà più "ricca" di attrattori della cintura anche solo perché i dati della cintura mancano: non leggere questa differenza come una differenza reale.
 - Il tooltip dice "residenti", non "persone in movimento". Famiglie e abitazioni sono il censimento dei residenti: non dicono chi si sposta.
@@ -297,7 +290,8 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 - Qualità dei dati di giorno analizzata l'8/10 (sezione 8 e `docs/RAPPORTO_ANALISI_5T.md`):
   campione di 5 giorni senza sabato, buchi notturni e un buco di ~16,7 h da PC spento;
   l'accuratezza passata è "non disponibile", mezzi GTT = mezzi localizzati dal feed;
-  questi limiti valgono per ogni uso futuro dei numeri. Ritardi GTT ancora assenti.
+  questi limiti valgono per ogni uso futuro dei numeri. Ritardi GTT: il feed non li
+  pubblica; raccolta una tantum del 9/10 per corse attive/soppresse (sezione 10).
 - Windows: finestra settimanale, anti-stop e avvio automatico non provati (testati solo su Linux).
 - Lo sfondo della mappa (mattonelle Esri/OSM) non è stato provato dal mio ambiente, che non raggiunge i server delle mattonelle; il browser del mio ambiente non apre `file://`. La mappa è stata comunque verificata a video da Leo (funziona).
 - Il progetto è di studio: niente dati personali, niente invio di niente a nome di Leo.
