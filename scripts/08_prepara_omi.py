@@ -1,333 +1,329 @@
 #!/usr/bin/env python3
-"""
-O1: Prepare OMI zones.
-Reads the OMI quotations CSV and KML zone files,
-generates data/processed/omi_zone.json with simplified polygons.
+"""08_prepara_omi.py
+
+Piano OMI (O1): integra le quotazioni OMI 2025/2 nella mappa.
+
+Input (sola lettura; NON modificare):
+- data/raw/QIP1445919_CMPLRD98T08F335C/QIP_1445919_1_20252_VALORI.csv
+- data/raw/QIP1445919_CMPLRD98T08F335C/QIP_1445919_1_20252_ZONE.csv
+- data/raw/QIP1445919_CMPLRD98T08F335C/TO20252/*.kml
+
+Output:
+- data/processed/omi_zone.json
+
+Struttura output:
+[
+  {"c": PRO_COM,
+   "zone": [
+      {"z":"B1","n":"ROMA","f":"B",
+       "g":[ anello [[lat,lon]...], ... ],
+       "v": {"ab":[cmin,cmax,lmin,lmax], ...}}
+   ]}
+]
+
+Regole (da MEMORIA_PROGETTO.md):
+- comuni: quelli dell'area mappa (= i "c" in sezioni_torino.json); Moncucco (5070) resta fuori;
+- poligoni: lon,lat -> [lat,lon], 5 decimali; semplifica Douglas-Peucker 20 m (come 05_prepara_sezioni.py);
+- MultiGeometry: tutti i Polygon diventano anelli; innerBoundaryIs tenuti come anelli (verranno disegnati pieni);
+- valori: per ogni (comune,zona,tipologia) tieni NORMALE se esiste, altrimenti il primo trovato;
+- tipologie: ab/as/ae/vi/bo/pa/ps/ne/uf/la/ci/in/ma/cc (mappa codici come sotto).
 """
 
 import csv
 import json
 import math
-import re
+import sys
+import xml.etree.ElementTree as ET
+from collections import defaultdict
 from pathlib import Path
 
-def read_valori_csv(path):
-    """Read QIP_1445919_1_20252_VALORI.csv and return list of rows.
-    Skip the title row (first line) and use the second row as header."""
-    with open(path, newline='', encoding='utf-8') as f:
-        # Skip title row
-        next(f)
-        reader = csv.DictReader(f, delimiter=';')
-        return list(reader)
 
-def read_zone_csv(path):
-    """Read QIP_1445919_1_20252_ZONE.csv and return list of rows.
-    Skip the title row (first line) and use the second row as header."""
-    with open(path, newline='', encoding='utf-8') as f:
-        # Skip title row
-        next(f)
-        reader = csv.DictReader(f, delimiter=';')
-        return list(reader)
+AQUI = Path(__file__).resolve().parent
 
-def parse_kml_polygons(kml_dir):
-    """
-    Parse all KML files in the directory and return a dict:
-    {(comune_amm, zona): [polygon_coords]}
-    polygon_coords: list of (lon, lat) tuples for the outer boundary
-    """
-    polygons = {}
-    
-    for kml_path in kml_dir.glob('*.kml'):
-        # Extract comune_amm from filename (e.g., L219.kml)
-        comune_amm = kml_path.stem
-        
-        with open(kml_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        # Find all Placemark elements
-        # Each placemark has:
-        # - <name>TORINO - Zona OMI D26</name>
-        # - <ExtendedData><Data name="CODCOM"><value>L219</value></Data>...</ExtendedData>
-        # - <Polygon><outerBoundaryIs><LinearRing><coordinates>...</coordinates></LinearRing></outerBoundaryIs></Polygon>
-        
-        # Split by Placemark tags
-        placemark_sections = re.split(r'(?=<Placemark>)', content)
-        
-        for section in placemark_sections:
-            if '<Placemark>' not in section:
-                continue
-                
-            # Extract CODZONA
-            codzona_match = re.search(r'<Data name="CODZONA">.*?<value>([^<]*)</value>', section, re.DOTALL)
-            if not codzona_match:
-                continue
-            zona = codzona_match.group(1)
-            
-            # Verify CODCOM matches filename (should be L219 for Torino)
-            codcom_match = re.search(r'<Data name="CODCOM">.*?<value>([^<]*)</value>', section, re.DOTALL)
-            if not codcom_match:
-                continue
-            codcom = codcom_match.group(1)
-            
-            # Extract coordinates
-            coords_match = re.search(r'<coordinates>(.*?)</coordinates>', section, re.DOTALL)
-            if not coords_match:
-                continue
-                
-            coords_str = coords_match.group(1).strip()
-            # Parse coordinates: "lon1,lat1,0 lon2,lat2,0 ..."
-            # We need to handle both spaces and newlines
-            coords_str = coords_str.replace('\n', ' ').strip()
-            # Split by spaces to get coordinate triplets
-            coord_triplets = coords_str.split()
-            
-            # Build polygon (list of (lon, lat) tuples)
-            polygon = []
-            for triplet in coord_triplets:
-                parts = triplet.split(',')
-                if len(parts) >= 2:
-                    try:
-                        lon = float(parts[0])
-                        lat = float(parts[1])
-                        polygon.append((lon, lat))
-                    except ValueError:
-                        pass
-            
-            if polygon:
-                key = (comune_amm, zona)
-                if key not in polygons:
-                    polygons[key] = []
-                polygons[key].append(polygon)
-    
-    return polygons
 
-def douglas_peucker(points, max_distance_meters=20.0):
-    """
-    Simplifies a polyline using Douglas-Peucker algorithm.
-    Points are (lon, lat) tuples.
-    max_distance_meters: maximum allowed distance between original and simplified curve.
-    Returns a simplified list of points.
-    """
-    if len(points) <= 2:
-        return points
-    
-    # Convert meters to approximate degrees at Torino latitude (~45°N)
-    # 1 degree latitude ≈ 111.132 km
-    # 1 degree longitude ≈ 111.132 * cos(lat) km
-    # At 45°N: 1° lat ≈ 111.132 km, 1° lon ≈ 78.589 km
-    # 20 meters = 0.02 km
-    # Latitude degrees: 0.02 / 111.132 ≈ 0.00018
-    # Longitude degrees: 0.02 / 78.589 ≈ 0.000254
-    # We'll use the larger value to be safe: ~0.00025 degrees
-    max_distance_deg = 0.00025  # approximately 20 meters at 45°N
-    
-    def distance(p1, p2):
-        """Euclidean distance between two points (lon, lat) in degrees."""
-        return math.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)
-    
-    def point_to_line_dist(point, line_start, line_end):
-        """Distance from a point to a line segment."""
-        x0, y0 = point
-        x1, y1 = line_start
-        x2, y2 = line_end
-        
-        # If line segment is a point
-        if distance(line_start, line_end) < 1e-12:
-            return distance(point, line_start)
-        
-        # Calculate the projection parameter t
-        dx = x2 - x1
-        dy = y2 - y1
-        t = ((x0 - x1) * dx + (y0 - y1) * dy) / (dx * dx + dy * dy)
-        t = max(0, min(1, t))
-        
-        # Closest point on the segment
-        closest_x = x1 + t * dx
-        closest_y = y1 + t * dy
-        
-        return distance(point, (closest_x, closest_y))
-    
-    def is_within_tolerance(point, line_start, line_end, max_dist):
-        """Check if a point is within max_dist of the line segment."""
-        return point_to_line_dist(point, line_start, line_end) <= max_dist
-    
-    # Recursive Douglas-Peucker
-    def simplify_recursive(points, start_idx, end_idx):
-        if end_idx - start_idx <= 1:
-            return [points[start_idx]]
-        
-        # Find the point with maximum distance from the line segment
-        max_dist = 0
-        max_idx = start_idx
-        
-        start_point = points[start_idx]
-        end_point = points[end_idx]
-        
-        for i in range(start_idx + 1, end_idx):
-            dist = point_to_line_dist(points[i], start_point, end_point)
-            if dist > max_dist:
-                max_dist = dist
-                max_idx = i
-        
-        # If max distance is within tolerance, keep only endpoints
-        if max_dist <= max_distance_deg:
-            return [start_point, end_point]
-        
-        # Otherwise, split at the point of max distance and recurse
-        left = simplify_recursive(points, start_idx, max_idx)
-        right = simplify_recursive(points, max_idx, end_idx)
-        
-        # Combine (avoid duplicating the split point)
-        return left[:-1] + right
-    
-    return simplify_recursive(points, 0, len(points) - 1)
+def trova_radice():
+    for cartella in [AQUI, *AQUI.parents]:
+        if cartella.name.lower() == "gtt":
+            return cartella
+    candidata = Path.home() / "Desktop" / "GTT"
+    return candidata if candidata.is_dir() else AQUI.parent
+
+
+RADICE = trova_radice()
+RAW = RADICE / "data" / "raw" / "QIP1445919_CMPLRD98T08F335C"
+OUT = RADICE / "data" / "processed" / "omi_zone.json"
+SEZIONI = RADICE / "data" / "processed" / "sezioni_torino.json"
+
+VALORI = RAW / "QIP_1445919_1_20252_VALORI.csv"
+ZONE = RAW / "QIP_1445919_1_20252_ZONE.csv"
+KML_DIR = RAW / "TO20252"
+
+TOLL_M = 20.0
+TOLL_MERGE = 0.02
+
+TIP_MAP = {
+    20: "ab",  # Abitazioni civili
+    19: "as",  # Abitazioni signorili
+    21: "ae",  # Abitazioni di tipo economico
+    1: "vi",   # Ville e Villini
+    13: "bo",  # Box
+    14: "pa",  # Posti auto coperti
+    15: "ps",  # Posti auto scoperti
+    5: "ne",   # Negozi
+    6: "uf",   # Uffici
+    10: "la",  # Laboratori
+    7: "ci",   # Capannoni tipici
+    8: "in",   # Capannoni industriali
+    9: "ma",   # Magazzini
+    17: "cc",  # Centri commerciali
+}
+
+
+def pro_com_da_istat(s):
+    """Comune_ISTAT -> PRO_COM (regole in memoria)."""
+    try:
+        n = int(str(s).strip())
+    except ValueError:
+        return None
+    return n - 1000000 if n >= 1000000 else n
+
+
+def _float(v):
+    try:
+        return float(str(v).strip().replace(",", "."))
+    except ValueError:
+        return None
+
+
+def dp_keep(pts, tol):
+    """Douglas-Peucker: ritorna maschera keep per lista di (x,y)."""
+    if len(pts) < 4:
+        return [True] * len(pts)
+    keep = [False] * len(pts)
+    keep[0] = keep[-1] = True
+    st = [(0, len(pts) - 1)]
+    while st:
+        a, b = st.pop()
+        (x1, y1), (x2, y2) = pts[a], pts[b]
+        dx, dy = x2 - x1, y2 - y1
+        L = math.hypot(dx, dy) or 1e-9
+        md, mi = 0.0, None
+        for i in range(a + 1, b):
+            d = abs(dy * (pts[i][0] - x1) - dx * (pts[i][1] - y1)) / L
+            if d > md:
+                md, mi = d, i
+        if mi is not None and md > tol:
+            keep[mi] = True
+            st.append((a, mi))
+            st.append((mi, b))
+    return keep
+
+
+def dp_anello(ring_latlon, tol_m):
+    """Semplifica un anello chiuso: ring_latlon = [(lat,lon), ...]."""
+    if len(ring_latlon) < 6:
+        return ring_latlon
+    if ring_latlon[0] != ring_latlon[-1]:
+        ring_latlon = ring_latlon + [ring_latlon[0]]
+    if len(ring_latlon) < 6:
+        return ring_latlon
+    lat0 = ring_latlon[0][0]
+    coslat = math.cos(math.radians(lat0))
+    k = 111200.0
+    xy = [(lo * k * coslat, la * k) for la, lo in ring_latlon]
+    x0, y0 = xy[0]
+    m = max(range(1, len(xy) - 1), key=lambda i: (xy[i][0] - x0) ** 2 + (xy[i][1] - y0) ** 2)
+
+    keepL = dp_keep(xy[: m + 1], tol_m)
+    keepR = dp_keep(xy[m:], tol_m)
+    left = [p for p, k0 in zip(ring_latlon[: m + 1], keepL) if k0]
+    right = [p for p, k0 in zip(ring_latlon[m:], keepR) if k0]
+    out = left[:-1] + right
+    if not out:
+        out = ring_latlon
+    if out[0] != out[-1]:
+        out.append(out[0])
+    return out
+
+
+def parse_coords(txt):
+    """<coordinates> -> lista (lat,lon)."""
+    if not txt:
+        return []
+    out = []
+    for trip in str(txt).strip().replace("\n", " ").split():
+        p = trip.split(",")
+        if len(p) < 2:
+            continue
+        try:
+            lo = float(p[0]); la = float(p[1])
+        except ValueError:
+            continue
+        out.append((la, lo))
+    return out
+
+
+def strip_apici(s):
+    s = (s or "").strip()
+    if len(s) >= 2 and s[0] == "'" and s[-1] == "'":
+        return s[1:-1]
+    return s
+
+
+def leggi_area_comuni():
+    if not SEZIONI.is_file():
+        sys.exit("Manca data/processed/sezioni_torino.json: lancia prima 05_prepara_sezioni.py")
+    sez = json.loads(SEZIONI.read_text(encoding="utf-8"))
+    return {int(s.get("c", 0)) for s in sez if int(s.get("c", 0)) > 0}
+
 
 def main():
-    # Paths
-    base_dir = Path("C:/projects/Progetti/GTT")
-    raw_dir = base_dir / "data" / "raw"
-    processed_dir = base_dir / "data" / "processed"
-    
-    # Read data
-    valori_path = raw_dir / "QIP1445919_CMPLRD98T08F335C" / "QIP_1445919_1_20252_VALORI.csv"
-    zone_path = raw_dir / "QIP1445919_CMPLRD98T08F335C" / "QIP_1445919_1_20252_ZONE.csv"
-    kml_dir = raw_dir / "QIP1445919_CMPLRD98T08F335C" / "TO20252"
-    
-    if not valori_path.exists() or not zone_path.exists() or not kml_dir.exists():
-        print(f"Error: Required files not found")
-        print(f"  valori: {valori_path.exists()}")
-        print(f"  zone: {zone_path.exists()}")
-        print(f"  kml_dir: {kml_dir.exists()}")
-        return
-    
-    print("Reading CSV files...")
-    valori = read_valori_csv(valori_path)
-    zones = read_zone_csv(zone_path)
-    
-    print(f"  Valori rows: {len(valori)}")
-    print(f"  Zone rows: {len(zones)}")
-    
-    # Parse KML polygons
-    print("Parsing KML files...")
-    kml_polygons = parse_kml_polygons(kml_dir)
-    print(f"  Found polygons for {len(kml_polygons)} (comune, zona) pairs")
-    
-    # Build mapping from zone code to zone name using ZONE.csv
-    zone_name_map = {}  # (comune_amm, zona) -> zone_name
-    for row in zones:
-        key = (row['Comune_amm'], row['Zona'])
-        zone_name_map[key] = row['Zona_Descr']
-    
-    # Group valori by (comune_amm, zona)
-    valori_by_zone = {}  # (comune_amm, zona) -> list of valore rows
-    for row in valori:
-        key = (row['Comune_amm'], row['Zona'])
-        if key not in valori_by_zone:
-            valori_by_zone[key] = []
-        valori_by_zone[key].append(row)
-    
-    # Build the output JSON structure
-    output = []
-    
-    # Process each comune in the valori data
-    # First collect (comune_amm, zona, row) samples for PRO_COM lookup
-    comuni_amm = {}  # comune_amm -> row (first row seen for this comune)
-    for row in valori:
-        comune_amm = row['Comune_amm']
-        if comune_amm not in comuni_amm:
-            comuni_amm[comune_amm] = row
-    
-    print(f"Processing {len(comuni_amm)} comuni from valori data...")
-    
-    for comune_amm in sorted(comuni_amm):
-        # Get PRO_COM code: Comune_ISTAT - 1000000
-        sample_row = comuni_amm[comune_amm]
-        pro_com = int(sample_row['Comune_ISTAT']) - 1000000
-        
-        # Build zone list for this comune
-        zone_list = []
-        
-        # Get all zones for this comune from valori
-        comune_zone_pairs = [(c, z) for (c, z) in valori_by_zone.keys() if c == comune_amm]
-        
-        for zona in sorted(set(z for (_, z) in comune_zone_pairs)):
-            # Get zone name
-            zone_name = zone_name_map.get((comune_amm, zona), zona)
-            
-            # Get fascia from first valore row for this (comune, zona)
-            fascia = valori_by_zone[(comune_amm, zona)][0]['Fascia'] if (comune_amm, zona) in valori_by_zone else 'B'
-            
-            # Get polygons from KML
-            polygon_key = (comune_amm, zona)
-            raw_polygons = kml_polygons.get(polygon_key, [])
-            
-            # Apply Douglas-Peucker simplification to each polygon
-            simplified_polygons = []
-            for poly in raw_polygons:
-                simplified = douglas_peucker(poly, max_distance_meters=20.0)
-                # Convert from (lon, lat) to [lat, lon] as required
-                lat_lon_pairs = [[lat, lon] for (lon, lat) in simplified]
-                simplified_polygons.append(lat_lon_pairs)
-            
-            # Build valori dict: {cod_tipologia: [cmin, cmax, lmin, lmax]}
-            valori_dict = {}
-            for row in valori_by_zone.get((comune_amm, zona), []):
-                cod_tip = row['Cod_Tip']
-                # Convert comma decimal to point
-                cmin = float(row['Compr_min'].replace(',', '.')) if row['Compr_min'] else 0.0
-                cmax = float(row['Compr_max'].replace(',', '.')) if row['Compr_max'] else 0.0
-                lmin = float(row['Loc_min'].replace(',', '.')) if row['Loc_min'] else 0.0
-                lmax = float(row['Loc_max'].replace(',', '.')) if row['Loc_max'] else 0.0
-                
-                # Keep only NORMALE state if available, otherwise first
-                if row['Stato'] == 'NORMALE':
-                    valori_dict[cod_tip] = [cmin, cmax, lmin, lmax]
-                    break  # Use first NORMALE
-                elif cod_tip not in valori_dict:
-                    valori_dict[cod_tip] = [cmin, cmax, lmin, lmax]
-            
-            # If no valori found, skip this zone (should not happen)
-            if not valori_dict:
+    if not (VALORI.is_file() and ZONE.is_file() and KML_DIR.is_dir()):
+        sys.exit("File OMI non trovati in data/raw/QIP1445919_CMPLRD98T08F335C")
+
+    comuni_area = leggi_area_comuni()  # atteso: 69 comuni (include Moncucco 5070)
+
+    # --- 1) VALORI: elenco zone + valori per tipologia
+    pro_by_com = {}        # Comune_amm -> PRO_COM
+    fascia_by_key = {}     # (Comune_amm, Zona) -> Fascia
+    v_by_key = defaultdict(dict)  # (Comune_amm, Zona) -> {tip: [cmin,cmax,lmin,lmax]}
+    scelto = {}            # (Comune_amm, Zona, tip) -> stato scelto
+
+    with open(VALORI, encoding="utf-8", newline="") as f:
+        next(f)  # titolo
+        rd = csv.DictReader(f, delimiter=";")
+        for r in rd:
+            pro = pro_com_da_istat(r.get("Comune_ISTAT"))
+            if pro is None or pro not in comuni_area:
                 continue
-            
-            zone_entry = {
-                "z": zona,
-                "n": zone_name,
-                "f": fascia,
-                "g": simplified_polygons,  # poligoni semplificati
-                "v": valori_dict           # valori per tipologia
-            }
-            zone_list.append(zone_entry)
-        
-        if zone_list:
-            comune_entry = {
-                "c": pro_com,
-                "zone": zone_list
-            }
-            output.append(comune_entry)
-    
-    # Write to file
-    output_path = processed_dir / "omi_zone.json"
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
-    
-    print(f"Generated {output_path}")
-    print(f"Total comuni processed: {len(output)}")
-    
-    # Verifica: stampa info su Torino
-    torino_entry = next((c for c in output if c['c'] == 1272), None)
-    if torino_entry:
-        print(f"\nTorino (PRO_COM=1272):")
-        print(f"  Zone count: {len(torino_entry['zone'])}")
-        # Find zona B1
-        b1_zone = next((z for z in torino_entry['zone'] if z['z'] == 'B1'), None)
-        if b1_zone:
-            print(f"  Zona B1 ({b1_zone['n']}):")
-            print(f"    Fascia: {b1_zone['f']}")
-            print(f"    Valori ab: {b1_zone['v'].get('20', [0,0,0,0])}")  # codice 20 = Abitazioni civili
-            print(f"    Numero poligoni: {len(b1_zone['g'])}")
-            if b1_zone['g']:
-                print(f"    Primo anello punti: {len(b1_zone['g'][0])} coordinate")
+            com = (r.get("Comune_amm") or "").strip()
+            zon = (r.get("Zona") or "").strip()
+            if not com or not zon:
+                continue
+            pro_by_com.setdefault(com, pro)
+            key = (com, zon)
+            fascia_by_key.setdefault(key, (r.get("Fascia") or "").strip())
+
+            try:
+                cod = int(str(r.get("Cod_Tip") or "").strip())
+            except ValueError:
+                continue
+            tip = TIP_MAP.get(cod)
+            if not tip:
+                continue
+            st = (r.get("Stato") or "").strip().upper()
+            cmin = _float(r.get("Compr_min")); cmax = _float(r.get("Compr_max"))
+            lmin = _float(r.get("Loc_min")); lmax = _float(r.get("Loc_max"))
+            if None in (cmin, cmax, lmin, lmax):
+                continue
+
+            kk = (com, zon, tip)
+            prev = scelto.get(kk)
+            if prev == "NORMALE":
+                continue
+            if prev is None or st == "NORMALE":
+                v_by_key[key][tip] = [cmin, cmax, lmin, lmax]
+                scelto[kk] = st or ""
+
+    keys = sorted(v_by_key.keys())
+    comuni_con_omi = sorted({pro_by_com[k[0]] for k in v_by_key.keys()})
+    mancanti_comuni = sorted(c for c in comuni_area if c not in set(comuni_con_omi))
+    miss_ratio = len(mancanti_comuni) / len(comuni_area) if comuni_area else 0
+    print(f"OMI: comuni area {len(comuni_area)} (atteso 69); comuni coperti {len(comuni_con_omi)} (atteso 68)")
+    if mancanti_comuni:
+        print(f"  comuni area senza OMI: {mancanti_comuni}")
+    if miss_ratio > TOLL_MERGE:
+        sys.exit(f"ERRORE: comuni senza OMI oltre soglia {TOLL_MERGE:.2%} ({len(mancanti_comuni)}/{len(comuni_area)})")
+
+    # --- 2) ZONE: nomi zona
+    nome_by_key = {}   # (Comune_amm, Zona) -> nome senza apici
+    with open(ZONE, encoding="utf-8", newline="") as f:
+        next(f)
+        rd = csv.DictReader(f, delimiter=";")
+        for r in rd:
+            com = (r.get("Comune_amm") or "").strip()
+            zon = (r.get("Zona") or "").strip()
+            key = (com, zon)
+            if key in v_by_key:
+                nome_by_key[key] = strip_apici(r.get("Zona_Descr"))
+
+    # --- 3) KML: geometrie
+    ns = {"k": "http://www.opengis.net/kml/2.2"}
+    g_by_key = {k: [] for k in v_by_key.keys()}   # (Comune_amm,Zona) -> [anelli]
+    comuni_amm_necessari = sorted({k[0] for k in v_by_key.keys()})
+    for com in comuni_amm_necessari:
+        f = KML_DIR / f"{com}.kml"
+        if not f.is_file():
+            continue
+        rad = ET.parse(f).getroot()
+        for pm in rad.findall(".//k:Placemark", ns):
+            data = {}
+            for d in pm.findall(".//k:ExtendedData/k:Data", ns):
+                n = d.attrib.get("name")
+                if not n:
+                    continue
+                data[n] = (d.findtext("k:value", default="", namespaces=ns) or "").strip()
+            codcom = data.get("CODCOM")
+            codzona = data.get("CODZONA")
+            if not codcom or not codzona:
+                continue
+            key = (codcom, codzona)
+            if key not in g_by_key:
+                continue
+            rings = []
+            for poly in pm.findall(".//k:Polygon", ns):
+                outer = poly.find("k:outerBoundaryIs/k:LinearRing/k:coordinates", ns)
+                if outer is not None:
+                    r = parse_coords(outer.text)
+                    if r:
+                        r = dp_anello(r, TOLL_M)
+                        rings.append([[round(la, 5), round(lo, 5)] for la, lo in r])
+                for inner in poly.findall("k:innerBoundaryIs/k:LinearRing/k:coordinates", ns):
+                    r = parse_coords(inner.text)
+                    if r:
+                        r = dp_anello(r, TOLL_M)
+                        rings.append([[round(la, 5), round(lo, 5)] for la, lo in r])
+            if rings:
+                g_by_key[key].extend(rings)
+
+    # --- 4) compongo output
+    zone_senza_poly = [k for k, g in g_by_key.items() if not g]
+    if len(zone_senza_poly) / max(1, len(g_by_key)) > TOLL_MERGE:
+        sys.exit(f"ERRORE: troppe zone senza poligono ({len(zone_senza_poly)}/{len(g_by_key)})")
+
+    comuni_out = defaultdict(list)  # pro_com -> [zone]
+    for (com, zon), v in sorted(v_by_key.items(), key=lambda x: (pro_by_com.get(x[0][0], 0), x[0][1])):
+        pro = pro_by_com[com]
+        n = nome_by_key.get((com, zon), "")
+        fascia = fascia_by_key.get((com, zon), "")
+        comuni_out[pro].append({
+            "z": zon,
+            "n": n,
+            "f": fascia,
+            "g": g_by_key.get((com, zon), []),
+            "v": v,
+        })
+
+    out = [{"c": pro, "zone": comuni_out[pro]} for pro in sorted(comuni_out)]
+
+    # --- 5) controlli richiesti
+    print(f"  zone (tutte): {sum(len(c['zone']) for c in out)}")
+    print(f"  zone senza poligono: {len(zone_senza_poly)} (atteso 0)")
+    tor = next((c for c in out if c["c"] == 1272), None)
+    if not tor:
+        sys.exit("ERRORE: Torino (1272) non presente in output")
+    print(f"  Torino zone: {len(tor['zone'])} (atteso 47)")
+    b1 = next((z for z in tor["zone"] if z["z"] == "B1"), None)
+    if not b1:
+        sys.exit("ERRORE: zona Torino B1 non trovata")
+    print(f"  Torino B1 nome: {b1['n']} (atteso ROMA)")
+    print(f"  Torino B1 ab: {b1['v'].get('ab')} (atteso [2900, 4400, 10.5, 15.7])")
+
+    # scrivi output
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(json.dumps(out, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/"), encoding="utf-8")
+    print(f"File scritto: {OUT} ({OUT.stat().st_size/1e6:.1f} MB)")
+
 
 if __name__ == "__main__":
     main()
