@@ -221,7 +221,7 @@ Verificato l'8/10:
 - Prezzi Torino (ordine di grandezza): abitazioni civili Compr_min 840-4300, Compr_max 1250-6500 €/m²; zona B1 'ROMA' 2900-4400 NORMALE; negozi Compr_min 410-6300.
 - Fascie presenti a Torino: B, C, D, E. Il significato delle lettere NON è verificato: non scriverlo sulla mappa.
 
-Stato al 8/10 (sera): piano verificato sui file veri, nessuna fase ancora eseguita. La prossima sessione parte da O1.
+Stato al 8/10 (sera): piano verificato sui file veri. O1 FATTO e CORRETTO (commit 483830b; sostituisce d725cb0): `scripts/08_prepara_omi.py` crea `data/processed/omi_zone.json` per i comuni dell'area (69 totali, 68 coperti; manca solo 5070 Moncucco = 1,4%); poligoni KML semplificati DP 20 m, MultiGeometry e innerBoundaryIs come anelli; Torino 47 zone; zona B1 nome ROMA con ab [2900, 4400, 10.5, 15.7]; zone senza poligono 0. O2 FATTO e CORRETTO (commit d009b81; sostituisce 1f902de): `scripts/04_genera_mappa.py` legge `omi_zone.json` e mette `dati["omi"]`; log: 68 comuni, 251 zone, 212 zone con tipologia ab; `mappa_torino.html` contiene 'ROMA' e 2900; dimensione 6,8 MB. Prossimo: O3 (template tema OMI, O4 tooltip/scheda, O5 verifica finale).
 
 Fasi (ogni fase: eseguire, controllare i numeri, aggiornare questa memoria, commit):
 
