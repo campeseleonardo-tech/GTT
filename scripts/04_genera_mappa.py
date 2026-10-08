@@ -762,6 +762,38 @@ def leggi_omi():
         return None
 
 
+def prepara_catalogo():
+    """Legge l'indice del catalogo (11_prepara_catalogo.py) e scrive per la mappa
+    un file JS per gruppo in data/catalogo/, cosi' la pagina carica un gruppo
+    solo quando viene scelto (senza server: si usa <script src>)."""
+    cat_dir = RADICE / "data" / "processed" / "catalogo"
+    indice_f = cat_dir / "catalogo.json"
+    if not indice_f.is_file():
+        print("  (catalogo non trovato: tema Catalogo vuoto; lancia 11_prepara_catalogo.py)")
+        return None
+    try:
+        indice = json.loads(indice_f.read_text(encoding="utf-8"))
+    except Exception as e:
+        print(f"  (catalogo.json non leggibile: {e}; tema Catalogo saltato)")
+        return None
+    map_dir = RADICE / "data" / "catalogo"
+    map_dir.mkdir(parents=True, exist_ok=True)
+    n_js = 0
+    for g in indice.get("gruppi", []):
+        f = cat_dir / f"{g['id']}.json"
+        if not f.is_file():
+            continue
+        testo = f.read_text(encoding="utf-8")
+        (map_dir / f"{g['id']}.js").write_text(
+            'window.CATALOGO=window.CATALOGO||{};window.CATALOGO["%s"]=%s;' % (g["id"], testo),
+            encoding="utf-8")
+        n_js += 1
+    n_dati = sum(len(g.get("dati", [])) for g in indice.get("gruppi", []))
+    print(f"  catalogo: {len(indice.get('gruppi', []))} gruppi, {n_dati} dati, {n_js} file js pronti per il caricamento su richiesta")
+    return indice
+
+
+
 def main():
     print(f"Cartella del progetto: {RADICE}")
     if not TEMPLATE.is_file():
@@ -792,11 +824,13 @@ def main():
     vel, vel_meta = calcola_velocita()   # [agente GT04-velocita] None se lo storico non c'e'
     pend = costruisci_pendolari(sez) if sez else None   # [agente GT05-pendolari] None se mancano sezioni o zip
     omi = leggi_omi()
+    catalogo = prepara_catalogo()   # indice dei nuovi dati + file js per il caricamento su richiesta
 
     dati = {
         "vel": vel or {}, "vel_meta": vel_meta,   # [agente GT04-velocita]
         "pend": pend,   # [agente GT05-pendolari]
         "omi": omi,     # OMI quote immobiliari
+        "catalogo": catalogo,   # indice del catalogo (i dati per gruppo stanno in data/catalogo/*.js)
         "meta": {
             "costruita_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "gtfs": meta_gtfs, "t5": meta5t, "mezzi_ts": ts_vp,

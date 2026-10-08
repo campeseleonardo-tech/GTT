@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: 8 ottobre 2026. OMI completato (O1–O5); tre indicatori ISTAT integrati e verificati in mappa. Corretto anche un errore che faceva perdere i campi durante la preparazione delle sezioni JavaScript. Prossima priorità: analisi dei dati raccolti di giorno.
+Ultimo aggiornamento: 8 ottobre 2026. Avviato il catalogo comune dei nuovi dati (script 11 + tema "Catalogo dei dati" in mappa). OMI completato (O1–O5); tre indicatori ISTAT integrati e verificati in mappa. Corretto anche un errore che faceva perdere i campi durante la preparazione delle sezioni JavaScript. Prossima priorità: analisi dei dati raccolti di giorno.
 Questo è l'unico file di memoria e di passaggio. Non creare altri documenti di memoria.
 Leggila all'inizio di ogni sessione e aggiornala alla fine.
 
@@ -225,6 +225,26 @@ Commit principali (ramo prova):
 - O4: `36c61bf` (tooltip + scheda OMI)
 - O5: `17003bf` (verifica finale + rigenerazione mappa)
 
+## Catalogo dei nuovi dati (8/10/2026)
+
+Decisione applicata: catalogo comune, con gruppi tematici e metadati per ogni dato; la mappa carica un gruppo solo quando viene chiesto (senza server); le simulazioni leggono i file elaborati senza passare dalla mappa.
+
+- Preparazione: `scripts/11_prepara_catalogo.py` (sola lettura sui dati grezzi) scrive `data/processed/catalogo/catalogo.json` (indice con metadati e statistiche) e un file per gruppo `<gruppo>.json` (dati). `scripts/04_genera_mappa.py` scrive anche `data/catalogo/<gruppo>.js`, che la mappa carica su richiesta con il meccanismo `ricarica()` già usato per `live.js`/`stat.js`.
+- Geometrie: i CSV usano `WKT_GEOM` in EPSG:3003 (Monte Mario / Italy zone 1), convertite in WGS84 con `gb_a_wgs84` (la stessa di 04). Verificato: Piazza Castello -> 1396657, 4991756 e ritorno esatto; scuola "VALLETTE A" -> 45.10352, 7.63338.
+- Gruppi e dati (44 dati, ~37.819 punti): istruzione (10), salute (4), commercio (7), sicurezza/sport (7), reti (12, incl. alberate aggregate), servizi/uffici (4). Fuori: MEF/IMQ (gruppo 6) e DWG parchi (gruppo 7), ancora da preparare.
+- Controlli fatti e anomalie: `mercati_tematici` ha `COORD_X/Y` circa 10 volte piu' piccole del WKT (anomalia confermata, si usa il WKT); 1 stazione car sharing fuori area (45.5597/8.0492, "Unita' d'Italia"); `strutture_socio_assistenziali` ha 38 `IDCIVICO` ripetuti (non e' un id univoco); mercati 42 record -> 57 elementi e zona blu 19 -> 23 (poligoni multipli); `alberate` 131.994 -> 1.928 aggregati per ambito (non si disegnano i singoli alberi).
+- Privacy: nei prodotti non entrano telefono, email, PEC, URL ne' nomi di persona (es. `NOME_ADD` delle attivita').
+- Anagrafe scuole 2026/27: col filtro provincia+comune TORINO risultano 410 statali e 195 paritari, non 431+196 come scritto nel piano: da chiarire. Non collegata alle 610 sedi geografiche.
+
+Nella mappa il tema "Catalogo dei dati" ha la tendina del gruppo, le caselle per singolo dato e la legenda; al clic/sul passaggio del mouse si apre la scheda dell'elemento e il pulsante "i" mostra la scheda del dato (fonte, anno, licenza, formato, copertura, coordinate, record, duplicati, campi mancanti, anomalie). I gruppi voluminosi (attivita' 31.271 punti) si disegnano solo da zoom 14. Non verificata a video: interazione grafica e caricamento dei file su richiesta in un browser vero (provata la logica in Node: preparazione, ricerca dell'elemento, punto-in-poligono, chiave di disegno).
+
+Da fare (proseguimento del piano, una parte alla volta):
+- Attivita' commerciali: mostrare prima un aggregato per categoria (ora solo conteggi nella scheda/legenda), punti solo a zoom ravvicinato.
+- Gruppo 6: MEF 2024 (normalizzare il codice comunale e confrontare la copia locale a 312 comuni con il file nazionale a 7.897 record) e IMQ 2022 (database Access: esportare/aggregare per zona, scopo, ora e modo rispettando i pesi; escludere `PHONE`). Serve la geometria delle zone campionarie.
+- Gruppo 7: DWG delle aree (nessun convertitore CAD installato): esportazione o fonte alternativa, poi livello parchi.
+- Collegare anagrafe scuole e verificare la differenza di conteggio.
+- Verifica a video della mappa.
+
 ## Prossimi passi (in ordine)
 
 1. [x] OMI: integrazione completa in mappa (O1–O5).
@@ -234,6 +254,8 @@ Commit principali (ramo prova):
 5. [ ] (CAMBIATO l'8/10) Tenere la matrice nazionale 2011: contiene mezzo e orario.
 6. [ ] Usare eventualmente la matrice 2011 per sezione per il livello Domanda dentro Torino; non contiene mezzo né orario.
 7. [ ] Altri sviluppi (matrice tempi di viaggio, punti critici, richieste dati, Raspberry Pi) restano più avanti.
+8. [x] Catalogo comune dei nuovi dati: preparato lo script 11 e il tema "Catalogo dei dati" in mappa (8/10).
+9. [ ] Catalogo, gruppi 6 e 7 (MEF/IMQ e DWG parchi) e aggregati delle attivita'; verifica a video della mappa.
 
 ## Piano per fasi
 
