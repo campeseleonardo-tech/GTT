@@ -147,6 +147,25 @@ Prima analisi in sola lettura di `data/storico.sqlite` (dati 4–8/10/2026, 5 gi
   DB vero: snapshot 21:30 e 21:35 con 109 righe di accuratezza ciascuno, coincidenti
   con i flussi (stesso generato_utc+lcd1); i record precedenti restano senza accuratezza.
 
+## 10. Ritardi GTT: verifica, decisione e strumento (9/10/2026)
+
+- Verifica in sola lettura dei feed: `trip_update` di GTT **NON pubblica i ritardi** (niente
+  campo `delay` né `stop_time_update` nei campioni: solo `trip_id`, `start_date`,
+  `start_time`, `schedule_relationship`). Con Leo si riorienta il passo 2 su
+  **corse attive/soppresse + avvisi** (niente proxy di ritardo, per ora) e su una
+  **raccolta una tantum**; la verifica diurna resta nei "da fare".
+- `scripts/12_ritardi_gtt.py` (nuovo, solo libreria standard; non tocca `storico.sqlite`
+  né i grezzi): `raccogli` (scarica trip_update+alerts a intervalli, salva
+  `data/processed/ritardi_<giorno>.csv` e `avvisi_<giorno>.json`) e `analizza`
+  (conteggio corse distinte per linea/ora, corse soppresse, match trip_id↔GTFS,
+  sintesi avvisi, decodifica dei `.pb` alerts già in `data/raw`).
+- Prova notturna 9/10 ~00:31: trip_update con 1 corsa (67U, soppressa, match GTFS 1/1);
+  avvisi: unione 154 id (causa top PROBLEMA_TECNICO 77, LAVORI 36; effetto top DEVIAZIONE
+  110; severità AVVISO 151 + **3 con valore 4 fuori specifica, da chiarire**; 17 linee e
+  1093 fermate toccate; testi in italiano leggibili).
+- **Raccolta una tantum in corso dal 9/10 ~00:31 (durata ~20 h)** per catturare la giornata:
+  `data/processed/ritardi_20261009.csv`.
+
 ## 7. Pulizia dei file (8/10/2026)
 
 - Eliminati perché inutili o ridondanti: `scripts/07_elabora_matrici_pendolarismo.py` (rotto e non usato: cercava zip inesistenti; si riscriverà da capo solo se servirà la domanda 2011), i suoi output vuoti `data/processed/pendolarismo_torino_cintura.json` e `data/processed/od_per_fascia.json`, e i controlli temporanei `scripts/tmp_check_*.py` (erano della sessione OMI).
@@ -164,7 +183,11 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
    rapporto in `docs/RAPPORTO_ANALISI_5T.md`). Resta da analizzare l'associazione
    accuratezza ↔ flusso ↔ ora sui NUOVI campioni (`accuratezza_5t`, attiva dall'8/10 21:30):
    servono 7–14 giorni di raccolta con feriali e weekend (finestra indicativa 15–22/10).
-2. **Ritardi GTT**: acquisire campioni diurni di `trip_update` (non è nella raccolta continua), poi contare corse e ritardi. Decodificare anche gli avvisi GTT (134 KB).
+2. **Verifica diurna dei `trip_update`**: confermare su un campione feriale diurno che il
+   feed non porta `delay`/`stop_time_update` (per ora si contano solo corse attive/soppresse,
+   vedi sezione 10). Dopo la raccolta una tantum del 9/10 lanciare
+   `python scripts\12_ritardi_gtt.py analizza` sui campioni diurni e consolidare il
+   rapporto in `docs/RAPPORTO_RITARDI_GTT.txt`. (Strumento pronto: `12_ritardi_gtt.py`.)
 
 ## Priorità media
 
@@ -233,7 +256,9 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 - **Carta di sintesi – Aree** (aree verdi, fiumi, isolati, passerelle): la versione DWG scaricata (`carta_sintesi_aree_dwg.zip`) non serve; esiste lo shapefile `carta_sintesi_geo.zip` (vedi attività 5).
 - **Pendolarismo 1991 e 2001** (~270 MB), **Dati regionali 2021 R02–R20** (~190 MB), **Matrici di contiguità provinciali 2019–2025**: presenti, non servono al progetto attuale (da decidere se togliere).
 - **Documentazione di supporto** (rapporto IMQ, PDF struttura piste ciclabili): non sono livelli di mappa.
-- **Feed `trip_update`**: l'unico file salvato (3/10) è di 15 byte (solo intestazione); la raccolta continua non salva questo feed.
+- **Feed `trip_update`**: il file salvato il 3/10 è di 15 byte (solo intestazione); dalla
+  raccolta una tantum del 9/10 i campioni sono in `data/processed/ritardi_*.csv` (vedi
+  sezione 10); la raccolta continua non salva questo feed.
 
 ---
 
@@ -243,7 +268,9 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 2. **Pendolarismo 2021 per sezione**: non pubblico (solo comune).
 3. **Mezzo e orario a livello di sezione**: disponibili solo a livello comunale e solo nel 2011 (matrice nazionale).
 4. **Tempi di viaggio e distanze stradali 2021**: solo nota tecnica in `docs/`; manca la matrice `Piemonte.zip` (vedi attività 6).
-5. **Ritardi GTT di giorno**: non raccolti (il feed `trip_update` non è nello storico).
+5. **Ritardi GTT di giorno**: il feed `trip_update` non pubblica i ritardi (verificato il
+   9/10); la raccolta una tantum del 9/10 raccoglie i campioni per contare corse attive e
+   soppresse; la verifica diurna è nei "da fare" (sezione 10).
 6. **Offerta di altri operatori**: treni SFM e bus provinciali non trovati.
 7. **Capienze, iscritti, flussi e calendari** di scuole, ospedali, impianti sportivi, musei: i luoghi ci sono (catalogo), i numeri no. Quindi restano attrattori potenziali, non conteggi di viaggi.
 8. **Disponibilità in tempo reale** di sharing, ricarica e parcheggi: posizioni sì, posti/mezzi liberi no.
