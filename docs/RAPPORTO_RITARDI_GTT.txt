@@ -3,8 +3,9 @@ CORSE GTT (trip_update) E AVVISI — analisi
 ======================================================================
 File raccolti: ['ritardi_20261009.csv']
 Righe (lette_utc,trip,data,ora,rel unici): 1
-Intervallo UTC: 2026-10-08T22:31:36+00:00 -> 2026-10-08T22:31:36+00:00
+Intervallo UTC: 2026-10-08T22:35:03+00:00 -> 2026-10-08T22:35:03+00:00
 Corse distinte (start_date, trip_id, start_time): 1
+  Campioni con delay presente: 0 righe · con stop_time_update: 0 righe
 Match trip_id <-> GTFS (trips.txt): 1/1 (100.0%)  -> GTFS: gtt_gtfs_20261003_224530.zip
 
 -- Corse distinte per giorno di servizio (start_date) --
@@ -41,7 +42,7 @@ Direzione via Leopardi (Venaria): limitata in corso Papa
 
 nella sola direzione via Lombardia: da via Torino angolo corso A
 
-  NOTA: il feed trip_update non pubblica i ritardi in secondi (niente campo
-  delay ne' stop_time_update nei campioni): si contano corse attive/soppresse.
-  Il conteggio misura le corse che il feed comunica, non l'intera offerta.
-  Verifica diurna (campioni feriali) ancora da fare: vedi MEMORIA_PROGETTO.
+  NOTA: il feed trip_update non pubblica i ritardi in secondi nei campioni
+  notturni (niente campo delay ne' stop_time_update): la verifica diurna e'
+  affidata alle righe 'Campioni con delay presente' sopra. Il conteggio
+  misura le corse che il feed comunica, non l'intera offerta.

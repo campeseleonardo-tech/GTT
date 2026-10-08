@@ -314,14 +314,24 @@ def raccogli(args):
                 with open(path, "a", newline="", encoding="utf-8") as f:
                     w = csv.writer(f)
                     if nuovo:
-                        w.writerow(["letto_utc", "trip_id", "start_date", "start_time", "rel"])
+                        w.writerow(["letto_utc", "trip_id", "start_date", "start_time",
+                                    "rel", "con_delay", "con_stu"])
                     for t in tu:
                         tp = t.get("trip", {})
+                        con_delay = 1 if t.get("delay") is not None else 0
+                        con_stu = len(t.get("stu", []))
                         w.writerow([ora, tp.get("trip_id", ""), tp.get("start_date", ""),
-                                    tp.get("start_time", ""), tp.get("rel", "")])
+                                    tp.get("start_time", ""), tp.get("rel", ""),
+                                    con_delay, con_stu])
                     n_corse = len(tu)
                     n_righe += n_corse
                 n_snap_tu += 1
+                # diagnostica per la verifica diurna: il feed porta delay/stop_time_update?
+                n_delay = sum(1 for t in tu if t.get("delay") is not None)
+                n_stu = sum(len(t.get("stu", [])) for t in tu)
+                if n_delay or n_stu:
+                    print(f"{ora}  !!! trip_update con delay={n_delay} corsa/e, "
+                          f"stop_time_update={n_stu} (al di sopra dello schema minimo)", flush=True)
                 print(f"{ora}  trip_update: {n_corse} corse  (file {path.name})", flush=True)
             except Exception as e:
                 print(f"{ora}  ERRORE trip_update: {e!r}", flush=True)
@@ -377,7 +387,7 @@ def carica_gtfs():
 def analizza(args):
     ROWS = []
     for p in sorted(ELAB.glob("ritardi_*.csv")):
-        with open(p, newline="", encoding="utf-8") as f:
+        with open(p, newline="", encoding="utf-8-sig") as f:
             for r in csv.DictReader(f):
                 ROWS.append((p.name, r))
     righe = [r for _, r in ROWS]
@@ -409,6 +419,14 @@ def analizza(args):
         key = (r["start_date"], r["trip_id"], r["start_time"])
         corse[key] = r["rel"]
     scrivi(f"Corse distinte (start_date, trip_id, start_time): {len(corse)}")
+    # verifica diurna: il feed porta delay/stop_time_update?
+    n_delay = sum(1 for r in unici if str(r.get("con_delay", "0")) == "1")
+    n_stu = sum(1 for r in unici if int(str(r.get("con_stu", "0")) or "0") > 0)
+    if n_delay or n_stu:
+        scrivi(f"  !! {n_delay} righe con campo delay, {n_stu} con stop_time_update: "
+               f"il feed porta dati oltre lo schema minimo osservato di notte")
+    scrivi(f"  Campioni con delay presente: {n_delay} righe · "
+           f"con stop_time_update: {n_stu} righe")
 
     gtfs = carica_gtfs()
     matched = sum(1 for (_, tid, _) in corse if tid in gtfs)
@@ -497,10 +515,10 @@ def analizza(args):
         for a in esempi:
             scrivi(f"  [esempio] {a.get('header','')[:80]} | {a.get('descrizione','')[:120]}")
 
-    scrivi("\n  NOTA: il feed trip_update non pubblica i ritardi in secondi (niente campo")
-    scrivi("  delay ne' stop_time_update nei campioni): si contano corse attive/soppresse.")
-    scrivi("  Il conteggio misura le corse che il feed comunica, non l'intera offerta.")
-    scrivi("  Verifica diurna (campioni feriali) ancora da fare: vedi MEMORIA_PROGETTO.")
+    scrivi("\n  NOTA: il feed trip_update non pubblica i ritardi in secondi nei campioni")
+    scrivi("  notturni (niente campo delay ne' stop_time_update): la verifica diurna e'")
+    scrivi("  affidata alle righe 'Campioni con delay presente' sopra. Il conteggio")
+    scrivi("  misura le corse che il feed comunica, non l'intera offerta.")
 
     testo = "\n".join(out) + "\n"
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")

@@ -164,7 +164,9 @@ Prima analisi in sola lettura di `data/storico.sqlite` (dati 4–8/10/2026, 5 gi
   110; severità AVVISO 151 + **3 con valore 4 fuori specifica, da chiarire**; 17 linee e
   1093 fermate toccate; testi in italiano leggibili).
 - **Raccolta una tantum in corso dal 9/10 ~00:31 (durata ~20 h)** per catturare la giornata:
-  `data/processed/ritardi_20261009.csv`.
+  `data/processed/ritardi_20261009.csv`. Riavviata ~00:35 dopo uno schema aggiornato:
+  ogni riga salva anche `con_delay` e `con_stu` (per la verifica diurna della presenza di
+  delay/stop_time_update).
 
 ## 7. Pulizia dei file (8/10/2026)
 
