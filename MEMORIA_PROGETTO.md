@@ -142,8 +142,10 @@ Prima analisi in sola lettura di `data/storico.sqlite` (dati 4–8/10/2026, 5 gi
   (INSERT OR IGNORE) e non si inventano valori retroattivi. Provata su DB di prova: insiemi
   flusso/accuratezza coincidono, snapshot ripetuti non sovrascrivono, accuratezza=0 salvata
   come 0 (distinta da NULL).
-- **La tabella sul DB vero compare solo al riavvio della raccolta** (supervisore): da decidere
-  con Leo quando farlo (richiede una breve pausa coordinata).
+- **La tabella sul DB vero è attiva dall'8/10 alle 21:30** (riavvio coordinato con Leo:
+  supervisore ha riavviato 03 da solo, pid nuovo 25804). Primi campioni verificati sul
+  DB vero: snapshot 21:30 e 21:35 con 109 righe di accuratezza ciascuno, coincidenti
+  con i flussi (stesso generato_utc+lcd1); i record precedenti restano senza accuratezza.
 
 ## 7. Pulizia dei file (8/10/2026)
 
@@ -160,8 +162,8 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 
 1. **Analisi dei dati di giorno già raccolti (5T)**: FATTA l'8/10 (vedi sezione 8;
    rapporto in `docs/RAPPORTO_ANALISI_5T.md`). Resta da analizzare l'associazione
-   accuratezza ↔ flusso ↔ ora sui NUOVI campioni (con `accuratezza_5t`) dopo 7–14 giorni
-   di raccolta con feriali e weekend: serve prima il riavvio della raccolta (sezione 9).
+   accuratezza ↔ flusso ↔ ora sui NUOVI campioni (`accuratezza_5t`, attiva dall'8/10 21:30):
+   servono 7–14 giorni di raccolta con feriali e weekend (finestra indicativa 15–22/10).
 2. **Ritardi GTT**: acquisire campioni diurni di `trip_update` (non è nella raccolta continua), poi contare corse e ritardi. Decodificare anche gli avvisi GTT (134 KB).
 
 ## Priorità media
@@ -197,7 +199,7 @@ Nota generale (vale per la mappa e per i cataloghi): i dati del Comune di Torino
 - **Mezzi GTT in tempo reale**: ~306 mezzi localizzati al minuto in media (mediana 337, punte ~555 in ora di punta, minimo notturno ~1–5); il feed non ha il `trip_id` (il mezzo si lega alla linea, non alla corsa).
 - **Traffico 5T**: 109 sensori, area più ampia di Torino. Ogni snapshot è completo.
   L'accuratezza non è salvata con le misure passate (studiata l'8/10: vedi sezione 8);
-  dal riavvio della raccolta sarà salvata per misura in `accuratezza_5t` (sezione 9).
+  dall'8/10 21:30 è salvata per misura in `accuratezza_5t` (sezione 9).
   Significato di accuratezza 0 non verificato.
 - **Zone statistiche Torino**: 94 zone (dati 2011, senza popolazione).
 - **Pendolarismo ISTAT 2021** (lavoro e studio, comune↔comune): Torino lavoro entrano 138.605, escono 71.297, dentro 212.249; studio entrano 48.730, escono 6.373, dentro 120.148 (numeri uguali alle note).

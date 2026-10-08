@@ -86,7 +86,7 @@ Tutti i timestamp sono registrati in UTC e aggregati in ora locale Europe/Rome
 
 ## Prossimo passo
 
-Raccolta dei trip_update e analisi dei ritardi (attività 2 della memoria). Nel
-frattempo, dal riavvio della raccolta, `accuratezza_5t` comincerà a raccogliere
-l'accuratezza per misura: dopo 7–14 giorni si potrà analizzare l'associazione
+Raccolta dei trip_update e analisi dei ritardi (attività 2 della memoria). Dal
+riavvio dell'8/10 (21:30) `accuratezza_5t` raccoglie l'accuratezza per misura
+(primi campioni verificati): dopo 7–14 giorni si potrà analizzare l'associazione
 accuratezza ↔ flusso ↔ ora.
