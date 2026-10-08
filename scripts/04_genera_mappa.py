@@ -609,7 +609,7 @@ def calcola_velocita():
 # ---------------------------------------------------------------- pendolari ISTAT 2021
 # [agente GT05-pendolari] matrici comune contro comune (lavoro e studio), solo flussi da/verso Torino
 PRO_COM_TORINO = 1272
-# valori attesi dalle note (docs/istat/NOTE_FILE_ISTAT.md): entrano, escono, dentro Torino
+# valori attesi dalle note (MEMORIA_PROGETTO.md, sezione ISTAT): entrano, escono, dentro Torino
 PEND_ATTESI = {"lavoro": (138605, 71297, 212249), "studio": (48730, 6373, 120148)}
 
 
@@ -622,16 +622,20 @@ def _numero(v):
 
 
 def leggi_matrice_pendolari(percorso, etichetta):
-    """Legge una matrice ISTAT (zip con un file di testo separato da tab).
+    """Legge una matrice ISTAT (file di testo separato da tab, anche dentro uno zip).
     Trova da sola la riga di intestazione e le colonne; prova utf-8 poi latin-1.
     Restituisce {"ent": {comune: n}, "usc": {comune: n}, "int": n, "tot": n}: flussi da/verso Torino."""
-    with zipfile.ZipFile(percorso) as z:
-        nomi = [n for n in z.namelist() if not n.endswith("/")]
-        testuali = [n for n in nomi if n.lower().endswith((".txt", ".csv", ".tsv", ".dat"))] or nomi
-        if not testuali:
-            raise ValueError("zip vuoto")
-        nome = max(testuali, key=lambda n: z.getinfo(n).file_size)   # il file piu' grande e' la matrice
-        grezzo = z.read(nome)
+    if Path(percorso).suffix.lower() == ".zip":
+        with zipfile.ZipFile(percorso) as z:
+            nomi = [n for n in z.namelist() if not n.endswith("/")]
+            testuali = [n for n in nomi if n.lower().endswith((".txt", ".csv", ".tsv", ".dat"))] or nomi
+            if not testuali:
+                raise ValueError("zip vuoto")
+            nome = max(testuali, key=lambda n: z.getinfo(n).file_size)   # il file piu' grande e' la matrice
+            grezzo = z.read(nome)
+    else:
+        nome = Path(percorso).name
+        grezzo = Path(percorso).read_bytes()
     try:
         testo, codifica = grezzo.decode("utf-8-sig"), "utf-8"
     except UnicodeDecodeError:
@@ -696,10 +700,10 @@ def leggi_matrice_pendolari(percorso, etichetta):
 def costruisci_pendolari(sezioni):
     """Oggetto compatto per la mappa: per ogni comune delle sezioni, pendolari verso/da Torino
     (lavoro, studio), abitanti e baricentro pesato con gli abitanti. None se mancano i file."""
-    docs = RADICE / "docs"
-    f_lav, f_stu = docs / "matrix_pendoLAVORO_2021.zip", docs / "matrix_pendoSTUDIO_2021.zip"
+    cartella = RADICE / "data" / "raw" / "istat" / "pendolarismo_2021"
+    f_lav, f_stu = cartella / "matrix_pendoLAVORO_2021.txt", cartella / "matrix_pendoSTUDIO_2021.txt"
     if not (f_lav.is_file() and f_stu.is_file()):
-        print("  (matrici pendolarismo ISTAT non trovate in docs/: il tema Pendolari restera' vuoto)")
+        print("  (matrici pendolarismo ISTAT non trovate in data/raw/istat/pendolarismo_2021: il tema Pendolari restera' vuoto)")
         return None
     try:
         M = [leggi_matrice_pendolari(f_lav, "lavoro"), leggi_matrice_pendolari(f_stu, "studio")]
