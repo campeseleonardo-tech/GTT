@@ -69,6 +69,9 @@ def apri_db():
     CREATE TABLE IF NOT EXISTS flussi_5t (
         generato_utc TEXT, lcd1 TEXT, flusso REAL, velocita REAL, periodo_min INTEGER,
         PRIMARY KEY (generato_utc, lcd1));
+    CREATE TABLE IF NOT EXISTS accuratezza_5t (
+        generato_utc TEXT, lcd1 TEXT, accuratezza REAL,
+        PRIMARY KEY (generato_utc, lcd1));
     CREATE TABLE IF NOT EXISTS mezzi_gtt (
         letto_utc TEXT, ts_feed INTEGER, veicolo TEXT, linea TEXT, corsa TEXT,
         lat REAL, lng REAL, velocita REAL, direzione INTEGER);
@@ -111,6 +114,12 @@ def salva_5t_da_bytes(con, dati):
         con.execute("INSERT OR REPLACE INTO sensori_5t VALUES (?,?,?,?,?,?,?,?)",
                     (lcd1, a.get("Road_LCD"), a.get("Road_name"), _num(a.get("offset")),
                      a.get("direction"), _num(a.get("lat")), _num(a.get("lng")), _num(a.get("accuracy"))))
+        # L'accuratezza di questa misura si salva PERMANENTE in accuratezza_5t, nello
+        # stesso ciclo/transazione dei flussi. Prima di questo cambiamento l'accuratezza
+        # non era salvata per misura: il passato resta "non disponibile" (le vecchie righe
+        # di flussi_5t non vengono riscritte e in accuratezza_5t non si inventa nulla).
+        con.execute("INSERT OR IGNORE INTO accuratezza_5t VALUES (?,?,?)",
+                    (generato, lcd1, _num(a.get("accuracy"))))
         sf = next((c for c in s if nome_locale(c.tag) == "speedflow"), None)
         if sf is None:
             continue
