@@ -747,20 +747,16 @@ def leggi_omi():
     """Legge data/processed/omi_zone.json (O1); ritorna lista compatta o None."""
     f = RADICE / "data" / "processed" / "omi_zone.json"
     if not f.is_file():
-        print("  (omi_zone.json non trovato: tema Valore immobiliare vull; lancia 08_prepara_omi.py)")
+        print("  (omi_zone.json non trovato: tema Valore immobiliare vuoto; lancia 08_prepara_omi.py)")
         return None
     try:
         dati_omi = json.loads(f.read_text(encoding="utf-8"))
         # Calcola log: comuni, zone, zone con tipologia ab
         n_comuni = len(dati_omi)
         n_zone = sum(len(c.get("zone", [])) for c in dati_omi)
-        n_ab = sum(1 for c in dati_omi for z in c.get("zone", []) for k in z.get("v", {}).keys() if k == "20")
-        print(f"  OMI: {n_comuni} comuni, {n_zone} zone, {n_ab} zone con abitazioni civili (cod. 20)")
-        # Ritorna solo la parte necessaria per la mappa (piu' compatta)
-        out = []
-        for c in dati_omi:
-            out.append({"c": c["c"], "zones": c.get("zone", [])})
-        return out
+        n_ab = sum(1 for c in dati_omi for z in c.get("zone", []) if "ab" in (z.get("v") or {}))
+        print(f"  OMI: {n_comuni} comuni, {n_zone} zone, {n_ab} zone con tipologia ab")
+        return dati_omi
     except Exception as e:
         print(f"  (omi_zone.json non leggibile: {e}; tema OMI saltato)")
         return None
