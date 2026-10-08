@@ -15,23 +15,25 @@ Legenda: VERIFICATO = l'ho letto io; NON VERIFICATO = indicato da altre pagine, 
 
 Pagina di riferimento aperTO per GTT tempo reale: https://aperto.comune.torino.it/dataset/feed-gtfs-real-time-trasporti-gtt
 
-## ISTAT: stato al 4/10/2026
+## ISTAT: stato all'8/10/2026
 
-- Pendolarismo 2021 lavoro e studio: SCARICATI dall'utente (file di testo, comune contro comune, nessun mezzo né orario). Vedi l'inventario ISTAT in `MEMORIA_PROGETTO.md`.
-- Matrice 2011 a livello di sezione: download incompleto, da rifare/finire.
-- Basi territoriali 2021 Piemonte (R01_21.zip): ancora da scaricare.
+Tutto scaricato e verificato: pendolarismo 2021 (lavoro e studio, comune contro comune), matrici 2011 (110 zip
+per provincia + nazionale con mezzo e orario), basi territoriali 2021 Piemonte, indicatori regionali 2021.
+Dove stanno i file e cosa contengono: inventario ISTAT in `MEMORIA_PROGETTO.md`.
 
-## Da scaricare a mano (non conosco l'indirizzo diretto, non lo invento)
+## OMI (Agenzia delle Entrate): SCARICATO l'8/10/2026
 
-1. **ISTAT pendolarismo 2011**: pagina https://www.istat.it/non-categorizzato/matrici-di-contiguita-distanza-e-pendolarismo/
-   Serve il file "a livello di sezione di censimento" (circa 126 MB) e quello comunale (circa 34 MB), più le note
-   metodologiche e il file dei codici comunali. Salvali in `data/raw/istat/`.
-2. **ISTAT basi territoriali 2021**: pagina https://www.istat.it/notizia/basi-territoriali-e-variabili-censuarie/
-   Serve il file del Piemonte (indicato come R01_21.zip). Salva in `data/raw/istat/`.
-3. **ISTAT pendolarismo per lavoro 2021**: pagina https://www.istat.it/notizia/matrice-di-pendolarismo-per-lavoro/
-   Si consulta nel browser dati ISTAT (esploradati.istat.it): da lì si può provare a esportare Torino. NON verificato che
-   contenga mezzo e orario.
-4. **Facoltativo** - aperTO: ciclabili, parcheggi blu, ZTL con varchi, fermate metro, incidenti 2011-2017.
+- Quotazioni immobiliari semestre 2025/2 e perimetri delle zone OMI, provincia di Torino (312 comuni).
+- File in `data/raw/QIP1445919_CMPLRD98T08F335C/` (due CSV + `TO20252/` con i KML, uno per comune). Non toccare.
+- Scaricati a mano da Leo dal servizio Forniture dati OMI / GeoPOI dell'Agenzia. In caso di uso: citare
+  "Agenzia delle Entrate - OMI".
+- Mancante (facoltativo): provincia di Asti, per coprire Moncucco Torinese (unico comune dell'area non coperto).
+- Piano di integrazione nella mappa: sezione "Piano OMI" in `MEMORIA_PROGETTO.md`.
+
+## Da scaricare a mano (eventuale, non urgente)
+
+1. **Facoltativo** - OMI provincia di Asti (per Moncucco Torinese, vedi sopra).
+2. **Facoltativo** - aperTO: ciclabili, parcheggi blu, ZTL con varchi, fermate metro, incidenti 2011-2017.
    Catalogo: https://aperto.comune.torino.it/dataset/?q=mobilit%C3%A0
 
 ## Non pubbliche (richiedono una richiesta)
