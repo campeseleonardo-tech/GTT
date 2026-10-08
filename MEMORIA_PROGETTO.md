@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: 8 ottobre 2026, sera. Fatto oggi: riordino cartelle, inventario ISTAT, tema Pendolari sistemato, famiglie e abitazioni per sezione (fasi A1-A2). Prossimo compito: piano OMI (fasi O1-O5, sezione "Piano OMI" qui sotto), nessuna fase O ancora eseguita.
+Ultimo aggiornamento: 8 ottobre 2026. Fatto oggi: integrazione OMI completata in mappa (O1–O5) + verifiche; in precedenza riordino cartelle, inventario ISTAT, tema Pendolari sistemato, famiglie e abitazioni per sezione (A1–A2).
 Questo è l'unico file di memoria e di passaggio. Non creare altri documenti di memoria.
 Leggila all'inizio di ogni sessione e aggiornala alla fine.
 
@@ -32,7 +32,7 @@ orari veri. Per ora solo studio personale, forse da condividere. Area: Torino ci
 - Nessuna costruzione della mappa finché i dati non sono ispezionati.
 - Gli script trovano da soli la cartella GTT: i dati vanno in `data\raw`, i rapporti in `docs`, ovunque si lanci lo script.
 - Provare gli script su copie; i file in `data/raw` non si modificano.
-- Per il progetto si tiene solo quello che serve: doppioni e file inutili si tolgono (decisione dell'8/10).
+- Per il progetto si tiene solo quello che serve: doppioni e file inutili si tolgono .
 - Documenti: niente README o file di passaggio separati. Tutto va in questo file.
 - Sezioni di censimento cambiate tra 2011 e 2021: accettato un accorpamento approssimato.
 - Richieste dati (MTM, telefonia): rimandate a più avanti (bozze in `docs/`).
@@ -205,53 +205,32 @@ Rischi da dichiarare sulla mappa:
 
 Archivio per le simulazioni future (non mostrato ora): matrice 2011 sezione→sezione (tutti gli zip per provincia), con il limite che non ha il mezzo né l'ora. Matrice nazionale 2011 (293 MB): TENERLA. Ha mezzo, orario e tempo di viaggio per comune (vedi punto 2 dei dati mancanti). Non è un doppione degli zip.
 
-## Piano OMI: valore immobiliare nella mappa (8/10/2026)
+## OMI: valore immobiliare nella mappa (FATTO 8/10/2026)
 
-Dato: Quotazioni OMI dell'Agenzia delle Entrate, semestre 2025/2 (elaborazione 08/10/2026). Valore di mercato e di locazione €/m² (minimo-massimo) per zona OMI e tipologia edilizia. Valori "ordinari": pregio e degrado esclusi. NON è la stima di un singolo immobile. Da citare ovunque: "Agenzia delle Entrate - OMI".
+Dato: Quotazioni OMI (Agenzia delle Entrate), semestre 2025/2. Valori di mercato e locazione €/m² per zona OMI e tipologia edilizia. Valori ordinari (pregio/degrado esclusi): **non è la stima di un singolo immobile**.
 
-File (in `data/raw/QIP1445919_CMPLRD98T08F335C/`, non toccare):
-- `QIP_1445919_1_20252_VALORI.csv`: 3.119 righe (prima riga titolo, separatore ;). Colonne: Comune_ISTAT, Comune_amm, Zona, LinkZona, Cod_Tip, Descr_Tipologia, Stato (NORMALE/OTTIMO), Compr_min, Compr_max, Loc_min, Loc_max (decimali con virgola).
-- `QIP_1445919_1_20252_ZONE.csv`: 953 righe; nome zona in Zona_Descr (tra apici, es. 'ROMA'), Fascia, Microzona. Nessun doppione (comune, zona).
-- `TO20252/`: 312 KML, uno per comune (nome file = Comune_amm; L219 = Torino). Ogni Placemark: CODCOM, CODZONA, poligoni in lon,lat,alt (WGS84). LINKZONA vuoto: non usare. A Torino: 47 zone, 11 zone a pezzi (MultiGeometry), 6 buchi (innerBoundaryIs: verranno disegnati come pieni, limite accettato).
+File raw (sola lettura, non toccare): `data/raw/QIP1445919_CMPLRD98T08F335C/` (CSV + KML).
 
-Verificato l'8/10:
-- Join: (Comune_amm, Zona) del CSV contro (CODCOM, CODZONA) del KML. A Torino 47 = 47, zero differenze.
-- Codice comune: Comune_ISTAT a 7 cifre che inizia per 100 (es. 1001272) → PRO_COM = numero − 1000000; codici a 5 cifre (11317, 11318) → PRO_COM diretto.
-- Copertura area mappa: 69 comuni, 68 coperti. Mancante solo Moncucco Torinese (5070), che è in provincia di ASTI, fuori da questo download: 1/69 = 1,4% < 2% (tolleranza R3). Copribile più avanti scaricando anche la provincia di Asti (facoltativo).
-- Prezzi Torino (ordine di grandezza): abitazioni civili Compr_min 840-4300, Compr_max 1250-6500 €/m²; zona B1 'ROMA' 2900-4400 NORMALE; negozi Compr_min 410-6300.
-- Fascie presenti a Torino: B, C, D, E. Il significato delle lettere NON è verificato: non scriverlo sulla mappa.
+Implementazione:
+- `scripts/08_prepara_omi.py` → `data/processed/omi_zone.json` (area mappa: 69 comuni, 68 coperti; manca solo Moncucco Torinese 5070 = 1,4% < 2%).
+- `scripts/04_genera_mappa.py` carica `omi_zone.json` in `dati["omi"]`.
+- `scripts/mappa_template.html`: tema **"Valore immobiliare (OMI)"**, tendina tipologia, legenda, tooltip e scheda al click.
 
-Stato al 8/10 (sera): piano verificato sui file veri. O1 FATTO e CORRETTO (commit 483830b; sostituisce d725cb0): `scripts/08_prepara_omi.py` crea `data/processed/omi_zone.json` per i comuni dell'area (69 totali, 68 coperti; manca solo 5070 Moncucco = 1,4%); poligoni KML semplificati DP 20 m, MultiGeometry e innerBoundaryIs come anelli; Torino 47 zone; zona B1 nome ROMA con ab [2900, 4400, 10.5, 15.7]; zone senza poligono 0. O2 FATTO e CORRETTO (commit d009b81; sostituisce 1f902de): `scripts/04_genera_mappa.py` legge `omi_zone.json` e mette `dati["omi"]`; log: 68 comuni, 251 zone, 212 zone con tipologia ab; `mappa_torino.html` contiene 'ROMA' e 2900; dimensione 6,8 MB. O3 FATTO (commit af3a776): tema "Valore immobiliare (OMI)" + tendina tipologia + legenda. O4 FATTO (commit 36c61bf): tooltip e scheda OMI (tabella tipologie). O5 FATTO (commit 17003bf): verifica finale: log 68 comuni OMI e Torino 47 zone; nell'HTML: ROMA, 2900; dati OMI Torino B1 ab = [2900, 4400, 10.5, 15.7].
+Numeri verificati:
+- Log mappa: **68 comuni OMI**, **251 zone** (nell'area).
+- Torino: **47 zone**.
+- Zona Torino B1 **ROMA**: tipologia **ab** (abitazioni civili) **2900–4400 €/m²**; locazione **10,5–15,7 €/m²**.
 
-Fasi (ogni fase: eseguire, controllare i numeri, aggiornare questa memoria, commit):
-
-O1. Nuovo `scripts/08_prepara_omi.py` (solo stdlib) → `data/processed/omi_zone.json`:
-- legge i due CSV e i KML dei comuni dell'area (i "c" di `sezioni_torino.json` più Torino; Moncucco resta fuori);
-- struttura: `[{"c": PRO_COM, "zone": [{"z": "B1", "n": "ROMA", "f": "B", "g": [anelli [[lat,lon]...]], "v": {cod: [cmin, cmax, lmin, lmax]}}]}]`;
-- poligoni: lon,lat → [lat, lon], 5 decimali, semplificati Douglas-Peucker tolleranza 20 m (come 05); MultiGeometry → tutti i poligoni come anelli; innerBoundaryIs tenuti come anelli;
-- valori: per (comune, zona, tipologia) si tiene lo stato NORMALE se esiste, altrimenti il primo trovato; locazioni: virgola → punto;
-- codici tipologia: ab=civili, as=signorili, ae=economico, vi=ville e villini, bo=box, pa=posti auto coperti, ps=scoperti, ne=negozi, uf=uffici, la=laboratori, ci=capannoni tipici, in=industriali, ma=magazzini, cc=centri commerciali;
-- log: comuni, zone, zone senza poligono, zone senza valori; fermarsi solo se le mancanti superano il 2%;
-- controlli: 68 comuni; Torino 47 zone; zona B1: n "ROMA", v ab [2900, 4400, 10.5, 15.7]; zone senza poligono 0.
-
-O2. `04_genera_mappa.py`: leggere `data/processed/omi_zone.json` e metterlo in `dati["omi"]`. Log: comuni OMI, zone, zone con "ab". Rigenerare la mappa. Controlli: l'HTML contiene 'ROMA' e 2900; dimensione attesa +circa 1 MB.
-
-O3. `mappa_template.html`: tema nuovo "Valore immobiliare (OMI)" nella tabella THEMES (dopo Pendolarismo):
-- area colorata {tipo:"omi"}: poligoni OMI colorati per la media (Compr_min+Compr_max)/2 della tipologia scelta; classi fisse €/m² (fino a 1000, 1000-1500, 1500-2000, 2000-2500, 2500-3500, oltre 3500: costanti in cima al file); grigio = zona senza quella tipologia; comuni senza OMI non disegnati;
-- tendina tipologia (boxOmi, come boxPend; default ab);
-- legenda: classi con €/m², fonte, "stato NORMALE", "valori ordinari".
-
-O4. Template: tooltip al passaggio (nome zona, tipologia scelta, intervallo €/m², locazione) e scheda al click (tabella delle tipologie con compr e loc, comune, fascia, fonte, nota "non è la stima di un immobile"). Hit-test: riusare dentroZona sui poligoni OMI in cercaTip.
-
-O5. Verifica finale: eseguire 08 e 04; controllare log e stringhe nell'HTML ('ROMA', 2900); se il browser integrato funziona, screenshot con il tema attivo; altrimenti dire a Leo: aprire la mappa, scegliere "Valore immobiliare", zoom sul centro di Torino (il centro deve risultare più caro della periferia), click sulla zona ROMA (scheda con 2900-4400 €/m²). Memoria + commit.
-
-Dopo OMI restano le fasi A3-A5 del piano precedente (tooltip di sezioni e comuni, indicatori regionali da scegliere).
-
-NON si fa in questo piano: stima del valore di singoli edifici o condomini (il dato non esiste); reddito (manca, vedi "Dati mancanti"); Moncucco resta senza OMI finché non si scarica anche la provincia di Asti (facoltativo).
+Commit principali (ramo prova):
+- O1: `483830b` (preparazione OMI corretta)
+- O2: `d009b81` (integrazione in 04)
+- O3: `af3a776` (tema OMI + legenda + tendina)
+- O4: `36c61bf` (tooltip + scheda OMI)
+- O5: `17003bf` (verifica finale + rigenerazione mappa)
 
 ## Prossimi passi (in ordine)
 
-1. [ ] OMI: eseguire le fasi O1-O5 del piano qui sopra (valore immobiliare nella mappa).
+1. [x] OMI: integrazione completa in mappa (O1–O5).
 2. [ ] Analisi dei dati diurni della raccolta (dall'8/10): sensori 5T con accuracy=0, ritardi GTT (trip_update) di giorno.
 3. [ ] (CAMBIATO l'8/10) La matrice nazionale 2011 NON si confronta per cancellarla: ha mezzo e orario, che gli zip non hanno. Va TENUTA. Ora è nel piano come dato candidato (da decidere con Leo, vedi "Da decidere").
 4. [ ] Usare la matrice 2011 per sezione (flussi sezione→sezione, senza mezzo né orario) per il livello Domanda dentro Torino. Per l'ora serve un dato che non abbiamo (vedi "Dati mancanti" in fondo).
