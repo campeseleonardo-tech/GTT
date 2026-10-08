@@ -153,6 +153,55 @@ Dati importanti che mancano:
 7. Attrattori (scuole, uffici, ospedali, centri commerciali): non scaricati. Possibili fonti aperte da cercare.
 8. Dati turistici ed eventi: nessuno.
 
+## Piano di implementazione: nuovi dati nella mappa (8/10/2026)
+
+Obiettivo: far vedere sulla mappa i dati già disponibili, nello stesso modo in cui si vedono gli altri (un tema o una sovrapposizione, scheda al click, legenda, badge "dato" o "stima"). Nessun dato nuovo da scaricare in questa fase.
+
+Verificato l'8/10 prima di scrivere il piano:
+- Matrice 2011 provinciale (es. `Piemonte_Torino_...csv`): ogni riga ha PROCOM_ORIG, PROCOM_DEST (comune, 1272 = Torino), NOMEASC_ORIG/DEST (circoscrizione o gruppo di circoscrizioni), TOTALE_STUDENTI, TOTALE_LAVORATORI, TOTALE. Niente mezzo, niente ora.
+- Torino→Torino 2011: 355.525 pendolari (somma TOTALE sulle righe con origine e destinazione Torino).
+- Nei nomi 2011 ci sono 10 gruppi di circoscrizioni. Nel 2021 le circoscrizioni sono 8 (`TAB/ASC1_R01_21.csv`, codici 1272001-1272008). Due gruppi 2011 diversi (Santa Rita-Mirafiori nord e Mirafiori sud) finiscono nella stessa circoscrizione 2021; "Borgo Po, San Salvario, Cavoretto" e "Nizza Millefonti, Lingotto, Filadelfia" finiscono nella stessa 8. Va scritta una tabella di 10 righe.
+- Le sezioni 2021 hanno il campo COM_ASC1 (circoscrizione) nel file `SEZ_R01_21.csv`, ma `data/processed/sezioni_torino.json` non lo conserva: va aggiunto.
+- Le sezioni 2011 e 2021 NON hanno un codice in comune. Quindi i flussi 2011 si mostrano per comune o per circoscrizione, MAI per sezione.
+- Gli zip 2011 sono divisi per provincia di ORIGINE e contengono i pendolari in ingresso a Torino da tutta Italia (verificato su Asti e Milano). Vanno tenuti tutti.
+
+Fasi (ogni fase: eseguire, controllare i numeri, aggiornare questa memoria, commit):
+
+F1. Controllo matrice nazionale 2011 (`2011_sezioni/nazionale/matrix_pendo2011_10112014.txt`). Script di controllo in `scripts/` (stdlib): somma TOTALE della nazionale contro somma degli zip. Se coincidono, la nazionale si può togliere (decisione di Leo). Se non coincidono, si tengono gli zip e la nazionale resta.
+  Controllo: differenza di somma minore dello 0,5%. Se più, fermarsi e chiedere.
+
+F2. Pendolari 2011 per comune (in 04, nuova funzione `costruisci_pendolari_2011()`): legge tutti gli zip in `per_provincia/` e produce per ogni comune: entrano a Torino (lavoro, studio), escono da Torino (lavoro, studio). Stesso formato dei dati 2021 (`com`: c, p, la, lo, i[lav,stu], u[lav,stu]) con una chiave in più: `"anno": 2011`.
+  Controlli: Torino→Torino = 355.525; comuni non riconosciuti (codici assenti nel 2021) elencati nel log, non ignorati in silenzio.
+  Dove mettere il risultato: `dati["pend"]["com2011"]` (non sostituisce i dati 2021).
+
+F3. Tema Pendolarismo: aggiungere la scelta "Anno" (2021, 2011, Differenza) accanto a pendTipo, pendDir, pendVal in `mappa_template.html` (stesso stile delle altre tendine, nella sezione boxPend). `pendCalcola()` usa il set di dati scelto. La legenda `legendaPendolari()` scrive l'anno e la nota "2011: dati di 15 anni fa; niente mezzo né orario".
+  La scheda comune (`schedaComune`) mostra entrambi gli anni quando disponibili, con badge "2011" e "2021".
+  Limite: il conteggio è persone che vivono in un comune e lavorano/studiano a Torino. NON è un dato di quante persone salgono su un mezzo.
+
+F4. Circoscrizioni (nuovo tema "Circoscrizioni", da aggiungere alla tabella THEMES come il tema Pendolarismo):
+  - 05: `sezioni_torino.json` conserva anche `"circ": COM_ASC1` (solo Torino). Rieseguire 05 una volta.
+  - 04: nuova funzione `costruisci_circoscrizioni(sezioni, fermate, flussi2011)` produce per ognuna delle 8 circoscrizioni: nome (da ASC1), popolazione 2021 (somma sezioni), passaggi GTT programmati/ora (fermate dentro la circoscrizione, con la stessa logica di "passaggi entro 400 m" già usata), flussi 2011 interni a Torino (matrice 8x8), entrano/escono da fuori Torino (2011).
+  - Tabella di corrispondenza 10 gruppi 2011 → 8 circoscrizioni: scritta a mano in 04, con un controllo: la somma dei gruppi = 355.525.
+  - Template: nuovo tipo di area `{tipo:"circ"}`: poligoni delle circoscrizioni colorati per una metrica scelta da una tendina (popolazione, passaggi/ora per 1000 abitanti, pendolari in uscita per abitante). Linee dritte tra i baricentri delle circoscrizioni per i 15 flussi interni più grandi, spessore proporzionale (stesso disegno di `disegnaBase` per il tema Pendolari).
+  - Click su una circoscrizione: `schedaCircoscrizione()` (stessa struttura di `schedaZona`) con i numeri e i badge "dato" o "stima".
+  - Tooltip: `cercaTip` usa `dentroZona` (già presente) per riconoscere il poligono.
+
+F5. Riepilogo per circoscrizione nel pannello (opzionale, dopo F4): una tabella piccola nella sezione "Dati raccolti" con 8 righe. Decidere con Leo se serve.
+
+F6. Verifica:
+  - Eseguire 04 (e 05 se toccato). Controllare i valori nel log e nel file (vedi controlli di ogni fase).
+  - Controllare che `mappa_torino.html` contenga i nomi delle 8 circoscrizioni e il valore 355525 o i suoi componenti.
+  - Se il browser integrato è disponibile, aprire la mappa, cambiare tema e anno, e fare uno screenshot. Se non è disponibile, dire a Leo cosa aprire e cosa deve vedere (regola del progetto).
+
+F7. Memoria e commit: a ogni fase, aggiornare inventario e stato in questo file; un commit per fase.
+
+Cosa NON entra in questo piano (non ci sono dati): domanda per ora, mezzo di trasporto per spostamento, pendolari 2021 per sezione, matrice dei tempi di viaggio 2021, treni, bici, attrattori.
+
+Rischi da dichiarare sulla mappa:
+- 2011 è vecchio di 15 anni. Le etichette devono dirlo ogni volta.
+- Pendolari = residenza→lavoro/studio. Non è un conteggio di passeggeri.
+- Gruppi 2011 → circoscrizioni 2021: la tabella è una scelta nostra; va scritta in memoria e in 04 con il nome del gruppo.
+
 ## Prossimi passi (in ordine)
 
 1. [ ] Analisi dei dati diurni della raccolta (dall'8/10): sensori 5T con accuracy=0, ritardi GTT (trip_update) di giorno.
