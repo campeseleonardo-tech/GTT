@@ -153,54 +153,54 @@ Dati importanti che mancano:
 7. Attrattori (scuole, uffici, ospedali, centri commerciali): non scaricati. Possibili fonti aperte da cercare.
 8. Dati turistici ed eventi: nessuno.
 
-## Piano di implementazione: nuovi dati nella mappa (8/10/2026)
+## Piano di implementazione: nuovi dati nella mappa (rifatto l'8/10/2026)
 
-Obiettivo: far vedere sulla mappa i dati già disponibili, nello stesso modo in cui si vedono gli altri (un tema o una sovrapposizione, scheda al click, legenda, badge "dato" o "stima"). Nessun dato nuovo da scaricare in questa fase.
+Regole decise da Leo (valgono per ogni dato futuro):
+- R1. Solo dati facili. Niente circoscrizioni e niente tabelle nel pannello. Le informazioni extra stanno nel passaggio del mouse (tooltip) e nella scheda al click.
+- R2. Dati di anni diversi: se un dato più vecchio si può riassumere in quello più recente, si mostra solo il più recente. Il dato vecchio si mostra solo se contiene informazione che il recente non ha.
+- R3. Tolleranza nei merge tra anni: un codice non agganciato non blocca il merge. Si scrive nel log quante persone o righe non si sono agganciate e quali codici. Il merge si ferma solo se la quota non agganciata supera il 2% del totale (costante `TOLL_MERGE = 0.02` in 04; soglia scelta da me, si cambia lì).
 
-Verificato l'8/10 prima di scrivere il piano:
-- Matrice 2011 provinciale (es. `Piemonte_Torino_...csv`): ogni riga ha PROCOM_ORIG, PROCOM_DEST (comune, 1272 = Torino), NOMEASC_ORIG/DEST (circoscrizione o gruppo di circoscrizioni), TOTALE_STUDENTI, TOTALE_LAVORATORI, TOTALE. Niente mezzo, niente ora.
-- Torino→Torino 2011: 355.525 pendolari (somma TOTALE sulle righe con origine e destinazione Torino).
-- Nei nomi 2011 ci sono 10 gruppi di circoscrizioni. Nel 2021 le circoscrizioni sono 8 (`TAB/ASC1_R01_21.csv`, codici 1272001-1272008). Due gruppi 2011 diversi (Santa Rita-Mirafiori nord e Mirafiori sud) finiscono nella stessa circoscrizione 2021; "Borgo Po, San Salvario, Cavoretto" e "Nizza Millefonti, Lingotto, Filadelfia" finiscono nella stessa 8. Va scritta una tabella di 10 righe.
-- Le sezioni 2021 hanno il campo COM_ASC1 (circoscrizione) nel file `SEZ_R01_21.csv`, ma `data/processed/sezioni_torino.json` non lo conserva: va aggiunto.
-- Le sezioni 2011 e 2021 NON hanno un codice in comune. Quindi i flussi 2011 si mostrano per comune o per circoscrizione, MAI per sezione.
-- Gli zip 2011 sono divisi per provincia di ORIGINE e contengono i pendolari in ingresso a Torino da tutta Italia (verificato su Asti e Milano). Vanno tenuti tutti.
+Conseguenze verificate:
+- Pendolari 2011 per comune: NON si mostrano. Hanno lo stesso livello del 2021 (comune) ma sono più vecchi: R2 li esclude.
+- Flussi 2011 dentro Torino (sezione→sezione, 355.525 pendolari Torino→Torino): NON si mostrano ora. Restano in archivio per le simulazioni future. Non si possono riassumere nel 2021 (le sezioni 2011 e 2021 non hanno un codice in comune).
+- Quindi la mappa, con i dati 2011, oggi non cambia.
+
+Dati da mostrare ora (tutti 2021):
+- D1. Famiglie e abitazioni per sezione 2021, nel file `SEZ_R01_21.csv` già dentro `R01_21.zip`. Verificato l'8/10 su Torino: 6.916 sezioni, 848.748 abitanti (uguale alla memoria), 433.469 famiglie, 502.615 abitazioni occupate, 36.242 edifici. Nessuna sezione con più famiglie che abitanti.
+- D2. Pendolari 2021 per comune: già in mappa (tema Pendolarismo). Si aggiunge il passaggio del mouse. Lo studio è una stima con modelli statistici: va detto nel tooltip.
+- D3. Indicatori regionali 2021 per sezione (`data/raw/istat/altro/Dati_regionali_2021/R01_indicatori_2021_sezioni.xlsx`): contenuto ancora non letto. Si mostrano solo quelli che Leo sceglie dopo la fase A0.
 
 Fasi (ogni fase: eseguire, controllare i numeri, aggiornare questa memoria, commit):
 
-F1. Controllo matrice nazionale 2011 (`2011_sezioni/nazionale/matrix_pendo2011_10112014.txt`). Script di controllo in `scripts/` (stdlib): somma TOTALE della nazionale contro somma degli zip. Se coincidono, la nazionale si può togliere (decisione di Leo). Se non coincidono, si tengono gli zip e la nazionale resta.
-  Controllo: differenza di somma minore dello 0,5%. Se più, fermarsi e chiedere.
+A0. Ispezione (sola lettura). Leggere con la libreria standard le intestazioni di R01 (il file è uno zip di XML: leggere `xl/workbook.xml` e la prima riga di ogni foglio). Stampare nel log le colonne. Stop: Leo sceglie al massimo 3 indicatori. Nessun numero viene inventato.
 
-F2. Pendolari 2011 per comune (in 04, nuova funzione `costruisci_pendolari_2011()`): legge tutti gli zip in `per_provincia/` e produce per ogni comune: entrano a Torino (lavoro, studio), escono da Torino (lavoro, studio). Stesso formato dei dati 2021 (`com`: c, p, la, lo, i[lav,stu], u[lav,stu]) con una chiave in più: `"anno": 2011`.
-  Controlli: Torino→Torino = 355.525; comuni non riconosciuti (codici assenti nel 2021) elencati nel log, non ignorati in silenzio.
-  Dove mettere il risultato: `dati["pend"]["com2011"]` (non sostituisce i dati 2021).
+A1. 05 (`05_prepara_sezioni.py`): in `sezioni_torino.json` aggiungere per ogni sezione `"f"` (FAM21) e `"ab"` (ABI21). Eseguire 05 una volta.
+  Controlli: numero sezioni di Torino ancora 6.916; somma abitanti ancora 848.748; somma famiglie Torino 433.469; nessuna sezione con famiglie > abitanti.
 
-F3. Tema Pendolarismo: aggiungere la scelta "Anno" (2021, 2011, Differenza) accanto a pendTipo, pendDir, pendVal in `mappa_template.html` (stesso stile delle altre tendine, nella sezione boxPend). `pendCalcola()` usa il set di dati scelto. La legenda `legendaPendolari()` scrive l'anno e la nota "2011: dati di 15 anni fa; niente mezzo né orario".
-  La scheda comune (`schedaComune`) mostra entrambi gli anni quando disponibili, con badge "2011" e "2021".
-  Limite: il conteggio è persone che vivono in un comune e lavorano/studiano a Torino. NON è un dato di quante persone salgono su un mezzo.
+A2. 04 (`04_genera_mappa.py`): passare `f` e `ab` nell'elenco `sezioni` (oggi passa solo p, a, g, c). Nel log: totali di Torino.
+  Controllo: nell'HTML generato compare il totale 433469 (o 433.469 formattato) come valore delle famiglie.
 
-F4. Circoscrizioni (nuovo tema "Circoscrizioni", da aggiungere alla tabella THEMES come il tema Pendolarismo):
-  - 05: `sezioni_torino.json` conserva anche `"circ": COM_ASC1` (solo Torino). Rieseguire 05 una volta.
-  - 04: nuova funzione `costruisci_circoscrizioni(sezioni, fermate, flussi2011)` produce per ognuna delle 8 circoscrizioni: nome (da ASC1), popolazione 2021 (somma sezioni), passaggi GTT programmati/ora (fermate dentro la circoscrizione, con la stessa logica di "passaggi entro 400 m" già usata), flussi 2011 interni a Torino (matrice 8x8), entrano/escono da fuori Torino (2011).
-  - Tabella di corrispondenza 10 gruppi 2011 → 8 circoscrizioni: scritta a mano in 04, con un controllo: la somma dei gruppi = 355.525.
-  - Template: nuovo tipo di area `{tipo:"circ"}`: poligoni delle circoscrizioni colorati per una metrica scelta da una tendina (popolazione, passaggi/ora per 1000 abitanti, pendolari in uscita per abitante). Linee dritte tra i baricentri delle circoscrizioni per i 15 flussi interni più grandi, spessore proporzionale (stesso disegno di `disegnaBase` per il tema Pendolari).
-  - Click su una circoscrizione: `schedaCircoscrizione()` (stessa struttura di `schedaZona`) con i numeri e i badge "dato" o "stima".
-  - Tooltip: `cercaTip` usa `dentroZona` (già presente) per riconoscere il poligono.
+A3. Template (`mappa_template.html`): al passaggio del mouse su una sezione, tooltip con abitanti, famiglie, abitazioni, badge "ISTAT 2021 (residenti di notte)". Il click apre la scheda sezione (`schedaSezione`) con gli stessi numeri. Verificare nel codice (`cercaTip`) se il tooltip sulle sezioni esiste già; se no, aggiungerlo come per le fermate (`tipTxt`).
 
-F5. Riepilogo per circoscrizione nel pannello (opzionale, dopo F4): una tabella piccola nella sezione "Dati raccolti" con 8 righe. Decidere con Leo se serve.
+A4. Template: al passaggio del mouse su un comune nel tema Pendolarismo, tooltip con entrano/escono per lavoro e studio, badge "ISTAT 2021" e "studio = stima". Controllare prima se `cercaTip` ha già il ramo del tema Pendolari; altrimenti aggiungerlo.
 
-F6. Verifica:
-  - Eseguire 04 (e 05 se toccato). Controllare i valori nel log e nel file (vedi controlli di ogni fase).
-  - Controllare che `mappa_torino.html` contenga i nomi delle 8 circoscrizioni e il valore 355525 o i suoi componenti.
-  - Se il browser integrato è disponibile, aprire la mappa, cambiare tema e anno, e fare uno screenshot. Se non è disponibile, dire a Leo cosa aprire e cosa deve vedere (regola del progetto).
+A5. Indicatori scelti in A0: stesse regole di A1-A4. Un indicatore per volta, con commit separato.
 
-F7. Memoria e commit: a ogni fase, aggiornare inventario e stato in questo file; un commit per fase.
+A6. Verifica:
+  - Eseguire 05 (una volta) e 04. Leggere il log: totali e valori attesi di ogni fase.
+  - Controllare che `mappa_torino.html` contenga i valori attesi.
+  - Se il browser integrato è disponibile, aprire la mappa, passare il mouse su una sezione e su un comune, fare uno screenshot. Se non è disponibile, dire a Leo cosa aprire e cosa deve vedere.
 
-Cosa NON entra in questo piano (non ci sono dati): domanda per ora, mezzo di trasporto per spostamento, pendolari 2021 per sezione, matrice dei tempi di viaggio 2021, treni, bici, attrattori.
+A7. Memoria e commit: a ogni fase, aggiornare l'inventario e lo stato in questo file, un commit per fase.
+
+Non si fa in questo piano: pendolari 2011 per comune, flussi 2011 dentro Torino, circoscrizioni, tabelle nel pannello.
 
 Rischi da dichiarare sulla mappa:
-- 2011 è vecchio di 15 anni. Le etichette devono dirlo ogni volta.
-- Pendolari = residenza→lavoro/studio. Non è un conteggio di passeggeri.
-- Gruppi 2011 → circoscrizioni 2021: la tabella è una scelta nostra; va scritta in memoria e in 04 con il nome del gruppo.
+- Famiglie e abitazioni 2021 sono il censimento dei residenti: non dicono chi si sposta.
+- Il tooltip dice "residenti", non "persone in movimento".
+- Gli indicatori regionali vanno scelti solo se sono 2021 e spiegati in una riga.
+
+Archivio per le simulazioni future (non mostrato ora): matrice 2011 sezione→sezione (tutti gli zip per provincia), con il limite che non ha il mezzo né l'ora. Matrice nazionale 2011 (293 MB): da decidere con Leo se tenerla o toglierla dopo il controllo di somma.
 
 ## Prossimi passi (in ordine)
 
