@@ -1300,6 +1300,25 @@ function cercaTip(sx,sy,click){
   }
 
   // 6. Zone statistiche comunali
+  // 6b. Zone OMI (valore immobiliare)
+  if(vis("Lomi") && omiOk){
+    const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
+    const tip=$("omiTipo")?$("omiTipo").value:"ab";
+    const nomeTip=OMI_TIPI[tip]||tip;
+    for(const z of omi){
+      if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
+      if(dentroZona({polys:[z.rings]},ux,uy)){
+        const vv=(z.v||{})[tip]||null;
+        if(click) return apriScheda(schedaOmi(z), null);
+        cv.style.cursor="pointer";
+        if(vv){
+          return mostraTipBase(`<b>Zona OMI ${esc(z.z)} · ${esc(z.n||"")}</b><br>${esc(nomeTip)}: <b>${fmtEuro(vv[0])}–${fmtEuro(vv[1])} €/m²</b><br>Locazione: ${fmtEuro(vv[2])}–${fmtEuro(vv[3])} €/m²`, sx, sy);
+        }
+        return mostraTipBase(`<b>Zona OMI ${esc(z.z)} · ${esc(z.n||"")}</b><br>${esc(nomeTip)}: <span style="color:var(--muted)">non disponibile</span>`, sx, sy);
+      }
+    }
+  }
+
   if(vis("Lzone")){
     const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
     for(const z of zone){
@@ -1452,6 +1471,48 @@ function impostaSubServizio(sub, aggiornaOver){
     if(aggiornaOver){ $("Llinee").checked = false; $("Lfermate").checked = false; }
   }
   $("temaDesc").textContent = tema.desc;
+}
+
+// --- OMI: scheda zona ---
+function fmtEuro(x){
+  if(x==null || isNaN(x)) return "—";
+  // interi per vendita, decimali per locazione
+  const s = (Math.abs(x - Math.round(x)) < 1e-9) ? String(Math.round(x)) : x.toFixed(1);
+  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+function schedaOmi(z){
+  const tip = $("omiTipo")?$("omiTipo").value:"ab";
+  const nomeTip = OMI_TIPI[tip] || tip;
+  const vv = (z.v||{})[tip] || null;
+  const val = vv ? `${fmtEuro(vv[0])}–${fmtEuro(vv[1])} €/m²` : "Tipologia assente";
+  const stato = vv ? `Locazione: ${fmtEuro(vv[2])}–${fmtEuro(vv[3])} €/m²` : `Nessun valore OMI per ${esc(nomeTip)} in questa zona`;
+  const righe = Object.keys(z.v||{}).sort().map(k=>{
+    const a=z.v[k];
+    return `<tr><td style="padding:4px 6px;border-bottom:1px solid var(--line)">${esc(OMI_TIPI[k]||k)}</td>`
+      + `<td style="padding:4px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap">${fmtEuro(a[0])}–${fmtEuro(a[1])}</td>`
+      + `<td style="padding:4px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap">${fmtEuro(a[2])}–${fmtEuro(a[3])}</td></tr>`;
+  }).join("");
+  const tab = `<table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead><tr>
+      <th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--line)">Tipologia</th>
+      <th style="text-align:right;padding:4px 6px;border-bottom:1px solid var(--line)">Acquisto €/m²</th>
+      <th style="text-align:right;padding:4px 6px;border-bottom:1px solid var(--line)">Locazione €/m²</th>
+    </tr></thead><tbody>${righe||'<tr><td colspan="3" style="padding:6px;color:var(--muted)">—</td></tr>'}</tbody></table>`;
+  return creaScheda({
+    titolo: `Zona OMI ${esc(z.z)} · ${esc(z.n||"")}`,
+    badge: '<span class="tag stimato">OMI</span>',
+    sub: `${z.f?"Fascia "+esc(z.f)+" · ":""}Comune ${String(z.c||"").padStart(6,"0")}`,
+    val: val,
+    stato: stato,
+    dettagli: [
+      {k:"Tipologia selezionata", v: esc(nomeTip)},
+      {k:"Fonte", v:"Agenzia delle Entrate – OMI (2025/2)"},
+      {k:"Nota", v:"Valori ordinari; stato NORMALE (se presente). Non è la stima di un singolo immobile."},
+    ],
+    appTitolo: "Tutte le tipologie in zona",
+    approfondimento: tab,
+    appAperto: true,
+  });
 }
 
 // ---------- legenda OMI ----------
