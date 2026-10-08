@@ -88,15 +88,8 @@
   .sim{display:flex;align-items:center;gap:8px;margin-top:8px}
   .sim select,#modoSez,#basemap,#filtroLinea{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff}
   #filtroLinea{width:100%;margin:2px 0 4px}
-  /* [agente GT29-integrazione-simulazioni] riepilogo del risultato caricato */
-  #boxSim label{display:block;font-size:12px;color:var(--muted);margin-top:6px}
-  #avvisoSim{margin:8px 0;padding:8px;border:1px solid #e0b84a;border-radius:8px;background:#fff3cd;color:#4a3b00;font-size:11.5px}
-  #avvisoSim strong{display:block;margin-bottom:3px}
-  #risultatoSim{display:none;margin-top:8px;padding:8px;border:1px solid var(--line);border-radius:8px;background:#f8f9fb}
-  #risultatoSim .sim-riga{display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:12px}
-  #risultatoSim .sim-val{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
-  #differenzaSim.positivo{color:#237347} #differenzaSim.negativo{color:#b42332}
-  #statoSim{font-size:11.5px;color:var(--muted);margin-top:5px}
+  /* [agente GT29-integrazione-simulazioni] la simulazione si apre in una pagina separata */
+  #boxSim p{font-size:12px;color:var(--muted);margin:4px 0}
   #attrib{position:fixed;right:6px;bottom:4px;font-size:10.5px;color:#444;background:rgba(255,255,255,.8);padding:1px 6px;border-radius:4px}
   #attrib a{color:inherit}
   /* [agente GT08-griglia-scala] barra della scala in basso a sinistra */
@@ -119,13 +112,16 @@
   <h1>Mobilità Torino</h1>
   <p class="sub">Offerta GTT programmata, traffico 5T e mezzi GTT all'ultimo aggiornamento.</p>
 
-  <!-- [agente GT16] blocco temporale «Quando» raggruppato -->
-  <div id="boxQuando" style="background:#f8f9fb;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-top:8px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+  <!-- [agente GT16] blocco temporale «Quando»: tendina comprimibile, default = Adesso -->
+  <details id="boxQuando" style="background:#f8f9fb;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-top:8px">
+    <summary style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none">
       <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Quando</span>
-      <button class="btn" id="adesso" title="Imposta giorno e ora attuali" style="padding:2px 8px;font-size:11.5px">Adesso</button>
-    </div>
-    <div class="seg" id="giorno">
+      <span style="display:flex;align-items:center;gap:6px">
+        <span id="quandoRiepilogo" style="font-size:12px;color:var(--ink);font-weight:500"></span>
+        <button class="btn" id="adesso" title="Imposta giorno e ora attuali" style="padding:2px 8px;font-size:11.5px">Adesso</button>
+      </span>
+    </summary>
+    <div class="seg" id="giorno" style="margin-top:8px">
       <button data-k="0" aria-pressed="true">Feriale</button>
       <button data-k="1" aria-pressed="false">Sabato</button>
       <button data-k="2" aria-pressed="false">Domenica</button>
@@ -141,7 +137,7 @@
     </div>
     <div id="fraseQuando" style="font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.35"></div>
     <span id="nAtt" style="font-size:11.5px;color:var(--muted)"></span>
-  </div>
+  </details>
 
   <!-- [agente GT16] 4 temi unificati nel menu a tendina -->
   <h2>Tema</h2>
@@ -166,7 +162,7 @@
   </div>
   <!-- stato interno dell'area colorata: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
   <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez">
-    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option></select></div>
+    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option><option value="crit"></option></select></div>
 
   <h2>Sovrapposizioni</h2>
   <label class="lv"><input type="checkbox" id="Llinee"><span class="sw" style="background:var(--bus)"></span>Linee: corse/ora</label>
@@ -201,24 +197,11 @@
   <div id="segn" style="font-size:12.5px;color:var(--muted)">—</div>
   </div>
 
-  <!-- [agente GT29-integrazione-simulazioni] carica il riepilogo JSON stampato da calcola_simulazione.py -->
+  <!-- [agente GT29-integrazione-simulazioni] la simulazione si apre in una pagina separata -->
   <section id="boxSim">
-    <h2>Risultato simulazione</h2>
-    <button class="btn" id="scegliSim" type="button">Carica risultato</button>
-    <input id="fileSim" type="file" accept=".json,.txt,.log,application/json,text/plain" style="display:none">
-    <label for="fileSim">Scegli il file con il risultato dello script. Puoi caricare il JSON finale o l'output completo salvato dalla console.</label>
-    <div id="statoSim" role="status">Nessun risultato caricato.</div>
-    <div id="risultatoSim" aria-live="polite">
-      <div class="sim-riga"><span>Passaggi totali, base</span><span class="sim-val" id="baseSim"></span></div>
-      <div class="sim-riga"><span>Passaggi totali, scenario</span><span class="sim-val" id="totSim"></span></div>
-      <div class="sim-riga"><span>Differenza (scenario − base)</span><span class="sim-val" id="differenzaSim"></span></div>
-      <div class="sim-riga"><span>Fermate con variazione</span><span class="sim-val" id="fermateSim"></span></div>
-      <div id="avvisoSim">
-        <strong>⚠ SIMULAZIONE SU ORARIO PROGRAMMATO</strong>
-        I risultati mostrano l'offerta potenziale calcolata applicando le variazioni all'orario GTFS. Non tengono conto di traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri o regolarità del servizio. Un aumento di corse sulla carta non garantisce che i bus arrivino in orario. Dati programmati/stimati, non misurati.
-      </div>
-      <div style="font-size:11.5px;color:var(--muted)">Residenti raggiunti e km-vettura non sono inclusi nel risultato fornito da questo calcolo.</div>
-    </div>
+    <h2>Simulazione</h2>
+    <p style="font-size:12px;color:var(--muted);margin:4px 0">La simulazione di scenari si apre in una pagina separata, così puoi confrontare più risultati senza chiudere la mappa.</p>
+    <button class="btn" id="apriSim" type="button" style="width:100%;margin-top:4px;font-weight:600">Apri pagina simulazione →</button>
   </section>
 
   <details>
@@ -326,9 +309,9 @@ const sezRapp=(z,i)=>sezServ(z,i)/Math.max(z.pop400,1)*1000;
 let sezSoglie={};
 function calcolaSoglieSez(){
   if(!sezOk) return;
-  const vals={serv:[],rapp:[],dens:sez.map(z=>z.dens).sort((a,b)=>a-b)};
-  for(const z of sez) for(let h=7;h<=20;h+=1){ vals.serv.push(sezServ(z,h)); vals.rapp.push(sezRapp(z,h)); }
-  for(const k of ["serv","rapp"]) vals[k].sort((a,b)=>a-b);
+  const vals={serv:[],rapp:[],dens:sez.map(z=>z.dens).sort((a,b)=>a-b), crit:[]};
+  for(const z of sez) for(let h=7;h<=20;h+=1){ vals.serv.push(sezServ(z,h)); vals.rapp.push(sezRapp(z,h)); const cr=critSez(z,h); if(cr!==null) vals.crit.push(cr); }
+  for(const k of ["serv","rapp","crit"]) vals[k].sort((a,b)=>a-b);
   for(const k in vals){ const v=vals[k]; sezSoglie[k]=[0.2,0.4,0.6,0.8].map(q=>v[Math.min(v.length-1,Math.floor(q*v.length))]); }
 }
 /* [agente GT18-punti-critici-integrati] indice di criticita' 0-100 per sezione e ora: 100 = nessun passaggio GTT programmato entro 400 m
@@ -352,7 +335,8 @@ const critEtichetta=c=>c>=CRIT_ALTA?"critica":c>=60?"alta":c>=40?"media":c>=20?"
 const PAL_RAPP=["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"];
 const PAL_BASE=["#e3f1ef","#b5dcd6","#7cc0b8","#3f9a95","#1b6f73"];
 const PAL_PEND=["#efe9f6","#cdb9e3","#a98acd","#7d55b0","#51287f"];   // [agente GT05-pendolari]
-const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP, pend:PAL_PEND};
+const PAL_CRIT=["#b0102a","#e8833a","#f2c14e","#9cc27a","#4c9f70"];   // [agente GT16] zone critiche: rosso=critica, verde=ok
+const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP, pend:PAL_PEND, crit:PAL_CRIT};
 
 /* [agente GT05-pendolari] pendolari ISTAT 2021 (comune contro comune): D.pend = {tor, com[], altri}; i = entrano a Torino [lavoro,studio], u = escono */
 const TORINO_PC=1272;
@@ -375,7 +359,7 @@ function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flu
   return pendCache;
 }
 const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
-const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):sezRapp(z,i);
+const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):sezRapp(z,i);
 
 const linee = D.linee.map((l,ii) => {
   const a=new Float64Array(l.p.length*2); let x0=1,y0=1,x1=0,y1=0;
@@ -642,7 +626,7 @@ function disegnaBase(ws,ox,oy,i){
       if(!dentroVista(z.bb,ws,ox,oy)) continue;
       // [agente GT05-pendolari] tema Pendolari: colore = valore del comune della sezione; grigio = Torino o nessun flusso
       const vp=pc?(pc.val.get(z.c)||0):0;
-      const nulla = pc ? (z.c===TORINO_PC || !vp) : modo!=="dens" && sezServ(z,i)===0;
+      const nulla = pc ? (z.c===TORINO_PC || !vp) : modo==="crit" ? critSez(z,i)===null : modo!=="dens" && sezServ(z,i)===0;
       const c=pc ? (pc.sogl?pc.sogl.filter(x=>vp>x).length:0) : classeSez(valSez(z,modo,i),modo);
       // [agente GT02-temi] riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
       cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:.5;
@@ -1068,6 +1052,9 @@ function schedaSezione(z){
   } else if(modo === "dens"){
     val = `${Math.round(z.dens)} ab./km²`;
     stato = `${z.p} residenti nella sezione`;
+  } else if(modo === "crit"){
+    val = crit === null ? "non calcolabile" : `Criticità ${crit}/100`;
+    stato = crit === null ? "Nessun residente nella sezione" : `Livello: ${critEtichetta(crit)}`;
   } else {
     val = `${serv} passaggi/ora`;
     stato = `Rapporto: ${rapp.toFixed(0)} / 1000 ab.`;
@@ -1294,7 +1281,12 @@ function fraseQuando(){
   const t=`La mappa mostra il servizio di ${["un giorno feriale","un sabato","una domenica"][S.dt]||"un giorno"} alle ${pad(S.h)}:${pad(Math.floor(S.m%60))}`;
   if($("fraseQuando").textContent!==t) $("fraseQuando").textContent=t;
 }
-function aggiornaOra(){ $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando(); chiede(); }
+function riepilogoQuando(){
+  const g=GIORNI[S.dt], h=pad(S.h), mi=pad(Math.floor(S.m%60)), v=$("vel").value+"×";
+  const t=`${g}, ${h}:${mi} · ${v}`;
+  if($("quandoRiepilogo").textContent!==t) $("quandoRiepilogo").textContent=t;
+}
+function aggiornaOra(){ $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando(); riepilogoQuando(); chiede(); }
 document.querySelectorAll("#giorno button").forEach(b=>b.onclick=()=>{ S.dt=+b.dataset.k; document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",x===b)); aggiornaOra(); aggiornaLegenda(); });
 $("ora").oninput=e=>{S.m=+e.target.value; aggiornaOra();};
 function adesso(){
@@ -1307,6 +1299,7 @@ function adesso(){
   document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.k===S.dt)); aggiornaOra(); aggiornaLegenda();
 }
 $("adesso").onclick=adesso;
+$("vel").onchange=()=>riepilogoQuando();   // [agente GT16] aggiorna il riepilogo della tendina
 // [agente GT02-temi] le sovrapposizioni si cambiano a mano; l'area colorata la decide solo il tema
 ["Lcorse","Llinee","Lfermate","Lsensori","Lmezzi"].forEach(id=>$(id).onchange=()=>{chiede();aggiornaLegenda();});
 $("Lgriglia").onchange=()=>chiede();   // [agente GT08-griglia-scala]
@@ -1314,38 +1307,8 @@ $("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; tileOk=0; agg
 $("intSfondo").oninput=e=>{ intSfondo=e.target.value/100; $("intSfondoVal").textContent=e.target.value+"%"; baseVer++; chiede(); }; // [agente GT01-sfondi]
 $("filtroLinea").oninput=()=>{ baseVer++; chiede(); };
 $("coloreLinee").onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); };
-// [agente GT29-integrazione-simulazioni] legge i quattro indicatori prodotti da calcola_simulazione.py; accetta anche il log con il JSON finale.
-$("scegliSim").onclick=()=> $("fileSim").click();
-$("fileSim").onchange=async e=>{
-  const file=e.target.files&&e.target.files[0];
-  if(!file) return;
-  const stato=$("statoSim"), box=$("risultatoSim");
-  box.style.display="none";
-  stato.textContent="Lettura del risultato…";
-  try{
-    const testo=await file.text();
-    const inizioLog=testo.lastIndexOf("\n{");
-    const json=testo.slice(inizioLog>=0?inizioLog+1:0).trim();
-    const r=JSON.parse(json);
-    const campi=["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica"];
-    if(!r||typeof r!=="object"||campi.some(k=>typeof r[k]!=="number"||!Number.isFinite(r[k]))||
-       r.passaggi_totali_baseline<0||r.passaggi_totali_scenario<0||r.fermate_con_modifica<0){
-      throw new Error("Il file non contiene tutti e quattro i valori numerici attesi.");
-    }
-    const numero=n=>Math.round(n).toLocaleString("it-IT");
-    $("baseSim").textContent=numero(r.passaggi_totali_baseline);
-    $("totSim").textContent=numero(r.passaggi_totali_scenario);
-    const diff=$("differenzaSim");
-    diff.textContent=(r.differenza_passaggi>0?"+":"")+numero(r.differenza_passaggi);
-    diff.className="sim-val"+(r.differenza_passaggi>0?" positivo":r.differenza_passaggi<0?" negativo":"");
-    $("fermateSim").textContent=numero(r.fermate_con_modifica);
-    box.style.display="block";
-    stato.textContent="Risultato caricato: "+file.name;
-  }catch(err){
-    stato.textContent="Non riesco a leggere un risultato valido: "+(err&&err.message?err.message:"formato non riconosciuto")+".";
-  }
-  e.target.value="";
-};
+// [agente GT29-integrazione-simulazioni] la simulazione si apre in una pagina separata per confrontare più risultati
+$("apriSim").onclick=()=>{ window.open("simulazione.html","_blank"); };
 $("repGiorno").onchange=e=>{ if(e.target.value){ $("Lreplay").checked=true; } caricaReplay(e.target.value); aggiornaLegenda(); };
 $("Lreplay").onchange=()=>{ if($("Lreplay").checked && !REP && $("repGiorno").value) caricaReplay($("repGiorno").value); chiede(); aggiornaLegenda(); };
 let gioca=true, ultimoT=0;
@@ -1398,6 +1361,15 @@ function legendaPendolari(){
     +`<div class="et" style="display:block">Linee dei primi 30 comuni: ${pendNum(pc.totTop)} persone.<br>Altri ${Math.max(0,pc.nCom-pc.top.length)} comuni dell'area (senza linea): ${pendNum(pc.totCom-pc.totTop)}.<br>Comuni fuori dall'area della mappa (${PEND.altri.n}): ${pendNum(fuori)}.<br>Dentro Torino (Torino→Torino, nessuna linea): <b>${pendNum(interno)}</b>.</div>`
     +`<div class="et" style="display:block">ISTAT 2021, comune→comune, senza mezzo né orario; studio = stima. Passa il mouse (o tocca) su un comune per i dettagli.</div>`;
 }
+/* [agente GT16] legenda per il tema Zone critiche */
+function legendaCriticita(){
+  if(!sezOk||!sezSoglie.crit) return `<div class="t">Criticità servizio ${TAG.prog}${TAG.cens}</div><div class="et" style="display:block">Dati ISTAT non disponibili: servono le sezioni di censimento.</div>`;
+  const so=sezSoglie.crit;
+  return `<div class="t">Criticità servizio (0–100) ${TAG.prog}${TAG.cens}</div>`
+    +scalaHtml(PAL_CRIT,[`critico (${Math.round(so[0])})`,`${Math.round(so[1])}`,`${Math.round(so[3])}`,`ok (${Math.round(so[4]||100)})`])
+    +'<div class="puntini"><span><i style="background:#9aa0ad"></i>nessun residente (non calcolabile)</span></div>'
+    +'<div class="et" style="display:block">Indice di criticità relativo (STIMA): 0 = massima offerta, 100 = nessun passaggio GTT programmato entro 400 m. Basato su orari programmati e residenti ISTAT 2021. Non considera pendolari, turisti né altri operatori.</div>';
+}
 const legendaZone = () => `<div class="t">Zone statistiche: passaggi/ora per km²</div>`+scalaHtml(PAL,["meno",fnum(SOGLIE[1]),fnum(SOGLIE[3]),"più"]);
 
 /* ====== TABELLA DEI TEMI [agente GT16] 4 temi unificati: Servizio e abitanti, Traffico e velocità, Tempo reale e flotta, Pendolarismo ======
@@ -1445,7 +1417,11 @@ const THEMES = [
   // 4. Pendolarismo (relazioni ISTAT comune-comune per lavoro e studio)
   {id:"pendolari", label:"Pendolarismo", desc:"Quante persone si spostano ogni giorno tra ogni comune e Torino per lavoro o studio (ISTAT 2021, comune→comune: niente mezzo né orario).",
    area:{tipo:"sez",modo:"pend"}, over:{...NESSUNA}, pendolari:true, critici:true, legenda:legendaPendolari},   // [agente GT18-punti-critici-integrati]
-  // 5. Nessuno: solo la mappa di sfondo, senza colori ne' criticita' (le sovrapposizioni si riaccendono a mano)
+  // 5. Zone critiche: indice di criticità (stima: poca offerta programmata per i residenti)
+  {id:"critici", label:"Zone critiche", desc:"Indice di criticità 0-100: dove l'offerta GTT programmata è più scarsa rispetto ai residenti (stima, non misura). Rosso = critico, verde = servizio adeguato.",
+   area:{tipo:"sez",modo:"crit"}, over:{...NESSUNA}, critici:false,
+   legenda:()=>legendaCriticita()},
+  // 6. Nessuno: solo la mappa di sfondo, senza colori ne' criticita' (le sovrapposizioni si riaccendono a mano)
   {id:"nulla", label:"Nessuno (solo mappa)", desc:"Solo la mappa di sfondo: niente colorazioni, criticita' ne' sovrapposizioni. Puoi riaccenderle a mano sotto «Sovrapposizioni».",
    area:null, over:{...NESSUNA}, legenda:()=>""}
 ];

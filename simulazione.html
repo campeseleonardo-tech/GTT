@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulazione GTT – Mobilità Torino</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --card:#ffffff; --ink:#1d2330; --muted:#5d6678; --line:#dfe3ea; --accent:#1b6f73;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  body{max-width:900px;margin:0 auto;padding:20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 10px rgba(20,30,50,.12);padding:16px;margin-bottom:14px}
+  h1{font-size:20px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+  h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+  .btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer;font-weight:600}
+  .btn:hover{background:#f0f3f7}
+  .btn.primario{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn.primario:hover{background:#165e62}
+  .area{min-height:120px;border:2px dashed var(--line);border-radius:12px;
+    display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;
+    padding:30px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+  .area:hover,.area.attivo{border-color:var(--accent);background:#f0f9f9}
+  input[type="file"]{display:none}
+  .sim-risultato{margin-top:12px}
+  .sim-riga{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:13px;border-bottom:1px solid var(--line)}
+  .sim-riga:last-child{border-bottom:none}
+  .sim-val{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+  .sim-val.positivo{color:#237347}.sim-val.negativo{color:#b42332}
+  .sim-nome{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}
+  .sim-meta{font-size:11px;color:var(--muted)}
+  .sim-card{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .sim-card:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+  .confronto{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+  @media (max-width:600px){ .confronto{grid-template-columns:1fr} }
+  .con-blocco{background:#f8f9fb;border:1px solid var(--line);border-radius:10px;padding:12px}
+  .con-titolo{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .con-val{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+  .con-delta{font-size:13px;margin-top:2px}
+  .avviso{margin-top:14px;padding:10px 12px;border:1px solid #e0b84a;border-radius:10px;background:#fff3cd;color:#4a3b00;font-size:12.5px}
+  .avviso strong{display:block;margin-bottom:4px}
+  .pulsantiera{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btn.rimuovi{background:none;border-color:transparent;color:#b42332;font-size:12px;padding:4px 8px}
+  .btn.rimuovi:hover{background:#fff0f0}
+  .vuoto{color:var(--muted);font-size:14px;text-align:center;padding:20px}
+  .testa{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .back{font-size:12px;color:var(--accent);text-decoration:none}
+  .back:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="testa" style="margin-bottom:16px">
+  <div>
+    <h1>Simulazione</h1>
+    <p class="sub">Confronta scenari di offerta GTT: carica uno o più risultati da <code>calcola_simulazione.py</code>.</p>
+  </div>
+  <a href="mappa_torino.html" class="back">← Torna alla mappa</a>
+</div>
+
+<div class="card">
+  <h2>Carica risultati</h2>
+  <p style="font-size:13px;color:var(--muted);margin:0 0 8px">Trascina qui i file JSON di output o clicca per sceglierli. Puoi caricare più file per confrontarli.</p>
+  <div class="area" id="dropArea">
+    <span>Trascina qui i file JSON della simulazione<br><small>o clicca per sceglierli</small></span>
+  </div>
+  <input type="file" id="fileInput" accept=".json,.txt,.log,application/json,text/plain" multiple>
+  <div class="pulsantiera">
+    <button class="btn primario" id="btnCarica">Scegli file…</button>
+    <button class="btn" id="btnPulisci" style="display:none">Pulisci tutto</button>
+  </div>
+</div>
+
+<div id="risultati"></div>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const dropArea = $("dropArea"), fileInput = $("fileInput"), risultati = $("risultati");
+let simulazioni = [];
+
+/* drag & drop */
+dropArea.addEventListener("click", () => fileInput.click());
+$("btnCarica").addEventListener("click", () => fileInput.click());
+dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("attivo"); });
+dropArea.addEventListener("dragleave", () => dropArea.classList.remove("attivo"));
+dropArea.addEventListener("drop", e => {
+  e.preventDefault(); dropArea.classList.remove("attivo");
+  if(e.dataTransfer.files.length) processaFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener("change", e => {
+  if(e.target.files.length) processaFiles(e.target.files);
+  e.target.value = "";
+});
+
+$("btnPulisci").addEventListener("click", () => { simulazioni = []; mostra(); });
+
+function numero(n){ return Math.round(n).toLocaleString("it-IT"); }
+
+async function processaFiles(files){
+  for(const file of files){
+    try{
+      const testo = await file.text();
+      const inizioLog = testo.lastIndexOf("\n{");
+      const json = testo.slice(inizioLog>=0 ? inizioLog+1 : 0).trim();
+      const r = JSON.parse(json);
+      const campi = ["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica"];
+      if(!r || typeof r !== "object" || campi.some(k => typeof r[k] !== "number" || !Number.isFinite(r[k])) ||
+         r.passaggi_totali_baseline < 0 || r.passaggi_totali_scenario < 0 || r.fermate_con_modifica < 0){
+        throw new Error("Formato non valido");
+      }
+      r._nome = file.name;
+      r._data = new Date(file.lastModified).toLocaleString("it-IT");
+      // se è già stata caricata una simulazione con lo stesso nome, sostituiscila
+      const idx = simulazioni.findIndex(s => s._nome === file.name);
+      if(idx >= 0) simulazioni[idx] = r;
+      else simulazioni.push(r);
+    }catch(err){
+      alert(`Non riesco a leggere "${file.name}": ${err.message || "formato non riconosciuto"}.`);
+    }
+  }
+  mostra();
+}
+
+function mostra(){
+  $("btnPulisci").style.display = simulazioni.length ? "inline-block" : "none";
+  if(!simulazioni.length){
+    risultati.innerHTML = '<div class="card"><div class="vuoto">Nessun risultato caricato. Carica uno o più file JSON prodotti da <code>calcola_simulazione.py</code>.</div></div>';
+    return;
+  }
+
+  let html = "";
+  for(let i=0; i<simulazioni.length; i++){
+    const r = simulazioni[i];
+    html += `<div class="card sim-card">
+      <div class="sim-nome">${esc(r._nome)}</div>
+      <div class="sim-meta">Caricato il ${r._data}</div>
+      <div class="sim-risultato">
+        <div class="sim-riga"><span>Passaggi totali, base</span><span class="sim-val">${numero(r.passaggi_totali_baseline)}</span></div>
+        <div class="sim-riga"><span>Passaggi totali, scenario</span><span class="sim-val">${numero(r.passaggi_totali_scenario)}</span></div>
+        <div class="sim-riga"><span>Differenza (scenario − base)</span><span class="sim-val ${r.differenza_passaggi>0?'positivo':r.differenza_passaggi<0?'negativo':''}">${r.differenza_passaggi>0?'+':''}${numero(r.differenza_passaggi)}</span></div>
+        <div class="sim-riga"><span>Fermate con variazione</span><span class="sim-val">${numero(r.fermate_con_modifica)}</span></div>
+      </div>
+      <button class="btn rimuovi" data-i="${i}">Rimuovi</button>
+    </div>`;
+
+    /* eventuali campi extra */
+    const extra = Object.entries(r).filter(([k]) => !["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica","_nome","_data"].includes(k));
+    if(extra.length){
+      html += '<details style="margin-top:8px;font-size:12px;color:var(--muted)"><summary>Altri dati</summary>';
+      for(const [k,v] of extra){
+        html += `<div style="display:flex;justify-content:space-between;padding:2px 0"><span>${esc(k)}</span><strong>${typeof v==="number"?numero(v):esc(String(v))}</strong></div>`;
+      }
+      html += '</details>';
+    }
+  }
+
+  /* confronto se ci sono almeno 2 simulazioni */
+  if(simulazioni.length >= 2){
+    html += `<div class="card"><h2>Confronto</h2><div class="confronto">`;
+    for(let i=0; i<simulazioni.length; i++){
+      const r = simulazioni[i];
+      html += `<div class="con-blocco">
+        <div class="con-titolo">${esc(r._nome)}</div>
+        <div class="con-val">${numero(r.passaggi_totali_scenario)}</div>
+        <div class="con-delta" style="color:${r.differenza_passaggi>0?'#237347':r.differenza_passaggi<0?'#b42332':'var(--muted)'}">${r.differenza_passaggi>0?'+':''}${numero(r.differenza_passaggi)} vs base</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">${numero(r.fermate_con_modifica)} fermate toccate</div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  html += `<div class="avviso"><strong>⚠ SIMULAZIONE SU ORARIO PROGRAMMATO</strong>
+    I risultati mostrano l'offerta potenziale calcolata applicando le variazioni all'orario GTFS. Non tengono conto di traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri o regolarità del servizio. Un aumento di corse sulla carta non garantisce che i bus arrivino in orario. Dati programmati/stimati, non misurati.
+    <br><span style="color:var(--muted)">Residenti raggiunti e km-vettura non sono inclusi nel risultato fornito da questo calcolo.</span>
+  </div>`;
+
+  risultati.innerHTML = html;
+  risultati.querySelectorAll(".btn.rimuovi").forEach(b => {
+    b.addEventListener("click", () => { simulazioni.splice(+b.dataset.i, 1); mostra(); });
+  });
+}
+
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* avvio */
+mostra();
+</script>
+
+</body>
+</html>
