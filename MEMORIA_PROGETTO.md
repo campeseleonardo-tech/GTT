@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: 8 ottobre 2026. Fatto oggi: integrazione OMI completata in mappa (O1–O5) + verifiche; in precedenza riordino cartelle, inventario ISTAT, tema Pendolari sistemato, famiglie e abitazioni per sezione (A1–A2).
+Ultimo aggiornamento: 8 ottobre 2026. OMI completato (O1–O5); A0: inventario delle colonne R01 e definizioni completato, scelta indicatori ancora da fare. Priorità operative: scegliere gli indicatori e analizzare la raccolta diurna.
 Questo è l'unico file di memoria e di passaggio. Non creare altri documenti di memoria.
 Leggila all'inizio di ogni sessione e aggiornala alla fine.
 
@@ -42,9 +42,9 @@ orari veri. Per ora solo studio personale, forse da condividere. Area: Torino ci
 
 - GTFS GTT statico: valido dal 1/10/2026 al 31/1/2027 (versione 20261002). 215 linee, 7.045 fermate, 966.946 passaggi programmati.
 - Posizioni dei mezzi GTT (tempo reale): funzionano. Circa 407-408 mezzi ogni minuto (dato del log dell'8/10). Il feed non ha il trip_id: il mezzo si lega alla linea, non alla corsa.
-- Ritardi GTT (trip_update): il file era vuoto di notte (4/10). Di giorno NON ancora verificato.
+- Ritardi GTT (trip_update): l'unico file salvato è del 3/10 ed è di 15 byte (solo intestazione); la raccolta continua non salva questo feed. Dati diurni non disponibili nello storico attuale.
 - Avvisi GTT: file di 134 KB, non ancora decodificato.
-- Feed 5T flussi: 112 sensori, su un'area più ampia di Torino. Molti hanno accuracy=0 e flusso 0 (4/10). Non si sa ancora se accuracy=0 vuol dire "nessun dato" o "sensore spento".
+- Feed 5T flussi: area più ampia di Torino. `flussi_5t` salva le misure, ma non l'accuratezza associata a ogni misura; `sensori_5t.accuratezza` conserva solo il valore più recente per sensore. Il significato di accuratezza 0 non è ancora verificato.
 - Zone statistiche Torino (CSV e shapefile, dati del 2011): 94 zone.
 - Pendolarismo ISTAT 2021 (lavoro e studio): verificato con lo script 04 l'8/10. Numeri uguali alle note: Torino lavoro entrano 138.605, escono 71.297, dentro 212.249; studio entrano 48.730, escono 6.373, dentro 120.148.
 - Sezioni di censimento 2021 (Torino): 6.916 sezioni a Torino, 848.748 abitanti; 8.317 sezioni abitate entro 18 km, 1.557.493 abitanti (script 05 e 04).
@@ -53,7 +53,7 @@ orari veri. Per ora solo studio personale, forse da condividere. Area: Torino ci
 
 ## Dati NON verificati
 
-- Qualità dei dati di giorno: ritardi, sensori 5T con accuracy=0, numero di mezzi in ora di punta. Dal 8/10 la raccolta ha già dati diurni: da analizzare.
+- Qualità dei dati di giorno: profilo dei flussi 5T e numero di mezzi in ora di punta da analizzare. I ritardi GTT non sono nella raccolta; l'accuratezza storica 5T non si può ricostruire con lo schema attuale.
 - Esistenza di dati su bici/sharing, parcheggi, treni (SFM): non trovati.
 - Dati ISTAT sugli addetti (dove si lavora) a livello di sezione: non risultano.
 - Windows: finestra settimanale, anti-stop e avvio automatico non provati (testati solo su Linux).
@@ -76,7 +76,7 @@ Regola: ogni volta che si scarica o si sposta un file ISTAT, si aggiorna questa 
 - `data/raw/istat/basi_territoriali_2021/`
   - `R01_21.zip` (74 MB): basi territoriali del Piemonte, con confini (SHP) e tabelle di popolazione per sezione. Usato da script 05. Il file è identico al vecchio duplicato, verificato con hash.
 - `data/raw/istat/altro/`
-  - `Dati_regionali_2021/`: indicatori per sezione 2021, R01 (Piemonte) a R20 (tutte le regioni), più il tracciato. Solo R01 ha un uso potenziale per Torino; gli altri non servono al progetto. Non usato da nessuno script.
+  - `Dati_regionali_2021/`: indicatori per sezione 2021, R01 (Piemonte) a R20 (tutte le regioni), più il tracciato. Le 119 colonne-indicatore di R01 sono state confrontate con le definizioni; nessun indicatore è ancora stato scelto o integrato.
   - `MatriciContiguita_Province_2019_2025/`: contiguità tra province 2019-2025 (xlsx). Non usato. Per ora non serve.
 - `data/raw/istat/storiche/`
   - `matrici_pendolarismo_1991/` (Pen_91It.txt, 92 MB) e `matrici_pendolarismo_2001/` (matrix_pendo2001.txt, 166 MB) con i leggimi. Non usati. Non servono al progetto attuale.
@@ -156,7 +156,7 @@ Dati importanti che mancano:
 
 ## Piano di implementazione: nuovi dati nella mappa (rifatto l'8/10/2026)
 
-Stato al 8/10 (sera): A1 e A2 FATTE e committate (sezioni con famiglie "f" e abitazioni "ab", commit a7e6d13; 04 le passa alla mappa, mappa rigenerata con 8.317 sezioni con f/ab, commit c677cbf). A0, A3, A4, A5 da fare. Il piano OMI (sezione qui sotto) ha la priorità su queste.
+Stato: A1 e A2 FATTE e committate (sezioni con famiglie "f" e abitazioni "ab", commit a7e6d13; 04 le passa alla mappa, mappa rigenerata con 8.317 sezioni con f/ab, commit c677cbf). A0 (inventario) completato: 119 colonne-indicatore hanno una definizione nel tracciato. Leo deve ancora scegliere al massimo 3. A3 e A4 (tooltip e schede) sono di priorità secondaria, come deciso da Leo. OMI è già completato (sezione sotto).
 
 Regole decise da Leo (valgono per ogni dato futuro):
 - R1. Solo dati facili. Niente circoscrizioni e niente tabelle nel pannello. Le informazioni extra stanno nel passaggio del mouse (tooltip) e nella scheda al click.
@@ -168,31 +168,26 @@ Conseguenze verificate:
 - Flussi 2011 dentro Torino (sezione→sezione, 355.525 pendolari Torino→Torino): NON si mostrano ora. Restano in archivio per le simulazioni future. Non si possono riassumere nel 2021 (le sezioni 2011 e 2021 non hanno un codice in comune).
 - Quindi la mappa, con i dati 2011, oggi non cambia.
 
-Dati da mostrare ora (tutti 2021):
-- D1. Famiglie e abitazioni per sezione 2021, nel file `SEZ_R01_21.csv` già dentro `R01_21.zip`. Verificato l'8/10 su Torino: 6.916 sezioni, 848.748 abitanti (uguale alla memoria), 433.469 famiglie, 502.615 abitazioni occupate, 36.242 edifici. Nessuna sezione con più famiglie che abitanti.
-- D2. Pendolari 2021 per comune: già in mappa (tema Pendolarismo). Si aggiunge il passaggio del mouse. Lo studio è una stima con modelli statistici: va detto nel tooltip.
-- D3. Indicatori regionali 2021 per sezione (`data/raw/istat/altro/Dati_regionali_2021/R01_indicatori_2021_sezioni.xlsx`): contenuto ancora non letto. Si mostrano solo quelli che Leo sceglie dopo la fase A0.
+Dati 2021 già presenti:
+- D1. Famiglie e abitazioni per sezione: integrate e verificate. Torino: 6.916 sezioni, 848.748 abitanti, 433.469 famiglie, 502.615 abitazioni occupate, 36.242 edifici. Nessuna sezione con più famiglie che abitanti.
+- D2. Pendolari per comune: già in mappa. Il tooltip è un miglioramento grafico/funzionale secondario, rinviato su decisione di Leo. Lo studio è una stima con modelli statistici.
+- D3. Indicatori regionali 2021 per sezione (`data/raw/istat/altro/Dati_regionali_2021/R01_indicatori_2021_sezioni.xlsx`): tracciato e 119 colonne-indicatore esaminati; si mostrano solo quelli che Leo sceglie.
 
 Fasi (ogni fase: eseguire, controllare i numeri, aggiornare questa memoria, commit):
 
-A0. Ispezione (sola lettura). Leggere con la libreria standard le intestazioni di R01 (il file è uno zip di XML: leggere `xl/workbook.xml` e la prima riga di ogni foglio). Stampare nel log le colonne. Stop: Leo sceglie al massimo 3 indicatori. Nessun numero viene inventato.
+A0. Ispezione (sola lettura): FATTA. Tutte le 119 colonne-indicatore di R01 sono state abbinate alle definizioni del tracciato. Nessun numero inventato. In attesa della scelta di Leo (massimo 3 indicatori).
 
-A1. 05 (`05_prepara_sezioni.py`): in `sezioni_torino.json` aggiungere per ogni sezione `"f"` (FAM21) e `"ab"` (ABI21). Eseguire 05 una volta.
-  Controlli: numero sezioni di Torino ancora 6.916; somma abitanti ancora 848.748; somma famiglie Torino 433.469; nessuna sezione con famiglie > abitanti.
+A1. FATTA: `05_prepara_sezioni.py` aggiunge famiglie e abitazioni ai dati delle sezioni. Controlli eseguiti: 6.916 sezioni di Torino, 848.748 abitanti, 433.469 famiglie; nessuna sezione con famiglie > abitanti.
 
-A2. 04 (`04_genera_mappa.py`): passare `f` e `ab` nell'elenco `sezioni` (oggi passa solo p, a, g, c). Nel log: totali di Torino.
-  Controllo: nell'HTML generato compare il totale 433469 (o 433.469 formattato) come valore delle famiglie.
+A2. FATTA: `04_genera_mappa.py` passa famiglie e abitazioni alla mappa. Mappa rigenerata e totali verificati (commit `c677cbf`).
 
-A3. Template (`mappa_template.html`): al passaggio del mouse su una sezione, tooltip con abitanti, famiglie, abitazioni, badge "ISTAT 2021 (residenti di notte)". Il click apre la scheda sezione (`schedaSezione`) con gli stessi numeri. Verificare nel codice (`cercaTip`) se il tooltip sulle sezioni esiste già; se no, aggiungerlo come per le fermate (`tipTxt`).
+A3. Priorità secondaria (decisione di Leo): tooltip sezione con abitanti, famiglie, abitazioni.
 
-A4. Template: al passaggio del mouse su un comune nel tema Pendolarismo, tooltip con entrano/escono per lavoro e studio, badge "ISTAT 2021" e "studio = stima". Controllare prima se `cercaTip` ha già il ramo del tema Pendolari; altrimenti aggiungerlo.
+A4. Priorità secondaria (decisione di Leo): tooltip pendolari sui comuni.
 
 A5. Indicatori scelti in A0: stesse regole di A1-A4. Un indicatore per volta, con commit separato.
 
-A6. Verifica:
-  - Eseguire 05 (una volta) e 04. Leggere il log: totali e valori attesi di ogni fase.
-  - Controllare che `mappa_torino.html` contenga i valori attesi.
-  - Se il browser integrato è disponibile, aprire la mappa, passare il mouse su una sezione e su un comune, fare uno screenshot. Se non è disponibile, dire a Leo cosa aprire e cosa deve vedere.
+A6. Per ogni indicatore scelto: rigenerare i dati e la mappa, controllare log, totali e valori nell'HTML. La verifica visiva di tooltip e schede resta secondaria.
 
 A7. Memoria e commit: a ogni fase, aggiornare l'inventario e lo stato in questo file, un commit per fase.
 
@@ -231,14 +226,13 @@ Commit principali (ramo prova):
 ## Prossimi passi (in ordine)
 
 1. [x] OMI: integrazione completa in mappa (O1–O5).
-2. [ ] Analisi dei dati diurni della raccolta (dall'8/10): sensori 5T con accuracy=0, ritardi GTT (trip_update) di giorno.
-3. [ ] (CAMBIATO l'8/10) La matrice nazionale 2011 NON si confronta per cancellarla: ha mezzo e orario, che gli zip non hanno. Va TENUTA. Ora è nel piano come dato candidato (da decidere con Leo, vedi "Da decidere").
-4. [ ] Usare la matrice 2011 per sezione (flussi sezione→sezione, senza mezzo né orario) per il livello Domanda dentro Torino. Per l'ora serve un dato che non abbiamo (vedi "Dati mancanti" in fondo).
-5. [ ] Scaricare, se serve, la matrice dei tempi di viaggio 2021 (a mano, sul PC).
-6. [ ] Indicatore combinato "punti critici" (poca offerta + traffico lento + scostamenti), con etichetta "dati scarsi" sotto 72 ore di storico.
-7. [ ] Dopo una-due settimane di dati: traffico tipico affidabile, simulazione calibrata sui sensori 5T (misurato e stimato sempre distinti).
-8. [ ] Richieste dati (MTM IMQ 2022, telefonia): bozze in `docs/`.
-9. [ ] Eventuale passaggio sul Raspberry Pi e condivisione della mappa (per ora solo uso personale).
+2. [x] A0: intestazioni R01 abbinate alle definizioni del tracciato (119 campi-indicatore).
+3. [ ] Leo sceglie fino a 3 indicatori R01; poi si integra un indicatore per volta e si verificano i totali.
+4. [ ] Analisi 5T diurna: andamento dei flussi e degli zeri per giorno/ora. Per analizzare accuratezza=0 nel tempo, prima va salvata l'accuratezza con ogni misura.
+5. [ ] Ritardi GTT: acquisire campioni diurni `trip_update` (il feed non è nella raccolta continua), poi contare corse e ritardi.
+6. [ ] (CAMBIATO l'8/10) Tenere la matrice nazionale 2011: contiene mezzo e orario.
+7. [ ] Usare eventualmente la matrice 2011 per sezione per il livello Domanda dentro Torino; non contiene mezzo né orario.
+8. [ ] Altri sviluppi (matrice tempi di viaggio, punti critici, richieste dati, Raspberry Pi) restano più avanti.
 
 ## Piano per fasi
 
