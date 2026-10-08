@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: 8 ottobre 2026 (riordino cartelle, inventario ISTAT, mappa rigenerata con pendolari).
+Ultimo aggiornamento: 8 ottobre 2026, sera. Fatto oggi: riordino cartelle, inventario ISTAT, tema Pendolari sistemato, famiglie e abitazioni per sezione (fasi A1-A2). Prossimo compito: piano OMI (fasi O1-O5, sezione "Piano OMI" qui sotto), nessuna fase O ancora eseguita.
 Questo è l'unico file di memoria e di passaggio. Non creare altri documenti di memoria.
 Leggila all'inizio di ogni sessione e aggiornala alla fine.
 
@@ -156,6 +156,8 @@ Dati importanti che mancano:
 
 ## Piano di implementazione: nuovi dati nella mappa (rifatto l'8/10/2026)
 
+Stato al 8/10 (sera): A1 e A2 FATTE e committate (sezioni con famiglie "f" e abitazioni "ab", commit a7e6d13; 04 le passa alla mappa, mappa rigenerata con 8.317 sezioni con f/ab, commit c677cbf). A0, A3, A4, A5 da fare. Il piano OMI (sezione qui sotto) ha la priorità su queste.
+
 Regole decise da Leo (valgono per ogni dato futuro):
 - R1. Solo dati facili. Niente circoscrizioni e niente tabelle nel pannello. Le informazioni extra stanno nel passaggio del mouse (tooltip) e nella scheda al click.
 - R2. Dati di anni diversi: se un dato più vecchio si può riassumere in quello più recente, si mostra solo il più recente. Il dato vecchio si mostra solo se contiene informazione che il recente non ha.
@@ -218,6 +220,8 @@ Verificato l'8/10:
 - Copertura area mappa: 69 comuni, 68 coperti. Mancante solo Moncucco Torinese (5070), che è in provincia di ASTI, fuori da questo download: 1/69 = 1,4% < 2% (tolleranza R3). Copribile più avanti scaricando anche la provincia di Asti (facoltativo).
 - Prezzi Torino (ordine di grandezza): abitazioni civili Compr_min 840-4300, Compr_max 1250-6500 €/m²; zona B1 'ROMA' 2900-4400 NORMALE; negozi Compr_min 410-6300.
 - Fascie presenti a Torino: B, C, D, E. Il significato delle lettere NON è verificato: non scriverlo sulla mappa.
+
+Stato al 8/10 (sera): piano verificato sui file veri, nessuna fase ancora eseguita. La prossima sessione parte da O1.
 
 Fasi (ogni fase: eseguire, controllare i numeri, aggiornare questa memoria, commit):
 
