@@ -3,11 +3,12 @@
 05_prepara_sezioni.py - prepara le sezioni di censimento 2021 di Torino e cintura.
 
 Legge  GTT/R01_21.zip  (confini ISTAT del Piemonte, UTM32N) oppure GTT/data/raw/istat/basi_territoriali_2021/R01_21.zip
-e scrive  GTT/data/processed/sezioni_torino.json  (poligoni in lat/lon semplificati + abitanti POP21 per sezione).
+e scrive  GTT/data/processed/sezioni_torino.json  (poligoni semplificati, famiglie/abitazioni e indicatori ISTAT di occupazione ed eta').
 Solo libreria standard di Python. Non scarica niente.
 Uso:  python 05_prepara_sezioni.py            (cintura = default, vedi RAGGIO_KM)
 """
 import json, math, struct, sys, zipfile, io
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
@@ -23,6 +24,7 @@ ZIP = next((c for c in CAND if c.is_file()), None)
 if ZIP is None:
     sys.exit("R01_21.zip non trovato in GTT (ne' in data/raw/istat/basi_territoriali_2021)")
 OUT = RADICE / "data" / "processed" / "sezioni_torino.json"
+INDICATORI = RADICE / "data" / "raw" / "istat" / "altro" / "Dati_regionali_2021" / "R01_indicatori_2021_sezioni.xlsx"
 
 CENTRO = (45.0703, 7.6869)   # Torino, piazza Castello
 RAGGIO_KM = 18.0             # cintura: sezioni entro questa distanza dal centro
@@ -86,6 +88,103 @@ def leggi_dbf(b):
         righe.append(d)
     return righe
 
+def colonna_excel(rif):
+    n = 0
+    for c in rif:
+        if c.isalpha(): n = n * 26 + ord(c.upper()) - ord("A") + 1
+        else: break
+    return n
+
+def leggi_indicatori(sezioni):
+    """Unisce i tre indicatori di mobilita' potenziale ISTAT per codice sezione."""
+    if not INDICATORI.is_file():
+        sys.exit(f"File ISTAT non trovato: {INDICATORI}")
+    ns = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+    richiesti = {"SEZ21_ID", "P101", "P15", "P16", *[f"P{i}" for i in range(17, 27)], "P27", "P28", "P29"}
+    target = {str(s["id"]): s for s in sezioni if s["p"] > 0}
+    agganciati = {}
+    with zipfile.ZipFile(INDICATORI) as z:
+        nomi = set(z.namelist())
+        shared = []
+        if "xl/sharedStrings.xml" in nomi:
+            radice = ET.fromstring(z.read("xl/sharedStrings.xml"))
+            shared = ["".join(t.text or "" for t in si.findall(".//m:t", ns))
+                      for si in radice.findall("m:si", ns)]
+
+        def valore(c):
+            v = c.find("m:v", ns)
+            if c.attrib.get("t") == "inlineStr":
+                return "".join(t.text or "" for t in c.findall(".//m:t", ns))
+            if v is None: return None
+            return shared[int(v.text)] if c.attrib.get("t") == "s" else v.text
+
+        intestazioni = None
+        indici = {}
+        percorso = "xl/worksheets/sheet1.xml"
+        with z.open(percorso) as f:
+            for _, riga in ET.iterparse(f, events=("end",)):
+                if not riga.tag.endswith("}row"):
+                    continue
+                celle = riga.findall("m:c", ns)
+                if intestazioni is None:
+                    intestazioni = {str(valore(c)).strip(): colonna_excel(c.attrib["r"])
+                                    for c in celle if valore(c) is not None}
+                    mancanti = richiesti - set(intestazioni)
+                    if mancanti:
+                        raise ValueError(f"Colonne ISTAT mancanti: {sorted(mancanti)}")
+                    indici = {intestazioni[k]: k for k in richiesti}
+                else:
+                    dati = {}
+                    for c in celle:
+                        idx = colonna_excel(c.attrib["r"])
+                        nome = indici.get(idx)
+                        if nome is not None:
+                            dati[nome] = valore(c)
+                    raw_id = dati.get("SEZ21_ID")
+                    if raw_id:
+                        sid = str(int(float(raw_id)))
+                        if sid in target:
+                            if sid in agganciati:
+                                raise ValueError(f"Codice sezione duplicato nel file ISTAT: {sid}")
+                            agganciati[sid] = dati
+                riga.clear()
+
+    assenti = set(target) - set(agganciati)
+    quota = len(assenti) / max(len(target), 1)
+    print(f"  Indicatori R01: {len(agganciati)}/{len(target)} sezioni abitate agganciate; "
+          f"mancanti {len(assenti)} ({quota:.2%})")
+    if quota > 0.02:
+        raise ValueError(f"Merge indicatori R01 oltre tolleranza 2%: {len(assenti)} sezioni mancanti")
+
+    def numero(dati, nome, sid):
+        raw = dati.get(nome)
+        if raw is None or str(raw).strip() == "":
+            raise ValueError(f"Valore {nome} mancante per la sezione {sid}")
+        n = int(float(raw))
+        if n < 0:
+            raise ValueError(f"Valore {nome} negativo per la sezione {sid}: {n}")
+        return n
+
+    for sid, dati in agganciati.items():
+        popolazione_lavorativa = sum(numero(dati, f"P{i}", sid) for i in range(17, 27))
+        occupati = numero(dati, "P101", sid)
+        if occupati > popolazione_lavorativa:
+            raise ValueError(f"Occupati superiori ai residenti 15-64 anni nella sezione {sid}")
+        target[sid].update({
+            "occ": occupati,
+            "p1564": popolazione_lavorativa,
+            "sc": numero(dati, "P15", sid) + numero(dati, "P16", sid),
+            "sen": sum(numero(dati, f"P{i}", sid) for i in (27, 28, 29)),
+        })
+
+    for nome, pred in (("Torino", lambda s: s["c"] == PRO_COM_TORINO), ("area", lambda s: True)):
+        gruppo = [s for s in target.values() if pred(s)]
+        occ = sum(s["occ"] for s in gruppo)
+        p1564 = sum(s["p1564"] for s in gruppo)
+        print(f"  {nome}: occupati 15-64 {occ}, residenti 15-64 {p1564}, "
+              f"quota occupati {100*occ/p1564:.1f}% se il denominatore e' positivo; "
+              f"residenti 5-14 {sum(s['sc'] for s in gruppo)}, residenti 65+ {sum(s['sen'] for s in gruppo)}")
+
 def poligoni(b, k):
     """k-esimo record .shp -> lista di anelli [(x,y)]. Usa l'indice .shx fornito esternamente."""
     pass
@@ -122,6 +221,7 @@ def main():
         ar = abs(sum(ex[i][0]*ex[i+1][1]-ex[i+1][0]*ex[i][1] for i in range(len(ex)-1)))/2/1e6
         out.append({"id": r["SEZ21_ID"], "c": int(r["PRO_COM"]), "p": int(r["POP21"] or 0), "a": round(ar, 5),
                     "t": int(r["COD_TIPO_S"] or 0), "f": int(r["FAM21"] or 0), "ab": int(r["ABI21"] or 0), "g": anelli})
+    leggi_indicatori(out)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(out, separators=(",", ":")), encoding="utf-8")
     tor = [s for s in out if s["c"] == PRO_COM_TORINO]

@@ -17,8 +17,8 @@ Cosa mette nella mappa:
   - TRAFFICO 5T: 5 minuti piu' recenti dei sensori.
   - MEZZI GTT: posizione dei mezzi all'ultimo aggiornamento.
   - ZONE STATISTICHE del Comune (94 zone).
-  - SEZIONI DI CENSIMENTO 2021 (se presenti, da 05_prepara_sezioni.py): abitanti e offerta per abitante.
-  La domanda per ORA non c'e' ancora: i residenti sono la popolazione 'di notte', non chi si sposta.
+  - SEZIONI DI CENSIMENTO 2021 (se presenti, da 05_prepara_sezioni.py): abitanti, famiglie, abitazioni e indicatori residenti di eta'/occupazione.
+  I nuovi indicatori sono profili dei residenti, non conteggi di viaggi, mezzi o orari.
 """
 import csv
 import io
@@ -782,7 +782,9 @@ def main():
 
     sez, f_sez = [], RADICE / "data" / "processed" / "sezioni_torino.json"
     if f_sez.is_file():
-        sez = [{"p": x["p"], "a": x["a"], "g": x["g"], "c": x.get("c", 0), "f": x.get("f", 0), "ab": x.get("ab", 0)} for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]   # [agente GT05-pendolari] "c" = PRO_COM; "f" famiglie, "ab" abitazioni (ISTAT 2021)
+        sez = [{"p": x["p"], "a": x["a"], "g": x["g"], "c": x.get("c", 0), "f": x.get("f", 0), "ab": x.get("ab", 0),
+                "occ": x.get("occ"), "p1564": x.get("p1564"), "sc": x.get("sc"), "sen": x.get("sen")}
+               for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]   # indicatori ISTAT 2021 per residenti
         print(f"  sezioni di censimento abitate: {len(sez)}, abitanti {sum(x['p'] for x in sez)}, famiglie {sum(x['f'] for x in sez)}, abitazioni {sum(x['ab'] for x in sez)}")
     else:
         print("  (sezioni di censimento non trovate: lancia 05_prepara_sezioni.py per il livello Domanda)")

@@ -149,6 +149,11 @@
       <option value="rapp" selected>Criticità (poca offerta per abitante in rosso)</option>
       <option value="serv">Solo offerta (passaggi/ora entro 400 m)</option>
       <option value="dens">Solo residenti (abitanti per km²)</option>
+      <optgroup label="Profilo residenti · ISTAT 2021">
+        <option value="occ">Occupati residenti 15–64 anni (% della fascia)</option>
+        <option value="sc">Residenti 5–14 anni (numero)</option>
+        <option value="sen">Residenti 65 anni e oltre (numero)</option>
+      </optgroup>
     </select>
   </div>
   <!-- [agente GT05-pendolari] scelte del tema Pendolari (visibili solo con quel tema) -->
@@ -181,7 +186,7 @@
   </div>
   <!-- stato interno dell'area colorata: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
   <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi">
-    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option><option value="crit"></option></select></div>
+    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option><option value="crit"></option><option value="occ"></option><option value="sc"></option><option value="sen"></option></select></div>
 
   <h2>Sovrapposizioni</h2>
   <label class="lv"><input type="checkbox" id="Llinee"><span class="sw" style="background:var(--bus)"></span>Linee: corse/ora</label>
@@ -230,7 +235,7 @@
     <p><b>Offerta:</b> passaggi e corse sono quelli <i>programmati</i> dagli orari GTT per un martedì, un sabato e una domenica tipici. Non sono i passaggi reali.</p>
     <p><b>Traffico e mezzi:</b> sono una fotografia dell'ultimo aggiornamento scaricato, non un flusso continuo. L'ora e il tipo di giorno scelti qui non li cambiano.</p>
     <p><b>Sensori 5T:</b> alcuni segnano accuratezza 0 e flusso 0: li mostro in grigio come «dato probabilmente assente», perché non so ancora se significhi sensore spento.</p>
-    <p><b>Residenti (ISTAT 2021):</b> abitanti per sezione di censimento. Sono la popolazione «di notte», non chi si sposta a quell'ora: lavoratori, studenti e pendolari non sono ancora inclusi. «Poca offerta per abitante» = passaggi programmati GTT/ora entro 400 m ogni 1000 abitanti entro 400 m (rosso = pochi). Fuori Torino mancano le linee di altri operatori e i treni: lì il rosso può essere solo mancanza di dati.</p>
+    <p><b>Residenti e potenziale domanda (ISTAT 2021):</b> occupati residenti 15–64 anni e fasce d'età 5–14 e 65+ sono indicatori di profilo, non conteggi di viaggi. Non indicano destinazione, orario o mezzo usato. «Poca offerta per abitante» = passaggi programmati GTT/ora entro 400 m ogni 1000 abitanti entro 400 m (rosso = pochi). Fuori Torino mancano le linee di altri operatori e i treni: lì il rosso può essere solo mancanza di dati.</p>
     <p><b>Zone:</b> le 94 zone statistiche del Comune di Torino (2011). I passaggi per zona sommano i passaggi alle fermate dentro la zona.</p>
   </details>
 
@@ -346,10 +351,17 @@ const sezRapp=(z,i)=>sezServ(z,i)/Math.max(z.pop400,1)*1000;
 let sezSoglie={};
 function calcolaSoglieSez(){
   if(!sezOk) return;
-  const vals={serv:[],rapp:[],dens:sez.map(z=>z.dens).sort((a,b)=>a-b), crit:[]};
+  const vals={serv:[],rapp:[],dens:sez.map(z=>z.dens),crit:[],occ:[],sc:[],sen:[]};
+  for(const z of sez){
+    if(z.p1564>0 && z.occ!=null) vals.occ.push(z.occ/z.p1564*100);
+    if(z.sc!=null) vals.sc.push(z.sc);
+    if(z.sen!=null) vals.sen.push(z.sen);
+  }
   for(const z of sez) for(let h=7;h<=20;h+=1){ vals.serv.push(sezServ(z,h)); vals.rapp.push(sezRapp(z,h)); const cr=critSez(z,h); if(cr!==null) vals.crit.push(cr); }
-  for(const k of ["serv","rapp","crit"]) vals[k].sort((a,b)=>a-b);
-  for(const k in vals){ const v=vals[k]; sezSoglie[k]=[0.2,0.4,0.6,0.8].map(q=>v[Math.min(v.length-1,Math.floor(q*v.length))]); }
+  for(const k in vals){
+    const v=vals[k].filter(Number.isFinite).sort((a,b)=>a-b);
+    if(v.length) sezSoglie[k]=[0.2,0.4,0.6,0.8].map(q=>v[Math.min(v.length-1,Math.floor(q*v.length))]);
+  }
 }
 /* [agente GT18-punti-critici-integrati] indice di criticita' 0-100 per sezione e ora: 100 = nessun passaggio GTT programmato entro 400 m
    (con residenti), 80+ = il peggior quinto delle sezioni per passaggi ogni 1000 abitanti (soglie dei quintili di sezSoglie.rapp, ore 7-20).
@@ -373,7 +385,7 @@ const PAL_RAPP=["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"];
 const PAL_BASE=["#e3f1ef","#b5dcd6","#7cc0b8","#3f9a95","#1b6f73"];
 const PAL_PEND=["#efe9f6","#cdb9e3","#a98acd","#7d55b0","#51287f"];   // [agente GT05-pendolari]
 const PAL_CRIT=["#b0102a","#e8833a","#f2c14e","#9cc27a","#4c9f70"];   // [agente GT16] zone critiche: rosso=critica, verde=ok
-const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP, pend:PAL_PEND, crit:PAL_CRIT};
+const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP, pend:PAL_PEND, crit:PAL_CRIT, occ:PAL_BASE, sc:PAL_BASE, sen:PAL_BASE};
 
 /* [agente GT05-pendolari] pendolari ISTAT 2021 (comune contro comune): D.pend = {tor, com[], altri}; i = entrano a Torino [lavoro,studio], u = escono */
 const TORINO_PC=1272;
@@ -396,7 +408,7 @@ function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flu
   return pendCache;
 }
 const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
-const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):sezRapp(z,i);
+const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:sezRapp(z,i);
 
 const linee = D.linee.map((l,ii) => {
   const a=new Float64Array(l.p.length*2); let x0=1,y0=1,x1=0,y1=0;
@@ -663,8 +675,9 @@ function disegnaBase(ws,ox,oy,i){
       if(!dentroVista(z.bb,ws,ox,oy)) continue;
       // [agente GT05-pendolari] tema Pendolari: colore = valore del comune della sezione; grigio = Torino o nessun flusso
       const vp=pc?(pc.val.get(z.c)||0):0;
-      const nulla = pc ? (z.c===TORINO_PC || !vp) : modo==="crit" ? critSez(z,i)===null : modo!=="dens" && sezServ(z,i)===0;
-      const c=pc ? (pc.sogl?pc.sogl.filter(x=>vp>x).length:0) : classeSez(valSez(z,modo,i),modo);
+      const valore = pc ? vp : valSez(z,modo,i);
+      const nulla = pc ? (z.c===TORINO_PC || !vp) : modo==="crit" ? critSez(z,i)===null : (modo==="serv"||modo==="rapp") ? sezServ(z,i)===0 : valore==null;
+      const c=pc ? (pc.sogl?pc.sogl.filter(x=>vp>x).length:0) : classeSez(valore,modo);
       // [agente GT02-temi] riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
       cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:.5;
       for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.fill(); }
@@ -1107,6 +1120,15 @@ function schedaSezione(z){
   } else if(modo === "dens"){
     val = `${Math.round(z.dens)} ab./km²`;
     stato = `${z.p} residenti nella sezione`;
+  } else if(modo === "occ"){
+    val = z.p1564>0 ? `${z.occ.toLocaleString("it-IT")} occupati · ${(z.occ/z.p1564*100).toFixed(1)}%` : "Quota non calcolabile";
+    stato = `Residenti occupati di 15–64 anni, sul totale dei residenti della stessa età`;
+  } else if(modo === "sc"){
+    val = `${z.sc.toLocaleString("it-IT")} residenti · ${z.p>0?(z.sc/z.p*100).toFixed(1):"0.0"}%`;
+    stato = `Residenti di 5–14 anni; quota sul totale dei residenti della sezione`;
+  } else if(modo === "sen"){
+    val = `${z.sen.toLocaleString("it-IT")} residenti · ${z.p>0?(z.sen/z.p*100).toFixed(1):"0.0"}%`;
+    stato = `Residenti di 65 anni e oltre; quota sul totale dei residenti della sezione`;
   } else if(modo === "crit"){
     val = crit === null ? "non calcolabile" : `Criticità ${crit}/100`;
     stato = crit === null ? "Nessun residente nella sezione" : `Livello: ${critEtichetta(crit)}`;
@@ -1115,7 +1137,15 @@ function schedaSezione(z){
     stato = `Rapporto: ${rapp.toFixed(0)} / 1000 ab.`;
   }
   const codComune = z.c ? String(z.c).padStart(6, "0") : "Torino";
-  const det = [
+  const profilo = modo === "occ" ? [
+    { k: "Occupati residenti 15–64 anni", v: z.occ.toLocaleString("it-IT") },
+    { k: "Residenti 15–64 anni", v: z.p1564.toLocaleString("it-IT") }
+  ] : modo === "sc" ? [
+    { k: "Residenti 5–14 anni", v: `${z.sc.toLocaleString("it-IT")} (${z.p>0?(z.sc/z.p*100).toFixed(1):"0.0"}%)` }
+  ] : modo === "sen" ? [
+    { k: "Residenti 65 anni e oltre", v: `${z.sen.toLocaleString("it-IT")} (${z.p>0?(z.sen/z.p*100).toFixed(1):"0.0"}%)` }
+  ] : [];
+  const det = [...profilo,
     { k: "Indice di criticità (ore " + hh + ")", v: critTxt },   // [agente GT18-punti-critici-integrati]
     { k: "Residenti sezione", v: `${z.p} abitanti (${Math.round(z.dens)} / km²)` },
     { k: "Popolazione entro 400 m", v: `${z.pop400} residenti` },
@@ -1123,7 +1153,7 @@ function schedaSezione(z){
     { k: "Passaggi GTT alle " + hh + ":00", v: `${serv} passaggi/ora programmati` }
   ];
   const app = `<b>Territorio:</b> Comune ${codComune}, superficie ${z.km2.toFixed(3)} km².<br>`
-    + `<b>Dati ISTAT:</b> Popolazione residente dal Censimento 2021 (popolazione "di notte", non include lavoratori o studenti non residenti).<br>`
+    + `<b>Dati ISTAT:</b> Censimento 2021. Occupati e fasce d'età sono residenti nella sezione, non conteggi di spostamenti; gli occupati non indicano luogo, orario o mezzo di lavoro. La fascia 5–14 anni è solo un possibile indicatore di domanda scolastica.<br>`
     + `<b>Offerta:</b> passaggi orari programmati GTT alle fermate entro 400 metri dal baricentro della sezione. Fuori Torino possono mancare le corse di altri operatori extraurbani.<br>`
     + `<b>Indice di criticità (STIMA, non misura):</b> da 0 a 100 in base ai passaggi programmati ogni 1000 residenti entro 400 m, confrontati con le altre sezioni dell'area nelle ore 7-20. 100 = nessun passaggio; 80 o più = il peggior quinto (contorno rosso sulla mappa). Considera solo i residenti, non pendolari né turisti.`;
   return creaScheda({
@@ -1231,7 +1261,7 @@ function apriScheda(html,sel){
 }
 $("schedaX").onclick=chiudiScheda;
 addEventListener("keydown",e=>{ if(e.key==="Escape") chiudiScheda(); });
-const NOME_MODO={rapp:"Passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²"};
+const NOME_MODO={rapp:"Passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²",occ:"Occupati residenti 15–64 anni (% della fascia)",sc:"Residenti 5–14 anni",sen:"Residenti 65 anni e oltre"};
 
 function cercaTip(sx,sy,click){
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx(), hh=pad(S.h);
@@ -1416,8 +1446,11 @@ const scalaHtml = (pal,et) => `<div class="sc">${pal.map(c=>`<span style="backgr
 function legendaSezioni(modo){
   if(!sezOk) return "";
   const so=sezSoglie[modo]||[0,0,0,0];
-  const nome={rapp:"Criticità: passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²"}[modo];
-  const tag = modo==="dens"?TAG.cens : modo==="serv"?"" : TAG.prog+TAG.cens;   // [agente GT06-pannello] niente PROGRAMMATO da solo
+  const nome={rapp:"Criticità: passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²",occ:"Occupati residenti 15–64 anni (% dei residenti 15–64)",sc:"Residenti 5–14 anni per sezione",sen:"Residenti 65 anni e oltre per sezione"}[modo];
+  const profilo=["occ","sc","sen"].includes(modo);
+  const tag = (modo==="dens"||profilo)?TAG.cens : modo==="serv"?"" : TAG.prog+TAG.cens;   // [agente GT06-pannello] niente PROGRAMMATO da solo
+  if(profilo) return `<div class="t">${nome} ${tag}</div>`+scalaHtml(PAL_SEZ[modo],["meno",fnum(so[1]),fnum(so[3]),"più"])
+    +`<div class="et" style="display:block">Colori in 5 fasce relative alle sezioni abitate dell'area. Dati ISTAT 2021 sui residenti; non sono conteggi di viaggi. Grigio = dato non disponibile.</div>`;
   return `<div class="t">${nome} ${tag}</div>`+scalaHtml(PAL_SEZ[modo],[modo==="rapp"?"critico":"meno",fnum(so[1]),fnum(so[3]),modo==="rapp"?"ok":"più"])
     +(modo==="dens"?"":'<div class="puntini"><span><i style="background:#9aa0ad"></i>nessun passaggio GTT programmato</span></div>');
 }
@@ -1467,6 +1500,10 @@ function impostaSubServizio(sub, aggiornaOver){
     if(aggiornaOver){ $("Llinee").checked = true; $("Lfermate").checked = true; }
   } else if(sub === "dens"){
     tema.desc = "Dove abitano le persone (residenti ISTAT 2021, popolazione «di notte»).";
+    tema.lineeSottili = false;
+    if(aggiornaOver){ $("Llinee").checked = false; $("Lfermate").checked = false; }
+  } else if(["occ","sc","sen"].includes(sub)){
+    tema.desc = sub==="occ" ? "Occupati residenti di 15–64 anni: indicatore potenziale di spostamenti per lavoro, non conteggio di pendolari." : sub==="sc" ? "Residenti di 5–14 anni: possibile indicatore di domanda scolastica, non numero di alunni o viaggi." : "Residenti di 65 anni e oltre: profilo demografico utile per valutare l'accessibilità, non conteggio di viaggi.";
     tema.lineeSottili = false;
     if(aggiornaOver){ $("Llinee").checked = false; $("Lfermate").checked = false; }
   }
