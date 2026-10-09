@@ -252,7 +252,9 @@ Principi per gli scenari:
     completa. Prima sezioni, zone e comuni non mostravano nulla al passaggio del mouse.
   - Pannello: «Guida e stato dei dati» unisce limiti e stato; la Legenda è un riquadro flottante
     separato (in basso a destra, richiudibile); «Segnalazioni adesso» compressa in un blocco chiuso.
-  - «Sfondo» separato dai filtri linea, spostati in «Sovrapposizioni» (filtro linea + colore linee).
+  - «Sfondo» separato dai filtri; «Sovrapposizioni» ora è una tendina chiusa con le caselle, filtro
+    «singola linea» compreso. Tolta la scelta del colore linee: una sola impostazione (spessore =
+    corse/ora).
   - Area «Opzioni» unica e dichiarativa: ogni tema dichiara le sue scelte nel record `THEMES`
     (campo `opzioni`), il codice (`renderOpzioni`) le costruisce con lo stesso stile; il catalogo
     è incluso. Aggiungere un'opzione = una voce in `OPZIONI` + il suo id nel tema.
