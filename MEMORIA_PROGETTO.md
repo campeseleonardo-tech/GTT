@@ -123,7 +123,7 @@ Principi per gli scenari:
   mappa scritto a mano, sfondo da internet.
 - Livelli: sezioni di censimento (offerta, densità, profilo dei residenti), zone statistiche,
   linee, fermate, traffico 5T, mezzi GTT reali, corse simulate, pendolari, segnalazioni, OMI,
-  catalogo.
+  mobilità IMQ 2022, catalogo.
 - Corse simulate: ogni corsa degli orari (feriali 13.683, sabato 10.747, domenica 6.981) a
   velocità costante sul tracciato. STIMA dagli orari, NON posizione reale.
 - Sfondi: chiara (OSM schiarito), stradale (OSM), satellite (Esri). Niente CARTO (chiave) né
@@ -228,26 +228,17 @@ Principi per gli scenari:
 
 ## 10. IMQ 2022: chi va dove e perché (fatto, 9/10)
 
-- Export dell'Access in CSV (`scripts/13_esporta_imq.ps1`, PowerShell + driver ODBC, senza
-  installare nulla; scrittura in C# compilato al volo) e aggregazione pesata
-  (`scripts/14_prepara_imq.py`, sola libreria standard): per zona di origine → scopo, ora,
-  modo; matrice origine→destinazione; residenti per zona. Ogni cella ha valore pesato, n e
-  "affidabile" (n ≥ 30). Prodotti: `imq_zone.json`, `imq_od.json`, `imq_aggregati.json`,
-  `imq_residenti.json`.
-- Geometria delle 212 zone (`scripts/15_prepara_zone_imq.py`): 23 quartieri di Torino da
-  `data/raw/ex_quartieri/` (EPSG:3003) + 189 zone C/E/R dai confini comunali ISTAT 2022
-  (`data/raw/istat/confini_2022/`, UTM 32N su WGS84). Prodotto: `imq_zone_geo.json` (2,1 MB).
-- Verifiche superate: totale spostamenti 8.217.862,7 contro 8.217.863 del report (−0,000%);
-  quota pubblico 5,65% (esatta); scopi allineati al report; 0 comuni non agganciati su 1.181;
-  area Torino 130,18 km². Nessun dato personale.
-- Limite: i confini dei quartieri di Torino (1984) non coincidono con la zonizzazione IMQ per
-  7 quartieri su 23 (rapporto demografico fuori ±15%); accettato con l'opzione A. Dettagli in
-  `docs/RAPPORTO_IMQ.txt`.
-- In mappa (`scripts/16_prepara_imq_mappa.py` + 04): tema "Mobilità (IMQ 2022)" sulle 101 zone
-  della Città metropolitana (23 Torino + 32 cintura + 46 resto CMTO): choropleth con tendina
-  (spostamenti per ora×modo, quote modali, residenti), ora guidata dallo slider esistente
-  (`S.h`); al clic scheda con scopi e destinazioni e linee dei flussi OD. Prodotto
-  `imq_mappa.json` (0,53 MB, geometria semplificata ~30 m).
+- `13_esporta_imq.ps1` (Access→CSV, nessun dato personale), `14_prepara_imq.py` (aggregazione
+  pesata per zona/scopo/ora/modo + matrice OD + residenti), `15_prepara_zone_imq.py` (geometria
+  delle 212 zone: 23 quartieri EPSG:3003 + 189 comuni da confini ISTAT 2022), `16_prepara_imq_mappa.py`
+  (prepara i dati per la mappa).
+- Verifiche contro il report: totale 8.217.862,7 vs 8.217.863 (−0,000%); quota pubblico 5,65%
+  (esatta); scopi allineati; 0 comuni non agganciati su 1.181; area Torino 130,18 km².
+- In mappa: tema "Mobilità (IMQ 2022)" sulle 101 zone della Città metropolitana (23+32+46):
+  choropleth (spostamenti per ora×modo, quote, residenti), ora dallo slider, al clic scheda e
+  linee dei flussi OD. Prodotti: `imq_zone.json`, `imq_od.json`, `imq_aggregati.json`,
+  `imq_residenti.json`, `imq_zone_geo.json`, `imq_mappa.json`. Limite dei quartieri del 1984 in
+  "Limiti e rischi". Dettagli in `docs/RAPPORTO_IMQ.txt`.
 
 # ATTIVITÀ DA FARE (in ordine di priorità)
 
@@ -260,10 +251,9 @@ Principi per gli scenari:
 2. **Chiudere i ritardi una tantum**: a raccolta finita (~20:30 del 9/10) lanciare
    `python scripts\12_ritardi_gtt.py analizza`, confermare sul campione diurno l'assenza di
    `delay`/`stop_time_update`, consolidare `docs/RAPPORTO_RITARDI_GTT.txt`.
-3. **IMQ 2022 - residuo**: export, aggregazione e geometria fatti (attività 10). Resta da
-   decidere se chiedere all'Agenzia Mobilità Piemontese il perimetro delle zone di
-   campionamento (i quartieri di Torino del 1984 non coincidono con la zonizzazione IMQ per 7
-   su 23). Bozza in `docs/richiesta_MTM_IMQ.md`.
+3. **IMQ 2022 - residuo**: resta solo da decidere se chiedere all'Agenzia Mobilità Piemontese
+   il perimetro delle zone di campionamento (i quartieri del 1984 non coincidono con la
+   zonizzazione IMQ per 7 su 23). Bozza in `docs/richiesta_MTM_IMQ.md`.
 4. **Accessibilità per sezione e per ora del giorno**: tempi di viaggio col trasporto
    pubblico (GTFS + OSM, con OpenTripPlanner o R5/r5py), es. alle 8, 14, 23 e 2. Da qui
    l'indicatore "città dei 15 minuti" per sezione col catalogo.
@@ -360,9 +350,6 @@ Principi per gli scenari:
 - **Matrice nazionale 2011** (`matrix_pendo2011_10112014.txt`, 293 MB): TENERLA. Mezzo (12
   categorie), orario di uscita (4 fasce), tempo di viaggio (4 classi), livello comunale.
 - **Basi territoriali 2021 Piemonte** (`R01_21.zip`): confini e popolazione per sezione (usate da 05).
-- **IMQ 2022 elaborata** (`data/processed/imq_*.json`): aggregati pesati per zona/scopo/ora/
-  modo, matrice origine→destinazione, residenti e geometria delle 212 zone (attività 10).
-  Pronti per la mappa.
 
 ## Grezzi (`data/raw/`)
 
@@ -407,7 +394,7 @@ Principi per gli scenari:
    Fermi, attività 6).
 7. **Addetti per sezione** (dove si lavora).
 8. **Da scaricare per le attività**: estratto OSM (4), temperatura superficiale Landsat (7),
-   matrice delle distanze (13). (La geometria delle zone IMQ è fatta: attività 10.)
+   matrice delle distanze (13).
 
 ---
 
@@ -427,7 +414,7 @@ Principi per gli scenari:
 - **Dati di anni diversi**: sezioni 2011 e 2021 senza codice comune (accorpamento
   approssimato). OMI sono valori ordinari per zona, non stime di singoli immobili.
 - **Zone IMQ**: le 189 zone C/E/R (comuni) sono esatte; i 23 quartieri di Torino sono i confini
-  del 1984 e non coincidono con la zonizzazione IMQ per 7 su 23 (attività 10).
+  del 1984 e non coincidono con la zonizzazione IMQ per 7 su 23 (sezione 10).
 - **Copia unica**: finché non c'è la copia periodica (attività 1), lo storico vive solo sul Pi.
 - Le funzioni Windows del supervisore (finestra settimanale, anti-stop, avvio automatico) non
   sono state provate su Windows; diventano irrilevanti quando resta solo il Pi.
