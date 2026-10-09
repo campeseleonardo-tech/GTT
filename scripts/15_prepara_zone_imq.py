@@ -11,6 +11,7 @@ Scrive data/processed/imq_zone_geo.json (il file viene completato dalla parte B)
 Solo libreria standard. Uso: python scripts/15_prepara_zone_imq.py
 """
 
+import csv
 import json
 import math
 import struct
@@ -38,6 +39,7 @@ CONFINI_ZIP = RADICE / "data/raw/istat/confini_2022/Limiti01012022_g.zip"
 SEZIONI = RADICE / "data/processed/sezioni_torino.json"
 RESIDENTI = RADICE / "data/processed/imq_residenti.json"
 ZONE = RADICE / "data/processed/imq_zone.json"
+COMUNI_CSV = RADICE / "data/processed/imq/comuni.csv"
 OUT = RADICE / "data/processed/imq_zone_geo.json"
 
 CENTRO = (45.0703, 7.6869)   # Piazza Castello (stesso punto usato per il catalogo)
@@ -124,8 +126,7 @@ def normalizza(s):
 
 
 # ------------------------------------------------------------------ lettori
-def leggi_dbf(percorso):
-    b = Path(percorso).read_bytes()
+def _dbf_da_bytes(b, encoding="cp1252"):
     n, hl, rl = struct.unpack("<IHH", b[4:12])
     campi, i = [], 32
     while b[i] != 0x0D:
@@ -136,16 +137,17 @@ def leggi_dbf(percorso):
         rec = b[hl + r * rl: hl + (r + 1) * rl]
         o, d = 1, {}
         for nome, ln in campi:
-            d[nome] = rec[o:o + ln].decode("cp1252").strip()
+            d[nome] = rec[o:o + ln].decode(encoding).strip()
             o += ln
         righe.append(d)
     return righe
 
 
-def leggi_shp_poligoni(percorso):
-    """Tipi 5 (Polygon) e 15 (PolygonZ, la Z ignorata). Ritorna lista di record:
-    {"rings": [[(x,y),...], ...], "bbox": (xmin,ymin,xmax,ymax)} oppure None."""
-    b = Path(percorso).read_bytes()
+def leggi_dbf(percorso):
+    return _dbf_da_bytes(Path(percorso).read_bytes())
+
+
+def _shp_poligoni_da_bytes(b):
     recs = []
     off = 100
     while off + 8 <= len(b):
@@ -168,6 +170,12 @@ def leggi_shp_poligoni(percorso):
     return recs
 
 
+def leggi_shp_poligoni(percorso):
+    """Tipi 5 (Polygon) e 15 (PolygonZ, la Z ignorata). Ritorna lista di record:
+    {"rings": [[(x,y),...], ...], "bbox": (xmin,ymin,xmax,ymax)} oppure None."""
+    return _shp_poligoni_da_bytes(Path(percorso).read_bytes())
+
+
 def pip_anello(x, y, ring):
     """Ray casting: True se il punto e' dentro l'anello."""
     inside = False
@@ -185,6 +193,19 @@ def pip_anello(x, y, ring):
 def punto_in_record(x, y, rec):
     """Regola even-odd su tutti gli anelli del record (fori compresi)."""
     return sum(1 for ring in rec["rings"] if pip_anello(x, y, ring)) % 2 == 1
+
+
+def norm_zona(c):
+    """QC01 -> Q001 (stesso criterio di 14_prepara_imq.py)."""
+    c = (c or "").strip()
+    if len(c) == 4 and c[0].upper() == "Q" and c[1].upper() == "C":
+        return "Q0" + c[2:]
+    return c
+
+
+def leggi_csv(percorso, delim=";"):
+    with open(percorso, encoding="utf-8", newline="") as f:
+        return list(csv.DictReader(f, delimiter=delim))
 
 
 # ------------------------------------------------------------------ parte A
@@ -279,6 +300,64 @@ def parte_quartieri(zone_json):
             "abbinamenti": abbinamenti, "ids": ids, "recs": recs}
 
 
+# ------------------------------------------------------------------ parte B
+def parte_comuni():
+    """Zone C/E/R = insieme dei poligoni dei comuni membri (da comuni.csv), senza fusione."""
+    z = zipfile.ZipFile(CONFINI_ZIP)
+    base = "Limiti01012022_g/Com01012022_g/Com01012022_g_WGS84"
+    dbf = _dbf_da_bytes(z.read(base + ".dbf"), "utf-8")
+    shp = _shp_poligoni_da_bytes(z.read(base + ".shp"))
+    z.close()
+    recs = [r for r in shp if r is not None]
+    if len(dbf) != len(recs):
+        sys.exit(f"STOP: comuni .dbf ({len(dbf)}) e .shp ({len(recs)}) non allineati")
+
+    per_codice = {}
+    for k, r in enumerate(dbf):
+        cod = (r.get("PRO_COM_T") or "").strip()
+        if not cod:
+            cod = str(int(r.get("PRO_COM") or 0)).zfill(6)
+        per_codice[cod] = k
+
+    comuni = leggi_csv(COMUNI_CSV)
+    zona_comuni = defaultdict(list)
+    non_agganciati = []
+    for c in comuni:
+        cod1 = (c["COD1"] or "").strip()
+        zc = norm_zona(c["COD2"])
+        if cod1 in per_codice:
+            zona_comuni[zc].append(cod1)
+        else:
+            non_agganciati.append((zc, cod1))
+
+    # conversione WGS84 una sola volta per ogni comune usato
+    def geometria_comune(cod1):
+        rec = recs[per_codice[cod1]]
+        anelli = [[(round(la, 5), round(lo, 5))
+                   for la, lo in (utm32n_a_wgs84(x, y) for x, y in ring)]
+                  for ring in rec["rings"]]
+        area = abs(sum(area_con_segno(ring) for ring in rec["rings"])) / 1e6
+        return anelli, area
+
+    out = {}
+    for zc, codici in zona_comuni.items():
+        anelli, ar = [], 0.0
+        for cod1 in codici:
+            g, a = geometria_comune(cod1)
+            anelli.extend(g)
+            ar += a
+        out[zc] = {"g": [[[la, lo] for la, lo in ring] for ring in anelli], "a": round(ar, 4)}
+
+    # Torino comune (001272): mappa come zona Q, ma serve ai controlli della fase 4
+    torino = None
+    if "001272" in per_codice:
+        g, a = geometria_comune("001272")
+        torino = {"g": g, "a": a}
+
+    return {"zone": out, "non_agganciati": non_agganciati, "n_comuni": len(comuni),
+            "torino": torino}
+
+
 def main():
     zone_json = json.loads(ZONE.read_text(encoding="utf-8"))
     a = parte_quartieri(zone_json)
@@ -297,25 +376,63 @@ def main():
         esiti.append((nome, bool(ok)))
         print(f"[{'OK ' if ok else 'STOP'}] {nome}: {dettaglio}")
 
+    # --- fase 3 ---
     check("23 id distinti", len(set(a["ids"])) == 23, f"{len(set(a['ids']))}")
     check("23 zone Q abbinate", len(a["abbinamenti"]) == 23 and
           all(c.startswith("Q") for c in a["abbinamenti"]), f"{len(a['abbinamenti'])}")
-    check("area Torino 128-132 km2", AREA_MIN_KM2 <= a["area_km2"] <= AREA_MAX_KM2,
+    check("area quartieri 128-132 km2", AREA_MIN_KM2 <= a["area_km2"] <= AREA_MAX_KM2,
           f"{a['area_km2']:.2f} km2")
     fuori = [c for c in a["rapporto"] if a["rapporto"][c] == a["rapporto"][c]
              and abs(a["rapporto"][c] - a["mediana"]) / a["mediana"] > 0.15]
-    check("rapporto demografico entro ±15% dalla mediana", not fuori,
-          f"fuori: {fuori if fuori else 'nessuno'}")
+    # Opzione A (scelta di Leo, 9/10/2026): i confini dei quartieri del 1984 non coincidono
+    # con la zonizzazione IMQ per alcuni quartieri; si accetta e si dichiara, non blocca.
+    print(f"[NOTA] rapporto demografico: {len(fuori)}/23 fuori ±15% "
+          f"({', '.join(sorted(fuori)) if fuori else 'nessuno'}) -> accettato (opzione A)")
+
+    # --- fase 4 ---
+    b = parte_comuni()
+    quota = len(b["non_agganciati"]) / max(b["n_comuni"], 1)
+    check("comuni non agganciati <= 2%", quota <= 0.02,
+          f"{len(b['non_agganciati'])}/{b['n_comuni']} ({100*quota:.2f}%)")
+    if b["non_agganciati"]:
+        print(f"    non agganciati: {b['non_agganciati']}")
+    tor = b["torino"]
+    check("Piazza Castello nel poligono di Torino (ISTAT)",
+          tor is not None and punto_in_record(CENTRO[0], CENTRO[1], {"rings": tor["g"]}),
+          f"area Torino {tor['a']:.2f} km2" if tor else "Torino assente")
+    check("area Torino ISTAT 128-132 km2",
+          tor is not None and AREA_MIN_KM2 <= tor["a"] <= AREA_MAX_KM2,
+          f"{tor['a']:.2f} km2" if tor else "Torino assente")
+
+    # --- unione e scrittura ---
+    geometria = []
+    for z in zone_json:
+        cod = z["cod"]
+        if cod in a["zone"]:
+            g, ar = a["zone"][cod]["g"], a["zone"][cod]["a"]
+        elif cod in b["zone"]:
+            g, ar = b["zone"][cod]["g"], b["zone"][cod]["a"]
+        else:
+            g, ar = [], 0.0
+        geometria.append({"cod": cod, "denom": z["denom"], "macro": z["macro"],
+                          "prov": z["prov"], "g": g, "a": ar})
+
+    vuote = [x["cod"] for x in geometria if not x["g"]]
+    n_q = sum(1 for x in geometria if x["cod"].startswith("Q"))
+    n_cer = len(geometria) - n_q
+    check("212 zone presenti", len(geometria) == 212, f"{len(geometria)}")
+    check("212 zone con almeno un poligono", not vuote, f"vuote: {vuote if vuote else 'nessuna'}")
+    print(f"    zone: {n_q} Q (quartieri) + {n_cer} C/E/R (comuni)")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps({"q": {c: a["zone"][c]["g"] for c in a["zone"]}}, separators=(",", ":")),
+    OUT.write_text(json.dumps(geometria, ensure_ascii=False, separators=(",", ":")),
                    encoding="utf-8")
-    print(f"\n  scritto {OUT} (solo quartieri, provvisorio)")
+    print(f"\n  scritto {OUT} ({(OUT.stat().st_size)/1e6:.2f} MB)")
 
     fallite = [n for n, ok in esiti if not ok]
     if fallite:
-        sys.exit("STOP: verifiche fase 3 fallite: " + ", ".join(fallite))
-    print("Tutte le verifiche di fase 3 superate.")
+        sys.exit("STOP: verifiche fallite: " + ", ".join(fallite))
+    print("Verifiche fasi 3 e 4 superate (quartieri: accettato il limite, opzione A).")
 
 
 if __name__ == "__main__":
