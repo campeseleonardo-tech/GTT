@@ -184,6 +184,19 @@
       <option value="cc">Centri commerciali</option>
     </select>
   </div>
+  <!-- [mobilita' IMQ 2022] scelta misura (visibile solo con il tema Mobilità IMQ) -->
+  <div id="boxImq" style="display:none;margin:6px 0">
+    <select id="imqMet" aria-label="Misura IMQ 2022" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
+      <option value="ora_tot" selected>Spostamenti in partenza (a quest'ora)</option>
+      <option value="ora_pub">Spostamenti pubblici (a quest'ora)</option>
+      <option value="ora_pri">Spostamenti privati (a quest'ora)</option>
+      <option value="ora_alt">Spostamenti altro (a quest'ora)</option>
+      <option value="quotaPub">Quota pubblico (intera giornata)</option>
+      <option value="quotaPri">Quota privato (intera giornata)</option>
+      <option value="res">Residenti 11-84 anni</option>
+    </select>
+    <div id="imqNota" style="font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.3"></div>
+  </div>
   <!-- Catalogo dei nuovi dati: un gruppo alla volta, caricato su richiesta -->
   <div id="boxCat" style="display:none;margin:6px 0">
     <select id="catGruppo" aria-label="Gruppo di dati del catalogo" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:600"></select>
@@ -191,7 +204,7 @@
     <div id="catInfo" style="font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.35"></div>
   </div>
   <!-- stato interno dell'area colorata: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
-  <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi">
+  <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi"><input type="checkbox" id="LImq">
     <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option><option value="crit"></option><option value="occ"></option><option value="sc"></option><option value="sen"></option></select></div>
 
   <h2>Sovrapposizioni</h2>
@@ -335,6 +348,47 @@ const sez = (D.sezioni||[]).map(z=>{
     return {c:c.c,z:z.z,n:z.n,f:z.f,v:z.v||{}, rings, bb:[x0,y0,x1,y1]};
   }));
   const omiOk=!!omi.length;
+
+  /* ---------- Mobilità IMQ 2022 (zone della Città metropolitana) ---------- */
+  const IMQ = D.imq || null;
+  const IMQ_OD = (IMQ && IMQ.od) || {};
+  const IMQ_PAL = ["#dbe9f6","#a9cbe8","#6fa8d0","#3a7cb5","#123f6d"]; // basso -> alto
+  const imq = ((IMQ && IMQ.zone) || []).map(z => {
+    const rings=(z.g||[]).map(r=>{ const a=new Float64Array(r.length*2); r.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a; });
+    let x0=1,y0=1,x1=0,y1=0;
+    rings.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
+    return {c:z.c,n:z.n,m:z.m,rings,bb:[x0,y0,x1,y1],la:z.la,lo:z.lo,res:z.res,
+            ora:z.ora,scopo:z.scopo,quotaPub:z.quotaPub,quotaPri:z.quotaPri,od:IMQ_OD[z.c]||[]};
+  });
+  const imqOk=!!imq.length;
+  const IMQ_MET={
+    ora_tot:{lab:"Spostamenti in partenza (a quest'ora)", k:"tot"},
+    ora_pub:{lab:"Spostamenti pubblici (a quest'ora)", k:"pub"},
+    ora_pri:{lab:"Spostamenti privati (a quest'ora)", k:"pri"},
+    ora_alt:{lab:"Spostamenti altro (a quest'ora)", k:"alt"},
+    quotaPub:{lab:"Quota pubblico (intera giornata)"},
+    quotaPri:{lab:"Quota privato (intera giornata)"},
+    res:{lab:"Residenti 11-84 anni"},
+  };
+  function imqValore(z, met){
+    if(met.startsWith("ora")){ const c=z.ora&&z.ora[S.h]?z.ora[S.h][IMQ_MET[met].k]:null; return c?c[0]:0; }
+    if(met==="quotaPub") return z.quotaPub;
+    if(met==="quotaPri") return z.quotaPri;
+    if(met==="res") return z.res;
+    return 0;
+  }
+  function imqAffidabile(z, met){
+    if(met.startsWith("ora")){ const c=z.ora&&z.ora[S.h]?z.ora[S.h][IMQ_MET[met].k]:null; return c?c[1]>=30:false; }
+    return true;
+  }
+  function imqSoglie(vals){ const v=vals.filter(x=>x>0).sort((a,b)=>a-b); if(!v.length) return null;
+    const q=p=>v[Math.min(v.length-1,Math.floor(p*(v.length-1)))]; return [q(.2),q(.4),q(.6),q(.8)]; }
+  function imqColore(z, met, sog){
+    const v=imqValore(z, met);
+    if(met==="quotaPub"||met==="quotaPri"){ if(v==null||isNaN(v)) return null; return IMQ_PAL[Math.min(4,[.2,.4,.6,.8].filter(s=>v>s).length)]; }
+    if(!(v>0) || !sog) return null; return IMQ_PAL[Math.min(IMQ_PAL.length-1,sog.filter(s=>v>s).length)];
+  }
+  function imqNum(x){ return (x==null||isNaN(x))?"—":Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g,"."); }
 
   /* ---------- CATALOGO dei nuovi dati (gruppi caricati su richiesta) ----------
      L'indice (metadati) e' incorporato; i dati di ogni gruppo stanno in
@@ -807,8 +861,8 @@ let baseKey="";
 function disegna(){
   sporco=false;
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
-  const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),$("pendTipo").value,$("pendDir").value,$("pendVal").value,$("omiTipo")?$("omiTipo").value:"ab",
-    ["Lzone","Lsez","Lomi","Llinee","Lfermate","Lgriglia"].map(vis).join(),tema.id,$("coloreLinee").value,(ST()||{}).generato,catSig()].join("|");
+  const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),$("pendTipo").value,$("pendDir").value,$("pendVal").value,$("omiTipo")?$("omiTipo").value:"ab",$("imqMet")?$("imqMet").value:"ora_tot",
+    ["Lzone","Lsez","Lomi","LImq","Llinee","Lfermate","Lgriglia"].map(vis).join(),tema.id,$("coloreLinee").value,(ST()||{}).generato,catSig()].join("|");
   if(chiave!==baseKey){
     baseKey=chiave;
     if(bcv.width!==cv.width||bcv.height!==cv.height){ bcv.width=cv.width; bcv.height=cv.height; }
@@ -930,6 +984,19 @@ function disegnaBase(ws,ox,oy,i){
       if(view.zoom>=14){ cx.strokeStyle="rgba(40,50,70,.22)"; cx.lineWidth=.4; for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.stroke(); } }
     }
   }
+  if(vis("LImq") && imqOk){
+    const met=$("imqMet")?$("imqMet").value:"ora_tot";
+    const sog=(met.startsWith("ora")||met==="res")?imqSoglie(imq.map(z=>imqValore(z,met))):null;
+    for(const z of imq){
+      if(!dentroVista(z.bb,ws,ox,oy)) continue;
+      const col=imqColore(z,met,sog);
+      if(!col) continue;
+      cx.fillStyle=col; cx.globalAlpha=.55;
+      for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.fill(); }
+      cx.globalAlpha=1;
+      if(view.zoom>=14){ cx.strokeStyle="rgba(40,50,70,.22)"; cx.lineWidth=.4; for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.stroke(); } }
+    }
+  }
   if(vis("Llinee")){
     cx.lineCap="round"; cx.lineJoin="round";
     const fl=filtroL(), ratio=$("coloreLinee").value==="ratio", rl=ratio?ratiLinee(i):null;
@@ -967,6 +1034,22 @@ function disegnaSopra(ws,ox,oy,i){
     cx.strokeStyle="#111"; cx.lineWidth=1.5; cx.beginPath();
     for(const a of schedaSel.polys){ for(let k=0;k<a.length;k+=2){ const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y); } cx.closePath(); }
     cx.stroke();
+  }
+  if(vis("LImq") && schedaSel && schedaSel.imq){
+    const s=schedaSel, x1=s.lo!=null?px(s.lo)*ws-ox:null, y1=s.la!=null?py(s.la)*ws-oy:null;
+    if(x1!=null){
+      let vmax=0; for(const f of s.od) if(f.d!==s.c && !f.est) vmax=Math.max(vmax,f.v);
+      cx.lineCap="round";
+      for(const f of s.od){
+        if(f.d===s.c || f.est) continue;
+        const dz=imq.find(z=>z.c===f.d); if(!dz) continue;
+        const x2=px(dz.lo)*ws-ox, y2=py(dz.la)*ws-oy;
+        cx.strokeStyle=f.aff?"rgba(200,16,46,.60)":"rgba(200,16,46,.28)";
+        cx.lineWidth=1+4*(f.v/(vmax||1));
+        cx.beginPath(); cx.moveTo(x1,y1); cx.lineTo(x2,y2); cx.stroke();
+      }
+      cx.fillStyle="#111"; cx.beginPath(); cx.arc(x1,y1,3.5,0,7); cx.fill();
+    }
   }
   if(vis("Lcorse")){
     const C=(D.corse||[])[S.dt]||[], fl=filtroL(), R=view.zoom<11?1.8:view.zoom<13?2.6:view.zoom<15?3.4:4.2;
@@ -1555,6 +1638,22 @@ function cercaTip(sx,sy,click){
     }
   }
 
+  if(vis("LImq") && imqOk){
+    const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
+    const met=$("imqMet")?$("imqMet").value:"ora_tot";
+    for(const z of imq){
+      if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
+      if(dentroZona({polys:[z.rings]},ux,uy)){
+        if(click) return apriScheda(schedaImq(z), {imq:true,c:z.c,polys:[z.rings],la:z.la,lo:z.lo,od:z.od});
+        cv.style.cursor="pointer";
+        const v=imqValore(z,met), aff=imqAffidabile(z,met), nome=(IMQ_MET[met]||{}).lab||met;
+        const vtxt=met.startsWith("quota")?`${(100*(v||0)).toFixed(0)}%`:imqNum(v);
+        const nota=(met.startsWith("ora")&&S.dt!==0)?" <span style='color:#5d6678'>(feriale)</span>":"";
+        return mostraTipBase(`<b>${esc(z.n||z.c)}</b><br>${esc(nome)}: <b>${vtxt}</b>${aff?"":" <span style='color:#b25e00'>(pochi casi)</span>"}${nota}`, sx, sy);
+      }
+    }
+  }
+
   if(vis("Lzone")){
     const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
     for(const z of zone){
@@ -1596,7 +1695,7 @@ function riepilogoQuando(){
   const t=`${g}, ${h}:${mi} · ${v}`;
   if($("quandoRiepilogo").textContent!==t) $("quandoRiepilogo").textContent=t;
 }
-function aggiornaOra(){ $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando(); riepilogoQuando(); chiede(); }
+function aggiornaOra(){ $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando(); riepilogoQuando(); chiede(); imqNotaOra(); }
 document.querySelectorAll("#giorno button").forEach(b=>b.onclick=()=>{ S.dt=+b.dataset.k; document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",x===b)); aggiornaOra(); aggiornaLegenda(); });
 $("ora").oninput=e=>{S.m=+e.target.value; aggiornaOra();};
 function adesso(){
@@ -1772,6 +1871,55 @@ function legendaOmi(){
   return righe.join("");
 }
 
+// --- Mobilità IMQ 2022: scheda zona ---
+const IMQ_SCOPI={ "01":"Lavoro","02":"Motivi di lavoro","03":"Studio","04":"Acquisti/Commissioni","05":"Accompagnamento","06":"Cure/Visite mediche","07":"Sport/Svago","08":"Ritorno a casa","09":"Visite a parenti/amici","10":"Altro (incl. 12-16)","11":"Ritorno a casa (giorno)" };
+function schedaImq(z){
+  const modi=[["pub","Pubblico"],["pri","Privato"],["alt","Altro"]];
+  const totOra=z.ora?z.ora.reduce((s,c)=>s+c.tot[0],0):0;
+  const somma=k=>z.ora?z.ora.reduce((a,c)=>a+c[k][0],0):0;
+  const totModo=modi.reduce((s,[k])=>s+somma(k),0);
+  const quota=k=>totModo?Math.round(100*somma(k)/totModo):0;
+  let punta=0,pv=-1; (z.ora||[]).forEach((c,h)=>{ if(c.tot[0]>pv){pv=c.tot[0];punta=h;} });
+  const scopi=Object.entries(z.scopo||{}).map(([k,v])=>[k,v[0]]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
+  const totScopo=scopi.reduce((s,x)=>s+x[1],0);
+  const rigaT=(a,b)=>`<tr><td style="padding:3px 6px;border-bottom:1px solid var(--line)">${a}</td><td style="padding:3px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap">${b}</td></tr>`;
+  const tabScopi=`<table style="width:100%;border-collapse:collapse;font-size:12px">${scopi.slice(0,4).map(([k,v])=>rigaT(esc(IMQ_SCOPI[k]||k),`${imqNum(v)} · ${totScopo?Math.round(100*v/totScopo):0}%`)).join("")}</table>`;
+  const dest=(z.od||[]).filter(f=>f.d!==z.c).slice(0,6);
+  const tabDest=`<table style="width:100%;border-collapse:collapse;font-size:12px">${dest.map(f=>rigaT(esc(f.dn||f.d)+(f.est?' <span style="color:#b25e00">(fuori CMTO)</span>':''),`${imqNum(f.v)}${f.aff?"":" <span style='color:#b25e00'>*</span>"}`)).join("")||`<tr><td style="padding:6px;color:var(--muted)">—</td></tr>`}</table>`;
+  return creaScheda({
+    titolo: `${esc(z.n||z.c)}`,
+    badge: '<span class="tag stimato">IMQ</span>',
+    sub: `Zona di indagine IMQ 2022 · ${esc(z.m||"")}`,
+    val: `Residenti 11-84: ${imqNum(z.res)}`,
+    stato: `Spostamenti/giorno in partenza: ${imqNum(totOra)}<br>Pubblico ${quota("pub")}% · Privato ${quota("pri")}% · Altro ${quota("alt")}%`,
+    dettagli: [
+      {k:"Ora di punta", v:`${pad(punta)}:00 (${imqNum(pv)} spostamenti)`},
+      {k:"Fonte", v:"IMQ 2022 - Agenzia della Mobilità Piemontese / MTM"},
+      {k:"Nota", v:"Indagine campionaria: residenti 11-84 anni, giorno feriale. Quartieri di Torino: confini 1984."},
+    ],
+    appTitolo: "Perché si spostano e dove vanno",
+    approfondimento: `<div class="t" style="margin:6px 0 2px">Motivo (intera giornata)</div>${tabScopi}`
+      + `<div class="t" style="margin:10px 0 2px">Destinazioni principali (linee in mappa)</div>${tabDest}`
+      + `<div class="et" style="display:block;margin-top:6px">* meno di 30 interviste: stima fragile. Dall'ora dello slider: spostamenti <b>${pad(S.h)}:00</b>.</div>`,
+    appAperto: true,
+  });
+}
+
+// ---------- legenda Mobilità IMQ ----------
+function legendaImq(){
+  const met=$("imqMet")?$("imqMet").value:"ora_tot";
+  const nome=(IMQ_MET[met]||{}).lab||met;
+  const sc=IMQ_PAL.map(c=>`<span style="background:${c}"></span>`).join("");
+  const righe=[];
+  righe.push(`<div class="t">Mobilità IMQ 2022: ${esc(nome)} <span class="tag stimato">IMQ</span></div>`);
+  righe.push(`<div class="sc">${sc}</div><div class="et"><span>basso</span><span>alto</span></div>`);
+  if(met.startsWith("ora")) righe.push(`<div class="et" style="display:block">Ora dello slider: <b>${pad(S.h)}:00</b>${S.dt!==0?" · l'indagine IMQ è del giorno feriale":""}. 5 classi (quantili della vista).</div>`);
+  righe.push(`<div class="puntini"><span><i style="background:#9aa0ad;border-color:rgba(0,0,0,.15)"></i>zona senza valore</span></div>`);
+  righe.push(`<div class="et" style="display:block">Fonte: IMQ 2022 (Agenzia della Mobilità Piemontese / MTM). Residenti 11-84, giorno feriale. Al clic: scopi, ripartizione modale e destinazioni (linee sulla mappa).</div>`);
+  return righe.join("");
+}
+function imqNotaOra(){ const n=$("imqNota"); if(!n) return; const attivo=$("boxImq")&&$("boxImq").style.display!=="none"; n.textContent=attivo?("Ora considerata dallo slider in alto: "+pad(S.h)+":00 · l'indagine IMQ è del giorno feriale"):""; }
+
 const THEMES = [
   // 1. Servizio e abitanti (unifica Poca offerta, Offerta e Domanda)
   {id:"servizio", label:"Servizio e abitanti", desc:"Confronto tra dove vivono le persone e l'offerta di trasporto pubblico entro 400 m.",
@@ -1793,6 +1941,9 @@ const THEMES = [
   // 5. Valore immobiliare (OMI)
   {id:"omi", label:"Valore immobiliare (OMI)", desc:"Valori di mercato e locazione per zona OMI e tipologia edilizia (Agenzia delle Entrate – OMI, semestre 2025/2). Valori ordinari: pregio e degrado esclusi. Non è la stima di un singolo immobile.",
    area:{tipo:"omi"}, over:{...NESSUNA}, omi:true, critici:true, legenda:legendaOmi},
+  // 5b. Mobilità (IMQ 2022): domanda e flussi per zona
+  {id:"imq", label:"Mobilità (IMQ 2022)", desc:"Chi si sposta, con che mezzo e dove: spostamenti in partenza per zona della Città metropolitana (IMQ 2022, indagine campionaria sul giorno feriale, residenti 11-84). L'ora è quella dello slider; al clic su una zona, scopi e destinazioni principali (linee sulla mappa).",
+   area:{tipo:"imq"}, over:{...NESSUNA}, imq:true, legenda:legendaImq},
   // 5. Zone critiche: indice di criticità (stima: poca offerta programmata per i residenti)
   {id:"critici", label:"Zone critiche", desc:"Indice di criticità 0-100: dove l'offerta GTT programmata è più scarsa rispetto ai residenti (stima, non misura). Rosso = critico, verde = servizio adeguato.",
    area:{tipo:"sez",modo:"crit"}, over:{...NESSUNA}, critici:false,
@@ -1816,7 +1967,7 @@ function applicaTema(id){
 
   tema = THEMES.find(t=>t.id===id) || THEMES[0];
   const a=tema.area;
-  $("Lsez").checked = !!(a && a.tipo==="sez"); $("Lzone").checked = !!(a && a.tipo==="zone"); $("Lomi").checked = !!(a && a.tipo==="omi");   // mai due colorazioni insieme
+  $("Lsez").checked = !!(a && a.tipo==="sez"); $("Lzone").checked = !!(a && a.tipo==="zone"); $("Lomi").checked = !!(a && a.tipo==="omi"); $("LImq").checked = !!(a && a.tipo==="imq");   // mai due colorazioni insieme
   if(a && a.tipo==="sez") $("modoSez").value=a.modo;
   for(const k in tema.over) $(k).checked = !!tema.over[k];
   $("temi").value=tema.id;
@@ -1824,14 +1975,16 @@ function applicaTema(id){
   $("boxSegn").style.display = tema.segnalazioni ? "block" : "none";
   $("boxPend").style.display = tema.pendolari ? "block" : "none";
   $("boxOmi").style.display = tema.omi ? "block" : "none";
+  $("boxImq").style.display = tema.imq ? "block" : "none";
   $("boxServizio").style.display = tema.subServizio ? "block" : "none";   // [agente GT16]
   if(tema.subServizio) impostaSubServizio($("subServizio").value, false);  // [agente GT16]
   $("boxCat").style.display = tema.catalogo ? "block" : "none";           // [catalogo]
   if(tema.catalogo) sicuro(catAttiva);                                     // [catalogo] carica il gruppo scelto
-  baseVer++; chiede(); aggiornaLegenda();
+  baseVer++; chiede(); aggiornaLegenda(); imqNotaOra();
 }
 ["pendTipo","pendDir","pendVal"].forEach(id=>$(id).onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); });   // [agente GT05-pendolari]
 $("omiTipo").onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); };
+$("imqMet").onchange=()=>{ baseVer++; imqNotaOra(); chiede(); aggiornaLegenda(); };
 $("subServizio").onchange=()=>{ impostaSubServizio($("subServizio").value, true); baseVer++; chiede(); aggiornaLegenda(); }; // [agente GT16]
 // [agente GT06-pannello] menu a tendina costruito dalla tabella THEMES (un tema nuovo compare da solo)
 $("temi").innerHTML = THEMES.map(t=>`<option value="${esc(t.id)}">${esc(t.label)}</option>`).join("");

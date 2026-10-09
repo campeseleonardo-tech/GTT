@@ -762,6 +762,23 @@ def leggi_omi():
         return None
 
 
+def leggi_imq():
+    """Legge data/processed/imq_mappa.json (attivita' 10); ritorna l'oggetto o None."""
+    f = RADICE / "data" / "processed" / "imq_mappa.json"
+    if not f.is_file():
+        print("  (imq_mappa.json non trovato: tema Mobilita' (IMQ) vuoto; lancia 16_prepara_imq_mappa.py)")
+        return None
+    try:
+        dati_imq = json.loads(f.read_text(encoding="utf-8"))
+        n_zone = len(dati_imq.get("zone", []))
+        n_od = len(dati_imq.get("od", {}))
+        print(f"  IMQ: {n_zone} zone CMTO, {n_od} zone con flussi OD")
+        return dati_imq
+    except Exception as e:
+        print(f"  (imq_mappa.json non leggibile: {e}; tema IMQ saltato)")
+        return None
+
+
 def prepara_catalogo():
     """Legge l'indice del catalogo (11_prepara_catalogo.py) e scrive per la mappa
     un file JS per gruppo in data/catalogo/, cosi' la pagina carica un gruppo
@@ -824,12 +841,14 @@ def main():
     vel, vel_meta = calcola_velocita()   # [agente GT04-velocita] None se lo storico non c'e'
     pend = costruisci_pendolari(sez) if sez else None   # [agente GT05-pendolari] None se mancano sezioni o zip
     omi = leggi_omi()
+    imq = leggi_imq()
     catalogo = prepara_catalogo()   # indice dei nuovi dati + file js per il caricamento su richiesta
 
     dati = {
         "vel": vel or {}, "vel_meta": vel_meta,   # [agente GT04-velocita]
         "pend": pend,   # [agente GT05-pendolari]
         "omi": omi,     # OMI quote immobiliari
+        "imq": imq,     # Mobilita' IMQ 2022 (attivita' 10)
         "catalogo": catalogo,   # indice del catalogo (i dati per gruppo stanno in data/catalogo/*.js)
         "meta": {
             "costruita_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),

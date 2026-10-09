@@ -180,7 +180,7 @@ def main():
         scopo = {k: v for k, v in agg.get(c, {}).get("scopo", {}).items()}
         zone_out[c] = {
             "c": c, "n": meta["denom"], "m": meta["macro"],
-            "g": gs, "cx": round(cen[0], 6), "cy": round(cen[1], 6),
+            "g": gs, "la": round(cen[0], 6), "lo": round(cen[1], 6),
             "res": round(residenti, 3),
             "scopo": {k: [round(v[0], 1), v[1]] for k, v in scopo.items()},
             "quotaPub": round(modo.get("pub", [0])[0] / tot_modo, 4) if tot_modo else None,
@@ -256,7 +256,7 @@ def main():
     check("residenti CMTO ~ 1.942.688", abs(tot_res - 1942688) / 1942688 < 0.01,
           f"{tot_res:.0f}")
     fuori_cen = [z["c"] for z in zone_out.values()
-                 if not punto_in_anelli(z["cx"], z["cy"], z["g"])]
+                 if not punto_in_anelli(z["la"], z["lo"], z["g"])]
     print(f"[NOTA] centroidi fuori dalla geometria (solo per le linee): "
           f"{fuori_cen if fuori_cen else 'nessuno'}")
     check("flussi OD per ogni zona", all(c in od_out for c in cmto), f"{len(od_out)}")
