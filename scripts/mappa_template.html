@@ -524,7 +524,7 @@ const sez = (D.sezioni||[]).map(z=>{
   function tipCat(dd,e){
     const nome=catNome(dd,e)||dd.meta.nome;
     const sub=dd.tipo==="punti"?(e[5]||""):"";
-    return `<b>${esc(nome)}</b>${sub?"<br>"+esc(sub):""}<br><span style="color:var(--muted)">${esc(dd.meta.nome)}</span>`;
+    return tipC(esc(nome), sub?esc(sub):null, esc(dd.meta.nome));
   }
   function schedaCatElemento(dd,e,tipo){
     const m=dd.meta, det=[];
@@ -1175,6 +1175,13 @@ function mostraTipBase(html,x,y){
   const w=tip.offsetWidth,h=tip.offsetHeight;
   tip.style.left=Math.max(8,Math.min(innerWidth-w-8,x+14))+"px"; tip.style.top=Math.max(8,Math.min(innerHeight-h-8,y+14))+"px";
 }
+/* tooltip compatto uniforme: nome in grassetto + una riga di valore + una riga in grigio */
+function tipC(nome, valore, extra){
+  let h=`<b>${nome}</b>`;
+  if(valore) h+=`<br>${valore}`;
+  if(extra) h+=`<br><span style="color:var(--muted)">${extra}</span>`;
+  return h;
+}
 function dentroZona(z,ux,uy){
   for(const poly of z.polys){ let n=0;
     for(const a of poly){ const m=a.length/2; let j=m-1;
@@ -1552,7 +1559,7 @@ function cercaTip(sx,sy,click){
     if(m){
       if(click) return apriScheda(schedaMezzo(m), null);
       const r=D.rotte[m.r]||{s:m.r,t:3,l:""};
-      return mostraTipBase(`<b>Linea ${esc(r.s)}</b> (${tipoNome(r.t)})<br>Veicolo ${esc(m.id)} · ${eta(m.ts*1000)}`, sx, sy);
+      return mostraTipBase(tipC(`Linea ${esc(r.s)}`, `${tipoNome(r.t)} · veicolo ${esc(m.id)}`, eta(m.ts*1000)), sx, sy);
     }
   }
 
@@ -1562,7 +1569,7 @@ function cercaTip(sx,sy,click){
       if(click) return apriScheda(schedaSensore(s), null);
       const sensoTxt = s.dir==="positive"?"senso positivo":s.dir==="negative"?"senso negativo":esc(s.dir);
       const valTxt = s.acc===0 ? "dato assente" : (s.v!=null ? s.v.toFixed(0)+" km/h" : "n/d");
-      return mostraTipBase(`<b>${esc(s.via)}</b><br>${sensoTxt} · ${valTxt}`, sx, sy);
+      return mostraTipBase(tipC(esc(s.via), `${sensoTxt} · ${valTxt}`), sx, sy);
     }
   }
 
@@ -1570,7 +1577,7 @@ function cercaTip(sx,sy,click){
   if(vis("Lfermate") && view.zoom>=14){ const s=vicino(fermate,8,o=>o.d[i]>0||view.zoom>=15);
     if(s){
       if(click) return apriScheda(schedaFermata(s, true), null);
-      return mostraTipBase(`<b>${esc(s.n)}</b> · fermata ${esc(s.id)}<br>Linee: ${esc(s.r||"—")}`, sx, sy);
+      return mostraTipBase(tipC(esc(s.n), `Linee: ${esc(s.r||"—")}`, `fermata ${esc(s.id)}`), sx, sy);
     }
   }
 
@@ -1580,7 +1587,7 @@ function cercaTip(sx,sy,click){
     if(l){
       if(click) return apriScheda(schedaLinea(l), null);
       const r=D.rotte[l.id]||{s:l.id,t:3,l:""}, c=velCella(l.id,S.dt,S.h);
-      return mostraTipBase(`<b>Linea ${esc(r.s)}</b> (${tipoNome(r.t)})<br>${c ? c[0].toFixed(1)+" km/h" : ((D.rotte[l.id]||{f:[]}).f[i]||0)+" corse/ora"}`, sx, sy);
+      return mostraTipBase(tipC(`Linea ${esc(r.s)}`, c ? c[0].toFixed(1)+" km/h (misurata)" : ((D.rotte[l.id]||{f:[]}).f[i]||0)+" corse/ora", tipoNome(r.t)), sx, sy);
     }
   }
 
@@ -1591,7 +1598,13 @@ function cercaTip(sx,sy,click){
       if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
       if(dentroZona({polys:[z.polys]},ux,uy)){
         if(click) return apriScheda(schedaComune(z.c, z), z);
-        nascondiTip(); cv.style.cursor="pointer"; return;
+        cv.style.cursor="pointer";
+        const nome = z.c===TORINO_PC ? "Torino" : "Comune "+String(z.c).padStart(6,"0");
+        const d = z.c===TORINO_PC ? PEND.tor : pendCom.get(z.c);
+        if(!d) return mostraTipBase(tipC(nome, "nessun dato di pendolarismo"), sx, sy);
+        const o=pendOpz(), f=pendFlusso(d,o);
+        const vt = o.v==="rel" ? `${(f/Math.max(d.p,1)*1000).toFixed(1)} / 1000 ab.` : `${pendNum(f)} persone`;
+        return mostraTipBase(tipC(nome, `${o.d==="in"?"verso Torino":"da Torino"} · ${vt}`), sx, sy);
       }
     }
   }
@@ -1602,7 +1615,18 @@ function cercaTip(sx,sy,click){
       if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
       if(dentroZona({polys:[z.polys]},ux,uy)){
         if(click) return apriScheda(schedaSezione(z), z);
-        nascondiTip(); cv.style.cursor="pointer"; return;
+        cv.style.cursor="pointer";
+        const modo=$("modoSez").value;
+        let val;
+        if(modo==="rapp") val=`${sezRapp(z,i).toFixed(0)} passaggi/1000 ab.`;
+        else if(modo==="serv") val=`${sezServ(z,i)} passaggi/ora`;
+        else if(modo==="dens") val=`${Math.round(z.dens)} ab./km²`;
+        else if(modo==="occ") val = (z.occ!=null&&z.p1564>0) ? `${(z.occ/z.p1564*100).toFixed(1)}% occupati 15–64` : "dato non disponibile";
+        else if(modo==="sc") val = z.sc!=null ? `${z.sc.toLocaleString("it-IT")} residenti 5–14` : "dato non disponibile";
+        else if(modo==="sen") val = z.sen!=null ? `${z.sen.toLocaleString("it-IT")} residenti 65+` : "dato non disponibile";
+        else if(modo==="crit"){ const cr=critSez(z,i); val = cr===null?"non calcolabile":`Criticità ${cr}/100`; }
+        else val=`${sezServ(z,i)} passaggi/ora`;
+        return mostraTipBase(tipC("Sezione di censimento", val, z.c?("Comune "+String(z.c).padStart(6,"0")):"Torino"), sx, sy);
       }
     }
   }
@@ -1611,18 +1635,18 @@ function cercaTip(sx,sy,click){
   // 6b. Zone OMI (valore immobiliare)
   if(vis("Lomi") && omiOk){
     const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
-    const tip=$("omiTipo")?$("omiTipo").value:"ab";
-    const nomeTip=OMI_TIPI[tip]||tip;
+    const tipOmi=$("omiTipo")?$("omiTipo").value:"ab";
+    const nomeTip=OMI_TIPI[tipOmi]||tipOmi;
     for(const z of omi){
       if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
       if(dentroZona({polys:[z.rings]},ux,uy)){
-        const vv=(z.v||{})[tip]||null;
+        const vv=(z.v||{})[tipOmi]||null;
         if(click) return apriScheda(schedaOmi(z), null);
         cv.style.cursor="pointer";
-        if(vv){
-          return mostraTipBase(`<b>Zona OMI ${esc(z.z)} · ${esc(z.n||"")}</b><br>${esc(nomeTip)}: <b>${fmtEuro(vv[0])}–${fmtEuro(vv[1])} €/m²</b><br>Locazione: ${fmtEuro(vv[2])}–${fmtEuro(vv[3])} €/m²`, sx, sy);
-        }
-        return mostraTipBase(`<b>Zona OMI ${esc(z.z)} · ${esc(z.n||"")}</b><br>${esc(nomeTip)}: <span style="color:var(--muted)">non disponibile</span>`, sx, sy);
+        const nomeZ=`Zona OMI ${esc(z.z)}${z.n?" · "+esc(z.n):""}`;
+        return vv
+          ? mostraTipBase(tipC(nomeZ, `${esc(nomeTip)}: <b>${fmtEuro(vv[0])}–${fmtEuro(vv[1])} €/m²</b>`, `locazione ${fmtEuro(vv[2])}–${fmtEuro(vv[3])} €/m²`), sx, sy)
+          : mostraTipBase(tipC(nomeZ, `${esc(nomeTip)}: non disponibile`), sx, sy);
       }
     }
   }
@@ -1638,7 +1662,7 @@ function cercaTip(sx,sy,click){
         const v=imqValore(z,met), aff=imqAffidabile(z,met), nome=(IMQ_MET[met]||{}).lab||met;
         const vtxt=met.startsWith("quota")?`${(100*(v||0)).toFixed(0)}%`:imqNum(v);
         const nota=(met.startsWith("ora")&&S.dt!==0)?" <span style='color:#5d6678'>(feriale)</span>":"";
-        return mostraTipBase(`<b>${esc(z.n||z.c)}</b><br>${esc(nome)}: <b>${vtxt}</b>${aff?"":" <span style='color:#b25e00'>(pochi casi)</span>"}${nota}`, sx, sy);
+        return mostraTipBase(tipC(esc(z.n||z.c), `${esc(nome)}: <b>${vtxt}</b>${aff?"":" <span style='color:#b25e00'>(pochi casi)</span>"}${nota}`), sx, sy);
       }
     }
   }
@@ -1649,7 +1673,8 @@ function cercaTip(sx,sy,click){
       if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
       if(dentroZona(z,ux,uy)){
         if(click) return apriScheda(schedaZona(z), null);
-        nascondiTip(); cv.style.cursor="pointer"; return;
+        cv.style.cursor="pointer";
+        return mostraTipBase(tipC(esc(z.n), `${z.d[i]} passaggi/ora`), sx, sy);
       }
     }
   }
