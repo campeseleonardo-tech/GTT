@@ -88,6 +88,12 @@
   .sim{display:flex;align-items:center;gap:8px;margin-top:8px}
   .sim select,#modoSez,#basemap,#filtroLinea{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff}
   #filtroLinea{width:100%;margin:2px 0 4px}
+  /* [pulizia] area Opzioni: etichette e tendine uniformi per tutti i temi */
+  #boxOpzioni{margin-top:6px}
+  .opt-lab{display:block;font-size:11.5px;color:var(--muted);margin:6px 0 2px}
+  .opt-sel{width:100%;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff}
+  .opt-check{font-size:12px;margin-top:4px}
+  .opt-nota{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.3}
   /* [agente GT29-integrazione-simulazioni] la simulazione si apre in una pagina separata */
   #boxSim p{font-size:12px;color:var(--muted);margin:4px 0}
   #attrib{position:fixed;right:6px;bottom:4px;font-size:10.5px;color:#444;background:rgba(255,255,255,.8);padding:1px 6px;border-radius:4px}
@@ -149,67 +155,8 @@
   <h2>Tema</h2>
   <select id="temi" aria-label="Tema della mappa" style="width:100%;font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:600"></select>
   <div id="temaDesc" style="font-size:12px;color:var(--muted);margin:6px 0 0"></div>
-  <!-- [agente GT16] sottoscelta interna del tema «Servizio e abitanti» -->
-  <div id="boxServizio" style="display:none;margin:6px 0">
-    <select id="subServizio" aria-label="Visualizzazione servizio e abitanti" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
-      <option value="rapp" selected>Offerta per abitante (rosso = poca offerta)</option>
-      <option value="crit">Criticità (indice 0–100, stima)</option>
-      <option value="serv">Solo offerta (passaggi/ora entro 400 m)</option>
-      <option value="dens">Solo residenti (abitanti per km²)</option>
-      <optgroup label="Profilo residenti · ISTAT 2021">
-        <option value="occ">Occupati residenti 15–64 anni (% della fascia)</option>
-        <option value="sc">Residenti 5–14 anni (numero)</option>
-        <option value="sen">Residenti 65 anni e oltre (numero)</option>
-      </optgroup>
-    </select>
-  </div>
-  <!-- [agente GT05-pendolari] scelte del tema Pendolari (visibili solo con quel tema) -->
-  <div id="boxPend" style="display:none;margin:6px 0">
-    <select id="pendTipo" aria-label="Lavoro o studio" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
-      <option value="lav">Lavoro</option><option value="stu">Studio (stima)</option><option value="ent">Entrambi</option></select>
-    <select id="pendDir" aria-label="Direzione" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
-      <option value="in">Entrano a Torino</option><option value="out">Escono da Torino</option></select>
-    <select id="pendVal" aria-label="Colore delle aree" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
-      <option value="rel">Colore: ogni 1000 abitanti</option><option value="abs">Colore: numero di persone</option></select>
-  </div>
-  <!-- [agente GT30-omi] scelta tipologia OMI (visibile solo con il tema OMI) -->
-  <div id="boxOmi" style="display:none;margin:6px 0">
-    <select id="omiTipo" aria-label="Tipologia immobiliare (OMI)" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
-      <option value="ab" selected>Abitazioni civili</option>
-      <option value="as">Abitazioni signorili</option>
-      <option value="ae">Abitazioni economiche</option>
-      <option value="vi">Ville e villini</option>
-      <option value="bo">Box</option>
-      <option value="pa">Posti auto coperti</option>
-      <option value="ps">Posti auto scoperti</option>
-      <option value="ne">Negozi</option>
-      <option value="uf">Uffici</option>
-      <option value="la">Laboratori</option>
-      <option value="ci">Capannoni tipici</option>
-      <option value="in">Capannoni industriali</option>
-      <option value="ma">Magazzini</option>
-      <option value="cc">Centri commerciali</option>
-    </select>
-  </div>
-  <!-- [mobilita' IMQ 2022] scelta misura (visibile solo con il tema Mobilità IMQ) -->
-  <div id="boxImq" style="display:none;margin:6px 0">
-    <select id="imqMet" aria-label="Misura IMQ 2022" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
-      <option value="ora_tot" selected>Spostamenti in partenza (a quest'ora)</option>
-      <option value="ora_pub">Spostamenti pubblici (a quest'ora)</option>
-      <option value="ora_pri">Spostamenti privati (a quest'ora)</option>
-      <option value="ora_alt">Spostamenti altro (a quest'ora)</option>
-      <option value="quotaPub">Quota pubblico (intera giornata)</option>
-      <option value="quotaPri">Quota privato (intera giornata)</option>
-      <option value="res">Residenti 11-84 anni</option>
-    </select>
-    <div id="imqNota" style="font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.3"></div>
-  </div>
-  <!-- Catalogo dei nuovi dati: un gruppo alla volta, caricato su richiesta -->
-  <div id="boxCat" style="display:none;margin:6px 0">
-    <select id="catGruppo" aria-label="Gruppo di dati del catalogo" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:600"></select>
-    <div id="catDati" style="font-size:12px;margin-top:4px"></div>
-    <div id="catInfo" style="font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.35"></div>
-  </div>
+  <!-- [pulizia] opzioni del tema: una sola area, costruita dal codice in modo uniforme -->
+  <div id="boxOpzioni"></div>
   <!-- stato interno dell'area colorata: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
   <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi"><input type="checkbox" id="LImq">
     <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option><option value="crit"></option><option value="occ"></option><option value="sc"></option><option value="sen"></option></select></div>
@@ -451,16 +398,18 @@ const sez = (D.sezioni||[]).map(z=>{
     }
     const info=$("catInfo"); if(info && gd) info.textContent=gd.desc||"";
   }
-  function catAttiva(){
-    if(!CAT_INDICE){ const b=$("catDati"); if(b) b.innerHTML='<div style="color:var(--muted)">Catalogo non presente: lancia 11_prepara_catalogo.py e poi 04_genera_mappa.py.</div>'; return; }
+  function costruisciCatalogo(box){   // [pulizia] il catalogo entra nell'area Opzioni come gli altri temi
+    if(!CAT_INDICE){ box.innerHTML='<div class="opt-nota">Catalogo non presente: lancia 11_prepara_catalogo.py e poi 04_genera_mappa.py.</div>'; return; }
     if(!CAT.gruppo) CAT.gruppo=CAT_INDICE.gruppi[0].id;
-    $("catGruppo").value=CAT.gruppo;
+    const lab=document.createElement("label"); lab.className="opt-lab"; lab.textContent="Gruppo di dati";
+    const sel=document.createElement("select"); sel.id="catGruppo"; sel.className="opt-sel"; sel.setAttribute("aria-label","Gruppo di dati del catalogo");
+    sel.innerHTML=CAT_INDICE.gruppi.map(g=>`<option value="${esc(g.id)}">${esc(g.nome)}</option>`).join("");
+    sel.value=CAT.gruppo;
+    sel.onchange=()=>{ CAT.gruppo=sel.value; baseVer++; catAssicura(CAT.gruppo, ()=>catPopola(CAT.gruppo)); chiede(); aggiornaLegenda(); };
+    const dati=document.createElement("div"); dati.id="catDati"; dati.className="opt-check";
+    const info=document.createElement("div"); info.id="catInfo"; info.className="opt-nota";
+    box.appendChild(lab); box.appendChild(sel); box.appendChild(dati); box.appendChild(info);
     catAssicura(CAT.gruppo, ()=>catPopola(CAT.gruppo));
-  }
-  function catInizializza(){
-    if(!CAT_INDICE) return;
-    $("catGruppo").innerHTML=CAT_INDICE.gruppi.map(g=>`<option value="${esc(g.id)}">${esc(g.nome)}</option>`).join("");
-    $("catGruppo").onchange=()=>{ CAT.gruppo=$("catGruppo").value; baseVer++; catAssicura(CAT.gruppo, ()=>catPopola(CAT.gruppo)); chiede(); aggiornaLegenda(); };
   }
   function dentroVistaCat(bb,ws,ox,oy){ return !(bb[2]*ws<ox||bb[0]*ws>ox+W||bb[3]*ws<oy||bb[1]*ws>oy+H); }
   function disegnaCatalogo(ws,ox,oy){
@@ -859,6 +808,7 @@ function disegnaMattonelle(ws,ox,oy){
 
 /* ---------- disegno ---------- */
 const vis = id => $(id).checked;
+const valOp = id => { const e=$(id); return e?e.value:""; };   // [pulizia] le opzioni esistono solo nel tema attivo
 function dentroVista(bb,ws,ox,oy){ return !(bb[2]*ws<ox||bb[0]*ws>ox+W||bb[3]*ws<oy||bb[1]*ws>oy+H); }
 function tracciaAnelli(poly,ws,ox,oy){
   cx.beginPath();
@@ -869,7 +819,7 @@ let baseKey="";
 function disegna(){
   sporco=false;
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
-  const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),$("pendTipo").value,$("pendDir").value,$("pendVal").value,$("omiTipo")?$("omiTipo").value:"ab",$("imqMet")?$("imqMet").value:"ora_tot",
+  const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),valOp("pendTipo"),valOp("pendDir"),valOp("pendVal"),valOp("omiTipo"),valOp("imqMet"),
     ["Lzone","Lsez","Lomi","LImq","Llinee","Lfermate","Lgriglia"].map(vis).join(),tema.id,$("coloreLinee").value,(ST()||{}).generato,catSig()].join("|");
   if(chiave!==baseKey){
     baseKey=chiave;
@@ -1945,12 +1895,12 @@ function legendaImq(){
   righe.push(`<div class="et" style="display:block">Fonte: IMQ 2022 (Agenzia della Mobilità Piemontese / MTM). Residenti 11-84, giorno feriale. Al clic: scopi, ripartizione modale e destinazioni (linee sulla mappa).</div>`);
   return righe.join("");
 }
-function imqNotaOra(){ const n=$("imqNota"); if(!n) return; const attivo=$("boxImq")&&$("boxImq").style.display!=="none"; n.textContent=attivo?("Ora considerata dallo slider in alto: "+pad(S.h)+":00 · l'indagine IMQ è del giorno feriale"):""; }
+function imqNotaOra(){ const n=$("imqNota"); if(!n) return; n.textContent=tema.imq?("Ora considerata dallo slider in alto: "+pad(S.h)+":00 · l'indagine IMQ è del giorno feriale"):""; }
 
 const THEMES = [
   // 1. Servizio e abitanti (offerta, residenti e criticità in un'unica tendina)
   {id:"servizio", label:"Servizio e abitanti", desc:"Confronto tra dove vivono le persone e l'offerta di trasporto pubblico entro 400 m.",
-   area:{tipo:"sez",modo:"rapp"}, over:{...NESSUNA,Llinee:1}, lineeSottili:true, subServizio:true,
+   area:{tipo:"sez",modo:"rapp"}, over:{...NESSUNA,Llinee:1}, lineeSottili:true, subServizio:true, opzioni:["subServizio"],
    legenda:()=>legendaSezioni($("subServizio")?$("subServizio").value:"rapp")},
   // 2. Traffico e velocità (sensori 5T e velocità commerciale GTT)
   {id:"traffico_vel", label:"Traffico e velocità", desc:"Sensori 5T (velocità degli ultimi 5 minuti) e velocità commerciale misurata delle linee GTT.",
@@ -1964,25 +1914,78 @@ const THEMES = [
    area:null, over:{...NESSUNA,Lmezzi:1,Lcorse:1}, segnalazioni:true, legenda:()=>""},
   // 4. Pendolarismo (relazioni ISTAT comune-comune per lavoro e studio)
   {id:"pendolari", label:"Pendolarismo", desc:"Quante persone si spostano ogni giorno tra ogni comune e Torino per lavoro o studio (ISTAT 2021, comune→comune: niente mezzo né orario).",
-   area:{tipo:"sez",modo:"pend"}, over:{...NESSUNA}, pendolari:true, legenda:legendaPendolari},
+   area:{tipo:"sez",modo:"pend"}, over:{...NESSUNA}, pendolari:true, opzioni:["pendTipo","pendDir","pendVal"], legenda:legendaPendolari},
   // 5. Valore immobiliare (OMI)
   {id:"omi", label:"Valore immobiliare (OMI)", desc:"Valori di mercato e locazione per zona OMI e tipologia edilizia (Agenzia delle Entrate – OMI, semestre 2025/2). Valori ordinari: pregio e degrado esclusi. Non è la stima di un singolo immobile.",
-   area:{tipo:"omi"}, over:{...NESSUNA}, omi:true, legenda:legendaOmi},
+   area:{tipo:"omi"}, over:{...NESSUNA}, omi:true, opzioni:["omiTipo"], legenda:legendaOmi},
   // 6. Mobilità (IMQ 2022): domanda e flussi per zona
   {id:"imq", label:"Mobilità (IMQ 2022)", desc:"Chi si sposta, con che mezzo e dove: spostamenti in partenza per zona della Città metropolitana (IMQ 2022, indagine campionaria sul giorno feriale, residenti 11-84). L'ora è quella dello slider; al clic su una zona, scopi e destinazioni principali (linee sulla mappa).",
-   area:{tipo:"imq"}, over:{...NESSUNA}, imq:true, legenda:legendaImq},
+   area:{tipo:"imq"}, over:{...NESSUNA}, imq:true, opzioni:["imqMet"], legenda:legendaImq},
   // 7. Catalogo dei dati (nuovi dati comunali, un gruppo alla volta, caricato su richiesta)
   {id:"catalogo", label:"Catalogo dei dati", desc:"Nuovi dati comunali (scuole, salute, cultura, sicurezza, sport, reti, servizi), un gruppo alla volta. Sono luoghi e attrattori potenziali: senza iscritti, capienze o flussi non sono conteggi di viaggi.",
    area:null, over:{...NESSUNA}, catalogo:true, legenda:legendaCatalogo}
 ];
 let tema = THEMES[0];   // [agente GT16] tema di partenza: Servizio e abitanti
 
+/* [pulizia] area Opzioni unica: ogni tema dichiara le proprie scelte, il codice le costruisce sempre allo stesso modo.
+   Aggiungere un'opzione = aggiungere una voce in OPZIONI e il suo id nella lista "opzioni" del tema. */
+const OPZIONI = {
+  subServizio:{etichetta:"Visualizzazione", voci:[
+    ["rapp","Offerta per abitante (rosso = poca offerta)"],
+    ["crit","Criticità (indice 0–100, stima)"],
+    ["serv","Solo offerta (passaggi/ora entro 400 m)"],
+    ["dens","Solo residenti (abitanti per km²)"]],
+   gruppi:[{label:"Profilo residenti · ISTAT 2021", voci:[
+    ["occ","Occupati residenti 15–64 anni (% della fascia)"],
+    ["sc","Residenti 5–14 anni (numero)"],
+    ["sen","Residenti 65 anni e oltre (numero)"]]}]},
+  pendTipo:{etichetta:"Lavoro o studio", voci:[["lav","Lavoro"],["stu","Studio (stima)"],["ent","Entrambi"]]},
+  pendDir:{etichetta:"Direzione", voci:[["in","Entrano a Torino"],["out","Escono da Torino"]]},
+  pendVal:{etichetta:"Colore delle aree", voci:[["rel","Ogni 1000 abitanti"],["abs","Numero di persone"]]},
+  omiTipo:{etichetta:"Tipologia immobiliare", voci:[
+    ["ab","Abitazioni civili"],["as","Abitazioni signorili"],["ae","Abitazioni economiche"],["vi","Ville e villini"],
+    ["bo","Box"],["pa","Posti auto coperti"],["ps","Posti auto scoperti"],["ne","Negozi"],["uf","Uffici"],
+    ["la","Laboratori"],["ci","Capannoni tipici"],["in","Capannoni industriali"],["ma","Magazzini"],["cc","Centri commerciali"]]},
+  imqMet:{etichetta:"Misura", voci:[
+    ["ora_tot","Spostamenti in partenza (a quest'ora)"],["ora_pub","Spostamenti pubblici (a quest'ora)"],
+    ["ora_pri","Spostamenti privati (a quest'ora)"],["ora_alt","Spostamenti altro (a quest'ora)"],
+    ["quotaPub","Quota pubblico (intera giornata)"],["quotaPri","Quota privato (intera giornata)"],
+    ["res","Residenti 11-84 anni"]], notaId:"imqNota"}
+};
+const OPT_VAL = {subServizio:"rapp", pendTipo:"lav", pendDir:"in", pendVal:"rel", omiTipo:"ab", imqMet:"ora_tot"};
+const HANDLERS = {
+  subServizio:()=>{ impostaSubServizio($("subServizio").value, true); baseVer++; chiede(); aggiornaLegenda(); },
+  pendTipo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  pendDir:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  pendVal:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  omiTipo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  imqMet:()=>{ baseVer++; imqNotaOra(); chiede(); aggiornaLegenda(); }
+};
+function renderOpzioni(){
+  const box=$("boxOpzioni"); if(!box) return;
+  for(const k in OPT_VAL){ const el=$(k); if(el && el.value!=null) OPT_VAL[k]=el.value; }
+  box.innerHTML="";
+  if(tema.catalogo){ costruisciCatalogo(box); return; }
+  for(const chiave of (tema.opzioni||[])){
+    const def=OPZIONI[chiave]; if(!def) continue;
+    const lab=document.createElement("label"); lab.className="opt-lab"; lab.textContent=def.etichetta;
+    const sel=document.createElement("select"); sel.id=chiave; sel.className="opt-sel"; sel.setAttribute("aria-label",def.etichetta);
+    const agg=(parent,voci)=>{ for(const v of voci){ const o=document.createElement("option"); o.value=v[0]; o.textContent=v[1]; parent.appendChild(o); } };
+    if(def.gruppi) for(const g of def.gruppi){ const og=document.createElement("optgroup"); og.label=g.label; agg(og,g.voci); sel.appendChild(og); }
+    if(def.voci) agg(sel,def.voci);
+    if(OPT_VAL[chiave]!=null) sel.value=OPT_VAL[chiave];
+    if(HANDLERS[chiave]) sel.onchange=HANDLERS[chiave];
+    box.appendChild(lab); box.appendChild(sel);
+    if(def.notaId){ const n=document.createElement("div"); n.id=def.notaId; n.className="opt-nota"; box.appendChild(n); }
+  }
+}
+
 /* cambia tema: imposta area colorata e sovrapposizioni; non ricostruisce dati, cambia solo cosa si disegna */
 function applicaTema(id){
-  // [agente GT16] mappatura protettiva vecchi id tema
-  if(id==="offerta"){ id="servizio"; if($("subServizio")) $("subServizio").value="serv"; }
-  else if(id==="domanda"){ id="servizio"; if($("subServizio")) $("subServizio").value="dens"; }
-  else if(id==="rapporto"){ id="servizio"; if($("subServizio")) $("subServizio").value="rapp"; }
+  // mappatura protettiva vecchi id tema
+  if(id==="offerta"){ id="servizio"; OPT_VAL.subServizio="serv"; }
+  else if(id==="domanda"){ id="servizio"; OPT_VAL.subServizio="dens"; }
+  else if(id==="rapporto"){ id="servizio"; OPT_VAL.subServizio="rapp"; }
   else if(id==="traffico" || id==="velocita"){ id="traffico_vel"; }
 
   tema = THEMES.find(t=>t.id===id) || THEMES[0];
@@ -1993,19 +1996,10 @@ function applicaTema(id){
   $("temi").value=tema.id;
   $("temaDesc").textContent=tema.desc;
   $("boxSegn").style.display = tema.segnalazioni ? "block" : "none";
-  $("boxPend").style.display = tema.pendolari ? "block" : "none";
-  $("boxOmi").style.display = tema.omi ? "block" : "none";
-  $("boxImq").style.display = tema.imq ? "block" : "none";
-  $("boxServizio").style.display = tema.subServizio ? "block" : "none";   // [agente GT16]
-  if(tema.subServizio) impostaSubServizio($("subServizio").value, false);  // [agente GT16]
-  $("boxCat").style.display = tema.catalogo ? "block" : "none";           // [catalogo]
-  if(tema.catalogo) sicuro(catAttiva);                                     // [catalogo] carica il gruppo scelto
+  renderOpzioni();                                                        // [pulizia] una sola area Opzioni
+  if(tema.subServizio) impostaSubServizio($("subServizio").value, false);
   baseVer++; chiede(); aggiornaLegenda(); imqNotaOra();
 }
-["pendTipo","pendDir","pendVal"].forEach(id=>$(id).onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); });   // [agente GT05-pendolari]
-$("omiTipo").onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); };
-$("imqMet").onchange=()=>{ baseVer++; imqNotaOra(); chiede(); aggiornaLegenda(); };
-$("subServizio").onchange=()=>{ impostaSubServizio($("subServizio").value, true); baseVer++; chiede(); aggiornaLegenda(); }; // [agente GT16]
 // [agente GT06-pannello] menu a tendina costruito dalla tabella THEMES (un tema nuovo compare da solo)
 $("temi").innerHTML = THEMES.map(t=>`<option value="${esc(t.id)}">${esc(t.label)}</option>`).join("");
 $("temi").onchange=e=>applicaTema(e.target.value);
@@ -2030,7 +2024,7 @@ function aggiornaLegenda(){
 }
 
 /* ---------- avvio ---------- */
-creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(stato); sicuro(adesso); sicuro(catInizializza); sicuro(()=>applicaTema("servizio")); setInterval(()=>sicuro(stato),60000); // [agente GT16]
+creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(stato); sicuro(adesso); sicuro(()=>applicaTema("servizio")); setInterval(()=>sicuro(stato),60000); // [agente GT16]
 sicuro(applicaLive); sicuro(statoLive); sicuro(segnalazioni);
 setInterval(()=>ricarica("live.js",applicaLive),30000);
 setInterval(()=>ricarica("stat.js",()=>{ sicuro(statoLive); sicuro(segnalazioni); baseVer++; chiede(); }),300000);
