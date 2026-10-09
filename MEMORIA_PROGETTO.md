@@ -240,6 +240,29 @@ Principi per gli scenari:
   `imq_residenti.json`, `imq_zone_geo.json`, `imq_mappa.json`. Limite dei quartieri del 1984 in
   "Limiti e rischi". Dettagli in `docs/RAPPORTO_IMQ.txt`.
 
+## 11. Pulizia della mappa (9/10)
+
+- Tutto in `scripts/mappa_template.html` (unico file di codice; `mappa_torino.html` rigenerato con
+  04). Un commit per fase:
+  - Temi ridotti da 9 a 7: «Zone critiche» assorbita in «Servizio e abitanti» (voce «Criticità
+    0–100»), «Nessuno» tolto.
+  - Rimossi i contorni rossi sulle sezioni critiche (flag `critici`): la criticità resta solo
+    come colore di riempimento.
+  - Hover uniforme: tooltip compatto (nome + 1-2 valori chiave) su ogni elemento, clic = scheda
+    completa. Prima sezioni, zone e comuni non mostravano nulla al passaggio del mouse.
+  - Pannello: «Guida e stato dei dati» unisce limiti e stato; la Legenda è un riquadro flottante
+    separato (in basso a destra, richiudibile); «Segnalazioni adesso» compressa in un blocco chiuso.
+  - «Sfondo» separato dai filtri linea, spostati in «Sovrapposizioni» (filtro linea + colore linee).
+  - Area «Opzioni» unica e dichiarativa: ogni tema dichiara le sue scelte nel record `THEMES`
+    (campo `opzioni`), il codice (`renderOpzioni`) le costruisce con lo stesso stile; il catalogo
+    è incluso. Aggiungere un'opzione = una voce in `OPZIONI` + il suo id nel tema.
+  - Trasparenze e contorni uniformi sui livelli a colori (sezioni, zone, OMI, IMQ); testi della
+    guida accorciati.
+- Verifica: sintassi JS con `node --check`; esecuzione con uno shim DOM e i dati veri (avvio +
+  cambio di tutti i 7 temi + opzioni, senza errori). Il controllo visivo finale resta da fare da Leo.
+- Bug trovato e corretto in prova: `disegna()` leggeva opzioni che ora esistono solo nel tema
+  attivo (lettore sicuro `valOp`).
+
 # ATTIVITÀ DA FARE (in ordine di priorità)
 
 ## Priorità alta
