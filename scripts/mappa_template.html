@@ -210,13 +210,13 @@
     <h2>Dati raccolti</h2>
     <div class="stato" id="statoLive"></div>
     <h2>Cosa stai guardando e limiti</h2>
-    <p><b>Dati raccolti:</b> posizioni reali dei mezzi GTT (ogni minuto) e traffico 5T (ogni 5 minuti) salvati dal programma in background. «Di solito» = media di quello che abbiamo registrato per lo stesso tipo di giorno e ora; con pochi giorni di storico è indicativo, non una norma. «Mezzi reali rispetto al previsto» confronta i veicoli localizzati con quelli degli orari, normalizzato sul rapporto medio di tutte le linee (non tutti i veicoli potrebbero essere localizzati): misura lo scostamento relativo, non il numero assoluto.</p>
-    <p><b>Corse simulate:</b> ogni puntino è una corsa degli orari GTT, spostata a velocità costante lungo il tracciato tra la prima e l'ultima fermata. È una stima dagli orari, non la posizione reale (ritardi, traffico e soste non ci sono). I puntini neri grandi sono invece posizioni reali all'ultimo aggiornamento.</p>
-    <p><b>Offerta:</b> passaggi e corse sono quelli <i>programmati</i> dagli orari GTT per un martedì, un sabato e una domenica tipici. Non sono i passaggi reali.</p>
-    <p><b>Traffico e mezzi:</b> sono una fotografia dell'ultimo aggiornamento scaricato, non un flusso continuo. L'ora e il tipo di giorno scelti qui non li cambiano.</p>
-    <p><b>Sensori 5T:</b> alcuni segnano accuratezza 0 e flusso 0: li mostro in grigio come «dato probabilmente assente», perché non so ancora se significhi sensore spento.</p>
-    <p><b>Residenti e potenziale domanda (ISTAT 2021):</b> occupati residenti 15–64 anni e fasce d'età 5–14 e 65+ sono indicatori di profilo, non conteggi di viaggi. Non indicano destinazione, orario o mezzo usato. «Poca offerta per abitante» = passaggi programmati GTT/ora entro 400 m ogni 1000 abitanti entro 400 m (rosso = pochi). Fuori Torino mancano le linee di altri operatori e i treni: lì il rosso può essere solo mancanza di dati.</p>
-    <p><b>Zone:</b> le 94 zone statistiche del Comune di Torino (2011). I passaggi per zona sommano i passaggi alle fermate dentro la zona.</p>
+    <p><b>Dati raccolti:</b> posizioni reali dei mezzi GTT (ogni minuto) e traffico 5T (ogni 5 minuti) salvati dal programma in background. «Di solito» = media di quanto registrato per lo stesso tipo di giorno e ora: con pochi giorni di storico è indicativo, non una norma.</p>
+    <p><b>Corse simulate:</b> stima dagli orari (velocità costante, senza ritardi né traffico), non posizione reale. I puntini neri grandi sono mezzi reali all'ultimo aggiornamento.</p>
+    <p><b>Offerta:</b> passaggi e corse sono quelli <i>programmati</i> dagli orari GTT (feriale, sabato, domenica), non i passaggi reali.</p>
+    <p><b>Traffico e mezzi:</b> fotografia dell'ultimo aggiornamento, non un flusso continuo; l'ora scelta qui non li cambia.</p>
+    <p><b>Sensori 5T:</b> quelli con accuratezza 0 e flusso 0 sono mostrati in grigio come «dato probabilmente assente».</p>
+    <p><b>Residenti (ISTAT 2021):</b> occupati e fasce d'età sono profili dei residenti, non conteggi di viaggi. «Offerta per abitante» = passaggi programmati GTT/ora entro 400 m ogni 1000 abitanti. Fuori Torino mancano altri operatori e treni: il rosso può essere solo assenza di dati.</p>
+    <p><b>Zone:</b> 94 zone statistiche del Comune di Torino (2011); i passaggi sommano quelli delle fermate dentro la zona.</p>
   </details>
 
   <!-- [pulizia] la legenda è ora un riquadro separato fuori dal pannello -->
@@ -809,6 +809,8 @@ function disegnaMattonelle(ws,ox,oy){
 /* ---------- disegno ---------- */
 const vis = id => $(id).checked;
 const valOp = id => { const e=$(id); return e?e.value:""; };   // [pulizia] le opzioni esistono solo nel tema attivo
+/* [pulizia] aspetto uniforme dei livelli a colori (sezioni, zone, OMI, IMQ) */
+const AREA_ALPHA=.5, AREA_STROKE="rgba(40,50,70,.25)", AREA_STROKE_W=.4;
 function dentroVista(bb,ws,ox,oy){ return !(bb[2]*ws<ox||bb[0]*ws>ox+W||bb[3]*ws<oy||bb[1]*ws>oy+H); }
 function tracciaAnelli(poly,ws,ox,oy){
   cx.beginPath();
@@ -886,10 +888,10 @@ function disegnaBase(ws,ox,oy,i){
       const nulla = pc ? (z.c===TORINO_PC || !vp) : modo==="crit" ? critSez(z,i)===null : (modo==="serv"||modo==="rapp") ? sezServ(z,i)===0 : valore==null;
       const c=pc ? (pc.sogl?pc.sogl.filter(x=>vp>x).length:0) : classeSez(valore,modo);
       // [agente GT02-temi] riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
-      cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:.5;
+      cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:AREA_ALPHA;
       for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.fill(); }
       cx.globalAlpha=1;
-      if(dettaglio){ cx.strokeStyle="rgba(40,50,70,.25)"; cx.lineWidth=.4; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
+      if(dettaglio){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
     }
   }
   if(tema.id==="pendolari" && PEND && pendTor){   // [agente GT05-pendolari] linee dritte dal baricentro di ogni comune a Torino, spessore proporzionale al flusso
@@ -909,9 +911,9 @@ function disegnaBase(ws,ox,oy,i){
       const c=classe(z.dens[i]);
       for(const poly of z.polys){
         tracciaAnelli(poly,ws,ox,oy);
-        cx.fillStyle = c<0 ? "rgba(120,125,135,.10)" : PAL[c]; cx.globalAlpha = c<0 ? 1 : .5; // [agente GT02-temi] semitrasparente, contorno sottile
+        cx.fillStyle = c<0 ? "rgba(120,125,135,.10)" : PAL[c]; cx.globalAlpha = c<0 ? 1 : AREA_ALPHA;
         cx.fill("evenodd"); cx.globalAlpha=1;
-        cx.strokeStyle="rgba(40,50,70,.35)"; cx.lineWidth=.5; cx.stroke();
+        cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; cx.stroke();
       }
     }
   }
@@ -925,12 +927,12 @@ function disegnaBase(ws,ox,oy,i){
         const m=(vv[0]+vv[1])/2;
         const cls=OMI_SOGLIE.filter(s=>m>s).length;
         col=OMI_PAL[Math.min(OMI_PAL.length-1,cls)];
-        a=.50;
+        a=AREA_ALPHA;
       }
       cx.fillStyle=col; cx.globalAlpha=a;
       for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.fill(); }
       cx.globalAlpha=1;
-      if(view.zoom>=14){ cx.strokeStyle="rgba(40,50,70,.22)"; cx.lineWidth=.4; for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.stroke(); } }
+      if(view.zoom>=14){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.stroke(); } }
     }
   }
   if(vis("LImq") && imqOk){
@@ -940,10 +942,10 @@ function disegnaBase(ws,ox,oy,i){
       if(!dentroVista(z.bb,ws,ox,oy)) continue;
       const col=imqColore(z,met,sog);
       if(!col) continue;
-      cx.fillStyle=col; cx.globalAlpha=.55;
+      cx.fillStyle=col; cx.globalAlpha=AREA_ALPHA;
       for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.fill(); }
       cx.globalAlpha=1;
-      if(view.zoom>=14){ cx.strokeStyle="rgba(40,50,70,.22)"; cx.lineWidth=.4; for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.stroke(); } }
+      if(view.zoom>=14){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.stroke(); } }
     }
   }
   if(vis("Llinee")){
