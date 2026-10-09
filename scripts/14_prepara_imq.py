@@ -268,7 +268,7 @@ def main():
         "zone": zone,
         "per_zona": {z: {s: {e: {"v": round(res[z][s][e]["v"], 3), "n": res[z][s][e]["n"]}
                             for e in CLASSI_ETA.values() if res[z][s][e]["n"]}
-                        for s in SESSI.values() if any(res[z][s][e]["n"] for e in CLASSI_ETA)}
+                        for s in SESSI.values() if any(res[z][s][e]["n"] for e in CLASSI_ETA.values())}
                      for z in zone},
         "totale": {"v": round(tot_res["v"], 3), "n": tot_res["n"]},
     }
