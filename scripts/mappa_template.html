@@ -146,7 +146,8 @@
   <!-- [agente GT16] sottoscelta interna del tema «Servizio e abitanti» -->
   <div id="boxServizio" style="display:none;margin:6px 0">
     <select id="subServizio" aria-label="Visualizzazione servizio e abitanti" style="width:100%;margin:2px 0;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
-      <option value="rapp" selected>Criticità (poca offerta per abitante in rosso)</option>
+      <option value="rapp" selected>Offerta per abitante (rosso = poca offerta)</option>
+      <option value="crit">Criticità (indice 0–100, stima)</option>
       <option value="serv">Solo offerta (passaggi/ora entro 400 m)</option>
       <option value="dens">Solo residenti (abitanti per km²)</option>
       <optgroup label="Profilo residenti · ISTAT 2021">
@@ -934,15 +935,6 @@ function disegnaBase(ws,ox,oy,i){
       if(dettaglio){ cx.strokeStyle="rgba(40,50,70,.25)"; cx.lineWidth=.4; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
     }
   }
-  if(tema.critici && sezOk){   // [agente GT18-punti-critici-integrati] contorno rosso sulle sezioni critiche (indice >= 80), in tutti i temi
-    cx.strokeStyle="#b0102a"; cx.lineWidth=view.zoom>=14?1.6:1; cx.globalAlpha=.9;
-    for(const z of sez){
-      if(!dentroVista(z.bb,ws,ox,oy)) continue;
-      const cr=critSez(z,i); if(cr===null || cr<CRIT_ALTA) continue;
-      for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); }
-    }
-    cx.globalAlpha=1;
-  }
   if(tema.id==="pendolari" && PEND && pendTor){   // [agente GT05-pendolari] linee dritte dal baricentro di ogni comune a Torino, spessore proporzionale al flusso
     const pc=pendCalcola(), o=pendOpz(), vmax=pc.top.length?pc.top[0][1]:1, X1=pendTor.x*ws-ox, Y1=pendTor.y*ws-oy;
     cx.lineCap="round"; cx.strokeStyle=o.d==="in"?"#51287f":"#d9622b"; cx.fillStyle=cx.strokeStyle; cx.globalAlpha=.7;
@@ -1389,10 +1381,10 @@ function schedaSezione(z){
   const critTxt = crit === null ? "non calcolabile (nessun residente)" : `${crit}/100 (${critEtichetta(crit)})`;
   let val, stato;
   if(modo === "rapp"){
-    val = crit === null ? `${rapp.toFixed(0)} passaggi / 1000 ab.` : `Criticità ${crit}/100`;   // [agente GT18-punti-critici-integrati]
+    val = `${rapp.toFixed(0)} passaggi / 1000 ab.`;
     stato = serv === 0 ? "Nessun passaggio GTT programmato entro 400 m"
-      : rapp < (sezSoglie.rapp ? sezSoglie.rapp[1] : 10) ? `Poca offerta rispetto ai residenti (${rapp.toFixed(0)} passaggi / 1000 ab.)`
-      : `Livello di servizio adeguato (${rapp.toFixed(0)} passaggi / 1000 ab.)`;
+      : rapp < (sezSoglie.rapp ? sezSoglie.rapp[1] : 10) ? "Poca offerta rispetto ai residenti"
+      : "Livello di servizio adeguato";
   } else if(modo === "serv"){
     val = `${serv} passaggi/ora`;
     stato = `Offerta entro 400 m alle ore ${hh}:00`;
@@ -1434,7 +1426,7 @@ function schedaSezione(z){
   const app = `<b>Territorio:</b> Comune ${codComune}, superficie ${z.km2.toFixed(3)} km².<br>`
     + `<b>Dati ISTAT:</b> Censimento 2021. Occupati e fasce d'età sono residenti nella sezione, non conteggi di spostamenti; gli occupati non indicano luogo, orario o mezzo di lavoro. La fascia 5–14 anni è solo un possibile indicatore di domanda scolastica.<br>`
     + `<b>Offerta:</b> passaggi orari programmati GTT alle fermate entro 400 metri dal baricentro della sezione. Fuori Torino possono mancare le corse di altri operatori extraurbani.<br>`
-    + `<b>Indice di criticità (STIMA, non misura):</b> da 0 a 100 in base ai passaggi programmati ogni 1000 residenti entro 400 m, confrontati con le altre sezioni dell'area nelle ore 7-20. 100 = nessun passaggio; 80 o più = il peggior quinto (contorno rosso sulla mappa). Considera solo i residenti, non pendolari né turisti.`;
+    + `<b>Indice di criticità (STIMA, non misura):</b> da 0 a 100 in base ai passaggi programmati ogni 1000 residenti entro 400 m, confrontati con le altre sezioni dell'area nelle ore 7-20. 100 = nessun passaggio; 80 o più = il peggior quinto. Considera solo i residenti, non pendolari né turisti.`;
   return creaScheda({
     titolo: "Sezione di censimento",
     badge: "cens",
@@ -1540,8 +1532,6 @@ function apriScheda(html,sel){
 }
 $("schedaX").onclick=chiudiScheda;
 addEventListener("keydown",e=>{ if(e.key==="Escape") chiudiScheda(); });
-const NOME_MODO={rapp:"Passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²",occ:"Occupati residenti 15–64 anni (% della fascia)",sc:"Residenti 5–14 anni",sen:"Residenti 65 anni e oltre"};
-
 function cercaTip(sx,sy,click){
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx(), hh=pad(S.h);
   cv.style.cursor="";
@@ -1606,11 +1596,10 @@ function cercaTip(sx,sy,click){
     }
   }
 
-  if((vis("Lsez") || tema.critici) && sezOk){   // [agente GT18-punti-critici-integrati] negli altri temi si risponde solo sulle sezioni col contorno rosso
-    const ux=(ox+sx)/ws, uy=(oy+sy)/ws, soloCrit=!vis("Lsez");
+  if(vis("Lsez") && sezOk){
+    const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
     for(const z of sez){
       if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
-      if(soloCrit){ const cr=critSez(z,idx()); if(cr===null||cr<CRIT_ALTA) continue; }
       if(dentroZona({polys:[z.polys]},ux,uy)){
         if(click) return apriScheda(schedaSezione(z), z);
         nascondiTip(); cv.style.cursor="pointer"; return;
@@ -1750,8 +1739,9 @@ const scalaHtml = (pal,et) => `<div class="sc">${pal.map(c=>`<span style="backgr
 /* legenda dell'area colorata di una sezione di censimento (modo = rapp / serv / dens) */
 function legendaSezioni(modo){
   if(!sezOk) return "";
+  if(modo==="crit") return legendaCriticita();
   const so=sezSoglie[modo]||[0,0,0,0];
-  const nome={rapp:"Criticità: passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²",occ:"Occupati residenti 15–64 anni (% dei residenti 15–64)",sc:"Residenti 5–14 anni per sezione",sen:"Residenti 65 anni e oltre per sezione"}[modo];
+  const nome={rapp:"Offerta per abitante: passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²",occ:"Occupati residenti 15–64 anni (% dei residenti 15–64)",sc:"Residenti 5–14 anni per sezione",sen:"Residenti 65 anni e oltre per sezione"}[modo];
   const profilo=["occ","sc","sen"].includes(modo);
   const tag = (modo==="dens"||profilo)?TAG.cens : modo==="serv"?"" : TAG.prog+TAG.cens;   // [agente GT06-pannello] niente PROGRAMMATO da solo
   if(profilo) return `<div class="t">${nome} ${tag}</div>`+scalaHtml(PAL_SEZ[modo],["meno",fnum(so[1]),fnum(so[3]),"più"])
@@ -1799,6 +1789,10 @@ function impostaSubServizio(sub, aggiornaOver){
     tema.desc = "Passaggi programmati ogni 1000 abitanti entro 400 m: il rosso indica poca offerta rispetto ai residenti.";
     tema.lineeSottili = true;
     if(aggiornaOver){ $("Llinee").checked = true; $("Lfermate").checked = false; }
+  } else if(sub === "crit"){
+    tema.desc = "Indice di criticità 0–100 (stima): dove l'offerta GTT programmata è più scarsa rispetto ai residenti. Rosso = critico, verde = servizio adeguato.";
+    tema.lineeSottili = false;
+    if(aggiornaOver){ $("Llinee").checked = false; $("Lfermate").checked = false; }
   } else if(sub === "serv"){
     tema.desc = "Quanto servizio GTT passa vicino a ogni sezione di censimento (entro 400 m), secondo gli orari.";
     tema.lineeSottili = false;
@@ -1921,39 +1915,32 @@ function legendaImq(){
 function imqNotaOra(){ const n=$("imqNota"); if(!n) return; const attivo=$("boxImq")&&$("boxImq").style.display!=="none"; n.textContent=attivo?("Ora considerata dallo slider in alto: "+pad(S.h)+":00 · l'indagine IMQ è del giorno feriale"):""; }
 
 const THEMES = [
-  // 1. Servizio e abitanti (unifica Poca offerta, Offerta e Domanda)
+  // 1. Servizio e abitanti (offerta, residenti e criticità in un'unica tendina)
   {id:"servizio", label:"Servizio e abitanti", desc:"Confronto tra dove vivono le persone e l'offerta di trasporto pubblico entro 400 m.",
-   area:{tipo:"sez",modo:"rapp"}, over:{...NESSUNA,Llinee:1}, lineeSottili:true, subServizio:true, critici:true,   // [agente GT18-punti-critici-integrati]
+   area:{tipo:"sez",modo:"rapp"}, over:{...NESSUNA,Llinee:1}, lineeSottili:true, subServizio:true,
    legenda:()=>legendaSezioni($("subServizio")?$("subServizio").value:"rapp")},
-  // 2. Traffico e velocità (unifica sensori 5T e velocità commerciale GTT)
+  // 2. Traffico e velocità (sensori 5T e velocità commerciale GTT)
   {id:"traffico_vel", label:"Traffico e velocità", desc:"Sensori 5T (velocità degli ultimi 5 minuti) e velocità commerciale misurata delle linee GTT.",
-   area:null, over:{...NESSUNA,Lsensori:1,Llinee:1}, sensoriGrandi:true, velocita:true, segnalazioni:true, critici:true,   // [agente GT18-punti-critici-integrati]
+   area:null, over:{...NESSUNA,Lsensori:1,Llinee:1}, sensoriGrandi:true, velocita:true, segnalazioni:true,
    legenda:()=>{
      const pre = inLive ? "" : '<div class="t" style="color:#b25e00">Nessun dato live: riavvia la raccolta.</div><div class="et" style="display:block">Si vede l\'ultimo traffico salvato nella pagina, non quello attuale.</div>';
      return pre + legendaVelocita();
    }},
   // 3. Tempo reale e flotta (posizioni GPS reali e corse simulate da orario)
   {id:"tempo", label:"Tempo reale e flotta", desc:"Mezzi GTT localizzati adesso e corse simulate dagli orari (queste sono una stima, non posizioni reali).",
-   area:null, over:{...NESSUNA,Lmezzi:1,Lcorse:1}, segnalazioni:true, critici:true, legenda:()=>""},   // [agente GT18-punti-critici-integrati]
+   area:null, over:{...NESSUNA,Lmezzi:1,Lcorse:1}, segnalazioni:true, legenda:()=>""},
   // 4. Pendolarismo (relazioni ISTAT comune-comune per lavoro e studio)
   {id:"pendolari", label:"Pendolarismo", desc:"Quante persone si spostano ogni giorno tra ogni comune e Torino per lavoro o studio (ISTAT 2021, comune→comune: niente mezzo né orario).",
-   area:{tipo:"sez",modo:"pend"}, over:{...NESSUNA}, pendolari:true, critici:true, legenda:legendaPendolari},   // [agente GT18-punti-critici-integrati]
+   area:{tipo:"sez",modo:"pend"}, over:{...NESSUNA}, pendolari:true, legenda:legendaPendolari},
   // 5. Valore immobiliare (OMI)
   {id:"omi", label:"Valore immobiliare (OMI)", desc:"Valori di mercato e locazione per zona OMI e tipologia edilizia (Agenzia delle Entrate – OMI, semestre 2025/2). Valori ordinari: pregio e degrado esclusi. Non è la stima di un singolo immobile.",
-   area:{tipo:"omi"}, over:{...NESSUNA}, omi:true, critici:true, legenda:legendaOmi},
-  // 5b. Mobilità (IMQ 2022): domanda e flussi per zona
+   area:{tipo:"omi"}, over:{...NESSUNA}, omi:true, legenda:legendaOmi},
+  // 6. Mobilità (IMQ 2022): domanda e flussi per zona
   {id:"imq", label:"Mobilità (IMQ 2022)", desc:"Chi si sposta, con che mezzo e dove: spostamenti in partenza per zona della Città metropolitana (IMQ 2022, indagine campionaria sul giorno feriale, residenti 11-84). L'ora è quella dello slider; al clic su una zona, scopi e destinazioni principali (linee sulla mappa).",
    area:{tipo:"imq"}, over:{...NESSUNA}, imq:true, legenda:legendaImq},
-  // 5. Zone critiche: indice di criticità (stima: poca offerta programmata per i residenti)
-  {id:"critici", label:"Zone critiche", desc:"Indice di criticità 0-100: dove l'offerta GTT programmata è più scarsa rispetto ai residenti (stima, non misura). Rosso = critico, verde = servizio adeguato.",
-   area:{tipo:"sez",modo:"crit"}, over:{...NESSUNA}, critici:false,
-   legenda:()=>legendaCriticita()},
-  // Catalogo: nuovi dati comunali, un gruppo alla volta (caricato su richiesta)
+  // 7. Catalogo dei dati (nuovi dati comunali, un gruppo alla volta, caricato su richiesta)
   {id:"catalogo", label:"Catalogo dei dati", desc:"Nuovi dati comunali (scuole, salute, cultura, sicurezza, sport, reti, servizi), un gruppo alla volta. Sono luoghi e attrattori potenziali: senza iscritti, capienze o flussi non sono conteggi di viaggi.",
-   area:null, over:{...NESSUNA}, catalogo:true, legenda:legendaCatalogo},
-  // 6. Nessuno: solo la mappa di sfondo, senza colori ne' criticita' (le sovrapposizioni si riaccendono a mano)
-  {id:"nulla", label:"Nessuno (solo mappa)", desc:"Solo la mappa di sfondo: niente colorazioni, criticita' ne' sovrapposizioni. Puoi riaccenderle a mano sotto «Sovrapposizioni».",
-   area:null, over:{...NESSUNA}, legenda:()=>""}
+   area:null, over:{...NESSUNA}, catalogo:true, legenda:legendaCatalogo}
 ];
 let tema = THEMES[0];   // [agente GT16] tema di partenza: Servizio e abitanti
 
@@ -2001,7 +1988,6 @@ function aggiornaLegenda(){
       blocchi.push(`<div class="t">Linee: mezzi reali rispetto al previsto ${TAG.mis}${TAG.prog}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#4c9f70"></i>nella norma</span><span><i style="background:#e8833a"></i>meno</span><span><i style="background:#c8102e"></i>molto meno</span><span><i style="background:#9aa0ad"></i>senza dati</span></div><div class="et" style="display:block">${rl?"Rapporto medio localizzati/previsti: "+rl._g.toFixed(2)+" · ore di dati per quest'ora: "+((T.copertura||{})[idx()]||0):"Nessun dato raccolto."}</div>`);
     } else blocchi.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
   }
-  if(tema.critici && sezOk) blocchi.push(`<div class="t">Zone critiche ${TAG.prog}${TAG.cens}</div><div class="puntini"><span><i style="background:#fff;border:2px solid #b0102a"></i>contorno rosso = indice di criticità 80+/100 (stima: poca offerta programmata per i residenti; clic per il valore)</span></div>`);   // [agente GT18-punti-critici-integrati]
   if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14)</div><div class="puntini"><span><i style="background:rgba(74,163,223,.85)"></i>grandezza = passaggi/ora</span></div>`);
   if(vis("Lcorse")) blocchi.push(`<div class="t">Corse simulate ${TAG.sim}</div><div class="puntini"><span><i style="background:${COL.bus}"></i>posizione stimata dagli orari, non reale</span></div>`);
   if(vis("Lmezzi")) blocchi.push(`<div class="t">Mezzi GTT reali ${TAG.mis}</div><div class="puntini"><span><i style="background:#222"></i>ultima posizione localizzata (colore = tipo di linea)</span></div>`);
