@@ -92,6 +92,12 @@
   #boxSim p{font-size:12px;color:var(--muted);margin:4px 0}
   #attrib{position:fixed;right:6px;bottom:4px;font-size:10.5px;color:#444;background:rgba(255,255,255,.8);padding:1px 6px;border-radius:4px}
   #attrib a{color:inherit}
+  /* [pulizia] legenda fuori dal pannello: riquadro flottante a destra, richiudibile */
+  #legendaBox{position:fixed;right:12px;bottom:28px;width:min(330px,calc(100vw - 24px));max-height:46vh;overflow:auto;padding:4px 10px 8px;z-index:4}
+  #legendaToggle{width:100%;text-align:left;border:0;background:none;font:inherit;font-weight:700;color:var(--ink);cursor:pointer;padding:3px 0}
+  #legendaToggle::after{content:" ▾"}
+  #legendaBox.chiusa #legendaToggle::after{content:" ▸"}
+  #legendaBox.chiusa #legenda{display:none}
   /* [agente GT08-griglia-scala] barra della scala in basso a sinistra */
   #scala{position:fixed;bottom:22px;left:12px;font-size:11.5px;color:#222;background:rgba(255,255,255,.82);padding:3px 7px;border-radius:5px;pointer-events:none}
   #scala .barra{height:5px;border:2px solid #222;border-top:none;margin-bottom:2px;box-sizing:content-box}
@@ -236,10 +242,10 @@
     <option value="ratio">Linee: mezzi reali rispetto al previsto</option>
   </select>
 
-  <div id="boxSegn">
-  <h2>Segnalazioni adesso</h2>
-  <div id="segn" style="font-size:12.5px;color:var(--muted)">—</div>
-  </div>
+  <details id="boxSegn">
+    <summary>Segnalazioni adesso</summary>
+    <div id="segn" style="font-size:12.5px;color:var(--muted)">—</div>
+  </details>
 
   <!-- [agente GT29-integrazione-simulazioni] la simulazione si apre in una pagina separata -->
   <section id="boxSim">
@@ -248,8 +254,13 @@
     <button class="btn" id="apriSim" type="button" style="width:100%;margin-top:4px;font-weight:600">Apri pagina simulazione →</button>
   </section>
 
-  <details>
-    <summary>Cosa stai guardando e limiti</summary>
+  <details id="infoDati">
+    <summary>Guida e stato dei dati</summary>
+    <h2>Aggiornamento dati</h2>
+    <div class="stato" id="stato"></div>
+    <h2>Dati raccolti</h2>
+    <div class="stato" id="statoLive"></div>
+    <h2>Cosa stai guardando e limiti</h2>
     <p><b>Dati raccolti:</b> posizioni reali dei mezzi GTT (ogni minuto) e traffico 5T (ogni 5 minuti) salvati dal programma in background. «Di solito» = media di quello che abbiamo registrato per lo stesso tipo di giorno e ora; con pochi giorni di storico è indicativo, non una norma. «Mezzi reali rispetto al previsto» confronta i veicoli localizzati con quelli degli orari, normalizzato sul rapporto medio di tutte le linee (non tutti i veicoli potrebbero essere localizzati): misura lo scostamento relativo, non il numero assoluto.</p>
     <p><b>Corse simulate:</b> ogni puntino è una corsa degli orari GTT, spostata a velocità costante lungo il tracciato tra la prima e l'ultima fermata. È una stima dagli orari, non la posizione reale (ritardi, traffico e soste non ci sono). I puntini neri grandi sono invece posizioni reali all'ultimo aggiornamento.</p>
     <p><b>Offerta:</b> passaggi e corse sono quelli <i>programmati</i> dagli orari GTT per un martedì, un sabato e una domenica tipici. Non sono i passaggi reali.</p>
@@ -259,20 +270,14 @@
     <p><b>Zone:</b> le 94 zone statistiche del Comune di Torino (2011). I passaggi per zona sommano i passaggi alle fermate dentro la zona.</p>
   </details>
 
-  <!-- [agente GT06-pannello] aggiornamento e dati raccolti in una sezione chiusa -->
-  <details id="infoDati">
-    <summary>Info sui dati</summary>
-    <h2>Aggiornamento dati</h2>
-    <div class="stato" id="stato"></div>
-    <h2>Dati raccolti</h2>
-    <div class="stato" id="statoLive"></div>
-  </details>
-
-  <!-- [agente GT06-pannello] la legenda sta dentro il pannello, ultimo blocco -->
-  <h2 id="legendaTit">Legenda</h2>
-  <div id="legenda"></div>
+  <!-- [pulizia] la legenda è ora un riquadro separato fuori dal pannello -->
 </div>
 <button id="apri" class="card">Pannello</button>
+
+<div id="legendaBox" class="card">
+  <button id="legendaToggle" aria-expanded="true" title="Mostra o nascondi la legenda">Legenda</button>
+  <div id="legenda"></div>
+</div>
 
 <div id="zoom" class="card"><button id="zp" aria-label="Ingrandisci" title="Ingrandisci">+</button><button id="zm" aria-label="Riduci" title="Riduci">−</button><button id="zh" class="pic" aria-label="Torino" title="Centra su Torino">⌂</button><button id="zc" class="pic" aria-label="Cintura" title="Vedi anche la cintura">◎</button><div class="zl" id="zl"></div></div>
 <div id="tip" class="card"></div>
@@ -1750,6 +1755,7 @@ function anima(ts){
 }
 $("chiudi").onclick=()=>{ $("pannello").style.display="none"; $("apri").style.display="block"; };
 $("apri").onclick=()=>{ $("pannello").style.display="block"; $("apri").style.display="none"; };
+$("legendaToggle").onclick=()=>{ const b=$("legendaBox"); b.classList.toggle("chiusa"); $("legendaToggle").setAttribute("aria-expanded", b.classList.contains("chiusa")?"false":"true"); };
 
 /* [agente GT02-temi] etichette di origine del dato: MISURATO / PROGRAMMATO / STIMATO / CENSIMENTO + "dati scarsi" (storico < 72 h, come in statoLive) */
 const TAG = {
@@ -2018,7 +2024,7 @@ function aggiornaLegenda(){
   if(vis("Lmezzi")) blocchi.push(`<div class="t">Mezzi GTT reali ${TAG.mis}</div><div class="puntini"><span><i style="background:#222"></i>ultima posizione localizzata (colore = tipo di linea)</span></div>`);
   if(vis("Lreplay")) blocchi.push(`<div class="t">Replay: mezzi reali registrati ${TAG.mis}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#111"></i>posizione reale registrata${REP?" ("+REP.g+")":""}</span></div>`);
   if(vis("Lsensori")) blocchi.push(`<div class="t">Traffico 5T (velocità media) ${TAG.mis}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#c8102e"></i>&lt;15</span><span><i style="background:#e8833a"></i>15–30</span><span><i style="background:#f2c14e"></i>30–45</span><span><i style="background:#4c9f70"></i>&gt;45 km/h</span><span><i style="background:#c9ced6"></i>nessun veicolo</span><span><i style="background:#fff;border:1.5px dashed #8a8f98"></i>dato assente</span><span><i style="background:#fff;border:2px solid #c8102e"></i>più lento del solito</span></div>`);
-  leg.innerHTML=blocchi.map(b=>`<div class="blocco">${b}</div>`).join(""); leg.style.display=blocchi.length?"block":"none"; $("legendaTit").style.display=leg.style.display;   // [agente GT06-pannello]
+  leg.innerHTML=blocchi.map(b=>`<div class="blocco">${b}</div>`).join(""); leg.style.display=blocchi.length?"block":"none"; $("legendaBox").style.display=blocchi.length?"block":"none";
 }
 
 /* ---------- avvio ---------- */
