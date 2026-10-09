@@ -216,6 +216,14 @@
 
   <h2>Sovrapposizioni</h2>
   <label class="lv"><input type="checkbox" id="Llinee"><span class="sw" style="background:var(--bus)"></span>Linee: corse/ora</label>
+  <div style="margin:2px 0 4px 26px">
+    <input id="filtroLinea" list="listaLinee" placeholder="Mostra solo una linea (es. 4, 15, M1)" autocomplete="off">
+    <datalist id="listaLinee"></datalist>
+    <select id="coloreLinee" aria-label="Come colorare le linee" style="width:100%;margin-top:4px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
+      <option value="freq">Linee: spessore = corse/ora programmate</option>
+      <option value="ratio">Linee: mezzi reali rispetto al previsto</option>
+    </select>
+  </div>
   <label class="lv"><input type="checkbox" id="Lfermate"><span class="sw" style="background:#4aa3df;border-radius:50%"></span>Fermate: passaggi/ora (da zoom 14)</label>
   <label class="lv"><input type="checkbox" id="Lcorse"><span class="sw" style="background:#fff;border-radius:50%;border:3px solid #3b6ea8"></span>Corse simulate in movimento (posizione stimata)</label>
   <label class="lv"><input type="checkbox" id="Lmezzi"><span class="sw" style="background:#222;border-radius:50%"></span>Mezzi reali GTT (ultima posizione)</label>
@@ -223,7 +231,7 @@
   <label class="lv"><input type="checkbox" id="Lreplay"><span class="sw" style="background:#111;border-radius:50%"></span>Replay: mezzi reali registrati</label>
   <select id="repGiorno" aria-label="Giornata registrata" style="margin:2px 0 4px 26px;max-width:240px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff"><option value="">(nessuna giornata)</option></select>
 
-  <h2>Sfondo e filtro</h2>
+  <h2>Sfondo</h2>
   <!-- [agente GT01-sfondi] sfondi Esri senza chiave + cursore intensità -->
   <select id="basemap" aria-label="Sfondo della mappa">
     <option value="sat" selected>Satellite (Esri)</option>
@@ -235,12 +243,6 @@
     <input type="range" id="intSfondo" min="0" max="100" value="70" style="width:100%"></label>
   <label class="lv"><input type="checkbox" id="Lgriglia" checked>Griglia in metri</label><!-- [agente GT08-griglia-scala] -->
   <div id="avvisoSfondo" style="display:none;font-size:12px;color:#8a4b00;background:#fff4e0;border-radius:6px;padding:3px 6px;margin:2px 0">Sfondo non disponibile (connessione?)</div>
-  <input id="filtroLinea" list="listaLinee" placeholder="Mostra solo una linea (es. 4, 15, M1)" autocomplete="off">
-  <datalist id="listaLinee"></datalist>
-  <select id="coloreLinee" aria-label="Come colorare le linee" style="width:100%;margin:2px 0 4px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
-    <option value="freq">Linee: spessore = corse/ora programmate</option>
-    <option value="ratio">Linee: mezzi reali rispetto al previsto</option>
-  </select>
 
   <details id="boxSegn">
     <summary>Segnalazioni adesso</summary>
