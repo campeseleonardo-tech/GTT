@@ -161,22 +161,20 @@
   <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi"><input type="checkbox" id="LImq">
     <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option><option value="crit"></option><option value="occ"></option><option value="sc"></option><option value="sen"></option></select></div>
 
-  <h2>Sovrapposizioni</h2>
-  <label class="lv"><input type="checkbox" id="Llinee"><span class="sw" style="background:var(--bus)"></span>Linee: corse/ora</label>
-  <div style="margin:2px 0 4px 26px">
-    <input id="filtroLinea" list="listaLinee" placeholder="Mostra solo una linea (es. 4, 15, M1)" autocomplete="off">
-    <datalist id="listaLinee"></datalist>
-    <select id="coloreLinee" aria-label="Come colorare le linee" style="width:100%;margin-top:4px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff">
-      <option value="freq">Linee: spessore = corse/ora programmate</option>
-      <option value="ratio">Linee: mezzi reali rispetto al previsto</option>
-    </select>
-  </div>
+  <details id="boxOver">
+    <summary>Sovrapposizioni</summary>
+    <label class="lv"><input type="checkbox" id="Llinee"><span class="sw" style="background:var(--bus)"></span>Linee: corse/ora</label>
+    <div style="margin:2px 0 4px 26px">
+      <input id="filtroLinea" list="listaLinee" placeholder="Mostra solo una linea (es. 4, 15, M1)" autocomplete="off">
+      <datalist id="listaLinee"></datalist>
+    </div>
   <label class="lv"><input type="checkbox" id="Lfermate"><span class="sw" style="background:#4aa3df;border-radius:50%"></span>Fermate: passaggi/ora (da zoom 14)</label>
   <label class="lv"><input type="checkbox" id="Lcorse"><span class="sw" style="background:#fff;border-radius:50%;border:3px solid #3b6ea8"></span>Corse simulate in movimento (posizione stimata)</label>
   <label class="lv"><input type="checkbox" id="Lmezzi"><span class="sw" style="background:#222;border-radius:50%"></span>Mezzi reali GTT (ultima posizione)</label>
   <label class="lv"><input type="checkbox" id="Lsensori"><span class="sw" style="background:#f2c14e;border-radius:50%"></span>Sensori traffico 5T (ultimi 5 minuti)</label>
   <label class="lv"><input type="checkbox" id="Lreplay"><span class="sw" style="background:#111;border-radius:50%"></span>Replay: mezzi reali registrati</label>
   <select id="repGiorno" aria-label="Giornata registrata" style="margin:2px 0 4px 26px;max-width:240px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff"><option value="">(nessuna giornata)</option></select>
+  </details>
 
   <h2>Sfondo</h2>
   <!-- [agente GT01-sfondi] sfondi Esri senza chiave + cursore intensità -->
@@ -682,7 +680,6 @@ function ratiLinee(i){
   for(const id in schedConc){ const sc=schedConc[id][i], re=T.reale[id]&&T.reale[id][i]; out[id]= (sc>=0.5&&re!=null&&g>0)? {r:(re/sc)/g, re, sc} : null; }
   out._g=g; ratioCache={chiave,vals:out}; return out;
 }
-const ratioCol = r => r==null?"#9aa0ad": r<0.5?"#c8102e": r<0.8?"#e8833a": "#4c9f70";
 
 /* replay della giornata registrata */
 let REP=null;
@@ -822,7 +819,7 @@ function disegna(){
   sporco=false;
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
   const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),valOp("pendTipo"),valOp("pendDir"),valOp("pendVal"),valOp("omiTipo"),valOp("imqMet"),
-    ["Lzone","Lsez","Lomi","LImq","Llinee","Lfermate","Lgriglia"].map(vis).join(),tema.id,$("coloreLinee").value,(ST()||{}).generato,catSig()].join("|");
+    ["Lzone","Lsez","Lomi","LImq","Llinee","Lfermate","Lgriglia"].map(vis).join(),tema.id,(ST()||{}).generato,catSig()].join("|");
   if(chiave!==baseKey){
     baseKey=chiave;
     if(bcv.width!==cv.width||bcv.height!==cv.height){ bcv.width=cv.width; bcv.height=cv.height; }
@@ -950,7 +947,7 @@ function disegnaBase(ws,ox,oy,i){
   }
   if(vis("Llinee")){
     cx.lineCap="round"; cx.lineJoin="round";
-    const fl=filtroL(), ratio=$("coloreLinee").value==="ratio", rl=ratio?ratiLinee(i):null;
+    const fl=filtroL();
     for(const l of linee){
       if(fl && l.nome!==fl) continue;
       const f=(D.rotte[l.id]||{f:[]}).f[i]||0;
@@ -962,7 +959,7 @@ function disegnaBase(ws,ox,oy,i){
         cx.stroke(); continue;
       }
       if(!f||!dentroVista(l.bb,ws,ox,oy)) continue;
-      cx.strokeStyle=ratio?ratioCol(rl&&rl[l.id]?rl[l.id].r:null):tipoCol(l.t); cx.globalAlpha=ratio?.9:.8; cx.lineWidth=Math.min(6,1+Math.sqrt(f)*0.55)*(tema.lineeSottili?0.5:1); /* [agente GT02-temi] linee sottili in alcuni temi */
+      cx.strokeStyle=tipoCol(l.t); cx.globalAlpha=.8; cx.lineWidth=Math.min(6,1+Math.sqrt(f)*0.55)*(tema.lineeSottili?0.5:1); /* [agente GT02-temi] linee sottili in alcuni temi */
       cx.beginPath(); const a=l.pts;
       for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y);}
       cx.stroke();
@@ -1688,7 +1685,6 @@ $("Lgriglia").onchange=()=>chiede();   // [agente GT08-griglia-scala]
 $("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; tileOk=0; aggiornaAvvisoSfondo(); creditiSfondo(); baseVer++; chiede(); }; // [agente GT01-sfondi]
 $("intSfondo").oninput=e=>{ intSfondo=e.target.value/100; $("intSfondoVal").textContent=e.target.value+"%"; baseVer++; chiede(); }; // [agente GT01-sfondi]
 $("filtroLinea").oninput=()=>{ baseVer++; chiede(); };
-$("coloreLinee").onchange=()=>{ baseVer++; chiede(); aggiornaLegenda(); };
 // [agente GT29-integrazione-simulazioni] la simulazione si apre in una pagina separata per confrontare più risultati
 $("apriSim").onclick=()=>{ window.open("simulazione.html","_blank"); };
 $("repGiorno").onchange=e=>{ if(e.target.value){ $("Lreplay").checked=true; } caricaReplay(e.target.value); aggiornaLegenda(); };
@@ -2012,10 +2008,7 @@ function aggiornaLegenda(){
   const blocchi=[], t=tema.legenda();
   if(t) blocchi.push(t);
   if(vis("Llinee") && !tema.velocita && tema.id!=="velocita"){   // [agente GT16] nel tema con velocità la legenda delle linee è quella della velocità
-    if($("coloreLinee").value==="ratio"){
-      const T=ST(); const rl=T?ratiLinee(idx()):null;
-      blocchi.push(`<div class="t">Linee: mezzi reali rispetto al previsto ${TAG.mis}${TAG.prog}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#4c9f70"></i>nella norma</span><span><i style="background:#e8833a"></i>meno</span><span><i style="background:#c8102e"></i>molto meno</span><span><i style="background:#9aa0ad"></i>senza dati</span></div><div class="et" style="display:block">${rl?"Rapporto medio localizzati/previsti: "+rl._g.toFixed(2)+" · ore di dati per quest'ora: "+((T.copertura||{})[idx()]||0):"Nessun dato raccolto."}</div>`);
-    } else blocchi.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
+    blocchi.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
   }
   if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14)</div><div class="puntini"><span><i style="background:rgba(74,163,223,.85)"></i>grandezza = passaggi/ora</span></div>`);
   if(vis("Lcorse")) blocchi.push(`<div class="t">Corse simulate ${TAG.sim}</div><div class="puntini"><span><i style="background:${COL.bus}"></i>posizione stimata dagli orari, non reale</span></div>`);
