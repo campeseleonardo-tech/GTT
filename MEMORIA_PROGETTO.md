@@ -243,6 +243,11 @@ Principi per gli scenari:
 - Limite: i confini dei quartieri di Torino (1984) non coincidono con la zonizzazione IMQ per
   7 quartieri su 23 (rapporto demografico fuori ±15%); accettato con l'opzione A. Dettagli in
   `docs/RAPPORTO_IMQ.txt`.
+- In mappa (`scripts/16_prepara_imq_mappa.py` + 04): tema "Mobilità (IMQ 2022)" sulle 101 zone
+  della Città metropolitana (23 Torino + 32 cintura + 46 resto CMTO): choropleth con tendina
+  (spostamenti per ora×modo, quote modali, residenti), ora guidata dallo slider esistente
+  (`S.h`); al clic scheda con scopi e destinazioni e linee dei flussi OD. Prodotto
+  `imq_mappa.json` (0,53 MB, geometria semplificata ~30 m).
 
 # ATTIVITÀ DA FARE (in ordine di priorità)
 
@@ -332,6 +337,9 @@ Principi per gli scenari:
   (65,6%), 69.900 residenti 5–14, 220.883 residenti 65+.
 - **OMI 2025/2**: provincia 312 comuni, 953 zone, 3.119 righe, 14 tipologie; in mappa 68 comuni
   e 251 zone (Torino 47).
+- **Mobilità IMQ 2022** (in mappa): 101 zone CMTO; residenti 1.942.688; spostamenti in partenza
+  4.263.592/giorno (pesati); ripartizione modale, scopi, ora di punta e flussi origine→
+  destinazione. Fonte: Agenzia della Mobilità Piemontese / MTM.
 - **Catalogo comunale** (44 dati, ~37.819 punti): istruzione (610 scuole, 29 università,
   servizi infanzia), salute (44 accessi ospedalieri, 37 consultori, 243 farmacie [dato
   ~2011], 151 strutture socio-assistenziali), commercio (31.271 attività, 42 mercati, 16
