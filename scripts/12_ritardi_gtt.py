@@ -3,24 +3,28 @@
 
 Sottocomandi:
   raccogli   scarica trip_update e alerts a intervalli regolari (una tantum) e salva
-             le righe decodificate in data/processed/ritardi_<AAAAMMGG>.csv e
-             data/processed/avvisi_<AAAAMMGG>.json. Solo libreria standard.
+              le righe decodificate in data/processed/ritardi_<AAAAMMGG>.csv e
+              data/processed/avvisi_<AAAAMMGG>.json. Solo libreria standard.
+  raccogli-db legge gli stessi feed senza interruzione e salva osservazioni deduplicate
+              nelle tabelle trip_update_gtt e avvisi_gtt di storico.sqlite.
   analizza   legge i file raccolti (+ i .pb alerts già in data/raw), li unisce con il
-             GTFS statico (trips.txt) e produce: corse distinte attive e soppresse per
-             linea e ora, match trip_id<->GTFS, sintesi degli avvisi.
-             Scrive docs/RAPPORTO_RITARDI_GTT.txt e data/processed/ritardi_analisi.json.
+              GTFS statico (trips.txt) e produce: corse distinte attive e soppresse per
+              linea e ora, match trip_id<->GTFS, sintesi degli avvisi.
+              Con --db include il riepilogo recente SQLite. Scrive il rapporto e gli aggregati.
 
 Limitazione verificata sui campioni: il feed trip_update di GTT NON pubblica il campo
 delay ne' gli orari per fermata (stop_time_update): dice quali corse ci sono e se sono
 soppresse. Questo strumento conta quindi corse attive/soppresse, non ritardi in minuti.
 
 Ore locali Europe/Rome calcolate a mano (regola UE), come in 09_analisi_dati_diurni.py.
-Non scrive mai su storico.sqlite e non modifica i grezzi in data/raw.
+Solo raccogli-db scrive nelle sue due tabelle SQLite; nessun sottocomando modifica i grezzi.
 """
 import argparse
 import csv
+import hashlib
 import io
 import json
+import sqlite3
 import sys
 import time
 import urllib.request
@@ -369,6 +373,122 @@ def salva_avvisi(giorno, unione):
                    ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+# ---------- raccolta continua in SQLite ----------
+
+def inizializza_tabelle_ritardi(con):
+    con.executescript("""
+    CREATE TABLE IF NOT EXISTS trip_update_gtt (
+        letto_utc TEXT NOT NULL,
+        entity_id TEXT NOT NULL,
+        trip_id TEXT,
+        start_date TEXT,
+        start_time TEXT,
+        rel TEXT,
+        delay INTEGER,
+        stop_time_update INTEGER NOT NULL,
+        payload TEXT NOT NULL,
+        PRIMARY KEY (letto_utc, entity_id));
+    CREATE INDEX IF NOT EXISTS ix_trip_update_gtt_tempo
+        ON trip_update_gtt (letto_utc);
+    CREATE TABLE IF NOT EXISTS avvisi_gtt (
+        alert_id TEXT NOT NULL,
+        fingerprint TEXT NOT NULL,
+        first_seen_utc TEXT NOT NULL,
+        last_seen_utc TEXT NOT NULL,
+        payload TEXT NOT NULL,
+        PRIMARY KEY (alert_id, fingerprint));
+    CREATE INDEX IF NOT EXISTS ix_avvisi_gtt_ultimo
+        ON avvisi_gtt (last_seen_utc);
+    """)
+    con.commit()
+
+
+def salva_trip_update_sqlite(con, letto, trip_updates):
+    righe = []
+    n_delay = n_stu = 0
+    for t in trip_updates:
+        trip = t.get("trip", {})
+        tid = trip.get("trip_id", "")
+        start_date = trip.get("start_date", "")
+        start_time = trip.get("start_time", "")
+        entity_id = t.get("id") or f"{tid}|{start_date}|{start_time}"
+        delay = t.get("delay")
+        stu = len(t.get("stu", []))
+        n_delay += delay is not None
+        n_stu += stu
+        payload = json.dumps(t, ensure_ascii=False, separators=(",", ":"))
+        righe.append((letto, entity_id, tid, start_date, start_time,
+                      str(trip.get("rel", "")), delay, stu, payload))
+    with con:
+        con.executemany("""
+            INSERT OR IGNORE INTO trip_update_gtt
+            (letto_utc, entity_id, trip_id, start_date, start_time, rel,
+             delay, stop_time_update, payload)
+            VALUES (?,?,?,?,?,?,?,?,?)
+            """, righe)
+    return len(righe), n_delay, n_stu
+
+
+def salva_alert_sqlite(con, letto, alert):
+    righe = []
+    for a in alert:
+        payload = json.dumps(a, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        fingerprint = hashlib.sha256(payload.encode("utf-8")).hexdigest()
+        alert_id = a.get("id") or fingerprint
+        righe.append((alert_id, fingerprint, letto, letto, payload))
+    with con:
+        con.executemany("""
+            INSERT INTO avvisi_gtt
+            (alert_id, fingerprint, first_seen_utc, last_seen_utc, payload)
+            VALUES (?,?,?,?,?)
+            ON CONFLICT(alert_id, fingerprint) DO UPDATE
+            SET last_seen_utc=excluded.last_seen_utc
+            """, righe)
+    return len(righe)
+
+
+def registra_errore_sqlite(con, fonte, errore):
+    testo = repr(errore)[:500]
+    print(f"ERRORE {fonte}: {testo}", flush=True)
+    try:
+        with con:
+            con.execute("INSERT INTO errori VALUES (?,?,?)", (adesso(), fonte, testo))
+    except sqlite3.Error as e:
+        print(f"ERRORE scrittura errori: {e!r}", flush=True)
+
+
+def raccogli_sqlite(args):
+    db = Path(args.db).expanduser().resolve()
+    db.parent.mkdir(parents=True, exist_ok=True)
+    ogni = max(10, args.ogni_secondi)
+    con = sqlite3.connect(db, timeout=30)
+    con.execute("PRAGMA busy_timeout=30000")
+    inizializza_tabelle_ritardi(con)
+    print(f"Raccolta trip_update/alerts continua: {db} (ogni {ogni} s)", flush=True)
+    try:
+        while True:
+            letto = adesso()
+            try:
+                trip_updates = dec_feed(scarica(URL_TU))["trip_update"]
+                n, n_delay, n_stu = salva_trip_update_sqlite(con, letto, trip_updates)
+                print(f"{letto}  trip_update: {n} corse, delay={n_delay}, "
+                      f"stop_time_update={n_stu}", flush=True)
+            except Exception as e:
+                registra_errore_sqlite(con, "trip_update", e)
+            try:
+                alert = dec_feed(scarica(URL_AL))["alert"]
+                n = salva_alert_sqlite(con, letto, alert)
+                print(f"{letto}  alerts: {n} avvisi", flush=True)
+            except Exception as e:
+                registra_errore_sqlite(con, "alerts", e)
+            time.sleep(ogni)
+    except KeyboardInterrupt:
+        print("Raccolta continua fermata.", flush=True)
+    finally:
+        con.close()
+    return 0
+
+
 # ---------- analisi ----------
 
 def carica_gtfs():
@@ -390,6 +510,39 @@ def analizza(args):
         with open(p, newline="", encoding="utf-8-sig") as f:
             for r in csv.DictReader(f):
                 ROWS.append((p.name, r))
+    campione_db = None
+    avvisi_db = {}
+    if args.db:
+        db = Path(args.db).expanduser().resolve()
+        if db.is_file():
+            con = sqlite3.connect(f"file:{db.as_posix()}?mode=ro", uri=True, timeout=30)
+            esiste = con.execute("""SELECT 1 FROM sqlite_master
+                                     WHERE type='table' AND name='trip_update_gtt'""").fetchone()
+            if esiste:
+                cutoff = (datetime.now(timezone.utc) - timedelta(hours=args.ultime_ore)).isoformat(timespec="seconds")
+                campione_db = con.execute("""
+                    SELECT COUNT(*), MIN(letto_utc), MAX(letto_utc),
+                           COUNT(DISTINCT letto_utc),
+                           SUM(CASE WHEN delay IS NOT NULL THEN 1 ELSE 0 END),
+                           SUM(CASE WHEN stop_time_update > 0 THEN 1 ELSE 0 END),
+                           COUNT(DISTINCT trip_id)
+                    FROM trip_update_gtt WHERE letto_utc >= ?
+                    """, (cutoff,)).fetchone()
+                # Per ogni id di avviso conserva nel rapporto la versione piu' recente.
+                visti_alert = set()
+                for (payload,) in con.execute("""
+                    SELECT payload FROM avvisi_gtt WHERE last_seen_utc >= ?
+                    ORDER BY last_seen_utc DESC
+                    """, (cutoff,)):
+                    try:
+                        a = json.loads(payload)
+                        aid = a.get("id", "")
+                        if aid and aid not in visti_alert:
+                            avvisi_db[aid] = a
+                            visti_alert.add(aid)
+                    except (TypeError, ValueError):
+                        continue
+            con.close()
     righe = [r for _, r in ROWS]
     out = []
     def scrivi(m=""):
@@ -490,6 +643,9 @@ def analizza(args):
                 avv[a.get("id", "")] = a
         except Exception:
             pass
+    avv.update(avvisi_db)
+    linee = Counter()
+    fermate = set()
     scrivi("\n-- Avvisi GTT (decodificati) --")
     if not avv:
         scrivi("  (nessun avviso)")
@@ -498,8 +654,6 @@ def analizza(args):
         c_c = Counter(CAUSA.get(a.get("causa"), a.get("causa")) for a in avv.values())
         e_c = Counter(EFFETTO.get(a.get("effetto"), a.get("effetto")) for a in avv.values())
         s_c = Counter(SEVERITA.get(a.get("severita"), a.get("severita")) for a in avv.values())
-        linee = Counter()
-        fermate = set()
         for a in avv.values():
             for s in a.get("informato", []):
                 if s.get("route_id"):
@@ -515,13 +669,21 @@ def analizza(args):
         for a in esempi:
             scrivi(f"  [esempio] {a.get('header','')[:80]} | {a.get('descrizione','')[:120]}")
 
-    scrivi("\n  NOTA: il feed trip_update non pubblica i ritardi in secondi nei campioni")
-    scrivi("  notturni (niente campo delay ne' stop_time_update): la verifica diurna e'")
-    scrivi("  affidata alle righe 'Campioni con delay presente' sopra. Il conteggio")
-    scrivi("  misura le corse che il feed comunica, non l'intera offerta.")
+    if campione_db is not None:
+        tot_db, da_db, a_db, snapshot_db, n_delay_db, n_stu_db, trips_db = campione_db
+        scrivi(f"\n-- Raccolta continua SQLite (ultime {args.ultime_ore} ore) --")
+        scrivi(f"  Intervallo UTC: {da_db or 'nessun dato'} -> {a_db or 'nessun dato'}")
+        scrivi(f"  Osservazioni: {tot_db}; snapshot: {snapshot_db}; corse distinte: {trips_db}")
+        scrivi(f"  Campioni con delay presente: {n_delay_db or 0} righe · "
+               f"con stop_time_update: {n_stu_db or 0} righe")
+
+    scrivi("\n  NOTA: delay e stop_time_update sono verificati solo nei campioni elencati sopra;")
+    scrivi("  la loro assenza nel periodo osservato non prova che il feed non li pubblichi mai.")
+    scrivi("  Il conteggio misura le corse che il feed comunica, non l'intera offerta.")
 
     testo = "\n".join(out) + "\n"
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print(testo)
     DOCS.mkdir(parents=True, exist_ok=True)
     (DOCS / "RAPPORTO_RITARDI_GTT.txt").write_text(testo, encoding="utf-8")
@@ -540,7 +702,8 @@ def analizza(args):
 
 def scrivi_esito(out, args, ris):
     testo = "\n".join(out) + "\n"
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print(testo)
     return 0
 
@@ -553,10 +716,18 @@ def main():
     p1.add_argument("--durata-ore", type=float, default=20.0,
                     help="durata massima della raccolta (default 20)")
     p1.add_argument("--una-volta", action="store_true", help="un solo ciclo e poi esce")
+    p3 = sub.add_parser("raccogli-db", help="raccolta continua di trip_update e alerts in SQLite")
+    p3.add_argument("--db", default=str(RAD / "data" / "storico.sqlite"))
+    p3.add_argument("--ogni-secondi", type=int, default=60)
     p2 = sub.add_parser("analizza", help="analizza i file raccolti e gli avvisi")
+    p2.add_argument("--db", help="database con la raccolta continua (facoltativo)")
+    p2.add_argument("--ultime-ore", type=int, default=24,
+                    help="finestra di riepilogo della raccolta SQLite (default 24)")
     args = ap.parse_args()
     if args.cmd == "raccogli":
         return raccogli(args)
+    if args.cmd == "raccogli-db":
+        return raccogli_sqlite(args)
     return analizza(args)
 
 
