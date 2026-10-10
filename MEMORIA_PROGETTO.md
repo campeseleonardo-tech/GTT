@@ -45,6 +45,9 @@ Principi per gli scenari:
     spostare mentre la raccolta gira.
   - `live.js`, `stat.js`, `replay_*.js`, `agg_cache.json`: file per la mappa, aggiornati dalla raccolta.
 - `docs/`: solo testi (fonti, diagnosi, richieste, piani, rapporti). `logs/`: log (non su git).
+- `data/otp/`: strumenti percorsi (non su git): `jdk-25.0.4.1+1-jre` (Java per r5py/jpype),
+  `rete/torino_cintura.osm.pbf` (taglio OSM di 17, 20,6 MB), `otp.jar` + `jdk-21...` +
+  zip Temurin + `provagtfs/` (test OTP non piu' usati: da cancellare se Leo e' d'accordo).
 
 ## Decisioni prese
 
@@ -53,8 +56,13 @@ Principi per gli scenari:
   lo storico GTT/5T non esiste altrove, il resto si riscarica.
 - Direzione (9/10): portfolio su "capire" + scenari limitati sull'accessibilità; gioco e
   gamification esclusi.
-- Calcolo dei percorsi con strumenti aperti esistenti (OpenTripPlanner o R5/r5py, su GTFS +
-  OpenStreetMap), non riscritto da zero.
+- Calcolo dei percorsi con strumenti aperti esistenti, non riscritto da zero.
+  Scelta finale (10/10): **R5 via r5py** (Conveyal R5, jar scaricato da r5py in
+  `AppData\Local\r5py`). Prima prova con OpenTripPlanner 2.10: verificato sul server
+  reale che OTP 2.10 non ha piu' le isocrone (GraphQL senza campo `isochrone`, REST
+  legacy 404); r5py fa matrici origine->destinazione in batch, meglio dei poligoni
+  per contare i servizi. Java: Temurin JRE 25 portatile in `data\otp\jdk-25.0.4.1+1-jre`
+  (OTP 2.10 voleva Java 25, non 21; class file 69).
 - Fonte principale per "chi va dove e perché": IMQ 2022 (per la domanda attuale supera la
   matrice 2011 sezione→sezione).
 - Catalogo congelato: nessun nuovo dataset senza una domanda che lo richieda. Mappa e
@@ -286,17 +294,90 @@ Principi per gli scenari:
 - Bug trovato e corretto in prova: `disegna()` leggeva opzioni che ora esistono solo nel tema
   attivo (lettore sicuro `valOp`).
 
+## 12. Motore di percorsi R5 e taglio OSM (10/10)
+
+- Scaricato da Geofabrik `nord-ovest-261008.osm.pbf` (564 MB, Nord-Ovest intero: Geofabrik
+  non ha il Piemonte da solo). In `data/raw/`, non su git.
+- `scripts/17_taglia_osm.py` (pyosmium 4.3.1 via pip; NON include il comando `osmium`):
+  due passate, tiene in RAM solo i nodi del riquadro. Riquadro Torino ~18 km + margine
+  (lon 7.45-7.93, lat 44.90-45.24). Esce `data/otp/rete/torino_cintura.osm.pbf`:
+  **20,6 MB**, 2.317.259 nodi, 326.489 way. Relazioni NON copiate (scelta dichiarata:
+  ai percorsi servono strade, non multiparchi).
+- Test OTP abbandonato: il feed GTFS era ok (grafo transit in 15 s, 7.043 fermate) ma OTP
+  2.10 non ha le isocrone (vedi Decisioni).
+- Verifiche fallite e corrette in cammino: OTP 2.10 vuole Java 25 (non 21); pyosmium 4.x
+  ha `osmium.index.create_map("flex_mem")` (non piu' `.map.create_flex_mem`).
+- R5: rete costruita in ~40 s (poi ~2 s con la cache); `r5-v7.5.1-r5py-all.jar` scaricato
+  da r5py in `AppData\Local\r5py`. Prova su 5 sezioni: centro con 1412 negozi entro 15
+  min a piedi, borgo periferico con zero: plausibile.
+
+## 13. Accessibilita' per sezione (motore R5, in corso)
+
+- `scripts/18_accessibilita.py`: per ogni sezione con residenti (centroide del poligono):
+  - A PIEDI 15 min: conteggio servizi per gruppo (scuole, salute, cibo, fermate, verde);
+  - COL TP 45 min alle 8, 14, 23, 2 (lunedi' 2026-10-12, 126 servizi attivi verificati
+    in calendar): conteggio per gruppo; le coppie oltre un margine in linea d'aria
+    dall'origine non vengono contate (non possono stare nel cutoff).
+- Destinazioni: catalogo istruzione (844), salute (475), commercio (31.405), fermate GTFS
+  (7.043), verde = way chiuse OSM con tag leisure/landuse (12.072; il file aree verdi del
+  GeoPortale resta la fonte migliore per dopo).
+- Bug trovati e corretti: centroide con lat/lon invertite (sezioni fuori mappa, conteggi
+  a zero), id sintetici contro id di censimento, indici di destinazione per sottoinsieme,
+  `locations=True` per i way, conversione Timedelta->minuti, margine in metri non
+  convertito in gradi.
+- Campione 200 sezioni validato (`logs/accessibilita_campione.log`): mediane TP 8:00
+  8250 servizi -> 02:00 1385; centro 1412 negozi a piedi; nessun conteggio negativo.
+- Giro completo su 8317 sezioni lanciato il 10/10 sera in background
+  (`logs/accessibilita_completo.log`, stima ~5,5 h: lotti 100 a piedi / 40 col TP, ~23 s
+  a lotto TP). Uscite: `data/processed/accessibilita.json` +
+  `docs/RAPPORTO_ACCESSIBILITA.txt`.
+- Tutto ORARIO PROGRAMMATO [STIMATO]: niente ritardi, capienze o domanda.
+
+## 14. Vulnerabilita' per sezione (fatto)
+
+- `05_prepara_sezioni.py` esteso coi titoli di studio R01 2021 (P83 pop 9+, P86 senza
+  titolo, P87 elementare, P88 media, P89 diploma, P90 terziaria; tracciato ISTAT
+  verificato). Rieseguito: tutti i totali combaciano con la memoria (occupati 346.734,
+  15-64 528.512, 5-14 69.900, 65+ 220.883, Torino 6.916 sezioni / 848.748 abitanti,
+  area 1.557.493; aggancio 8317/8317). Torino: pop 9+ 792.797, senza titolo o solo
+  elementare 16,1%.
+- `scripts/19_vulnerabilita.py`: indice 0-100 per sezione = media pesata dei percentili
+  di 4 componenti censimento (non occupati 15-64, senza titolo o solo elementare,
+  affollamento abitazioni, quota 65+). Pesi regolabili con `--pesi`. Se esiste
+  accessibilita.json, aggiunge serv/verde a piedi (bollino CENSIMENTO+STIMATO).
+- Tre difetti trovati in prova e corretti:
+  1. sezioni di 2-40 abitanti dominavano la classifica -> percentili PESATI per
+     residenti + attutimento verso la media d'area (v=(k+m*lam)/(d+lam), lam=100
+     persone, 20 abitazioni);
+  2. 50 sezioni-RSA (case di riposo: es. 584 anziani, zero abitazioni) arrivavano in
+     cima -> riconosciute (regola: ab=0, p>=20, 65+/p>0,8), escluse dal rango,
+     marcate "istituzionale" nel JSON;
+  3. il reddito non esiste per sezione: non entra (solo MEF per comune, altra scala).
+- Uscite: `data/processed/vulnerabilita.json` (8267 residenziali + 50 istituzionali) +
+  `docs/RAPPORTO_VULNERABILITA.txt`. Indice 1,1-98,9, mediana 48,3; il top-10 ora e'
+  sezioni reali da 41-559 residenti.
+- Decisione Leo (10/10): in mappa la voce unica "Criticità" raggruppa accessibilita' +
+  offerta/linee + vulnerabilita'; il VALORE immobiliare NON e' una criticita' e resta
+  un'analisi separata (punto OMI).
+
 # ATTIVITÀ DA FARE (in ordine di priorità)
 
 ## Priorità alta
 
-4. **Accessibilità per sezione e per ora del giorno**: tempi di viaggio col trasporto
-   pubblico (GTFS + OSM, con OpenTripPlanner o R5/r5py), es. alle 8, 14, 23 e 2. Da qui
-   l'indicatore "città dei 15 minuti" per sezione col catalogo.
-5. **Primo scenario: metro aperta di notte**: tempi notturni di oggi (bus notturni) contro
-   metro aperta. Uscita: un numero sintetico (es. minuti risparmiati × residenti) + mappa
-   prima/dopo. Poi una bozza di linea 2. Costi e manutenzione notturna restano fuori dal
-   modello (dichiararlo).
+4. **Accessibilità — completare e portare in mappa (IN CORSO)**: il giro completo su 8317
+   sezioni gira in background dal 10/10 sera (sezione 13; ~5,5 h). Quando finisce:
+   controllare `docs/RAPPORTO_ACCESSIBILITA.txt` e i numeri, poi costruire il tema mappa
+   "Criticità" (una voce, 3 sotto-scelte: accessibilità da 18, offerta/linee già esistente
+   spostata qui, vulnerabilità da 19 con dati pronti; assorbe la vecchia voce
+   "Criticità 0-100"). Ogni sotto-scelta col suo bollino ([STIMATO] per accessibilità,
+   [CENSIMENTO] per vulnerabilità). Numerazione script: 17 taglio OSM, 18 accessibilità,
+   19 vulnerabilità, il prossimo libero e' 20. File: `scripts/mappa_template.html`,
+   `scripts/04_genera_mappa.py`.
+5. **Primo scenario: metro aperta di notte**: baseline notturna già pronta con
+   l'accessibilità (ore 23 e 2). GTFS modificato con le corse notturne della metro e
+   ricalcolo tempi con R5 (stesso impianto JSON di varianti di 07). Uscita: minuti
+   risparmiati × residenti + mappa prima/dopo, avviso "simulazione su orario"
+   obbligatorio. Costi e manutenzione notturna restano fuori dal modello (dichiararlo).
 
 ## Priorità media
 
@@ -306,8 +387,8 @@ Principi per gli scenari:
    verdi dallo shapefile `http://geoportale.comune.torino.it/geodati/zip/carta_sintesi_geo.zip`
    (EPSG:3003, CC BY 4.0; isolare "aree verdi"; in alternativa WFS/WMS del GeoPortale
    Piemonte, record "Dati di base – Carta di sintesi – Aree"). Il DWG non serve.
-8. **Indice di vulnerabilità per sezione**: indicatori R01 (es. istruzione, occupazione,
-   abitanti per abitazione) + servizi e verde.
+8. **Vulnerabilità per sezione: FATTO (10/10, sezione 14)**. In mappa arriva con il tema
+   "Criticità" (punto 4).
 9. **Affidabilità reale contro orario**: passaggi alle fermate ricostruiti dalle posizioni
    proiettate sui tracciati GTFS; regolarità degli intervalli anche senza `trip_id`. Prova su
    2–3 linee e verifica sul campo (~20 passaggi annotati). Corregge anche l'ottimismo degli
@@ -317,7 +398,8 @@ Principi per gli scenari:
 11. **Congestione con 5T**: dove e quando la città si blocca; associazione accuratezza ↔
     flusso ↔ ora con 7–14 giorni di nuovi campioni, feriali e weekend (finestra 15–22/10).
 12. **Valore e accessibilità**: vicinanza a metro, parchi e servizi nei valori OMI (251 zone,
-    analisi grossolana).
+    analisi grossolana). Fuori dalla voce "Criticità" (decisione 10/10: il valore non è una
+    criticità); dipende dall'uscita completa del punto 4.
 
 ## Priorità bassa / in attesa
 
@@ -389,6 +471,16 @@ Principi per gli scenari:
   3 turistici).
 - **Raccolta propria** (`storico.sqlite`): il dato più prezioso, cresce ogni giorno.
 
+## Prodotti pronti, NON ancora in mappa (10/10)
+
+- `data/processed/vulnerabilita.json` + `docs/RAPPORTO_VULNERABILITA.txt`: indice 0-100
+  per sezione (sezione 14), bollino [CENSIMENTO].
+- `data/processed/accessibilita.json` + `docs/RAPPORTO_ACCESSIBILITA.txt`: servizi
+  raggiungibili per sezione (sezione 13); al 10/10 sera il giro completo e' in corso,
+  il file contiene il campione 200 finche' non finisce. Bollino [STIMATO].
+- `data/processed/sezioni_torino.json` ora include i titoli di studio per sezione
+  (ist9, i0, iel, im, isu, it).
+
 ## In archivio (pronti, non in mappa)
 
 - **Pendolarismo 2011 per sezione** (110 zip per provincia di origine; Torino 5,7 MB → CSV
@@ -457,6 +549,11 @@ Principi per gli scenari:
   non disponibile. Vale per ogni uso futuro dei numeri.
 - **Scenari**: l'esito "meglio/peggio" dipende dai pesi, da mostrare sempre; l'effetto sulle
   auto è solo un ordine di grandezza; uno scenario basato sugli orari è ottimista.
+- **Accessibilità (18)**: tutta [STIMATO] su orario programmato; velocità cammino
+  predefinita di R5 non ancora verificata sul campo; le RSA sono escluse dall'indice di
+  vulnerabilità e contate a parte; i rapporti di vulnerabilità sono attuititi verso la
+  media d'area (lambda 100 persone / 20 abitazioni); il gruppo "cibo" usa tutte le 31.405
+  attività del catalogo senza distinzione per categoria.
 - **Criticità sociali**: la nazionalità mostrata come criticità rischia di stigmatizzare
   quartieri (es. Aurora, Barriera, Porta Palazzo). Usare indicatori di vulnerabilità.
 - **Dati di anni diversi**: sezioni 2011 e 2021 senza codice comune (accorpamento
@@ -473,5 +570,6 @@ Principi per gli scenari:
 
 - Spazio dati: togliere `storiche/` (~270 MB) e R02–R20 (~190 MB)? La matrice nazionale 2011
   e gli zip provinciali restano.
-- Primo caso pilota: metro di notte (proposta, usa solo dati già presenti) o Fermi?
-- Strumento per i percorsi: OpenTripPlanner o R5/r5py?
+- Pulizia strumenti percorsi (10/10): in `data/otp/` sono rimasti `otp.jar` (183 MB),
+  `jdk-21.0.12.1+1-jre` + zip Temurin, `provagtfs/` (grafo di test OTP): non servono piu'
+  (si usa R5/r5py con `jdk-25.0.4.1+1-jre`). Cancellarli? (attesa risposta).
