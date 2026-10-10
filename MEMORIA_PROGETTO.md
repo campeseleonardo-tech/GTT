@@ -107,7 +107,7 @@ Principi per gli scenari:
     file); sudo senza password.
   - Storico copiato via backup API (191 MB, 124.805 flussi, verifica identica) in
     `/home/leopi/GTT/data/storico.sqlite`; copia di passaggio sul PC:
-    `data/storico_copia_leopi.sqlite`.
+    `data/storico_copia_leopi.sqlite` (cancellata il 10/10 su richiesta).
   - Verificato: il DB cresce e genera `live.js`, `stat.js`, `agg_cache.json`, `replay_*.js`.
   - `gtt-raccolta` attivo e abilitato all'avvio; `Restart=always` in systemd.
   - Dal 10/10 ~15:17 anche `gtt-ritardi`, attivo e abilitato all'avvio: raccoglie ogni 60 s
@@ -135,8 +135,8 @@ Principi per gli scenari:
   31 e 33 s in ~38 ore); nessun intervallo esclusivo PC rilevante. Merge completo non fatto,
   per evitare duplicati. Il feed mezzi ha avuto un lungo intervallo senza posizioni sia nel
   campione PC sia nel Pi; non risultavano posizioni PC aggiuntive da recuperare.
-- `data/storico_copia_leopi.sqlite` (copia iniziale) resta intatto in attesa che Leo decida se
-  cancellarlo; il backup attuale e' `data/storico_backup.sqlite`.
+- `data/storico_copia_leopi.sqlite` (copia iniziale) cancellata il 10/10 su richiesta di Leo;
+  il backup attuale e' `data/storico_backup.sqlite`.
 
 ## 2. Mappa (funzionante, verificata a video da Leo)
 
@@ -290,17 +290,6 @@ Principi per gli scenari:
 
 ## Priorità alta
 
-1. **Passaggio al Pi (completato 10/10)**: PC fermo; servizio Pi attivo; backup settimanale e
-   sync mappa verificati. Resta solo chiedere a Leo se cancellare la vecchia copia
-   `data/storico_copia_leopi.sqlite` (non cancellata).
-2. **Verifica diurna del feed ritardi (in corso)**: raccolta continua sul Pi. Decoder corretto;
-   primo campione breve ha `delay=0` e `stop_time_update` presente. Attività una tantum
-   `GTT verifica ritardi diurna` fissata per 11/10/2026 20:15: aggiorna il backup e analizza
-   l'intervallo 08:00–20:00 Europe/Rome (06:00–18:00 UTC) in
-   `docs/RAPPORTO_RITARDI_GTT.txt`. Solo dopo verificare i risultati e consolidare il rapporto.
-3. **IMQ 2022 - residuo**: resta solo da decidere se chiedere all'Agenzia Mobilità Piemontese
-   il perimetro delle zone di campionamento (i quartieri del 1984 non coincidono con la
-   zonizzazione IMQ per 7 su 23). Bozza in `docs/richiesta_MTM_IMQ.md`.
 4. **Accessibilità per sezione e per ora del giorno**: tempi di viaggio col trasporto
    pubblico (GTFS + OSM, con OpenTripPlanner o R5/r5py), es. alle 8, 14, 23 e 2. Da qui
    l'indicatore "città dei 15 minuti" per sezione col catalogo.
@@ -329,6 +318,18 @@ Principi per gli scenari:
     flusso ↔ ora con 7–14 giorni di nuovi campioni, feriali e weekend (finestra 15–22/10).
 12. **Valore e accessibilità**: vicinanza a metro, parchi e servizi nei valori OMI (251 zone,
     analisi grossolana).
+
+## Priorità bassa / in attesa
+
+2. **Verifica diurna del feed ritardi (programmata)**: la raccolta continua sul Pi e' attiva;
+   il decoder e' corretto. Attivita' una tantum `GTT verifica ritardi diurna` fissata per
+   11/10/2026 20:15: aggiorna il backup e analizza l'intervallo 08:00–20:00 Europe/Rome
+   (06:00–18:00 UTC) in `docs/RAPPORTO_RITARDI_GTT.txt`. Esaminare il risultato dopo
+   l'esecuzione; il primo campione breve ha `delay=0` e `stop_time_update` presente.
+3. **IMQ 2022 - risposta attesa**: richiesta all'Agenzia Mobilità Piemontese già inviata da
+   Leo per il perimetro delle zone di campionamento (i quartieri del 1984 non coincidono con
+   la zonizzazione IMQ per 7 su 23). Per ora attendere la risposta; bozza in
+   `docs/richiesta_MTM_IMQ.md`.
 
 ## Priorità bassa / congelate
 
