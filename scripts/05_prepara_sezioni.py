@@ -100,7 +100,10 @@ def leggi_indicatori(sezioni):
     if not INDICATORI.is_file():
         sys.exit(f"File ISTAT non trovato: {INDICATORI}")
     ns = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
-    richiesti = {"SEZ21_ID", "P101", "P15", "P16", *[f"P{i}" for i in range(17, 27)], "P27", "P28", "P29"}
+    richiesti = {"SEZ21_ID", "P101", "P15", "P16", *[f"P{i}" for i in range(17, 27)],
+                 "P27", "P28", "P29",
+                 # titoli di studio (pop 9+): tracciato R01 2021
+                 "P83", "P86", "P87", "P88", "P89", "P90"}
     target = {str(s["id"]): s for s in sezioni if s["p"] > 0}
     agganciati = {}
     with zipfile.ZipFile(INDICATORI) as z:
@@ -170,11 +173,18 @@ def leggi_indicatori(sezioni):
         occupati = numero(dati, "P101", sid)
         if occupati > popolazione_lavorativa:
             raise ValueError(f"Occupati superiori ai residenti 15-64 anni nella sezione {sid}")
+        ist9 = numero(dati, "P83", sid)
+        pezzi_ist = [numero(dati, f"P{i}", sid) for i in (86, 87, 88, 89, 90)]
+        if ist9 > 0 and sum(pezzi_ist) != ist9:
+            print(f"  [NOTA] sezione {sid}: titoli di studio {sum(pezzi_ist)} != pop 9+ {ist9}")
         target[sid].update({
             "occ": occupati,
             "p1564": popolazione_lavorativa,
             "sc": numero(dati, "P15", sid) + numero(dati, "P16", sid),
             "sen": sum(numero(dati, f"P{i}", sid) for i in (27, 28, 29)),
+            # istruzione (pop 9+): senza titolo, elementare, media, superiore, terziaria
+            "ist9": ist9, "i0": pezzi_ist[0], "iel": pezzi_ist[1],
+            "im": pezzi_ist[2], "isu": pezzi_ist[3], "it": pezzi_ist[4],
         })
 
     for nome, pred in (("Torino", lambda s: s["c"] == PRO_COM_TORINO), ("area", lambda s: True)):
@@ -184,6 +194,12 @@ def leggi_indicatori(sezioni):
         print(f"  {nome}: occupati 15-64 {occ}, residenti 15-64 {p1564}, "
               f"quota occupati {100*occ/p1564:.1f}% se il denominatore e' positivo; "
               f"residenti 5-14 {sum(s['sc'] for s in gruppo)}, residenti 65+ {sum(s['sen'] for s in gruppo)}")
+        ist9 = sum(s["ist9"] for s in gruppo)
+        bassa = sum(s["i0"] + s["iel"] for s in gruppo)
+        if ist9:
+            print(f"         pop 9+ {ist9}, senza titolo o solo elementare {bassa} ({100*bassa/ist9:.1f}%)")
+        else:
+            print("         pop 9+ 0")
 
 def poligoni(b, k):
     """k-esimo record .shp -> lista di anelli [(x,y)]. Usa l'indice .shx fornito esternamente."""
