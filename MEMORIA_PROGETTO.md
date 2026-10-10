@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: 9 ottobre 2026.
+Ultimo aggiornamento: 10 ottobre 2026.
 Unico file di memoria e di passaggio (niente README o altri documenti di memoria).
 Leggerlo all'inizio di ogni sessione e aggiornarlo alla fine.
 
@@ -86,7 +86,7 @@ Principi per gli scenari:
 
 # ATTIVITÀ FATTE
 
-## 1. Raccolta continua (attiva)
+## 1. Raccolta continua (Pi attivo; PC fermo dal 10/10)
 
 - `scripts/03_raccolta_continua.py` (solo libreria standard): 5T ogni 300 s, mezzi GTT ogni
   60 s; tabelle `sensori_5t`, `flussi_5t`, `accuratezza_5t`, `mezzi_gtt`, `errori`.
@@ -109,13 +109,34 @@ Principi per gli scenari:
     `/home/leopi/GTT/data/storico.sqlite`; copia di passaggio sul PC:
     `data/storico_copia_leopi.sqlite`.
   - Verificato: il DB cresce e genera `live.js`, `stat.js`, `agg_cache.json`, `replay_*.js`.
+  - `gtt-raccolta` attivo e abilitato all'avvio; `Restart=always` in systemd.
+  - Dal 10/10 ~15:17 anche `gtt-ritardi`, attivo e abilitato all'avvio: raccoglie ogni 60 s
+    `trip_update` e `alerts` nelle tabelle `trip_update_gtt` e `avvisi_gtt` dello stesso DB.
+    La decodifica GTFS-RT e' stata corretta: gli aggiornamenti per fermata sono il campo 2,
+    il campo 3 e' il veicolo. Nella prima verifica, 1.424 osservazioni, 0 `delay`, ma
+    `stop_time_update` presente nelle osservazioni (il campione era di pochi minuti).
+  - Backup PC settimanale: `scripts/backup_da_leopi.py` usa l'API SQLite, copia via SCP,
+    controlla `integrity_check`, conteggi e intervalli e sostituisce il file PC solo se valido.
+    Attivita' Windows `GTT backup storico Pi`, domenica 03:00, `StartWhenAvailable`; prova
+    manuale riuscita con `LastTaskResult=0`. Snapshot corrente `data/storico_backup.sqlite`
+    (229.273.600 byte, `integrity_check=ok`; verifica 10/10 ~15:22).
   - Sync verso il PC: `scripts/sync_da_leopi.bat`, attività di Windows "GTT sync da leopi"
-    ogni 5 minuti.
-  - Comandi: `systemctl status gtt-raccolta`, `journalctl -u gtt-raccolta -f`,
+    ogni 5 minuti. Corretto il batch: prima nascondeva gli errori `scp` e restituiva sempre
+    codice 0. Ora riporta gli errori; prova manuale e schedulata riuscite, hash SHA-256 uguali
+    per live/stat/cache e tutti i replay.
+  - Comandi raccolta: `systemctl status gtt-raccolta`, `journalctl -u gtt-raccolta -f`,
     `sudo systemctl stop|start|restart gtt-raccolta`.
-- **Periodo parallelo**: anche il PC raccoglie e riscrive `live.js` ogni minuto, mentre la
-  sync riporta quelli del Pi ogni 5': la mappa alterna le due fonti. Finisce quando Leo ferma
-  la raccolta del PC (attività 1).
+  - Comandi ritardi: `systemctl status gtt-ritardi`, `journalctl -u gtt-ritardi -f`.
+- **PC**: raccolta fermata il 10/10 ~15:23 con `installa_sfondo.py rimuovi`; file STOP presente,
+  avvio automatico rimosso e nessun processo GTT rimasto. La sync mappa dal Pi continua.
+- **Confronto PC/Pi (sola lettura, 10/10)**: schema identico per le cinque tabelle originali;
+  0 chiavi 5T presenti solo sul PC, 109 presenti solo sul Pi. Per `mezzi_gtt`, senza chiave
+  univoca, le letture PC avevano soltanto due snapshot non appaiati entro 30 s al Pi (scarti
+  31 e 33 s in ~38 ore); nessun intervallo esclusivo PC rilevante. Merge completo non fatto,
+  per evitare duplicati. Il feed mezzi ha avuto un lungo intervallo senza posizioni sia nel
+  campione PC sia nel Pi; non risultavano posizioni PC aggiuntive da recuperare.
+- `data/storico_copia_leopi.sqlite` (copia iniziale) resta intatto in attesa che Leo decida se
+  cancellarlo; il backup attuale e' `data/storico_backup.sqlite`.
 
 ## 2. Mappa (funzionante, verificata a video da Leo)
 
@@ -269,13 +290,14 @@ Principi per gli scenari:
 
 ## Priorità alta
 
-1. **Chiudere il passaggio al Pi**: fermare la raccolta del PC dopo il parallelo (~3 giorni
-   feriali, decide Leo); impostare una copia periodica dello storico dal Pi al PC con la
-   backup API (il Pi resta l'unica copia; serve anche alle analisi). Poi chiedere a Leo se
-   cancellare `data/storico_copia_leopi.sqlite`.
-2. **Chiudere i ritardi una tantum**: a raccolta finita (~20:30 del 9/10) lanciare
-   `python scripts\12_ritardi_gtt.py analizza`, confermare sul campione diurno l'assenza di
-   `delay`/`stop_time_update`, consolidare `docs/RAPPORTO_RITARDI_GTT.txt`.
+1. **Passaggio al Pi (completato 10/10)**: PC fermo; servizio Pi attivo; backup settimanale e
+   sync mappa verificati. Resta solo chiedere a Leo se cancellare la vecchia copia
+   `data/storico_copia_leopi.sqlite` (non cancellata).
+2. **Verifica diurna del feed ritardi (in corso)**: raccolta continua sul Pi. Decoder corretto;
+   primo campione breve ha `delay=0` e `stop_time_update` presente. Attività una tantum
+   `GTT verifica ritardi diurna` fissata per 11/10/2026 20:15: aggiorna il backup e analizza
+   l'intervallo 08:00–20:00 Europe/Rome (06:00–18:00 UTC) in
+   `docs/RAPPORTO_RITARDI_GTT.txt`. Solo dopo verificare i risultati e consolidare il rapporto.
 3. **IMQ 2022 - residuo**: resta solo da decidere se chiedere all'Agenzia Mobilità Piemontese
    il perimetro delle zone di campionamento (i quartieri del 1984 non coincidono con la
    zonizzazione IMQ per 7 su 23). Bozza in `docs/richiesta_MTM_IMQ.md`.
