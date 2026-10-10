@@ -519,21 +519,35 @@ def analizza(args):
             esiste = con.execute("""SELECT 1 FROM sqlite_master
                                      WHERE type='table' AND name='trip_update_gtt'""").fetchone()
             if esiste:
-                cutoff = (datetime.now(timezone.utc) - timedelta(hours=args.ultime_ore)).isoformat(timespec="seconds")
+                if args.da_utc and args.a_utc:
+                    da = parsa_utc(args.da_utc).isoformat(timespec="seconds")
+                    a = parsa_utc(args.a_utc).isoformat(timespec="seconds")
+                    if da >= a:
+                        raise ValueError("--da-utc deve precedere --a-utc")
+                    where = "letto_utc >= ? AND letto_utc <= ?"
+                    parametri = (da, a)
+                    etichetta_campione = f"UTC {da} -> {a}"
+                elif args.da_utc or args.a_utc:
+                    raise ValueError("specificare insieme --da-utc e --a-utc")
+                else:
+                    a = datetime.now(timezone.utc).isoformat(timespec="seconds")
+                    da = (datetime.now(timezone.utc) - timedelta(hours=args.ultime_ore)).isoformat(timespec="seconds")
+                    where = "letto_utc >= ? AND letto_utc <= ?"
+                    parametri = (da, a)
+                    etichetta_campione = f"ultime {args.ultime_ore} ore UTC"
                 campione_db = con.execute("""
                     SELECT COUNT(*), MIN(letto_utc), MAX(letto_utc),
                            COUNT(DISTINCT letto_utc),
                            SUM(CASE WHEN delay IS NOT NULL THEN 1 ELSE 0 END),
                            SUM(CASE WHEN stop_time_update > 0 THEN 1 ELSE 0 END),
                            COUNT(DISTINCT trip_id)
-                    FROM trip_update_gtt WHERE letto_utc >= ?
-                    """, (cutoff,)).fetchone()
+                    FROM trip_update_gtt WHERE """ + where, parametri).fetchone()
                 # Per ogni id di avviso conserva nel rapporto la versione piu' recente.
                 visti_alert = set()
                 for (payload,) in con.execute("""
-                    SELECT payload FROM avvisi_gtt WHERE last_seen_utc >= ?
+                    SELECT payload FROM avvisi_gtt WHERE last_seen_utc >= ? AND last_seen_utc <= ?
                     ORDER BY last_seen_utc DESC
-                    """, (cutoff,)):
+                    """, parametri):
                     try:
                         a = json.loads(payload)
                         aid = a.get("id", "")
@@ -671,7 +685,7 @@ def analizza(args):
 
     if campione_db is not None:
         tot_db, da_db, a_db, snapshot_db, n_delay_db, n_stu_db, trips_db = campione_db
-        scrivi(f"\n-- Raccolta continua SQLite (ultime {args.ultime_ore} ore) --")
+        scrivi(f"\n-- Raccolta continua SQLite ({etichetta_campione}) --")
         scrivi(f"  Intervallo UTC: {da_db or 'nessun dato'} -> {a_db or 'nessun dato'}")
         scrivi(f"  Osservazioni: {tot_db}; snapshot: {snapshot_db}; corse distinte: {trips_db}")
         scrivi(f"  Campioni con delay presente: {n_delay_db or 0} righe · "
@@ -723,6 +737,8 @@ def main():
     p2.add_argument("--db", help="database con la raccolta continua (facoltativo)")
     p2.add_argument("--ultime-ore", type=int, default=24,
                     help="finestra di riepilogo della raccolta SQLite (default 24)")
+    p2.add_argument("--da-utc", help="inizio inclusivo del campione ISO-8601 UTC")
+    p2.add_argument("--a-utc", help="fine inclusiva del campione ISO-8601 UTC")
     args = ap.parse_args()
     if args.cmd == "raccogli":
         return raccogli(args)
