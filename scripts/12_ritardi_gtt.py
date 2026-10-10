@@ -191,7 +191,7 @@ def dec_trip_update(b):
     for fn, v in _campi(b):
         if fn == 1:
             d["trip"] = dec_trip(v)
-        elif fn == 3:
+        elif fn == 2:
             d.setdefault("stu", []).append(dec_stu(v))
         elif fn == 4:
             d["ts"] = v
