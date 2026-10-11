@@ -517,9 +517,9 @@ def main():
             f"({time.time()-t0:.0f} s)")
         salva("piedi", n, lotto)
 
-    # ---- COL TRASPORTO PUBBLICO, per ora (D1: OSM solo per lotti con sezioni fuori Torino)
+    # ---- COL TRASPORTO PUBBLICO, per ora (destinazioni STESSE per tutte le origini:
+    # catalogo comunale dentro Torino + punti OSM solo fuori, vedi FIX 4)
     from r5py import TransportMode as TM
-    indice_osm = {k for k, p in enumerate(dest_piatti) if p[4]}
     for ora in args.ore:
         log(f"TP ore {ora:02d}:00, cutoff {args.cutoff_tp} min, velocita' {args.velocita_tp:.1f} km/h...")
         fatti = riprendi_parziali(f"tp_{ora}", firma) if args.salva_tappe else {}
@@ -535,15 +535,13 @@ def main():
                 log(f"  lotto {ora:02d} #{n}: gia' fatto, salto")
                 continue
             ids = [s["id"] for s in lotto]
-            col_cintura = any(not s["torino"] for s in lotto)
             orig = orig_gdf_tutte[orig_gdf_tutte["id"].isin(ids)]
             la0 = min(s["lat"] for s in lotto) - margine_tp[0]
             la1 = max(s["lat"] for s in lotto) + margine_tp[0]
             lo0 = min(s["lon"] for s in lotto) - margine_tp[1]
             lo1 = max(s["lon"] for s in lotto) + margine_tp[1]
             dentro = [(k, p) for k, p in enumerate(dest_piatti)
-                      if la0 <= p[0] <= la1 and lo0 <= p[1] <= lo1
-                      and (col_cintura or k not in indice_osm)]
+                      if la0 <= p[0] <= la1 and lo0 <= p[1] <= lo1]
             dest_gdf = dest_gdf_tutte.iloc[[k for k, _ in dentro]]
             dest_by_k = {k: (p[0], p[1], p[2], p[3]) for k, p in dentro}
             quando = dt.datetime.combine(giorno, dt.time(ora, 0))
@@ -554,7 +552,7 @@ def main():
                                          args.cutoff_tp)
             for oid, cg in conteggi.items():
                 risultati[oid]["tp"][f"{ora:02d}"] = cg
-            log(f"  lotto {ora:02d} #{n}: {len(lotto)} sezioni ({'cintura' if col_cintura else 'Torino'}), "
+            log(f"  lotto {ora:02d} #{n}: {len(lotto)} sezioni, "
                 f"{len(dest_by_k)} celle dest ({time.time()-t0:.0f} s)")
             salva(f"tp_{ora}", n, lotto)
 
@@ -562,8 +560,9 @@ def main():
         "generato": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "avviso": "ORARIO PROGRAMMATO [STIMATO], non misurato: niente ritardi, capienze o "
                   "domanda. Motore R5/r5py su GTFS + OSM tagliato (17). Destinazioni accorpate "
-                  "in celle di ~50 m col peso dei punti. OSM della cintura solo fuori Torino. "
-                  f"Centroidi corretti per sezione: {sorted(SEZIONI_FUORI_RETE)}.",
+                  "in celle di ~50 m col peso dei punti. Destinazioni uguali per tutte le "
+                  "sezioni: catalogo comunale (dentro Torino) + OSM (solo punti fuori dal "
+                  "Comune). " + f"Centroidi corretti per sezione: {sorted(SEZIONI_FUORI_RETE)}.",
         "parametri": {
             "giorno": args.giorno,
             "ore": args.ore,
@@ -604,8 +603,8 @@ def main():
         f"cutoff a piedi: {args.cutoff_piedi} min ({args.velocita_piedi:.0f} m/min)  TP: {args.cutoff_tp} min",
         f"gruppi (celle di destinazione): {esito['gruppi']}",
         "  NOTA: le destinazioni sono accorpate in celle di ~50 m con peso: il totale pesato "
-        "vale il numero dei punti originali. OSM aggiunto solo ai lotti con sezioni fuori "
-        "Torino (D1).",
+        "vale il numero dei punti originali. Destinazioni STESSE per tutte le sezioni "
+        "(catalogo comunale + OSM della cintura), margine TP 20 km in linea d'aria.",
         "",
     ]
     for nome, g in gr.items():
