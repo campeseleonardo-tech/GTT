@@ -416,9 +416,8 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
    `docs/PIANO_ACCESSIBILITA.md`, APPROVATO l'11/10 (servizi cintura da OSM con script 20,
    salvataggio a tappe, meno memoria, 4,8 km/h, destinazioni accorpate, prova, giro di notte con
    il PC libero, controlli). Numerazione script: 20 = servizi OSM cintura, il prossimo libero è 21.
-   PRIMA DEL GIRO COMPLETO, le 5 scadenze della Fase 4 (sezione 15 del presente file:
-   accorpare le destinazioni, OSM solo fuori Torino, 4 centroidi fuori rete, anomalia
-   14:00 > 08:00, ripresa dopo interruzione).
+   Le 5 scadenze della Fase 4 sono state CHIUSE l'11/10 (sezione 15): PRONTO per il giro
+   completo con `ACCESSIBILITA_COMPLETA.bat` (di notte, PC alla corrente, senza opencode).
 2. **Tema mappa "Criticità"**: una voce, 3 sotto-scelte: accessibilità (da 18, bollino
    [STIMATO]), offerta/linee già esistente spostata qui, vulnerabilità (da 19, [CENSIMENTO]).
    Assorbe la vecchia voce "Criticità 0-100". File: `scripts/mappa_template.html`,
@@ -670,20 +669,31 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
   23 e alle 02. Torino sotto il 20% della linea d'aria: ora 4 sezioni (2588, 4264, 5521, 6601),
   probabile centroide fuori dalla rete; da sistemare prima del giro completo.
 - **Corretto nel codice l'11/10 (commit `a638ab2`, senza impatto sui numeri)**: anti-sospensione
-  del PC spostata all'INIZIO del calcolo e con SetThreadExecutionState (prima stava alla fine e
-  non faceva nulla); percorso di `servizi_osm_cintura.json` assoluto (prima dipendeva dalla
-  cartella di lavoro); rapporto di 18 con Torino e cintura separate; `ACCESSIBILITA_COMPLETA.bat`
-  riscritto (era corrotto, con `\n` letterali); nei .bat tolta la promessa della ripresa.
-- **SCADENZE PRIMA DEL GIRO COMPLETO (fase 3)**:
-  1. applicare davvero le destinazioni accorpate (D3): `aggrega_punti` esiste ma non viene mai
-     chiamata;
-  2. punti OSM solo FUORI Torino (D1): oggi sono aggiunti anche dentro Torino, doppio conteggio
-     possibile col catalogo;
-  3. correggere i centroidi delle 4 sezioni fuori rete (spostarli su una via vicina);
-  4. decidere se tenere o chiudere l'anomalia 14:00 > 08:00;
-  5. ripresa dopo interruzione ancora da implementare (al rilancio ricalcola da capo).
-- **Fase 5 (chiusura)**: memoria aggiornata, commit su "prova" (`a638ab2`). Fine: al giro
-  completo segue il tema mappa "Criticità" (attività 2).
+  del PC spostata all'INIZIO del calcolo e con SetThreadExecutionState (kernel32; prima stava
+  alla fine e non faceva nulla); percorso di `servizi_osm_cintura.json` assoluto (prima
+  dipendeva dalla cartella di lavoro); rapporto di 18 con Torino e cintura separate;
+  `ACCESSIBILITA_COMPLETA.bat` riscritto (era corrotto, con `\n` letterali); nei .bat tolta
+  la promessa della ripresa.
+- **LE 5 SCADENZE SONO STATE CHIUSE l'11/10 (piano in
+  `.opencode/plan/gtt-anomalie-accessibilita.md`, commit `390f22e`)**, con seconda prova
+  (campione 200, ~11 min: log `logs/accessibilita_prova.log`):
+  1. D3 accorpamento ATTIVO: 66.737 punti -> 34.851 celle (cibo 38.580 -> 15.103), il peso
+     della cella moltiplica il conteggio (r5py non pesa le destinazioni, il peso e' a monte);
+     mediane Torino cambiano ~2%;
+  2. D1 OSM applicato SOLO ai lotti con sezioni fuori Torino;
+  3. centroidi delle 4 sezioni spostati sulla way pedonabile piu' vicina (cache
+     `centroidi_fuori_rete.json`); restano quasi a zero PERche' SONO aree di collina/bordo
+     (verificato: da 5521 a Piazza Castello 81 min a piedi, da 2588 non raggiungibile):
+     NON e' un bug, e' terreno; il confronto con la linea d'aria segnala il terreno;
+  4. anomalia 14:00 > 08:00: struttura reale del GTFS (passaggi 08-09 28.387 contro
+     14-15 26.044; dentro la finestra di 45 min si raggiungono piu' destinazioni alle 14).
+     Documentata, non corretta;
+  5. ripresa dopo interruzione ATTIVA (`--salva-tappe` + firma dei parametri: al rilancio i
+     lotti gia' salvati vengono ricaricati e non ricalcolati) e PROVATA (run interrotta al
+     lotto 08 #5, rilanciata: lotti saltati e ricaricati).
+- **Fase 5 (chiusura)**: memoria aggiornata, commit su "prova" (`a638ab2`, poi `390f22e`,
+  `fb6bb3f`). Prossimo passo: il giro completo (`ACCESSIBILITA_COMPLETA.bat`, di notte con
+  PC libero), poi il tema mappa "Criticità" (attività 2).
 
 ### Note importanti:
 - Il giro completo (Fase 3) richiedeva 9-10 ore ma è stato esplicitamente escluso
