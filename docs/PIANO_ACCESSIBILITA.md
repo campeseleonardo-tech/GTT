@@ -1,6 +1,6 @@
 # Piano: rifare l'accessibilità per sezione (attività 1)
 
-Data: 11/10/2026. Stato: BOZZA, da approvare con Leo (decisioni D1–D4 in fondo).
+Data: 11/10/2026. Stato: APPROVATO da Leo l'11/10 (decisioni in fondo). Prossimo passo: fase 0.
 Script coinvolto: `scripts/18_accessibilita.py`. Uscite: `data/processed/accessibilita.json`,
 `docs/RAPPORTO_ACCESSIBILITA.txt`.
 
@@ -19,6 +19,30 @@ Script coinvolto: `scripts/18_accessibilita.py`. Uscite: `data/processed/accessi
 
 ## Fasi
 
+### Fase 0 — Prima di tutto (Leo)
+
+- Aver lanciato `PULIZIA_GTT.bat` (salva in git lo stato dell'11/10).
+- Ramo git `prova`. Nessun altro processo opencode pesante mentre si lavora su questo piano.
+
+### Fase 0b — Servizi della cintura da OSM (Claude/agente, prima delle modifiche allo script)
+
+- Fonte: il taglio `data/otp/rete/torino_cintura.osm.pbf` (nodi e way con tag; le relazioni NON ci
+  sono: le scuole o gli ospedali disegnati come multipoligono mancano, da dichiarare). Primo controllo:
+  verificare che il taglio contenga davvero i tag `amenity`/`shop`/`healthcare`.
+- Regola di unione: dentro il Comune di Torino si usa il catalogo comunale; fuori Torino si usano i
+  punti OSM. Il confine è quello delle sezioni di Torino (codice comune 1272) o dei confini ISTAT 2022.
+- Tag OSM proposti (piccola scelta, modificabile):
+  - scuole: `amenity` = school, kindergarten, childcare, college, university;
+  - salute: `amenity` = pharmacy, hospital, clinic, doctors, dentist; più `healthcare=*`;
+  - cibo: ATTENZIONE, in Torino il gruppo usa TUTTE le 31.405 attività commerciali, non solo il
+    cibo. Per coerenza fuori Torino si prendono tutti i `shop=*` + `amenity=marketplace`, non solo
+    i negozi alimentari (altrimenti la cintura sembrerebbe più povera per costruzione).
+- Controllo di completezza: contare gli stessi tag OSM DENTRO Torino e confrontarli col catalogo
+  (es. OSM trova X farmacie contro 243 del catalogo). Il rapporto OSM/catalogo dice quanto la
+  cintura è sottostimata e va scritto nel rapporto e nella scheda in mappa.
+- Uscita: `data/processed/servizi_osm_cintura.json` (script nuovo: `20_servizi_osm.py`), con
+  bollino della fonte per ogni punto (CATALOGO o OSM).
+
 ### Fase 1 — Modifiche allo script 18 (Claude, ~1 sessione)
 
 1. **Salvataggio a tappe.** Un file per fase in `data/processed/accessibilita_parziale/`
@@ -30,14 +54,14 @@ Script coinvolto: `scripts/18_accessibilita.py`. Uscite: `data/processed/accessi
    valori non coincidono: 3,6 contro 4,8 km/h).
 4. **Destinazioni accorpate** (solo se D3 = sì): i punti dello stesso gruppo che stanno nella stessa
    cella di ~50 m diventano un punto con un peso. Per i cataloghi: da 32.724 a ~10.300 punti.
-5. **Cintura** gestita come da D1.
+5. **Cintura**: le destinazioni fuori Torino arrivano da `servizi_osm_cintura.json` (fase 0b).
 6. **Il PC non va in sospensione mentre lo script gira** (lo chiede lo script stesso a Windows,
    solo durante il calcolo).
 7. Nel log: tempo per lotto e stima del tempo che manca.
 8. Due file a doppio clic: `ACCESSIBILITA_PROVA.bat` (campione di 200) e
    `ACCESSIBILITA_COMPLETA.bat` (tutte le sezioni; se rilanciato riprende da dove era).
 
-### Fase 2 — Prova sul campione (Leo lancia, ~30–40 min)
+### Fase 2 — Prova sul campione (~30–40 min; la lancia l'agente o Leo con il .bat)
 
 - `ACCESSIBILITA_PROVA.bat` con il Task Manager aperto (scheda Prestazioni -> Memoria).
 - Controlli (li fa Claude sul risultato):
@@ -64,20 +88,13 @@ Script coinvolto: `scripts/18_accessibilita.py`. Uscite: `data/processed/accessi
 
 - Memoria aggiornata, commit su "prova", poi si passa al tema "Criticità" (attività 2).
 
-## Decisioni per Leo
+## Decisioni prese da Leo (11/10/2026)
 
-- **D1 — Cintura (scuole, salute, cibo fuori Torino).** I cataloghi esistono solo per il Comune.
-  - a) *(proposta)* Quei tre gruppi valgono solo per Torino; in cintura "dato non disponibile" (in
-    grigio, non zero). Fermate e verde valgono ovunque. Onesto e subito pronto.
-  - b) Completare la cintura con OSM (scuole, farmacie, supermercati). Fonte uniforme ma meno
-    completa e diversa dal catalogo; rompe il "catalogo congelato" (qui c'è una domanda che lo
-    giustifica). Si può fare dopo, con l'attività 8.
-  - c) Calcolare l'accessibilità solo per il Comune di Torino.
-- **D2 — Velocità a piedi.** 3,6 km/h (predefinito R5, prudente, adatto ad anziani) oppure
-  4,8 km/h (valore usuale per la "città dei 15 minuti"). Proposta: 4,8 km/h, dichiarato nel
-  rapporto. Con 4,8 i servizi a piedi crescono (15 min = 1,2 km invece di 900 m).
-- **D3 — Accorpare destinazioni vicine (celle di ~50 m).** Errore massimo ~35 m (meno di 30 s a
-  piedi), memoria nettamente più bassa; il guadagno di tempo è incerto (il tempo dipende soprattutto
-  dalla ricerca dei percorsi, non dalle destinazioni) e si misura nella fase 2. Proposta: sì.
-- **D4 — Ore del trasporto pubblico.** Restano 08, 14, 23, 02 di lunedì 12/10/2026 (orario
-  valido fino al 31/1/2027)? Proposta: sì; servono per lo scenario "metro di notte".
+- **D1 — Cintura:** riempire scuole, salute e commercio fuori Torino con OpenStreetMap (fase 0b).
+  Dentro Torino resta il catalogo comunale. Confine città/cintura da dichiarare come cambio di fonte.
+- **D2 — Velocità a piedi:** 4,8 km/h (80 m/min), dichiarata nel rapporto; vale sia per R5 sia
+  per i margini dello script.
+- **D3 — Destinazioni accorpate** in celle di ~50 m, con peso: sì.
+- **D4 — Ore del TP:** 08, 14, 23, 02 di lunedì 12/10/2026. In futuro più granularità oraria
+  (più ore o tutte le 24): grazie al salvataggio per fase basterà aggiungere ore senza rifare le
+  altre.

@@ -405,8 +405,9 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
 ## Priorità alta
 
 1. **Accessibilità — rifare il giro completo (sezione 13)**: piano in
-   `docs/PIANO_ACCESSIBILITA.md` (verifica dei numeri, salvataggio a tappe, meno memoria, prova,
-   giro di notte con il PC libero, controlli). Numerazione script: il prossimo libero è 20.
+   `docs/PIANO_ACCESSIBILITA.md`, APPROVATO l'11/10 (servizi cintura da OSM con script 20,
+   salvataggio a tappe, meno memoria, 4,8 km/h, destinazioni accorpate, prova, giro di notte con
+   il PC libero, controlli). Numerazione script: 20 = servizi OSM cintura, il prossimo libero è 21.
 2. **Tema mappa "Criticità"**: una voce, 3 sotto-scelte: accessibilità (da 18, bollino
    [STIMATO]), offerta/linee già esistente spostata qui, vulnerabilità (da 19, [CENSIMENTO]).
    Assorbe la vecchia voce "Criticità 0-100". File: `scripts/mappa_template.html`,
@@ -610,12 +611,14 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
   `raccolta_continua`) restano solo come ripiego se il Pi si guasta; le funzioni Windows del
   supervisore non sono mai state provate su Windows.
 - **Accessibilità e cintura**: scuole, salute e cibo vengono dai cataloghi del solo Comune di
-  Torino, quindi fuori Torino risultano ~0 (vedi `docs/PIANO_ACCESSIBILITA.md`).
+  Torino; fuori Torino verranno da OSM (decisione 11/10), fonte meno completa: al confine
+  città/cintura cambia la fonte e va dichiarato, con il rapporto OSM/catalogo misurato in Torino.
 
 ---
 
 # DA DECIDERE CON LEO
 
-- Le decisioni aperte del piano di accessibilità (`docs/PIANO_ACCESSIBILITA.md`, sezione "Decisioni").
+- Nessuna decisione aperta. Piano accessibilità approvato l'11/10 (cintura riempita con OSM,
+  cammino 4,8 km/h, destinazioni accorpate a ~50 m, ore 08/14/23/02; più ore in futuro).
 - Le decisioni dell'11/10 sono state prese: pulizia completa (eseguita con `PULIZIA_GTT.bat`),
   documenti superati tolti, ordine dei lavori confermato.
