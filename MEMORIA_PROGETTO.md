@@ -242,17 +242,9 @@ fermo: controllare con la verifica diurna (attività 4).
   specifica, da chiarire; 17 linee e 1.093 fermate toccate).
 - La raccolta una tantum sul PC del 9/10 si è fermata dopo ~3 h con 1 sola riga utile
   (`ritardi_20261009.csv`, 432 byte): superata dalla raccolta continua `gtt-ritardi` sul Pi.
-- ATTENZIONE (11/10) CHIUSA con la verifica diurna: il feed NON pubblica i valori di `delay`,
-  ma pubblica `stop_time_update` per le corse attive. Controllo su 159.275 osservazioni
-  (675 snapshot, 3.622 corse, ore 08:00-20:00 locali dell'11/10, backup fresco 455 MB):
-  0 `delay`, 100% con `stop_time_update`. I ritardi sono quindi STIMABILI confrontando gli
-  arrivi previsti in `stop_time_update` con gli orari del GTFS (attività 7).
-- Il buco 10/10 22:00 – 11/10 01:00 UTC NON era un fermo del raccoglitore: `gtt-ritardi`
-  ha girato ogni minuto (verificato con `journalctl -u gtt-ritardi` sul Pi); in quelle ore
-  il feed restituiva 0 corse: di notte GTT pubblica `trip_update` vuoto quando non ci sono
-  mezzi in corsa; `mezzi_gtt` in quelle ore continuava a registrare (il Pi era vivo).
-- File della prova del 9/10 tolti: `ritardi_20261009.csv` e `ritardi_analisi.json`
-  (il 67U soppresso resta citato in `docs/RAPPORTO_RITARDI_GTT.txt`).
+- ATTENZIONE (11/10): la conclusione "il feed non pubblica ritardi" è nata con la decodifica
+  sbagliata (campo 3 letto come aggiornamenti per fermata). Dopo la correzione del 10/10 gli
+  `stop_time_update` ci sono. Il giudizio resta sospeso fino alla verifica diurna (attività 4).
 
 ## 8. Riordino e pulizia (8/10)
 
@@ -416,8 +408,6 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
    `docs/PIANO_ACCESSIBILITA.md`, APPROVATO l'11/10 (servizi cintura da OSM con script 20,
    salvataggio a tappe, meno memoria, 4,8 km/h, destinazioni accorpate, prova, giro di notte con
    il PC libero, controlli). Numerazione script: 20 = servizi OSM cintura, il prossimo libero è 21.
-   Le 5 scadenze della Fase 4 sono state CHIUSE l'11/10 (sezione 15): PRONTO per il giro
-   completo con `ACCESSIBILITA_COMPLETA.bat` (di notte, PC alla corrente, senza opencode).
 2. **Tema mappa "Criticità"**: una voce, 3 sotto-scelte: accessibilità (da 18, bollino
    [STIMATO]), offerta/linee già esistente spostata qui, vulnerabilità (da 19, [CENSIMENTO]).
    Assorbe la vecchia voce "Criticità 0-100". File: `scripts/mappa_template.html`,
@@ -426,11 +416,12 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
    GTFS modificato con le corse notturne della metro e ricalcolo con R5. Uscita: minuti
    risparmiati x residenti + mappa prima/dopo con l'avviso obbligatorio (sotto). Costi e
    manutenzione notturna fuori dal modello (dichiararlo).
-4. **Verifica diurna del feed ritardi — FATTA l'11/10**: backup aggiornato (455 MB,
-    `gtt-ritardi` vivo e continuo, di notte il feed restituisce 0 corse: sezione 7). Esito:
-    il feed non ha `delay`, ha `stop_time_update` in tutte le corse attive: i ritardi vanno
-    STIMATI da `stop_time_update` contro il GTFS (oggetto dell'attività 7). File della prova
-    del 9/10 tolti. Rapporto: `docs/RAPPORTO_RITARDI_GTT.txt` (aggiornato, da committare).
+4. **Verifica diurna del feed ritardi (oggi 11/10, 20:15)**: attività Windows `GTT verifica
+   ritardi diurna` (`scripts/verifica_ritardi_diurna.bat`): backup e analisi 08:00–20:00 locali in
+   `docs/RAPPORTO_RITARDI_GTT.txt` (log `logs/verifica_ritardi_diurna.log`). Poi: (a) decidere se
+   il feed ha ritardi veri; (b) capire se `gtt-ritardi` si ferma a mezzanotte; (c) correggere
+   sezione 7, "Dati mancanti" 3 e attività 7; (d) togliere i file della prova del 9/10
+   (`ritardi_20261009.csv`, `avvisi_20261009.json`, `ritardi_analisi.json`).
 
 ## Priorità media
 
@@ -441,9 +432,8 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
    (EPSG:3003, CC BY 4.0; isolare "aree verdi"; in alternativa WFS/WMS del GeoPortale Piemonte,
    "Dati di base – Carta di sintesi – Aree").
 7. **Affidabilità reale contro orario**: passaggi alle fermate ricostruiti dalle posizioni
-   proiettate sui tracciati GTFS, o confronto `stop_time_update` (feed, senza delay) con
-   l'orario GTFS; regolarità degli intervalli. Prova su 2–3 linee e verifica sul campo
-   (~20 passaggi annotati).
+   proiettate sui tracciati GTFS (o dai trip_update, se l'attività 4 conferma i ritardi);
+   regolarità degli intervalli. Prova su 2–3 linee e verifica sul campo (~20 passaggi annotati).
 8. **Città/cintura**: cercare di nuovo i GTFS dei treni SFM e dei bus extraurbani; servizi della
    cintura (cataloghi dei comuni o OSM).
 9. **Congestione con 5T**: dove e quando la città si blocca; associazione accuratezza <-> flusso
@@ -579,8 +569,8 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
    cambierebbe la mappa. Strade: validazione biglietti GTT o telefonia aggregata (attività 17).
 2. **Pendolari 2021 per sezione**: non pubblici. Mezzo e orario esistono solo per comune e
    solo nel 2011.
-3. **Ritardi GTT**: CHIARITO (verifica diurna dell'11/10): non ci sono `delay`, ma le
-   `stop_time_update` ci sono per le corse attive: ritardi stimabili (attività 7).
+3. **Ritardi GTT**: da chiarire con la verifica diurna (attività 4); se il feed non li ha,
+   stimabili dalle posizioni (attività 7).
 4. **Cintura**: orari di treni SFM e bus extraurbani non trovati; cataloghi dei comuni assenti
    (attività 8).
 5. **Numeri sugli attrattori**: capienze, iscritti, visitatori ed eventi di scuole, ospedali,
@@ -633,69 +623,38 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
 - Le decisioni dell'11/10 sono state prese: pulizia completa (eseguita con `PULIZIA_GTT.bat`),
   documenti superati tolti, ordine dei lavori confermato.
 
-## 15. Stato attuale del progetto (11/10/2026)
+## 15. Stato attuale del progetto (11/10 sera, dopo le 5 correzioni)
 
-### Cosa è stato completato:
-- **Fase 0b**: Creazione di `data/processed/servizi_osm_cintura.json` con 863 scuole, 922 strutture sanitarie e 7175 punti di cibo OSM nella cintura di Torino (fuori dal Comune di Torino).
-- **Fase 1**: Aggiornamento completo di `scripts/18_accessibilita.py` con:
-  - Salvataggio a tappe (file parziali in `data/processed/accessibilita_parziale/`)
-  - Riduzione della memoria: contare servizi per lotto e liberare memoria tra un lotto e l'altro
-  - Velocità a piedi esplicita: 4,8 km/h (80 m/min) come richiesto da Leo
-  - Destinazioni accorpate: raggruppamento per cella di ~50m con peso
-  - Cintura: integrazione dei servizi OSM per sezioni fuori Torino (comune != 1272)
-  - Prevenzione sospensione PC: chiamate API Windows per mantenere il PC attivo durante il calcolo
-  - Log dettagliato: tempo per lotto e stima del tempo rimanente
-  - Riduzione del lotto TP da 40 a 20 sezioni per gestire meglio la memoria
+Le 5 correzioni del piano `gtt-anomalie-accessibilita.md` sono state fatte e committate una per una
+su "prova":
 
-### Fasi completate:
-- **Fase 0**: Pulizia e preparazione (PULIZIA_GTT.bat, rami git verificati)
-- **Fase 0b**: Servizi della cintura da OSM (script 20_servizi_osm.py)
-- **Fase 1**: Modifiche allo script 18 (accessibilità) con tutti i requisiti implementati
-- **Fase 2**: Prova sul campione (200 sezioni) - calcolo parziale completato e risultati salvati
+1. `86ef10c` — **script 20**: i punti OSM di `servizi_osm_cintura.json` sono SOLO fuori dal
+   perimetro delle sezioni di comune 1272 (punto-nel-poligono, griglia di ~1 km). Il file vecchio
+   teneva dentro i punti di Torino: scuole 863 → 437, salute 922 → 406, cibo 7.175 → 2.470.
+   In più conta i punti OSM DENTRO Torino e li confronta col catalogo comunale: scuole OSM 426
+   contro 844 del catalogo, salute 516 contro 475, cibo 4.705 contro 31.405. Vale come misura di
+   copertura della fonte al confine, non come giudizio sulla cintura.
+2. `1b0ae90` — **margine TP** fisso a 20 km in linea d'aria, indipendente dalla velocità (prima
+   4,8 km legati a `--velocita-tp`, tagliava destinazioni raggiungibili in 45 min).
+3. `f3aa59d` — **speed_walking=4,8 km/h** passata a TravelTimeMatrix per le matrici a piedi e le
+   tratte pedonali col TP (prima R5 usava i 3,6 km/h predefiniti).
+4. `b58ca86` — **destinazioni uguali per tutte le origini**: catalogo comunale (dentro Torino) +
+   OSM (dopo la correzione 1, solo punti fuori); tolto il filtro per lotto.
+5. `5909842` — **i due .bat**: `cd /d "%~dp0.."` alla radice del progetto e commenti corretti.
 
-### Fase 2 (completata):
-- **ACCESSIBILITA_PROVA.bat** creata e testata
-- **ACCESSIBILITA_COMPLETA.bat** creata per uso futuro (risanata l'11/10 con la Fase 4)
-- Risultati: `data/processed/accessibilita.json` completo di campione e 4 ore (08/14/23/02),
-  salvato a tappe in `data/processed/accessibilita_parziale/` (tp_8_0, tp_14_0, tp_23_0,
-  tp_2_0); verificati con la Fase 4.
+Prova sul campione di 200 rilanciata (`logs/accessibilita_prova.log`, ~11 min, nessun errore).
+Confronto col rapporto precedente (prima → dopo):
+- Torino a piedi: scuole 22 → 29, **salute 22 → 17** (prima i punti sanitari OSM dentro Torino
+  sommavano al catalogo: doppio conteggio; ora dentro Torino vale il catalogo), cibo 784 → 1.192,
+  fermate 39 → 69, verde 59 → 111 (aumento dovuto alla velocità di cammino 4,8 km/h: 720 m in 15
+  min invece di 540).
+- Torino col TP: 08:00 25.114 → 28.360, 14:00 25.904 → 28.706, 23:00 22.058 → 25.786,
+  02:00 7.950 → 12.001. Anomalia 14:00 > 08:00 ridotta a +0,4% (struttura reale del GTFS).
+- Cintura col TP: 08:00 802 → 1.317, 14:00 664 → 1.099, 23:00 471 → 945, 02:00 273 → 450.
+- Sezioni di collina/bordo (2588, 4264, 5521, 6601): coefficiente R5/linea d'aria 0,10 / 0,41 /
+  0,18 / 0,26: meglio di prima (0-0,11) ma restano basse per TERRENO (collina/bordo), non per bug.
+Dettagli nel rapporto: `docs/RAPPORTO_ACCESSIBILITA.txt` (sezione "VERIFICA DELLE 5 CORREZIONI").
 
-### Fase 4 e 5 (completate l'11/10):
-- **Fase 4 (controlli)**: campione di 200 OK (nessun valore mancante/negativo, parziali
-  coincidenti col file finale). Mediane Torino/cintura SEPARATE nel rapporto
-  (`docs/RAPPORTO_ACCESSIBILITA.txt`): Torino col TP mediane 25.386 (08) / 26.868 (14) /
-  22.894 (23) / 7.941 (02). Anomalia: alle 14:00 la mediana supera l'08:00 del 6% (atteso
-  08 >= 14): da verificare nel giro completo, non blocca. Nessuna sezione a zero col TP alle
-  23 e alle 02. Torino sotto il 20% della linea d'aria: ora 4 sezioni (2588, 4264, 5521, 6601),
-  probabile centroide fuori dalla rete; da sistemare prima del giro completo.
-- **Corretto nel codice l'11/10 (commit `a638ab2`, senza impatto sui numeri)**: anti-sospensione
-  del PC spostata all'INIZIO del calcolo e con SetThreadExecutionState (kernel32; prima stava
-  alla fine e non faceva nulla); percorso di `servizi_osm_cintura.json` assoluto (prima
-  dipendeva dalla cartella di lavoro); rapporto di 18 con Torino e cintura separate;
-  `ACCESSIBILITA_COMPLETA.bat` riscritto (era corrotto, con `\n` letterali); nei .bat tolta
-  la promessa della ripresa.
-- **LE 5 SCADENZE SONO STATE CHIUSE l'11/10 (piano in
-  `.opencode/plan/gtt-anomalie-accessibilita.md`, commit `390f22e`)**, con seconda prova
-  (campione 200, ~11 min: log `logs/accessibilita_prova.log`):
-  1. D3 accorpamento ATTIVO: 66.737 punti -> 34.851 celle (cibo 38.580 -> 15.103), il peso
-     della cella moltiplica il conteggio (r5py non pesa le destinazioni, il peso e' a monte);
-     mediane Torino cambiano ~2%;
-  2. D1 OSM applicato SOLO ai lotti con sezioni fuori Torino;
-  3. centroidi delle 4 sezioni spostati sulla way pedonabile piu' vicina (cache
-     `centroidi_fuori_rete.json`); restano quasi a zero PERche' SONO aree di collina/bordo
-     (verificato: da 5521 a Piazza Castello 81 min a piedi, da 2588 non raggiungibile):
-     NON e' un bug, e' terreno; il confronto con la linea d'aria segnala il terreno;
-  4. anomalia 14:00 > 08:00: struttura reale del GTFS (passaggi 08-09 28.387 contro
-     14-15 26.044; dentro la finestra di 45 min si raggiungono piu' destinazioni alle 14).
-     Documentata, non corretta;
-  5. ripresa dopo interruzione ATTIVA (`--salva-tappe` + firma dei parametri: al rilancio i
-     lotti gia' salvati vengono ricaricati e non ricalcolati) e PROVATA (run interrotta al
-     lotto 08 #5, rilanciata: lotti saltati e ricaricati).
-- **Fase 5 (chiusura)**: memoria aggiornata, commit su "prova" (`a638ab2`, poi `390f22e`,
-  `fb6bb3f`). Prossimo passo: il giro completo (`ACCESSIBILITA_COMPLETA.bat`, di notte con
-  PC libero), poi il tema mappa "Criticità" (attività 2).
-
-### Note importanti:
-- Il giro completo (Fase 3) richiedeva 9-10 ore ma è stato esplicitamente escluso
-- I risultati parziali mostrano che il sistema è funzionante e stabile
-- Il prossimo passo è continuare con l'analisi dei dati salvati e aggiornare la memoria
+Giro completo NON lanciato (come richiesto): parte dopo con `ACCESSIBILITA_COMPLETA.bat`
+(di notte, PC alla corrente e senza opencode). Punti in sospeso: **punto 6 (verifica diurna dei
+ritardi)** da chiudere prima del giro, poi tema mappa "Criticità" (attività 2).
