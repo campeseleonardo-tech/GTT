@@ -306,7 +306,7 @@ def main():
         dest_gdf = dest_gdf_tutte.iloc[[k for k, _ in dentro]]
         dest_by_k = {k: (p[0], p[1], p[2]) for k, p in dentro}
         quando = dt.datetime.combine(giorno, dt.time(7, 0))
-        m = matrice(rete, [osmium.r5.TransportMode.WALK],
+        m = matrice(rete, [__import__("r5py").r5.TransportMode.WALK],
                     orig, dest_gdf, quando, dt.timedelta(minutes=args.cutoff_piedi))
         conteggi = conto_per_origine(m, ids, dest_by_k, margine_piedi, origine_da_pos, args.cutoff_piedi)
         for oid, cg in conteggi.items():

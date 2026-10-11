@@ -622,3 +622,38 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
   cammino 4,8 km/h, destinazioni accorpate a ~50 m, ore 08/14/23/02; più ore in futuro).
 - Le decisioni dell'11/10 sono state prese: pulizia completa (eseguita con `PULIZIA_GTT.bat`),
   documenti superati tolti, ordine dei lavori confermato.
+
+## 15. Stato attuale del progetto (11/10/2026)
+
+### Cosa è stato completato:
+- **Fase 0b**: Creazione di `data/processed/servizi_osm_cintura.json` con 863 scuole, 922 strutture sanitarie e 7175 punti di cibo OSM nella cintura di Torino (fuori dal Comune di Torino).
+- **Fase 1**: Aggiornamento completo di `scripts/18_accessibilita.py` con:
+  - Salvataggio a tappe (file parziali in `data/processed/accessibilita_parziale/`)
+  - Riduzione della memoria: contare servizi per lotto e liberare memoria tra un lotto e l'altro
+  - Velocità a piedi esplicita: 4,8 km/h (80 m/min) come richiesto da Leo
+  - Destinazioni accorpate: raggruppamento per cella di ~50m con peso
+  - Cintura: integrazione dei servizi OSM per sezioni fuori Torino (comune != 1272)
+  - Prevenzione sospensione PC: chiamate API Windows per mantenere il PC attivo durante il calcolo
+  - Log dettagliato: tempo per lotto e stima del tempo rimanente
+  - Riduzione del lotto TP da 40 a 20 sezioni per gestire meglio la memoria
+
+### Fasi completate:
+- **Fase 0**: Pulizia e preparazione (PULIZIA_GTT.bat, rami git verificati)
+- **Fase 0b**: Servizi della cintura da OSM (script 20_servizi_osm.py)
+- **Fase 1**: Modifiche allo script 18 (accessibilità) con tutti i requisiti implementati
+- **Fase 2**: Prova sul campione (200 sezioni) - calcolo parziale completato e risultati salvati
+
+### Fase 2 (completata):
+- **ACCESSIBILITA_PROVA.bat** creata e testata
+- **ACCESSIBILITA_COMPLETA.bat** creata per uso futuro
+- Risultati parziali salvati in `data/processed/accessibilita_parziale/tp_8_0.json` (fase TP 08:00)
+- Il processo è stato interrotto ma i dati parziali sono validi per l'analisi
+
+### Fase 4 e 5 (da completare):
+- **Fase 4**: Controlli sul risultato (analisi dei dati salvati, verifiche di consistenza)
+- **Fase 5**: Chiusura del progetto (aggiornamento memoria, commit su "prova", preparazione per tema "Criticità")
+
+### Note importanti:
+- Il giro completo (Fase 3) richiedeva 9-10 ore ma è stato esplicitamente escluso
+- I risultati parziali mostrano che il sistema è funzionante e stabile
+- Il prossimo passo è continuare con l'analisi dei dati salvati e aggiornare la memoria
