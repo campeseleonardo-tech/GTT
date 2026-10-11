@@ -28,19 +28,26 @@ Dove stanno i file e cosa contengono: inventario ISTAT in `MEMORIA_PROGETTO.md`.
 - Scaricati a mano da Leo dal servizio Forniture dati OMI / GeoPOI dell'Agenzia. In caso di uso: citare
   "Agenzia delle Entrate - OMI".
 - Mancante (facoltativo): provincia di Asti, per coprire Moncucco Torinese (unico comune dell'area non coperto).
-- Piano di integrazione nella mappa: sezione "Piano OMI" in `MEMORIA_PROGETTO.md`.
+- In mappa dal 9/10: sezione 4 di `MEMORIA_PROGETTO.md`.
 
 ## Da scaricare a mano (eventuale, non urgente)
 
 1. **Facoltativo** - OMI provincia di Asti (per Moncucco Torinese, vedi sopra).
-2. **Facoltativo** - aperTO: ciclabili, parcheggi blu, ZTL con varchi, fermate metro, incidenti 2011-2017.
+2. **Facoltativo** - aperTO: incidenti 2011-2017 (ciclabili, zone blu, ZTL e fermate metro sono già nel catalogo).
    Catalogo: https://aperto.comune.torino.it/dataset/?q=mobilit%C3%A0
 
 ## Non pubbliche (richiedono una richiesta)
 
-- Indagine IMQ 2022 (MTM, Agenzia Mobilità Piemontese): solo risultati aggregati pubblici. Bozza in `richiesta_MTM_IMQ.md`.
+- Indagine IMQ 2022 (MTM, Agenzia Mobilità Piemontese): usati i dati aperti (`data/raw/IMQ2022_opendata_web/`).
+  Richiesta di zone di campionamento e altre elaborazioni INVIATA da Leo; risposta attesa.
 - Dati da telefonia mobile (TIM/Wind usati dall'agenzia, Vodafone usati con il Politecnico): non pubblici.
   Bozza in `richiesta_dati_telefonia.md`.
+
+## Rete stradale (per R5)
+
+- OpenStreetMap, estratto Geofabrik Nord-Ovest (8/10/2026), tagliato all'area Torino+cintura dallo script 17
+  in `data/otp/rete/torino_cintura.osm.pbf`. L'estratto intero è stato cancellato: si riscarica da
+  https://download.geofabrik.de/europe/italy/nord-ovest.html
 
 ## Non trovati
 

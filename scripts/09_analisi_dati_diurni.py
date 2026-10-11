@@ -37,7 +37,10 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 RAD = Path(__file__).resolve().parents[1]
-DB = RAD / "data" / "storico.sqlite"
+# sul PC si legge la copia settimanale dal Pi; se manca, il vecchio storico locale
+DB = RAD / "data" / "storico_backup.sqlite"
+if not DB.is_file():
+    DB = RAD / "data" / "storico.sqlite"
 RAPPORTO = RAD / "docs" / "RAPPORTO_ANALISI_5T.txt"
 JSON_OUT = RAD / "data" / "processed" / "analisi_5t.json"
 

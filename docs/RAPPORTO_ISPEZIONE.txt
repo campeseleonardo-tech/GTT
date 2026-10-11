@@ -7,7 +7,7 @@
   calendar: da 20261001 a 20270131
   calendar_dates: da 20261001 a 20270131
   righe stop_times (passaggi programmati): 966,946
-  -> controlla che le date coprano oggi (2026-10-04)
+  -> controlla che le date coprano oggi (2026-10-08)
 
 == 5T flussi di traffico ==
   file: 5t_flussi_20261003_224539.xml
@@ -21,13 +21,3 @@
 
 == GTT tempo reale ==
   libreria mancante: nella console scrivi  %pip install gtfs-realtime-bindings  poi rilancia
-
-== NOTA: lettura manuale dei file GTT tempo reale (fatta da Claude, senza la libreria) ==
-  posizioni mezzi (3/10/2026 ~22:45 ora italiana): 110 mezzi su 58 linee; ogni mezzo ha linea (route_id, es. '46U'),
-    coordinate e id veicolo. NON c'e' il trip_id (non si collega alla corsa programmata, solo alla linea).
-    Gli id linea coincidono con il GTFS (es. '46U' esiste nel GTFS).
-  ritardi corse: file di 15 byte = contiene solo l'intestazione, 0 corse (sabato notte). Da riprovare di giorno.
-  avvisi: 134.814 byte, non decodificati.
-  GTFS: 215 linee (tipi: 0 tram, 1 metro, 3 bus, 7 funicolare), 7045 fermate, 201.302 punti di tracciato (shapes),
-    trips con direction_id. Id linea con suffisso U (urbano) per 142 linee su 215.
-  5T: 112 sensori in tutto il Piemonte (non solo Torino); 83 hanno accuracy=0 e flusso 0 (di notte: da riconfrontare di giorno).

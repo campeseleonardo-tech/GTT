@@ -1,0 +1,17 @@
+RAPPORTO ACCESSIBILITA' (orario programmato, STIMATO - motore R5)
+generato: 2026-10-10T17:37:36+00:00  giorno tipo: 2026-10-12  ore: [8, 14, 23, 2]
+sezioni: 200  cutoff a piedi: 15 min  TP: 45 min
+destinazioni: {'scuole': 844, 'salute': 475, 'cibo': 31405, 'fermate': 7043, 'verde': 12072}
+
+Servizi essenziali raggiungibili a piedi (mediane per gruppo):
+  scuole  : 0
+  salute  : 0
+  cibo    : 9
+  fermate : 21
+  verde   : 33
+TP 08:00 (mediana servizi totali entro 45 min): 8250
+TP 14:00 (mediana servizi totali entro 45 min): 7654
+TP 23:00 (mediana servizi totali entro 45 min): 3941
+TP 02:00 (mediana servizi totali entro 45 min): 1385
+
+Sezioni senza NESSUN servizio entro 45 min alle 23:00: 0

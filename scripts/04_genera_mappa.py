@@ -519,9 +519,12 @@ def calcola_velocita():
     """Velocita' commerciale (fermate incluse) per linea x tipo di giorno x ora, dallo storico dei mezzi. Sola lettura.
     Ritorna (vel, meta) oppure (None, None) se il database manca o e' bloccato."""
     import sqlite3
-    db = RADICE / "data" / "storico.sqlite"
+    # sul PC la raccolta e' ferma: si legge la copia settimanale dal Pi (backup_da_leopi.py)
+    db = RADICE / "data" / "storico_backup.sqlite"
     if not db.is_file():
-        print("  (velocita': storico.sqlite non trovato, livello Velocita' saltato)")
+        db = RADICE / "data" / "storico.sqlite"
+    if not db.is_file():
+        print("  (velocita': ne' storico_backup.sqlite ne' storico.sqlite trovati, livello Velocita' saltato)")
         return None, None
     somme = {}   # (linea, tipo, ora) -> [metri, secondi, campioni, {giorni}]
     primo = ultimo = None

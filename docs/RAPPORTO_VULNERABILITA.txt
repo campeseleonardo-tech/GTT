@@ -1,0 +1,21 @@
+RAPPORTO VULNERABILITA' PER SEZIONE
+generato: 2026-10-10T15:47:02+00:00  origine: CENSIMENTO
+componenti e pesi: occ=1.0, ist=1.0, aff=1.0, anz=1.0
+sezioni: 8317  indice mediano: 48.3
+
+Top 10 sezioni per indice (id, comune, residenti, indice, percentili):
+  12720005839  comune 1272  res 41  v 98.9  {'ist': 0.968, 'aff': 0.999, 'anz': 0.999}
+  12720005062  comune 1272  res 202  v 98.8  {'occ': 0.981, 'ist': 0.972, 'aff': 0.999, 'anz': 0.999}
+  11830000047  comune 1183  res 65  v 98.7  {'occ': 0.959, 'ist': 0.991, 'aff': 1.0, 'anz': 0.999}
+  12720006112  comune 1272  res 74  v 98.3  {'occ': 0.954, 'ist': 0.997, 'anz': 0.999}
+  12140000129  comune 1214  res 19  v 98.2  {'ist': 0.98, 'anz': 0.985}
+  12720003166  comune 1272  res 90  v 97.6  {'occ': 0.941, 'ist': 0.987, 'anz': 1.0}
+  12650000209  comune 1265  res 559  v 96.5  {'occ': 0.957, 'ist': 1.0, 'aff': 0.976, 'anz': 0.925}
+  12720001158  comune 1272  res 219  v 96.2  {'occ': 0.907, 'ist': 0.958, 'aff': 0.982, 'anz': 1.0}
+  10680000102  comune 1068  res 42  v 95.9  {'occ': 0.877, 'ist': 0.968, 'aff': 0.999, 'anz': 0.993}
+  12720005961  comune 1272  res 17  v 95.6  {'ist': 0.901, 'aff': 0.989, 'anz': 0.977}
+
+Sezioni istituzionali escluse dal rango (RSA e simili): 50
+
+Rapporti attutiti verso la media dell'area (lambda 100 persone / 20 abitazioni).
+Il reddito non entra: non esiste a livello di sezione (solo MEF per comune).
