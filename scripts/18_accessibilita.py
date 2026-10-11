@@ -467,6 +467,12 @@ def main():
     n_lotti_piedi = (len(sezioni) + args.lotto_piedi - 1) // args.lotto_piedi
     n_lotti_tp = (len(sezioni) + args.lotto_tp - 1) // args.lotto_tp
     giorno = dt.date.fromisoformat(args.giorno)
+    # velocita' di cammino per R5 (km/h): PRIMA predefinita di R5 (3,6), ora quella
+    # dichiarata dal piano (D2: 4,8 km/h = 80 m/min), per i percorsi a piedi e per
+    # la tratte di ingresso/uscita col TP
+    vel_cammino_kmh = args.velocita_piedi * 60.0 / 1000.0
+    log(f"Velocita' cammino fissata a {vel_cammino_kmh:.1f} km/h "
+        "(prima R5 usava i suoi 3,6 km/h)")
 
     def salva(parz_fase, n, lotto):
         if not args.salva_tappe:
@@ -501,7 +507,8 @@ def main():
         dest_by_k = {k: (p[0], p[1], p[2], p[3]) for k, p in dentro}
         quando = dt.datetime.combine(giorno, dt.time(7, 0))
         m = matrice(rete, [__import__("r5py").r5.TransportMode.WALK],
-                    orig, dest_gdf, quando, dt.timedelta(minutes=args.cutoff_piedi))
+                    orig, dest_gdf, quando, dt.timedelta(minutes=args.cutoff_piedi),
+                    speed_walking=vel_cammino_kmh)
         conteggi = conto_per_origine(m, ids, dest_by_k, margine_piedi, origine_da_pos,
                                      args.cutoff_piedi)
         for oid, cg in conteggi.items():
@@ -541,7 +548,8 @@ def main():
             dest_by_k = {k: (p[0], p[1], p[2], p[3]) for k, p in dentro}
             quando = dt.datetime.combine(giorno, dt.time(ora, 0))
             m = matrice(rete, [TM.TRANSIT, TM.WALK], orig, dest_gdf, quando,
-                        dt.timedelta(minutes=args.cutoff_tp))
+                        dt.timedelta(minutes=args.cutoff_tp),
+                        speed_walking=vel_cammino_kmh)
             conteggi = conto_per_origine(m, ids, dest_by_k, margine_tp, origine_da_pos,
                                          args.cutoff_tp)
             for oid, cg in conteggi.items():
