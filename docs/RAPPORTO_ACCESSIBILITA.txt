@@ -1,69 +1,92 @@
 RAPPORTO ACCESSIBILITA' (orario programmato, STIMATO - motore R5/r5py su GTFS + OSM)
-generato: 2026-10-11T18:03:02+00:00  giorno tipo: 2026-10-12  ore: [8, 14, 23, 2]
+generato: 2026-10-11T19:23:55+00:00  giorno tipo: 2026-10-12  ore: [8, 14, 23, 2]
 sezioni: 200 (Torino 99, cintura 101)
 cutoff a piedi: 15 min (80 m/min)  TP: 45 min
-gruppi (celle di destinazione): {'scuole': 1426, 'salute': 1306, 'cibo': 15103, 'fermate': 6241, 'verde': 10775}
-  NOTA: le destinazioni sono accorpate in celle di ~50 m con peso: il totale pesato vale il numero dei punti originali. OSM aggiunto solo ai lotti con sezioni fuori Torino (D1).
+gruppi (celle di destinazione): {'scuole': 1032, 'salute': 809, 'cibo': 11928, 'fermate': 6241, 'verde': 10775}
+  NOTA: le destinazioni sono accorpate in celle di ~50 m con peso: il totale pesato vale il numero dei punti originali. Destinazioni STESSE per tutte le sezioni (catalogo comunale + OSM della cintura), margine TP 20 km in linea d'aria.
 
 == Torino (comune 1272): 99 sezioni ==
   Servizi raggiungibili A PIEDI entro 15 min (mediane pesate per gruppo):
-    scuole  : 22
-    salute  : 22
-    cibo    : 784
-    fermate : 39
-    verde   : 59
-  COL TP alle 08:00 (mediana servizi totali entro 45 min): 25114
-  COL TP alle 14:00 (mediana servizi totali entro 45 min): 25904
-  COL TP alle 23:00 (mediana servizi totali entro 45 min): 22058
-  COL TP alle 02:00 (mediana servizi totali entro 45 min): 7950
-  Sezioni a zero anche a piedi: 1
+    scuole  : 29
+    salute  : 17
+    cibo    : 1192
+    fermate : 69
+    verde   : 111
+  COL TP alle 08:00 (mediana servizi totali entro 45 min): 28360
+  COL TP alle 14:00 (mediana servizi totali entro 45 min): 28706
+  COL TP alle 23:00 (mediana servizi totali entro 45 min): 25786
+  COL TP alle 02:00 (mediana servizi totali entro 45 min): 12001
+  Sezioni a zero anche a piedi: 0
 
 == Cintura (comuni != 1272): 101 sezioni ==
   Servizi raggiungibili A PIEDI entro 15 min (mediane pesate per gruppo):
-    scuole  : 1
-    salute  : 1
-    cibo    : 4
-    fermate : 7
-    verde   : 11
-  COL TP alle 08:00 (mediana servizi totali entro 45 min): 802
-  COL TP alle 14:00 (mediana servizi totali entro 45 min): 664
-  COL TP alle 23:00 (mediana servizi totali entro 45 min): 471
-  COL TP alle 02:00 (mediana servizi totali entro 45 min): 273
-  Sezioni a zero anche a piedi: 4
+    scuole  : 3
+    salute  : 3
+    cibo    : 6
+    fermate : 11
+    verde   : 22
+  COL TP alle 08:00 (mediana servizi totali entro 45 min): 1317
+  COL TP alle 14:00 (mediana servizi totali entro 45 min): 1099
+  COL TP alle 23:00 (mediana servizi totali entro 45 min): 945
+  COL TP alle 02:00 (mediana servizi totali entro 45 min): 450
+  Sezioni a zero anche a piedi: 2
 
-====================================
-VERIFICA DELLE 5 ANOMALIE (piano gtt-anomalie-accessibilita, 11/10)
-====================================
-1) D3 - destinazioni accorpate: FATTE. Da 66.737 punti a 34.851 celle
-   (cibo 38.580 -> 15.103). Il peso della cella (= punti originali) moltiplica il
-   conteggio: i valori restano paragonabili. r5py non pesa le destinazioni, il
-   peso e' applicato lato conteggio.
-2) D1 - OSM solo fuori Torino: FATTO. I punti OSM entrano solo nei lotti che
-   contengono sezioni fuori dal Comune (prima erano aggiunti a tutto).
-   Dentro Torino le mediane cambiano del ~2% solo per l'aggregazione
-   (es. TP 08:00 25.386 -> 25.114, cibo a piedi 776 -> 784).
-3) Centroidi fuori rete: VERIFICATA (non un bug).
-   Le 4 sezioni (2588, 4264, 5521, 6601) restano quasi a zero anche spostando
-   l'origine sul nodo della way pedonabile piu' vicino (entro 200 m, cache
-   data/processed/centroidi_fuori_rete.json). Prove dirette: da 5521 (Strada di
-   Fenestrelle, Sassi) a Piazza Castello 81 min a piedi; da 2588 (bordo est,
-   collina) Piazza Castello non raggiungibile a piedi nemmeno a 120 min.
-   Sono aree di collina/bordo: la linea d'aria di 950 m copre terreno NON
-   percorribile a piedi, quindi il confronto "R5 < 20% della linea d'aria"
-   segnala il terreno, non un errore. Restano valori veri (bordo).
-4) Anomalia 14:00 sopra le 08:00: struttura reale del GTFS, non bug.
-   Nel GTFS di lunedi' 12/10: 126 servizi attivi, 13.683 corse; passaggi
-   alle 08:00-09:00 28.387, alle 14:00-15:00 26.044, partenze 917 contro 891.
-   Cioe' alle 08 ci sono PIU' corse, ma nella finestra 45 min (08:00-08:45) si
-   raggiungono in media meno destinazioni che alle 14:00 (25.114 contro 25.904):
-   differenza delle attese/trasbordi nella rete. Notato e documentato, non
-   corretto; l'ordine regge 23 > 02 e 14 > 08 e' lieve (3%).
-5) Ripresa dopo interruzione: FATTA e PROVATA: run interrotta al lotto 08 #5 e
-   rilanciata: "lotto a piedi #2: gia' fatto, salto" e "lotto 08 #5: gia' fatto,
-   salto", i risultati parziali vengono ricaricati (accessibilita_parziale/*
-   con firma dei parametri; gli sospesi vecchi vengono ignorati).
+========================================
+VERIFICA DELLE 5 CORREZIONI (punti 1-5, 11/10 sera)
+========================================
+1) Script 20: i punti OSM sono SOLO fuori dal perimetro delle sezioni con
+   comune 1272 (punto-nel-poligono su ogni punto, ricerche su griglia di ~1 km).
+   Il file precedente conteneva, senza volerlo, punti di Torino: scuole
+   863 -> 437, salute 922 -> 406, cibo 7.175 -> 2.470.
+   Confronto OSM/catalogo DENTRO Torino (salvato in servizi_osm_cintura.json):
+   scuole 426 contro 844 del catalogo (0,51x), salute 516 contro 475 (1,09x),
+   cibo 4.705 contro 31.405 (0,15x). OSM conta oggetti con tag, il catalogo
+   punti gestiti: serve a dichiarare la fonte al confine, non come
+   giudizio sulla cintura.
+2) Margine TP fisso a 20 km in linea d'aria (prima 4,8 km legati alla
+   velocita'): per ogni lotto restano ~27-29.000 celle, non si taglia piu'
+   niente di raggiungibile in 45 min di trasporto.
+3) speed_walking = 4,8 km/h passata a TravelTimeMatrix (prima usava i 3,6
+   km/h predefiniti di R5), sia per le matrici a piedi sia per quelle col TP:
+   le mediane a piedi salgono (cibo 784 -> 1.192, fermate 39 -> 69,
+   verde 59 -> 111 a Torino).
+4) Destinazioni STESSE per tutte le origini: catalogo comunale dentro Torino
+   + OSM (che dopo la correzione 1 contiene solo i punti fuori da Torino).
+   La cintura ora raggiunge anche i servizi di citta': col TP alle 08:00 la
+   mediana di cintura passa da 802 a 1.317.
+5) Nei .bat: cd alla radice del progetto (il doppio clic partiva da scripts\)
+   e commenti corretti.
 
-RESA: al giro completo (tutte le 8.317 sezioni, ACCESSIBILITA_COMPLETA.bat,
-di notte e PC libero) non restano scadenze conosciute. I dati usati sono in
-data/processed/accessibilita.json (campione di 200, [STIMATO]).
+CONFRONTO COMPLETO (prima -> dopo):
+   Torino a piedi: scuole 22 -> 29, salute 22 -> 17, cibo 784 -> 1.192,
+                   fermate 39 -> 69, verde 59 -> 111
+   Torino col TP:  08:00 25.114 -> 28.360, 14:00 25.904 -> 28.706,
+                   23:00 22.058 -> 25.786, 02:00 7.950 -> 12.001
+   Cintura col TP: 08:00 802 -> 1.317, 14:00 664 -> 1.099,
+                   23:00 471 -> 945, 02:00 273 -> 450
+NOTE IMPORTANTI SUL CONFRONTO:
+- La mediana SALUTE a Torino CALA (22 -> 17): il file OSM precedente
+  conteneva 516 punti sanitari DENTRO Torino che si sommavano al catalogo
+  (era doppio conteggio). Ora dentro Torino vale solo il catalogo, come da
+  piano (D1). Questo calo e' la correzione, non una perdita di servizio.
+- L'aumento di tutte le mediane A PIEDI e' dovuto alla velocita' di cammino
+  ora esplicita di 4,8 km/h (prima R5 usava 3,6): in 15 min si percorrono
+  720 m invece di 540.
+- Chiarimento: prima della correzione la mediana salute in Torino contava
+  anche i 516 punti sanitari OSM dentro Torino (doppioni del catalogo), ora
+  conta solo il catalogo comunale: se in futuro OSM dentro Torino si volesse
+  usare, andrebbe deduplicata col catalogo.
 
+Anomalia 14:00 > 08:00: resta ma si riduce (28.706 contro 28.360, +0,4%,
+prima era +3%). Struttura reale del GTFS, verificata e documentata
+(passaggi 08-09 28.387 contro 14-15 26.044).
+
+Sezioni di collina/bordo (2588, 4264, 5521, 6601): coefficiente R5/linea
+d'aria ora 0,10 / 0,41 / 0,18 / 0,26, migliorato dalle nuove regole
+(origine sulla way pedonabile + speed_walking + destinazioni uguali).
+La collina resta: i valori bassi sono TERRENO, non bug (prova diretta:
+da 5521 a Piazza Castello 81 min a piedi; da 2588 non raggiungibile).
+
+ESITO: campione 200 completo, nessun errore, parziali salvati per ogni ora
+(accessibilita_parziale/). Verifica ritardi (punto 6) rimandata come da
+richiesta. Risultati pronti per il giro completo.
