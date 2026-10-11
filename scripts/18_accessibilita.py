@@ -28,6 +28,18 @@ TAG_VERDE = {
 def log(msg):
     print(msg, flush=True)
 
+def tieni_pc_sveglio():
+    """Chiede a Windows di non sospendere il PC finche' lo script gira.
+    Va chiamato ALL'INIZIO: azzera solo se chiamato prima del calcolo."""
+    if sys.platform == "win32":
+        import ctypes
+        ES_CONTINUOUS = 0x80000000
+        ES_SYSTEM_REQUIRED = 0x00000001
+        esito = ctypes.windll.user32.SetThreadExecutionState(
+            ES_CONTINUOUS | ES_SYSTEM_REQUIRED)
+        log("PC tenuto sveglio durante il calcolo"
+            if esito else "ATTENZIONE: richiesta anti-sospensione non accettata")
+
 def centroide(anello):
     """Centroide d'area di un anello [[lat,lon],...]; None se area nulla."""
     a = cx = cy = 0.0
@@ -128,27 +140,16 @@ def carica_destinazioni():
     return dest
 
 def carica_servizi_osm_cintura():
-    """Carica servizi da OSM nella cintura (fuori Torino)."""
-    # Questo script crea data/processed/servizi_osm_cintura.json
-    # E lo usa qui per evitare duplicare il codice
-    import json
-    os_path = Path("data/processed/servizi_osm_cintura.json")
-    if os_path.exists():
-        with open(os_path, 'r') as f:
-            data = json.load(f)
-        # Convert to format needed by script
-        osm_servizi = {
-            "scuole": [],
-            "salute": [],
-            "cibo": []
-        }
-        for group in ["scuole", "salute", "cibo"]:
-            points = []
-            for p in data["servizi"][group]:
-                points.append((p["lat"], p["lon"]))
-            osm_servizi[group] = points
+    """Carica servizi da OSM nella cintura (fuori Torino), creati dallo script 20."""
+    file_osm = RADICE / "data/processed/servizi_osm_cintura.json"
+    if file_osm.exists():
+        data = json.loads(file_osm.read_text(encoding="utf-8"))
+        osm_servizi = {}
+        for group in ("scuole", "salute", "cibo"):
+            osm_servizi[group] = [(p["lat"], p["lon"]) for p in data["servizi"][group]]
         return osm_servizi
-    return {}
+    log("ATTENZIONE: servizi_osm_cintura.json non trovato: cintura senza scuole/salute/cibo")
+    return {"scuole": [], "salute": [], "cibo": []}
 
 def avvia_rete():
     os.environ["JAVA_HOME"] = str(JAVA_HOME)
@@ -247,8 +248,12 @@ def main():
     ap.add_argument("--velocita-tp", type=float, default=4.8)  # 4.8 km/h per margine TP
     args = ap.parse_args()
     args.ore = [int(x) for x in args.ore.split(",")]
-    args.velocita_piedi = args.velocita_piedi / 1000 * 60  # converti km/h a m/min
-    args.velocita_tp = args.velocita_tp / 1000 * 60  # converti km/h a m/min
+    tieni_pc_sveglio()
+    # Rimuovo le conversioni buggate:
+    # args.velocita_piedi e args.velocita_tp sono già nei formati corretti:
+    # - --velocita-piedi 80 significa 80 m/min (4.8 km/h)
+    # - --velocita-tp 4.8 significa 4.8 km/h
+    # Rimangono come sono per il calcolo del margine
 
     sezioni = carica_sezioni()
     log(f"Sezioni con residenti: {len(sezioni)}")
@@ -338,7 +343,7 @@ def main():
     # ---- COL TRASPORTO PUBBLICO, per ora
     from r5py import TransportMode as TM
     for ora in args.ore:
-        log(f"TP ore {ora:02d}:00, cutoff {args.cutoff_tp} min, velocità {args.velocita_tp:.0f} m/min...")
+        log(f"TP ore {ora:02d}:00, cutoff {args.cutoff_tp} min, velocità {args.velocita_tp:.1f} km/h...")
         t0 = time.time()
         for n, lotto in enumerate(lotti(sezioni, args.lotto_tp), 1):
             ids = [s["id"] for s in lotto]
@@ -403,41 +408,52 @@ def main():
     OUT.write_text(json.dumps(esito, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     log(f"Scritto {OUT} ({OUT.stat().st_size/1e6:.1f} MB)")
 
-    # ---- rapporto
+    # ---- rapporto (Torino e cintura SEMPRE separate: mai mediane miste)
     def mediana(vals):
         v = sorted(vals)
         return v[len(v) // 2] if v else 0
 
+    def comune_di(s):
+        return int(str(s["id"])[:4])
+
+    gr = {
+        "Torino (comune 1272)": [s for s in esito["sezioni"] if comune_di(s) == 1272],
+        "Cintura (comuni != 1272)": [s for s in esito["sezioni"] if comune_di(s) != 1272],
+    }
     righe = [
-        "RAPPORTO ACCESSIBILITA' (orario programmato, STIMATO - motore R5)",
+        "RAPPORTO ACCESSIBILITA' (orario programmato, STIMATO - motore R5/r5py su GTFS + OSM)",
         f"generato: {esito['generato']}  giorno tipo: {args.giorno}  ore: {args.ore}",
-        f"sezioni: {len(sezioni)}  cutoff a piedi: {args.cutoff_piedi} min  TP: {args.cutoff_tp} min",
+        f"sezioni: {len(esito['sezioni'])} (Torino {len(gr['Torino (comune 1272)'])}, "
+        f"cintura {len(gr['Cintura (comuni != 1272)'])})",
+        f"cutoff a piedi: {args.cutoff_piedi} min ({args.velocita_piedi:.0f} m/min)  TP: {args.cutoff_tp} min",
         f"destinazioni: {esito['gruppi']}",
         "",
-        "Servizi essenziali raggiungibili a piedi (mediane per gruppo):",
-        f"  {args.cutoff_piedi} min: {mediana([r['piedi'][str(args.cutoff_piedi)][g] for r in esito['sezioni']]):.0f}"
     ]
-    for ora in args.ore:
-        chi = f"{ora:02d}"
-        righe.append(f"TP {chi}:00 (mediana servizi totali entro {args.cutoff_tp} min): "
-                     f"{mediana([sum(r['tp'][chi].values()) for r in esito['sezioni']]):.0f}")
-    zero_notte = sum(1 for r in esito['sezioni'] if sum(r["tp"]["23"].values()) == 0)
-    tot_piedi = sum(sum(r["piedi"][str(args.cutoff_piedi)].values()) for r in esito['sezioni'])
-    if tot_piedi == 0:
-        righe.insert(1, "ATTENZIONE: conteggio a piedi tutto a zero - controllare margini/rete!")
-    righe += ["", f"Sezioni senza NESSUN servizio entro {args.cutoff_tp} min alle 23:00: {zero_notte}"]
+    for nome, g in gr.items():
+        if not g:
+            continue
+        righe.append(f"== {nome}: {len(g)} sezioni ==")
+        righe.append("  Servizi raggiungibili A PIEDI entro "
+                     f"{args.cutoff_piedi} min (mediane per gruppo):")
+        for grp in GRUPPI:
+            righe.append(f"    {grp:8s}: {mediana([r['piedi'][str(args.cutoff_piedi)][grp] for r in g]):.0f}")
+        for ora in args.ore:
+            chi = f"{ora:02d}"
+            righe.append(f"  COL TP alle {chi}:00 (mediana servizi totali entro {args.cutoff_tp} min): "
+                         f"{mediana([sum(r['tp'][chi].values()) for r in g]):.0f}")
+        for ora in args.ore:
+            chi = f"{ora:02d}"
+            zero = sum(1 for r in g if sum(r["tp"][chi].values()) == 0)
+            if zero:
+                righe.append(f"  ATTNZIONE: {zero} sezioni senza NESSUN servizio entro "
+                             f"{args.cutoff_tp} min alle {chi}:00")
+        zp = sum(1 for r in g if sum(r["piedi"][str(args.cutoff_piedi)].values()) == 0)
+        righe.append(f"  Sezioni a zero anche a piedi: {zp}")
+        righe.append("")
+
     RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
     RAPPORTO.write_text("\n".join(righe), encoding="utf-8")
     log(f"Scritto {RAPPORTO}")
-
-    # Previene il PC in sospensione durante il calcolo
-    if sys.platform == "win32":
-        import ctypes
-        # Disabilita la sospensione del PC durante il calcolo
-        user32 = ctypes.windll.user32
-        power_attach_console = user32.GetConsoleWindow()
-        if power_attach_console:
-            user32.SetConsoleMode(power_attach_console, 0x0001)  # ENABLE_PROCESSED_INPUT
 
 if __name__ == "__main__":
     main()

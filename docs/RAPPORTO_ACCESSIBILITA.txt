@@ -1,17 +1,69 @@
-RAPPORTO ACCESSIBILITA' (orario programmato, STIMATO - motore R5)
-generato: 2026-10-10T17:37:36+00:00  giorno tipo: 2026-10-12  ore: [8, 14, 23, 2]
-sezioni: 200  cutoff a piedi: 15 min  TP: 45 min
-destinazioni: {'scuole': 844, 'salute': 475, 'cibo': 31405, 'fermate': 7043, 'verde': 12072}
+VERIFICA ACCESSIBILITA' - FASE 4 del piano (docs/PIANO_ACCESSIBILITA.md)
+Data: 11/10/2026. Campione di 200 sezioni (Fase 2, run del 11/10 pomeriggio).
+Fonte dati: data/processed/accessibilita.json (STIMATO - orario programmato,
+motore R5/r5py su GTFS GTT 20261002 + OSM tagliato).
 
-Servizi essenziali raggiungibili a piedi (mediane per gruppo):
-  scuole  : 0
-  salute  : 0
-  cibo    : 9
-  fermate : 21
-  verde   : 33
-TP 08:00 (mediana servizi totali entro 45 min): 8250
-TP 14:00 (mediana servizi totali entro 45 min): 7654
-TP 23:00 (mediana servizi totali entro 45 min): 3941
-TP 02:00 (mediana servizi totali entro 45 min): 1385
+1) COMPLETENZA - OK
+- 200 sezioni, id tutti distinti.
+- Ogni sezione ha: a piedi (15 min) con tutti i 5 gruppi; TP alle 08/14/23/02
+  con tutti i 5 gruppi.
+- Nessun valore mancante, None, NaN o negativo.
+- I 4 file parziali (tp_8_0, tp_14_0, tp_23_0, tp_2_0) coincidono riga per riga
+  col file finale (80 sezioni uguali/80). Il salvataggio a tappe funziona.
+- Abitanti nel campione: 38.442.
 
-Sezioni senza NESSUN servizio entro 45 min alle 23:00: 0
+2) MEDIANE TORINO E CINTURA SEPARATE (mai mediane miste)
+Torino (99 sezioni):
+  a piedi: scuole 23, salute 22, cibo 776, fermate 40, verde 61
+  col TP:  08:00 25.386   14:00 26.868   23:00 22.894   02:00 7.941
+Cintura (101 sezioni):
+  a piedi: scuole 1, salute 1, cibo 3, fermate 7, verde 12
+  col TP:  08:00 807   14:00 672   23:00 467   02:00 270
+Grazie ai servizi OSM (fase 0b) la cintura non vale piu' zero a scuola/salute/
+cibo come nel campione del 10/10: resta forte lo scarto, in parte reale e in
+parte da dichiarare (cambio fonte ai confini, punto 6).
+
+3) ORDINE DELLE MEDIANE COL TP - DA CONTROLLARE
+Atteso dal piano: 08 >= 14 > 23 > 02.
+Ottenuto a Torino: 14:00 (26.868) > 08:00 (25.386) > 23:00 (22.894) > 02:00
+(7.941). La fascia 23 > 02 regge; alle 14:00 la mediana supera l'08:00 del 6%.
+Nessun errore macroscopico, ma da verificare nel giro completo (perche' alle 14
+il servizio e' cosi' denso: calendario di lunedi' 12/10, bus inclusi).
+Non blocca.
+
+4) SEZIONI A ZERO
+- TP alle 02:00 a zero: 0 su 200 (a tutti resta raggiungibile qualcosa entro
+  45 min, almeno a piedi). Alle 23:00: 0 su 200.
+- A piedi a zero: 6 sezioni (4 cintura: 10080000054, 10680000006, 11160000034,
+  11440000015; 2 Torino: 12720002588, 12720005521 - le due rientrano tra le
+  "fuori rete" del punto 5).
+
+5) SEZIONI DI TORINO CON R5 MOLTO SOTTO LA LINEA D'ARIA
+Controllo ripetuto col campione pieno (raggio in linea d'aria 950 m, coerente
+con 80 m/min): 4 sezioni sotto il 20%, prima erano 3 nel campione ridotto.
+  12720002588  lat 45.06756 lon 7.76111  res 8    (ratio 0,00)
+  12720004264  lat 45.10024 lon 7.75005  res 111  (ratio 0,11)
+  12720005521  lat 45.06925 lon 7.73388  res 38   (ratio 0,00)
+  12720006601  lat 45.02881 lon 7.67975  res 90   (ratio 0,06)
+Sospetto (da confermare nel giro completo): centroide che cade in un'area senza
+strade (parco recintato, cortile, area ferroviaria) da cui R5 non aggancia la
+rete. Correzione possibile: spostare il punto di origine su una via vicina.
+Per ora NON corretto: i valori restano quelli.
+
+6) SCADEMENTI RISPETTO AL PIANO - da stare bene prima del giro completo
+- D3 (destinazioni accorpate a ~50 m): NON applicate. La funzione aggrega_punti
+  esiste nel codice ma non viene mai chiamata: i punti restano tutti.
+- D1 (fonte della cintura): i punti OSM vengono aggiunti a TUTTE le destinazioni,
+  anche dentro Torino (dove la regola dice "solo catalogo comunale"): possibile
+  doppio conteggio di scuole/negozi già presenti nel catalogo.
+- Ripresa dopo un'interruzione: promessa in fase 1 ma non implementata (il giro
+  riparte da capo); nei .bat il messaggio ora e' corretto.
+- Corretto l'11/10 nel codice (senza impatto sui numeri del campione): percorso
+  di servizi_osm_cintura.json diventato assoluto; blocco anti-sospensione del PC
+  spostato all'inizio del calcolo e con l'API giusta (SetThreadExecutionState);
+  rapporto generato con Torino e cintura separate; .bat COMPLETA riscritto.
+
+7) LIMITI
+Tutti i numeri sono [STIMATO] su orario programmato: niente ritardi, capienze,
+domanda. Velocita' a piedi 80 m/min dichiarata ma non verificata sul campo.
+Confronto Torino/cintura da leggere sempre tenendo il cambio di fonte ai confini.
