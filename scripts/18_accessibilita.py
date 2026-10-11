@@ -449,7 +449,10 @@ def main():
     # margine in linea d'aria (lat,lon) oltre il cutoff + 20% di respiro
     km_piedi = args.cutoff_piedi * args.velocita_piedi / 1000.0  # metri/min -> km
     margine_piedi = (km_piedi / 111.32 * 1.2, km_piedi / 111.32 / 0.7071 * 1.2)
-    margine_tp = (args.velocita_tp / 111.32, args.velocita_tp / 111.32 / 0.7071)
+    # margine TP: 20 km in linea d'aria FISSI, indipendenti dalla velocita'
+    # (verifica 11/10: il margine legato alla velocita' tagliava destinazioni che
+    # nel cutoff di 45 min ci possono stare, es. di notte col treno)
+    margine_tp = (20.0 / 111.32, 20.0 / 111.32 / 0.7071)
 
     risultati = {s["id"]: {
         "id": s["id"],
