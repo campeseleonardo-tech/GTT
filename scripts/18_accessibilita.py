@@ -1,7 +1,26 @@
 ﻿#!/usr/bin/env python3
+"""Accessibilita' per sezione di censimento (motore R5/r5py).
+Scrive data/processed/accessibilita.json + docs/RAPPORTO_ACCESSIBILITA.txt.
+
+Decisio nel piano docs/PIANO_ACCESSIBILITA.md:
+- D1: dentro Torino solo il catalogo comunale; i servizi OSM (script 20) entrano
+  soltanto nei lotti che contengono sezioni FUORI Torino.
+- D2: cammino 4,8 km/h = 80 m/min (anche per i margini).
+- D3: destinazioni accorpate in celle di ~50 m; il peso della cella dice quanti
+  punti originali contiene, cosi' il conteggio resta identico (r5py non pesa le
+  destinazioni, quindi il peso e' applicato qui, lato conteggio).
+- D4: ore del TP 08/14/23/02 di lunedi' 12/10/2026.
+- Con --salva-tappe si scrive un file per lotto in data/processed/
+  accessibilita_parziale/ e, se il giro si interrompe, al rilancio i lotti gia'
+  salvati vengono ricaricati e non ricalcolati.
+- Centroidi corretti: le sezioni in SEZIONI_FUORI_RETE (a piedi quasi a zero
+  per un centroide lontano dalla rete) vengono spostate sul nodo OSM piu'
+  vicino entro RAGGIO_CENTROIDE metri (cache in centroidi_fuori_rete.json).
+"""
 import argparse
 import datetime as dt
 import json
+import math
 import os
 import sys
 import time
@@ -16,29 +35,50 @@ OSM_TAGLIATO = RADICE / "data/otp/rete/torino_cintura.osm.pbf"
 JAVA_HOME = RADICE / "data/otp/jdk-25.0.4.1+1-jre"
 OUT = RADICE / "data/processed/accessibilita.json"
 RAPPORTO = RADICE / "docs/RAPPORTO_ACCESSIBILITA.txt"
+DIR_PARZ = RADICE / "data/processed/accessibilita_parziale"
+CENTROIDI = RADICE / "data/processed/centroidi_fuori_rete.json"
 
-CENTRO = (45.0716, 7.6869)
 GRUPPI = ["scuole", "salute", "cibo", "fermate", "verde"]
+
+# Sezioni di Torino con R5 sotto il 20% della linea d'aria (Fase 4, 11/10):
+# sospetto centroide in area senza strade (parco, cortile, ferrovia).
+SEZIONI_FUORI_RETE = {
+    "12720002588": "R5 a piedi 0 con 4 destinazioni in linea d'aria (Fase 4)",
+    "12720004264": "R5 a piedi 11% della linea d'aria (Fase 4)",
+    "12720005521": "R5 a piedi 0 con prove in linea d'aria (Fase 4)",
+    "12720006601": "R5 a piedi 6% della linea d'aria (Fase 4)",
+}
+RAGGIO_CENTROIDE = 200  # metri: raggio in cui si cerca il nodo OSM piu' vicino
 
 TAG_VERDE = {
     "leisure": {"park", "garden", "playground", "pitch", "dog_park", "golf_course"},
     "landuse": {"cemetery", "forest", "grass", "recreation_ground", "village_green", "meadow"},
 }
 
+
 def log(msg):
     print(msg, flush=True)
 
+
 def tieni_pc_sveglio():
     """Chiede a Windows di non sospendere il PC finche' lo script gira.
-    Va chiamato ALL'INIZIO: azzera solo se chiamato prima del calcolo."""
+    Va ALL'INIZIO del calcolo, non alla fine."""
     if sys.platform == "win32":
         import ctypes
         ES_CONTINUOUS = 0x80000000
         ES_SYSTEM_REQUIRED = 0x00000001
-        esito = ctypes.windll.user32.SetThreadExecutionState(
-            ES_CONTINUOUS | ES_SYSTEM_REQUIRED)
+        esito = ctypes.windll.kernel32.SetThreadExecutionState(
+            ES_CONTINUOUS | ES_SYSTEM_REQUIRED)  # SetThreadExecutionState sta in kernel32
         log("PC tenuto sveglio durante il calcolo"
             if esito else "ATTENZIONE: richiesta anti-sospensione non accettata")
+
+
+def d_aria_m(la0, lo0, la1, lo1):
+    """Distanza in linea d'aria in metri (equirettangolare, ok entro la citta')."""
+    dx = (lo1 - lo0) * 111320.0 * math.cos(math.radians(la0))
+    dy = (la1 - la0) * 110570.0
+    return math.hypot(dx, dy)
+
 
 def centroide(anello):
     """Centroide d'area di un anello [[lat,lon],...]; None se area nulla."""
@@ -56,6 +96,7 @@ def centroide(anello):
     # anelli [lat,lon]: x=lat, y=lon -> centroide (lat, lon)
     return (cx / (3 * a), cy / (3 * a))
 
+
 def carica_sezioni():
     sezioni = json.loads(SEZIONI.read_text(encoding="utf-8"))
     out = []
@@ -69,9 +110,10 @@ def carica_sezioni():
             "res": s["p"],
             "lat": cen[0],
             "lon": cen[1],
-            "torino": s["c"] == 1272  # True if in Torino (comune 1272)
+            "torino": s["c"] == 1272  # True = dentro il Comune di Torino
         })
     return out
+
 
 def punti_da_catalogo(gruppo):
     d = json.loads((CATALOGO / f"{gruppo}.json").read_text(encoding="utf-8"))
@@ -83,6 +125,7 @@ def punti_da_catalogo(gruppo):
             except (TypeError, ValueError, IndexError):
                 continue
     return punti
+
 
 def fermate_gtfs():
     import csv as csvmod
@@ -103,6 +146,7 @@ def fermate_gtfs():
         except ValueError:
             continue
     return fermate
+
 
 def verde_da_osm():
     import osmium
@@ -127,20 +171,46 @@ def verde_da_osm():
     Verde().apply_file(str(OSM_TAGLIATO), locations=True)
     return punti
 
-def carica_destinazioni():
-    dest = {
+
+def aggrega_punti(punti, margine_metri=50):
+    """D3: raggruppa i punti in celle di ~margine_metri metri.
+    Esce [(cella_lat, cella_lon, peso)] dove peso = punti originali nella cella:
+    nel conteggio moltiplicare per peso equivale a contare i punti uno per uno
+    (r5py non pesa le destinazioni, il peso e' applicato lato conteggio)."""
+    cella = margine_metri / 111000.0
+    celle = {}
+    for lat, lon in punti:
+        chiave = (round(lat / cella), round(lon / cella))
+        celle[chiave] = celle.get(chiave, 0) + 1
+    return [(k[0] * cella, k[1] * cella, pes) for k, pes in celle.items()]
+
+
+def carica_destinazioni(margine_metri, osm_cintura):
+    """Destinazioni per gruppo, gia' accorpate in celle: [(lat, lon, peso, da_osm)].
+    I punti OSM della cintura restano SEPARATI (riservati ai lotti fuori Torino)."""
+    grezzi = {
         "scuole": punti_da_catalogo("istruzione"),
         "salute": punti_da_catalogo("salute"),
         "cibo": punti_da_catalogo("commercio"),
         "fermate": fermate_gtfs(),
         "verde": verde_da_osm(),
     }
+    dest = {}
     for g in GRUPPI:
-        log(f"  destinazioni {g}: {len(dest[g])}")
+        celle = aggrega_punti(grezzi[g], margine_metri)
+        dest[g] = [(la, lo, pes, False) for (la, lo, pes) in celle]
+        n_osm = 0
+        if g in osm_cintura and osm_cintura[g]:
+            osm_agg = aggrega_punti(osm_cintura[g], margine_metri)
+            dest[g].extend([(la, lo, pes, True) for (la, lo, pes) in osm_agg])
+            n_osm = len(osm_cintura[g])
+        log(f"  {g}: {len(grezzi[g])} punti (+{n_osm} OSM) -> "
+            f"{len(dest[g])} celle (aggregazione ~{margine_metri} m)")
     return dest
 
+
 def carica_servizi_osm_cintura():
-    """Carica servizi da OSM nella cintura (fuori Torino), creati dallo script 20."""
+    """Servizi OSM della cintura, creati dallo script 20."""
     file_osm = RADICE / "data/processed/servizi_osm_cintura.json"
     if file_osm.exists():
         data = json.loads(file_osm.read_text(encoding="utf-8"))
@@ -150,6 +220,75 @@ def carica_servizi_osm_cintura():
         return osm_servizi
     log("ATTENZIONE: servizi_osm_cintura.json non trovato: cintura senza scuole/salute/cibo")
     return {"scuole": [], "salute": [], "cibo": []}
+
+
+def correggi_centroidi(sezioni):
+    """Sposta l'origine delle sezioni in SEZIONI_FUORI_RETE sul nodo OSM piu'
+    vicino (entro RAGGIO_CENTROIDE metri). Cache: data/processed/centroidi_fuori_rete.json."""
+    bersagli = {s["id"]: (s["lat"], s["lon"]) for s in sezioni
+                if s["id"] in SEZIONI_FUORI_RETE}
+    if not bersagli or not SEZIONI_FUORI_RETE:
+        return
+    if CENTROIDI.exists():
+        corretti = json.loads(CENTROIDI.read_text(encoding="utf-8"))
+    else:
+        import osmium
+
+        # Modo dello sistemare: NON basta il nodo OSM piu' vicino qualunque
+        # (puo' stare su autostrada/ferrovia, che R5 non pedona). Si cerca il
+        # nodo piu' vicino che appartiene a una way pedonabile.
+        WAY_PEDONABILI = {
+            "primary", "secondary", "tertiary", "residential", "unclassified",
+            "service", "road", "footway", "path", "pedestrian", "living_street",
+            "track", "steps", "cycleway",
+        }
+
+        class Vicinissimi(osmium.SimpleHandler):
+            def __init__(self):
+                super().__init__()
+                self.migliori = {k: (None, None, math.inf) for k in bersagli}
+
+            def way(self, w):
+                if w.tags.get("highway") not in WAY_PEDONABILI:
+                    return
+                for nd in w.nodes:
+                    if not nd.location.valid():
+                        continue
+                    la = nd.location.lat
+                    lo = nd.location.lon
+                    for k, (la0, lo0) in bersagli.items():
+                        if abs(la - la0) > 0.02 or abs(lo - lo0) > 0.02:
+                            continue
+                        dist = d_aria_m(la0, lo0, la, lo)
+                        if dist < self.migliori[k][2]:
+                            self.migliori[k] = (la, lo, dist)
+
+        log(f"Correzione centroidi: cerco le way pedonabili piu' vicine a {len(bersagli)} "
+            "sezioni (una passata sul taglio OSM, poi resta in cache)...")
+        h = Vicinissimi()
+        h.apply_file(str(OSM_TAGLIATO), locations=True)
+        corretti = {}
+        for k, (la, lo, dist) in h.migliori.items():
+            if la is not None and dist <= RAGGIO_CENTROIDE:
+                corretti[k] = {"lat": round(la, 6), "lon": round(lo, 6), "distanza": round(dist)}
+            else:
+                corretti[k] = {"lat": None, "lon": None,
+                               "distanza": None if dist == math.inf else round(dist),
+                               "nota": "nessun nodo OSM entro il raggio"}
+        CENTROIDI.write_text(json.dumps(corretti, indent=1), encoding="utf-8")
+        log(f"  cache scritta: {CENTROIDI.name}")
+    for s in sezioni:
+        c = corretti.get(s["id"])
+        if not c:
+            continue
+        if c.get("lat") is not None:
+            log(f"  {s['id']}: centroide a {c['distanza']} m dalla rete, origine spostata "
+                f"({s['lat']:.5f},{s['lon']:.5f} -> {c['lat']},{c['lon']})")
+            s["lat"], s["lon"] = c["lat"], c["lon"]
+        else:
+            log(f"  {s['id']}: nessun nodo OSM entro {RAGGIO_CENTROIDE} m, resta "
+                "quasi a zero (vedi rapporto)")
+
 
 def avvia_rete():
     os.environ["JAVA_HOME"] = str(JAVA_HOME)
@@ -163,12 +302,14 @@ def avvia_rete():
     log(f"Rete R5 pronta in {time.time()-t0:.0f} s")
     return rete, gpd
 
+
 def gdf_da_punti(gpd, punti, id_prefisso):
     import pandas as pd
     from shapely.geometry import Point
     df = pd.DataFrame({"id": [f"{id_prefisso}{i}" for i in range(len(punti))],
                        "lat": [p[0] for p in punti], "lon": [p[1] for p in punti]})
     return gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df["lon"], df["lat"]), crs="EPSG:4326")
+
 
 def matrice(rete, moduli, orig_gdf, dest_gdf, quando, max_time, **kwargs):
     # r5py 1.x: TravelTimeMatrix e' un GeoDataFrame calcolato al costruttore
@@ -177,15 +318,17 @@ def matrice(rete, moduli, orig_gdf, dest_gdf, quando, max_time, **kwargs):
         rete, origins=orig_gdf, destinations=dest_gdf,
         departure=quando, transport_modes=moduli, max_time=max_time, **kwargs)
 
+
 def lotti(origins, n):
     """Origini raggruppate a lotti spazialmente compatti (griglia + ordine)."""
     ordinate = sorted(origins, key=lambda o: (round(o["lat"] / 0.02), round(o["lon"] / 0.02)))
     for i in range(0, len(ordinate), n):
         yield ordinate[i:i + n]
 
+
 def conto_per_origine(mat, orig_ids, dest_by_k, margine_gradi, origine_da_pos, cutoff_min):
     """Dal DataFrame r5py (from_id,to_id,travel_time) ricava i conteggi per
-    sezione e gruppo. dest_by_k: {k_originale: (lat,lon,gruppo)}."""
+    sezione e gruppo. dest_by_k: {k: (lat, lon, gruppo, peso)}."""
     per_gruppo = {oid: {g: 0 for g in GRUPPI} for oid in orig_ids}
     for r in mat.itertuples(index=False):
         oid = str(r.from_id)
@@ -197,40 +340,64 @@ def conto_per_origine(mat, orig_ids, dest_by_k, margine_gradi, origine_da_pos, c
             continue
         if tempo > cutoff_min:
             continue
-        la, lo, g = dest_by_k[int(str(r.to_id).removeprefix("D"))]
+        la, lo, g, pes = dest_by_k[int(str(r.to_id).removeprefix("D"))]
         la0, lo0 = origine_da_pos[oid]
         if abs(la - la0) <= margine_gradi[0] and abs(lo - lo0) <= margine_gradi[1]:
-            per_gruppo[oid][g] += 1
+            per_gruppo[oid][g] += pes  # pes = punti originali nella cella (D3)
     return per_gruppo
 
-def aggrega_punti(punti, margine_metri=50):
-    """Raggruppa i punti in celle di ~margine_metri metri e crea punti medi con peso."""
-    # Converti metri a gradi (1 grado ~ 111 km)
-    margine_gradi = margine_metri / 111000.0
-    points = []
-    for lat, lon in points:
-        # Trova la cella più vicina
-        cell_lat = round(lat / margine_gradi) * margine_gradi
-        cell_lon = round(lon / margine_gradi) * margine_gradi
-        points.append((cell_lat, cell_lon, lat, lon))  # (cella_lat, cella_lon, lat_originale, lon_originale)
-    
-    # Raggruppa per cella
-    cell_dict = {}
-    for cell_lat, cell_lon, lat, lon in points:
-        key = (cell_lat, cell_lon)
-        if key not in cell_dict:
-            cell_dict[key] = []
-        cell_dict[key].append((lat, lon))
-    
-    # Crea punti medi con peso (numero di punti originali)
-    aggregated = []
-    for (cell_lat, cell_lon), pts in cell_dict.items():
-        agg_lat = sum(p[0] for p in pts) / len(pts)
-        agg_lon = sum(p[1] for p in pts) / len(pts)
-        peso = len(pts)
-        aggregated.append((cell_lat, cell_lon, peso))
-    
-    return aggregated
+
+# ---- salvataggio a tappe e ripresa ----
+
+def firma_run(args, n_sezioni):
+    """Identifica UNA run: cambiando un parametro i parziali vecchi vengono ignorati."""
+    return {
+        "giorno": args.giorno,
+        "ore": args.ore,
+        "cutoff_piedi": args.cutoff_piedi,
+        "cutoff_tp": args.cutoff_tp,
+        "velocita_piedi": args.velocita_piedi,
+        "velocita_tp": args.velocita_tp,
+        "campione": n_sezioni,
+        "margine_metri": args.margine_metri,
+        "lotto_piedi": args.lotto_piedi,
+        "lotto_tp": args.lotto_tp,
+    }
+
+
+def salva_parziale(fase, indice_lotto, risultati, ids, firma):
+    DIR_PARZ.mkdir(parents=True, exist_ok=True)
+    path = DIR_PARZ / f"{fase}_{indice_lotto:06d}.json"
+    contenuto = {
+        "generato": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
+        "fase": fase,
+        "lotto": indice_lotto,
+        "firma": firma,
+        "sezioni": [risultati[oid] for oid in ids],
+    }
+    path.write_text(json.dumps(contenuto, ensure_ascii=False, separators=(",", ":")),
+                    encoding="utf-8")
+    return path
+
+
+def riprendi_parziali(fase, firma):
+    """Lotti gia' calcolati per una fase: {lotto: {id: risultato}}.
+    Ignora i file di un'altra run (firma diversa) o di formato vecchio."""
+    if not DIR_PARZ.exists():
+        return {}
+    archivio = {}
+    for p in sorted(DIR_PARZ.glob(f"{fase}_*.json")):
+        try:
+            c = json.loads(p.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            log(f"  parziale NON letto (corrotto?): {p.name}")
+            continue
+        if c.get("fase") != fase or c.get("firma") != firma or "lotto" not in c:
+            log(f"  parziale di un'altra run ignorato: {p.name}")
+            continue
+        archivio[c["lotto"]] = {s["id"]: s for s in c["sezioni"]}
+    return archivio
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -240,20 +407,17 @@ def main():
     ap.add_argument("--cutoff-piedi", type=int, default=15)
     ap.add_argument("--cutoff-tp", type=int, default=45)
     ap.add_argument("--lotto-piedi", type=int, default=100)
-    ap.add_argument("--lotto-tp", type=int, default=20)  # Ridotto da 40 a 20
+    ap.add_argument("--lotto-tp", type=int, default=20)  # Rispetto a 40: meno memoria
     ap.add_argument("--giro-prova", action="store_true")
-    ap.add_argument("--salva-tappe", action="store_true")  # Salva a tappe
-    ap.add_argument("--margine-metri", type=int, default=50)  # Margine per aggregazione
+    ap.add_argument("--salva-tappe", action="store_true")  # salva a tappe E riprende
+    ap.add_argument("--salva-ogni", type=int, default=5)  # salvataggio ogni N lotti
+    ap.add_argument("--margine-metri", type=int, default=50)  # D3: celle di aggregazione
     ap.add_argument("--velocita-piedi", type=float, default=80)  # 4.8 km/h = 80 m/min
     ap.add_argument("--velocita-tp", type=float, default=4.8)  # 4.8 km/h per margine TP
+    ap.add_argument("--niente-correzione-centroidi", action="store_true")
     args = ap.parse_args()
     args.ore = [int(x) for x in args.ore.split(",")]
     tieni_pc_sveglio()
-    # Rimuovo le conversioni buggate:
-    # args.velocita_piedi e args.velocita_tp sono già nei formati corretti:
-    # - --velocita-piedi 80 significa 80 m/min (4.8 km/h)
-    # - --velocita-tp 4.8 significa 4.8 km/h
-    # Rimangono come sono per il calcolo del margine
 
     sezioni = carica_sezioni()
     log(f"Sezioni con residenti: {len(sezioni)}")
@@ -262,14 +426,15 @@ def main():
         sezioni = sezioni[::passo][:args.campione]
         log(f"Campione: {len(sezioni)} sezioni (una ogni {passo})")
 
-    dest = carica_destinazioni()
-    osm_servizi = carica_servizi_osm_cintura()
-    dest["cibo"].extend(osm_servizi["cibo"])  # Aggiungi cibo OSM
-    dest["salute"].extend(osm_servizi["salute"])  # Aggiungi salute OSM
-    dest["scuole"].extend(osm_servizi["scuole"])  # Aggiungi scuole OSM
+    if not args.niente_correzione_centroidi:
+        correggi_centroidi(sezioni)
 
-    dest_piatti = [(la, lo, g) for g in GRUPPI for (la, lo) in dest[g]]
-    log(f"Destinazioni totali: {len(dest_piatti)}")
+    osm_cintura = carica_servizi_osm_cintura()
+    dest = carica_destinazioni(args.margine_metri, osm_cintura)
+
+    # dest_piatti: (lat, lon, gruppo, peso, e_osm_cintura)
+    dest_piatti = [(p[0], p[1], g, p[2], p[3]) for g in GRUPPI for p in dest[g]]
+    log(f"Destinazioni totali: {len(dest_piatti)} celle (raggruppate col peso)")
 
     rete, gpd = avvia_rete()
     if args.giro_prova:
@@ -295,99 +460,99 @@ def main():
         "tp": {}
     } for s in sezioni}
 
+    firma = firma_run(args, len(sezioni))
+    n_lotti_piedi = (len(sezioni) + args.lotto_piedi - 1) // args.lotto_piedi
+    n_lotti_tp = (len(sezioni) + args.lotto_tp - 1) // args.lotto_tp
     giorno = dt.date.fromisoformat(args.giorno)
 
-    # ---- A PIEDI (indipendente dall'ora: R5 a piedi non usa gli orari) 
-    log(f"A piedi: cutoff {args.cutoff_piedi} min, velocità {args.velocita_piedi:.0f} m/min...")
+    def salva(parz_fase, n, lotto):
+        if not args.salva_tappe:
+            return
+        if n % args.salva_ogni == 0 or n == (n_lotti_piedi if parz_fase == "piedi" else n_lotti_tp):
+            p = salva_parziale(parz_fase, n, risultati, [s["id"] for s in lotto], firma)
+            log(f"  salvato {p.name}")
+
+    # ---- A PIEDI (indipendente dall'ora: R5 a piedi non usa gli orari)
+    log(f"A piedi: cutoff {args.cutoff_piedi} min, velocita' {args.velocita_piedi:.0f} m/min...")
+    fatti = riprendi_parziali("piedi", firma) if args.salva_tappe else {}
+    if fatti:
+        log(f"  ripresa: {len(fatti)} lotti a piedi gia' calcolati, li ricarico")
+        for lotto_fatto in fatti.values():
+            for oid, rr in lotto_fatto.items():
+                if oid in risultati:
+                    risultati[oid]["piedi"] = rr["piedi"]
     t0 = time.time()
     for n, lotto in enumerate(lotti(sezioni, args.lotto_piedi), 1):
+        if n in fatti:
+            log(f"  lotto a piedi #{n}: gia' fatto, salto")
+            continue
         ids = [s["id"] for s in lotto]
         orig = orig_gdf_tutte[orig_gdf_tutte["id"].isin(ids)]
         la0 = min(s["lat"] for s in lotto) - margine_piedi[0]
         la1 = max(s["lat"] for s in lotto) + margine_piedi[0]
         lo0 = min(s["lon"] for s in lotto) - margine_piedi[1]
         lo1 = max(s["lon"] for s in lotto) + margine_piedi[1]
-        dentro = [(k, p) for k, p in enumerate(dest_piatti) if la0 <= p[0] <= la1 and lo0 <= p[1] <= lo1]
+        dentro = [(k, p) for k, p in enumerate(dest_piatti)
+                  if la0 <= p[0] <= la1 and lo0 <= p[1] <= lo1]
         dest_gdf = dest_gdf_tutte.iloc[[k for k, _ in dentro]]
-        dest_by_k = {k: (p[0], p[1], p[2]) for k, p in dentro}
+        dest_by_k = {k: (p[0], p[1], p[2], p[3]) for k, p in dentro}
         quando = dt.datetime.combine(giorno, dt.time(7, 0))
         m = matrice(rete, [__import__("r5py").r5.TransportMode.WALK],
                     orig, dest_gdf, quando, dt.timedelta(minutes=args.cutoff_piedi))
-        conteggi = conto_per_origine(m, ids, dest_by_k, margine_piedi, origine_da_pos, args.cutoff_piedi)
+        conteggi = conto_per_origine(m, ids, dest_by_k, margine_piedi, origine_da_pos,
+                                     args.cutoff_piedi)
         for oid, cg in conteggi.items():
             risultati[oid]["piedi"][str(args.cutoff_piedi)] = cg
-        log(f"  lotto a piedi {n}: {len(lotto)} sezioni, {len(dest_by_k)} dest ({time.time()-t0:.0f} s)")
-        if args.salva_tappe and n % 10 == 0:
-            # Salva a tappe
-            partial = {
-                "generato": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-                "avviso": "Calcolo a piedi parziale",
-                "parametri": {
-                    "giorno": args.giorno,
-                    "ore": args.ore,
-                    "cutoff_piedi_min": args.cutoff_piedi,
-                    "cutoff_tp_min": args.cutoff_tp,
-                    "velocita_piedi": args.velocita_piedi,
-                    "lotto_piedi": args.lotto_piedi,
-                    "campione": len(sezioni)
-                },
-                "gruppi": {g: len(dest[g]) for g in GRUPPI},
-                "sezioni": [risultati[s["id"]] for s in sezioni[:n*args.lotto_piedi]]
-            }
-            partial_path = OUT.parent / f"accessibilita_parziale/piedi_{n//args.lotto_piedi}.json"
-            partial_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(partial_path, 'w') as f:
-                json.dump(partial, f, ensure_ascii=False, separators=(",", ":"))
-            log(f"  Salvataggio tappe: {partial_path}")
+        log(f"  lotto a piedi {n}: {len(lotto)} sezioni, {len(dest_by_k)} celle dest "
+            f"({time.time()-t0:.0f} s)")
+        salva("piedi", n, lotto)
 
-    # ---- COL TRASPORTO PUBBLICO, per ora
+    # ---- COL TRASPORTO PUBBLICO, per ora (D1: OSM solo per lotti con sezioni fuori Torino)
     from r5py import TransportMode as TM
+    indice_osm = {k for k, p in enumerate(dest_piatti) if p[4]}
     for ora in args.ore:
-        log(f"TP ore {ora:02d}:00, cutoff {args.cutoff_tp} min, velocità {args.velocita_tp:.1f} km/h...")
+        log(f"TP ore {ora:02d}:00, cutoff {args.cutoff_tp} min, velocita' {args.velocita_tp:.1f} km/h...")
+        fatti = riprendi_parziali(f"tp_{ora}", firma) if args.salva_tappe else {}
+        for dd in fatti.values():
+            for oid, rr in dd.items():
+                if oid in risultati:
+                    risultati[oid]["tp"][f"{ora:02d}"] = rr["tp"][f"{ora:02d}"]
+        if fatti:
+            log(f"  ripresa: {len(fatti)} lotti dell'ora {ora:02d} gia' calcolati, li ricarico")
         t0 = time.time()
         for n, lotto in enumerate(lotti(sezioni, args.lotto_tp), 1):
+            if n in fatti:
+                log(f"  lotto {ora:02d} #{n}: gia' fatto, salto")
+                continue
             ids = [s["id"] for s in lotto]
+            col_cintura = any(not s["torino"] for s in lotto)
             orig = orig_gdf_tutte[orig_gdf_tutte["id"].isin(ids)]
             la0 = min(s["lat"] for s in lotto) - margine_tp[0]
             la1 = max(s["lat"] for s in lotto) + margine_tp[0]
             lo0 = min(s["lon"] for s in lotto) - margine_tp[1]
             lo1 = max(s["lon"] for s in lotto) + margine_tp[1]
-            dentro = [(k, p) for k, p in enumerate(dest_piatti) if la0 <= p[0] <= la1 and lo0 <= p[1] <= lo1]
+            dentro = [(k, p) for k, p in enumerate(dest_piatti)
+                      if la0 <= p[0] <= la1 and lo0 <= p[1] <= lo1
+                      and (col_cintura or k not in indice_osm)]
             dest_gdf = dest_gdf_tutte.iloc[[k for k, _ in dentro]]
-            dest_by_k = {k: (p[0], p[1], p[2]) for k, p in dentro}
+            dest_by_k = {k: (p[0], p[1], p[2], p[3]) for k, p in dentro}
             quando = dt.datetime.combine(giorno, dt.time(ora, 0))
             m = matrice(rete, [TM.TRANSIT, TM.WALK], orig, dest_gdf, quando,
                         dt.timedelta(minutes=args.cutoff_tp))
-            conteggi = conto_per_origine(m, ids, dest_by_k, margine_tp, origine_da_pos, args.cutoff_tp)
+            conteggi = conto_per_origine(m, ids, dest_by_k, margine_tp, origine_da_pos,
+                                         args.cutoff_tp)
             for oid, cg in conteggi.items():
                 risultati[oid]["tp"][f"{ora:02d}"] = cg
-            log(f"  lotto {ora:02d} #{n}: {len(lotto)} sezioni, {len(dest_by_k)} dest ({time.time()-t0:.0f} s)")
-            if args.salva_tappe and n % 10 == 0:
-                # Salva a tappe
-                partial = {
-                    "generato": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-                    "avviso": "Calcolo TP parziale",
-                    "parametri": {
-                        "giorno": args.giorno,
-                        "ore": args.ore,
-                        "cutoff_piedi_min": args.cutoff_piedi,
-                        "cutoff_tp_min": args.cutoff_tp,
-                        "velocita_tp": args.velocita_tp,
-                        "lotto_tp": args.lotto_tp,
-                        "campione": len(sezioni)
-                    },
-                    "gruppi": {g: len(dest[g]) for g in GRUPPI},
-                    "sezioni": [risultati[s["id"]] for s in sezioni[(n-1)*args.lotto_tp:(n)*args.lotto_tp]]
-                }
-                partial_path = OUT.parent / f"accessibilita_parziale/tp_{ora}_{n//args.lotto_tp}.json"
-                partial_path.parent.mkdir(parents=True, exist_ok=True)
-                with open(partial_path, 'w') as f:
-                    json.dump(partial, f, ensure_ascii=False, separators=(",", ":"))
-                log(f"  Salvataggio tappe: {partial_path}")
+            log(f"  lotto {ora:02d} #{n}: {len(lotto)} sezioni ({'cintura' if col_cintura else 'Torino'}), "
+                f"{len(dest_by_k)} celle dest ({time.time()-t0:.0f} s)")
+            salva(f"tp_{ora}", n, lotto)
 
     esito = {
         "generato": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-        "avviso": "ORARIO PROGRAMMATO [STIMATO], non misurato: niente ritardi, capienze o domanda. Motore R5/r5py su GTFS + OSM tagliato (17).",
+        "avviso": "ORARIO PROGRAMMATO [STIMATO], non misurato: niente ritardi, capienze o "
+                  "domanda. Motore R5/r5py su GTFS + OSM tagliato (17). Destinazioni accorpate "
+                  "in celle di ~50 m col peso dei punti. OSM della cintura solo fuori Torino. "
+                  f"Centroidi corretti per sezione: {sorted(SEZIONI_FUORI_RETE)}.",
         "parametri": {
             "giorno": args.giorno,
             "ore": args.ore,
@@ -398,7 +563,7 @@ def main():
             "lotto_piedi": args.lotto_piedi,
             "lotto_tp": args.lotto_tp,
             "campione": len(sezioni),
-            "margine_metri": args.margine_metri
+            "margine_metri": args.margine_metri,
         },
         "gruppi": {g: len(dest[g]) for g in GRUPPI},
         "sezioni": [risultati[s["id"]] for s in sezioni],
@@ -426,7 +591,10 @@ def main():
         f"sezioni: {len(esito['sezioni'])} (Torino {len(gr['Torino (comune 1272)'])}, "
         f"cintura {len(gr['Cintura (comuni != 1272)'])})",
         f"cutoff a piedi: {args.cutoff_piedi} min ({args.velocita_piedi:.0f} m/min)  TP: {args.cutoff_tp} min",
-        f"destinazioni: {esito['gruppi']}",
+        f"gruppi (celle di destinazione): {esito['gruppi']}",
+        "  NOTA: le destinazioni sono accorpate in celle di ~50 m con peso: il totale pesato "
+        "vale il numero dei punti originali. OSM aggiunto solo ai lotti con sezioni fuori "
+        "Torino (D1).",
         "",
     ]
     for nome, g in gr.items():
@@ -434,7 +602,7 @@ def main():
             continue
         righe.append(f"== {nome}: {len(g)} sezioni ==")
         righe.append("  Servizi raggiungibili A PIEDI entro "
-                     f"{args.cutoff_piedi} min (mediane per gruppo):")
+                     f"{args.cutoff_piedi} min (mediane pesate per gruppo):")
         for grp in GRUPPI:
             righe.append(f"    {grp:8s}: {mediana([r['piedi'][str(args.cutoff_piedi)][grp] for r in g]):.0f}")
         for ora in args.ore:
@@ -445,7 +613,7 @@ def main():
             chi = f"{ora:02d}"
             zero = sum(1 for r in g if sum(r["tp"][chi].values()) == 0)
             if zero:
-                righe.append(f"  ATTNZIONE: {zero} sezioni senza NESSUN servizio entro "
+                righe.append(f"  ATENZIONE: {zero} sezioni senza NESSUN servizio entro "
                              f"{args.cutoff_tp} min alle {chi}:00")
         zp = sum(1 for r in g if sum(r["piedi"][str(args.cutoff_piedi)].values()) == 0)
         righe.append(f"  Sezioni a zero anche a piedi: {zp}")
@@ -454,6 +622,7 @@ def main():
     RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
     RAPPORTO.write_text("\n".join(righe), encoding="utf-8")
     log(f"Scritto {RAPPORTO}")
+
 
 if __name__ == "__main__":
     main()

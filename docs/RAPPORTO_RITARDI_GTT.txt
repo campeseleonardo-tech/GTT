@@ -2,8 +2,8 @@
 CORSE GTT (trip_update) E AVVISI — analisi
 ======================================================================
 File raccolti: ['ritardi_20261009.csv']
-Righe (lette_utc,trip,data,ora,rel unici): 1
-Intervallo UTC: 2026-10-08T22:35:03+00:00 -> 2026-10-08T22:35:03+00:00
+Righe (lette_utc,trip,data,ora,rel unici): 6
+Intervallo UTC: 2026-10-08T22:35:03+00:00 -> 2026-10-08T22:39:42+00:00
 Corse distinte (start_date, trip_id, start_time): 1
   Campioni con delay presente: 0 righe · con stop_time_update: 0 righe
 Match trip_id <-> GTFS (trips.txt): 1/1 (100.0%)  -> GTFS: gtt_gtfs_20261003_224530.zip
@@ -12,23 +12,22 @@ Match trip_id <-> GTFS (trips.txt): 1/1 (100.0%)  -> GTFS: gtt_gtfs_20261003_224
   20261008: 1 corse totali, 0 PROGRAMMATE, 1 SOPPRESSE, altre 0
 
 -- Corse distinte per linea e ora (snapshot = letture distinte nel periodo) --
-     67U ora 00:00  corse     1  (suppresse   1)  snapshot   1
+     67U ora 00:00  corse     6  (suppresse   6)  snapshot   6
 
 -- Distribuzione per schedule_relationship --
   SOPPRESSA (rel=3): 1 corse distinte
 
 -- Avvisi GTT (decodificati) --
-  Avvisi distinti (unione per id): 154
-  Per causa: {'PROBLEMA_TECNICO': 77, 'LAVORI': 36, 'INCIDENTE': 24, 'ATTIVITA_POLIZIA': 16, 'FESTIVITA': 1}
-  Per effetto: {'DEVIAZIONE': 110, 'ALTRO': 26, 'FERMATA_SPOSTATA': 11, 'SERVIZIO_MODIFICATO': 7}
-  Per severita': {'AVVISO': 151, 4: 3}
-  Linee toccate: 17  (top: [('56U', 2), ('4108E', 2), ('33U', 1), ('11U', 1), ('49U', 1), ('1NU', 1), ('41U', 1), ('27U', 1), ('15U', 1), ('19U', 1)])
-  Fermate toccate (distinte): 1093
-  [esempio] Situazione aggiornata ascensori metro | Sono temporaneamente fuori servizio gli ascensori di:
+  Avvisi distinti (unione per id): 184
+  Per causa: {'PROBLEMA_TECNICO': 96, 'LAVORI': 37, 'INCIDENTE': 33, 'ATTIVITA_POLIZIA': 16, 'FESTIVITA': 1, 'SCIOPERO': 1}
+  Per effetto: {'DEVIAZIONE': 135, 'ALTRO': 27, 'FERMATA_SPOSTATA': 11, 'SERVIZIO_MODIFICATO': 7, 'SERVIZIO_AGG': 2, 'SERVIZIO_RIDOTTO': 1, 'ACCESSIBILITA': 1}
+  Per severita': {'AVVISO': 174, 4: 9, None: 1}
+  Linee toccate: 103  (top: [('4108E', 6), ('3107E', 5), ('3106E', 5), ('2027E', 5), ('2U', 4), ('56U', 3), ('19U', 3), ('68U', 3), ('5135E', 3), ('ST1U', 3)])
+  Fermate toccate (distinte): 4432
+  [esempio] Situazione aggiornata ascensori metro | Sono temporaneamente fuori servizio l' ascensore di:
 
-- Rivoli interno direzione Bengasi;
 - Vinzaglio esterno;
-- Nizza 
+- Nizza esterno.
   [esempio] Linea 56 deviata in entrambe le direzioni. | Domenica 04 ottobre 2026 dalle ore 6.30 alle ore 23.30 circa
 
 Direzione corso Tirreno (Grugliasco): da piazza Statuto an
@@ -42,7 +41,11 @@ Direzione via Leopardi (Venaria): limitata in corso Papa
 
 nella sola direzione via Lombardia: da via Torino angolo corso A
 
-  NOTA: il feed trip_update non pubblica i ritardi in secondi nei campioni
-  notturni (niente campo delay ne' stop_time_update): la verifica diurna e'
-  affidata alle righe 'Campioni con delay presente' sopra. Il conteggio
-  misura le corse che il feed comunica, non l'intera offerta.
+-- Raccolta continua SQLite (UTC 2026-10-11T06:00:00+00:00 -> 2026-10-11T18:00:00+00:00) --
+  Intervallo UTC: 2026-10-11T06:00:19+00:00 -> 2026-10-11T17:34:28+00:00
+  Osservazioni: 159275; snapshot: 675; corse distinte: 3622
+  Campioni con delay presente: 0 righe · con stop_time_update: 159275 righe
+
+  NOTA: delay e stop_time_update sono verificati solo nei campioni elencati sopra;
+  la loro assenza nel periodo osservato non prova che il feed non li pubblichi mai.
+  Il conteggio misura le corse che il feed comunica, non l'intera offerta.

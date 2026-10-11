@@ -242,9 +242,17 @@ fermo: controllare con la verifica diurna (attività 4).
   specifica, da chiarire; 17 linee e 1.093 fermate toccate).
 - La raccolta una tantum sul PC del 9/10 si è fermata dopo ~3 h con 1 sola riga utile
   (`ritardi_20261009.csv`, 432 byte): superata dalla raccolta continua `gtt-ritardi` sul Pi.
-- ATTENZIONE (11/10): la conclusione "il feed non pubblica ritardi" è nata con la decodifica
-  sbagliata (campo 3 letto come aggiornamenti per fermata). Dopo la correzione del 10/10 gli
-  `stop_time_update` ci sono. Il giudizio resta sospeso fino alla verifica diurna (attività 4).
+- ATTENZIONE (11/10) CHIUSA con la verifica diurna: il feed NON pubblica i valori di `delay`,
+  ma pubblica `stop_time_update` per le corse attive. Controllo su 159.275 osservazioni
+  (675 snapshot, 3.622 corse, ore 08:00-20:00 locali dell'11/10, backup fresco 455 MB):
+  0 `delay`, 100% con `stop_time_update`. I ritardi sono quindi STIMABILI confrontando gli
+  arrivi previsti in `stop_time_update` con gli orari del GTFS (attività 7).
+- Il buco 10/10 22:00 – 11/10 01:00 UTC NON era un fermo del raccoglitore: `gtt-ritardi`
+  ha girato ogni minuto (verificato con `journalctl -u gtt-ritardi` sul Pi); in quelle ore
+  il feed restituiva 0 corse: di notte GTT pubblica `trip_update` vuoto quando non ci sono
+  mezzi in corsa; `mezzi_gtt` in quelle ore continuava a registrare (il Pi era vivo).
+- File della prova del 9/10 tolti: `ritardi_20261009.csv` e `ritardi_analisi.json`
+  (il 67U soppresso resta citato in `docs/RAPPORTO_RITARDI_GTT.txt`).
 
 ## 8. Riordino e pulizia (8/10)
 
@@ -419,12 +427,11 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
    GTFS modificato con le corse notturne della metro e ricalcolo con R5. Uscita: minuti
    risparmiati x residenti + mappa prima/dopo con l'avviso obbligatorio (sotto). Costi e
    manutenzione notturna fuori dal modello (dichiararlo).
-4. **Verifica diurna del feed ritardi (oggi 11/10, 20:15)**: attività Windows `GTT verifica
-   ritardi diurna` (`scripts/verifica_ritardi_diurna.bat`): backup e analisi 08:00–20:00 locali in
-   `docs/RAPPORTO_RITARDI_GTT.txt` (log `logs/verifica_ritardi_diurna.log`). Poi: (a) decidere se
-   il feed ha ritardi veri; (b) capire se `gtt-ritardi` si ferma a mezzanotte; (c) correggere
-   sezione 7, "Dati mancanti" 3 e attività 7; (d) togliere i file della prova del 9/10
-   (`ritardi_20261009.csv`, `avvisi_20261009.json`, `ritardi_analisi.json`).
+4. **Verifica diurna del feed ritardi — FATTA l'11/10**: backup aggiornato (455 MB,
+    `gtt-ritardi` vivo e continuo, di notte il feed restituisce 0 corse: sezione 7). Esito:
+    il feed non ha `delay`, ha `stop_time_update` in tutte le corse attive: i ritardi vanno
+    STIMATI da `stop_time_update` contro il GTFS (oggetto dell'attività 7). File della prova
+    del 9/10 tolti. Rapporto: `docs/RAPPORTO_RITARDI_GTT.txt` (aggiornato, da committare).
 
 ## Priorità media
 
@@ -435,8 +442,9 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
    (EPSG:3003, CC BY 4.0; isolare "aree verdi"; in alternativa WFS/WMS del GeoPortale Piemonte,
    "Dati di base – Carta di sintesi – Aree").
 7. **Affidabilità reale contro orario**: passaggi alle fermate ricostruiti dalle posizioni
-   proiettate sui tracciati GTFS (o dai trip_update, se l'attività 4 conferma i ritardi);
-   regolarità degli intervalli. Prova su 2–3 linee e verifica sul campo (~20 passaggi annotati).
+   proiettate sui tracciati GTFS, o confronto `stop_time_update` (feed, senza delay) con
+   l'orario GTFS; regolarità degli intervalli. Prova su 2–3 linee e verifica sul campo
+   (~20 passaggi annotati).
 8. **Città/cintura**: cercare di nuovo i GTFS dei treni SFM e dei bus extraurbani; servizi della
    cintura (cataloghi dei comuni o OSM).
 9. **Congestione con 5T**: dove e quando la città si blocca; associazione accuratezza <-> flusso
@@ -572,8 +580,8 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
    cambierebbe la mappa. Strade: validazione biglietti GTT o telefonia aggregata (attività 17).
 2. **Pendolari 2021 per sezione**: non pubblici. Mezzo e orario esistono solo per comune e
    solo nel 2011.
-3. **Ritardi GTT**: da chiarire con la verifica diurna (attività 4); se il feed non li ha,
-   stimabili dalle posizioni (attività 7).
+3. **Ritardi GTT**: CHIARITO (verifica diurna dell'11/10): non ci sono `delay`, ma le
+   `stop_time_update` ci sono per le corse attive: ritardi stimabili (attività 7).
 4. **Cintura**: orari di treni SFM e bus extraurbani non trovati; cataloghi dei comuni assenti
    (attività 8).
 5. **Numeri sugli attrattori**: capienze, iscritti, visitatori ed eventi di scuole, ospedali,
