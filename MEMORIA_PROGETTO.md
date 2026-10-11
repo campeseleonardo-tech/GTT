@@ -408,6 +408,9 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
    `docs/PIANO_ACCESSIBILITA.md`, APPROVATO l'11/10 (servizi cintura da OSM con script 20,
    salvataggio a tappe, meno memoria, 4,8 km/h, destinazioni accorpate, prova, giro di notte con
    il PC libero, controlli). Numerazione script: 20 = servizi OSM cintura, il prossimo libero è 21.
+   PRIMA DEL GIRO COMPLETO, le 5 scadenze della Fase 4 (sezione 15 del presente file:
+   accorpare le destinazioni, OSM solo fuori Torino, 4 centroidi fuori rete, anomalia
+   14:00 > 08:00, ripresa dopo interruzione).
 2. **Tema mappa "Criticità"**: una voce, 3 sotto-scelte: accessibilità (da 18, bollino
    [STIMATO]), offerta/linee già esistente spostata qui, vulnerabilità (da 19, [CENSIMENTO]).
    Assorbe la vecchia voce "Criticità 0-100". File: `scripts/mappa_template.html`,
@@ -645,13 +648,34 @@ Si procede passo passo, una cosa alla volta, con le decisioni chieste a Leo.
 
 ### Fase 2 (completata):
 - **ACCESSIBILITA_PROVA.bat** creata e testata
-- **ACCESSIBILITA_COMPLETA.bat** creata per uso futuro
-- Risultati parziali salvati in `data/processed/accessibilita_parziale/tp_8_0.json` (fase TP 08:00)
-- Il processo è stato interrotto ma i dati parziali sono validi per l'analisi
+- **ACCESSIBILITA_COMPLETA.bat** creata per uso futuro (risanata l'11/10 con la Fase 4)
+- Risultati: `data/processed/accessibilita.json` completo di campione e 4 ore (08/14/23/02),
+  salvato a tappe in `data/processed/accessibilita_parziale/` (tp_8_0, tp_14_0, tp_23_0,
+  tp_2_0); verificati con la Fase 4.
 
-### Fase 4 e 5 (da completare):
-- **Fase 4**: Controlli sul risultato (analisi dei dati salvati, verifiche di consistenza)
-- **Fase 5**: Chiusura del progetto (aggiornamento memoria, commit su "prova", preparazione per tema "Criticità")
+### Fase 4 e 5 (completate l'11/10):
+- **Fase 4 (controlli)**: campione di 200 OK (nessun valore mancante/negativo, parziali
+  coincidenti col file finale). Mediane Torino/cintura SEPARATE nel rapporto
+  (`docs/RAPPORTO_ACCESSIBILITA.txt`): Torino col TP mediane 25.386 (08) / 26.868 (14) /
+  22.894 (23) / 7.941 (02). Anomalia: alle 14:00 la mediana supera l'08:00 del 6% (atteso
+  08 >= 14): da verificare nel giro completo, non blocca. Nessuna sezione a zero col TP alle
+  23 e alle 02. Torino sotto il 20% della linea d'aria: ora 4 sezioni (2588, 4264, 5521, 6601),
+  probabile centroide fuori dalla rete; da sistemare prima del giro completo.
+- **Corretto nel codice l'11/10 (commit `a638ab2`, senza impatto sui numeri)**: anti-sospensione
+  del PC spostata all'INIZIO del calcolo e con SetThreadExecutionState (prima stava alla fine e
+  non faceva nulla); percorso di `servizi_osm_cintura.json` assoluto (prima dipendeva dalla
+  cartella di lavoro); rapporto di 18 con Torino e cintura separate; `ACCESSIBILITA_COMPLETA.bat`
+  riscritto (era corrotto, con `\n` letterali); nei .bat tolta la promessa della ripresa.
+- **SCADENZE PRIMA DEL GIRO COMPLETO (fase 3)**:
+  1. applicare davvero le destinazioni accorpate (D3): `aggrega_punti` esiste ma non viene mai
+     chiamata;
+  2. punti OSM solo FUORI Torino (D1): oggi sono aggiunti anche dentro Torino, doppio conteggio
+     possibile col catalogo;
+  3. correggere i centroidi delle 4 sezioni fuori rete (spostarli su una via vicina);
+  4. decidere se tenere o chiudere l'anomalia 14:00 > 08:00;
+  5. ripresa dopo interruzione ancora da implementare (al rilancio ricalcola da capo).
+- **Fase 5 (chiusura)**: memoria aggiornata, commit su "prova" (`a638ab2`). Fine: al giro
+  completo segue il tema mappa "Criticità" (attività 2).
 
 ### Note importanti:
 - Il giro completo (Fase 3) richiedeva 9-10 ore ma è stato esplicitamente escluso
