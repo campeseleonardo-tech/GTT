@@ -832,10 +832,22 @@ def main():
     fuori = assegna_zone(zone, stops)
     print(f"  zone: {len(zone)}; fermate fuori da ogni zona (altri comuni): {fuori}")
 
+    # ---- vulnerabilità (dai file 19 e 23) ----
+    vuln_data = {}
+    f_vuln = RADICE / "data" / "processed" / "vulnerabilita_mappa.json"
+    if f_vuln.is_file():
+        vuln_data = json.loads(f_vuln.read_text(encoding="utf-8"))
+        print(f"  vulnerabilità mappa: {len(vuln_data['sezioni'])} sezioni")
+    vuln = {x["id"]: x for x in vuln_data.get("sezioni", [])}
+
     sez, f_sez = [], RADICE / "data" / "processed" / "sezioni_torino.json"
     if f_sez.is_file():
         sez = [{"p": x["p"], "a": x["a"], "g": x["g"], "c": x.get("c", 0), "f": x.get("f", 0), "ab": x.get("ab", 0),
-                "occ": x.get("occ"), "p1564": x.get("p1564"), "sc": x.get("sc"), "sen": x.get("sen")}
+                "occ": x.get("occ"), "p1564": x.get("p1564"), "sc": x.get("sc"), "sen": x.get("sen"),
+                "v": vuln.get(x.get("id",""), {}).get("v"),
+                "vcomp": vuln.get(x.get("id",""), {}).get("comp", {}),
+                "manca": vuln.get(x.get("id",""), {}).get("manca", {}),
+                "vgruppi": vuln.get(x.get("id",""), {}).get("gruppi", {})}
                for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]   # indicatori ISTAT 2021 per residenti
         print(f"  sezioni di censimento abitate: {len(sez)}, abitanti {sum(x['p'] for x in sez)}, famiglie {sum(x['f'] for x in sez)}, abitazioni {sum(x['ab'] for x in sez)}")
     else:
@@ -849,6 +861,7 @@ def main():
 
     dati = {
         "vel": vel or {}, "vel_meta": vel_meta,   # [agente GT04-velocita]
+        "vuln": vuln_data,
         "pend": pend,   # [agente GT05-pendolari]
         "omi": omi,     # OMI quote immobiliari
         "imq": imq,     # Mobilita' IMQ 2022 (attivita' 10)
