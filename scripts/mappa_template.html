@@ -536,9 +536,9 @@ const sez = (D.sezioni||[]).map(z=>{
   function legendaVuln(modo){
     if(modo==="vuln_combo") return legendaVulnCombo();
     const nomi={vuln:"Indice composito",vuln_occ:"Non occupati 15–64",vuln_ist:"Bassa istruzione 9+",vuln_aff:"Affollamento",vuln_anz:"Quota 65+",vuln_serv:"Servizi a piedi",vuln_verde:"Verde a piedi"};
-    const pal=PAL_SEZ[modo]||PAL_VULN;
+    const pal=PAL_SEZ[modo]||PAL_SEZ.vuln;
     const et=modo==="vuln_serv"||modo==="vuln_verde"?["poco","medio","molto"]:["basso","medio","alto"];
-    return `<div class="t">Vulnerabilità sociale · ${esc(nomi[modo]||modo)} ${TAG.stim}</div>`+
+    return `<div class="t">Vulnerabilità sociale · ${esc(nomi[modo]||modo)} ${TAG.sim}</div>`+
       `<div class="sc">`+pal.map((c,i)=>`<span style="background:${c}"></span>`).join("")+`</div>`+
       `<div class="et"><span>0</span><span>100</span></div>`;
   }
@@ -613,6 +613,7 @@ const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP, pend:PAL_PEND, crit:
   vuln_verde:["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"], // inverso: poco verde = vulnerabile
 };
 const PAL_VULN_COMBO={"debole_senza":"#c8102e","debole_servito":"#e8833a","ok":"#e0e4ea"};
+PAL_SEZ.vuln_combo = ["#e0e4ea","#e8833a","#c8102e"];
 
 /* [agente GT05-pendolari] pendolari ISTAT 2021 (comune contro comune): D.pend = {tor, com[], altri}; i = entrano a Torino [lavoro,studio], u = escono */
 const TORINO_PC=1272;
