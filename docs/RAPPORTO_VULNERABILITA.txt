@@ -1,6 +1,6 @@
 RAPPORTO VULNERABILITA' PER SEZIONE
-generato: 2026-10-10T15:47:02+00:00  origine: CENSIMENTO
-componenti e pesi: occ=1.0, ist=1.0, aff=1.0, anz=1.0
+generato: 2026-10-13T09:27:40+00:00  origine: CENSIMENTO+STIMATO
+componenti e pesi: occ=1.0, ist=1.0, aff=1.0, anz=1.0, serv=1.0, verde=1.0
 sezioni: 8317  indice mediano: 48.3
 
 Top 10 sezioni per indice (id, comune, residenti, indice, percentili):
@@ -14,6 +14,8 @@ Top 10 sezioni per indice (id, comune, residenti, indice, percentili):
   12720001158  comune 1272  res 219  v 96.2  {'occ': 0.907, 'ist': 0.958, 'aff': 0.982, 'anz': 1.0}
   10680000102  comune 1068  res 42  v 95.9  {'occ': 0.877, 'ist': 0.968, 'aff': 0.999, 'anz': 0.993}
   12720005961  comune 1272  res 17  v 95.6  {'ist': 0.901, 'aff': 0.989, 'anz': 0.977}
+
+Componenti serv/verde da isocrone (script 18): bollino CENSIMENTO+STIMATO.
 
 Sezioni istituzionali escluse dal rango (RSA e simili): 50
 
