@@ -1,0 +1,21 @@
+RAPPORTO RISULTATO 1 - fase B: dove aggiungere un servizio (solo Torino, STIMATO)
+generato: 2026-10-12T11:34:06+00:00
+cutoff a piedi: 15 min   velocita': 4.8 km/h   cluster: 400 m   max candidati: 5
+
+salute: 9,104 residenti a zero, 117 zone candidate valutate
+  candidato 1: lat 45.04882 lon 7.70946  guadagna 1,221 residenti (6 sezioni)
+  candidato 2: lat 45.05626 lon 7.70411  guadagna 1,193 residenti (2 sezioni)
+  candidato 3: lat 45.03878 lon 7.70224  guadagna 703 residenti (11 sezioni)
+  candidato 4: lat 45.06082 lon 7.74275  guadagna 647 residenti (5 sezioni)
+  candidato 5: lat 45.05287 lon 7.73066  guadagna 638 residenti (10 sezioni)
+  TOTALE con questi 5 candidati: 4,402 residenti guadagnati, 4,702 restano a zero
+
+scuole: 6,060 residenti a zero, 106 zone candidate valutate
+  candidato 1: lat 45.03878 lon 7.70224  guadagna 703 residenti (11 sezioni)
+  candidato 2: lat 45.13351 lon 7.68314  guadagna 660 residenti (9 sezioni)
+  candidato 3: lat 45.05287 lon 7.73066  guadagna 638 residenti (10 sezioni)
+  candidato 4: lat 45.06667 lon 7.72744  guadagna 407 residenti (6 sezioni)
+  candidato 5: lat 45.07306 lon 7.71159  guadagna 389 residenti (2 sezioni)
+  TOTALE con questi 5 candidati: 2,797 residenti guadagnati, 3,263 restano a zero
+
+LIMITI: zone indicative (non indirizzi/terreni verificati); non dice se il servizio basterebbe o verrebbe usato; ORARIO PROGRAMMATO [STIMATO]; solo Torino.

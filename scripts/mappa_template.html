@@ -280,7 +280,7 @@ const sez = (D.sezioni||[]).map(z=>{
   let x0=1,y0=1,x1=0,y1=0;
   polys.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
   const cxn=(x0+x1)/2, cyn=(y0+y1)/2;
-  return {p:z.p, c:z.c, km2:z.a, occ:z.occ, p1564:z.p1564, sc:z.sc, sen:z.sen,
+  return {p:z.p, c:z.c, km2:z.a, occ:z.occ, p1564:z.p1564, sc:z.sc, sen:z.sen, v:z.v, vcomp:z.vcomp||{}, gruppi:z.gruppi||{},
     polys,bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
 });
   let sezOk=false;
@@ -636,7 +636,13 @@ function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flu
   return pendCache;
 }
 const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
-const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="vuln_serv"?(z.vcomp||{}).serv:modo==="vuln_verde"?(z.vcomp||{}).verde:modo==="vuln_combo"?z.vgruppi||{}:sezRapp(z,i);
+/* combina gruppo×livello di vuoto in una delle 3 classi (per la mappa e per la scheda) */
+const vulnComboSez=(z)=>{
+  const gruppo=$("subVulnGruppo")?.value||"tutti", livello=$("subVulnLivello")?.value||"zero", gg=z.gruppi||{};
+  if(gruppo==="tutti"){ let w="ok"; for(const g in gg){ const c=(gg[g]||{})[livello]; if(c==="debole_senza") return c; if(c==="debole_servito") w=c; } return w; }
+  return (gg[gruppo]||{})[livello]||"ok";
+};
+const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="vuln_serv"?(z.vcomp||{}).serv:modo==="vuln_verde"?(z.vcomp||{}).verde:modo==="vuln_combo"?vulnComboSez(z):sezRapp(z,i);
 
 const linee = D.linee.map((l,ii) => {
   const a=new Float64Array(l.p.length*2); let x0=1,y0=1,x1=0,y1=0;
@@ -909,7 +915,7 @@ function disegnaBase(ws,ox,oy,i){
       const nulla = pc ? (z.c===TORINO_PC || !vp) : modo==="crit" ? critSez(z,i)===null : (modo==="serv"||modo==="rapp") ? sezServ(z,i)===0 : valore==null;
       const c=pc ? (pc.sogl?pc.sogl.filter(x=>vp>x).length:0) : classeSez(valore,modo);
       // [agente GT02-temi] riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
-      cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:AREA_ALPHA;
+      cx.fillStyle=nulla?"#9aa0ad":(modo==="vuln_combo"?PAL_VULN_COMBO[valore]||"#e0e4ea":pal[c]); cx.globalAlpha=nulla?.35:AREA_ALPHA;
       for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.fill(); }
       cx.globalAlpha=1;
       if(dettaglio){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
@@ -1401,8 +1407,7 @@ function schedaSezione(z){
   } else if(modo === "vuln_combo"){
     const gruppo = $("subVulnGruppo")?.value || "tutti";
     const livello = $("subVulnLivello")?.value || "zero";
-    const grp = (z.vgruppi||{})[gruppo];
-    const combo = grp ? grp[livello] : "ok";
+    const combo = vulnComboSez(z);
     val = {"debole_senza":"Debole e senza servizio","debole_servito":"Debole ma con servizi","ok":"Non vulnerabile"}[combo] || combo;
     stato = `Gruppo: ${gruppo} · Livello vuoto: ${livello} · v = ${z.v!=null?z.v:"n/d"}`;
   } else {
@@ -2023,7 +2028,7 @@ const HANDLERS = {
   pendVal:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
   omiTipo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
   imqMet:()=>{ baseVer++; imqNotaOra(); chiede(); aggiornaLegenda(); },
-  subVuln:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  subVuln:()=>{ $("modoSez").value=$("subVuln").value; baseVer++; chiede(); aggiornaLegenda(); },
   subVulnGruppo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
   subVulnLivello:()=>{ baseVer++; chiede(); aggiornaLegenda(); }
 };
@@ -2058,6 +2063,8 @@ function applicaTema(id){
   const a=tema.area;
   $("Lsez").checked = !!(a && a.tipo==="sez"); $("Lzone").checked = !!(a && a.tipo==="zone"); $("Lomi").checked = !!(a && a.tipo==="omi"); $("LImq").checked = !!(a && a.tipo==="imq");   // mai due colorazioni insieme
   if(a && a.tipo==="sez") $("modoSez").value=a.modo;
+  if(tema.vuln) $("modoSez").value = $("subVuln")?.value || "vuln";
+  if(tema.vulnCombo) $("modoSez").value = "vuln_combo";
   for(const k in tema.over) $(k).checked = !!tema.over[k];
   $("temi").value=tema.id;
   $("temaDesc").textContent=tema.desc;

@@ -1,0 +1,1850 @@
+
+(() => {
+"use strict";
+document.getElementById("jsoff").style.display="none";
+const D = DATI;
+function errore(e){ console.error(e); const b=document.getElementById("jsoff"); b.style.display="block"; b.textContent="Errore nella pagina: "+(e&&e.message||e)+". Copia questo messaggio e mandalo a Claude."; }
+function sicuro(f){ try{ f(); }catch(e){ errore(e); } }
+const $ = id => document.getElementById(id);
+const cv = $("mappa"); let cx = cv.getContext("2d");
+const COL = {bus:"#3b6ea8", tram:"#2e8b57", metro:"#c8102e", altro:"#7a5aa6"};
+const tipoCol = t => t===1?COL.metro : t===0?COL.tram : t===3?COL.bus : COL.altro;
+const tipoNome = t => ({0:"tram",1:"metropolitana",3:"bus",7:"funicolare",2:"treno"})[t] || "altro";
+const GIORNI = ["Feriale","Sabato","Domenica"];
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad = n => String(n).padStart(2,"0");
+
+/* ---------- proiezione (Web Mercator, coordinate unitarie 0..1) ---------- */
+const px = lon => (lon+180)/360;
+const py = lat => { const s=Math.sin(lat*Math.PI/180); return 0.5-Math.log((1+s)/(1-s))/(4*Math.PI); };
+const unLon = x => x*360-180;
+const unLat = y => { const n=Math.PI-2*Math.PI*y; return 180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n))); };
+
+  /* ---------- preparazione dati ---------- */
+  const zone = D.zone.map(z => {
+  const polys = z.g.map(poly => poly.map(r => { const a=new Float64Array(r.length*2); r.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a; }));
+  let x0=1,y0=1,x1=0,y1=0;
+  polys.forEach(p=>p.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}}));
+  return {...z, polys, bb:[x0,y0,x1,y1], dens:z.d.map(v=>v/Math.max(z.km2,0.01))};
+});
+/* sezioni di censimento: centro, abitanti, e fermate/abitanti entro 400 m (griglia spaziale) */
+const RAGGIO=400;
+const sez = (D.sezioni||[]).map(z=>{
+  const polys=z.g.map(poly=>{const a=new Float64Array(poly.length*2); poly.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a;});
+  let x0=1,y0=1,x1=0,y1=0;
+  polys.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
+  const cxn=(x0+x1)/2, cyn=(y0+y1)/2;
+  return {p:z.p, c:z.c, km2:z.a, occ:z.occ, p1564:z.p1564, sc:z.sc, sen:z.sen,
+    polys,bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
+});
+  let sezOk=false;
+
+  /* ---------- OMI (zone immobiliari) ---------- */
+  const OMI = D.omi || null;
+  const OMI_TIPI = {
+    ab:"Abitazioni civili", as:"Abitazioni signorili", ae:"Abitazioni economiche", vi:"Ville e villini",
+    bo:"Box", pa:"Posti auto coperti", ps:"Posti auto scoperti", ne:"Negozi", uf:"Uffici", la:"Laboratori",
+    ci:"Capannoni tipici", in:"Capannoni industriali", ma:"Magazzini", cc:"Centri commerciali"
+  };
+  const OMI_SOGLIE=[1000,1500,2000,2500,3500];
+  const OMI_PAL=["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e","#7f0015"]; // basso->alto
+  const omi = (OMI||[]).flatMap(c => (c.zone||[]).map(z => {
+    const rings=(z.g||[]).map(r=>{ const a=new Float64Array(r.length*2); r.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a; });
+    let x0=1,y0=1,x1=0,y1=0;
+    rings.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
+    return {c:c.c,z:z.z,n:z.n,f:z.f,v:z.v||{}, rings, bb:[x0,y0,x1,y1]};
+  }));
+  const omiOk=!!omi.length;
+
+  /* ---------- Mobilità IMQ 2022 (zone della Città metropolitana) ---------- */
+  const IMQ = D.imq || null;
+  const IMQ_OD = (IMQ && IMQ.od) || {};
+  const IMQ_PAL = ["#dbe9f6","#a9cbe8","#6fa8d0","#3a7cb5","#123f6d"]; // basso -> alto
+  const imq = ((IMQ && IMQ.zone) || []).map(z => {
+    const rings=(z.g||[]).map(r=>{ const a=new Float64Array(r.length*2); r.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a; });
+    let x0=1,y0=1,x1=0,y1=0;
+    rings.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
+    return {c:z.c,n:z.n,m:z.m,rings,bb:[x0,y0,x1,y1],la:z.la,lo:z.lo,res:z.res,
+            ora:z.ora,scopo:z.scopo,quotaPub:z.quotaPub,quotaPri:z.quotaPri,od:IMQ_OD[z.c]||[]};
+  });
+  const imqOk=!!imq.length;
+  const IMQ_MET={
+    ora_tot:{lab:"Spostamenti in partenza (a quest'ora)", k:"tot"},
+    ora_pub:{lab:"Spostamenti pubblici (a quest'ora)", k:"pub"},
+    ora_pri:{lab:"Spostamenti privati (a quest'ora)", k:"pri"},
+    ora_alt:{lab:"Spostamenti altro (a quest'ora)", k:"alt"},
+    quotaPub:{lab:"Quota pubblico (intera giornata)"},
+    quotaPri:{lab:"Quota privato (intera giornata)"},
+    res:{lab:"Residenti 11-84 anni"},
+  };
+  function imqValore(z, met){
+    if(met.startsWith("ora")){ const c=z.ora&&z.ora[S.h]?z.ora[S.h][IMQ_MET[met].k]:null; return c?c[0]:0; }
+    if(met==="quotaPub") return z.quotaPub;
+    if(met==="quotaPri") return z.quotaPri;
+    if(met==="res") return z.res;
+    return 0;
+  }
+  function imqAffidabile(z, met){
+    if(met.startsWith("ora")){ const c=z.ora&&z.ora[S.h]?z.ora[S.h][IMQ_MET[met].k]:null; return c?c[1]>=30:false; }
+    return true;
+  }
+  function imqSoglie(vals){ const v=vals.filter(x=>x>0).sort((a,b)=>a-b); if(!v.length) return null;
+    const q=p=>v[Math.min(v.length-1,Math.floor(p*(v.length-1)))]; return [q(.2),q(.4),q(.6),q(.8)]; }
+  function imqColore(z, met, sog){
+    const v=imqValore(z, met);
+    if(met==="quotaPub"||met==="quotaPri"){ if(v==null||isNaN(v)) return null; return IMQ_PAL[Math.min(4,[.2,.4,.6,.8].filter(s=>v>s).length)]; }
+    if(!(v>0) || !sog) return null; return IMQ_PAL[Math.min(IMQ_PAL.length-1,sog.filter(s=>v>s).length)];
+  }
+  function imqNum(x){ return (x==null||isNaN(x))?"—":Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g,"."); }
+
+  /* ---------- CATALOGO dei nuovi dati (gruppi caricati su richiesta) ----------
+     L'indice (metadati) e' incorporato; i dati di ogni gruppo stanno in
+     data/catalogo/<gruppo>.js e si caricano solo quando il gruppo e' scelto. */
+  const CAT_INDICE = D.catalogo || null;
+  const CAT_PAL = ["#e6194b","#3cb44b","#4363d8","#f58231","#911eb4","#008080","#f032e6","#9a6324","#808000","#000075","#00b0f0","#bc80bd"];
+  const CAT = {gruppo:null, dati:{}, caricati:{}, sel:{}};
+  const CAT_TAG = '<span class="tag">CATALOGO</span>';
+  function catColoreDato(id){ let h=0; for(let k=0;k<id.length;k++) h=(h*31+id.charCodeAt(k))>>>0; return CAT_PAL[h%CAT_PAL.length]; }
+  function catSig(){ if(tema.id!=="catalogo") return "-"; if(!CAT.gruppo||CAT.caricati[CAT.gruppo]!==true) return (CAT.gruppo||"")+"|0"; return CAT.gruppo+"|"+CAT.dati[CAT.gruppo].map(d=>CAT.sel[CAT.gruppo+"/"+d.id]?"1":"0").join(""); }
+  function preparaGruppo(g){
+    const src=(window.CATALOGO||{})[g];
+    if(!src){ CAT.caricati[g]="errore"; return false; }
+    const out=[];
+    for(const d of src.dati){
+      const dd={id:d.id, meta:d, tipo:d.tipo, campi:d.campi||[], colore:catColoreDato(d.id), heavy:(d.id==="attivita"||d.id==="alberate")};
+      if(d.tipo==="punti"){
+        const n=d.elementi.length; dd.px=new Float64Array(n); dd.py=new Float64Array(n); dd.coli=new Uint8Array(n); dd.el=d.elementi;
+        const set=new Map(); for(const e of d.elementi){ const c=e[3]||""; if(!set.has(c)) set.set(c,set.size); }
+        for(let i=0;i<n;i++){ const e=d.elementi[i]; dd.px[i]=px(e[1]); dd.py[i]=py(e[0]); dd.coli[i]=(set.get(e[3]||"")||0)%CAT_PAL.length; }
+      } else if(d.tipo==="linee"){
+        dd.lines=[];
+        for(const e of d.elementi){ const pts=e[3]; const a=new Float64Array(pts.length*2); let x0=1,y0=1,x1=0,y1=0;
+          pts.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);x0=Math.min(x0,a[2*i]);x1=Math.max(x1,a[2*i]);y0=Math.min(y0,a[2*i+1]);y1=Math.max(y1,a[2*i+1]);});
+          dd.lines.push({el:e,pts:a,bb:[x0,y0,x1,y1]}); }
+      } else if(d.tipo==="poligoni"){
+        dd.polys=[];
+        for(const e of d.elementi){ let x0=1,y0=1,x1=0,y1=0;
+          const rings=e[3].map(r=>{const a=new Float64Array(r.length*2); r.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);x0=Math.min(x0,a[2*i]);x1=Math.max(x1,a[2*i]);y0=Math.min(y0,a[2*i+1]);y1=Math.max(y1,a[2*i+1]);}); return a;});
+          dd.polys.push({el:e,rings,bb:[x0,y0,x1,y1]}); }
+      }
+      CAT.sel[g+"/"+dd.id]=true;
+      out.push(dd);
+    }
+    CAT.dati[g]=out; CAT.caricati[g]=true; return true;
+  }
+  function catAssicura(g, cb){
+    if(CAT.caricati[g]===true || CAT.caricati[g]==="errore"){ cb&&cb(); return; }
+    ricarica("catalogo/"+g+".js", ()=>{ preparaGruppo(g); baseVer++; chiede(); aggiornaLegenda(); cb&&cb(); });
+  }
+  function catPopola(g){
+    const box=$("catDati"); if(!box) return; box.innerHTML="";
+    const gd=CAT_INDICE && CAT_INDICE.gruppi.find(x=>x.id===g);
+    for(const d of CAT.dati[g]||[]){
+      const l=document.createElement("label"); l.className="lv"; l.style.fontSize="12px";
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=!!CAT.sel[g+"/"+d.id];
+      cb.onchange=()=>{ CAT.sel[g+"/"+d.id]=cb.checked; baseVer++; chiede(); aggiornaLegenda(); };
+      const nome=document.createElement("span"); nome.innerHTML=`${esc(d.meta.nome)} <span style="color:var(--muted)">(${d.meta.stat.record})</span>`;
+      const info=document.createElement("a"); info.href="#"; info.textContent="i"; info.title="Scheda del dato (fonte, anno, licenza, note)"; info.style.cssText="margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none";
+      info.onclick=(ev)=>{ ev.preventDefault(); ev.stopPropagation(); apriScheda(schedaCatalogoDato(d), null); };
+      l.appendChild(cb); l.appendChild(nome); l.appendChild(info); box.appendChild(l);
+    }
+    const info=$("catInfo"); if(info && gd) info.textContent=gd.desc||"";
+  }
+  function costruisciCatalogo(box){   // [pulizia] il catalogo entra nell'area Opzioni come gli altri temi
+    if(!CAT_INDICE){ box.innerHTML='<div class="opt-nota">Catalogo non presente: lancia 11_prepara_catalogo.py e poi 04_genera_mappa.py.</div>'; return; }
+    if(!CAT.gruppo) CAT.gruppo=CAT_INDICE.gruppi[0].id;
+    const lab=document.createElement("label"); lab.className="opt-lab"; lab.textContent="Gruppo di dati";
+    const sel=document.createElement("select"); sel.id="catGruppo"; sel.className="opt-sel"; sel.setAttribute("aria-label","Gruppo di dati del catalogo");
+    sel.innerHTML=CAT_INDICE.gruppi.map(g=>`<option value="${esc(g.id)}">${esc(g.nome)}</option>`).join("");
+    sel.value=CAT.gruppo;
+    sel.onchange=()=>{ CAT.gruppo=sel.value; baseVer++; catAssicura(CAT.gruppo, ()=>catPopola(CAT.gruppo)); chiede(); aggiornaLegenda(); };
+    const dati=document.createElement("div"); dati.id="catDati"; dati.className="opt-check";
+    const info=document.createElement("div"); info.id="catInfo"; info.className="opt-nota";
+    box.appendChild(lab); box.appendChild(sel); box.appendChild(dati); box.appendChild(info);
+    catAssicura(CAT.gruppo, ()=>catPopola(CAT.gruppo));
+  }
+  function dentroVistaCat(bb,ws,ox,oy){ return !(bb[2]*ws<ox||bb[0]*ws>ox+W||bb[3]*ws<oy||bb[1]*ws>oy+H); }
+  function disegnaCatalogo(ws,ox,oy){
+    const g=CAT.gruppo; if(!g||CAT.caricati[g]!==true) return;
+    for(const dd of CAT.dati[g]){
+      if(!CAT.sel[g+"/"+dd.id]) continue;
+      if(dd.tipo==="poligoni"){
+        cx.globalAlpha=.30; cx.fillStyle=dd.colore;
+        for(const p of dd.polys){ if(!dentroVistaCat(p.bb,ws,ox,oy)) continue; tracciaAnelli(p.rings,ws,ox,oy); cx.fill("evenodd"); }
+        cx.globalAlpha=.8; cx.strokeStyle=dd.colore; cx.lineWidth=1;
+        for(const p of dd.polys){ if(!dentroVistaCat(p.bb,ws,ox,oy)) continue; tracciaAnelli(p.rings,ws,ox,oy); cx.stroke(); }
+        cx.globalAlpha=1;
+      } else if(dd.tipo==="linee"){
+        cx.globalAlpha=.8; cx.strokeStyle=dd.colore; cx.lineWidth=2; cx.lineCap="round"; cx.lineJoin="round";
+        for(const l of dd.lines){ if(!dentroVistaCat(l.bb,ws,ox,oy)) continue; const a=l.pts; cx.beginPath(); for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy;k?cx.lineTo(X,Y):cx.moveTo(X,Y);} cx.stroke(); }
+        cx.globalAlpha=1;
+      } else if(dd.tipo==="punti"){
+        if(dd.heavy && view.zoom<14) continue;   // [catalogo] i gruppi voluminosi solo a zoom ravvicinato
+        const r=dd.heavy?1.8:2.6;
+        cx.globalAlpha=dd.heavy?.85:1;
+        for(let i=0;i<dd.px.length;i++){
+          const X=dd.px[i]*ws-ox, Y=dd.py[i]*ws-oy; if(X<-4||Y<-4||X>W+4||Y>H+4) continue;
+          cx.beginPath(); cx.arc(X,Y,r,0,6.2832); cx.fillStyle=dd.heavy?dd.colore:CAT_PAL[dd.coli[i]]; cx.fill();
+        }
+        cx.globalAlpha=1;
+      }
+    }
+  }
+  function catDentro(rings,ux,uy){
+    for(const a of rings){ const m=a.length/2; let n=0,j=m-1;
+      for(let k=0;k<m;k++){ const xi=a[2*k],yi=a[2*k+1],xj=a[2*j],yj=a[2*j+1];
+        if((yi>uy)!==(yj>uy) && ux<(xj-xi)*(uy-yi)/(yj-yi)+xi) n++; j=k; }
+      if(n%2===1) return true; }
+    return false;
+  }
+  function cercaCat(sx,sy,ws,ox,oy){
+    const g=CAT.gruppo, ds=CAT.dati[g]||[]; let best=null, bd2=100;
+    for(const dd of ds){
+      if(!CAT.sel[g+"/"+dd.id]) continue;
+      if(dd.tipo==="punti"){
+        if(dd.heavy && view.zoom<14) continue;
+        const R=dd.heavy?5:8, R2=R*R;
+        for(let i=0;i<dd.px.length;i++){
+          const X=dd.px[i]*ws-ox, Y=dd.py[i]*ws-oy, d2=(X-sx)*(X-sx)+(Y-sy)*(Y-sy);
+          if(d2<R2 && d2<bd2){ bd2=d2; best={dd,el:dd.el[i],tipo:"punti"}; }
+        }
+      } else if(dd.tipo==="poligoni"){
+        const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
+        for(const p of dd.polys){ if(ux<p.bb[0]||ux>p.bb[2]||uy<p.bb[1]||uy>p.bb[3]) continue;
+          if(catDentro(p.rings,ux,uy)){ best={dd,el:p.el,tipo:"poligoni"}; bd2=0; break; } }
+      } else if(dd.tipo==="linee"){
+        const m2=36;
+        for(const l of dd.lines){ const a=l.pts;
+          for(let k=2;k<a.length;k+=2){ const x1=a[k-2]*ws-ox,y1=a[k-1]*ws-oy,x2=a[k]*ws-ox,y2=a[k+1]*ws-oy;
+            const dx=x2-x1,dy=y2-y1,L=dx*dx+dy*dy; let t=L?((sx-x1)*dx+(sy-y1)*dy)/L:0; t=Math.max(0,Math.min(1,t));
+            const d2=(x1+t*dx-sx)*(x1+t*dx-sx)+(y1+t*dy-sy)*(y1+t*dy-sy);
+            if(d2<m2 && d2<bd2){ bd2=d2; best={dd,el:l.el,tipo:"linee"}; } } }
+      }
+    }
+    return best;
+  }
+  function catNome(dd,e){ return dd.tipo==="punti" ? (e[2]||e[3]||"") : (e[0]||e[1]||""); }
+  function catAttr(dd,e){   // {campo:valore} degli attributi extra
+    const base=dd.tipo==="punti"?6:4, out=[];
+    for(let i=0;i<dd.campi.length;i++){ const v=e[base+i]; if(v!==""&&v!=null) out.push({k:dd.campi[i],v:v}); }
+    return out;
+  }
+  function tipCat(dd,e){
+    const nome=catNome(dd,e)||dd.meta.nome;
+    const sub=dd.tipo==="punti"?(e[5]||""):"";
+    return tipC(esc(nome), sub?esc(sub):null, esc(dd.meta.nome));
+  }
+  function schedaCatElemento(dd,e,tipo){
+    const m=dd.meta, det=[];
+    det.push({k:"Dato", v:esc(m.nome)});
+    if(tipo==="punti"){
+      if(e[3]) det.push({k:"Categoria", v:esc(e[3])});
+      if(e[5]) det.push({k:"Indirizzo", v:esc(e[5])});
+      if(e[4]) det.push({k:"Identificativo", v:esc(e[4])});
+      det.push({k:"Coordinate", v:Number(e[0]).toFixed(5)+", "+Number(e[1]).toFixed(5)});
+    } else {
+      if(e[1]) det.push({k:"Categoria", v:esc(e[1])});
+      if(e[2]) det.push({k:"Identificativo", v:esc(e[2])});
+    }
+    for(const a of catAttr(dd,e)) det.push({k:a.k, v:esc(a.v)});
+    const cat=(m.stat&&m.stat.categorie);
+    const app=cat?cat.slice(0,15).map(c=>`<div class="sc-det-row"><span class="sc-det-k">${esc(c.nome)}:</span> <strong class="sc-det-v">${c.n}</strong></div>`).join(""):"";
+    return creaScheda({
+      titolo:esc(catNome(dd,e))||esc(m.nome), badge:CAT_TAG,
+      sub:esc(m.nome),
+      dettagli:det,
+      appTitolo:cat?"Prime categorie (per numero)":"Perché non è un numero di viaggi",
+      approfondimento:app||'<div class="sc-det-row">Luogo/attrattore potenziale: senza iscritti, capienza o flussi misurati non è un conteggio di viaggi.</div>',
+      appAperto:false
+    });
+  }
+  function schedaCatalogoDato(dd){
+    const m=dd.meta, s=m.stat||{}, det=[];
+    det.push({k:"Fonte", v:esc(m.fonte||"—")});
+    det.push({k:"Anno", v:esc(m.anno||"—")});
+    det.push({k:"Licenza", v:esc(m.licenza||"—")});
+    det.push({k:"Formato", v:esc(m.formato||"—")});
+    det.push({k:"Copertura", v:esc(m.copertura||"—")});
+    det.push({k:"Coordinate", v:esc(m.crs||"EPSG:3003")});
+    det.push({k:"Record", v:String(s.record!=null?s.record:"—")+(s.elementi!=null&&s.elementi!==s.record?" ("+s.elementi+" elementi)":"")});
+    det.push({k:"Duplicati sull'id", v:String(s.duplicati_id!=null?s.duplicati_id:"—")});
+    det.push({k:"Senza geometria", v:String(s.senza_geometria!=null?s.senza_geometria:"—")});
+    if(s.fuori_area) det.push({k:"Fuori area", v:String(s.fuori_area)});
+    const miss=Object.entries(s.campi_mancanti||{}).filter(([,v])=>v>0).map(([k,v])=>`${esc(k)}: ${v}`).join(", ");
+    if(miss) det.push({k:"Campi mancanti", v:miss});
+    if(m.note) det.push({k:"Nota", v:esc(m.note)});
+    const anom=(m.anomalie||[]).length?m.anomalie.map(esc).join("; "):"nessuna";
+    det.push({k:"Anomalie", v:anom});
+    return creaScheda({titolo:esc(m.nome), badge:CAT_TAG, sub:esc(dd.tipo), dettagli:det});
+  }
+  function legendaCatalogo(){
+    if(!CAT_INDICE) return `<div class="t">Catalogo</div><div class="et" style="display:block">Non presente: lancia 11_prepara_catalogo.py e poi 04_genera_mappa.py.</div>`;
+    const g=CAT.gruppo||CAT_INDICE.gruppi[0].id;
+    const gd=CAT_INDICE.gruppi.find(x=>x.id===g);
+    const dd=CAT.dati[g]||[];
+    const righe=dd.filter(d=>CAT.sel[g+"/"+d.id]).map(d=>`<div class="puntini"><span><i style="background:${d.colore}"></i>${esc(d.meta.nome)} (${d.meta.stat.record})${d.heavy?" · da zoom 14":""}</span></div>`).join("");
+    return `<div class="t">Catalogo: ${esc(gd?gd.nome:"")} ${CAT_TAG}</div>${righe}`+
+      `<div class="et" style="display:block">Dati comunali; geometrie convertite da EPSG:3003. Luoghi e attrattori potenziali: senza iscritti, capienze o flussi non sono conteggi di viaggi.</div>`;
+  }
+
+  function legendaVuln(modo){
+    if(modo==="vuln_combo") return legendaVulnCombo();
+    const nomi={vuln:"Indice composito",vuln_occ:"Non occupati 15–64",vuln_ist:"Bassa istruzione 9+",vuln_aff:"Affollamento",vuln_anz:"Quota 65+",vuln_serv:"Servizi a piedi",vuln_verde:"Verde a piedi"};
+    const pal=PAL_SEZ[modo]||PAL_SEZ.vuln;
+    const et=modo==="vuln_serv"||modo==="vuln_verde"?["poco","medio","molto"]:["basso","medio","alto"];
+    return `<div class="t">Vulnerabilità sociale · ${esc(nomi[modo]||modo)} ${TAG.sim}</div>`+
+      `<div class="sc">`+pal.map((c,i)=>`<span style="background:${c}"></span>`).join("")+`</div>`+
+      `<div class="et"><span>0</span><span>100</span></div>`;
+  }
+  function legendaVulnCombo(){
+    return `<div class="t">Vulnerabilità × servizi</div>`+
+      `<div class="sc"><span style="background:#c8102e"></span><span style="background:#e8833a"></span><span style="background:#e0e4ea"></span></div>`+
+      `<div class="et"><span>Debole e senza</span><span>Debole ma servito</span><span>Non vulnerabile</span></div>`;
+  }
+  function preparaSezioni(){
+  if(!sez.length) return;
+  const mU = 1/(40075016.7*Math.cos(45.07*Math.PI/180));   // 1 metro in unita' di mappa
+  const r=RAGGIO*mU, G=r, celle=new Map(), cellaS=new Map();
+  const key=(a,b)=>a+"_"+b;
+  D.fermate.forEach((s,i)=>{const x=px(s.lo),y=py(s.la),k=key(Math.floor(x/G),Math.floor(y/G)); (celle.get(k)||celle.set(k,[]).get(k)).push([i,x,y]);});
+  sez.forEach((z,i)=>{z.ix=i; const k=key(Math.floor(z.x/G),Math.floor(z.y/G)); (cellaS.get(k)||cellaS.set(k,[]).get(k)).push(i);});
+  for(const z of sez){
+    const gx=Math.floor(z.x/G), gy=Math.floor(z.y/G); let pop=0;
+    for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){
+      const cs=celle.get(key(gx+dx,gy+dy)); if(cs) for(const [i,x,y] of cs){ if(Math.hypot(x-z.x,y-z.y)<=r) z.st.push(i); }
+      const ps=cellaS.get(key(gx+dx,gy+dy)); if(ps) for(const j of ps){ const o=sez[j]; if(Math.hypot(o.x-z.x,o.y-z.y)<=r) pop+=o.p; }
+    }
+    z.pop400=pop;
+  }
+  sezOk=true;
+}
+const sezServ=(z,i)=>{ let s=0; for(const k of z.st) s+=D.fermate[k].d[i]; return s; };
+const sezRapp=(z,i)=>sezServ(z,i)/Math.max(z.pop400,1)*1000;
+let sezSoglie={};
+function calcolaSoglieSez(){
+  if(!sezOk) return;
+  const vals={serv:[],rapp:[],dens:sez.map(z=>z.dens),crit:[],occ:[],sc:[],sen:[]};
+  for(const z of sez){
+    if(z.p1564>0 && z.occ!=null) vals.occ.push(z.occ/z.p1564*100);
+    if(z.sc!=null) vals.sc.push(z.sc);
+    if(z.sen!=null) vals.sen.push(z.sen);
+  }
+  for(const z of sez) for(let h=7;h<=20;h+=1){ vals.serv.push(sezServ(z,h)); vals.rapp.push(sezRapp(z,h)); const cr=critSez(z,h); if(cr!==null) vals.crit.push(cr); }
+  for(const k in vals){
+    const v=vals[k].filter(Number.isFinite).sort((a,b)=>a-b);
+    if(v.length) sezSoglie[k]=[0.2,0.4,0.6,0.8].map(q=>v[Math.min(v.length-1,Math.floor(q*v.length))]);
+  }
+}
+/* [agente GT18-punti-critici-integrati] indice di criticita' 0-100 per sezione e ora: 100 = nessun passaggio GTT programmato entro 400 m
+   (con residenti), 80+ = il peggior quinto delle sezioni per passaggi ogni 1000 abitanti (soglie dei quintili di sezSoglie.rapp, ore 7-20).
+   E' un indice RELATIVO a questa mappa, calcolato da orari programmati e residenti ISTAT: non e' una misura. Ricalcolato una volta per ora e poi tenuto in memoria. */
+const CRIT_ALTA=80;
+const critCache=new Map();
+function critSez(z,i){
+  if(!(z.p>0) || !sezSoglie.rapp) return null;   // senza residenti non c'e' domanda: nessun indice
+  let m=critCache.get(i); if(!m){ m=new Float32Array(sez.length).fill(-1); critCache.set(i,m); }
+  if(m[z.ix]>=0) return m[z.ix];
+  let c100=100;
+  if(sezServ(z,i)>0){
+    const s=sezSoglie.rapp, v=sezRapp(z,i), c=s.filter(x=>v>x).length, lo=c?s[c-1]:0, hi=c<4?s[c]:(s[3]*2||1);
+    const fr=hi>lo?Math.min(1,Math.max(0,(v-lo)/(hi-lo))):0;
+    c100=Math.max(0,Math.min(100,Math.round(100-20*(c+fr))));
+  }
+  m[z.ix]=c100; return c100;
+}
+const critEtichetta=c=>c>=CRIT_ALTA?"critica":c>=60?"alta":c>=40?"media":c>=20?"bassa":"nessuna criticità";
+const PAL_RAPP=["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"];
+const PAL_BASE=["#e3f1ef","#b5dcd6","#7cc0b8","#3f9a95","#1b6f73"];
+const PAL_PEND=["#efe9f6","#cdb9e3","#a98acd","#7d55b0","#51287f"];   // [agente GT05-pendolari]
+const PAL_CRIT=["#b0102a","#e8833a","#f2c14e","#9cc27a","#4c9f70"];   // [agente GT16] zone critiche: rosso=critica, verde=ok
+const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP, pend:PAL_PEND, crit:PAL_CRIT, occ:PAL_BASE, sc:PAL_BASE, sen:PAL_BASE,
+  vuln:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],   // verde→rosso: vulnerabilità bassa→alta
+  vuln_occ:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
+  vuln_ist:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
+  vuln_aff:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
+  vuln_anz:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
+  vuln_serv:["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"],  // inverso: pochi servizi = vulnerabile
+  vuln_verde:["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"], // inverso: poco verde = vulnerabile
+};
+const PAL_VULN_COMBO={"debole_senza":"#c8102e","debole_servito":"#e8833a","ok":"#e0e4ea"};
+PAL_SEZ.vuln_combo = ["#e0e4ea","#e8833a","#c8102e"];
+
+/* [agente GT05-pendolari] pendolari ISTAT 2021 (comune contro comune): D.pend = {tor, com[], altri}; i = entrano a Torino [lavoro,studio], u = escono */
+const TORINO_PC=1272;
+const PEND=D.pend||null, pendCom=new Map();
+let pendTor=null;
+if(PEND){ for(const c of PEND.com) pendCom.set(c.c,{...c,x:px(c.lo),y:py(c.la)}); pendTor={x:px(PEND.tor.lo),y:py(PEND.tor.la)}; }
+const pendOpz=()=>({t:$("pendTipo").value, d:$("pendDir").value, v:$("pendVal").value});
+const pendFlusso=(c,o)=>{ const a=o.d==="in"?c.i:c.u; return o.t==="lav"?a[0]:o.t==="stu"?a[1]:a[0]+a[1]; };
+const pendNum=n=>Math.round(n).toLocaleString("it-IT");
+let pendCache={k:""};
+function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flussi: ricalcolati solo se cambiano le scelte
+  const o=pendOpz(), k=o.t+o.d+o.v; if(pendCache.k===k) return pendCache;
+  const val=new Map(), v=[], ass=[];
+  for(const [id,c] of pendCom){ const f=pendFlusso(c,o), x=o.v==="rel"?f/Math.max(c.p,1)*1000:f; ass.push([id,f]); val.set(id,x); if(x>0) v.push(x); }
+  v.sort((a,b)=>a-b);
+  const sogl=[.2,.4,.6,.8].map(q=>v.length?v[Math.min(v.length-1,Math.floor(q*v.length))]:0);
+  ass.sort((a,b)=>b[1]-a[1]);
+  const top=ass.slice(0,30).filter(a=>a[1]>0);
+  pendCache={k,val,sogl,top,totTop:top.reduce((s,a)=>s+a[1],0),totCom:ass.reduce((s,a)=>s+a[1],0),nCom:ass.filter(a=>a[1]>0).length};
+  return pendCache;
+}
+const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
+const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="vuln_serv"?(z.vcomp||{}).serv:modo==="vuln_verde"?(z.vcomp||{}).verde:modo==="vuln_combo"?z.vgruppi||{}:sezRapp(z,i);
+
+const linee = D.linee.map((l,ii) => {
+  const a=new Float64Array(l.p.length*2); let x0=1,y0=1,x1=0,y1=0;
+  l.p.forEach((p,i)=>{const x=px(p[1]),y=py(p[0]);a[2*i]=x;a[2*i+1]=y;x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);});
+  return {id:l.id, i0:ii, pts:a, bb:[x0,y0,x1,y1], t:(D.rotte[l.id]||{t:3}).t};
+}).sort((a,b)=>({1:3,0:2}[a.t]||1)-({1:3,0:2}[b.t]||1));
+/* lunghezze cumulate dei tracciati e posizione lungo il tracciato (per la simulazione delle corse) */
+const lineaPerIdx=[];
+linee.forEach(l=>{ lineaPerIdx[l.i0]=l; const n=l.pts.length/2, c=new Float64Array(n); for(let k=1;k<n;k++) c[k]=c[k-1]+Math.hypot(l.pts[2*k]-l.pts[2*k-2], l.pts[2*k+1]-l.pts[2*k-1]); l.cum=c; l.tot=c[n-1]||1e-12; l.nome=((D.rotte[l.id]||{}).s||"").toLowerCase(); });
+const filtroL=()=>$("filtroLinea").value.trim().toLowerCase();
+function puntoSu(l,f){
+  const tg=f*l.tot, c=l.cum; let lo=0, hi=c.length-1;
+  while(hi-lo>1){ const m=(lo+hi)>>1; if(c[m]<=tg) lo=m; else hi=m; }
+  const seg=(c[hi]-c[lo])||1e-12, u=Math.max(0,Math.min(1,(tg-c[lo])/seg));
+  return [l.pts[2*lo]+(l.pts[2*hi]-l.pts[2*lo])*u, l.pts[2*lo+1]+(l.pts[2*hi+1]-l.pts[2*lo+1])*u];
+}
+const fermate = D.fermate.map(s=>({...s,x:px(s.lo),y:py(s.la)}));
+const sensori = D.sensori.map(s=>({...s,x:px(s.lo),y:py(s.la)}));
+let mezzi = D.mezzi.map(m=>({...m,x:px(m.lo),y:py(m.la)}));
+let mezziTs = D.meta.mezzi_ts*1000, t5Fine = Date.parse(D.meta.t5.end_time), inLive=false;
+const ST = () => window.STAT || null;
+const LV = () => window.LIVE || null;
+
+/* ora e tipo di giorno reali in Italia */
+function oraItalia(){
+  let dt=0,h=new Date().getHours(),mi=new Date().getMinutes();
+  try{ const p=Object.fromEntries(new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Rome",weekday:"short",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+    dt=p.weekday==="Sat"?1:p.weekday==="Sun"?2:0; h=+p.hour; mi=+p.minute; }catch(e){ const g=new Date().getDay(); dt=g===6?1:g===0?2:0; }
+  return {dt, m:h*60+mi};
+}
+const vicinoAdesso = () => { const a=oraItalia(); return a.dt===S.dt && Math.abs(a.m-S.m)<=90; };
+
+/* applica gli ultimi dati reali (live.js) */
+function applicaLive(){
+  const L=LV(); if(!L) return;
+  inLive=true;
+  if(L.mezzi && L.mezzi.length){ mezzi=L.mezzi.map(m=>({...m,x:px(m.lo),y:py(m.la)})); mezziTs=Date.parse(L.mezzi_letto)||mezziTs; }
+  if(L.t5){ for(const s of sensori){ const e=L.t5[s.id]; if(e){ s.fl=e.fl; s.v=e.v; s.vm=e.vm; s.fm=e.fm; } } if(L.t5_gen) t5Fine=Date.parse(L.t5_gen)||t5Fine; }
+  sicuro(stato); sicuro(statoLive); sicuro(segnalazioni); sicuro(aggiornaLegenda); chiede(); // [agente GT02-temi] la legenda dipende dai dati live
+}
+function ricarica(nome,dopo){
+  const s=document.createElement("script"); s.src="data/"+nome+"?t="+Date.now();
+  s.onload=()=>{ s.remove(); dopo&&dopo(); }; s.onerror=()=>s.remove(); document.head.appendChild(s);
+}
+
+/* traffico tipico per sensore (da storico) */
+function tipicoSens(s,i){ const T=ST(); if(!T||!T.tipico||!T.tipico[s.id]) return null; const c=T.tipico[s.id][i===undefined?idx():i]; return c&&c[0]!=null?{v:c[0],f:c[1],n:c[2]}:null; }
+function piuLento(s){ if(!inLive||!vicinoAdesso()||s.acc===0) return null; const tp=tipicoSens(s); const vv=s.vm!=null?s.vm:s.v; if(!tp||!vv||tp.v<10) return null; return {r:vv/tp.v, tp, vv}; }
+
+/* offerta reale contro programmata, per linea */
+let schedConc=null;
+function calcolaSched(){
+  schedConc={};
+  (D.corse||[]).forEach((C,dt)=>{ for(const c of C){ const l=lineaPerIdx[c[0]]; if(!l) continue; const a=schedConc[l.id]||(schedConc[l.id]=new Float64Array(72));
+    for(let m=Math.floor(c[1]/60)*60; m<c[2]; m+=60){ const ov=Math.min(c[2],m+60)-Math.max(c[1],m); if(ov>0) a[dt*24+((m/60)|0)%24]+=ov/60; } } });
+}
+let ratioCache={chiave:"",vals:null};
+function ratiLinee(i){
+  const T=ST(); if(!T||!T.reale) return null;
+  const chiave=i+"|"+T.generato; if(ratioCache.chiave===chiave) return ratioCache.vals;
+  if(!schedConc) calcolaSched();
+  let sr=0, ss=0; const out={};
+  for(const id in schedConc){ const sc=schedConc[id][i], re=T.reale[id]&&T.reale[id][i]; if(sc>=0.5&&re!=null){ sr+=re; ss+=sc; } }
+  const g=ss>0?sr/ss:0;
+  for(const id in schedConc){ const sc=schedConc[id][i], re=T.reale[id]&&T.reale[id][i]; out[id]= (sc>=0.5&&re!=null&&g>0)? {r:(re/sc)/g, re, sc} : null; }
+  out._g=g; ratioCache={chiave,vals:out}; return out;
+}
+
+/* replay della giornata registrata */
+let REP=null;
+function caricaReplay(g){
+  REP=null; if(!g){ chiede(); return; }
+  const nome="REPLAY_"+g.replace(/-/g,"_");
+  ricarica("replay_"+g+".js",()=>{ const R=window[nome]; if(!R) return; REP={...R, s:R.s}; S.dt=R.tipo; document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.k===S.dt)); aggiornaOra(); aggiornaLegenda(); });
+}
+function disegnaReplay(ws,ox,oy){
+  if(!REP||!REP.s.length) return;
+  const m=S.m, s=REP.s; let lo=0, hi=s.length-1;
+  if(m<s[0][0]-2||m>s[hi][0]+2) return;
+  while(hi-lo>1){ const k=(lo+hi)>>1; if(s[k][0]<=m) lo=k; else hi=k; }
+  const A=s[lo], B=s[Math.min(lo+1,s.length-1)];
+  const posB=new Map(); for(let k=0;k<B[1].length;k+=3) posB.set(B[1][k],[B[1][k+1],B[1][k+2]]);
+  const dtAB=B[0]-A[0];
+  for(let k=0;k<A[1].length;k+=3){
+    const vi=A[1][k]; let la=A[1][k+1], lo2=A[1][k+2];
+    const pb=posB.get(vi);
+    if(pb && dtAB>0 && dtAB<=3){ const u=Math.max(0,Math.min(1,(m-A[0])/dtAB)); la+=(pb[0]-la)*u; lo2+=(pb[1]-lo2)*u; }
+    else if(m-A[0]>2) continue;
+    const X=px(7+lo2/1e5)*ws-ox, Y=py(44+la/1e5)*ws-oy; if(X<-8||Y<-8||X>W+8||Y>H+8) continue;
+    cx.beginPath(); cx.arc(X,Y,4.6,0,6.2832); cx.fillStyle="#111"; cx.fill(); cx.strokeStyle="#fff"; cx.lineWidth=1.6; cx.stroke();
+  }
+}
+
+/* riquadri informativi */
+function statoLive(){
+  const T=ST(), L=LV(), el=[];
+  if(!T){ $("statoLive").innerHTML='<div class="riga"><span class="pallino vecchio"></span><div>Nessun dato raccolto letto. Avvia la raccolta (installa_raccolta.bat) e riapri la pagina.</div></div>'; return; }
+  const ore=Math.max(T.ore_mezzi||0,T.ore_t5||0), giorni=Object.keys(T.giorni||{}).length;
+  const scarso = ore<72;
+  el.push(`<div class="riga"><span class="pallino ${scarso?"vecchio":"ok"}"></span><div><b>Storico</b>: ${giorni} giorn${giorni===1?"o":"i"}, ${T.ore_mezzi||0} ore di mezzi, ${T.ore_t5||0} ore di traffico${scarso?'<br><span style="color:#b25e00">Dati scarsi: poche ore o giorni di storico, i confronti «rispetto al solito» sono solo indicativi.</span>':""}<br><span style="color:#5d6678">da ${fmt(Date.parse(T.primo))} a ${fmt(Date.parse(T.ultimo))}</span></div></div>`);
+  if(L){ const eta_=(Date.now()-Date.parse(L.generato))/60000; el.push(`<div class="riga"><span class="pallino ${eta_>5?"vecchio":"ok"}"></span><div><b>Dati live</b>: aggiornati ${fmt(Date.parse(L.generato))} (${eta(Date.parse(L.generato))})${eta_>5?"<br>La raccolta potrebbe essere ferma: controlla stato_raccolta.bat":""}</div></div>`); }
+  $("statoLive").innerHTML=el.join("");
+  const sel=$("repGiorno"), att=sel.value; const gs=Object.keys(T.giorni||{});
+  if(sel.options.length-1!==gs.length){ sel.innerHTML='<option value="">(nessuna giornata)</option>'+gs.map(g=>`<option value="${g}">${g} (${T.giorni[g]} letture)</option>`).join(""); sel.value=att; }
+}
+function segnalazioni(){
+  const box=$("segn"), T=ST(); if(!box) return;
+  if(!inLive||!T){ box.textContent="Servono i dati live e lo storico."; return; }
+  if(!vicinoAdesso()){ box.textContent="Porta giorno e ora su «Adesso» per vedere le segnalazioni."; return; }
+  const sc=[], i=idx();
+  for(const s of sensori){ const pl=piuLento(s); if(pl&&pl.r<0.7&&pl.tp.n>=1) sc.push({s,pl}); }
+  sc.sort((a,b)=>a.pl.r-b.pl.r);
+  const rl=ratiLinee(i), ln=[];
+  if(rl) for(const id in rl){ if(id==="_g"||!rl[id]) continue; if(rl[id].r<0.5&&rl[id].sc>=1) ln.push({id,...rl[id]}); }
+  ln.sort((a,b)=>a.r-b.r);
+  const scarso=(Math.max(T.ore_mezzi||0,T.ore_t5||0))<72 ? ' <span style="color:#b25e00">(dati scarsi)</span>' : "";
+  let h=`<div style="margin-bottom:4px"><b>Traffico più lento del solito</b>${scarso}</div>`;
+  h+= sc.length? sc.slice(0,5).map(x=>`<div><a href="#" data-la="${x.s.la}" data-lo="${x.s.lo}" style="color:var(--ink)">${esc(x.s.via)}</a>: ${x.pl.vv.toFixed(0)} km/h invece di ${x.pl.tp.v.toFixed(0)}</div>`).join("") : "<div>nessuno sopra la soglia (velocità sotto il 70% del solito)</div>";
+  h+=`<div style="margin:8px 0 4px"><b>Linee con meno mezzi del previsto</b>${scarso}</div>`;
+  h+= ln.length? ln.slice(0,5).map(x=>`<div>${esc((D.rotte[x.id]||{s:x.id}).s)}: ${x.re.toFixed(1)} reali, ${x.sc.toFixed(1)} previsti</div>`).join("") : "<div>nessuna sotto la metà del rapporto medio</div>";
+  box.innerHTML=h;
+  box.querySelectorAll("a[data-la]").forEach(a=>a.onclick=e=>{e.preventDefault(); vaiA(+a.dataset.la,+a.dataset.lo,15);});
+}
+
+/* scala a classi per le zone: quantili su tutti i valori > 0 (fissi, cosi' lo slider e' confrontabile) */
+const tutti = zone.flatMap(z=>z.dens).filter(v=>v>0).sort((a,b)=>a-b);
+const quant = q => tutti.length ? tutti[Math.min(tutti.length-1, Math.floor(q*tutti.length))] : 1;
+const SOGLIE = [0.2,0.4,0.6,0.8].map(quant);
+const PAL = ["#e3f1ef","#b5dcd6","#7cc0b8","#3f9a95","#1b6f73"];
+const classe = v => v<=0 ? -1 : SOGLIE.filter(s=>v>s).length;
+
+/* ---------- stato ---------- */
+const view = {cx:px(7.6869), cy:py(45.0703), zoom: innerWidth<700?11:12};
+const MINZ=9, MAXZ=18;
+const S = {dt:0, m:480, get h(){return Math.floor(this.m/60)%24;}};
+let baseVer=0;
+const idx = () => S.dt*24+S.h;
+let W=0,H=0,dpr=1,sporco=true,attivi=0;
+const chiede = () => { if(!sporco){sporco=true;requestAnimationFrame(()=>sicuro(disegna));} };
+
+function ridimensiona(){
+  dpr=window.devicePixelRatio||1; W=innerWidth; H=innerHeight;
+  cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); chiede();
+}
+addEventListener("resize",ridimensiona);
+
+/* ---------- mattonelle ---------- */
+const tiles = new Map();
+// [agente GT01-sfondi] sfondi Esri (senza chiave), ognuno con zoom massimo; oltre si ingrandisce l'ultima mattonella
+const ESRI="https://server.arcgisonline.com/ArcGIS/rest/services/";
+const BASI={
+  chiara:(z,x,y)=>`${ESRI}Canvas/World_Light_Gray_Base/MapServer/tile/${z}/${y}/${x}`,
+  stradale:(z,x,y)=>`${ESRI}World_Street_Map/MapServer/tile/${z}/${y}/${x}`,
+  sat:(z,x,y)=>`${ESRI}World_Imagery/MapServer/tile/${z}/${y}/${x}`
+};
+const MAXZ_BASE={chiara:16, stradale:19, sat:19, nessuno:0};
+const CRED={
+  chiara:'Mappa © Esri, HERE, Garmin, OpenStreetMap contributors',
+  stradale:'Mappa © Esri, HERE, Garmin, USGS, OpenStreetMap contributors',
+  sat:'Immagini © Esri, Maxar, Earthstar Geographics',
+  nessuno:''};
+let baseCorrente="sat", tileOk=0, tileErr=0, intSfondo=0.7;
+function creditiSfondo(){ const c=CRED[baseCorrente]; $("attrib").innerHTML=(c?c+" · ":"")+"dati GTT, 5T, ISTAT, Comune di Torino"; }
+// avviso non bloccante se molte mattonelle falliscono e nessuna è arrivata
+function aggiornaAvvisoSfondo(){ $("avvisoSfondo").style.display=(baseCorrente!=="nessuno"&&tileErr>20&&tileOk===0)?"block":"none"; }
+function tile(z,x,y){
+  const k=baseCorrente+"/"+z+"/"+x+"/"+y; let t=tiles.get(k);
+  if(!t){
+    const img=new Image(); t={img,ok:false,usato:0}; const b=baseCorrente;
+    img.onload=()=>{t.ok=true; if(b===baseCorrente){tileOk++; aggiornaAvvisoSfondo();} baseVer++;chiede();};
+    img.onerror=()=>{ if(b===baseCorrente){tileErr++; aggiornaAvvisoSfondo();} };
+    img.src=BASI[b](z,x,y);
+    tiles.set(k,t);
+    if(tiles.size>600){ const v=[...tiles.entries()].sort((a,b)=>a[1].usato-b[1].usato).slice(0,200); v.forEach(e=>tiles.delete(e[0])); }
+  }
+  t.usato=performance.now(); return t;
+}
+function disegnaMattonelle(ws,ox,oy){
+  // [agente GT01-sfondi] nessuno sfondo: niente mattonelle; zoom oltre il massimo: overzoom
+  if(baseCorrente==="nessuno") return;
+  const z=Math.max(0,Math.min(MAXZ_BASE[baseCorrente],Math.round(view.zoom))), n=1<<z, ts=256*Math.pow(2,view.zoom-z);
+  const x0=Math.floor(ox/ts), x1=Math.floor((ox+W)/ts), y0=Math.floor(oy/ts), y1=Math.floor((oy+H)/ts);
+  for(let ty=Math.max(0,y0); ty<=Math.min(n-1,y1); ty++) for(let tx=x0; tx<=x1; tx++){
+    const t=tile(z,((tx%n)+n)%n,ty);
+    if(t.ok) cx.drawImage(t.img, tx*ts-ox, ty*ts-oy, ts+0.5, ts+0.5);
+  }
+  // [agente GT01-sfondi] schiarisce lo sfondo verso il bianco con un solo rettangolo
+  if(intSfondo<1){ cx.fillStyle="rgba(255,255,255,"+(1-intSfondo).toFixed(2)+")"; cx.fillRect(0,0,W,H); }
+}
+
+/* ---------- disegno ---------- */
+const vis = id => $(id).checked;
+const valOp = id => { const e=$(id); return e?e.value:""; };   // [pulizia] le opzioni esistono solo nel tema attivo
+/* [pulizia] aspetto uniforme dei livelli a colori (sezioni, zone, OMI, IMQ) */
+const AREA_ALPHA=.5, AREA_STROKE="rgba(40,50,70,.25)", AREA_STROKE_W=.4;
+function dentroVista(bb,ws,ox,oy){ return !(bb[2]*ws<ox||bb[0]*ws>ox+W||bb[3]*ws<oy||bb[1]*ws>oy+H); }
+function tracciaAnelli(poly,ws,ox,oy){
+  cx.beginPath();
+  for(const a of poly){ for(let i=0;i<a.length;i+=2){const X=a[i]*ws-ox,Y=a[i+1]*ws-oy; i?cx.lineTo(X,Y):cx.moveTo(X,Y);} cx.closePath(); }
+}
+const bcv=document.createElement("canvas"), bcx=bcv.getContext("2d"), cxPrincipale=cx;
+let baseKey="";
+function disegna(){
+  sporco=false;
+  const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
+  const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),valOp("pendTipo"),valOp("pendDir"),valOp("pendVal"),valOp("omiTipo"),valOp("imqMet"),
+    ["Lzone","Lsez","Lomi","LImq","Llinee","Lfermate","Lgriglia"].map(vis).join(),tema.id,(ST()||{}).generato,catSig()].join("|");
+  if(chiave!==baseKey){
+    baseKey=chiave;
+    if(bcv.width!==cv.width||bcv.height!==cv.height){ bcv.width=cv.width; bcv.height=cv.height; }
+    cx=bcx; try{ disegnaBase(ws,ox,oy,i); } finally { cx=cxPrincipale; }
+  }
+  cx.setTransform(1,0,0,1,0,0); cx.drawImage(bcv,0,0);
+  cx.setTransform(dpr,0,0,dpr,0,0);
+  disegnaSopra(ws,ox,oy,i);
+  aggiornaScala(ws);
+}
+// [agente GT08-griglia-scala] metri per pixel: circonferenza terrestre * cos(latitudine) / larghezza del mondo in pixel
+const CIRC_TERRA=40075016.686;
+const latDaY = y => Math.atan(Math.sinh(Math.PI*(1-2*y)))*180/Math.PI;
+const mPerPx = (ws,lat) => CIRC_TERRA*Math.cos(lat*Math.PI/180)/ws;
+const LAT_TO=45.0703, CX_TO=px(7.6869), CY_TO=py(45.0703);   // origine della griglia: centro di Torino
+function disegnaGriglia(ws,ox,oy){
+  // pixel per metro fissi alla latitudine di Torino: la griglia resta ferma mentre si trascina (errore < 0,5% entro 18 km)
+  const ppm=1/mPerPx(ws,LAT_TO);
+  const PASSI=[10,25,50,100,250,500,1000,2000,5000,10000];
+  let passo=PASSI[PASSI.length-1];
+  for(const p of PASSI){ if(p*ppm>=40){passo=p;break;} }   // cella tra ~40 e ~100 px
+  const s=passo*ppm, ax=CX_TO*ws-ox, ay=CY_TO*ws-oy;       // posizione dello schermo dell'origine
+  const k0=Math.floor(-ax/s), k1=Math.ceil((W-ax)/s), j0=Math.floor(-ay/s), j1=Math.ceil((H-ay)/s);
+  if(k1-k0>400||j1-j0>400) return;
+  // due linee affiancate (scura + chiara) per leggersi sia sul satellite scuro sia sulla mappa chiara
+  const passa=(off,col)=>{
+    cx.beginPath();
+    for(let k=k0;k<=k1;k++){ const X=Math.round(ax+k*s)+off; cx.moveTo(X,0); cx.lineTo(X,H); }
+    for(let j=j0;j<=j1;j++){ const Y=Math.round(ay+j*s)+off; cx.moveTo(0,Y); cx.lineTo(W,Y); }
+    cx.strokeStyle=col; cx.lineWidth=1; cx.stroke();
+  };
+  passa(0.5,"rgba(70,70,70,0.22)"); passa(1.5,"rgba(255,255,255,0.28)");
+  grigliaPasso=passo;
+}
+let grigliaPasso=0;
+function aggiornaScala(ws){
+  const el=$("scala"); if(!el) return;
+  const mpp=mPerPx(ws,latDaY(view.cy));
+  let L=10; for(const c of [10,20,50,100,200,500,1000,2000,5000,10000,20000,50000]){ if(c/mpp<=140) L=c; }
+  const fmt=m=>m>=1000?(m/1000)+" km":m+" m";
+  // passo della griglia: lo ricalcolo qui, cosi' il testo e' giusto anche a griglia spenta (non mostrato)
+  const g=vis("Lgriglia")&&grigliaPasso?"griglia: "+fmt(grigliaPasso):"";
+  const pn=$("pannello").getBoundingClientRect();
+  // a destra del pannello se questo copre l'angolo in basso a sinistra
+  const copre=pn.width>0&&pn.bottom>H-70&&pn.left<200;
+  el.style.left=(copre?(pn.right+12>W-170?Math.max(12,W/2-80):pn.right+12):12)+"px";
+  el.innerHTML='<div style="width:'+Math.round(L/mpp)+'px" class="barra"></div><div>'+fmt(L)+(g?' · '+g:'')+'</div>';
+}
+function disegnaBase(ws,ox,oy,i){
+  cx.setTransform(dpr,0,0,dpr,0,0);
+  cx.fillStyle="#e8eaee"; cx.fillRect(0,0,W,H);
+  disegnaMattonelle(ws,ox,oy);
+  if(vis("Lgriglia")) disegnaGriglia(ws,ox,oy);   // [agente GT08-griglia-scala] sopra lo sfondo, sotto tutti i dati
+
+  if(vis("Lsez") && sezOk){
+    const modo=$("modoSez").value, pal=PAL_SEZ[modo], dettaglio=view.zoom>=14;
+    const pc=modo==="pend"?pendCalcola():null;   // [agente GT05-pendolari]
+    for(const z of sez){
+      if(!dentroVista(z.bb,ws,ox,oy)) continue;
+      // [agente GT05-pendolari] tema Pendolari: colore = valore del comune della sezione; grigio = Torino o nessun flusso
+      const vp=pc?(pc.val.get(z.c)||0):0;
+      const valore = pc ? vp : valSez(z,modo,i);
+      const nulla = pc ? (z.c===TORINO_PC || !vp) : modo==="crit" ? critSez(z,i)===null : (modo==="serv"||modo==="rapp") ? sezServ(z,i)===0 : valore==null;
+      const c=pc ? (pc.sogl?pc.sogl.filter(x=>vp>x).length:0) : classeSez(valore,modo);
+      // [agente GT02-temi] riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
+      cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:AREA_ALPHA;
+      for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.fill(); }
+      cx.globalAlpha=1;
+      if(dettaglio){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
+    }
+  }
+  if(tema.id==="pendolari" && PEND && pendTor){   // [agente GT05-pendolari] linee dritte dal baricentro di ogni comune a Torino, spessore proporzionale al flusso
+    const pc=pendCalcola(), o=pendOpz(), vmax=pc.top.length?pc.top[0][1]:1, X1=pendTor.x*ws-ox, Y1=pendTor.y*ws-oy;
+    cx.lineCap="round"; cx.strokeStyle=o.d==="in"?"#51287f":"#d9622b"; cx.fillStyle=cx.strokeStyle; cx.globalAlpha=.7;
+    for(const [id,f] of pc.top){
+      const c=pendCom.get(id), X=c.x*ws-ox, Y=c.y*ws-oy;
+      if(Math.max(X,X1)<0||Math.min(X,X1)>W||Math.max(Y,Y1)<0||Math.min(Y,Y1)>H) continue;
+      cx.lineWidth=Math.max(1,16*f/vmax); cx.beginPath(); cx.moveTo(X,Y); cx.lineTo(X1,Y1); cx.stroke();
+      cx.beginPath(); cx.arc(X,Y,3,0,6.2832); cx.fill();
+    }
+    cx.globalAlpha=1; cx.beginPath(); cx.arc(X1,Y1,6,0,6.2832); cx.fillStyle="#fff"; cx.fill(); cx.lineWidth=2.5; cx.strokeStyle="#1d2330"; cx.stroke();
+  }
+  if(vis("Lzone")){
+    for(const z of zone){
+      if(!dentroVista(z.bb,ws,ox,oy)) continue;
+      const c=classe(z.dens[i]);
+      for(const poly of z.polys){
+        tracciaAnelli(poly,ws,ox,oy);
+        cx.fillStyle = c<0 ? "rgba(120,125,135,.10)" : PAL[c]; cx.globalAlpha = c<0 ? 1 : AREA_ALPHA;
+        cx.fill("evenodd"); cx.globalAlpha=1;
+        cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; cx.stroke();
+      }
+    }
+  }
+  if(vis("Lomi") && omiOk){
+    const tip=$("omiTipo")?$("omiTipo").value:"ab";
+    for(const z of omi){
+      if(!dentroVista(z.bb,ws,ox,oy)) continue;
+      const vv=z.v&&z.v[tip];
+      let col="#9aa0ad", a=.22;
+      if(vv){
+        const m=(vv[0]+vv[1])/2;
+        const cls=OMI_SOGLIE.filter(s=>m>s).length;
+        col=OMI_PAL[Math.min(OMI_PAL.length-1,cls)];
+        a=AREA_ALPHA;
+      }
+      cx.fillStyle=col; cx.globalAlpha=a;
+      for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.fill(); }
+      cx.globalAlpha=1;
+      if(view.zoom>=14){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.stroke(); } }
+    }
+  }
+  if(vis("LImq") && imqOk){
+    const met=$("imqMet")?$("imqMet").value:"ora_tot";
+    const sog=(met.startsWith("ora")||met==="res")?imqSoglie(imq.map(z=>imqValore(z,met))):null;
+    for(const z of imq){
+      if(!dentroVista(z.bb,ws,ox,oy)) continue;
+      const col=imqColore(z,met,sog);
+      if(!col) continue;
+      cx.fillStyle=col; cx.globalAlpha=AREA_ALPHA;
+      for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.fill(); }
+      cx.globalAlpha=1;
+      if(view.zoom>=14){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const r of z.rings){ tracciaAnelli([r],ws,ox,oy); cx.stroke(); } }
+    }
+  }
+  if(vis("Llinee")){
+    cx.lineCap="round"; cx.lineJoin="round";
+    const fl=filtroL();
+    for(const l of linee){
+      if(fl && l.nome!==fl) continue;
+      const f=(D.rotte[l.id]||{f:[]}).f[i]||0;
+      if(tema.id==="velocita" || tema.velocita){   // [agente GT16] velocità commerciale (anche nel tema unificato «Traffico e velocità»)
+        const c=velCella(l.id,S.dt,S.h); if(!f&&!c) continue; if(!dentroVista(l.bb,ws,ox,oy)) continue;
+        const ok=c&&c[1]>=VEL_MIN_CAMP; cx.strokeStyle=ok?VEL_PAL[velClasse(c[0])]:"#9aa0ad"; cx.globalAlpha=ok?.95:.55; cx.lineWidth=ok?3.2:1.8;
+        cx.beginPath(); const a=l.pts;
+        for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y);}
+        cx.stroke(); continue;
+      }
+      if(!f||!dentroVista(l.bb,ws,ox,oy)) continue;
+      cx.strokeStyle=tipoCol(l.t); cx.globalAlpha=.8; cx.lineWidth=Math.min(6,1+Math.sqrt(f)*0.55)*(tema.lineeSottili?0.5:1); /* [agente GT02-temi] linee sottili in alcuni temi */
+      cx.beginPath(); const a=l.pts;
+      for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y);}
+      cx.stroke();
+    }
+    cx.globalAlpha=1;
+  }
+  if(vis("Lfermate") && view.zoom>=14){
+    // [agente GT07-clic-fermate] puntini piu' piccoli (~60%), azzurro pieno senza bordo bianco
+    cx.fillStyle="rgba(74,163,223,.85)"; cx.strokeStyle="rgba(30,95,150,.6)"; cx.lineWidth=.5;
+    for(const s of fermate){
+      const v=s.d[i]; if(!v && view.zoom<15) continue;
+      const X=s.x*ws-ox, Y=s.y*ws-oy; if(X<-10||Y<-10||X>W+10||Y>H+10) continue;
+      cx.beginPath(); cx.arc(X,Y,v?Math.min(3,.9+Math.sqrt(v)*.3):.8,0,6.2832); cx.fill(); if(v) cx.stroke();
+    }
+  }
+  if(tema.id==="catalogo") disegnaCatalogo(ws,ox,oy);   // [catalogo] punti/linee/poligoni del gruppo scelto
+}
+function disegnaSopra(ws,ox,oy,i){
+  if(schedaSel && schedaSel.polys){   // [agente GT07-clic-fermate] contorno sottile della sezione selezionata
+    cx.strokeStyle="#111"; cx.lineWidth=1.5; cx.beginPath();
+    for(const a of schedaSel.polys){ for(let k=0;k<a.length;k+=2){ const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y); } cx.closePath(); }
+    cx.stroke();
+  }
+  if(vis("LImq") && schedaSel && schedaSel.imq){
+    const s=schedaSel, x1=s.lo!=null?px(s.lo)*ws-ox:null, y1=s.la!=null?py(s.la)*ws-oy:null;
+    if(x1!=null){
+      let vmax=0; for(const f of s.od) if(f.d!==s.c && !f.est) vmax=Math.max(vmax,f.v);
+      cx.lineCap="round";
+      for(const f of s.od){
+        if(f.d===s.c || f.est) continue;
+        const dz=imq.find(z=>z.c===f.d); if(!dz) continue;
+        const x2=px(dz.lo)*ws-ox, y2=py(dz.la)*ws-oy;
+        cx.strokeStyle=f.aff?"rgba(200,16,46,.60)":"rgba(200,16,46,.28)";
+        cx.lineWidth=1+4*(f.v/(vmax||1));
+        cx.beginPath(); cx.moveTo(x1,y1); cx.lineTo(x2,y2); cx.stroke();
+      }
+      cx.fillStyle="#111"; cx.beginPath(); cx.arc(x1,y1,3.5,0,7); cx.fill();
+    }
+  }
+  if(vis("Lcorse")){
+    const C=(D.corse||[])[S.dt]||[], fl=filtroL(), R=view.zoom<11?1.8:view.zoom<13?2.6:view.zoom<15?3.4:4.2;
+    let n=0;
+    for(let pass=0;pass<2;pass++){
+      const tt0=pass? S.m+1440 : S.m;
+      for(const c of C){
+        if(c[1]>tt0) break;
+        if(c[2]<tt0) continue;
+        const l=lineaPerIdx[c[0]]; if(!l||(fl&&l.nome!==fl)) continue;
+        n++;
+        const p=puntoSu(l,(tt0-c[1])/(c[2]-c[1]));
+        const X=p[0]*ws-ox, Y=p[1]*ws-oy; if(X<-6||Y<-6||X>W+6||Y>H+6) continue;
+        cx.beginPath(); cx.arc(X,Y,R,0,6.2832); cx.fillStyle=tipoCol(l.t); cx.fill();
+        if(R>2){ cx.strokeStyle="#fff"; cx.lineWidth=1; cx.stroke(); }
+      }
+    }
+    attivi=n;
+  }
+  if(vis("Lsensori")){
+    for(const s of sensori){
+      const X=s.x*ws-ox, Y=s.y*ws-oy; if(X<-12||Y<-12||X>W+12||Y>H+12) continue;
+      const r=Math.min(11,5+Math.sqrt(s.fl||0)*.35)*(tema.sensoriGrandi?1.5:1); cx.beginPath(); // [agente GT02-temi] marcatori piu' grandi nel tema Traffico
+ cx.arc(X,Y,r,0,6.2832);
+      if(s.acc===0){ cx.fillStyle="rgba(255,255,255,.85)"; cx.fill(); cx.strokeStyle="#8a8f98"; cx.lineWidth=1.5; cx.setLineDash([2,2]); cx.stroke(); cx.setLineDash([]); }
+      else { cx.fillStyle=velCol(s); cx.fill(); cx.strokeStyle="#1d2330"; cx.lineWidth=1.2; cx.stroke(); }
+      const pl=piuLento(s); if(pl&&pl.r<0.7){ cx.beginPath(); cx.arc(X,Y,r+4,0,6.2832); cx.strokeStyle="#c8102e"; cx.lineWidth=2.4; cx.stroke(); }
+    }
+  }
+  if(vis("Lreplay")) disegnaReplay(ws,ox,oy);
+  if(vis("Lmezzi")){
+    for(const m of mezzi){
+      const X=m.x*ws-ox, Y=m.y*ws-oy; if(X<-8||Y<-8||X>W+8||Y>H+8) continue;
+      cx.beginPath(); cx.arc(X,Y,4.2,0,6.2832); cx.fillStyle=tipoCol((D.rotte[m.r]||{t:3}).t); cx.fill();
+      cx.strokeStyle="#fff"; cx.lineWidth=1.6; cx.stroke(); cx.strokeStyle="#1d2330"; cx.lineWidth=.6; cx.stroke();
+    }
+  }
+}
+/* [agente GT04-velocita] velocità commerciale misurata per linea (D.vel[linea][tipo][ora] = [km/h, campioni, giorni]) */
+const VEL_MIN_CAMP = 20;   // sotto questi campioni (≈ 20 minuti-veicolo) la cella resta grigia
+const VEL_PAL = ["#c8102e","#e8833a","#f2c14e","#4c9f70"];
+const velCella = (id,dt,h) => { const v=((D.vel||{})[id]||{})[dt]; return v?v[h]||null:null; };
+const velClasse = k => k<12?0 : k<16?1 : k<20?2 : 3;
+const velScarsa = () => { const M=D.vel_meta; if(!M||M.ore==null||M.ore<72) return true;
+  const g=Object.values(D.vel||{}).flatMap(t=>Object.values(t).flatMap(o=>Object.values(o).map(c=>c[2]))); return !g.length || Math.max(...g)<3; };
+function velOreTxt(id,dt){   // ore con dati sufficienti, in intervalli: "6–9, 12, 15–22"
+  const o=((D.vel||{})[id]||{})[dt]||{}, ore=Object.keys(o).map(Number).filter(h=>o[h][1]>=VEL_MIN_CAMP).sort((a,b)=>a-b);
+  if(!ore.length) return "nessuna";
+  const r=[]; let a=ore[0], b=a;
+  for(let k=1;k<=ore.length;k++){ if(ore[k]===b+1){ b=ore[k]; continue; } r.push(a===b?""+a:a+"–"+b); a=ore[k]; b=a; }
+  return r.join(", ");
+}
+function velTipLinea(sx,sy,ws,ox,oy){   // linea più vicina al puntatore (entro 7 px) tra quelle disegnate
+  let best=null, bd=49; const fl=filtroL();
+  for(const l of linee){
+    if(fl && l.nome!==fl) continue;
+    if(!dentroVista(l.bb,ws,ox,oy)) continue;
+    const a=l.pts;
+    for(let k=2;k<a.length;k+=2){
+      const x1=a[k-2]*ws-ox,y1=a[k-1]*ws-oy,x2=a[k]*ws-ox,y2=a[k+1]*ws-oy, dx=x2-x1,dy=y2-y1, L=dx*dx+dy*dy;
+      let t=L?((sx-x1)*dx+(sy-y1)*dy)/L:0; t=Math.max(0,Math.min(1,t));
+      const d=(x1+t*dx-sx)**2+(y1+t*dy-sy)**2; if(d<bd){bd=d;best=l;}
+    }
+  }
+  return best;
+}
+function velTip(l){
+  const r=D.rotte[l.id]||{s:l.id,t:3,l:""}, c=velCella(l.id,S.dt,S.h);
+  let h=`<b>Linea ${esc(r.s)}</b> (${tipoNome(r.t)})<br>${esc(r.l||"")}<br>`;
+  if(!c) h+=`Alle ${pad(S.h)} (${GIORNI[S.dt].toLowerCase()}): nessun dato misurato<br>`;
+  else h+=`Alle ${pad(S.h)} (${GIORNI[S.dt].toLowerCase()}): <b>${c[0].toFixed(1)} km/h</b>${c[1]<VEL_MIN_CAMP?" <span style='color:#b25e00'>(troppo pochi campioni: non colorata)</span>":""}<br>${c[1]} campioni · ${c[2]} ${c[2]===1?"giorno":"giorni"}<br>`;
+  return h+`Ore con dati (${GIORNI[S.dt].toLowerCase()}): ${velOreTxt(l.id,S.dt)}<br><span style="color:#5d6678">Misurata, fermate incluse</span>`;
+}
+function legendaVelocita(){
+  const M=D.vel_meta, n=Object.keys(D.vel||{}).length;
+  if(!M||!n) return `<div class="t">Velocità commerciale ${TAG.mis}</div><div class="et" style="display:block">Nessun dato di velocità: serve lo storico dei mezzi (data/storico.sqlite) al momento di rigenerare la mappa.</div>`;
+  return `<div class="t">Velocità commerciale misurata ${TAG.mis}${velScarsa()?TAG_SCARSO:""}</div>`
+    +`<div class="puntini"><span><i style="background:${VEL_PAL[0]}"></i>&lt;12</span><span><i style="background:${VEL_PAL[1]}"></i>12–16</span><span><i style="background:${VEL_PAL[2]}"></i>16–20</span><span><i style="background:${VEL_PAL[3]}"></i>&gt;20 km/h</span><span><i style="background:#9aa0ad"></i>nessun dato o meno di ${VEL_MIN_CAMP} campioni</span></div>`
+    +`<div class="et" style="display:block">Velocità commerciale: include le fermate; si aggiorna rigenerando la mappa.<br>Storico usato: ${M.ore} ore (${fmt(M.primo*1000)} → ${fmt(M.ultimo*1000)}), ${n} linee con dati. Non c'è il codice della corsa: nessun ritardo.</div>`;
+}
+function velCol(s){
+  if(!s.fl) return "#c9ced6";
+  const v=s.v||0; return v<15?"#c8102e": v<30?"#e8833a": v<45?"#f2c14e":"#4c9f70";
+}
+
+/* ---------- interazione ---------- */
+function zoomA(nuovo,sx,sy){
+  nuovo=Math.max(MINZ,Math.min(MAXZ,nuovo));
+  const wsV=256*Math.pow(2,view.zoom), wsN=256*Math.pow(2,nuovo);
+  const ux=view.cx+(sx-W/2)/wsV, uy=view.cy+(sy-H/2)/wsV;
+  view.cx=ux-(sx-W/2)/wsN; view.cy=uy-(sy-H/2)/wsN; view.zoom=nuovo; chiede(); aggiornaLegenda(); mostraZoom();
+}
+function mostraZoom(){ const e=$("zl"); if(e) e.textContent="z "+view.zoom.toFixed(1); }
+function vaiA(lat,lon,z){ view.cx=px(lon); view.cy=py(lat); view.zoom=z; chiede(); aggiornaLegenda(); mostraZoom(); }
+const ptrs=new Map(); let ultimaDist=0, mosso=false, pizzico=false;
+cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY,x0:e.clientX,y0:e.clientY});mosso=false;cv.classList.add("trascina");
+  if(ptrs.size===1) pizzico=false; else pizzico=true;   // [agente GT07-clic-fermate]
+  if(ptrs.size===2){const [a,b]=[...ptrs.values()];ultimaDist=Math.hypot(a.x-b.x,a.y-b.y);} nascondiTip();});
+cv.addEventListener("pointermove",e=>{
+  const p=ptrs.get(e.pointerId);
+  if(!p){ cercaTip(e.clientX,e.clientY); return; }
+  const ws=256*Math.pow(2,view.zoom);
+  if(ptrs.size===1){ view.cx-=(e.clientX-p.x)/ws; view.cy-=(e.clientY-p.y)/ws; if(Math.hypot(e.clientX-p.x,e.clientY-p.y)>0) mosso=true; chiede(); }
+  p.x=e.clientX; p.y=e.clientY;
+  if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(ultimaDist>0) zoomA(view.zoom+Math.log2(d/ultimaDist),(a.x+b.x)/2,(a.y+b.y)/2); ultimaDist=d; mosso=true;}
+});
+// [agente GT07-clic-fermate] clic = rilascio entro ~5 px dal punto di partenza, senza pizzico a due dita
+const fine=e=>{ const p0=ptrs.get(e.pointerId), era1=ptrs.size===1;
+  if(p0){ ptrs.delete(e.pointerId);} if(!ptrs.size){cv.classList.remove("trascina");}
+  if(e.type==="pointerup" && p0 && era1 && !pizzico && Math.hypot(e.clientX-p0.x0,e.clientY-p0.y0)<=5) cercaTip(e.clientX,e.clientY,true); };
+cv.addEventListener("pointerup",fine); cv.addEventListener("pointercancel",fine);
+cv.addEventListener("pointerleave",()=>{ if(!ptrs.size) nascondiTip(); });
+cv.addEventListener("wheel",e=>{e.preventDefault(); zoomA(view.zoom-e.deltaY*(e.deltaMode?0.05:0.0016),e.clientX,e.clientY);},{passive:false});
+cv.addEventListener("dblclick",e=>zoomA(view.zoom+1,e.clientX,e.clientY));
+$("zp").onclick=()=>zoomA(view.zoom+1,W/2,H/2); $("zm").onclick=()=>zoomA(view.zoom-1,W/2,H/2);
+$("zh").onclick=()=>vaiA(45.0703,7.6869,innerWidth<700?11:12.5); $("zc").onclick=()=>vaiA(45.0703,7.6869,innerWidth<700?9.5:10.5);
+addEventListener("keydown",e=>{ if(e.target&&/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
+  if(e.key==="+"||e.key==="=") zoomA(view.zoom+1,W/2,H/2); else if(e.key==="-"||e.key==="_") zoomA(view.zoom-1,W/2,H/2); });
+
+/* ---------- tooltip ---------- */
+const tip=$("tip");
+function tipTxt(s){
+  const tp=tipicoSens(s); if(!tp) return ST()?'<span style="color:#5d6678">Nessuno storico per questo sensore a quest\'ora.</span><br>':"";
+  const pl=piuLento(s);
+  return `Di solito a quest'ora: <b>${tp.v.toFixed(0)} km/h</b>, ${tp.f.toFixed(0)} veicoli/h <span style="color:#5d6678">(${tp.n} ${tp.n===1?"ora":"ore"} di dati${tp.n<24?", scarsi":""})</span><br>`+(pl?(pl.r<0.7?`<b style="color:#c8102e">Più lento del solito</b> (${Math.round(pl.r*100)}% della velocità tipica)<br>`:`In linea con il solito<br>`):"");
+}
+function nascondiTip(){tip.style.display="none";}
+function mostraTipBase(html,x,y){
+  tip.innerHTML=html; tip.style.display="block";
+  const w=tip.offsetWidth,h=tip.offsetHeight;
+  tip.style.left=Math.max(8,Math.min(innerWidth-w-8,x+14))+"px"; tip.style.top=Math.max(8,Math.min(innerHeight-h-8,y+14))+"px";
+}
+/* tooltip compatto uniforme: nome in grassetto + una riga di valore + una riga in grigio */
+function tipC(nome, valore, extra){
+  let h=`<b>${nome}</b>`;
+  if(valore) h+=`<br>${valore}`;
+  if(extra) h+=`<br><span style="color:var(--muted)">${extra}</span>`;
+  return h;
+}
+function dentroZona(z,ux,uy){
+  for(const poly of z.polys){ let n=0;
+    for(const a of poly){ const m=a.length/2; let j=m-1;
+      for(let k=0;k<m;k++){ const xi=a[2*k],yi=a[2*k+1],xj=a[2*j],yj=a[2*j+1];
+        if((yi>uy)!==(yj>uy) && ux<(xj-xi)*(uy-yi)/(yj-yi)+xi) n++; j=k; } }
+    if(n%2===1) return true; }
+  return false;
+}
+// [agente GT17] generatore unico per tutte le schede informative al clic (struttura standard a 4 sezioni)
+function creaScheda({ titolo, badge, sub, val, stato, dettagli, appTitolo, approfondimento, appAperto }){
+  const tagKey = badge ? ({"programmato":"prog","misurato":"mis","censimento":"cens","stimato":"sim"}[badge.toLowerCase()] || badge) : null;
+  const bHtml = tagKey ? (TAG[tagKey] || (tagKey.startsWith("<") ? tagKey : `<span class="tag ${tagKey}">${tagKey.toUpperCase()}</span>`)) : "";
+  const detHtml = (dettagli||[]).map(d => {
+    if(typeof d === "string") return `<div class="sc-det-row">• ${d}</div>`;
+    return `<div class="sc-det-row"><span class="sc-det-k">${d.k}:</span> <strong class="sc-det-v">${d.v}</strong></div>`;
+  }).join("");
+  const appHtml = approfondimento ? `
+    <details class="sc-app"${appAperto ? " open" : ""}>
+      <summary>${appTitolo || "Approfondimento"}</summary>
+      <div class="sc-app-body">${approfondimento}</div>
+    </details>` : "";
+  return `
+    <div class="sc-card">
+      <div class="sc-head">
+        <div class="sc-title-row"><strong class="sc-title">${titolo}</strong> ${bHtml}</div>
+        ${sub ? `<div class="sc-sub">${sub}</div>` : ""}
+      </div>
+      ${val ? `
+      <div class="sc-main">
+        <div class="sc-val">${val}</div>
+        ${stato ? `<div class="sc-stato">${stato}</div>` : ""}
+      </div>` : ""}
+      ${detHtml ? `<div class="sc-det">${detHtml}</div>` : ""}
+      ${appHtml}
+    </div>`;
+}
+
+// [agente GT17] costruttori delle schede informative per ciascun elemento
+function schedaFermata(s, click){
+  const tot = s.d.slice(S.dt*24, S.dt*24+24).reduce((a,b)=>a+b, 0);
+  const passOra = s.d[idx()];
+  const hh = pad(S.h);
+  let righeProssimi = [];
+  if (click && window.ORARI && window.ORARI.s && window.ORARI.s[s.id]) {
+    const sArr = window.ORARI.s[s.id];
+    const nomi = (s.r || "").split(",").map(n => n.trim().replace(/\u2026$/, "")).filter(Boolean);
+    for (const nome of nomi) {
+      let arr = null;
+      for (const id in D.rotte) {
+        if (D.rotte[id].s !== nome) continue;
+        const a = (sArr[id] || [])[S.dt];
+        if (a && a.length) arr = arr ? arr.concat(a) : a.slice();
+      }
+      if (!arr) { const a = (sArr[nome] || [])[S.dt]; if (a && a.length) arr = a.slice().sort((x,y) => x-y); }
+      if (arr && arr.length > 1) arr = [...new Set(arr)].sort((x,y) => x-y);
+      if (!arr || !arr.length) continue;
+      const ora = S.m;
+      const prossimi = arr.filter(t => t >= ora).slice(0,4);
+      if (prossimi.length < 4 && arr[0] < 1440 && !prossimi.includes(arr[0] + 1440)) prossimi.push(arr[0] + 1440);
+      righeProssimi.push(`<b>${esc(nome)}</b>: ` + prossimi.map(t => {
+        const d = t % 1440;
+        return `${pad(Math.floor(d/60))}:${pad(d % 60)} (${Math.round(t - ora)}')` + (t >= 1440 ? " <small>(domani)</small>" : "");
+      }).join(", "));
+    }
+  }
+  const stato = passOra === 0 ? "Nessun passaggio programmato a quest'ora"
+    : passOra >= 20 ? "Servizio molto frequente"
+    : passOra >= 8 ? "Servizio regolare"
+    : "Passaggi diradati";
+  const appContenuto = righeProssimi.length
+    ? `<div style="color:var(--muted);font-size:11px;margin-bottom:4px"><i>Orario teorico da tabella di marcia, non posizione reale</i></div>` + righeProssimi.join("<br>")
+    : `<span style="color:var(--muted)">Nessun orario di dettaglio disponibile per questa fermata (apri la pagina con gli orari caricati o verifica la linea).</span>`;
+  return creaScheda({
+    titolo: esc(s.n),
+    badge: "prog",
+    sub: `Fermata n. ${esc(s.id)}`,
+    val: `${passOra} passaggi/ora`,
+    stato: `${stato} (ore ${hh}:00, ${GIORNI[S.dt].toLowerCase()})`,
+    dettagli: [
+      { k: "Linee servite", v: esc(s.r || "—") },
+      { k: "Nella giornata", v: `${tot} passaggi programmati` },
+      { k: "Tipo di giorno", v: GIORNI[S.dt] }
+    ],
+    appTitolo: "Prossimi passaggi programmati",
+    approfondimento: appContenuto,
+    appAperto: righeProssimi.length > 0
+  });
+}
+
+function schedaLinea(l){
+  const r = D.rotte[l.id] || {s: l.id, t: 3, l: ""};
+  const c = velCella(l.id, S.dt, S.h);
+  const freq = (D.rotte[l.id] || {f: []}).f[idx()] || 0;
+  const rl = ratiLinee(idx());
+  const ratioInfo = rl && rl[l.id];
+  let val, stato, badge;
+  if(c){
+    val = `${c[0].toFixed(1)} km/h`;
+    stato = c[1] < VEL_MIN_CAMP ? "Dati scarsi: troppo pochi campioni"
+      : c[0] < 12 ? "Velocità commerciale bassa (rallentamenti)"
+      : c[0] < 16 ? "Velocità commerciale moderata"
+      : c[0] < 20 ? "Velocità commerciale regolare"
+      : "Velocità commerciale elevata";
+    badge = "mis";
+  } else {
+    val = `${freq} corse/ora`;
+    stato = freq > 0 ? "Frequenza programmata da orario" : "Nessuna corsa programmata a quest'ora";
+    badge = "prog";
+  }
+  const det = [
+    { k: "Tipologia mezzo", v: tipoNome(r.t) },
+    { k: "Frequenza programmata", v: `${freq} corse/ora (ore ${pad(S.h)}:00)` }
+  ];
+  if(c){
+    det.push({ k: "Campioni GPS", v: `${c[1]} rilevazioni su ${c[2]} ${c[2]===1?"giorno":"giorni"}` });
+    det.push({ k: "Ore con dati (" + GIORNI[S.dt].toLowerCase() + ")", v: velOreTxt(l.id, S.dt) });
+  } else if(ratioInfo){
+    det.push({ k: "Mezzi reali / previsti", v: `${ratioInfo.re.toFixed(1)} reali su ${ratioInfo.sc.toFixed(1)} previsti` });
+  }
+  const app = `<b>Percorso:</b> ${esc(r.l || "Tracciato di linea")}<br>`
+    + (c ? `<br><b>Velocità commerciale:</b> calcolata dalle posizioni GPS dei mezzi reali nello storico, comprese fermate e semafori. Non include i ritardi rispetto all'orario (il feed GTT non fornisce il codice corsa).`
+         : `<br>Nessun campione di velocità commerciale registrato per le ore ${pad(S.h)}:00 (${GIORNI[S.dt].toLowerCase()}).`);
+  return creaScheda({
+    titolo: `Linea ${esc(r.s)}`,
+    badge: badge,
+    sub: `${tipoNome(r.t)} · ${esc(r.l || "")}`,
+    val: val,
+    stato: stato,
+    dettagli: det,
+    appTitolo: "Dettagli percorso e velocità",
+    approfondimento: app,
+    appAperto: false
+  });
+}
+
+function schedaSensore(s){
+  const sensoTxt = s.dir==="positive" ? "senso positivo" : s.dir==="negative" ? "senso negativo" : esc(s.dir);
+  const tp = tipicoSens(s);
+  const pl = piuLento(s);
+  let val, stato;
+  if(s.acc === 0){
+    val = "Dato assente";
+    stato = "Accuratezza 0 (sensore muto o disattivato)";
+  } else {
+    val = s.v != null ? `${s.v.toFixed(0)} km/h` : "n/d";
+    if(pl && pl.r < 0.7){
+      stato = `<span style="color:#c8102e;font-weight:600">Più lento del solito (${Math.round(pl.r*100)}% del tipico)</span>`;
+    } else if(pl){
+      stato = "In linea con il valore tipico a quest'ora";
+    } else if(s.v != null){
+      stato = s.v < 20 ? "Traffico molto rallentato" : s.v < 35 ? "Traffico moderato" : "Scorrimento regolare";
+    } else {
+      stato = "Velocità media non disponibile";
+    }
+  }
+  const det = [
+    { k: "Flusso rilevato", v: `${s.fl != null ? s.fl : 0} veic in ${s.per} min (≈ ${Math.round((s.fl||0)*60/s.per)}/h)` },
+    { k: "Direzione", v: sensoTxt },
+    { k: "Di solito a quest'ora", v: tp ? `${tp.v.toFixed(0)} km/h (${tp.f.toFixed(0)} veic/h)` : "nessun confronto" },
+    { k: "Rilevazione", v: `finestra 5 min fino a ${fmt(t5Fine)}` }
+  ];
+  const app = `Sensore 5T <b>${esc(s.id)}</b> su ${esc(s.via)} (${sensoTxt}). Accuratezza: ${s.acc}.`
+    + (tp ? `<br>Il confronto con il valore tipico si basa su ${tp.n} ore registrate nello storico per lo stesso tipo di giorno e ora.` : "");
+  return creaScheda({
+    titolo: `Sensore ${esc(s.via || "5T")}`,
+    badge: "mis",
+    sub: `${sensoTxt} · sensore ${esc(s.id)}`,
+    val: val,
+    stato: stato,
+    dettagli: det,
+    appTitolo: "Dettagli sensore e storico",
+    approfondimento: app,
+    appAperto: false
+  });
+}
+
+function schedaMezzo(m){
+  const r = D.rotte[m.r] || {s: m.r, t: 3, l: ""};
+  return creaScheda({
+    titolo: `Mezzo GTT · Linea ${esc(r.s)}`,
+    badge: "mis",
+    sub: `Veicolo ${esc(m.id)} · ${tipoNome(r.t)}`,
+    val: `In servizio`,
+    stato: `Posizione GPS registrata ${eta(m.ts*1000)}`,
+    dettagli: [
+      { k: "Identificativo mezzo", v: esc(m.id) },
+      { k: "Linea", v: `Linea ${esc(r.s)} (${tipoNome(r.t)})` },
+      { k: "Destinazione / percorso", v: esc(r.l || "—") },
+      { k: "Ora localizzazione", v: fmt(m.ts*1000) }
+    ],
+    appTitolo: "Origine del dato GPS",
+    approfondimento: `Dati dal feed GTFS-Realtime di GTT. La posizione è rilevata dal GPS di bordo del veicolo. Il dato non include il trip_id della singola corsa, quindi non è confrontato con l'orario teorico.`,
+    appAperto: false
+  });
+}
+
+function schedaSezione(z){
+  const i = idx();
+  const hh = pad(S.h);
+  const modo = $("modoSez").value;
+  const serv = sezServ(z, i);
+  const rapp = sezRapp(z, i);
+  const crit = critSez(z, i);   // [agente GT18-punti-critici-integrati]
+  const critTxt = crit === null ? "non calcolabile (nessun residente)" : `${crit}/100 (${critEtichetta(crit)})`;
+  let val, stato;
+  if(modo === "rapp"){
+    val = `${rapp.toFixed(0)} passaggi / 1000 ab.`;
+    stato = serv === 0 ? "Nessun passaggio GTT programmato entro 400 m"
+      : rapp < (sezSoglie.rapp ? sezSoglie.rapp[1] : 10) ? "Poca offerta rispetto ai residenti"
+      : "Livello di servizio adeguato";
+  } else if(modo === "serv"){
+    val = `${serv} passaggi/ora`;
+    stato = `Offerta entro 400 m alle ore ${hh}:00`;
+  } else if(modo === "dens"){
+    val = `${Math.round(z.dens)} ab./km²`;
+    stato = `${z.p} residenti nella sezione`;
+  } else if(modo === "occ"){
+    val = z.occ!=null && z.p1564>0 ? `${z.occ.toLocaleString("it-IT")} occupati · ${(z.occ/z.p1564*100).toFixed(1)}%` : "Dato non disponibile";
+    stato = `Residenti occupati di 15–64 anni, sul totale dei residenti della stessa età`;
+  } else if(modo === "sc"){
+    val = z.sc!=null ? `${z.sc.toLocaleString("it-IT")} residenti · ${z.p>0?(z.sc/z.p*100).toFixed(1):"0.0"}%` : "Dato non disponibile";
+    stato = `Residenti di 5–14 anni; quota sul totale dei residenti della sezione`;
+  } else if(modo === "sen"){
+    val = z.sen!=null ? `${z.sen.toLocaleString("it-IT")} residenti · ${z.p>0?(z.sen/z.p*100).toFixed(1):"0.0"}%` : "Dato non disponibile";
+    stato = `Residenti di 65 anni e oltre; quota sul totale dei residenti della sezione`;
+  } else if(modo === "crit"){
+    val = crit === null ? "non calcolabile" : `Criticità ${crit}/100`;
+    stato = crit === null ? "Nessun residente nella sezione" : `Livello: ${critEtichetta(crit)}`;
+  } else if(modo.startsWith("vuln_") && modo !== "vuln_combo"){
+    const compNomi = {vuln_occ:"Non occupati 15–64",vuln_ist:"Bassa istruzione 9+",vuln_aff:"Affollamento",vuln_anz:"Quota 65+",vuln_serv:"Servizi a piedi",vuln_verde:"Verde a piedi"};
+    const raw = (z.vcomp||{})[modo.replace("vuln_","")];
+    val = raw!=null ? `Percentile ${(raw*100).toFixed(1)}` : "Dato non disponibile";
+    stato = `Componente: ${compNomi[modo] || modo} (0 = meno vulnerabile, 1 = più vulnerabile)`;
+  } else if(modo === "vuln"){
+    val = z.v!=null ? `${z.v} / 100` : "Dato non disponibile";
+    stato = "Indice composito di vulnerabilità (media pesata dei percentili delle componenti)";
+  } else if(modo === "vuln_combo"){
+    const gruppo = $("subVulnGruppo")?.value || "tutti";
+    const livello = $("subVulnLivello")?.value || "zero";
+    const grp = (z.vgruppi||{})[gruppo];
+    const combo = grp ? grp[livello] : "ok";
+    val = {"debole_senza":"Debole e senza servizio","debole_servito":"Debole ma con servizi","ok":"Non vulnerabile"}[combo] || combo;
+    stato = `Gruppo: ${gruppo} · Livello vuoto: ${livello} · v = ${z.v!=null?z.v:"n/d"}`;
+  } else {
+    val = `${serv} passaggi/ora`;
+    stato = `Rapporto: ${rapp.toFixed(0)} / 1000 ab.`;
+  }
+  const codComune = z.c ? String(z.c).padStart(6, "0") : "Torino";
+  const profilo = modo === "occ" ? [
+    { k: "Occupati residenti 15–64 anni", v: z.occ==null ? "n/d" : z.occ.toLocaleString("it-IT") },
+    { k: "Residenti 15–64 anni", v: z.p1564==null ? "n/d" : z.p1564.toLocaleString("it-IT") }
+  ] : modo === "sc" ? [
+    { k: "Residenti 5–14 anni", v: z.sc==null ? "n/d" : `${z.sc.toLocaleString("it-IT")} (${z.p>0?(z.sc/z.p*100).toFixed(1):"0.0"}%)` }
+  ] : modo === "sen" ? [
+    { k: "Residenti 65 anni e oltre", v: z.sen==null ? "n/d" : `${z.sen.toLocaleString("it-IT")} (${z.p>0?(z.sen/z.p*100).toFixed(1):"0.0"}%)` }
+  ] : [];
+  const det = [...profilo,
+    { k: "Indice di criticità (ore " + hh + ")", v: critTxt },   // [agente GT18-punti-critici-integrati]
+    { k: "Residenti sezione", v: `${z.p} abitanti (${Math.round(z.dens)} / km²)` },
+    { k: "Popolazione entro 400 m", v: `${z.pop400} residenti` },
+    { k: "Fermate entro 400 m", v: `${z.st.length} fermate GTT` },
+    { k: "Passaggi GTT alle " + hh + ":00", v: `${serv} passaggi/ora programmati` }
+  ];
+  const app = `<b>Territorio:</b> Comune ${codComune}, superficie ${z.km2.toFixed(3)} km².<br>`
+    + `<b>Dati ISTAT:</b> Censimento 2021. Occupati e fasce d'età sono residenti nella sezione, non conteggi di spostamenti; gli occupati non indicano luogo, orario o mezzo di lavoro. La fascia 5–14 anni è solo un possibile indicatore di domanda scolastica.<br>`
+    + `<b>Offerta:</b> passaggi orari programmati GTT alle fermate entro 400 metri dal baricentro della sezione. Fuori Torino possono mancare le corse di altri operatori extraurbani.<br>`
+    + `<b>Indice di criticità (STIMA, non misura):</b> da 0 a 100 in base ai passaggi programmati ogni 1000 residenti entro 400 m, confrontati con le altre sezioni dell'area nelle ore 7-20. 100 = nessun passaggio; 80 o più = il peggior quinto. Considera solo i residenti, non pendolari né turisti.`;
+  return creaScheda({
+    titolo: "Sezione di censimento",
+    badge: "cens",
+    sub: `Comune ${codComune} · superficie ${z.km2.toFixed(3)} km²`,
+    val: val,
+    stato: stato,
+    dettagli: det,
+    appTitolo: "Dati demografici e offerta",
+    approfondimento: app,
+    appAperto: false
+  });
+}
+
+function schedaComune(c, z){
+  const cod = String(c).padStart(6, "0");
+  const tor = c === TORINO_PC;
+  const d = tor ? PEND.tor : pendCom.get(c);
+  const nome = tor ? "Torino" : "Comune " + cod;
+  if(!d){
+    return creaScheda({
+      titolo: nome,
+      badge: "cens",
+      sub: `Codice ISTAT ${cod}`,
+      val: "Dato non disponibile",
+      stato: "Nessun dato di pendolarismo per questo comune",
+      dettagli: [
+        { k: "Codice ISTAT", v: cod },
+        { k: "Sezione cliccata", v: z ? `${z.p} residenti` : "—" }
+      ],
+      appTitolo: "Fonte dati",
+      approfondimento: "Matrice ISTAT pendolarismo 2021.",
+      appAperto: false
+    });
+  }
+  const o = pendOpz();
+  const f = pendFlusso(d, o);
+  const ent = o.d === "in";
+  const tipoTxt = o.t === "lav" ? "lavoro" : o.t === "stu" ? "studio (stima)" : "lavoro + studio";
+  const val = o.v === "rel" ? `${(f / Math.max(d.p, 1) * 1000).toFixed(1)} / 1000 ab.` : `${pendNum(f)} persone`;
+  const stato = tor
+    ? `Flusso interno: ${pendNum(d.n[0]+d.n[1])} (${tipoTxt})`
+    : `Pendolari ${ent ? "verso Torino" : "da Torino"} (${tipoTxt})`;
+  const det = [
+    { k: "Residenti censiti", v: pendNum(d.p) },
+    { k: tor ? "Entrano da fuori" : "Entrano a Torino", v: `lavoro ${pendNum(d.i[0])}, studio ${pendNum(d.i[1])}` },
+    { k: tor ? "Escono verso fuori" : "Escono da Torino", v: `lavoro ${pendNum(d.u[0])}, studio ${pendNum(d.u[1])}` }
+  ];
+  if(tor){
+    det.push({ k: "Spostamenti interni", v: `lavoro ${pendNum(d.n[0])}, studio ${pendNum(d.n[1])}` });
+  } else {
+    det.push({ k: "Flusso totale (lav+stu)", v: `${pendNum(d.i[0]+d.i[1])} entrano, ${pendNum(d.u[0]+d.u[1])} escono` });
+  }
+  if(z && critSez(z, idx()) !== null){ const cr = critSez(z, idx()); det.push({ k: "Criticità sezione cliccata", v: `${cr}/100 (${critEtichetta(cr)})` }); }   // [agente GT18-punti-critici-integrati]
+  let app = `<b>Fonte dati:</b> ISTAT Censimento 2021, matrice pendolarismo comune→comune. I dati registrano lo spostamento quotidiano di lavoratori e studenti (stima comunale); non includono il mezzo di trasporto né l'orario.`;
+  if(z){
+    const i = idx();
+    const hh = pad(S.h);
+    const cr = critSez(z, i);   // [agente GT18-punti-critici-integrati]
+    app += `<br><br><b>Sezione cliccata:</b> ${z.p} residenti (${Math.round(z.dens)} ab./km²); entro 400 m ci sono ${z.st.length} fermate GTT con ${sezServ(z,i)} passaggi/ora programmati alle ${hh}:00.`
+      + (cr === null ? "" : `<br><b>Indice di criticità della sezione (stima):</b> ${cr}/100 (${critEtichetta(cr)}).`);
+  }
+  return creaScheda({
+    titolo: nome,
+    badge: "cens",
+    sub: `Codice ISTAT ${cod}${tor ? " · Capoluogo" : ""}`,
+    val: val,
+    stato: stato,
+    dettagli: det,
+    appTitolo: "Dettagli pendolarismo ISTAT",
+    approfondimento: app,
+    appAperto: false
+  });
+}
+
+function schedaZona(z){
+  const i = idx();
+  const hh = pad(S.h);
+  const v = z.d[i];
+  return creaScheda({
+    titolo: esc(z.n),
+    badge: "prog",
+    sub: `Zona statistica n. ${esc(z.c)}`,
+    val: `${v} passaggi/ora`,
+    stato: `Alle ore ${hh}:00 (≈ ${(v/Math.max(z.km2,.01)).toFixed(0)} per km²)`,
+    dettagli: [
+      { k: "Fermate nella zona", v: z.nf },
+      { k: "Superficie", v: `${z.km2.toFixed(2)} km²` },
+      { k: "Densità passaggi", v: `${(v/Math.max(z.km2,.01)).toFixed(1)} passaggi/ora per km²` },
+      { k: "Giorno visualizzato", v: GIORNI[S.dt] }
+    ],
+    appTitolo: "Definizione della zona",
+    approfondimento: `Zone statistiche storiche del Comune di Torino (2011). I passaggi orari sommano le corse programmate per tutte le fermate GTT ricadenti all'interno della zona.`,
+    appAperto: false
+  });
+}
+
+/* [agente GT07-clic-fermate] scheda con i dettagli: si apre con un clic, si chiude con ×, Esc o clic sulla mappa vuota */
+let schedaSel=null;   // sezione evidenziata mentre la scheda e' aperta
+function chiudiScheda(){ $("scheda").style.display="none"; if(schedaSel){ schedaSel=null; chiede(); } }
+function apriScheda(html,sel){
+  $("schedaCorpo").innerHTML=html; $("scheda").style.display="block"; $("scheda").scrollTop=0;
+  schedaSel=sel||null; chiede();
+}
+$("schedaX").onclick=chiudiScheda;
+addEventListener("keydown",e=>{ if(e.key==="Escape") chiudiScheda(); });
+function cercaTip(sx,sy,click){
+  const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx(), hh=pad(S.h);
+  cv.style.cursor="";
+  const vicino=(arr,r,fn)=>{ let best=null,bd=r*r; for(const o of arr){ const dx=o.x*ws-ox-sx, dy=o.y*ws-oy-sy, d=dx*dx+dy*dy; if(d<bd&&(!fn||fn(o))){bd=d;best=o;} } return best; };
+
+  // 0. Catalogo dei nuovi dati (se e' il tema attivo)
+  if(tema.id==="catalogo" && CAT.gruppo && CAT.caricati[CAT.gruppo]===true){
+    const hit=cercaCat(sx,sy,ws,ox,oy);
+    if(hit){
+      if(click) return apriScheda(schedaCatElemento(hit.dd,hit.el,hit.tipo), null);
+      cv.style.cursor="pointer";
+      return mostraTipBase(tipCat(hit.dd,hit.el), sx, sy);
+    }
+  }
+
+  // 1. Mezzi reali GTT
+  if(vis("Lmezzi")){ const m=vicino(mezzi,9);
+    if(m){
+      if(click) return apriScheda(schedaMezzo(m), null);
+      const r=D.rotte[m.r]||{s:m.r,t:3,l:""};
+      return mostraTipBase(tipC(`Linea ${esc(r.s)}`, `${tipoNome(r.t)} · veicolo ${esc(m.id)}`, eta(m.ts*1000)), sx, sy);
+    }
+  }
+
+  // 2. Sensori traffico 5T
+  if(vis("Lsensori")){ const s=vicino(sensori,13);
+    if(s){
+      if(click) return apriScheda(schedaSensore(s), null);
+      const sensoTxt = s.dir==="positive"?"senso positivo":s.dir==="negative"?"senso negativo":esc(s.dir);
+      const valTxt = s.acc===0 ? "dato assente" : (s.v!=null ? s.v.toFixed(0)+" km/h" : "n/d");
+      return mostraTipBase(tipC(esc(s.via), `${sensoTxt} · ${valTxt}`), sx, sy);
+    }
+  }
+
+  // 3. Fermate (zoom >= 14)
+  if(vis("Lfermate") && view.zoom>=14){ const s=vicino(fermate,8,o=>o.d[i]>0||view.zoom>=15);
+    if(s){
+      if(click) return apriScheda(schedaFermata(s, true), null);
+      return mostraTipBase(tipC(esc(s.n), `Linee: ${esc(s.r||"—")}`, `fermata ${esc(s.id)}`), sx, sy);
+    }
+  }
+
+  // 4. Linee vettoriali (traffico_vel o con linee accese)
+  if(vis("Llinee")){
+    const l = velTipLinea(sx,sy,ws,ox,oy);
+    if(l){
+      if(click) return apriScheda(schedaLinea(l), null);
+      const r=D.rotte[l.id]||{s:l.id,t:3,l:""}, c=velCella(l.id,S.dt,S.h);
+      return mostraTipBase(tipC(`Linea ${esc(r.s)}`, c ? c[0].toFixed(1)+" km/h (misurata)" : ((D.rotte[l.id]||{f:[]}).f[i]||0)+" corse/ora", tipoNome(r.t)), sx, sy);
+    }
+  }
+
+  // 5. Poligoni territoriali: Pendolarismo (Comuni) o Sezioni di censimento
+  if(tema.id==="pendolari" && PEND && vis("Lsez") && sezOk){
+    const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
+    for(const z of sez){
+      if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
+      if(dentroZona({polys:[z.polys]},ux,uy)){
+        if(click) return apriScheda(schedaComune(z.c, z), z);
+        cv.style.cursor="pointer";
+        const nome = z.c===TORINO_PC ? "Torino" : "Comune "+String(z.c).padStart(6,"0");
+        const d = z.c===TORINO_PC ? PEND.tor : pendCom.get(z.c);
+        if(!d) return mostraTipBase(tipC(nome, "nessun dato di pendolarismo"), sx, sy);
+        const o=pendOpz(), f=pendFlusso(d,o);
+        const vt = o.v==="rel" ? `${(f/Math.max(d.p,1)*1000).toFixed(1)} / 1000 ab.` : `${pendNum(f)} persone`;
+        return mostraTipBase(tipC(nome, `${o.d==="in"?"verso Torino":"da Torino"} · ${vt}`), sx, sy);
+      }
+    }
+  }
+
+  if(vis("Lsez") && sezOk){
+    const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
+    for(const z of sez){
+      if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
+      if(dentroZona({polys:[z.polys]},ux,uy)){
+        if(click) return apriScheda(schedaSezione(z), z);
+        cv.style.cursor="pointer";
+        const modo=$("modoSez").value;
+        let val;
+        if(modo==="rapp") val=`${sezRapp(z,i).toFixed(0)} passaggi/1000 ab.`;
+        else if(modo==="serv") val=`${sezServ(z,i)} passaggi/ora`;
+        else if(modo==="dens") val=`${Math.round(z.dens)} ab./km²`;
+        else if(modo==="occ") val = (z.occ!=null&&z.p1564>0) ? `${(z.occ/z.p1564*100).toFixed(1)}% occupati 15–64` : "dato non disponibile";
+        else if(modo==="sc") val = z.sc!=null ? `${z.sc.toLocaleString("it-IT")} residenti 5–14` : "dato non disponibile";
+        else if(modo==="sen") val = z.sen!=null ? `${z.sen.toLocaleString("it-IT")} residenti 65+` : "dato non disponibile";
+        else if(modo==="crit"){ const cr=critSez(z,i); val = cr===null?"non calcolabile":`Criticità ${cr}/100`; }
+        else val=`${sezServ(z,i)} passaggi/ora`;
+        return mostraTipBase(tipC("Sezione di censimento", val, z.c?("Comune "+String(z.c).padStart(6,"0")):"Torino"), sx, sy);
+      }
+    }
+  }
+
+  // 6. Zone statistiche comunali
+  // 6b. Zone OMI (valore immobiliare)
+  if(vis("Lomi") && omiOk){
+    const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
+    const tipOmi=$("omiTipo")?$("omiTipo").value:"ab";
+    const nomeTip=OMI_TIPI[tipOmi]||tipOmi;
+    for(const z of omi){
+      if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
+      if(dentroZona({polys:[z.rings]},ux,uy)){
+        const vv=(z.v||{})[tipOmi]||null;
+        if(click) return apriScheda(schedaOmi(z), null);
+        cv.style.cursor="pointer";
+        const nomeZ=`Zona OMI ${esc(z.z)}${z.n?" · "+esc(z.n):""}`;
+        return vv
+          ? mostraTipBase(tipC(nomeZ, `${esc(nomeTip)}: <b>${fmtEuro(vv[0])}–${fmtEuro(vv[1])} €/m²</b>`, `locazione ${fmtEuro(vv[2])}–${fmtEuro(vv[3])} €/m²`), sx, sy)
+          : mostraTipBase(tipC(nomeZ, `${esc(nomeTip)}: non disponibile`), sx, sy);
+      }
+    }
+  }
+
+  if(vis("LImq") && imqOk){
+    const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
+    const met=$("imqMet")?$("imqMet").value:"ora_tot";
+    for(const z of imq){
+      if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
+      if(dentroZona({polys:[z.rings]},ux,uy)){
+        if(click) return apriScheda(schedaImq(z), {imq:true,c:z.c,polys:[z.rings],la:z.la,lo:z.lo,od:z.od});
+        cv.style.cursor="pointer";
+        const v=imqValore(z,met), aff=imqAffidabile(z,met), nome=(IMQ_MET[met]||{}).lab||met;
+        const vtxt=met.startsWith("quota")?`${(100*(v||0)).toFixed(0)}%`:imqNum(v);
+        const nota=(met.startsWith("ora")&&S.dt!==0)?" <span style='color:#5d6678'>(feriale)</span>":"";
+        return mostraTipBase(tipC(esc(z.n||z.c), `${esc(nome)}: <b>${vtxt}</b>${aff?"":" <span style='color:#b25e00'>(pochi casi)</span>"}${nota}`), sx, sy);
+      }
+    }
+  }
+
+  if(vis("Lzone")){
+    const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
+    for(const z of zone){
+      if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
+      if(dentroZona(z,ux,uy)){
+        if(click) return apriScheda(schedaZona(z), null);
+        cv.style.cursor="pointer";
+        return mostraTipBase(tipC(esc(z.n), `${z.d[i]} passaggi/ora`), sx, sy);
+      }
+    }
+  }
+
+  nascondiTip();
+  if(click) chiudiScheda();   // clic su mappa vuota
+}
+
+/* ---------- pannello, stato dati, legenda ---------- */
+function fmt(ms){
+  try{ return new Date(ms).toLocaleString("it-IT",{timeZone:"Europe/Rome",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}); }
+  catch(e){ try{ return new Date(ms).toLocaleString("it-IT"); }catch(e2){ return String(ms); } }
+}
+function eta(ms){ const m=Math.round((Date.now()-ms)/60000); if(m<2) return "adesso"; if(m<90) return m+" min fa"; if(m<2880) return Math.round(m/60)+" h fa"; return Math.round(m/1440)+" giorni fa"; }
+function stato(){
+  const t5=t5Fine, tm=mezziTs, el=[];
+  const riga=(ms,testo)=>{ const vecchio=(Date.now()-ms)>60*60000;
+    return `<div class="riga"><span class="pallino ${vecchio?"vecchio":"ok"}"></span><div>${testo}<br><span style="color:#5d6678">${fmt(ms)} · ${eta(ms)}${vecchio?(inLive?" — dato vecchio: la raccolta potrebbe essere ferma (stato_raccolta.bat)":" — dato vecchio: rilancia gli script 01 e 04, oppure avvia la raccolta"):""}</span></div></div>`; };
+  el.push(riga(tm,`<b>Mezzi GTT</b>: ${mezzi.length} mezzi su ${new Set(mezzi.map(m=>m.r)).size} linee`));
+  const attivi=sensori.filter(s=>s.acc!==0).length;
+  el.push(riga(t5,`<b>Traffico 5T</b>: ${sensori.length} sensori, ${attivi} con dato affidabile`));
+  el.push(`<div class="riga"><span class="pallino ok"></span><div><b>Orari GTT</b>: versione ${esc(D.meta.gtfs.versione)}<br><span style="color:#5d6678">valida ${esc(D.meta.gtfs.inizio)} → ${esc(D.meta.gtfs.fine)} · giorni tipici: ${esc(D.meta.gtfs.giorni.fer)}, ${esc(D.meta.gtfs.giorni.sab)}, ${esc(D.meta.gtfs.giorni.dom)}</span></div></div>`);
+  $("stato").innerHTML=el.join("");
+}
+// [agente GT06-pannello] frase semplice sotto «Quando»
+function fraseQuando(){
+  const t=`La mappa mostra il servizio di ${["un giorno feriale","un sabato","una domenica"][S.dt]||"un giorno"} alle ${pad(S.h)}:${pad(Math.floor(S.m%60))}`;
+  if($("fraseQuando").textContent!==t) $("fraseQuando").textContent=t;
+}
+function riepilogoQuando(){
+  const g=GIORNI[S.dt], h=pad(S.h), mi=pad(Math.floor(S.m%60)), v=$("vel").value+"×";
+  const t=`${g}, ${h}:${mi} · ${v}`;
+  if($("quandoRiepilogo").textContent!==t) $("quandoRiepilogo").textContent=t;
+}
+function aggiornaOra(){ $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando(); riepilogoQuando(); chiede(); imqNotaOra(); }
+document.querySelectorAll("#giorno button").forEach(b=>b.onclick=()=>{ S.dt=+b.dataset.k; document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",x===b)); aggiornaOra(); aggiornaLegenda(); });
+$("ora").oninput=e=>{S.m=+e.target.value; aggiornaOra();};
+function adesso(){
+  let dt=0,h=new Date().getHours(),mi=new Date().getMinutes();
+  try{
+    const p=Object.fromEntries(new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Rome",weekday:"short",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+    dt = p.weekday==="Sat"?1 : p.weekday==="Sun"?2 : 0; h=+p.hour; mi=+p.minute;
+  }catch(e){ const g=new Date().getDay(); dt = g===6?1 : g===0?2 : 0; }
+  S.dt=dt; S.m=(isNaN(h)?8:h)*60+(isNaN(mi)?0:mi);
+  document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.k===S.dt)); aggiornaOra(); aggiornaLegenda();
+}
+$("adesso").onclick=adesso;
+$("vel").onchange=()=>riepilogoQuando();   // [agente GT16] aggiorna il riepilogo della tendina
+// [agente GT02-temi] le sovrapposizioni si cambiano a mano; l'area colorata la decide solo il tema
+["Lcorse","Llinee","Lfermate","Lsensori","Lmezzi"].forEach(id=>$(id).onchange=()=>{chiede();aggiornaLegenda();});
+$("Lgriglia").onchange=()=>chiede();   // [agente GT08-griglia-scala]
+$("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; tileOk=0; aggiornaAvvisoSfondo(); creditiSfondo(); baseVer++; chiede(); }; // [agente GT01-sfondi]
+$("intSfondo").oninput=e=>{ intSfondo=e.target.value/100; $("intSfondoVal").textContent=e.target.value+"%"; baseVer++; chiede(); }; // [agente GT01-sfondi]
+$("filtroLinea").oninput=()=>{ baseVer++; chiede(); };
+// [agente GT29-integrazione-simulazioni] la simulazione si apre in una pagina separata per confrontare più risultati
+$("apriSim").onclick=()=>{ window.open("simulazione.html","_blank"); };
+$("repGiorno").onchange=e=>{ if(e.target.value){ $("Lreplay").checked=true; } caricaReplay(e.target.value); aggiornaLegenda(); };
+$("Lreplay").onchange=()=>{ if($("Lreplay").checked && !REP && $("repGiorno").value) caricaReplay($("repGiorno").value); chiede(); aggiornaLegenda(); };
+let gioca=true, ultimoT=0;
+$("play").onclick=()=>{ gioca=!gioca; $("play").textContent=gioca?"⏸":"▶"; ultimoT=performance.now(); };
+function anima(ts){
+  try{
+    if(gioca){
+      const dt=Math.min(0.25,(ts-ultimoT)/1000); ultimoT=ts;
+      S.m=(S.m+dt*(+$("vel").value)/60)%1440;
+      $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando();   // [agente GT06-pannello]
+      chiede();
+    } else ultimoT=ts;
+    $("nAtt").textContent=vis("Lcorse")? attivi+" corse in giro":"";
+  }catch(e){ errore(e); }
+  requestAnimationFrame(anima);
+}
+$("chiudi").onclick=()=>{ $("pannello").style.display="none"; $("apri").style.display="block"; };
+$("apri").onclick=()=>{ $("pannello").style.display="block"; $("apri").style.display="none"; };
+$("legendaToggle").onclick=()=>{ const b=$("legendaBox"); b.classList.toggle("chiusa"); $("legendaToggle").setAttribute("aria-expanded", b.classList.contains("chiusa")?"false":"true"); };
+
+/* [agente GT02-temi] etichette di origine del dato: MISURATO / PROGRAMMATO / STIMATO / CENSIMENTO + "dati scarsi" (storico < 72 h, come in statoLive) */
+const TAG = {
+  mis:'<span class="tag misurato">MISURATO</span>', prog:'<span class="tag programmato">PROGRAMMATO</span>',
+  sim:'<span class="tag stimato">STIMATO/SIMULATO</span>', cens:'<span class="tag censimento">CENSIMENTO</span>'
+};
+const TAG_SCARSO='<span class="tag scarso">dati scarsi</span>';
+const storicoScarso = () => { const T=ST(); return !T || Math.max(T.ore_mezzi||0,T.ore_t5||0)<72; };
+const fnum = v => v>=100?Math.round(v):v.toFixed(1);
+const scalaHtml = (pal,et) => `<div class="sc">${pal.map(c=>`<span style="background:${c}"></span>`).join("")}</div><div class="et">${et.map(x=>`<span>${x}</span>`).join("")}</div>`;
+
+/* legenda dell'area colorata di una sezione di censimento (modo = rapp / serv / dens) */
+function legendaSezioni(modo){
+  if(!sezOk) return "";
+  if(modo==="crit") return legendaCriticita();
+  const so=sezSoglie[modo]||[0,0,0,0];
+  const nome={rapp:"Offerta per abitante: passaggi/ora ogni 1000 abitanti (entro 400 m)",serv:"Passaggi/ora entro 400 m",dens:"Abitanti per km²",occ:"Occupati residenti 15–64 anni (% dei residenti 15–64)",sc:"Residenti 5–14 anni per sezione",sen:"Residenti 65 anni e oltre per sezione"}[modo];
+  const profilo=["occ","sc","sen"].includes(modo);
+  const tag = (modo==="dens"||profilo)?TAG.cens : modo==="serv"?"" : TAG.prog+TAG.cens;   // [agente GT06-pannello] niente PROGRAMMATO da solo
+  if(profilo) return `<div class="t">${nome} ${tag}</div>`+scalaHtml(PAL_SEZ[modo],["meno",fnum(so[1]),fnum(so[3]),"più"])
+    +`<div class="et" style="display:block">Colori in 5 fasce relative alle sezioni abitate dell'area. Dati ISTAT 2021 sui residenti; non sono conteggi di viaggi. Grigio = dato non disponibile.</div>`;
+  return `<div class="t">${nome} ${tag}</div>`+scalaHtml(PAL_SEZ[modo],[modo==="rapp"?"critico":"meno",fnum(so[1]),fnum(so[3]),modo==="rapp"?"ok":"più"])
+    +(modo==="dens"?"":'<div class="puntini"><span><i style="background:#9aa0ad"></i>nessun passaggio GTT programmato</span></div>');
+}
+/* [agente GT05-pendolari] legenda del tema Pendolari */
+function legendaPendolari(){
+  if(!PEND) return `<div class="t">Pendolari ${TAG.cens}</div><div class="et" style="display:block">Dati non presenti: servono docs/matrix_pendoLAVORO_2021.zip e docs/matrix_pendoSTUDIO_2021.zip e le sezioni di censimento; poi rilancia 04_genera_mappa.py.</div>`;
+  const o=pendOpz(), pc=pendCalcola(), so=pc.sogl, ent=o.d==="in";
+  const tipo={lav:"lavoro",stu:"studio (stima)",ent:"lavoro + studio"}[o.t];
+  const interno=o.t==="lav"?PEND.tor.n[0]:o.t==="stu"?PEND.tor.n[1]:PEND.tor.n[0]+PEND.tor.n[1];
+  const fuori=pendFlusso({i:PEND.altri.i,u:PEND.altri.u},o);
+  const unita=o.v==="rel"?"persone ogni 1000 abitanti":"persone";
+  return `<div class="t">Pendolari ${ent?"verso Torino":"da Torino"}: ${tipo}, ${unita} ${TAG.cens}</div>`
+    +scalaHtml(PAL_PEND,["meno",fnum(so[1]),fnum(so[3]),"più"])
+    +`<div class="puntini"><span><i style="background:#cfd3da"></i>Torino o nessun flusso</span><span><i style="background:${ent?"#51287f":"#d9622b"}"></i>linee: i 30 comuni con più pendolari (spessore = flusso)</span></div>`
+    +`<div class="et" style="display:block">Linee dei primi 30 comuni: ${pendNum(pc.totTop)} persone.<br>Altri ${Math.max(0,pc.nCom-pc.top.length)} comuni dell'area (senza linea): ${pendNum(pc.totCom-pc.totTop)}.<br>Comuni fuori dall'area della mappa (${PEND.altri.n}): ${pendNum(fuori)}.<br>Dentro Torino (Torino→Torino, nessuna linea): <b>${pendNum(interno)}</b>.</div>`
+    +`<div class="et" style="display:block">ISTAT 2021, comune→comune, senza mezzo né orario; studio = stima. Passa il mouse (o tocca) su un comune per i dettagli.</div>`;
+}
+/* [agente GT16] legenda per il tema Zone critiche */
+function legendaCriticita(){
+  if(!sezOk||!sezSoglie.crit) return `<div class="t">Criticità servizio ${TAG.prog}${TAG.cens}</div><div class="et" style="display:block">Dati ISTAT non disponibili: servono le sezioni di censimento.</div>`;
+  const so=sezSoglie.crit;
+  return `<div class="t">Criticità servizio (0–100) ${TAG.prog}${TAG.cens}</div>`
+    +scalaHtml(PAL_CRIT,[`critico (${Math.round(so[0])})`,`${Math.round(so[1])}`,`${Math.round(so[3])}`,`ok (${Math.round(so[4]||100)})`])
+    +'<div class="puntini"><span><i style="background:#9aa0ad"></i>nessun residente (non calcolabile)</span></div>'
+    +'<div class="et" style="display:block">Indice di criticità relativo (STIMA): 0 = massima offerta, 100 = nessun passaggio GTT programmato entro 400 m. Basato su orari programmati e residenti ISTAT 2021. Non considera pendolari, turisti né altri operatori.</div>';
+}
+const legendaZone = () => `<div class="t">Zone statistiche: passaggi/ora per km²</div>`+scalaHtml(PAL,["meno",fnum(SOGLIE[1]),fnum(SOGLIE[3]),"più"]);
+
+/* ====== TABELLA DEI TEMI [agente GT16] 4 temi unificati: Servizio e abitanti, Traffico e velocità, Tempo reale e flotta, Pendolarismo ======
+   id, etichetta, descrizione,
+   area: null (nessuna colorazione) | {tipo:"sez", modo:"rapp|serv|dens"} | {tipo:"zone"},
+   over: preset delle sovrapposizioni (id della casella -> acceso/spento),
+   legenda: funzione che dà l'HTML della legenda del tema (o "" se basta quella delle sovrapposizioni),
+   opzioni di disegno facoltative: lineeSottili, sensoriGrandi, velocita, subServizio, segnalazioni */
+const NESSUNA = {Llinee:0,Lfermate:0,Lcorse:0,Lmezzi:0,Lsensori:0,Lreplay:0};
+// [agente GT16] sottoscelta dinamica per il tema Servizio e abitanti
+function impostaSubServizio(sub, aggiornaOver){
+  if(!sub) sub = $("subServizio") ? $("subServizio").value : "rapp";
+  $("modoSez").value = sub;
+  if(sub === "rapp"){
+    tema.desc = "Passaggi programmati ogni 1000 abitanti entro 400 m: il rosso indica poca offerta rispetto ai residenti.";
+    tema.lineeSottili = true;
+    if(aggiornaOver){ $("Llinee").checked = true; $("Lfermate").checked = false; }
+  } else if(sub === "crit"){
+    tema.desc = "Indice di criticità 0–100 (stima): dove l'offerta GTT programmata è più scarsa rispetto ai residenti. Rosso = critico, verde = servizio adeguato.";
+    tema.lineeSottili = false;
+    if(aggiornaOver){ $("Llinee").checked = false; $("Lfermate").checked = false; }
+  } else if(sub === "serv"){
+    tema.desc = "Quanto servizio GTT passa vicino a ogni sezione di censimento (entro 400 m), secondo gli orari.";
+    tema.lineeSottili = false;
+    if(aggiornaOver){ $("Llinee").checked = true; $("Lfermate").checked = true; }
+  } else if(sub === "dens"){
+    tema.desc = "Dove abitano le persone (residenti ISTAT 2021, popolazione «di notte»).";
+    tema.lineeSottili = false;
+    if(aggiornaOver){ $("Llinee").checked = false; $("Lfermate").checked = false; }
+  } else if(["occ","sc","sen"].includes(sub)){
+    tema.desc = sub==="occ" ? "Occupati residenti di 15–64 anni: indicatore potenziale di spostamenti per lavoro, non conteggio di pendolari." : sub==="sc" ? "Residenti di 5–14 anni: possibile indicatore di domanda scolastica, non numero di alunni o viaggi." : "Residenti di 65 anni e oltre: profilo demografico utile per valutare l'accessibilità, non conteggio di viaggi.";
+    tema.lineeSottili = false;
+    if(aggiornaOver){ $("Llinee").checked = false; $("Lfermate").checked = false; }
+  }
+  $("temaDesc").textContent = tema.desc;
+}
+
+// --- OMI: scheda zona ---
+function fmtEuro(x){
+  if(x==null || isNaN(x)) return "—";
+  // interi per vendita, decimali per locazione
+  const s = (Math.abs(x - Math.round(x)) < 1e-9) ? String(Math.round(x)) : x.toFixed(1);
+  return s.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+function schedaOmi(z){
+  const tip = $("omiTipo")?$("omiTipo").value:"ab";
+  const nomeTip = OMI_TIPI[tip] || tip;
+  const vv = (z.v||{})[tip] || null;
+  const val = vv ? `${fmtEuro(vv[0])}–${fmtEuro(vv[1])} €/m²` : "Tipologia assente";
+  const stato = vv ? `Locazione: ${fmtEuro(vv[2])}–${fmtEuro(vv[3])} €/m²` : `Nessun valore OMI per ${esc(nomeTip)} in questa zona`;
+  const righe = Object.keys(z.v||{}).sort().map(k=>{
+    const a=z.v[k];
+    return `<tr><td style="padding:4px 6px;border-bottom:1px solid var(--line)">${esc(OMI_TIPI[k]||k)}</td>`
+      + `<td style="padding:4px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap">${fmtEuro(a[0])}–${fmtEuro(a[1])}</td>`
+      + `<td style="padding:4px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap">${fmtEuro(a[2])}–${fmtEuro(a[3])}</td></tr>`;
+  }).join("");
+  const tab = `<table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead><tr>
+      <th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--line)">Tipologia</th>
+      <th style="text-align:right;padding:4px 6px;border-bottom:1px solid var(--line)">Acquisto €/m²</th>
+      <th style="text-align:right;padding:4px 6px;border-bottom:1px solid var(--line)">Locazione €/m²</th>
+    </tr></thead><tbody>${righe||'<tr><td colspan="3" style="padding:6px;color:var(--muted)">—</td></tr>'}</tbody></table>`;
+  return creaScheda({
+    titolo: `Zona OMI ${esc(z.z)} · ${esc(z.n||"")}`,
+    badge: '<span class="tag stimato">OMI</span>',
+    sub: `${z.f?"Fascia "+esc(z.f)+" · ":""}Comune ${String(z.c||"").padStart(6,"0")}`,
+    val: val,
+    stato: stato,
+    dettagli: [
+      {k:"Tipologia selezionata", v: esc(nomeTip)},
+      {k:"Fonte", v:"Agenzia delle Entrate – OMI (2025/2)"},
+      {k:"Nota", v:"Valori ordinari; stato NORMALE (se presente). Non è la stima di un singolo immobile."},
+    ],
+    appTitolo: "Tutte le tipologie in zona",
+    approfondimento: tab,
+    appAperto: true,
+  });
+}
+
+// ---------- legenda OMI ----------
+function legendaOmi(){
+  const tip=$("omiTipo")?$("omiTipo").value:"ab";
+  const nome=OMI_TIPI[tip]||tip;
+  const righe=[];
+  const et=["≤ 1000","1000–1500","1500–2000","2000–2500","2500–3500","> 3500"];
+  const sc=OMI_PAL.map(c=>`<span style="background:${c}"></span>`).join("");
+  righe.push(`<div class="t">Valore immobiliare (OMI): ${esc(nome)} (€/m²) <span class="tag stimato">OMI</span></div>`);
+  righe.push(`<div class="sc">${sc}</div><div class="et"><span>${et[0]}</span><span>${et[et.length-1]}</span></div>`);
+  righe.push(`<div class="puntini"><span><i style="background:#9aa0ad;border-color:rgba(0,0,0,.15)"></i>zona senza questa tipologia</span></div>`);
+  righe.push(`<div class="et" style="display:block">Fonte: Agenzia delle Entrate – OMI · stato NORMALE (se presente) · valori ordinari (pregio/degrado esclusi). Non è la stima di un singolo immobile.</div>`);
+  return righe.join("");
+}
+
+// --- Mobilità IMQ 2022: scheda zona ---
+const IMQ_SCOPI={ "01":"Lavoro","02":"Motivi di lavoro","03":"Studio","04":"Acquisti/Commissioni","05":"Accompagnamento","06":"Cure/Visite mediche","07":"Sport/Svago","08":"Ritorno a casa","09":"Visite a parenti/amici","10":"Altro (incl. 12-16)","11":"Ritorno a casa (giorno)" };
+function schedaImq(z){
+  const modi=[["pub","Pubblico"],["pri","Privato"],["alt","Altro"]];
+  const totOra=z.ora?z.ora.reduce((s,c)=>s+c.tot[0],0):0;
+  const somma=k=>z.ora?z.ora.reduce((a,c)=>a+c[k][0],0):0;
+  const totModo=modi.reduce((s,[k])=>s+somma(k),0);
+  const quota=k=>totModo?Math.round(100*somma(k)/totModo):0;
+  let punta=0,pv=-1; (z.ora||[]).forEach((c,h)=>{ if(c.tot[0]>pv){pv=c.tot[0];punta=h;} });
+  const scopi=Object.entries(z.scopo||{}).map(([k,v])=>[k,v[0]]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
+  const totScopo=scopi.reduce((s,x)=>s+x[1],0);
+  const rigaT=(a,b)=>`<tr><td style="padding:3px 6px;border-bottom:1px solid var(--line)">${a}</td><td style="padding:3px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap">${b}</td></tr>`;
+  const tabScopi=`<table style="width:100%;border-collapse:collapse;font-size:12px">${scopi.slice(0,4).map(([k,v])=>rigaT(esc(IMQ_SCOPI[k]||k),`${imqNum(v)} · ${totScopo?Math.round(100*v/totScopo):0}%`)).join("")}</table>`;
+  const dest=(z.od||[]).filter(f=>f.d!==z.c).slice(0,6);
+  const tabDest=`<table style="width:100%;border-collapse:collapse;font-size:12px">${dest.map(f=>rigaT(esc(f.dn||f.d)+(f.est?' <span style="color:#b25e00">(fuori CMTO)</span>':''),`${imqNum(f.v)}${f.aff?"":" <span style='color:#b25e00'>*</span>"}`)).join("")||`<tr><td style="padding:6px;color:var(--muted)">—</td></tr>`}</table>`;
+  return creaScheda({
+    titolo: `${esc(z.n||z.c)}`,
+    badge: '<span class="tag stimato">IMQ</span>',
+    sub: `Zona di indagine IMQ 2022 · ${esc(z.m||"")}`,
+    val: `Residenti 11-84: ${imqNum(z.res)}`,
+    stato: `Spostamenti/giorno in partenza: ${imqNum(totOra)}<br>Pubblico ${quota("pub")}% · Privato ${quota("pri")}% · Altro ${quota("alt")}%`,
+    dettagli: [
+      {k:"Ora di punta", v:`${pad(punta)}:00 (${imqNum(pv)} spostamenti)`},
+      {k:"Fonte", v:"IMQ 2022 - Agenzia della Mobilità Piemontese / MTM"},
+      {k:"Nota", v:"Indagine campionaria: residenti 11-84 anni, giorno feriale. Quartieri di Torino: confini 1984."},
+    ],
+    appTitolo: "Perché si spostano e dove vanno",
+    approfondimento: `<div class="t" style="margin:6px 0 2px">Motivo (intera giornata)</div>${tabScopi}`
+      + `<div class="t" style="margin:10px 0 2px">Destinazioni principali (linee in mappa)</div>${tabDest}`
+      + `<div class="et" style="display:block;margin-top:6px">* meno di 30 interviste: stima fragile. Dall'ora dello slider: spostamenti <b>${pad(S.h)}:00</b>.</div>`,
+    appAperto: true,
+  });
+}
+
+// ---------- legenda Mobilità IMQ ----------
+function legendaImq(){
+  const met=$("imqMet")?$("imqMet").value:"ora_tot";
+  const nome=(IMQ_MET[met]||{}).lab||met;
+  const sc=IMQ_PAL.map(c=>`<span style="background:${c}"></span>`).join("");
+  const righe=[];
+  righe.push(`<div class="t">Mobilità IMQ 2022: ${esc(nome)} <span class="tag stimato">IMQ</span></div>`);
+  righe.push(`<div class="sc">${sc}</div><div class="et"><span>basso</span><span>alto</span></div>`);
+  if(met.startsWith("ora")) righe.push(`<div class="et" style="display:block">Ora dello slider: <b>${pad(S.h)}:00</b>${S.dt!==0?" · l'indagine IMQ è del giorno feriale":""}. 5 classi (quantili della vista).</div>`);
+  righe.push(`<div class="puntini"><span><i style="background:#9aa0ad;border-color:rgba(0,0,0,.15)"></i>zona senza valore</span></div>`);
+  righe.push(`<div class="et" style="display:block">Fonte: IMQ 2022 (Agenzia della Mobilità Piemontese / MTM). Residenti 11-84, giorno feriale. Al clic: scopi, ripartizione modale e destinazioni (linee sulla mappa).</div>`);
+  return righe.join("");
+}
+function imqNotaOra(){ const n=$("imqNota"); if(!n) return; n.textContent=tema.imq?("Ora considerata dallo slider in alto: "+pad(S.h)+":00 · l'indagine IMQ è del giorno feriale"):""; }
+
+const THEMES = [
+  // 1. Servizio e abitanti (offerta, residenti e criticità in un'unica tendina)
+  {id:"servizio", label:"Servizio e abitanti", desc:"Confronto tra dove vivono le persone e l'offerta di trasporto pubblico entro 400 m.",
+   area:{tipo:"sez",modo:"rapp"}, over:{...NESSUNA,Llinee:1}, lineeSottili:true, subServizio:true, opzioni:["subServizio"],
+   legenda:()=>legendaSezioni($("subServizio")?$("subServizio").value:"rapp")},
+  // 2. Traffico e velocità (sensori 5T e velocità commerciale GTT)
+  {id:"traffico_vel", label:"Traffico e velocità", desc:"Sensori 5T (velocità degli ultimi 5 minuti) e velocità commerciale misurata delle linee GTT.",
+   area:null, over:{...NESSUNA,Lsensori:1,Llinee:1}, sensoriGrandi:true, velocita:true, segnalazioni:true,
+   legenda:()=>{
+     const pre = inLive ? "" : '<div class="t" style="color:#b25e00">Nessun dato live: riavvia la raccolta.</div><div class="et" style="display:block">Si vede l\'ultimo traffico salvato nella pagina, non quello attuale.</div>';
+     return pre + legendaVelocita();
+   }},
+  // 3. Tempo reale e flotta (posizioni GPS reali e corse simulate da orario)
+  {id:"tempo", label:"Tempo reale e flotta", desc:"Mezzi GTT localizzati adesso e corse simulate dagli orari (queste sono una stima, non posizioni reali).",
+   area:null, over:{...NESSUNA,Lmezzi:1,Lcorse:1}, segnalazioni:true, legenda:()=>""},
+  // 4. Pendolarismo (relazioni ISTAT comune-comune per lavoro e studio)
+  {id:"pendolari", label:"Pendolarismo", desc:"Quante persone si spostano ogni giorno tra ogni comune e Torino per lavoro o studio (ISTAT 2021, comune→comune: niente mezzo né orario).",
+   area:{tipo:"sez",modo:"pend"}, over:{...NESSUNA}, pendolari:true, opzioni:["pendTipo","pendDir","pendVal"], legenda:legendaPendolari},
+  // 5. Valore immobiliare (OMI)
+  {id:"omi", label:"Valore immobiliare (OMI)", desc:"Valori di mercato e locazione per zona OMI e tipologia edilizia (Agenzia delle Entrate – OMI, semestre 2025/2). Valori ordinari: pregio e degrado esclusi. Non è la stima di un singolo immobile.",
+   area:{tipo:"omi"}, over:{...NESSUNA}, omi:true, opzioni:["omiTipo"], legenda:legendaOmi},
+  // 6. Mobilità (IMQ 2022): domanda e flussi per zona
+  {id:"imq", label:"Mobilità (IMQ 2022)", desc:"Chi si sposta, con che mezzo e dove: spostamenti in partenza per zona della Città metropolitana (IMQ 2022, indagine campionaria sul giorno feriale, residenti 11-84). L'ora è quella dello slider; al clic su una zona, scopi e destinazioni principali (linee sulla mappa).",
+   area:{tipo:"imq"}, over:{...NESSUNA}, imq:true, opzioni:["imqMet"], legenda:legendaImq},
+  // 7. Catalogo dei dati (nuovi dati comunali, un gruppo alla volta, caricato su richiesta)
+  {id:"catalogo", label:"Catalogo dei dati", desc:"Nuovi dati comunali (scuole, salute, cultura, sicurezza, sport, reti, servizi), un gruppo alla volta. Sono luoghi e attrattori potenziali: senza iscritti, capienze o flussi non sono conteggi di viaggi.",
+   area:null, over:{...NESSUNA}, catalogo:true, legenda:legendaCatalogo},
+  // 8. Vulnerabilità sociale (indice composito per sezione + componenti)
+  {id:"vulnerabilita", label:"Vulnerabilità sociale", desc:"Indice di vulnerabilità per sezione: occupazione, istruzione, affollamento, anziani + accessibilità a servizi e verde.",
+   area:{tipo:"sez",modo:"vuln"}, over:{...NESSUNA}, vuln:true, opzioni:["subVuln"],
+   legenda:()=>legendaVuln($("subVuln")?$("subVuln").value:"vuln")},
+  // 9. Vulnerabilità × servizi (incrocio con vuoto servizio)
+  {id:"vuln_servizi", label:"Vulnerabilità × servizi", desc:"Dove vulnerabilità alta e mancanza di servizi essenziali coincidono. Seleziona il gruppo per vedere l'incrocio.",
+   area:{tipo:"sez",modo:"vuln_combo"}, over:{...NESSUNA}, vulnCombo:true, opzioni:["subVulnGruppo","subVulnLivello"],
+   legenda:()=>legendaVulnCombo()}
+];
+let tema = THEMES[0];   // [agente GT16] tema di partenza: Servizio e abitanti
+
+/* [pulizia] area Opzioni unica: ogni tema dichiara le proprie scelte, il codice le costruisce sempre allo stesso modo.
+   Aggiungere un'opzione = aggiungere una voce in OPZIONI e il suo id nella lista "opzioni" del tema. */
+const OPZIONI = {
+  subServizio:{etichetta:"Visualizzazione", voci:[
+    ["rapp","Offerta per abitante (rosso = poca offerta)"],
+    ["crit","Criticità (indice 0–100, stima)"],
+    ["serv","Solo offerta (passaggi/ora entro 400 m)"],
+    ["dens","Solo residenti (abitanti per km²)"]],
+   gruppi:[{label:"Profilo residenti · ISTAT 2021", voci:[
+    ["occ","Occupati residenti 15–64 anni (% della fascia)"],
+    ["sc","Residenti 5–14 anni (numero)"],
+    ["sen","Residenti 65 anni e oltre (numero)"]]}]},
+  pendTipo:{etichetta:"Lavoro o studio", voci:[["lav","Lavoro"],["stu","Studio (stima)"],["ent","Entrambi"]]},
+  pendDir:{etichetta:"Direzione", voci:[["in","Entrano a Torino"],["out","Escono da Torino"]]},
+  pendVal:{etichetta:"Colore delle aree", voci:[["rel","Ogni 1000 abitanti"],["abs","Numero di persone"]]},
+  omiTipo:{etichetta:"Tipologia immobiliare", voci:[
+    ["ab","Abitazioni civili"],["as","Abitazioni signorili"],["ae","Abitazioni economiche"],["vi","Ville e villini"],
+    ["bo","Box"],["pa","Posti auto coperti"],["ps","Posti auto scoperti"],["ne","Negozi"],["uf","Uffici"],
+    ["la","Laboratori"],["ci","Capannoni tipici"],["in","Capannoni industriali"],["ma","Magazzini"],["cc","Centri commerciali"]]},
+  imqMet:{etichetta:"Misura", voci:[
+    ["ora_tot","Spostamenti in partenza (a quest'ora)"],["ora_pub","Spostamenti pubblici (a quest'ora)"],
+    ["ora_pri","Spostamenti privati (a quest'ora)"],["ora_alt","Spostamenti altro (a quest'ora)"],
+    ["quotaPub","Quota pubblico (intera giornata)"],["quotaPri","Quota privato (intera giornata)"],
+    ["res","Residenti 11-84 anni"]], notaId:"imqNota"},
+  subVuln:{etichetta:"Visualizzazione", voci:[
+    ["vuln","Indice composito (0–100)"],
+    ["vuln_occ","Non occupati 15–64"],
+    ["vuln_ist","Bassa istruzione 9+"],
+    ["vuln_aff","Affollamento abitazioni"],
+    ["vuln_anz","Quota 65+"],
+    ["vuln_serv","Servizi a piedi (pochi=vulnerabile)"],
+    ["vuln_verde","Verde a piedi (poco=vulnerabile)"]]},
+  subVulnGruppo:{etichetta:"Servizio essenziale", voci:[
+    ["tutti","Tutti i gruppi (almeno uno)"],
+    ["scuole","Scuole"],
+    ["salute","Salute"],
+    ["cibo","Cibo"],
+    ["fermate","Fermate"],
+    ["verde","Verde"]]},
+  subVulnLivello:{etichetta:"Livello di vuoto", voci:[
+    ["zero","Zero (nessun servizio)"],
+    ["pochissimo","Pochissimo (sotto 10° percentile)"]]},
+};
+const OPT_VAL = {subServizio:"rapp", pendTipo:"lav", pendDir:"in", pendVal:"rel", omiTipo:"ab", imqMet:"ora_tot"};
+const HANDLERS = {
+  subServizio:()=>{ impostaSubServizio($("subServizio").value, true); baseVer++; chiede(); aggiornaLegenda(); },
+  pendTipo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  pendDir:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  pendVal:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  omiTipo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  imqMet:()=>{ baseVer++; imqNotaOra(); chiede(); aggiornaLegenda(); },
+  subVuln:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  subVulnGruppo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  subVulnLivello:()=>{ baseVer++; chiede(); aggiornaLegenda(); }
+};
+function renderOpzioni(){
+  const box=$("boxOpzioni"); if(!box) return;
+  for(const k in OPT_VAL){ const el=$(k); if(el && el.value!=null) OPT_VAL[k]=el.value; }
+  box.innerHTML="";
+  if(tema.catalogo){ costruisciCatalogo(box); return; }
+  for(const chiave of (tema.opzioni||[])){
+    const def=OPZIONI[chiave]; if(!def) continue;
+    const lab=document.createElement("label"); lab.className="opt-lab"; lab.textContent=def.etichetta;
+    const sel=document.createElement("select"); sel.id=chiave; sel.className="opt-sel"; sel.setAttribute("aria-label",def.etichetta);
+    const agg=(parent,voci)=>{ for(const v of voci){ const o=document.createElement("option"); o.value=v[0]; o.textContent=v[1]; parent.appendChild(o); } };
+    if(def.gruppi) for(const g of def.gruppi){ const og=document.createElement("optgroup"); og.label=g.label; agg(og,g.voci); sel.appendChild(og); }
+    if(def.voci) agg(sel,def.voci);
+    if(OPT_VAL[chiave]!=null) sel.value=OPT_VAL[chiave];
+    if(HANDLERS[chiave]) sel.onchange=HANDLERS[chiave];
+    box.appendChild(lab); box.appendChild(sel);
+    if(def.notaId){ const n=document.createElement("div"); n.id=def.notaId; n.className="opt-nota"; box.appendChild(n); }
+  }
+}
+
+/* cambia tema: imposta area colorata e sovrapposizioni; non ricostruisce dati, cambia solo cosa si disegna */
+function applicaTema(id){
+  // mappatura protettiva vecchi id tema
+  if(id==="offerta"){ id="servizio"; OPT_VAL.subServizio="serv"; }
+  else if(id==="domanda"){ id="servizio"; OPT_VAL.subServizio="dens"; }
+  else if(id==="rapporto"){ id="servizio"; OPT_VAL.subServizio="rapp"; }
+  else if(id==="traffico" || id==="velocita"){ id="traffico_vel"; }
+
+  tema = THEMES.find(t=>t.id===id) || THEMES[0];
+  const a=tema.area;
+  $("Lsez").checked = !!(a && a.tipo==="sez"); $("Lzone").checked = !!(a && a.tipo==="zone"); $("Lomi").checked = !!(a && a.tipo==="omi"); $("LImq").checked = !!(a && a.tipo==="imq");   // mai due colorazioni insieme
+  if(a && a.tipo==="sez") $("modoSez").value=a.modo;
+  for(const k in tema.over) $(k).checked = !!tema.over[k];
+  $("temi").value=tema.id;
+  $("temaDesc").textContent=tema.desc;
+  $("boxSegn").style.display = tema.segnalazioni ? "block" : "none";
+  renderOpzioni();                                                        // [pulizia] una sola area Opzioni
+  if(tema.subServizio) impostaSubServizio($("subServizio").value, false);
+  baseVer++; chiede(); aggiornaLegenda(); imqNotaOra();
+}
+// [agente GT06-pannello] menu a tendina costruito dalla tabella THEMES (un tema nuovo compare da solo)
+$("temi").innerHTML = THEMES.map(t=>`<option value="${esc(t.id)}">${esc(t.label)}</option>`).join("");
+$("temi").onchange=e=>applicaTema(e.target.value);
+
+/* legenda: solo il tema attivo + le sovrapposizioni accese */
+const leg=$("legenda");
+function aggiornaLegenda(){
+  const blocchi=[], t=tema.legenda();
+  if(t) blocchi.push(t);
+  if(vis("Llinee") && !tema.velocita && tema.id!=="velocita"){   // [agente GT16] nel tema con velocità la legenda delle linee è quella della velocità
+    blocchi.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
+  }
+  if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14)</div><div class="puntini"><span><i style="background:rgba(74,163,223,.85)"></i>grandezza = passaggi/ora</span></div>`);
+  if(vis("Lcorse")) blocchi.push(`<div class="t">Corse simulate ${TAG.sim}</div><div class="puntini"><span><i style="background:${COL.bus}"></i>posizione stimata dagli orari, non reale</span></div>`);
+  if(vis("Lmezzi")) blocchi.push(`<div class="t">Mezzi GTT reali ${TAG.mis}</div><div class="puntini"><span><i style="background:#222"></i>ultima posizione localizzata (colore = tipo di linea)</span></div>`);
+  if(vis("Lreplay")) blocchi.push(`<div class="t">Replay: mezzi reali registrati ${TAG.mis}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#111"></i>posizione reale registrata${REP?" ("+REP.g+")":""}</span></div>`);
+  if(vis("Lsensori")) blocchi.push(`<div class="t">Traffico 5T (velocità media) ${TAG.mis}${storicoScarso()?TAG_SCARSO:""}</div><div class="puntini"><span><i style="background:#c8102e"></i>&lt;15</span><span><i style="background:#e8833a"></i>15–30</span><span><i style="background:#f2c14e"></i>30–45</span><span><i style="background:#4c9f70"></i>&gt;45 km/h</span><span><i style="background:#c9ced6"></i>nessun veicolo</span><span><i style="background:#fff;border:1.5px dashed #8a8f98"></i>dato assente</span><span><i style="background:#fff;border:2px solid #c8102e"></i>più lento del solito</span></div>`);
+  leg.innerHTML=blocchi.map(b=>`<div class="blocco">${b}</div>`).join(""); leg.style.display=blocchi.length?"block":"none"; $("legendaBox").style.display=blocchi.length?"block":"none";
+}
+
+/* ---------- avvio ---------- */
+creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(stato); sicuro(adesso); sicuro(()=>applicaTema("servizio")); setInterval(()=>sicuro(stato),60000); // [agente GT16]
+sicuro(applicaLive); sicuro(statoLive); sicuro(segnalazioni);
+setInterval(()=>ricarica("live.js",applicaLive),30000);
+setInterval(()=>ricarica("stat.js",()=>{ sicuro(statoLive); sicuro(segnalazioni); baseVer++; chiede(); }),300000);
+setInterval(()=>{ sicuro(segnalazioni); },60000);
+sicuro(disegna); ultimoT=performance.now(); requestAnimationFrame(anima);
+(()=>{ const dl=$("listaLinee"); const nomi=[...new Set(Object.values(D.rotte).map(r=>r.s))].sort((a,b)=>a.localeCompare(b,"it",{numeric:true})); dl.innerHTML=nomi.map(n=>`<option value="${esc(n)}">`).join(""); })();

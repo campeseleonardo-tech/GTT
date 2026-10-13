@@ -847,7 +847,7 @@ def main():
                 "v": vuln.get(x.get("id",""), {}).get("v"),
                 "vcomp": vuln.get(x.get("id",""), {}).get("comp", {}),
                 "manca": vuln.get(x.get("id",""), {}).get("manca", {}),
-                "vgruppi": vuln.get(x.get("id",""), {}).get("gruppi", {})}
+                "gruppi": vuln.get(x.get("id",""), {}).get("gruppi", {})}
                for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]   # indicatori ISTAT 2021 per residenti
         print(f"  sezioni di censimento abitate: {len(sez)}, abitanti {sum(x['p'] for x in sez)}, famiglie {sum(x['f'] for x in sez)}, abitazioni {sum(x['ab'] for x in sez)}")
     else:
