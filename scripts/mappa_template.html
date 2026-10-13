@@ -533,6 +533,20 @@ const sez = (D.sezioni||[]).map(z=>{
       `<div class="et" style="display:block">Dati comunali; geometrie convertite da EPSG:3003. Luoghi e attrattori potenziali: senza iscritti, capienze o flussi non sono conteggi di viaggi.</div>`;
   }
 
+  function legendaVuln(modo){
+    if(modo==="vuln_combo") return legendaVulnCombo();
+    const nomi={vuln:"Indice composito",vuln_occ:"Non occupati 15–64",vuln_ist:"Bassa istruzione 9+",vuln_aff:"Affollamento",vuln_anz:"Quota 65+",vuln_serv:"Servizi a piedi",vuln_verde:"Verde a piedi"};
+    const pal=PAL_SEZ[modo]||PAL_VULN;
+    const et=modo==="vuln_serv"||modo==="vuln_verde"?["poco","medio","molto"]:["basso","medio","alto"];
+    return `<div class="t">Vulnerabilità sociale · ${esc(nomi[modo]||modo)} ${TAG.stim}</div>`+
+      `<div class="sc">`+pal.map((c,i)=>`<span style="background:${c}"></span>`).join("")+`</div>`+
+      `<div class="et"><span>0</span><span>100</span></div>`;
+  }
+  function legendaVulnCombo(){
+    return `<div class="t">Vulnerabilità × servizi</div>`+
+      `<div class="sc"><span style="background:#c8102e"></span><span style="background:#e8833a"></span><span style="background:#e0e4ea"></span></div>`+
+      `<div class="et"><span>Debole e senza</span><span>Debole ma servito</span><span>Non vulnerabile</span></div>`;
+  }
   function preparaSezioni(){
   if(!sez.length) return;
   const mU = 1/(40075016.7*Math.cos(45.07*Math.PI/180));   // 1 metro in unita' di mappa
@@ -589,7 +603,16 @@ const PAL_RAPP=["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"];
 const PAL_BASE=["#e3f1ef","#b5dcd6","#7cc0b8","#3f9a95","#1b6f73"];
 const PAL_PEND=["#efe9f6","#cdb9e3","#a98acd","#7d55b0","#51287f"];   // [agente GT05-pendolari]
 const PAL_CRIT=["#b0102a","#e8833a","#f2c14e","#9cc27a","#4c9f70"];   // [agente GT16] zone critiche: rosso=critica, verde=ok
-const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP, pend:PAL_PEND, crit:PAL_CRIT, occ:PAL_BASE, sc:PAL_BASE, sen:PAL_BASE};
+const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP, pend:PAL_PEND, crit:PAL_CRIT, occ:PAL_BASE, sc:PAL_BASE, sen:PAL_BASE,
+  vuln:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],   // verde→rosso: vulnerabilità bassa→alta
+  vuln_occ:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
+  vuln_ist:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
+  vuln_aff:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
+  vuln_anz:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
+  vuln_serv:["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"],  // inverso: pochi servizi = vulnerabile
+  vuln_verde:["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"], // inverso: poco verde = vulnerabile
+};
+const PAL_VULN_COMBO={"debole_senza":"#c8102e","debole_servito":"#e8833a","ok":"#e0e4ea"};
 
 /* [agente GT05-pendolari] pendolari ISTAT 2021 (comune contro comune): D.pend = {tor, com[], altri}; i = entrano a Torino [lavoro,studio], u = escono */
 const TORINO_PC=1272;
@@ -612,7 +635,7 @@ function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flu
   return pendCache;
 }
 const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
-const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:sezRapp(z,i);
+const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:sezRapp(z,i):modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="vuln_serv"?(z.vcomp||{}).serv:modo==="vuln_verde"?(z.vcomp||{}).verde:modo==="vuln_combo"?z.vgruppi||{};
 
 const linee = D.linee.map((l,ii) => {
   const a=new Float64Array(l.p.length*2); let x0=1,y0=1,x1=0,y1=0;
@@ -1366,6 +1389,21 @@ function schedaSezione(z){
   } else if(modo === "crit"){
     val = crit === null ? "non calcolabile" : `Criticità ${crit}/100`;
     stato = crit === null ? "Nessun residente nella sezione" : `Livello: ${critEtichetta(crit)}`;
+  } else if(modo.startsWith("vuln_") && modo !== "vuln_combo"){
+    const compNomi = {vuln_occ:"Non occupati 15–64",vuln_ist:"Bassa istruzione 9+",vuln_aff:"Affollamento",vuln_anz:"Quota 65+",vuln_serv:"Servizi a piedi",vuln_verde:"Verde a piedi"};
+    const raw = (z.vcomp||{})[modo.replace("vuln_","")];
+    val = raw!=null ? `Percentile ${(raw*100).toFixed(1)}` : "Dato non disponibile";
+    stato = `Componente: ${compNomi[modo] || modo} (0 = meno vulnerabile, 1 = più vulnerabile)`;
+  } else if(modo === "vuln"){
+    val = z.v!=null ? `${z.v} / 100` : "Dato non disponibile";
+    stato = "Indice composito di vulnerabilità (media pesata dei percentili delle componenti)";
+  } else if(modo === "vuln_combo"){
+    const gruppo = $("subVulnGruppo")?.value || "tutti";
+    const livello = $("subVulnLivello")?.value || "zero";
+    const grp = (z.vgruppi||{})[gruppo];
+    const combo = grp ? grp[livello] : "ok";
+    val = {"debole_senza":"Debole e senza servizio","debole_servito":"Debole ma con servizi","ok":"Non vulnerabile"}[combo] || combo;
+    stato = `Gruppo: ${gruppo} · Livello vuoto: ${livello} · v = ${z.v!=null?z.v:"n/d"}`;
   } else {
     val = `${serv} passaggi/ora`;
     stato = `Rapporto: ${rapp.toFixed(0)} / 1000 ab.`;
@@ -1956,7 +1994,25 @@ const OPZIONI = {
     ["ora_tot","Spostamenti in partenza (a quest'ora)"],["ora_pub","Spostamenti pubblici (a quest'ora)"],
     ["ora_pri","Spostamenti privati (a quest'ora)"],["ora_alt","Spostamenti altro (a quest'ora)"],
     ["quotaPub","Quota pubblico (intera giornata)"],["quotaPri","Quota privato (intera giornata)"],
-    ["res","Residenti 11-84 anni"]], notaId:"imqNota"}
+    ["res","Residenti 11-84 anni"]], notaId:"imqNota"},
+  subVuln:{etichetta:"Visualizzazione", voci:[
+    ["vuln","Indice composito (0–100)"],
+    ["vuln_occ","Non occupati 15–64"],
+    ["vuln_ist","Bassa istruzione 9+"],
+    ["vuln_aff","Affollamento abitazioni"],
+    ["vuln_anz","Quota 65+"],
+    ["vuln_serv","Servizi a piedi (pochi=vulnerabile)"],
+    ["vuln_verde","Verde a piedi (poco=vulnerabile)"]]},
+  subVulnGruppo:{etichetta:"Servizio essenziale", voci:[
+    ["tutti","Tutti i gruppi (almeno uno)"],
+    ["scuole","Scuole"],
+    ["salute","Salute"],
+    ["cibo","Cibo"],
+    ["fermate","Fermate"],
+    ["verde","Verde"]]},
+  subVulnLivello:{etichetta:"Livello di vuoto", voci:[
+    ["zero","Zero (nessun servizio)"],
+    ["pochissimo","Pochissimo (sotto 10° percentile)"]]},
 };
 const OPT_VAL = {subServizio:"rapp", pendTipo:"lav", pendDir:"in", pendVal:"rel", omiTipo:"ab", imqMet:"ora_tot"};
 const HANDLERS = {
@@ -1965,7 +2021,10 @@ const HANDLERS = {
   pendDir:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
   pendVal:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
   omiTipo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
-  imqMet:()=>{ baseVer++; imqNotaOra(); chiede(); aggiornaLegenda(); }
+  imqMet:()=>{ baseVer++; imqNotaOra(); chiede(); aggiornaLegenda(); },
+  subVuln:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  subVulnGruppo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  subVulnLivello:()=>{ baseVer++; chiede(); aggiornaLegenda(); }
 };
 function renderOpzioni(){
   const box=$("boxOpzioni"); if(!box) return;
