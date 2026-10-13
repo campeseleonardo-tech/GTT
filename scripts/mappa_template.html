@@ -80,6 +80,10 @@
   .sc-app{margin-top:4px;border-top:1px solid var(--line);padding-top:6px;font-size:11.5px}
   .sc-app summary{cursor:pointer;font-weight:600;color:var(--ink);margin-bottom:4px}
   .sc-app-body{color:var(--ink);line-height:1.35;margin-top:4px}
+  .sc-avviso{background:#fff3e0;border:1px solid #e8b878;border-radius:8px;padding:6px 8px;margin-bottom:8px;font-size:11.5px;color:#7a4300;line-height:1.35}
+  .sc-avviso-voce{margin-bottom:5px}
+  .sc-avviso-voce:last-child{margin-bottom:0}
+  .sc-avviso a{color:#7a4300;text-decoration:underline}
   #zoom{position:fixed;right:12px;top:12px;display:flex;flex-direction:column;overflow:hidden}
   #zoom button{width:36px;height:36px;border:0;background:#fff;font-size:20px;cursor:pointer;color:var(--ink)}
   #zoom button+button{border-top:1px solid var(--line)}
@@ -159,7 +163,7 @@
   <div id="boxOpzioni"></div>
   <!-- stato interno dell'area colorata: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
   <div style="display:none"><input type="checkbox" id="Lzone"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi"><input type="checkbox" id="LImq">
-    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option><option value="crit"></option><option value="occ"></option><option value="sc"></option><option value="sen"></option></select></div>
+    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="pend"></option><option value="crit"></option><option value="occ"></option><option value="sc"></option><option value="sen"></option><option value="vuln"></option><option value="vuln_occ"></option><option value="vuln_ist"></option><option value="vuln_aff"></option><option value="vuln_anz"></option><option value="acc"></option><option value="fb"></option></select></div>
 
   <details id="boxOver">
     <summary>Sovrapposizioni</summary>
@@ -280,7 +284,7 @@ const sez = (D.sezioni||[]).map(z=>{
   let x0=1,y0=1,x1=0,y1=0;
   polys.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
   const cxn=(x0+x1)/2, cyn=(y0+y1)/2;
-  return {p:z.p, c:z.c, km2:z.a, occ:z.occ, p1564:z.p1564, sc:z.sc, sen:z.sen, v:z.v, vcomp:z.vcomp||{}, gruppi:z.gruppi||{},
+  return {p:z.p, c:z.c, km2:z.a, occ:z.occ, p1564:z.p1564, sc:z.sc, sen:z.sen, v:z.v, vcomp:z.vcomp||{}, gruppi:z.gruppi||{}, acc:z.acc||{}, fb:z.fb||{},
     polys,bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
 });
   let sezOk=false;
@@ -534,18 +538,46 @@ const sez = (D.sezioni||[]).map(z=>{
   }
 
   function legendaVuln(modo){
-    if(modo==="vuln_combo") return legendaVulnCombo();
-    const nomi={vuln:"Indice composito",vuln_occ:"Non occupati 15–64",vuln_ist:"Bassa istruzione 9+",vuln_aff:"Affollamento",vuln_anz:"Quota 65+",vuln_serv:"Servizi a piedi",vuln_verde:"Verde a piedi"};
+    const nomi={vuln:"Indice composito",vuln_occ:"Non occupati 15–64",vuln_ist:"Bassa istruzione 9+",vuln_aff:"Affollamento",vuln_anz:"Quota 65+"};
     const pal=PAL_SEZ[modo]||PAL_SEZ.vuln;
-    const et=modo==="vuln_serv"||modo==="vuln_verde"?["poco","medio","molto"]:["basso","medio","alto"];
+    const et=["basso","medio","alto"];
     return `<div class="t">Vulnerabilità sociale · ${esc(nomi[modo]||modo)} ${TAG.sim}</div>`+
       `<div class="sc">`+pal.map((c,i)=>`<span style="background:${c}"></span>`).join("")+`</div>`+
       `<div class="et"><span>0</span><span>100</span></div>`;
   }
-  function legendaVulnCombo(){
-    return `<div class="t">Vulnerabilità × servizi</div>`+
-      `<div class="sc"><span style="background:#c8102e"></span><span style="background:#e8833a"></span><span style="background:#e0e4ea"></span></div>`+
-      `<div class="et"><span>Debole e senza</span><span>Debole ma servito</span><span>Non vulnerabile</span></div>`;
+  function legendaAcc(){
+    const g=$("subAccGruppo")?.value||"scuole";
+    const modalita=$("subAccModo")?.value||"piedi";
+    const nomi={scuole:"Scuole",salute:"Salute",cibo:"Cibo",fermate:"Fermate",verde:"Verde"};
+    const ac=accCalcola(), so=ac.sogl;
+    const avviso=(g==="scuole"||g==="salute"||g==="cibo")
+      ? `<div class="et" style="display:block">Cintura (fuori Torino): per ${nomi[g].toLowerCase()} il dato non è confrontabile con Torino, manca il catalogo comunale (non necessariamente il servizio).</div>` : "";
+    const fasciaOra = modalita==="tp" ? tpFasciaVicina(S.h) : null;
+    const titModo = modalita==="tp"
+      ? (fasciaOra!=null ? `con mezzi pubblici (45 min, fascia ${fasciaOra}:00)` : "con mezzi pubblici (45 min, nessuna fascia disponibile per quest'ora)")
+      : "a piedi (15 min)";
+    const noteModo = modalita==="tp"
+      ? (fasciaOra!=null
+          ? `Servizi del gruppo raggiungibili in 45 minuti con mezzi pubblici (cammino di accesso incluso), nella fascia oraria delle ${pad(S.h)}:00, calcolata sulla fascia ${fasciaOra}:00 (entro 1 ora). Grigio = dato non disponibile. Orario programmato: ottimista per definizione.`
+          : `Nessuna fascia calcolata (08/14/23/02) è entro 1 ora dalle ${pad(S.h)}:00: dato non disponibile per quest'ora, cambia l'orario nel visualizzatore per avvicinarti a una fascia.`)
+      : `Servizi del gruppo raggiungibili a piedi in 15 minuti (celle pesate di ~50 m, destinazioni uguali per tutte le sezioni). Grigio = dato non disponibile. Orario programmato: ottimista per definizione.`;
+    return `<div class="t">Accessibilità ${titModo} · ${esc(nomi[g]||g)} ${TAG.sim}</div>`
+      +scalaHtml(PAL_SEZ.acc,["poco",fnum(so[1]),fnum(so[3]),"molto"])
+      +`<div class="et" style="display:block">${noteModo}</div>`
+      +avviso;
+  }
+  function legendaFb(){
+    const g=$("subFbGruppo")?.value||"salute";
+    const nomi={scuole:"Scuole",salute:"Salute",cibo:"Cibo",fermate:"Fermate",verde:"Verde"};
+    const haCandidati = g==="salute"||g==="scuole";
+    const notaCand = haCandidati
+      ? `<div class="et" style="display:block">Pallini: zone candidate a un nuovo servizio (max 5, STIMATO) — clicca per i dettagli.</div>`
+      : `<div class="et" style="display:block">Candidati per un nuovo servizio non ancora calcolati per questo gruppo (solo analisi "dove manca").</div>`;
+    return `<div class="t">Dove manca un servizio · ${esc(nomi[g]||g)} ${TAG.sim}</div>`
+      +`<div class="sc"><span style="background:#c8102e"></span><span style="background:#f2c14e"></span><span style="background:#d8ecd8"></span></div>`
+      +`<div class="et"><span>zero</span><span>pochissimo</span><span>ok</span></div>`
+      +`<div class="et" style="display:block">Censimento 2021 + catalogo comunale (Torino) / OSM (cintura, dato più povero: zero/pochissimo lì è spesso mancanza di dato, non di servizio).</div>`
+      +notaCand;
   }
   function preparaSezioni(){
   if(!sez.length) return;
@@ -569,11 +601,18 @@ const sezRapp=(z,i)=>sezServ(z,i)/Math.max(z.pop400,1)*1000;
 let sezSoglie={};
 function calcolaSoglieSez(){
   if(!sezOk) return;
-  const vals={serv:[],rapp:[],dens:sez.map(z=>z.dens),crit:[],occ:[],sc:[],sen:[]};
+  const vals={serv:[],rapp:[],dens:sez.map(z=>z.dens),crit:[],occ:[],sc:[],sen:[],
+    vuln:[],vuln_occ:[],vuln_ist:[],vuln_aff:[],vuln_anz:[]};
   for(const z of sez){
     if(z.p1564>0 && z.occ!=null) vals.occ.push(z.occ/z.p1564*100);
     if(z.sc!=null) vals.sc.push(z.sc);
     if(z.sen!=null) vals.sen.push(z.sen);
+    if(z.v!=null) vals.vuln.push(z.v);
+    const vc=z.vcomp||{};
+    if(vc.occ!=null) vals.vuln_occ.push(vc.occ);
+    if(vc.ist!=null) vals.vuln_ist.push(vc.ist);
+    if(vc.aff!=null) vals.vuln_aff.push(vc.aff);
+    if(vc.anz!=null) vals.vuln_anz.push(vc.anz);
   }
   for(const z of sez) for(let h=7;h<=20;h+=1){ vals.serv.push(sezServ(z,h)); vals.rapp.push(sezRapp(z,h)); const cr=critSez(z,h); if(cr!==null) vals.crit.push(cr); }
   for(const k in vals){
@@ -609,11 +648,9 @@ const PAL_SEZ={dens:PAL_BASE, serv:PAL_BASE, rapp:PAL_RAPP, pend:PAL_PEND, crit:
   vuln_ist:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
   vuln_aff:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
   vuln_anz:["#4c9f70","#9cc27a","#f2c14e","#e8833a","#c8102e"],
-  vuln_serv:["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"],  // inverso: pochi servizi = vulnerabile
-  vuln_verde:["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"], // inverso: poco verde = vulnerabile
 };
-const PAL_VULN_COMBO={"debole_senza":"#c8102e","debole_servito":"#e8833a","ok":"#e0e4ea"};
-PAL_SEZ.vuln_combo = ["#e0e4ea","#e8833a","#c8102e"];
+PAL_SEZ.acc = ["#c8102e","#e8833a","#f2c14e","#9cc27a","#4c9f70"];   // rosso=pochi servizi raggiungibili, verde=molti
+PAL_SEZ.fb = ["#d8ecd8","#f2c14e","#c8102e"];   // [agente GT-faseb] 0=ok, 1=pochissimo, 2=zero
 
 /* [agente GT05-pendolari] pendolari ISTAT 2021 (comune contro comune): D.pend = {tor, com[], altri}; i = entrano a Torino [lavoro,studio], u = escono */
 const TORINO_PC=1272;
@@ -637,12 +674,39 @@ function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flu
 }
 const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
 /* combina gruppo×livello di vuoto in una delle 3 classi (per la mappa e per la scheda) */
-const vulnComboSez=(z)=>{
-  const gruppo=$("subVulnGruppo")?.value||"tutti", livello=$("subVulnLivello")?.value||"zero", gg=z.gruppi||{};
-  if(gruppo==="tutti"){ let w="ok"; for(const g in gg){ const c=(gg[g]||{})[livello]; if(c==="debole_senza") return c; if(c==="debole_servito") w=c; } return w; }
-  return (gg[gruppo]||{})[livello]||"ok";
-};
-const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="vuln_serv"?(z.vcomp||{}).serv:modo==="vuln_verde"?(z.vcomp||{}).verde:modo==="vuln_combo"?vulnComboSez(z):sezRapp(z,i);
+let accCache={k:""};
+// [agente GT-acc-tp] fascia oraria tp (08/14/23/02) piu' vicina all'ora corrente, su un orologio circolare.
+// Decisione 13/10 sera (Leo): l'ora deve corrispondere esattamente o entro 1h alla fascia, altrimenti
+// nessuna fascia è abbastanza vicina e il dato va trattato come non disponibile (null).
+function tpFasciaVicina(h){
+  const fasce=[8,14,23,2];
+  let best=fasce[0], bd=Infinity;
+  for(const f of fasce){ const d=Math.min(Math.abs(h-f),24-Math.abs(h-f)); if(d<bd){bd=d; best=f;} }
+  return bd<=1 ? String(best).padStart(2,"0") : null;
+}
+// [agente GT-acc-tp] valore di accessibilita' per sezione/gruppo/modalita' (piedi 15' o tp 45', fascia piu' vicina)
+function accValore(z, gruppo, modalita){
+  const a=z.acc||{};
+  if(modalita==="tp"){
+    const f=tpFasciaVicina(S.h);
+    return f==null ? undefined : ((a.tp||{})[f]||{})[gruppo];
+  }
+  return (a.piedi||{})[gruppo];
+}
+function accCalcola(){   // soglie dei quintili ricalcolate solo se cambiano gruppo/modalita/fascia oraria
+  const g=$("subAccGruppo")?.value||"scuole";
+  const modalita=$("subAccModo")?.value||"piedi";
+  const fascia=modalita==="tp"?tpFasciaVicina(S.h):"";
+  const k=g+"|"+modalita+"|"+fascia;
+  if(accCache.k===k) return accCache;
+  const v=[];
+  for(const z of sez){ const x=accValore(z,g,modalita); if(Number.isFinite(x)) v.push(x); }
+  v.sort((a,b)=>a-b);
+  const sogl=[.2,.4,.6,.8].map(q=>v.length?v[Math.min(v.length-1,Math.floor(q*v.length))]:0);
+  accCache={k,sogl};
+  return accCache;
+}
+const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="acc"?accValore(z,$("subAccGruppo")?.value||"scuole",$("subAccModo")?.value||"piedi"):modo==="fb"?null:sezRapp(z,i);
 
 const linee = D.linee.map((l,ii) => {
   const a=new Float64Array(l.p.length*2); let x0=1,y0=1,x1=0,y1=0;
@@ -663,6 +727,41 @@ const fermate = D.fermate.map(s=>({...s,x:px(s.lo),y:py(s.la)}));
 const sensori = D.sensori.map(s=>({...s,x:px(s.lo),y:py(s.la)}));
 let mezzi = D.mezzi.map(m=>({...m,x:px(m.lo),y:py(m.la)}));
 let mezziTs = D.meta.mezzi_ts*1000, t5Fine = Date.parse(D.meta.t5.end_time), inLive=false;
+/* [agente GT-avvisi] avvisi/disservizi GTT ancora attivi alla generazione, indicizzati per linea e fermata */
+const avvisiPerLinea = new Map(), avvisiPerFermata = new Map();
+(D.avvisi||[]).forEach(a=>{
+  (a.linee||[]).forEach(id=>{ if(!avvisiPerLinea.has(id)) avvisiPerLinea.set(id, []); avvisiPerLinea.get(id).push(a); });
+  (a.fermate||[]).forEach(id=>{ if(!avvisiPerFermata.has(id)) avvisiPerFermata.set(id, []); avvisiPerFermata.get(id).push(a); });
+});
+const fbCandidati = {};   // [agente GT-faseb] candidati fase B (salute/scuole) con coordinate proiettate
+for(const g in (D.fb_candidati||{})) fbCandidati[g] = (D.fb_candidati[g]||[]).map(c=>({...c, x:px(c.lon), y:py(c.lat)}));
+function schedaFbCandidato(c, gruppo){
+  const nomiFb={scuole:"Scuole",salute:"Salute",cibo:"Cibo",fermate:"Fermate",verde:"Verde"};
+  return creaScheda({
+    titolo: `Candidato: nuovo servizio ${nomiFb[gruppo]||gruppo}`,
+    badge: "sim",
+    sub: "Zona indicativa, non un indirizzo o terreno verificato",
+    val: `+${c.residenti_guadagnati.toLocaleString("it-IT")} residenti coperti`,
+    stato: `${c.n_sezioni_coperte} sezioni oggi a zero per questo gruppo, entro il raggio considerato`,
+    dettagli: [
+      { k: "Gruppo", v: nomiFb[gruppo]||gruppo },
+      { k: "Coordinate", v: `${c.lat.toFixed(5)}, ${c.lon.toFixed(5)}` }
+    ],
+    appTitolo: "Limiti",
+    approfondimento: `Centroide pesato delle sezioni scoperte vicine (cluster 400 m), calcolato su accessibilità a piedi in 15 minuti (velocità stimata 4,8 km/h). Non dice se il servizio basterebbe o verrebbe usato, né se il luogo è disponibile: è un'indicazione di dove la carenza è più concentrata, non un indirizzo pronto. Orario programmato: STIMATO. Solo Torino.`,
+    appAperto: true
+  });
+}
+function testoAvvisi(elenco){
+  if(!elenco || !elenco.length) return "";
+  return elenco.map(a=>{
+    const fino = a.fino!=null
+      ? (a.fino*1000 - Date.now() > 180*86400000 ? "fino a nuovo avviso" : `fino al ${fmt(a.fino*1000)}`)
+      : "";
+    const link = a.url ? ` · <a href="${esc(a.url)}" target="_blank" rel="noopener">dettagli GTT</a>` : "";
+    return `<div class="sc-avviso-voce"><b>⚠ ${esc(a.header)}</b>${fino?` · ${esc(fino)}`:""}<br><span style="white-space:pre-line">${esc(a.descrizione||"")}</span>${link}</div>`;
+  }).join("");
+}
 const ST = () => window.STAT || null;
 const LV = () => window.LIVE || null;
 
@@ -907,18 +1006,31 @@ function disegnaBase(ws,ox,oy,i){
   if(vis("Lsez") && sezOk){
     const modo=$("modoSez").value, pal=PAL_SEZ[modo], dettaglio=view.zoom>=14;
     const pc=modo==="pend"?pendCalcola():null;   // [agente GT05-pendolari]
+    const ac=modo==="acc"?accCalcola():null;   // accessibilità: soglie del gruppo scelto
+    const fbGruppo=modo==="fb"?($("subFbGruppo")?.value||"salute"):null;   // [agente GT-faseb] dove manca un servizio
     for(const z of sez){
       if(!dentroVista(z.bb,ws,ox,oy)) continue;
       // [agente GT05-pendolari] tema Pendolari: colore = valore del comune della sezione; grigio = Torino o nessun flusso
       const vp=pc?(pc.val.get(z.c)||0):0;
-      const valore = pc ? vp : valSez(z,modo,i);
-      const nulla = pc ? (z.c===TORINO_PC || !vp) : modo==="crit" ? critSez(z,i)===null : (modo==="serv"||modo==="rapp") ? sezServ(z,i)===0 : valore==null;
-      const c=pc ? (pc.sogl?pc.sogl.filter(x=>vp>x).length:0) : classeSez(valore,modo);
+      const valore = pc ? vp : fbGruppo ? null : valSez(z,modo,i);
+      const nulla = pc ? (z.c===TORINO_PC || !vp) : fbGruppo ? false : modo==="crit" ? critSez(z,i)===null : (modo==="serv"||modo==="rapp") ? sezServ(z,i)===0 : valore==null;
+      const c=pc ? (pc.sogl?pc.sogl.filter(x=>vp>x).length:0) : ac ? ac.sogl.filter(x=>valore>x).length
+        : fbGruppo ? (((z.fb||{})[fbGruppo]==="zero")?2:((z.fb||{})[fbGruppo]==="pochissimo")?1:0)
+        : classeSez(valore,modo);
       // [agente GT02-temi] riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
-      cx.fillStyle=nulla?"#9aa0ad":(modo==="vuln_combo"?PAL_VULN_COMBO[valore]||"#e0e4ea":pal[c]); cx.globalAlpha=nulla?.35:AREA_ALPHA;
+      cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:AREA_ALPHA;
       for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.fill(); }
       cx.globalAlpha=1;
       if(dettaglio){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
+    }
+    if(fbGruppo && (fbGruppo==="salute"||fbGruppo==="scuole")){   // [agente GT-faseb] zone candidate a un nuovo servizio
+      for(const cnd of (fbCandidati[fbGruppo]||[])){
+        const X=cnd.x*ws-ox, Y=cnd.y*ws-oy;
+        if(X<-20||X>W+20||Y<-20||Y>H+20) continue;
+        cx.beginPath(); cx.arc(X,Y,7,0,6.2832); cx.fillStyle="#1d2330"; cx.fill();
+        cx.lineWidth=2; cx.strokeStyle="#fff"; cx.stroke();
+        cx.beginPath(); cx.arc(X,Y,3,0,6.2832); cx.fillStyle="#fff"; cx.fill();
+      }
     }
   }
   if(tema.id==="pendolari" && PEND && pendTor){   // [agente GT05-pendolari] linee dritte dal baricentro di ogni comune a Torino, spessore proporzionale al flusso
@@ -1177,7 +1289,7 @@ function dentroZona(z,ux,uy){
   return false;
 }
 // [agente GT17] generatore unico per tutte le schede informative al clic (struttura standard a 4 sezioni)
-function creaScheda({ titolo, badge, sub, val, stato, dettagli, appTitolo, approfondimento, appAperto }){
+function creaScheda({ titolo, badge, sub, val, stato, dettagli, appTitolo, approfondimento, appAperto, avviso }){
   const tagKey = badge ? ({"programmato":"prog","misurato":"mis","censimento":"cens","stimato":"sim"}[badge.toLowerCase()] || badge) : null;
   const bHtml = tagKey ? (TAG[tagKey] || (tagKey.startsWith("<") ? tagKey : `<span class="tag ${tagKey}">${tagKey.toUpperCase()}</span>`)) : "";
   const detHtml = (dettagli||[]).map(d => {
@@ -1189,12 +1301,14 @@ function creaScheda({ titolo, badge, sub, val, stato, dettagli, appTitolo, appro
       <summary>${appTitolo || "Approfondimento"}</summary>
       <div class="sc-app-body">${approfondimento}</div>
     </details>` : "";
+  const avvisoHtml = avviso ? `<div class="sc-avviso">${avviso}</div>` : "";
   return `
     <div class="sc-card">
       <div class="sc-head">
         <div class="sc-title-row"><strong class="sc-title">${titolo}</strong> ${bHtml}</div>
         ${sub ? `<div class="sc-sub">${sub}</div>` : ""}
       </div>
+      ${avvisoHtml}
       ${val ? `
       <div class="sc-main">
         <div class="sc-val">${val}</div>
@@ -1253,7 +1367,8 @@ function schedaFermata(s, click){
     ],
     appTitolo: "Prossimi passaggi programmati",
     approfondimento: appContenuto,
-    appAperto: righeProssimi.length > 0
+    appAperto: righeProssimi.length > 0,
+    avviso: testoAvvisi(avvisiPerFermata.get(s.id))
   });
 }
 
@@ -1299,7 +1414,8 @@ function schedaLinea(l){
     dettagli: det,
     appTitolo: "Dettagli percorso e velocità",
     approfondimento: app,
-    appAperto: false
+    appAperto: false,
+    avviso: testoAvvisi(avvisiPerLinea.get(l.id))
   });
 }
 
@@ -1364,6 +1480,15 @@ function schedaMezzo(m){
   });
 }
 
+// [agente GT-regia] classifica il modo attivo in famiglie, per decidere quali campi di
+// contesto mostrare in scheda/tooltip (niente dati non pertinenti al tema guardato)
+function famigliaModo(modo){
+  if(modo === "fb") return "fb";
+  if(modo === "acc") return "acc";
+  if(modo === "vuln" || modo.startsWith("vuln_")) return "vuln";
+  if(modo === "occ" || modo === "sc" || modo === "sen") return "demo";
+  return "trasporto";
+}
 function schedaSezione(z){
   const i = idx();
   const hh = pad(S.h);
@@ -1396,20 +1521,34 @@ function schedaSezione(z){
   } else if(modo === "crit"){
     val = crit === null ? "non calcolabile" : `Criticità ${crit}/100`;
     stato = crit === null ? "Nessun residente nella sezione" : `Livello: ${critEtichetta(crit)}`;
-  } else if(modo.startsWith("vuln_") && modo !== "vuln_combo"){
-    const compNomi = {vuln_occ:"Non occupati 15–64",vuln_ist:"Bassa istruzione 9+",vuln_aff:"Affollamento",vuln_anz:"Quota 65+",vuln_serv:"Servizi a piedi",vuln_verde:"Verde a piedi"};
+  } else if(modo.startsWith("vuln_")){
+    const compNomi = {vuln_occ:"Non occupati 15–64",vuln_ist:"Bassa istruzione 9+",vuln_aff:"Affollamento",vuln_anz:"Quota 65+"};
     const raw = (z.vcomp||{})[modo.replace("vuln_","")];
     val = raw!=null ? `Percentile ${(raw*100).toFixed(1)}` : "Dato non disponibile";
     stato = `Componente: ${compNomi[modo] || modo} (0 = meno vulnerabile, 1 = più vulnerabile)`;
   } else if(modo === "vuln"){
     val = z.v!=null ? `${z.v} / 100` : "Dato non disponibile";
     stato = "Indice composito di vulnerabilità (media pesata dei percentili delle componenti)";
-  } else if(modo === "vuln_combo"){
-    const gruppo = $("subVulnGruppo")?.value || "tutti";
-    const livello = $("subVulnLivello")?.value || "zero";
-    const combo = vulnComboSez(z);
-    val = {"debole_senza":"Debole e senza servizio","debole_servito":"Debole ma con servizi","ok":"Non vulnerabile"}[combo] || combo;
-    stato = `Gruppo: ${gruppo} · Livello vuoto: ${livello} · v = ${z.v!=null?z.v:"n/d"}`;
+  } else if(modo === "acc"){
+    const gruppo = $("subAccGruppo")?.value || "scuole";
+    const modalitaAcc = $("subAccModo")?.value || "piedi";
+    const nomiAcc = {scuole:"Scuole",salute:"Salute",cibo:"Cibo",fermate:"Fermate",verde:"Verde"};
+    const raw = accValore(z, gruppo, modalitaAcc);
+    val = raw!=null ? `${Math.round(raw).toLocaleString("it-IT")} servizi raggiungibili` : "Dato non disponibile";
+    const nonConfr = (gruppo==="scuole"||gruppo==="salute"||gruppo==="cibo") && z.c!==TORINO_PC;
+    const fasciaOraSc = modalitaAcc==="tp" ? tpFasciaVicina(S.h) : null;
+    const modoAccTxt = modalitaAcc==="tp"
+      ? (fasciaOraSc!=null ? `mezzi pubblici, 45 min (fascia ${fasciaOraSc}:00, STIMATO)` : "mezzi pubblici, 45 min (nessuna fascia entro 1h da quest'ora, STIMATO)")
+      : "a piedi, 15 min (STIMATO)";
+    stato = `Gruppo: ${nomiAcc[gruppo]||gruppo} · ${modoAccTxt}`+(nonConfr?" · cintura: non confrontabile con Torino":"");
+  } else if(modo === "fb"){
+    const gruppo = $("subFbGruppo")?.value || "salute";
+    const nomiFb = {scuole:"Scuole",salute:"Salute",cibo:"Cibo",fermate:"Fermate",verde:"Verde"};
+    const liv = (z.fb||{})[gruppo];
+    val = liv==="zero" ? "Nessun servizio essenziale entro 15 min a piedi"
+      : liv==="pochissimo" ? "Pochissimi servizi entro 15 min a piedi"
+      : "Servizio adeguato (fuori dalle sezioni più scoperte)";
+    stato = `Gruppo: ${nomiFb[gruppo]||gruppo} (STIMATO, censimento 2021 + catalogo comunale/OSM)`;
   } else {
     val = `${serv} passaggi/ora`;
     stato = `Rapporto: ${rapp.toFixed(0)} / 1000 ab.`;
@@ -1423,17 +1562,36 @@ function schedaSezione(z){
   ] : modo === "sen" ? [
     { k: "Residenti 65 anni e oltre", v: z.sen==null ? "n/d" : `${z.sen.toLocaleString("it-IT")} (${z.p>0?(z.sen/z.p*100).toFixed(1):"0.0"}%)` }
   ] : [];
-  const det = [...profilo,
+  const fam = famigliaModo(modo);   // [agente GT-regia] solo campi pertinenti al tema guardato
+  const contestoBase = [
+    { k: "Residenti sezione", v: `${z.p} abitanti (${Math.round(z.dens)} / km²)` },
+    { k: "Superficie", v: `${z.km2.toFixed(3)} km²` }
+  ];
+  const contestoServizio = [
     { k: "Indice di criticità (ore " + hh + ")", v: critTxt },   // [agente GT18-punti-critici-integrati]
     { k: "Residenti sezione", v: `${z.p} abitanti (${Math.round(z.dens)} / km²)` },
     { k: "Popolazione entro 400 m", v: `${z.pop400} residenti` },
     { k: "Fermate entro 400 m", v: `${z.st.length} fermate GTT` },
     { k: "Passaggi GTT alle " + hh + ":00", v: `${serv} passaggi/ora programmati` }
   ];
-  const app = `<b>Territorio:</b> Comune ${codComune}, superficie ${z.km2.toFixed(3)} km².<br>`
-    + `<b>Dati ISTAT:</b> Censimento 2021. Occupati e fasce d'età sono residenti nella sezione, non conteggi di spostamenti; gli occupati non indicano luogo, orario o mezzo di lavoro. La fascia 5–14 anni è solo un possibile indicatore di domanda scolastica.<br>`
-    + `<b>Offerta:</b> passaggi orari programmati GTT alle fermate entro 400 metri dal baricentro della sezione. Fuori Torino possono mancare le corse di altri operatori extraurbani.<br>`
-    + `<b>Indice di criticità (STIMA, non misura):</b> da 0 a 100 in base ai passaggi programmati ogni 1000 residenti entro 400 m, confrontati con le altre sezioni dell'area nelle ore 7-20. 100 = nessun passaggio; 80 o più = il peggior quinto. Considera solo i residenti, non pendolari né turisti.`;
+  const det = [...profilo, ...(fam === "trasporto" ? contestoServizio : contestoBase)];
+  let app = `<b>Territorio:</b> Comune ${codComune}, superficie ${z.km2.toFixed(3)} km².<br>`;
+  if(fam === "demo"){
+    app += `<b>Dati ISTAT:</b> Censimento 2021. Occupati e fasce d'età sono residenti nella sezione, non conteggi di spostamenti; gli occupati non indicano luogo, orario o mezzo di lavoro. La fascia 5–14 anni è solo un possibile indicatore di domanda scolastica.`;
+  } else if(fam === "trasporto"){
+    app += `<b>Dati ISTAT:</b> Censimento 2021. Occupati e fasce d'età sono residenti nella sezione, non conteggi di spostamenti; gli occupati non indicano luogo, orario o mezzo di lavoro. La fascia 5–14 anni è solo un possibile indicatore di domanda scolastica.<br>`
+      + `<b>Offerta:</b> passaggi orari programmati GTT alle fermate entro 400 metri dal baricentro della sezione. Fuori Torino possono mancare le corse di altri operatori extraurbani.<br>`
+      + `<b>Indice di criticità (STIMA, non misura):</b> da 0 a 100 in base ai passaggi programmati ogni 1000 residenti entro 400 m, confrontati con le altre sezioni dell'area nelle ore 7-20. 100 = nessun passaggio; 80 o più = il peggior quinto. Considera solo i residenti, non pendolari né turisti.`;
+  } else if(fam === "vuln"){
+    app += `<b>Vulnerabilità sociale (STIMA):</b> indice composito che combina occupazione, istruzione, affollamento abitativo e quota di anziani per sezione, su base censimento 2021. Percentili calcolati sull'area coperta dai dati (0 = meno vulnerabile, 1 = più vulnerabile).`;
+  } else if(fam === "acc"){
+    const modoAccApp = ($("subAccModo")?.value||"piedi")==="tp"
+      ? "con mezzi pubblici in 45 minuti, calcolato su una delle 4 fasce orarie disponibili (08/14/23/02) solo se entro 1 ora da quella selezionata — altrimenti il dato non è disponibile"
+      : "a piedi in 15 minuti (velocità stimata 4,8 km/h)";
+    app += `<b>Accessibilità ai servizi (STIMA):</b> numero di servizi del gruppo scelto raggiungibili ${modoAccApp}, calcolato per ogni sezione di censimento.`;
+  } else if(fam === "fb"){
+    app += `<b>Dove manca un servizio (STIMA):</b> "zero" = nessun servizio del gruppo entro 15 minuti a piedi; "pochissimo" = sotto la soglia del peggior 10% delle sezioni di Torino. Fuori Torino (cintura) il dato è spesso mancanza del catalogo comunale, non assenza reale del servizio: non confrontabile con Torino.`;
+  }
   return creaScheda({
     titolo: "Sezione di censimento",
     badge: "cens",
@@ -1554,6 +1712,19 @@ function cercaTip(sx,sy,click){
     }
   }
 
+  // 0bis. Candidati Fase B ("dove aggiungere un servizio", se il gruppo scelto li ha)
+  if(tema.id==="faseb"){
+    const fbGruppo=$("subFbGruppo")?.value||"salute";
+    if(fbGruppo==="salute"||fbGruppo==="scuole"){
+      const cnd=vicino(fbCandidati[fbGruppo]||[],10);
+      if(cnd){
+        if(click) return apriScheda(schedaFbCandidato(cnd,fbGruppo), null);
+        cv.style.cursor="pointer";
+        return mostraTipBase(tipC("Candidato nuovo servizio", `+${cnd.residenti_guadagnati.toLocaleString("it-IT")} residenti`, `${fbGruppo} · ${cnd.n_sezioni_coperte} sezioni (STIMATO)`), sx, sy);
+      }
+    }
+  }
+
   // 1. Mezzi reali GTT
   if(vis("Lmezzi")){ const m=vicino(mezzi,9);
     if(m){
@@ -1617,7 +1788,7 @@ function cercaTip(sx,sy,click){
         if(click) return apriScheda(schedaSezione(z), z);
         cv.style.cursor="pointer";
         const modo=$("modoSez").value;
-        let val;
+        let nome="Sezione di censimento", val, extra=z.c?("Comune "+String(z.c).padStart(6,"0")):"Torino";
         if(modo==="rapp") val=`${sezRapp(z,i).toFixed(0)} passaggi/1000 ab.`;
         else if(modo==="serv") val=`${sezServ(z,i)} passaggi/ora`;
         else if(modo==="dens") val=`${Math.round(z.dens)} ab./km²`;
@@ -1625,8 +1796,30 @@ function cercaTip(sx,sy,click){
         else if(modo==="sc") val = z.sc!=null ? `${z.sc.toLocaleString("it-IT")} residenti 5–14` : "dato non disponibile";
         else if(modo==="sen") val = z.sen!=null ? `${z.sen.toLocaleString("it-IT")} residenti 65+` : "dato non disponibile";
         else if(modo==="crit"){ const cr=critSez(z,i); val = cr===null?"non calcolabile":`Criticità ${cr}/100`; }
-        else val=`${sezServ(z,i)} passaggi/ora`;
-        return mostraTipBase(tipC("Sezione di censimento", val, z.c?("Comune "+String(z.c).padStart(6,"0")):"Torino"), sx, sy);
+        else if(modo==="vuln"){
+          nome="Vulnerabilità sociale"; extra="indice composito (STIMA)";
+          val = z.v!=null ? `${z.v} / 100` : "dato non disponibile";
+        } else if(modo.startsWith("vuln_")){
+          const compNomiTip={vuln_occ:"Non occupati 15–64",vuln_ist:"Bassa istruzione 9+",vuln_aff:"Affollamento",vuln_anz:"Quota 65+"};
+          nome="Vulnerabilità sociale"; extra="";
+          const raw=(z.vcomp||{})[modo.replace("vuln_","")];
+          val = raw!=null ? `${compNomiTip[modo]||modo}: percentile ${(raw*100).toFixed(1)}` : "dato non disponibile";
+        } else if(modo==="acc"){
+          nome="Accessibilità ai servizi";
+          const gruppo=$("subAccGruppo")?.value||"scuole";
+          const modalitaAcc=$("subAccModo")?.value||"piedi";
+          extra = modalitaAcc==="tp" ? "mezzi pubblici, 45 min (STIMATO)" : "a piedi, 15 min (STIMATO)";
+          const nomiAcc={scuole:"Scuole",salute:"Salute",cibo:"Cibo",fermate:"Fermate",verde:"Verde"};
+          const raw=accValore(z,gruppo,modalitaAcc);
+          val = raw!=null ? `${Math.round(raw).toLocaleString("it-IT")} ${nomiAcc[gruppo]||gruppo} raggiungibili` : "dato non disponibile";
+        } else if(modo==="fb"){
+          nome="Dove manca un servizio"; extra="STIMATO";
+          const gruppo=$("subFbGruppo")?.value||"salute";
+          const nomiFb={scuole:"Scuole",salute:"Salute",cibo:"Cibo",fermate:"Fermate",verde:"Verde"};
+          const liv=(z.fb||{})[gruppo];
+          val = (liv==="zero"?"Zero":liv==="pochissimo"?"Pochissimo":"Ok")+` · ${nomiFb[gruppo]||gruppo}`;
+        } else val=`${sezServ(z,i)} passaggi/ora`;
+        return mostraTipBase(tipC(nome, val, extra), sx, sy);
       }
     }
   }
@@ -1711,7 +1904,7 @@ function riepilogoQuando(){
 }
 function aggiornaOra(){ $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando(); riepilogoQuando(); chiede(); imqNotaOra(); }
 document.querySelectorAll("#giorno button").forEach(b=>b.onclick=()=>{ S.dt=+b.dataset.k; document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",x===b)); aggiornaOra(); aggiornaLegenda(); });
-$("ora").oninput=e=>{S.m=+e.target.value; aggiornaOra();};
+$("ora").oninput=e=>{S.m=+e.target.value; aggiornaOra(); aggiornaLegenda();};
 function adesso(){
   let dt=0,h=new Date().getHours(),mi=new Date().getMinutes();
   try{
@@ -1970,10 +2163,14 @@ const THEMES = [
   {id:"vulnerabilita", label:"Vulnerabilità sociale", desc:"Indice di vulnerabilità per sezione: occupazione, istruzione, affollamento, anziani + accessibilità a servizi e verde.",
    area:{tipo:"sez",modo:"vuln"}, over:{...NESSUNA}, vuln:true, opzioni:["subVuln"],
    legenda:()=>legendaVuln($("subVuln")?$("subVuln").value:"vuln")},
-  // 9. Vulnerabilità × servizi (incrocio con vuoto servizio)
-  {id:"vuln_servizi", label:"Vulnerabilità × servizi", desc:"Dove vulnerabilità alta e mancanza di servizi essenziali coincidono. Seleziona il gruppo per vedere l'incrocio.",
-   area:{tipo:"sez",modo:"vuln_combo"}, over:{...NESSUNA}, vulnCombo:true, opzioni:["subVulnGruppo","subVulnLivello"],
-   legenda:()=>legendaVulnCombo()}
+  // 9. Accessibilità ai servizi essenziali (a piedi, 15 minuti, per gruppo)
+  {id:"accessibilita", label:"Accessibilità ai servizi", desc:"Quanti servizi di un gruppo essenziale si raggiungono per sezione, a piedi (15 min) o con mezzi pubblici (45 min) — STIMATO, orario programmato. Seleziona gruppo e modalità.",
+   area:{tipo:"sez",modo:"acc"}, over:{...NESSUNA}, opzioni:["subAccGruppo","subAccModo"],
+   legenda:()=>legendaAcc()},
+  // 10. Dove manca un servizio (fase A: zero/pochissimo per gruppo) + candidati fase B dove gia' calcolati
+  {id:"faseb", label:"Dove mancano i servizi", desc:"Sezioni dove un servizio essenziale manca (zero) o è molto scarso (pochissimo), per gruppo. Dove già calcolato (salute, scuole), mostra anche le zone candidate a un nuovo servizio. STIMATO.",
+   area:{tipo:"sez",modo:"fb"}, over:{...NESSUNA}, opzioni:["subFbGruppo"],
+   legenda:()=>legendaFb()}
 ];
 let tema = THEMES[0];   // [agente GT16] tema di partenza: Servizio e abitanti
 
@@ -2006,21 +2203,24 @@ const OPZIONI = {
     ["vuln_occ","Non occupati 15–64"],
     ["vuln_ist","Bassa istruzione 9+"],
     ["vuln_aff","Affollamento abitazioni"],
-    ["vuln_anz","Quota 65+"],
-    ["vuln_serv","Servizi a piedi (pochi=vulnerabile)"],
-    ["vuln_verde","Verde a piedi (poco=vulnerabile)"]]},
-  subVulnGruppo:{etichetta:"Servizio essenziale", voci:[
-    ["tutti","Tutti i gruppi (almeno uno)"],
+    ["vuln_anz","Quota 65+"]]},   // servizi/verde a piedi: ora nel tema Accessibilità
+  subAccGruppo:{etichetta:"Servizio essenziale", voci:[
     ["scuole","Scuole"],
     ["salute","Salute"],
     ["cibo","Cibo"],
     ["fermate","Fermate"],
     ["verde","Verde"]]},
-  subVulnLivello:{etichetta:"Livello di vuoto", voci:[
-    ["zero","Zero (nessun servizio)"],
-    ["pochissimo","Pochissimo (sotto 10° percentile)"]]},
+  subAccModo:{etichetta:"Modalità", voci:[
+    ["piedi","A piedi (15 min)"],
+    ["tp","Mezzi pubblici (45 min)"]]},
+  subFbGruppo:{etichetta:"Servizio essenziale", voci:[
+    ["salute","Salute"],
+    ["scuole","Scuole"],
+    ["cibo","Cibo"],
+    ["fermate","Fermate"],
+    ["verde","Verde"]]},
 };
-const OPT_VAL = {subServizio:"rapp", pendTipo:"lav", pendDir:"in", pendVal:"rel", omiTipo:"ab", imqMet:"ora_tot"};
+const OPT_VAL = {subServizio:"rapp", pendTipo:"lav", pendDir:"in", pendVal:"rel", omiTipo:"ab", imqMet:"ora_tot", subAccModo:"piedi", subFbGruppo:"salute"};
 const HANDLERS = {
   subServizio:()=>{ impostaSubServizio($("subServizio").value, true); baseVer++; chiede(); aggiornaLegenda(); },
   pendTipo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
@@ -2029,8 +2229,9 @@ const HANDLERS = {
   omiTipo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
   imqMet:()=>{ baseVer++; imqNotaOra(); chiede(); aggiornaLegenda(); },
   subVuln:()=>{ $("modoSez").value=$("subVuln").value; baseVer++; chiede(); aggiornaLegenda(); },
-  subVulnGruppo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
-  subVulnLivello:()=>{ baseVer++; chiede(); aggiornaLegenda(); }
+  subAccGruppo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  subAccModo:()=>{ baseVer++; chiede(); aggiornaLegenda(); },
+  subFbGruppo:()=>{ baseVer++; chiede(); aggiornaLegenda(); }
 };
 function renderOpzioni(){
   const box=$("boxOpzioni"); if(!box) return;
@@ -2053,6 +2254,7 @@ function renderOpzioni(){
 
 /* cambia tema: imposta area colorata e sovrapposizioni; non ricostruisce dati, cambia solo cosa si disegna */
 function applicaTema(id){
+  chiudiScheda(); nascondiTip();   // [agente GT-regia] niente pannello/tooltip del tema precedente
   // mappatura protettiva vecchi id tema
   if(id==="offerta"){ id="servizio"; OPT_VAL.subServizio="serv"; }
   else if(id==="domanda"){ id="servizio"; OPT_VAL.subServizio="dens"; }
@@ -2064,7 +2266,6 @@ function applicaTema(id){
   $("Lsez").checked = !!(a && a.tipo==="sez"); $("Lzone").checked = !!(a && a.tipo==="zone"); $("Lomi").checked = !!(a && a.tipo==="omi"); $("LImq").checked = !!(a && a.tipo==="imq");   // mai due colorazioni insieme
   if(a && a.tipo==="sez") $("modoSez").value=a.modo;
   if(tema.vuln) $("modoSez").value = $("subVuln")?.value || "vuln";
-  if(tema.vulnCombo) $("modoSez").value = "vuln_combo";
   for(const k in tema.over) $(k).checked = !!tema.over[k];
   $("temi").value=tema.id;
   $("temaDesc").textContent=tema.desc;

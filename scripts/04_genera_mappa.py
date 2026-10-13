@@ -840,6 +840,32 @@ def main():
         print(f"  vulnerabilità mappa: {len(vuln_data['sezioni'])} sezioni")
     vuln = {x["id"]: x for x in vuln_data.get("sezioni", [])}
 
+    # ---- accessibilità per gruppo, a piedi (15') e con mezzi pubblici (45', 4 fasce orarie) ----
+    # (dal file 18, tema "Accessibilità ai servizi")
+    acc = {}
+    f_acc = RADICE / "data" / "processed" / "accessibilita.json"
+    if f_acc.is_file():
+        acc_data = json.loads(f_acc.read_text(encoding="utf-8"))
+        acc = {x["id"]: {"piedi": x.get("piedi", {}).get("15", {}), "tp": x.get("tp", {})}
+               for x in acc_data.get("sezioni", [])}
+        print(f"  accessibilità a piedi e TP: {len(acc)} sezioni")
+
+    # ---- risultato 1: dove manca un servizio (fase A, per gruppo) + candidati per aggiungerne uno (fase B) ----
+    fb_zero = {}
+    f_fb = RADICE / "data" / "processed" / "risultato1_vuoti.json"
+    if f_fb.is_file():
+        fb_data = json.loads(f_fb.read_text(encoding="utf-8"))
+        fb_zero = {x["id"]: x.get("manca", {}) for x in fb_data.get("sezioni_manca", [])}
+        print(f"  risultato1 (dove manca un servizio): {len(fb_zero)} sezioni segnalate")
+    fb_candidati = {}
+    f_fbc = RADICE / "data" / "processed" / "risultato1_candidati.json"
+    if f_fbc.is_file():
+        fbc_data = json.loads(f_fbc.read_text(encoding="utf-8"))
+        for g, gd in fbc_data.get("gruppi", {}).items():
+            fb_candidati[g] = [{"lat": c["lat"], "lon": c["lon"], "residenti_guadagnati": c["residenti_guadagnati"],
+                                 "n_sezioni_coperte": c["n_sezioni_coperte"]} for c in gd.get("candidati_scelti", [])]
+        print(f"  risultato1 (candidati nuovo servizio): {', '.join(f'{g}:{len(v)}' for g, v in fb_candidati.items())}")
+
     sez, f_sez = [], RADICE / "data" / "processed" / "sezioni_torino.json"
     if f_sez.is_file():
         sez = [{"p": x["p"], "a": x["a"], "g": x["g"], "c": x.get("c", 0), "f": x.get("f", 0), "ab": x.get("ab", 0),
@@ -847,7 +873,9 @@ def main():
                 "v": vuln.get(x.get("id",""), {}).get("v"),
                 "vcomp": vuln.get(x.get("id",""), {}).get("comp", {}),
                 "manca": vuln.get(x.get("id",""), {}).get("manca", {}),
-                "gruppi": vuln.get(x.get("id",""), {}).get("gruppi", {})}
+                "gruppi": vuln.get(x.get("id",""), {}).get("gruppi", {}),
+                "acc": acc.get(x.get("id",""), {}),
+                "fb": fb_zero.get(x.get("id",""), {})}
                for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]   # indicatori ISTAT 2021 per residenti
         print(f"  sezioni di censimento abitate: {len(sez)}, abitanti {sum(x['p'] for x in sez)}, famiglie {sum(x['f'] for x in sez)}, abitazioni {sum(x['ab'] for x in sez)}")
     else:
@@ -858,6 +886,26 @@ def main():
     omi = leggi_omi()
     imq = leggi_imq()
     catalogo = prepara_catalogo()   # indice dei nuovi dati + file js per il caricamento su richiesta
+
+    # ---- avvisi/disservizi GTT ancora attivi (linee/fermate coinvolte), badge nel tema Servizio GTT ----
+    avvisi_out = []
+    candidati_avvisi = sorted((RADICE / "data" / "processed").glob("avvisi_*.json"))
+    if candidati_avvisi:
+        f_avv = candidati_avvisi[-1]   # il piu' recente per nome file (data nel nome, es. avvisi_20261009.json)
+        avv_data = json.loads(f_avv.read_text(encoding="utf-8"))
+        ora_ts = datetime.now(timezone.utc).timestamp()
+        tutti = avv_data.get("avvisi", [])
+        for a in tutti:
+            attivi = [p for p in a.get("periodi", []) if p.get("end", 0) >= ora_ts]
+            if not attivi:
+                continue   # avviso gia' concluso rispetto a oggi: non lo mostriamo (dato puo' invecchiare)
+            avvisi_out.append({
+                "id": a.get("id"), "header": a.get("header"), "descrizione": a.get("descrizione"),
+                "severita": a.get("severita"), "effetto": a.get("effetto"), "causa": a.get("causa"),
+                "url": a.get("url"), "linee": a.get("linee", []), "fermate": a.get("fermate", []),
+                "fino": max(p["end"] for p in attivi),
+            })
+        print(f"  avvisi GTT: {len(avvisi_out)}/{len(tutti)} ancora attivi (da {f_avv.name})")
 
     dati = {
         "vel": vel or {}, "vel_meta": vel_meta,   # [agente GT04-velocita]
@@ -872,6 +920,8 @@ def main():
             "file": {"gtfs": f_gtfs.name, "t5": f_5t.name, "mezzi": f_vp.name, "zone": f_zone.name},
         },
         "rotte": rotte, "linee": linee, "fermate": stops, "sensori": sensori, "mezzi": mezzi, "zone": zone, "sezioni": sez, "corse": corse,
+        "avvisi": avvisi_out,
+        "fb_candidati": fb_candidati,
     }
     testo = json.dumps(dati, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
     html = TEMPLATE.read_text(encoding="utf-8").replace('"__DATI__"', testo)
