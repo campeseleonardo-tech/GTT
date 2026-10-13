@@ -635,7 +635,7 @@ function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flu
   return pendCache;
 }
 const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
-const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:sezRapp(z,i):modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="vuln_serv"?(z.vcomp||{}).serv:modo==="vuln_verde"?(z.vcomp||{}).verde:modo==="vuln_combo"?z.vgruppi||{};
+const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="crit"?(critSez(z,i)??0):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="vuln_serv"?(z.vcomp||{}).serv:modo==="vuln_verde"?(z.vcomp||{}).verde:modo==="vuln_combo"?z.vgruppi||{}:sezRapp(z,i);
 
 const linee = D.linee.map((l,ii) => {
   const a=new Float64Array(l.p.length*2); let x0=1,y0=1,x1=0,y1=0;
