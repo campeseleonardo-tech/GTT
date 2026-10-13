@@ -49,7 +49,7 @@ ritardi, capienza, domanda reale. [PROGRAMMATO]/[STIMATO], non [MISURATO]."
 | Raccolta dati (Pi "leopi", 192.168.8.200) | Attiva dal 3/10, systemd `gtt-raccolta`/`gtt-ritardi` |
 | Mappa (`04_genera_mappa.py`) | Pronta, 7 temi |
 | Accessibilità (script 18, 8.317 sezioni, R5/r5py) | **Fatta e controllata** (giro completo 12/10) |
-| Vulnerabilità (script 19) | Pronta; in mappa da sola e incrociata col Risultato 1 (vuoto di servizio × deboli). Il 13/10 la legenda combinata usa ora `PAL_SEZ.vuln_combo` e il tag SIMULATO (prima mostrava "undefined"). |
+| Vulnerabilità (script 19) | Pronta; in mappa da sola e incrociata col Risultato 1 (vuoto di servizio × deboli). Il 13/10: legenda combinata con `PAL_SEZ.vuln_combo` e tag SIMULATO; fix finale incrocio (04 legge `gruppi` da vulnerabilita_mappa.json, `modoSez` segue subVuln, colori combo da `PAL_VULN_COMBO`). |
 | Risultato 1, fase A — dove mancano i servizi (script 21) | **Fatta.** 10.919 residenti a Torino senza nessun servizio essenziale a 15' a piedi (1,3% su 848.748); gruppo peggiore: **salute** (9.104 res./138 sez.); ranking: salute>scuole>cibo>fermate>verde |
 | Risultato 1, fase B — dove aggiungere un servizio (script 22) | **Fatta per salute, scuole, cibo**: criteri relativi (coprire l'X% dei residenti a zero per gruppo, max candidati per tipologia). Cibo ora incluso, verde e fermate rinviati a un prossimo risultato. |
 
