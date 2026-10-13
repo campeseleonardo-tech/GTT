@@ -1921,7 +1921,15 @@ const THEMES = [
    area:{tipo:"imq"}, over:{...NESSUNA}, imq:true, opzioni:["imqMet"], legenda:legendaImq},
   // 7. Catalogo dei dati (nuovi dati comunali, un gruppo alla volta, caricato su richiesta)
   {id:"catalogo", label:"Catalogo dei dati", desc:"Nuovi dati comunali (scuole, salute, cultura, sicurezza, sport, reti, servizi), un gruppo alla volta. Sono luoghi e attrattori potenziali: senza iscritti, capienze o flussi non sono conteggi di viaggi.",
-   area:null, over:{...NESSUNA}, catalogo:true, legenda:legendaCatalogo}
+   area:null, over:{...NESSUNA}, catalogo:true, legenda:legendaCatalogo},
+  // 8. Vulnerabilità sociale (indice composito per sezione + componenti)
+  {id:"vulnerabilita", label:"Vulnerabilità sociale", desc:"Indice di vulnerabilità per sezione: occupazione, istruzione, affollamento, anziani + accessibilità a servizi e verde.",
+   area:{tipo:"sez",modo:"vuln"}, over:{...NESSUNA}, vuln:true, opzioni:["subVuln"],
+   legenda:()=>legendaVuln($("subVuln")?$("subVuln").value:"vuln")},
+  // 9. Vulnerabilità × servizi (incrocio con vuoto servizio)
+  {id:"vuln_servizi", label:"Vulnerabilità × servizi", desc:"Dove vulnerabilità alta e mancanza di servizi essenziali coincidono. Seleziona il gruppo per vedere l'incrocio.",
+   area:{tipo:"sez",modo:"vuln_combo"}, over:{...NESSUNA}, vulnCombo:true, opzioni:["subVulnGruppo","subVulnLivello"],
+   legenda:()=>legendaVulnCombo()}
 ];
 let tema = THEMES[0];   // [agente GT16] tema di partenza: Servizio e abitanti
 
