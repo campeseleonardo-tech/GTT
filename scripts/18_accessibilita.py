@@ -10,9 +10,11 @@ Decisio nel piano docs/PIANO_ACCESSIBILITA.md:
   punti originali contiene, cosi' il conteggio resta identico (r5py non pesa le
   destinazioni, quindi il peso e' applicato qui, lato conteggio).
 - D4: ore del TP 08/14/23/02 di lunedi' 12/10/2026.
-- Con --salva-tappe si scrive un file per lotto in data/processed/
-  accessibilita_parziale/ e, se il giro si interrompe, al rilancio i lotti gia'
-  salvati vengono ricaricati e non ricalcolati.
+- Con --salva-tappe si scrive un file ogni --salva-ogni lotti in data/processed/
+  accessibilita_parziale/, con dentro TUTTI i lotti calcolati da quel gruppo (corretto
+  il 14/10: prima conteneva solo l'ultimo lotto, e al rilancio si rifaceva ~80% del
+  lavoro). Se il giro si interrompe, al rilancio i lotti gia' salvati vengono
+  ricaricati e non ricalcolati (i file vecchi da un lotto solo restano validi).
 - Centroidi corretti: le sezioni in SEZIONI_FUORI_RETE (a piedi quasi a zero
   per un centroide lontano dalla rete) vengono spostate sul nodo OSM piu'
   vicino entro RAGGIO_CENTROIDE metri (cache in centroidi_fuori_rete.json).
@@ -365,13 +367,16 @@ def firma_run(args, n_sezioni):
     }
 
 
-def salva_parziale(fase, indice_lotto, risultati, ids, firma):
+def salva_parziale(fase, indice_lotto, risultati, ids, firma, lotti_dentro=None):
+    """Un file per gruppo di lotti: 'lotti' elenca tutti i lotti le cui sezioni sono
+    in 'sezioni' (cosi' la ripresa li salta tutti, non solo l'ultimo)."""
     DIR_PARZ.mkdir(parents=True, exist_ok=True)
     path = DIR_PARZ / f"{fase}_{indice_lotto:06d}.json"
     contenuto = {
         "generato": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "fase": fase,
         "lotto": indice_lotto,
+        "lotti": lotti_dentro or [indice_lotto],
         "firma": firma,
         "sezioni": [risultati[oid] for oid in ids],
     }
@@ -395,7 +400,9 @@ def riprendi_parziali(fase, firma):
         if c.get("fase") != fase or c.get("firma") != firma or "lotto" not in c:
             log(f"  parziale di un'altra run ignorato: {p.name}")
             continue
-        archivio[c["lotto"]] = {s["id"]: s for s in c["sezioni"]}
+        sezioni = {s["id"]: s for s in c["sezioni"]}
+        for n in c.get("lotti") or [c["lotto"]]:  # file vecchi: solo "lotto"
+            archivio[n] = sezioni
     return archivio
 
 
@@ -474,12 +481,24 @@ def main():
     log(f"Velocita' cammino fissata a {vel_cammino_kmh:.1f} km/h "
         "(prima R5 usava i suoi 3,6 km/h)")
 
-    def salva(parz_fase, n, lotto):
+    in_attesa = {}  # fase -> lotti calcolati ma non ancora salvati: [(n, ids)]
+
+    def salva(parz_fase, n, lotto, forza=False):
+        """Accumula il lotto; ogni --salva-ogni lotti (o a fine fase, forza=True) scrive
+        un file con TUTTI i lotti accumulati dall'ultimo salvataggio."""
         if not args.salva_tappe:
             return
-        if n % args.salva_ogni == 0 or n == (n_lotti_piedi if parz_fase == "piedi" else n_lotti_tp):
-            p = salva_parziale(parz_fase, n, risultati, [s["id"] for s in lotto], firma)
-            log(f"  salvato {p.name}")
+        coda = in_attesa.setdefault(parz_fase, [])
+        if lotto is not None:
+            coda.append((n, [s["id"] for s in lotto]))
+        ultimo = n_lotti_piedi if parz_fase == "piedi" else n_lotti_tp
+        # anche len(coda): alla ripresa i lotti multipli di 5 sono spesso gia' salvati
+        # (e saltati), e senza questa condizione la coda si svuoterebbe solo a fine fase
+        if coda and (forza or n % args.salva_ogni == 0 or len(coda) >= args.salva_ogni or n == ultimo):
+            ids = [i for _, gruppo in coda for i in gruppo]
+            p = salva_parziale(parz_fase, coda[-1][0], risultati, ids, firma, [m for m, _ in coda])
+            log(f"  salvato {p.name} (lotti {coda[0][0]}-{coda[-1][0]})")
+            coda.clear()
 
     # ---- A PIEDI (indipendente dall'ora: R5 a piedi non usa gli orari)
     log(f"A piedi: cutoff {args.cutoff_piedi} min, velocita' {args.velocita_piedi:.0f} m/min...")
@@ -516,6 +535,7 @@ def main():
         log(f"  lotto a piedi {n}: {len(lotto)} sezioni, {len(dest_by_k)} celle dest "
             f"({time.time()-t0:.0f} s)")
         salva("piedi", n, lotto)
+    salva("piedi", n_lotti_piedi, None, forza=True)  # eventuali lotti rimasti in coda
 
     # ---- COL TRASPORTO PUBBLICO, per ora (destinazioni STESSE per tutte le origini:
     # catalogo comunale dentro Torino + punti OSM solo fuori, vedi FIX 4)
@@ -555,6 +575,7 @@ def main():
             log(f"  lotto {ora:02d} #{n}: {len(lotto)} sezioni, "
                 f"{len(dest_by_k)} celle dest ({time.time()-t0:.0f} s)")
             salva(f"tp_{ora}", n, lotto)
+        salva(f"tp_{ora}", n_lotti_tp, None, forza=True)
 
     esito = {
         "generato": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
