@@ -1,0 +1,46 @@
+RAPPORTO IMPORTANZA VIE (A: tag OSM, D: elenco a mano, B: sensori 5T reali)
+modalita': completa Torino+cintura
+vie OSM con nome lette: 42169  ->  corridoi (per nome + collegamento fisico) risultanti: 10743
+sensori 5T con almeno una lettura valida: 98
+
+== Controllo elenco a mano (D): voci NON trovate in OSM (da verificare il nome) ==
+  (tutte le voci dell'elenco sono state trovate)
+
+== Primi 20 corridoi per punteggio (controllo a vista) ==
+  [5] Tangenziale Sud (Nichelino)         km= 52.40  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Autostrada Serenissima (Torino)     km= 46.39  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Corso Francia (Collegno)            km= 42.46  osm_base=5  pavimento_D=francia  5T_sensori=2  5T_flusso=600.0
+  [5] Autostrada del Pinerolese (Volvera E Limitrofi) km= 38.31  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Tangenziale Nord (Venaria Reale)    km= 32.75  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Autostrada dei Vini (Riva Presso Chieri E Limitrofi) km= 27.08  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Strada Statale 11 Padana Superiore (Settimo Torinese) km= 27.07  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Autostrada della Valle d'Aosta (Caluso E Limitrofi) km= 25.01  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Raccordo Autostradale Torino-Caselle (Torino) km= 22.39  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Autostrada La Verdemare (Villastellone) km= 15.80  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Autostrada del Frejus (Givoletto E Limitrofi) km= 12.72  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Diramazione per Moncalieri (Moncalieri) km= 12.08  osm_base=5  pavimento_D=moncalieri  5T_sensori=0  5T_flusso=None
+  [5] Strada statale 460 di Ceresole (Leini) km= 10.02  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Tangenziale Nord (Rivoli)           km=  7.30  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Corso Europa (Volpiano)             km=  6.47  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Raccordo della Falchera (Settimo Torinese) km=  6.32  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Strada Provinciale della Reggia di Venaria (Torino) km=  6.29  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Raccordo Est di Chivasso (Chivasso) km=  6.08  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Strada Torino (Beinasco)            km=  5.83  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+  [5] Corso Fratelli Cervi (Collegno)     km=  4.18  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
+
+== Corridoi piu' lunghi (controllo: oltre ~30 km solo autostrade/tangenziali) ==
+  [5] Tangenziale Sud (Nichelino)                   km= 52.40  osm_base=5
+  [5] Autostrada Serenissima (Torino)               km= 46.39  osm_base=5
+  [5] Corso Francia (Collegno)                      km= 42.46  osm_base=5
+  [5] Autostrada del Pinerolese (Volvera E Limitrofi) km= 38.31  osm_base=5
+  [5] Tangenziale Nord (Venaria Reale)              km= 32.75  osm_base=5
+  [5] Autostrada dei Vini (Riva Presso Chieri E Limitrofi) km= 27.08  osm_base=5
+  [5] Strada Statale 11 Padana Superiore (Settimo Torinese) km= 27.07  osm_base=5
+  [5] Autostrada della Valle d'Aosta (Caluso E Limitrofi) km= 25.01  osm_base=5
+  [4] Corso Canonico Giuseppe Allamano (Grugliasco) km= 23.82  osm_base=3
+  [5] Raccordo Autostradale Torino-Caselle (Torino) km= 22.39  osm_base=5
+  [4] Corso Regina Margherita (Torino)              km= 21.11  osm_base=4
+  [4] Corso Grosseto (Torino)                       km= 18.78  osm_base=4
+  [4] Corso Unione Sovietica (Torino)               km= 18.62  osm_base=4
+  [4] Corso Giulio Cesare (Torino)                  km= 16.71  osm_base=4
+  [5] Autostrada La Verdemare (Villastellone)       km= 15.80  osm_base=5
