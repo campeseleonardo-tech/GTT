@@ -2,7 +2,10 @@
 """
 03_raccolta_continua.py  -  raccoglie nel tempo i dati reali di Torino (PC ora, Raspberry Pi in futuro).
 
-Ogni 5 minuti salva i flussi di traffico 5T (91 sensori).
+Ogni 5 minuti salva i flussi di traffico 5T (91 sensori) e i posti liberi nei
+parcheggi in struttura 5T (~41 parcheggi, compresi gli interscambi Stura/Caio Mario/
+Sofia/Venchi Unica/Fermi).
+Una volta al giorno salva perimetro/varchi/orari ZTL 5T, solo se diversi dall'ultima copia.
 Ogni N secondi (default 60) salva le posizioni dei mezzi GTT.
 Tutto finisce in un unico file locale: data/storico.sqlite  (nessun cloud).
 
@@ -47,6 +50,9 @@ RADICE = trova_radice()
 DB = RADICE / "data" / "storico.sqlite"
 UA = "GTT-progetto-personale/0.1 (studio personale; contatto: campese.leonardo@gmail.com)"
 URL_5T = "https://opendata.5t.torino.it/get_fdt"
+URL_PK = "https://opendata.5t.torino.it/get_pk"
+URL_ZTL = "https://opendata.5t.torino.it/get_access_control"
+SECONDI_ZTL = 86400  # dato quasi fisso: basta un controllo al giorno
 URL_VP = "https://percorsieorari.gtt.to.it/das_gtfsrt/vehicle_position.aspx"
 SECONDI_5T = 300  # il feed 5T e' aggiornato ogni 5 minuti: non ha senso chiedere piu' spesso
 
@@ -76,6 +82,12 @@ def apri_db():
         letto_utc TEXT, ts_feed INTEGER, veicolo TEXT, linea TEXT, corsa TEXT,
         lat REAL, lng REAL, velocita REAL, direzione INTEGER);
     CREATE INDEX IF NOT EXISTS ix_mezzi_tempo ON mezzi_gtt (letto_utc);
+    CREATE TABLE IF NOT EXISTS parcheggi_5t (
+        id TEXT PRIMARY KEY, nome TEXT, lat REAL, lng REAL, totale INTEGER);
+    CREATE TABLE IF NOT EXISTS occupazione_pk (
+        generato_utc TEXT, id TEXT, stato INTEGER, totale INTEGER, liberi INTEGER,
+        tendenza INTEGER, PRIMARY KEY (generato_utc, id));
+    CREATE TABLE IF NOT EXISTS ztl_5t (scaricato_utc TEXT, generato TEXT, xml BLOB);
     CREATE TABLE IF NOT EXISTS errori (quando_utc TEXT, fonte TEXT, messaggio TEXT);
     """)
     return con
@@ -129,6 +141,45 @@ def salva_5t_da_bytes(con, dati):
         n += cur.rowcount  # 0 se la misura era gia' presente
     con.commit()
     return n
+
+
+def _int(v):
+    n = _num(v)
+    return None if n is None else int(n)
+
+
+def salva_pk_da_bytes(con, dati):
+    """Parcheggi in struttura 5T: anagrafica + posti liberi. 'liberi' manca (NULL) quando
+    il parcheggio non trasmette (stato 0). Restituisce il numero di letture salvate."""
+    radice = ET.fromstring(dati)
+    generato = radice.attrib.get("generation_time") or adesso()
+    n = 0
+    for p in radice.iter():
+        if nome_locale(p.tag) != "PK_data":
+            continue
+        a = p.attrib
+        pid = a.get("ID")
+        if not pid:
+            continue
+        con.execute("INSERT OR REPLACE INTO parcheggi_5t VALUES (?,?,?,?,?)",
+                    (pid, a.get("Name"), _num(a.get("lat")), _num(a.get("lng")), _int(a.get("Total"))))
+        cur = con.execute("INSERT OR IGNORE INTO occupazione_pk VALUES (?,?,?,?,?,?)",
+                          (generato, pid, _int(a.get("status")), _int(a.get("Total")),
+                           _int(a.get("Free")), _int(a.get("tendence"))))
+        n += cur.rowcount  # 0 se la lettura era gia' presente
+    con.commit()
+    return n
+
+
+def salva_ztl_da_bytes(con, dati):
+    """Salva l'XML ZTL intero, ma solo se diverso dall'ultima copia. True se salvato."""
+    ultima = con.execute("SELECT xml FROM ztl_5t ORDER BY scaricato_utc DESC LIMIT 1").fetchone()
+    if ultima and ultima[0] == dati:
+        return False
+    generato = ET.fromstring(dati).attrib.get("generation_time")
+    con.execute("INSERT INTO ztl_5t VALUES (?,?,?)", (adesso(), generato, dati))
+    con.commit()
+    return True
 
 
 def _varint(b, i):
@@ -227,6 +278,22 @@ def giro_5t(con):
         registra_errore(con, "5T", e)
 
 
+def giro_pk(con):
+    try:
+        n = salva_pk_da_bytes(con, scarica(URL_PK))
+        log(f"PK: {n} letture parcheggi salvate")
+    except Exception as e:
+        registra_errore(con, "PK", e)
+
+
+def giro_ztl(con):
+    try:
+        nuovo = salva_ztl_da_bytes(con, scarica(URL_ZTL))
+        log("ZTL: " + ("nuova versione salvata" if nuovo else "invariata"))
+    except Exception as e:
+        registra_errore(con, "ZTL", e)
+
+
 def giro_gtt(con):
     try:
         n = salva_vp_da_bytes(con, scarica(URL_VP))
@@ -245,13 +312,17 @@ def main():
 
     con = apri_db()
     log(f"Archivio: {DB}")
-    prossimo_5t = prossimo_gtt = 0.0
+    prossimo_5t = prossimo_gtt = prossimo_ztl = 0.0
     try:
         while True:
             t = time.time()
             if t >= prossimo_5t:
                 giro_5t(con)
+                giro_pk(con)
                 prossimo_5t = t + SECONDI_5T
+            if t >= prossimo_ztl:
+                giro_ztl(con)
+                prossimo_ztl = t + SECONDI_ZTL
             if not args.no_gtt and t >= prossimo_gtt:
                 giro_gtt(con)
                 prossimo_gtt = t + gtt_sec
