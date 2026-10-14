@@ -12,9 +12,13 @@ Sottocomandi:
               linea e ora, match trip_id<->GTFS, sintesi degli avvisi.
               Con --db include il riepilogo recente SQLite. Scrive il rapporto e gli aggregati.
 
-Limitazione verificata sui campioni: il feed trip_update di GTT NON pubblica il campo
-delay ne' gli orari per fermata (stop_time_update): dice quali corse ci sono e se sono
-soppresse. Questo strumento conta quindi corse attive/soppresse, non ritardi in minuti.
+Cosa c'e' nel feed (verificato il 14/10/2026 su 324.660 righe di storico, 10-11/10): il
+campo delay NON c'e' mai; stop_time_update invece c'e' nel 99,9% delle righe (in media 6
+fermate per corsa), con l'orario PREVISTO di arrivo alla fermata (arr.time, epoch). Il
+ritardo in minuti si ricava confrontandolo con l'orario programmato GTFS della stessa
+corsa e stop_sequence (prova su un campione: mediana 0, p25/p75 -1,2/+1,2, p95 +5,1 min).
+Questo strumento oggi conta corse attive/soppresse; il calcolo dei ritardi in minuti
+non e' ancora implementato (serve al Risultato 4).
 
 Ore locali Europe/Rome calcolate a mano (regola UE), come in 09_analisi_dati_diurni.py.
 Solo raccogli-db scrive nelle sue due tabelle SQLite; nessun sottocomando modifica i grezzi.
