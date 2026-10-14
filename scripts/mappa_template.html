@@ -569,7 +569,7 @@ const sez = (D.sezioni||[]).map(z=>{
   function legendaFb(){
     const g=$("subFbGruppo")?.value||"salute";
     const nomi={scuole:"Scuole",salute:"Salute",cibo:"Cibo",fermate:"Fermate",verde:"Verde"};
-    const haCandidati = g==="salute"||g==="scuole";
+    const haCandidati = !!(D.fb_candidati && (D.fb_candidati[g]||[]).length);
     const notaCand = haCandidati
       ? `<div class="et" style="display:block">Pallini: zone candidate a un nuovo servizio (max 5, STIMATO) — clicca per i dettagli.</div>`
       : `<div class="et" style="display:block">Candidati per un nuovo servizio non ancora calcolati per questo gruppo (solo analisi "dove manca").</div>`;
@@ -733,7 +733,7 @@ const avvisiPerLinea = new Map(), avvisiPerFermata = new Map();
   (a.linee||[]).forEach(id=>{ if(!avvisiPerLinea.has(id)) avvisiPerLinea.set(id, []); avvisiPerLinea.get(id).push(a); });
   (a.fermate||[]).forEach(id=>{ if(!avvisiPerFermata.has(id)) avvisiPerFermata.set(id, []); avvisiPerFermata.get(id).push(a); });
 });
-const fbCandidati = {};   // [agente GT-faseb] candidati fase B (salute/scuole) con coordinate proiettate
+const fbCandidati = {};   // [agente GT-faseb] candidati fase B (per gruppo, quando calcolati) con coordinate proiettate
 for(const g in (D.fb_candidati||{})) fbCandidati[g] = (D.fb_candidati[g]||[]).map(c=>({...c, x:px(c.lon), y:py(c.lat)}));
 function schedaFbCandidato(c, gruppo){
   const nomiFb={scuole:"Scuole",salute:"Salute",cibo:"Cibo",fermate:"Fermate",verde:"Verde"};
@@ -1023,7 +1023,7 @@ function disegnaBase(ws,ox,oy,i){
       cx.globalAlpha=1;
       if(dettaglio){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
     }
-    if(fbGruppo && (fbGruppo==="salute"||fbGruppo==="scuole")){   // [agente GT-faseb] zone candidate a un nuovo servizio
+    if(fbGruppo && (fbCandidati[fbGruppo]||[]).length){   // [agente GT-faseb] zone candidate a un nuovo servizio (qualunque gruppo gia' calcolato)
       for(const cnd of (fbCandidati[fbGruppo]||[])){
         const X=cnd.x*ws-ox, Y=cnd.y*ws-oy;
         if(X<-20||X>W+20||Y<-20||Y>H+20) continue;
@@ -1715,7 +1715,7 @@ function cercaTip(sx,sy,click){
   // 0bis. Candidati Fase B ("dove aggiungere un servizio", se il gruppo scelto li ha)
   if(tema.id==="faseb"){
     const fbGruppo=$("subFbGruppo")?.value||"salute";
-    if(fbGruppo==="salute"||fbGruppo==="scuole"){
+    if((fbCandidati[fbGruppo]||[]).length){
       const cnd=vicino(fbCandidati[fbGruppo]||[],10);
       if(cnd){
         if(click) return apriScheda(schedaFbCandidato(cnd,fbGruppo), null);
@@ -2168,7 +2168,7 @@ const THEMES = [
    area:{tipo:"sez",modo:"acc"}, over:{...NESSUNA}, opzioni:["subAccGruppo","subAccModo"],
    legenda:()=>legendaAcc()},
   // 10. Dove manca un servizio (fase A: zero/pochissimo per gruppo) + candidati fase B dove gia' calcolati
-  {id:"faseb", label:"Dove mancano i servizi", desc:"Sezioni dove un servizio essenziale manca (zero) o è molto scarso (pochissimo), per gruppo. Dove già calcolato (salute, scuole), mostra anche le zone candidate a un nuovo servizio. STIMATO.",
+  {id:"faseb", label:"Dove mancano i servizi", desc:"Sezioni dove un servizio essenziale manca (zero) o è molto scarso (pochissimo), per gruppo. Mostra anche le zone candidate a un nuovo servizio (fase B), quando già calcolate per il gruppo scelto. STIMATO.",
    area:{tipo:"sez",modo:"fb"}, over:{...NESSUNA}, opzioni:["subFbGruppo"],
    legenda:()=>legendaFb()}
 ];
