@@ -1440,7 +1440,7 @@ function schedaSensore(s){
     }
   }
   const det = [
-    { k: "Flusso rilevato", v: `${s.fl != null ? s.fl : 0} veic in ${s.per} min (≈ ${Math.round((s.fl||0)*60/s.per)}/h)` },
+    { k: "Flusso rilevato", v: `≈ ${Math.round(s.fl||0)} veic/h (misura degli ultimi ${s.per} min; il valore 5T è già in veicoli/ora)` },
     { k: "Direzione", v: sensoTxt },
     { k: "Di solito a quest'ora", v: tp ? `${tp.v.toFixed(0)} km/h (${tp.f.toFixed(0)} veic/h)` : "nessun confronto" },
     { k: "Rilevazione", v: `finestra 5 min fino a ${fmt(t5Fine)}` }

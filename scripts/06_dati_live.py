@@ -165,7 +165,7 @@ def stat():
             if n == 0:
                 riga.append(None)
             else:
-                riga.append([round(svf / sf, 1) if sf > 0 else None, round(sf / n * 12, 0), nore])   # velocita pesata, flusso/ora, ore-campione
+                riga.append([round(svf / sf, 1) if sf > 0 else None, round(sf / n, 0), nore])   # velocita pesata, flusso/ora (il valore 5T e' gia' in veicoli/ora: sempre multiplo di 12), ore-campione
         tip_out[lcd] = riga
 
     # --- riepilogo e giornate per il replay
