@@ -13,10 +13,11 @@ Sottocomandi:
               Con --db include il riepilogo recente SQLite. Scrive il rapporto e gli aggregati.
 
 Cosa c'e' nel feed (verificato il 14/10/2026 su 324.660 righe di storico, 10-11/10): il
-campo delay NON c'e' mai; stop_time_update invece c'e' nel 99,9% delle righe (in media 6
-fermate per corsa), con l'orario PREVISTO di arrivo alla fermata (arr.time, epoch). Il
-ritardo in minuti si ricava confrontandolo con l'orario programmato GTFS della stessa
-corsa e stop_sequence (prova su un campione: mediana 0, p25/p75 -1,2/+1,2, p95 +5,1 min).
+campo delay a livello di corsa NON c'e' mai; stop_time_update invece c'e' nel 99,9% delle
+righe e per ogni fermata (seq) contiene in arr il ritardo in secondi (arr.delay, ~70% dei
+casi) oppure l'orario previsto di arrivo (arr.time, epoch, ~30%). Una lettura al minuto
+segue la corsa fermata per fermata. Con arr.time il ritardo si ricava dall'orario GTFS
+della stessa corsa e stop_sequence (campione: mediana 0, p25/p75 -1,2/+1,2, p95 +5,1 min).
 Questo strumento oggi conta corse attive/soppresse; il calcolo dei ritardi in minuti
 non e' ancora implementato (serve al Risultato 4).
 
