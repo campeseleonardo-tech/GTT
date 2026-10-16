@@ -1,0 +1,32 @@
+RISULTATO 2 - METRO DI NOTTE: servizi raggiungibili in piu' nel buco notturno (v2, nessuna soglia)
+generato: 2026-10-16T20:34:33+00:00  giorno: 2026-10-12  finestra: 00:50-05:22  ore ricalcolate: 01,02,03,04
+
+NOTA METODO: la versione precedente contava solo le sezioni che passavano da ZERO servizi
+assoluti a qualcosa: a Torino questo non succede mai (bus notturni gia' presenti ovunque,
+minimo 2 servizi anche nelle ore piu' vuote), quindi dava sempre 0/0. Questa versione conta
+invece QUALSIASI aumento, anche piccolo, dei servizi raggiungibili nella finestra 01-04;
+nessuna soglia applicata: il delta per sezione resta nel JSON per poter filtrare dopo.
+
+== Scenario 15 minuti (una corsa finta ogni 15' tra le 00:50 e le 05:22) ==
+  residenti con accesso migliorato: 773307
+  sezioni migliorate: 3689
+  delta totale di servizi raggiungibili in citta': 51935040
+  delta mediano tra le sezioni migliorate: 9179 (90-esimo percentile: 33289)
+  attesa media teorica: 7.5 min
+  sezioni con un delta negativo minimo (rumore R5, vedi nota): 3
+
+== Scenario 30 minuti (una corsa finta ogni 30' tra le 00:50 e le 05:22) ==
+  residenti con accesso migliorato: 652891
+  sezioni migliorate: 3155
+  delta totale di servizi raggiungibili in citta': 27215916
+  delta mediano tra le sezioni migliorate: 3436 (90-esimo percentile: 26088)
+  attesa media teorica: 15.0 min
+  sezioni con un delta negativo minimo (rumore R5, vedi nota): 3
+
+
+⚠ SIMULAZIONE SU ORARIO PROGRAMMATO
+I risultati mostrano l'offerta potenziale (passaggi/ora, residenti raggiunti, tempi di attesa teorici)
+calcolata applicando le variazioni indicate all'orario ufficiale GTFS.
+Non tengono conto di: traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri, regolarità del servizio.
+Un aumento di corse sulla carta non garantisce che i bus arrivino in orario.
+Dati [PROGRAMMATO] / [STIMATO] — non [MISURATO].

@@ -411,6 +411,8 @@ def main():
     ap.add_argument("--campione", type=int, default=0)
     ap.add_argument("--ore", default="8,14,23,2")
     ap.add_argument("--giorno", default="2026-10-12")
+    ap.add_argument("--gtfs", default=None)
+    ap.add_argument("--out", default=None)
     ap.add_argument("--cutoff-piedi", type=int, default=15)
     ap.add_argument("--cutoff-tp", type=int, default=45)
     ap.add_argument("--lotto-piedi", type=int, default=100)
@@ -424,6 +426,14 @@ def main():
     ap.add_argument("--niente-correzione-centroidi", action="store_true")
     args = ap.parse_args()
     args.ore = [int(x) for x in args.ore.split(",")]
+    global GTFS, OUT, RAPPORTO
+    if args.gtfs:
+        GTFS = Path(args.gtfs)
+        if not GTFS.is_absolute():
+            GTFS = RADICE / GTFS
+    if args.out:
+        OUT = RADICE / "data/processed" / f"{args.out}.json"
+        RAPPORTO = RADICE / "docs" / f"RAPPORTO_{args.out.upper()}.txt"
     tieni_pc_sveglio()
 
     sezioni = carica_sezioni()

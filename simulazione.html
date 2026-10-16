@@ -56,7 +56,7 @@
 <div class="testa" style="margin-bottom:16px">
   <div>
     <h1>Simulazione</h1>
-    <p class="sub">Confronta scenari di offerta GTT: carica uno o più risultati da <code>calcola_simulazione.py</code>.</p>
+    <p class="sub">Risultati del progetto, prima/dopo, e confronto scenari di offerta GTT: carica uno o più file JSON prodotti dagli script del progetto.</p>
   </div>
   <a href="mappa_torino.html" class="back">← Torna alla mappa</a>
 </div>
@@ -100,6 +100,32 @@ $("btnPulisci").addEventListener("click", () => { simulazioni = []; mostra(); })
 
 function numero(n){ return Math.round(n).toLocaleString("it-IT"); }
 
+/* numero per le "schede risultato": niente arrotondamento forzato a intero
+   (serve per valori tipo 7.5 min), ma formattato in stile italiano */
+function formattaNumero(n){
+  if(typeof n !== "number" || !Number.isFinite(n)) return esc(String(n));
+  if(Number.isInteger(n)) return n.toLocaleString("it-IT");
+  return n.toLocaleString("it-IT", {maximumFractionDigits:1});
+}
+
+/* Riconosce due formati:
+   - "scenario" (calcola_simulazione.py / 07_elabora_scenario.py): passaggi totali base/scenario.
+   - "risultato" (schema generico per i RISULTATI del progetto, es. risultato2_riepilogo_mappa.json):
+     {risultato, titolo, domanda, scenari:[{nome, numeri:[{label,prima,dopo,unita}], nota}], avviso} */
+function riconosciFormato(r){
+  if(r && typeof r === "object" && Array.isArray(r.scenari) && typeof r.titolo === "string"){
+    const ok = r.scenari.every(sc => sc && typeof sc.nome === "string" && Array.isArray(sc.numeri) &&
+      sc.numeri.every(n => n && typeof n.label === "string" && "dopo" in n));
+    if(ok) return "risultato";
+  }
+  const campi = ["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica"];
+  if(r && typeof r === "object" && campi.every(k => typeof r[k] === "number" && Number.isFinite(r[k])) &&
+     r.passaggi_totali_baseline >= 0 && r.passaggi_totali_scenario >= 0 && r.fermate_con_modifica >= 0){
+    return "scenario";
+  }
+  return null;
+}
+
 async function processaFiles(files){
   for(const file of files){
     try{
@@ -107,11 +133,9 @@ async function processaFiles(files){
       const inizioLog = testo.lastIndexOf("\n{");
       const json = testo.slice(inizioLog>=0 ? inizioLog+1 : 0).trim();
       const r = JSON.parse(json);
-      const campi = ["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica"];
-      if(!r || typeof r !== "object" || campi.some(k => typeof r[k] !== "number" || !Number.isFinite(r[k])) ||
-         r.passaggi_totali_baseline < 0 || r.passaggi_totali_scenario < 0 || r.fermate_con_modifica < 0){
-        throw new Error("Formato non valido");
-      }
+      const tipo = riconosciFormato(r);
+      if(!tipo) throw new Error("Formato non valido");
+      r._tipo = tipo;
       r._nome = file.name;
       r._data = new Date(file.lastModified).toLocaleString("it-IT");
       // se è già stata caricata una simulazione con lo stesso nome, sostituiscila
@@ -135,6 +159,8 @@ function mostra(){
   let html = "";
   for(let i=0; i<simulazioni.length; i++){
     const r = simulazioni[i];
+    if(r._tipo === "risultato"){ html += renderRisultato(r, i); continue; }
+
     html += `<div class="card sim-card">
       <div class="sim-nome">${esc(r._nome)}</div>
       <div class="sim-meta">Caricato il ${r._data}</div>
@@ -148,7 +174,7 @@ function mostra(){
     </div>`;
 
     /* eventuali campi extra */
-    const extra = Object.entries(r).filter(([k]) => !["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica","_nome","_data"].includes(k));
+    const extra = Object.entries(r).filter(([k]) => !["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica","_nome","_data","_tipo"].includes(k));
     if(extra.length){
       html += '<details style="margin-top:8px;font-size:12px;color:var(--muted)"><summary>Altri dati</summary>';
       for(const [k,v] of extra){
@@ -158,11 +184,11 @@ function mostra(){
     }
   }
 
-  /* confronto se ci sono almeno 2 simulazioni */
-  if(simulazioni.length >= 2){
+  /* confronto se ci sono almeno 2 simulazioni di tipo "scenario" (vecchio formato) */
+  const scenari = simulazioni.map((r,i) => ({r,i})).filter(x => x.r._tipo === "scenario");
+  if(scenari.length >= 2){
     html += `<div class="card"><h2>Confronto</h2><div class="confronto">`;
-    for(let i=0; i<simulazioni.length; i++){
-      const r = simulazioni[i];
+    for(const {r} of scenari){
       html += `<div class="con-blocco">
         <div class="con-titolo">${esc(r._nome)}</div>
         <div class="con-val">${numero(r.passaggi_totali_scenario)}</div>
@@ -173,15 +199,67 @@ function mostra(){
     html += `</div></div>`;
   }
 
-  html += `<div class="avviso"><strong>⚠ SIMULAZIONE SU ORARIO PROGRAMMATO</strong>
-    I risultati mostrano l'offerta potenziale calcolata applicando le variazioni all'orario GTFS. Non tengono conto di traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri o regolarità del servizio. Un aumento di corse sulla carta non garantisce che i bus arrivino in orario. Dati programmati/stimati, non misurati.
-    <br><span style="color:var(--muted)">Residenti raggiunti e km-vettura non sono inclusi nel risultato fornito da questo calcolo.</span>
-  </div>`;
+  if(scenari.length){
+    html += `<div class="avviso"><strong>⚠ SIMULAZIONE SU ORARIO PROGRAMMATO</strong>
+      I risultati mostrano l'offerta potenziale calcolata applicando le variazioni all'orario GTFS. Non tengono conto di traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri o regolarità del servizio. Un aumento di corse sulla carta non garantisce che i bus arrivino in orario. Dati programmati/stimati, non misurati.
+      <br><span style="color:var(--muted)">Residenti raggiunti e km-vettura non sono inclusi nel risultato fornito da questo calcolo.</span>
+    </div>`;
+  }
 
   risultati.innerHTML = html;
   risultati.querySelectorAll(".btn.rimuovi").forEach(b => {
     b.addEventListener("click", () => { simulazioni.splice(+b.dataset.i, 1); mostra(); });
   });
+}
+
+/* Scheda "risultato": titolo, domanda, uno o più scenari, ciascuno coi suoi numeri prima/dopo
+   e una barra semplice (solo CSS) per dare un confronto visivo tra gli scenari dello stesso file. */
+function renderRisultato(r, i){
+  // scala comune per ogni "label" di numero, cosi' le barre di scenari diversi sono confrontabili
+  const maxPerLabel = {};
+  for(const sc of r.scenari){
+    for(const n of sc.numeri){
+      if(typeof n.dopo === "number"){
+        maxPerLabel[n.label] = Math.max(maxPerLabel[n.label] || 0, Math.abs(n.dopo));
+      }
+    }
+  }
+
+  let html = `<div class="card sim-card">
+    <div class="sim-nome">${esc(r.titolo)}</div>
+    ${r.domanda ? `<div class="sim-meta" style="margin:2px 0 10px">${esc(r.domanda)}</div>` : ""}`;
+
+  for(const sc of r.scenari){
+    html += `<div class="con-blocco" style="margin-bottom:10px">
+      <div class="con-titolo">${esc(sc.nome)}</div>`;
+    for(const n of sc.numeri){
+      const scala = maxPerLabel[n.label] || 0;
+      const haBarra = typeof n.prima === "number" && typeof n.dopo === "number" && scala > 0;
+      const pct = haBarra ? Math.max(2, Math.round(Math.abs(n.dopo) / scala * 100)) : 0;
+      const valore = (n.prima === null || typeof n.prima === "undefined" ? "" : formattaNumero(n.prima) + " → ")
+        + formattaNumero(n.dopo) + (n.unita ? " " + esc(n.unita) : "");
+      html += `<div style="margin:8px 0">
+        <div style="display:flex;justify-content:space-between;gap:10px;font-size:12.5px">
+          <span style="color:var(--muted)">${esc(n.label)}</span>
+          <span style="font-weight:700;font-variant-numeric:tabular-nums">${valore}</span>
+        </div>`;
+      if(haBarra){
+        html += `<div style="background:#e7ebf1;border-radius:6px;height:7px;margin-top:4px;overflow:hidden">
+          <div style="background:var(--accent);height:100%;width:${pct}%"></div>
+        </div>`;
+      }
+      html += `</div>`;
+    }
+    if(sc.nota) html += `<div class="sim-meta" style="margin-top:2px">${esc(sc.nota)}</div>`;
+    html += `</div>`;
+  }
+
+  if(Array.isArray(r.avviso) && r.avviso.length){
+    html += `<div class="avviso"><strong>${esc(r.avviso[0])}</strong>${esc(r.avviso.slice(1).join(" "))}</div>`;
+  }
+
+  html += `<button class="btn rimuovi" data-i="${i}">Rimuovi</button></div>`;
+  return html;
 }
 
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
