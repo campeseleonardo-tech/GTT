@@ -16,7 +16,7 @@ Cosa mette nella mappa:
     passaggi alle fermate, corse/ora per linea, passaggi/ora per km2 per zona.
   - TRAFFICO 5T: 5 minuti piu' recenti dei sensori.
   - MEZZI GTT: posizione dei mezzi all'ultimo aggiornamento.
-  - ZONE STATISTICHE del Comune (94 zone).
+  - (le ZONE STATISTICHE 2011 non si usano piu' dal 18/10; leggi_zone resta per eventuali riusi)
   - SEZIONI DI CENSIMENTO 2021 (se presenti, da 05_prepara_sezioni.py): abitanti, famiglie, abitazioni e indicatori residenti di eta'/occupazione.
   I nuovi indicatori sono profili dei residenti, non conteggi di viaggi, mezzi o orari.
 """
@@ -750,6 +750,34 @@ def costruisci_pendolari(sezioni):
     return {"tor": tor, "com": com, "altri": altri}
 
 
+def nomi_comuni(codici):
+    """Nomi dei comuni (PRO_COM -> nome) dal file dei confini ISTAT 2022 (dbf letto a mano, senza librerie)."""
+    f = RADICE / "data" / "raw" / "istat" / "confini_2022" / "Limiti01012022_g.zip"
+    if not f.is_file():
+        print("  (confini ISTAT 2022 non trovati: nelle schede restano i codici dei comuni)")
+        return {}
+    with zipfile.ZipFile(f) as z:
+        b = z.read(next(n for n in z.namelist() if n.endswith("Com01012022_g_WGS84.dbf")))
+    n_rec, l_head, l_rec = struct.unpack("<IHH", b[4:12])
+    campi, pos = [], 32
+    while b[pos] != 0x0D:
+        nome = b[pos:pos + 11].split(b"\0")[0].decode()
+        campi.append((nome, b[pos + 16]))
+        pos += 32
+    off, inizio = {}, 1
+    for nome, lung in campi:
+        off[nome] = (inizio, inizio + lung)
+        inizio += lung
+    out = {}
+    for k in range(n_rec):
+        r = b[l_head + k * l_rec: l_head + (k + 1) * l_rec]
+        c = int(r[off["PRO_COM"][0]:off["PRO_COM"][1]].strip() or 0)
+        if c in codici:
+            out[c] = r[off["COMUNE"][0]:off["COMUNE"][1]].decode("utf-8", "replace").strip()
+    print(f"  nomi dei comuni: {len(out)} su {len(codici)}")
+    return out
+
+
 # ---------------------------------------------------------------- main
 def leggi_omi():
     """Legge data/processed/omi_zone.json (O1); ritorna lista compatta o None."""
@@ -823,9 +851,10 @@ def main():
     print(f"Cartella del progetto: {RADICE}")
     if not TEMPLATE.is_file():
         sys.exit(f"Manca il modello della pagina: {TEMPLATE}\nLancia lo script da GTT\\scripts oppure copia li' mappa_template.html.")
+    # le zone statistiche 2011 non sono piu' disegnate da nessun tema (revisione mappa 18/10): non si leggono
     f_gtfs, f_5t = ultimo("gtt_gtfs_"), ultimo("5t_flussi_")
-    f_vp, f_zone = ultimo("gtt_vehicle_position_"), ultimo("zone_statistiche_csv_")
-    print("Uso questi file:", f_gtfs.name, f_5t.name, f_vp.name, f_zone.name, sep="\n  ")
+    f_vp = ultimo("gtt_vehicle_position_")
+    print("Uso questi file:", f_gtfs.name, f_5t.name, f_vp.name, sep="\n  ")
 
     print("Leggo GTFS (qualche secondo)...")
     meta_gtfs, rotte, linee, stops, corse = elabora_gtfs(f_gtfs)
@@ -833,9 +862,6 @@ def main():
     meta5t, sensori = leggi_5t(f_5t)
     ts_vp, mezzi = leggi_mezzi(f_vp)
     print(f"  sensori 5T: {len(sensori)}, mezzi GTT: {len(mezzi)}")
-    zone = leggi_zone(f_zone)
-    fuori = assegna_zone(zone, stops)
-    print(f"  zone: {len(zone)}; fermate fuori da ogni zona (altri comuni): {fuori}")
 
     # ---- vulnerabilità (dai file 19 e 23) ----
     vuln_data = {}
@@ -877,8 +903,6 @@ def main():
                 "occ": x.get("occ"), "p1564": x.get("p1564"), "sc": x.get("sc"), "sen": x.get("sen"),
                 "v": vuln.get(x.get("id",""), {}).get("v"),
                 "vcomp": vuln.get(x.get("id",""), {}).get("comp", {}),
-                "manca": vuln.get(x.get("id",""), {}).get("manca", {}),
-                "gruppi": vuln.get(x.get("id",""), {}).get("gruppi", {}),
                 "acc": acc.get(x.get("id",""), {}),
                 "fb": fb_zero.get(x.get("id",""), {})}
                for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]   # indicatori ISTAT 2021 per residenti
@@ -893,10 +917,12 @@ def main():
     catalogo = prepara_catalogo()   # indice dei nuovi dati + file js per il caricamento su richiesta
 
     # ---- avvisi/disservizi GTT ancora attivi (linee/fermate coinvolte), badge nel tema Servizio GTT ----
-    avvisi_out = []
+    avvisi_out, avvisi_data = [], None
     candidati_avvisi = sorted((RADICE / "data" / "processed").glob("avvisi_*.json"))
     if candidati_avvisi:
         f_avv = candidati_avvisi[-1]   # il piu' recente per nome file (data nel nome, es. avvisi_20261009.json)
+        m_d = re.search(r"(\d{4})(\d{2})(\d{2})", f_avv.name)
+        avvisi_data = f"{m_d.group(1)}-{m_d.group(2)}-{m_d.group(3)}" if m_d else None
         avv_data = json.loads(f_avv.read_text(encoding="utf-8"))
         ora_ts = datetime.now(timezone.utc).timestamp()
         tutti = avv_data.get("avvisi", [])
@@ -912,9 +938,10 @@ def main():
             })
         print(f"  avvisi GTT: {len(avvisi_out)}/{len(tutti)} ancora attivi (da {f_avv.name})")
 
+    comuni = nomi_comuni({int(x["c"]) for x in sez if x.get("c")} | {PRO_COM_TORINO}) if sez else {}
     dati = {
         "vel": vel or {}, "vel_meta": vel_meta,   # [agente GT04-velocita]
-        "vuln": vuln_data,
+        "comuni": comuni,   # PRO_COM -> nome, per schede e tooltip
         "pend": pend,   # [agente GT05-pendolari]
         "omi": omi,     # OMI quote immobiliari
         "imq": imq,     # Mobilita' IMQ 2022 (attivita' 10)
@@ -922,9 +949,10 @@ def main():
         "meta": {
             "costruita_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "gtfs": meta_gtfs, "t5": meta5t, "mezzi_ts": ts_vp,
-            "file": {"gtfs": f_gtfs.name, "t5": f_5t.name, "mezzi": f_vp.name, "zone": f_zone.name},
+            "file": {"gtfs": f_gtfs.name, "t5": f_5t.name, "mezzi": f_vp.name},
+            "avvisi_data": avvisi_data,   # data della fotografia degli avvisi GTT (AAAA-MM-GG) o None
         },
-        "rotte": rotte, "linee": linee, "fermate": stops, "sensori": sensori, "mezzi": mezzi, "zone": zone, "sezioni": sez, "corse": corse,
+        "rotte": rotte, "linee": linee, "fermate": stops, "sensori": sensori, "mezzi": mezzi, "sezioni": sez, "corse": corse,
         "avvisi": avvisi_out,
         "fb_candidati": fb_candidati,
     }

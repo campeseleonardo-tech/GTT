@@ -183,7 +183,26 @@ senza passaggi nel feriale (normale: servizi festivi o sospesi).
    lettura (3.312 righe), legenda "dal 4 ott al 18 ott", testi sui ritardi → Risultato 4; M2 testi accessibilità
    "partenza alle HH:00 di un giorno feriale". Nuovo problema visto durante la prova (**B8**): la scheda di Torino in
    Pendolarismo scrive "Flusso interno: 332.397 (lavoro)" ma il numero è lavoro + studio.
-2. A2 Torino/cintura in Accessibilità e Dove mancano — decisione di Leo sulla resa della cintura.
+2. ✅ **Fatto il 18/10 (blocchi 2-6, mappa rigenerata, 23,4 MB invece di 28,8, provata nel browser anche a misura di
+   telefono).** Decisioni di Leo: cintura colorata come Torino (scala unica) con una **nota breve su OpenStreetMap** in
+   legenda e nella scheda solo dove quel dato entra nel calcolo; "una giornata registrata" al posto del tempo reale;
+   Catalogo **tenuto** (pesa 0,03 MB nella mappa, il resto si carica solo se lo apri) e messo in fondo come inventario;
+   accorpamenti tutti sì. Cosa è cambiato:
+   - temi da 10 a 9: Servizio e abitanti · Accessibilità · Dove mancano · Vulnerabilità e residenti (con "Chi abita
+     qui") · Chi va dove: tutti gli spostamenti (IMQ) · Chi va dove: pendolari · Bus e traffico misurati (velocità GPS
+     dei bus, traffico tipico ai sensori per ora, giornata registrata) · Valore immobiliare (5 tipi) · Catalogo;
+   - tolti: dati "live" (`data/live.js` non più letto), mezzi "adesso", Segnalazioni, zone statistiche 2011, voce
+     Fermate in Accessibilità, dati mai usati nel file (copia doppia vulnerabilità 3,1 MB, campo "gruppi" 1,7 MB);
+   - colori arancio→viola al posto di rosso→verde; partenza su mappa chiara senza griglia; legende con le 4 soglie
+     scritte, virgola decimale e "5 gruppi con lo stesso numero di sezioni"; OMI con classi per tipologia;
+   - nomi dei comuni al posto dei codici (confini ISTAT 2022, letti dallo script 04); avvisi GTT con la data (9/10);
+     riquadro "Guida e fonti dei dati" con tutte le fonti e le date; titolo e descrizioni brevi per il portfolio;
+   - B8 corretto; telefono: pannello più stretto, legenda chiusa all'avvio (il pulsante per chiuderla non funzionava
+     nemmeno su PC: corretto).
+   **Restano aperti:** B7 condizioni d'uso degli sfondi Esri (da controllare prima di pubblicare); i file `data/replay_*.js`
+   (71 MB in tutto) servono solo per "Rivedi i mezzi di una giornata"; la cintura in "Dove mancano" esce quasi tutta
+   arancio (scelta di Leo: scala unica, con nota).
+2b. (vecchio punto 2) A2 Torino/cintura in Accessibilità e Dove mancano — deciso da Leo: scala unica + nota.
 3. Accorpamento dei temi (tabella sopra) e A4 tempo reale → giornata registrata.
 4. Testi per il portfolio (M3, M7, M8, M10, B3, B4) e colori (M5, M6).
 5. Telefono e peso (M9, B6), sfondi (B7).
