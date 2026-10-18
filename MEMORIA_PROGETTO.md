@@ -78,7 +78,7 @@ Script: 01-20 dati · 21-22 Risultato 1 · 23 vulnerabilità × servizi · 24 im
 ## 5. IN CORSO
 
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 v2.
-- **Risultato 8, Fase 5 (giro di correzione)**: piano e prompt pronti in `docs/PIANO_TRAFFICO_FASE5.md` (18/10); da lanciare con l'agente. Pacchetti: A assi e tratte (stessa strada anche se cambia nome/comune), B corsie e capacità, C ZTL unificata con orari + aree pedonali, D TP per posizione delle fermate (copertura entro 300 m con ≥4 passaggi/ora; metro/ferrovia entro 600 m), E modello V4 (congestione funzionante, valutato una volta, regola V4-contro-V0), F affidabilità e fasce, G pubblicazione e incrocio, H rilancio. Script da 56.
+- **Risultato 8, Fase 5** (`docs/PIANO_TRAFFICO_FASE5.md`): **in esecuzione con opencode dal 18/10** (al 18/10 pomeriggio scritti script 56-67 e rapporti assi, corsie, ZTL, TP; manca `docs/ESITO_FASE5_TRAFFICO.md`). Finché lavora non toccare script 56+, `rete_osm.py`, `data/processed/traffico_c|traffico_d/`, l'ESITO. Dopo: ricontrollare i numeri dell'ESITO, scheda R8, un solo riassunto dei ~35 documenti traffico (vecchi in `docs/archivio/`), accorciare questa memoria (~15 KB), togliere il file `3)` creato per errore dal suo `.bat`.
 
 ## 6. PROSSIMI PASSI (in ordine)
 
@@ -90,6 +90,10 @@ Script: 01-20 dati · 21-22 Risultato 1 · 23 vulnerabilità × servizi · 24 im
 4. Più avanti: effetto ZTL sulle strade attorno; Risultati 3, 5, 7; rilanciare l'accessibilità/mappa con baseline = media dei dati raccolti su leopi (non solo orario GTFS; Leo 16/10, ritardi da decidere).
 
 **Metrica trasversale (Leo, 16/10, non ancora progettata)**: "quanti veicoli in meno potrebbero girare" a partire da un miglioramento di accessibilità TP, con IMQ per modo come base; da riprendere dopo il Risultato 8.
+
+**Prossima sessione (Leo, 18/10): revisione completa della mappa** prima di ogni altra cosa: testi poco chiari o troppo dettagliati; confronto con buone pratiche delle mappe web; dati tutti disponibili e leggibili; temi/sovrapposizioni doppi o inutili; colori, scale e tooltip che mostrano davvero ciò che dichiarano; coerenza città/area metropolitana; anche controlli sui dati dietro la mappa.
+
+**Idee nuove di Leo (18/10, da discutere dopo la revisione della mappa):** trasporto visto nel suo insieme. (a) Logistica: interporti, magazzini, ultimo miglio. (b) Taxi. (c) Costo di un percorso o di N km con mezzi pubblici, auto, taxi. (d) Costi del servizio: quanto costa potenziare una linea rispetto al beneficio. Da verificare fonti e limiti (dati logistica/taxi probabilmente scarsi; costi GTT forse dal rapporto di sostenibilità 2025 già estratto).
 
 Idee secondarie: frequenze "promesse vs osservate"; picchi orari per strada/linea; curva di riempimento dei garage del centro come segnale delle auto in entrata. Da chiarire: IMQ in mappa (7 metriche dietro un menu); avvisi GTT da aggiornare (oggi snapshot del 9/10).
 
