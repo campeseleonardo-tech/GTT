@@ -177,7 +177,7 @@ addEventListener("hashchange",()=>applicaTema(temaDaUrl()));
 **4.4 Link con il tema** — in `apri()` il bottone «Apri la mappa» usa `mappa_torino.html#tema=${s.mappa.id}` se `s.mappa.id` c'è, altrimenti `mappa_torino.html`.
 In `schede_risultati.py` aggiungi il campo `id` dove la scheda ha già `mappa`: R1 `"id": "faseb"` (riga ≈153), R2 `"id": "accessibilita"` (≈244). Le schede con `"mappa": None` restano così.
 
-**4.5** Rilancia `python scripts\schede_risultati.py`, `node --check data\schede_risultati.js`; scrivi l'esito. **FERMATI**: Claude apre tutte le schede e controlla che grafici, colori e link siano a posto.
+**4.5** Rilancia `python scripts\schede_risultati.py`, `node --check data\schede_risultati.js`; scrivi l'esito e passa alla Fase 5.
 
 ---
 
