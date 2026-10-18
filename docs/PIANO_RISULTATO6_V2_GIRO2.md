@@ -251,7 +251,7 @@ superficie di 3 parcheggi OSM, copertura U = 17 per fermata) e **aggiungi**:
 
 ### PASSO G9 — Scheda in `simulazione.html` (SOLO dopo la scelta di Leo)
 
-0. **SCENARIO SCELTO: _(vuoto — lo scrive Claude dopo la scelta di Leo; se è vuoto, NON eseguire G9)_**
+0. **SCENARIO SCELTO: S2** (Leo, 19/10/2026). G9 va però eseguito dentro `PIANO_RISULTATO6_FINALE.md` (Fase D), dopo mappa ed eventi.
 1. Obiettivo: sostituire la scheda del Risultato 6 (versione 1) con la **versione 2**, nello stesso formato delle
    altre schede (vedi la docstring di `scripts/schede_risultati.py`: due livelli, grafici + link mappa, solo
    risultati finiti). In `schede_risultati.py` aggiungi `scheda_r6_v2()` e usala al posto di `scheda_r6` nella lista

@@ -1,0 +1,84 @@
+RAPPORTO R6 v2 - DATI PER LA MAPPA E LA SCHEDA (scenario S2)
+Generato il 19/10/2026 01:31 da scripts/79_dati_mappa_r6.py.
+
+== Contenuto e quantita' per sezione ==
+  scenario: S2 'integrato', segnali ['a1', 'a2', 'b2', 'c1', 'c2_ztl', 'd', 'e'], soglia 63.97, 378 luoghi critici, universo 4425
+  luoghi_critici: 378
+  parcheggi: 813
+  ufficiali: 5
+  zona_centrale: 9 zone (Q001, Q002, Q003, Q004, Q005, Q006, Q007, Q008, Q009)
+  eventi: 3 (manca Allianz Stadium)
+
+== Controlli di copertura a 200 m (devono tornare) ==
+  coperto_f200 = 140 (atteso 140)
+  coperto_u200 = 11 (atteso 11)
+  coperto_p200 = 147 (atteso 147)
+  coperto_f200 oppure solo_sulla_carta entro 200 m = 144 (atteso 144)
+
+== Copertura per raggio (da scenari.json, gia' calcolata) ==
+  U   : 100 m    3 | 200 m   11 | 400 m   20
+  F   : 100 m   69 | 200 m  140 | 400 m  229
+  P   : 100 m   59 | 200 m  147 | 400 m  287
+  F+S : 100 m   70 | 200 m  144 | 400 m  229
+
+== Parcheggi per classe e per motivo ==
+  interscambio_di_fatto      0 parcheggi        0 posti
+  solo_sulla_carta           4 parcheggi     1716 posti
+  potenziale               758 parcheggi    56566 posti
+  non_interscambio        2669 parcheggi   159597 posti
+    motivo dichiarato_non_usato     4 parcheggi     1716 posti
+    motivo firma_non_pendolare      1 parcheggi      190 posti
+    motivo nessun_punto          2445 parcheggi   130648 posti
+    motivo punti_a_favore         758 parcheggi    56566 posti
+    motivo zona_centrale          223 parcheggi    28759 posti
+
+== Firme del riempimento 5T [DATI SCARSI] ==
+  pendolare             19 parcheggi
+  destinazione           7 parcheggi
+  misto                  6 parcheggi
+  nessun_dato            4 parcheggi
+  dato_bloccato          3 parcheggi
+  residenziale           2 parcheggi
+  giorni feriali validi: 2026-10-15, 2026-10-16
+
+== Le 10 zone con piu' luoghi critici scoperti (coperti F a 200 m) ==
+  C009  MONCALIERI               critici   64 coperti   28 scoperti   36
+  Q009  01 Torino-Nizza millefonti critici   35 coperti    2 scoperti   33
+  Q003  01 Torino-Crocetta       critici   23 coperti    0 scoperti   23
+  Q023  01 Torino- Mirafiori Sud critici   34 coperti   12 scoperti   22
+  Q005  01 Torino-Cenisia        critici   18 coperti    0 scoperti   18
+  Q006  01 Torino-San Donato     critici   19 coperti    1 scoperti   18
+  Q014  01 Torino- Parella       critici   31 coperti   16 scoperti   15
+  C002  GRUGLIASCO               critici   21 coperti    8 scoperti   13
+  C003  COLLEGNO                 critici   23 coperti   13 scoperti   10
+  Q007  01 Torino-Aurora         critici    7 coperti    0 scoperti    7
+
+== I 10 luoghi piu' scoperti ==
+   93.22 METRO MONTE GRAPPA                     zona Q014  piu' vicino: LERA                       441 m
+   92.88 METRO SPEZIA                           zona Q009  piu' vicino: OSM way 190437232          273 m
+   92.77 METRO ITALIA61                         zona Q009  piu' vicino: OSM way 193440717          223 m
+   92.77 METRO LINGOTTO                         zona Q009  piu' vicino: LINGOTTO                   322 m
+   90.59 METRO BERNINI                          zona Q006  piu' vicino: OSM way 1109043885         723 m
+   90.57 METRO PRINCIPI ACAJA                   zona Q006  piu' vicino: OSM node 12197274454       359 m
+   85.59 Fermata 1915 - STATI UNITI             zona Q003  piu' vicino: PORTA NUOVA (in costruzion 285 m
+   85.59 Fermata 3492 - PORTA NUOVA             zona Q003  piu' vicino: PORTA NUOVA (in costruzion 29 m
+   85.37 Fermata 1916 - STATI UNITI             zona Q003  piu' vicino: PORTA NUOVA (in costruzion 232 m
+   80.45 Fermata 3563 - DUCHESSA JOLANDA EST    zona Q005  piu' vicino: PORTA SUSA FS              80 m
+
+== I 4 parcheggi 'solo sulla carta' ==
+  CAIO MARIO               418 posti, tariffa True, firma dato_bloccato, giorno 0.0149, notte 0.0167
+  SOFIA                    272 posti, tariffa True, firma residenziale, giorno 0.3195, notte 0.5489
+  STURA                    589 posti, tariffa True, firma misto, giorno 0.9012, notte 0.7946
+  VENCHI UNICA             437 posti, tariffa True, firma dato_bloccato, giorno 0.5144, notte 0.5117
+
+== Fuori universo ==
+  luoghi senza zona IMQ (fuori universo): 23
+  fermate GTT escluse perche' fuori Citta' metropolitana: 639
+
+== Dimensione del file ==
+  mappa_r6.json: 541186 byte (529 KB), limite 1,5 MB; punti_a_favore tolti: no
+
+== Limiti ==
+- Le distanze sono in linea d'aria, non a piedi.
+- Il riempimento viene da pochi giorni [DATI SCARSI].
+- I posti stimati da OpenStreetMap hanno un errore di circa il 30%.
