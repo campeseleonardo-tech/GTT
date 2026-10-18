@@ -56,6 +56,14 @@ SECONDI_ZTL = 86400  # dato quasi fisso: basta un controllo al giorno
 URL_VP = "https://percorsieorari.gtt.to.it/das_gtfsrt/vehicle_position.aspx"
 SECONDI_5T = 300  # il feed 5T e' aggiornato ogni 5 minuti: non ha senso chiedere piu' spesso
 
+# --- codici lcd1 condivisi da due sensori fisici (pacchetto H, 17/10/2026) --------
+# Tre codici sono usati da due sensori diversi. La PRIMA voce del documento (in
+# ordine di apparizione) tiene il codice invariato, cosi' i dati storici restano
+# validi; la seconda e le successive diventano '<codice>~2', '<codice>~3'...
+# Qui l'offset atteso della prima voce, che serve da ancora: se il feed cambia
+# ordine, lo script lo segnala nel log invece di scambiare i due sensori.
+CODICI_CONDIVISI_ANCORA = {"40189": 160.0, "40123": 1555.0, "13077": 4960.0}
+
 
 def adesso():
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
@@ -112,10 +120,18 @@ def _num(v):
 
 
 def salva_5t_da_bytes(con, dati):
-    """Interpreta l'XML 5T e salva sensori e misure. Restituisce il numero di misure salvate."""
+    """Interpreta l'XML 5T e salva sensori e misure. Restituisce il numero di misure salvate.
+
+    Codici condivisi (pacchetto H, 17/10/2026): tre codici lcd1 sono usati da due
+    sensori fisici diversi. La PRIMA voce in ordine di apparizione tiene il codice
+    invariato; la seconda e le successive diventano '<codice>~2', '<codice>~3'...
+    (esempio: 40189~2), cosi' i due sensori si salvano entrambi e i dati storici
+    restano validi.
+    """
     radice = ET.fromstring(dati)
     generato = radice.attrib.get("generation_time") or adesso()
     n = 0
+    visti = {}
     for s in radice.iter():
         if nome_locale(s.tag) != "FDT_data":
             continue
@@ -123,20 +139,32 @@ def salva_5t_da_bytes(con, dati):
         lcd1 = a.get("lcd1")
         if not lcd1:
             continue
+        # --- codici condivisi: primo = invariato, poi ~2, ~3, ... ---
+        visti[lcd1] = visti.get(lcd1, 0) + 1
+        if visti[lcd1] == 1:
+            codice = lcd1
+            atteso = CODICI_CONDIVISI_ANCORA.get(lcd1)
+            if atteso is not None and _num(a.get("offset")) != atteso:
+                log(f"ATTENZIONE 5T: {lcd1} ha la prima voce con offset "
+                    f"{a.get('offset')} invece di {atteso}: ordine del feed cambiato?")
+        else:
+            codice = f"{lcd1}~{visti[lcd1]}"
+            log(f"5T: il codice {lcd1} compare piu' volte nel documento: la voce "
+                f"n. {visti[lcd1]} diventa {codice} (offset {a.get('offset')})")
         con.execute("INSERT OR REPLACE INTO sensori_5t VALUES (?,?,?,?,?,?,?,?)",
-                    (lcd1, a.get("Road_LCD"), a.get("Road_name"), _num(a.get("offset")),
+                    (codice, a.get("Road_LCD"), a.get("Road_name"), _num(a.get("offset")),
                      a.get("direction"), _num(a.get("lat")), _num(a.get("lng")), _num(a.get("accuracy"))))
         # L'accuratezza di questa misura si salva PERMANENTE in accuratezza_5t, nello
         # stesso ciclo/transazione dei flussi. Prima di questo cambiamento l'accuratezza
         # non era salvata per misura: il passato resta "non disponibile" (le vecchie righe
         # di flussi_5t non vengono riscritte e in accuratezza_5t non si inventa nulla).
         con.execute("INSERT OR IGNORE INTO accuratezza_5t VALUES (?,?,?)",
-                    (generato, lcd1, _num(a.get("accuracy"))))
+                    (generato, codice, _num(a.get("accuracy"))))
         sf = next((c for c in s if nome_locale(c.tag) == "speedflow"), None)
         if sf is None:
             continue
         cur = con.execute("INSERT OR IGNORE INTO flussi_5t VALUES (?,?,?,?,?)",
-                          (generato, lcd1, _num(sf.attrib.get("flow")), _num(sf.attrib.get("speed")),
+                          (generato, codice, _num(sf.attrib.get("flow")), _num(sf.attrib.get("speed")),
                            int(_num(a.get("period")) or 5)))
         n += cur.rowcount  # 0 se la misura era gia' presente
     con.commit()

@@ -1,0 +1,32 @@
+VERIFICHE INDIPENDENTI - FASE 4 (risultato 8, traffico x trasporto pubblico)
+================================================================================
+1. Totali corse bus/tram del giorno tipico 2026-10-14
+   script 51 = 13.158   verifica indipendente (pandas) = 13,158   OK (tolleranza 0)
+
+2. Fattore di taratura della variante finale V0 (n=20)
+   k memorizzato = 1.721511   k ricalcolato a mano = 1.721511   coincide
+   unita' SP1(TO) delle Valli di Lanzo LOO a mano: previsto 6,899 errore 56.57%
+   unita' Corso Orbassano(TO)          LOO a mano: previsto 36,270 errore 12.28%
+   unita' Strada Di Settimo(TO)        LOO a mano: previsto 8,122 errore 51.91%
+
+3. Cinque corridoi seguiti dai tratti al valore finale pubblicato
+   Corso Unità d'Italia (Torino)            grezzo    28902.7 x k=1.7215 -> pubblicato 80,946 (MISURATO) OK
+   Via Alassio (Torino)                     grezzo      855.3 x k=1.7215 -> pubblicato 1,472 (stimato) OK
+   Via Zino Giacomo Zini (Torino)           grezzo       97.9 x k=1.7215 -> pubblicato 168 (stimato) OK
+   Via Leon Tron (Grugliasco)               grezzo      964.2 x k=1.7215 -> pubblicato 1,660 (stimato) OK
+   Via Guglielmo Oberdan (Collegno)         grezzo      956.2 x k=1.7215 -> pubblicato 1,646 (stimato) OK
+
+4. git status: nessun commit, nessun file vietato toccato dall'agente
+   file vietati modificati: ['MEMORIA_PROGETTO.md', 'scripts/mappa_template.html']  (erano GIA' modificati prima di questa sessione, come gia' scritto in Fase 3)
+   commit totali sul ramo: 172 (nessun commit fatto in questa fase)
+   nuovi script Fase 4: 49, 50, 50b, 51, 52, 53, 54, 55; V3_MODELLO.bat; 51-54 e 50b aggiunti a TRAFFICO_RILANCIA_SENSORI.bat (copia .bak_17ott)
+
+5. Pacchetto B: corridoi di Torino con passaggi ma senza fermate GTFS entro 150 m
+   corridoi di Torino con passaggi: 551; senza fermate entro 150 m: 5
+      Piazza Muzio Scevola (Torino)                      fermata piu' vicina a 163 m
+      Ponte Pietro Secondo (Torino)                      fermata piu' vicina a 263 m
+      Viale Dogali (Torino)                              fermata piu' vicina a 152 m
+      Corso Federico Sclopis (Torino)                    fermata piu' vicina a 193 m
+      Via Antonio Gramsci (Torino)                       fermata piu' vicina a 153 m
+
+ESITO: TUTTE LE VERIFICHE OK

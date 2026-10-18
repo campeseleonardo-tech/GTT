@@ -675,14 +675,10 @@ function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flu
 const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
 /* combina gruppo×livello di vuoto in una delle 3 classi (per la mappa e per la scheda) */
 let accCache={k:""};
-// [agente GT-acc-tp] fascia oraria tp (08/14/23/02) piu' vicina all'ora corrente, su un orologio circolare.
-// Decisione 13/10 sera (Leo): l'ora deve corrispondere esattamente o entro 1h alla fascia, altrimenti
-// nessuna fascia è abbastanza vicina e il dato va trattato come non disponibile (null).
+// [agente GT-24fasce] 15/10: le 24 fasce orarie sono ora tutte calcolate, quindi l'ora scelta
+// corrisponde sempre esattamente a una fascia disponibile (non serve più cercare la più vicina).
 function tpFasciaVicina(h){
-  const fasce=[8,14,23,2];
-  let best=fasce[0], bd=Infinity;
-  for(const f of fasce){ const d=Math.min(Math.abs(h-f),24-Math.abs(h-f)); if(d<bd){bd=d; best=f;} }
-  return bd<=1 ? String(best).padStart(2,"0") : null;
+  return String(h).padStart(2,"0");
 }
 // [agente GT-acc-tp] valore di accessibilita' per sezione/gruppo/modalita' (piedi 15' o tp 45', fascia piu' vicina)
 function accValore(z, gruppo, modalita){

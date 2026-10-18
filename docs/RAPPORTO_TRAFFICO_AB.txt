@@ -1,0 +1,125 @@
+TRAFFICO STIMATO CON I METODI A E B (feriale)  [MISURATO dove c'e' il sensore]
+============================================================================================
+unita' di calcolo (sensore o coppia di versi, abbinati a un corridoio): 20
+  di cui coppie di versi sommate: 2
+  di cui un solo verso (totale x2 stimato): 18
+corridoi con un valore: 15 (di cui estesi da metodo B da un altro corridoio: 0)
+metodo B dentro il corridoio del sensore (parti entro 1 km): 70.9 km su 207.7 km dei corridoi con sensore (34.1%)
+corridoi senza stima: 10429
+
+(1) METODO A - gruppi (punteggio x dentro/fuori Torino), valori di f_diurno_totale
+          gruppo   n  stimabile  mediana     p10     p90  unita'
+       p2_dentro   1         NO    20889    None    None  36066+36067
+       p3_dentro   3         si    17342   16177   24464  35478+35479, 40149, 40194
+       p4_dentro  13         si    28846   17324   65348  39977, 39983, 40040, 40041, 40095, 40097, 40098, 40122, 40174, 40182, 40189, 40212, 40253
+       p5_dentro   2         NO    29816   28922   30710  40021, 40022
+        p5_fuori   1         NO    40092    None    None  2375
+
+(2) PROVA 'NASCONDI UN SENSORE' per il metodo A (errore relativo)
+    errore = |mediana del gruppo senza il sensore - valore misurato| / valore misurato
+          gruppo   n  mediano     90o  peggiore  distorsione
+       p2_dentro   0  nessun sensore valutabile
+       p3_dentro   3    36.7%   37.1%     37.2%         7.3%
+       p4_dentro  13    39.2%   72.1%    132.5%         7.3%
+       p5_dentro   0  nessun sensore valutabile
+        p5_fuori   0  nessun sensore valutabile
+          TOTALE  16    36.9%   69.3%    132.5%         7.3%
+  (distorsione = media di (previsione - misurato)/misurato: positiva = A sovrastima)
+
+(3) Dettaglio della prova per il metodo A
+           unita         gruppo  misurato  previsione   errore
+     35478+35479      p3_dentro     15886       21793    37.2%
+     36066+36067      p2_dentro         -           -        -  gruppo non stimabile (< 3 unita') o valore misurato nullo
+            2375       p5_fuori         -           -        -  gruppo non stimabile (< 3 unita') o valore misurato nullo
+           39977      p4_dentro     21104       29381    39.2%
+           39983      p4_dentro     12636       29381   132.5%
+           40021      p5_dentro         -           -        -  gruppo non stimabile (< 3 unita') o valore misurato nullo
+           40022      p5_dentro         -           -        -  gruppo non stimabile (< 3 unita') o valore misurato nullo
+           40040      p4_dentro     33928       28642    15.6%
+           40041      p4_dentro     28846       29177     1.1%
+           40095      p4_dentro     50204       28642    43.0%
+           40097      p4_dentro     41346       28642    30.7%
+           40098      p4_dentro     27262       29381     7.8%
+           40122      p4_dentro     28438       29381     3.3%
+           40149      p3_dentro     17342       21065    21.5%
+           40174      p4_dentro     69134       28642    58.6%
+           40182      p4_dentro     19066       29381    54.1%
+           40189      p4_dentro     80946       28642    64.6%
+           40194      p3_dentro     26244       16614    36.7%
+           40212      p4_dentro     29916       28642     4.3%
+           40253      p4_dentro     16888       29381    74.0%
+
+(4) PROVA per il metodo B - coppie di sensori sullo STESSO corridoio e stesso verso
+    casi: 6 -> valutabile
+                           corridoio       a       b   dist_m     f_A     f_B  rapporto   errore
+            Corso Francia (Collegno)   40021   40022    245.6   14349   15467      0.93     7.2%
+                     Corso Orbassano   40097   40098    411.3   20673   13631      1.52    51.7%
+          Strada di Settimo (Torino)   40212   40253    956.2   14958    8444      1.77    77.1%
+        Corso Giulio Cesare (Torino)   40040   40041   1230.4   16964   14423      1.18    17.6%
+                     Corso Orbassano   40095   40097   1288.5   25102   20673      1.21    21.4%
+                     Corso Orbassano   40095   40098   1696.8   25102   13631      1.84    84.2%
+
+(5) Corridoi con un valore
+                               corridoio  p  metodo  stim  f_diurno  tot 2 versi  km<=1km  km tot  unita'
+  Corso Canonico Giuseppe Allamano (Grug  4 sensore    no      6318        12636      4.3   23.82  39983
+                Corso Francia (Collegno)  5 sensore    no     14349        28698     8.37   42.46  40021, 40022
+         Corso Giovanni Agnelli (Torino)  4 sensore    no     10552        21104     6.92    8.85  39977
+            Corso Giulio Cesare (Torino)  4 sensore    no     16964        33928     5.25   16.71  40040, 40041
+                         Corso Orbassano  4 sensore    no     25102        50204     6.68   13.22  40095, 40097, 40098
+        Corso Regina Margherita (Torino)  4 sensore    no     14219        28438     7.55   21.11  40122
+              Corso Sebastopoli (Torino)  3 sensore    no      8671        17342     2.99    4.45  40149
+              Corso Trieste (Moncalieri)  4 sensore    no     34567        69134     3.01    4.57  40174
+         Corso Unione Sovietica (Torino)  4 sensore    no      9533        19066     7.08   18.62  40182
+           Corso Unità d'Italia (Torino)  4 sensore    no     40473        80946     5.09     5.5  40189
+                 Corso Vercelli (Torino)  3 sensore    no     13122        26244     3.83    9.01  40194
+  Raccordo Autostradale Torino-Caselle (  5 sensore    no     20046        40092     4.44   22.39  2375
+              Strada di Settimo (Torino)  4 sensore    no     14958        29916     1.88    6.55  40212, 40253
+  Via Lanzo (Lanzo Torinese E Limitrofi)  3 sensore    no      8378        15886     1.78    8.02  35478+35479
+                    Via Torino (Druento)  2 sensore    no     10920        20889      1.7    2.38  36066+36067
+
+(6) Corridoi senza stima, per motivo (l'elenco completo e' nel file JSON)
+   10314  nessun sensore su questa strada e nessun metodo applicabile
+     107  stessa strada di un corridoio con sensore ma oltre 1 km
+       8  nome uguale a una via con sensore, ma nessun corridoio abbinato
+  corridoi da guardare (stessa strada di un sensore, o nome uguale a una via con sensore): 115
+      Corso Giovanni Agnelli (Settimo Torinese)                    stessa strada di un corridoio con sensore ma oltre 1 km
+      Corso Moncalieri (Torino)                                    nome uguale a una via con sensore, ma nessun corridoio abbinato
+      Corso Regina Margherita (Volpiano)                           stessa strada di un corridoio con sensore ma oltre 1 km
+      Corso Torino (Alpignano)                                     stessa strada di un corridoio con sensore ma oltre 1 km
+      Corso Torino (Carignano)                                     stessa strada di un corridoio con sensore ma oltre 1 km
+      Corso Torino (Chieri)                                        stessa strada di un corridoio con sensore ma oltre 1 km
+      Corso Torino (Grugliasco)                                    stessa strada di un corridoio con sensore ma oltre 1 km
+      Corso Torino (Rivoli)                                        stessa strada di un corridoio con sensore ma oltre 1 km
+      Corso Trieste (Torino)                                       stessa strada di un corridoio con sensore ma oltre 1 km
+      Corso Vercelli (Venaria Reale)                               stessa strada di un corridoio con sensore ma oltre 1 km
+      Piazza Trieste (Chieri)                                      stessa strada di un corridoio con sensore ma oltre 1 km
+      Piazza Unità d'Italia (Pecetto Torinese)                     stessa strada di un corridoio con sensore ma oltre 1 km
+      Ponte Amedeo VIII (Torino)                                   nome uguale a una via con sensore, ma nessun corridoio abbinato
+      Strada Francia (Caselle Torinese)                            stessa strada di un corridoio con sensore ma oltre 1 km
+      Strada Lanzo (Torino)                                        stessa strada di un corridoio con sensore ma oltre 1 km
+      Strada Moncalieri (Moncalieri)                               nome uguale a una via con sensore, ma nessun corridoio abbinato
+      Strada Moncalieri (Rivoli)                                   nome uguale a una via con sensore, ma nessun corridoio abbinato
+      Strada Orbassano (Beinasco)                                  stessa strada di un corridoio con sensore ma oltre 1 km
+      Strada Orbassano (Candiolo)                                  stessa strada di un corridoio con sensore ma oltre 1 km
+      Strada Orbassano (Nichelino)                                 stessa strada di un corridoio con sensore ma oltre 1 km
+      Strada Orbassano (Volvera E Limitrofi)                       stessa strada di un corridoio con sensore ma oltre 1 km
+      Strada Torino (Beinasco)                                     stessa strada di un corridoio con sensore ma oltre 1 km
+      Strada Torino (Caselle Torinese)                             stessa strada di un corridoio con sensore ma oltre 1 km
+      Strada Torino (Moncalieri)                                   stessa strada di un corridoio con sensore ma oltre 1 km
+      Strada Torino (Rivalta Di Torino)                            stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Francia (Borgaro Torinese)                               stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Francia (Orbassano)                                      stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Giovanni Agnelli (Caluso E Limitrofi)                    stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Giovanni Agnelli (Candiolo)                              stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Giovanni Agnelli (Lanzo Torinese E Limitrofi)            stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Giovanni Agnelli (Riva Presso Chieri E Limitrofi)        stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Giovanni Agnelli (Santena)                               stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Lanzo (Alpignano)                                        stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Lanzo (Borgaro Torinese)                                 stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Lanzo (Brandizzo)                                        stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Lanzo (Cirie')                                           stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Lanzo (Druento)                                          stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Lanzo (Givoletto E Limitrofi)                            stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Lanzo (Pianezza)                                         stessa strada di un corridoio con sensore ma oltre 1 km
+      Via Lanzo (Rivoli)                                           stessa strada di un corridoio con sensore ma oltre 1 km
+      ... e altri 75 nel file JSON

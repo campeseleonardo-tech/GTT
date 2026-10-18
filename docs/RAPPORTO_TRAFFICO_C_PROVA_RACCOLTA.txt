@@ -1,0 +1,33 @@
+PROVA DEL RACCOGLITORE PATCHATO SU UN DATABASE VUOTO (pacchetto H, punto 5)
+==========================================================================
+database di prova: C:\projects\Progetti\GTT\data\processed\traffico_c\prova_5t_codici.sqlite
+
+1) primo giro con l'XML del 3/10:
+   misure salvate: 112   sensori_5t 112   flussi_5t 112   accuratezza_5t 112
+   codici con '~': ['13077~2', '40123~2', '40189~2']
+   righe di log: 3
+     2026-10-17T01:06:14+00:00  5T: il codice 40123 compare piu' volte nel documento: la voce n. 2 diventa 40123~2 (offset 125)
+     2026-10-17T01:06:14+00:00  5T: il codice 40189 compare piu' volte nel documento: la voce n. 2 diventa 40189~2 (offset 970)
+     2026-10-17T01:06:14+00:00  5T: il codice 13077 compare piu' volte nel documento: la voce n. 2 diventa 13077~2 (offset 5150)
+
+2) secondo giro con lo stesso XML:
+   misure nuove: 0   sensori_5t 112   flussi_5t 112   accuratezza_5t 112
+
+3) XML modificato a mano (40021 ripetuto 3 volte):
+   misure salvate: 114   sensori_5t 114   flussi_5t 226   accuratezza_5t 226
+   codici con '~': ['13077~2', '40021~2', '40021~3', '40123~2', '40189~2']
+     2026-10-17T01:06:14+00:00  5T: il codice 40123 compare piu' volte nel documento: la voce n. 2 diventa 40123~2 (offset 125)
+     2026-10-17T01:06:14+00:00  5T: il codice 40189 compare piu' volte nel documento: la voce n. 2 diventa 40189~2 (offset 970)
+     2026-10-17T01:06:14+00:00  5T: il codice 13077 compare piu' volte nel documento: la voce n. 2 diventa 13077~2 (offset 5150)
+     2026-10-17T01:06:14+00:00  5T: il codice 40021 compare piu' volte nel documento: la voce n. 2 diventa 40021~2 (offset 513)
+     2026-10-17T01:06:14+00:00  5T: il codice 40021 compare piu' volte nel documento: la voce n. 3 diventa 40021~3 (offset 513)
+
+4) posizione salvata per i codici condivisi (deve essere quella di OGNI voce):
+   40189      (160.0, 45.01876, 7.66932)
+   40189~2    (970.0, 45.02586, 7.671667)
+   40123      (1555.0, 45.093256, 7.63375)
+   40123~2    (125.0, 45.086797, 7.653109)
+   13077      (4960.0, 44.64808, 7.59853)
+   13077~2    (5150.0, 44.65592, 7.71134)
+
+ESITO: giro1 OK · giro2 OK · giro3 OK · ancore OK

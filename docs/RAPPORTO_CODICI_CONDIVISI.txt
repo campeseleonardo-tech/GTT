@@ -1,0 +1,30 @@
+CODICI SENSORE CONDIVISI (Passo 8c, sola lettura)
+==============================================================================
+file: 5t_flussi_20261003_224539.xml
+
+(i) Controlli sul file XML grezzo
+  voci FDT_data: 112   [atteso 112]
+  codici lcd1 distinti: 109   [atteso 109]
+  codici con piu' di una voce: 3 -> ['13077', '40123', '40189']   [attesi ['13077', '40123', '40189']]
+  -- 13077: 2 voci
+       verso positive offset   4960 lat 44.64808 lng 7.59853 accuratezza    0  (SS662 Di Savigliano)
+       verso negative offset   5150 lat 44.65592 lng 7.71134 accuratezza    0  (SS662 Di Savigliano)
+  -- 40123: 2 voci
+       verso negative offset   1555 lat 45.093256 lng 7.63375 accuratezza    0  (Corso Regina Margherita(TO))
+       verso positive offset    125 lat 45.086797 lng 7.653109 accuratezza   95  (Corso Regina Margherita(TO))
+  -- 40189: 2 voci
+       verso positive offset    160 lat 45.01876 lng 7.66932 accuratezza   95  (Corso Unita' D'italia(TO))
+       verso positive offset    970 lat 45.02586 lng 7.671667 accuratezza   80  (Corso Unita' D'italia(TO))
+
+(ii) Cosa c'e' nel database per quegli stessi codici
+  -- 13077: sensori_5t -> nome 'SS662 Di Savigliano' offset_m 5150.0 verso negative lat 44.65592 lng 7.71134
+       flussi_5t: 3353 righe su 3353 istanti, massimo righe per istante = 1   [atteso 1]
+  -- 40123: sensori_5t -> nome 'Corso Regina Margherita(TO)' offset_m 125.0 verso positive lat 45.086797 lng 7.653109
+       flussi_5t: 3353 righe su 3353 istanti, massimo righe per istante = 1   [atteso 1]
+  -- 40189: sensori_5t -> nome "Corso Unita' D'italia(TO)" offset_m 970.0 verso positive lat 45.02586 lng 7.671667
+       flussi_5t: 3353 righe su 3353 istanti, massimo righe per istante = 1   [atteso 1]
+
+(iii) Marcatura
+  codici marcati 'codice_condiviso: true' in sensori_corridoi_v2.json: ['13077', '40123', '40189']
+  di questi, presenti fra i 92 sensori usabili (Passo 8): ['13077', '40189']
+  40189: usabile ma NON per il metodo B (posizione non sicura) -> presente

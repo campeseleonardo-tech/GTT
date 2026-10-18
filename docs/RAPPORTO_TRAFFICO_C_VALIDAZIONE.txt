@@ -1,0 +1,79 @@
+VALIDAZIONE DEL METODO C - PACCHETTO F
+==========================================================================
+Criteri ripresi parola per parola dalla sezione 1 di docs/PIANO_TRAFFICO_FASE3.md:
+  "C-ASSOLUTO: errore mediano <= 35% e migliore di A e rho >= 0,7"
+  "C-INDICE:  rho >= 0,7 ma errore > 35% o non migliore di A"
+  "C-DEBOLE:  0,5 <= rho < 0,7"
+  "C-NO:      rho < 0,5"
+
+Unita' di confronto: totale diurno 6-21 a due versi (veicoli/giorno).
+Unita' disponibili: 20. Taratura sempre leave-one-out.
+Metodo A (stesse unita', 17/10): errore mediano 36.9%.
+
+== Risultati per variante (leave-one-out) ==
+variante          err.med             IC90  err.p90  peggiore  distors.    rho  meglio di A
+V0_globale          31.9% [ 23.7%, 40.2%]    59.2%    146.9%      5.7%  0.602           si
+V1_per_classe       31.9% [ 19.3%, 37.6%]    62.5%    216.9%     11.5%  0.516           si
+V2_potenza          22.8% [ 20.0%, 34.0%]    82.4%    109.2%      6.2%  0.577           si
+
+Modello GREZZO (prima della taratura): rho di Spearman = 0.614   (n=20)
+
+Variante migliore per errore mediano: V2_potenza (22.8%).
+Per la regola 3 (piu' semplice entro 5 punti) la variante finale sarebbe: V2_potenza.
+Variante FINALE scelta: V0_globale - V0 per decisione motivata dell'agente (la regola 3 indicherebbe V2_potenza, stessa classe di esito ma extrapolazione non plausibile).
+
+== Classe di esito (secondo la tabella della sezione 1) ==
+  rho = 0.602   errore mediano = 31.9%   migliore del metodo A: si
+  CLASSE = C-DEBOLE   (intervallo al 90% a cavallo della soglia del 35%: INCERTO)
+
+== Tabella completa (variante finale) ==
+        lcd1 via                                classe       misurato    modello   previsto   errore
+       40189 Corso Unita' D'italia(TO)          arteria        80,946     43,137     73,383     9.3%
+       40174 Corso Trieste(TO)                  arteria        69,134     42,483     73,651     6.5%
+       40095 Corso Orbassano(TO)                arteria        50,204     21,992     37,083    26.1%
+       40097 Corso Orbassano(TO)                arteria        41,346     21,237     36,270    12.3%
+        2375 R24 Raccordo Torino-Aeroporto Case autostrada_tangenziale     40,092     15,997     26,975    32.7%
+       40040 Corso Giulio Cesare(TO)            arteria        33,928     16,646     28,409    16.3%
+       40022 Corso Francia(TO)                  autostrada_tangenziale     30,934     21,244     36,914    19.3%
+       40212 Ponte Amedeo VIII(TO)              arteria        29,916     11,164     18,887    36.9%
+       40041 Corso Giulio Cesare(TO)            arteria        28,846     23,071     40,437    40.2%
+       40021 Corso Francia(TO)                  autostrada_tangenziale     28,698     21,550     37,615    31.1%
+       40122 Corso Regina Margherita(TO)        arteria        28,438     16,230     27,918     1.8%
+       40098 Corso Orbassano(TO)                arteria        27,262     20,054     34,938    28.2%
+       40194 Corso Vercelli(TO)                 locale         26,244      7,567     12,752    51.4%
+       39977 Corso Agnelli(TO)                  arteria        21,104     17,026     29,704    40.8%
+ 36066+36067 SP8(TO) di Druento                 locale         20,889      9,081     15,502    25.8%
+       40182 Corso Unione Sovietica(TO)         arteria        19,066     26,201     47,081   146.9%
+       40149 Corso Sebastopoli(TO)              locale         17,342     18,062     31,797    83.4%
+       40253 Strada Di Settimo(TO)              arteria        16,888      4,783      8,122    51.9%
+ 35478+35479 SP1(TO) delle Valli di Lanzo       locale         15,886      4,064      6,899    56.6%
+       39983 Corso Allamano(TO)                 arteria        12,636     10,058     17,445    38.1%
+
+== Residui: le 5 unita' piu' lontane ==
+         40182 Corso Unione Sovietica(TO)     misurato 19,066 modello 26,201 previsto 47,081 errore 147% (punteggio 4, sensore a 0.6 m dal tratto)
+         40149 Corso Sebastopoli(TO)          misurato 17,342 modello 18,062 previsto 31,797 errore 83% (punteggio 3, sensore a 0.3 m dal tratto)
+   35478+35479 SP1(TO) delle Valli di Lanzo   misurato 15,886 modello 4,064 previsto 6,899 errore 57% (punteggio 3, sensore a 5.3 m dal tratto)
+         40253 Strada Di Settimo(TO)          misurato 16,888 modello 4,783 previsto 8,122 errore 52% (punteggio 4, sensore a 2.2 m dal tratto)
+         40194 Corso Vercelli(TO)             misurato 26,244 modello 7,567 previsto 12,752 errore 51% (punteggio 3, sensore a 6.2 m dal tratto)
+
+== Controlli di buon senso (sezione 1) ==
+  (a) flusso medio per classe di strada (autostrada/tangenziale > arteria > locale):
+      autostrada_tangenziale   n=   32  mediana    9,273  media   12,025
+      arteria                  n=  405  mediana      938  media    4,572
+      locale                   n= 9685  mediana        0  media      728
+      ordine rispettato: SI
+  (b) radiali d'ingresso di Torino: 11 unita', modello 215,310 / misurato 322,462 = 0.67  (atteso < 1; se > 1,3 c'e' un errore da capire)
+  (c) veicoli-km: vedi data/processed/traffico_c/instradamenti/riepilogo.json (coerenti per costruzione con i viaggi x lunghezza percorso; il controllo indipendente e' la verifica networkx del pacchetto D, errore 0,000%)
+
+== Punta mattina e sera ==
+  NON eseguita: i sensori urbani di Torino sono a un solo verso e il verso
+  non e' ricavabile con certezza dal file (Piano Fase 2, sezione 0). Il
+  confronto resta sul totale diurno, che e' circa simmetrico fra i due versi.
+
+== Controllo indipendente (sezione 8) ==
+  k globale ricalcolato a mano (somma misurato 639,799 / somma modello 371,650) = 1.721511   coincide
+  unita' SP1(TO) delle Valli di Lanzo senza di lei a=98.4260 b=0.5850  previsto = 12,717  errore = 19.95%   (script 56.57%)
+  unita' Corso Francia(TO)            senza di lei a=139.6545 b=0.5509  previsto = 34,051  errore = 18.65%   (script 31.07%)
+  unita' Corso Regina Margherita(TO)  senza di lei a=148.5799 b=0.5436  previsto = 28,898  errore = 1.62%   (script 1.83%)
+
+  Grafico: docs/grafico_misurato_vs_previsto.png

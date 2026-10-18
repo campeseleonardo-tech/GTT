@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **16/10/2026 (23:00)**. File unico di memoria: leggerlo all'inizio, aggiornarlo
+Ultimo aggiornamento: **17/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo
 alla fine, tenerlo corto (~15 KB). Solo lo stato attuale (la storia sta in git).
 Sezioni fisse: 1 Obiettivo · 2 Regole · 3 Cartelle e dati · 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI ·
 7 MANCA · 8 Standard tecnici. Non aggiungerne altre.
@@ -18,11 +18,10 @@ grafico minimo per ora, si raffina più avanti.
 Interesse in crescita: traffico auto, parcheggi, logistica. Nel tempo i dati MISURATI (raccolta su
 leopi, che continua sempre) devono calibrare quelli simulati.
 
-Risultati: **1** servizi (fatto) · **2** metro di notte (impianto fatto, numeri da rifare con metrica
-giusta — vedi FATTO/PROSSIMI PASSI) · **3** più passaggi su una linea · **4** bus in ritardo e
-irregolari [MISURATO] (v1 fatta) · **5** linea nuova inventata · **6** parcheggi di interscambio (v1
-fatta) · **7** bici. Scenari in `data/scenari/<nome>.json`, avviso standard: "SIMULAZIONE SU ORARIO
-PROGRAMMATO — non tiene conto di traffico, ritardi, capienza, domanda reale."
+Risultati: **1** servizi (fatto) · **2** metro di notte (chiuso) · **3** più passaggi su una linea · **4** bus in ritardo e
+irregolari [MISURATO] (v1 fatta) · **5** linea nuova inventata · **6** parcheggi di interscambio (v1 fatta) · **7** bici ·
+**8** traffico veicolare [MISURATO+STIMATO] (**priorità dal 16/10**; il resto resta in coda). Scenari in `data/scenari/<nome>.json`,
+avviso standard: "SIMULAZIONE SU ORARIO PROGRAMMATO — non tiene conto di traffico, ritardi, capienza, domanda reale."
 
 ## 2. Regole di lavoro
 
@@ -36,20 +35,22 @@ PROGRAMMATO — non tiene conto di traffico, ritardi, capienza, domanda reale."
 - Tag dati: [MISURATO]/[PROGRAMMATO]/[STIMATO]/[CENSIMENTO]/[DATI SCARSI]. Niente dati personali;
   vulnerabilità solo con l'indice dedicato, mai nazionalità.
 - Orari: il PC è in ora italiana (la shell Git Bash mostra un'etichetta di fuso sbagliata).
+- **Ogni fase ha il suo `docs/PIANO_*.md`** (storia, decisioni, passi, prompt per l'agente); qui solo il riassunto.
+- Agenti esterni (opencode): lavorano sul ramo `prova` senza commit, database in sola lettura, scrivono l'esito in `docs/ESITO_*.md`; Claude ricontrolla i numeri prima di darli a Leo.
 
 ## 3. Cartelle e dati
 
 Radice: `mappa_torino.html`, `MEMORIA_PROGETTO.md`, `AGENTS.md`. `docs/`: piani `PIANO_*.md`, rapporti
 `RAPPORTO_*.txt`. `data/` (non in git): `raw/` (non toccare), `processed/`, `otp/` (R5), `scenari/`.
 Script: 01-20 dati · 21-22 Risultato 1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 Risultato 6
-· 26 velocità 5T · 27 Risultato 4 · 28-29 Risultato 2 (metro notte). **Prossimo numero libero: 30.**
+· 26 velocità 5T · 27 Risultato 4 · 28-29 Risultato 2 (metro notte) · 30-32 rapporto sostenibilità · 33-38b traffico 5T (flusso per sensore, esclusioni, abbinamento ai corridoi, metodi A+B, verifiche) · 39-48 + `rete_osm.py` metodo C (rete OSM, assegnazione IMQ, validazione) · 49-55 Fase 3-bis e 4 (modello V3, TP per strada, pubblicazione, incrocio). **Prossimo numero libero: 56.**
 
 | Dato | Note |
 |---|---|
 | GTFS GTT | 215 linee, 7.045 fermate |
-| Storico leopi | copia sul PC `data/storico_backup.sqlite`. **Dal 16/10: sync GTT da leopi solo 1 volta a settimana (domenica), stesso ritmo dell'altro backup** — a Leo non interessano dati live sulla mappa per ora. Mezzi GTT, ritardi, 5T traffico (109 sensori, 31 col nome "(TO)"), parcheggi 5T e ZTL dal 14/10 |
-| 5T traffico | il flusso è **già in veicoli/ora** (conteggio 5' × 12: tutti i valori sono multipli di 12). Accuratezza per lettura solo dall'8/10 21:30 UTC (`accuratezza_5t`) |
-| Ritardi GTT | tabella `trip_update_gtt` (dal 10/10, una lettura al minuto). `delay` di corsa mai presente; per ogni fermata `stop_time_update.arr` ha il ritardo in secondi (`delay`, ~70%) o l'arrivo previsto (`time`, ~30%, da confrontare con l'orario GTFS). Campione: mediana 0, p95 +5 min. Usato dal Risultato 4 |
+| Storico leopi | copia sul PC `data/storico_backup.sqlite`; sync da leopi **una volta a settimana** (domenica) con `scripts\FETCH_LEOPI_E_VELOCITA_5T.bat` (anche fetch manuale). Mezzi GTT, ritardi, 5T traffico, parcheggi 5T e ZTL (dal 14/10) |
+| 5T traffico | flusso **già in veicoli/ora** (multipli di 12). **112 sensori fisici ma `lcd1` unico solo per 109** (3 codici doppi: 40123, 40189, 13077). **Raccoglitore corretto sul Pi il 17/10 11:24** (`AGGIORNA_RACCOLTA_5T_CODICI.bat`): verificato, 112 sensori e 3/3 codici `~2` con dati; i secondi sensori hanno dati utili dopo ~6 giorni feriali. Il codice `~2` non esiste nei dati storici prima del 17/10. Accuratezza per lettura dal 8/10 21:30 UTC. Esito delle prime analisi: `docs/ESITO_FASE1_TRAFFICO_5T.md`, `docs/ESITO_FASE2_TRAFFICO.md` |
+| Ritardi GTT | tabella `trip_update_gtt` (dal 10/10, una lettura al minuto), usata dal Risultato 4. `delay` di corsa mai presente; per ogni fermata `stop_time_update.arr` ha `delay` in secondi (~70%) o l'arrivo previsto `time` (~30%, da confrontare con l'orario GTFS) |
 | Censimento 2021 | 8.317 sezioni, 1.557.493 abitanti (Torino 848.748) |
 | IMQ 2022 + zone MTM | spostamenti ora × modo × scopo × O/D, tutto arrivato |
 | Servizi | catalogo comunale (Torino) + OSM (cintura, più povero). OMI 2025/2. Avvisi GTT (snapshot 9/10) |
@@ -62,52 +63,33 @@ Script: 01-20 dati · 21-22 Risultato 1 · 23 vulnerabilità × servizi · 24 im
 |---|---|
 | Raccolta leopi | Attiva dal 3/10 (`gtt-raccolta`, `gtt-ritardi`). **Parcheggi 5T + ZTL dal 14/10 15:10** (`aggiorna_raccolta_leopi.bat`; controllo `controlla_raccolta_pk.py`). Spegnimento il 13/10 sera (alimentazione), ripartita. Sync verso il PC ora settimanale (vedi sezione 3). |
 | Mappa | Temi trasporto, vulnerabilità, accessibilità (piedi e TP), avvisi GTT, "Dove mancano i servizi". |
-| Accessibilità (18) | Completa a 24 fasce orarie (calcolo finito 15/10; mappa rigenerata 15/10, 28,8 MB). Fix necessario in `mappa_template.html`: `tpFasciaVicina` restava a 4 fasce (8/14/23/02 ± 1h) → ora l'ora scelta è la fascia. Verificato a ore 0/12/19/23 su Node: mai null, 0 sezioni grigie su 8317, valori e quintili cambiano per ora. Le ore in comune con la run del 12/10 coincidono al numero esatto. Cutoff invariati (piedi 15 min 80 m/min, TP 45 min). `.bak_pre24ore` cancellati. Ha anche `--gtfs`/`--out` (aggiunti per il Risultato 2, giro-prova invariato). |
+| Accessibilità (18) | Completa a 24 fasce orarie (15/10), mappa rigenerata e verificata a ore 0/12/19/23. Cutoff: piedi 15 min (80 m/min), TP 45 min. Opzioni `--gtfs`/`--out` (per Risultato 2). |
 | Risultato 1 | Fase A: 10.919 residenti a Torino senza servizi essenziali a 15' (1,3%), peggiore la salute. Fase B: candidati per tutti e 5 i gruppi, in mappa. |
 | Risultato 6 v1 (24, 25) | 611 fermate critiche fuori dal centro, **17 coperte** da un interscambio entro 200 m, 594 scoperte. Assi peggiori: metro/corso Francia verso Collegno, via Nizza, Moncalieri. Piano e rapporto in `docs/`. |
-| Velocità 5T tipica (26) | `data/processed/velocita_5t.json` [MISURATO]: sensore × tipo di giorno × ora, solo letture affidabili (8-14/10). 2.237 celle valide, **solo feriali** (sabato/domenica: 1 giorno ciascuno). 97/109 sensori. Controllato da Claude: 6 celle ricalcolate in SQL identiche, velocità coerenti con `stat.js`, notte più veloce del mattino in 24/28 sensori urbani. |
-| Risultato 4 v1 (27) | [MISURATO] 10-14/10 (3 feriali, 1 sabato, 1 domenica), 596.534 passaggi usati. **Feriale: 4,2% in ritardo > 5 min · 10,3% coppie a grappolo+buco (linee frequenti) · ritardo mediano -0,6 min.** Scarti: 9,3% fuori GTFS, 3,6% letture lontane. `docs/RAPPORTO_RISULTATO4.txt` + `data/processed/risultato4_regolarita.json`. Controllato da Claude il 14/10: 3 passaggi ricalcolati dai dati grezzi identici, fonti `delay`/`time` coerenti (mediane −0,5/−0,3). Il ~43% di passaggi "in anticipo" (< −1 min) è reale: i mezzi guadagnano tempo lungo la corsa (mediana −0,1 alle prime fermate, −0,8 dopo la 30ª) → orari con margine. |
-| Risultato 2 "metro di notte" (28, 29 v2) | **Chiuso il 16/10.** Buco reale senza metro: 00:50-05:22 (bus sostitutivo M1SU fino alle 00:50). Metrica v2 "qualsiasi aumento, nessuna soglia" (la v1 "da zero a servito" dava 0/0: a Torino nessuna sezione è mai a zero di notte). **Ogni 15': 3.689 sezioni / 773.307 residenti migliorati, attesa media 7,5 min · ogni 30': 3.155 sezioni / 652.891 residenti, 15 min.** Verificato uguale nel sandbox di Claude e sul PC. Scheda in `simulazione.html` (si trascina `risultato2_riepilogo_mappa.json`). Dettagli, bug e limiti: `docs/PIANO_RISULTATO2.md`; numeri: `docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt`. |
+| Traffico 5T, Fasi 1-2 (26, 33-38b) | **17/10.** `velocita_5t.json` rigenerato (9-16/10, giorni parziali ai bordi esclusi; 2.252 celle feriali, sabato/domenica 0 finché non c'è il fetch del 19/10). 17 sensori esclusi (11 morti, 5 bloccati, 1 pochi dati) → 92 usabili; misure principali = ora di punta e totale diurno 6-21 (ora 1 locale = dato mancante, notte inaffidabile). Metodo A: errore mediano 37% (n=16); metodo B ≈ A. Solo 20 unità-sensore su 15 corridoi (su 10.743). Dettagli e decisioni: `docs/PIANO_TRAFFICO_5T.md`, `docs/PIANO_TRAFFICO_FASE2.md`. |
+| Traffico 5T, Fase 3 metodo C (39-48) | **17/10.** Domanda IMQ auto (4,15 M viaggi/giorno) assegnata ai percorsi più veloci su rete OSM (81.966 nodi, 105.890 tratti), tarata sui sensori (k = 1,72). **Esito secondo i criteri fissati: C-DEBOLE** — errore mediano 31,9% (IC90 23,7-40,2%), p90 59%, Spearman 0,60, n=20 unità-sensore (il metodo A dava 36,9% su n=16: differenza non distinguibile). 10.122 corridoi su 10.743 con stima, fiducia alta solo 19. Limiti: nessuna congestione, destinazioni pesate sulla popolazione, "porte" di bordo con valori assurdi (fino a 250.000 veic/giorno), soglie alto/medio/basso calcolate su tutti i corridoi (da rifare dentro Torino). Rapporto `docs/RAPPORTO_TRAFFICO_C.txt`, dettagli `docs/ESITO_FASE3_TRAFFICO.md`, output `data/processed/traffico_stimato_finale.json`. Rilancio dopo ogni fetch: `scripts\TRAFFICO_RILANCIA_SENSORI.bat`. |
+| Traffico 5T, Fasi 3-bis e 4 (49-55) | **17/10.** Modello V3 (attrattori+congestione+porte) non adottato: rho 0,573 < 0,602 di V0 → si tiene **V0 (C-DEBOLE)**; la congestione non agiva (Castello→Collegno 13,1→13,3 min). Offerta bus/tram dal GTFS (mercoledì 14/10): 13.158 corse, 93,1% agganciate. Pubblicati numeri con fascia ±32% (50%) / ±59% (90%) e graduatoria; universo Torino 872 corridoi / 1.300 km. Incrocio: 23 corridoi "molto traffico, poco TP". **Verdetto di Claude (18/10): la lista non è affidabile** — TP misurato con aggancio forma→strada (incoerente: Cairoli 2 linee, 0 passaggi), corridoi per nome, nessuna corsia né ZTL, centro sottostimato, raccordi sopravvalutati. Confronto con la conoscenza di Leo (25 strade): Spearman ~0,48. Dettagli: `docs/ESITO_FASE4_TRAFFICO.md`. |
+| Risultato 4 v1 (27) | [MISURATO] 10-14/10, 596.534 passaggi. **Feriale: 4,2% in ritardo > 5 min · 10,3% coppie a grappolo+buco (linee frequenti) · ritardo mediano −0,6 min.** ~43% passaggi "in anticipo" reale (orari con margine). `docs/RAPPORTO_RISULTATO4.txt`, `data/processed/risultato4_regolarita.json`; verificato da Claude il 14/10. |
+| Risultato 2 "metro di notte" (28, 29 v2) | **Chiuso il 16/10.** Buco senza metro 00:50-05:22. Metrica "qualsiasi aumento": **ogni 15': 3.689 sezioni / 773.307 residenti migliorati, attesa media 7,5 min · ogni 30': 3.155 / 652.891, 15 min.** Scheda in `simulazione.html` (`risultato2_riepilogo_mappa.json`). Dettagli e limiti: `docs/PIANO_RISULTATO2.md`, `docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt`. |
+| Rapporto sostenibilità GTT 2025 | **Fatto il 17/10 senza servizi esterni.** 980 fatti verificati (27 scartati), riassunto in `docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`; dati in `data/processed/rapporto_gtt/`. Script 30-32 e `.bat` pronti per un eventuale giro via DeepSeek (serve `chiave_deepseek.txt`). |
+| Scheda risultato generica | `simulazione.html` ospita una "scheda risultato" (JSON `scenari[]`/`numeri[]` prima/dopo, barre solo CSS), riusabile dai prossimi risultati. |
 
 ## 5. IN CORSO
 
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 v2.
+- **Risultato 8, Fase 5 (giro di correzione)**: piano e prompt pronti in `docs/PIANO_TRAFFICO_FASE5.md` (18/10); da lanciare con l'agente. Pacchetti: A assi e tratte (stessa strada anche se cambia nome/comune), B corsie e capacità, C ZTL unificata con orari + aree pedonali, D TP per posizione delle fermate (copertura entro 300 m con ≥4 passaggi/ora; metro/ferrovia entro 600 m), E modello V4 (congestione funzionante, valutato una volta, regola V4-contro-V0), F affidabilità e fasce, G pubblicazione e incrocio, H rilancio. Script da 56.
 
 ## 6. PROSSIMI PASSI (in ordine)
 
-1. **Risultato 2: chiuso** (vedi FATTO). Rimandato, non prioritario: elemento molto grafico/mappa dentro
-   `simulazione.html` (o fusione mappa+simulazione), altri valori nella scheda, filtro per rilevanza sul
-   delta. `simulazione.html` ha ora la "scheda risultato" generica (JSON con `scenari[]`/`numeri[]`
-   prima/dopo, barre solo CSS), riusabile dai prossimi risultati. **Regola (Leo, 16/10): ogni fase ha il
-   suo `docs/PIANO_*.md` con la storia e i dettagli; questo file ne tiene solo il riassunto.**
-2. **Velocità 5T in mappa**: `velocita_5t.json` → `D.vel5t` in `04_genera_mappa.py`, selettore
-   "Adesso / Tipico all'ora scelta" nel tema Traffico. Piano a parte. Rilanciare lo
-   script 26 quando ci sono almeno 2 sabati e 2 domeniche con accuratezza (dal 19/10).
-3. **Risultato 6 v2 — inizio novembre**: riempimento dei parcheggi di interscambio per ora e giorno
-   [MISURATO], poi mappa e `simulazione.html`. Variante da ricordare (Leo, 14/10: per ora no):
-   escludere anche le zone semicentrali (`--escludi-zone Q001,Q00x`).
-4. **Risultato 4 — mappa e presentazione**: colorare le linee per % in ritardo /
-   irregolarità con lo slider dell'ora, pagina in `simulazione.html` (stessa scheda generica del punto 1).
-   Rilanciare lo script 27 quando ci saranno più sabati e domeniche (prima: nuovo `backup_da_leopi.bat`).
-5. Più avanti: effetto ZTL sulle strade attorno; Risultati 3, 5, 7.
+1. **Risultato 8 — Traffico veicolare** (priorità; area Torino+cintura; PC libero per i calcoli). Obiettivo di Leo: quanti veicoli passano su ogni strada, poi "vie con molto traffico e poco TP"; analisi prima, mappa dopo.
+   Fatte le Fasi 1-4 (vedi FATTO); ora Fase 5 (`docs/PIANO_TRAFFICO_FASE5.md`). **Decisioni di Leo 17-18/10:** risultato finale con numeri assoluti (fascia di errore dagli errori leave-one-out: 50% ≈ ±32%, 90% ≈ ±59%), valori relativi e graduatoria, con la classe di esito accanto; **"poco TP" = accessibilità** (fermate vicine con buon servizio), non i bus sulla strada; solo strade grandi; il centro-centro non è prioritario; la ZTL si unisce in una mappa con gli orari e il traffico si stima per fascia; le corsie contano (traffico per corsia); un corso che cambia nome o comune è un solo asse; **le fermate si cercano per posizione, mai per nome**. La sua conoscenza della città (`docs/CONOSCENZA_TORINO_LEO.md`) è solo controllo di buon senso, mai taratura. Poi, solo se Leo vuole, mappa. Fetch lunedì 19/10 per sabato/domenica (`FETCH_LEOPI_E_VELOCITA_5T.bat` + `TRAFFICO_RILANCIA_SENSORI.bat`), poi ogni domenica. Dopo il 25/10 controllare a mano il cambio ora legale nello script 26.
+2. **Risultato 6 v2 — inizio novembre**: riempimento dei parcheggi di interscambio per ora e giorno [MISURATO], poi mappa e `simulazione.html`. Variante (Leo, 14/10: per ora no): escludere anche le zone semicentrali (`--escludi-zone Q001,Q00x`).
+3. **Risultato 4 — mappa e presentazione**: colorare le linee per % in ritardo/irregolarità con lo slider dell'ora; rilanciare lo script 27 con più sabati/domeniche.
+4. Più avanti: effetto ZTL sulle strade attorno; Risultati 3, 5, 7; rilanciare l'accessibilità/mappa con baseline = media dei dati raccolti su leopi (non solo orario GTFS; Leo 16/10, ritardi da decidere).
 
-Idee secondarie: frequenze "promesse vs osservate"; picchi orari per strada/linea; curva di
-riempimento dei garage del centro come segnale delle auto in entrata. Scartata: "zone cieche" dei
-sensori 5T pesate sui residenti.
+**Metrica trasversale (Leo, 16/10, non ancora progettata)**: "quanti veicoli in meno potrebbero girare" a partire da un miglioramento di accessibilità TP, con IMQ per modo come base; da riprendere dopo il Risultato 8.
 
-**Direzione futura (non ancora pianificata, da riprendere quando c'è abbastanza raccolta)**: i dati
-"simulati"/baseline usati come standard nella mappa dovranno diventare la **media dei dati raccolti**
-su leopi durante tutto il periodo di raccolta (non più il puro orario GTFS programmato), con i ritardi
-misurati gestiti in un modo ancora da decidere — Leo lo ha segnalato il 16/10, nessun dettaglio ancora.
-
-**Direzione futura (16/10, trasversale, non ancora progettata)**: Leo vuole che "quanti veicoli in meno
-potrebbero girare" (riduzione del traffico auto) diventi una metrica presente nei risultati/obiettivi,
-non solo in Risultato 2 — per lui il traffico veicolare è un punto critico prioritario. Serve una
-metodologia per stimare lo spostamento modale (es. usando i dati O/D di IMQ per modo) a partire da un
-miglioramento di accessibilità TP; non ancora progettata, da riprendere come discussione a parte.
-
-Da chiarire con Leo: IMQ in mappa (7 metriche dietro un menu, rimandato); avvisi GTT da
-aggiornare periodicamente (oggi uno snapshot del 9/10).
+Idee secondarie: frequenze "promesse vs osservate"; picchi orari per strada/linea; curva di riempimento dei garage del centro come segnale delle auto in entrata. Da chiarire: IMQ in mappa (7 metriche dietro un menu); avvisi GTT da aggiornare (oggi snapshot del 9/10).
 
 ## 7. MANCA (limiti noti)
 
@@ -122,6 +104,7 @@ aggiornare periodicamente (oggi uno snapshot del 9/10).
 - Risultato 6: 200 m in linea d'aria; pendolari [STIMATO] per zona; l'etichetta comune dei corridoi
   lunghi è quella del punto centrale.
 - Velocità 5T: "urbano" = nome con "(TO)", include anche alcune provinciali (es. SP8 di Druento).
+- Traffico: pochi sensori (20 unità utili, su poche strade), a Torino un solo verso; notte inaffidabile; IMQ = solo residenti 11-84 anni (niente merci, turisti, pendolari da fuori); stima modello debole (C-DEBOLE), probabilmente vicina al limite misurabile (due sensori sulla stessa strada differiscono ~36%); i 20 sensori stanno tutti su strade da ~12.000 a ~81.000 veicoli/giorno, quindi sotto ~9.000 il modello non è validato.
 
 ## 8. Standard tecnici
 
@@ -129,6 +112,7 @@ aggiornare periodicamente (oggi uno snapshot del 9/10).
   legenda sbagliati aprire la pagina in un browser ed esercitare l'interfaccia.
 - **Bridge** (chat senza terminale): `device_commit_files` a volte non scrive davvero sui file
   grossi; ri-leggere e confrontare dopo ogni scrittura.
+- **Fermate e strade**: mai abbinare per nome (il nome di una fermata è spesso un incrocio); solo per coordinate. Un corso è un asse che può cambiare nome o comune: l'unità di analisi del traffico è la tratta d'asse, non il nome.
 - **Mappa**: un campo nuovo in `D.sezioni[i]` va aggiunto anche nella proiezione `sez` di
   `mappa_template.html`; chi cambia l'ora (`#ora`) deve richiamare anche `aggiornaLegenda()`.
 - **Script 24**: corridoio = stesso nome + tratti collegati o entro ~100-200 m; togliere il suffisso

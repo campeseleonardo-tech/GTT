@@ -1,0 +1,52 @@
+VERIFICA CODICI 5T CONDIVISI (pacchetto H, punto 1)
+======================================================================
+--- XML del 3/10/2026 (data/raw, sola lettura) ---
+  generation_time: 2026-10-03T22:45:03.485Z
+  voci FDT_data: 112   codici lcd1 distinti: 109
+  codici con piu' voci: ['13077', '40123', '40189']
+  codice 13077:
+    1a voce: dir=positive offset=4960 lat=44.64808 lng=7.59853 acc=0 flow=0
+    2a voce: dir=negative offset=5150 lat=44.65592 lng=7.71134 acc=0 flow=0
+  codice 40123:
+    1a voce: dir=negative offset=1555 lat=45.093256 lng=7.63375 acc=0 flow=0
+    2a voce: dir=positive offset=125 lat=45.086797 lng=7.653109 acc=95 flow=372
+  codice 40189:
+    1a voce: dir=positive offset=160 lat=45.01876 lng=7.66932 acc=95 flow=1212
+    2a voce: dir=positive offset=970 lat=45.02586 lng=7.671667 acc=80 flow=1488
+
+  Controllo della REGOLA degli identificativi (prima voce = codice invariato):
+    40189: offset della prima voce = 160 (atteso 160)  OK
+    40123: offset della prima voce = 1555 (atteso 1555)  OK
+    13077: offset della prima voce = 4960 (atteso 4960)  OK
+
+  Scarico un XML fresco dal feed 5T (sola lettura, nessun invio di dati)...
+--- XML fresco del 2026-10-17T01:00:44.146Z ---
+  generation_time: 2026-10-17T01:00:44.146Z
+  voci FDT_data: 112   codici lcd1 distinti: 109
+  codici con piu' voci: ['13077', '40123', '40189']
+  codice 13077:
+    1a voce: dir=positive offset=4960 lat=44.64808 lng=7.59853 acc=0 flow=0
+    2a voce: dir=negative offset=5150 lat=44.65592 lng=7.71134 acc=100 flow=12
+  codice 40123:
+    1a voce: dir=negative offset=1555 lat=45.093256 lng=7.63375 acc=0 flow=0
+    2a voce: dir=positive offset=125 lat=45.086797 lng=7.653109 acc=95 flow=12
+  codice 40189:
+    1a voce: dir=positive offset=160 lat=45.01876 lng=7.66932 acc=95 flow=336
+    2a voce: dir=positive offset=970 lat=45.02586 lng=7.671667 acc=80 flow=1488
+
+  confronto: codici doppi oggi ['13077', '40123', '40189'], il 3/10 ['13077', '40123', '40189']
+  ESITO: gli stessi tre codici sono ancora condivisi -> la regola li copre.
+
+  Controllo nel database storico (sola lettura):
+    primo istante in flussi_5t: 2026-10-03T23:41:02.415Z
+    (il file del 3/10 22:45:03 NON e' nel database: il raccoglitore e' partito dopo.
+     Il piano chiedeva di controllare quell'istante 'se c'e'': non c'e'. Controllo
+     il primo istante disponibile, che serve allo stesso scopo.)
+    40189: flussi_5t (768.0, 58.73)   sensori_5t ("Corso Unita' D'italia(TO)", 970.0, 45.02586, 7.671667)
+    40123: flussi_5t (0.0, 0.0)   sensori_5t ('Corso Regina Margherita(TO)', 125.0, 45.086797, 7.653109)
+    13077: flussi_5t (0.0, 0.0)   sensori_5t ('SS662 Di Savigliano', 5150.0, 44.65592, 7.71134)
+    atteso: il flusso e' quello della PRIMA voce del documento (40123 = 0, il sensore
+    morto) mentre la posizione in sensori_5t e' quella dell'ULTIMA (offset 125, vivo).
+    VERDETTO: CONFERMATO (il flusso salvato e' della prima voce)
+
+Esito: tutto confermato

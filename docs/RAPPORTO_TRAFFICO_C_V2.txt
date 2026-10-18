@@ -1,0 +1,57 @@
+PUBBLICAZIONE DEL TRAFFICO - PACCHETTO C (numeri assoluti, relativi, graduatoria)
+==============================================================================
+variante finale: V0   classe di esito (Fase 3): C-DEBole
+taratura: k = 1.7215
+accuratezza dichiarata dei numeri assoluti: in meta' dei casi lo scarto e' entro +-32%; 9 volte su 10 entro +-59%.
+corridoi totali: 10,743   con sensore (misurato): 19
+UNIVERSO DI TORINO: 872 corridoi, 1,300.5 km (mediana 1,029 veic/g)
+PRIMA CINTURA: 574 corridoi, 756.4 km
+soglie classe3 dentro l'universo di Torino: medio da 549, alto da 2,190 veic/giorno
+corridoi in estrapolazione (fuori dall'intervallo dei sensori): 9611, di cui nell'universo di Torino: 752
+  per questi la fascia e' allargata a x2 (valore dichiarato): +-64% (50%) e +-119% (90%)
+
+== I 20 corridoi di Torino con piu' traffico (universo) ==
+     80,946 +-32% [alto ] p4 Corso Unità d'Italia (Torino)                pos    1 MISURATO
+     53,635 +-32% [alto ] p3 Corso Germano Sommeiller (Torino)            pos    2 stimato
+     53,378 +-32% [alto ] p4 Sottopasso Michele Lanza (Torino)            pos    3 stimato
+     48,158 +-32% [alto ] p3 Corso Palermo (Torino)                       pos    4 stimato
+     41,046 +-32% [alto ] p4 Sottopasso Repubblica (Torino)               pos    5 stimato
+     37,715 +-32% [alto ] p4 Ponte Umberto I (Torino)                     pos    6 stimato
+     29,886 +-32% [alto ] p2 Via Tommaso Valperga di Caluso (Torino)      pos    7 stimato
+     29,258 +-32% [alto ] p3 Corso San Maurizio (Torino)                  pos    8 stimato
+     29,158 +-32% [alto ] p4 Corso Massimo D'Azeglio (Torino)             pos    9 stimato
+     28,846 +-32% [alto ] p4 Corso Giulio Cesare (Torino)                 pos   10 MISURATO
+     28,554 +-32% [alto ] p3 Corso Cairoli (Torino)                       pos   11 stimato
+     28,536 +-32% [alto ] p2 Via Giovanni Pierluigi da Palestrina (Torino pos   12 stimato
+     28,438 +-32% [alto ] p4 Corso Regina Margherita (Torino)             pos   13 MISURATO
+     28,438 +-32% [alto ] p4 Corso Regina Margherita (Torino)             pos   14 MISURATO
+     26,244 +-32% [alto ] p3 Corso Vercelli (Torino)                      pos   15 MISURATO
+     26,219 +-32% [alto ] p3 Corso Chieri (Torino)                        pos   16 stimato
+     25,963 +-32% [alto ] p4 Ponte Regina Margherita (Torino)             pos   17 stimato
+     25,836 +-32% [alto ] p4 Piazza Gian Lorenzo Bernini (Torino)         pos   18 stimato
+     24,847 +-32% [alto ] p4 Sottopasso Statuto (Torino)                  pos   19 stimato
+     23,581 +-32% [alto ] p3 Corso Mediterraneo (Torino)                  pos   20 stimato
+
+== I 20 corridoi della prima cintura con piu' traffico ==
+     69,134  Corso Trieste (Moncalieri)                   (Moncalieri) pos cintura 1
+     41,028  Via Tenivelli (Moncalieri)                   (Moncalieri) pos cintura 2
+     38,782  Via Torino (Pino Torinese)                   (Pino Torinese) pos cintura 3
+     35,076  Strada Carignano (Moncalieri)                (Moncalieri) pos cintura 4
+     31,863  Via Roma (Pino Torinese)                     (Pino Torinese) pos cintura 5
+     31,820  Strada Carignano (Moncalieri)                (Moncalieri) pos cintura 6
+     28,754  Strada Genova (Moncalieri)                   (Moncalieri) pos cintura 7
+     24,461  Strada Barauda (Moncalieri)                  (Moncalieri) pos cintura 8
+     24,015  Via Casale (San Mauro Torinese)              (San Mauro Torinese) pos cintura 9
+     23,323  Cavalcavia 8 Agosto 1944 (Settimo Torinese)  (Settimo Torinese) pos cintura 10
+     23,282  Via Cavour (Moncalieri)                      (Moncalieri) pos cintura 11
+     22,120  Via Borgaretto (Nichelino)                   (Nichelino) pos cintura 12
+     21,013  Via Chieri (Pino Torinese)                   (Pino Torinese) pos cintura 13
+     20,889  Via Torino (Druento)                         (Druento) pos cintura 14
+     19,062  Via Castellazzo (Orbassano)                  (Orbassano) pos cintura 15
+     17,951  Via Torino (San Mauro Torinese)              (San Mauro Torinese) pos cintura 16
+     17,087  Via Alfieri (Orbassano)                      (Orbassano) pos cintura 17
+     16,994  Via Sestriere (Moncalieri)                   (Moncalieri) pos cintura 18
+     16,568  Via Martiri della Libertà (San Mauro Torines (San Mauro Torinese) pos cintura 19
+     16,382  Via Cuneo (Nichelino)                        (Nichelino) pos cintura 20
+
+File: data/processed/traffico_stimato_finale_v2.json (il file della Fase 3 resta intatto)

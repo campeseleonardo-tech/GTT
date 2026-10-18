@@ -1,5 +1,5 @@
 RAPPORTO ACCESSIBILITA' (orario programmato, STIMATO - motore R5/r5py su GTFS + OSM)
-generato: 2026-10-12T01:33:09+00:00  giorno tipo: 2026-10-12  ore: [8, 14, 23, 2]
+generato: 2026-10-15T13:52:54+00:00  giorno tipo: 2026-10-12  ore: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 sezioni: 8317 (Torino 4044, cintura 4273)
 cutoff a piedi: 15 min (80 m/min)  TP: 45 min
 gruppi (celle di destinazione): {'scuole': 1032, 'salute': 809, 'cibo': 11928, 'fermate': 6241, 'verde': 10775}
@@ -12,10 +12,30 @@ gruppi (celle di destinazione): {'scuole': 1032, 'salute': 809, 'cibo': 11928, '
     cibo    : 1212
     fermate : 72
     verde   : 102
-  COL TP alle 08:00 (mediana servizi totali entro 45 min): 27999
-  COL TP alle 14:00 (mediana servizi totali entro 45 min): 28827
-  COL TP alle 23:00 (mediana servizi totali entro 45 min): 25373
+  COL TP alle 00:00 (mediana servizi totali entro 45 min): 12270
+  COL TP alle 01:00 (mediana servizi totali entro 45 min): 12272
   COL TP alle 02:00 (mediana servizi totali entro 45 min): 12270
+  COL TP alle 03:00 (mediana servizi totali entro 45 min): 12270
+  COL TP alle 04:00 (mediana servizi totali entro 45 min): 18582
+  COL TP alle 05:00 (mediana servizi totali entro 45 min): 32006
+  COL TP alle 06:00 (mediana servizi totali entro 45 min): 32953
+  COL TP alle 07:00 (mediana servizi totali entro 45 min): 29276
+  COL TP alle 08:00 (mediana servizi totali entro 45 min): 27999
+  COL TP alle 09:00 (mediana servizi totali entro 45 min): 29263
+  COL TP alle 10:00 (mediana servizi totali entro 45 min): 28877
+  COL TP alle 11:00 (mediana servizi totali entro 45 min): 28402
+  COL TP alle 12:00 (mediana servizi totali entro 45 min): 28822
+  COL TP alle 13:00 (mediana servizi totali entro 45 min): 29003
+  COL TP alle 14:00 (mediana servizi totali entro 45 min): 28827
+  COL TP alle 15:00 (mediana servizi totali entro 45 min): 28636
+  COL TP alle 16:00 (mediana servizi totali entro 45 min): 27364
+  COL TP alle 17:00 (mediana servizi totali entro 45 min): 27354
+  COL TP alle 18:00 (mediana servizi totali entro 45 min): 27216
+  COL TP alle 19:00 (mediana servizi totali entro 45 min): 29076
+  COL TP alle 20:00 (mediana servizi totali entro 45 min): 29795
+  COL TP alle 21:00 (mediana servizi totali entro 45 min): 29038
+  COL TP alle 22:00 (mediana servizi totali entro 45 min): 25928
+  COL TP alle 23:00 (mediana servizi totali entro 45 min): 25373
   Sezioni a zero anche a piedi: 1
 
 == Cintura (comuni != 1272): 4273 sezioni ==
@@ -25,8 +45,28 @@ gruppi (celle di destinazione): {'scuole': 1032, 'salute': 809, 'cibo': 11928, '
     cibo    : 8
     fermate : 11
     verde   : 26
-  COL TP alle 08:00 (mediana servizi totali entro 45 min): 1074
-  COL TP alle 14:00 (mediana servizi totali entro 45 min): 1031
-  COL TP alle 23:00 (mediana servizi totali entro 45 min): 769
+  COL TP alle 00:00 (mediana servizi totali entro 45 min): 430
+  COL TP alle 01:00 (mediana servizi totali entro 45 min): 430
   COL TP alle 02:00 (mediana servizi totali entro 45 min): 430
+  COL TP alle 03:00 (mediana servizi totali entro 45 min): 430
+  COL TP alle 04:00 (mediana servizi totali entro 45 min): 484
+  COL TP alle 05:00 (mediana servizi totali entro 45 min): 982
+  COL TP alle 06:00 (mediana servizi totali entro 45 min): 1318
+  COL TP alle 07:00 (mediana servizi totali entro 45 min): 1443
+  COL TP alle 08:00 (mediana servizi totali entro 45 min): 1074
+  COL TP alle 09:00 (mediana servizi totali entro 45 min): 1234
+  COL TP alle 10:00 (mediana servizi totali entro 45 min): 929
+  COL TP alle 11:00 (mediana servizi totali entro 45 min): 1076
+  COL TP alle 12:00 (mediana servizi totali entro 45 min): 1055
+  COL TP alle 13:00 (mediana servizi totali entro 45 min): 1096
+  COL TP alle 14:00 (mediana servizi totali entro 45 min): 1031
+  COL TP alle 15:00 (mediana servizi totali entro 45 min): 1012
+  COL TP alle 16:00 (mediana servizi totali entro 45 min): 995
+  COL TP alle 17:00 (mediana servizi totali entro 45 min): 1081
+  COL TP alle 18:00 (mediana servizi totali entro 45 min): 987
+  COL TP alle 19:00 (mediana servizi totali entro 45 min): 1069
+  COL TP alle 20:00 (mediana servizi totali entro 45 min): 1125
+  COL TP alle 21:00 (mediana servizi totali entro 45 min): 848
+  COL TP alle 22:00 (mediana servizi totali entro 45 min): 709
+  COL TP alle 23:00 (mediana servizi totali entro 45 min): 769
   Sezioni a zero anche a piedi: 115

@@ -23,7 +23,8 @@ REMOTE_DB = "/home/leopi/GTT/data/storico.sqlite"
 SSH_KEY = Path.home() / ".ssh" / "id_gtt_leopi"
 DEST = DATA / "storico_backup.sqlite"
 TABELLE = ("sensori_5t", "flussi_5t", "accuratezza_5t", "mezzi_gtt", "errori",
-           "trip_update_gtt", "avvisi_gtt")
+           "trip_update_gtt", "avvisi_gtt",
+           "parcheggi_5t", "occupazione_pk", "ztl_5t")  # ultime 3: parcheggi/ZTL, raccolti dal 14/10
 
 
 def esegui(comando):
@@ -53,7 +54,8 @@ def riepilogo_locale(percorso):
                 for t in TABELLE if t in presenti}
     ultimi = {}
     for tabella, colonna in (("mezzi_gtt", "letto_utc"), ("flussi_5t", "generato_utc"),
-                             ("trip_update_gtt", "letto_utc")):
+                             ("trip_update_gtt", "letto_utc"),
+                             ("occupazione_pk", "generato_utc")):
         if tabella in presenti:
             ultimi[tabella] = con.execute(
                 f'SELECT MIN("{colonna}"),MAX("{colonna}") FROM "{tabella}"').fetchone()
@@ -82,7 +84,7 @@ tables={{r[0] for r in dst.execute("SELECT name FROM sqlite_master WHERE type='t
 names={TABELLE!r}
 counts={{t: dst.execute('SELECT COUNT(*) FROM "'+t+'"').fetchone()[0] for t in names if t in tables}}
 ranges={{}}
-for t,col in (("mezzi_gtt","letto_utc"),("flussi_5t","generato_utc"),("trip_update_gtt","letto_utc")):
+for t,col in (("mezzi_gtt","letto_utc"),("flussi_5t","generato_utc"),("trip_update_gtt","letto_utc"),("occupazione_pk","generato_utc")):
     if t in tables: ranges[t]=dst.execute('SELECT MIN("'+col+'"),MAX("'+col+'") FROM "'+t+'"').fetchone()
 dst.close(); src.close()
 print(json.dumps({{"integrity_check":check,"conteggi":counts,"intervalli":ranges}}))

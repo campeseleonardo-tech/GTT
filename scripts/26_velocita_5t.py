@@ -158,6 +158,25 @@ def main():
               f"({', '.join(str(d) for d in sorted(giorni_ok))}), "
               f"letture {len(letture)}")
 
+    # --- giorni parziali ai bordi del periodo: si escludono (regola 17/10) ---
+    # Il primo e l'ultimo giorno locale dei dati contano solo se coprono tutta la
+    # giornata (primo giorno: prima lettura entro le 00:30; ultimo: ultima dopo le 23:30).
+    copertura = {}      # giorno locale -> (minuti della prima lettura, minuti dell'ultima)
+    for g, *_ in letture:
+        loc = a_roma(parsa_utc(g))
+        m = loc.hour * 60 + loc.minute
+        lo, hi = copertura.get(loc.date(), (m, m))
+        copertura[loc.date()] = (min(lo, m), max(hi, m))
+    giorni_esclusi = set()
+    if copertura:
+        primo_g, ultimo_g = min(copertura), max(copertura)
+        if copertura[primo_g][0] > 30:
+            giorni_esclusi.add(primo_g)
+        if copertura[ultimo_g][1] < 23 * 60 + 30:
+            giorni_esclusi.add(ultimo_g)
+        letture = [r for r in letture
+                   if a_roma(parsa_utc(r[0])).date() not in giorni_esclusi]
+
     # --- accumulo per (sensore, tipo, ora) ---
     celle = {}      # (lcd1, tipo, ora) -> dict
     giorni_tipo = set()
@@ -221,6 +240,7 @@ def main():
     if args.prova:
         scrivi("MODALITA' PROVA: i file di output NON sono stati scritti.")
     scrivi(f"periodo (giorni locali): {primo} -> {ultimo}")
+    if giorni_esclusi: scrivi("giorni parziali esclusi (bordo del periodo): " + ", ".join(str(d) for d in sorted(giorni_esclusi)))
     scrivi(f"letture affidabili usate: {len(letture)}")
     scrivi(f"letture scartate (accuratezza = 0): {n_scartate} "
            f"({n_scartate / n_tot_flussi:.1%} di {n_tot_flussi} flussi)")

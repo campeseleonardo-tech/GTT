@@ -1,0 +1,35 @@
+SENSORI 5T ESCLUSI DALLA MISURA DEL TRAFFICO
+==============================================================================
+periodo: giorni locali 2026-10-09 -> 2026-10-16 (UTC+2)
+database (sola lettura): C:\projects\Progetti\GTT\data\storico_backup.sqlite
+regole: morto = nel periodo ha letture ma tutte con accuratezza 0;
+        bloccato = almeno 500 letture con accuratezza > 0 ma meno di 20 coppie distinte (flusso, velocita');
+        pochi dati = ha letture con accuratezza > 0 ma nessuna cella ok in velocita_5t.json.
+
+(1) Conteggi
+  sensori in tutto: 109
+  morto      :  11  (di cui urbani 3)   [attesi: 11 (3)]
+  bloccato   :   5  (di cui urbani 1)   [attesi: 5]
+  pochi dati :   1  (di cui urbani 0)   [attesi: 1 (11421)]
+  esclusi in tutto: 17   [attesi 17]
+  sensori usabili: 92   [attesi 109 - 17 = 92]
+
+(2) Elenco degli esclusi
+    lcd1  nome                               dir        urb motivo      letture   acc>0  coppie
+   11436  SS460 Di Ceresole                  positive    no bloccato       2217    2217       1
+   11437  SS460 Di Ceresole                  negative    no bloccato       2217    2217       1
+   13703  SS11 Padana Superiore              positive    no bloccato       2217    2217       1
+    3851  SS11 Padana Superiore              negative    no bloccato       2217    2217       1
+   40191  Corso Unita' D'italia(TO)          negative    si bloccato       2217    2217       1
+   11787  SS494 Vigevanese                   positive    no morto          2217       0       0
+   11788  SS494 Vigevanese                   negative    no morto          2217       0       0
+   14789  SP155(AL)                          positive    no morto          2217       0       0
+   14790  SP155(AL)                          negative    no morto          2217       0       0
+   40071  Corso Moncalieri(TO)               positive    si morto          2217       0       0
+   40121  Corso Regina Margherita(TO)        positive    si morto          2217       0       0
+   40123  Corso Regina Margherita(TO)        positive    si morto          2217       0       0
+    5057  SS30 Di Val Bormida                positive    no morto          2217       0       0
+    5058  SS30 Di Val Bormida                negative    no morto          2217       0       0
+    7934  SS142 Biellese                     positive    no morto          2217       0       0
+    7935  SS142 Biellese                     negative    no morto          2217       0       0
+   11421  SS458 Di Casalborgone              negative    no pochi dati     2217       8       7

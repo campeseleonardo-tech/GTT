@@ -1,0 +1,99 @@
+VERIFICA 1 - totali della domanda, con pandas invece del modulo csv
+  pandas : 4,153,663 viaggi/giorno (48,649 righe intervistate)
+  script : 4,153,663 viaggi/giorno (48,649 righe)
+  differenza relativa: 0.00000%  ->  OK
+  quota ore 7-8 (pandas) = 19.25%  (script: 19.23%)
+
+VERIFICA 5 - etichette e sensori esclusi
+  corridoi con un valore di modello senza modello_stimato=true: 0 []
+  corridoi con un valore pubblicato senza stimato=true e senza sensore: 0
+  corridoi col valore misurato (stimato=false): 19
+  unita' usate per tarare: 22
+  sensori esclusi usati per tarare: 0 []
+
+VERIFICA 6 - 5 corridoi riletti da zero
+  Via Giovanni Volpatto (Chieri)           grezzo da segmenti       0.0 (file       0.0) x k =       0.0 (file       0.0)
+  Via Lanzo (Borgaro Torinese)             grezzo da segmenti   3,513.3 (file   3,513.3) x k =   6,048.2 (file   6,048.2)
+  Piazza Caduti (Riva Presso Chieri E Limi grezzo da segmenti       0.0 (file       0.0) x k =       0.0 (file       0.0)
+  Via Tanaro (Torino)                      grezzo da segmenti       0.6 (file       0.6) x k =       1.0 (file       1.0)
+  Strada della Magra (Torino)              grezzo da segmenti     154.6 (file     154.6) x k =     266.1 (file     266.1)
+  tutte le 5 righe tornano entro l'1% (+ arrotondamento a 0,1): SI
+
+VERIFICA 7 - file toccati (git status)
+   M .gitignore
+   M MEMORIA_PROGETTO.md
+   M docs/RAPPORTO_ACCESSIBILITA.txt
+   M docs/RAPPORTO_VELOCITA_5T.txt
+   M mappa_torino.html
+   M scripts/03_raccolta_continua.py
+   M scripts/26_velocita_5t.py
+   M scripts/backup_da_leopi.py
+   M scripts/mappa_template.html
+  ?? RAPPORTO_1_ESTRAI.bat
+  ?? RAPPORTO_2_FATTI.bat
+  ?? RAPPORTO_3_RIASSUNTO.bat
+  ?? RAPPORTO_CONTROLLA.bat
+  ?? RAPPORTO_PILOTA.bat
+  ?? _logv.txt
+  ?? docs/ESITO_FASE1_TRAFFICO_5T.md
+  ?? docs/ESITO_FASE2_TRAFFICO.md
+  ?? docs/ESITO_FASE3_TRAFFICO.md
+  ?? docs/PIANO_RAPPORTO_SOSTENIBILITA.md
+  ?? docs/PIANO_TRAFFICO_5T.md
+  ?? docs/PIANO_TRAFFICO_FASE2.md
+  ?? docs/PIANO_TRAFFICO_FASE3.md
+  ?? docs/RAPPORTO_ABBINAMENTO_POSIZIONE.txt
+  ?? docs/RAPPORTO_ACCESSIBILITA_NOTTE15.txt
+  ?? docs/RAPPORTO_ACCESSIBILITA_NOTTE30.txt
+  ?? docs/RAPPORTO_CODICI_CONDIVISI.txt
+  ?? docs/RAPPORTO_FLUSSO_5T_SENSORI.txt
+  ?? docs/RAPPORTO_SENSORI_CORRIDOI.txt
+  ?? docs/RAPPORTO_SENSORI_ESCLUSI.txt
+  ?? docs/RAPPORTO_TRAFFICO_AB.txt
+  ?? docs/RAPPORTO_TRAFFICO_C.txt
+  ?? docs/RAPPORTO_TRAFFICO_C_CODICI_5T.txt
+  ?? docs/RAPPORTO_TRAFFICO_C_DOMANDA.txt
+  ?? docs/RAPPORTO_TRAFFICO_C_FATTIBILITA.txt
+  ?? docs/RAPPORTO_TRAFFICO_C_PROVA_RACCOLTA.txt
+  ?? docs/RAPPORTO_TRAFFICO_C_PUNTI.txt
+  ?? docs/RAPPORTO_TRAFFICO_C_SEGMENTI.txt
+  ?? docs/RAPPORTO_TRAFFICO_C_VALIDAZIONE.txt
+  ?? docs/RAPPORTO_TRAFFICO_C_VERIFICHE.txt
+  ?? docs/RAPPORTO_VELOCITA_5T_prima_fetch.txt
+  ?? docs/RAPPORTO_VERIFICA_PROVINCIALI.txt
+  ?? docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md
+  ?? docs/grafico_misurato_vs_previsto.png
+  ?? scripts/03_raccolta_continua.py.bak_17ott
+  ?? scripts/26_velocita_5t.py.bak_17ott
+  ?? scripts/30_rapporto_estrai.py
+  ?? scripts/31_rapporto_fatti.py
+  ?? scripts/32_rapporto_riassunto.py
+  ?? scripts/33_flusso_sensori.py
+  ?? scripts/33_flusso_sensori.py.bak_17ott
+  ?? scripts/34_sensori_corridoi.py
+  ?? scripts/35_sensori_esclusi.py
+  ?? scripts/36_abbinamento_posizione.py
+  ?? scripts/37_traffico_AB.py
+  ?? scripts/38_verifica_provinciali.py
+  ?? scripts/38b_codici_condivisi.py
+  ?? scripts/39_fattibilita_rete.py
+  ?? scripts/40_domanda_imq.py
+  ?? scripts/41_zone_punti.py
+  ?? scripts/42_instradamento.py
+  ?? scripts/43_segmenti_corridoi.py
+  ?? scripts/44_taratura_validazione.py
+  ?? scripts/45_prodotto_finale.py
+  ?? scripts/46_verifica_5t_codici.py
+  ?? scripts/47_prova_raccolta_5t_su_copia.py
+  ?? scripts/48_verifiche_indipendenti.py
+  ?? scripts/AGGIORNA_RACCOLTA_5T_CODICI.bat
+  ?? scripts/FETCH_LEOPI_E_VELOCITA_5T.bat
+  ?? scripts/TRAFFICO_RICALCOLA_MODELLO.bat
+  ?? scripts/TRAFFICO_RILANCIA_SENSORI.bat
+  ?? scripts/controlla_raccolta_5t.py
+  ?? scripts/controllo_fase1_5t.py
+  ?? scripts/rete_osm.py
+  file vietati modificati secondo git: ['MEMORIA_PROGETTO.md', 'scripts/mappa_template.html']
+  (MEMORIA_PROGETTO.md era gia' modificata PRIMA di questo lavoro: l'agente non l'ha toccata. Nessun commit fatto.)
+
+ESITO COMPLESSIVO: TUTTE LE VERIFICHE OK

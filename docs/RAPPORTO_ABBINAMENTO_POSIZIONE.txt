@@ -1,0 +1,153 @@
+ABBINAMENTO SENSORI 5T -> CORRIDOI, PER POSIZIONE
+========================================================================================
+sensori usabili (non esclusi): 92   [atteso 92]
+funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanza)
+
+(1) Classi
+  SICURO    (stesso nome, <= 60 m): 14   [atteso circa 14-15]
+  DA_VEDERE (nome diverso, <= 40 m): 9
+  NESSUNO: 69
+  totale: 92   [deve essere 92: OK]
+
+(2) SICURO - abbinamento confermato dalla regola di prima
+    lcd1  via                            dir       corridoio                       p     km  dist_m
+   40021  Corso Francia(TO)              positive  Corso Francia (Collegno)        5   42.5     4.9
+   40022  Corso Francia(TO)              positive  Corso Francia (Collegno)        5   42.5    16.8
+   40040  Corso Giulio Cesare(TO)        positive  Corso Giulio Cesare (Torino)    4   16.7    19.9
+   40041  Corso Giulio Cesare(TO)        positive  Corso Giulio Cesare (Torino)    4   16.7     2.9
+   40095  Corso Orbassano(TO)            positive  Corso Orbassano                 4   13.2    10.2
+   40097  Corso Orbassano(TO)            positive  Corso Orbassano                 4   13.2    23.2
+   40098  Corso Orbassano(TO)            positive  Corso Orbassano                 4   13.2     9.3
+   40122  Corso Regina Margherita(TO)    positive  Corso Regina Margherita (Torin  4   21.1     3.9
+   40174  Corso Trieste(TO)              positive  Corso Trieste (Moncalieri)      4    4.6    27.0
+   40182  Corso Unione Sovietica(TO)     positive  Corso Unione Sovietica (Torino  4   18.6     0.8
+   40189  Corso Unita' D'italia(TO)      positive  Corso Unità d'Italia (Torino)   4    5.5     1.2
+   40253  Strada Di Settimo(TO)          positive  Strada di Settimo (Torino)      4    6.5    11.3
+   40149  Corso Sebastopoli(TO)          positive  Corso Sebastopoli (Torino)      3    4.5    11.3
+   40194  Corso Vercelli(TO)             positive  Corso Vercelli (Torino)         3    9.0     8.7
+
+(3) DA_VEDERE - TABELLA COMPLETA DA FAR VEDERE A CLAUDE (9 sensori)
+    'corridoio proposto' = corridoio piu' vicino con nome diverso (<= 40 m)
+    'vicini' = fino a 3 corridoi entro 60 m, con la distanza
+    lcd1  via                              dir       corridoio proposto                p  dist_m  vicini (nome, dist_m)
+   40212  Ponte Amedeo VIII(TO)            positive  Strada di Settimo (Torino)        4     1.2  Strada di Settimo (Torino) 1; Via Alfredo d'Andrade (Tor 12
+   39977  Corso Agnelli(TO)                positive  Corso Giovanni Agnelli (Torino)   4     3.0  Corso Giovanni Agnelli (To 3; Via Bernardo De Canal (Tor 18
+    2375  R24 Raccordo Torino-Aeroporto Ca negative  Raccordo Autostradale Torino-Cas  5     3.7  Raccordo Autostradale Tori 4; Via Guglielmo Reiss Romoli 46
+   39983  Corso Allamano(TO)               positive  Corso Canonico Giuseppe Allamano  4     4.8  Corso Canonico Giuseppe Al 5; Piazza Bruno Caccia (Grugl 29; Via Giuseppe Grosso (Torin 36
+   35478  SP1(TO) delle Valli di Lanzo     positive  Via Lanzo (Lanzo Torinese E Limi  3    21.5  Via Lanzo (Lanzo Torinese  22
+   35479  SP1(TO) delle Valli di Lanzo     negative  Via Lanzo (Lanzo Torinese E Limi  3    21.5  Via Lanzo (Lanzo Torinese  22
+   36066  SP8(TO) di Druento               positive  Via Torino (Druento)              2    26.2  Via Torino (Druento) 26
+   36067  SP8(TO) di Druento               negative  Via Torino (Druento)              2    26.2  Via Torino (Druento) 26
+   35824  SP2(TO) Di Germagnano            negative  Via Torino (San Maurizio Canaves  4    26.6  Via Torino (San Maurizio C 27
+
+(4) NESSUNO - sensori senza corridoio entro le soglie: 69
+       11361  SS455 Di Pontestura              positive  fuori citta nessun corridoio entro 60 m
+       11362  SS455 Di Pontestura              negative  fuori citta nessun corridoio entro 60 m
+       11369  SS456 Del Turchino               positive  fuori citta nessun corridoio entro 60 m
+       11370  SS456 Del Turchino               negative  fuori citta nessun corridoio entro 60 m
+       11404  SS457 Di Moncalvo                positive  fuori citta nessun corridoio entro 60 m
+       11405  SS457 Di Moncalvo                negative  fuori citta nessun corridoio entro 60 m
+       11420  SS458 Di Casalborgone            positive  fuori citta nessun corridoio entro 60 m
+       11432  SS460 Di Ceresole                positive  fuori citta nessun corridoio entro 60 m
+       11433  SS460 Di Ceresole                negative  fuori citta nessun corridoio entro 60 m
+       12070  SS527 Bustese                    positive  fuori citta nessun corridoio entro 60 m
+       12071  SS527 Bustese                    negative  fuori citta nessun corridoio entro 60 m
+       12291  SS564 Monregalese                positive  fuori citta nessun corridoio entro 60 m
+       12292  SS564 Monregalese                negative  fuori citta nessun corridoio entro 60 m
+       12297  SS565 Di Castellamonte           positive  fuori citta nessun corridoio entro 60 m
+       12298  SS565 Di Castellamonte           negative  fuori citta nessun corridoio entro 60 m
+       12473  SS589 Dei Laghi Di Avigliana     positive  fuori citta nessun corridoio entro 60 m
+       12474  SS589 Dei Laghi Di Avigliana     negative  fuori citta nessun corridoio entro 60 m
+       12527  SS594 Destra Sesia               positive  fuori citta nessun corridoio entro 60 m
+       12528  SS594 Destra Sesia               negative  fuori citta nessun corridoio entro 60 m
+       13065  SS661 Delle Langhe               positive  fuori citta nessun corridoio entro 60 m
+       13066  SS661 Delle Langhe               negative  fuori citta nessun corridoio entro 60 m
+       13076  SS662 Di Savigliano              positive  fuori citta nessun corridoio entro 60 m
+       13077  SS662 Di Savigliano              negative  fuori citta nessun corridoio entro 60 m
+       13078  SS662 Di Savigliano              negative  fuori citta nessun corridoio entro 60 m
+       27774  SP4(NO) Ovest Ticino             positive  fuori citta nessun corridoio entro 60 m
+       27775  SP4(NO) Ovest Ticino             negative  fuori citta nessun corridoio entro 60 m
+        3234  SS35 Bis Dei Giovi               positive  fuori citta nessun corridoio entro 60 m
+       35518  SP122(TO) di Chieri              positive  urbano      nessun corridoio entro 60 m
+       35519  SP122(TO) di Chieri              negative  urbano      nessun corridoio entro 60 m
+       35559  SP13(TO) di Front                positive  urbano      nessun corridoio entro 60 m
+       35560  SP13(TO) di Front                negative  urbano      nessun corridoio entro 60 m
+       35823  SP2(TO) Di Germagnano            positive  urbano      nessun corridoio entro 60 m
+        3717  SS10 Padana Inferiore            positive  fuori citta nessun corridoio entro 60 m
+        3718  SS10 Padana Inferiore            negative  fuori citta nessun corridoio entro 60 m
+        3724  SS10 Padana Inferiore            positive  fuori citta nessun corridoio entro 60 m
+        3725  SS10 Padana Inferiore            negative  fuori citta nessun corridoio entro 60 m
+        3727  SS10 Padana Inferiore            positive  fuori citta nessun corridoio entro 60 m
+        3728  SS10 Padana Inferiore            negative  fuori citta nessun corridoio entro 60 m
+        3736  SS10 Padana Inferiore            positive  fuori citta nessun corridoio entro 60 m
+        3737  SS10 Padana Inferiore            negative  fuori citta nessun corridoio entro 60 m
+        3836  SS11 Padana Superiore            positive  fuori citta nessun corridoio entro 60 m
+        3837  SS11 Padana Superiore            negative  fuori citta nessun corridoio entro 60 m
+        3845  SS11 Padana Superiore            positive  fuori citta nessun corridoio entro 60 m
+        3846  SS11 Padana Superiore            negative  fuori citta nessun corridoio entro 60 m
+        4832  SS22 Di Val Macra                positive  fuori citta nessun corridoio entro 60 m
+        4833  SS22 Di Val Macra                negative  fuori citta nessun corridoio entro 60 m
+        4963  SS28 Del Colle Di Nava           positive  fuori citta nessun corridoio entro 60 m
+        4964  SS28 Del Colle Di Nava           negative  fuori citta nessun corridoio entro 60 m
+        5031  SS29 Del Colle Di Cadibona       positive  fuori citta nessun corridoio entro 60 m
+        5032  SS29 Del Colle Di Cadibona       negative  fuori citta nessun corridoio entro 60 m
+        5034  SS29 Del Colle Di Cadibona       positive  fuori citta nessun corridoio entro 60 m
+        5035  SS29 Del Colle Di Cadibona       negative  fuori citta nessun corridoio entro 60 m
+        5069  SS31 Del Monferrato              positive  fuori citta nessun corridoio entro 60 m
+        5070  SS31 Del Monferrato              negative  fuori citta nessun corridoio entro 60 m
+        5080  SS31 Del Monferrato              positive  fuori citta nessun corridoio entro 60 m
+        5081  SS31 Del Monferrato              negative  fuori citta nessun corridoio entro 60 m
+        5154  SS33 Racc Del Sempione           positive  fuori citta nessun corridoio entro 60 m
+        5155  SS33 Racc Del Sempione           negative  fuori citta nessun corridoio entro 60 m
+        5235  SS35 Bis Dei Giovi               negative  fuori citta nessun corridoio entro 60 m
+        7925  SS142 Biellese                   positive  fuori citta nessun corridoio entro 60 m
+        7926  SS142 Biellese                   negative  fuori citta nessun corridoio entro 60 m
+        7942  SS143 Vercellese                 positive  fuori citta nessun corridoio entro 60 m
+        7943  SS143 Vercellese                 negative  fuori citta nessun corridoio entro 60 m
+        8881  SS229 Del Lago D Orta            positive  fuori citta nessun corridoio entro 60 m
+        8882  SS229 Del Lago D Orta            negative  fuori citta nessun corridoio entro 60 m
+        8890  SS230 Di Massazza                positive  fuori citta nessun corridoio entro 60 m
+        8891  SS230 Di Massazza                negative  fuori citta nessun corridoio entro 60 m
+        9752  SS299 Di Alagna                  positive  fuori citta nessun corridoio entro 60 m
+        9753  SS299 Di Alagna                  negative  fuori citta nessun corridoio entro 60 m
+
+(5) Coppie di versi (stesso nome, segno opposto, <= 200 m): 35
+      SP1(TO) delle Valli di Lanzo          35478 +  35479     0.0 m
+      SP122(TO) di Chieri                   35518 +  35519     0.0 m
+      SP13(TO) di Front                     35559 +  35560     0.0 m
+      SP4(NO) Ovest Ticino                  27774 +  27775     0.0 m
+      SP8(TO) di Druento                    36066 +  36067     0.0 m
+      SS10 Padana Inferiore                  3717 +   3718     0.0 m
+      SS10 Padana Inferiore                  3724 +   3725     0.0 m
+      SS10 Padana Inferiore                  3727 +   3728    33.1 m
+      SS10 Padana Inferiore                  3736 +   3737     0.0 m
+      SS11 Padana Superiore                  3836 +   3837     0.0 m
+      SS11 Padana Superiore                  3845 +   3846     0.0 m
+      SS142 Biellese                         7925 +   7926     0.0 m
+      SS143 Vercellese                       7942 +   7943     0.0 m
+      SS22 Di Val Macra                      4832 +   4833     0.0 m
+      SS229 Del Lago D Orta                  8881 +   8882     0.0 m
+      SS230 Di Massazza                      8890 +   8891     0.0 m
+      SS28 Del Colle Di Nava                 4963 +   4964     0.0 m
+      SS29 Del Colle Di Cadibona             5031 +   5032     0.0 m
+      SS29 Del Colle Di Cadibona             5034 +   5035     0.0 m
+      SS299 Di Alagna                        9752 +   9753     0.0 m
+      SS31 Del Monferrato                    5069 +   5070     0.0 m
+      SS31 Del Monferrato                    5080 +   5081     0.0 m
+      SS33 Racc Del Sempione                 5154 +   5155     0.0 m
+      SS35 Bis Dei Giovi                     3234 +   5235     0.0 m
+      SS455 Di Pontestura                   11361 +  11362     0.0 m
+      SS456 Del Turchino                    11369 +  11370     0.0 m
+      SS457 Di Moncalvo                     11404 +  11405     0.0 m
+      SS460 Di Ceresole                     11432 +  11433     0.0 m
+      SS527 Bustese                         12070 +  12071     0.0 m
+      SS564 Monregalese                     12291 +  12292     0.0 m
+      SS565 Di Castellamonte                12297 +  12298     0.0 m
+      SS589 Dei Laghi Di Avigliana          12473 +  12474     0.0 m
+      SS594 Destra Sesia                    12527 +  12528     0.0 m
+      SS661 Delle Langhe                    13065 +  13066     0.0 m
+      SS662 Di Savigliano                   13076 +  13077     0.0 m
+
+(6) Sensori usabili senza compagno di verso (22 su 92):
+      11420 13078 2375 35823 35824 39977 39983 40021 40022 40040 40041 40095
+      40097 40098 40122 40149 40174 40182 40189 40194 40212 40253
