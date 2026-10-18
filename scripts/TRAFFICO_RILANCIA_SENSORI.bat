@@ -42,10 +42,20 @@ call :passo scripts\45_prodotto_finale.py
 call :passo scripts\50b_v3_valutazione.py
 call :passo scripts\53_pubblicazione_traffico.py
 call :passo scripts\54_incrocio_traffico_tp.py
+rem --- FASE 5: la valutazione, le fasce, la pubblicazione e le verifiche cambiano
+rem     con i sensori; gli assi, le corsie, la ZTL, il TP per posizione (60-61) e il
+rem     modello V4 (62) NON dipendono dai sensori (si rifanno solo se cambia la rete
+rem     o il GTFS, con FASE5_MODELLO.bat). ---
+call :passo scripts\63_v4_valutazione.py
+call :passo scripts\65_affidabilita.py
+call :passo scripts\66_pubblicazione_incrocio.py
+call :passo scripts\67_verifiche_fase5.py
 
 python -c "import json;d=json.load(open('data/processed/traffico_c/taratura_validazione.json',encoding='utf-8'));e=d['varianti'][d['variante_finale']];print('--- NUMERI CHIAVE ---');print('classe di esito :',d['classe_esito']);print('errore mediano   : %.1f%%'%(100*e['errore_mediano']),'(metodo A: 36.9%)');print('rho di Spearman  : %.3f'%e['rho_loo']);print('unita confrontate:',d['n'])" >> "%LOG%" 2>&1
 python -c "import json;d=json.load(open('data/processed/traffico_c/traffico_stimato_finale.json',encoding='utf-8'));c=d['conteggi_fiducia'];print('corridoi con fiducia alta/media/bassa:',c['alta'],'/',c['media'],'/',c['bassa'])" >> "%LOG%" 2>&1
 python -c "import json;d=json.load(open('data/processed/traffico_c/v3/valutazione_v3.json',encoding='utf-8'));print('--- FASE 4 ---');print('variante finale  :',d['variante_finale']);print('classe di esito  :',d['classe_esito']);print('errore mediano   : %.1f%%'%(100*d['errore_mediano']));print('rho di Spearman  : %.3f'%d['rho_loo']);print('unita confrontate:',d['n'])" >> "%LOG%" 2>&1
+python -c "import json;d=json.load(open('data/processed/traffico_d/valutazione_fase5.json',encoding='utf-8'));print('--- FASE 5 ---');print('variante finale  :',d['variante_finale']);print('classe di esito  :',d['classe_esito']);print('errore mediano   : %.1f%%'%(100*d['errore_mediano']));print('rho di Spearman  : %.3f'%d['rho_loo']);print('unita confrontate:',d['n'])" >> "%LOG%" 2>&1
+python -c "import json;d=json.load(open('data/processed/risultato8_traffico_tp_v2.json',encoding='utf-8'));print('universo Torino :',d['universo_torino']['n_tratte'],'tratte,',d['universo_torino']['km'],'km');print('da guardare     :',d['conteggi']['da_guardare'],'di cui robuste',d['conteggi']['robusti']);print('accordo Leo 18/7:',d['accordo_leo']['n_giuste_18'],'/',d['accordo_leo']['n_giusti_7'])" >> "%LOG%" 2>&1
 
 type "%LOG%"
 echo.

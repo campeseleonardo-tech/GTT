@@ -47,6 +47,39 @@ DRIVABILI = set(VELOCITA_DEFAULT)
 # classi in cui, se manca il tag oneway, si assume senso unico (autostrade)
 SENSO_UNICO_DEFAULT = {"motorway", "motorway_link", "trunk", "trunk_link"}
 
+# --- Pacchetto B (Fase 5): corsie e capacita' ------------------------------------
+# ordine di rango delle classi (per "classi adiacenti" negli assi e nelle tratte)
+RANGO_CLASSE = {
+    "motorway": 8, "motorway_link": 7,
+    "trunk": 6, "trunk_link": 5,
+    "primary": 4, "primary_link": 3,
+    "secondary": 2, "secondary_link": 1,
+    "tertiary": 1, "tertiary_link": 1,
+    "unclassified": 0, "residential": 0, "living_street": 0,
+    "service": 0, "road": 0,
+}
+# famiglie: autostrada/tangenziale e' una classe a parte, l'asse si ferma li'
+FAMIGLIA = {}
+for _c in VELOCITA_DEFAULT:
+    FAMIGLIA[_c] = "autostrada" if _c.startswith(("motorway", "trunk")) else "urbana"
+
+# corsie per verso quando il tag "lanes" manca (valori standard DICHIARATI)
+CORSIE_DEFAULT_VERSO = {
+    "motorway": 2, "motorway_link": 1, "trunk": 2, "trunk_link": 1,
+    "primary": 1, "primary_link": 1, "secondary": 1, "secondary_link": 1,
+    "tertiary": 1, "tertiary_link": 1, "unclassified": 1, "residential": 1,
+    "living_street": 1, "service": 1, "road": 1,
+}
+
+# capacita' veicoli/ora PER CORSIA (valori standard, fonte: Highway Capacity Manual,
+# capacita' pratica urbana con incroci semaforizzati; arrotondati e dichiarati)
+CAPACITA_CORSIA = {
+    "motorway": 1800, "motorway_link": 1200, "trunk": 1400, "trunk_link": 1000,
+    "primary": 1000, "primary_link": 800, "secondary": 800, "secondary_link": 700,
+    "tertiary": 700, "tertiary_link": 600, "unclassified": 600, "residential": 500,
+    "living_street": 300, "service": 300, "road": 500,
+}
+
 R_TERRA = 6371000.0
 
 
@@ -96,6 +129,73 @@ def _oneway(tags, highway):
     return "doppio"
 
 
+def _intero(valore):
+    if valore is None:
+        return None
+    m = re.search(r"\d+", str(valore))
+    return int(m.group()) if m else None
+
+
+def corsie_per_verso(tags, highway, verso):
+    """Ritorna (corsie_avanti, corsie_indietro, stimate).
+
+    Regole (dichiarate nel pacchetto B):
+      - lanes:forward / lanes:backward hanno la precedenza;
+      - altrimenti, se la strada e' a senso unico, "lanes" e' il numero di corsie
+        di quell'unico verso;
+      - altrimenti (doppio senso) "lanes" e' il totale: meta' per verso (arrotondata);
+      - se manca tutto, valore standard per classe e per verso (CORSIE_DEFAULT_VERSO);
+      - "stimate" = True se NON c'era un tag lanes/lanes:* esplicito.
+    """
+    def default():
+        return CORSIE_DEFAULT_VERSO.get(highway, 1)
+
+    lf = _intero(tags.get("lanes:forward"))
+    lb = _intero(tags.get("lanes:backward"))
+    lt = _intero(tags.get("lanes"))
+    if lf is not None or lb is not None:
+        fa = lf if lf is not None else 0
+        ba = lb if lb is not None else 0
+        stimate = False
+    elif verso in ("avanti", "indietro"):
+        fa = ba = 0
+        if lt is not None:
+            if verso == "avanti":
+                fa = lt
+            else:
+                ba = lt
+            stimate = False
+        else:
+            if verso == "avanti":
+                fa = default()
+            else:
+                ba = default()
+            stimate = True
+    else:  # doppio senso
+        if lt is not None:
+            fa = (lt + 1) // 2
+            ba = lt // 2
+            stimate = False
+        else:
+            fa = ba = default()
+            stimate = True
+    # mai zero corsie per un verso percorribile
+    if verso in ("avanti", "doppio") and fa < 1:
+        fa = 1
+    if verso in ("indietro", "doppio") and ba < 1:
+        ba = 1
+    if verso == "avanti":
+        ba = 0
+    if verso == "indietro":
+        fa = 0
+    return fa, ba, stimate
+
+
+def capacita_tratto(highway, corsie_verso):
+    """Capacita' veicoli/ora di un tratto in UN verso (corsie x capacita' per corsia)."""
+    return float(corsie_verso) * float(CAPACITA_CORSIA.get(highway, 500))
+
+
 def _accessibile(tags):
     for k in ("access", "motor_vehicle", "motorcar", "vehicle"):
         v = (tags.get(k) or "").strip().lower()
@@ -143,6 +243,10 @@ def costruisci(pbf, log=print, prova_bbox=None):
                 "ref": (w.tags.get("ref") or "").strip() or None,
                 "maxspeed": w.tags.get("maxspeed"),
                 "verso": _oneway(w.tags, hw),
+                "tags": {k: w.tags.get(k) for k in (
+                    "lanes", "lanes:forward", "lanes:backward", "oneway", "maxspeed",
+                    "width", "cycleway", "cycleway:left", "cycleway:right", "busway",
+                    "bus", "bridge", "tunnel", "junction", "access", "motor_vehicle")},
             })
 
     log(f"  lettura OSM ({Path(pbf).name}) ...")
@@ -186,6 +290,7 @@ def costruisci(pbf, log=print, prova_bbox=None):
                 for k in range(len(seg_pts) - 1):
                     lung += haversine_m(*seg_pts[k], *seg_pts[k + 1])
                 if lung > 0.1:
+                    fa, ba, stimate = corsie_per_verso(m["tags"], hw, m["verso"])
                     archi_base.append({
                         "a": indice(seg_refs[0], *seg_pts[0]),
                         "b": indice(seg_refs[-1], *seg_pts[-1]),
@@ -197,6 +302,14 @@ def costruisci(pbf, log=print, prova_bbox=None):
                         "ref": m["ref"],
                         "verso": m["verso"],
                         "vel_kmh": vel,
+                        "corsie_avanti": fa,
+                        "corsie_indietro": ba,
+                        "corsie_stimate": stimate,
+                        "bridge": bool((m["tags"].get("bridge") or "").lower() in ("yes", "viaduct", "boardwalk", "1")),
+                        "tunnel": bool((m["tags"].get("tunnel") or "").lower() in ("yes", "building_passage", "1")),
+                        "junction": (m["tags"].get("junction") or "").strip().lower() or None,
+                        "maxspeed_raw": m["tags"].get("maxspeed"),
+                        "width_raw": m["tags"].get("width"),
                     })
             inizio = i
 
@@ -242,6 +355,11 @@ def salva(cartella, nodi_xy, archi_base, archi):
         edge_t=np.array([a["t_s"] for a in archi_base], dtype=np.float64),
         edge_off=off, edge_pts=pts,
         archi=archi,
+        edge_corsie_avanti=np.array([a.get("corsie_avanti", 1) for a in archi_base], dtype=np.int64),
+        edge_corsie_indietro=np.array([a.get("corsie_indietro", 1) for a in archi_base], dtype=np.int64),
+        edge_corsie_stimate=np.array([bool(a.get("corsie_stimate", True)) for a in archi_base], dtype=bool),
+        edge_bridge=np.array([bool(a.get("bridge", False)) for a in archi_base], dtype=bool),
+        edge_tunnel=np.array([bool(a.get("tunnel", False)) for a in archi_base], dtype=bool),
     )
     (cartella / "rete_auto_metadati.json").write_text(json.dumps({
         "n_nodi": int(len(nodi_xy)), "n_archi_base": E, "n_archi_orientati": int(len(archi)),
@@ -250,6 +368,14 @@ def salva(cartella, nodi_xy, archi_base, archi):
         "ref": [a["ref"] for a in archi_base],
         "verso": [a["verso"] for a in archi_base],
         "vel_kmh": [a["vel_kmh"] for a in archi_base],
+        "corsie_avanti": [int(a.get("corsie_avanti", 1)) for a in archi_base],
+        "corsie_indietro": [int(a.get("corsie_indietro", 1)) for a in archi_base],
+        "corsie_stimate": [bool(a.get("corsie_stimate", True)) for a in archi_base],
+        "bridge": [bool(a.get("bridge", False)) for a in archi_base],
+        "tunnel": [bool(a.get("tunnel", False)) for a in archi_base],
+        "junction": [a.get("junction") for a in archi_base],
+        "maxspeed_raw": [a.get("maxspeed_raw") for a in archi_base],
+        "width_raw": [a.get("width_raw") for a in archi_base],
         "stimato": False,
     }, ensure_ascii=False), encoding="utf-8")
 
@@ -259,13 +385,18 @@ def carica(cartella):
     cartella = Path(cartella)
     z = np.load(cartella / "rete_auto.npz")
     meta = json.loads((cartella / "rete_auto_metadati.json").read_text(encoding="utf-8"))
-    return {
+    out = {
         "nodi_xy": z["nodi_xy"],
         "edge_a": z["edge_a"], "edge_b": z["edge_b"],
         "edge_len": z["edge_len"], "edge_t": z["edge_t"],
         "edge_off": z["edge_off"], "edge_pts": z["edge_pts"],
         "archi": z["archi"], "meta": meta,
     }
+    for k in ("edge_corsie_avanti", "edge_corsie_indietro", "edge_corsie_stimate",
+              "edge_bridge", "edge_tunnel"):
+        if k in z.files:
+            out[k] = z[k]
+    return out
 
 
 def geometria_arco(rete, e):

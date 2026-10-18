@@ -1,0 +1,70 @@
+ASSI E TRATTE (pacchetto A, Fase 5)
+==========================================================================
+  assi: 31,639   tratte: 47,807
+  accoppiamenti 'quasi dritto' agli incroci: 63,990
+  km totali dei tratti nella rete: 8,592.0
+  km di strade di rango >= 3 in Torino: 340.2; coperte da un asse: 100.0%
+  assi incoerenti (classi di famiglie diverse): 5 (0.0%) - soglia di arresto 10%
+  tratte sotto 300 m: 38077 (di cui rango>=3 a Torino: 620)
+  tratte oltre 1500 m: 196
+  tratte con verso unico (una sola carreggiata): 18644
+
+== Esempi richiesti dal piano ==
+  trapani           : asse  4683   22.65 km  nomi trapani > siracusa > potenza > lecce > cosenza > sottopasso grosseto - potenza  comuni Torino
+  lecce             : asse  4683   22.65 km  nomi trapani > siracusa > potenza > lecce > cosenza > sottopasso grosseto - potenza  comuni Torino
+  lecce             : asse  5524    3.50 km  nomi potenza > lecce  comuni Torino
+  potenza           : asse 13976   23.06 km  nomi sandro botticelli > grosseto > sottopasso grosseto - potenza > potenza > delle primule > ferrara  comuni Torino
+  potenza           : asse  4683   22.65 km  nomi trapani > siracusa > potenza > lecce > cosenza > sottopasso grosseto - potenza  comuni Torino
+  agudio            : asse  4581    5.79 km  nomi lungo stura lazio > ponte diga > don luigi sturzo > tommaso agudio > alberto pasini  comuni Torino
+  agudio            : asse  4124    1.74 km  nomi comunale del cimitero di sassi > tommaso agudio > del cimitero di sassi > viale suor giovanna francesca michelotti  comuni Torino
+  sturzo            : asse  4581    5.79 km  nomi lungo stura lazio > ponte diga > don luigi sturzo > tommaso agudio > alberto pasini  comuni Torino
+  sturzo            : asse 12458    1.31 km  nomi don luigi sturzo > san maurizio  comuni Cirie',San Maurizio Canavese E Limitrofi
+  francia           : asse 23747   41.81 km  nomi francia > torino > statuto > rivoli > palmiro togliatti > chiomonte  comuni Collegno,Rivoli,Torino
+  francia           : asse 21223   12.79 km  nomi peschiera > luigi einaudi > germano sommeiller > tommaso valperga di caluso > francia > san paolo  comuni Torino
+  regina margherita : asse  1176   25.76 km  nomi regina margherita > asse di penetrazione urbana di corso regina margherita > lungo po alessandro antonelli > sottopasso repubblica  comuni Torino
+  regina margherita : asse  7088    3.81 km  nomi san maurizio > regina margherita  comuni Torino
+  allamano          : asse 17584   22.47 km  nomi canonico giuseppe allamano  comuni Grugliasco,Rivoli,Torino
+  allamano          : asse  2070    5.05 km  nomi crea > canonico giuseppe allamano  comuni Grugliasco
+  vittorio emanuele : asse  7200   12.83 km  nomi vittorio emanuele ii  comuni Torino
+  vittorio emanuele : asse 17117    4.19 km  nomi borgo cremera > roma > borgo nuovo > vittorio emanuele  comuni Riva Presso Chieri E Limitrofi
+  giulio cesare     : asse 28741   14.25 km  nomi giulio cesare > ponte carlo bernardo mosca > basse di stura  comuni Torino
+  giulio cesare     : asse  6143    3.10 km  nomi giulio cesare 424 > vicinale delle cascinette  comuni Torino
+  vercelli          : asse 30153    8.76 km  nomi vercelli  comuni Torino
+  vercelli          : asse 28735    0.96 km  nomi renato martorelli > vercelli  comuni Torino
+  lione             : asse  1386    3.70 km  nomi fortunato postiglione  comuni Moncalieri
+  lione             : asse  3777    2.17 km  nomi mediterraneo > bobbio > lione  comuni Torino
+
+== I 20 assi piu' lunghi ==
+    60.60 km    57 tratte  tangenziale nord > tangenziale sud > autostrada dei vini
+    46.39 km    34 tratte  autostrada serenissima
+    42.35 km    40 tratte  autostrada del pinerolese > asse di penetrazione urbana di corso orbas
+    41.81 km   127 tratte  francia > torino > statuto > rivoli
+    41.23 km    38 tratte  autostrada della valle d aosta > tangenziale nord > tangenziale sud
+    32.77 km    34 tratte  statale 11 padana superiore > raccordo della falchera > padana superio
+    28.82 km    18 tratte  autostrada dei vini > tangenziale sud
+    27.88 km    18 tratte  diramazione per moncalieri > autostrada la verdemare
+    25.76 km    94 tratte  regina margherita > asse di penetrazione urbana di corso regina marghe
+    23.70 km   130 tratte  savona > statale 393 di villastellone > vallongo
+    23.06 km    74 tratte  sandro botticelli > grosseto > sottopasso grosseto - potenza > potenza
+    22.76 km    23 tratte  raccordo autostradale torino-caselle
+    22.65 km    35 tratte  trapani > siracusa > potenza > lecce
+    22.47 km    54 tratte  canonico giuseppe allamano
+    21.84 km    59 tratte  unione sovietica > viale torino > filippo turati > paolo sacchi
+    20.95 km    17 tratte  tangenziale nord > autostrada del frejus
+    18.11 km    34 tratte  delle fonti > quattro novembre > lanzo > susa
+    16.39 km    28 tratte  alpignano > val della torre > san gillio > contessa
+    15.70 km    56 tratte  guido reni > santa maria mazzarello > francesco de sanctis > pietro co
+    14.73 km    16 tratte  comunale di superga > superga > chieri > baldissero
+
+== Tratte con i nomi che cambiano (esempi) ==
+  tratte che attraversano un cambio di nome: 2,106
+    tratta     3 asse 18437 nizza > giosue carducci (Torino, 283 m)
+    tratta    14 asse 18437 edoardo calvo > nizza (Torino, 298 m)
+    tratta    28 asse 13613 michele lessona > giovanni servais (Torino, 742 m)
+    tratta    37 asse 30545 santa maria mazzarello > guido reni (Torino, 1223 m)
+    tratta    46 asse 29079 guido reni > santa maria mazzarello (Torino, 1019 m)
+    tratta    47 asse 29079 santa maria mazzarello > francesco de sanctis (Torino, 1010 m)
+    tratta    49 asse 29079 francesco de sanctis > pietro cossa (Torino, 1059 m)
+    tratta    51 asse 29079 pietro cossa > ponte pietro secondo > pietro cossa (Torino, 783 m)
+    tratta    54 asse 29079 francesco de sanctis > pietro cossa (Torino, 1045 m)
+    tratta    55 asse 29079 pietro cossa > ponte pietro secondo > pietro cossa (Torino, 1509 m)

@@ -1,0 +1,56 @@
+MODELLO DEL TRAFFICO V4 - VALUTAZIONE (Fase 5, pacchetto E)
+==============================================================================
+Grandezza: totale diurno 6-21 a due versi (veicoli/giorno). Sensore a un verso x2.
+Taratura leave-one-out con un solo fattore globale (come Fase 3). Metodo A: 36.9%.
+
+variante   n  err.med             IC90     p90  rho LOO rho grezzo       k
+v0        20    38.4% [ 25.5%, 49.8%]   64.5%    0.605      0.626   0.953
+v4        20    30.5% [ 25.5%, 48.3%]   66.9%    0.571      0.577   1.007
+abl1      20    40.5% [ 26.9%, 54.5%]   63.0%    0.577      0.612   0.995
+abl2      20    29.9% [ 24.1%, 38.5%]   65.8%    0.615      0.638   0.947
+abl3      20    29.0% [ 26.2%, 48.0%]   62.7%    0.586      0.594   1.013
+
+Regola di scelta (piano Fase 5, pacchetto E): V4 si adotta se rho(V4) >= rho(V0) E
+l'errore mediano di V4 non e' peggiore di V0 di piu' di 3 punti.
+  rho(V0)=0.605  rho(V4)=0.571   err(V0)=38.4%  err(V4)=30.5%
+  => VARIANTE FINALE: V0
+
+== Classe di esito (tabella Fase 3, sezione 1) ==
+  variante finale v0: rho=0.605  errore mediano=38.4%  IC90 [25.5%,49.8%]
+  CLASSE = C-DEBOLE   (IC90 a cavallo del 35%: INCERTO)
+
+== Unita' della variante finale (v0) ==
+   40189 Corso Unita' D'italia(TO)  misurato    80,946 modello2v    65,339 previsto    62,281 err  25.5%
+   40174 Corso Trieste(TO)          misurato    69,134 modello2v    62,288 previsto    59,373 err  15.6%
+   40095 Corso Orbassano(TO)        misurato    50,204 modello2v    44,692 previsto    42,600 err  16.2%
+   40097 Corso Orbassano(TO)        misurato    41,346 modello2v    43,277 previsto    41,252 err   0.2%
+    2375 R24 Raccordo Torino-Aeropo misurato    40,092 modello2v    32,139 previsto    30,635 err  24.8%
+   40040 Corso Giulio Cesare(TO)    misurato    33,928 modello2v    25,808 previsto    24,601 err  28.6%
+   40022 Corso Francia(TO)          misurato    30,934 modello2v    42,142 previsto    40,170 err  31.9%
+   40212 Ponte Amedeo VIII(TO)      misurato    29,916 modello2v    22,258 previsto    21,216 err  30.1%
+   40041 Corso Giulio Cesare(TO)    misurato    28,846 modello2v    33,993 previsto    32,403 err  13.0%
+   40021 Corso Francia(TO)          misurato    28,698 modello2v    42,754 previsto    40,754 err  44.9%
+   40122 Corso Regina Margherita(TO misurato    28,438 modello2v    32,401 previsto    30,884 err   9.0%
+   40098 Corso Orbassano(TO)        misurato    27,262 modello2v    41,154 previsto    39,228 err  46.8%
+   40194 Corso Vercelli(TO)         misurato    26,244 modello2v    15,054 previsto    14,350 err  46.4%
+   39977 Corso Agnelli(TO)          misurato    21,104 modello2v    33,937 previsto    32,349 err  56.1%
+   36066 SP8(TO) di Druento         misurato    20,889 modello2v     8,814 previsto     8,402 err  60.6%
+   40182 Corso Unione Sovietica(TO) misurato    19,066 modello2v    52,673 previsto    50,208 err 177.2%
+   40149 Corso Sebastopoli(TO)      misurato    17,342 modello2v    35,315 previsto    33,662 err  99.3%
+   40253 Strada Di Settimo(TO)      misurato    16,888 modello2v     8,791 previsto     8,380 err  51.0%
+   35478 SP1(TO) delle Valli di Lan misurato    15,886 modello2v     8,464 previsto     8,068 err  49.8%
+   39983 Corso Allamano(TO)         misurato    12,636 modello2v    19,914 previsto    18,983 err  51.8%
+
+== Tempi di viaggio (minuti) ==
+percorso                                     flusso libero  V4 punta
+  Piazza Castello -> Collegno (piazza)                13.1      13.8
+  Piazza Castello -> Venaria Reale                    12.8      14.0
+  Piazza Castello -> Settimo Torinese                 14.7      15.3
+  Piazza Castello -> Moncalieri                       11.4      11.9
+  Piazza Castello -> Orbassano                        18.0      20.1
+  Piazza Castello -> Rivoli                            inf       inf
+  (atteso Castello->Collegno in punta: 20-35 minuti)
+
+== Velocita' del modello sui tratti dei sensori (punta) vs misurate ==
+  coppie modello/misurato: 20   mediana modello 49.2 km/h   mediana misurata in punta 41.6 km/h
+

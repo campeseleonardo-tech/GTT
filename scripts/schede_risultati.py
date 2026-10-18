@@ -4,6 +4,7 @@ Legge i file gia' prodotti dagli script dei risultati e scrive:
   data/processed/risultato1_riepilogo_mappa.json   (Risultato 1, da 21 e 22)
   data/processed/risultato4_riepilogo_mappa.json   (Risultato 4, da 27)
   data/processed/risultato6_riepilogo_mappa.json   (Risultato 6, da 25)
+  data/processed/risultato8_riepilogo_mappa.json   (Risultato 8, dalla Fase 5 del traffico, script 56-67)
   data/schede_risultati.js   (tutte le schede, R2 compreso, caricate da sole da simulazione.html)
 
 Il riepilogo base del Risultato 2 lo scrive 29_risultato2_metro_notte.py: qui si legge e si arricchisce
@@ -462,6 +463,147 @@ def scheda_r6():
     }
 
 
+# ---------------------------------------------------------------- Risultato 8
+
+def nome_strada(n):
+    """'unita d italia' -> 'Unità d'Italia' (i nomi del modello sono senza maiuscole e accenti)."""
+    if n.startswith("di "):
+        n = "strada " + n   # es. "di settimo" -> Strada di Settimo
+    t = " ".join(w.capitalize() for w in n.split())
+    t = re.sub(r" D (?=[A-Z])", " d'", t)
+    for a, b in (("Unita ", "Unità "), (" Di ", " di "), (" Del ", " del ")):
+        t = t.replace(a, b)
+    return t
+
+
+def scheda_r8():
+    r = leggi("risultato8_traffico_tp_v2.json")
+    v = leggi("traffico_d/valutazione_fase5.json")
+    sens = leggi("traffico_d/v0/sensori.json")["sensori"]
+    u, c, tar = r["universo_torino"], r["conteggi"], r["taratura"]
+    km_poco = round(u["km"] - u["km_coperti_tp"], 1)
+    err = v["varianti"]["v0"]
+    # strade con piu' traffico: per nome solo per mostrarle (il calcolo e' per asse e tratta)
+    per_nome = {}
+    for t in r["tratte"]:
+        if not t["asse_con_sensore"]:   # solo strade con un sensore sull'asse: le altre classifiche sono poco credibili
+            continue
+        k = t["nome"]
+        if k not in per_nome or t["veic_giorno"] > per_nome[k]["veic_giorno"]:
+            per_nome[k] = t
+    top = sorted(per_nome.values(), key=lambda t: -t["veic_giorno"])[:10]
+    # stima leave-one-out per ogni sensore (stesso metodo della valutazione: fattore = somma misurati / somma modello degli altri)
+    tot_mis, tot_mod = sum(s["misurato"] for s in sens), sum(s["modello_2v"] for s in sens)
+    loo = [(s, s["modello_2v"] * (tot_mis - s["misurato"]) / (tot_mod - s["modello_2v"])) for s in sens]
+    loo.sort(key=lambda x: -x[0]["misurato"])
+    dg = {a["nome_principale"]: a for a in r["assi_da_guardare"]}
+    rm = dg.get("regina margherita", {})
+    acc = r["accordo_leo"]
+    fascia50, fascia90 = round(tar["fascia_50"] * 100), round(tar["fascia_90"] * 100)
+    return {
+        "risultato": "8",
+        "titolo": "Traffico sulle strade e trasporto pubblico",
+        "tag": "STIMATO / MISURATO / PROGRAMMATO",
+        "stato": "Versione 1 (18/10/2026)",
+        "in_breve": "Quante auto passano sulle strade grandi di Torino? E dove c'è tanto traffico ma nessun bus, "
+                    "tram o metro comodo, così che l'auto resta l'unica scelta?",
+        "domanda": "Sulle strade grandi di Torino, dove c'è molto traffico e poco trasporto pubblico vicino?",
+        "numero_chiave": {"valore": round(u["quota_km_coperta_tp"] * 100, 1), "unita": "%",
+                          "testo": f"dei km di strade grandi di Torino hanno fermate frequenti a pochi passi "
+                                   f"({virgola(u['km_coperti_tp'])} km su {virgola(u['km'])})"},
+        "racconto": "Una prima versione trovava 23 strade \"con molto traffico e poco trasporto pubblico\". "
+                    "Ricontrollando, quasi tutte erano un errore di misura: i bus si cercavano lungo la strada per "
+                    "nome invece che per posizione delle fermate (Corso Cairoli risultava senza passaggi). Rifatto il "
+                    "calcolo, la lista si è quasi svuotata: è questa la risposta.",
+        "risposta": [
+            f"Sulle {migliaia(u['n_tratte'])} tratte di strade grandi di Torino ({virgola(u['km'])} km), il "
+            f"{virgola(u['quota_km_coperta_tp'] * 100)}% della lunghezza ha una fermata con almeno 4 passaggi "
+            "all'ora entro 300 m, o la metro entro 600 m.",
+            f"Le tratte con molto traffico (oltre {migliaia(round(u['soglie']['q66']))} veicoli al giorno) sono "
+            f"{c['molto_traffico']}; quelle che hanno anche poco trasporto pubblico sono {c['da_guardare']}.",
+            f"In pratica è un solo caso: Corso Regina Margherita verso ovest, il tratto a scorrimento veloce "
+            f"(circa {migliaia(int(round(rm.get('veic_max', 0), -3)))} veicoli al giorno, nessuna fermata frequente "
+            "entro 300 m). In più un tratto di Corso Moncalieri, coperto solo per un quarto della lunghezza.",
+            f"I numeri di traffico sono stime: in metà dei casi l'errore è entro ±{fascia50}%. Servono a ordinare "
+            "le strade, non a contare i veicoli.",
+        ],
+        "grafici": [
+            {"tipo": "pila", "titolo": "Km di strade grandi di Torino: con o senza trasporto pubblico vicino",
+             "unita": "km",
+             "voci": [voce("con fermate frequenti vicine", round(u["km_coperti_tp"], 1)),
+                      voce("con poco trasporto pubblico", km_poco)]},
+            {"tipo": "barre", "titolo": "Strade con un sensore: la tratta più carica (veicoli al giorno, 6-21)",
+             "unita": "veicoli/giorno",
+             "nota": "Solo strade con almeno un sensore sullo stesso asse: senza, il modello mette in cima anche strade "
+                     "poco credibili. \"misurato\" = sensore sulla tratta; le altre sono stime. Corso Unione Sovietica è "
+                     "probabilmente sovrastimato: dove c'è il sensore il modello dava quasi il triplo del misurato.",
+             "voci": [voce(nome_strada(t["nome"]) + (" (misurato)" if t["misurato"] else ""), round(t["veic_giorno"]))
+                      for t in top]},
+            {"tipo": "barre", "titolo": "Prova del modello sui 20 sensori: misurato e stimato",
+             "unita": "veicoli/giorno",
+             "nota": "Barra chiara = misurato dal sensore, barra scura = stima del modello senza usare quel sensore.",
+             "voci": [voce(s["via"].replace("(TO)", "").replace("Unita' D'italia", "Unità d'Italia").strip(), round(st), prima=s["misurato"]) for s, st in loo]},
+        ],
+        "metodo": [
+            "Domanda: gli spostamenti in auto dell'indagine IMQ 2022 (residenti, giorno feriale), assegnati alla "
+            "strada più veloce sulla rete di OpenStreetMap.",
+            f"Taratura su {err['n']} punti di misura dei sensori 5T: un solo fattore per tutta la città, provato "
+            "togliendo un sensore alla volta e stimandolo con gli altri.",
+            "Strade come assi: un corso che cambia nome o comune resta la stessa strada, tagliata in tratte da "
+            "300 m a 1,5 km. Strade grandi = Torino, importanza alta o strade principali, almeno 300 m, senza "
+            "tangenziale e raccordi.",
+            "Trasporto pubblico per posizione delle fermate, mai per nome: una tratta è servita dove c'è una "
+            "fermata con almeno 4 passaggi all'ora entro 300 m (orario ufficiale, mercoledì 14/10), o la metro "
+            "entro 600 m. Poco trasporto pubblico = servita per metà della lunghezza o meno.",
+            "Molto traffico = il terzo più alto delle tratte. Un modello più ricco (attrazioni, code, ZTL) è stato "
+            "provato una volta e non ha migliorato l'ordine delle strade: si tiene quello semplice.",
+        ],
+        "parametri": [["Strade grandi di Torino", f"{migliaia(u['n_tratte'])} tratte, {virgola(u['km'])} km"],
+                      ["Errore tipico (metà dei casi)", f"±{fascia50}% (9 volte su 10 entro ±{fascia90}%)"],
+                      ["Ordine giusto delle strade (Spearman)", f"{err['rho_loo']:.2f}".replace(".", ",")],
+                      ["Validato tra", f"{migliaia(int(round(tar['intervallo_validato_measured'][0], -2)))} e "
+                                       f"{migliaia(int(round(tar['intervallo_validato_measured'][1], -3)))} veicoli/giorno"],
+                      ["Soglia 'molto traffico'", f"{migliaia(round(u['soglie']['q66']))} veicoli/giorno"],
+                      ["Confronto con chi conosce la città", f"{acc['n_giuste_18']} strade su 18 nella fascia giusta, "
+                                                             f"{acc['n_giusti_7']} confronti su 7 (solo controllo)"]],
+        "limiti": [
+            f"Stima debole: errore tipico ±{fascia50}% e intervallo d'incertezza largo (da {round(err['ic90'][0] * 100)}% "
+            f"a {round(err['ic90'][1] * 100)}%). Alcune strade sono molto sbagliate (Corso Unione Sovietica, Corso "
+            "Sebastopoli): buona per ordinare, non per contare.",
+            f"Solo {err['n']} punti di misura, quasi tutti su corsi trafficati: sotto circa "
+            f"{migliaia(int(round(tar['intervallo_validato_measured'][0], -3)))} veicoli al giorno la stima non è "
+            "verificata.",
+            "Solo i residenti tra 11 e 84 anni (indagine IMQ): mancano merci, turisti e chi viene da fuori. Il "
+            "modello non sa fare le code: l'ora di punta non è verificata.",
+            "Trasporto pubblico programmato: niente ritardi né affollamento. Il centro (ZTL, aree pedonali) non è "
+            "stimato bene.",
+            "Il valore è per i due versi: sulle poche vie a senso unico vero potrebbe essere il doppio del reale.",
+            "Il tratto di Corso Moncalieri va controllato a mano: una fermata con 26 passaggi all'ora è a 40 m, "
+            "ma copre solo un quarto della tratta.",
+        ],
+        "mappa": None,
+        "fonti": ["docs/ESITO_FASE5_TRAFFICO.md", "docs/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
+                  "docs/PIANO_TRAFFICO_FASE5.md", "data/processed/risultato8_traffico_tp_v2.json"],
+        "generato": ora(),
+        "avviso": [
+            "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
+            f"Traffico stimato con un modello tarato su {err['n']} sensori: errore tipico ±{fascia50}%. "
+            "Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
+        ],
+        "scenari": [{
+            "nome": "Oggi",
+            "numeri": [
+                num("Km di strade grandi di Torino", round(u["km"], 1), "km"),
+                num("Con fermate frequenti vicine", round(u["quota_km_coperta_tp"] * 100, 1), "%"),
+                num("Tratte con molto traffico", c["molto_traffico"], "tratte"),
+                num("Molto traffico e poco trasporto pubblico", c["da_guardare"], "tratte"),
+                num("Errore tipico della stima", fascia50, "%"),
+            ],
+            "nota": "Le 5 tratte sono quasi tutte su Corso Regina Margherita ovest; una su Corso Moncalieri.",
+        }],
+    }
+
+
 # ---------------------------------------------------------------- Risultato 9
 
 MIN_INTERVALLI_R9 = 2000   # sotto questa soglia un tipo di giorno non entra nella scheda (la domenica ne ha ~600)
@@ -581,7 +723,7 @@ def main():
     schede = []
     for nome, fabbrica in (("risultato1", scheda_r1), ("risultato2", None),
                            ("risultato4", scheda_r4), ("risultato6", scheda_r6),
-                           ("risultato9", scheda_r9)):
+                           ("risultato8", scheda_r8), ("risultato9", scheda_r9)):
         file = f"{nome}_riepilogo_mappa.json"
         if fabbrica is None:
             s = arricchisci_r2(leggi(file))  # il JSON di R2 resta quello dello script 29

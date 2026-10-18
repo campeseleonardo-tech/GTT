@@ -1,0 +1,45 @@
+AFFIDABILITA', UNIVERSO E FASCE (pacchetto F, Fase 5)
+============================================================================
+variante finale: v0   classe di esito: C-DEBOLE
+taratura k = 0.9532   fascia 50% = +-38%   fascia 90% = +-64%
+intervallo validato (misurato): [8,845, 105,230] veic/giorno; fuori: estrapolazione con fascia x2
+
+UNIVERSO DI TORINO: 539 tratte, 342.8 km
+PRIMA CINTURA: 248 tratte, 181.7 km
+
+== Regole di inaffidabilita' (quante tratte e km) ==
+  bordo           :   2363 tratte     514.9 km
+  struttura       :     96 tratte      20.8 km
+  rango2_flusso   :    522 tratte      70.7 km
+  salto_asse      :    288 tratte     126.6 km
+
+== Prime 20 tratte per flusso (universo + non) ==
+     87,218 +-38%  tangenziale nord                   Collegno     affidabile=True 
+     86,470 +-38%  tangenziale nord                   Collegno     affidabile=True 
+     80,946 +-38%  unita d italia                     Torino       affidabile=True 
+     79,549 +-38%  tangenziale nord                   Collegno     affidabile=True 
+     76,669 +-38%  rotonda piero maroncelli           Moncalieri   affidabile=True 
+     76,669 +-38%  rotonda piero maroncelli           Moncalieri   affidabile=True 
+     73,892 +-38%  gian lorenzo bernini               Torino       affidabile=True 
+     73,854 +-38%  rotonda piero maroncelli           Moncalieri   affidabile=True 
+     73,818 +-38%  gian lorenzo bernini               Torino       affidabile=True 
+     71,924 +-38%  gian lorenzo bernini               Torino       affidabile=True 
+     71,009 +-38%  gian lorenzo bernini               Torino       affidabile=True 
+     70,754 +-38%  unita d italia                     Moncalieri   affidabile=True 
+     69,134 +-38%  trieste                            Moncalieri   affidabile=True 
+     69,018 +-38%  None                               Torino       affidabile=True 
+     68,306 +-38%  rotonda piero maroncelli           Moncalieri   affidabile=True 
+     67,137 +-38%  unita d italia                     Torino       affidabile=True 
+     66,532 +-38%  gian lorenzo bernini               Torino       affidabile=True 
+     66,081 +-38%  gian lorenzo bernini               Torino       affidabile=True 
+     65,428 +-38%  gian lorenzo bernini               Torino       affidabile=True 
+     64,018 +-38%  tangenziale nord                   Pianezza     affidabile=True 
+
+== Tratte citate dal piano (Via Palestrina, Corso Monte Lungo, Via Quarto dei Mille) ==
+  palestrina      :    13,440 veic/g  affidabile=False  motivi rango<=2 con flusso > 12.000 senza sensore
+  palestrina      :       440 veic/g  affidabile=True  motivi -
+  monte lungo     :    21,555 veic/g  affidabile=True  motivi -
+  monte lungo     :         0 veic/g  affidabile=True  motivi -
+  quarto dei mille:       326 veic/g  affidabile=True  motivi -
+  quarto dei mille:         0 veic/g  affidabile=True  motivi -
+  quarto dei mille:         0 veic/g  affidabile=True  motivi -

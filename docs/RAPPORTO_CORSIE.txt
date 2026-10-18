@@ -1,0 +1,52 @@
+CORSIE E CAPACITA' (pacchetto B, Fase 5)
+==========================================================================
+Tabella capacita' per corsia (veic/ora) usata:
+    motorway       1800
+    motorway_link  1200
+    trunk          1400
+    trunk_link     1000
+    primary        1000
+    primary_link   800
+    secondary      800
+    secondary_link 700
+    tertiary       700
+    tertiary_link  600
+    unclassified   600
+    residential    500
+    living_street  300
+    service        300
+    road           500
+Corsie per verso quando manca il tag 'lanes' (valori standard DICHIARATI):
+    motorway=2, motorway_link=1, trunk=2, trunk_link=1, primary=1, primary_link=1, secondary=1, secondary_link=1, tertiary=1, tertiary_link=1, unclassified=1, residential=1, living_street=1, service=1, road=1
+
+== Copertura del tag 'lanes' per classe ==
+classe           tratti  con tag      %        km  km con tag      %
+residential       38499     7210  18.7%    3030.3       459.9  15.2%
+service           26378      225   0.9%    1614.1        12.9   0.8%
+unclassified      11388     2115  18.6%    1470.6       183.0  12.4%
+tertiary          14285     8831  61.8%    1022.1       581.3  56.9%
+secondary          7617     6227  81.8%     515.3       432.3  83.9%
+primary            5282     4600  87.1%     393.5       356.9  90.7%
+motorway            768      763  99.3%     311.2       310.0  99.6%
+motorway_link       571      427  74.8%     107.6        84.5  78.6%
+trunk               242      237  97.9%      58.2        56.2  96.6%
+primary_link        246      158  64.2%      25.4        16.2  63.8%
+trunk_link          193       34  17.6%      21.6         5.1  23.4%
+secondary_link      170      141  82.9%      11.2        10.0  89.3%
+tertiary_link       211      127  60.2%       7.8         5.0  63.7%
+living_street        40        9  22.5%       3.1         0.7  21.9%
+TOTALE           105890    31104  29.4%    8592.0      2513.9  29.3%
+
+== Controllo a mano su 10 strade note (tag OSM trovati) ==
+  Corso Racconigi                 :   93 tratti  corsie av/ind (mediana) 1/0  classe tertiary    con tag lanes 89
+  Corso Re Umberto                :  122 tratti  corsie av/ind (mediana) 1/0  classe residential  con tag lanes 84
+  Corso Francia                   :  572 tratti  corsie av/ind (mediana) 1/0  classe primary     con tag lanes 387
+  Via Nizza                       :  161 tratti  corsie av/ind (mediana) 1/0  classe tertiary    con tag lanes 123
+  Corso Vittorio Emanuele II      :  294 tratti  corsie av/ind (mediana) 1/0  classe residential  con tag lanes 255
+  Lungo Po Armando Diaz           :    6 tratti  corsie av/ind (mediana) 1/1  classe secondary   con tag lanes 6
+  Corso Unita' d'Italia           :   43 tratti  corsie av/ind (mediana) 3/0  classe primary     con tag lanes 36
+  Corso Giulio Cesare             :  238 tratti  corsie av/ind (mediana) 2/0  classe residential  con tag lanes 227
+  Via Agudio                      : nessun tratto con questo nome
+  Corso Cosenza                   :   65 tratti  corsie av/ind (mediana) 3/0  classe primary     con tag lanes 64
+
+Nota: dove le corsie sembrano sbagliate si veda il tag grezzo in rete_auto_metadati.json (campi maxspeed_raw/width_raw). I sensori 5T misurano un flusso per corsia teorico; le corsie 'stimate' sono dichiarate.
