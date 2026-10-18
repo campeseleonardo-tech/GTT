@@ -1,9 +1,9 @@
 # Piano meccanico — Risultato 6 v2 in mappa e in `simulazione.html`, con colori uniformi
 
 Scritto da Claude il 19/10/2026 con Leo, per un altro modello (agente). Sostituisce le Fasi C e D di `PIANO_RISULTATO6_FINALE.md`.
-Le decisioni di Leo sono **fisse**. Fai **una fase alla volta, nell'ordine**. Dopo ogni fase scrivi in `docs/ESITO_INTEGRAZIONE_R6.md`
-`FASE n: OK` o `FASE n: FERMO – motivo`, poi **FERMATI**: Claude controlla la pagina nel browser (tu non la vedi) e ti dà il via per la fase dopo.
-Se un controllo non torna: fermati, scrivi cosa hai visto, non inventare correzioni.
+Le decisioni di Leo sono **fisse**. Fai **tutte le fasi 1-5 di seguito, nell'ordine, senza fermarti a chiedere**. Dopo ogni fase scrivi in `docs/ESITO_INTEGRAZIONE_R6.md`
+`FASE n: OK` o `FASE n: FERMO – motivo` e passa alla successiva. Claude controlla tutto nel browser **alla fine** (tu non vedi la pagina).
+Se un controllo numerico non torna: correggi se la causa è tua e chiara; se non lo è, **non inventare**, scrivi cosa hai visto, salta quella parte e continua con le altre (le fasi che ne dipendono si segnano «NON ESEGUITA – dipende da…»).
 
 ## 0. Regole
 
@@ -78,7 +78,7 @@ Se una legenda cita un nome di colore a parole, cambialo (cerca «arancio», «v
 
 **1.4 Guida** (`<details id="infoDati">` ≈205): aggiungi un paragrafo «Colori: verde = bene, rosso = male; blu→arancione = poco→tanto, senza giudizio. Le legende scrivono sempre i numeri.»
 
-**1.5 Rigenera** `mappa_torino.html`, `node --check`, scrivi `RAPPORTO_COLORI.txt` ed esito. **FERMATI**: Claude apre ogni tema (servizio, accessibilità, dove mancano, vulnerabilità, IMQ, pendolari, bus e traffico misurati, valore immobiliare, catalogo) e controlla aree, legende e tocco; poi ti dà il via.
+**1.5 Rigenera** `mappa_torino.html`, `node --check`, scrivi `RAPPORTO_COLORI.txt` ed esito. Poi passa alla Fase 2 (Claude controllerà alla fine ogni tema: servizio, accessibilità, dove mancano, vulnerabilità, IMQ, pendolari, bus e traffico misurati, valore immobiliare, catalogo).
 
 ---
 
@@ -158,7 +158,7 @@ addEventListener("hashchange",()=>applicaTema(temaDaUrl()));
 
 **3.7 Guida**: nella «Guida e fonti dei dati» aggiungi un paragrafo su cosa sono luogo critico, parcheggio potenziale / solo sulla carta / di fatto, scenario S2, eventi, 25 m² a posto (±30%).
 
-**3.8** Rigenera, `node --check`, scrivi l'esito (peso di `mappa_torino.html` prima/dopo) e **FERMATI**: Claude apre il tema (`mappa_torino.html#tema=interscambio`), prova livelli, insiemi e raggi, tocco su un luogo, un parcheggio, un evento, schermo stretto, console, e riguarda 2-3 altri temi.
+**3.8** Rigenera, `node --check`, scrivi l'esito (peso di `mappa_torino.html` prima/dopo) e passa alla Fase 4 (Claude proverà alla fine il tema `mappa_torino.html#tema=interscambio`: livelli, insiemi, raggi, tocco, schermo stretto, console, altri temi).
 
 ---
 
@@ -208,7 +208,7 @@ Numeri con il punto delle migliaia e la virgola decimale (usa `migliaia`, `virgo
 - `mappa`: `{"id":"interscambio","tema":"Parcheggi di interscambio","nota":"Luoghi critici e parcheggi su mappa, con cerchi di copertura e luoghi di eventi."}`.
 - `fonti`: `docs/PIANO_RISULTATO6_FINALE.md`, `docs/ESITO_RISULTATO6_V2_GIRO2.md`, `docs/RAPPORTO_RISULTATO6_V2.txt`, `docs/RAPPORTO_R6V2_EVENTI.txt`, `scripts/68…79`. `avviso`: `["Dati [STIMATO] / [PROGRAMMATO] / [MISURATO – dati scarsi]", "…"]`. `scenari`: un solo blocco «Scenario S2» con 5-6 numeri (critici, coperti F 200 m, coperti ufficiali, parcheggi potenziali, posti potenziali, interscambi solo sulla carta), `prima: None`.
 
-**5.3** Rilancia `python scripts\schede_risultati.py` e `node --check data\schede_risultati.js`; controlla nello stdout la riga di R6 (numeri e grafici = 8); controlla che `data/schede_risultati.js` contenga «Parcheggi di interscambio», «238» e «Versione 2». Scrivi l'esito e **FERMATI**: Claude apre `simulazione.html` e la scheda nel browser.
+**5.3** Rilancia `python scripts\schede_risultati.py` e `node --check data\schede_risultati.js`; controlla nello stdout la riga di R6 (numeri e grafici = 8); controlla che `data/schede_risultati.js` contenga «Parcheggi di interscambio», «238» e «Versione 2». Scrivi l'esito: fine del tuo lavoro (nell'esito riepiloga cosa è stato fatto, cosa no, le anomalie e i file modificati; Claude controlla poi tutto nel browser).
 
 ---
 
