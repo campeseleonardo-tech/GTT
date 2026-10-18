@@ -263,6 +263,11 @@ def fasce_r4():
     return righe
 
 
+# copertura verificata da Claude il 18/10/2026 su trip_update_gtt (ore 06-24 con almeno 50 minuti letti)
+GIORNI_PARZIALI_R4 = ("sabato 10 dalle 15, lunedì 12 dalle 12, martedì 13 con buchi il pomeriggio e la sera, "
+                      "domenica 18 fino alle 9:30 (poi guasto del feed GTT)")
+
+
 def scheda_r4():
     r = leggi("risultato4_regolarita.json")
     c = r["citta"]
@@ -293,12 +298,12 @@ def scheda_r4():
     peggio_irr = sorted((x for x in linee if (x[1].get("coppie") or 0) >= par["min_coppie"]),
                         key=lambda x: -(x[1]["grappolo"] + x[1]["buco"]))[:10]
     nomi_fasce = {"punta_mattina": "punta del mattino (7-9)", "giorno": "giorno (9-16)",
-                  "punta_sera": "punta della sera (16-19)", "sera": "sera (19-24)", "notte": "notte (0-7)"}
+                  "punta_sera": "punta della sera (16-19)", "sera": "sera (19-24)", "notte": "notte e primo mattino (fino alle 7, dati parziali)"}
     return {
         "risultato": "4",
         "titolo": "Bus in ritardo e bus irregolari",
         "tag": "MISURATO",
-        "stato": f"Versione 1 ({r['periodo']['da'][8:10]}-{r['periodo']['a'][8:10]}/10/2026)",
+        "stato": f"Versione 2 ({r['periodo']['da'][8:10]}-{r['periodo']['a'][8:10]}/10/2026)",
         "in_breve": "L'orario alla fermata promette un passaggio ogni tot minuti. Quanto spesso i mezzi GTT "
                     "arrivano davvero in ritardo, o a coppie lasciando un buco?",
         "domanda": "Quanto spesso i mezzi GTT arrivano in ritardo, e quanto spesso sulle linee frequenti "
@@ -348,7 +353,12 @@ def scheda_r4():
                       ["Soglia anticipo", f"{virgola(par['soglia_anticipo_min'])} min"],
                       ["Lettura troppo lontana", f"oltre {int(par['max_lettura_lontana_min'])} min, scartata"]],
         "limiti": [
-            "Pochi giorni: 3 feriali, 1 sabato e 1 domenica. Il fine settimana va preso come indicazione.",
+            f"Pochi giorni ({r['giorni']['0']} feriali, {r['giorni']['1']} sabati, {r['giorni']['2']} domeniche), "
+            f"e non tutti interi: {GIORNI_PARZIALI_R4}. Ogni giorno conta con le ore che hanno dati.",
+            "La raccolta si ferma a mezzanotte e riparte verso le 5: la notte non è misurata.",
+            "Il feed copre solo le linee urbane (circa 90): le extraurbane non ci sono mai. Anche sulle linee "
+            "coperte manca circa 1 corsa su 5 (il 15/10: 80% delle corse programmate presenti): se alcune erano "
+            "saltate davvero, la puntualità reale è peggiore e i buchi sono più di quelli contati.",
             "Il ritardo è quello dichiarato dal feed di GTT a ridosso della fermata, non osservato sul posto.",
             f"Scartato il {round(100 * (tot - s['usati']) / tot)}% dei passaggi (corse non nell'orario ufficiale "
             "o lette troppo lontano dall'arrivo).",
@@ -361,7 +371,7 @@ def scheda_r4():
             "Dati [MISURATO] — pochi giorni",
             f"Arrivi reali dal feed GTT raccolto dal Raspberry Pi, {r['periodo']['da']} - {r['periodo']['a']}: "
             f"usato il {round(100 * s['usati'] / tot)}% dei passaggi letti (scartati quelli fuori orario ufficiale "
-            "o con lettura lontana). Sabato e domenica sono un giorno ciascuno: numeri indicativi."
+            "o con lettura lontana). Giorni non tutti interi e solo linee urbane presenti nel feed: vedi i limiti."
         ],
         "scenari": scenari,
     }
