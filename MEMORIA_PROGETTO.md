@@ -72,7 +72,7 @@ Script: 01-20 dati · 21-22 Risultato 1 · 23 vulnerabilità × servizi · 24 im
 | Risultato 4 v1 (27) | [MISURATO] 10-14/10, 596.534 passaggi. **Feriale: 4,2% in ritardo > 5 min · 10,3% coppie a grappolo+buco (linee frequenti) · ritardo mediano −0,6 min.** ~43% passaggi "in anticipo" reale (orari con margine). `docs/RAPPORTO_RISULTATO4.txt`, `data/processed/risultato4_regolarita.json`; verificato da Claude il 14/10. |
 | Risultato 2 "metro di notte" (28, 29 v2) | **Chiuso il 16/10.** Buco senza metro 00:50-05:22. Metrica "qualsiasi aumento": **ogni 15': 3.689 sezioni / 773.307 residenti migliorati, attesa media 7,5 min · ogni 30': 3.155 / 652.891, 15 min.** Scheda in `simulazione.html` (`risultato2_riepilogo_mappa.json`). Dettagli e limiti: `docs/PIANO_RISULTATO2.md`, `docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt`. |
 | Rapporto sostenibilità GTT 2025 | **Fatto il 17/10 senza servizi esterni.** 980 fatti verificati (27 scartati), riassunto in `docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`; dati in `data/processed/rapporto_gtt/`. Script 30-32 e `.bat` pronti per un eventuale giro via DeepSeek (serve `chiave_deepseek.txt`). |
-| Scheda risultato generica | `simulazione.html` ospita una "scheda risultato" (JSON `scenari[]`/`numeri[]` prima/dopo, barre solo CSS), riusabile dai prossimi risultati. |
+| Schede risultato | **18/10:** `simulazione.html` mostra da sola le schede R1, R2, R4, R6 (da `data/schede_risultati.js`, generato da `scripts/schede_risultati.py`, che scrive anche `risultato{1,4,6}_riepilogo_mappa.json`; R2 lo scrive lo script 29). Numeri ricontrollati sui file. Caricamento a mano dei JSON ancora possibile. Dopo un nuovo risultato o un rilancio (es. 27): rieseguire `schede_risultati.py`. |
 
 ## 5. IN CORSO
 

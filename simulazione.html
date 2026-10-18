@@ -56,7 +56,7 @@
 <div class="testa" style="margin-bottom:16px">
   <div>
     <h1>Simulazione</h1>
-    <p class="sub">Risultati del progetto, prima/dopo, e confronto scenari di offerta GTT: carica uno o più file JSON prodotti dagli script del progetto.</p>
+    <p class="sub">Risultati del progetto, prima/dopo, e confronto scenari di offerta GTT. Le schede dei risultati si vedono da sole; altri file JSON prodotti dagli script si possono caricare qui sotto.</p>
   </div>
   <a href="mappa_torino.html" class="back">← Torna alla mappa</a>
 </div>
@@ -76,6 +76,8 @@
 
 <div id="risultati"></div>
 
+<!-- schede dei risultati del progetto (scripts/schede_risultati.py); se manca, la pagina funziona lo stesso -->
+<script src="data/schede_risultati.js"></script>
 <script>
 "use strict";
 const $ = id => document.getElementById(id);
@@ -104,7 +106,8 @@ function numero(n){ return Math.round(n).toLocaleString("it-IT"); }
    (serve per valori tipo 7.5 min), ma formattato in stile italiano */
 function formattaNumero(n){
   if(typeof n !== "number" || !Number.isFinite(n)) return esc(String(n));
-  if(Number.isInteger(n)) return n.toLocaleString("it-IT");
+  // punto delle migliaia anche sotto 10.000 (toLocaleString "it-IT" scrive 9104, non 9.104)
+  if(Number.isInteger(n)) return (n < 0 ? "−" : "") + String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   return n.toLocaleString("it-IT", {maximumFractionDigits:1});
 }
 
@@ -215,12 +218,13 @@ function mostra(){
 /* Scheda "risultato": titolo, domanda, uno o più scenari, ciascuno coi suoi numeri prima/dopo
    e una barra semplice (solo CSS) per dare un confronto visivo tra gli scenari dello stesso file. */
 function renderRisultato(r, i){
-  // scala comune per ogni "label" di numero, cosi' le barre di scenari diversi sono confrontabili
+  // scala comune per ogni "label" di numero (prima e dopo), cosi' le barre di scenari diversi sono
+  // confrontabili e, con un solo scenario, la barra mostra il "dopo" rispetto al "prima"
   const maxPerLabel = {};
   for(const sc of r.scenari){
     for(const n of sc.numeri){
-      if(typeof n.dopo === "number"){
-        maxPerLabel[n.label] = Math.max(maxPerLabel[n.label] || 0, Math.abs(n.dopo));
+      for(const v of [n.prima, n.dopo]){
+        if(typeof v === "number") maxPerLabel[n.label] = Math.max(maxPerLabel[n.label] || 0, Math.abs(v));
       }
     }
   }
@@ -264,7 +268,13 @@ function renderRisultato(r, i){
 
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-/* avvio */
+/* avvio: le schede dei risultati si mostrano da sole; un file caricato a mano con lo stesso nome le sostituisce */
+for(const s of (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI : [])){
+  if(riconosciFormato(s) !== "risultato") continue;
+  s._tipo = "risultato";
+  s._nome = s._nome || ("risultato" + s.risultato);
+  simulazioni.push(s);
+}
 mostra();
 </script>
 
