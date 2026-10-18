@@ -533,8 +533,13 @@ def calcola_velocita():
         con = sqlite3.connect(f"file:{db}?mode=ro", uri=True, timeout=30)
         try:
             da = (datetime.now(timezone.utc) - timedelta(days=VEL_GIORNI)).isoformat(timespec="seconds")
+            # si scarta la lettura se ts_feed dista piu' di un'ora dal momento in cui e' stata letta:
+            # orologio di bordo sbagliato (es. mezzo 2897U, ~3 anni avanti) o posizione vecchia ripetuta dal feed
+            fuori_ora = con.execute("SELECT count(*) FROM mezzi_gtt WHERE letto_utc >= ? AND "
+                                    "abs(ts_feed - CAST(strftime('%s', letto_utc) AS INTEGER)) > 3600", (da,)).fetchone()[0]
             cur = con.execute("SELECT veicolo, linea, ts_feed, lat, lng FROM mezzi_gtt "
-                              "WHERE letto_utc >= ? ORDER BY veicolo, ts_feed", (da,))
+                              "WHERE letto_utc >= ? AND abs(ts_feed - CAST(strftime('%s', letto_utc) AS INTEGER)) <= 3600 "
+                              "ORDER BY veicolo, ts_feed", (da,))
             veic = linea = None
             base = None          # (ts, lat, lng) ultima posizione di riferimento
             pend = []            # tratti fermi non ancora decisi: (chiave, secondi)
@@ -605,7 +610,7 @@ def calcola_velocita():
     meta = {"primo": primo, "ultimo": ultimo, "ore": ore, "righe": righe, "scartati_gps": scartati}
     ore_con_dati = sum(len(o) for t in vel.values() for o in t.values())
     print(f"  velocita': {len(vel)} linee con dati, {ore_con_dati} celle linea/tipo/ora, {ore} ore di storico "
-          f"({righe} righe lette, {scartati} salti GPS scartati)")
+          f"({righe} righe lette, {scartati} salti GPS scartati, {fuori_ora} righe con ora della posizione lontana oltre 1 h dalla lettura)")
     return vel, meta
 
 
