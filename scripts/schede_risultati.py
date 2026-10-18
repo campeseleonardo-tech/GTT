@@ -462,10 +462,126 @@ def scheda_r6():
     }
 
 
+# ---------------------------------------------------------------- Risultato 9
+
+MIN_INTERVALLI_R9 = 2000   # sotto questa soglia un tipo di giorno non entra nella scheda (la domenica ne ha ~600)
+
+
+def scheda_r9():
+    r = leggi("risultato9_attesa.json")
+    par = r["parametri"]
+    nomi_tipo = {"0": "Feriale", "1": "Sabato", "2": "Domenica"}
+    nomi_fasce = {"punta_mattina": "punta del mattino (7-9)", "giorno": "giorno (9-16)",
+                  "punta_sera": "punta della sera (16-19)", "sera": "sera (19-24)",
+                  "notte": "primo mattino (fino alle 7)"}
+    fer = r["citta"]["0"]
+    gps = r["controllo_gps"] or {}
+    linee = sorted(((v["in_piu_min_bassa"], k, v) for k, v in r["linee"].get("0", {}).items()
+                    if v["intervalli_osservati"] >= par["min_intervalli_classifica"]), reverse=True)[:10]
+    scenari = []
+    for t in ("0", "1", "2"):
+        c = r["citta"].get(t)
+        if not c or c["intervalli_osservati"] < MIN_INTERVALLI_R9:  # domenica: poche linee frequenti
+            continue
+        scenari.append({"nome": f"{nomi_tipo[t]} ({r['giorni'][t]} {'giorno' if r['giorni'][t] == 1 else 'giorni'})",
+                        "numeri": [num("Attesa media alla fermata, stima bassa", c["reale_min_bassa"], "min",
+                                       prima=c["promessa_min"]),
+                                   num("Attesa media alla fermata, stima alta", c["reale_min_alta"], "min",
+                                       prima=c["promessa_min"]),
+                                   num("Corse programmate assenti dal feed", c["corse_assenti_feed_pct"], "%")]})
+    scenari[0]["nota"] = "Prima = attesa promessa dall'orario, dopo = attesa reale stimata dai passaggi."
+    sens = r["sensibilita_freq"]
+    return {
+        "risultato": "9",
+        "titolo": "Quanto si aspetta davvero alla fermata",
+        "tag": "MISURATO",
+        "stato": f"Versione 1 ({r['periodo']['da'][8:10]}-{r['periodo']['a'][8:10]}/10/2026)",
+        "in_breve": "L'orario promette un bus ogni pochi minuti. Se però i bus arrivano a coppie e poi lasciano un "
+                    "buco, alla fermata si aspetta di più, anche se in un'ora ne passano tanti quanti promessi.",
+        "domanda": "Sulle linee frequenti, quanti minuti in più aspetta in media chi arriva alla fermata senza "
+                   "guardare l'orario, rispetto a quanto promette l'orario?",
+        "numero_chiave": {"valore": fer["in_piu_min_bassa"], "unita": "min",
+                          "testo": f"in più di attesa alla fermata nei giorni feriali (fino a "
+                                   f"{virgola(fer['in_piu_min_alta'])}), su {virgola(fer['promessa_min'])} promessi"},
+        "racconto": "Il risultato 4 contava quante coppie di bus arrivano a grappolo o lasciano un buco. Questo "
+                    "risultato traduce quei numeri in minuti persi alla fermata, con la misura che usano le grandi "
+                    "aziende di trasporto (Londra la pubblica come \"attesa in eccesso\").",
+        "risposta": [
+            f"Nei giorni feriali, sulle linee frequenti, l'orario promette un'attesa media di "
+            f"{virgola(fer['promessa_min'])} minuti; quella reale è tra {virgola(fer['reale_min_bassa'])} e "
+            f"{virgola(fer['reale_min_alta'])} minuti.",
+            f"Sono da {virgola(fer['in_piu_min_bassa'])} a {virgola(fer['in_piu_min_alta'])} minuti in più a ogni "
+            f"attesa: almeno {il(round(fer['in_piu_pct_bassa']))}% oltre la promessa.",
+            f"La linea con più attesa in più è la {linee[0][1]} ({virgola(linee[0][0])} minuti in più, stima bassa)."
+            if linee else "",
+        ],
+        "grafici": [
+            {"tipo": "barre", "titolo": "Attesa media alla fermata per fascia oraria (feriale)", "unita": "min",
+             "nota": "Barra chiara = attesa promessa, barra scura = attesa reale (stima bassa).",
+             "voci": [voce(nomi_fasce[f], r["citta_fascia"]["0"][f]["reale_min_bassa"],
+                           prima=r["citta_fascia"]["0"][f]["promessa_min"])
+                      for f in ("punta_mattina", "giorno", "punta_sera", "sera") if r["citta_fascia"]["0"].get(f)]},
+            {"tipo": "barre", "titolo": "Minuti in più di attesa, per fascia oraria (feriale)", "unita": "min",
+             "forbice": True,
+             "nota": "Barra chiara = stima bassa, barra scura = stima alta.",
+             "voci": [voce(nomi_fasce[f], r["citta_fascia"]["0"][f]["in_piu_min_alta"],
+                           prima=r["citta_fascia"]["0"][f]["in_piu_min_bassa"])
+                      for f in ("punta_mattina", "giorno", "punta_sera", "sera") if r["citta_fascia"]["0"].get(f)]},
+            {"tipo": "barre", "titolo": "Le 10 linee con più attesa in più (feriale, stima bassa)", "unita": "min",
+             "nota": f"Solo linee con almeno {par['min_intervalli_classifica']} intervalli osservati.",
+             "voci": [voce(f"linea {k}", round(v, 1)) for v, k, _ in linee]},
+        ],
+        "metodo": [
+            "Per chi arriva alla fermata a caso, l'attesa media dipende da quanto sono regolari i passaggi: con gli "
+            "intervalli h1, h2, ... è (h1² + h2² + ...) / (2 × (h1 + h2 + ...)). Bus ogni 10 minuti esatti: 5 minuti. "
+            "Stessi due bus all'ora ma con intervalli di 2 e 18 minuti: 8,2 minuti.",
+            "Attesa promessa = la formula sugli orari ufficiali (GTFS). Attesa reale = la formula sugli arrivi stimati "
+            "dal feed GTT a ridosso della fermata (stessa lettura del risultato 4).",
+            f"Solo linee frequenti: intervallo programmato medio di {int(par['freq_max_min'])} minuti o meno, per "
+            "fermata, linea, verso e fascia oraria. Solo nelle ore in cui il Raspberry Pi stava raccogliendo.",
+            "Corse che non compaiono nel feed: non si sa se sono saltate o solo non trasmesse, quindi due stime. "
+            "Bassa: si usano solo i tratti senza corse mancanti. Alta: una corsa assente sia dal feed sia dal GPS "
+            "conta come saltata.",
+            "Media della città pesata sul numero di intervalli programmati (non ci sono dati sui passeggeri).",
+        ],
+        "parametri": [["Periodo", f"{r['periodo']['da']} - {r['periodo']['a']}"],
+                      ["Linea frequente", f"intervallo medio ≤ {int(par['freq_max_min'])} min"],
+                      ["Intervalli osservati (feriale)", migliaia(fer["intervalli_osservati"])],
+                      ["Esclusi per dati scarsi", f"linea-fascia con più del {int(par['max_mancanti'] * 100)}% di corse assenti"],
+                      ["Controllo col GPS", f"{gps.get('passaggi_confrontati', '-')} passaggi delle linee "
+                                            f"{', '.join(gps.get('linee', []))}: differenza tipica "
+                                            f"{virgola(gps.get('differenza_assoluta_mediana_min') or 0)} min"],
+                      ["Soglia 10 / 15 min", f"in più {virgola(sens['10']['in_piu_min_bassa'])} / "
+                                             f"{virgola(sens['15']['in_piu_min_bassa'])} min (stima bassa)"]],
+        "limiti": [
+            "Arrivi stimati dal feed GTT a ridosso della fermata, non visti sul posto; il controllo col GPS dei mezzi "
+            f"dà una differenza tipica di {virgola(gps.get('differenza_assoluta_mediana_min') or 0)} minuti.",
+            "Solo le linee urbane presenti nel feed; niente extraurbane e niente notte.",
+            "Le corse mancanti rendono il risultato una forbice, non un numero solo.",
+            "Vale per chi arriva alla fermata senza guardare orario o app: è il caso tipico delle linee frequenti, "
+            "non di quelle rare (per quelle conta la puntualità, risultato 4).",
+            "Pochi giorni (gli stessi del risultato 4, non tutti interi): va rifatto con più settimane di dati. "
+            "La domenica le linee frequenti sono poche: troppo pochi dati per dare un numero.",
+        ],
+        "mappa": None,
+        "fonti": ["docs/RAPPORTO_RISULTATO9_ATTESA.txt", "docs/PIANO_RISULTATO9_ATTESA.md",
+                  "scripts/70_risultato9_attesa.py"],
+        "generato": ora(),
+        "avviso": [
+            "Dati [MISURATO] — forbice per le corse mancanti",
+            "Arrivi stimati dal feed GTT raccolto dal Raspberry Pi, solo linee urbane frequenti e ore con raccolta "
+            "attiva. Stima bassa = solo tratti senza corse mancanti; stima alta = corse assenti da feed e GPS "
+            "contate come saltate."
+        ],
+        "scenari": scenari,
+    }
+
+
 def main():
     schede = []
     for nome, fabbrica in (("risultato1", scheda_r1), ("risultato2", None),
-                           ("risultato4", scheda_r4), ("risultato6", scheda_r6)):
+                           ("risultato4", scheda_r4), ("risultato6", scheda_r6),
+                           ("risultato9", scheda_r9)):
         file = f"{nome}_riepilogo_mappa.json"
         if fabbrica is None:
             s = arricchisci_r2(leggi(file))  # il JSON di R2 resta quello dello script 29

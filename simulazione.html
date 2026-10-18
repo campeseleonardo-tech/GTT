@@ -243,7 +243,8 @@ function graficoBarre(g){
   const righe = voci.map(v => {
     const pct = x => Math.max(1.5, Math.abs(x) / max * 100);
     const haPrima = typeof v.prima === "number";
-    const val = (haPrima ? conUnita(v.prima, g.unita === "%" ? "%" : "") + " → " : "") + conUnita(v.valore, g.unita === "%" ? "%" : "");
+    const sep = g.forbice ? " – " : " → ";   // forbice = due stime (bassa e alta), non un prima/dopo
+    const val = (haPrima ? conUnita(v.prima, g.unita === "%" ? "%" : "") + sep : "") + conUnita(v.valore, g.unita === "%" ? "%" : "");
     return `<div class="barra-riga">
       <span class="barra-etichetta" title="${esc(v.label)}">${esc(v.label)}</span>
       <span class="barra-traccia">
