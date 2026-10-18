@@ -122,4 +122,4 @@ entrata; IMQ in mappa (7 misure); avvisi GTT da aggiornare.
 - **Script 18**: la firma della run non contiene il percorso del GTFS: tra due lanci con GTFS diversi pulire
   `data/processed/accessibilita_parziale/` (il `.bat` del Risultato 2 lo fa già).
 - **Bridge** (chat senza terminale): `device_commit_files` a volte non scrive i file grossi; rileggere dopo.
-- **Colori dei gradienti** (Leo, 19/10): in tutta la mappa e nelle schede ogni scala con gradiente va da **verde (bene) a rosso (male/critico)**, mai altre scale; verificare anche i temi esistenti.
+- **Colori** (Leo, 19/10), uguali in mappa e schede: gradiente «bene/male» = **verde→rosso**; quantità neutre (abitanti, spostamenti, pendolari, prezzi) = **blu→arancione smorzati**; categorie = un colore per gruppo. Le legende scrivono sempre i numeri (daltonismo). Piano: `docs/PIANO_INTEGRAZIONE_R6.md`.
