@@ -1,0 +1,191 @@
+RAPPORTO R6 v2 — SEGNALI DI CRITICITA' PER LUOGO (Passo 6)
+luoghi: 5087
+
+== Per ogni segnale: quanti luoghi lo hanno, minimo, mediana, massimo ==
+  a1      5087 luoghi   min       1.00   mediana       1.00   max       5.00
+  a2      3261 luoghi   min       1.00   mediana       2.00   max       5.00
+  b1      5087 luoghi   min       0.00   mediana       5.00   max     157.00
+  b2      5087 luoghi   min       0.00   mediana       2.50   max     132.38
+  c1      5058 luoghi   min      54.00   mediana   13772.20   max  103423.60
+  c2      4464 luoghi   min      27.70   mediana    2526.80   max   18306.20
+  c3      2170 luoghi   min      38.90   mediana     412.70   max   16722.30
+  c2_ztl  4464 luoghi   min      27.70   mediana    2573.50   max   35028.50
+  d         96 luoghi   min      -0.13   mediana       0.21   max       0.65
+  e       5087 luoghi   min       0.00   mediana       0.00   max     100.00
+
+== I 10 luoghi piu' alti per ogni segnale ==
+  -- a2
+           5.00  Fermata 1100 - SANGONE                     zona=Q023
+           5.00  Fermata 285 - DROSSO CAP                   zona=Q023
+           5.00  Fermata 1076 - PLAVA                       zona=Q023
+           5.00  Fermata 1075 - FARINELLI                   zona=Q023
+           5.00  Fermata 1185 - PAVESE                      zona=Q023
+           5.00  Fermata 3065 - MARONCELLI                  zona=C009
+           5.00  Fermata 1081 - PAVESE                      zona=Q023
+           5.00  Fermata 1078 - BISCARETTI                  zona=Q023
+           5.00  Fermata 3364 - BISCARETTI                  zona=Q023
+           5.00  Fermata 2045 - FIOCCARDO                   zona=C009
+  -- b2
+         132.38  Fermata 27 - XVIII DICEMBRE                zona=Q001
+         102.00  METRO PORTA NUOVA                          zona=Q001
+          89.75  Fermata 805 - CAIO MARIO                   zona=Q023
+          73.75  Fermata 476 - SANT'OTTAVIO                 zona=Q001
+          69.75  Fermata 478 - VITTORIO VENETO              zona=Q001
+          68.50  METRO XVIII DICEMBRE                       zona=Q001
+          66.75  Fermata 475 - ROSSINI                      zona=Q001
+          64.00  METRO FERMI                                zona=C003
+          60.50  Fermata 371 - RONDÒ FORCA                  zona=Q007
+          58.25  Fermata 1945 - CARLO ALBERTO               zona=Q001
+  -- c2_ztl
+       35028.50  Fermata 632 - DELLA ROCCA                  zona=Q001
+       35028.50  Fermata 631 - VITTORIO EMANUELE II         zona=Q001
+       35028.50  Fermata 607 - DELLA ROCCA                  zona=Q001
+       35028.50  Fermata 1949 - D'AZEGLIO                   zona=Q001
+       35028.50  Fermata 779 - SAN PIO V                    zona=Q001
+       35028.50  Fermata 606 - MAZZINI                      zona=Q001
+       35028.50  Fermata 1948 - MADAMA CRISTINA             zona=Q001
+       35028.50  Fermata 777 - MADAMA CRISTINA              zona=Q001
+       35028.50  Fermata 633 - MAZZINI                      zona=Q001
+       35028.50  Fermata 761 - VITTORIO EMANUELE II         zona=Q001
+  -- d
+           0.65  Fermata 3062 - SANGONE                     zona=C009
+           0.65  Fermata 3063 - SANGONE                     zona=C009
+           0.65  Fermata 3064 - MARONCELLI                  zona=C009
+           0.58  Fermata 2718 - CASSAGNA                    zona=C019
+           0.58  Fermata 2516 - GALILEO FERRARIS            zona=C019
+           0.58  Fermata 2524 - GALILEO FERRARIS            zona=C019
+           0.50  Fermata 2393 - SOFIA CAP                   zona=Q020
+           0.50  Fermata 1603 - SOFIA NORD                  zona=Q020
+           0.50  Fermata 1602 - D'ANDRADE                   zona=Q020
+           0.44  Fermata 2131 - SETTEMBRINI                 zona=Q023
+
+== Segnali mancanti ==
+  a1     mancante in 0 luoghi
+  a2     mancante in 1826 luoghi
+  b1     mancante in 0 luoghi
+  b2     mancante in 0 luoghi
+  c1     mancante in 29 luoghi
+  c2     mancante in 623 luoghi
+  c2_ztl mancante in 623 luoghi
+  d      mancante in 4991 luoghi
+
+== c2 e c3 (auto in entrata al mattino, IMQ 2022) ==
+  c2: 95297 spostamenti al giorno, 1139 interviste
+  c3: 16722 spostamenti al giorno verso la ZTL centrale 07:30-10:30, 203 interviste
+  zone IMQ che stanno almeno per il 10% dentro la ZTL centrale:
+     Q001: 68.3% della superficie
+  zone con meno di 30 interviste (c2 'scarso'): 2943 luoghi (saranno completate al Passo 7)
+
+== d: sensori 5T usati e loro calo di velocita' ==
+  calo = 1 - velocita' ore 7-8 / velocita' ore 2-4 (stesso punto, quindi limiti e semafori non contano)
+  Corso Trieste(TO)                      notte  60.2 km/h  punta  21.1 km/h  calo 0.65
+  SP8(TO) di Druento                     notte  68.2 km/h  punta  28.4 km/h  calo 0.58
+  SS229 Del Lago D Orta                  notte  68.0 km/h  punta  33.0 km/h  calo 0.52
+  Ponte Amedeo VIII(TO)                  notte  50.5 km/h  punta  25.4 km/h  calo 0.50
+  Corso Orbassano(TO)                    notte  59.9 km/h  punta  33.8 km/h  calo 0.44
+  Corso Giulio Cesare(TO)                notte  70.7 km/h  punta  41.7 km/h  calo 0.41
+  SS29 Del Colle Di Cadibona             notte  58.4 km/h  punta  38.3 km/h  calo 0.34
+  SS22 Di Val Macra                      notte  65.3 km/h  punta  45.3 km/h  calo 0.31
+  Corso Vercelli(TO)                     notte  36.1 km/h  punta  25.9 km/h  calo 0.28
+  Corso Orbassano(TO)                    notte  47.1 km/h  punta  35.5 km/h  calo 0.25
+  SS22 Di Val Macra                      notte  61.7 km/h  punta  46.9 km/h  calo 0.24
+  Corso Unione Sovietica(TO)             notte  32.8 km/h  punta  25.0 km/h  calo 0.24
+  SS456 Del Turchino                     notte  78.6 km/h  punta  60.5 km/h  calo 0.23
+  SS527 Bustese                          notte  67.6 km/h  punta  52.2 km/h  calo 0.23
+  SS229 Del Lago D Orta                  notte  65.5 km/h  punta  50.9 km/h  calo 0.22
+  SP8(TO) di Druento                     notte  65.6 km/h  punta  51.0 km/h  calo 0.22
+  SS299 Di Alagna                        notte  92.6 km/h  punta  72.0 km/h  calo 0.22
+  Corso Francia(TO)                      notte  52.0 km/h  punta  40.8 km/h  calo 0.22
+  SS29 Del Colle Di Cadibona             notte  66.3 km/h  punta  52.2 km/h  calo 0.21
+  SP1(TO) delle Valli di Lanzo           notte  82.7 km/h  punta  65.2 km/h  calo 0.21
+  SS29 Del Colle Di Cadibona             notte  63.6 km/h  punta  50.2 km/h  calo 0.21
+  SS29 Del Colle Di Cadibona             notte  59.0 km/h  punta  46.7 km/h  calo 0.21
+  Corso Regina Margherita(TO)            notte  51.3 km/h  punta  40.7 km/h  calo 0.21
+  R24 Raccordo Torino-Aeroporto Caselle  notte  83.5 km/h  punta  66.5 km/h  calo 0.20
+  SS527 Bustese                          notte  69.4 km/h  punta  55.4 km/h  calo 0.20
+  SS33 Racc Del Sempione                 notte  61.2 km/h  punta  48.9 km/h  calo 0.20
+  SP4(NO) Ovest Ticino                   notte  73.5 km/h  punta  58.8 km/h  calo 0.20
+  SP13(TO) di Front                      notte  66.7 km/h  punta  53.5 km/h  calo 0.20
+  SS565 Di Castellamonte                 notte  93.1 km/h  punta  74.7 km/h  calo 0.20
+  SS662 Di Savigliano                    notte  73.8 km/h  punta  59.5 km/h  calo 0.19
+  SS565 Di Castellamonte                 notte  90.3 km/h  punta  72.8 km/h  calo 0.19
+  SS28 Del Colle Di Nava                 notte  91.9 km/h  punta  74.5 km/h  calo 0.19
+  SS662 Di Savigliano                    notte  78.1 km/h  punta  63.5 km/h  calo 0.19
+  SS33 Racc Del Sempione                 notte  59.7 km/h  punta  48.6 km/h  calo 0.18
+  SP4(NO) Ovest Ticino                   notte  70.5 km/h  punta  57.9 km/h  calo 0.18
+  SS143 Vercellese                       notte  81.6 km/h  punta  67.2 km/h  calo 0.18
+  Corso Unita' D'italia(TO)              notte  56.4 km/h  punta  46.5 km/h  calo 0.17
+  SS460 Di Ceresole                      notte  77.9 km/h  punta  64.6 km/h  calo 0.17
+  Corso Giulio Cesare(TO)                notte  48.7 km/h  punta  40.4 km/h  calo 0.17
+  SS662 Di Savigliano                    notte  82.4 km/h  punta  68.5 km/h  calo 0.17
+  SS10 Padana Inferiore                  notte  73.9 km/h  punta  61.5 km/h  calo 0.17
+  SS456 Del Turchino                     notte  77.0 km/h  punta  64.2 km/h  calo 0.17
+  SS10 Padana Inferiore                  notte  66.3 km/h  punta  55.6 km/h  calo 0.16
+  SS11 Padana Superiore                  notte  75.7 km/h  punta  64.2 km/h  calo 0.15
+  Corso Orbassano(TO)                    notte  37.6 km/h  punta  32.0 km/h  calo 0.15
+  SS35 Bis Dei Giovi                     notte  80.6 km/h  punta  69.0 km/h  calo 0.14
+  SS11 Padana Superiore                  notte  76.1 km/h  punta  65.1 km/h  calo 0.14
+  Corso Francia(TO)                      notte  48.8 km/h  punta  41.9 km/h  calo 0.14
+  SS589 Dei Laghi Di Avigliana           notte  79.8 km/h  punta  68.5 km/h  calo 0.14
+  SS28 Del Colle Di Nava                 notte  88.9 km/h  punta  76.7 km/h  calo 0.14
+  SP1(TO) delle Valli di Lanzo           notte  81.2 km/h  punta  70.0 km/h  calo 0.14
+  SS10 Padana Inferiore                  notte  67.5 km/h  punta  58.4 km/h  calo 0.13
+  SS142 Biellese                         notte  66.9 km/h  punta  57.9 km/h  calo 0.13
+  SS564 Monregalese                      notte  82.4 km/h  punta  71.5 km/h  calo 0.13
+  SP13(TO) di Front                      notte  67.5 km/h  punta  58.6 km/h  calo 0.13
+  Strada Di Settimo(TO)                  notte  57.7 km/h  punta  50.1 km/h  calo 0.13
+  SS143 Vercellese                       notte  85.3 km/h  punta  74.2 km/h  calo 0.13
+  SS35 Bis Dei Giovi                     notte  74.0 km/h  punta  64.3 km/h  calo 0.13
+  SS31 Del Monferrato                    notte  57.9 km/h  punta  50.8 km/h  calo 0.12
+  SS457 Di Moncalvo                      notte  80.1 km/h  punta  70.7 km/h  calo 0.12
+  SS10 Padana Inferiore                  notte  64.8 km/h  punta  57.3 km/h  calo 0.12
+  SS10 Padana Inferiore                  notte  66.4 km/h  punta  58.9 km/h  calo 0.11
+  SS10 Padana Inferiore                  notte  67.1 km/h  punta  59.5 km/h  calo 0.11
+  SS299 Di Alagna                        notte  87.5 km/h  punta  77.7 km/h  calo 0.11
+  SS142 Biellese                         notte  66.3 km/h  punta  59.2 km/h  calo 0.11
+  SS230 Di Massazza                      notte  75.9 km/h  punta  68.0 km/h  calo 0.10
+  SS589 Dei Laghi Di Avigliana           notte  77.5 km/h  punta  69.8 km/h  calo 0.10
+  SS457 Di Moncalvo                      notte  82.4 km/h  punta  74.2 km/h  calo 0.10
+  SS11 Padana Superiore                  notte  89.4 km/h  punta  80.6 km/h  calo 0.10
+  SP122(TO) di Chieri                    notte  83.3 km/h  punta  75.2 km/h  calo 0.10
+  SS661 Delle Langhe                     notte  69.5 km/h  punta  62.9 km/h  calo 0.10
+  SS11 Padana Superiore                  notte  92.7 km/h  punta  83.9 km/h  calo 0.10
+  SS460 Di Ceresole                      notte  72.5 km/h  punta  66.5 km/h  calo 0.08
+  SP122(TO) di Chieri                    notte  80.6 km/h  punta  74.3 km/h  calo 0.08
+  SS230 Di Massazza                      notte  77.7 km/h  punta  72.2 km/h  calo 0.07
+  Corso Sebastopoli(TO)                  notte  31.9 km/h  punta  29.8 km/h  calo 0.07
+  SP2(TO) Di Germagnano                  notte  67.6 km/h  punta  63.4 km/h  calo 0.06
+  SS564 Monregalese                      notte  74.6 km/h  punta  70.2 km/h  calo 0.06
+  SS455 Di Pontestura                    notte  79.7 km/h  punta  76.3 km/h  calo 0.04
+  SS455 Di Pontestura                    notte  85.2 km/h  punta  82.7 km/h  calo 0.03
+  SS31 Del Monferrato                    notte  76.9 km/h  punta  74.7 km/h  calo 0.03
+  Corso Agnelli(TO)                      notte  49.6 km/h  punta  48.8 km/h  calo 0.02
+  SS458 Di Casalborgone                  notte  59.7 km/h  punta  58.8 km/h  calo 0.02
+  SS661 Delle Langhe                     notte  77.8 km/h  punta  76.9 km/h  calo 0.01
+  SS10 Padana Inferiore                  notte  64.7 km/h  punta  64.6 km/h  calo 0.00
+  Corso Unita' D'italia(TO)              notte  55.8 km/h  punta  55.8 km/h  calo -0.00
+  SS11 Padana Superiore                  notte  65.0 km/h  punta  65.0 km/h  calo 0.00
+  SS11 Padana Superiore                  notte  64.8 km/h  punta  64.8 km/h  calo 0.00
+  SS460 Di Ceresole                      notte  97.0 km/h  punta  97.0 km/h  calo 0.00
+  SS460 Di Ceresole                      notte  78.0 km/h  punta  78.0 km/h  calo 0.00
+  SS10 Padana Inferiore                  notte  71.4 km/h  punta  71.5 km/h  calo -0.00
+  SS594 Destra Sesia                     notte  76.8 km/h  punta  77.2 km/h  calo -0.01
+  SS31 Del Monferrato                    notte  74.2 km/h  punta  75.5 km/h  calo -0.02
+  SP2(TO) Di Germagnano                  notte  71.8 km/h  punta  73.6 km/h  calo -0.03
+  SS594 Destra Sesia                     notte  77.1 km/h  punta  83.0 km/h  calo -0.08
+  Corso Allamano(TO)                     notte  40.4 km/h  punta  45.6 km/h  calo -0.13
+  SS31 Del Monferrato                    notte  15.0 km/h  punta  43.4 km/h  calo -1.89
+
+== f: auto che GIA' OGGI lasciano l'auto per un mezzo pubblico (solo informazione) ==
+  NON entra nei punteggi [DATI SCARSI]
+  totale: 24459 spostamenti al giorno, 299 interviste
+  per secondo mezzo:
+     codice 12: 13583 spostamenti (168 interviste)
+     codice 19: 3958 spostamenti (49 interviste)
+     codice 06: 2281 spostamenti (28 interviste)
+     codice 22: 1765 spostamenti (19 interviste)
+     codice 08: 1650 spostamenti (21 interviste)
+     codice 09: 746 spostamenti (9 interviste)
+     codice 07: 371 spostamenti (4 interviste)
+     codice 13: 106 spostamenti (1 interviste)
+  zona del cambio non indicata (COD_2M vuoto): 178 su 299 (60%)

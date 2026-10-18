@@ -196,3 +196,34 @@ a Caio Mario: ufficiale a pagamento e vuoto, uno gratuito da ~5.000 m² a 170 m.
   sono la loro versione migliorata, li sostituiscono; si confrontano in 3 scenari e decide Leo.
 - Piano meccanico per un agente: **`docs/PIANO_RISULTATO6_V2.md`** (script 68, 69, 71-76).
 - Ancora aperto: le soglie della firma oraria si fissano dopo aver visto l'anteprima.
+
+## Giro dell'agente del 19/10 (piano `PIANO_RISULTATO6_V2.md`) — esito ricontrollato da Claude
+
+Esito: `docs/ESITO_RISULTATO6_V2.md`, rapporti `docs/RAPPORTO_R6V2_*.txt` e `docs/RAPPORTO_RISULTATO6_V2.txt`, dati in
+`data/processed/risultato6_v2/`, script 68, 69, 71-76. Tutti i passi OK.
+
+**Numeri confermati da Claude** (ricalcolati a parte): v1 rifatta fermata per fermata = 611 / 17 / 594; scenari S1 438,
+S2 436, S3 438 luoghi critici (S1∩S2 370); c2 = 95.297 spostamenti in auto in entrata al mattino (1.139 interviste);
+auto → mezzo pubblico ~24.500/giorno (299 interviste). Luoghi: 5.087 (le 611 fermate critiche v1 = 462 luoghi).
+Parcheggi censiti 5.205 (5T 40, Comune 39, OSM 5.176). Anteprima riempimento: solo 2 feriali validi (15-16/10).
+
+**Problemi trovati da Claude (da correggere prima di scegliere lo scenario):**
+1. **a2 e "asse d'ingresso" prendono il tratto più vicino, anche se è una stradina di servizio** (regola del piano,
+   errore di Claude). Esempio: la fermata Genova N.212 (Moncalieri) prende un tratto di servizio a 2 m (punteggio 1)
+   invece di Strada Genova a 6 m (punteggio 4). Per lo stesso motivo **nessun parcheggio risulta su un asse
+   d'ingresso**, neanche Fermi e Venchi Unica su Corso Francia. In più alcune tratte importanti hanno punteggio 1
+   (Via Torino a Venaria, secondaria): da controllare il punteggio delle tratte della Fase 5. a2 è il segnale che
+   pesa di più in S2 (toglierlo cambia 148 luoghi), quindi va sistemato prima di confrontare gli scenari.
+   Correzione proposta: entro ~30-50 m prendere il tratto di classe più alta, escludendo service/residential.
+2. **"Interscambio di fatto" troppo largo**: la firma "pendolare" non distingue chi lascia l'auto per prendere un
+   mezzo da chi la lascia vicino al posto di lavoro (risultano interscambio di fatto Molinette, Palagiustizia,
+   Nizza, CTO), e "posizione buona" (nodo forte entro 400 m, fuori Q001) vale per quasi tutta la città (346 nodi
+   forti). Serve una condizione in più (es. nodo metro/treno/capolinea, oppure fuori dalla zona semicentrale, oppure
+   su un asse d'ingresso una volta corretto il punto 1).
+3. **Fermate di tutto il Piemonte**: luoghi e percentili includono le fermate GTT extraurbane fuori dalla Città
+   metropolitana (Mondovì, Fossano…), come già la v1. Decidere se limitare l'universo (es. Torino + cintura).
+4. **La v1 sbagliava "l'ora di punta"**: b1 prendeva l'ora con più corse anche di notte (es. Pozzo Strada: 9 corse
+   "in punta" ma solo corse notturne; b2 = 0 è giusto). Argomento per sostituire b1 con b2.
+Altri limiti: soglie delle firme provvisorie (Venchi Unica ampiezza 0,055 → "misto" invece di "bloccato"); la ZTL
+centrale copre solo la zona Q001 (c2_ztl cambia 20 luoghi); il calo di velocità esiste solo vicino a 96 luoghi (pesa
+poco); la quota auto ISTAT 2011 è più bassa di quella IMQ del mattino (universi diversi), usata per 54 zone.

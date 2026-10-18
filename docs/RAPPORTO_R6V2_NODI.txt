@@ -1,0 +1,104 @@
+RAPPORTO R6 v2 — NODI DI TRASPORTO (Passo 4)
+modalita': completa
+luoghi: 5087; nodi forti: 346
+un luogo e' nodo forte se ha metro, o una stazione entro 300 m, o e' capolinea, o ha almeno 20 corse/ora nelle ore dei pendolari
+  per tipo: {'ferro': 114, 'capolinea': 69, 'frequente': 140, 'metro': 23}
+  con b2 >= 20 senza altro motivo (frequente): 140
+
+== Stazioni dei treni trovate in OpenStreetMap ==
+  Airasca                             44.92803, 7.48333
+  Alpignano                           45.09128, 7.52382
+  Borgaro                             45.15330, 7.64875
+  Brandizzo                           45.17874, 7.84118
+  Cambiano-Santena                    44.96647, 7.77321
+  Candiolo                            44.96111, 7.59902
+  Caselle Torinese                    45.17609, 7.64452
+  Chieri                              45.00615, 7.82335
+  Chivasso                            45.19362, 7.88970
+  Ciriè                               45.23016, 7.60236
+  Collegno                            45.07887, 7.57420
+  Grugliasco                          45.06814, 7.59934
+  Moncalieri                          44.99822, 7.67826
+  Moncalieri Sangone                  45.00041, 7.66798
+  Montanaro                           45.23270, 7.85832
+  Nichelino                           44.99140, 7.64205
+  None                                44.93797, 7.54004
+  Orbassano San Luigi                 45.02379, 7.55973
+  Pessione                            44.96519, 7.84137
+  Rosta                               45.07821, 7.46167
+  S. Benigno Canavese                 45.21846, 7.78213
+  San Maurizio Canavese               45.21651, 7.63036
+  Settimo Torinese                    45.13993, 7.76949
+  Torino Aeroporto di Caselle         45.19158, 7.64158
+  Torino Borgata Quaglia-Le Gru       45.06004, 7.61617
+  Torino Grosseto                     45.10524, 7.66713
+  Torino Lingotto                     45.02660, 7.65682
+  Torino Porta Nuova                  45.06120, 7.67780
+  Torino Porta Susa                   45.07158, 7.66586
+  Torino Rebaudengo Fossata           45.09952, 7.68702
+  Torino Stura                        45.12209, 7.71380
+  Trofarello                          44.98050, 7.73521
+  Venaria Reale Reggia                45.13204, 7.63481
+  Venaria Reale Rigola Stadio         45.11796, 7.64783
+  Villastellone                       44.92053, 7.74950
+  Volpiano                            45.20047, 7.77973
+
+== Controllo delle stazioni attese ==
+  Porta Nuova: trovata
+  Porta Susa: trovata
+  Lingotto: trovata
+  Stura: trovata
+  Rebaudengo: trovata
+
+== Luoghi con la metropolitana ==
+  totale: 23
+  METRO BENGASI                                 zona=C009 b2=37.5 tipo=metro
+  METRO BERNINI                                 zona=Q006 b2=37.9 tipo=metro
+  METRO CARDUCCI                                zona=Q002 b2=52.0 tipo=metro
+  METRO DANTE                                   zona=Q002 b2=38.4 tipo=metro
+  METRO FERMI                                   zona=C003 b2=64.0 tipo=metro
+  METRO ITALIA61                                zona=Q009 b2=37.5 tipo=metro
+  METRO LINGOTTO                                zona=Q009 b2=37.6 tipo=metro
+  METRO MARCHE                                  zona=Q014 b2=48.4 tipo=metro
+  METRO MARCONI                                 zona=Q002 b2=38.0 tipo=metro
+  METRO MASSAUA                                 zona=Q014 b2=37.9 tipo=metro
+  METRO MONTE GRAPPA                            zona=Q014 b2=37.9 tipo=metro
+  METRO NIZZA                                   zona=Q002 b2=38.4 tipo=metro
+  METRO PARADISO                                zona=C003 b2=53.0 tipo=metro
+  METRO PORTA NUOVA                             zona=Q001 b2=102.0 tipo=metro
+  METRO PORTA SUSA                              zona=Q001 b2=38.0 tipo=metro
+  METRO POZZO STRADA                            zona=Q014 b2=38.0 tipo=metro
+  METRO PRINCIPI ACAJA                          zona=Q006 b2=37.8 tipo=metro
+  METRO RACCONIGI                               zona=Q006 b2=37.9 tipo=metro
+  METRO RE UMBERTO                              zona=Q001 b2=37.9 tipo=metro
+  METRO RIVOLI                                  zona=Q006 b2=37.9 tipo=metro
+  METRO SPEZIA                                  zona=Q009 b2=49.8 tipo=metro
+  METRO VINZAGLIO                               zona=Q001 b2=37.9 tipo=metro
+  METRO XVIII DICEMBRE                          zona=Q001 b2=68.5 tipo=metro
+
+== Primi 25 nodi forti per corse/ora pendolari ==
+   132.4  Fermata 27 - XVIII DICEMBRE                   zona=Q001  capolinea
+   102.0  METRO PORTA NUOVA                             zona=Q001  metro
+    89.8  Fermata 805 - CAIO MARIO                      zona=Q023  capolinea
+    73.8  Fermata 476 - SANT'OTTAVIO                    zona=Q001  frequente
+    69.8  Fermata 478 - VITTORIO VENETO                 zona=Q001  frequente
+    68.5  METRO XVIII DICEMBRE                          zona=Q001  metro
+    66.8  Fermata 475 - ROSSINI                         zona=Q001  frequente
+    64.0  METRO FERMI                                   zona=C003  metro
+    60.5  Fermata 371 - RONDÒ FORCA                     zona=Q007  frequente
+    58.2  Fermata 1945 - CARLO ALBERTO                  zona=Q001  frequente
+    53.0  METRO PARADISO                                zona=C003  metro
+    52.0  METRO CARDUCCI                                zona=Q002  metro
+    49.8  METRO SPEZIA                                  zona=Q009  metro
+    49.5  Fermata 4107 - STATUTO                        zona=Q001  capolinea
+    48.4  METRO MARCHE                                  zona=Q014  metro
+    46.2  Fermata 433 - CERNAIA                         zona=Q001  frequente
+    44.6  Fermata 2603 - STAZIONE LINGOTTO              zona=Q010  ferro
+    43.8  Fermata 774 - CAVOUR                          zona=Q001  frequente
+    43.4  Fermata 205 - GIARDINI REALI                  zona=Q007  frequente
+    41.8  Fermata 285 - DROSSO CAP                      zona=Q023  capolinea
+    41.6  Fermata 432 - SICCARDI                        zona=Q001  frequente
+    41.2  Fermata 619 - SAN PAOLO                       zona=Q005  frequente
+    41.1  Fermata 761 - VITTORIO EMANUELE II            zona=Q001  frequente
+    41.0  Fermata 466 - STATUTO                         zona=Q001  frequente
+    38.9  Fermata 2601 - PIO VII                        zona=Q010  ferro

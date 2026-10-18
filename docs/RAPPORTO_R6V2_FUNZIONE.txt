@@ -1,0 +1,96 @@
+RAPPORTO R6 v2 — QUANTO OGNI PARCHEGGIO FA DA INTERSCAMBIO (Passo 5)
+parcheggi considerati (esclusi privati, per clienti e sosta lunga): 3431
+  interscambio_di_fatto = posizione buona e uso pendolare
+  solo_sulla_carta    = dichiarato interscambio/park&ride ma uso non da pendolari
+  potenziale          = posizione buona ma uso sconosciuto o senza dati
+  non_interscambio    = tutto il resto
+
+== Quanti parcheggi e quanti posti per classe ==
+  interscambio_di_fatto      9 parcheggi   posti   3264
+  solo_sulla_carta           4 parcheggi   posti   1716
+  potenziale               725 parcheggi   posti  53131
+  non_interscambio        2693 parcheggi   posti 159768
+
+== I 5 interscambi ufficiali e i garage 5T ==
+  nome | tipo | dist. nodo forte | tipo nodo | su asse ingresso | firma | tariffa | classe
+  CAIO MARIO               interscambio_ufficiale    336 m frequente  False dato_bloccato      True   solo_sulla_carta
+  FERMI                    interscambio_ufficiale     59 m capolinea  False nessun_dato        True   potenziale
+  SOFIA                    interscambio_ufficiale     41 m capolinea  False residenziale       True   solo_sulla_carta
+  STURA                    interscambio_ufficiale     66 m capolinea  False misto              True   solo_sulla_carta
+  VENCHI UNICA             interscambio_ufficiale    126 m metro      False misto              True   solo_sulla_carta
+  ANCONA                   garage_5t                 292 m frequente  False pendolare          True   interscambio_di_fatto
+  BACIGALUPO               garage_5t                  66 m frequente  False pendolare          True   interscambio_di_fatto
+  BIXIO                    garage_5t                 637 m frequente  False misto              True   non_interscambio
+  BODONI                   garage_5t                 248 m frequente  False destinazione       True   non_interscambio
+  BOLZANO                  garage_5t                  23 m ferro      False pendolare          True   non_interscambio
+  BUENOS AIRES             garage_5t                 339 m frequente  False sconosciuto        True   potenziale
+  C.T.O.                   garage_5t                  86 m capolinea  False sconosciuto        True   potenziale
+  CASTELLO  (Torre Romana) garage_5t                  55 m frequente  False sconosciuto        True   non_interscambio
+  CERNAIA                  garage_5t                 244 m capolinea  False pendolare          True   non_interscambio
+  CITTADELLA               garage_5t                  39 m capolinea  False sconosciuto        True   non_interscambio
+  CTO                      garage_5t                 105 m capolinea  False pendolare          True   interscambio_di_fatto
+  D'AZEGLIO GALILEI        garage_5t                 431 m capolinea  False pendolare          True   non_interscambio
+  EMANUELE FILIBERTO       garage_5t                 196 m frequente  False misto              True   non_interscambio
+  FONTANESI                garage_5t                 129 m capolinea  False pendolare          True   interscambio_di_fatto
+  FORTINO                  garage_5t                 686 m frequente  False sconosciuto        True   non_interscambio
+  GALILEO FERRARIS         garage_5t                 355 m metro      False pendolare          True   non_interscambio
+  GARDINO                  garage_5t                 311 m frequente  False sconosciuto        True   potenziale
+  ISOLATO SANTO STEFANO    garage_5t                 140 m frequente  False sconosciuto        True   non_interscambio
+  ISONZO                   garage_5t                 259 m frequente  False sconosciuto        True   potenziale
+  LANCIA                   garage_5t                 289 m frequente  False residenziale       True   non_interscambio
+  LERA                     garage_5t                 288 m metro      False sconosciuto        True   potenziale
+  LINGOTTO                 garage_5t                 323 m metro      False misto              True   non_interscambio
+  MADAMA CRISTINA          garage_5t                 290 m frequente  False destinazione       True   non_interscambio
+  MAROCCHETTI              garage_5t                 503 m metro      False sconosciuto        True   non_interscambio
+  MERCATO CENTRALE         garage_5t                 104 m capolinea  False destinazione       True   non_interscambio
+  MODENA                   garage_5t                 463 m frequente  False sconosciuto        True   non_interscambio
+  MOLINETTE                garage_5t                 350 m frequente  False pendolare          True   interscambio_di_fatto
+  MONTI                    garage_5t                 470 m capolinea  False pendolare          True   non_interscambio
+  NIZZA                    garage_5t                 207 m metro      False pendolare          True   interscambio_di_fatto
+  NIZZA - CARDUCCI         garage_5t                 187 m metro      False sconosciuto        True   potenziale
+  PALAGIUSTIZIA            garage_5t                 207 m ferro      False pendolare          True   interscambio_di_fatto
+  PALAZZO                  garage_5t                  45 m frequente  False sconosciuto        True   potenziale
+  PALAZZO NUOTO            garage_5t                 293 m frequente  False misto              True   non_interscambio
+  PALESTRO                 garage_5t                 286 m capolinea  False pendolare          True   non_interscambio
+  PORTA NUOVA (in costruzi garage_5t                  29 m ferro      False sconosciuto        True   non_interscambio
+  PORTA NUOVA FS           garage_5t                  32 m ferro      False destinazione       True   non_interscambio
+  PORTA PALAZZO            garage_5t                  31 m frequente  False destinazione       True   non_interscambio
+  PORTA SUSA FS            garage_5t                  47 m ferro      False destinazione       True   non_interscambio
+  RACCONIGI                garage_5t                 539 m frequente  False nessun_dato        True   non_interscambio
+  RE UMBERTO               garage_5t                 181 m frequente  False pendolare          True   non_interscambio
+  RICHELMY                 garage_5t                 205 m frequente  False misto              True   non_interscambio
+  ROMA                     garage_5t                  97 m ferro      False sconosciuto        True   non_interscambio
+  ROMA S.CARLO CASTELLO    garage_5t                 108 m ferro      False destinazione       True   non_interscambio
+  SAN CARLO                garage_5t                 194 m frequente  False sconosciuto        True   non_interscambio
+  SANTO STEFANO            garage_5t                 135 m frequente  False destinazione       True   non_interscambio
+  SEBASTOPOLI              garage_5t                 574 m frequente  False sconosciuto        True   non_interscambio
+  SPINA 3  (comprensorio M garage_5t                  28 m frequente  False sconosciuto        True   potenziale
+  STATI UNITI              garage_5t                 236 m frequente  False pendolare          True   interscambio_di_fatto
+  STATI UNITI II           garage_5t                 234 m frequente  False sconosciuto        True   potenziale
+  UNIONE SOVIETICA         garage_5t                 247 m capolinea  True  nessun_dato        True   potenziale
+  V PADIGLIONE             garage_5t                  78 m capolinea  False nessun_dato        True   potenziale
+  VALDO FUSI               garage_5t                  55 m frequente  False destinazione       True   non_interscambio
+  VENTIMIGLIA              garage_5t                  68 m capolinea  False pendolare          True   interscambio_di_fatto
+  VITTORIO                 garage_5t                   1 m frequente  False destinazione       True   non_interscambio
+
+== I 20 'potenziale' con piu' posti ==
+   2587 posti  Multipiano                         park_ride_osm    100 m da ferro      tariffa=True uso=sconosciuto
+   1738 posti  Parcheggio L                       osm_pubblico     364 m da metro      tariffa=True uso=sconosciuto
+   1226 posti  OSM way 1214372723                 osm_pubblico     174 m da metro      tariffa=False uso=sconosciuto
+    853 posti  PALAZZO                            garage_5t         45 m da frequente  tariffa=True uso=sconosciuto
+    773 posti  OSM way 141055424                  osm_pubblico     349 m da frequente  tariffa=False uso=sconosciuto
+    651 posti  OSM way 246576155                  osm_pubblico     273 m da frequente  tariffa=False uso=sconosciuto
+    592 posti  OSM way 1337212772                 osm_pubblico     106 m da ferro      tariffa=ignota uso=sconosciuto
+    548 posti  OSM way 593918508                  osm_pubblico     323 m da ferro      tariffa=ignota uso=sconosciuto
+    545 posti  Piazza Europa                      osm_pubblico     275 m da ferro      tariffa=False uso=sconosciuto
+    520 posti  Parcheggio Stati Uniti             osm_pubblico     297 m da frequente  tariffa=True uso=sconosciuto
+    500 posti  OSM way 139840651                  osm_pubblico     188 m da ferro      tariffa=False uso=sconosciuto
+    500 posti  OSM way 846003845                  osm_pubblico     251 m da frequente  tariffa=ignota uso=sconosciuto
+    478 posti  OSM way 100193877                  osm_pubblico      53 m da frequente  tariffa=False uso=sconosciuto
+    463 posti  Piazza Bengasi                     osm_pubblico      31 m da metro      tariffa=True uso=sconosciuto
+    453 posti  OSM way 218515025                  osm_pubblico     256 m da capolinea  tariffa=False uso=sconosciuto
+    436 posti  OSM way 112795858                  osm_pubblico     110 m da ferro      tariffa=ignota uso=sconosciuto
+    420 posti  OSM way 106366574                  osm_pubblico     222 m da frequente  tariffa=False uso=sconosciuto
+    375 posti  NIZZA - CARDUCCI                   garage_5t        187 m da metro      tariffa=True uso=sconosciuto
+    366 posti  Fontanesi                          osm_pubblico      88 m da frequente  tariffa=True uso=sconosciuto
+    366 posti  OSM way 294383909                  osm_pubblico     135 m da capolinea  tariffa=False uso=sconosciuto

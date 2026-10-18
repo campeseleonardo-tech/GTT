@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **18/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
+Ultimo aggiornamento: **19/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
 Solo lo stato attuale, **conciso ma completo**: i dettagli di un passo stanno nel suo piano in `docs/`
 (qui una riga e il rimando). La storia sta in git. Sezioni fisse: 1 Obiettivo · 2 Regole · 3 Cartelle e dati ·
 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici. Non aggiungerne altre.
@@ -66,7 +66,8 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 | Risultato 1 | 10.919 residenti a Torino senza servizi essenziali a 15' (1,3%), peggiore la salute; candidati per nuovi servizi in mappa. |
 | Risultato 2 (28-29) | Chiuso il 16/10: metro ogni 15' di notte → 773.307 residenti con accesso migliore (ogni 30': 652.891). `docs/PIANO_RISULTATO2.md`. |
 | Risultato 4 v2 (27) | 18/10: feriale 5,3% in ritardo > 5 min, 10,5% grappolo+buco. `docs/PIANO_RISULTATO4.md`. |
-| Risultato 6 v1 (24-25) | 611 fermate critiche fuori dal centro (= 469 luoghi, fermate entro 40 m unite), 594 senza interscambio entro 200 m. `docs/PIANO_RISULTATO6.md`. |
+| Risultato 6 v1 (24-25) | 611 fermate critiche fuori dal centro (= 462 luoghi, fermate entro 40 m unite), 594 senza interscambio entro 200 m. `docs/PIANO_RISULTATO6.md`. |
+| Risultato 6 v2, primo giro (68-69, 71-76) | 19/10, agente opencode, numeri ricontrollati da Claude: 5.087 luoghi, 5.205 parcheggi (5T, Comune, OSM), anteprima riempimento (2 feriali), funzione dei parcheggi, 3 scenari (S1 438, S2 436, S3 438 luoghi critici). **Da correggere prima di scegliere lo scenario**: a2/asse d'ingresso prendono stradine di servizio, "interscambio di fatto" troppo largo, fermate di tutto il Piemonte nei percentili. Dettagli: `docs/PIANO_RISULTATO6.md` (ultima sezione), `docs/ESITO_RISULTATO6_V2.md`. |
 | Risultato 8 v1 (33-67) | 18/10, Fase 5 di opencode ricontrollata: 95,3% dei km di strade grandi di Torino serviti dal TP; "molto traffico e poco TP" quasi solo Corso Regina Margherita ovest. Stima C-DEBOLE (errore ±38%). `docs/RIASSUNTO_TRAFFICO.md`. |
 | Risultato 9 v1 (70) | 18/10: sulle linee frequenti 0,6-1,5 min in più di attesa rispetto ai 4,8 promessi. `docs/PIANO_RISULTATO9_ATTESA.md`. |
 | Rapporto sostenibilità GTT 2025 | 980 fatti verificati, `docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`. |
@@ -86,7 +87,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    dal bat i passi delle fasi 3-4. Mappa del traffico solo se Leo vuole. (`docs/RIASSUNTO_TRAFFICO.md`, sezione 6.)
 2. **Tempi TP contro auto** per coppie di zone IMQ, poi **costi del viaggio** (TP, auto, taxi) e costo di
    potenziare una linea: `docs/PIANO_COSTI.md` (bozza; primo passo: cercare le fonti sul web).
-3. **Risultato 6 v2** (proposta discussa il 18/10 in `docs/PIANO_RISULTATO6.md`, sezione "Versione 2"): misura di quanto ogni parcheggio fa davvero da interscambio (posizione, firma oraria del riempimento, gratis/a pagamento), tutti i parcheggi (5T, OSM con precisazioni), fermate come luoghi, corse nelle ore dei pendolari, poi IMQ del mattino, ZTL, calo di velocità. I segnali della v1 restano; i nuovi si aggiungono o sostituiscono, confronto in 3 scenari (decide Leo). **Piano meccanico per un agente: `docs/PIANO_RISULTATO6_V2.md`** (comincia dall'anteprima del riempimento). Niente interfaccia dinamica per ora.
+3. **Risultato 6 v2** (proposta discussa il 18/10 in `docs/PIANO_RISULTATO6.md`, sezione "Versione 2"): misura di quanto ogni parcheggio fa davvero da interscambio (posizione, firma oraria del riempimento, gratis/a pagamento), tutti i parcheggi (5T, OSM con precisazioni), fermate come luoghi, corse nelle ore dei pendolari, poi IMQ del mattino, ZTL, calo di velocità. I segnali della v1 restano; i nuovi si aggiungono o sostituiscono, confronto in 3 scenari (decide Leo). Primo giro fatto il 19/10 (vedi FATTO): **prossimo passo = correggere i 3-4 problemi trovati, rifare il giro, poi scegliere lo scenario, fissare le soglie delle firme e fare la scheda** (da pianificare in una nuova chat). Niente interfaccia dinamica per ora.
 4. **Risultati 4 e 9**: rilanciare con più settimane di dati (27, poi 70, poi `schede_risultati.py`); R4 in mappa
    (linee colorate per ritardo con lo slider dell'ora).
 5. Più avanti: effetto ZTL sulle strade attorno; Risultati 3, 5, 7; accessibilità con i tempi reali raccolti;
