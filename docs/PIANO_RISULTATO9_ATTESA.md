@@ -111,3 +111,12 @@ scheda nella pagina dei risultati. Calcolo leggero (come lo script 27: ~500 MB d
 Anche il risultato 4 misura solo le corse presenti nel feed: se le corse mancanti sono in parte saltate davvero, la
 puntualità reale è peggiore di quella misurata e i "buchi" sono sottostimati (una corsa saltata non crea un buco
 nel conteggio, perché la coppia si calcola fra corse osservate). Va scritto fra i limiti del risultato 4.
+
+## 9. Stato al 18/10/2026 (spostato qui dalla memoria)
+
+**Versione 1** [MISURATO], 10-18/10, linee urbane frequenti (≤ 12 min), ore con raccolta attiva.
+Feriale: attesa promessa 4,8 min, reale 5,4-6,2 → **0,6-1,5 min in più** (+13% stima bassa); sabato +0,8-1,4;
+domenica troppo pochi dati. Peggiori: linea 68 (+1,3-3,0), 3, 56, 46, 62; fermate della 18 (Caio Mario,
+Lingotto) e della 62. Controlli: GPS linee 4 e 15 (343 passaggi, scarto tipico 0,45 min, 70% entro 1 min); una
+chiave rifatta da zero coincide (2,555 / 3,668 min). Lo script 70 riusa il 27 senza modificarlo. Scheda in
+`simulazione.html`. Da rilanciare con più settimane di dati (27, poi 70, poi `schede_risultati.py`).

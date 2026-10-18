@@ -582,8 +582,8 @@ def scheda_r8():
             "ma copre solo un quarto della tratta.",
         ],
         "mappa": None,
-        "fonti": ["docs/ESITO_FASE5_TRAFFICO.md", "docs/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
-                  "docs/PIANO_TRAFFICO_FASE5.md", "data/processed/risultato8_traffico_tp_v2.json"],
+        "fonti": ["docs/RIASSUNTO_TRAFFICO.md", "docs/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
+                  "docs/archivio/traffico/ESITO_FASE5_TRAFFICO.md", "data/processed/risultato8_traffico_tp_v2.json"],
         "generato": ora(),
         "avviso": [
             "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",

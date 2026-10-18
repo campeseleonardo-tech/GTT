@@ -177,3 +177,19 @@ controllare da Claude; resta la mappa". Non aggiungere sezioni, non toccare il r
 Mappa (colorare le linee per % in ritardo / irregolarità con lo slider dell'ora, come la velocità
 commerciale già presente) e pagina in `simulazione.html`: piano a parte, dopo la rigenerazione della
 mappa. Rilanciare lo script quando ci saranno più sabati e domeniche.
+
+## Stato al 18/10/2026 (spostato qui dalla memoria)
+
+- **Versione 2** [MISURATO], 10-18/10 (5 feriali, 2 sabati, 2 domeniche; giorni parziali 10, 12, 13, 18/10
+  contati con le ore che hanno dati — scelta di Leo), 1.280.961 passaggi.
+  **Feriale: 5,3% in ritardo > 5 min · 10,5% grappolo+buco · ritardo mediano −0,4 min · 39,9% in anticipo.**
+  Sale rispetto alla v1 (4,2%) perché giovedì 15 e venerdì 16 sono andati peggio (ricontrollo indipendente
+  giorno per giorno: stessa tendenza). La v1 aveva giorni a metà (il 12/10 solo pomeriggio); è conservata in
+  `data/processed/risultato4_regolarita_v1.json` e `docs/RAPPORTO_RISULTATO4_v1.txt`. Scheda in `simulazione.html`.
+- **Copertura del feed ritardi** (`trip_update_gtt`, dal 10/10, una lettura al minuto; verificata 18/10):
+  `delay` di corsa mai presente; per ogni fermata `stop_time_update.arr` ha `delay` in secondi (~70%) o l'arrivo
+  previsto `time` (~30%, da confrontare con l'orario GTFS). Raccolta 05-24 locali (niente notte); solo ~90 linee
+  urbane, 108 linee mai presenti (extraurbane a 4 cifre, alcune notturne; 3.540 corse/giorno); sulle linee coperte
+  c'è ~80% delle corse programmate (GPS `mezzi_gtt` 77%, almeno uno dei due 82%). Corse mancanti = saltate o non
+  trasmesse, non distinguibili: il risultato misura solo le corse presenti nel feed.
+- Il 18/10 il feed GTT (`percorsieorari.gtt.to.it`) non ha risposto dalle ~09:05: buco nei dati di quel giorno.
