@@ -98,3 +98,101 @@ pochissime (solo quelle attaccate ai 4 parcheggi). È normale: il risultato util
 - Importanza delle vie da OSM + 5T + elenco a mano; in cintura OSM è meno completo.
 - 200 m in linea d'aria, non percorso a piedi reale.
 - Corse/ora da orario programmato [PROGRAMMATO], non misurate.
+
+---
+
+# Versione 2 — proposta discussa con Leo il 18/10/2026 (da approvare passo per passo)
+
+## Decisioni di Leo (18/10)
+
+- **Si resta sulle fermate** come unità (niente "porte d'ingresso" al loro posto), ma si dichiara che le
+  fermate vicine (due lati della via, più paline nello stesso punto) sono **un solo luogo**.
+- Le fermate critiche di oggi vicino ad autostrade e statali (Paradiso, Massaua, Lingotto, Moncalieri…) sono
+  sensate: lì, se ci sono tanti mezzi, si dovrebbe poter lasciare l'auto.
+- **Niente interfaccia dinamica per ora**: né nella mappa né nella scheda. Se servirà, al massimo **3
+  scenari** fissi nella scheda, senza che la scheda ripeta la mappa.
+- **Anteprima del riempimento** dei parcheggi dopo il fetch del 19/10.
+- **ISTAT 2011**: solo per ciò che cambia poco nel tempo e per completare dati e calcoli esistenti (sotto, da
+  confermare cosa vuol dire).
+- **Tutti i parcheggi**, ognuno con la sua precisazione sul tipo e sui dati disponibili.
+
+## A. Nuova misura: quanto un parcheggio fa davvero da interscambio
+
+Per ogni parcheggio, tre domande:
+1. **Posizione** — è a pochi passi da un nodo di trasporto forte (metro, capolinea, stazione, fermata con
+   molte corse nelle ore dei pendolari)? È su una strada d'ingresso, tra la porta della città e il centro?
+2. **Uso** (solo dove c'è il riempimento 5T) — la "firma" oraria:
+   - *pendolare*: si riempie al mattino feriale (7-9), resta pieno in orario di lavoro, si svuota la sera,
+     vuoto di notte e nel weekend;
+   - *residenziale*: più pieno di notte che di giorno (es. Sofia: 55% di notte, 32% di giorno);
+   - *destinazione*: picco nel pomeriggio o il sabato (centro, ospedali, centri commerciali);
+   - *dato bloccato*: variazione giornaliera quasi nulla (es. Venchi Unica fermo al 51%);
+   - *nessun dato*: Fermi, Racconigi, Unione Sovietica, V Padiglione non trasmettono mai i posti liberi.
+3. **Condizioni** — capienza, a pagamento o gratis (tag OSM `fee`).
+
+Classi finali: **interscambio di fatto** (posizione buona + firma pendolare) · **interscambio solo sulla
+carta** (segnato dal Comune ma usato in altro modo, o vuoto) · **potenziale** (posizione buona, nessun dato
+d'uso) · **non interscambio**. Si applica a tutti i 41 parcheggi 5T, non solo ai 5 ufficiali (un garage come
+Bolzano, vicino a Porta Susa, potrebbe fare da interscambio di fatto).
+
+Primi indizi (3 feriali, 14-16/10): Stura pieno (~90% di giorno, 80% di notte); Caio Mario quasi vuoto (1-2%
+sempre: vuoto davvero o contatore guasto?); Sofia residenziale; Venchi Unica bloccato; Porta Susa FS con un
+ciclo pulito (36% di notte, 88% di giorno). A Fermi, entro 500 m, OSM ha ~85.000 m² di parcheggi aperti quasi
+tutti **gratuiti** (uno sotterraneo da ~30.000 m² a 180 m), mentre il park&ride ufficiale è a pagamento: conferma
+l'idea di Leo che i parcheggi gratuiti vicino ai capolinea siano quelli davvero usati (e non misurati). Lo stesso
+a Caio Mario: ufficiale a pagamento e vuoto, uno gratuito da ~5.000 m² a 170 m.
+
+## B. Parcheggi: tutti, con la loro precisazione
+
+| Tipo | Quanti | Dati | Precisazione |
+|---|---|---|---|
+| Interscambio ufficiali (Comune + Fermi) | 5 | posti; riempimento tranne Fermi | |
+| Garage 5T | 36 | posti e riempimento (3 senza dati) | |
+| OSM park&ride | 25 | posti solo per alcuni | molti senza nome, in cintura vicino a stazioni |
+| OSM a raso / multipiano / sotterranei | ~2.500 | posti dichiarati su pochi | posti stimati dalla superficie (~25 m² a posto, compresi i corselli) [STIMATO] |
+| OSM lungo strada | ~1.000 | quasi mai i posti | esclusi dal conteggio dei posti, solo informazione |
+| Privati / solo clienti | ~360 + clienti | — | esclusi (clienti: segnalati a parte, es. centri commerciali) |
+
+## C. Fermate critiche: cosa cambia
+
+- **Luoghi**: le fermate entro 40 m sono un solo luogo (stesso criterio della Fase 5 del traffico). Oggi:
+  611 fermate critiche = **469 luoghi** (379 se si unisce entro 80 m); coperte 17 fermate = 13 luoghi.
+- **(a) Importanza della via** — oggi (script 24) è per *corridoio con lo stesso nome*: punteggio 1-5 = il più
+  alto fra classe OSM, elenco a mano di Leo (minimo 4) e sensore 5T con flusso alto (minimo 3). Proposta: dopo
+  il lavoro sulle strade, usare gli **assi della Fase 5** (un corso che cambia nome resta uno solo) con la loro
+  classe, un segno "**asse d'ingresso**" (attraversa il confine di Torino) e il traffico stimato **solo come
+  ordine** (la stima è debole).
+- **(b) Corse** — oggi: corse nell'ora di punta alla fermata. Proposta: **media nelle ore dei pendolari**
+  (6-10 e 16-20, feriale) come misura principale; punta e intera giornata come prove di sensibilità.
+- **(c) Pendolari** — invariato (somma delle due direzioni, tutti i mezzi, giornata intera, valore uguale per
+  tutta la zona IMQ), dichiarato così. Variante più precisa al passo D2.
+- **Distanza**: 200 m restano la base; nel rapporto anche 100 e 400 m. Più avanti: distanza a piedi sulle
+  strade invece che in linea d'aria.
+
+## D. Dati non ancora usati, a passi
+
+1. **Anteprima riempimento** (dopo il fetch del 19/10): firma oraria e classi del punto A.
+2. **IMQ nelle ore critiche**: i microdati (`data/processed/imq/spostamenti.csv`) hanno zona e ora di
+   partenza, zona di arrivo e mezzi in sequenza. Uso: (c) diventa "auto che entrano a Torino al mattino
+   (6-10) dalla cintura", per zona. Quanto apporta lo si misura: quanti luoghi cambiano classe rispetto a oggi.
+   Bonus: si vede chi **fa già** auto → mezzo pubblico: ~24.500 spostamenti al giorno (299 interviste), 63% verso
+   il treno, ~4.000 verso la metro; la zona del cambio manca nel 60% dei casi e per singola zona le interviste
+   sono poche (Collegno 19) → solo numeri d'insieme [DATI SCARSI].
+3. **ZTL** (centrale lun-ven 7:30-10:30): pesare di più chi va verso il centro nelle ore della ZTL, perché deve
+   lasciare l'auto prima. Si fa insieme al passo 2.
+4. **Velocità 5T**: per evitare l'effetto di limiti e semafori, non la velocità assoluta ma il **calo** di
+   ciascun sensore fra notte e punta (stesso punto, stessi limiti). Solo dove c'è un sensore (pochi, sugli
+   ingressi).
+5. **ISTAT 2011 per sezione** (mezzo e ora): solo per le cose che cambiano poco (proposta da confermare):
+   *quota di chi va in auto* per sezione e *distribuzione degli orari di partenza*, usate come proporzioni per
+   ripartire i totali IMQ 2022 dalle zone alle sezioni; mai numeri assoluti del 2011.
+6. **Più avanti, mobilità d'insieme**: bici e bike sharing, car sharing, taxi, stazioni dei treni (da OSM:
+   il GTFS GTT non ha i treni).
+
+## Decisioni successive (18/10)
+
+- Definizione ISTAT 2011 del punto D5: **confermata** da Leo.
+- **I segnali della versione 1 restano** (importanza della via, corse, pendolari): i nuovi si aggiungono o, se
+  sono la loro versione migliorata, li sostituiscono; si confrontano in 3 scenari e decide Leo.
+- Piano meccanico per un agente: **`docs/PIANO_RISULTATO6_V2.md`** (script 68, 69, 71-76).
+- Ancora aperto: le soglie della firma oraria si fissano dopo aver visto l'anteprima.
