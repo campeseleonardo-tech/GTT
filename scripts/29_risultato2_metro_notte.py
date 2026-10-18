@@ -40,7 +40,7 @@ TITOLO = "Metro di notte"
 DOMANDA = ("Quanti residenti guadagnano servizi raggiungibili in piu' nel buco notturno reale "
            f"({FINESTRA}) se la metro M1 facesse corse finte anche li'?")
 
-# Avviso standard del progetto: copiato identico da scripts/07_elabora_scenario.py
+# Avviso standard del progetto (era in scripts/07_elabora_scenario.py, tolto il 18/10: doppione di calcola_simulazione.py)
 AVVISO = [
     "⚠ SIMULAZIONE SU ORARIO PROGRAMMATO",
     "I risultati mostrano l'offerta potenziale (passaggi/ora, residenti raggiunti, tempi di attesa teorici)",

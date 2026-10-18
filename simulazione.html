@@ -3,118 +3,197 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simulazione GTT – Mobilità Torino</title>
+<title>Risultati – Mobilità Torino</title>
 <style>
   :root{
     --bg:#f4f5f7; --card:#ffffff; --ink:#1d2330; --muted:#5d6678; --line:#dfe3ea; --accent:#1b6f73;
+    --accent-chiaro:#b9dcdd; --traccia:#e7ebf1; --rosso:#b4432f; --blu:#7aa6d1;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
-    font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-  body{max-width:900px;margin:0 auto;padding:20px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 10px rgba(20,30,50,.12);padding:16px;margin-bottom:14px}
-  h1{font-size:20px;margin:0 0 4px}
-  .sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+    font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  body{max-width:1040px;margin:0 auto;padding:20px 16px 40px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 10px rgba(20,30,50,.08);padding:16px;margin-bottom:14px}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 16px;max-width:70ch}
   h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
-  .btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer;font-weight:600}
+  .btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer;font-weight:600;color:var(--ink)}
   .btn:hover{background:#f0f3f7}
   .btn.primario{background:var(--accent);color:#fff;border-color:var(--accent)}
   .btn.primario:hover{background:#165e62}
-  .area{min-height:120px;border:2px dashed var(--line);border-radius:12px;
+  .testa{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .back{font-size:13px;color:var(--accent);text-decoration:none;white-space:nowrap}
+  .back:hover{text-decoration:underline}
+
+  /* galleria delle schede */
+  .galleria{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:22px}
+  @media (max-width:720px){ .galleria{grid-template-columns:1fr} }
+  .scheda{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;cursor:pointer;
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
+    box-shadow:0 2px 10px rgba(20,30,50,.08);transition:box-shadow .15s,border-color .15s}
+  .scheda:hover,.scheda:focus-visible{border-color:var(--accent);box-shadow:0 4px 18px rgba(27,111,115,.18)}
+  .scheda:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .scheda-alto{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+  .pill{display:inline-block;white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:1px 8px;font-size:11px;font-weight:600;letter-spacing:.03em;color:var(--muted);background:#f8f9fb}
+  .pill.misurato{color:#1e5e2f;border-color:#b9dcc3;background:#eef8f1}
+  .scheda h3{margin:0;font-size:17px}
+  .scheda .problema{margin:0;color:var(--ink);font-size:13.5px}
+  .scheda .cerca{margin:0;color:var(--muted);font-size:12.5px}
+  .scheda .cerca b{color:var(--ink);font-weight:600}
+  .chiave{display:flex;align-items:baseline;gap:8px;margin-top:4px;padding-top:10px;border-top:1px solid var(--line)}
+  .chiave .val{font-size:26px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .chiave .txt{font-size:12.5px;color:var(--muted)}
+  .apri{font-size:12.5px;font-weight:600;color:var(--accent);margin-top:auto}
+
+  /* finestra di dettaglio */
+  dialog{border:none;border-radius:16px;padding:0;width:min(860px,calc(100vw - 24px));max-height:calc(100vh - 24px);
+    box-shadow:0 20px 60px rgba(10,20,40,.35);color:var(--ink);background:var(--card)}
+  dialog::backdrop{background:rgba(20,28,40,.55)}
+  .fin-testa{position:sticky;top:0;z-index:1;background:var(--card);border-bottom:1px solid var(--line);
+    padding:14px 20px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .fin-testa h2{font-size:19px;letter-spacing:0;text-transform:none;color:var(--ink);margin:2px 0 0}
+  .fin-chiudi{border:none;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--muted);padding:2px 6px;border-radius:6px}
+  .fin-chiudi:hover{background:#f0f3f7;color:var(--ink)}
+  .fin-corpo{padding:6px 20px 22px}
+  .sez{margin-top:18px}
+  .sez > h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+  .sez p{margin:0 0 8px;max-width:75ch}
+  .domanda{border-left:3px solid var(--accent);padding:6px 12px;background:#f3f9f9;border-radius:0 8px 8px 0;font-weight:600}
+  .risposta{margin:0;padding-left:20px}
+  .risposta li{margin:4px 0;max-width:75ch}
+  .grafici{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  @media (max-width:720px){ .grafici{grid-template-columns:1fr} }
+  .grafico{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fbfcfd;min-width:0}
+  .grafico.largo{grid-column:1/-1}
+  .grafico h5{margin:0 0 10px;font-size:13px}
+  .grafico .nota{font-size:11.5px;color:var(--muted);margin-top:8px}
+  .barra-riga{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;align-items:center;gap:8px;margin:5px 0;font-size:12px}
+  .barra-etichetta{color:var(--muted);line-height:1.25;overflow-wrap:anywhere}
+  .barra-traccia{position:relative;height:12px;background:var(--traccia);border-radius:6px;overflow:hidden}
+  .barra-traccia span{position:absolute;left:0;top:0;bottom:0;border-radius:6px}
+  .barra-valore{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pila{display:flex;height:22px;border-radius:7px;overflow:hidden;background:var(--traccia)}
+  .pila span{height:100%}
+  .legenda{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12px;color:var(--muted)}
+  .legenda i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .legenda b{color:var(--ink);font-variant-numeric:tabular-nums}
+  .orario-riga{display:grid;grid-template-columns:minmax(90px,30%) 1fr;align-items:center;gap:8px;margin:6px 0;font-size:12px}
+  .orario-traccia{position:relative;height:14px;background:var(--traccia);border-radius:4px}
+  .orario-traccia span{position:absolute;top:0;bottom:0;border-radius:3px}
+  .orario-asse{position:relative;height:16px;margin-left:calc(30% + 8px);font-size:10.5px;color:var(--muted)}
+  .orario-asse span{position:absolute;transform:translateX(-50%)}
+  .blocchi{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .blocco{background:#f8f9fb;border:1px solid var(--line);border-radius:10px;padding:12px}
+  .blocco-titolo{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .num-riga{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;margin:6px 0}
+  .num-riga span:first-child{color:var(--muted)}
+  .num-riga span:last-child{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+  .mini-traccia{background:var(--traccia);border-radius:6px;height:6px;overflow:hidden;margin-top:-2px}
+  .mini-traccia div{background:var(--accent);height:100%}
+  .blocco .nota{font-size:11.5px;color:var(--muted);margin-top:4px}
+  details.metodo{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#fbfcfd}
+  details.metodo summary{cursor:pointer;font-weight:600}
+  details.metodo ol{padding-left:20px;margin:10px 0}
+  details.metodo li{margin:5px 0;max-width:75ch}
+  table.param{border-collapse:collapse;font-size:12.5px;margin-top:6px}
+  table.param td{padding:4px 12px 4px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  table.param td:first-child{color:var(--muted)}
+  .limiti{margin:0;padding-left:20px}
+  .limiti li{margin:4px 0;max-width:75ch}
+  .mappa-box{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+  .mappa-box p{margin:0;font-size:12.5px;color:var(--muted)}
+  .fonti{font-size:12px;color:var(--muted);margin:0;padding-left:18px}
+  .fonti code{font-size:11.5px}
+  .avviso{margin-top:18px;padding:10px 12px;border:1px solid #e0b84a;border-radius:10px;background:#fff3cd;color:#4a3b00;font-size:12.5px}
+  .avviso strong{display:block;margin-bottom:4px}
+
+  /* caricamento a mano e vecchio formato "scenario" */
+  .area{min-height:90px;border:2px dashed var(--line);border-radius:12px;
     display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;
-    padding:30px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+    padding:20px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
   .area:hover,.area.attivo{border-color:var(--accent);background:#f0f9f9}
   input[type="file"]{display:none}
-  .sim-risultato{margin-top:12px}
+  .pulsantiera{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
   .sim-riga{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:13px;border-bottom:1px solid var(--line)}
   .sim-riga:last-child{border-bottom:none}
   .sim-val{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
   .sim-val.positivo{color:#237347}.sim-val.negativo{color:#b42332}
-  .sim-nome{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}
+  .sim-nome{font-size:13px;font-weight:600;margin-bottom:2px}
   .sim-meta{font-size:11px;color:var(--muted)}
-  .sim-card{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
-  .sim-card:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
   .confronto{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
   @media (max-width:600px){ .confronto{grid-template-columns:1fr} }
   .con-blocco{background:#f8f9fb;border:1px solid var(--line);border-radius:10px;padding:12px}
   .con-titolo{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
   .con-val{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
   .con-delta{font-size:13px;margin-top:2px}
-  .avviso{margin-top:14px;padding:10px 12px;border:1px solid #e0b84a;border-radius:10px;background:#fff3cd;color:#4a3b00;font-size:12.5px}
-  .avviso strong{display:block;margin-bottom:4px}
-  .pulsantiera{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
   .btn.rimuovi{background:none;border-color:transparent;color:#b42332;font-size:12px;padding:4px 8px}
   .btn.rimuovi:hover{background:#fff0f0}
   .vuoto{color:var(--muted);font-size:14px;text-align:center;padding:20px}
-  .testa{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .back{font-size:12px;color:var(--accent);text-decoration:none}
-  .back:hover{text-decoration:underline}
 </style>
 </head>
 <body>
 
-<div class="testa" style="margin-bottom:16px">
+<div class="testa" style="margin-bottom:6px">
   <div>
-    <h1>Simulazione</h1>
-    <p class="sub">Risultati del progetto, prima/dopo, e confronto scenari di offerta GTT. Le schede dei risultati si vedono da sole; altri file JSON prodotti dagli script si possono caricare qui sotto.</p>
+    <h1>Risultati del progetto</h1>
+    <p class="sub">Domande precise sulla mobilità di Torino, una alla volta, con pochi numeri chiave e i loro limiti.
+      Clicca un risultato per leggere il problema, il metodo, i grafici e il prima/dopo.</p>
   </div>
   <a href="mappa_torino.html" class="back">← Torna alla mappa</a>
 </div>
 
+<div id="galleria" class="galleria"></div>
+<div id="scenari"></div>
+
 <div class="card">
-  <h2>Carica risultati</h2>
-  <p style="font-size:13px;color:var(--muted);margin:0 0 8px">Trascina qui i file JSON di output o clicca per sceglierli. Puoi caricare più file per confrontarli.</p>
+  <h2>Carica altri risultati o scenari</h2>
+  <p style="font-size:13px;color:var(--muted);margin:0 0 8px">Trascina qui i file JSON prodotti dagli script del progetto (schede risultato o scenari di <code>calcola_simulazione.py</code>). Un file con lo stesso nome di una scheda la sostituisce.</p>
   <div class="area" id="dropArea">
-    <span>Trascina qui i file JSON della simulazione<br><small>o clicca per sceglierli</small></span>
+    <span>Trascina qui i file JSON<br><small>o clicca per sceglierli</small></span>
   </div>
   <input type="file" id="fileInput" accept=".json,.txt,.log,application/json,text/plain" multiple>
   <div class="pulsantiera">
     <button class="btn primario" id="btnCarica">Scegli file…</button>
-    <button class="btn" id="btnPulisci" style="display:none">Pulisci tutto</button>
+    <button class="btn" id="btnPulisci" style="display:none">Togli i file caricati</button>
   </div>
 </div>
 
-<div id="risultati"></div>
+<dialog id="finestra" aria-labelledby="finTitolo">
+  <div class="fin-testa">
+    <div>
+      <div id="finMeta" style="font-size:12px;color:var(--muted)"></div>
+      <h2 id="finTitolo"></h2>
+    </div>
+    <button class="fin-chiudi" id="finChiudi" aria-label="Chiudi">×</button>
+  </div>
+  <div class="fin-corpo" id="finCorpo"></div>
+</dialog>
 
 <!-- schede dei risultati del progetto (scripts/schede_risultati.py); se manca, la pagina funziona lo stesso -->
 <script src="data/schede_risultati.js"></script>
 <script>
 "use strict";
 const $ = id => document.getElementById(id);
-const dropArea = $("dropArea"), fileInput = $("fileInput"), risultati = $("risultati");
-let simulazioni = [];
+const dropArea = $("dropArea"), fileInput = $("fileInput");
+let schede = [];       // formato "risultato": schede del progetto + file caricati a mano
+let simulazioni = [];  // vecchio formato "scenario" (calcola_simulazione.py)
 
-/* drag & drop */
-dropArea.addEventListener("click", () => fileInput.click());
-$("btnCarica").addEventListener("click", () => fileInput.click());
-dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("attivo"); });
-dropArea.addEventListener("dragleave", () => dropArea.classList.remove("attivo"));
-dropArea.addEventListener("drop", e => {
-  e.preventDefault(); dropArea.classList.remove("attivo");
-  if(e.dataTransfer.files.length) processaFiles(e.dataTransfer.files);
-});
-fileInput.addEventListener("change", e => {
-  if(e.target.files.length) processaFiles(e.target.files);
-  e.target.value = "";
-});
-
-$("btnPulisci").addEventListener("click", () => { simulazioni = []; mostra(); });
-
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function numero(n){ return Math.round(n).toLocaleString("it-IT"); }
 
-/* numero per le "schede risultato": niente arrotondamento forzato a intero
-   (serve per valori tipo 7.5 min), ma formattato in stile italiano */
+/* numero in stile italiano: punto delle migliaia anche sotto 10.000 (toLocaleString "it-IT" scrive 9104),
+   una cifra decimale al massimo */
 function formattaNumero(n){
   if(typeof n !== "number" || !Number.isFinite(n)) return esc(String(n));
-  // punto delle migliaia anche sotto 10.000 (toLocaleString "it-IT" scrive 9104, non 9.104)
   if(Number.isInteger(n)) return (n < 0 ? "−" : "") + String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   return n.toLocaleString("it-IT", {maximumFractionDigits:1});
 }
+function conUnita(n, unita){ return formattaNumero(n) + (unita ? (unita === "%" ? "%" : " " + esc(unita)) : ""); }
 
 /* Riconosce due formati:
-   - "scenario" (calcola_simulazione.py / 07_elabora_scenario.py): passaggi totali base/scenario.
-   - "risultato" (schema generico per i RISULTATI del progetto, es. risultato2_riepilogo_mappa.json):
-     {risultato, titolo, domanda, scenari:[{nome, numeri:[{label,prima,dopo,unita}], nota}], avviso} */
+   - "scenario" (calcola_simulazione.py): passaggi totali base/scenario.
+   - "risultato" (schema generico dei RISULTATI, vedi scripts/schede_risultati.py):
+     {risultato, titolo, domanda, scenari:[{nome, numeri:[{label,prima,dopo,unita}], nota}], avviso, ...campi facoltativi} */
 function riconosciFormato(r){
   if(r && typeof r === "object" && Array.isArray(r.scenari) && typeof r.titolo === "string"){
     const ok = r.scenari.every(sc => sc && typeof sc.nome === "string" && Array.isArray(sc.numeri) &&
@@ -129,152 +208,225 @@ function riconosciFormato(r){
   return null;
 }
 
+/* ---------------- galleria ---------------- */
+function mostraGalleria(){
+  const g = $("galleria");
+  if(!schede.length){
+    g.innerHTML = '<div class="card vuoto" style="grid-column:1/-1">Nessuna scheda trovata. Esegui <code>python scripts\\schede_risultati.py</code> oppure carica un file JSON qui sotto.</div>';
+    return;
+  }
+  g.innerHTML = schede.map((s, i) => {
+    const k = s.numero_chiave;
+    const tag = s.tag || "";
+    return `<button class="scheda" data-i="${i}" aria-haspopup="dialog">
+      <div class="scheda-alto">
+        <span>${s.risultato ? "Risultato " + esc(s.risultato) : esc(s._nome || "")}${s.stato ? " · " + esc(s.stato) : ""}</span>
+        ${tag ? `<span class="pill ${/MISURATO/.test(tag) ? "misurato" : ""}">${esc(tag)}</span>` : ""}
+      </div>
+      <h3>${esc(s.titolo)}</h3>
+      ${s.in_breve ? `<p class="problema">${esc(s.in_breve)}</p>` : ""}
+      ${s.domanda ? `<p class="cerca"><b>Cosa cerchiamo:</b> ${esc(s.domanda)}</p>` : ""}
+      ${k ? `<div class="chiave"><span class="val">${conUnita(k.valore, k.unita === "%" ? "%" : "")}</span><span class="txt">${k.unita && k.unita !== "%" ? esc(k.unita) + " " : ""}${esc(k.testo || "")}</span></div>` : ""}
+      <span class="apri">Apri il dettaglio →</span>
+    </button>`;
+  }).join("");
+  g.querySelectorAll(".scheda").forEach(b => b.addEventListener("click", () => apri(+b.dataset.i)));
+}
+
+/* ---------------- grafici (solo HTML/CSS, niente librerie: la pagina funziona offline) ---------------- */
+const TONI = {pieno:"var(--accent)", medio:"#6fb3b5", vuoto:"var(--rosso)"};
+const PALETTE_PILA = ["var(--blu)", "var(--accent)", "var(--rosso)", "#c9a227", "#8a6fb0"];
+
+function graficoBarre(g){
+  const voci = g.voci || [];
+  const max = Math.max(1, ...voci.flatMap(v => [Math.abs(v.valore||0), Math.abs(v.prima||0)]));
+  const righe = voci.map(v => {
+    const pct = x => Math.max(1.5, Math.abs(x) / max * 100);
+    const haPrima = typeof v.prima === "number";
+    const val = (haPrima ? conUnita(v.prima, g.unita === "%" ? "%" : "") + " → " : "") + conUnita(v.valore, g.unita === "%" ? "%" : "");
+    return `<div class="barra-riga">
+      <span class="barra-etichetta" title="${esc(v.label)}">${esc(v.label)}</span>
+      <span class="barra-traccia">
+        ${haPrima ? `<span style="width:${pct(v.prima)}%;background:var(--accent-chiaro)"></span>` : ""}
+        <span style="width:${pct(v.valore)}%;background:var(--accent)"></span>
+      </span>
+      <span class="barra-valore">${val}</span>
+    </div>`;
+  }).join("");
+  const unita = g.unita && g.unita !== "%" ? `<div class="nota" style="margin-top:2px">Valori in ${esc(g.unita)}.</div>` : "";
+  return righe + unita;
+}
+
+function graficoPila(g){
+  const voci = g.voci || [];
+  const tot = voci.reduce((a, v) => a + Math.max(0, v.valore || 0), 0) || 1;
+  const pezzi = voci.map((v, j) => `<span style="width:${Math.max(0, v.valore) / tot * 100}%;background:${PALETTE_PILA[j % PALETTE_PILA.length]}" title="${esc(v.label)}"></span>`).join("");
+  const leg = voci.map((v, j) => `<span><i style="background:${PALETTE_PILA[j % PALETTE_PILA.length]}"></i>${esc(v.label)}: <b>${conUnita(v.valore, g.unita === "%" ? "%" : g.unita)}</b></span>`).join("");
+  return `<div class="pila" role="img" aria-label="${esc(g.titolo)}">${pezzi}</div><div class="legenda">${leg}</div>`;
+}
+
+function graficoOrario(g){
+  const righe = (g.righe || []).map(r => `<div class="orario-riga">
+      <span class="barra-etichetta" title="${esc(r.label)}">${esc(r.label)}</span>
+      <span class="orario-traccia">${(r.tratti || []).map(([da, a]) =>
+        `<span style="left:${da / 1440 * 100}%;width:${(a - da) / 1440 * 100}%;background:${TONI[r.tono] || "var(--accent)"}"></span>`).join("")}</span>
+    </div>`).join("");
+  const tacche = [0, 3, 6, 9, 12, 15, 18, 21, 24].map(h => `<span style="left:${h / 24 * 100}%">${h}</span>`).join("");
+  return righe + `<div class="orario-asse">${tacche}</div>`;
+}
+
+function grafico(g){
+  const corpo = g.tipo === "pila" ? graficoPila(g) : g.tipo === "orario" ? graficoOrario(g) : graficoBarre(g);
+  const largo = g.tipo === "orario" || (g.voci || []).length > 6 ? " largo" : "";
+  return `<div class="grafico${largo}"><h5>${esc(g.titolo)}</h5>${corpo}${g.nota ? `<div class="nota">${esc(g.nota)}</div>` : ""}</div>`;
+}
+
+/* ---------------- numeri prima/dopo (gli "scenari" della scheda) ---------------- */
+function bloccoNumeri(r){
+  // scala comune per ogni "label" (prima e dopo), cosi' le barre di scenari diversi sono confrontabili
+  const maxPerLabel = {};
+  for(const sc of r.scenari) for(const n of sc.numeri) for(const v of [n.prima, n.dopo])
+    if(typeof v === "number") maxPerLabel[n.label] = Math.max(maxPerLabel[n.label] || 0, Math.abs(v));
+  return `<div class="blocchi">` + r.scenari.map(sc => {
+    const righe = sc.numeri.map(n => {
+      const scala = maxPerLabel[n.label] || 0;
+      const haBarra = typeof n.prima === "number" && typeof n.dopo === "number" && scala > 0;
+      const valore = (n.prima === null || typeof n.prima === "undefined" ? "" : conUnita(n.prima, n.unita === "%" ? "%" : "") + " → ") + conUnita(n.dopo, n.unita);
+      return `<div class="num-riga"><span>${esc(n.label)}</span><span>${valore}</span></div>` +
+        (haBarra ? `<div class="mini-traccia"><div style="width:${Math.max(2, Math.round(Math.abs(n.dopo) / scala * 100))}%"></div></div>` : "");
+    }).join("");
+    return `<div class="blocco"><div class="blocco-titolo">${esc(sc.nome)}</div>${righe}${sc.nota ? `<div class="nota">${esc(sc.nota)}</div>` : ""}</div>`;
+  }).join("") + `</div>`;
+}
+
+/* ---------------- finestra di dettaglio ---------------- */
+function sezione(titolo, html){ return html ? `<div class="sez"><h4>${titolo}</h4>${html}</div>` : ""; }
+function lista(arr, cls){ return Array.isArray(arr) && arr.length ? `<ul class="${cls}">${arr.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""; }
+
+function apri(i){
+  const s = schede[i];
+  $("finMeta").innerHTML = [s.risultato ? "Risultato " + esc(s.risultato) : esc(s._nome || ""), esc(s.stato || ""), s.tag ? `<span class="pill ${/MISURATO/.test(s.tag) ? "misurato" : ""}">${esc(s.tag)}</span>` : ""].filter(Boolean).join(" · ");
+  $("finTitolo").textContent = s.titolo;
+  const problema = (s.racconto ? `<p>${esc(s.racconto)}</p>` : "") + (s.in_breve ? `<p>${esc(s.in_breve)}</p>` : "");
+  const metodo = (Array.isArray(s.metodo) && s.metodo.length) || (Array.isArray(s.parametri) && s.parametri.length)
+    ? `<details class="metodo"><summary>Come l'abbiamo calcolato</summary>
+        ${Array.isArray(s.metodo) ? `<ol>${s.metodo.map(x => `<li>${esc(x)}</li>`).join("")}</ol>` : ""}
+        ${Array.isArray(s.parametri) && s.parametri.length ? `<table class="param">${s.parametri.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table>` : ""}
+      </details>` : "";
+  const mappa = s.mappa
+    ? `<div class="mappa-box"><p>${esc(s.mappa.nota || "")}</p><a class="btn primario" href="mappa_torino.html" style="text-decoration:none">Apri la mappa</a></div>`
+    : (s.tag ? `<p style="font-size:12.5px;color:var(--muted)">Questo risultato non è ancora disegnato nella mappa.</p>` : "");
+  const avviso = Array.isArray(s.avviso) && s.avviso.length
+    ? `<div class="avviso"><strong>${esc(s.avviso[0])}</strong>${esc(s.avviso.slice(1).join(" "))}</div>` : "";
+  $("finCorpo").innerHTML =
+    sezione("Il problema", problema) +
+    sezione("La domanda", s.domanda ? `<p class="domanda">${esc(s.domanda)}</p>` : "") +
+    sezione("La risposta", lista(s.risposta, "risposta")) +
+    sezione("Grafici", Array.isArray(s.grafici) && s.grafici.length ? `<div class="grafici">${s.grafici.map(grafico).join("")}</div>` : "") +
+    sezione("Prima e dopo, numero per numero", bloccoNumeri(s)) +
+    sezione("Il metodo", metodo) +
+    sezione("Limiti da tenere a mente", lista(s.limiti, "limiti")) +
+    sezione("Nella mappa", mappa) +
+    sezione("File del progetto", Array.isArray(s.fonti) && s.fonti.length ? `<ul class="fonti">${s.fonti.map(f => `<li><code>${esc(f)}</code></li>`).join("")}</ul>` : "") +
+    avviso;
+  const d = $("finestra");
+  d.showModal();
+  d.querySelector(".fin-corpo").scrollTop = 0;
+  d.scrollTop = 0;
+}
+$("finChiudi").addEventListener("click", () => $("finestra").close());
+$("finestra").addEventListener("click", e => { if(e.target === e.currentTarget) e.currentTarget.close(); }); // clic sullo sfondo
+
+/* ---------------- vecchio formato "scenario" ---------------- */
+function mostraScenari(){
+  const box = $("scenari");
+  if(!simulazioni.length){ box.innerHTML = ""; return; }
+  let html = "";
+  simulazioni.forEach((r, i) => {
+    html += `<div class="card">
+      <div class="sim-nome">${esc(r._nome)}</div>
+      <div class="sim-meta">Caricato il ${r._data}</div>
+      <div style="margin-top:10px">
+        <div class="sim-riga"><span>Passaggi totali, base</span><span class="sim-val">${numero(r.passaggi_totali_baseline)}</span></div>
+        <div class="sim-riga"><span>Passaggi totali, scenario</span><span class="sim-val">${numero(r.passaggi_totali_scenario)}</span></div>
+        <div class="sim-riga"><span>Differenza (scenario − base)</span><span class="sim-val ${r.differenza_passaggi>0?'positivo':r.differenza_passaggi<0?'negativo':''}">${r.differenza_passaggi>0?'+':''}${numero(r.differenza_passaggi)}</span></div>
+        <div class="sim-riga"><span>Fermate con variazione</span><span class="sim-val">${numero(r.fermate_con_modifica)}</span></div>
+      </div>`;
+    const extra = Object.entries(r).filter(([k]) => !["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica","_nome","_data","_tipo"].includes(k));
+    if(extra.length){
+      html += '<details style="margin-top:8px;font-size:12px;color:var(--muted)"><summary>Altri dati</summary>';
+      for(const [k,v] of extra) html += `<div style="display:flex;justify-content:space-between;padding:2px 0"><span>${esc(k)}</span><strong>${typeof v==="number"?numero(v):esc(String(v))}</strong></div>`;
+      html += '</details>';
+    }
+    html += `<button class="btn rimuovi" data-i="${i}">Rimuovi</button></div>`;
+  });
+  if(simulazioni.length >= 2){
+    html += `<div class="card"><h2>Confronto</h2><div class="confronto">` + simulazioni.map(r => `<div class="con-blocco">
+        <div class="con-titolo">${esc(r._nome)}</div>
+        <div class="con-val">${numero(r.passaggi_totali_scenario)}</div>
+        <div class="con-delta" style="color:${r.differenza_passaggi>0?'#237347':r.differenza_passaggi<0?'#b42332':'var(--muted)'}">${r.differenza_passaggi>0?'+':''}${numero(r.differenza_passaggi)} vs base</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">${numero(r.fermate_con_modifica)} fermate toccate</div>
+      </div>`).join("") + `</div></div>`;
+  }
+  html += `<div class="avviso" style="margin-bottom:14px"><strong>⚠ SIMULAZIONE SU ORARIO PROGRAMMATO</strong>
+      I risultati mostrano l'offerta potenziale calcolata applicando le variazioni all'orario GTFS. Non tengono conto di traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri o regolarità del servizio. Un aumento di corse sulla carta non garantisce che i bus arrivino in orario. Dati programmati/stimati, non misurati.</div>`;
+  box.innerHTML = html;
+  box.querySelectorAll(".btn.rimuovi").forEach(b => b.addEventListener("click", () => { simulazioni.splice(+b.dataset.i, 1); mostra(); }));
+}
+
+function mostra(){
+  mostraGalleria();
+  mostraScenari();
+  $("btnPulisci").style.display = (simulazioni.length || schede.some(s => s._amano)) ? "inline-block" : "none";
+}
+
+/* ---------------- caricamento a mano ---------------- */
 async function processaFiles(files){
   for(const file of files){
     try{
       const testo = await file.text();
       const inizioLog = testo.lastIndexOf("\n{");
-      const json = testo.slice(inizioLog>=0 ? inizioLog+1 : 0).trim();
-      const r = JSON.parse(json);
+      const r = JSON.parse(testo.slice(inizioLog>=0 ? inizioLog+1 : 0).trim());
       const tipo = riconosciFormato(r);
       if(!tipo) throw new Error("Formato non valido");
-      r._tipo = tipo;
-      r._nome = file.name;
-      r._data = new Date(file.lastModified).toLocaleString("it-IT");
-      // se è già stata caricata una simulazione con lo stesso nome, sostituiscila
-      const idx = simulazioni.findIndex(s => s._nome === file.name);
-      if(idx >= 0) simulazioni[idx] = r;
-      else simulazioni.push(r);
+      r._tipo = tipo; r._nome = file.name; r._data = new Date(file.lastModified).toLocaleString("it-IT"); r._amano = true;
+      const elenco = tipo === "risultato" ? schede : simulazioni;
+      const idx = elenco.findIndex(s => s._nome === file.name);  // stesso nome: sostituisce
+      if(idx >= 0) elenco[idx] = r; else elenco.push(r);
     }catch(err){
       alert(`Non riesco a leggere "${file.name}": ${err.message || "formato non riconosciuto"}.`);
     }
   }
   mostra();
 }
+dropArea.addEventListener("click", () => fileInput.click());
+$("btnCarica").addEventListener("click", () => fileInput.click());
+dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("attivo"); });
+dropArea.addEventListener("dragleave", () => dropArea.classList.remove("attivo"));
+dropArea.addEventListener("drop", e => {
+  e.preventDefault(); dropArea.classList.remove("attivo");
+  if(e.dataTransfer.files.length) processaFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener("change", e => { if(e.target.files.length) processaFiles(e.target.files); e.target.value = ""; });
+$("btnPulisci").addEventListener("click", () => {
+  simulazioni = [];
+  schede = schede.filter(s => !s._amano);
+  caricaSchedeProgetto(true);
+  mostra();
+});
 
-function mostra(){
-  $("btnPulisci").style.display = simulazioni.length ? "inline-block" : "none";
-  if(!simulazioni.length){
-    risultati.innerHTML = '<div class="card"><div class="vuoto">Nessun risultato caricato. Carica uno o più file JSON prodotti da <code>calcola_simulazione.py</code>.</div></div>';
-    return;
+/* ---------------- avvio: le schede del progetto si mostrano da sole ---------------- */
+function caricaSchedeProgetto(soloMancanti){
+  for(const s of (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI : [])){
+    if(riconosciFormato(s) !== "risultato") continue;
+    s._tipo = "risultato";
+    s._nome = s._nome || ("risultato" + s.risultato);
+    if(soloMancanti && schede.some(x => x._nome === s._nome)) continue;
+    schede.push(s);
   }
-
-  let html = "";
-  for(let i=0; i<simulazioni.length; i++){
-    const r = simulazioni[i];
-    if(r._tipo === "risultato"){ html += renderRisultato(r, i); continue; }
-
-    html += `<div class="card sim-card">
-      <div class="sim-nome">${esc(r._nome)}</div>
-      <div class="sim-meta">Caricato il ${r._data}</div>
-      <div class="sim-risultato">
-        <div class="sim-riga"><span>Passaggi totali, base</span><span class="sim-val">${numero(r.passaggi_totali_baseline)}</span></div>
-        <div class="sim-riga"><span>Passaggi totali, scenario</span><span class="sim-val">${numero(r.passaggi_totali_scenario)}</span></div>
-        <div class="sim-riga"><span>Differenza (scenario − base)</span><span class="sim-val ${r.differenza_passaggi>0?'positivo':r.differenza_passaggi<0?'negativo':''}">${r.differenza_passaggi>0?'+':''}${numero(r.differenza_passaggi)}</span></div>
-        <div class="sim-riga"><span>Fermate con variazione</span><span class="sim-val">${numero(r.fermate_con_modifica)}</span></div>
-      </div>
-      <button class="btn rimuovi" data-i="${i}">Rimuovi</button>
-    </div>`;
-
-    /* eventuali campi extra */
-    const extra = Object.entries(r).filter(([k]) => !["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica","_nome","_data","_tipo"].includes(k));
-    if(extra.length){
-      html += '<details style="margin-top:8px;font-size:12px;color:var(--muted)"><summary>Altri dati</summary>';
-      for(const [k,v] of extra){
-        html += `<div style="display:flex;justify-content:space-between;padding:2px 0"><span>${esc(k)}</span><strong>${typeof v==="number"?numero(v):esc(String(v))}</strong></div>`;
-      }
-      html += '</details>';
-    }
-  }
-
-  /* confronto se ci sono almeno 2 simulazioni di tipo "scenario" (vecchio formato) */
-  const scenari = simulazioni.map((r,i) => ({r,i})).filter(x => x.r._tipo === "scenario");
-  if(scenari.length >= 2){
-    html += `<div class="card"><h2>Confronto</h2><div class="confronto">`;
-    for(const {r} of scenari){
-      html += `<div class="con-blocco">
-        <div class="con-titolo">${esc(r._nome)}</div>
-        <div class="con-val">${numero(r.passaggi_totali_scenario)}</div>
-        <div class="con-delta" style="color:${r.differenza_passaggi>0?'#237347':r.differenza_passaggi<0?'#b42332':'var(--muted)'}">${r.differenza_passaggi>0?'+':''}${numero(r.differenza_passaggi)} vs base</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">${numero(r.fermate_con_modifica)} fermate toccate</div>
-      </div>`;
-    }
-    html += `</div></div>`;
-  }
-
-  if(scenari.length){
-    html += `<div class="avviso"><strong>⚠ SIMULAZIONE SU ORARIO PROGRAMMATO</strong>
-      I risultati mostrano l'offerta potenziale calcolata applicando le variazioni all'orario GTFS. Non tengono conto di traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri o regolarità del servizio. Un aumento di corse sulla carta non garantisce che i bus arrivino in orario. Dati programmati/stimati, non misurati.
-      <br><span style="color:var(--muted)">Residenti raggiunti e km-vettura non sono inclusi nel risultato fornito da questo calcolo.</span>
-    </div>`;
-  }
-
-  risultati.innerHTML = html;
-  risultati.querySelectorAll(".btn.rimuovi").forEach(b => {
-    b.addEventListener("click", () => { simulazioni.splice(+b.dataset.i, 1); mostra(); });
-  });
+  schede.sort((a, b) => (parseFloat(a.risultato) || 99) - (parseFloat(b.risultato) || 99));
 }
-
-/* Scheda "risultato": titolo, domanda, uno o più scenari, ciascuno coi suoi numeri prima/dopo
-   e una barra semplice (solo CSS) per dare un confronto visivo tra gli scenari dello stesso file. */
-function renderRisultato(r, i){
-  // scala comune per ogni "label" di numero (prima e dopo), cosi' le barre di scenari diversi sono
-  // confrontabili e, con un solo scenario, la barra mostra il "dopo" rispetto al "prima"
-  const maxPerLabel = {};
-  for(const sc of r.scenari){
-    for(const n of sc.numeri){
-      for(const v of [n.prima, n.dopo]){
-        if(typeof v === "number") maxPerLabel[n.label] = Math.max(maxPerLabel[n.label] || 0, Math.abs(v));
-      }
-    }
-  }
-
-  let html = `<div class="card sim-card">
-    <div class="sim-nome">${esc(r.titolo)}</div>
-    ${r.domanda ? `<div class="sim-meta" style="margin:2px 0 10px">${esc(r.domanda)}</div>` : ""}`;
-
-  for(const sc of r.scenari){
-    html += `<div class="con-blocco" style="margin-bottom:10px">
-      <div class="con-titolo">${esc(sc.nome)}</div>`;
-    for(const n of sc.numeri){
-      const scala = maxPerLabel[n.label] || 0;
-      const haBarra = typeof n.prima === "number" && typeof n.dopo === "number" && scala > 0;
-      const pct = haBarra ? Math.max(2, Math.round(Math.abs(n.dopo) / scala * 100)) : 0;
-      const valore = (n.prima === null || typeof n.prima === "undefined" ? "" : formattaNumero(n.prima) + " → ")
-        + formattaNumero(n.dopo) + (n.unita ? " " + esc(n.unita) : "");
-      html += `<div style="margin:8px 0">
-        <div style="display:flex;justify-content:space-between;gap:10px;font-size:12.5px">
-          <span style="color:var(--muted)">${esc(n.label)}</span>
-          <span style="font-weight:700;font-variant-numeric:tabular-nums">${valore}</span>
-        </div>`;
-      if(haBarra){
-        html += `<div style="background:#e7ebf1;border-radius:6px;height:7px;margin-top:4px;overflow:hidden">
-          <div style="background:var(--accent);height:100%;width:${pct}%"></div>
-        </div>`;
-      }
-      html += `</div>`;
-    }
-    if(sc.nota) html += `<div class="sim-meta" style="margin-top:2px">${esc(sc.nota)}</div>`;
-    html += `</div>`;
-  }
-
-  if(Array.isArray(r.avviso) && r.avviso.length){
-    html += `<div class="avviso"><strong>${esc(r.avviso[0])}</strong>${esc(r.avviso.slice(1).join(" "))}</div>`;
-  }
-
-  html += `<button class="btn rimuovi" data-i="${i}">Rimuovi</button></div>`;
-  return html;
-}
-
-function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-
-/* avvio: le schede dei risultati si mostrano da sole; un file caricato a mano con lo stesso nome le sostituisce */
-for(const s of (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI : [])){
-  if(riconosciFormato(s) !== "risultato") continue;
-  s._tipo = "risultato";
-  s._nome = s._nome || ("risultato" + s.risultato);
-  simulazioni.push(s);
-}
+caricaSchedeProgetto(false);
 mostra();
 </script>
 

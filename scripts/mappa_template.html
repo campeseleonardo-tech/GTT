@@ -834,11 +834,11 @@ function disegnaReplay(ws,ox,oy){
 /* riquadri informativi */
 function statoLive(){
   const T=ST(), L=LV(), el=[];
-  if(!T){ $("statoLive").innerHTML='<div class="riga"><span class="pallino vecchio"></span><div>Nessun dato raccolto letto. Avvia la raccolta (installa_raccolta.bat) e riapri la pagina.</div></div>'; return; }
+  if(!T){ $("statoLive").innerHTML='<div class="riga"><span class="pallino vecchio"></span><div>Nessun dato raccolto letto. La raccolta gira sul Raspberry Pi leopi: controlla che sia acceso e che la copia verso il PC (sync_da_leopi.bat) funzioni.</div></div>'; return; }
   const ore=Math.max(T.ore_mezzi||0,T.ore_t5||0), giorni=Object.keys(T.giorni||{}).length;
   const scarso = ore<72;
   el.push(`<div class="riga"><span class="pallino ${scarso?"vecchio":"ok"}"></span><div><b>Storico</b>: ${giorni} giorn${giorni===1?"o":"i"}, ${T.ore_mezzi||0} ore di mezzi, ${T.ore_t5||0} ore di traffico${scarso?'<br><span style="color:#b25e00">Dati scarsi: poche ore o giorni di storico, i confronti «rispetto al solito» sono solo indicativi.</span>':""}<br><span style="color:#5d6678">da ${fmt(Date.parse(T.primo))} a ${fmt(Date.parse(T.ultimo))}</span></div></div>`);
-  if(L){ const eta_=(Date.now()-Date.parse(L.generato))/60000; el.push(`<div class="riga"><span class="pallino ${eta_>5?"vecchio":"ok"}"></span><div><b>Dati live</b>: aggiornati ${fmt(Date.parse(L.generato))} (${eta(Date.parse(L.generato))})${eta_>5?"<br>La raccolta potrebbe essere ferma: controlla stato_raccolta.bat":""}</div></div>`); }
+  if(L){ const eta_=(Date.now()-Date.parse(L.generato))/60000; el.push(`<div class="riga"><span class="pallino ${eta_>5?"vecchio":"ok"}"></span><div><b>Dati live</b>: aggiornati ${fmt(Date.parse(L.generato))} (${eta(Date.parse(L.generato))})${eta_>5?"<br>La raccolta su leopi o la copia verso il PC (sync_da_leopi.bat) potrebbero essere ferme":""}</div></div>`); }
   $("statoLive").innerHTML=el.join("");
   const sel=$("repGiorno"), att=sel.value; const gs=Object.keys(T.giorni||{});
   if(sel.options.length-1!==gs.length){ sel.innerHTML='<option value="">(nessuna giornata)</option>'+gs.map(g=>`<option value="${g}">${g} (${T.giorni[g]} letture)</option>`).join(""); sel.value=att; }
@@ -1881,7 +1881,7 @@ function eta(ms){ const m=Math.round((Date.now()-ms)/60000); if(m<2) return "ade
 function stato(){
   const t5=t5Fine, tm=mezziTs, el=[];
   const riga=(ms,testo)=>{ const vecchio=(Date.now()-ms)>60*60000;
-    return `<div class="riga"><span class="pallino ${vecchio?"vecchio":"ok"}"></span><div>${testo}<br><span style="color:#5d6678">${fmt(ms)} · ${eta(ms)}${vecchio?(inLive?" — dato vecchio: la raccolta potrebbe essere ferma (stato_raccolta.bat)":" — dato vecchio: rilancia gli script 01 e 04, oppure avvia la raccolta"):""}</span></div></div>`; };
+    return `<div class="riga"><span class="pallino ${vecchio?"vecchio":"ok"}"></span><div>${testo}<br><span style="color:#5d6678">${fmt(ms)} · ${eta(ms)}${vecchio?(inLive?" — dato vecchio: la raccolta su leopi o la copia verso il PC potrebbero essere ferme":" — dato vecchio: rilancia gli script 01 e 04, oppure avvia la raccolta"):""}</span></div></div>`; };
   el.push(riga(tm,`<b>Mezzi GTT</b>: ${mezzi.length} mezzi su ${new Set(mezzi.map(m=>m.r)).size} linee`));
   const attivi=sensori.filter(s=>s.acc!==0).length;
   el.push(riga(t5,`<b>Traffico 5T</b>: ${sensori.length} sensori, ${attivi} con dato affidabile`));

@@ -43,7 +43,7 @@ avviso standard: "SIMULAZIONE SU ORARIO PROGRAMMATO — non tiene conto di traff
 Radice: `mappa_torino.html`, `MEMORIA_PROGETTO.md`, `AGENTS.md`. `docs/`: piani `PIANO_*.md`, rapporti
 `RAPPORTO_*.txt`. `data/` (non in git): `raw/` (non toccare), `processed/`, `otp/` (R5), `scenari/`.
 Script: 01-20 dati · 21-22 Risultato 1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 Risultato 6
-· 26 velocità 5T · 27 Risultato 4 · 28-29 Risultato 2 (metro notte) · 30-32 rapporto sostenibilità · 33-38b traffico 5T (flusso per sensore, esclusioni, abbinamento ai corridoi, metodi A+B, verifiche) · 39-48 + `rete_osm.py` metodo C (rete OSM, assegnazione IMQ, validazione) · 49-55 Fase 3-bis e 4 (modello V3, TP per strada, pubblicazione, incrocio). **Prossimo numero libero: 56.**
+· 26 velocità 5T · 27 Risultato 4 · 28-29 Risultato 2 (metro notte) · 30-32 rapporto sostenibilità · 33-38b traffico 5T (flusso per sensore, esclusioni, abbinamento ai corridoi, metodi A+B, verifiche) · 39-48 + `rete_osm.py` metodo C (rete OSM, assegnazione IMQ, validazione) · 49-55 Fase 3-bis e 4 (modello V3, TP per strada, pubblicazione, incrocio). **Prossimo numero libero: 56** (56+ in uso dalla Fase 5). Pulizia 18/10: tolti 07 (doppione di `calcola_simulazione.py`), i `.bat` e `installa_sfondo.py` della vecchia raccolta sul PC, file di prova e `ACCESSIBILITA_COMPLETA/PROVA.bat` (restano in git).
 
 | Dato | Note |
 |---|---|
@@ -61,7 +61,7 @@ Script: 01-20 dati · 21-22 Risultato 1 · 23 vulnerabilità × servizi · 24 im
 
 | Cosa | Stato |
 |---|---|
-| Raccolta leopi | Attiva dal 3/10 (`gtt-raccolta`, `gtt-ritardi`). **Parcheggi 5T + ZTL dal 14/10 15:10** (`aggiorna_raccolta_leopi.bat`; controllo `controlla_raccolta_pk.py`). Spegnimento il 13/10 sera (alimentazione), ripartita. Sync verso il PC ora settimanale (vedi sezione 3). |
+| Raccolta leopi | Attiva dal 3/10 (`gtt-raccolta`, `gtt-ritardi`). **Parcheggi 5T + ZTL dal 14/10 15:10** (`aggiorna_raccolta_leopi.bat`; controllo `controlla_raccolta_pk.py`). Spegnimento il 13/10 sera (alimentazione), ripartita. Sync verso il PC ora settimanale (vedi sezione 3). **18/10:** backup pianificato delle 03:00 fallito (scp interrotto); rifatto da Claude alle 14:18 (`backup_da_leopi.py`, 1,83 GB, verificato, dati al 18/10, 112 sensori). Lo stesso giorno il feed tempo reale GTT (`percorsieorari.gtt.to.it`) non risponde dalle ~09:05 (né dal Pi né dal PC; 5T regolare): buco nei dati mezzi/ritardi, guasto esterno. |
 | Mappa | Temi trasporto, vulnerabilità, accessibilità (piedi e TP), avvisi GTT, "Dove mancano i servizi". |
 | Accessibilità (18) | Completa a 24 fasce orarie (15/10), mappa rigenerata e verificata a ore 0/12/19/23. Cutoff: piedi 15 min (80 m/min), TP 45 min. Opzioni `--gtfs`/`--out` (per Risultato 2). |
 | Risultato 1 | Fase A: 10.919 residenti a Torino senza servizi essenziali a 15' (1,3%), peggiore la salute. Fase B: candidati per tutti e 5 i gruppi, in mappa. |
@@ -72,7 +72,7 @@ Script: 01-20 dati · 21-22 Risultato 1 · 23 vulnerabilità × servizi · 24 im
 | Risultato 4 v1 (27) | [MISURATO] 10-14/10, 596.534 passaggi. **Feriale: 4,2% in ritardo > 5 min · 10,3% coppie a grappolo+buco (linee frequenti) · ritardo mediano −0,6 min.** ~43% passaggi "in anticipo" reale (orari con margine). `docs/RAPPORTO_RISULTATO4.txt`, `data/processed/risultato4_regolarita.json`; verificato da Claude il 14/10. |
 | Risultato 2 "metro di notte" (28, 29 v2) | **Chiuso il 16/10.** Buco senza metro 00:50-05:22. Metrica "qualsiasi aumento": **ogni 15': 3.689 sezioni / 773.307 residenti migliorati, attesa media 7,5 min · ogni 30': 3.155 / 652.891, 15 min.** Scheda in `simulazione.html` (`risultato2_riepilogo_mappa.json`). Dettagli e limiti: `docs/PIANO_RISULTATO2.md`, `docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt`. |
 | Rapporto sostenibilità GTT 2025 | **Fatto il 17/10 senza servizi esterni.** 980 fatti verificati (27 scartati), riassunto in `docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`; dati in `data/processed/rapporto_gtt/`. Script 30-32 e `.bat` pronti per un eventuale giro via DeepSeek (serve `chiave_deepseek.txt`). |
-| Schede risultato | **18/10:** `simulazione.html` mostra da sola le schede R1, R2, R4, R6 (da `data/schede_risultati.js`, generato da `scripts/schede_risultati.py`, che scrive anche `risultato{1,4,6}_riepilogo_mappa.json`; R2 lo scrive lo script 29). Numeri ricontrollati sui file. Caricamento a mano dei JSON ancora possibile. Dopo un nuovo risultato o un rilancio (es. 27): rieseguire `schede_risultati.py`. |
+| Schede risultato | **18/10:** `simulazione.html` = galleria di schede (problema, cosa cerchiamo, numero chiave) per R1, R2, R4, R6; clic → finestra con problema, domanda, risposta, grafici solo HTML/CSS (barre, pila, 24 ore), prima/dopo, metodo (chiuso, due livelli), limiti, link mappa, file. Contenuti e numeri in `scripts/schede_risultati.py` → `data/schede_risultati.js` (+ `risultato{1,4,6}_riepilogo_mappa.json`; R2 base dallo script 29). Numeri ricontrollati. Caricamento a mano dei JSON ancora possibile. Dopo un nuovo risultato o un rilancio (es. 27): rieseguire `schede_risultati.py`. Scelte di Leo: due livelli, grafici + link mappa, solo risultati finiti (R8 dopo la Fase 5), breve racconto dell'origine. |
 
 ## 5. IN CORSO
 
