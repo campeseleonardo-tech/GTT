@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-73_segnali_criticita.py  -  Risultato 6 v2, PASSO 6: i segnali di criticita' per luogo.
+73_segnali_criticita.py  -  Risultato 6 v2, PASSO G2: i segnali di criticita' per luogo.
 
 Cosa fa
 -------
@@ -16,17 +16,31 @@ Per ogni LUOGO (gruppi di fermate del Passo 1) calcola i segnali grezzi di criti
   d  - calo di velocita' all'ingresso (sensori 5T: ore di punta contro ore di notte)
   e  - il luogo ha metropolitana o stazione dei treni
   f  - auto che gia' oggi lasciano l'auto per un mezzo pubblico (solo informazione)
-I valori grezzi qui; i percentili si fanno al Passo 8.
+I valori grezzi qui; i percentili si fanno al Passo G5.
+
+NOVITA' DEL GIRO 2 (19/10/2026)
+-------------------------------
+- a2 e asse_ingresso si calcolano con il modulo condiviso `scripts/77_strade_comuni.py`:
+  la strada non e' piu' "il tratto piu' vicino" ma "il tratto piu' importante entro poca
+  distanza", e i punteggi delle tratte sono corretti per classe (primarie >= 4,
+  secondarie >= 3). Per ogni luogo si salvano anche a2_esito, a2_strada, a2_distanza_m.
+  Se la strada trovata e' una stradina di ultima spiaggia, a2_incerto = true.
+- d: si scartano i sensori con valori anomali (calo negativo o sopra 0,9, oppure
+  velocita' notturna sotto 20 km/h). Nel rapporto l'elenco dei sensori scartati.
+- b1 resta calcolato (serve alla riproducibilita' della v1) ma non entra piu' negli
+  scenari nuovi: al suo posto b2.
+- Nel rapporto il confronto con il giro 1: quanti luoghi cambiano a2 e di quanto.
 
 Cosa legge
 ----------
   data/processed/risultato6_interscambio.json       (v1)
   data/processed/risultato6_v2/luoghi.json          (Passo 1)
   data/processed/risultato6_v2/nodi.json            (Passo 4)
+  data/processed/risultato6_v2/giro1/segnali.json   (confronto con il giro 1)
   data/processed/imq_od.json                        (pendolari per zona, v1)
   data/processed/imq/spostamenti.csv                (microdati IMQ 2022)
   data/processed/velocita_5t.json                   (calo di velocita' 5T)
-  data/processed/traffico_d/...                     (strade, tratte, assi di ingresso)
+  data/processed/traffico_d/...                     (strade e tratte, dal modulo 77)
   data/processed/traffico_d/ztl_unificata.json      (ZTL centrale)
   data/processed/imq_zone_geo.json                  (poligoni delle zone IMQ)
 
@@ -49,7 +63,6 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 import argparse
-import numpy as np
 from shapely.geometry import Polygon
 
 AQUI = Path(__file__).resolve().parent
@@ -74,11 +87,15 @@ ASSI = RADICE / "data" / "processed" / "traffico_d" / "assi_tratte.npz"
 TRATTE = RADICE / "data" / "processed" / "traffico_d" / "tratte_traffico.json"
 ZTL = RADICE / "data" / "processed" / "traffico_d" / "ztl_unificata.json"
 ZONE_GEO = RADICE / "data" / "processed" / "imq_zone_geo.json"
+GIRO1_SEGNALI = RADICE / "data" / "processed" / "risultato6_v2" / "giro1" / "segnali.json"
 OUT = RADICE / "data" / "processed" / "risultato6_v2" / "segnali.json"
 RAPPORTO = RADICE / "docs" / "RAPPORTO_R6V2_SEGNALI.txt"
 
 RAGGIO_STRADA_M = 150.0
 RAGGIO_SENSORE_M = 300.0
+CALO_MINIMO = 0.0
+CALO_MASSIMO = 0.9
+V_NOTTE_MINIMA = 20.0
 QUOTA_ZTL = 0.10
 LAT_RIF = 45.07
 FATTORE_GRADI_M = 111000.0
@@ -135,77 +152,61 @@ def punteggio_pendolari_per_zona():
     return punteggio
 
 
-# --- a2: strade -------------------------------------------------------------------------
+# --- a2: strade (modulo condiviso 77 del giro 2) ----------------------------------------
 
-def carica_strade():
-    rete = np.load(RETE)
-    edge_pts = rete["edge_pts"]
-    edge_off = rete["edge_off"]
-    edge_tratta = np.load(ASSI)["edge_tratta"]
-    tratte = json.loads(TRATTE.read_text(encoding="utf-8"))["tratte"]
-    per_id = {t["id"]: t for t in tratte}
-    from scipy.spatial import cKDTree
-    px = edge_pts[:, 1] * FATTORE_GRADI_M * math.cos(math.radians(LAT_RIF))
-    py = edge_pts[:, 0] * FATTORE_GRADI_M
-    albero = cKDTree(np.column_stack([px, py]))
-    punto_edge = np.zeros(len(edge_pts), dtype=np.int64)
-    for e in range(len(edge_off) - 1):
-        punto_edge[edge_off[e]:edge_off[e + 1]] = e
-    return {"edge_pts": edge_pts, "edge_off": edge_off, "edge_tratta": edge_tratta,
-            "per_id": per_id, "albero": albero, "punto_edge": punto_edge}
-
-
-def dist_punto_segmento_m(px, py, ax, ay, bx, by):
-    dx, dy = bx - ax, by - ay
-    if dx == 0 and dy == 0:
-        t = 0.0
-    else:
-        t = max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)))
-    qx, qy = ax + t * dx, ay + t * dy
-    return math.hypot(px - qx, py - qy)
-
-
-def strada_piu_vicina(lat, lon, strade, raggio_m=RAGGIO_STRADA_M):
-    x, y = proietta(lon, lat)
-    idx = strade["albero"].query_ball_point([x, y], raggio_m)
-    if not idx:
-        return None, None
-    candidati = set(int(strade["punto_edge"][i]) for i in idx)
-    migliore = (raggio_m, None)
-    for e in candidati:
-        pts = strade["edge_pts"][strade["edge_off"][e]:strade["edge_off"][e + 1]]
-        for i in range(len(pts) - 1):
-            ax, ay = proietta(pts[i][1], pts[i][0])
-            bx, by = proietta(pts[i + 1][1], pts[i + 1][0])
-            d = dist_punto_segmento_m(x, y, ax, ay, bx, by)
-            if d < migliore[0]:
-                migliore = (d, e)
-    return migliore
+def carica_modulo_strade():
+    """Carica scripts/77_strade_comuni.py: un solo modo di trovare la strada di un punto."""
+    import importlib.util
+    percorso = AQUI / "77_strade_comuni.py"
+    spec = importlib.util.spec_from_file_location("strade_comuni", percorso)
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
 
 
 # --- d: calo di velocita' ---------------------------------------------------------------
 
 def cali_sensori():
+    """Cali di velocita' per sensore. Scarta i valori anomali (giro 2): calo negativo o
+    sopra 0,9, oppure velocita' notturna sotto 20 km/h. Ritorna (cali, scartati)."""
     dati = json.loads(VELOCITA.read_text(encoding="utf-8"))
     cali = {}
+    scartati = []
     for lcd, s in dati["sensori"].items():
         celle = (s.get("celle") or {}).get("0")
         if not celle:
+            scartati.append({"lcd": lcd, "via": s.get("via"), "motivo": "nessuna lettura"})
             continue
         v_notte = [celle[str(h)]["v"] for h in (2, 3, 4)
                    if str(h) in celle and celle[str(h)].get("ok")]
         v_punta = [celle[str(h)]["v"] for h in (7, 8)
                    if str(h) in celle and celle[str(h)].get("ok")]
         if len(v_notte) < 2 or len(v_punta) < 2:
+            scartati.append({"lcd": lcd, "via": s.get("via"),
+                             "motivo": "meno di 2 ore valide di notte o di punta"})
             continue
         mn = sum(v_notte) / len(v_notte)
         mp = sum(v_punta) / len(v_punta)
         if mn <= 0:
+            scartati.append({"lcd": lcd, "via": s.get("via"), "motivo": "velocita' notturna nulla"})
+            continue
+        calo = 1 - mp / mn
+        motivo = None
+        if calo < CALO_MINIMO:
+            motivo = f"calo negativo ({calo:.2f}): in punta si va piu' veloci che di notte"
+        elif calo > CALO_MASSIMO:
+            motivo = f"calo troppo alto ({calo:.2f})"
+        elif mn < V_NOTTE_MINIMA:
+            motivo = f"velocita' notturna troppo bassa ({mn:.1f} km/h)"
+        if motivo:
+            scartati.append({"lcd": lcd, "via": s.get("via"), "motivo": motivo,
+                             "v_notte": round(mn, 1), "v_punta": round(mp, 1),
+                             "calo": round(calo, 3)})
             continue
         cali[lcd] = {"via": s.get("via"), "lat": s["lat"], "lon": s["lon"],
                      "v_notte": round(mn, 1), "v_punta": round(mp, 1),
-                     "calo": round(1 - mp / mn, 4)}
-    return cali
+                     "calo": round(calo, 4)}
+    return cali, scartati
 
 
 # --- c2 / c3: microdati IMQ -------------------------------------------------------------
@@ -341,6 +342,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--prova", action="store_true",
                     help="solo i luoghi delle prime 400 fermate per stop_id, per un controllo rapido")
+    ap.add_argument("--raggio-stretto", type=float, default=50.0,
+                    help="raggio stretto per la ricerca della strada (default 50 m)")
+    ap.add_argument("--raggio-largo", type=float, default=150.0,
+                    help="raggio largo per la ricerca della strada (default 150 m)")
     args = ap.parse_args()
 
     for p in (V1, LUOGHI, NODI, IMQ_OD, SPOSTAMENTI, VELOCITA, RETE, ASSI, TRATTE, ZTL, ZONE_GEO):
@@ -378,13 +383,15 @@ def main():
     if abs(f["totale"] - TOTALE_ATTESO_F) / TOTALE_ATTESO_F > 0.05:
         print(f"  ATTENZIONE: diverso dall'atteso ~{TOTALE_ATTESO_F:.0f}")
 
-    print("d: calo di velocita' dai sensori 5T...")
-    cali = cali_sensori()
-    print(f"  sensori usabili: {len(cali)}")
+    print("d: calo di velocita' dai sensori 5T (scarto i valori anomali)...")
+    cali, sensori_scartati = cali_sensori()
+    print(f"  sensori usabili: {len(cali)}; scartati: {len(sensori_scartati)}")
+    for s in sensori_scartati:
+        print(f"    scartato {s['via']}: {s['motivo']}")
 
-    print("a2: strade e assi di ingresso...")
-    strade = carica_strade()
-    assi_ingresso = set(json.loads(NODI.read_text(encoding="utf-8"))["assi_ingresso"])
+    print("a2: strade e assi di ingresso (modulo 77)...")
+    m77 = carica_modulo_strade()
+    strade = m77.carica_strade()
 
     print("calcolo i segnali di tutti i luoghi...")
     sensori = [(c["lat"], c["lon"], lcd, c["calo"]) for lcd, c in cali.items()]
@@ -402,15 +409,12 @@ def main():
         c2_ztl = (c2z + (c3z or 0.0)) if c2z is not None else None
         interviste = c2_int.get(zona, 0) if zona else 0
 
-        d_asse, edge = strada_piu_vicina(l["lat"], l["lon"], strade)
+        strada = m77.trova_strada(strade, l["lat"], l["lon"], raggio_stretto=args.raggio_stretto,
+                                  raggio_largo=args.raggio_largo)
         a2 = None
-        asse_ing = None
-        if edge is not None:
-            tid = int(strade["edge_tratta"][edge])
-            t = strade["per_id"].get(tid) if tid >= 0 else None
-            if t is not None:
-                asse_ing = t["asse"] in assi_ingresso
-                a2 = min(5, t["punteggio"] + (1 if asse_ing else 0))
+        if strada["punteggio_corr"] is not None:
+            a2 = min(5, strada["punteggio_corr"] + (1 if strada["asse_ingresso"] else 0))
+        asse_ing = strada["asse_ingresso"] if strada["punteggio_corr"] is not None else None
         d = None
         if sensori:
             vicini = [calo for (slat, slon, lcd, calo) in sensori
@@ -422,6 +426,9 @@ def main():
             "zona_imq": zona, "in_centro": l["in_centro"], "n_fermate": l["n_fermate"],
             "critico_v1": l["critico_v1"], "coperto_v1": l["coperto_v1"],
             "a1": a1, "a2": a2, "asse_ingresso": asse_ing,
+            "a2_esito": strada["esito"], "a2_strada": strada["nome"],
+            "a2_classe": strada["classe"], "a2_distanza_m": strada["distanza_m"],
+            "a2_incerto": strada["esito"] == "solo_minore",
             "b1": b1, "b2": b2,
             "c1": round(c1, 1) if c1 is not None else None,
             "c2": round(c2z, 1) if c2z is not None else None,
@@ -446,12 +453,45 @@ def main():
               "per_secondo": {k: round(v, 1) for k, v in f["per_secondo"].items()},
               "cambio": dict(f["cambio"]), "senza_cambio": f["senza_cambio"]},
         "sensori_usati": cali,
+        "sensori_scartati": sensori_scartati,
         "luoghi": segnali,
     }, ensure_ascii=False), encoding="utf-8")
 
+    # confronto con il giro 1
+    vecchi = {}
+    if GIRO1_SEGNALI.exists():
+        vecchi = {s["id_luogo"]: s for s in json.loads(GIRO1_SEGNALI.read_text(encoding="utf-8"))["luoghi"]}
+    distribuzione = Counter()
+    cambiati = []
+    nuovi = persi = 0
+    for s in segnali:
+        v = vecchi.get(s["id_luogo"])
+        if v is None:
+            continue
+        a2v, a2n = v.get("a2"), s["a2"]
+        if a2v is None and a2n is None:
+            continue
+        if a2v is None:
+            nuovi += 1
+            continue
+        if a2n is None:
+            persi += 1
+            continue
+        diff = a2n - a2v
+        distribuzione[diff] += 1
+        if diff:
+            cambiati.append({"diff": diff, "nome": s["nome"], "zona_imq": s["zona_imq"],
+                             "prima": a2v, "dopo": a2n, "strada": s["a2_strada"],
+                             "classe": s["a2_classe"], "strada_prima": v.get("a2_strada")})
+    n_cambiati = sum(1 for d in distribuzione if d != 0 for _ in range(distribuzione[d]))
+    esiti_a2 = Counter(s["a2_esito"] for s in segnali if s["a2"] is not None)
+    print(f"  a2 disponibile in {sum(1 for s in segnali if s['a2'] is not None)} luoghi; "
+          f"esiti: {dict(esiti_a2)}")
+    print(f"  confronto giro 1: {n_cambiati} luoghi cambiano a2, {nuovi} nuovi, {persi} persi")
+
     # --- rapporto ---
     righe_rep = []
-    righe_rep.append("RAPPORTO R6 v2 — SEGNALI DI CRITICITA' PER LUOGO (Passo 6)")
+    righe_rep.append("RAPPORTO R6 v2 (giro 2) — SEGNALI DI CRITICITA' PER LUOGO (Passo G2)")
     righe_rep.append(f"luoghi: {len(segnali)}")
     righe_rep.append("")
     righe_rep.append("== Per ogni segnale: quanti luoghi lo hanno, minimo, mediana, massimo ==")
@@ -495,9 +535,51 @@ def main():
     righe_rep.append("== d: sensori 5T usati e loro calo di velocita' ==")
     righe_rep.append("  calo = 1 - velocita' ore 7-8 / velocita' ore 2-4 (stesso punto, quindi "
                      "limiti e semafori non contano)")
+    righe_rep.append(f"  sensori usati: {len(cali)}; sensori scartati: {len(sensori_scartati)}")
     for lcd, c in sorted(cali.items(), key=lambda kv: -kv[1]["calo"]):
         righe_rep.append(f"  {c['via'][:38]:38s} notte {c['v_notte']:5.1f} km/h  punta {c['v_punta']:5.1f} km/h  "
                          f"calo {c['calo']:.2f}")
+    righe_rep.append("")
+    righe_rep.append("  -- sensori SCARTATI (valori anomali, novita' del giro 2)")
+    for s in sensori_scartati:
+        extra = ""
+        if "v_notte" in s:
+            extra = f" [notte {s['v_notte']} km/h, punta {s['v_punta']}, calo {s['calo']}]"
+        righe_rep.append(f"  {str(s['via'])[:38]:38s} {s['motivo']}{extra}")
+    righe_rep.append("")
+    righe_rep.append("== a2: strada e asse d'ingresso (novita' del giro 2) ==")
+    righe_rep.append("  la strada si sceglie con il modulo 77: fra i tratti entro 50 m con classe "
+                     "non minore si prende quello col punteggio piu' alto; se non c'e', il piu' "
+                     "vicino entro 150 m; se non c'e' nemmeno, la stradina piu' vicina entro 50 m.")
+    n_a2 = sum(1 for s in segnali if s["a2"] is not None)
+    righe_rep.append(f"  luoghi con a2: {n_a2} (giro 1: 3.261); senza a2: {len(segnali) - n_a2}")
+    righe_rep.append(f"  per esito della ricerca: " +
+                     ", ".join(f"{k} {v}" for k, v in sorted(esiti_a2.items())))
+    righe_rep.append(f"  luoghi con a2 incerto (solo stradina trovata): "
+                     f"{sum(1 for s in segnali if s.get('a2_incerto'))}")
+    genova = next((s for s in segnali if "GENOVA N.212" in s["nome"].upper()), None)
+    if genova:
+        righe_rep.append(f"  CONTROLLO {genova['nome']}: a2={genova['a2']} sulla strada "
+                         f"'{genova['a2_strada']}' ({genova['a2_classe']}) a "
+                         f"{genova['a2_distanza_m']} m, esito {genova['a2_esito']} -> "
+                         f"{'OK' if (genova['a2'] or 0) >= 4 else 'DA GUARDARE'}")
+    righe_rep.append("")
+    righe_rep.append("== Confronto con il giro 1: a2 prima e dopo ==")
+    righe_rep.append(f"  luoghi confrontabili: {len(vecchi)}")
+    righe_rep.append(f"  a2 uguale: {distribuzione.get(0, 0)}")
+    righe_rep.append(f"  cambiano a2: {n_cambiati} (piu' nuovi {nuovi}, piu' persi {persi})")
+    righe_rep.append("  distribuzione della differenza (a2 nuovo - a2 vecchio):")
+    for d in range(-4, 5):
+        righe_rep.append(f"     {d:+d}: {distribuzione.get(d, 0)}")
+    righe_rep.append("")
+    righe_rep.append("  -- i 20 cambiamenti piu' grandi (per valore assoluto)")
+    righe_rep.append("     (il file del giro 1 non salvava il nome della strada: 'None' vuol dire "
+                     "'non disponibile nel giro 1')")
+    for c in sorted(cambiati, key=lambda c: (-abs(c["diff"]), c["nome"]))[:20]:
+        prima = c["strada_prima"] if c["strada_prima"] else "non salvata"
+        righe_rep.append(f"     {c['diff']:+d}  {c['nome'][:36]:36s} zona={c['zona_imq'] or '-':5s} "
+                         f"a2 {c['prima']} -> {c['dopo']}   strada {prima} -> {c['strada']} "
+                         f"({c['classe']})")
     righe_rep.append("")
     righe_rep.append("== f: auto che GIA' OGGI lasciano l'auto per un mezzo pubblico (solo informazione) ==")
     righe_rep.append("  NON entra nei punteggi [DATI SCARSI]")

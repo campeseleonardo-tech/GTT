@@ -18,9 +18,22 @@ entro 300 m (ferro). Un luogo e' un "nodo forte" se ha metro o ferro o capolinea
 Cosa fa (Passo 5)
 -----------------
 Per ogni parcheggio aperto (non privato, non per clienti, non sosta lunga) dice quanto
-fa davvero da interscambio: quanto e' vicino a un nodo forte, se e' su un asse di
-ingresso, la sua firma di riempimento (Passo 3), i posti e la tariffa. Da qui una classe:
-interscambio_di_fatto / solo_sulla_carta / potenziale / non_interscambio.
+fa davvero da interscambio: la sua firma di riempimento (Passo 3), quanti punti a favore
+ha (vicinanza a un nodo forte, nodo metro/treno/capolinea, essere su un asse d'ingresso),
+i posti e la tariffa. Da qui una classe: interscambio_di_fatto / solo_sulla_carta /
+potenziale / non_interscambio.
+
+NOVITA' DEL GIRO 2 (19/10/2026)
+-------------------------------
+- La strada di ogni parcheggio si trova con il modulo condiviso `scripts/77_strade_comuni.py`
+  (non piu' "il tratto piu' vicino", ma "il tratto piu' importante entro poca distanza":
+  raggio stretto 50 m, raggio largo 150 m).
+- Un parcheggio in ZONA CENTRALE (predefinito Q001-Q009, opzione `--zone-centrali`) non e'
+  mai un interscambio: chi arriva in centro non lascia l'auto per prendere un mezzo.
+- La vicinanza a un nodo e l'essere su un asse d'ingresso NON sono piu' un via libera o
+  uno stop: sono PUNTI A FAVORE (forza 0-3), usati per dire "potenziale".
+- Nel rapporto c'e' la tabella di sensibilita' della zona centrale (Q001, Q001-Q005,
+  Q001-Q009, Q001-Q012).
 
 Cosa legge
 ----------
@@ -30,10 +43,8 @@ Cosa legge
   data/processed/risultato6_v2/luoghi.json         (Passo 1)
   data/processed/risultato6_v2/parcheggi.json      (Passo 2)
   data/processed/risultato6_v2/riempimento.json    (Passo 3)
-  data/processed/traffico_d/rete/rete_auto.npz     (geometria delle strade)
-  data/processed/traffico_d/assi_tratte.npz        (tratta di ogni tratto di strada)
-  data/processed/traffico_d/tratte_traffico.json   (dati per tratta)
-  data/processed/imq_zone_geo.json                 (zona IMQ, per "fuori centro")
+  data/processed/traffico_d/...                    (strade e tratte, dal modulo 77)
+  data/processed/imq_zone_geo.json                 (zona IMQ, per "zona centrale")
 
 Cosa scrive
 -----------
@@ -46,6 +57,7 @@ Come si lancia
 --------------
   python scripts\\72_nodi_tp.py --prova     (prime 400 fermate dei luoghi, controllo rapido)
   python scripts\\72_nodi_tp.py             (giro completo)
+  python scripts\\72_nodi_tp.py --zone-centrali Q001,Q002,Q003
 """
 import argparse
 import csv
@@ -94,6 +106,7 @@ ORE_GIORNO = tuple(range(6, 21))
 RAGGIO_FERRO_M = 300.0
 SOGLIA_NODO_FREQUENTE = 20.0
 RAGGIO_ASSE_M = 150.0
+ZONE_CENTRALI_DEFAULT = tuple(f"Q{i:03d}" for i in range(1, 10))   # Q001...Q009
 RAGGIO_NODO_PARCHEGGIO_M = 400.0
 LAT_RIF = 45.07
 FATTORE_GRADI_M = 111000.0
@@ -257,53 +270,16 @@ def carica_stazioni():
     return h.trovate
 
 
-# --- Passo 5: assi di ingresso e strade ---------------------------------------------------
+# --- Passo 5: strade (modulo condiviso 77 del giro 2) ------------------------------------
 
-def carica_strade():
-    rete = np.load(RETE)
-    edge_pts = rete["edge_pts"]
-    edge_off = rete["edge_off"]
-    assi = np.load(ASSI)
-    edge_tratta = assi["edge_tratta"]
-    tratte = json.loads(TRATTE.read_text(encoding="utf-8"))["tratte"]
-    per_id = {t["id"]: t for t in tratte}
-    comuni_asse = defaultdict(set)
-    nome_asse = {}
-    for t in tratte:
-        comuni_asse[t["asse"]].add(t["comune"])
-        nome_asse.setdefault(t["asse"], t.get("nome"))
-    assi_ingresso = {a for a, cs in comuni_asse.items() if "Torino" in cs and len(cs) > 1}
-    # albero dei punti estremi per trovare in fretta i tratti vicini
-    px = np.empty(len(edge_pts))
-    py = np.empty(len(edge_pts))
-    px[:] = edge_pts[:, 1] * FATTORE_GRADI_M * math.cos(math.radians(LAT_RIF))
-    py[:] = edge_pts[:, 0] * FATTORE_GRADI_M
-    albero = cKDTree(np.column_stack([px, py]))
-    punto_edge = np.zeros(len(edge_pts), dtype=np.int64)
-    for e in range(len(edge_off) - 1):
-        punto_edge[edge_off[e]:edge_off[e + 1]] = e
-    return {"edge_pts": edge_pts, "edge_off": edge_off, "edge_tratta": edge_tratta,
-            "per_id": per_id, "assi_ingresso": assi_ingresso, "nome_asse": nome_asse,
-            "albero": albero, "punto_edge": punto_edge, "comuni_asse": comuni_asse}
-
-
-def strada_piu_vicina(lat, lon, strade, raggio_m=RAGGIO_ASSE_M):
-    """(distanza_m, indice_tratto) del tratto stradale piu' vicino entro raggio_m."""
-    x, y = proietta(lon, lat)
-    idx = strade["albero"].query_ball_point([x, y], raggio_m)
-    if not idx:
-        return None, None
-    candidati = set(int(strade["punto_edge"][i]) for i in idx)
-    migliore = (raggio_m, None)
-    for e in candidati:
-        pts = strade["edge_pts"][strade["edge_off"][e]:strade["edge_off"][e + 1]]
-        for i in range(len(pts) - 1):
-            ax, ay = proietta(pts[i][1], pts[i][0])
-            bx, by = proietta(pts[i + 1][1], pts[i + 1][0])
-            d = dist_punto_segmento_m(x, y, ax, ay, bx, by)
-            if d < migliore[0]:
-                migliore = (d, e)
-    return migliore
+def carica_modulo_strade():
+    """Carica scripts/77_strade_comuni.py: un solo modo di trovare la strada di un punto."""
+    import importlib.util
+    percorso = AQUI / "77_strade_comuni.py"
+    spec = importlib.util.spec_from_file_location("strade_comuni", percorso)
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
 
 
 # --- zone IMQ ---------------------------------------------------------------------------
@@ -364,6 +340,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--prova", action="store_true",
                     help="limita i luoghi alle fermate delle prime 400 fermate per stop_id")
+    ap.add_argument("--zone-centrali", default=",".join(ZONE_CENTRALI_DEFAULT),
+                    help="zone IMQ considerate 'centro' per i parcheggi (default Q001-Q009)")
+    ap.add_argument("--raggio-stretto", type=float, default=50.0,
+                    help="raggio stretto per la ricerca della strada (default 50 m)")
+    ap.add_argument("--raggio-largo", type=float, default=150.0,
+                    help="raggio largo per la ricerca della strada (default 150 m)")
+    ap.add_argument("--raggio-nodo-m", type=float, default=RAGGIO_NODO_PARCHEGGIO_M,
+                    help="distanza massima da un nodo forte per il punto a favore (default 400 m)")
     args = ap.parse_args()
 
     for p in (GTFS, PBF, V1, LUOGHI, PARCHEGGI, RIEMPIMENTO, RETE, ASSI, TRATTE, ZONE_GEO):
@@ -420,17 +404,21 @@ def main():
         })
     n_forti = sum(1 for n in nodi if n["nodo_forte"])
 
-    print("Passo 5: calcolo gli assi di ingresso e le strade...")
-    strade = carica_strade()
+    print("Passo 5: carico il modulo delle strade (77) e trovo gli assi di ingresso...")
+    m77 = carica_modulo_strade()
+    strade = m77.carica_strade()
     print(f"  assi di ingresso (Torino + almeno un altro comune): {len(strade['assi_ingresso'])}")
 
     parcheggi = json.loads(PARCHEGGI.read_text(encoding="utf-8"))["parcheggi"]
     riemp = {r["id_5t"]: r for r in json.loads(RIEMPIMENTO.read_text(encoding="utf-8"))["parcheggi"]}
     zone = carica_zone_imq()
+    zone_centrali = {z.strip() for z in args.zone_centrali.split(",") if z.strip()}
+    raggio_nodo = args.raggio_nodo_m
 
-    print("Passo 5: calcolo posizione, uso e classe di ogni parcheggio...")
+    print("Passo 5: calcolo posizione, uso, punti a favore e classe di ogni parcheggio...")
     nodi_forti = [n for n in nodi if n["nodo_forte"]]
-    funzione = []
+    TIRO_FERRO = ("metro", "ferro", "capolinea")
+    grezzi = []
     for p in parcheggi:
         if p["tipo"] in TIPI_ESCLUSI:
             continue
@@ -439,44 +427,63 @@ def main():
             dd = haversine_m(p["lat"], p["lon"], n["lat"], n["lon"])
             if d_nodo is None or dd < d_nodo:
                 d_nodo, n_vicino = dd, n
-        d_asse, edge = strada_piu_vicina(p["lat"], p["lon"], strade)
-        su_asse = None
-        nome_asse = None
-        if edge is not None:
-            tid = int(strade["edge_tratta"][edge])
-            t = strade["per_id"].get(tid) if tid >= 0 else None
-            if t is not None:
-                su_asse = t["asse"] in strade["assi_ingresso"]
-                nome_asse = t.get("nome")
+        strada = m77.trova_strada(strade, p["lat"], p["lon"],
+                                  raggio_stretto=args.raggio_stretto,
+                                  raggio_largo=args.raggio_largo)
         cod_zona = zona_di(p["lat"], p["lon"], zone)
-        fuori_centro = cod_zona != "Q001"
-        posizione_buona = bool(d_nodo is not None and d_nodo <= RAGGIO_NODO_PARCHEGGIO_M
-                               and fuori_centro)
+        zona_centrale = cod_zona in zone_centrali
         r = riemp.get(p["id_5t"]) if p["id_5t"] else None
         uso = r["firma"] if r else "sconosciuto"
         posti = p["posti_dichiarati"] or p["posti_stimati"]
-        if posizione_buona and uso == "pendolare":
-            classe = "interscambio_di_fatto"
-        elif p["tipo"] in ("interscambio_ufficiale", "park_ride_osm") and (
-                uso in ("residenziale", "destinazione", "misto", "dato_bloccato")
-                or (r and r["stato"] == "vuoto")):
-            classe = "solo_sulla_carta"
-        elif posizione_buona and uso in ("sconosciuto", "nessun_dato", "dati_insufficienti"):
-            classe = "potenziale"
-        else:
-            classe = "non_interscambio"
-        funzione.append({
+
+        # punti a favore (0-3): non bloccano e non aprono da soli, pesano
+        nodo_vicino = d_nodo is not None and d_nodo <= raggio_nodo
+        nodo_ferro_metro = bool(nodo_vicino and n_vicino["tipo_nodo"] in TIRO_FERRO)
+        su_asse = bool(strada["asse_ingresso"])
+        forza = int(nodo_vicino) + int(nodo_ferro_metro) + int(su_asse)
+        punti = []
+        if nodo_vicino:
+            punti.append(f"nodo: {n_vicino['tipo_nodo']} {n_vicino['nome'][:28]} "
+                         f"{round(d_nodo)} m")
+        if su_asse:
+            punti.append(f"asse d'ingresso: {strada['nome'] or '-'} "
+                         f"{strada['distanza_m']} m")
+        grezzi.append({
             "id": p["id"], "nome": p["nome"], "tipo": p["tipo"],
             "lat": p["lat"], "lon": p["lon"],
             "dist_nodo_forte_m": round(d_nodo) if d_nodo is not None else None,
             "tipo_nodo": n_vicino["tipo_nodo"] if n_vicino else None,
-            "zona_imq": cod_zona, "fuori_centro": fuori_centro,
-            "posizione_buona": posizione_buona,
+            "zona_imq": cod_zona, "zona_centrale": zona_centrale,
+            "nodo_vicino": nodo_vicino, "nodo_ferro_metro": nodo_ferro_metro,
             "su_asse_ingresso": su_asse,
-            "asse_ingresso_nome": nome_asse,
+            "strada": strada["nome"], "strada_classe": strada["classe"],
+            "strada_esito": strada["esito"], "strada_distanza_m": strada["distanza_m"],
+            "forza": forza, "punti_a_favore": punti,
             "uso": uso, "posti": posti, "a_pagamento": p["a_pagamento"],
-            "classe": classe,
         })
+
+    USI_SCONOSCIUTI = ("sconosciuto", "nessun_dato", "dati_insufficienti")
+    USI_NON_PENDOLARI = ("residenziale", "destinazione", "misto", "dato_bloccato", "vuoto")
+
+    def classe_di(g, centrali):
+        """Regole del giro 2 (prima regola che vale). Ritorna (classe, motivo)."""
+        if g["zona_imq"] in centrali:
+            return "non_interscambio", "zona_centrale"
+        if g["tipo"] in ("interscambio_ufficiale", "park_ride_osm") and (
+                g["uso"] in USI_NON_PENDOLARI or g["uso"] == "vuoto"):
+            return "solo_sulla_carta", "dichiarato_non_usato"
+        if g["uso"] == "pendolare":
+            return "interscambio_di_fatto", "uso_pendolare"
+        if g["uso"] in USI_SCONOSCIUTI and g["forza"] >= 1:
+            return "potenziale", "punti_a_favore"
+        if g["uso"] in USI_SCONOSCIUTI:
+            return "non_interscambio", "nessun_punto"
+        return "non_interscambio", "firma_non_pendolare"
+
+    funzione = []
+    for g in grezzi:
+        classe, motivo = classe_di(g, zone_centrali)
+        funzione.append({**g, "classe": classe, "motivo": motivo})
 
     OUT_NODI.parent.mkdir(parents=True, exist_ok=True)
     OUT_NODI.write_text(json.dumps({
@@ -488,7 +495,11 @@ def main():
         "luoghi": nodi,
     }, ensure_ascii=False), encoding="utf-8")
     OUT_FUNZ.parent.mkdir(parents=True, exist_ok=True)
-    OUT_FUNZ.write_text(json.dumps({"parcheggi": funzione}, ensure_ascii=False), encoding="utf-8")
+    OUT_FUNZ.write_text(json.dumps({
+        "zone_centrali": sorted(zone_centrali), "raggio_nodo_m": raggio_nodo,
+        "raggio_stretto_m": args.raggio_stretto, "raggio_largo_m": args.raggio_largo,
+        "parcheggi": funzione,
+    }, ensure_ascii=False), encoding="utf-8")
 
     # --- rapporti ---
     n_tipi = Counter(n["tipo_nodo"] for n in nodi if n["nodo_forte"])
@@ -530,34 +541,119 @@ def main():
     posti_per_classe = Counter()
     for f in funzione:
         posti_per_classe[f["classe"]] += f["posti"] or 0
+    conteggi_motivo = Counter(f["motivo"] for f in funzione)
     righe = []
-    righe.append("RAPPORTO R6 v2 — QUANTO OGNI PARCHEGGIO FA DA INTERSCAMBIO (Passo 5)")
+    righe.append("RAPPORTO R6 v2 (giro 2) — QUANTO OGNI PARCHEGGIO FA DA INTERSCAMBIO (Passo 5)")
     righe.append(f"parcheggi considerati (esclusi privati, per clienti e sosta lunga): {len(funzione)}")
-    righe.append("  interscambio_di_fatto = posizione buona e uso pendolare")
-    righe.append("  solo_sulla_carta    = dichiarato interscambio/park&ride ma uso non da pendolari")
-    righe.append("  potenziale          = posizione buona ma uso sconosciuto o senza dati")
-    righe.append("  non_interscambio    = tutto il resto")
+    righe.append("NOVITA' DEL GIRO 2: la vicinanza a un nodo e l'essere su un asse d'ingresso NON sono")
+    righe.append("piu' un via libera o uno stop, ma PUNTI A FAVORE (forza 0-3). Il primo filtro e' la")
+    righe.append(f"zona centrale (qui: {', '.join(sorted(zone_centrali))}): li' un parcheggio non e' un")
+    righe.append("interscambio, perche' chi arriva in centro non lascia l'auto per prendere un mezzo.")
+    righe.append("  interscambio_di_fatto = firma 'pendolare' (l'auto si riempie al mattino e si")
+    righe.append("                          svuota la sera) e non e' in zona centrale")
+    righe.append("  solo_sulla_carta     = dichiarato interscambio o park&ride ma con firma non da pendolari")
+    righe.append("  potenziale           = firma sconosciuta o senza dati, ma con almeno un punto a favore")
+    righe.append("  non_interscambio     = tutto il resto")
+    righe.append("")
+    righe.append("== Parametri dichiarati di questo giro (provvisori, si possono cambiare) ==")
+    righe.append(f"  zona centrale dei parcheggi: {', '.join(sorted(zone_centrali))} "
+                 f"(opzione --zone-centrali)")
+    righe.append(f"  punti a favore: nodo forte entro {raggio_nodo:.0f} m, di cui metro/treno/"
+                 f"capolinea; asse d'ingresso (opzione --raggio-nodo-m)")
+    righe.append(f"  ricerca della strada: raggio stretto {args.raggio_stretto:.0f} m, raggio largo "
+                 f"{args.raggio_largo:.0f} m (opzioni --raggio-stretto/--raggio-largo)")
     righe.append("")
     righe.append("== Quanti parcheggi e quanti posti per classe ==")
     for c in ("interscambio_di_fatto", "solo_sulla_carta", "potenziale", "non_interscambio"):
         righe.append(f"  {c:22s} {conteggi.get(c, 0):5d} parcheggi   posti {posti_per_classe.get(c, 0):6d}")
     righe.append("")
+    righe.append("== Per motivo ==")
+    for m, n in sorted(conteggi_motivo.items(), key=lambda kv: -kv[1]):
+        posti = sum(f["posti"] or 0 for f in funzione if f["motivo"] == m)
+        righe.append(f"  {m:22s} {n:5d} parcheggi   posti {posti:6d}")
+    righe.append("")
+    righe.append("== Quanti parcheggi per forza (punti a favore) ==")
+    for forza in range(4):
+        sel1 = [f for f in funzione if f["forza"] == forza]
+        righe.append(f"  forza {forza}: {len(sel1):5d} parcheggi   "
+                     f"di cui 'di fatto' {sum(1 for f in sel1 if f['classe'] == 'interscambio_di_fatto')}   "
+                     f"'potenziale' {sum(1 for f in sel1 if f['classe'] == 'potenziale')}")
+    righe.append("")
+    righe.append("== TABELLA DI SENSIBILITA' della zona centrale ==")
+    righe.append("  zone centrali | di fatto | solo sulla carta | potenziale | non interscambio (di cui zona centrale)")
+    insiemi = {
+        "Q001": ("Q001",),
+        "Q001-Q005": tuple(f"Q{i:03d}" for i in range(1, 6)),
+        "Q001-Q009 (default)": tuple(f"Q{i:03d}" for i in range(1, 10)),
+        "Q001-Q012": tuple(f"Q{i:03d}" for i in range(1, 13)),
+    }
+    for etichetta, insieme in insiemi.items():
+        c = Counter()
+        n_centro = 0
+        for g in grezzi:
+            classe, motivo = classe_di(g, set(insieme))
+            c[classe] += 1
+            if motivo == "zona_centrale":
+                n_centro += 1
+        righe.append(f"  {etichetta:20s} {c.get('interscambio_di_fatto', 0):7d} "
+                     f"{c.get('solo_sulla_carta', 0):16d} {c.get('potenziale', 0):10d} "
+                     f"{c.get('non_interscambio', 0):10d} ({n_centro})")
+    righe.append("")
     righe.append("== I 5 interscambi ufficiali e i garage 5T ==")
-    righe.append("  nome | tipo | dist. nodo forte | tipo nodo | su asse ingresso | firma | tariffa | classe")
+    righe.append("  nome | tipo | zona | centrale | firma | forza | tariffa | classe")
     for f in sorted(funzione, key=lambda f: (f["tipo"] != "interscambio_ufficiale", f["tipo"], f["nome"])):
         if f["tipo"] not in ("interscambio_ufficiale", "garage_5t"):
             continue
-        righe.append(f"  {f['nome'][:24]:24s} {f['tipo'][:22]:22s} "
-                     f"{str(f['dist_nodo_forte_m']):>6} m {str(f['tipo_nodo'] or '-'):10s} "
-                     f"{str(f['su_asse_ingresso']):5s} {f['uso']:18s} {str(f['a_pagamento']):6s} {f['classe']}")
+        righe.append(f"  {f['nome'][:24]:24s} {f['tipo'][:22]:22s} {str(f['zona_imq'] or '-'):5s} "
+                     f"{str(f['zona_centrale']):5s} {f['uso']:18s} {f['forza']} "
+                     f"{str(f['a_pagamento']):6s} {f['classe']}")
     righe.append("")
     righe.append("== I 20 'potenziale' con piu' posti ==")
     potenziali = sorted([f for f in funzione if f["classe"] == "potenziale"],
                         key=lambda f: -(f["posti"] or 0))[:20]
     for f in potenziali:
         righe.append(f"  {str(f['posti'] or '-'):>5} posti  {f['nome'][:34]:34s} {f['tipo'][:14]:14s} "
-                     f"{str(f['dist_nodo_forte_m']):>5} m da {str(f['tipo_nodo'] or '-'):10s} "
-                     f"tariffa={f['a_pagamento']} uso={f['uso']}")
+                     f"forza={f['forza']} {str(f['dist_nodo_forte_m']):>5} m da {str(f['tipo_nodo'] or '-'):10s} "
+                     f"tariffa={f['a_pagamento']}  punti: {'; '.join(f['punti_a_favore']) or '-'}")
+    righe.append("")
+    righe.append("== Controlli (non sono motivo di stop) ==")
+    attesi_centro = ("MOLINETTE", "CTO", "PALAGIUSTIZIA", "NIZZA", "STATI UNITI", "ANCONA",
+                     "BACIGALUPO", "FONTANESI", "VENTIMIGLIA")
+    for nome in attesi_centro:
+        f = next((x for x in funzione if x["nome"] == nome), None)
+        if f is None:
+            righe.append(f"  {nome}: non presente fra i parcheggi considerati")
+        else:
+            righe.append(f"  {nome}: {f['classe']} / {f['motivo']} (zona {f['zona_imq']}) "
+                         f"{'OK' if f['classe'] == 'non_interscambio' and f['motivo'] == 'zona_centrale' else 'DA GUARDARE'}")
+    f = next((x for x in funzione if x["nome"] == "FERMI"), None)
+    if f:
+        righe.append(f"  FERMI: {f['classe']} forza={f['forza']} "
+                     f"{'OK' if f['classe'] == 'potenziale' and f['forza'] >= 2 else 'DA GUARDARE'}")
+    vicino_fermi = sorted([x for x in funzione if x["tipo"] == "osm_pubblico" and x["classe"] == "potenziale"
+                           and (x["posti"] or 0) >= 200
+                           and haversine_m(45.0766, 7.5903, x["lat"], x["lon"]) <= 500],
+                          key=lambda x: -(x["posti"] or 0))
+    righe.append(f"  grandi parcheggi OSM gratuiti vicino a Fermi (potenziale): {len(vicino_fermi)}")
+    for x in vicino_fermi[:6]:
+        righe.append(f"     {x['posti']} posti, {round(haversine_m(45.0766, 7.5903, x['lat'], x['lon']))} m, "
+                     f"forza={x['forza']} ({'OK' if x['classe'] == 'potenziale' else 'DA GUARDARE'})")
+    for nome in ("STURA", "CAIO MARIO", "SOFIA", "VENCHI UNICA"):
+        f = next((x for x in funzione if x["nome"] == nome), None)
+        if f:
+            righe.append(f"  {nome}: {f['classe']} ({f['motivo']}, firma {f['uso']}) "
+                         f"{'OK' if f['classe'] == 'solo_sulla_carta' else 'DA GUARDARE'}")
+    di_fatto = [f for f in funzione if f["classe"] == "interscambio_di_fatto"]
+    righe.append("")
+    righe.append(f"== Parcheggi 'interscambio di fatto': {len(di_fatto)} ==")
+    for f in sorted(di_fatto, key=lambda f: -(f["posti"] or 0)):
+        righe.append(f"  {str(f['posti'] or '-'):>5} posti  {f['nome'][:30]:30s} zona={f['zona_imq'] or '-':5s} "
+                     f"forza={f['forza']}{' (di fatto, senza nodo ne asse vicino)' if f['forza'] == 0 else ''}")
+    righe.append("")
+    righe.append("== Limiti ==")
+    righe.append("- La 'zona centrale' Q001-Q009 e' una scelta provvisoria: vedi la tabella di sensibilita'.")
+    righe.append("- Le firme del riempimento vengono da 2 giorni feriali [DATI SCARSI].")
+    righe.append("- La vicinanza e' in linea d'aria, non a piedi.")
     RAP_FUNZ.parent.mkdir(parents=True, exist_ok=True)
     RAP_FUNZ.write_text("\n".join(righe) + "\n", encoding="utf-8")
 
@@ -567,11 +663,12 @@ def main():
     print(f"Scritto: {RAP_FUNZ}")
     print(f"nodi forti: {n_forti} su {len(nodi)}; tipi: {dict(n_tipi)}")
     print(f"classi parcheggi: {dict(conteggi)}")
-    for nome in ("VENCHI UNICA", "SOFIA", "FERMI"):
+    print(f"motivi: {dict(conteggi_motivo)}")
+    for nome in ("VENCHI UNICA", "SOFIA", "FERMI", "STURA", "CAIO MARIO", "MOLINETTE"):
         f = next((x for x in funzione if x["nome"] == nome), None)
         if f:
-            print(f"  {nome}: {f['classe']} (uso={f['uso']}, dist={f['dist_nodo_forte_m']} m, "
-                  f"tipo_nodo={f['tipo_nodo']}, fuori_centro={f['fuori_centro']})")
+            print(f"  {nome}: {f['classe']} / {f['motivo']} (uso={f['uso']}, forza={f['forza']}, "
+                  f"zona={f['zona_imq']}, dist={f['dist_nodo_forte_m']} m, strada={f['strada']})")
 
 
 if __name__ == "__main__":

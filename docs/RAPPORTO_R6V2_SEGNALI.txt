@@ -1,30 +1,30 @@
-RAPPORTO R6 v2 — SEGNALI DI CRITICITA' PER LUOGO (Passo 6)
+RAPPORTO R6 v2 (giro 2) — SEGNALI DI CRITICITA' PER LUOGO (Passo G2)
 luoghi: 5087
 
 == Per ogni segnale: quanti luoghi lo hanno, minimo, mediana, massimo ==
   a1      5087 luoghi   min       1.00   mediana       1.00   max       5.00
-  a2      3261 luoghi   min       1.00   mediana       2.00   max       5.00
+  a2      3265 luoghi   min       1.00   mediana       3.00   max       5.00
   b1      5087 luoghi   min       0.00   mediana       5.00   max     157.00
   b2      5087 luoghi   min       0.00   mediana       2.50   max     132.38
   c1      5058 luoghi   min      54.00   mediana   13772.20   max  103423.60
   c2      4464 luoghi   min      27.70   mediana    2526.80   max   18306.20
   c3      2170 luoghi   min      38.90   mediana     412.70   max   16722.30
   c2_ztl  4464 luoghi   min      27.70   mediana    2573.50   max   35028.50
-  d         96 luoghi   min      -0.13   mediana       0.21   max       0.65
+  d         92 luoghi   min       0.02   mediana       0.22   max       0.65
   e       5087 luoghi   min       0.00   mediana       0.00   max     100.00
 
 == I 10 luoghi piu' alti per ogni segnale ==
   -- a2
+           5.00  Fermata 3027 - ANTICA DI CHIERI            zona=C024
+           5.00  Fermata 3155 - MUCRONE                     zona=C024
+           5.00  Fermata 15621 - VAJONT                     zona=C022
+           5.00  Fermata 3060 - BOSSO                       zona=C009
            5.00  Fermata 1100 - SANGONE                     zona=Q023
            5.00  Fermata 285 - DROSSO CAP                   zona=Q023
+           5.00  Fermata 1166 - OSPEDALE VALLETTA           zona=Q023
+           5.00  Fermata 1165 - UNIONE SOVIETICA            zona=Q023
            5.00  Fermata 1076 - PLAVA                       zona=Q023
            5.00  Fermata 1075 - FARINELLI                   zona=Q023
-           5.00  Fermata 1185 - PAVESE                      zona=Q023
-           5.00  Fermata 3065 - MARONCELLI                  zona=C009
-           5.00  Fermata 1081 - PAVESE                      zona=Q023
-           5.00  Fermata 1078 - BISCARETTI                  zona=Q023
-           5.00  Fermata 3364 - BISCARETTI                  zona=Q023
-           5.00  Fermata 2045 - FIOCCARDO                   zona=C009
   -- b2
          132.38  Fermata 27 - XVIII DICEMBRE                zona=Q001
          102.00  METRO PORTA NUOVA                          zona=Q001
@@ -61,13 +61,13 @@ luoghi: 5087
 
 == Segnali mancanti ==
   a1     mancante in 0 luoghi
-  a2     mancante in 1826 luoghi
+  a2     mancante in 1822 luoghi
   b1     mancante in 0 luoghi
   b2     mancante in 0 luoghi
   c1     mancante in 29 luoghi
   c2     mancante in 623 luoghi
   c2_ztl mancante in 623 luoghi
-  d      mancante in 4991 luoghi
+  d      mancante in 4995 luoghi
 
 == c2 e c3 (auto in entrata al mattino, IMQ 2022) ==
   c2: 95297 spostamenti al giorno, 1139 interviste
@@ -78,6 +78,7 @@ luoghi: 5087
 
 == d: sensori 5T usati e loro calo di velocita' ==
   calo = 1 - velocita' ore 7-8 / velocita' ore 2-4 (stesso punto, quindi limiti e semafori non contano)
+  sensori usati: 89; sensori scartati: 23
   Corso Trieste(TO)                      notte  60.2 km/h  punta  21.1 km/h  calo 0.65
   SP8(TO) di Druento                     notte  68.2 km/h  punta  28.4 km/h  calo 0.58
   SS229 Del Lago D Orta                  notte  68.0 km/h  punta  33.0 km/h  calo 0.52
@@ -163,18 +164,80 @@ luoghi: 5087
   SS458 Di Casalborgone                  notte  59.7 km/h  punta  58.8 km/h  calo 0.02
   SS661 Delle Langhe                     notte  77.8 km/h  punta  76.9 km/h  calo 0.01
   SS10 Padana Inferiore                  notte  64.7 km/h  punta  64.6 km/h  calo 0.00
-  Corso Unita' D'italia(TO)              notte  55.8 km/h  punta  55.8 km/h  calo -0.00
   SS11 Padana Superiore                  notte  65.0 km/h  punta  65.0 km/h  calo 0.00
   SS11 Padana Superiore                  notte  64.8 km/h  punta  64.8 km/h  calo 0.00
   SS460 Di Ceresole                      notte  97.0 km/h  punta  97.0 km/h  calo 0.00
   SS460 Di Ceresole                      notte  78.0 km/h  punta  78.0 km/h  calo 0.00
-  SS10 Padana Inferiore                  notte  71.4 km/h  punta  71.5 km/h  calo -0.00
-  SS594 Destra Sesia                     notte  76.8 km/h  punta  77.2 km/h  calo -0.01
-  SS31 Del Monferrato                    notte  74.2 km/h  punta  75.5 km/h  calo -0.02
-  SP2(TO) Di Germagnano                  notte  71.8 km/h  punta  73.6 km/h  calo -0.03
-  SS594 Destra Sesia                     notte  77.1 km/h  punta  83.0 km/h  calo -0.08
-  Corso Allamano(TO)                     notte  40.4 km/h  punta  45.6 km/h  calo -0.13
-  SS31 Del Monferrato                    notte  15.0 km/h  punta  43.4 km/h  calo -1.89
+
+  -- sensori SCARTATI (valori anomali, novita' del giro 2)
+  Corso Regina Margherita(TO)            nessuna lettura
+  Corso Regina Margherita(TO)            nessuna lettura
+  Corso Allamano(TO)                     calo negativo (-0.13): in punta si va piu' veloci che di notte [notte 40.4 km/h, punta 45.6, calo -0.128]
+  Corso Moncalieri(TO)                   nessuna lettura
+  Corso Regina Margherita(TO)            nessuna lettura
+  Corso Unita' D'italia(TO)              calo negativo (-0.00): in punta si va piu' veloci che di notte [notte 55.8 km/h, punta 55.8, calo -0.0]
+  Corso Unita' D'italia(TO)              nessuna lettura
+  SS10 Padana Inferiore                  calo negativo (-0.00): in punta si va piu' veloci che di notte [notte 71.4 km/h, punta 71.5, calo -0.0]
+  SS30 Di Val Bormida                    nessuna lettura
+  SS30 Di Val Bormida                    nessuna lettura
+  SS31 Del Monferrato                    calo negativo (-1.89): in punta si va piu' veloci che di notte [notte 15.0 km/h, punta 43.4, calo -1.893]
+  SS494 Vigevanese                       nessuna lettura
+  SS494 Vigevanese                       nessuna lettura
+  SP155(AL)                              nessuna lettura
+  SP155(AL)                              nessuna lettura
+  SS458 Di Casalborgone                  meno di 2 ore valide di notte o di punta
+  SS662 Di Savigliano                    nessuna lettura
+  SS142 Biellese                         nessuna lettura
+  SS142 Biellese                         nessuna lettura
+  SP2(TO) Di Germagnano                  calo negativo (-0.03): in punta si va piu' veloci che di notte [notte 71.8 km/h, punta 73.6, calo -0.026]
+  SS594 Destra Sesia                     calo negativo (-0.08): in punta si va piu' veloci che di notte [notte 77.1 km/h, punta 83.0, calo -0.076]
+  SS594 Destra Sesia                     calo negativo (-0.00): in punta si va piu' veloci che di notte [notte 76.8 km/h, punta 77.2, calo -0.005]
+  SS31 Del Monferrato                    calo negativo (-0.02): in punta si va piu' veloci che di notte [notte 74.2 km/h, punta 75.5, calo -0.018]
+
+== a2: strada e asse d'ingresso (novita' del giro 2) ==
+  la strada si sceglie con il modulo 77: fra i tratti entro 50 m con classe non minore si prende quello col punteggio piu' alto; se non c'e', il piu' vicino entro 150 m; se non c'e' nemmeno, la stradina piu' vicina entro 50 m.
+  luoghi con a2: 3265 (giro 1: 3.261); senza a2: 1822
+  per esito della ricerca: ok 2791, solo_minore 205, strada_lontana 269
+  luoghi con a2 incerto (solo stradina trovata): 205
+  CONTROLLO Fermata 3052 - GENOVA N.212: a2=4 sulla strada 'genova' (primary) a 6.2 m, esito ok -> OK
+
+== Confronto con il giro 1: a2 prima e dopo ==
+  luoghi confrontabili: 5087
+  a2 uguale: 2706
+  cambiano a2: 552 (piu' nuovi 7, piu' persi 3)
+  distribuzione della differenza (a2 nuovo - a2 vecchio):
+     -4: 0
+     -3: 7
+     -2: 17
+     -1: 37
+     +0: 2706
+     +1: 194
+     +2: 188
+     +3: 77
+     +4: 32
+
+  -- i 20 cambiamenti piu' grandi (per valore assoluto)
+     (il file del giro 1 non salvava il nome della strada: 'None' vuol dire 'non disponibile nel giro 1')
+     +4  Fermata 1165 - UNIONE SOVIETICA      zona=Q023  a2 1 -> 5   strada non salvata -> unione sovietica (primary)
+     +4  Fermata 1166 - OSPEDALE VALLETTA     zona=Q023  a2 1 -> 5   strada non salvata -> unione sovietica (primary)
+     +4  Fermata 1362 - PARK STURA CAP        zona=Q019  a2 1 -> 5   strada non salvata -> autostrada serenissima (motorway)
+     +4  Fermata 1498 - ALLAMANO              zona=Q012  a2 1 -> 5   strada non salvata -> canonico giuseppe allamano (secondary)
+     +4  Fermata 15621 - VAJONT               zona=C022  a2 1 -> 5   strada non salvata -> tangenziale sud (motorway)
+     +4  Fermata 1771 - CASALE                zona=Q021  a2 1 -> 5   strada non salvata -> casale (primary)
+     +4  Fermata 2327 - BRIGHENTI             zona=Q021  a2 1 -> 5   strada non salvata -> al traforo di pino (primary)
+     +4  Fermata 2328 - BRIGHENTI             zona=Q021  a2 1 -> 5   strada non salvata -> al traforo di pino (primary)
+     +4  Fermata 2335 - CARTMAN N.59          zona=Q021  a2 1 -> 5   strada non salvata -> al traforo di pino (primary)
+     +4  Fermata 2431 - PUGLIA C.4            zona=Q019  a2 1 -> 5   strada non salvata -> di settimo (primary)
+     +4  Fermata 2522 - DALLE BANDE NERE      zona=Q021  a2 1 -> 5   strada non salvata -> al traforo di pino (primary)
+     +4  Fermata 2551 - ORBASSANO             zona=Q023  a2 1 -> 5   strada non salvata -> torino (primary)
+     +4  Fermata 2599 - PAGANINI              zona=C004  a2 1 -> 5   strada non salvata -> tangenziale nord (motorway)
+     +4  Fermata 2696 - PIANEZZA              zona=C018  a2 1 -> 5   strada non salvata -> tangenziale nord (motorway)
+     +4  Fermata 3082 - DONATELLO             zona=C005  a2 1 -> 5   strada non salvata -> donatello (unclassified)
+     +4  Fermata 3168 - VOLTURNO              zona=C016  a2 1 -> 5   strada non salvata -> None (motorway_link)
+     +4  Fermata 3457 - SETTIMO               zona=Q020  a2 1 -> 5   strada non salvata -> di settimo (primary)
+     +4  Fermata 3482 - FRANCIA               zona=C003  a2 1 -> 5   strada non salvata -> francia (primary)
+     +4  Fermata 3560 - STAZIONE STURA        zona=Q019  a2 1 -> 5   strada non salvata -> autostrada serenissima (motorway)
+     +4  Fermata 5048 - CARREFOUR             zona=C003  a2 1 -> 5   strada non salvata -> tangenziale nord (motorway)
 
 == f: auto che GIA' OGGI lasciano l'auto per un mezzo pubblico (solo informazione) ==
   NON entra nei punteggi [DATI SCARSI]

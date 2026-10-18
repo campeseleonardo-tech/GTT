@@ -1,96 +1,153 @@
-RAPPORTO R6 v2 — QUANTO OGNI PARCHEGGIO FA DA INTERSCAMBIO (Passo 5)
+RAPPORTO R6 v2 (giro 2) — QUANTO OGNI PARCHEGGIO FA DA INTERSCAMBIO (Passo 5)
 parcheggi considerati (esclusi privati, per clienti e sosta lunga): 3431
-  interscambio_di_fatto = posizione buona e uso pendolare
-  solo_sulla_carta    = dichiarato interscambio/park&ride ma uso non da pendolari
-  potenziale          = posizione buona ma uso sconosciuto o senza dati
-  non_interscambio    = tutto il resto
+NOVITA' DEL GIRO 2: la vicinanza a un nodo e l'essere su un asse d'ingresso NON sono
+piu' un via libera o uno stop, ma PUNTI A FAVORE (forza 0-3). Il primo filtro e' la
+zona centrale (qui: Q001, Q002, Q003, Q004, Q005, Q006, Q007, Q008, Q009): li' un parcheggio non e' un
+interscambio, perche' chi arriva in centro non lascia l'auto per prendere un mezzo.
+  interscambio_di_fatto = firma 'pendolare' (l'auto si riempie al mattino e si
+                          svuota la sera) e non e' in zona centrale
+  solo_sulla_carta     = dichiarato interscambio o park&ride ma con firma non da pendolari
+  potenziale           = firma sconosciuta o senza dati, ma con almeno un punto a favore
+  non_interscambio     = tutto il resto
+
+== Parametri dichiarati di questo giro (provvisori, si possono cambiare) ==
+  zona centrale dei parcheggi: Q001, Q002, Q003, Q004, Q005, Q006, Q007, Q008, Q009 (opzione --zone-centrali)
+  punti a favore: nodo forte entro 400 m, di cui metro/treno/capolinea; asse d'ingresso (opzione --raggio-nodo-m)
+  ricerca della strada: raggio stretto 50 m, raggio largo 150 m (opzioni --raggio-stretto/--raggio-largo)
 
 == Quanti parcheggi e quanti posti per classe ==
-  interscambio_di_fatto      9 parcheggi   posti   3264
+  interscambio_di_fatto      0 parcheggi   posti      0
   solo_sulla_carta           4 parcheggi   posti   1716
-  potenziale               725 parcheggi   posti  53131
-  non_interscambio        2693 parcheggi   posti 159768
+  potenziale               758 parcheggi   posti  56566
+  non_interscambio        2669 parcheggi   posti 159597
+
+== Per motivo ==
+  nessun_punto            2445 parcheggi   posti 130648
+  punti_a_favore           758 parcheggi   posti  56566
+  zona_centrale            223 parcheggi   posti  28759
+  dichiarato_non_usato       4 parcheggi   posti   1716
+  firma_non_pendolare        1 parcheggi   posti    190
+
+== Quanti parcheggi per forza (punti a favore) ==
+  forza 0:  2489 parcheggi   di cui 'di fatto' 0   'potenziale' 0
+  forza 1:   370 parcheggi   di cui 'di fatto' 0   'potenziale' 261
+  forza 2:   529 parcheggi   di cui 'di fatto' 0   'potenziale' 463
+  forza 3:    43 parcheggi   di cui 'di fatto' 0   'potenziale' 34
+
+== TABELLA DI SENSIBILITA' della zona centrale ==
+  zone centrali | di fatto | solo sulla carta | potenziale | non interscambio (di cui zona centrale)
+  Q001                      11                4        866       2550 (56)
+  Q001-Q005                  7                4        820       2600 (126)
+  Q001-Q009 (default)        0                4        758       2669 (223)
+  Q001-Q012                  0                4        709       2718 (317)
 
 == I 5 interscambi ufficiali e i garage 5T ==
-  nome | tipo | dist. nodo forte | tipo nodo | su asse ingresso | firma | tariffa | classe
-  CAIO MARIO               interscambio_ufficiale    336 m frequente  False dato_bloccato      True   solo_sulla_carta
-  FERMI                    interscambio_ufficiale     59 m capolinea  False nessun_dato        True   potenziale
-  SOFIA                    interscambio_ufficiale     41 m capolinea  False residenziale       True   solo_sulla_carta
-  STURA                    interscambio_ufficiale     66 m capolinea  False misto              True   solo_sulla_carta
-  VENCHI UNICA             interscambio_ufficiale    126 m metro      False misto              True   solo_sulla_carta
-  ANCONA                   garage_5t                 292 m frequente  False pendolare          True   interscambio_di_fatto
-  BACIGALUPO               garage_5t                  66 m frequente  False pendolare          True   interscambio_di_fatto
-  BIXIO                    garage_5t                 637 m frequente  False misto              True   non_interscambio
-  BODONI                   garage_5t                 248 m frequente  False destinazione       True   non_interscambio
-  BOLZANO                  garage_5t                  23 m ferro      False pendolare          True   non_interscambio
-  BUENOS AIRES             garage_5t                 339 m frequente  False sconosciuto        True   potenziale
-  C.T.O.                   garage_5t                  86 m capolinea  False sconosciuto        True   potenziale
-  CASTELLO  (Torre Romana) garage_5t                  55 m frequente  False sconosciuto        True   non_interscambio
-  CERNAIA                  garage_5t                 244 m capolinea  False pendolare          True   non_interscambio
-  CITTADELLA               garage_5t                  39 m capolinea  False sconosciuto        True   non_interscambio
-  CTO                      garage_5t                 105 m capolinea  False pendolare          True   interscambio_di_fatto
-  D'AZEGLIO GALILEI        garage_5t                 431 m capolinea  False pendolare          True   non_interscambio
-  EMANUELE FILIBERTO       garage_5t                 196 m frequente  False misto              True   non_interscambio
-  FONTANESI                garage_5t                 129 m capolinea  False pendolare          True   interscambio_di_fatto
-  FORTINO                  garage_5t                 686 m frequente  False sconosciuto        True   non_interscambio
-  GALILEO FERRARIS         garage_5t                 355 m metro      False pendolare          True   non_interscambio
-  GARDINO                  garage_5t                 311 m frequente  False sconosciuto        True   potenziale
-  ISOLATO SANTO STEFANO    garage_5t                 140 m frequente  False sconosciuto        True   non_interscambio
-  ISONZO                   garage_5t                 259 m frequente  False sconosciuto        True   potenziale
-  LANCIA                   garage_5t                 289 m frequente  False residenziale       True   non_interscambio
-  LERA                     garage_5t                 288 m metro      False sconosciuto        True   potenziale
-  LINGOTTO                 garage_5t                 323 m metro      False misto              True   non_interscambio
-  MADAMA CRISTINA          garage_5t                 290 m frequente  False destinazione       True   non_interscambio
-  MAROCCHETTI              garage_5t                 503 m metro      False sconosciuto        True   non_interscambio
-  MERCATO CENTRALE         garage_5t                 104 m capolinea  False destinazione       True   non_interscambio
-  MODENA                   garage_5t                 463 m frequente  False sconosciuto        True   non_interscambio
-  MOLINETTE                garage_5t                 350 m frequente  False pendolare          True   interscambio_di_fatto
-  MONTI                    garage_5t                 470 m capolinea  False pendolare          True   non_interscambio
-  NIZZA                    garage_5t                 207 m metro      False pendolare          True   interscambio_di_fatto
-  NIZZA - CARDUCCI         garage_5t                 187 m metro      False sconosciuto        True   potenziale
-  PALAGIUSTIZIA            garage_5t                 207 m ferro      False pendolare          True   interscambio_di_fatto
-  PALAZZO                  garage_5t                  45 m frequente  False sconosciuto        True   potenziale
-  PALAZZO NUOTO            garage_5t                 293 m frequente  False misto              True   non_interscambio
-  PALESTRO                 garage_5t                 286 m capolinea  False pendolare          True   non_interscambio
-  PORTA NUOVA (in costruzi garage_5t                  29 m ferro      False sconosciuto        True   non_interscambio
-  PORTA NUOVA FS           garage_5t                  32 m ferro      False destinazione       True   non_interscambio
-  PORTA PALAZZO            garage_5t                  31 m frequente  False destinazione       True   non_interscambio
-  PORTA SUSA FS            garage_5t                  47 m ferro      False destinazione       True   non_interscambio
-  RACCONIGI                garage_5t                 539 m frequente  False nessun_dato        True   non_interscambio
-  RE UMBERTO               garage_5t                 181 m frequente  False pendolare          True   non_interscambio
-  RICHELMY                 garage_5t                 205 m frequente  False misto              True   non_interscambio
-  ROMA                     garage_5t                  97 m ferro      False sconosciuto        True   non_interscambio
-  ROMA S.CARLO CASTELLO    garage_5t                 108 m ferro      False destinazione       True   non_interscambio
-  SAN CARLO                garage_5t                 194 m frequente  False sconosciuto        True   non_interscambio
-  SANTO STEFANO            garage_5t                 135 m frequente  False destinazione       True   non_interscambio
-  SEBASTOPOLI              garage_5t                 574 m frequente  False sconosciuto        True   non_interscambio
-  SPINA 3  (comprensorio M garage_5t                  28 m frequente  False sconosciuto        True   potenziale
-  STATI UNITI              garage_5t                 236 m frequente  False pendolare          True   interscambio_di_fatto
-  STATI UNITI II           garage_5t                 234 m frequente  False sconosciuto        True   potenziale
-  UNIONE SOVIETICA         garage_5t                 247 m capolinea  True  nessun_dato        True   potenziale
-  V PADIGLIONE             garage_5t                  78 m capolinea  False nessun_dato        True   potenziale
-  VALDO FUSI               garage_5t                  55 m frequente  False destinazione       True   non_interscambio
-  VENTIMIGLIA              garage_5t                  68 m capolinea  False pendolare          True   interscambio_di_fatto
-  VITTORIO                 garage_5t                   1 m frequente  False destinazione       True   non_interscambio
+  nome | tipo | zona | centrale | firma | forza | tariffa | classe
+  CAIO MARIO               interscambio_ufficiale Q023  False dato_bloccato      1 True   solo_sulla_carta
+  FERMI                    interscambio_ufficiale C003  False nessun_dato        2 True   potenziale
+  SOFIA                    interscambio_ufficiale Q020  False residenziale       3 True   solo_sulla_carta
+  STURA                    interscambio_ufficiale Q019  False misto              3 True   solo_sulla_carta
+  VENCHI UNICA             interscambio_ufficiale Q014  False dato_bloccato      3 True   solo_sulla_carta
+  ANCONA                   garage_5t              Q007  True  pendolare          1 True   non_interscambio
+  BACIGALUPO               garage_5t              Q009  True  pendolare          1 True   non_interscambio
+  BIXIO                    garage_5t              Q005  True  misto              0 True   non_interscambio
+  BODONI                   garage_5t              Q001  True  destinazione       1 True   non_interscambio
+  BOLZANO                  garage_5t              Q001  True  pendolare          2 True   non_interscambio
+  BUENOS AIRES             garage_5t              Q011  False sconosciuto        2 True   potenziale
+  C.T.O.                   garage_5t              Q009  True  sconosciuto        3 True   non_interscambio
+  CASTELLO  (Torre Romana) garage_5t              Q001  True  sconosciuto        1 True   non_interscambio
+  CERNAIA                  garage_5t              Q001  True  pendolare          2 True   non_interscambio
+  CITTADELLA               garage_5t              Q001  True  sconosciuto        2 True   non_interscambio
+  CTO                      garage_5t              Q009  True  pendolare          3 True   non_interscambio
+  D'AZEGLIO GALILEI        garage_5t              Q002  True  pendolare          0 True   non_interscambio
+  EMANUELE FILIBERTO       garage_5t              Q001  True  misto              1 True   non_interscambio
+  FONTANESI                garage_5t              Q008  True  pendolare          2 True   non_interscambio
+  FORTINO                  garage_5t              Q007  True  sconosciuto        0 True   non_interscambio
+  GALILEO FERRARIS         garage_5t              Q001  True  pendolare          2 True   non_interscambio
+  GARDINO                  garage_5t              Q004  True  sconosciuto        1 True   non_interscambio
+  ISOLATO SANTO STEFANO    garage_5t              Q001  True  sconosciuto        1 True   non_interscambio
+  ISONZO                   garage_5t              Q004  True  sconosciuto        1 True   non_interscambio
+  LANCIA                   garage_5t              Q004  True  residenziale       1 True   non_interscambio
+  LERA                     garage_5t              Q013  False sconosciuto        2 True   potenziale
+  LINGOTTO                 garage_5t              Q009  True  misto              2 True   non_interscambio
+  MADAMA CRISTINA          garage_5t              Q002  True  destinazione       1 True   non_interscambio
+  MAROCCHETTI              garage_5t              Q002  True  sconosciuto        0 True   non_interscambio
+  MERCATO CENTRALE         garage_5t              Q007  True  destinazione       2 True   non_interscambio
+  MODENA                   garage_5t              Q007  True  sconosciuto        0 True   non_interscambio
+  MOLINETTE                garage_5t              Q009  True  pendolare          1 True   non_interscambio
+  MONTI                    garage_5t              Q002  True  pendolare          0 True   non_interscambio
+  NIZZA                    garage_5t              Q009  True  pendolare          2 True   non_interscambio
+  NIZZA - CARDUCCI         garage_5t              Q009  True  sconosciuto        2 True   non_interscambio
+  PALAGIUSTIZIA            garage_5t              Q005  True  pendolare          2 True   non_interscambio
+  PALAZZO                  garage_5t              Q007  True  sconosciuto        1 True   non_interscambio
+  PALAZZO NUOTO            garage_5t              Q011  False dato_bloccato      1 True   non_interscambio
+  PALESTRO                 garage_5t              Q001  True  pendolare          2 True   non_interscambio
+  PORTA NUOVA (in costruzi garage_5t              Q001  True  sconosciuto        3 True   non_interscambio
+  PORTA NUOVA FS           garage_5t              Q001  True  destinazione       3 True   non_interscambio
+  PORTA PALAZZO            garage_5t              Q007  True  destinazione       1 True   non_interscambio
+  PORTA SUSA FS            garage_5t              Q001  True  destinazione       2 True   non_interscambio
+  RACCONIGI                garage_5t              Q005  True  nessun_dato        0 True   non_interscambio
+  RE UMBERTO               garage_5t              Q001  True  pendolare          1 True   non_interscambio
+  RICHELMY                 garage_5t              Q006  True  misto              1 True   non_interscambio
+  ROMA                     garage_5t              Q001  True  sconosciuto        2 True   non_interscambio
+  ROMA S.CARLO CASTELLO    garage_5t              Q001  True  pendolare          2 True   non_interscambio
+  SAN CARLO                garage_5t              Q001  True  sconosciuto        1 True   non_interscambio
+  SANTO STEFANO            garage_5t              Q001  True  pendolare          1 True   non_interscambio
+  SEBASTOPOLI              garage_5t              Q011  False sconosciuto        0 True   non_interscambio
+  SPINA 3  (comprensorio M garage_5t              Q006  True  sconosciuto        1 True   non_interscambio
+  STATI UNITI              garage_5t              Q003  True  pendolare          1 True   non_interscambio
+  STATI UNITI II           garage_5t              Q003  True  sconosciuto        1 True   non_interscambio
+  UNIONE SOVIETICA         garage_5t              Q023  False nessun_dato        3 True   potenziale
+  V PADIGLIONE             garage_5t              Q002  True  nessun_dato        2 True   non_interscambio
+  VALDO FUSI               garage_5t              Q001  True  pendolare          1 True   non_interscambio
+  VENTIMIGLIA              garage_5t              Q009  True  pendolare          3 True   non_interscambio
+  VITTORIO                 garage_5t              Q001  True  destinazione       1 True   non_interscambio
 
 == I 20 'potenziale' con piu' posti ==
-   2587 posti  Multipiano                         park_ride_osm    100 m da ferro      tariffa=True uso=sconosciuto
-   1738 posti  Parcheggio L                       osm_pubblico     364 m da metro      tariffa=True uso=sconosciuto
-   1226 posti  OSM way 1214372723                 osm_pubblico     174 m da metro      tariffa=False uso=sconosciuto
-    853 posti  PALAZZO                            garage_5t         45 m da frequente  tariffa=True uso=sconosciuto
-    773 posti  OSM way 141055424                  osm_pubblico     349 m da frequente  tariffa=False uso=sconosciuto
-    651 posti  OSM way 246576155                  osm_pubblico     273 m da frequente  tariffa=False uso=sconosciuto
-    592 posti  OSM way 1337212772                 osm_pubblico     106 m da ferro      tariffa=ignota uso=sconosciuto
-    548 posti  OSM way 593918508                  osm_pubblico     323 m da ferro      tariffa=ignota uso=sconosciuto
-    545 posti  Piazza Europa                      osm_pubblico     275 m da ferro      tariffa=False uso=sconosciuto
-    520 posti  Parcheggio Stati Uniti             osm_pubblico     297 m da frequente  tariffa=True uso=sconosciuto
-    500 posti  OSM way 139840651                  osm_pubblico     188 m da ferro      tariffa=False uso=sconosciuto
-    500 posti  OSM way 846003845                  osm_pubblico     251 m da frequente  tariffa=ignota uso=sconosciuto
-    478 posti  OSM way 100193877                  osm_pubblico      53 m da frequente  tariffa=False uso=sconosciuto
-    463 posti  Piazza Bengasi                     osm_pubblico      31 m da metro      tariffa=True uso=sconosciuto
-    453 posti  OSM way 218515025                  osm_pubblico     256 m da capolinea  tariffa=False uso=sconosciuto
-    436 posti  OSM way 112795858                  osm_pubblico     110 m da ferro      tariffa=ignota uso=sconosciuto
-    420 posti  OSM way 106366574                  osm_pubblico     222 m da frequente  tariffa=False uso=sconosciuto
-    375 posti  NIZZA - CARDUCCI                   garage_5t        187 m da metro      tariffa=True uso=sconosciuto
-    366 posti  Fontanesi                          osm_pubblico      88 m da frequente  tariffa=True uso=sconosciuto
-    366 posti  OSM way 294383909                  osm_pubblico     135 m da capolinea  tariffa=False uso=sconosciuto
+   2587 posti  Multipiano                         park_ride_osm  forza=2   100 m da ferro      tariffa=True  punti: nodo: ferro Fermata 14416 - CASELLE (AER 100 m
+   1226 posti  OSM way 1214372723                 osm_pubblico   forza=2   174 m da metro      tariffa=False  punti: nodo: metro METRO FERMI 174 m
+   1098 posti  OSM way 119512811                  osm_pubblico   forza=1   960 m da frequente  tariffa=ignota  punti: asse d'ingresso: gaetano scirea 133.3 m
+    837 posti  OSM way 165944889                  osm_pubblico   forza=1  1136 m da frequente  tariffa=ignota  punti: asse d'ingresso: gaetano scirea 89.9 m
+    837 posti  OSM way 39541440                   osm_pubblico   forza=1  1016 m da capolinea  tariffa=ignota  punti: asse d'ingresso: pancalieri 41.9 m
+    773 posti  OSM way 141055424                  osm_pubblico   forza=1   349 m da frequente  tariffa=False  punti: nodo: frequente Fermata 292 - VIII MARZO 349 m
+    651 posti  OSM way 246576155                  osm_pubblico   forza=1   273 m da frequente  tariffa=False  punti: nodo: frequente Fermata 1047 - FAILLA 273 m
+    592 posti  OSM way 1337212772                 osm_pubblico   forza=2   106 m da ferro      tariffa=ignota  punti: nodo: ferro Fermata 3687 - SOPRAELEVATA 106 m
+    548 posti  OSM way 593918508                  osm_pubblico   forza=2   323 m da ferro      tariffa=ignota  punti: nodo: ferro Fermata 3030 - STAZIONE 323 m
+    545 posti  Piazza Europa                      osm_pubblico   forza=2   275 m da ferro      tariffa=False  punti: nodo: ferro Fermata 6123 - ROMA N.17 275 m
+    525 posti  OSM way 1120098134                 osm_pubblico   forza=1  1504 m da capolinea  tariffa=ignota  punti: asse d'ingresso: canonico giuseppe allamano 81.7 m
+    507 posti  OSM way 119510295                  osm_pubblico   forza=1   723 m da frequente  tariffa=ignota  punti: asse d'ingresso: gaetano scirea 65.4 m
+    500 posti  OSM way 139840651                  osm_pubblico   forza=2   188 m da ferro      tariffa=False  punti: nodo: ferro Fermata 2948 - CASERMA BREVI 188 m
+    500 posti  OSM way 846003845                  osm_pubblico   forza=1   251 m da frequente  tariffa=ignota  punti: nodo: frequente Fermata 753 - PONCHIELLI 251 m
+    478 posti  OSM way 100193877                  osm_pubblico   forza=1    53 m da frequente  tariffa=False  punti: nodo: frequente Fermata 292 - VIII MARZO 53 m
+    472 posti  OSM way 1276172190                 osm_pubblico   forza=1  1506 m da capolinea  tariffa=ignota  punti: asse d'ingresso: autostrada serenissima 88.1 m
+    465 posti  OSM way 1207674754                 osm_pubblico   forza=1   904 m da capolinea  tariffa=ignota  punti: asse d'ingresso: comunale del portone 15.7 m
+    453 posti  OSM way 218515025                  osm_pubblico   forza=2   256 m da capolinea  tariffa=False  punti: nodo: capolinea Fermata 884 - FERMI CAP 256 m
+    436 posti  OSM way 112795858                  osm_pubblico   forza=2   110 m da ferro      tariffa=ignota  punti: nodo: ferro Fermata 18315 - CHIVASSO (V. 110 m
+    421 posti  Parcheggio Comune                  osm_pubblico   forza=1   808 m da capolinea  tariffa=True  punti: asse d'ingresso: francia 76.5 m
+
+== Controlli (non sono motivo di stop) ==
+  MOLINETTE: non_interscambio / zona_centrale (zona Q009) OK
+  CTO: non_interscambio / zona_centrale (zona Q009) OK
+  PALAGIUSTIZIA: non_interscambio / zona_centrale (zona Q005) OK
+  NIZZA: non_interscambio / zona_centrale (zona Q009) OK
+  STATI UNITI: non_interscambio / zona_centrale (zona Q003) OK
+  ANCONA: non_interscambio / zona_centrale (zona Q007) OK
+  BACIGALUPO: non_interscambio / zona_centrale (zona Q009) OK
+  FONTANESI: non_interscambio / zona_centrale (zona Q008) OK
+  VENTIMIGLIA: non_interscambio / zona_centrale (zona Q009) OK
+  FERMI: potenziale forza=2 OK
+  grandi parcheggi OSM gratuiti vicino a Fermi (potenziale): 3
+     1226 posti, 178 m, forza=2 (OK)
+     453 posti, 230 m, forza=2 (OK)
+     281 posti, 137 m, forza=2 (OK)
+  STURA: solo_sulla_carta (dichiarato_non_usato, firma misto) OK
+  CAIO MARIO: solo_sulla_carta (dichiarato_non_usato, firma dato_bloccato) OK
+  SOFIA: solo_sulla_carta (dichiarato_non_usato, firma residenziale) OK
+  VENCHI UNICA: solo_sulla_carta (dichiarato_non_usato, firma dato_bloccato) OK
+
+== Parcheggi 'interscambio di fatto': 0 ==
+
+== Limiti ==
+- La 'zona centrale' Q001-Q009 e' una scelta provvisoria: vedi la tabella di sensibilita'.
+- Le firme del riempimento vengono da 2 giorni feriali [DATI SCARSI].
+- La vicinanza e' in linea d'aria, non a piedi.

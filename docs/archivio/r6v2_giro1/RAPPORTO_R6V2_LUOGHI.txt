@@ -1,0 +1,30 @@
+RAPPORTO R6 v2 — LUOGHI DI FERMATA (Passo 1)
+modalita': completa
+fermate in ingresso: 7045
+luoghi (fermate entro 40 m unite a catena): 5087
+riduzione: 7045 fermate -> 5087 luoghi (27.8% in meno)
+luoghi senza zona IMQ trovata nel punto medio (usata la zona della prima fermata): 24
+
+== Quante fermate per luogo ==
+  1 fermata/e: 3266 luoghi
+  2 fermata/e: 1725 luoghi
+  3 fermata/e: 67 luoghi
+  4 o piu': 29 luoghi
+
+luoghi con almeno una fermata critica (v1): 462
+luoghi con almeno una fermata coperta (v1): 12
+
+611 fermate critiche della versione 1 = 462 luoghi
+(controllo: fermate critiche v1 nel file letto = 611)
+
+== I 10 luoghi con piu' fermate ==
+  11 fermate  Fermata 805 - CAIO MARIO                      zona=Q023
+   5 fermate  Fermata 1362 - PARK STURA CAP                 zona=Q019
+   5 fermate  Fermata 169 - PERVINCHE                       zona=Q015
+   5 fermate  Fermata 2658 - BAROCCHIO SUD                  zona=C002
+   5 fermate  Fermata 371 - RONDÒ FORCA                     zona=Q007
+   5 fermate  METRO XVIII DICEMBRE                          zona=Q001
+   4 fermate  Fermata 1047 - FAILLA                         zona=C009
+   4 fermate  Fermata 11231 - RONDISSONE (P.ZA ROMA)        zona=E056
+   4 fermate  Fermata 1280 - SCOTELLARO                     zona=Q019
+   4 fermate  Fermata 14855 - FRINCO (BV. MOLINASSO)        zona=R502

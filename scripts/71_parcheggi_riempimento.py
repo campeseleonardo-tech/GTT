@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-71_parcheggi_riempimento.py  -  Risultato 6 v2, PASSO 3: ANTEPRIMA del riempimento.
+71_parcheggi_riempimento.py  -  Risultato 6 v2, PASSO 3/G4: ANTEPRIMA del riempimento.
 
 Cosa fa
 -------
@@ -8,8 +8,18 @@ Legge dal database le letture di occupazione dei parcheggi 5T (quanti posti libe
 ogni pochi minuti) e costruisce, per ogni parcheggio, il profilo orario medio del
 riempimento separato fra giorni feriali e fine settimana. Da quel profilo ricava una
 "firma": pendolare / residenziale / destinazione / misto / dato_bloccato / nessun_dato.
-Attenzione: sono POCHI giorni di raccolta (dal 14/10), quindi e' un'ANTEPRIMA [DATI SCARSI]
-e le soglie delle firme sono provvisorie.
+
+NOVITA' DEL GIRO 2 (19/10/2026)
+-------------------------------
+- Le soglie delle firme si FISSANO (restano provvisorie, ma dichiarate): un parcheggio
+  fermo e' "dato_bloccato" se l'ampiezza della giornata e' sotto 0,06 (prima 0,05: cosi'
+  Venchi Unica, fermo al 51%, risulta bloccato). Tutte le soglie si possono cambiare da
+  riga di comando.
+- Nel rapporto c'e' una TABELLA DI SENSIBILITA': la stessa firma calcolata con nove
+  combinazioni di soglie (bloccato 0,04 / 0,06 / 0,08 per pendolare 0,15 / 0,20 / 0,25),
+  per vedere quali parcheggi sono "fragili", cioe' cambiano firma.
+- I dati restano pochi: 2 giorni feriali validi [DATI SCARSI]. Il giro va rifatto quando
+  i giorni feriali saranno almeno 5.
 
 Cosa legge
 ----------
@@ -23,7 +33,9 @@ Cosa scrive
 Come si lancia
 --------------
   python scripts\\71_parcheggi_riempimento.py
+  python scripts\\71_parcheggi_riempimento.py --soglia-bloccato 0.06 --soglia-pendolare 0.20
 """
+import argparse
 import json
 import sqlite3
 import sys
@@ -49,6 +61,17 @@ LETTURE_MINIME_GIORNO = 230     # su ~288 possibili (una ogni 5 minuti)
 ORE_NOTTE = (2, 3, 4)           # N
 ORE_GIORNO = (10, 11, 12, 13, 14, 15)   # G
 ORE_MATTINA = (7, 8)            # M
+
+# SOGLIE DELLE FIRME (giro 2, 19/10/2026 — valori predefiniti, cambiali da riga di comando)
+SOGLIA_BLOCCATO = 0.06          # ampiezza sotto cui il dato e' "bloccato" (era 0,05 nel giro 1)
+SOGLIA_PENDOLARE = 0.20         # G - N minimo per "pendolare"
+SOGLIA_PENDOLARE_WEEKEND = 0.10  # G - W minimo per "pendolare"
+SOGLIA_RESIDENZIALE = 0.10      # N - G minimo per "residenziale"
+SOGLIA_PIENO = 0.85             # G minimo per il contrassegno "pieno"
+SOGLIA_VUOTO = 0.15             # G massimo per il contrassegno "vuoto"
+# griglia della tabella di sensibilita'
+GRIGLIA_BLOCCATO = (0.04, 0.06, 0.08)
+GRIGLIA_PENDOLARE = (0.15, 0.20, 0.25)
 
 
 # [agente] ora legale italiana, stessa regola di scripts/04_genera_mappa.py (_locale)
@@ -77,19 +100,22 @@ def leggi_database():
     return parcheggi, letture
 
 
-def firma_da(N, G, M, W, ampiezza, ha_weekend, ha_letture, giorni_feriali_validi):
-    """Regole del piano, soglie PROVVISORIE (le confermera' Leo)."""
+def firma_da(N, G, M, W, ampiezza, ha_weekend, ha_letture, giorni_feriali_validi,
+             soglia_bloccato=None, soglia_pendolare=None):
+    """Regole del piano con le soglie del giro 2 (costanti in cima, o da riga di comando)."""
+    sb = SOGLIA_BLOCCATO if soglia_bloccato is None else soglia_bloccato
+    sp = SOGLIA_PENDOLARE if soglia_pendolare is None else soglia_pendolare
     if not ha_letture:
         return "nessun_dato"
     if giorni_feriali_validi < 2:
         return "dati_insufficienti"
-    if ampiezza < 0.05:
+    if ampiezza < sb:
         return "dato_bloccato"
-    if G - N >= 0.20 and (not ha_weekend or G - W >= 0.10):
+    if G - N >= sp and (not ha_weekend or G - W >= SOGLIA_PENDOLARE_WEEKEND):
         return "pendolare"
-    if N - G >= 0.10:
+    if N - G >= SOGLIA_RESIDENZIALE:
         return "residenziale"
-    if G - N >= 0.20 and ha_weekend and G - W < 0.10:
+    if G - N >= sp and ha_weekend and G - W < SOGLIA_PENDOLARE_WEEKEND:
         return "destinazione"
     return "misto"
 
@@ -98,14 +124,37 @@ def stato_da(G):
     """In piu' rispetto alla firma: pieno / vuoto, in base al giorno feriale."""
     if G is None:
         return None
-    if G >= 0.85:
+    if G >= SOGLIA_PIENO:
         return "pieno"
-    if G < 0.15:
+    if G < SOGLIA_VUOTO:
         return "vuoto"
     return None
 
 
 def main():
+    global SOGLIA_BLOCCATO, SOGLIA_PENDOLARE, SOGLIA_PENDOLARE_WEEKEND
+    global SOGLIA_RESIDENZIALE, SOGLIA_PIENO, SOGLIA_VUOTO
+    ap = argparse.ArgumentParser(description="Riempimento dei parcheggi 5T (anteprima)")
+    ap.add_argument("--soglia-bloccato", type=float, default=SOGLIA_BLOCCATO,
+                    help=f"ampiezza sotto cui il dato e' bloccato (default {SOGLIA_BLOCCATO})")
+    ap.add_argument("--soglia-pendolare", type=float, default=SOGLIA_PENDOLARE,
+                    help=f"G-N minimo per 'pendolare' (default {SOGLIA_PENDOLARE})")
+    ap.add_argument("--soglia-pendolare-weekend", type=float, default=SOGLIA_PENDOLARE_WEEKEND,
+                    help=f"G-W minimo per 'pendolare' (default {SOGLIA_PENDOLARE_WEEKEND})")
+    ap.add_argument("--soglia-residenziale", type=float, default=SOGLIA_RESIDENZIALE,
+                    help=f"N-G minimo per 'residenziale' (default {SOGLIA_RESIDENZIALE})")
+    ap.add_argument("--soglia-pieno", type=float, default=SOGLIA_PIENO,
+                    help=f"G minimo per 'pieno' (default {SOGLIA_PIENO})")
+    ap.add_argument("--soglia-vuoto", type=float, default=SOGLIA_VUOTO,
+                    help=f"G massimo per 'vuoto' (default {SOGLIA_VUOTO})")
+    args = ap.parse_args()
+    SOGLIA_BLOCCATO = args.soglia_bloccato
+    SOGLIA_PENDOLARE = args.soglia_pendolare
+    SOGLIA_PENDOLARE_WEEKEND = args.soglia_pendolare_weekend
+    SOGLIA_RESIDENZIALE = args.soglia_residenziale
+    SOGLIA_PIENO = args.soglia_pieno
+    SOGLIA_VUOTO = args.soglia_vuoto
+
     if not DB.exists():
         sys.exit(f"Manca: {DB}")
     parcheggi, letture = leggi_database()
@@ -167,6 +216,12 @@ def main():
         firma = firma_da(N, G, M, W, ampiezza, bool(weekend_validi),
                          bool(letture_pk), len(feriali_validi))
         stato = stato_da(G)
+        griglia = {}
+        for sb in GRIGLIA_BLOCCATO:
+            for sp in GRIGLIA_PENDOLARE:
+                griglia[f"bloccato{sb:.2f}_pendolare{sp:.2f}"] = firma_da(
+                    N, G, M, W, ampiezza, bool(weekend_validi), bool(letture_pk),
+                    len(feriali_validi), soglia_bloccato=sb, soglia_pendolare=sp)
         risultati.append({
             "id_5t": pid, "nome": d["nome"], "lat": d["lat"], "lon": d["lon"],
             "totale_posti": d["totale_db"],
@@ -180,6 +235,8 @@ def main():
             "W_giorno_weekend": round(W, 4) if W is not None else None,
             "ampiezza": round(ampiezza, 4),
             "firma": firma, "stato": stato,
+            "sensibilita": griglia,
+            "fragile": len(set(griglia.values())) > 1,
         })
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -187,6 +244,10 @@ def main():
         "anteprima": True,
         "etichetta": "ANTEPRIMA [DATI SCARSI]",
         "letture_minime_giorno": LETTURE_MINIME_GIORNO,
+        "soglie": {"bloccato": SOGLIA_BLOCCATO, "pendolare": SOGLIA_PENDOLARE,
+                   "pendolare_weekend": SOGLIA_PENDOLARE_WEEKEND,
+                   "residenziale": SOGLIA_RESIDENZIALE,
+                   "pieno": SOGLIA_PIENO, "vuoto": SOGLIA_VUOTO},
         "parcheggi": risultati,
     }, ensure_ascii=False), encoding="utf-8")
 
@@ -194,16 +255,27 @@ def main():
     usati = [r for r in risultati if r["giorni_validi"]]
     giorni_tutti = sorted({g for r in risultati for g in r["giorni_validi"]})
     feriali = [g for g in giorni_tutti if datetime.strptime(g, "%Y-%m-%d").weekday() < 5]
+    weekend = [g for g in giorni_tutti if datetime.strptime(g, "%Y-%m-%d").weekday() >= 5]
     righe = []
-    righe.append("RAPPORTO R6 v2 — RIEMPIMENTO DEI PARCHEGGI 5T (Passo 3)")
-    righe.append(f"ANTEPRIMA [DATI SCARSI]: {len(feriali)} giorni feriali validi, "
-                 f"dal {feriali[0] if feriali else '-'} al {feriali[-1] if feriali else '-'}")
+    righe.append("RAPPORTO R6 v2 — RIEMPIMENTO DEI PARCHEGGI 5T (Passo 3 / G4, giro 2)")
+    righe.append(f"ANTEPRIMA [DATI SCARSI]: {len(feriali)} giorni feriali validi "
+                 f"({', '.join(feriali) or '-'}), {len(weekend)} giorni di fine settimana "
+                 f"({', '.join(weekend) or '-'})")
     righe.append(f"giorni validi in tutto (feriali + fine settimana): {', '.join(giorni_tutti) or '-'}")
     righe.append("il 14/10/2026 la raccolta e' iniziata a meta' pomeriggio, quindi quel giorno "
-                 "non raggiunge le letture minime e non conta; la domenica 18/10 e' anch'essa incompleta")
+                 "non raggiunge le letture minime e non conta")
     righe.append(f"ogni parcheggio ha letture ogni ~5 minuti; un giorno conta se ha almeno "
                  f"{LETTURE_MINIME_GIORNO} letture")
-    righe.append("Le soglie delle firme sono PROVVISORIE: le conferma Leo dopo questa anteprima.")
+    righe.append("SOGLIE DI QUESTO GIRO (fissate il 19/10 con i dati che ci sono, da rifare con "
+                 "almeno 5 giorni feriali):")
+    righe.append(f"  dato_bloccato: ampiezza < {SOGLIA_BLOCCATO:.2f} (era 0,05: cosi' Venchi Unica, "
+                 f"fermo al 51%, risulta bloccato)")
+    righe.append(f"  pendolare: G-N >= {SOGLIA_PENDOLARE:.2f} e (W assente o G-W >= "
+                 f"{SOGLIA_PENDOLARE_WEEKEND:.2f})")
+    righe.append(f"  residenziale: N-G >= {SOGLIA_RESIDENZIALE:.2f}")
+    righe.append(f"  destinazione: G-N >= {SOGLIA_PENDOLARE:.2f} con W presente e G-W < "
+                 f"{SOGLIA_PENDOLARE_WEEKEND:.2f}")
+    righe.append(f"  pieno: G >= {SOGLIA_PIENO:.2f}; vuoto: G < {SOGLIA_VUOTO:.2f}")
     righe.append("")
     righe.append("== Firma per parcheggio ==")
     righe.append("  formato: occupazione % ogni 2 ore (feriale), poi la firma")
@@ -227,6 +299,31 @@ def main():
         righe.append(f"  {r['nome'][:22]:22s} N={pct(r['N_notte_feriale'])} G={pct(r['G_giorno_feriale'])} "
                      f"M={pct(r['M_mattina_feriale'])} W={pct(r['W_giorno_weekend'])} amp={r['ampiezza']:.2f} "
                      f"giorni={len(r['giorni_validi'])} -> {r['firma']}")
+    righe.append("")
+    righe.append("== TABELLA DI SENSIBILITA': la firma con nove combinazioni di soglie ==")
+    righe.append("  righe = parcheggio con dati; colonne = bloccato 0,04 / 0,06 / 0,08 "
+                 "x pendolare 0,15 / 0,20 / 0,25")
+    righe.append("  legenda firme: P=pendoLare, R=residenziale, D=destinazione, M=misto, "
+                 "B=dato_bloccato, S=dati_insufficienti, N=nessun_dato")
+    lettere = {"pendolare": "P", "residenziale": "R", "destinazione": "D", "misto": "M",
+               "dato_bloccato": "B", "dati_insufficienti": "S", "nessun_dato": "N"}
+    righe.append("  " + " " * 24 + "  b0.04        b0.06        b0.08")
+    righe.append("  " + " " * 24 + "  p.15 .20 .25  p.15 .20 .25  p.15 .20 .25")
+    for r in sorted(risultati, key=lambda r: r["nome"]):
+        if not r["giorni_validi"]:
+            continue
+        celle = []
+        for sb in GRIGLIA_BLOCCATO:
+            for sp in GRIGLIA_PENDOLARE:
+                celle.append(lettere.get(r["sensibilita"][f"bloccato{sb:.2f}_pendolare{sp:.2f}"], "?"))
+        testo = " ".join(celle[:3]) + "  " + " ".join(celle[3:6]) + "  " + " ".join(celle[6:])
+        righe.append(f"  {r['nome'][:22]:22s}  {testo}")
+    fragili = [r for r in risultati if r.get("fragile")]
+    righe.append("")
+    righe.append(f"== Parcheggi 'fragili' (la firma cambia al variare delle soglie): {len(fragili)} ==")
+    for r in sorted(fragili, key=lambda r: r["nome"]):
+        valori = sorted(set(r["sensibilita"].values()))
+        righe.append(f"  {r['nome'][:22]:22s} firme possibili: {', '.join(valori)}")
     RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
     RAPPORTO.write_text("\n".join(righe) + "\n", encoding="utf-8")
 
