@@ -627,7 +627,7 @@ def main():
     righe.append("     scripts/76_verifiche_r6v2.py e i rapporti rigenerati dai lanci")
     righe.append("     (RAPPORTO_R6V2_RIEMPIMENTO/FUNZIONE/SEGNALI, RAPPORTO_RISULTATO6_V2).")
     righe.append("   File NUOVO di questo giro: scripts/77_strade_comuni.py e")
-    righe.append("     docs/RAPPORTO_R6V2_STRADE.txt, docs/ESITO_RISULTATO6_V2_GIRO2.md.")
+    righe.append("     docs/RAPPORTO_R6V2_STRADE.txt, docs/archivio/r6/ESITO_RISULTATO6_V2_GIRO2.md.")
     righe.append("   ATTENZIONE (non e' opera di questo giro): nella cartella di lavoro risultano")
     righe.append("     modificati anche MEMORIA_PROGETTO.md e docs/RAPPORTO_VELOCITA_5T.txt:")
     righe.append("     sono cambiamenti di un'altra sessione (nella notte del 19/10, insieme")

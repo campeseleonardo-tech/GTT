@@ -176,11 +176,40 @@ def data_gtfs(s):
     return date(int(s[:4]), int(s[4:6]), int(s[6:8]))
 
 
+# Giorni tipici FISSI (correzioni del 20/10/2026): prima si prendevano "il prossimo martedi', sabato e
+# domenica" rispetto al giorno in cui si rigenera la mappa, che poteva cadere sul cambio dell'ora (25/10)
+# o su un festivo. Si cambiano qui, con giorni normali dentro la validita' del GTFS.
+DATE_FISSE = {"fer": date(2026, 11, 10), "sab": date(2026, 11, 14), "dom": date(2026, 11, 15)}
+
+
+# Accessibilita' in forma compatta (correzioni del 20/10/2026): erano dizionari con i nomi dei gruppi ripetuti
+# per ognuna delle 24 ore di ognuna delle ~8.300 sezioni (14,6 MB su 23,6 della mappa). Ora:
+#   [ [piedi: 5 valori nell'ordine di GRUPPI_ACC], [24 ore: 5 valori o null] ]
+# La mappa (espandiAcc in mappa_template.html) ricostruisce gli stessi dizionari all'avvio: valori identici.
+GRUPPI_ACC = ["scuole", "salute", "cibo", "fermate", "verde"]
+
+
+def compatta_acc(piedi, tp):
+    altri = set(piedi) | {g for v in tp.values() for g in v}
+    ore_strane = set(tp) - {f"{h:02d}" for h in range(24)}
+    if altri - set(GRUPPI_ACC) or ore_strane:
+        print(f"  AVVISO: gruppi o ore non previsti {sorted(altri - set(GRUPPI_ACC))} {sorted(ore_strane)}: lascio la forma estesa")
+        return {"piedi": piedi, "tp": tp}
+    riga = lambda d: [d.get(g) for g in GRUPPI_ACC]
+    return [riga(piedi), [riga(tp[f"{h:02d}"]) if f"{h:02d}" in tp else None for h in range(24)]]
+
+
 def date_riferimento(inizio, fine):
-    """Un martedi', un sabato e una domenica tipici, dentro la validita' del feed."""
+    """Un martedi', un sabato e una domenica tipici (DATE_FISSE); se una data e' fuori dalla validita' del
+    feed, AVVISO e si torna alla regola vecchia (il prossimo giorno di quel tipo) solo per quella data."""
     out = {}
     oggi = max(date.today(), inizio)
     for chiave, wd in (("fer", 1), ("sab", 5), ("dom", 6)):
+        fissa = DATE_FISSE.get(chiave)
+        if fissa and inizio <= fissa <= fine and fissa.weekday() == wd:
+            out[chiave] = fissa
+            continue
+        print(f"  AVVISO: data fissa {fissa} non valida per '{chiave}' (feed {inizio} - {fine}): uso la regola vecchia")
         d = oggi
         while d.weekday() != wd:
             d += timedelta(days=1)
@@ -877,9 +906,9 @@ def main():
     f_acc = RADICE / "data" / "processed" / "accessibilita.json"
     if f_acc.is_file():
         acc_data = json.loads(f_acc.read_text(encoding="utf-8"))
-        acc = {x["id"]: {"piedi": x.get("piedi", {}).get("15", {}), "tp": x.get("tp", {})}
+        acc = {x["id"]: compatta_acc(x.get("piedi", {}).get("15", {}), x.get("tp", {}))
                for x in acc_data.get("sezioni", [])}
-        print(f"  accessibilità a piedi e TP: {len(acc)} sezioni")
+        print(f"  accessibilità a piedi e TP: {len(acc)} sezioni (forma compatta: la mappa la riespande all'avvio)")
 
     # ---- risultato 1: dove manca un servizio (fase A, per gruppo) + candidati per aggiungerne uno (fase B) ----
     fb_zero = {}
@@ -959,7 +988,7 @@ def main():
             "file": {"gtfs": f_gtfs.name, "t5": f_5t.name, "mezzi": f_vp.name},
             "avvisi_data": avvisi_data,   # data della fotografia degli avvisi GTT (AAAA-MM-GG) o None
         },
-        "rotte": rotte, "linee": linee, "fermate": stops, "sensori": sensori, "mezzi": mezzi, "sezioni": sez, "corse": corse,
+        "rotte": rotte, "linee": linee, "fermate": stops, "sensori": sensori, "sezioni": sez, "corse": corse,
         "avvisi": avvisi_out,
         "fb_candidati": fb_candidati,
         "r6": r6,

@@ -3,7 +3,7 @@ rem RISULTATO2_RICALCOLA_NUMERI.bat - ricalcola SOLO i numeri finali del Risulta
 rem (script 29 v2), senza rifare i giri R5 (quelli di oggi restano validi).
 rem Dura pochi secondi: nessun avviso RAM da seguire, va bene lanciarla anche dentro opencode.
 setlocal
-cd /d "%~dp0"
+cd /d "%~dp0.."
 if not exist logs mkdir logs
 
 echo Ricalcolo i numeri del Risultato 2 (metrica v2: qualsiasi aumento, nessuna soglia)...

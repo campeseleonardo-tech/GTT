@@ -9,3 +9,4 @@ __pycache__/
 agenti/
 # segreti: mai in git
 chiave_deepseek.txt
+pubblica/

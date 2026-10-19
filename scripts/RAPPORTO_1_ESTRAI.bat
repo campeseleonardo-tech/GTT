@@ -1,10 +1,10 @@
 @echo off
 rem RAPPORTO_1_ESTRAI.bat - passo 1: legge il PDF e ne estrae il testo (0 token, veloce).
-rem Doppio clic dalla radice del progetto. Gira in QUESTA finestra: NON chiuderla.
+rem Doppio clic (sta in scripts\, lavora dalla radice del progetto). Gira in QUESTA finestra: NON chiuderla.
 rem Log: logs\30_rapporto_estrai.log
 chcp 65001 >nul
 setlocal
-cd /d "%~dp0"
+cd /d "%~dp0.."
 if not exist logs mkdir logs
 
 echo Passo 1: estraggo il testo dal PDF del rapporto GTT 2025...

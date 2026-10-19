@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **19/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
+Ultimo aggiornamento: **20/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
 Solo lo stato attuale, **conciso ma completo**: i dettagli di un passo stanno nel suo piano in `docs/`
 (qui una riga e il rimando). La storia sta in git. Sezioni fisse: 1 Obiettivo · 2 Regole · 3 Cartelle e dati ·
 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici. Non aggiungerne altre.
@@ -42,7 +42,7 @@ Radice: `mappa_torino.html`, `simulazione.html`, `MEMORIA_PROGETTO.md`, `AGENTS.
 `processed/`, `otp/` (R5), `scenari/`.
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 · 26 velocità 5T · 27 R4 ·
 28-29 R2 · 30-32 rapporto sostenibilità · 33-67 + `rete_osm.py` traffico (R8, vedi `docs/RIASSUNTO_TRAFFICO.md`)
-· 70 R9 · 68-69, 71-80 R6 · `schede_risultati.py` schede. **Prossimo numero libero: 81**.
+· 70 R9 · 68-69, 71-80 R6 · 81-85 R6 corretto (81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato al posto dell'80, 85 verifiche) · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. **Prossimo numero libero: 87**.
 
 | Dato | Note |
 |---|---|
@@ -74,14 +74,15 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 
 ## 5. IN CORSO
 
-- **Analisi completa (19/10, Claude)**: `docs/ANALISI_PROGETTO.md` (criticità, cosa manca, cosa è di troppo) e
-  `docs/ANALISI_RISULTATO6.md`. Punto chiave: R6 oggi segue la densità della città (10 dei 20 punti in Q002-Q009,
-  c2 conta anche le destinazioni, Fermi in area «Buona»); il riempimento non cambia i numeri principali. Leo deve
-  scegliere: correzioni mirate, rifare per corridoi d'ingresso, o tenere solo la scoperta sugli interscambi esistenti.
-  **20/10 Leo: correggere tutti gli errori** → piano per un agente `docs/PIANO_CORREZIONI_GENERALI.md` (esito atteso in
-  `docs/ESITO_CORREZIONI_GENERALI.md`; script nuovi 81-83, `comuni.py`, `controlla_leopi.py`). Torinesi nella domanda
-  solo se tolgono tante auto (≥ 25% di quelle dalla cintura), altrimenti cintura; treni fuori; portfolio anche estero.
-  Fermi (Leo, 20/10): si riempiono soprattutto i parcheggi gratuiti, al mattino (solo controllo a posteriori).
+- **Correzioni generali (20/10)**: analisi in `docs/ANALISI_PROGETTO.md` e `docs/ANALISI_RISULTATO6.md` (R6 seguiva la
+  densità della città: 10 dei 20 punti in Q002-Q009, c2 contava le destinazioni, parcheggi di ospedali e del centro
+  contati, Fermi in area «Buona»). Leo: **correggere tutti gli errori**; torinesi nella domanda solo se tolgono tante
+  auto (≥ 25% di quelle da fuori), altrimenti cintura; niente soglia fissa di 50 posti; treni fuori; portfolio anche
+  all'estero. **Codice scritto e provato da Claude su dati finti** (script 81-86, mappa ~13 MB, scheda R6 con verifica
+  e inglese, R2 con numero più severo); **da eseguire sul PC** con `docs/PIANO_CORREZIONI_GENERALI.md` (prompt in
+  fondo), esito in `docs/ESITO_CORREZIONI_GENERALI.md`, poi Claude ricontrolla. Fino ad allora i numeri R6 della sezione
+  4 sono quelli **prima** delle correzioni. Fermi (Leo, 20/10): si riempiono soprattutto i gratuiti, al mattino (solo
+  controllo a posteriori). Piani/esiti R6 vecchi in `docs/archivio/r6/`; i `.bat` della radice ora in `scripts/`.
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
 - Piccole pulizie: togliere il file `3)` nella radice (creato per errore da un `.bat`) e le copie
   `scripts/*.bak_18ott` (decide Leo).
@@ -94,7 +95,10 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    dal bat i passi delle fasi 3-4. Mappa del traffico solo se Leo vuole. (`docs/RIASSUNTO_TRAFFICO.md`, sezione 6.)
 2. **Tempi TP contro auto** per coppie di zone IMQ, poi **costi del viaggio** (TP, auto, taxi) e costo di
    potenziare una linea: `docs/PIANO_COSTI.md` (bozza; primo passo: cercare le fonti sul web).
-3. **Risultato 6** (chiuso, in attesa di dati): screenshot di Leo per la scheda (`immagini/r6_torino.png`, `immagini/r6_zoom.png`; `prova_pagine_r6.py` ne genera di prova); dopo il fetch del 25/10 (≥ 5 feriali) rifare 71→72→73→75→76→80→79, poi `04_genera_mappa.py`, `schede_risultati.py` e `python scripts\prova_pagine_r6.py` (deve dare 0 errori). Regole fisse di Leo: le sue osservazioni (es. Fermi sempre pieno) non entrano nei dati (solo controllo a posteriori, `data/ref/parcheggi_osservazioni.json`); in pagina niente versioni, scenari, eventi, classi dei parcheggi. Eventi (stadi, palazzetti; `data/ref/eventi_luoghi.json`, script 78) = tema futuro. Aperto: 23 luoghi senza zona IMQ.
+3. **Risultato 6**: prima l'esito delle correzioni (sezione 5); poi, dopo ogni fetch di domenica, solo
+   `scripts\RISULTATO6_RIFAI.bat` (rifà tutta la catena e prova le pagine). Screenshot di Leo per la scheda. Regole fisse di
+   Leo: le sue osservazioni non entrano nei dati (solo controllo a posteriori, `data/ref/parcheggi_osservazioni.json`); in
+   pagina niente versioni, scenari, eventi, classi dei parcheggi. Eventi (stadi, palazzetti) = tema futuro.
 4. **Risultati 4 e 9**: rilanciare con più settimane di dati (27, poi 70, poi `schede_risultati.py`); R4 in mappa
    (linee colorate per ritardo con lo slider dell'ora).
 5. Più avanti: effetto ZTL sulle strade attorno; Risultati 3, 5, 7; accessibilità con i tempi reali raccolti;
@@ -129,4 +133,4 @@ entrata; IMQ in mappa (7 misure); avvisi GTT da aggiornare.
 - **Script 18**: la firma della run non contiene il percorso del GTFS: tra due lanci con GTFS diversi pulire
   `data/processed/accessibilita_parziale/` (il `.bat` del Risultato 2 lo fa già).
 - **Bridge** (chat senza terminale): `device_commit_files` a volte non scrive i file grossi; rileggere dopo.
-- **Colori** (Leo, 19/10), uguali in mappa e schede: gradiente «bene/male» = **verde→rosso**; quantità neutre (abitanti, spostamenti, pendolari, prezzi) = **blu→arancione smorzati**; categorie = un colore per gruppo. Le legende scrivono sempre i numeri (daltonismo). Piano: `docs/PIANO_INTEGRAZIONE_R6.md`; elenco delle sostituzioni: `docs/RAPPORTO_COLORI.txt`.
+- **Colori** (Leo, 19/10), uguali in mappa e schede: gradiente «bene/male» = **verde→rosso**; quantità neutre (abitanti, spostamenti, pendolari, prezzi) = **blu→arancione smorzati**; categorie = un colore per gruppo. Le legende scrivono sempre i numeri (daltonismo). Piano: `docs/archivio/r6/PIANO_INTEGRAZIONE_R6.md`; elenco delle sostituzioni: `docs/RAPPORTO_COLORI.txt`.

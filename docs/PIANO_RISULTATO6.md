@@ -1,5 +1,11 @@
 # Risultato 6 — Parcheggi di interscambio: RIEPILOGO FINALE (19/10/2026)
 
+> **20/10/2026 — IN CORREZIONE.** L'analisi `docs/ANALISI_RISULTATO6.md` ha trovato errori di metodo (il risultato
+> segue la densità della città; c2 contava le destinazioni; parcheggi di ospedali e del centro contati; Fermi in area
+> «Buona»). Le correzioni sono nel piano `docs/PIANO_CORREZIONI_GENERALI.md` (script nuovi 81-86, codice già scritto
+> da Claude e provato su dati finti; lo esegue un agente sul PC). Finché l'esito non è ricontrollato, il riepilogo qui
+> sotto descrive lo stato **prima** delle correzioni. I piani e gli esiti dei giri del 18-19/10 sono in `docs/archivio/r6/`.
+
 Questa sezione è lo **stato attuale**. Tutto ciò che segue è la **storia** del lavoro (versione 1 del 14/10, proposta del 18/10, giri dell'agente del 19/10): serve per capire le scelte, non descrive più il risultato.
 
 ## Domanda
@@ -38,7 +44,7 @@ Riempimento su 2 giorni feriali [DATI SCARSI] e solo per i garage del 5T (Fermi 
 Script 68-79 (luoghi, parcheggi, riempimento, nodi, segnali, ISTAT 2011, strade 77, eventi 78, dati mappa 79), **80** (aree, 20 punti, direzioni, criteri). Dati in `data/processed/risultato6_v2/` (`porte.json`, `mappa_r6.json`). Rapporti `docs/RAPPORTO_R6V2_*`, `RAPPORTO_R6_PORTE.txt`. Piani e esiti dei passi: `PIANO_RISULTATO6_V2.md`, `…_GIRO2.md`, `PIANO_R6_PORTE/DIREZIONI/ZONE/MIGLIORIE.md` e relativi `ESITO_*`.
 
 ## Da sistemare / prossimi passi
-Correzioni tecniche in `docs/PIANO_R6_CORREZIONI.md` (errore `r6Data`, legenda, etichette ripetute, descrizioni dei profili…). Dopo il fetch di domenica 25/10 (≥ 5 feriali): rifare 71→72→73→75→76→80→79 e rigenerare mappa e scheda. Screenshot di Leo. Tema eventi separato (più avanti).
+Correzioni tecniche in `docs/archivio/r6/PIANO_R6_CORREZIONI.md` (errore `r6Data`, legenda, etichette ripetute, descrizioni dei profili…). Dopo il fetch di domenica 25/10 (≥ 5 feriali): rifare 71→72→73→75→76→80→79 e rigenerare mappa e scheda. Screenshot di Leo. Tema eventi separato (più avanti).
 
 ---
 
@@ -46,7 +52,7 @@ Correzioni tecniche in `docs/PIANO_R6_CORREZIONI.md` (errore `r6Data`, legenda, 
 
 Deciso con Leo il 14/10/2026.
 
-**Stato (14/10 sera)**: passi 0-5 fatti (versione 1, rapporto in `docs/RAPPORTO_RISULTATO6.txt`).
+**Stato (14/10 sera)**: passi 0-5 fatti (versione 1, rapporto in `docs/archivio/r6/RAPPORTO_RISULTATO6.txt`).
 Da fare a inizio novembre: punto 0.4 (riempimento parcheggi [MISURATO]) e passo 6 (mappa, `simulazione.html`).
 
 ## Domanda
@@ -238,12 +244,12 @@ a Caio Mario: ufficiale a pagamento e vuoto, uno gratuito da ~5.000 m² a 170 m.
 - Definizione ISTAT 2011 del punto D5: **confermata** da Leo.
 - **I segnali della versione 1 restano** (importanza della via, corse, pendolari): i nuovi si aggiungono o, se
   sono la loro versione migliorata, li sostituiscono; si confrontano in 3 scenari e decide Leo.
-- Piano meccanico per un agente: **`docs/PIANO_RISULTATO6_V2.md`** (script 68, 69, 71-76).
+- Piano meccanico per un agente: **`docs/archivio/r6/PIANO_RISULTATO6_V2.md`** (script 68, 69, 71-76).
 - Ancora aperto: le soglie della firma oraria si fissano dopo aver visto l'anteprima.
 
 ## Giro dell'agente del 19/10 (piano `PIANO_RISULTATO6_V2.md`) — esito ricontrollato da Claude
 
-Esito: `docs/ESITO_RISULTATO6_V2.md`, rapporti `docs/RAPPORTO_R6V2_*.txt` e `docs/RAPPORTO_RISULTATO6_V2.txt`, dati in
+Esito: `docs/archivio/r6/ESITO_RISULTATO6_V2.md`, rapporti `docs/RAPPORTO_R6V2_*.txt` e `docs/RAPPORTO_RISULTATO6_V2.txt`, dati in
 `data/processed/risultato6_v2/`, script 68, 69, 71-76. Tutti i passi OK.
 
 **Numeri confermati da Claude** (ricalcolati a parte): v1 rifatta fermata per fermata = 611 / 17 / 594; scenari S1 438,

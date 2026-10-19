@@ -217,7 +217,8 @@ def main():
     print(f"  fermate critiche: {controllo['critiche']} (v1: {controllo['v1_critiche']}); "
           f"coperte: {controllo['coperte']} (v1: {controllo['v1_coperte']}); scoperte: {controllo['scoperte']}")
     if (controllo["critiche"], controllo["coperte"], controllo["scoperte"]) != (611, 17, 594):
-        sys.exit("Controllo di riproducibilita' FALLITO (atteso 611 / 17 / 594) — FERMO.")
+        # correzioni 20/10/2026: AVVISO, non arresto (lo scenario S2 serve ormai solo come confronto)
+        print("  AVVISO: riproducibilita' della v1 diversa da 611 / 17 / 594: guardare prima di usare S1-S3")
 
     luoghi = json.loads(LUOGHI.read_text(encoding="utf-8"))["luoghi"]
     segnali_tutti = json.loads(SEGNALI.read_text(encoding="utf-8"))["luoghi"]

@@ -1,6 +1,6 @@
 @echo off
 rem RISULTATO2_METRO_NOTTE.bat - Risultato 2 "metro di notte".
-rem Doppio clic dalla radice del progetto. Gira in QUESTA finestra: NON chiuderla.
+rem Doppio clic (sta in scripts\, lavora dalla radice del progetto). Gira in QUESTA finestra: NON chiuderla.
 rem Genera due GTFS finti (corse METROU nel buco 00:50-05:22, ogni 15 e ogni 30 minuti)
 rem e calcola l'accessibilita' con R5 nelle ore 01-04, poi i numeri finali.
 rem
@@ -21,7 +21,7 @@ rem   non la pulisce mai da solo (restano li' anche a run finita). Percio' sotto
 rem   cancello quella cartella subito prima di ciascuno dei due passaggi R5.
 rem
 setlocal
-cd /d "%~dp0"
+cd /d "%~dp0.."
 if not exist logs mkdir logs
 
 echo [1/4] Genero i due scenari GTFS notte15 e notte30...

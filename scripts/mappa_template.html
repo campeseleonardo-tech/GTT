@@ -209,7 +209,7 @@
     <p><b>Programmato</b> = dagli orari GTT, non i passaggi reali. <b>Misurato</b> = registrato dai mezzi e dai sensori. <b>Censimento</b> = residenti ISTAT 2021. <b>Stimato</b> = calcolo nostro, con i limiti scritti nella scheda.</p>
     <p><b>Area:</b> Torino e 68 comuni intorno. Fuori Torino mancano treni e altri operatori, e i servizi (scuole, salute, negozi) vengono da OpenStreetMap, più incompleto del catalogo del Comune.</p>
     <p><b>Corse simulate:</b> posizione stimata dagli orari, a velocità costante. <b>Mezzi registrati:</b> posizioni GPS vere di una giornata.</p>
-    <p><b>Parcheggi per lasciare l'auto</b> (Risultato 6): tre domande, nel menu «Cosa vedere». <b>Dove ci sono parcheggi?</b> I parcheggi grandi, colorati per riempimento misurato di giorno. <b>In quali aree mancano parcheggi?</b> Celle di circa 2 km² colorate per quota di fermate importanti senza 50 posti entro 200 m. <b>Dove servirebbe di più un parcheggio?</b> I 20 punti prioritari, numerati. Le fermate importanti sono le 378 più importanti della Città metropolitana (il 10% più alto per punteggio). Criteri, sensibilità e limiti sono nella scheda del Risultato 6.</p>
+    <p><b>Parcheggi per lasciare l'auto</b> (Risultato 6): dove lasciare l'auto <i>prima</i> di entrare in città e proseguire con i mezzi pubblici. Tre domande, nel menu «Cosa vedere». <b>Dove ci sono parcheggi?</b> I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) e gli interscambi del Comune, colorati per riempimento misurato di giorno. <b>In quali aree mancano posti?</b> Celle di circa 2 km² colorate per quota di fermate importanti dove i posti entro 400 m a piedi non bastano per le auto in entrata che passano al mattino. <b>Dove servirebbe di più un parcheggio?</b> I 20 punti dove mancano più posti. Le fermate importanti sono il 10% più alto per punteggio fra quelle della Città metropolitana fuori dal centro (quartieri Q001-Q009). Le auto che passano vengono dal modello del traffico: solo ordine di grandezza. Criteri, sensibilità, verifica sugli interscambi esistenti e limiti sono nella scheda del Risultato 6.</p>
     <p><b>Colori:</b> verde = bene, rosso = male. Blu→arancione = poco→tanto, senza giudizio. Le legende scrivono sempre i numeri.</p>
   </details>
 
@@ -264,12 +264,21 @@ const unLat = y => { const n=Math.PI-2*Math.PI*y; return 180/Math.PI*Math.atan(0
   /* ---------- preparazione dati ---------- */
 /* sezioni di censimento: centro, abitanti, e fermate/abitanti entro 400 m (griglia spaziale) */
 const RAGGIO=400;
+// [correzioni 20/10] accessibilità in forma compatta (04_genera_mappa.py, compatta_acc): si ricostruiscono
+// gli stessi dizionari {piedi:{gruppo:v}, tp:{"hh":{gruppo:v}}} di prima
+const GRUPPI_ACC = ["scuole","salute","cibo","fermate","verde"];
+function espandiAcc(a){
+  if(!Array.isArray(a)) return a||{};
+  const riga = r => { const o={}; if(r) GRUPPI_ACC.forEach((g,i)=>{ if(r[i]!=null) o[g]=r[i]; }); return o; };
+  const tp={}; (a[1]||[]).forEach((r,h)=>{ if(r) tp[String(h).padStart(2,"0")]=riga(r); });
+  return {piedi:riga(a[0]), tp};
+}
 const sez = (D.sezioni||[]).map(z=>{
   const polys=z.g.map(poly=>{const a=new Float64Array(poly.length*2); poly.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a;});
   let x0=1,y0=1,x1=0,y1=0;
   polys.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
   const cxn=(x0+x1)/2, cyn=(y0+y1)/2;
-  return {p:z.p, c:z.c, km2:z.a, occ:z.occ, p1564:z.p1564, sc:z.sc, sen:z.sen, v:z.v, vcomp:z.vcomp||{}, gruppi:z.gruppi||{}, acc:z.acc||{}, fb:z.fb||{},
+  return {p:z.p, c:z.c, km2:z.a, occ:z.occ, p1564:z.p1564, sc:z.sc, sen:z.sen, v:z.v, vcomp:z.vcomp||{}, gruppi:z.gruppi||{}, acc:espandiAcc(z.acc), fb:z.fb||{},
     polys,bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
 });
   let sezOk=false;
@@ -546,7 +555,7 @@ const sez = (D.sezioni||[]).map(z=>{
   function legendaAcc(){
     const g=$("subAccGruppo")?.value||"scuole";
     const modalita=$("subAccModo")?.value||"piedi";
-    const nomi={scuole:"Scuole",salute:"Salute",cibo:"Negozi di alimentari",fermate:"Fermate",verde:"Verde"};
+    const nomi={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
     const ac=accCalcola(), so=ac.sogl;
     const avviso=NOTA_OSM[g]?`<div class="et" style="display:block">${NOTA_OSM[g]}</div>`:"";
     const fasciaOra = modalita==="tp" ? tpFasciaVicina(S.h) : null;
@@ -563,7 +572,7 @@ const sez = (D.sezioni||[]).map(z=>{
   }
   function legendaFb(){
     const g=$("subFbGruppo")?.value||"salute";
-    const nomi={scuole:"Scuole",salute:"Salute",cibo:"Negozi di alimentari",fermate:"Fermate",verde:"Verde"};
+    const nomi={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
     const haCandidati = !!(D.fb_candidati && (D.fb_candidati[g]||[]).length);
     const notaCand = haCandidati
       ? `<div class="puntini"><span><i style="background:#1d2330;border:2px solid #fff"></i>dove un nuovo servizio aiuterebbe più persone (clicca)</span></div>` : "";
@@ -627,7 +636,7 @@ PAL_SEZ.fb = ["#e3f0df","#fc8d59","#d73027"];   // [agente GT-faseb] 0=ok (verde
 // nota breve sui servizi della cintura (da OpenStreetMap, piu' incompleti del catalogo comunale): solo dove quel dato entra nel calcolo
 const NOTA_OSM={scuole:"Fuori Torino scuole da OpenStreetMap: alcune possono mancare.",
   salute:"Fuori Torino servizi sanitari da OpenStreetMap: alcuni possono mancare.",
-  cibo:"Fuori Torino negozi di alimentari da OpenStreetMap: molti possono mancare."};
+  cibo:"Fuori Torino negozi e attività da OpenStreetMap: molti possono mancare."};
 
 /* [agente GT05-pendolari] pendolari ISTAT 2021 (comune contro comune): D.pend = {tor, com[], altri}; i = entrano a Torino [lavoro,studio], u = escono */
 const TORINO_PC=1272;
@@ -715,9 +724,9 @@ const R6 = D.r6 ? (()=>{ const r=D.r6, pj=a=>a.map(o=>({...o,x:px(o.lon),y:py(o.
   const punti=(r.punti_prioritari||[]).map(p=>({...p, x:px(p.centro[1]), y:py(p.centro[0])}));
   return { aree, punti, fermate:pj(r.fermate||[]), parcheggi:pj(r.parcheggi||[]), profili:r.profili||[],
            profiliMedi:(r.riepilogo||{}).profili_medi||{}, riepilogo:r.riepilogo, criteri:r.criteri,
-           etichette:r.etichette, fonti:r.fonti }; })() : null;
+           etichette:r.etichette, fonti:r.fonti, parametri:r.parametri||{} }; })() : null;
 function schedaFbCandidato(c, gruppo){
-  const nomiFb={scuole:"Scuole",salute:"Salute",cibo:"Negozi di alimentari",fermate:"Fermate",verde:"Verde"};
+  const nomiFb={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
   return creaScheda({
     titolo: `Candidato: nuovo servizio ${nomiFb[gruppo]||gruppo}`,
     badge: "sim",
@@ -919,16 +928,16 @@ function aggiornaScala(ws){
 /* ---------- [R6] Parcheggi per lasciare l'auto (Risultato 6) ----------
    Tre viste (menu «Cosa vedere»), ognuna risponde a una domanda e ha una sola scala di colori:
    1. «parcheggi»: Dove ci sono parcheggi? i parcheggi grandi, colore = riempimento misurato di giorno;
-   2. «aree»: In quali aree mancano parcheggi? celle esagonali, colore = quota di fermate senza 50 posti;
+   2. «aree»: In quali aree mancano posti? celle esagonali, colore = quota di fermate senza posti bastanti (correzioni del 20/10);
    3. «mancano»: Dove servirebbe di più un parcheggio? i 20 punti prioritari, numerati. */
 const R6_VISTA = () => OPT_VAL.r6Vista || "parcheggi";
 const R6_DESC = {
-  parcheggi: "Dove ci sono parcheggi? I parcheggi grandi vicino alle fermate importanti: quanto sono grandi e quanto si riempiono di giorno.",
-  aree: "In quali aree mancano parcheggi? Per ogni area di circa 2 km²: quante fermate importanti non hanno almeno 50 posti entro 200 m.",
-  mancano: "Dove servirebbe di più un parcheggio? I 20 punti dove si concentrano fermate importanti senza posti, in ordine di importanza."
+  parcheggi: "Dove ci sono parcheggi per lasciare l'auto? I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) vicino alle fermate importanti, più gli interscambi del Comune: quanto sono grandi e quanto si riempiono di giorno.",
+  aree: "In quali aree mancano posti? Per ogni area di circa 2 km²: quante fermate importanti non hanno abbastanza posti adatti entro 400 m a piedi per le auto che passano al mattino.",
+  mancano: "Dove servirebbe di più un parcheggio? I 20 punti dove passano più auto in entrata e mancano più posti, in ordine di posti che mancano."
 };
-const R6_CAT_AREA = ["Critica","Scarsa","Buona"];
-const R6_COL_AREA = {Critica:"#d73027", Scarsa:"#fc8d59", Buona:"#1a9850"};
+const R6_CAT_AREA = ["Critica","Scarsa","Buona","Pochi dati"];
+const R6_COL_AREA = {Critica:"#d73027", Scarsa:"#fc8d59", Buona:"#1a9850", "Pochi dati":"#c9ccd1"};
 const R6_COL_STATO = {libero:"#1a9850", a_meta:"#fee08b", pieno:"#d73027", non_misurato:"#9aa3b2"};
 const R6_ORD_STATO = ["pieno","a_meta","libero","non_misurato"];
 const R6_STATO_TXT = {pieno:"pieno di giorno", a_meta:"a metà", libero:"con posti liberi", non_misurato:"non misurato"};
@@ -941,6 +950,9 @@ const r6Pct = x => x==null ? "—" : r6N(x*100)+"%";
 const r6Data = iso => { const p=String(iso||"").slice(0,10).split("-"); return p.length===3 ? `${p[2]}/${p[1]}` : String(iso||"—"); };
 const r6Stimato = p => String(p.posti_origine||"").startsWith("stimati");
 const r6RaggioPx = p => Math.min(14, 3 + Math.sqrt(p.posti||0)/6);
+const r6Par = () => (R6.parametri||{});
+const r6Raggio = () => r6N(r6Par().raggio_piedi_m||400);
+const r6Auto = n => `circa ${r6N(n)} auto [STIMATO, ordine di grandezza]`;
 function r6Righe(lista, testoVuoto){
   return lista.length ? "<ul>"+lista.map(x=>`<li>${x}</li>`).join("")+"</ul>" : `<p>${testoVuoto}</p>`;
 }
@@ -976,8 +988,8 @@ function disegnaR6Aree(ws,ox,oy){
   cx.lineWidth=AREA_STROKE_W; cx.strokeStyle=AREA_STROKE;
   for(const a of R6.aree){
     tracciaAnelli(a.polys,ws,ox,oy);
-    cx.fillStyle=R6_COL_AREA[a.categoria]||"#9aa3b2"; cx.globalAlpha=AREA_ALPHA; cx.fill(); cx.globalAlpha=1;
-    cx.setLineDash(a.indicativo?[4,3]:[]); cx.stroke(); cx.setLineDash([]);
+    cx.fillStyle=R6_COL_AREA[a.categoria]||"#c9ccd1"; cx.globalAlpha=AREA_ALPHA; cx.fill(); cx.globalAlpha=1;
+    cx.setLineDash(a.pochi_dati?[4,3]:[]); cx.stroke(); cx.setLineDash([]);
   }
   if(view.zoom>=13) return;
   r6EtichetteNomi(R6.aree.filter(a=>a.mostra_etichetta).map(a=>({x:a.mx, y:a.my, nome:a.etichetta||""})), ws, ox, oy);   // una sola etichetta per nome
@@ -989,15 +1001,17 @@ function disegnaR6Parcheggi(ws,ox,oy){
     const r=r6RaggioPx(p), stim=r6Stimato(p);
     cx.beginPath(); cx.arc(X,Y,r,0,6.2832); cx.fillStyle=R6_COL_STATO[p.stato]||"#9aa3b2";
     cx.globalAlpha=.9; cx.fill(); cx.globalAlpha=1;
-    cx.lineWidth=1.4; cx.strokeStyle="#fff"; cx.setLineDash(stim?[3,2]:[]); cx.stroke(); cx.setLineDash([]);
+    cx.lineWidth=p.tipo==="interscambio_ufficiale"?2.6:1.4; cx.strokeStyle=p.tipo==="interscambio_ufficiale"?"#1d2430":"#fff";
+    cx.setLineDash(stim?[3,2]:[]); cx.stroke(); cx.setLineDash([]);
   }
 }
 function disegnaR6Punti(ws,ox,oy){
   cx.textAlign="center"; cx.textBaseline="middle"; cx.font="700 11px system-ui, sans-serif";
+  const mx=Math.max(1,...R6.punti.map(p=>p.mancano||0));
   for(const p of R6.punti){
     const X=p.x*ws-ox, Y=p.y*ws-oy;
     if(X<-20||Y<-20||X>W+20||Y>H+20) continue;
-    cx.beginPath(); cx.arc(X,Y,Math.min(16,7+0.6*p.n_fermate),0,6.2832);
+    cx.beginPath(); cx.arc(X,Y,7+9*Math.sqrt((p.mancano||0)/mx),0,6.2832);
     cx.fillStyle=R6_COL_PUNTO; cx.globalAlpha=.92; cx.fill(); cx.globalAlpha=1;
     cx.lineWidth=2; cx.strokeStyle="#fff"; cx.stroke();
     cx.fillStyle="#fff"; cx.fillText(String(p.ordine),X,Y);
@@ -1023,91 +1037,98 @@ function r6SchedaArea(a){
   return creaScheda({
     titolo: `Area di ${esc(nomi)}`, badge:"stimato",
     sub: "Cella di circa 2 km² · fermate importanti",
-    val: `${a.categoria}: ${r6Pct(a.quota_senza)} senza 50 posti`,
-    stato: `${r6N(a.n_fermate)} fermate importanti${a.indicativo?" · dato indicativo (meno di 3 fermate)":""}`,
+    val: a.pochi_dati ? "Pochi dati" : `${a.categoria}: ${r6Pct(a.quota_senza)} senza posti bastanti`,
+    stato: `${r6N(a.n_fermate)} fermate importanti${a.pochi_dati?" · troppo poche per dare un giudizio":""}`,
     dettagli: [
-      {k:"Nessun parcheggio entro 200 m", v:`${r6N(a.nessun)} fermate`},
-      {k:"Pochi posti (1-49) entro 200 m", v:`${r6N(a.pochi)} fermate`},
-      {k:"50 posti o più entro 200 m", v:`${r6N(a.ok)} fermate`},
-      {k:"Posti nominali dei parcheggi dell'area", v:r6N(a.posti_nominali_200)},
+      {k:`Nessun parcheggio adatto entro ${r6Raggio()} m a piedi`, v:`${r6N(a.nessun)} fermate`},
+      {k:"Posti insufficienti per le auto da fermare", v:`${r6N(a.insufficienti)} fermate`},
+      {k:"Posti sufficienti", v:`${r6N(a.sufficienti)} fermate`},
+      {k:"Poche auto da fermare (non serve un interscambio)", v:`${r6N(a.poche_auto)} fermate`},
+      {k:"Posti adatti vicino alle fermate dell'area", v:r6N(a.posti_adatti)},
       {k:"Parcheggi pieni di giorno [MISURATO]", v:pieni}
     ],
-    appTitolo: "Le fermate più importanti senza 50 posti", appAperto: true,
-    approfondimento: r6Righe(a.fermate_senza.map(x=>`${esc(x.nome)}: punteggio ${r6N(x.punteggio,1)}`), "Nessuna fermata da segnalare."),
-    avviso: "Critica: almeno il 60% delle fermate senza 50 posti entro 200 m; Scarsa 30-59%; Buona meno del 30%. Stime, non misure complete."
+    appTitolo: "Dove mancano più posti", appAperto: true,
+    approfondimento: r6Righe(a.fermate_senza.map(x=>`${esc(x.nome)}: mancano circa ${r6N(x.mancano)} posti [STIMATO]`), "Nessuna fermata da segnalare."),
+    avviso: "Critica: almeno il 60% delle fermate senza posti bastanti; Scarsa 30-59%; Buona meno del 30%; con meno di 5 fermate valutate: «Pochi dati». Stime, non misure complete."
   });
 }
 function r6SchedaPunto(p){
-  const fer = r6Righe(p.fermate.map(f=>`${esc(f.nome)} (${esc(f.classe.toLowerCase())}): punteggio ${r6N(f.punteggio,1)}`), "—");
-  const cand = r6Righe(p.candidati.map(c=>`${esc(c.nome)}: ${r6N(c.dist_m)} m, ${r6N(c.posti)} posti, ${esc(R6_STATO_TXT[c.stato]||c.stato)}`),
-                       "Nessun parcheggio grande entro 600 m.");
+  const fer = r6Righe(p.fermate.map(f=>`${esc(f.nome)} (${esc(f.classe.toLowerCase())})${f.mancano?`: mancano circa ${r6N(f.mancano)} posti`:""}`), "—");
+  const cand = r6Righe(p.candidati.map(c=>`${esc(c.nome)}: ${r6N(c.dist_piedi_m)} m a piedi, ${r6N(c.posti)} posti, ${esc(R6_STATO_TXT[c.stato]||c.stato)}${c.gia_pieno?" (già pieno)":""}`),
+                       "Nessun parcheggio adatto con almeno 100 posti entro 600 m a piedi.");
   return creaScheda({
     titolo: `${r6N(p.ordine)}. ${esc(p.nome)}`, badge:"stimato",
-    sub: `Punto prioritario · zona ${esc(p.zona_nome||"—")}`,
-    val: `${r6N(p.n_fermate)} fermate importanti senza 50 posti`,
-    stato: `${r6N(p.posti_nominali_200)} posti nominali entro 200 m`,
+    sub: `Punto prioritario · zona ${esc(p.zona_nome||"—")} · ${r6N(p.dist_centro_km,1)} km dal centro`,
+    val: `Mancano circa ${r6N(p.mancano)} posti`,
+    stato: `Auto in entrata che passano qui al mattino: ${r6Auto(p.auto_passaggio_txt)}`,
     dettagli: [
-      {k:"Nessun parcheggio entro 200 m", v:`${r6N(p.nessun)} fermate`},
-      {k:"Pochi posti (1-49) entro 200 m", v:`${r6N(p.pochi)} fermate`},
-      {k:"Punteggio del gruppo (somma)", v:r6N(p.punteggio,1)}
+      {k:"Auto da fermare (chi potrebbe lasciare l'auto)", v:`${r6N(p.potenziale)} [STIMATO]`},
+      {k:`Posti adatti entro ${r6Raggio()} m a piedi`, v:r6N(p.posti_adatti)},
+      {k:"Fermate importanti del punto", v:`${r6N(p.n_fermate)} (${r6N(p.nessun)} senza parcheggio, ${r6N(p.insufficienti)} con posti insufficienti)`}
     ],
     appTitolo: "Fermate di questo punto", appAperto: true,
-    approfondimento: fer + `<p><b>Parcheggi che potrebbero ampliarsi</b> (almeno 100 posti, entro 600 m dal centro del punto):</p>` + cand,
-    avviso: "Il punto raggruppa fermate entro 1 km. «Ampliarsi» = candidati da valutare sul posto, non un progetto."
+    approfondimento: fer + `<p><b>Parcheggi che potrebbero ampliarsi</b> (adatti, almeno 100 posti, entro 600 m a piedi):</p>` + cand,
+    avviso: "Il punto raggruppa fermate entro 1 km. Auto che passano: modello del traffico, solo ordine di grandezza. «Ampliarsi» = da valutare sul posto, non un progetto."
   });
 }
 function r6SchedaParcheggio(p){
   const stim=r6Stimato(p);
   const tariffa = p.a_pagamento===true?"A pagamento":p.a_pagamento===false?"Gratuito":"Tariffa non nota";
   const nodo = {metro:"fermata della metro", treno:"stazione ferroviaria", capolinea:"capolinea", frequente:"fermata frequente", nessuno:"nessun nodo di trasporto importante entro 400 m"}[p.nodo_vicino] || "";
+  const val = ((R6.riepilogo||{}).validazione||[]).find(v=>v.nome===p.nome);
+  const motivo = {zona_centrale:"è in centro", pochi_posti:"ha meno di 20 posti", destinazione_hospital:"è di un ospedale", destinazione_university:"è di un'università",
+    destinazione_college:"è di una scuola superiore o università", destinazione_retail:"è di un'area commerciale", destinazione_mall:"è di un centro commerciale"}[p.motivo_non_adatto];
   return creaScheda({
-    titolo: esc(p.nome), badge:"stimato", sub:"Parcheggio grande vicino a una fermata importante o a un nodo di trasporto importante",
+    titolo: esc(p.nome), badge:"stimato", sub: esc(p.tipo_testo||"Parcheggio"),
     val: `${r6N(p.posti)} posti${stim?" [STIMATO]":""}`,
     stato: tariffa,
     dettagli: [
-      {k:"Distanza dalla fermata importante più vicina", v:`${r6N(p.dist_fermata_importante_m)} m`},
+      {k:"Distanza a piedi dalla fermata importante più vicina", v:`${r6N(p.dist_fermata_importante_piedi_m)} m (stimata)`},
       {k:"Nodo di trasporto vicino", v:esc(nodo)},
+      {k:"Auto in entrata sulla strada più trafficata entro 300 m", v:r6Auto(p.auto_passaggio_txt)},
       {k:"Come si riempie di giorno", v:`${esc(R6_STATO_TXT[p.stato]||p.stato)}${p.riempimento_giorno!=null?" [MISURATO] [DATI SCARSI]":""}`},
       ...(p.descrizione ? [{k:"In parole", v:esc(p.descrizione)}] : []),
+      ...(motivo ? [{k:"Non contato fra i posti adatti perché", v:esc(motivo)}] : []),
+      ...(val ? [{k:"Il metodo funziona qui?", v:esc(val.esito)}] : []),
       {k:"Posti", v:esc(p.posti_origine||"nessuno")}
     ],
     appTitolo: "Come si riempie in un giorno feriale e nel weekend", appAperto: !!p.profilo_feriale,
     approfondimento: p.profilo_feriale ? r6Curva(p.profilo_feriale, p.profilo_weekend) : "<p>Nessuna misura del riempimento [DATI SCARSI].</p>",
-    avviso: "Posti dichiarati o stimati dalla superficie (25 m² a posto, ±30%). Distanze in linea d'aria."
+    avviso: "Posti dichiarati o stimati dalla superficie (25 m² a posto, ±30%). Distanze a piedi stimate (linea d'aria × 1,3)."
   });
 }
-function r6TipArea(a){ return tipC(`Area di ${esc(a.zone_principali.join(" - ")||"—")}`, `${a.categoria}: ${r6Pct(a.quota_senza)} senza 50 posti`, `${r6N(a.n_fermate)} fermate importanti`); }
-function r6TipPunto(p){ return tipC(`${r6N(p.ordine)}. ${esc(p.nome)}`, `${r6N(p.n_fermate)} fermate senza 50 posti`, esc(p.zona_nome||"")); }
+function r6TipArea(a){ return tipC(`Area di ${esc(a.zone_principali.join(" - ")||"—")}`, a.pochi_dati?"Pochi dati":`${a.categoria}: ${r6Pct(a.quota_senza)} senza posti bastanti`, `${r6N(a.n_fermate)} fermate importanti`); }
+function r6TipPunto(p){ return tipC(`${r6N(p.ordine)}. ${esc(p.nome)}`, `mancano circa ${r6N(p.mancano)} posti`, esc(p.zona_nome||"")); }
 function r6TipParcheggio(p){ return tipC(esc(p.nome), `${r6N(p.posti)} posti${r6Stimato(p)?" [STIMATO]":""}`, esc(R6_STATO_TXT[p.stato]||"")); }
 function r6RigheFonti(){
   const giorni=(R6.riepilogo.giorni_feriali_validi||[]).map(r6Data);
-  return `<div class="et" style="display:block">[STIMATO] calcolo nostro · [MISURATO] dal 5T (il sistema dei trasporti della Città di Torino) · [DATI SCARSI] riempimento da ${r6N(giorni.length)} giorni feriali (${esc(giorni.join(", "))}). Fonti: parcheggi 5T, Comune e OpenStreetMap; indagine IMQ 2022 sugli spostamenti.</div>`;
+  return `<div class="et" style="display:block">[STIMATO] calcolo nostro · [MISURATO] dal 5T (il sistema dei trasporti della Città di Torino) · [DATI SCARSI] riempimento da ${r6N(giorni.length)} giorni feriali (${esc(giorni.join(", "))}). Fonti: parcheggi 5T, Comune e OpenStreetMap; indagine IMQ 2022 sugli spostamenti; auto che passano dal modello del traffico (solo ordine di grandezza).</div>`;
 }
 function legendaR6(){
   const v=R6_VISTA(), fonti=r6RigheFonti();
   if(v==="parcheggi"){
     const et={"pieno":"pieno: almeno l'85%","a_meta":"a metà: dal 50% all'85%","libero":"con posti liberi: meno del 50%","non_misurato":"non misurato"};
     const righe=R6_ORD_STATO.map(k=>`<span><i style="background:${R6_COL_STATO[k]}"></i>${et[k]}</span>`).join("");
-    return `<div class="t">Dove ci sono parcheggi? Riempimento di giorno (feriale)</div><div class="puntini">${righe}</div>`
+    return `<div class="t">Dove ci sono parcheggi per lasciare l'auto? Riempimento di giorno (feriale)</div><div class="puntini">${righe}</div>`
       +`<div class="puntini"><span><i style="background:#9aa3b2;width:6px;height:6px"></i>pochi posti</span>`
       +`<span><i style="background:#9aa3b2;width:14px;height:14px"></i>molti posti (grandezza = posti)</span>`
+      +`<span><i style="background:#fff;border:2.5px solid #1d2430"></i>interscambio del Comune</span>`
       +`<span><i style="background:#fff;border:1.5px dashed #6b7280"></i>posti stimati dalla superficie [STIMATO]</span></div>`
-      +`<div class="et" style="display:block">Parcheggi con almeno 100 posti vicino a una fermata importante o a un nodo di trasporto importante, più i garage 5T con dati. Riempimento misurato dal 5T su 2 giorni feriali [DATI SCARSI]: i parcheggi grigi non trasmettono il riempimento.</div>`
+      +`<div class="et" style="display:block">Parcheggi adatti (fuori dal centro, non di ospedali, università o centri commerciali) con almeno 100 posti vicino a una fermata importante o a un nodo di trasporto importante, più gli interscambi del Comune e i park &amp; ride. Riempimento misurato dal 5T su pochi giorni feriali [DATI SCARSI]: i parcheggi grigi non trasmettono il riempimento.</div>`
       +fonti;
   }
   if(v==="aree"){
     const n=R6_CAT_AREA.map(c=>R6.aree.filter(a=>a.categoria===c).length);
-    const soglie={Critica:"almeno il 60% senza 50 posti", Scarsa:"dal 30% al 59%", Buona:"meno del 30%"};
+    const soglie={Critica:"almeno il 60% senza posti bastanti", Scarsa:"dal 30% al 59%", Buona:"meno del 30%", "Pochi dati":"meno di 5 fermate valutate"};
     const righe=R6_CAT_AREA.map((c,i)=>`<span><i style="background:${R6_COL_AREA[c]}"></i>${c} (${soglie[c]}): ${r6N(n[i])} aree</span>`).join("");
-    return `<div class="t">In quali aree mancano parcheggi?</div><div class="puntini">${righe}</div>`
-      +`<div class="puntini"><span><i style="background:#fff;border:1.5px dashed #6b7280"></i>meno di 3 fermate importanti: dato indicativo</span></div>`
-      +`<div class="et" style="display:block">Per ogni area (cella di circa 2 km²): quota di fermate importanti senza almeno 50 posti entro 200 m. Tocca un'area per i dettagli. Le aree senza fermate importanti non sono colorate.</div>`
+    return `<div class="t">In quali aree mancano posti per lasciare l'auto?</div><div class="puntini">${righe}</div>`
+      +`<div class="et" style="display:block">Per ogni area (cella di circa 2 km²): quota di fermate importanti senza abbastanza posti adatti entro ${r6Raggio()} m a piedi per le auto in entrata che passano al mattino. Il centro (quartieri Q001-Q009) è escluso. Tocca un'area per i dettagli.</div>`
       +fonti;
   }
-  const lista=R6.punti.map(p=>`<li>${r6N(p.ordine)}. ${esc(p.nome)} — ${esc(p.zona_nome||"")} (${r6N(p.n_fermate)} fermate)</li>`).join("");
+  const lista=R6.punti.map(p=>`<li>${r6N(p.ordine)}. ${esc(p.nome)} — ${esc(p.zona_nome||"")} (mancano circa ${r6N(p.mancano)} posti)</li>`).join("");
   return `<div class="t">Dove servirebbe di più un parcheggio? I ${r6N(R6.punti.length)} punti prioritari</div><div class="puntini">`
-    +`<span><i style="background:${R6_COL_PUNTO};border-radius:50%"></i>numero = ordine di priorità; cerchio più grande = più fermate</span></div>`
-    +`<div class="et" style="display:block">Fermate importanti con meno di 50 posti entro 200 m: ${r6N(R6.riepilogo.fermate_senza_50_posti)} su ${r6N(R6.fermate.length)}, raggruppate in ${r6N(R6.punti.length)} punti entro 1 km. Tocca un punto per le fermate e i parcheggi grandi che potrebbero ampliarsi.</div>`
+    +`<span><i style="background:${R6_COL_PUNTO};border-radius:50%"></i>numero = ordine di priorità; cerchio più grande = più posti che mancano</span></div>`
+    +`<div class="et" style="display:block">Fermate importanti senza abbastanza posti adatti: ${r6N(R6.riepilogo.fermate_senza_posti_bastanti)} su ${r6N(R6.fermate.length)}, raggruppate in punti entro 1 km. Posti che mancano = auto da fermare − posti adatti [STIMATO, ordine di grandezza]. Tocca un punto per le fermate e i parcheggi che potrebbero ampliarsi.</div>`
     +`<ul style="margin:6px 0 0 16px;padding:0;font-size:12px">${lista}</ul>`
     +fonti;
 }
@@ -1591,7 +1612,7 @@ function schedaSezione(z){
   } else if(modo === "acc"){
     const gruppo = $("subAccGruppo")?.value || "scuole";
     const modalitaAcc = $("subAccModo")?.value || "piedi";
-    const nomiAcc = {scuole:"Scuole",salute:"Salute",cibo:"Negozi di alimentari",fermate:"Fermate",verde:"Verde"};
+    const nomiAcc = {scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
     const raw = accValore(z, gruppo, modalitaAcc);
     val = raw!=null ? `${Math.round(raw).toLocaleString("it-IT")} servizi raggiungibili` : "Dato non disponibile";
     const fasciaOraSc = modalitaAcc==="tp" ? tpFasciaVicina(S.h) : null;
@@ -1601,7 +1622,7 @@ function schedaSezione(z){
     stato = `${nomiAcc[gruppo]||gruppo} · ${modoAccTxt}`;
   } else if(modo === "fb"){
     const gruppo = $("subFbGruppo")?.value || "salute";
-    const nomiFb = {scuole:"Scuole",salute:"Salute",cibo:"Negozi di alimentari",fermate:"Fermate",verde:"Verde"};
+    const nomiFb = {scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
     const liv = (z.fb||{})[gruppo];
     val = liv==="zero" ? "Nessuno a 15 minuti a piedi"
       : liv==="pochissimo" ? "Pochissimi a 15 minuti a piedi"
@@ -1880,13 +1901,13 @@ function cercaTip(sx,sy,click){
           const gruppo=$("subAccGruppo")?.value||"scuole";
           const modalitaAcc=$("subAccModo")?.value||"piedi";
           extra = modalitaAcc==="tp" ? "mezzi pubblici, 45 min (STIMATO)" : "a piedi, 15 min (STIMATO)";
-          const nomiAcc={scuole:"Scuole",salute:"Salute",cibo:"Negozi di alimentari",fermate:"Fermate",verde:"Verde"};
+          const nomiAcc={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
           const raw=accValore(z,gruppo,modalitaAcc);
           val = raw!=null ? `${Math.round(raw).toLocaleString("it-IT")} ${nomiAcc[gruppo]||gruppo} raggiungibili` : "dato non disponibile";
         } else if(modo==="fb"){
           nome="Dove manca un servizio"; extra="STIMATO";
           const gruppo=$("subFbGruppo")?.value||"salute";
-          const nomiFb={scuole:"Scuole",salute:"Salute",cibo:"Negozi di alimentari",fermate:"Fermate",verde:"Verde"};
+          const nomiFb={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
           const liv=(z.fb||{})[gruppo];
           val = (liv==="zero"?"Zero":liv==="pochissimo"?"Pochissimo":"Ok")+` · ${nomiFb[gruppo]||gruppo}`;
         } else val=`${sezServ(z,i)} passaggi/ora`;
@@ -2204,7 +2225,7 @@ const THEMES = [
    area:{tipo:"sez",modo:"vuln"}, over:{...NESSUNA}, vuln:true, opzioni:["subVuln"],
    legenda:()=>{ const m=$("subVuln")?$("subVuln").value:"vuln"; return ["occ","sc","sen"].includes(m)?legendaSezioni(m):legendaVuln(m); }},
   ...(R6 ? [{id:"interscambio", label:"Parcheggi per lasciare l'auto",
-   desc:"Tre domande: dove ci sono parcheggi, in quali aree mancano, dove servirebbe di più un parcheggio. Scegli nel menu «Cosa vedere».",
+   desc:"Dove lasciare l'auto prima di entrare in città. Tre domande: dove ci sono parcheggi, in quali aree mancano posti, dove servirebbe di più un parcheggio. Scegli nel menu «Cosa vedere».",
    area:null, over:{...NESSUNA}, r6vista:true, opzioni:["r6Vista"], legenda:legendaR6}] : []),
   {id:"imq", label:"Chi va dove: tutti gli spostamenti", desc:"Quanti spostamenti partono da ogni zona, a che ora e con che mezzo (indagine IMQ 2022, giorno feriale). Tocca una zona per vedere dove vanno.",
    area:{tipo:"imq"}, over:{...NESSUNA}, imq:true, opzioni:["imqMet"], legenda:legendaImq},
@@ -2254,7 +2275,7 @@ const OPZIONI = {
   subAccGruppo:{etichetta:"Servizio essenziale", voci:[
     ["scuole","Scuole"],
     ["salute","Salute"],
-    ["cibo","Negozi di alimentari"],
+    ["cibo","Negozi e attività commerciali"],
     ["verde","Verde"]]},
   subAccModo:{etichetta:"Modalità", voci:[
     ["piedi","A piedi (15 min)"],
@@ -2262,7 +2283,7 @@ const OPZIONI = {
   subFbGruppo:{etichetta:"Servizio essenziale", voci:[
     ["salute","Salute"],
     ["scuole","Scuole"],
-    ["cibo","Negozi di alimentari"],
+    ["cibo","Negozi e attività commerciali"],
     ["fermate","Fermate"],
     ["verde","Verde"]]},
 };

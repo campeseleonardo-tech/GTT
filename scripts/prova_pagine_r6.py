@@ -12,9 +12,14 @@ Cosa fa
   4. Fa gli screenshot delle tre viste della mappa in immagini\\r6_<vista>.png.
   5. Controllo statico: cerca identificatori r6… / R6… usati nel template ma non definiti.
 
+Correzioni del 20/10/2026 (Claude): prova TUTTI i temi della mappa (letti dal template), non solo
+interscambio e servizio; --cartella per provare una copia (es. la cartella pubblica/); --senza-screenshot;
+titoli delle legende del Risultato 6 aggiornati.
+
 Come si lancia
 --------------
   python scripts\\prova_pagine_r6.py
+  python scripts\\prova_pagine_r6.py --cartella pubblica --senza-screenshot
   Codice di uscita 0 = nessun errore; 1 = errori trovati.
 
 Non modifica nessun dato: scrive solo gli screenshot in immagini\\.
@@ -50,17 +55,19 @@ TEMPLATE = RADICE / "scripts" / "mappa_template.html"
 IMMAGINI = RADICE / "immagini"
 PAROLE_ERRORE = ("Uncaught", "ReferenceError", "TypeError", "SyntaxError", "Failed to execute", "ERROR:CONSOLE")
 TITOLI_VISTA = {
-    "parcheggi": "Dove ci sono parcheggi?",
-    "aree": "In quali aree mancano parcheggi?",
+    "parcheggi": "Dove ci sono parcheggi per lasciare l'auto?",
+    "aree": "In quali aree mancano posti per lasciare l'auto?",
     "mancano": "Dove servirebbe di più un parcheggio?",
 }
-PAGINE = [
-    ("mappa parcheggi", "mappa_torino.html#tema=interscambio&vista=parcheggi"),
-    ("mappa aree", "mappa_torino.html#tema=interscambio&vista=aree"),
-    ("mappa mancano", "mappa_torino.html#tema=interscambio&vista=mancano"),
-    ("mappa servizio", "mappa_torino.html#tema=servizio"),
-    ("scheda", "simulazione.html"),
-]
+
+
+def pagine_da_provare():
+    """Le tre viste del Risultato 6, ogni altro tema della mappa (id letti dal template) e la scheda."""
+    temi = re.findall(r'\{id:"([a-z_]+)", label:', TEMPLATE.read_text(encoding="utf-8"))
+    out = [(f"mappa {v}", f"mappa_torino.html#tema=interscambio&vista={v}") for v in TITOLI_VISTA]
+    out += [(f"mappa tema {t}", f"mappa_torino.html#tema={t}") for t in dict.fromkeys(temi) if t != "interscambio"]
+    out.append(("scheda", "simulazione.html"))
+    return out
 
 
 def browser():
@@ -75,8 +82,8 @@ class Silenzioso(http.server.SimpleHTTPRequestHandler):
         pass
 
 
-def avvia_server():
-    os.chdir(RADICE)
+def avvia_server(cartella=None):
+    os.chdir(cartella or RADICE)
     socketserver.TCPServer.allow_reuse_address = True
     srv = socketserver.TCPServer(("127.0.0.1", PORTA), Silenzioso)
     t = threading.Thread(target=srv.serve_forever, daemon=True)
@@ -121,16 +128,23 @@ def controllo_statico():
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--cartella", default=None, help="cartella da servire (default: radice del progetto)")
+    ap.add_argument("--senza-screenshot", action="store_true")
+    args = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
+    cartella = (RADICE / args.cartella) if args.cartella else RADICE
     br = browser()
     if not br:
         print("prova automatica non possibile: non trovo Edge né Chrome")
         return 1
     print(f"browser: {br}")
     errori = []
-    srv = avvia_server()
+    srv = avvia_server(cartella)
+    pagine = pagine_da_provare()
     try:
-        for nome, pagina in PAGINE:
+        for nome, pagina in pagine:
             url = f"http://127.0.0.1:{PORTA}/{pagina}"
             dom, log = esegui(br, url, ["--dump-dom"], nome.replace(" ", "_"))
             righe_err = [l for l in log.splitlines() if any(p in l for p in PAROLE_ERRORE)]
@@ -149,7 +163,7 @@ def main():
                         errori.append(f"{nome}: nella pagina manca il titolo della legenda «{atteso}»")
             print(f"  {nome}: {len(righe_err)} righe di errore, DOM {len(dom)} caratteri")
         IMMAGINI.mkdir(exist_ok=True)
-        for vista in ("parcheggi", "aree", "mancano"):
+        for vista in (() if args.senza_screenshot else ("parcheggi", "aree", "mancano")):
             png = IMMAGINI / f"r6_{vista}.png"
             url = f"http://127.0.0.1:{PORTA}/mappa_torino.html#tema=interscambio&vista={vista}"
             esegui(br, url, [f"--screenshot={png}"], "shot_" + vista)
@@ -179,7 +193,7 @@ def main():
         for e in errori:
             print("  - " + e)
         return 1
-    print("\nOK: nessun errore a runtime sulle 5 pagine")
+    print(f"\nOK: nessun errore a runtime sulle {len(pagine)} pagine")
     return 0
 
 

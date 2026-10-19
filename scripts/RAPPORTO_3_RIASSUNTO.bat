@@ -1,10 +1,10 @@
 @echo off
 rem RAPPORTO_3_RIASSUNTO.bat - passo 3: scrive il riassunto corto (una sola chiamata).
-rem Doppio clic dalla radice del progetto. Va lanciato DOPO RAPPORTO_2_FATTI.bat.
+rem Doppio clic (sta in scripts\, lavora dalla radice del progetto). Va lanciato DOPO RAPPORTO_2_FATTI.bat.
 rem Log: logs\32_rapporto_riassunto.log
 chcp 65001 >nul
 setlocal
-cd /d "%~dp0"
+cd /d "%~dp0.."
 if not exist logs mkdir logs
 
 echo Passo 3: scrivo il riassunto corto dai fatti verificati (una sola chiamata).

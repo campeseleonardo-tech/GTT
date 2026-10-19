@@ -32,6 +32,8 @@ OUT = RADICE / "data/processed/risultato2_metro_notte.json"
 OUT_RIEPILOGO = RADICE / "data/processed/risultato2_riepilogo_mappa.json"
 RAPPORTO = RADICE / "docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt"
 
+# [correzioni 20/10/2026] secondo numero, piu' severo: residenti con almeno il 25% di servizi in piu' di notte
+SOGLIA_QUOTA = 0.25
 GIORNO = "2026-10-12"
 FINESTRA = "00:50-05:22"
 ORE = ["01", "02", "03", "04"]  # ore ricalcolate dagli scenari
@@ -102,12 +104,14 @@ def calcola(baseline, scenario, intervallo):
     sezioni_con_delta_negativo = 0
     deltas_positivi = []
     dettaglio = []
+    residenti_migliorati_quota = 0   # [correzioni 20/10] miglioramento di almeno SOGLIA_QUOTA rispetto a oggi
 
     for sid in ids_base:
         sb = baseline[sid]
         sc = scenario[sid]
         delta_ore = {o: somma_ora(sc, o) - somma_ora(sb, o) for o in ORE}
         delta_totale = sum(delta_ore.values())
+        base_totale = sum(somma_ora(sb, o) for o in ORE)
         delta_totale_citta += delta_totale
         migliorata = delta_totale > 0  # qualsiasi aumento, anche di 1: nessuna soglia qui
 
@@ -118,7 +122,10 @@ def calcola(baseline, scenario, intervallo):
             residenti_migliorati += sb["res"]
             deltas_positivi.append(delta_totale)
 
-        riga = {"id": sid, "res": sb["res"], "delta_totale": int(delta_totale), "migliorata": bool(migliorata)}
+        if delta_totale > 0 and (base_totale <= 0 or delta_totale >= SOGLIA_QUOTA * base_totale):
+            residenti_migliorati_quota += sb["res"]
+        riga = {"id": sid, "res": sb["res"], "delta_totale": int(delta_totale), "base_totale": int(base_totale),
+                "migliorata": bool(migliorata)}
         for o in ORE:
             riga[f"delta_{o}"] = int(delta_ore[o])
         dettaglio.append(riga)
@@ -138,6 +145,8 @@ def calcola(baseline, scenario, intervallo):
                         "cosi' si puo' applicare una soglia diversa in futuro senza ricalcolare."),
         "sezioni_migliorate": sezioni_migliorate,
         "residenti_migliorati": int(residenti_migliorati),
+        "soglia_quota": SOGLIA_QUOTA,
+        "residenti_migliorati_quota": int(residenti_migliorati_quota),
         "delta_totale_citta": int(delta_totale_citta),
         "delta_mediano_migliorate": mediana(deltas_positivi),
         "delta_p90_migliorate": percentile(deltas_positivi, 90),

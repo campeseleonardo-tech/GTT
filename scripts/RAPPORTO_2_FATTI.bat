@@ -1,13 +1,13 @@
 @echo off
 rem RAPPORTO_2_FATTI.bat - passo 2: estrae i fatti dal testo con DeepSeek (giro completo).
-rem Doppio clic dalla radice del progetto. Gira in QUESTA finestra: NON chiuderla.
+rem Doppio clic (sta in scripts\, lavora dalla radice del progetto). Gira in QUESTA finestra: NON chiuderla.
 rem Legge la chiave da chiave_deepseek.txt. Salva ogni blocco appena finito: se si
 rem interrompe, rilanciandolo riparte da dove era (le cache stanno in
 rem data\processed\rapporto_gtt\cache).
 rem Log: logs\31_rapporto_fatti.log
 chcp 65001 >nul
 setlocal
-cd /d "%~dp0"
+cd /d "%~dp0.."
 if not exist logs mkdir logs
 
 echo Passo 2 (GIRO COMPLETO): estraggo i fatti da tutte le pagine con DeepSeek.

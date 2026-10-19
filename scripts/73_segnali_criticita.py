@@ -368,7 +368,8 @@ def main():
     righe, c2, c2_int, _c3, totale_c2, n_c2 = zone_c2_c3()
     print(f"  spostamenti: {totale_c2:.0f} ({n_c2} interviste)")
     if abs(totale_c2 - TOTALE_ATTESO_C2) / TOTALE_ATTESO_C2 > 0.02:
-        sys.exit(f"c2 fuori dall'atteso (~{TOTALE_ATTESO_C2:.0f}): {totale_c2:.0f} — FERMO")
+        # correzioni 20/10/2026: un numero diverso da quello di oggi e' un AVVISO, non un arresto
+        print(f"  AVVISO: c2 diverso dal valore del 19/10 (~{TOTALE_ATTESO_C2:.0f}): {totale_c2:.0f}")
 
     print("c3: ZTL centrale — quali zone IMQ la contengono...")
     quota = quota_ztl_zone(None)

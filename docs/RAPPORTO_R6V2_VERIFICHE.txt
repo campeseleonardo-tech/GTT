@@ -68,8 +68,8 @@ metodi diversi da quelli dei passi G0-G5; semi 20261018 e 20261019
    file non tracciati (nuovi): 10
      nuovo: .claude/
      nuovo: 3)
-     nuovo: docs/ESITO_RISULTATO6_V2_GIRO2.md
-     nuovo: docs/PIANO_RISULTATO6_V2_GIRO2.md
+     nuovo: docs/archivio/r6/ESITO_RISULTATO6_V2_GIRO2.md
+     nuovo: docs/archivio/r6/PIANO_RISULTATO6_V2_GIRO2.md
      nuovo: docs/RAPPORTO_R6V2_STRADE.txt
      nuovo: docs/RAPPORTO_VELOCITA_5T_prima_fetch.txt
      nuovo: docs/archivio/r6v2_giro1/
@@ -97,7 +97,7 @@ metodi diversi da quelli dei passi G0-G5; semi 20261018 e 20261019
      scripts/76_verifiche_r6v2.py e i rapporti rigenerati dai lanci
      (RAPPORTO_R6V2_RIEMPIMENTO/FUNZIONE/SEGNALI, RAPPORTO_RISULTATO6_V2).
    File NUOVO di questo giro: scripts/77_strade_comuni.py e
-     docs/RAPPORTO_R6V2_STRADE.txt, docs/ESITO_RISULTATO6_V2_GIRO2.md.
+     docs/RAPPORTO_R6V2_STRADE.txt, docs/archivio/r6/ESITO_RISULTATO6_V2_GIRO2.md.
    ATTENZIONE (non e' opera di questo giro): nella cartella di lavoro risultano
      modificati anche MEMORIA_PROGETTO.md e docs/RAPPORTO_VELOCITA_5T.txt:
      sono cambiamenti di un'altra sessione (nella notte del 19/10, insieme

@@ -1,12 +1,12 @@
 @echo off
 rem RAPPORTO_PILOTA.bat - prova piccola e obbligatoria prima del giro completo.
-rem Doppio clic dalla radice del progetto. Gira in QUESTA finestra: NON chiuderla.
+rem Doppio clic (sta in scripts\, lavora dalla radice del progetto). Gira in QUESTA finestra: NON chiuderla.
 rem Fa: passo 1 (estrazione testo) e passo 2 SOLO sulle pagine PDF 29-32, poi verifica
 rem che i valori attesi del rapporto ci siano tutti, con anno e pagina giusti.
 rem Se ne manca anche uno, NON lanciare il giro completo: manda il log a Claude.
 chcp 65001 >nul
 setlocal
-cd /d "%~dp0"
+cd /d "%~dp0.."
 if not exist logs mkdir logs
 
 echo [1/2] Estraggo il testo dal PDF...

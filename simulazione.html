@@ -390,11 +390,14 @@ function apri(i){
     sezione("Com'è fatta in mappa", immagini) +
     sezione("Prima e dopo, numero per numero", bloccoNumeri(s)) +
     sezione("I criteri, uno per uno", criteri) +
+    // [correzioni 20/10] verifica del metodo su casi noti (solo fatti misurati) e riassunto in inglese
+    sezione("Il metodo funziona? La verifica sui casi noti", Array.isArray(s.verifica) && s.verifica.length ? `<table class="param criteri"><thead><tr><th>Dove</th><th>Cosa sappiamo</th><th>Esito</th></tr></thead><tbody>${s.verifica.map(v => `<tr><td>${esc(v.nome)}</td><td>${esc(v.fatto)}</td><td>${esc(v.esito)}</td></tr>`).join("")}</tbody></table>` : "") +
     sezione("Quanto sono affidabili i dati", Array.isArray(s.affidabilita) && s.affidabilita.length ? `<table class="param">${s.affidabilita.map(a => `<tr><td>${esc(a.voce)}</td><td>${esc(a.valore)}</td></tr>`).join("")}</table>` : "") +
     sezione("Il metodo", metodo) +
     sezione("Limiti da tenere a mente", lista(s.limiti, "limiti")) +
     sezione("Nella mappa", mappa) +
     sezione("File del progetto", Array.isArray(s.fonti) && s.fonti.length ? `<ul class="fonti">${s.fonti.map(f => `<li><code>${esc(f)}</code></li>`).join("")}</ul>` : "") +
+    sezione("In English", Array.isArray(s.in_english) && s.in_english.length ? `<details lang="en"><summary>Short summary in English</summary>${s.in_english.map(x => `<p>${esc(x)}</p>`).join("")}</details>` : "") +
     avviso;
   const d = $("finestra");
   d.showModal();

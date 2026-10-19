@@ -1,10 +1,10 @@
 @echo off
 rem RAPPORTO_CONTROLLA.bat - controllo del PC per il rapporto di sostenibilita' GTT 2025.
-rem Doppio clic dalla radice del progetto. NON tocca nessun file: guarda e basta.
+rem Doppio clic (sta in scripts\, lavora dalla radice del progetto). NON tocca nessun file: guarda e basta.
 rem Controlla: Python, la libreria pypdf, la chiave DeepSeek, il PDF del rapporto.
 chcp 65001 >nul
 setlocal
-cd /d "%~dp0"
+cd /d "%~dp0.."
 echo ============================================================
 echo   CONTROLLO del PC - Rapporto di sostenibilita' GTT 2025
 echo ============================================================
