@@ -121,6 +121,29 @@ entrata; IMQ in mappa (7 misure); avvisi GTT da aggiornare.
 - Traffico: 20 punti di misura, stima debole (±38%), solo residenti 11-84 anni; limiti completi in
   `docs/RIASSUNTO_TRAFFICO.md`. Velocità 5T: "urbano" = nome con "(TO)", include alcune provinciali.
 
+- **Trovati da Claude nell'analisi del 19-20/10** (dettagli in `docs/ANALISI_PROGETTO.md` e `docs/ANALISI_RISULTATO6.md`;
+  quelli segnati ✔ sono corretti nel codice, da confermare con l'esito delle correzioni):
+  - R6: il risultato seguiva la densità della città (10 dei 20 punti e 108 delle 378 fermate in Q002-Q009; 7 punti a
+    meno di 2,5 km da Piazza Castello) ✔; c2 e c1 sommavano le auto sia alla zona di partenza sia a quella di arrivo,
+    quindi per i quartieri contavano le destinazioni ✔; «auto» contava anche i passeggeri (codice 04) e f anche le
+    moto (05) ✔; quota 26% = f (giornata intera, ogni tragitto, 63% treno) ÷ c2 (solo mattino in entrata): insiemi
+    diversi ✔; punteggio con doppioni (a1≈a2, c1≈c2), e = 0/100, segnali mancanti tolti dalla media ✔; 124 delle
+    172 fermate «coperte» lo erano solo grazie a parcheggi OSM senza nome; contati parcheggi di ospedali, stazioni,
+    centro ✔; dei 9 parcheggi «pieni» 8 sono garage del centro; il riempimento non cambiava i numeri principali;
+    Fermi in area «Buona», Caio Mario (vuoto) accanto al punto n. 10 ✔ (ora c'è la verifica sugli interscambi);
+    25 m² a posto: metà dei parcheggi fra 14 e 33 m² (±40%, non ±30%); aree con 1-2 fermate (0% o 100% per caso) ✔;
+    regole adattate a casi singoli (Palavela) ✔.
+  - Progetto: titoli deboli (R2 contava qualsiasi miglioramento = 91% di Torino ✔ secondo numero; R1 «cibo» = tutte le
+    attività commerciali ✔ nome; R8 «95% coperto» poco informativo); numeri attesi scritti nel codice che fermavano le
+    catene ✔; codice copiato (haversine in 12 script, `trova_radice` in 46, ora legale in 8: `comuni.py` per i nuovi);
+    la mappa sceglieva i giorni rispetto alla data di oggi (domenica = 25/10, cambio dell'ora) ✔; mappa 23,6 MB, di cui
+    14,6 di accessibilità ✔; pagine che leggono file fuori da git (`data/stat.js`, `orari_fermate.js`,
+    `schede_risultati.js`) ✔ `pubblica/`; nessun README ✔; nessun controllo con la realtà (il rapporto GTT 2025 e le
+    misure 5T si potrebbero usare); `mappa_torino.html` salvato in git a ogni giro (10 volte); `data/processed/
+    vulnerabilita*.json` in git nonostante `.gitignore` (decide Leo); nessun avviso se la raccolta su leopi si ferma ✔.
+  - Da NON considerare superati: `supervisore.py` e `06_dati_live.py` girano sul Pi. I passi delle fasi 3-4 nel
+    `.bat` del traffico hanno uscite lette dalla Fase 5: lasciati.
+
 ## 8. Standard tecnici
 
 - **Bug di resa**: `node --check` trova solo errori di sintassi (il giro R6 ha lasciato una funzione non definita, trovata solo a runtime); colori, legende e dati non disegnati si
@@ -133,4 +156,7 @@ entrata; IMQ in mappa (7 misure); avvisi GTT da aggiornare.
 - **Script 18**: la firma della run non contiene il percorso del GTFS: tra due lanci con GTFS diversi pulire
   `data/processed/accessibilita_parziale/` (il `.bat` del Risultato 2 lo fa già).
 - **Bridge** (chat senza terminale): `device_commit_files` a volte non scrive i file grossi; rileggere dopo.
+- **Controlli negli script** (20/10): si fermano solo per errori di struttura (file mancante, somme che non tornano,
+  valori negativi); un numero diverso da quello di oggi è un AVVISO. Funzioni comuni (distanze, ora legale, percentili,
+  zona centrale Q001-Q009) in `scripts/comuni.py`. Ogni risultato deve avere una verifica su fatti noti.
 - **Colori** (Leo, 19/10), uguali in mappa e schede: gradiente «bene/male» = **verde→rosso**; quantità neutre (abitanti, spostamenti, pendolari, prezzi) = **blu→arancione smorzati**; categorie = un colore per gruppo. Le legende scrivono sempre i numeri (daltonismo). Piano: `docs/archivio/r6/PIANO_INTEGRAZIONE_R6.md`; elenco delle sostituzioni: `docs/RAPPORTO_COLORI.txt`.

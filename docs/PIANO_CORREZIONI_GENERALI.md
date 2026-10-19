@@ -58,6 +58,25 @@ solo errori evidenti, fare le poche cose rimaste e scrivere l'esito.** Non devi 
 
 ## FASE 0 — Preparazione
 
+**0.0 Scaricare da GitHub tutto il lavoro di Claude** (prima di ogni altra cosa).
+```
+git checkout prova
+git status
+```
+Se `git status` mostra file modificati o nuovi in `scripts/`, `docs/`, `simulazione.html`, `MEMORIA_PROGETTO.md`:
+**FERMATI** e scrivi a Leo l'elenco (il pull potrebbe sovrascriverli o andare in conflitto). File solo in `data/`,
+`logs/`, `immagini/` non contano (git li ignora). Se è pulito:
+```
+git fetch origin
+git pull --ff-only origin prova
+git log -3 --oneline
+```
+Controlli: il pull finisce senza errori né conflitti; nel log c'è il commit «Correzioni generali: codice del Risultato 6
+corretto…»; esistono `scripts\81_auto_di_passaggio.py`, `scripts\84_risultato6_parcheggi.py`, `scripts\comuni.py`,
+`scripts\RISULTATO6_RIFAI.bat` e `docs\archivio\r6\`. Se il pull fallisce (conflitto, «not possible to fast-forward»,
+rete): **FERMATI**, non provare a risolvere, scrivi a Leo il messaggio esatto. **Solo se il pull è a posto si procede.**
+
+
 **0.1** `git branch --show-current` → `prova`. `git status` → scrivi nell'esito i file modificati prima di iniziare.
 **0.2** Crea `docs/ESITO_CORREZIONI_GENERALI.md` (titolo, data, ora di inizio).
 **0.3** Copie di sicurezza (non sovrascrivere se esistono già):
@@ -214,7 +233,12 @@ riga).
 ## Prompt da incollare nella nuova chat (per Leo)
 
 > Sei un agente che lavora sul progetto GTT nella cartella `C:\projects\Progetti\GTT`, sul ramo git `prova`.
-> Leggi prima `AGENTS.md`, poi esegui il piano `docs/PIANO_CORREZIONI_GENERALI.md` dall'inizio alla fine,
+> Per prima cosa scarica da GitHub l'ultima versione: `git checkout prova`, `git status` (se ci sono modifiche
+> locali in `scripts/`, `docs/`, `simulazione.html` o `MEMORIA_PROGETTO.md` fermati e dimmelo), poi
+> `git fetch origin` e `git pull --ff-only origin prova`. Se il pull dà errori o conflitti, fermati e scrivimi il
+> messaggio esatto, senza provare a risolverli. Solo se il pull è a posto e il file `docs/PIANO_CORREZIONI_GENERALI.md`
+> c'è, prosegui:
+> leggi `AGENTS.md`, poi esegui il piano `docs/PIANO_CORREZIONI_GENERALI.md` (passo 0.0 già fatto) dall'inizio alla fine,
 > nell'ordine, un passo alla volta, **senza fermarti a chiedere** e seguendo le sue regole (sezione 0).
 > Il codice è già scritto: il tuo compito è lanciare gli script sui dati veri, controllare i numeri come dice il
 > piano, correggere solo errori piccoli ed evidenti (scrivendo ogni riga cambiata) e fare i passi della FASE 3.
