@@ -188,6 +188,10 @@ come la metro).
 - Numeri di oggi scritti nel codice come condizione per andare avanti (`79_dati_mappa_r6.py` si ferma se non
   trova esattamente 378 / 147 / 59 / 172 e 20 punti).
 
+### P13. «Auto» conta anche i passeggeri (trovato il 20/10)
+c2 e f usano `MEZZO1` 03, 04, 21: lo 04 è «auto da passeggero», cioè una persona in un'auto già contata. Le «95.297
+auto in entrata» sono quindi spostamenti di persone in auto; le auto vere sono meno. f include anche la moto (05).
+
 ---
 
 ## 6. Ripensarlo da zero

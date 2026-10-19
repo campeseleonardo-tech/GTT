@@ -78,6 +78,10 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
   `docs/ANALISI_RISULTATO6.md`. Punto chiave: R6 oggi segue la densità della città (10 dei 20 punti in Q002-Q009,
   c2 conta anche le destinazioni, Fermi in area «Buona»); il riempimento non cambia i numeri principali. Leo deve
   scegliere: correzioni mirate, rifare per corridoi d'ingresso, o tenere solo la scoperta sugli interscambi esistenti.
+  **20/10 Leo: correggere tutti gli errori** → piano per un agente `docs/PIANO_CORREZIONI_GENERALI.md` (esito atteso in
+  `docs/ESITO_CORREZIONI_GENERALI.md`; script nuovi 81-83, `comuni.py`, `controlla_leopi.py`). Torinesi nella domanda
+  solo se tolgono tante auto (≥ 25% di quelle dalla cintura), altrimenti cintura; treni fuori; portfolio anche estero.
+  Fermi (Leo, 20/10): si riempiono soprattutto i parcheggi gratuiti, al mattino (solo controllo a posteriori).
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
 - Piccole pulizie: togliere il file `3)` nella radice (creato per errore da un `.bat`) e le copie
   `scripts/*.bak_18ott` (decide Leo).
