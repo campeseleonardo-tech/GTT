@@ -42,7 +42,7 @@ Radice: `mappa_torino.html`, `simulazione.html`, `MEMORIA_PROGETTO.md`, `AGENTS.
 `processed/`, `otp/` (R5), `scenari/`.
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 · 26 velocità 5T · 27 R4 ·
 28-29 R2 · 30-32 rapporto sostenibilità · 33-67 + `rete_osm.py` traffico (R8, vedi `docs/RIASSUNTO_TRAFFICO.md`)
-· 70 R9 · `schede_risultati.py` schede. **Prossimo numero libero: 81** (68, 69, 71-80 = Risultato 6).
+· 70 R9 · 68-69, 71-80 R6 · `schede_risultati.py` schede. **Prossimo numero libero: 81**.
 
 | Dato | Note |
 |---|---|
@@ -66,8 +66,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 | Risultato 1 | 10.919 residenti a Torino senza servizi essenziali a 15' (1,3%), peggiore la salute; candidati per nuovi servizi in mappa. |
 | Risultato 2 (28-29) | Chiuso il 16/10: metro ogni 15' di notte → 773.307 residenti con accesso migliore (ogni 30': 652.891). `docs/PIANO_RISULTATO2.md`. |
 | Risultato 4 v2 (27) | 18/10: feriale 5,3% in ritardo > 5 min, 10,5% grappolo+buco. `docs/PIANO_RISULTATO4.md`. |
-| Risultato 6 v1 (24-25) | 611 fermate critiche fuori dal centro (= 462 luoghi, fermate entro 40 m unite), 594 senza interscambio entro 200 m. `docs/PIANO_RISULTATO6.md`. |
-| Risultato 6 v2, giro 2 (68-69, 71-77) | 19/10, agente + Claude, numeri ricontrollati; commit 7387285. 5.087 luoghi (fermate entro 40 m), universo dei percentili = 4.425 luoghi della Città metropolitana. Strade corrette (modulo 77: primarie ≥ 4, secondarie ≥ 3, scelta del tratto importante entro 50 m). Parcheggi (3.431 considerati): **0 "di fatto"** (i 19 con firma pendolare stanno in Q001-Q009: ospedali, tribunale, centro), 4 "solo sulla carta" (Stura, Caio Mario, Sofia, Venchi Unica), 758 "potenziali" (zona non centrale + punti a favore: nodo, asse d'ingresso). Scenari: S1 riferimento v1 374 luoghi critici, S2 integrato 378, S3 solo nuovi 385 (coperti da parcheggi di fatto/potenziali a 200 m: 117/140/147). Piano `docs/PIANO_RISULTATO6_V2_GIRO2.md`, esito `docs/ESITO_RISULTATO6_V2_GIRO2.md`. Riempimento: solo 2 feriali validi [DATI SCARSI]. Integrato il 19/10 in mappa (tema «Parcheggi di interscambio») e in `simulazione.html` (8 grafici): `docs/ESITO_INTEGRAZIONE_R6.md`. |
+| Risultato 6 (24-25, 68-80) | 19/10: **206 fermate importanti su 378 senza un parcheggio da 50+ posti a 200 m** (147 senza nessuno); 73 aree esagonali (37 critiche), 20 punti prioritari, 212 parcheggi mostrati; riempimento solo misurato (2 feriali) [DATI SCARSI]. Mappa a 3 viste + scheda con criteri e sensibilità; **codice con bug da correggere** (`PIANO_R6_CORREZIONI.md`). Dettagli e criteri: `docs/PIANO_RISULTATO6.md` (riepilogo in testa). |
 | Risultato 8 v1 (33-67) | 18/10, Fase 5 di opencode ricontrollata: 95,3% dei km di strade grandi di Torino serviti dal TP; "molto traffico e poco TP" quasi solo Corso Regina Margherita ovest. Stima C-DEBOLE (errore ±38%). `docs/RIASSUNTO_TRAFFICO.md`. |
 | Risultato 9 v1 (70) | 18/10: sulle linee frequenti 0,6-1,5 min in più di attesa rispetto ai 4,8 promessi. `docs/PIANO_RISULTATO9_ATTESA.md`. |
 | Rapporto sostenibilità GTT 2025 | 980 fatti verificati, `docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`. |
@@ -75,7 +74,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 
 ## 5. IN CORSO
 
-- **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 v2.
+- **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
 - Piccole pulizie: togliere il file `3)` nella radice (creato per errore da un `.bat`) e le copie
   `scripts/*.bak_18ott` (decide Leo).
 
@@ -87,7 +86,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    dal bat i passi delle fasi 3-4. Mappa del traffico solo se Leo vuole. (`docs/RIASSUNTO_TRAFFICO.md`, sezione 6.)
 2. **Tempi TP contro auto** per coppie di zone IMQ, poi **costi del viaggio** (TP, auto, taxi) e costo di
    potenziare una linea: `docs/PIANO_COSTI.md` (bozza; primo passo: cercare le fonti sul web).
-3. **Risultato 6, versione finale** (in corso, dopo 112ff40 nulla committato tranne i piani): una domanda, «dove mancano posti per lasciare l'auto vicino a dove si entra in città/nel TP?». Base: 378 fermate importanti (10% più alto del punteggio, centro Q001 escluso; scenario S2 interno, mai nominato in pagina; 147 senza parcheggio, 59 con < 50 posti, 172 con 50+), tutti i parcheggi aperti (5.205 trovati → 3.431 considerati: esclusi 1.048 lungo strada, 385 solo clienti, 341 privati), posti nominali (stimati a 25 m² se mancano: confermato, mediana 25,4; 85% sono stimati), 200 m fissi, riempimento **solo misurato** (36 garage 5T, 2 feriali [DATI SCARSI]). Regole di Leo (19/10): le sue osservazioni (Fermi sempre pieno) **non entrano nei dati**, solo controllo a posteriori (`data/ref/parcheggi_osservazioni.json`: oggi «non confermabile», nessun dato misurato); niente eventi, classi dei parcheggi, versioni, scenari, «parcheggio utile» in pagina; direzioni d'ingresso (domanda 26% × auto IMQ) solo come riferimento in scheda. Controllo del 19/10: la mappa mostrava solo il 13% dei posti dei parcheggi ≥ 50 posti (taglio a 200 m: il parcheggio del Palavela, ~570 posti stimati, restava fuori), zone IMQ troppo grandi, troppi punti. **Piano da eseguire: `docs/PIANO_R6_MIGLIORIE.md`** (aree esagonali di 2 km², parcheggi ≥ 100 posti entro 400 m da fermata importante o nodo forte, 20 punti prioritari, legenda aperta, scheda con profili di riempimento e sezione «affidabilità dei dati»); storia: `PIANO_R6_ZONE/DIREZIONI/PORTE.md`. Eventi = tema futuro (`data/ref/eventi_luoghi.json`). Dopo il fetch del 25/10 rifare 71→72→73→75→76→80→79 e rigenerare mappa/schede. Aperto: 23 luoghi senza zona IMQ.
+3. **Risultato 6**: eseguire `docs/PIANO_R6_CORREZIONI.md` (errore `r6Data` che rompe la legenda, etichette, descrizioni dei profili…), poi rivedere in browser; screenshot di Leo per la scheda; dopo il fetch del 25/10 (≥ 5 feriali) rifare 71→72→73→75→76→80→79 e rigenerare mappa/schede (04, `schede_risultati.py`). Regole fisse di Leo: le sue osservazioni (es. Fermi sempre pieno) non entrano nei dati (solo controllo a posteriori, `data/ref/parcheggi_osservazioni.json`); in pagina niente versioni, scenari, eventi, classi dei parcheggi. Eventi (stadi, palazzetti; `data/ref/eventi_luoghi.json`, script 78) = tema futuro. Aperto: 23 luoghi senza zona IMQ.
 4. **Risultati 4 e 9**: rilanciare con più settimane di dati (27, poi 70, poi `schede_risultati.py`); R4 in mappa
    (linee colorate per ritardo con lo slider dell'ora).
 5. Più avanti: effetto ZTL sulle strade attorno; Risultati 3, 5, 7; accessibilità con i tempi reali raccolti;

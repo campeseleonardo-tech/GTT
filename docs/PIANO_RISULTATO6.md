@@ -1,4 +1,48 @@
-# Piano Risultato 6 — Parcheggi di interscambio
+# Risultato 6 — Parcheggi di interscambio: RIEPILOGO FINALE (19/10/2026)
+
+Questa sezione è lo **stato attuale**. Tutto ciò che segue è la **storia** del lavoro (versione 1 del 14/10, proposta del 18/10, giri dell'agente del 19/10): serve per capire le scelte, non descrive più il risultato.
+
+## Domanda
+«Dove mancano posti per lasciare l'auto vicino a dove si entra in città o nel trasporto pubblico?» — per capire dove mettere un parcheggio nuovo o ampliarne uno, così da togliere auto dalla circolazione (si lascia l'auto e si prosegue con il trasporto pubblico). Tutta la città conta, tranne il centro (Q001) per le fermate; i parcheggi contano ovunque.
+
+## Come funziona (criteri, uno per uno)
+| Criterio | Valore | Perché |
+|---|---|---|
+| Fermate importanti | 378 luoghi (fermate entro 40 m = un luogo): il 10% più alto di un punteggio su 4.425 luoghi della Città metropolitana. Il punteggio mescola importanza della strada (strade della Fase 5 con punteggio corretto: primarie ≥ 4, secondarie ≥ 3), corse nelle ore dei pendolari, pendolari della zona, ZTL, calo di velocità ai sensori, nodo treno/metro | sono i punti dove passa più gente e più mezzi |
+| Parcheggi | 5.205 trovati (5T, Comune, OpenStreetMap) → 1.774 esclusi (1.048 sosta lungo strada, 385 solo clienti, 341 privati) → **3.431 considerati** → 1.147 con almeno 50 posti (175.356 posti) | per chi lascia l'auto contano i parcheggi aperti dove si può stare tutto il giorno |
+| Posti | dichiarati (374) o **stimati a 25 m² a posto** (2.902; mediana verificata 24,4-25,4 su 152-172 parcheggi con posti dichiarati, fascia 14-33 m²: incertezza ±30%) | spesso il numero di posti non c'è |
+| Distanza | **200 m** in linea d'aria (a 100 m: 315 fermate senza 50 posti; a 400 m: 66) | è il criterio che pesa di più |
+| Fermata coperta | almeno **50 posti nominali** entro 200 m: 147 senza nessun parcheggio, 59 con 1-49 posti, 172 con 50+ | |
+| Riempimento | solo **misurato** (feed 5T, 32-36 garage, 2 giorni feriali, ore 10-16): pieno ≥ 85%, con posti liberi < 50%. Le osservazioni di Leo (es. Fermi sempre pieno) **non entrano nei dati**: controllo a posteriori nel rapporto (oggi «non confermabile»: nessun parcheggio vicino trasmette) | un parcheggio pieno non serve |
+| Aree | celle esagonali di circa 2 km² (lato 900 m): Critica ≥ 60% delle fermate senza 50 posti, Scarsa 30-59%, Buona < 30%; sotto 3 fermate «dato indicativo» | le zone IMQ erano troppo grandi e diseguali |
+| 20 punti | fermate senza 50 posti raggruppate entro 1 km, in ordine di punteggio; per ognuno i parcheggi da 100+ posti entro 600 m che potrebbero ampliarsi | risponde a «dove metterne uno o ingrandirlo» |
+| Direzioni d'ingresso (solo riferimento in scheda) | 8 settori attorno a Piazza Castello; auto in entrata al mattino (IMQ 2022, 95.297) × 26% (chi già oggi cambia con un mezzo pubblico, 299 interviste) = 24.459 auto; confrontate con i posti | stima di riferimento, non guida la mappa |
+
+## Risultati
+- **206 fermate importanti su 378 non hanno vicino un parcheggio con almeno 50 posti** (147 non ne hanno nessuno).
+- **73 aree**: 37 critiche, 12 scarse, 24 buone (26 con meno di 3 fermate: indicative). Le zone più scoperte sono Mirafiori (Nord e Sud), San Donato, Crocetta-Cenisia, Parella, parte di Moncalieri.
+- **20 punti prioritari**: in testa Settembrini e Pavese (Mirafiori Sud), Industria (San Donato), Metro Spezia e Metro Lingotto (Nizza Millefonti), Provana (Collegno).
+- **Parcheggi mostrati in mappa: 212** (58.833 posti): almeno 100 posti entro 400 m da una fermata importante o da un nodo forte (346 nodi: metro, treno, capolinea, frequenti) più i garage 5T con dati; include il Palavela (568 posti stimati, il sito turistico dice «fino a 600»).
+- **Riempimento**: 9 parcheggi pieni di giorno (3.041 posti); i dati coprono solo il 25-36% dei posti mostrati. Il grafico più chiaro: le curve a 24 ore dei garage (tre comportamenti: si riempiono di giorno / sono più pieni di notte / dato fermo).
+- I 4 interscambi del Comune (Stura, Caio Mario, Sofia, Venchi Unica) non si comportano da interscambio di periferia: Stura è piena di giorno (90%) ma anche di notte (79%), Sofia è residenziale, Caio Mario è quasi vuoto (1,5%, forse contatore fermo), Venchi Unica dato quasi fisso.
+
+## Dove si vede
+- **Mappa** (`mappa_torino.html#tema=interscambio`, tema «Parcheggi per lasciare l'auto», 3 viste): «Dove ci sono parcheggi?» (riempimento), «In quali aree mancano parcheggi?» (esagoni rosso/arancione/verde), «Dove servirebbe di più un parcheggio?» (20 punti numerati).
+- **Scheda** (`simulazione.html`, Risultato 6): domanda, risposta in 4 frasi, 13 grafici (aree, fermate e parcheggi, 20 punti, profili medi e 6 profili singoli, parcheggi pieni, riferimento per direzione), tabella «I criteri, uno per uno» con sensibilità, sezione «Quanto sono affidabili i dati», metodo, limiti. Gli screenshot (`immagini/r6_torino.png`, `immagini/r6_zoom.png`) li fa Leo.
+- Colori: bene/male verde→rosso, quantità neutre blu→arancione, categorie colore proprio; una sola scala per vista.
+
+## Limiti
+Riempimento su 2 giorni feriali [DATI SCARSI] e solo per i garage del 5T (Fermi e molti altri non trasmettono); posti stimati ±30% (85% dei parcheggi); OpenStreetMap incompleto; distanze in linea d'aria; indagine IMQ campionaria; i risultati dipendono molto dalla distanza di 200 m; eventi (stadi, palazzetti: Olimpico, Inalpi Arena, Oval) rimandati a un tema a parte (`data/ref/eventi_luoghi.json`).
+
+## File
+Script 68-79 (luoghi, parcheggi, riempimento, nodi, segnali, ISTAT 2011, strade 77, eventi 78, dati mappa 79), **80** (aree, 20 punti, direzioni, criteri). Dati in `data/processed/risultato6_v2/` (`porte.json`, `mappa_r6.json`). Rapporti `docs/RAPPORTO_R6V2_*`, `RAPPORTO_R6_PORTE.txt`. Piani e esiti dei passi: `PIANO_RISULTATO6_V2.md`, `…_GIRO2.md`, `PIANO_R6_PORTE/DIREZIONI/ZONE/MIGLIORIE.md` e relativi `ESITO_*`.
+
+## Da sistemare / prossimi passi
+Correzioni tecniche in `docs/PIANO_R6_CORREZIONI.md` (errore `r6Data`, legenda, etichette ripetute, descrizioni dei profili…). Dopo il fetch di domenica 25/10 (≥ 5 feriali): rifare 71→72→73→75→76→80→79 e rigenerare mappa e scheda. Screenshot di Leo. Tema eventi separato (più avanti).
+
+---
+
+# STORIA (non descrive più lo stato attuale)
 
 Deciso con Leo il 14/10/2026.
 
