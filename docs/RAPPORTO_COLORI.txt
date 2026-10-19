@@ -1,0 +1,54 @@
+RAPPORTO COLORI - integrazione R6 (19/10/2026)
+File toccati: scripts/mappa_template.html, scripts/04_genera_mappa.py (nessun colore), simulazione.html, scripts/schede_risultati.py (solo tono delle voci).
+
+== Scale ==
+  PAL_VR  (verde -> rosso, "bene -> male"):  #1a9850 #91cf60 #fee08b #fc8d59 #d73027
+  PAL_RV  (rosso -> verde):                  inverso di PAL_VR
+  PAL_NEU (blu -> arancione, neutra):        #6a98c4 #b4cbe0 #ece9e2 #f1c58f #e08a38
+
+== Sostituzioni in mappa_template.html ==
+  riga ~609 (ora ~612)  PAL_POCO_MALE  #b35806 #f1a340 #fee0b6 #b2abd2 #542788  ->  PAL_RV  (valore basso = rosso)
+  riga ~610             PAL_ALTO_MALE  inverso di sopra                        ->  PAL_VR  (valore alto = rosso)
+  riga ~611             PAL_RAPP       = POCO_MALE                             ->  PAL_RV  (offerta rispetto agli abitanti)
+  riga ~612             PAL_BASE       #e3f1ef #b5dcd6 #7cc0b8 #3f9a95 #1b6f73 ->  PAL_NEU (quantità neutre)
+  riga ~613             PAL_PEND       #efe9f6 #cdb9e3 #a98acd #7d55b0 #51287f ->  PAL_NEU (pendolari)
+  riga ~615             PAL_SEZ.dens, occ, sc, sen  (era PAL_BASE)             ->  PAL_NEU
+  riga ~615             PAL_SEZ.serv   (era PAL_BASE)                           ->  PAL_RV (solo offerta: più passaggi = meglio)
+  riga ~618             PAL_SEZ.acc    (era PAL_POCO_MALE)                      ->  PAL_RV (più servizi raggiungibili = meglio)
+  riga ~619             PAL_SEZ.fb     #ecebf2 #f1a340 #b35806                  ->  #e3f0df #fc8d59 #d73027 (0 ok, 1 pochissimo, 2 zero)
+  riga ~284             OMI_PAL        #fff7bc ... #cc4c02 (giallo->arancio)    ->  PAL_NEU (prezzi, neutro)
+  riga ~302             IMQ_PAL        #dbe9f6 ... #123f6d (azzurri)            ->  PAL_NEU (spostamenti, neutro)
+  riga ~1066            VEL_PAL        #b35806 #f1a340 #998ec3 #542788          ->  #d73027 #fc8d59 #91cf60 #1a9850 (lento = rosso, veloce = verde)
+  riga ~179             legenda Sensori 5T  #998ec3 (colore vecchio)             ->  gradiente rosso-giallo-verde (come VEL_PAL)
+  riga ~942             flussi pendolari: entrano #51287f -> #6a98c4; escono #d9622b -> #e08a38 (blu/arancio neutri)
+  riga ~1803            legenda flussi pendolari: stessi due colori
+  riga ~1820            testo tema Servizio: "Arancio = poca offerta." -> "Rosso = poca offerta, verde = molta."
+  guida (infoDati)      aggiunto paragrafo "Colori: verde = bene, rosso = male. Blu->arancione = poco->tanto..."
+
+== Colori categorici lasciati (non sono gradienti) ==
+  - tipo di linea: COL.metro / COL.tram / COL.bus e linee delle corse (categorie)
+  - catalogo dei dati: colori per gruppo (CAT_*, COL.*)
+  - fermate (azzurro #4aa3df, puntini piccoli), sfondo mappa, griglia, sfondi
+  - grigi "dati insufficienti" (#9aa0ad) e "nessun dato" (#9aa3b2)
+  - nero/bianco per candidati fase B (#1d2330) e replay mezzi (#111)
+  - Interscambi R6 (categorie): potenziale #2a9d9d, solo sulla carta #7b5ea7, di fatto #1f4e8c, non interscambio #8a8f98
+  - luoghi critici R6: verde #1a9850 coperto / rosso #d73027 scoperto (scala VR)
+  - eventi R6: stella nera con bordo bianco
+
+== simulazione.html ==
+  :root: --vr-verde --vr-giallo --vr-rosso --neu-blu --neu-blu-chiaro --neu-arancio
+  TONI (orario): pieno = neu-blu, medio = neu-blu-chiaro, vuoto = vr-rosso
+  PALETTE_PILA: neu-blu, neu-arancio, #9aa3b2, #c9b27a, #8d7bb0 (prima: --accent e --rosso/--blu vecchi tolti)
+  PALETTE_LINEE (grafico profilo): neu-blu, neu-arancio, #9aa3b2, #8d7bb0, #c9b27a (rosso non usato per categorie)
+  Barre senza tono = neu-blu; barra "prima" = neu-blu-chiaro.
+
+== Toni assegnati (schede_risultati.py) ==
+  R1  grafico "Residenti ... senza il servizio entro 15 minuti": voci rosso (titolo con "senza")
+  R1  grafico "Residenti senza il servizio: oggi e con i punti nuovi": voci rosso
+  R4  pila "Come arrivano": puntuali verde, in ritardo rosso (anticipo senza tono)
+  R4  barre "in ritardo oltre 5 minuti" per fascia e per tipo di giorno: rosso
+  R4  barre "Le 10 linee più in ritardo": rosso
+  R2  orario: gia' presente (pieno blu, medio blu chiaro, vuoto rosso)
+  R6  pila "coperti" verde, "scoperti" rosso
+  R8  pila "con fermate frequenti vicine" verde, "con poco trasporto pubblico" rosso
+  Non assegnati (da decidere): R4 "Le 10 linee più irregolari"; R9 "Minuti in più di attesa"; R8 tratte e sensori.

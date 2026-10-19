@@ -66,7 +66,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 | Risultato 1 | 10.919 residenti a Torino senza servizi essenziali a 15' (1,3%), peggiore la salute; candidati per nuovi servizi in mappa. |
 | Risultato 2 (28-29) | Chiuso il 16/10: metro ogni 15' di notte → 773.307 residenti con accesso migliore (ogni 30': 652.891). `docs/PIANO_RISULTATO2.md`. |
 | Risultato 4 v2 (27) | 18/10: feriale 5,3% in ritardo > 5 min, 10,5% grappolo+buco. `docs/PIANO_RISULTATO4.md`. |
-| Risultato 6 (24-25, 68-80) | 19/10: **206 fermate importanti su 378 senza un parcheggio da 50+ posti a 200 m** (147 senza nessuno); 73 aree esagonali (37 critiche), 20 punti prioritari, 212 parcheggi mostrati; riempimento solo misurato (2 feriali) [DATI SCARSI]. Mappa a 3 viste + scheda con criteri e sensibilità; **codice con bug da correggere** (`PIANO_R6_CORREZIONI.md`). Dettagli e criteri: `docs/PIANO_RISULTATO6.md` (riepilogo in testa). |
+| Risultato 6 (24-25, 68-80) | 19/10: **206 fermate importanti su 378 senza un parcheggio da 50+ posti a 200 m** (147 senza nessuno); 73 aree esagonali (37 critiche), 20 punti prioritari, 212 parcheggi mostrati; riempimento solo misurato (2 feriali) [DATI SCARSI]. Mappa a 3 viste + scheda con criteri e sensibilità; correzioni eseguite e provate a runtime con `scripts/prova_pagine_r6.py` (Edge headless: errori + screenshot in `immagini/`). Dettagli e criteri: `docs/PIANO_RISULTATO6.md` (riepilogo in testa). |
 | Risultato 8 v1 (33-67) | 18/10, Fase 5 di opencode ricontrollata: 95,3% dei km di strade grandi di Torino serviti dal TP; "molto traffico e poco TP" quasi solo Corso Regina Margherita ovest. Stima C-DEBOLE (errore ±38%). `docs/RIASSUNTO_TRAFFICO.md`. |
 | Risultato 9 v1 (70) | 18/10: sulle linee frequenti 0,6-1,5 min in più di attesa rispetto ai 4,8 promessi. `docs/PIANO_RISULTATO9_ATTESA.md`. |
 | Rapporto sostenibilità GTT 2025 | 980 fatti verificati, `docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`. |
@@ -86,7 +86,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    dal bat i passi delle fasi 3-4. Mappa del traffico solo se Leo vuole. (`docs/RIASSUNTO_TRAFFICO.md`, sezione 6.)
 2. **Tempi TP contro auto** per coppie di zone IMQ, poi **costi del viaggio** (TP, auto, taxi) e costo di
    potenziare una linea: `docs/PIANO_COSTI.md` (bozza; primo passo: cercare le fonti sul web).
-3. **Risultato 6**: eseguire `docs/PIANO_R6_CORREZIONI.md` (errore `r6Data` che rompe la legenda, etichette, descrizioni dei profili…), poi rivedere in browser; screenshot di Leo per la scheda; dopo il fetch del 25/10 (≥ 5 feriali) rifare 71→72→73→75→76→80→79 e rigenerare mappa/schede (04, `schede_risultati.py`). Regole fisse di Leo: le sue osservazioni (es. Fermi sempre pieno) non entrano nei dati (solo controllo a posteriori, `data/ref/parcheggi_osservazioni.json`); in pagina niente versioni, scenari, eventi, classi dei parcheggi. Eventi (stadi, palazzetti; `data/ref/eventi_luoghi.json`, script 78) = tema futuro. Aperto: 23 luoghi senza zona IMQ.
+3. **Risultato 6** (chiuso, in attesa di dati): screenshot di Leo per la scheda (`immagini/r6_torino.png`, `immagini/r6_zoom.png`; `prova_pagine_r6.py` ne genera di prova); dopo il fetch del 25/10 (≥ 5 feriali) rifare 71→72→73→75→76→80→79, poi `04_genera_mappa.py`, `schede_risultati.py` e `python scripts\prova_pagine_r6.py` (deve dare 0 errori). Regole fisse di Leo: le sue osservazioni (es. Fermi sempre pieno) non entrano nei dati (solo controllo a posteriori, `data/ref/parcheggi_osservazioni.json`); in pagina niente versioni, scenari, eventi, classi dei parcheggi. Eventi (stadi, palazzetti; `data/ref/eventi_luoghi.json`, script 78) = tema futuro. Aperto: 23 luoghi senza zona IMQ.
 4. **Risultati 4 e 9**: rilanciare con più settimane di dati (27, poi 70, poi `schede_risultati.py`); R4 in mappa
    (linee colorate per ritardo con lo slider dell'ora).
 5. Più avanti: effetto ZTL sulle strade attorno; Risultati 3, 5, 7; accessibilità con i tempi reali raccolti;
@@ -111,8 +111,8 @@ entrata; IMQ in mappa (7 misure); avvisi GTT da aggiornare.
 
 ## 8. Standard tecnici
 
-- **Bug di resa**: `node --check` trova solo errori di sintassi; colori, legende e dati non disegnati si
-  controllano aprendo la pagina nel browser ed esercitando l'interfaccia.
+- **Bug di resa**: `node --check` trova solo errori di sintassi (il giro R6 ha lasciato una funzione non definita, trovata solo a runtime); colori, legende e dati non disegnati si
+  controllano aprendo la pagina nel browser ed esercitando l'interfaccia. Prova automatica: `python scripts\prova_pagine_r6.py` (errori a runtime su mappa e scheda).
 - **Fermate e strade**: mai abbinare per nome, solo per coordinate. Un corso che cambia nome o comune è un solo
   asse; l'unità del traffico è la tratta d'asse.
 - **Mappa**: un campo nuovo in `D.sezioni[i]` va aggiunto anche nella proiezione `sez` di `mappa_template.html`;

@@ -3,7 +3,7 @@
 Legge i file gia' prodotti dagli script dei risultati e scrive:
   data/processed/risultato1_riepilogo_mappa.json   (Risultato 1, da 21 e 22)
   data/processed/risultato4_riepilogo_mappa.json   (Risultato 4, da 27)
-  data/processed/risultato6_riepilogo_mappa.json   (Risultato 6, da 25)
+  data/processed/risultato6_v2/mappa_r6.json   (Risultato 6, da 79 e 80) -> data/processed/risultato6_riepilogo_mappa.json
   data/processed/risultato8_riepilogo_mappa.json   (Risultato 8, dalla Fase 5 del traffico, script 56-67)
   data/schede_risultati.js   (tutte le schede, R2 compreso, caricate da sole da simulazione.html)
 
@@ -40,10 +40,12 @@ def num(label, dopo, unita, prima=None):
     return {"label": label, "prima": prima, "dopo": dopo, "unita": unita}
 
 
-def voce(label, valore, prima=None):
+def voce(label, valore, prima=None, tono=None):
     v = {"label": label, "valore": valore}
     if prima is not None:
         v["prima"] = prima
+    if tono is not None:   # [R6] "verde"/"rosso" = bene/male; senza tono = blu neutro (quantità)
+        v["tono"] = tono
     return v
 
 
@@ -92,7 +94,7 @@ def scheda_r1():
         dopo.append(num(f"Senza {g} ({etichetta})", c["residenti_restano_a_zero"], "residenti",
                         prima=c["residenti_a_zero_totali"]))
         barre_dopo.append(voce(f"{g} ({etichetta})", c["residenti_restano_a_zero"],
-                               prima=c["residenti_a_zero_totali"]))
+                               prima=c["residenti_a_zero_totali"], tono="rosso"))
     salvati = sum(cand[g]["residenti_guadagnati_totali"] for g in ordine)
     return {
         "risultato": "1",
@@ -120,7 +122,7 @@ def scheda_r1():
         "grafici": [
             {"tipo": "barre", "titolo": "Residenti di Torino senza il servizio entro 15 minuti a piedi",
              "unita": "residenti",
-             "voci": [voce(g, gruppi[g]["torino"]["zero"]["residenti"]) for g in ordine]},
+             "voci": [voce(g, gruppi[g]["torino"]["zero"]["residenti"], tono="rosso") for g in ordine]},
             {"tipo": "barre", "titolo": "Residenti con pochissimi servizi di quel tipo vicini",
              "unita": "residenti",
              "nota": "\"Pochissimi\" = sotto il livello che ha il 10% dei residenti meno servito (soglia per gruppo).",
@@ -150,7 +152,7 @@ def scheda_r1():
             "I punti nuovi sono posizioni ipotetiche: non tengono conto di costi, spazi liberi o permessi, e "
             "non si sommano tra gruppi.",
         ],
-        "mappa": {"tema": "Dove mancano i servizi",
+        "mappa": {"id": "faseb", "tema": "Dove mancano i servizi",
                   "nota": "Nella mappa, menu dei temi: \"Dove mancano i servizi\" (zone scoperte e punti nuovi) "
                           "oppure \"Accessibilità ai servizi\"."},
         "fonti": ["docs/RAPPORTO_RISULTATO1.txt", "docs/RAPPORTO_RISULTATO1_CANDIDATI.txt",
@@ -241,7 +243,7 @@ def arricchisci_r2(s):
             "Le corse finte non hanno tempi di sosta alle fermate e non tengono conto di costi e manutenzione notturna.",
             "Non dice quante auto in meno ci sarebbero: serve un metodo a parte.",
         ],
-        "mappa": {"tema": "Accessibilità ai servizi",
+        "mappa": {"id": "accessibilita", "tema": "Accessibilità ai servizi",
                   "nota": "La mappa mostra la situazione di oggi ora per ora (tema \"Accessibilità ai servizi\", "
                           "cursore dell'ora sulla notte); lo scenario con la metro non è ancora in mappa."},
         "fonti": ["docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt", "docs/PIANO_RISULTATO2.md",
@@ -324,15 +326,15 @@ def scheda_r4():
         "grafici": [
             {"tipo": "pila", "titolo": "Come arrivano i mezzi nei giorni feriali", "unita": "%",
              "voci": [voce("in anticipo (oltre 1 min)", fer["anticipo"]),
-                      voce("puntuali (da -1 a +5 min)", fer["puntuale"]),
-                      voce("in ritardo (oltre 5 min)", fer["ritardo"])]},
+                      voce("puntuali (da -1 a +5 min)", fer["puntuale"], tono="verde"),
+                      voce("in ritardo (oltre 5 min)", fer["ritardo"], tono="rosso")]},
             {"tipo": "barre", "titolo": "Passaggi in ritardo oltre 5 minuti, per fascia oraria (feriale)",
-             "unita": "%", "voci": [voce(nomi_fasce.get(f, f), v) for f, _, v in fasce_r4()]},
+             "unita": "%", "voci": [voce(nomi_fasce.get(f, f), v, tono="rosso") for f, _, v in fasce_r4()]},
             {"tipo": "barre", "titolo": "Passaggi in ritardo oltre 5 minuti, per tipo di giorno",
-             "unita": "%", "voci": [voce(nomi[k].lower(), c[k]["ritardo"]) for k in ("0", "1", "2")]},
+             "unita": "%", "voci": [voce(nomi[k].lower(), c[k]["ritardo"], tono="rosso") for k in ("0", "1", "2")]},
             {"tipo": "barre", "titolo": "Le 10 linee più in ritardo (feriale)", "unita": "%",
              "nota": f"Solo linee con almeno {par['min_passaggi']} passaggi osservati.",
-             "voci": [voce(f"linea {n}", x["ritardo"]) for n, x in peggio_rit]},
+             "voci": [voce(f"linea {n}", x["ritardo"], tono="rosso") for n, x in peggio_rit]},
             {"tipo": "barre", "titolo": "Le 10 linee più irregolari (feriale): grappolo + buco", "unita": "%",
              "nota": f"Solo linee frequenti (un mezzo ogni {int(par['freq_max_min'])} minuti o meno) con almeno "
                      f"{par['min_coppie']} coppie osservate.",
@@ -380,85 +382,171 @@ def scheda_r4():
 
 # ---------------------------------------------------------------- Risultato 6
 
+R6_FILE = PROC / "risultato6_v2" / "mappa_r6.json"    # file unico della mappa (script 79)
+R6_PORTE = PROC / "risultato6_v2" / "porte.json"      # input dello script 80 (per i criteri)
+
+
+def nome_pulito(n):
+    """'RIVALTA DI TORINO' -> 'Rivalta di Torino', 'PORTA SUSA FS' -> 'Porta Susa FS'; gli altri nomi restano uguali."""
+    if not n.isupper():
+        return n
+    return n.title().replace(" Di ", " di ").replace(" Fs", " FS")
+
+
+R6_TONO_AREA = {"Critica": "rosso", "Scarsa": "arancio", "Buona": "verde"}
+PROFILI_IN_SCHEDA = ["STURA", "SOFIA", "CAIO MARIO", "VENCHI UNICA", "PORTA SUSA FS", "LINGOTTO"]
+
+
+def date_it(iso_list):
+    """['2026-10-15', '2026-10-16'] -> '15/10 e 16/10'"""
+    giorni = [d[8:10] + "/" + d[5:7] for d in iso_list]
+    if not giorni:
+        return "—"
+    return giorni[0] if len(giorni) == 1 else ", ".join(giorni[:-1]) + " e " + giorni[-1]
+
+
 def scheda_r6():
-    r = leggi("risultato6_interscambio.json")
-    crit = [f for f in r["fermate"] if f["fermata_critica"]]
-    coperte = sum(1 for f in crit if f["coperta"])
-    scoperte = len(crit) - coperte
-    inter = sorted((p for p in r["parcheggi"] if p["interscambio"]), key=lambda p: -p["critiche_entro_raggio"])
-    raggio = round(r["raggio_copertura_m"])
-    per_strada = Counter(f["corridoio"] for f in crit if not f["coperta"]).most_common(10)
-    prime3 = "; ".join(f"{n}: {k}" for n, k in per_strada[:3])
+    r = json.loads(R6_FILE.read_text(encoding="utf-8"))
+    rie, aree, punti, profili = r["riepilogo"], r["aree"], r["punti_prioritari"], r.get("profili", [])
+    criteri = r.get("criteri")
+    if not criteri and R6_PORTE.exists():
+        criteri = json.loads(R6_PORTE.read_text(encoding="utf-8")).get("criteri", [])
+    giorni = date_it(rie["giorni_feriali_validi"])
+    apc = rie["aree_per_categoria"]
+    n_fermate = len(r["fermate"])
+    n_senza50 = rie["fermate_senza_50_posti"]
+    n_nessuno = rie["fermate_nessun_parcheggio"]
+    senza_area = {a["id"]: a["n_fermate"] - a["ok"] for a in aree}
+    critiche = sorted([a for a in aree if a["categoria"] == "Critica" and not a["indicativo"]],
+                      key=lambda a: -senza_area[a["id"]])
+    tre_critiche = "; ".join(f"{' - '.join(a['zone_principali']) or 'area senza nome'} ({senza_area[a['id']]})"
+                             for a in critiche[:3])
+    buone = apc["Buona"]
+    cand_nomi = {c["nome"] for p in punti for c in p["candidati"]}
+    rif = rie["riferimento_direzioni"]
+    basta = [d["nome"] for d in rif if d["categoria"] in ("Bastano", "Quasi")]
+    non_basta = [d["nome"] for d in rif if d["categoria"] in ("Pochi", "Mancano")]
+    tre_punti = ", ".join(f"{p['ordine']}. {nome_pulito(p['nome'])}" for p in punti[:3])
+
+    def tono_area(cat):
+        return R6_TONO_AREA.get(cat, "blu")
+
     return {
         "risultato": "6",
-        "titolo": "Parcheggi di interscambio",
-        "tag": "STIMATO / PROGRAMMATO",
-        "stato": "Versione 1 (14/10/2026)",
-        "in_breve": "Chi arriva in auto dalla cintura dovrebbe poterla lasciare vicino a una fermata ben "
-                    "servita. Le fermate più importanti hanno un parcheggio di interscambio a due passi?",
-        "domanda": "Le fermate dove arriva più gente dalla cintura hanno un parcheggio di interscambio vicino?",
-        "numero_chiave": {"valore": scoperte, "unita": "fermate",
-                          "testo": f"critiche su {len(crit)} senza un parcheggio di interscambio entro {raggio} m"},
-        "racconto": "Uno dei problemi notati all'inizio del progetto: al capolinea Fermi della metro, a Collegno, i "
-                    "posti per lasciare l'auto sono pochi. Da lì la domanda si è allargata a tutta la città.",
+        "titolo": "Parcheggi per lasciare l'auto",
+        "tag": "STIMATO / MISURATO (dati scarsi)",
+        "stato": "Aggiornato al 19/10/2026",
+        "in_breve": "Dove mancano posti per lasciare l'auto vicino alle fermate importanti, e dove servirebbe di più un parcheggio.",
+        "domanda": "Dove mancano posti per lasciare l'auto vicino alle fermate importanti, e dove servirebbe di più un parcheggio?",
+        "numero_chiave": {"valore": n_senza50, "unita": "fermate",
+                          "testo": f"su {n_fermate} non hanno almeno 50 posti per lasciare l'auto entro 200 m"},
         "risposta": [
-            f"Fuori dal centro ci sono {len(crit)} fermate \"critiche\": solo {coperte} hanno un parcheggio di "
-            f"interscambio entro {raggio} m, le altre {scoperte} no.",
-            f"I parcheggi di interscambio sono {len(inter)}, con {migliaia(sum(p['posti'] for p in inter))} "
-            "posti in tutto.",
-            f"Le strade con più fermate critiche scoperte: {prime3}.",
+            f"Delle {migliaia(n_fermate)} fermate importanti, {migliaia(n_senza50)} non hanno almeno 50 posti entro 200 m, "
+            f"e {migliaia(n_nessuno)} non hanno nessun parcheggio.",
+            f"Su {migliaia(len(aree))} aree di circa 2 km² con fermate importanti, {apc['Critica']} sono in categoria Critica "
+            f"(più fermate senza posti: {tre_critiche}) e {buone} sono Buone.",
+            f"I 20 punti dove servirebbe di più un parcheggio sono raggruppati attorno a fermate senza posti: tra i primi "
+            f"ci sono {tre_punti}. Vicino a questi punti ci sono {migliaia(len(cand_nomi))} parcheggi da 100 posti o più "
+            f"che potrebbero ampliarsi.",
+            f"Di giorno sono già pieni {rie['parcheggi_pieni_n']} parcheggi grandi, con {migliaia(rie['posti_pieni_totali'])} "
+            f"posti [MISURATO]; il riempimento è misurato solo sul {virgola(rie['quota_posti_misurati'])}% dei posti, "
+            f"quindi alcuni parcheggi importanti (es. Fermi) non si sa se siano pieni.",
         ],
         "grafici": [
-            {"tipo": "pila", "titolo": f"Fermate critiche fuori dal centro: coperte e scoperte", "unita": "fermate",
-             "voci": [voce(f"coperte (parcheggio entro {raggio} m)", coperte), voce("scoperte", scoperte)]},
-            {"tipo": "barre", "titolo": f"I {len(inter)} parcheggi di interscambio: fermate critiche entro {raggio} m",
-             "unita": "fermate",
-             "voci": [voce(f"{p['nome'].title()} ({migliaia(p['posti'])} posti)", p["critiche_entro_raggio"])
-                      for p in inter]},
-            {"tipo": "barre", "titolo": "Strade con più fermate critiche scoperte", "unita": "fermate",
-             "nota": "Strade raggruppate per nome (metodo della versione 1).",
-             "voci": [voce(n, k) for n, k in per_strada]},
+            {"tipo": "barre", "titolo": "Aree con più fermate senza 50 posti", "unita": "fermate",
+             "nota": "Le 10 aree con più fermate importanti senza 50 posti entro 200 m. Colore = categoria dell'area.",
+             "voci": [voce(' - '.join(a['zone_principali']) or 'area senza nome', senza_area[a["id"]], tono=tono_area(a["categoria"]))
+                      for a in sorted(aree, key=lambda a: -senza_area[a["id"]])[:10]]},
+            {"tipo": "pila", "titolo": "Le aree: critiche, scarse, buone", "unita": "aree",
+             "nota": "Critica: almeno il 60% delle fermate senza 50 posti; Scarsa 30-59%; Buona meno del 30%.",
+             "voci": [voce("Critica", apc["Critica"], tono="rosso"),
+                      voce("Scarsa", apc["Scarsa"], tono="arancio"),
+                      voce("Buona", apc["Buona"], tono="verde")]},
+            {"tipo": "pila", "titolo": "Fermate importanti e posti a 200 m", "unita": "fermate",
+             "nota": "Posti nominali entro 200 m: dichiarati o stimati dalla superficie (25 m² a posto).",
+             "voci": [voce("nessun parcheggio", n_nessuno, tono="rosso"),
+                      voce("pochi posti (1-49)", rie["fermate_pochi_posti"], tono="arancio"),
+                      voce("50 posti o più", rie["fermate_50_piu"], tono="verde")]},
+            {"tipo": "barre", "titolo": "I 20 punti dove servirebbe di più un parcheggio", "unita": "fermate",
+             "nota": "Il numero di fermate importanti senza 50 posti raggruppate in ogni punto (entro 1 km).",
+             "voci": [voce(f"{p['ordine']}. {nome_pulito(p['nome'])}", p["n_fermate"]) for p in punti[:10]]},
+            {"tipo": "profilo", "titolo": "Come si riempiono i parcheggi: i comportamenti medi",
+             "unita": "", "nota": "[MISURATO] media dei garage 5T con dati feriali: dati ancora pochi, 2 giorni feriali [DATI SCARSI].",
+             "serie": [{"label": f"{v['descrizione']} ({v['n']} garage)",
+                        "valori": v["profilo_feriale"]}
+                       for k, v in (r["riepilogo"].get("profili_medi") or {}).items()]},
+        ] + [
+            {"tipo": "profilo",
+             "titolo": f"{nome_pulito(p['nome'])} ({migliaia(p['posti'])} posti): {p['descrizione']}",
+             "unita": "", "nota": f"[MISURATO] {p['giorni_validi']} giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+             "serie": [{"label": "giorno feriale", "valori": p["profilo_feriale"]}]
+                      + ([{"label": "weekend", "valori": p["profilo_weekend"], "tratteggio": True}] if p.get("profilo_weekend") else [])}
+            for p in [next(x for x in profili if x["nome"] == n) for n in PROFILI_IN_SCHEDA if any(x["nome"] == n for x in profili)]
+        ] + [
+            {"tipo": "barre", "titolo": "Parcheggi già pieni di giorno", "unita": "posti",
+             "nota": "I 10 con più posti, misurati dal 5T (media feriale 10-16).",
+             "voci": [voce(f"{nome_pulito(p['nome'])} (misurato)", p["posti"]) for p in rie["parcheggi_pieni_top10"]]},
+            {"tipo": "barre", "titolo": "Riferimento: auto che potrebbero lasciare l'auto e posti, per direzione d'ingresso",
+             "unita": "auto e posti",
+             "nota": "Stima di riferimento [STIMATO], non guida la lettura della mappa.",
+             "voci": [voce(f"{d['nome']}: auto che potrebbero lasciarla", round(d["domanda"]))
+                      for d in sorted(rif, key=lambda x: -x["domanda"])]
+                     + [voce(f"{d['nome']}: posti", round(d["posti_nominali"]))
+                        for d in sorted(rif, key=lambda x: -x["domanda"])]},
         ],
+        "affidabilita": rie["affidabilita"],
+        "immagini": [],
         "metodo": [
-            "Ogni fermata GTT riceve un punteggio da 0 a 100: media di tre graduatorie, cioè quanto è "
-            "importante la strada, quante corse passano nell'ora di punta (orario ufficiale) e quanti "
-            "pendolari tra Torino e cintura ha la zona (indagine IMQ 2022).",
-            "Critica = nel 10% più alto del punteggio. Le fermate del centro (zona IMQ Torino-Centro) non "
-            "contano: un interscambio serve all'ingresso in città, non in centro.",
-            f"Coperta = un parcheggio di interscambio entro {raggio} m in linea d'aria. Elenco dei parcheggi dal "
-            "feed 5T, con l'etichetta \"interscambio\" presa dal Comune.",
+            "Fermate importanti: il 10% più alto del punteggio su 4.425 luoghi della Città metropolitana; il punteggio "
+            "mescola importanza della strada, corse nelle ore dei pendolari, pendolari della zona, ZTL, calo di velocità "
+            "e nodo treno o metro.",
+            "Posti: i parcheggi aperti entro 200 m (OpenStreetMap, Comune, 5T: il sistema dei trasporti della Città di Torino), dichiarati o stimati con 25 m² a posto. "
+            "Fermata coperta: almeno 50 posti entro 200 m.",
+            "Parcheggi in mappa: almeno 100 posti entro 400 m da una fermata importante o da un nodo di trasporto importante (metro, treno, capolinea o molte corse): "
+            "più i garage 5T con dati di riempimento.",
+            "Aree: celle esagonali di circa 2 km²; quota di fermate senza 50 posti: Critica ≥ 60%, Scarsa 30-59%, Buona < 30%.",
+            "20 punti: fermate senza 50 posti raggruppate entro 1 km (legame completo); candidati: parcheggi da 100 posti o più "
+            "entro 600 m dal centro del punto.",
+            "Direzioni d'ingresso (solo riferimento): 8 settori attorno a Piazza Castello; auto che potrebbero lasciare l'auto "
+            "= auto che entrano al mattino nella direzione (indagine IMQ 2022 sugli spostamenti) × 26%.",
         ],
-        "parametri": [["Fermate analizzate", migliaia(len(r["fermate"]))], ["Soglia critica", "10% più alto"],
-                      ["Raggio di copertura", f"{raggio} m in linea d'aria"],
-                      ["Zone escluse", ", ".join(r["zone_escluse"]) + " (centro)"],
-                      ["Giorno dell'orario", r["giorno_tipo"]]],
+        "parametri": [["Soglia fermate importanti", "10% più alto (378 su 4.425)"],
+                      ["Posti per una fermata coperta", "almeno 50 entro 200 m"],
+                      ["Distanza dal parcheggio", "200 m in linea d'aria"],
+                      ["Parcheggi in mappa", "almeno 100 posti entro 400 m da una fermata o da un nodo di trasporto importante"],
+                      ["Posti stimati", "25 m² a posto (±30%)"],
+                      ["Aree", "celle di circa 2 km²; Critica ≥ 60%, Scarsa 30-59%, Buona < 30%"],
+                      ["Giorni feriali di riempimento", giorni]],
         "limiti": [
-            f"{raggio} m in linea d'aria, non a piedi lungo le strade.",
-            "I pendolari sono stimati per zona (indagine IMQ), non contati alla fermata.",
-            "Le strade sono raggruppate per nome: è un metodo che il lavoro sul traffico ha mostrato debole "
-            "(una strada che cambia nome si spezza).",
-            "Non dice ancora quanto si riempiono i parcheggi: la raccolta dei posti liberi è partita il 14/10 "
-            "e servirà per la versione 2.",
+            f"Riempimento misurato su soli {len(rie['giorni_feriali_validi'])} giorni feriali [DATI SCARSI]: i profili "
+            "cambieranno con più giorni di misura.",
+            "Alcuni parcheggi importanti non trasmettono il riempimento (es. Fermi, Collegno): non sappiamo se sono pieni.",
+            f"Parcheggi da OpenStreetMap incompleti: {migliaia(rie['parcheggi_stimati'])} dei {migliaia(rie['parcheggi_considerati'])} "
+            "considerati hanno posti stimati (±30%).",
+            "La distanza pesa molto: con 100 m le fermate senza 50 posti crescono, con 400 m calano (vedi i criteri).",
+            "Le aree con meno di 3 fermate importanti sono un dato indicativo.",
+            "Le direzioni d'ingresso sono una stima di riferimento: la domanda è per zona (indagine campionaria).",
         ],
-        "mappa": None,
-        "fonti": ["docs/RAPPORTO_RISULTATO6.txt", "docs/PIANO_RISULTATO6.md", "scripts/25_risultato6_interscambio.py"],
+        "criteri": criteri or [],
+        "mappa": {"id": "interscambio", "tema": "Parcheggi per lasciare l'auto",
+                  "nota": "Tre domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi, in quali aree mancano, dove servirebbe di più un parcheggio."},
+        "fonti": ["docs/RAPPORTO_R6_PORTE.txt", "scripts/80_porte_interscambio.py",
+                  "data/processed/risultato6_v2/mappa_r6.json"],
         "generato": ora(),
         "avviso": [
-            "Dati [STIMATO] / [PROGRAMMATO] — versione 1",
-            f"Fermata 'critica' = nel 10% più alto per strada importante, corse in punta e pendolari stimati "
-            f"della zona (IMQ); centro escluso. Copertura = parcheggio entro {raggio} m in linea d'aria. "
-            "Quanto si riempiono i parcheggi non è ancora misurato (versione 2, con i dati raccolti dal 14/10)."
+            "Come leggere i tag. ",
+            "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. "
+            "[DATI SCARSI] = pochi dati, da prendere con cautela. Auto in entrata e posti sono stime; il riempimento viene da due giorni feriali di misure 5T.",
         ],
         "scenari": [{
             "nome": "Oggi",
             "numeri": [
-                num("Fermate critiche fuori dal centro", len(crit), "fermate"),
-                num(f"Coperte da un interscambio entro {raggio} m", coperte, "fermate"),
-                num("Scoperte", scoperte, "fermate"),
-                num("Parcheggi di interscambio", len(inter), "parcheggi"),
-                num("Posti negli interscambi", sum(p["posti"] for p in inter), "posti"),
+                num("Fermate importanti", n_fermate, "fermate"),
+                num("Senza 50 posti entro 200 m", n_senza50, "fermate"),
+                num("Senza nessun parcheggio a 200 m", n_nessuno, "fermate"),
+                num("Aree in categoria Critica", apc["Critica"], "aree"),
             ],
-            "nota": f"Strade con più fermate critiche scoperte: {prime3}.",
+            "nota": "Stime [STIMATO]: i posti vengono da OpenStreetMap, Comune e 5T; il riempimento da 5T [DATI SCARSI].",
         }],
     }
 
@@ -530,8 +618,8 @@ def scheda_r8():
         "grafici": [
             {"tipo": "pila", "titolo": "Km di strade grandi di Torino: con o senza trasporto pubblico vicino",
              "unita": "km",
-             "voci": [voce("con fermate frequenti vicine", round(u["km_coperti_tp"], 1)),
-                      voce("con poco trasporto pubblico", km_poco)]},
+             "voci": [voce("con fermate frequenti vicine", round(u["km_coperti_tp"], 1), tono="verde"),
+                      voce("con poco trasporto pubblico", km_poco, tono="rosso")]},
             {"tipo": "barre", "titolo": "Strade con un sensore: la tratta più carica (veicoli al giorno, 6-21)",
              "unita": "veicoli/giorno",
              "nota": "Solo strade con almeno un sensore sullo stesso asse: senza, il modello mette in cima anche strade "

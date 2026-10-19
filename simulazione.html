@@ -8,6 +8,10 @@
   :root{
     --bg:#f4f5f7; --card:#ffffff; --ink:#1d2330; --muted:#5d6678; --line:#dfe3ea; --accent:#1b6f73;
     --accent-chiaro:#b9dcdd; --traccia:#e7ebf1; --rosso:#b4432f; --blu:#7aa6d1;
+    /* [R6] due sole scale, uguali in tutta la pagina e nella mappa: verde = bene, rosso = male;
+       blu -> arancione smorzati = quantità neutre (poco -> tanto) */
+    --vr-verde:#1a9850; --vr-giallo:#fee08b; --vr-rosso:#d73027;
+    --neu-blu:#6a98c4; --neu-blu-chiaro:#b4cbe0; --neu-arancio:#e08a38;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
@@ -65,6 +69,10 @@
   @media (max-width:720px){ .grafici{grid-template-columns:1fr} }
   .grafico{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fbfcfd;min-width:0}
   .grafico.largo{grid-column:1/-1}
+  .grafico svg{display:block}
+  .imm-lista figure{margin:0 0 12px}
+  .imm-lista img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 10px rgba(20,30,50,.08)}
+  .imm-lista figcaption{font-size:12px;color:var(--muted);margin-top:4px}
   .grafico h5{margin:0 0 10px;font-size:13px}
   .grafico .nota{font-size:11.5px;color:var(--muted);margin-top:8px}
   .barra-riga{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;align-items:center;gap:8px;margin:5px 0;font-size:12px}
@@ -98,6 +106,19 @@
   table.param{border-collapse:collapse;font-size:12.5px;margin-top:6px}
   table.param td{padding:4px 12px 4px 0;border-bottom:1px solid var(--line);vertical-align:top}
   table.param td:first-child{color:var(--muted)}
+  /* [R6] tabella dei criteri: 4 colonne; su schermo stretto le righe diventano blocchi */
+  table.criteri{width:100%}
+  table.criteri th{text-align:left;padding:4px 12px 6px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);font-weight:600;vertical-align:top}
+  table.criteri td{padding:6px 12px 6px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  table.criteri td:nth-child(1){font-weight:600}
+  table.criteri td:nth-child(2){min-width:15ch}
+  table.criteri td:nth-child(3),table.criteri td:nth-child(4){color:var(--muted)}
+  @media (max-width:720px){
+    table.criteri thead{display:none}
+    table.criteri tr{display:block;padding:8px 0;border-bottom:1px solid var(--line)}
+    table.criteri td{display:block;padding:1px 0;border:0}
+    table.criteri td:nth-child(1){font-size:13.5px}
+  }
   .limiti{margin:0;padding-left:20px}
   .limiti li{margin:4px 0;max-width:75ch}
   .mappa-box{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
@@ -234,8 +255,11 @@ function mostraGalleria(){
 }
 
 /* ---------------- grafici (solo HTML/CSS, niente librerie: la pagina funziona offline) ---------------- */
-const TONI = {pieno:"var(--accent)", medio:"#6fb3b5", vuoto:"var(--rosso)"};
-const PALETTE_PILA = ["var(--blu)", "var(--accent)", "var(--rosso)", "#c9a227", "#8a6fb0"];
+// [R6] colori: "verde"/"rosso" = bene/male (un giudizio chiaro); "giallo", "blu", "arancio" = categorie; senza tono = blu neutro
+const TONO_COL = {verde:"var(--vr-verde)", rosso:"var(--vr-rosso)", giallo:"var(--vr-giallo)", blu:"var(--neu-blu)", arancio:"var(--neu-arancio)"};
+const TONI = {pieno:"var(--neu-blu)", medio:"var(--neu-blu-chiaro)", vuoto:"var(--vr-rosso)"};
+const PALETTE_PILA = ["var(--neu-blu)", "var(--neu-arancio)", "#9aa3b2", "#c9b27a", "#8d7bb0"];
+const PALETTE_LINEE = ["var(--neu-blu)", "var(--neu-arancio)", "#9aa3b2", "#8d7bb0", "#c9b27a"];   // categorie: niente rosso/verde, non sono giudizi
 
 function graficoBarre(g){
   const voci = g.voci || [];
@@ -248,8 +272,8 @@ function graficoBarre(g){
     return `<div class="barra-riga">
       <span class="barra-etichetta" title="${esc(v.label)}">${esc(v.label)}</span>
       <span class="barra-traccia">
-        ${haPrima ? `<span style="width:${pct(v.prima)}%;background:var(--accent-chiaro)"></span>` : ""}
-        <span style="width:${pct(v.valore)}%;background:var(--accent)"></span>
+        ${haPrima ? `<span style="width:${pct(v.prima)}%;background:var(--neu-blu-chiaro)"></span>` : ""}
+        <span style="width:${pct(v.valore)}%;background:${TONO_COL[v.tono] || "var(--neu-blu)"}"></span>
       </span>
       <span class="barra-valore">${val}</span>
     </div>`;
@@ -261,8 +285,9 @@ function graficoBarre(g){
 function graficoPila(g){
   const voci = g.voci || [];
   const tot = voci.reduce((a, v) => a + Math.max(0, v.valore || 0), 0) || 1;
-  const pezzi = voci.map((v, j) => `<span style="width:${Math.max(0, v.valore) / tot * 100}%;background:${PALETTE_PILA[j % PALETTE_PILA.length]}" title="${esc(v.label)}"></span>`).join("");
-  const leg = voci.map((v, j) => `<span><i style="background:${PALETTE_PILA[j % PALETTE_PILA.length]}"></i>${esc(v.label)}: <b>${conUnita(v.valore, g.unita === "%" ? "%" : g.unita)}</b></span>`).join("");
+  const colVoce = (v, j) => TONO_COL[v.tono] || PALETTE_PILA[j % PALETTE_PILA.length];
+  const pezzi = voci.map((v, j) => `<span style="width:${Math.max(0, v.valore) / tot * 100}%;background:${colVoce(v, j)}" title="${esc(v.label)}"></span>`).join("");
+  const leg = voci.map((v, j) => `<span><i style="background:${colVoce(v, j)}"></i>${esc(v.label)}: <b>${conUnita(v.valore, g.unita === "%" ? "%" : g.unita)}</b></span>`).join("");
   return `<div class="pila" role="img" aria-label="${esc(g.titolo)}">${pezzi}</div><div class="legenda">${leg}</div>`;
 }
 
@@ -276,9 +301,31 @@ function graficoOrario(g){
   return righe + `<div class="orario-asse">${tacche}</div>`;
 }
 
+/* [R6] curva delle 24 ore (valori 0-1 per ora; null interrompe la linea). Asse x 0-24 h, asse y 0-100 %. */
+function graficoProfilo(g){
+  const LW = 480, LH = 170, PL = 34, PR = 12, PT = 10, PB = 26, AW = LW - PL - PR, AH = LH - PT - PB;
+  const X = h => PL + h / 24 * AW, Y = v => PT + (1 - v) * AH;
+  const guide = [0, .5, 1].map(v => `<line x1="${PL}" x2="${LW - PR}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" style="stroke:var(--line)"/>`
+    + `<text x="${PL - 6}" y="${(Y(v) + 4).toFixed(1)}" text-anchor="end" font-size="10" style="fill:var(--muted)">${Math.round(v * 100)}%</text>`).join("");
+  const tacche = [0, 3, 6, 9, 12, 15, 18, 21, 24].map(h => `<text x="${X(h).toFixed(1)}" y="${LH - 8}" text-anchor="middle" font-size="10" style="fill:var(--muted)">${h}</text>`).join("");
+  const colSerie = (s, j) => TONO_COL[s.tono] || PALETTE_LINEE[j % PALETTE_LINEE.length];
+  const linee = (g.serie || []).map((s, j) => {
+    const pezzi = [];
+    let cur = [];
+    (s.valori || []).forEach((v, h) => {
+      if(typeof v === "number" && Number.isFinite(v)) cur.push(`${X(h).toFixed(1)},${Y(Math.max(0, Math.min(1, v))).toFixed(1)}`);
+      else { if(cur.length) pezzi.push(cur); cur = []; }
+    });
+    if(cur.length) pezzi.push(cur);
+    return pezzi.map(p => `<polyline points="${p.join(" ")}" fill="none" style="stroke:${colSerie(s, j)}" stroke-width="2.2" stroke-linejoin="round"${s.tratteggio ? ' stroke-dasharray="5 4"' : ""}/>`).join("");
+  }).join("");
+  const legenda = (g.serie || []).map((s, j) => `<span><i style="background:${colSerie(s, j)}${s.tratteggio ? ";opacity:.6" : ""}"></i>${esc(s.label)}</span>`).join("");
+  return `<svg viewBox="0 0 ${LW} ${LH}" role="img" aria-label="${esc(g.titolo)}">${guide}${tacche}${linee}</svg><div class="legenda">${legenda}</div>`;
+}
+
 function grafico(g){
-  const corpo = g.tipo === "pila" ? graficoPila(g) : g.tipo === "orario" ? graficoOrario(g) : graficoBarre(g);
-  const largo = g.tipo === "orario" || (g.voci || []).length > 6 ? " largo" : "";
+  const corpo = g.tipo === "pila" ? graficoPila(g) : g.tipo === "orario" ? graficoOrario(g) : g.tipo === "profilo" ? graficoProfilo(g) : graficoBarre(g);
+  const largo = g.tipo === "orario" || g.tipo === "profilo" || (g.voci || []).length > 6 ? " largo" : "";
   return `<div class="grafico${largo}"><h5>${esc(g.titolo)}</h5>${corpo}${g.nota ? `<div class="nota">${esc(g.nota)}</div>` : ""}</div>`;
 }
 
@@ -304,6 +351,13 @@ function bloccoNumeri(r){
 function sezione(titolo, html){ return html ? `<div class="sez"><h4>${titolo}</h4>${html}</div>` : ""; }
 function lista(arr, cls){ return Array.isArray(arr) && arr.length ? `<ul class="${cls}">${arr.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""; }
 
+// [R6] un'immagine che non si trova: via la figura, e la sezione se non resta nulla
+function immagineFallita(img){
+  const lista = img.closest(".imm-lista"), sez = img.closest(".sez");
+  img.closest("figure").remove();
+  if(lista && sez && !lista.querySelector("figure")) sez.remove();
+}
+
 function apri(i){
   const s = schede[i];
   $("finMeta").innerHTML = [s.risultato ? "Risultato " + esc(s.risultato) : esc(s._nome || ""), esc(s.stato || ""), s.tag ? `<span class="pill ${/MISURATO/.test(s.tag) ? "misurato" : ""}">${esc(s.tag)}</span>` : ""].filter(Boolean).join(" · ");
@@ -314,17 +368,29 @@ function apri(i){
         ${Array.isArray(s.metodo) ? `<ol>${s.metodo.map(x => `<li>${esc(x)}</li>`).join("")}</ol>` : ""}
         ${Array.isArray(s.parametri) && s.parametri.length ? `<table class="param">${s.parametri.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table>` : ""}
       </details>` : "";
+  // [R6] il link apre la mappa già sul tema giusto (es. mappa_torino.html#tema=interscambio)
   const mappa = s.mappa
-    ? `<div class="mappa-box"><p>${esc(s.mappa.nota || "")}</p><a class="btn primario" href="mappa_torino.html" style="text-decoration:none">Apri la mappa</a></div>`
+    ? `<div class="mappa-box"><p>${esc(s.mappa.nota || "")}</p><a class="btn primario" href="mappa_torino.html${s.mappa.id ? "#tema=" + encodeURIComponent(s.mappa.id) : ""}" style="text-decoration:none">Apri la mappa</a></div>`
     : (s.tag ? `<p style="font-size:12.5px;color:var(--muted)">Questo risultato non è ancora disegnato nella mappa.</p>` : "");
   const avviso = Array.isArray(s.avviso) && s.avviso.length
     ? `<div class="avviso"><strong>${esc(s.avviso[0])}</strong>${esc(s.avviso.slice(1).join(" "))}</div>` : "";
+  // [R6] «I criteri, uno per uno»: tabella a 4 colonne (criterio, valore, perché, cosa cambia)
+  const criteri = Array.isArray(s.criteri) && s.criteri.length
+    ? `<table class="param criteri"><thead><tr><th>Criterio</th><th>Valore usato</th><th>Perché</th><th>Cosa cambia se lo cambiamo</th></tr></thead><tbody>${s.criteri.map(c => `<tr><td>${esc(c.nome)}</td><td>${esc(c.valore)}</td><td>${esc(c.perche)}</td><td>${esc(c.effetto)}</td></tr>`).join("")}</tbody></table>`
+    : "";
+  // [R6] immagini fatte da Leo (cartella immagini/): se un file manca, la figura sparisce e la sezione pure
+  const immagini = Array.isArray(s.immagini) && s.immagini.length
+    ? `<div class="imm-lista">${s.immagini.map(im => `<figure><img src="${esc(im.file)}" alt="${esc(im.didascalia)}" onerror="immagineFallita(this)"><figcaption>${esc(im.didascalia)}</figcaption></figure>`).join("")}</div>`
+    : "";
   $("finCorpo").innerHTML =
     sezione("Il problema", problema) +
     sezione("La domanda", s.domanda ? `<p class="domanda">${esc(s.domanda)}</p>` : "") +
     sezione("La risposta", lista(s.risposta, "risposta")) +
     sezione("Grafici", Array.isArray(s.grafici) && s.grafici.length ? `<div class="grafici">${s.grafici.map(grafico).join("")}</div>` : "") +
+    sezione("Com'è fatta in mappa", immagini) +
     sezione("Prima e dopo, numero per numero", bloccoNumeri(s)) +
+    sezione("I criteri, uno per uno", criteri) +
+    sezione("Quanto sono affidabili i dati", Array.isArray(s.affidabilita) && s.affidabilita.length ? `<table class="param">${s.affidabilita.map(a => `<tr><td>${esc(a.voce)}</td><td>${esc(a.valore)}</td></tr>`).join("")}</table>` : "") +
     sezione("Il metodo", metodo) +
     sezione("Limiti da tenere a mente", lista(s.limiti, "limiti")) +
     sezione("Nella mappa", mappa) +

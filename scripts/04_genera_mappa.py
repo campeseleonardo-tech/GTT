@@ -896,6 +896,13 @@ def main():
             fb_candidati[g] = [{"lat": c["lat"], "lon": c["lon"], "residenti_guadagnati": c["residenti_guadagnati"],
                                  "n_sezioni_coperte": c["n_sezioni_coperte"]} for c in gd.get("candidati_scelti", [])]
         print(f"  risultato1 (candidati nuovo servizio): {', '.join(f'{g}:{len(v)}' for g, v in fb_candidati.items())}")
+    # [R6] Risultato 6: zone IMQ, fermate importanti, parcheggi (file unico prodotto dallo script 79-80)
+    r6 = None
+    f_r6 = RADICE / "data" / "processed" / "risultato6_v2" / "mappa_r6.json"
+    if f_r6.is_file():
+        r6 = json.loads(f_r6.read_text(encoding="utf-8"))
+        print(f"  risultato6: {len(r6['aree'])} aree, {len(r6['punti_prioritari'])} punti prioritari, "
+              f"{len(r6['fermate'])} fermate importanti, {len(r6['parcheggi'])} parcheggi")
 
     sez, f_sez = [], RADICE / "data" / "processed" / "sezioni_torino.json"
     if f_sez.is_file():
@@ -955,6 +962,7 @@ def main():
         "rotte": rotte, "linee": linee, "fermate": stops, "sensori": sensori, "mezzi": mezzi, "sezioni": sez, "corse": corse,
         "avvisi": avvisi_out,
         "fb_candidati": fb_candidati,
+        "r6": r6,
     }
     testo = json.dumps(dati, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
     html = TEMPLATE.read_text(encoding="utf-8").replace('"__DATI__"', testo)
