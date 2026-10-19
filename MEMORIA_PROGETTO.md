@@ -74,6 +74,10 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 
 ## 5. IN CORSO
 
+- **Analisi completa (19/10, Claude)**: `docs/ANALISI_PROGETTO.md` (criticità, cosa manca, cosa è di troppo) e
+  `docs/ANALISI_RISULTATO6.md`. Punto chiave: R6 oggi segue la densità della città (10 dei 20 punti in Q002-Q009,
+  c2 conta anche le destinazioni, Fermi in area «Buona»); il riempimento non cambia i numeri principali. Leo deve
+  scegliere: correzioni mirate, rifare per corridoi d'ingresso, o tenere solo la scoperta sugli interscambi esistenti.
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
 - Piccole pulizie: togliere il file `3)` nella radice (creato per errore da un `.bat`) e le copie
   `scripts/*.bak_18ott` (decide Leo).
