@@ -47,7 +47,8 @@ Punti 1-3 fatti nel codice (84, controlli nell'85) ed **eseguiti sul PC il 20/10
 scartati (stesso asse o sotto 3 km), 19 punti; verifiche 0 non superate; somma dei posti che mancano 4.319 (sotto
 le 5.067 auto da fermare: ora torna). In testa: Maroncelli (Moncalieri, circa 650), Pellerina (circa 450), Santa
 Rita (circa 400), Barbera (circa 350), Metro Massaua (circa 300). Gli ultimi tre punti avevano 0-23 posti mancanti:
-aggiunta la regola **almeno 50 posti mancanti** per entrare nella lista (→ 16 punti), da rieseguire al prossimo giro.
+aggiunta la regola **almeno 50 posti mancanti** per entrare nella lista: giro del 20/10 12:11, **16 punti**, verifiche
+0 non superate.
 
 ## Prossimi passi
 Dopo ≥ 5 feriali di parcheggi (inizio novembre): `scripts\RISULTATO6_RIFAI.bat`. Screenshot di Leo. Decidere i punti
