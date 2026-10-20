@@ -122,20 +122,23 @@ def densita(sez, superfici):
 
 
 def n_mancanti_sezione(s, ora_tp=ORA_TP):
-    """Ritorna (n_mancanti con la regola v2, n_mancanti solo a piedi, tp_disponibile).
+    """Ritorna (n_mancanti con la regola v2, n_mancanti solo a piedi, tp_disponibile, maschera di bit dei gruppi
+    mancanti con la regola v2: scuole=1, salute=2, cibo=4, fermate=8, verde=16).
     Torino: gruppo mancante = zero a piedi in 15 min. Cintura: per scuole/salute/cibo mancante solo se zero a piedi
     E zero col mezzo pubblico entro il cutoff TP all'ora ora_tp; fermate e verde come Torino."""
     tp = (s.get("tp") or {}).get(ora_tp)
     torino = e_torino(s["id"])
-    n_v2 = n_piedi = 0
-    for g in GRUPPI:
+    n_v2 = n_piedi = m = 0
+    for i, g in enumerate(GRUPPI):
         a_zero = s["piedi"]["15"].get(g, 0) == 0
         n_piedi += a_zero
         if torino or g not in GRUPPI_TP_CINTURA or tp is None:
-            n_v2 += a_zero
+            manca = a_zero
         else:
-            n_v2 += a_zero and tp.get(g, 0) == 0
-    return n_v2, n_piedi, tp is not None
+            manca = a_zero and tp.get(g, 0) == 0
+        n_v2 += manca
+        m |= int(manca) << i
+    return n_v2, n_piedi, tp is not None, m
 
 
 def riepilogo_ambito(righe_sez, soglia):
@@ -168,8 +171,10 @@ def calcola_v2(sezioni, superfici):
     per_sez = []
     senza_sup = senza_tp = 0
     negative = 0
+    critiche = []
+    bit_errati = 0
     for s in sezioni:
-        n2, n_piedi, tp_ok = n_mancanti_sezione(s)
+        n2, n_piedi, tp_ok, m = n_mancanti_sezione(s)
         d = densita(s, superfici)
         senza_sup += d is None
         negative += d is not None and d < 0
@@ -178,7 +183,14 @@ def calcola_v2(sezioni, superfici):
             senza_tp += not tp_ok
             righe["cintura_regola_di_oggi"].append({"res": s["res"], "n": n_piedi, "dens": d})
         righe[amb].append({"res": s["res"], "n": n2, "dens": d})
-        per_sez.append({"id": s["id"], "n_mancanti": n2, "densita": None if d is None else round(d, 1)})
+        poco = d is not None and d < SOGLIA_POCO_ABITATA
+        bit_errati += bin(m).count("1") != n2
+        per_sez.append({"id": s["id"], "n_mancanti": n2, "densita": None if d is None else round(d, 1),
+                        "m": m, "poco": poco})
+        if amb == "torino" and not poco and n2 >= SOGLIA_TITOLO:
+            critiche.append({"id": s["id"], "res": s["res"], "densita": None if d is None else round(d, 1),
+                             "n_mancanti": n2, "mancano": [g for i, g in enumerate(GRUPPI) if m >> i & 1]})
+    critiche.sort(key=lambda c: -c["res"])
 
     soglie = [SOGLIA_POCO_ABITATA] + [x for x in SENSIBILITA_SOGLIA if x != SOGLIA_POCO_ABITATA]
     ambiti = {amb: {str(x): riepilogo_ambito(righe[amb], x) for x in sorted(soglie)}
@@ -201,9 +213,18 @@ def calcola_v2(sezioni, superfici):
         "torino": ambiti["torino"],
         "cintura": ambiti["cintura"],
         "cintura_regola_di_oggi": ambiti["cintura_regola_di_oggi"],
+        "ordine_bit": GRUPPI,
+        "sezioni_critiche_torino": critiche,
         "sezioni": per_sez,
     }
     controlli = []
+    controlli.append(("OK" if bit_errati == 0 else "AVVISO",
+                      f"maschera di bit: sezioni dove i bit accesi != n_mancanti: {bit_errati}"))
+    somma_crit = sum(c["res"] for c in critiche)
+    tit = v2["titolo"]["residenti_abitati_con_3_o_piu_mancanti"]
+    controlli.append(("OK" if somma_crit == tit else "AVVISO",
+                      f"sezioni critiche di Torino: {len(critiche)}, somma residenti {somma_crit:,} "
+                      f"(titolo {tit:,})"))
     for amb in ("torino", "cintura"):
         tot = sum(s["res"] for s in sezioni if (e_torino(s["id"])) == (amb == "torino"))
         for x, r in ambiti[amb].items():
@@ -247,6 +268,12 @@ def righe_rapporto_v2(v2, controlli):
         out.append("")
     out.append("CONTROLLI:")
     out += [f"  {esito}: {testo}" for esito, testo in controlli]
+    crit = v2["sezioni_critiche_torino"]
+    out += ["", "SEZIONI CRITICHE DI TORINO (abitate, 3+ mancanti)"]
+    for c in crit:
+        dens = "n.d." if c["densita"] is None else f"{c['densita']:,.0f}"
+        out.append(f"  {c['id']}: {c['res']:,} residenti, {dens} ab/km2, mancano: {', '.join(c['mancano'])}")
+    out.append(f"  ({len(crit)} sezioni) da guardare a mano con Leo (lavoro 7)")
     out.append("LIMITI v2: capienza di ospedali, presidi e scuole non nota (un ospedale grande e un ambulatorio "
                "contano uguale); orario programmato [STIMATO]; catalogo diverso fra Torino e cintura; sezioni senza "
                "superficie contate come abitate.")

@@ -912,11 +912,19 @@ def main():
 
     # ---- risultato 1: dove manca un servizio (fase A, per gruppo) + candidati per aggiungerne uno (fase B) ----
     fb_zero = {}
+    r1, r1_meta = {}, None
     f_fb = RADICE / "data" / "processed" / "risultato1_vuoti.json"
     if f_fb.is_file():
         fb_data = json.loads(f_fb.read_text(encoding="utf-8"))
         fb_zero = {x["id"]: x.get("manca", {}) for x in fb_data.get("sezioni_manca", [])}
         print(f"  risultato1 (dove manca un servizio): {len(fb_zero)} sezioni segnalate")
+        v2 = fb_data.get("v2")
+        if v2:
+            r1 = {x["id"]: [x["n_mancanti"], x["m"], 1 if x["poco"] else 0] for x in v2["sezioni"]}
+            r1_meta = {"soglia": v2["soglia_poco_abitata_ab_km2"], "ora_tp": v2["ora_tp_cintura"],
+                       "ordine": v2["ordine_bit"], "titolo": v2["titolo"]["residenti_abitati_con_3_o_piu_mancanti"]}
+        else:
+            print("  AVVISO: lancia prima 21_risultato1_vuoti.py (manca la sezione v2: niente vista 0-5)")
     fb_candidati = {}
     f_fbc = RADICE / "data" / "processed" / "risultato1_candidati.json"
     if f_fbc.is_file():
@@ -940,8 +948,16 @@ def main():
                 "v": vuln.get(x.get("id",""), {}).get("v"),
                 "vcomp": vuln.get(x.get("id",""), {}).get("comp", {}),
                 "acc": acc.get(x.get("id",""), {}),
-                "fb": fb_zero.get(x.get("id",""), {})}
+                "fb": fb_zero.get(x.get("id",""), {}),
+                "r1": r1.get(x.get("id",""))}
                for x in json.loads(f_sez.read_text(encoding="utf-8")) if x["p"] > 0]   # indicatori ISTAT 2021 per residenti
+        if r1_meta:
+            somma_r1 = sum(x["p"] for x in json.loads(f_sez.read_text(encoding="utf-8"))
+                           if str(x["id"]).startswith("1272") and x["p"] > 0 and r1.get(x["id"])
+                           and r1[x["id"]][2] == 0 and r1[x["id"]][0] >= 3)
+            esito_r1 = "OK" if somma_r1 == r1_meta["titolo"] else "AVVISO"
+            print(f"  {esito_r1}: titolo risultato 1: {somma_r1:,} residenti di Torino abitati con 3+ servizi mancanti "
+                  f"(script 21: {r1_meta['titolo']:,}); sezioni con r1: {sum(1 for x in sez if x['r1'])}")
         print(f"  sezioni di censimento abitate: {len(sez)}, abitanti {sum(x['p'] for x in sez)}, famiglie {sum(x['f'] for x in sez)}, abitazioni {sum(x['ab'] for x in sez)}")
     else:
         print("  (sezioni di censimento non trovate: lancia 05_prepara_sezioni.py per il livello Domanda)")
@@ -991,6 +1007,7 @@ def main():
         "rotte": rotte, "linee": linee, "fermate": stops, "sensori": sensori, "sezioni": sez, "corse": corse,
         "avvisi": avvisi_out,
         "fb_candidati": fb_candidati,
+        "r1_meta": r1_meta,
         "r6": r6,
     }
     testo = json.dumps(dati, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")

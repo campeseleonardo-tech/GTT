@@ -233,12 +233,14 @@ def scheda_r1():
             "residents without a nearby service of that kind.",
             f"Up to 5 new services per group, placed where they help most, would bring {salvati:,} of these cases "
             "within 15 minutes, counted group by group.",
-            "Limits: only the City of Turin is covered; outside it the service catalogue is missing, so a zero there "
-            "often means missing data.",
+            "Limits: the map covers Turin and its surrounding belt; in the belt a service counts as missing only if it "
+            "is out of reach both on foot (15 minutes) and by public transport (45 minutes, 8 am on a weekday), and the "
+            "service data there (schools, health, shops from OpenStreetMap) is less complete.",
         ],
         "mappa": {"id": "faseb", "tema": "Dove mancano i servizi",
-                  "nota": "Nella mappa, menu dei temi: \"Dove mancano i servizi\" (zone scoperte e punti nuovi) "
-                          "oppure \"Accessibilità ai servizi\"."},
+                  "nota": "Nella mappa, tema \"Dove mancano i servizi\": all'apertura quanti servizi mancano in ogni "
+                          "zona (0-5, zone poco abitate in grigio); nel menu un servizio alla volta, con i punti dove "
+                          "aggiungerne uno."},
         "fonti": ["docs/RAPPORTO_RISULTATO1.txt", "docs/RAPPORTO_RISULTATO1_CANDIDATI.txt",
                   "scripts/21_risultato1_vuoti.py", "scripts/22_risultato1_candidati.py"],
         "generato": ora(),
