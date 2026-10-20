@@ -52,6 +52,137 @@ Gli altri si preparano dopo, uno per volta, con un prompt nello stesso stile.
 | 9 | Controllo con la realtà: il rapporto GTT 2025 dichiara il 2,3% di passaggi bus/tram in ritardo oltre 10 minuti; noi misuriamo oltre 5 minuti: calcolare anche oltre 10 e confrontare | 27 | piccolo |
 | — | Solo idea: efficienza e costo bus contro tram | — | serve una fonte sui costi |
 
+## Giro 2 del Risultato 4 — tutti i lavori fattibili con i dati di oggi (piano del 20/10 sera)
+
+Lavori dentro: **3** tram contro bus, **4** link linea → mappa, **5** ritardo per km, **7** R4 in mappa, **8** linee
+utili (zone affollate), **9** oltre 10 minuti contro GTT. Fuori: **6** (rilancio con un mese di dati, metà novembre:
+basterà rilanciare 27, 70, 04 e schede) e l'idea dei costi (manca la fonte).
+
+### Scelte (valori predefiniti di Claude, dichiarati)
+- **Modo della linea** dal GTFS (`route_type` di `routes.txt`): `0` tram, `1` metro, altro bus. La metro di solito non
+  è nel feed: se ha dati, terza riga.
+- **Oltre 10 minuti**: stessa misura del rapporto GTT 2025 (2,3% dei passaggi bus e tram in ritardo oltre 10 minuti,
+  tutto l'anno; `docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`, riga 40). Il 2,3% è l'unico numero scritto a mano: una
+  costante con la fonte nel commento. Il confronto si scrive come «ordine di grandezza» (anno intero contro pochi
+  giorni di ottobre; tutte le linee contro le ~90 urbane del feed).
+- **Ritardo per km**: il ritardo cresce lungo la corsa, quindi si usa il **ritardo a fine corsa** (passaggi alle ultime
+  3 fermate della corsa) diviso la **lunghezza della corsa** (somma delle distanze in linea d'aria fra fermate
+  consecutive del GTFS). Misura: minuti di ritardo ogni 10 km (mediana). Classifica solo linee ordinarie con almeno
+  100 passaggi di fine corsa.
+- **Linee utili** = le 54 dello script 87 (`data/processed/popolarita_zone.json`): una riga «linee utili contro
+  altre» per % in ritardo e grappolo+buco (feriale), pesata per passaggi.
+- **R4 in mappa**: tema nuovo «Puntualità delle linee»: ogni linea colorata per % di passaggi in ritardo oltre 5 minuti
+  nella fascia dell'ora scelta con lo slider e nel tipo di giorno; classi fisse verde→rosso: sotto 2,5% · 2,5-5 ·
+  5-7,5 · 7,5-10 · oltre 10%; grigio sottile = linea senza dati (extraurbane, notte, meno di 200 passaggi). La notte
+  (0-7) non è misurata: tutto grigio con una riga in legenda.
+- **Link**: dalla scheda, ogni linea delle classifiche apre `mappa_torino.html#tema=puntualita&linea=<nome>`.
+
+### Passi meccanici (per il modello minore, sul PC)
+Regole come nel Giro 1 (`docs/PIANO_GIRO1_RITOCCHI.md`, sezione 0). Esito in `docs/ESITO_R4_GIRO2.md`: per ogni passo
+OK / AVVISO / FERMO e le righe cambiate (file, prima, dopo). Aggiungi, non togliere: le uscite di oggi restano.
+Database in sola lettura (`file:...?mode=ro`).
+
+**Passo 1 — `scripts/27_risultato4_regolarita.py`.**
+1. `carica_gtfs()`: leggi anche `route_type` (→ `modo_linea[route_short_name]` = "tram"/"metro"/"bus") e `stops.txt`
+   (coordinate). Dopo `stop_times`, per ogni corsa calcola `ultima_seq[trip]` e `km_corsa[trip]` (somma delle distanze
+   fra fermate consecutive in ordine di `stop_sequence`; usa `comuni.haversine_m`, importando `comuni` come gli altri
+   script). Ritorna i nuovi dizionari; adatta la chiamata in `main()`.
+2. **Oltre 10 minuti**: costante `SOGLIA_RITARDO_10 = 10.0`; in `stat_punt` aggiungi `"ritardo10"` = % dei ritardi > 10
+   (dall'array dei ritardi che `stat_punt` riceve già). Vale per città, linee, fasce e modi.
+3. **Tram contro bus**: nel ciclo sui passaggi aggiungi gli aggregati `punt_modo[(tipo, modo)]` e, nella regolarità,
+   `reg_modo[(tipo, modo)]` (stessa logica di quelli per linea; se `regolarita()` ritorna i totali per nome linea,
+   somma per modo da lì con `modo_linea`). JSON: `"modi": {"tram": {"0": {...}}, "bus": {...}}` e `"modo_linea"`.
+4. **Ritardo a fine corsa**: per ogni passaggio con `seq >= ultima_seq[trip] - 2` aggiungi a `fine[(tipo, linea)]` la
+   coppia (ritardo, km_corsa). Nel blocco di ogni linea: `"fine_corsa": {"passaggi": n, "ritardo_mediana": …,
+   "km_mediana": …, "min_per_10km": mediana di (ritardo / km × 10)}` (solo se n > 0). Controllo: quota delle corse
+   osservate con almeno un passaggio di fine corsa (OK sopra 30%, se no AVVISO).
+5. **Linee utili**: se c'è `data/processed/popolarita_zone.json`, leggi l'elenco delle linee utili (guarda la chiave
+   vera nel file) e scrivi `"linee_utili": {"0": {"utili": {...}, "altre": {...}}}` con passaggi, % ritardo, %
+   ritardo10, % grappolo+buco (somme dei contatori, non medie di percentuali). Se il file manca: AVVISO e niente blocco.
+6. Rapporto (in coda, il testo di oggi resta uguale): «OLTRE 10 MINUTI» (città per tipo di giorno, tram, bus, e la riga
+   «GTT dichiara 2,3% nel 2025 (anno intero, tutte le linee): confronto solo come ordine di grandezza»); «TRAM CONTRO
+   BUS» (feriale: passaggi, % in ritardo, % oltre 10, ritardo mediano, % grappolo+buco); «RITARDO A FINE CORSA» (10
+   linee ordinarie con più minuti ogni 10 km, con almeno 100 passaggi di fine corsa: linea, modo, km, ritardo a fine
+   corsa, minuti/10 km); «LINEE UTILI CONTRO ALTRE».
+7. Costante del confronto: `RIF_GTT_RITARDO10_PCT = 2.3   # rapporto di sostenibilità GTT 2025: passaggi bus/tram in
+   ritardo > 10', anno 2025 (docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md)`, scritta anche nei `parametri` del JSON.
+
+**Passo 2 — `scripts/70_risultato9_attesa.py`: attesa per modo.** Leggi `modo_linea` da
+`data/processed/risultato4_regolarita.json` (scritto dal passo 1; se manca: AVVISO e niente blocco). In `aggrega()`
+aggiungi `"modi": {tipo: {modo: media_pesata([chiavi buone di quel tipo e di quel modo], acc)}}`; nel rapporto, in
+coda, «ATTESA PER MODO (feriale)»: promessa, in più (bassa-alta), intervalli, per tram e bus.
+
+**Passo 3 — `scripts/04_genera_mappa.py`: dati per il tema della puntualità.** Se c'è `risultato4_regolarita.json`,
+aggiungi ai dati della mappa `"r4": {nome_linea_minuscolo: {tipo: {fascia: pct_ritardo, ...}, "n": {tipo: passaggi}}}`
+solo per linee e fasce con almeno `min_passaggi` del JSON (oggi 200) e `"r4_meta": {"periodo": …, "soglia_min": 5,
+"fasce": …}`. Stampa quante linee hanno dati. Dimensione attesa: pochi KB.
+
+**Passo 4 — `scripts/mappa_template.html`.**
+1. **Link dall'indirizzo**: funzione `applicaLineaDaUrl()` che legge `linea=<nome>` da `location.hash` (stessa forma di
+   `applicaVistaDaUrl`), scrive il nome in `#filtroLinea`, accende `Llinee` se il tema lo prevede e richiama il
+   ridisegno (`baseVer++; chiede();`). Chiamala accanto a `applicaVistaDaUrl()` all'avvio e in `hashchange`.
+2. **Tema nuovo** in `THEMES`, dopo il tema della velocità: `{id:"puntualita", label:"Puntualità delle linee",
+   desc:"Quanti passaggi arrivano con più di 5 minuti di ritardo, linea per linea, nell'ora scelta con il cursore.
+   Misurato dal feed GTT.", area:null, over:{...NESSUNA,Llinee:1}, puntualita:true, legenda:()=>legendaR4()}`.
+3. Disegno delle linee (cerca `if(tema.id==="velocita" || tema.velocita){`): prima di quel ramo, un ramo `if(tema.puntualita){ … continue; }`
+   come quello della velocità: valore = `D.r4[l.nome]?.[String(S.dt)]?.[fasciaR4(S.h)]`; colore
+   `PAL_VR[classe]` con le soglie `[2.5, 5, 7.5, 10]`, spessore 3,2; senza valore grigio `#9aa0ad`, alpha .5, spessore
+   1,4. `fasciaR4(h)`: 0-6 notte, 7-8 punta_mattina, 9-15 giorno, 16-18 punta_sera, 19-23 sera (D9 del piano).
+4. `legendaR4()`: titolo «Passaggi in ritardo oltre 5 minuti · fascia <nome della fascia> · <tipo di giorno>
+   [MISURATO]», 5 riquadri con le classi scritte in numeri («sotto 2,5%», «2,5-5%», «5-7,5%», «7,5-10%», «oltre 10%»),
+   un riquadro grigio «nessun dato (extraurbane, poche corse osservate)», una riga con il periodo da `D.r4_meta`; di
+   notte la riga «La notte non è misurata (la raccolta riparte verso le 5)». Chi cambia l'ora deve già richiamare
+   `aggiornaLegenda()` (standard della memoria): controlla che valga anche qui.
+5. Legenda generica delle linee (cerca `if(vis("Llinee") && !tema.velocita && tema.id!=="velocita"){`): aggiungi
+   `&& !tema.puntualita`.
+6. Tooltip delle linee, se esiste un tooltip al passaggio sulle linee: nel tema puntualità mostra «linea N · X% in
+   ritardo oltre 5 min (fascia)»; se il tooltip delle linee non esiste, non crearlo e scrivilo nell'esito.
+
+**Passo 5 — `simulazione.html`: link nelle barre.** In `function graficoBarre(g)`, se la voce ha `v.link`, l'etichetta
+diventa `<a href="${esc(v.link)}" class="barra-link">…</a>` (stesso testo, `title` uguale); stile minimo: colore del
+link della pagina, niente sottolineatura finché non ci passi sopra.
+
+**Passo 6 — `scripts/schede_risultati.py`.**
+1. `voce(...)`: parametro facoltativo `link=None` (se dato, `v["link"] = link`).
+2. Scheda R4: nelle due classifiche delle linee (cerca `"Le 10 linee più in ritardo (feriale)"` e `"Le 10 linee più
+   irregolari"`) ogni voce ha `link=f"mappa_torino.html#tema=puntualita&linea={n}"`; nella nota «Clicca una linea per
+   vederla nella mappa.».
+3. Grafici nuovi (dopo quelli di oggi): «Tram contro bus (feriale)» (barre: % in ritardo oltre 5 min e % oltre 10 min
+   per tram e bus); «Ritardo a fine corsa: minuti ogni 10 km (feriale)» (10 linee, con link); «Linee utili contro
+   altre (feriale)» (% in ritardo). Fra i numeri «Oggi»: «In ritardo oltre 10 minuti (feriale)» e una riga nella
+   risposta: «Oltre 10 minuti: X% nei feriali (GTT dichiara 2,3% per il 2025, su tutto l'anno e tutte le linee: solo
+   ordine di grandezza).»
+4. Parte «attese» (ex R9): una riga per tram e bus dall'attesa per modo (passo 2), se c'è.
+5. `"mappa"` della scheda R4: `{"id": "puntualita", "tema": "Puntualità delle linee", "nota": "Nella mappa, tema
+   «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."}`.
+6. `in_english` con gli stessi numeri nuovi (tram/bus, oltre 10, per km). Niente numeri scritti a mano tranne il 2,3
+   (dalla costante del JSON).
+
+**Passo 7 — Lanci.** `python scripts\27_risultato4_regolarita.py` → `python scripts\70_risultato9_attesa.py` →
+`python scripts\04_genera_mappa.py` → `python scripts\schede_risultati.py` → `python scripts\prova_pagine_r6.py
+--senza-screenshot` (0 errori; il tema `puntualita` deve comparire fra i temi provati). Nell'esito: oltre 10 minuti
+(città feriale, tram, bus), tram contro bus, le 10 linee per minuti/10 km, linee utili contro altre, attesa per modo,
+quante linee hanno dati in mappa, dimensione di `mappa_torino.html`, `git status`. Buon senso (non nel codice): oltre 10
+minuti intorno all'1-3%; feriale in ritardo oltre 5 minuti resta circa 5,2%.
+
+### Controlli di Claude dopo il giro
+Codice; numeri del rapporto (somme tram + bus = città; oltre 10 ≤ oltre 5); mappa in Chromium (tema nuovo con lo slider
+dell'ora, legenda, linea da indirizzo `#tema=puntualita&linea=17`), link della scheda.
+
+### Prompt da incollare (per Leo, sul PC)
+
+> Sei un agente che lavora sul progetto GTT in `C:\projects\Progetti\GTT`, ramo git `prova`. Prima:
+> `git branch --show-current` (deve dire `prova`, altrimenti fermati e dimmelo), `git status` (se ci sono modifiche
+> fermati e dimmelo), `git pull origin prova`. Leggi `AGENTS.md` e in `docs/PIANO_RISULTATO4.md` la sezione «Giro 2
+> del Risultato 4», poi esegui i 7 passi meccanici, uno alla volta, nell'ordine. Aggiungi, non togliere: le uscite di
+> oggi restano. Cambia solo quello che i passi dicono; niente numeri scritti a mano nei testi, salvo il 2,3 di GTT
+> (costante con la fonte). Database in sola lettura. Se una riga da cercare non c'è o un nome è diverso, guarda il
+> file vero, adatta e scrivilo. Scrivi tutto in `docs/ESITO_R4_GIRO2.md` (OK / AVVISO / FERMO per passo, righe
+> cambiate prima/dopo, uscite dei controlli). Non modificare `MEMORIA_PROGETTO.md`. Python: `python` del PATH, mai
+> Anaconda. Alla fine fai commit e push come dice `AGENTS.md` (sezione «Commit») e scrivi un riassunto di 10 righe in
+> italiano semplice con: oltre 10 minuti (e il confronto con GTT), tram contro bus, le 3 linee con più ritardo per km,
+> linee utili contro altre, e gli errori della prova delle pagine.
+
 ---
 
 # PARTE A — storia del Risultato 4

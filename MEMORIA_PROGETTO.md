@@ -114,8 +114,8 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    (proposta fermate importanti, script 89, Leo sceglie N e M), poi C (popolarità delle zone senza i ritorni a casa,
    script 87): `docs/PIANO_RISULTATO6.md` (prompt rivisti il 20/10 sera).
 4bis. **Risultato 4, lavori piccoli sui dati di oggi** (non serve aspettare novembre): tram contro bus (3), oltre 10
-   minuti contro il 2,3% di GTT (9), link linea → mappa (4), ritardo per km (5). Prompt da scrivere; dopo la fase B
-   del R1 (toccano lo stesso template).
+   minuti contro il 2,3% di GTT (9), link linea → mappa (4), ritardo per km (5), più R4 in mappa (7, tema «Puntualità
+   delle linee») e linee utili contro altre (8): **Giro 2 del R4**, passi e prompt in `docs/PIANO_RISULTATO4.md`, sul PC.
 5. Pubblicare su GitHub Pages (ramo `gh-pages` con solo `pubblica/`), cartella leggera (oggi 90 MB), sfondi Esri.
 6. Rilanci con più dati: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 (con R9) con un mese (metà
    novembre); poi R4 in mappa. Screenshot di Leo per la scheda R6.
