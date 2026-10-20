@@ -116,7 +116,7 @@ def main():
 
     pt, perc = punteggi(eleggibili, valori, pesi)
     soglia, scelti = scegli(pt, args.percentuale)
-    ordine = sorted(eleggibili, key=lambda i: -pt[i])
+    ordine = sorted(eleggibili, key=lambda i: (-pt[i], i))   # a pari punteggio: codice del luogo (ordine fisso)
     posizione = {i: k + 1 for k, i in enumerate(ordine)}
     print(f"soglia {soglia:.2f}: fermate importanti {len(scelti)}")
     c("le fermate importanti sono circa la percentuale scelta (+-3 punti)",
@@ -155,7 +155,7 @@ def main():
                      "S2_in_zona_centrale": sum(1 for i in s2 if (luoghi.get(i) or {}).get("zona_imq") in comuni.ZONE_CENTRALI)}
 
     imp = []
-    for i in sorted(scelti, key=lambda i: -pt[i]):
+    for i in sorted(scelti, key=lambda i: (-pt[i], i)):   # scelti e' un insieme: senza spareggio l'ordine cambiava a ogni giro
         l, s = luoghi[i], seg.get(i, {})
         imp.append({"id_luogo": i, "nome": l["nome"], "lat": l["lat"], "lon": l["lon"], "zona_imq": l["zona_imq"],
                     "punteggio": round(pt[i], 2), "posizione": posizione[i],

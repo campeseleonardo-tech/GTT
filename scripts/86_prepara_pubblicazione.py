@@ -124,7 +124,9 @@ def main():
     for s in schede:
         nk = s.get("numero_chiave") or {}
         titolo = f"Risultato {s.get('risultato', '')} — {s['titolo']}".strip(" —")
-        riga = f"**{numero_it(nk.get('valore'))} {nk.get('unita', '')}** {nk.get('testo', '')}".strip() if nk else ""
+        unita = nk.get("unita", "") if nk else ""
+        riga = (f"**{numero_it(nk.get('valore'))}{'' if unita == '%' else ' '}{unita}** {nk.get('testo', '')}".strip()
+                if nk else "")
         risposta = (s.get("risposta") or [""])[0]
         it.append(f"### {titolo}\n*{s.get('domanda', '')}*\n\n{riga}\n\n{risposta}\n")
         eng = s.get("in_english") or []

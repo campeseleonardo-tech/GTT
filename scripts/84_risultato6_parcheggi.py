@@ -307,7 +307,7 @@ def main():
             serv = np.nonzero((D[:, cols] <= raggio_aria).any(axis=1))[0]
             posti_g = int(sum(posti[i] for i in serv))
             pot_g = max(fermate[k]["potenziale"] for k in membri)
-            capo = max(membri, key=lambda k: (fermate[k]["potenziale"], fermate[k]["punteggio"]))
+            capo = max(membri, key=lambda k: (fermate[k]["potenziale"], fermate[k]["punteggio"], fermate[k]["id"]))   # spareggio fisso
             cx_ = float(np.mean([xy[k][0] for k in membri]))
             cy_ = float(np.mean([xy[k][1] for k in membri]))
             clat, clon = m80.inverti(cx_, cy_)
@@ -330,7 +330,7 @@ def main():
                              "mancano": fermate[k]["mancano"]} for k in sorted(membri, key=lambda k: -fermate[k]["mancano"])],
                 "_somma_punteggio": sum(fermate[k]["punteggio"] for k in membri),
             })
-    punti.sort(key=lambda p: (-p["mancano"], -p["_somma_punteggio"]))
+    punti.sort(key=lambda p: (-p["mancano"], -p["_somma_punteggio"], p["centro"]))   # spareggio fisso
     n_gruppi = len(punti)
     punti, scartati = un_punto_per_asse(punti, DIST_MIN_CENTRO_KM)
     pochi = [p for p in punti if p["mancano"] < MIN_MANCANO_PUNTO]

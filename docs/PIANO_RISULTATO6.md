@@ -51,6 +51,10 @@ Rita (circa 400), Barbera (circa 350), Metro Massaua (circa 300). Gli ultimi tre
 aggiunta la regola **almeno 50 posti mancanti** per entrare nella lista: giro del 20/10 12:11, **16 punti**, verifiche
 0 non superate.
 
+**Giro 1 (20/10, 15:06)**: pannello corretto, vista «aree» tolta, 80 parcheggi del centro in viola, **15 punti**
+(il gruppo di Chieri, prima «Valle Ceppi», è uscito: a pari punteggio la fermata «capo» del gruppo cambiava a ogni
+giro; corretto con uno spareggio fisso negli script 83 e 84, il numero definitivo esce al prossimo giro).
+
 ## Commenti di Leo (20/10) e fattibilità
 
 | Commento | Controllo | Fattibile? |
