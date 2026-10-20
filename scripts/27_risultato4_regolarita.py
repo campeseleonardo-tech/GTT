@@ -70,6 +70,12 @@ MAX_LETTURA = 600.0          # secondi (10 minuti)
 FREQ_MAX = 15.0              # minuti
 MIN_PASSAGGI = 200
 MIN_COPPIE = 100
+MIN_PASSAGGI_CLASSIFICA = 2000   # classifica delle linee peggiori: solo linee ordinarie (Leo, 20/10/2026)
+
+
+def linea_ordinaria(nome):
+    """Linee ordinarie: nome fatto solo di cifre (es. 4, 17, 68). Speciali e varianti (RV2, VEX, LS1, 68+, 17/) no."""
+    return str(nome).isdigit()
 
 TIPI = ("0", "1", "2")                        # 0 feriale, 1 sabato, 2 domenica
 FASCE = ("punta_mattina", "giorno", "punta_sera", "sera", "notte")   # D9
@@ -388,7 +394,8 @@ def main():
     per = {"da": da_gttfs(giorni[0]), "a": da_gttfs(giorni[-1])}
     parametri = {"soglia_ritardo_min": SOGLIA_RITARDO, "soglia_anticipo_min": SOGLIA_ANTICIPO,
                  "max_lettura_lontana_min": MAX_LETTURA / 60, "freq_max_min": FREQ_MAX,
-                 "min_passaggi": MIN_PASSAGGI, "min_coppie": MIN_COPPIE}
+                 "min_passaggi": MIN_PASSAGGI, "min_passaggi_classifica": MIN_PASSAGGI_CLASSIFICA,
+                 "min_coppie": MIN_COPPIE}
     j_citta = {}
     for t, a in punt_citta.items():
         blocco = stat_punt(a)
@@ -455,8 +462,8 @@ def main():
 
     class_p = sorted(((v["ritardo"], k) for k, v in
                       ((ln, j_linee[ln]["0"]) for ln in j_linee if "0" in j_linee[ln])
-                      if v["passaggi"] >= MIN_PASSAGGI), reverse=True)
-    R.append(f"10 LINEE PEGGIORI PER % IN RITARDO (feriale, >= {MIN_PASSAGGI} passaggi)")
+                      if v["passaggi"] >= MIN_PASSAGGI_CLASSIFICA and linea_ordinaria(k)), reverse=True)
+    R.append(f"10 LINEE PEGGIORI PER % IN RITARDO (feriale, linee ordinarie, >= {MIN_PASSAGGI_CLASSIFICA} passaggi)")
     for i, (val, ln) in enumerate(class_p[:10], 1):
         c = j_linee[ln]["0"]
         R.append(f"{i:2}. linea {ln:<5} {val:5}% in ritardo | {c['passaggi']} passaggi "
@@ -465,8 +472,8 @@ def main():
 
     class_r = sorted(((round(v["grappolo"] + v["buco"], 1), k) for k, v in
                       ((ln, j_linee[ln]["0"]) for ln in j_linee if "0" in j_linee[ln])
-                      if v["coppie"] >= MIN_COPPIE), reverse=True)
-    R.append(f"10 LINEE PEGGIORI PER IRREGOLARITA' (feriale, >= {MIN_COPPIE} coppie)")
+                      if v["coppie"] >= MIN_COPPIE and linea_ordinaria(k)), reverse=True)
+    R.append(f"10 LINEE PEGGIORI PER IRREGOLARITA' (feriale, linee ordinarie, >= {MIN_COPPIE} coppie)")
     for i, (val, ln) in enumerate(class_r[:10], 1):
         c = j_linee[ln]["0"]
         R.append(f"{i:2}. linea {ln:<5} {val:5}% grappolo+buco | {c['coppie']} coppie "
