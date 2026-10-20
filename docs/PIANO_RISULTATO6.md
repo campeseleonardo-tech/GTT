@@ -224,6 +224,24 @@ vista dei punti), scheda R6 (regola e riga dei sensori).
 > senza posti bastanti, i punti prioritari, le 5 zone più popolari, le verifiche dell'85 e gli errori della prova
 > delle pagine.
 
+## Ricontrollo del Giro 2 (Claude, 20/10 sera): OK
+Codice dei 7 passi letto; mappa in Chromium senza errori (vista dei 12 punti, pannello del parcheggio con «Linee utili a
+meno di 400 m», guida con la regola nuova). Numeri: **274 fermate importanti** (= proposta), **179 senza posti
+bastanti** (68 senza nessun parcheggio, 111 insufficienti, 95 sufficienti), **12 punti prioritari** (prima 15): Santa
+Rita (circa 450), Metro Massaua, Ponte Cavalieri Templari, Regina Margherita (circa 350), Pasini, Leonardo da Vinci,
+Drosso Cap, Stura Lazio, Marsè, Derna Est, Ferrara, Zara. Verifiche 85: 0 non superate. Zone più popolari per km²:
+Centro, San Paolo, Cenisia, San Donato, Nizza Millefonti. Superficie delle zone di Torino 129,3 km² (giusto).
+Perché i punti cambiano (controllato fermata per fermata contro la mappa di prima):
+- **escono perché lì passano meno di 10 corse/ora**, pur con molte auto: Maroncelli (Moncalieri, era il n. 1, 12.000
+  auto), Pellerina, Gessi, Svincolo Mirafiori, Villa Luigina e Traforo (asse di Chieri, Pino Torinese). È l'effetto
+  voluto della regola: un parcheggio serve dove passa un mezzo frequente;
+- **gli altri restano con un nome vicino**: Pellerina → Regina Margherita, Barbera e Svincolo Mirafiori → Drosso Cap,
+  Rebaudengo Sud → Derna Est, Pianezza e Potenza nel gruppo di Regina Margherita, asse di Moncalieri → Ponte Cavalieri
+  Templari. Nuovi: Ferrara (Beinasco) e Zara (corso Moncalieri). Asse perso: Chieri.
+- Maroncelli è a 560-650 m dalla Metro Bengasi. **Leo (20/10 sera): lasciare così** (a 600 m la metro è troppo lontana
+  per chi lascia l'auto; la metro conta solo se la fermata è della metro).
+Da guardare da Leo: la scheda R6 in `simulazione.html` (regola nuova nei criteri, riga dei sensori nei limiti).
+
 ## Come eseguirli
 
 - Lavori 1-3: dentro il **Giro 1** (`docs/PIANO_GIRO1_RITOCCHI.md`, passi 1-3).
