@@ -574,11 +574,12 @@ const sez = (D.sezioni||[]).map(z=>{
     const g=$("subFbGruppo")?.value||"salute";
     const nomi={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
     const soglia=((D.r1_meta||{}).soglia||0).toLocaleString("it-IT");
-    const grigio=`<span><i style="background:#9aa0ad;opacity:.5"></i>zona poco abitata (sotto ${soglia} ab/km²), fuori dal conteggio</span>`;
+    const grigio=`<span><i style="background:#9aa0ad;opacity:.5"></i>zona poco abitata (sotto ${soglia} ab/km²), fuori dal conteggio</span>`
+      +`<span><i style="background:#b9a6d6"></i>dato da verificare (punto di partenza lontano dalle strade)</span>`;
     if(g==="tutti"){
       const et=["0","1","2","3","4","5 (tutti)"];
       return `<div class="t">Quanti servizi essenziali mancano · ${TAG.sim}</div>`
-        +`<div class="puntini">${PAL_SEZ.r1.map((c,k)=>`<span><i style="background:${c}"></i>${et[k]}</span>`).join("")}${grigio}</div>`
+        +`<div class="puntini">${PAL_SEZ.r1.map((c,k)=>`<span><i style="background:${c}"></i>${et[k]}</span>`).join("")}${grigio}<span><i style="background:none;border:2.5px solid #a50026;border-radius:50%"></i>cerchio = zona abitata con 3 o piu' servizi mancanti</span></div>`
         +`<div class="et" style="display:block">Torino: a piedi in 15 minuti. Fuori Torino: a piedi in 15 minuti o con i mezzi pubblici in 45 (partenza alle 8 di un feriale); scuole, salute e negozi da OpenStreetMap, meno completi.</div>`;
     }
     const haCandidati = !!(D.fb_candidati && (D.fb_candidati[g]||[]).length);
@@ -643,6 +644,7 @@ PAL_SEZ.acc = PAL_RV;   // rosso = pochi servizi raggiungibili, verde = molti
 PAL_SEZ.fb = ["#e3f0df","#fc8d59","#d73027"];   // 0=ok (verde chiarissimo), 1=pochissimo, 2=manca
 PAL_SEZ.r1 = ["#e3f0df","#fee08b","#fdae61","#f46d43","#d73027","#a50026"];   // 0..5 servizi mancanti
 // il gruppo g manca (regola v2: in cintura conta anche il mezzo pubblico); senza dati v2 vale lo "zero" della v1
+const r1Verif=z=>!!(z.r1 && z.r1[3]===1 && z.r1[2]!==1);   // da verificare: fermata vicina ma calcolo a piedi non la raggiunge
 function r1Manca(z,g){
   const i=((D.r1_meta||{}).ordine||[]).indexOf(g);
   return z.r1 && i>=0 ? ((z.r1[1]>>i)&1)===1 : (z.fb||{})[g]==="zero";
@@ -1176,10 +1178,20 @@ function disegnaBase(ws,ox,oy,i){
         : fbGruppo ? (r1Manca(z,fbGruppo)?2:((z.fb||{})[fbGruppo]==="pochissimo")?1:0)
         : classeSez(valore,modo);
       // riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
-      cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:AREA_ALPHA;
+      const verif=!!fbGruppo && r1Verif(z);
+      cx.fillStyle=nulla?"#9aa0ad":verif?"#b9a6d6":pal[c]; cx.globalAlpha=nulla?.35:AREA_ALPHA;
       for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.fill(); }
       cx.globalAlpha=1;
       if(dettaglio){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
+    }
+    if(fbGruppo==="tutti"){   // cerchio attorno alle zone abitate di Torino con 3 o piu' servizi mancanti
+      cx.lineWidth=2.5; cx.strokeStyle="#a50026";
+      for(const z of sez){
+        if(z.c!==TORINO_PC || !z.r1 || z.r1[2]===1 || z.r1[3]===1 || z.r1[0]<3) continue;
+        const X=z.x*ws-ox, Y=z.y*ws-oy;
+        if(X<-20||X>W+20||Y<-20||Y>H+20) continue;
+        cx.beginPath(); cx.arc(X,Y,9,0,6.2832); cx.stroke();
+      }
     }
     if(fbGruppo && (fbCandidati[fbGruppo]||[]).length){   // zone candidate a un nuovo servizio (qualunque gruppo gia' calcolato)
       for(const cnd of (fbCandidati[fbGruppo]||[])){
@@ -1645,10 +1657,11 @@ function schedaSezione(z){
     if(gruppo==="tutti"){
       const ordine = (D.r1_meta||{}).ordine||[];
       const mancano = ordine.filter(g=>r1Manca(z,g)).map(g=>nomiFb[g]||g);
-      val = poco || !z.r1 ? "Zona poco abitata: fuori dal conteggio" : `${z.r1[0]} servizi mancanti su 5`;
-      stato = poco || !z.r1 ? "Zona poco abitata" : (mancano.length ? mancano.join(", ") : "nessuno");
+      val = poco || !z.r1 ? "Zona poco abitata: fuori dal conteggio" : r1Verif(z) ? "Dato da verificare" : `${z.r1[0]} servizi mancanti su 5`;
+      stato = poco || !z.r1 ? "Zona poco abitata" : r1Verif(z) ? "C'è una fermata vicina, ma il calcolo a piedi non la raggiunge" : (mancano.length ? mancano.join(", ") : "nessuno");
     } else {
       val = poco ? "Zona poco abitata: fuori dal conteggio"
+        : r1Verif(z) ? "Dato da verificare"
         : r1Manca(z,gruppo) ? "Manca"
         : liv==="pochissimo" ? "Pochissimi"
         : "Presente";
@@ -1669,19 +1682,18 @@ function schedaSezione(z){
   ] : [];
   const fam = famigliaModo(modo);   // solo campi pertinenti al tema guardato
   const contestoBase = [
-    { k: "Residenti sezione", v: `${z.p} abitanti (${Math.round(z.dens)} / km²)` },
+    { k: "Residenti sezione", v: `${z.p} abitanti (${Math.round(z.dens).toLocaleString("it-IT")} / km²)` },
     { k: "Superficie", v: `${z.km2.toLocaleString("it-IT",{maximumFractionDigits:2})} km²` }
   ];
   const contestoServizio = [
-    { k: "Residenti sezione", v: `${z.p} abitanti (${Math.round(z.dens)} / km²)` },
+    { k: "Residenti sezione", v: `${z.p} abitanti (${Math.round(z.dens).toLocaleString("it-IT")} / km²)` },
     { k: "Popolazione entro 400 m", v: `${z.pop400} residenti` },
     { k: "Fermate entro 400 m", v: `${z.st.length} fermate GTT` },
     { k: "Passaggi GTT alle " + hh + ":00", v: `${serv} passaggi/ora programmati` }
   ];
   const det = [...profilo, ...(fam === "trasporto" ? contestoServizio : contestoBase)];
   if(fam === "fb"){
-    det.push({ k: "Abitanti per km²", v: Math.round(z.dens).toLocaleString("it-IT") },
-             { k: "Regola", v: z.c===TORINO_PC ? "Torino: a piedi 15 min" : "Cintura: a piedi 15 min o mezzi pubblici 45 min" });
+    det.push({ k: "Regola", v: z.c===TORINO_PC ? "Torino: a piedi 15 min" : "Cintura: a piedi 15 min o mezzi pubblici 45 min" });
   }
   let app = "";
   const gOsm = fam==="acc" ? ($("subAccGruppo")?.value||"scuole") : fam==="fb" ? ($("subFbGruppo")?.value||"salute") : null;
@@ -1939,8 +1951,8 @@ function cercaTip(sx,sy,click){
           const gruppo=$("subFbGruppo")?.value||"salute";
           const nomiFb={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
           const liv=(z.fb||{})[gruppo], poco=!!(z.r1&&z.r1[2]===1);
-          if(gruppo==="tutti") val = poco||!z.r1 ? "poco abitata" : `${z.r1[0]} mancanti`;
-          else val = (poco?"Poco abitata":r1Manca(z,gruppo)?"Manca":liv==="pochissimo"?"Pochissimo":"Ok")+` · ${nomiFb[gruppo]||gruppo}`;
+          if(gruppo==="tutti") val = poco||!z.r1 ? "poco abitata" : r1Verif(z) ? "da verificare" : `${z.r1[0]} mancanti`;
+          else val = (poco?"Poco abitata":r1Verif(z)?"Da verificare":r1Manca(z,gruppo)?"Manca":liv==="pochissimo"?"Pochissimo":"Ok")+` · ${nomiFb[gruppo]||gruppo}`;
         } else val=`${sezServ(z,i)} passaggi/ora`;
         return mostraTipBase(tipC(nome, val, extra), sx, sy);
       }

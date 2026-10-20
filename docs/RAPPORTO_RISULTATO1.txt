@@ -1,5 +1,5 @@
 RAPPORTO RISULTATO 1 - fase A: dove mancano i servizi essenziali (STIMATO, a piedi)
-generato: 2026-10-20T13:44:13+00:00
+generato: 2026-10-20T13:59:36+00:00
 fonte: data/processed/accessibilita.json (giro completo 12/10/2026, [STIMATO])
 cutoff a piedi: 15 min   soglia 'pochissimo': sotto il 10% dei residenti
 
@@ -35,21 +35,22 @@ VERSIONE 2 (20/10/2026): servizi mancanti per sezione, zone poco abitate a parte
 regola: Torino: servizio mancante = zero destinazioni entro 15 min a piedi. Cintura: per scuole, salute e cibo mancante solo se zero a piedi (15 min) E zero col mezzo pubblico (entro 45 min, alle 08 di un feriale); fermate e verde come Torino. Tabelle sempre separate.
 soglia 'poco abitata': sotto 1,000 ab/km2 (sensibilita': 500, 2,000)
 
-TITOLO: 751 residenti di Torino, in zone abitate, senza 3 o piu' dei 5 servizi (su 848,748 residenti di Torino)
+TITOLO: 362 residenti di Torino, in zone abitate, senza 3 o piu' dei 5 servizi (su 848,748 residenti di Torino)
   tutti e 5 mancanti (tutte le zone): 8 residenti (non fa titolo)
   residenti nelle zone poco abitate (a parte): 6,768
+  residenti nelle zone da verificare (a parte): 389
 
 TORINO: residenti per numero di servizi mancanti (soglia 1000 ab/km2)
   0 mancanti: abitate 834,963   poco abitate 2,866
   1 mancanti: abitate 5,302   poco abitate 1,082
   2 mancanti: abitate 964   poco abitate 1,102
-  3 mancanti: abitate 751   poco abitate 1,480
+  3 mancanti: abitate 362   poco abitate 1,480
   4 mancanti: abitate 0   poco abitate 230
   5 mancanti: abitate 0   poco abitate 8
   sensibilita' della soglia (poco abitate / abitate con 3+ mancanti / abitate con 1+ mancanti):
-      500 ab/km2: 2,875 / 1,821 / 9,566
-     1000 ab/km2: 6,768 / 751 / 7,017
-     2000 ab/km2: 17,039 / 389 / 2,003
+      500 ab/km2: 2,875 / 1,395 / 9,140
+     1000 ab/km2: 6,768 / 362 / 6,628
+     2000 ab/km2: 17,039 / 0 / 1,614
 
 CINTURA (regola v2: piedi 15 min o mezzo pubblico 45 min alle 08; scuole/salute/cibo non comparabili con Torino): residenti per numero di servizi mancanti (soglia 1000 ab/km2)
   0 mancanti: abitate 632,101   poco abitate 15,847
@@ -59,7 +60,7 @@ CINTURA (regola v2: piedi 15 min o mezzo pubblico 45 min alle 08; scuole/salute/
   4 mancanti: abitate 318   poco abitate 187
   5 mancanti: abitate 0   poco abitate 158
   sensibilita' della soglia (poco abitate / abitate con 3+ mancanti / abitate con 1+ mancanti):
-      500 ab/km2: 20,163 / 1,081 / 50,020
+      500 ab/km2: 20,163 / 1,081 / 50,013
      1000 ab/km2: 30,879 / 834 / 45,765
      2000 ab/km2: 68,422 / 282 / 29,154
 
@@ -71,13 +72,13 @@ CINTURA con la regola di oggi (solo a piedi), per confronto: residenti per numer
   4 mancanti: abitate 9,376   poco abitate 8,228
   5 mancanti: abitate 1,263   poco abitate 2,674
   sensibilita' della soglia (poco abitate / abitate con 3+ mancanti / abitate con 1+ mancanti):
-      500 ab/km2: 20,163 / 28,297 / 123,558
+      500 ab/km2: 20,163 / 28,297 / 123,551
      1000 ab/km2: 30,879 / 23,318 / 115,151
      2000 ab/km2: 68,422 / 8,739 / 87,328
 
 CONTROLLI:
   OK: maschera di bit: sezioni dove i bit accesi != n_mancanti: 0
-  OK: sezioni critiche di Torino: 7, somma residenti 751 (titolo 751)
+  OK: sezioni critiche di Torino: 5, somma residenti 362 (titolo 362)
   OK: torino, soglia 500: somma residenti per n_mancanti = 848,748 (residenti ambito 848,748)
   OK: torino, soglia 1000: somma residenti per n_mancanti = 848,748 (residenti ambito 848,748)
   OK: torino, soglia 2000: somma residenti per n_mancanti = 848,748 (residenti ambito 848,748)
@@ -89,12 +90,15 @@ CONTROLLI:
   OK: sezioni di cintura senza mezzo pubblico alle 08: 0 (per loro vale solo il piedi)
 
 SEZIONI CRITICHE DI TORINO (abitate, 3+ mancanti)
-  12720005328: 245 residenti, 46,226 ab/km2, mancano: scuole, salute, fermate
-  12720000972: 144 residenti, 27,068 ab/km2, mancano: scuole, salute, fermate
   12720003044: 140 residenti, 1,712 ab/km2, mancano: scuole, salute, cibo
   12720003783: 116 residenti, 1,026 ab/km2, mancano: scuole, salute, cibo
   12720003836: 53 residenti, 1,224 ab/km2, mancano: scuole, salute, cibo
   12720006938: 38 residenti, 1,003 ab/km2, mancano: scuole, salute, cibo
   12720005880: 15 residenti, 1,582 ab/km2, mancano: scuole, salute, fermate
-  (7 sezioni) da guardare a mano con Leo (lavoro 7)
+  (5 sezioni) da guardare a mano con Leo (lavoro 7)
+
+SEZIONI DA VERIFICARE (zero fermate a 15 min a piedi, ma una fermata GTT entro 300 m in linea d'aria; escluse da titolo e candidati)
+  12720005328 (torino): 245 residenti, 46,226 ab/km2, fermata a 179 m, mancano: scuole, salute, fermate
+  12720000972 (torino): 144 residenti, 27,068 ab/km2, fermata a 75 m, mancano: scuole, salute, fermate
+  (2 sezioni, 389 residenti) da correggere nello script 18 (SEZIONI_FUORI_RETE) al prossimo calcolo completo dell'accessibilita'.
 LIMITI v2: capienza di ospedali, presidi e scuole non nota (un ospedale grande e un ambulatorio contano uguale); orario programmato [STIMATO]; catalogo diverso fra Torino e cintura; sezioni senza superficie contate come abitate.

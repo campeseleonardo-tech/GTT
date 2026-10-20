@@ -33,7 +33,7 @@ Uscite:
   docs/RAPPORTO_RISULTATO1_CANDIDATI.txt
 
 Usage:
-    python 22_risultato1_candidati.py --gruppi salute,scuole [--cluster-metri 400] [--max-candidati 5] [--soglia-densita 1000]
+    python 22_risultato1_candidati.py --gruppi scuole,salute,cibo,fermate,verde [--cluster-metri 400] [--max-candidati 5] [--soglia-densita 1000]
 """
 
 import argparse
@@ -89,7 +89,7 @@ def clusterizza(sezioni_zero, metri):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--gruppi", default="salute,scuole",
+    ap.add_argument("--gruppi", default="scuole,salute,cibo,fermate,verde",
                      help="gruppi separati da virgola (scuole,salute,cibo,fermate,verde)")
     ap.add_argument("--cluster-metri", type=float, default=400.0)
     ap.add_argument("--max-candidati", type=int, default=5,
@@ -113,20 +113,29 @@ def main():
         d = vuoti21.densita(s, superfici)
         return d is None or d >= args.soglia_densita
 
+    def verificare(s):
+        """Sezione "da verificare" (stessa regola dello script 21): non genera candidati."""
+        return vuoti21.da_verificare(s) is not None
+
+    def candidabile(s):
+        return abitata(s) and not verificare(s)
+
     # ---- 1-2: sezioni a zero per gruppo + clustering in candidati
     candidati_per_gruppo = {}
     cambio_filtro = {}  # per gruppo: quanto cambia con il filtro "solo sezioni abitate"
     tutti_candidati = []  # (idx_globale, lat, lon, gruppo)
     for g in gruppi:
         zero_tutte = [s for s in torino if s["piedi"]["15"].get(g, 0) == 0]
-        zero = [s for s in zero_tutte if abitata(s)]
+        zero = [s for s in zero_tutte if candidabile(s)]
+        n_verif = sum(1 for s in zero_tutte if abitata(s) and verificare(s))
         cand_prima = len(clusterizza(zero_tutte, args.cluster_metri)) if zero_tutte else 0
         cand = clusterizza(zero, args.cluster_metri) if zero else []
         candidati_per_gruppo[g] = cand
         cambio_filtro[g] = {"sezioni_zero_prima": len(zero_tutte), "sezioni_zero_abitate": len(zero),
                             "residenti_zero_prima": sum(s["res"] for s in zero_tutte),
                             "residenti_zero_abitate": sum(s["res"] for s in zero),
-                            "candidati_prima": cand_prima, "candidati_dopo": len(cand)}
+                            "candidati_prima": cand_prima, "candidati_dopo": len(cand),
+                            "sezioni_da_verificare_tolte": n_verif}
         print(f"  {g}: {len(zero_tutte)} sezioni a zero, {len(zero)} abitate -> {len(cand)} candidati "
               f"(prima del filtro {cand_prima}; celle di {args.cluster_metri:.0f} m)")
         for c in cand:
@@ -169,7 +178,7 @@ def main():
     esito_gruppi = {}
     for g in gruppi:
         idx_g = [i for i, c in enumerate(tutti_candidati) if c["gruppo"] == g]
-        zero_ids_g = {s["id"] for s in torino if s["piedi"]["15"].get(g, 0) == 0 and abitata(s)}
+        zero_ids_g = {s["id"] for s in torino if s["piedi"]["15"].get(g, 0) == 0 and candidabile(s)}
         scoperte = set(zero_ids_g)
         scelti = []
         disponibili = set(idx_g)
@@ -237,7 +246,8 @@ def main():
         righe.append(f"  solo sezioni abitate (>= {args.soglia_densita:,.0f} ab/km2): sezioni a zero "
                      f"{f_['sezioni_zero_prima']} -> {f_['sezioni_zero_abitate']}, residenti a zero "
                      f"{f_['residenti_zero_prima']:,} -> {f_['residenti_zero_abitate']:,}, zone candidate "
-                     f"{f_['candidati_prima']} -> {f_['candidati_dopo']}")
+                     f"{f_['candidati_prima']} -> {f_['candidati_dopo']}; "
+                     f"sezioni da verificare tolte: {f_['sezioni_da_verificare_tolte']}")
         righe.append("")
     righe.append("LIMITI: zone indicative (non indirizzi/terreni verificati); non dice se il "
                  "servizio basterebbe o verrebbe usato; ORARIO PROGRAMMATO [STIMATO]; solo Torino.")

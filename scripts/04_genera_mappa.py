@@ -920,7 +920,8 @@ def main():
         print(f"  risultato1 (dove manca un servizio): {len(fb_zero)} sezioni segnalate")
         v2 = fb_data.get("v2")
         if v2:
-            r1 = {x["id"]: [x["n_mancanti"], x["m"], 1 if x["poco"] else 0] for x in v2["sezioni"]}
+            r1 = {x["id"]: [x["n_mancanti"], x["m"], 1 if x["poco"] else 0, 1 if x["verif"] else 0]
+                  for x in v2["sezioni"]}
             r1_meta = {"soglia": v2["soglia_poco_abitata_ab_km2"], "ora_tp": v2["ora_tp_cintura"],
                        "ordine": v2["ordine_bit"], "titolo": v2["titolo"]["residenti_abitati_con_3_o_piu_mancanti"]}
         else:
@@ -954,7 +955,7 @@ def main():
         if r1_meta:
             somma_r1 = sum(x["p"] for x in json.loads(f_sez.read_text(encoding="utf-8"))
                            if str(x["id"]).startswith("1272") and x["p"] > 0 and r1.get(x["id"])
-                           and r1[x["id"]][2] == 0 and r1[x["id"]][0] >= 3)
+                           and r1[x["id"]][2] == 0 and r1[x["id"]][3] == 0 and r1[x["id"]][0] >= 3)
             esito_r1 = "OK" if somma_r1 == r1_meta["titolo"] else "AVVISO"
             print(f"  {esito_r1}: titolo risultato 1: {somma_r1:,} residenti di Torino abitati con 3+ servizi mancanti "
                   f"(script 21: {r1_meta['titolo']:,}); sezioni con r1: {sum(1 for x in sez if x['r1'])}")

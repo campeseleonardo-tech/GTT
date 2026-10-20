@@ -49,8 +49,15 @@ Usage:
 
 import argparse
 import datetime as dt
+import csv
+import io
 import json
+import sys
+import zipfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import comuni
 
 RADICE = Path(__file__).resolve().parent.parent
 ACCESS = RADICE / "data/processed/accessibilita.json"
@@ -70,6 +77,8 @@ SOGLIA_TITOLO = 3                   # titolo = residenti abitati con almeno 3 se
 ORA_TP = "08"                       # mezzo pubblico: alle 08 di un feriale (gia' calcolato da 18_accessibilita.py)
 GRUPPI_TP_CINTURA = {"scuole", "salute", "cibo"}  # in cintura manca solo se zero a piedi E col mezzo pubblico
 MAX_SENZA_SUPERFICIE = 10           # oltre, AVVISO
+RAGGIO_FERMATA_SOSPETTA_M = 300     # sezione "da verificare": zero fermate a piedi ma una fermata GTT entro questo raggio (Leo, 20/10)
+GTFS = RADICE / "data/raw/gtt_gtfs_20261003_224530.zip"   # stesso GTFS dello script 18 (sola lettura)
 
 
 def e_torino(sid):
@@ -115,6 +124,38 @@ def carica_superfici():
     return {str(s["id"]): s.get("a") for s in json.loads(SEZIONI_GEO.read_text(encoding="utf-8"))}
 
 
+_FERMATE = []
+
+
+def fermate_gtfs():
+    """[(lat, lon)] delle fermate di stops.txt (solo location_type 0 o vuoto); lette una volta sola."""
+    if not _FERMATE:
+        with zipfile.ZipFile(GTFS) as z:
+            testo = z.read("stops.txt").decode("utf-8-sig")
+        for r in csv.DictReader(io.StringIO(testo)):
+            if r.get("location_type", "") not in ("", "0"):
+                continue
+            try:
+                _FERMATE.append((float(r["stop_lat"]), float(r["stop_lon"])))
+            except (ValueError, KeyError):
+                continue
+    return _FERMATE
+
+
+def fermata_piu_vicina_m(lat, lon):
+    """Distanza in metri (linea d'aria) dalla fermata GTT piu' vicina, oppure None se non ci sono fermate."""
+    return min((comuni.haversine_m(lat, lon, la, lo) for la, lo in fermate_gtfs()), default=None)
+
+
+def da_verificare(s):
+    """Ritorna la distanza (m) della fermata piu' vicina se la sezione e' "da verificare" (zero fermate a piedi in
+    15 min ma una fermata entro RAGGIO_FERMATA_SOSPETTA_M in linea d'aria), altrimenti None."""
+    if s["piedi"]["15"].get("fermate", 0) != 0:
+        return None
+    d = fermata_piu_vicina_m(s["lat"], s["lon"])
+    return d if d is not None and d <= RAGGIO_FERMATA_SOSPETTA_M else None
+
+
 def densita(sez, superfici):
     """residenti / km2, oppure None se la superficie manca o non e' positiva."""
     a = superfici.get(str(sez["id"]))
@@ -144,20 +185,26 @@ def n_mancanti_sezione(s, ora_tp=ORA_TP):
 def riepilogo_ambito(righe_sez, soglia):
     """righe_sez = [{"res", "n", "dens"}]: residenti per n_mancanti 0..5, separati abitate / poco abitate.
     Le sezioni senza superficie (dens None) contano come abitate (dichiarato nel rapporto)."""
-    per = {"abitate": {str(k): 0 for k in range(6)}, "poco_abitate": {str(k): 0 for k in range(6)}}
-    sez_poco = 0
-    for r in righe_sez:
+    per = {"abitate": {str(k): 0 for k in range(6)}, "poco_abitate": {str(k): 0 for k in range(6)},
+           "da_verificare": {str(k): 0 for k in range(6)}}
+    sez_poco = sez_verif = 0
+    for r in righe_sez:   # ordine degli stati: poco abitata, poi da verificare, poi abitata
         poco = r["dens"] is not None and r["dens"] < soglia
-        per["poco_abitate" if poco else "abitate"][str(r["n"])] += r["res"]
+        verif = bool(r.get("verif")) and not poco
+        per["poco_abitate" if poco else "da_verificare" if verif else "abitate"][str(r["n"])] += r["res"]
         sez_poco += poco
+        sez_verif += verif
     tot_ab = sum(per["abitate"].values())
     tot_poco = sum(per["poco_abitate"].values())
+    tot_verif = sum(per["da_verificare"].values())
     return {
         "soglia_ab_km2": soglia,
         "per_n_mancanti": per,
         "residenti_abitate": tot_ab,
         "residenti_poco_abitate": tot_poco,
         "sezioni_poco_abitate": sez_poco,
+        "residenti_da_verificare": tot_verif,
+        "sezioni_da_verificare": sez_verif,
         "abitate_con_3_o_piu_mancanti": sum(per["abitate"][str(k)] for k in range(SOGLIA_TITOLO, 6)),
         "abitate_con_1_o_piu_mancanti": sum(per["abitate"][str(k)] for k in range(1, 6)),
         "abitate_tutti_5_mancanti": per["abitate"]["5"],
@@ -172,25 +219,32 @@ def calcola_v2(sezioni, superfici):
     senza_sup = senza_tp = 0
     negative = 0
     critiche = []
+    verificare = []
     bit_errati = 0
     for s in sezioni:
         n2, n_piedi, tp_ok, m = n_mancanti_sezione(s)
         d = densita(s, superfici)
+        dist_f = da_verificare(s)
+        verif = dist_f is not None
         senza_sup += d is None
         negative += d is not None and d < 0
         amb = "torino" if e_torino(s["id"]) else "cintura"
         if amb == "cintura":
             senza_tp += not tp_ok
-            righe["cintura_regola_di_oggi"].append({"res": s["res"], "n": n_piedi, "dens": d})
-        righe[amb].append({"res": s["res"], "n": n2, "dens": d})
+            righe["cintura_regola_di_oggi"].append({"res": s["res"], "n": n_piedi, "dens": d, "verif": verif})
+        righe[amb].append({"res": s["res"], "n": n2, "dens": d, "verif": verif})
         poco = d is not None and d < SOGLIA_POCO_ABITATA
         bit_errati += bin(m).count("1") != n2
         per_sez.append({"id": s["id"], "n_mancanti": n2, "densita": None if d is None else round(d, 1),
-                        "m": m, "poco": poco})
-        if amb == "torino" and not poco and n2 >= SOGLIA_TITOLO:
-            critiche.append({"id": s["id"], "res": s["res"], "densita": None if d is None else round(d, 1),
-                             "n_mancanti": n2, "mancano": [g for i, g in enumerate(GRUPPI) if m >> i & 1]})
+                        "m": m, "poco": poco, "verif": verif and not poco})
+        voce = {"id": s["id"], "res": s["res"], "densita": None if d is None else round(d, 1),
+                "n_mancanti": n2, "mancano": [g for i, g in enumerate(GRUPPI) if m >> i & 1]}
+        if verif and not poco:
+            verificare.append({**voce, "ambito": amb, "fermata_m": round(dist_f)})
+        elif amb == "torino" and not poco and n2 >= SOGLIA_TITOLO:
+            critiche.append(voce)
     critiche.sort(key=lambda c: -c["res"])
+    verificare.sort(key=lambda c: -c["res"])
 
     soglie = [SOGLIA_POCO_ABITATA] + [x for x in SENSIBILITA_SOGLIA if x != SOGLIA_POCO_ABITATA]
     ambiti = {amb: {str(x): riepilogo_ambito(righe[amb], x) for x in sorted(soglie)}
@@ -205,8 +259,9 @@ def calcola_v2(sezioni, superfici):
                    "cibo mancante solo se zero a piedi (15 min) E zero col mezzo pubblico (entro 45 min, alle 08 di "
                    "un feriale); fermate e verde come Torino. Tabelle sempre separate."),
         "titolo": {"residenti_abitati_con_3_o_piu_mancanti": ref["abitate_con_3_o_piu_mancanti"],
-                   "residenti_torino": ref["residenti_abitate"] + ref["residenti_poco_abitate"],
+                   "residenti_torino": ref["residenti_abitate"] + ref["residenti_poco_abitate"] + ref["residenti_da_verificare"],
                    "residenti_poco_abitate": ref["residenti_poco_abitate"],
+                   "residenti_da_verificare": ref["residenti_da_verificare"],
                    "residenti_tutti_5_mancanti": ref["tutte_le_zone_tutti_5_mancanti"]},
         "sezioni_senza_superficie": senza_sup,
         "sezioni_cintura_senza_tp": senza_tp,
@@ -215,6 +270,8 @@ def calcola_v2(sezioni, superfici):
         "cintura_regola_di_oggi": ambiti["cintura_regola_di_oggi"],
         "ordine_bit": GRUPPI,
         "sezioni_critiche_torino": critiche,
+        "raggio_fermata_sospetta_m": RAGGIO_FERMATA_SOSPETTA_M,
+        "sezioni_da_verificare": verificare,
         "sezioni": per_sez,
     }
     controlli = []
@@ -228,7 +285,7 @@ def calcola_v2(sezioni, superfici):
     for amb in ("torino", "cintura"):
         tot = sum(s["res"] for s in sezioni if (e_torino(s["id"])) == (amb == "torino"))
         for x, r in ambiti[amb].items():
-            somma = r["residenti_abitate"] + r["residenti_poco_abitate"]
+            somma = r["residenti_abitate"] + r["residenti_poco_abitate"] + r["residenti_da_verificare"]
             controlli.append(("OK" if somma == tot else "AVVISO",
                               f"{amb}, soglia {x}: somma residenti per n_mancanti = {somma:,} (residenti ambito {tot:,})"))
     controlli.append(("OK" if negative == 0 else "AVVISO", f"densita' negative: {negative}"))
@@ -252,6 +309,7 @@ def righe_rapporto_v2(v2, controlli):
            f"senza {SOGLIA_TITOLO} o piu' dei 5 servizi (su {t['residenti_torino']:,} residenti di Torino)",
            f"  tutti e 5 mancanti (tutte le zone): {t['residenti_tutti_5_mancanti']:,} residenti (non fa titolo)",
            f"  residenti nelle zone poco abitate (a parte): {t['residenti_poco_abitate']:,}",
+           f"  residenti nelle zone da verificare (a parte): {t['residenti_da_verificare']:,}",
            ""]
     for amb, nome in (("torino", "TORINO"), ("cintura", "CINTURA (regola v2: piedi 15 min o mezzo pubblico 45 min alle "
                                                          f"{v2['ora_tp_cintura']}; scuole/salute/cibo non comparabili con Torino)"),
@@ -274,6 +332,15 @@ def righe_rapporto_v2(v2, controlli):
         dens = "n.d." if c["densita"] is None else f"{c['densita']:,.0f}"
         out.append(f"  {c['id']}: {c['res']:,} residenti, {dens} ab/km2, mancano: {', '.join(c['mancano'])}")
     out.append(f"  ({len(crit)} sezioni) da guardare a mano con Leo (lavoro 7)")
+    ver = v2["sezioni_da_verificare"]
+    out += ["", f"SEZIONI DA VERIFICARE (zero fermate a 15 min a piedi, ma una fermata GTT entro "
+                f"{v2['raggio_fermata_sospetta_m']} m in linea d'aria; escluse da titolo e candidati)"]
+    for c in ver:
+        dens = "n.d." if c["densita"] is None else f"{c['densita']:,.0f}"
+        out.append(f"  {c['id']} ({c['ambito']}): {c['res']:,} residenti, {dens} ab/km2, fermata a {c['fermata_m']} m, "
+                   f"mancano: {', '.join(c['mancano']) or 'nessuno'}")
+    out.append(f"  ({len(ver)} sezioni, {sum(c['res'] for c in ver):,} residenti) da correggere nello script 18 "
+               "(SEZIONI_FUORI_RETE) al prossimo calcolo completo dell'accessibilita'.")
     out.append("LIMITI v2: capienza di ospedali, presidi e scuole non nota (un ospedale grande e un ambulatorio "
                "contano uguale); orario programmato [STIMATO]; catalogo diverso fra Torino e cintura; sezioni senza "
                "superficie contate come abitate.")

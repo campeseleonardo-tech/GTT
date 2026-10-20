@@ -1,23 +1,39 @@
 RAPPORTO RISULTATO 1 - fase B: dove aggiungere un servizio (solo Torino, STIMATO)
-generato: 2026-10-20T13:28:02+00:00
+generato: 2026-10-20T14:00:55+00:00
 cutoff a piedi: 15 min   velocita': 4.8 km/h   cluster: 400 m   max candidati: 5
 
-salute: 5,729 residenti a zero, 38 zone candidate valutate
+scuole: 2,529 residenti a zero, 24 zone candidate valutate
+  candidato 1: lat 45.13111 lon 7.68311  guadagna 651 residenti (6 sezioni)
+  candidato 2: lat 45.036 lon 7.70028  guadagna 460 residenti (6 sezioni)
+  candidato 3: lat 45.06667 lon 7.72744  guadagna 371 residenti (3 sezioni)
+  candidato 4: lat 45.07703 lon 7.76853  guadagna 237 residenti (2 sezioni)
+  candidato 5: lat 45.0521 lon 7.72728  guadagna 193 residenti (2 sezioni)
+  TOTALE con questi 5 candidati: 1,912 residenti guadagnati, 617 restano a zero
+  solo sezioni abitate (>= 1,000 ab/km2): sezioni a zero 126 -> 29, residenti a zero 6,060 -> 2,529, zone candidate 106 -> 24; sezioni da verificare tolte: 2
+
+salute: 5,340 residenti a zero, 37 zone candidate valutate
   candidato 1: lat 45.05626 lon 7.70411  guadagna 1,193 residenti (2 sezioni)
   candidato 2: lat 45.04563 lon 7.71044  guadagna 1,173 residenti (3 sezioni)
   candidato 3: lat 45.06082 lon 7.74275  guadagna 527 residenti (4 sezioni)
   candidato 4: lat 45.03267 lon 7.61273  guadagna 493 residenti (2 sezioni)
   candidato 5: lat 45.036 lon 7.70028  guadagna 460 residenti (6 sezioni)
-  TOTALE con questi 5 candidati: 3,846 residenti guadagnati, 1,883 restano a zero
-  solo sezioni abitate (>= 1,000 ab/km2): sezioni a zero 138 -> 42, residenti a zero 9,104 -> 5,729, zone candidate 117 -> 38
+  TOTALE con questi 5 candidati: 3,846 residenti guadagnati, 1,494 restano a zero
+  solo sezioni abitate (>= 1,000 ab/km2): sezioni a zero 138 -> 40, residenti a zero 9,104 -> 5,340, zone candidate 117 -> 37; sezioni da verificare tolte: 2
 
-scuole: 2,918 residenti a zero, 25 zone candidate valutate
-  candidato 1: lat 45.13111 lon 7.68311  guadagna 651 residenti (6 sezioni)
-  candidato 2: lat 45.036 lon 7.70028  guadagna 460 residenti (6 sezioni)
-  candidato 3: lat 45.07306 lon 7.71159  guadagna 389 residenti (2 sezioni)
-  candidato 4: lat 45.06667 lon 7.72744  guadagna 371 residenti (3 sezioni)
-  candidato 5: lat 45.07703 lon 7.76853  guadagna 237 residenti (2 sezioni)
-  TOTALE con questi 5 candidati: 2,108 residenti guadagnati, 810 restano a zero
-  solo sezioni abitate (>= 1,000 ab/km2): sezioni a zero 126 -> 31, residenti a zero 6,060 -> 2,918, zone candidate 106 -> 25
+cibo: 347 residenti a zero, 4 zone candidate valutate
+  candidato 1: lat 45.0521 lon 7.72728  guadagna 193 residenti (2 sezioni)
+  candidato 2: lat 45.03993 lon 7.72343  guadagna 116 residenti (1 sezioni)
+  candidato 3: lat 45.0299 lon 7.7045  guadagna 38 residenti (1 sezioni)
+  TOTALE con questi 3 candidati: 347 residenti guadagnati, 0 restano a zero
+  solo sezioni abitate (>= 1,000 ab/km2): sezioni a zero 32 -> 4, residenti a zero 1,697 -> 347, zone candidate 31 -> 4; sezioni da verificare tolte: 0
+
+fermate: 100 residenti a zero, 2 zone candidate valutate
+  candidato 1: lat 45.02549 lon 7.70009  guadagna 85 residenti (1 sezioni)
+  TOTALE con questi 1 candidati: 85 residenti guadagnati, 15 restano a zero
+  solo sezioni abitate (>= 1,000 ab/km2): sezioni a zero 22 -> 2, residenti a zero 1,204 -> 100, zone candidate 20 -> 2; sezioni da verificare tolte: 2
+
+verde: 0 residenti a zero, 0 zone candidate valutate
+  TOTALE con questi 0 candidati: 0 residenti guadagnati, 0 restano a zero
+  solo sezioni abitate (>= 1,000 ab/km2): sezioni a zero 2 -> 0, residenti a zero 104 -> 0, zone candidate 2 -> 0; sezioni da verificare tolte: 0
 
 LIMITI: zone indicative (non indirizzi/terreni verificati); non dice se il servizio basterebbe o verrebbe usato; ORARIO PROGRAMMATO [STIMATO]; solo Torino.

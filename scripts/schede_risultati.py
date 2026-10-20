@@ -99,6 +99,8 @@ def scheda_r1():
     titolo_n = t2["residenti_abitati_con_3_o_piu_mancanti"]
     titolo_pct = 100.0 * titolo_n / t2["residenti_torino"]
     poco = t2["residenti_poco_abitate"]
+    verif = t2["residenti_da_verificare"]
+    raggio_f = v2["raggio_fermata_sospetta_m"]
     tutti5 = t2["residenti_tutti_5_mancanti"]
     soglia_txt = migliaia(v2["soglia_poco_abitata_ab_km2"])
     sens = {x: v2["torino"][x] for x in sorted(v2["torino"], key=int)}
@@ -115,11 +117,16 @@ def scheda_r1():
             num("Quota dei residenti di Torino", round(titolo_pct, 1), "%"),
             num("Tutti e 5 i servizi mancanti", tutti5, "residenti"),
             num("Residenti nelle zone poco abitate (a parte)", poco, "residenti"),
+            num("Residenti in zone da verificare (a parte)", verif, "residenti"),
             num("Residenti senza almeno un servizio essenziale", senza, "residenti"),
             num("Quota dei residenti di Torino senza almeno un servizio", testa["quota_residenti_torino"], "%")]
     oggi += [num(f"Senza {nome_r1(g)} entro 15 min", gruppi[g]["torino"]["zero"]["residenti"], "residenti")
              for g in ordine]
     dopo, barre_dopo = [], []
+    mancanti = [g for g in ordine if g not in cand]
+    if mancanti:
+        raise SystemExit(f"Risultato 1: mancano i candidati di {', '.join(mancanti)}: "
+                         "lancia scripts\\RISULTATO1_CANDIDATI.bat")
     for g in ordine:
         c = cand[g]
         n_punti = len(c["candidati_scelti"])
@@ -151,6 +158,8 @@ def scheda_r1():
             f"Tutti e 5 mancano a {migliaia(tutti5)} residenti.",
             f"Altri {migliaia(poco)} residenti vivono in zone poco abitate (parchi, collina): sono contati a parte, "
             "fuori dal titolo.",
+            f"Altri {migliaia(verif)} residenti sono in zone dove il calcolo non raggiunge una fermata che c'è: "
+            "contati a parte, da verificare.",
             f"Contando anche le zone poco abitate, {migliaia(senza)} residenti su {migliaia(testa['residenti_torino'])} "
             f"({virgola(testa['quota_residenti_torino'])}%) non hanno almeno uno dei 5 servizi entro 15 minuti a piedi.",
             f"Il servizio che manca più spesso è {nome_r1(testa['gruppo_piu_carente_a_torino'])}: "
@@ -209,6 +218,8 @@ def scheda_r1():
                       ["Sezioni di Torino", "4.044"], ["Residenti", migliaia(testa["residenti_torino"])],
                       ["Punti nuovi per gruppo", "fino a 5"]],
         "limiti": [
+            f"Zona \"da verificare\": nessuna fermata entro 15 minuti a piedi nel calcolo, ma una fermata GTT entro "
+            f"{raggio_f} m in linea d'aria (probabile errore del punto di partenza); esclusa dal titolo e dai punti nuovi.",
             "Solo Torino: in cintura il catalogo dei servizi non c'è, quindi lì \"zero\" vuol dire spesso "
             "\"manca il dato\", non \"manca il servizio\".",
             "Il gruppo \"negozi e attività commerciali\" usa tutte le attività commerciali del catalogo, senza distinguere la categoria.",
@@ -231,8 +242,12 @@ def scheda_r1():
             f"{GRUPPI_EN.get(testa['gruppo_piu_carente_a_torino'], testa['gruppo_piu_carente_a_torino'])}, with "
             f"{gruppi[testa['gruppo_piu_carente_a_torino']]['torino']['zero']['residenti']:,} "
             "residents without a nearby service of that kind.",
+            f"A further {verif:,} residents live in areas where the calculation does not reach a stop that exists "
+            "(counted separately, to be verified).",
             f"Up to 5 new services per group, placed where they help most, would bring {salvati:,} of these cases "
             "within 15 minutes, counted group by group.",
+            f"Areas flagged for verification have no stop within 15 minutes on foot in the calculation but a stop within "
+            f"{raggio_f} m as the crow flies; they are excluded from the headline figure and from the new-service points.",
             "Limits: the map covers Turin and its surrounding belt; in the belt a service counts as missing only if it "
             "is out of reach both on foot (15 minutes) and by public transport (45 minutes, 8 am on a weekday), and the "
             "service data there (schools, health, shops from OpenStreetMap) is less complete.",
