@@ -251,6 +251,74 @@ completa dello script 90. **Non** cambiare la regola D3: si decide con Leo dopo 
 > quanti passaggi hanno il GPS e che ritardo vero hanno, e la stima corretta di «oltre 5» e «oltre 10» minuti accanto a
 > quella di oggi.
 
+## Esito del Giro 3 (verifica col GPS) e decisione di Leo (21/10)
+
+Ricontrollato da Claude (`docs/RAPPORTO_R4_VERIFICA_GPS.txt`, 15 e 16/10). Il feed GTT **smette di elencare la fermata
+all'orario programmato** (ultima lettura − orario: mediana −0,6 min), quindi per i mezzi in ritardo la stima del feed è
+quella fatta all'orario previsto e resta **troppo bassa**:
+| Gruppo | Passaggi | Ritardo vero (GPS) oltre 5 | oltre 10 | mediana |
+|---|---|---|---|---|
+| A usati, feed ≤ 5 min | 406.631 | 8,4% | 1,6% | −0,2 |
+| B usati, feed > 5 min | 25.790 | 93,2% | 56,0% | +10,7 |
+| C scartati da D3 | 22.697 | 69,4% | 66,2% | +16,6 |
+La «stima corretta» dell'agente (9,1% oltre 5, 3,3% oltre 10) corregge solo il gruppo C. Pesando i tre gruppi con il
+GPS (calcolo di Claude dal rapporto, solo ordine di grandezza): **circa 16% oltre 5 minuti, circa 8% oltre 10** (oggi
+5,2-6% e 0%; GTT dichiara 2,3% oltre 10 per il 2025, misurato forse in altro modo). Il GPS è affidabile dove il feed è
+buono (linee 4 e 15: differenza mediana 0,45 min, script 70). Anche grappolo/buco e attese usano gli arrivi stimati dal
+feed: stesso difetto. Ritocchi del Giro 3 a posto (classifica per minuti: 6, 17, 19; link alle 8 provati).
+
+**Leo (21/10): rifare il Risultato 4 sul GPS.** Il ritardo di un passaggio = istante in cui il GPS vede il mezzo alla
+fermata − orario programmato; il feed resta come confronto. Prima una **prova su 2 giorni** (Giro 4), poi il giro
+completo su tutti i giorni con 27 e 70 (Giro 5, da scrivere dopo la prova).
+
+## Giro 4 del Risultato 4 — prova del calcolo sul GPS (solo lettura, 2 giorni)
+
+Valori predefiniti di Claude: stessi giorni del Giro 3 (15 e 16/10); stesse classi D4 (anticipo sotto −1, puntuale −1…+5,
+ritardo oltre 5, più oltre 10), stesse fasce D9 e regolarità D6-D7 di oggi, solo con l'arrivo del GPS al posto di quello
+stimato dal feed. Passaggio GPS valido: stessa corsa, segmento fra due posizioni lungo al massimo 180 s, distanza dalla
+fermata ≤ 60 m (come gli script 70 e 90), |ritardo| ≤ 60 min.
+
+**Passo 1 — nuovo `scripts/91_risultato4_gps_prova.py` (sola lettura; scrive solo i suoi due file).**
+1. Carica 27, 70 e 90 con `comuni.carica_script` e riusa: `carica_gtfs()` (orari, modo, `ultima_seq`), le funzioni
+   dell'ora e dei giorni, `ora_gps_vicino()` dello script 90 (o la sua logica). Coordinate delle fermate da `stops.txt`.
+2. Per ogni giorno: leggi la tabella `mezzi_gtt` del giorno una volta sola (colonne `corsa, ts_feed, lat, lng`; finestra
+   come lo script 70), raggruppa per corsa, ordina per `ts_feed`, togli i doppioni. Per ogni corsa con almeno 2
+   posizioni, scorri le sue fermate **in ordine di `stop_sequence`** e cerca il passaggio vicino **solo dopo** il
+   passaggio trovato per la fermata precedente (i tempi lungo la corsa non possono tornare indietro: evita gli errori
+   sulle linee che ripassano vicino alla stessa fermata). Ritardo = passaggio GPS − orario programmato (in minuti).
+3. Per ogni passaggio salva anche, se c'è, il ritardo del feed dello script 27 (ultima lettura) e se il feed lo ha usato
+   o scartato (D3), per il confronto.
+4. Calcola come lo script 27: puntualità (città, modo, linea, fascia; con «oltre 10») e regolarità (coppie consecutive
+   alla stessa fermata con intervallo programmato ≤ 15 min; grappolo sotto 0,5×, buco oltre 2×) **con gli arrivi del
+   GPS**. Stessi minimi per le classifiche (linee ordinarie, almeno `MIN_PASSAGGI_CLASSIFICA` passaggi sui 2 giorni,
+   adattando la soglia ai 2 giorni: scrivi quella usata).
+5. Controlli (OK/AVVISO): (a) **copertura** = passaggi con GPS valido / passaggi programmati delle corse viste nel GPS
+   (atteso sopra 60%); (b) **coerenza col feed** sui passaggi in cui l'ultima lettura del feed è a meno di 2 minuti
+   dall'arrivo stimato: differenza mediana feed − GPS entro ±1 min; (c) tempi GPS non decrescenti lungo la corsa per
+   oltre il 99% delle coppie di fermate; (d) ritardo alla prima fermata della corsa: mediana fra −2 e +3 min; (e) il
+   numero di passaggi per giorno è simile fra i due giorni.
+6. Uscite: `data/processed/risultato4_gps_prova.json` e `docs/RAPPORTO_R4_GPS_PROVA.txt` con: copertura e controlli;
+   tabella **feed contro GPS** sugli stessi passaggi (oltre 5, oltre 10, anticipo, mediana; città, tram, bus); fasce
+   orarie (feriale); grappolo e buco feed contro GPS; le 10 linee peggiori per ritardo col GPS accanto alla loro
+   posizione col feed; le 10 linee con la copertura GPS più bassa (per sapere dove il dato manca); durata del calcolo
+   per giorno.
+
+**Passo 2 — lancio.** `python scripts\91_risultato4_gps_prova.py`. Nessun altro script, nessuna pagina cambia. Esito
+in `docs/ESITO_R4_GPS_PROVA.md` con l'uscita completa.
+
+### Prompt da incollare (per Leo, sul PC)
+
+> Sei un agente che lavora sul progetto GTT in `C:\projects\Progetti\GTT`, ramo git `prova`. Prima:
+> `git branch --show-current` (deve dire `prova`, altrimenti fermati e dimmelo), `git status` (se ci sono modifiche
+> fermati e dimmelo), `git pull origin prova`. Leggi `AGENTS.md` e in `docs/PIANO_RISULTATO4.md` le sezioni «Esito del
+> Giro 3» e «Giro 4 del Risultato 4», poi esegui i 2 passi. Un solo script nuovo,
+> `scripts/91_risultato4_gps_prova.py`, in sola lettura: non cambiare altri script, i risultati o le pagine. Database
+> in sola lettura (`file:...?mode=ro`). Se un nome di tabella, colonna o funzione è diverso dal piano, guarda il file
+> vero, adatta e scrivilo. Esito in `docs/ESITO_R4_GPS_PROVA.md` (OK / AVVISO / FERMO, uscita completa). Non modificare
+> `MEMORIA_PROGETTO.md`. Python: `python` del PATH, mai Anaconda. Alla fine fai commit e push come dice `AGENTS.md`
+> (sezione «Commit») e scrivi un riassunto di 10 righe in italiano semplice: copertura del GPS, i controlli, e la
+> tabella feed contro GPS (oltre 5, oltre 10, grappolo+buco) per città, tram e bus.
+
 ---
 
 # PARTE A — storia del Risultato 4
