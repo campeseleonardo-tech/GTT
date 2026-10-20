@@ -12,7 +12,7 @@ La memoria del progetto è MEMORIA_PROGETTO.md (decisioni, limiti, cose da fare)
 Passo passo: un passo alla volta, decisioni importanti chieste prima, piccole scelte con valori predefiniti dichiarati. Spiegazioni semplici, senza gergo.
 
 ## Dati
-Lo storico vero vive sul Raspberry Pi "leopi" (192.168.8.200); sul PC c'è la copia settimanale data/storico_backup.sqlite (oltre 300 MB). Non modificare i dati in data/raw e lo storico: leggili e basta. Per prove lunghe parti da un campione piccolo.
+Lo storico vero vive sul Raspberry Pi "leopi" (192.168.8.200); sul PC c'è la copia settimanale data/storico_backup.sqlite. Non modificare i dati in data/raw e lo storico: leggili e basta. Per prove lunghe parti da un campione piccolo.
 
 ## Ramo git
 Si lavora sul ramo "prova". Se all'inizio non sei su "prova", fermati e dillo a Leo.
