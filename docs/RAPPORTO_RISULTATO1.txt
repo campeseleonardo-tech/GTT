@@ -1,5 +1,5 @@
 RAPPORTO RISULTATO 1 - fase A: dove mancano i servizi essenziali (STIMATO, a piedi)
-generato: 2026-10-12T10:50:45+00:00
+generato: 2026-10-20T13:27:09+00:00
 fonte: data/processed/accessibilita.json (giro completo 12/10/2026, [STIMATO])
 cutoff a piedi: 15 min   soglia 'pochissimo': sotto il 10% dei residenti
 
@@ -29,3 +29,60 @@ DETTAGLIO PER GRUPPO (Torino e cintura sempre separate):
     cintura: zero 7,477 res / 190 sez (1.1%)   pochissimo 138,817 res / 1430 sez (19.6%)
 
 LIMITI: ORARIO PROGRAMMATO [STIMATO] (nessun ritardo/capienza/domanda reale); il gruppo 'cibo' usa tutte le attivita' del catalogo senza distinguere categoria; cintura su scuole/salute/cibo non comparabile con Torino (fonte diversa); le soglie DM 1444/1968 non sono state applicate qui (sono standard di superficie per comune, non di raggiungibilita' a piedi per sezione): citate come riferimento nella scheda finale, non calcolate.
+
+==============================================================================
+VERSIONE 2 (20/10/2026): servizi mancanti per sezione, zone poco abitate a parte
+regola: Torino: servizio mancante = zero destinazioni entro 15 min a piedi. Cintura: per scuole, salute e cibo mancante solo se zero a piedi (15 min) E zero col mezzo pubblico (entro 45 min, alle 08 di un feriale); fermate e verde come Torino. Tabelle sempre separate.
+soglia 'poco abitata': sotto 1,000 ab/km2 (sensibilita': 500, 2,000)
+
+TITOLO: 751 residenti di Torino, in zone abitate, senza 3 o piu' dei 5 servizi (su 848,748 residenti di Torino)
+  tutti e 5 mancanti (tutte le zone): 8 residenti (non fa titolo)
+  residenti nelle zone poco abitate (a parte): 6,768
+
+TORINO: residenti per numero di servizi mancanti (soglia 1000 ab/km2)
+  0 mancanti: abitate 834,963   poco abitate 2,866
+  1 mancanti: abitate 5,302   poco abitate 1,082
+  2 mancanti: abitate 964   poco abitate 1,102
+  3 mancanti: abitate 751   poco abitate 1,480
+  4 mancanti: abitate 0   poco abitate 230
+  5 mancanti: abitate 0   poco abitate 8
+  sensibilita' della soglia (poco abitate / abitate con 3+ mancanti / abitate con 1+ mancanti):
+      500 ab/km2: 2,875 / 1,821 / 9,566
+     1000 ab/km2: 6,768 / 751 / 7,017
+     2000 ab/km2: 17,039 / 389 / 2,003
+
+CINTURA (regola v2: piedi 15 min o mezzo pubblico 45 min alle 08; scuole/salute/cibo non comparabili con Torino): residenti per numero di servizi mancanti (soglia 1000 ab/km2)
+  0 mancanti: abitate 632,101   poco abitate 15,847
+  1 mancanti: abitate 43,557   poco abitate 10,848
+  2 mancanti: abitate 1,374   poco abitate 2,748
+  3 mancanti: abitate 516   poco abitate 1,091
+  4 mancanti: abitate 318   poco abitate 187
+  5 mancanti: abitate 0   poco abitate 158
+  sensibilita' della soglia (poco abitate / abitate con 3+ mancanti / abitate con 1+ mancanti):
+      500 ab/km2: 20,163 / 1,081 / 50,020
+     1000 ab/km2: 30,879 / 834 / 45,765
+     2000 ab/km2: 68,422 / 282 / 29,154
+
+CINTURA con la regola di oggi (solo a piedi), per confronto: residenti per numero di servizi mancanti (soglia 1000 ab/km2)
+  0 mancanti: abitate 562,715   poco abitate 5,755
+  1 mancanti: abitate 58,163   poco abitate 3,489
+  2 mancanti: abitate 33,670   poco abitate 5,035
+  3 mancanti: abitate 12,679   poco abitate 5,698
+  4 mancanti: abitate 9,376   poco abitate 8,228
+  5 mancanti: abitate 1,263   poco abitate 2,674
+  sensibilita' della soglia (poco abitate / abitate con 3+ mancanti / abitate con 1+ mancanti):
+      500 ab/km2: 20,163 / 28,297 / 123,558
+     1000 ab/km2: 30,879 / 23,318 / 115,151
+     2000 ab/km2: 68,422 / 8,739 / 87,328
+
+CONTROLLI:
+  OK: torino, soglia 500: somma residenti per n_mancanti = 848,748 (residenti ambito 848,748)
+  OK: torino, soglia 1000: somma residenti per n_mancanti = 848,748 (residenti ambito 848,748)
+  OK: torino, soglia 2000: somma residenti per n_mancanti = 848,748 (residenti ambito 848,748)
+  OK: cintura, soglia 500: somma residenti per n_mancanti = 708,745 (residenti ambito 708,745)
+  OK: cintura, soglia 1000: somma residenti per n_mancanti = 708,745 (residenti ambito 708,745)
+  OK: cintura, soglia 2000: somma residenti per n_mancanti = 708,745 (residenti ambito 708,745)
+  OK: densita' negative: 0
+  OK: sezioni senza superficie: 0 (contate come abitate; AVVISO se piu' di 10)
+  OK: sezioni di cintura senza mezzo pubblico alle 08: 0 (per loro vale solo il piedi)
+LIMITI v2: capienza di ospedali, presidi e scuole non nota (un ospedale grande e un ambulatorio contano uguale); orario programmato [STIMATO]; catalogo diverso fra Torino e cintura; sezioni senza superficie contate come abitate.
