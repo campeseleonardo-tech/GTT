@@ -333,7 +333,7 @@ def main():
             OUT_NPZ.parent.mkdir(parents=True, exist_ok=True)
             np.savez_compressed(OUT_NPZ, flusso_archi=flusso, flusso_edge=flusso_edge)
             if hasattr(m42, "verifica_networkx") and not args.prova:
-                riepilogo_instr["nota_verifica"] = "per la verifica dei percorsi: 76_verifiche_r6v2.py"
+                riepilogo_instr["nota_verifica"] = "per la verifica dei percorsi: 85_verifiche_correzioni.py"
         except Exception as ex:  # noqa: BLE001 - qualsiasi errore -> ripiego dichiarato
             print(f"   AVVISO: instradamento non riuscito ({type(ex).__name__}: {ex}): uso il ripiego")
             c("instradamento riuscito", False, dettaglio=f"{type(ex).__name__}: {ex}")

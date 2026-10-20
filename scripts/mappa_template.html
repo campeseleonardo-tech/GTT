@@ -40,7 +40,7 @@
   details{margin-top:12px;font-size:12.5px;color:var(--muted)}
   details summary{cursor:pointer;color:var(--ink);font-weight:600}
   details p{margin:6px 0}
-  /* [agente GT06-pannello] legenda dentro il pannello (non più flottante); riga compatta di «Quando» */
+  /* legenda dentro il pannello (non più flottante); riga compatta di «Quando» */
   #legenda{font-size:12px}
   .quando{display:flex;align-items:center;gap:6px}
   .quando .seg{flex:1}
@@ -51,7 +51,7 @@
   #legenda .et{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-bottom:6px}
   .puntini{display:flex;gap:10px;flex-wrap:wrap;margin:2px 0 6px}
   .puntini i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px;border:1px solid rgba(0,0,0,.25)}
-  /* [agente GT02-temi] pulsanti dei temi e etichette di origine del dato */
+  /* pulsanti dei temi e etichette di origine del dato */
   .temi{display:grid;grid-template-columns:1fr 1fr;gap:6px}
   .temi button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 6px;font:inherit;font-weight:600;cursor:pointer;color:var(--ink)}
   .temi button:hover{background:#f0f3f7}
@@ -61,8 +61,8 @@
   .tag.scarso{background:#fff3e0;color:#b25e00;border:1px solid #e8b878}
   #legenda .blocco+.blocco{border-top:1px solid var(--line);margin-top:6px;padding-top:6px}
   #tip{position:fixed;pointer-events:none;display:none;max-width:280px;padding:8px 10px;font-size:12.5px;z-index:5}
-  /* [agente GT07-clic-fermate] scheda dettagli: fissa in alto a destra sotto i pulsanti di zoom */
-  /* [agente GT17] larghezza ottimizzata e stili struttura unica per schede informative */
+  /* scheda dettagli: fissa in alto a destra sotto i pulsanti di zoom */
+  /* larghezza ottimizzata e stili struttura unica per schede informative */
   #scheda{position:fixed;right:12px;top:190px;display:none;width:min(320px,calc(100vw - 24px));max-height:calc(100vh - 205px);overflow:auto;padding:12px 30px 12px 14px;font-size:12.5px;line-height:1.45;z-index:6}
   #schedaX{position:absolute;right:4px;top:2px;border:0;background:none;font-size:22px;line-height:1;cursor:pointer;color:var(--muted)}
   .sc-card{display:flex;flex-direction:column}
@@ -98,7 +98,7 @@
   .opt-sel{width:100%;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff}
   .opt-check{font-size:12px;margin-top:4px}
   .opt-nota{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.3}
-  /* [agente GT29-integrazione-simulazioni] la simulazione si apre in una pagina separata */
+  /* la simulazione si apre in una pagina separata */
   #boxSim p{font-size:12px;color:var(--muted);margin:4px 0}
   #attrib{position:fixed;right:6px;bottom:4px;font-size:10.5px;color:#444;background:rgba(255,255,255,.8);padding:1px 6px;border-radius:4px}
   #attrib a{color:inherit}
@@ -108,7 +108,7 @@
   #legendaToggle::after{content:" ▾"}
   #legendaBox.chiusa #legendaToggle::after{content:" ▸"}
   #legendaBox.chiusa #legenda{display:none}
-  /* [agente GT08-griglia-scala] barra della scala in basso a sinistra */
+  /* barra della scala in basso a sinistra */
   #scala{position:fixed;bottom:22px;left:12px;font-size:11.5px;color:#222;background:rgba(255,255,255,.82);padding:3px 7px;border-radius:5px;pointer-events:none}
   #scala .barra{height:5px;border:2px solid #222;border-top:none;margin-bottom:2px;box-sizing:content-box}
   #apri{display:none;position:fixed;top:12px;left:12px;padding:8px 12px;cursor:pointer}
@@ -130,7 +130,7 @@
   <h1>Mobilità Torino</h1>
   <p class="sub">Come si muove Torino: dove vive la gente, dove passa il trasporto pubblico, dove mancano i servizi.</p>
 
-  <!-- [agente GT16] blocco temporale «Quando»: tendina comprimibile, default = Adesso -->
+  <!-- blocco temporale «Quando»: tendina comprimibile, default = Adesso -->
   <details id="boxQuando" style="background:#f8f9fb;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-top:8px">
     <summary style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none">
       <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)">Quando</span>
@@ -157,7 +157,7 @@
     <span id="nAtt" style="font-size:11.5px;color:var(--muted)"></span>
   </details>
 
-  <!-- [agente GT16] 4 temi unificati nel menu a tendina -->
+  <!-- 4 temi unificati nel menu a tendina -->
   <h2>Tema</h2>
   <select id="temi" aria-label="Tema della mappa" style="width:100%;font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:600"></select>
   <div id="temaDesc" style="font-size:12px;color:var(--muted);margin:6px 0 0"></div>
@@ -182,7 +182,7 @@
   </details>
 
   <h2>Sfondo</h2>
-  <!-- [agente GT01-sfondi] sfondi Esri senza chiave + cursore intensità -->
+  <!-- sfondi Esri senza chiave + cursore intensità -->
   <select id="basemap" aria-label="Sfondo della mappa">
     <option value="chiara" selected>Mappa chiara (Esri)</option>
     <option value="sat">Satellite (Esri)</option>
@@ -191,10 +191,10 @@
   </select>
   <label style="display:block;font-size:12px;margin:4px 0">Intensità sfondo: <span id="intSfondoVal">100%</span>
     <input type="range" id="intSfondo" min="0" max="100" value="100" style="width:100%"></label>
-  <label class="lv"><input type="checkbox" id="Lgriglia">Griglia in metri</label><!-- [agente GT08-griglia-scala] -->
+  <label class="lv"><input type="checkbox" id="Lgriglia">Griglia in metri</label>
   <div id="avvisoSfondo" style="display:none;font-size:12px;color:#8a4b00;background:#fff4e0;border-radius:6px;padding:3px 6px;margin:2px 0">Sfondo non disponibile (connessione?)</div>
 
-  <!-- [agente GT29-integrazione-simulazioni] la simulazione si apre in una pagina separata -->
+  <!-- la simulazione si apre in una pagina separata -->
   <section id="boxSim">
     <h2>Simulazione</h2>
     <p style="font-size:12px;color:var(--muted);margin:4px 0">La simulazione di scenari si apre in una pagina separata, così puoi confrontare più risultati senza chiudere la mappa.</p>
@@ -627,18 +627,18 @@ const PAL_POCO_MALE=PAL_RV;   // valore basso = peggio (offerta, accessibilità)
 const PAL_ALTO_MALE=PAL_VR;   // valore alto = peggio (vulnerabilità): indice 0 = verde
 const PAL_RAPP=PAL_RV;
 const PAL_BASE=PAL_NEU;
-const PAL_PEND=PAL_NEU;   // [agente GT05-pendolari] pendolari: quantità neutra
+const PAL_PEND=PAL_NEU;   // pendolari: quantità neutra
 const PAL_SEZ={dens:PAL_NEU, serv:PAL_RV, rapp:PAL_RAPP, pend:PAL_PEND, occ:PAL_NEU, sc:PAL_NEU, sen:PAL_NEU,
   vuln:PAL_ALTO_MALE, vuln_occ:PAL_ALTO_MALE, vuln_ist:PAL_ALTO_MALE, vuln_aff:PAL_ALTO_MALE, vuln_anz:PAL_ALTO_MALE,
 };
 PAL_SEZ.acc = PAL_RV;   // rosso = pochi servizi raggiungibili, verde = molti
-PAL_SEZ.fb = ["#e3f0df","#fc8d59","#d73027"];   // [agente GT-faseb] 0=ok (verde chiarissimo), 1=pochissimo, 2=zero
+PAL_SEZ.fb = ["#e3f0df","#fc8d59","#d73027"];   // 0=ok (verde chiarissimo), 1=pochissimo, 2=zero
 // nota breve sui servizi della cintura (da OpenStreetMap, piu' incompleti del catalogo comunale): solo dove quel dato entra nel calcolo
 const NOTA_OSM={scuole:"Fuori Torino scuole da OpenStreetMap: alcune possono mancare.",
   salute:"Fuori Torino servizi sanitari da OpenStreetMap: alcuni possono mancare.",
   cibo:"Fuori Torino negozi e attività da OpenStreetMap: molti possono mancare."};
 
-/* [agente GT05-pendolari] pendolari ISTAT 2021 (comune contro comune): D.pend = {tor, com[], altri}; i = entrano a Torino [lavoro,studio], u = escono */
+/* pendolari ISTAT 2021 (comune contro comune): D.pend = {tor, com[], altri}; i = entrano a Torino [lavoro,studio], u = escono */
 const TORINO_PC=1272;
 const PEND=D.pend||null, pendCom=new Map();
 let pendTor=null;
@@ -661,12 +661,12 @@ function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flu
 const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
 /* combina gruppo×livello di vuoto in una delle 3 classi (per la mappa e per la scheda) */
 let accCache={k:""};
-// [agente GT-24fasce] 15/10: le 24 fasce orarie sono ora tutte calcolate, quindi l'ora scelta
+// 15/10: le 24 fasce orarie sono ora tutte calcolate, quindi l'ora scelta
 // corrisponde sempre esattamente a una fascia disponibile (non serve più cercare la più vicina).
 function tpFasciaVicina(h){
   return String(h).padStart(2,"0");
 }
-// [agente GT-acc-tp] valore di accessibilita' per sezione/gruppo/modalita' (piedi 15' o tp 45', fascia piu' vicina)
+// valore di accessibilita' per sezione/gruppo/modalita' (piedi 15' o tp 45', fascia piu' vicina)
 function accValore(z, gruppo, modalita){
   const a=z.acc||{};
   if(modalita==="tp"){
@@ -707,13 +707,13 @@ function puntoSu(l,f){
 }
 const fermate = D.fermate.map(s=>({...s,x:px(s.lo),y:py(s.la)}));
 const sensori = D.sensori.map(s=>({...s,x:px(s.lo),y:py(s.la)}));
-/* [agente GT-avvisi] avvisi/disservizi GTT ancora attivi alla generazione, indicizzati per linea e fermata */
+/* avvisi/disservizi GTT ancora attivi alla generazione, indicizzati per linea e fermata */
 const avvisiPerLinea = new Map(), avvisiPerFermata = new Map();
 (D.avvisi||[]).forEach(a=>{
   (a.linee||[]).forEach(id=>{ if(!avvisiPerLinea.has(id)) avvisiPerLinea.set(id, []); avvisiPerLinea.get(id).push(a); });
   (a.fermate||[]).forEach(id=>{ if(!avvisiPerFermata.has(id)) avvisiPerFermata.set(id, []); avvisiPerFermata.get(id).push(a); });
 });
-const fbCandidati = {};   // [agente GT-faseb] candidati fase B (per gruppo, quando calcolati) con coordinate proiettate
+const fbCandidati = {};   // candidati fase B (per gruppo, quando calcolati) con coordinate proiettate
 for(const g in (D.fb_candidati||{})) fbCandidati[g] = (D.fb_candidati[g]||[]).map(c=>({...c, x:px(c.lon), y:py(c.lat)}));
 // [R6] Risultato 6: aree, punti prioritari, fermate e parcheggi (null se il file dati manca)
 const R6 = D.r6 ? (()=>{ const r=D.r6, pj=a=>a.map(o=>({...o,x:px(o.lon),y:py(o.lat)}));
@@ -815,7 +815,7 @@ addEventListener("resize",ridimensiona);
 
 /* ---------- mattonelle ---------- */
 const tiles = new Map();
-// [agente GT01-sfondi] sfondi Esri (senza chiave), ognuno con zoom massimo; oltre si ingrandisce l'ultima mattonella
+// sfondi Esri (senza chiave), ognuno con zoom massimo; oltre si ingrandisce l'ultima mattonella
 const ESRI="https://server.arcgisonline.com/ArcGIS/rest/services/";
 const BASI={
   chiara:(z,x,y)=>`${ESRI}Canvas/World_Light_Gray_Base/MapServer/tile/${z}/${y}/${x}`,
@@ -845,7 +845,7 @@ function tile(z,x,y){
   t.usato=performance.now(); return t;
 }
 function disegnaMattonelle(ws,ox,oy){
-  // [agente GT01-sfondi] nessuno sfondo: niente mattonelle; zoom oltre il massimo: overzoom
+  // nessuno sfondo: niente mattonelle; zoom oltre il massimo: overzoom
   if(baseCorrente==="nessuno") return;
   const z=Math.max(0,Math.min(MAXZ_BASE[baseCorrente],Math.round(view.zoom))), n=1<<z, ts=256*Math.pow(2,view.zoom-z);
   const x0=Math.floor(ox/ts), x1=Math.floor((ox+W)/ts), y0=Math.floor(oy/ts), y1=Math.floor((oy+H)/ts);
@@ -853,7 +853,7 @@ function disegnaMattonelle(ws,ox,oy){
     const t=tile(z,((tx%n)+n)%n,ty);
     if(t.ok) cx.drawImage(t.img, tx*ts-ox, ty*ts-oy, ts+0.5, ts+0.5);
   }
-  // [agente GT01-sfondi] schiarisce lo sfondo verso il bianco con un solo rettangolo
+  // schiarisce lo sfondo verso il bianco con un solo rettangolo
   if(intSfondo<1){ cx.fillStyle="rgba(255,255,255,"+(1-intSfondo).toFixed(2)+")"; cx.fillRect(0,0,W,H); }
 }
 
@@ -887,7 +887,7 @@ function disegna(){
   disegnaSopra(ws,ox,oy,i);
   aggiornaScala(ws);
 }
-// [agente GT08-griglia-scala] metri per pixel: circonferenza terrestre * cos(latitudine) / larghezza del mondo in pixel
+// metri per pixel: circonferenza terrestre * cos(latitudine) / larghezza del mondo in pixel
 const CIRC_TERRA=40075016.686;
 const latDaY = y => Math.atan(Math.sinh(Math.PI*(1-2*y)))*180/Math.PI;
 const mPerPx = (ws,lat) => CIRC_TERRA*Math.cos(lat*Math.PI/180)/ws;
@@ -1142,29 +1142,29 @@ function disegnaBase(ws,ox,oy,i){
   cx.setTransform(dpr,0,0,dpr,0,0);
   cx.fillStyle="#e8eaee"; cx.fillRect(0,0,W,H);
   disegnaMattonelle(ws,ox,oy);
-  if(vis("Lgriglia")) disegnaGriglia(ws,ox,oy);   // [agente GT08-griglia-scala] sopra lo sfondo, sotto tutti i dati
+  if(vis("Lgriglia")) disegnaGriglia(ws,ox,oy);   // sopra lo sfondo, sotto tutti i dati
 
   if(vis("Lsez") && sezOk){
     const modo=$("modoSez").value, pal=PAL_SEZ[modo], dettaglio=view.zoom>=14;
-    const pc=modo==="pend"?pendCalcola():null;   // [agente GT05-pendolari]
+    const pc=modo==="pend"?pendCalcola():null;
     const ac=modo==="acc"?accCalcola():null;   // accessibilità: soglie del gruppo scelto
-    const fbGruppo=modo==="fb"?($("subFbGruppo")?.value||"salute"):null;   // [agente GT-faseb] dove manca un servizio
+    const fbGruppo=modo==="fb"?($("subFbGruppo")?.value||"salute"):null;   // dove manca un servizio
     for(const z of sez){
       if(!dentroVista(z.bb,ws,ox,oy)) continue;
-      // [agente GT05-pendolari] tema Pendolari: colore = valore del comune della sezione; grigio = Torino o nessun flusso
+      // tema Pendolari: colore = valore del comune della sezione; grigio = Torino o nessun flusso
       const vp=pc?(pc.val.get(z.c)||0):0;
       const valore = pc ? vp : fbGruppo ? null : valSez(z,modo,i);
       const nulla = pc ? (z.c===TORINO_PC || !vp) : fbGruppo ? false : (modo==="serv"||modo==="rapp") ? sezServ(z,i)===0 : valore==null;
       const c=pc ? (pc.sogl?pc.sogl.filter(x=>vp>x).length:0) : ac ? ac.sogl.filter(x=>valore>x).length
         : fbGruppo ? (((z.fb||{})[fbGruppo]==="zero")?2:((z.fb||{})[fbGruppo]==="pochissimo")?1:0)
         : classeSez(valore,modo);
-      // [agente GT02-temi] riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
+      // riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
       cx.fillStyle=nulla?"#9aa0ad":pal[c]; cx.globalAlpha=nulla?.35:AREA_ALPHA;
       for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.fill(); }
       cx.globalAlpha=1;
       if(dettaglio){ cx.strokeStyle=AREA_STROKE; cx.lineWidth=AREA_STROKE_W; for(const a of z.polys){ tracciaAnelli([a],ws,ox,oy); cx.stroke(); } }
     }
-    if(fbGruppo && (fbCandidati[fbGruppo]||[]).length){   // [agente GT-faseb] zone candidate a un nuovo servizio (qualunque gruppo gia' calcolato)
+    if(fbGruppo && (fbCandidati[fbGruppo]||[]).length){   // zone candidate a un nuovo servizio (qualunque gruppo gia' calcolato)
       for(const cnd of (fbCandidati[fbGruppo]||[])){
         const X=cnd.x*ws-ox, Y=cnd.y*ws-oy;
         if(X<-20||X>W+20||Y<-20||Y>H+20) continue;
@@ -1174,7 +1174,7 @@ function disegnaBase(ws,ox,oy,i){
       }
     }
   }
-  if(tema.id==="pendolari" && PEND && pendTor){   // [agente GT05-pendolari] linee dritte dal baricentro di ogni comune a Torino, spessore proporzionale al flusso
+  if(tema.id==="pendolari" && PEND && pendTor){   // linee dritte dal baricentro di ogni comune a Torino, spessore proporzionale al flusso
     const pc=pendCalcola(), o=pendOpz(), vmax=pc.top.length?pc.top[0][1]:1, X1=pendTor.x*ws-ox, Y1=pendTor.y*ws-oy;
     cx.lineCap="round"; cx.strokeStyle=o.d==="in"?"#6a98c4":"#e08a38"; cx.fillStyle=cx.strokeStyle; cx.globalAlpha=.7;
     for(const [id,f] of pc.top){
@@ -1222,7 +1222,7 @@ function disegnaBase(ws,ox,oy,i){
     for(const l of linee){
       if(fl && l.nome!==fl) continue;
       const f=(D.rotte[l.id]||{f:[]}).f[i]||0;
-      if(tema.id==="velocita" || tema.velocita){   // [agente GT16] velocità commerciale (anche nel tema unificato «Traffico e velocità»)
+      if(tema.id==="velocita" || tema.velocita){   // velocità commerciale (anche nel tema unificato «Traffico e velocità»)
         const c=velCella(l.id,S.dt,S.h); if(!f&&!c) continue; if(!dentroVista(l.bb,ws,ox,oy)) continue;
         const ok=c&&c[1]>=VEL_MIN_CAMP; cx.strokeStyle=ok?VEL_PAL[velClasse(c[0])]:"#9aa0ad"; cx.globalAlpha=ok?.95:.55; cx.lineWidth=ok?3.2:1.8;
         cx.beginPath(); const a=l.pts;
@@ -1230,7 +1230,7 @@ function disegnaBase(ws,ox,oy,i){
         cx.stroke(); continue;
       }
       if(!f||!dentroVista(l.bb,ws,ox,oy)) continue;
-      cx.strokeStyle=tipoCol(l.t); cx.globalAlpha=.8; cx.lineWidth=Math.min(6,1+Math.sqrt(f)*0.55)*(tema.lineeSottili?0.5:1); /* [agente GT02-temi] linee sottili in alcuni temi */
+      cx.strokeStyle=tipoCol(l.t); cx.globalAlpha=.8; cx.lineWidth=Math.min(6,1+Math.sqrt(f)*0.55)*(tema.lineeSottili?0.5:1); /* linee sottili in alcuni temi */
       cx.beginPath(); const a=l.pts;
       for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y);}
       cx.stroke();
@@ -1238,7 +1238,7 @@ function disegnaBase(ws,ox,oy,i){
     cx.globalAlpha=1;
   }
   if(vis("Lfermate") && view.zoom>=14){
-    // [agente GT07-clic-fermate] puntini piu' piccoli (~60%), azzurro pieno senza bordo bianco
+    // puntini piu' piccoli (~60%), azzurro pieno senza bordo bianco
     cx.fillStyle="rgba(74,163,223,.85)"; cx.strokeStyle="rgba(30,95,150,.6)"; cx.lineWidth=.5;
     for(const s of fermate){
       const v=s.d[i]; if(!v && view.zoom<15) continue;
@@ -1251,7 +1251,7 @@ function disegnaBase(ws,ox,oy,i){
 }
 function disegnaSopra(ws,ox,oy,i){
   if(tema.id==="interscambio" && R6) disegnaR6Sopra(ws,ox,oy);   // [R6] cerchio del parcheggio scelto
-  if(schedaSel && schedaSel.polys){   // [agente GT07-clic-fermate] contorno sottile della sezione selezionata
+  if(schedaSel && schedaSel.polys){   // contorno sottile della sezione selezionata
     cx.strokeStyle="#111"; cx.lineWidth=1.5; cx.beginPath();
     for(const a of schedaSel.polys){ for(let k=0;k<a.length;k+=2){ const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y); } cx.closePath(); }
     cx.stroke();
@@ -1301,7 +1301,7 @@ function disegnaSopra(ws,ox,oy,i){
   }
   if(vis("Lreplay")) disegnaReplay(ws,ox,oy);
 }
-/* [agente GT04-velocita] velocità commerciale misurata per linea (D.vel[linea][tipo][ora] = [km/h, campioni, giorni]) */
+/* velocità commerciale misurata per linea (D.vel[linea][tipo][ora] = [km/h, campioni, giorni]) */
 const VEL_MIN_CAMP = 20;   // sotto questi campioni (≈ 20 minuti-veicolo) la cella resta grigia
 const VEL_PAL = ["#d73027","#fc8d59","#91cf60","#1a9850"];   // [R6] rosso = lento, verde = veloce
 const SENS_CLASSI = ["<15","15–30","30–45",">45 km/h"];
@@ -1356,7 +1356,7 @@ function mostraZoom(){ const e=$("zl"); if(e) e.textContent="z "+view.zoom.toFix
 function vaiA(lat,lon,z){ view.cx=px(lon); view.cy=py(lat); view.zoom=z; chiede(); aggiornaLegenda(); mostraZoom(); }
 const ptrs=new Map(); let ultimaDist=0, mosso=false, pizzico=false;
 cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY,x0:e.clientX,y0:e.clientY});mosso=false;cv.classList.add("trascina");
-  if(ptrs.size===1) pizzico=false; else pizzico=true;   // [agente GT07-clic-fermate]
+  if(ptrs.size===1) pizzico=false; else pizzico=true;
   if(ptrs.size===2){const [a,b]=[...ptrs.values()];ultimaDist=Math.hypot(a.x-b.x,a.y-b.y);} nascondiTip();});
 cv.addEventListener("pointermove",e=>{
   const p=ptrs.get(e.pointerId);
@@ -1367,7 +1367,7 @@ cv.addEventListener("pointermove",e=>{
   if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);
     if(ultimaDist>0) zoomA(view.zoom+Math.log2(d/ultimaDist),(a.x+b.x)/2,(a.y+b.y)/2); ultimaDist=d; mosso=true;}
 });
-// [agente GT07-clic-fermate] clic = rilascio entro ~5 px dal punto di partenza, senza pizzico a due dita
+// clic = rilascio entro ~5 px dal punto di partenza, senza pizzico a due dita
 const fine=e=>{ const p0=ptrs.get(e.pointerId), era1=ptrs.size===1;
   if(p0){ ptrs.delete(e.pointerId);} if(!ptrs.size){cv.classList.remove("trascina");}
   if(e.type==="pointerup" && p0 && era1 && !pizzico && Math.hypot(e.clientX-p0.x0,e.clientY-p0.y0)<=5) cercaTip(e.clientX,e.clientY,true); };
@@ -1403,7 +1403,7 @@ function dentroZona(z,ux,uy){
     if(n%2===1) return true; }
   return false;
 }
-// [agente GT17] generatore unico per tutte le schede informative al clic (struttura standard a 4 sezioni)
+// generatore unico per tutte le schede informative al clic (struttura standard a 4 sezioni)
 function creaScheda({ titolo, badge, sub, val, stato, dettagli, appTitolo, approfondimento, appAperto, avviso }){
   const tagKey = badge ? ({"programmato":"prog","misurato":"mis","censimento":"cens","stimato":"sim"}[badge.toLowerCase()] || badge) : null;
   const bHtml = tagKey ? (TAG[tagKey] || (tagKey.startsWith("<") ? tagKey : `<span class="tag ${tagKey}">${tagKey.toUpperCase()}</span>`)) : "";
@@ -1434,7 +1434,7 @@ function creaScheda({ titolo, badge, sub, val, stato, dettagli, appTitolo, appro
     </div>`;
 }
 
-// [agente GT17] costruttori delle schede informative per ciascun elemento
+// costruttori delle schede informative per ciascun elemento
 function schedaFermata(s, click){
   const tot = s.d.slice(S.dt*24, S.dt*24+24).reduce((a,b)=>a+b, 0);
   const passOra = s.d[idx()];
@@ -1565,7 +1565,7 @@ function schedaMezzo(m){
   });
 }
 
-// [agente GT-regia] classifica il modo attivo in famiglie, per decidere quali campi di
+// classifica il modo attivo in famiglie, per decidere quali campi di
 // contesto mostrare in scheda/tooltip (niente dati non pertinenti al tema guardato)
 function famigliaModo(modo){
   if(modo === "fb") return "fb";
@@ -1641,7 +1641,7 @@ function schedaSezione(z){
   ] : modo === "sen" ? [
     { k: "Residenti 65 anni e oltre", v: z.sen==null ? "n/d" : `${z.sen.toLocaleString("it-IT")} (${z.p>0?(z.sen/z.p*100).toFixed(1):"0.0"}%)` }
   ] : [];
-  const fam = famigliaModo(modo);   // [agente GT-regia] solo campi pertinenti al tema guardato
+  const fam = famigliaModo(modo);   // solo campi pertinenti al tema guardato
   const contestoBase = [
     { k: "Residenti sezione", v: `${z.p} abitanti (${Math.round(z.dens)} / km²)` },
     { k: "Superficie", v: `${z.km2.toLocaleString("it-IT",{maximumFractionDigits:2})} km²` }
@@ -1763,7 +1763,7 @@ function schedaZona(z){
   });
 }
 
-/* [agente GT07-clic-fermate] scheda con i dettagli: si apre con un clic, si chiude con ×, Esc o clic sulla mappa vuota */
+/* scheda con i dettagli: si apre con un clic, si chiude con ×, Esc o clic sulla mappa vuota */
 let schedaSel=null;   // sezione evidenziata mentre la scheda e' aperta
 function chiudiScheda(){ $("scheda").style.display="none"; if(schedaSel){ schedaSel=null; chiede(); } }
 function apriScheda(html,sel){
@@ -1977,7 +1977,7 @@ function stato(){
   el.push(`<div style="font-size:11.5px;color:var(--muted)">Mappa generata il ${fmt(Date.parse(D.meta.costruita_utc))}.</div>`);
   $("stato").innerHTML=el.join("");
 }
-// [agente GT06-pannello] frase semplice sotto «Quando»
+// frase semplice sotto «Quando»
 function fraseQuando(){
   const t=`La mappa mostra il servizio di ${["un giorno feriale","un sabato","una domenica"][S.dt]||"un giorno"} alle ${pad(S.h)}:${pad(Math.floor(S.m%60))}`;
   if($("fraseQuando").textContent!==t) $("fraseQuando").textContent=t;
@@ -2000,14 +2000,14 @@ function adesso(){
   document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.k===S.dt)); aggiornaOra(); aggiornaLegenda();
 }
 $("adesso").onclick=adesso;
-$("vel").onchange=()=>riepilogoQuando();   // [agente GT16] aggiorna il riepilogo della tendina
-// [agente GT02-temi] le sovrapposizioni si cambiano a mano; l'area colorata la decide solo il tema
+$("vel").onchange=()=>riepilogoQuando();   // aggiorna il riepilogo della tendina
+// le sovrapposizioni si cambiano a mano; l'area colorata la decide solo il tema
 ["Lcorse","Llinee","Lfermate","Lsensori"].forEach(id=>$(id).onchange=()=>{chiede();aggiornaLegenda();});
-$("Lgriglia").onchange=()=>chiede();   // [agente GT08-griglia-scala]
-$("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; tileOk=0; aggiornaAvvisoSfondo(); creditiSfondo(); baseVer++; chiede(); }; // [agente GT01-sfondi]
-$("intSfondo").oninput=e=>{ intSfondo=e.target.value/100; $("intSfondoVal").textContent=e.target.value+"%"; baseVer++; chiede(); }; // [agente GT01-sfondi]
+$("Lgriglia").onchange=()=>chiede();
+$("basemap").onchange=e=>{ baseCorrente=e.target.value; tileErr=0; tileOk=0; aggiornaAvvisoSfondo(); creditiSfondo(); baseVer++; chiede(); };
+$("intSfondo").oninput=e=>{ intSfondo=e.target.value/100; $("intSfondoVal").textContent=e.target.value+"%"; baseVer++; chiede(); };
 $("filtroLinea").oninput=()=>{ baseVer++; chiede(); };
-// [agente GT29-integrazione-simulazioni] la simulazione si apre in una pagina separata per confrontare più risultati
+// la simulazione si apre in una pagina separata per confrontare più risultati
 $("apriSim").onclick=()=>{ window.open("simulazione.html","_blank"); };
 $("repGiorno").onchange=e=>{ if(e.target.value){ $("Lreplay").checked=true; } caricaReplay(e.target.value); aggiornaLegenda(); };
 $("Lreplay").onchange=()=>{ if($("Lreplay").checked && !REP && $("repGiorno").value) caricaReplay($("repGiorno").value); chiede(); aggiornaLegenda(); };
@@ -2018,7 +2018,7 @@ function anima(ts){
     if(gioca){
       const dt=Math.min(0.25,(ts-ultimoT)/1000); ultimoT=ts;
       S.m=(S.m+dt*(+$("vel").value)/60)%1440;
-      $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando();   // [agente GT06-pannello]
+      $("oraTxt").textContent=`${pad(S.h)}:${pad(Math.floor(S.m%60))}`; $("ora").value=Math.floor(S.m); fraseQuando();
       chiede();
     } else ultimoT=ts;
     $("nAtt").textContent=vis("Lcorse")? attivi+" corse in giro":"";
@@ -2029,7 +2029,7 @@ $("chiudi").onclick=()=>{ $("pannello").style.display="none"; $("apri").style.di
 $("apri").onclick=()=>{ $("pannello").style.display="block"; $("apri").style.display="none"; };
 $("legendaToggle").onclick=()=>{ const b=$("legendaBox"); b.classList.toggle("chiusa"); $("legendaToggle").setAttribute("aria-expanded", b.classList.contains("chiusa")?"false":"true"); };
 
-/* [agente GT02-temi] etichette di origine del dato: MISURATO / PROGRAMMATO / STIMATO / CENSIMENTO + "dati scarsi" (storico < 72 h, come in statoLive) */
+/* etichette di origine del dato: MISURATO / PROGRAMMATO / STIMATO / CENSIMENTO + "dati scarsi" (storico < 72 h, come in statoLive) */
 const TAG = {
   mis:'<span class="tag misurato">MISURATO</span>', prog:'<span class="tag programmato">PROGRAMMATO</span>',
   sim:'<span class="tag stimato">STIMATO</span>', cens:'<span class="tag censimento">CENSIMENTO</span>'
@@ -2056,7 +2056,7 @@ function legendaSezioni(modo){
     +(modo==="dens"?"":'<div class="puntini"><span><i style="background:#9aa0ad"></i>nessun passaggio a quest\'ora</span></div>')
     +`<div class="et" style="display:block">${nota5}${modo==="dens"?"":" Fuori Torino mancano treni e bus di altre aziende."}</div>`;
 }
-/* [agente GT05-pendolari] legenda del tema Pendolari */
+/* legenda del tema Pendolari */
 function legendaPendolari(){
   if(!PEND) return `<div class="t">Pendolari ${TAG.cens}</div><div class="et" style="display:block">Dati non presenti: servono docs/matrix_pendoLAVORO_2021.zip e docs/matrix_pendoSTUDIO_2021.zip e le sezioni di censimento; poi rilancia 04_genera_mappa.py.</div>`;
   const o=pendOpz(), pc=pendCalcola(), so=pc.sogl, ent=o.d==="in";
@@ -2071,14 +2071,14 @@ function legendaPendolari(){
     +`<div class="et" style="display:block">ISTAT 2021, da comune a comune, senza mezzo né orario. Tocca un comune per i dettagli.</div>`;
 }
 
-/* ====== TABELLA DEI TEMI [agente GT16] 4 temi unificati: Servizio e abitanti, Traffico e velocità, Tempo reale e flotta, Pendolarismo ======
+/* ====== TABELLA DEI TEMI 4 temi unificati: Servizio e abitanti, Traffico e velocità, Tempo reale e flotta, Pendolarismo ======
    id, etichetta, descrizione,
    area: null (nessuna colorazione) | {tipo:"sez", modo:"rapp|serv|dens"} | {tipo:"zone"},
    over: preset delle sovrapposizioni (id della casella -> acceso/spento),
    legenda: funzione che dà l'HTML della legenda del tema (o "" se basta quella delle sovrapposizioni),
    opzioni di disegno facoltative: lineeSottili, sensoriGrandi, velocita, subServizio, segnalazioni */
 const NESSUNA = {Llinee:0,Lfermate:0,Lcorse:0,Lsensori:0,Lreplay:0};
-// [agente GT16] sottoscelta dinamica per il tema Servizio e abitanti
+// sottoscelta dinamica per il tema Servizio e abitanti
 function impostaSubServizio(sub, aggiornaOver){
   if(!sub) sub = $("subServizio") ? $("subServizio").value : "rapp";
   $("modoSez").value = sub;
@@ -2239,7 +2239,7 @@ const THEMES = [
   {id:"catalogo", label:"Catalogo dei dati (inventario)", desc:"Tutti i luoghi dei dati aperti del Comune (scuole, salute, negozi, sport, ciclabili…), un gruppo alla volta. Utile per vedere cosa c'è e cosa manca.",
    area:null, over:{...NESSUNA}, catalogo:true, legenda:legendaCatalogo}
 ];
-let tema = THEMES[0];   // [agente GT16] tema di partenza: Servizio e abitanti
+let tema = THEMES[0];   // tema di partenza: Servizio e abitanti
 
 /* [pulizia] area Opzioni unica: ogni tema dichiara le proprie scelte, il codice le costruisce sempre allo stesso modo.
    Aggiungere un'opzione = aggiungere una voce in OPZIONI e il suo id nella lista "opzioni" del tema. */
@@ -2330,7 +2330,7 @@ function renderOpzioni(){
 
 /* cambia tema: imposta area colorata e sovrapposizioni; non ricostruisce dati, cambia solo cosa si disegna */
 function applicaTema(id){
-  chiudiScheda(); nascondiTip();   // [agente GT-regia] niente pannello/tooltip del tema precedente
+  chiudiScheda(); nascondiTip();   // niente pannello/tooltip del tema precedente
   // mappatura protettiva vecchi id tema
   if(id==="offerta"){ id="servizio"; OPT_VAL.subServizio="serv"; }
   else if(id==="domanda"){ id="servizio"; OPT_VAL.subServizio="dens"; }
@@ -2350,7 +2350,7 @@ function applicaTema(id){
   if(tema.r6vista){ impostaR6Vista(); $("legendaBox").classList.remove("chiusa"); $("legendaToggle").setAttribute("aria-expanded","true"); }   // legenda aperta quando si apre il tema
   baseVer++; chiede(); aggiornaLegenda(); imqNotaOra();
 }
-// [agente GT06-pannello] menu a tendina costruito dalla tabella THEMES (un tema nuovo compare da solo)
+// menu a tendina costruito dalla tabella THEMES (un tema nuovo compare da solo)
 $("temi").innerHTML = THEMES.map(t=>`<option value="${esc(t.id)}">${esc(t.label)}</option>`).join("");
 $("temi").onchange=e=>applicaTema(e.target.value);
 
@@ -2364,7 +2364,7 @@ function aggiornaLegenda(){
 function aggiornaLegendaBase(){
   const blocchi=[], t=tema.legenda();
   if(t) blocchi.push(t);
-  if(vis("Llinee") && !tema.velocita && tema.id!=="velocita"){   // [agente GT16] nel tema con velocità la legenda delle linee è quella della velocità
+  if(vis("Llinee") && !tema.velocita && tema.id!=="velocita"){   // nel tema con velocità la legenda delle linee è quella della velocità
     blocchi.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
   }
   if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14)</div><div class="puntini"><span><i style="background:rgba(74,163,223,.85)"></i>grandezza = passaggi/ora</span></div>`);

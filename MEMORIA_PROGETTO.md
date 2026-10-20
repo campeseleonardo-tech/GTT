@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **20/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
+Ultimo aggiornamento: **20/10/2026, sera** (pulizia completa). File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
 Solo lo stato attuale, **conciso ma completo**: i dettagli di un passo stanno nel suo piano in `docs/`
 (qui una riga e il rimando). La storia sta in git. Sezioni fisse: 1 Obiettivo · 2 Regole · 3 Cartelle e dati ·
 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici. Non aggiungerne altre.
@@ -14,7 +14,7 @@ sono due filoni separati. Interesse in crescita: traffico, parcheggi, costi. Nel
 MISURATI (raccolta su leopi, sempre attiva) devono calibrare quelli simulati.
 
 Risultati: **1** servizi (fatto) · **2** metro di notte (chiuso) · **3** più passaggi su una linea · **4** bus in
-ritardo e irregolari (v2) · **5** linea nuova · **6** parcheggi di interscambio (v1) · ~~**7** bici~~ (tolto il 20/10) · **8** traffico
+ritardo e irregolari (v2) · **5** linea nuova · **6** parcheggi per lasciare l'auto (corretto) · ~~**7** bici~~ (tolto il 20/10) · **8** traffico
 (v1) · **9** attesa promessa contro reale (v1). Di 3 e 5 se ne farà **uno solo** (Leo, 20/10). Scenari in `data/scenari/<nome>.json`, avviso standard:
 "SIMULAZIONE SU ORARIO PROGRAMMATO — non tiene conto di traffico, ritardi, capienza, domanda reale."
 
@@ -22,7 +22,8 @@ ritardo e irregolari (v2) · **5** linea nuova · **6** parcheggi di interscambi
 
 - Passo passo con Leo: decisioni importanti chieste prima; piccole scelte con default dichiarati.
 - **Verifica indipendente** di ogni fatto importante sui file veri prima di darlo a Leo.
-- Git: ramo `prova`; Claude committa solo quando Leo lo chiede.
+- Git: ramo `prova`; Claude committa solo quando Leo lo chiede. Nelle sessioni cloud Claude lavora su un ramo
+  `claude/...` che Leo unisce in `prova`. Il repository GitHub è **privato**.
 - Script provati su campione prima del giro vero. Python del PATH (3.14), non Anaconda.
 - Accesso: terminale sul PC e SSH **in sola lettura** verso leopi (`leopi@192.168.8.200`, chiave
   `~/.ssh/id_gtt_leopi`). Scrivere/riavviare sul Pi → `.bat` a doppio clic per Leo (`cd /d "%~dp0.."`, log in
@@ -40,11 +41,12 @@ ritardo e irregolari (v2) · **5** linea nuova · **6** parcheggi di interscambi
 ## 3. Cartelle e dati
 
 Radice: `mappa_torino.html`, `simulazione.html`, `MEMORIA_PROGETTO.md`, `AGENTS.md`. `docs/`: piani, rapporti,
-`RIASSUNTO_TRAFFICO.md`; vecchi documenti in `docs/archivio/`. `data/` (non in git): `raw/` (non toccare),
+`RIASSUNTO_TRAFFICO.md`, `PIANO_PULIZIA.md` (analisi e ordine dei passi del 20/10); vecchi documenti in `docs/archivio/`
+(correzioni del 20/10 in `docs/archivio/correzioni_20ott/`). `data/` (non in git): `raw/` (non toccare),
 `processed/`, `otp/` (R5), `scenari/`.
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 · 26 velocità 5T · 27 R4 ·
 28-29 R2 · 30-32 rapporto sostenibilità · 33-67 + `rete_osm.py` traffico (R8, vedi `docs/RIASSUNTO_TRAFFICO.md`)
-· 70 R9 · 68-69, 71-80 R6 · 81-85 R6 corretto (81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato al posto dell'80, 85 verifiche) · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 87**.
+· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 87**.
 
 | Dato | Note |
 |---|---|
@@ -66,50 +68,35 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 | Mappa | **Revisione completa fatta il 18/10** (`docs/archivio/PIANO_REVISIONE_MAPPA.md`): 9 temi, niente dati "live", colori leggibili, nomi dei comuni, guida con fonti e date; pubblico = portfolio. Aperto: condizioni d'uso degli sfondi Esri prima di pubblicare. |
 | Accessibilità (18) | 24 fasce orarie (15/10); piedi 15 min (80 m/min), TP 45 min. `docs/PIANO_ACCESSIBILITA.md`. |
 | Risultato 1 | 10.919 residenti a Torino senza servizi essenziali a 15' (1,3%), peggiore la salute; candidati per nuovi servizi in mappa. |
-| Risultato 2 (28-29) | Chiuso il 16/10: metro ogni 15' di notte → 773.307 residenti con accesso migliore (ogni 30': 652.891). `docs/PIANO_RISULTATO2.md`. |
+| Risultato 2 (28-29) | Chiuso il 16/10: metro ogni 15' di notte → 773.307 residenti con accesso migliore (ogni 30': 652.891); con almeno +25% di servizi 334.085 (153.062). `docs/PIANO_RISULTATO2.md`. |
 | Risultato 4 v2 (27) | 18/10: feriale 5,3% in ritardo > 5 min, 10,5% grappolo+buco. `docs/PIANO_RISULTATO4.md`. |
-| Risultato 6 (24-25, 68-80) | 19/10: **206 fermate importanti su 378 senza un parcheggio da 50+ posti a 200 m** (147 senza nessuno); 73 aree esagonali (37 critiche), 20 punti prioritari, 212 parcheggi mostrati; riempimento solo misurato (2 feriali) [DATI SCARSI]. Mappa a 3 viste + scheda con criteri e sensibilità; correzioni eseguite e provate a runtime con `scripts/prova_pagine_r6.py` (Edge headless: errori + screenshot in `immagini/`). Dettagli e criteri: `docs/PIANO_RISULTATO6.md` (riepilogo in testa). |
+| Risultato 6 (24-25, 68-73, 77, 79-85) | **Corretto il 20/10** (esito ricontrollato da Claude): 391 fermate importanti fuori dal centro, **253 senza posti bastanti** entro 400 m a piedi (99 senza nessun parcheggio adatto); 76 aree (20 critiche, 46 «Pochi dati»); 20 punti prioritari (1 solo sotto 2,5 km dal centro, prima 7); auto in entrata 87.162, chi già lascia l'auto 5,8% (64 interviste); torinesi inclusi (34%). Validazione: solo Stura informativo. Mappa 13,6 MB. Punti deboli da decidere (stesse auto in più punti, Gioanetti a 1,4 km): `docs/PIANO_RISULTATO6.md`. Catena `scripts\RISULTATO6_RIFAI.bat` (~4 min). |
 | Risultato 8 v1 (33-67) | 18/10, Fase 5 di opencode ricontrollata: 95,3% dei km di strade grandi di Torino serviti dal TP; "molto traffico e poco TP" quasi solo Corso Regina Margherita ovest. Stima C-DEBOLE (errore ±38%). `docs/RIASSUNTO_TRAFFICO.md`. |
 | Risultato 9 v1 (70) | 18/10: sulle linee frequenti 0,6-1,5 min in più di attesa rispetto ai 4,8 promessi. `docs/PIANO_RISULTATO9_ATTESA.md`. |
 | Rapporto sostenibilità GTT 2025 | 980 fatti verificati, `docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`. |
-| Schede risultato | `simulazione.html`: R1, R2, R4, R6, R8, R9 da `scripts/schede_risultati.py` → `data/schede_risultati.js`. Rieseguire lo script dopo ogni rilancio di un risultato. Scelte di Leo: due livelli, grafici + link mappa, solo risultati finiti. |
+| Schede risultato | `simulazione.html`: R1, R2, R4, R6, R8, R9 da `scripts/schede_risultati.py` → `data/schede_risultati.js`, con riassunto in inglese. Rieseguire lo script dopo ogni rilancio di un risultato. Scelte di Leo: due livelli, grafici + link mappa, solo risultati finiti. |
+| Pulizia (20/10) | 21 file superati in `scripts/archivio/` (`LEGGIMI.txt`), documenti finiti in `docs/archivio/`, un solo `scripts\AGGIORNA_RACCOLTA_LEOPI.bat`, commenti `[agente]` tolti, niente più «carica file» in `simulazione.html`. `docs/PIANO_PULIZIA.md`. |
+| Controllo leopi | `scripts\CONTROLLA_LEOPI.bat` (20/10; tolto il falso allarme sulla ZTL, che si salva solo se cambia). |
 
 ## 5. IN CORSO
 
-- **Correzioni generali (20/10)**: analisi in `docs/ANALISI_PROGETTO.md` e `docs/ANALISI_RISULTATO6.md` (R6 seguiva la
-  densità della città: 10 dei 20 punti in Q002-Q009, c2 contava le destinazioni, parcheggi di ospedali e del centro
-  contati, Fermi in area «Buona»). Leo: **correggere tutti gli errori**; torinesi nella domanda solo se tolgono tante
-  auto (≥ 25% di quelle da fuori), altrimenti cintura; niente soglia fissa di 50 posti; treni fuori; portfolio anche
-  all'estero. **Codice scritto e provato da Claude su dati finti** (script 81-86, mappa ~13 MB, scheda R6 con verifica
-  e inglese, R2 con numero più severo); **da eseguire sul PC** con `docs/PIANO_CORREZIONI_GENERALI.md` (prompt in
-  fondo), esito in `docs/ESITO_CORREZIONI_GENERALI.md`, poi Claude ricontrolla. Fino ad allora i numeri R6 della sezione
-  4 sono quelli **prima** delle correzioni. Fermi (Leo, 20/10): si riempiono soprattutto i gratuiti, al mattino (solo
-  controllo a posteriori). Piani/esiti R6 vecchi in `docs/archivio/r6/`; i `.bat` della radice ora in `scripts/`.
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
-- **Pulizia completa (20/10)**: `docs/PIANO_PULIZIA.md`. Leo: superati **in archivio** (non cancellati), portfolio
-  su **GitHub Pages**, campo ridotto (via bici, telefonia, logistica, eventi; uno solo fra R3 e R5). Fatto da Claude:
-  17 file in `scripts/archivio/` e `docs/archivio/`, un solo `scripts\AGGIORNA_RACCOLTA_LEOPI.bat` per aggiornare il
-  Pi, `immagini/` in `.gitignore`, stato in testa ai piani R4, R9, accessibilità. **Dopo l'esito**: R6 vecchio
-  (74-78, 80) e analisi/piano delle correzioni in archivio, commenti `[agente ...]` nel template, vecchio formato
-  «scenario» in `simulazione.html`, memoria riscritta corta. Sul PC (Leo): `vulnerabilita*.json` fuori da git con
-  `git rm --cached` (se lo facesse Claude, il pull li cancellerebbe dal PC), file `3)` e `scripts/*.bak_18ott`.
+- **Domande aperte a Leo** (`docs/PIANO_PULIZIA.md` sezione 5): dove pubblicare (repository privato), ritocchi al
+  Risultato 6, numero in grande del Risultato 2.
+- Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`; salvare in git `README.md` dopo aver rilanciato lo 86.
 
-## 6. PROSSIMI PASSI (in ordine, rifatto il 20/10: `docs/PIANO_PULIZIA.md` sezione 4)
+## 6. PROSSIMI PASSI (in ordine: dettagli in `docs/PIANO_PULIZIA.md` sezione 4)
 
-1. **Chiudere le correzioni**: Claude legge `docs/ESITO_CORREZIONI_GENERALI.md` (oggi solo sul PC: commit e push su
-   `prova`), ricontrolla i numeri, aggiorna Risultato 6 e memoria; poi il resto della pulizia.
-2. **Ora legale del 25/10**: dopo il fetch del 1/11 controllo a mano dello script 26 (+ `TRAFFICO_RILANCIA_SENSORI.bat`).
-3. **Controllo di leopi ogni mattina**: `schtasks` con `scripts\CONTROLLA_LEOPI.bat` (comando nel piano delle correzioni, 3.5).
-4. **Pubblicare su GitHub Pages**: struttura della cartella pubblicata, condizioni d'uso degli sfondi Esri, README,
-   prova di `pubblica/`.
-5. **2-3 risultati di punta**, ognuno con «come sappiamo che è vero» (rapporto GTT 2025, sensori e parcheggi 5T,
-   conoscenza di Leo).
-6. **Rilanci con più dati**: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre, `scripts\RISULTATO6_RIFAI.bat`); R4 e R9
-   con un mese (metà novembre: 27, 70, `schede_risultati.py`); poi R4 in mappa (linee colorate con lo slider dell'ora).
+1. Leo unisce il ramo di Claude in `prova`, poi `schede_risultati.py` e `86_prepara_pubblicazione.py`.
+2. `schtasks` con `scripts\CONTROLLA_LEOPI.bat` ogni mattina (comando in `docs/archivio/correzioni_20ott/ESITO_CORREZIONI_GENERALI.md`, 3.5).
+3. Ora legale del 25/10: controllo a mano dello script 26 dopo il fetch del 1/11 (+ `TRAFFICO_RILANCIA_SENSORI.bat`).
+4. Risultato 6: un punto per asse, distanza minima dal centro, numeri arrotondati, confronto con i sensori 5T del mattino.
+5. Pubblicare (GitHub Pages; repository privato: decidere come), cartella leggera (`pubblica/` oggi 90 MB), sfondi Esri.
+6. 2-3 risultati di punta, ognuno con «come sappiamo che è vero».
+7. Rilanci: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 e R9 con un mese (metà novembre); R4 in mappa.
    Screenshot di Leo per la scheda R6.
-7. **Tempi TP contro auto** per coppie di zone IMQ, poi **costi del viaggio** (`docs/PIANO_COSTI.md`).
-8. Più avanti: treni SFM (GTFS regionale), uno scenario fra R3 e R5, lista dei luoghi «speciali», effetto ZTL,
-   Corso Moncalieri, `velocita_5t.json` in mappa, mappa del traffico (solo se Leo vuole).
+8. Tempi TP contro auto per coppie di zone IMQ, poi costi del viaggio (`docs/PIANO_COSTI.md`).
+9. Più avanti: treni SFM, uno scenario fra R3 e R5, luoghi «speciali», effetto ZTL, Corso Moncalieri, `velocita_5t.json` in mappa.
 
 Metrica trasversale (Leo, 16/10, da progettare): "quanti veicoli in meno potrebbero girare" da un miglioramento
 dell'accessibilità TP, con IMQ per modo come base.
@@ -129,28 +116,12 @@ logistica, eventi (stadi, palazzetti).
 - Traffico: 20 punti di misura, stima debole (±38%), solo residenti 11-84 anni; limiti completi in
   `docs/RIASSUNTO_TRAFFICO.md`. Velocità 5T: "urbano" = nome con "(TO)", include alcune provinciali.
 
-- **Trovati da Claude nell'analisi del 19-20/10** (dettagli in `docs/ANALISI_PROGETTO.md` e `docs/ANALISI_RISULTATO6.md`;
-  quelli segnati ✔ sono corretti nel codice, da confermare con l'esito delle correzioni):
-  - R6: il risultato seguiva la densità della città (10 dei 20 punti e 108 delle 378 fermate in Q002-Q009; 7 punti a
-    meno di 2,5 km da Piazza Castello) ✔; c2 e c1 sommavano le auto sia alla zona di partenza sia a quella di arrivo,
-    quindi per i quartieri contavano le destinazioni ✔; «auto» contava anche i passeggeri (codice 04) e f anche le
-    moto (05) ✔; quota 26% = f (giornata intera, ogni tragitto, 63% treno) ÷ c2 (solo mattino in entrata): insiemi
-    diversi ✔; punteggio con doppioni (a1≈a2, c1≈c2), e = 0/100, segnali mancanti tolti dalla media ✔; 124 delle
-    172 fermate «coperte» lo erano solo grazie a parcheggi OSM senza nome; contati parcheggi di ospedali, stazioni,
-    centro ✔; dei 9 parcheggi «pieni» 8 sono garage del centro; il riempimento non cambiava i numeri principali;
-    Fermi in area «Buona», Caio Mario (vuoto) accanto al punto n. 10 ✔ (ora c'è la verifica sugli interscambi);
-    25 m² a posto: metà dei parcheggi fra 14 e 33 m² (±40%, non ±30%); aree con 1-2 fermate (0% o 100% per caso) ✔;
-    regole adattate a casi singoli (Palavela) ✔.
-  - Progetto: titoli deboli (R2 contava qualsiasi miglioramento = 91% di Torino ✔ secondo numero; R1 «cibo» = tutte le
-    attività commerciali ✔ nome; R8 «95% coperto» poco informativo); numeri attesi scritti nel codice che fermavano le
-    catene ✔; codice copiato (haversine in 12 script, `trova_radice` in 46, ora legale in 8: `comuni.py` per i nuovi);
-    la mappa sceglieva i giorni rispetto alla data di oggi (domenica = 25/10, cambio dell'ora) ✔; mappa 23,6 MB, di cui
-    14,6 di accessibilità ✔; pagine che leggono file fuori da git (`data/stat.js`, `orari_fermate.js`,
-    `schede_risultati.js`) ✔ `pubblica/`; nessun README ✔; nessun controllo con la realtà (il rapporto GTT 2025 e le
-    misure 5T si potrebbero usare); `mappa_torino.html` salvato in git a ogni giro (10 volte); `data/processed/
-    vulnerabilita*.json` in git nonostante `.gitignore` (decide Leo); nessun avviso se la raccolta su leopi si ferma ✔.
-  - Da NON considerare superati: `supervisore.py` e `06_dati_live.py` girano sul Pi. I passi delle fasi 3-4 nel
-    `.bat` del traffico hanno uscite lette dalla Fase 5: lasciati.
+- Risultato 6: i «posti che mancano» sono ordini di grandezza (quota da 64 interviste × traffico ±38%); il modello del
+  traffico senza code preferisce le strade veloci; riempimento misurato solo per pochi garage 5T.
+- Script 80 e 77 sembrano superati ma servono (funzioni per 84-85, modulo per 72-73). `supervisore.py` e `06_dati_live.py`
+  girano sul Pi. I passi delle fasi 3-4 nel `.bat` del traffico hanno uscite lette dalla Fase 5: lasciati.
+- Codice copiato (distanze, radice del progetto, ora legale) in molti script: si passa a `comuni.py` quando si tocca uno script.
+- `mappa_torino.html` (13,6 MB) è ancora salvata in git a ogni giro: si decide con la pubblicazione.
 
 ## 8. Standard tecnici
 

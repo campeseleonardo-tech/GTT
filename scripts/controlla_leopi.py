@@ -8,7 +8,11 @@ Si collega a leopi con SSH (chiave %USERPROFILE%\\.ssh\\id_gtt_leopi) SOLO PER L
 /home/leopi/GTT/data/storico.sqlite in sola lettura e guarda l'ultima riga scritta in ogni tabella raccolta.
   OK       = ogni tabella ha una lettura recente (vedi LIMITI_MINUTI);
   ALLARME  = almeno una tabella e' ferma (scrive quale e da quando).
-Di notte (00-05 ora italiana) il feed dei ritardi GTT e' spento: per quella tabella non c'e' allarme.
+Di notte (00-06 ora italiana) il feed dei ritardi GTT e' spento: per quella tabella non c'e' allarme.
+La ZTL NON da' allarme: il raccoglitore la controlla una volta al giorno e la salva solo se cambia (il dato e'
+fermo dal 2024), quindi per settimane non compare nessuna riga nuova. Si stampa solo la data dell'ultima versione.
+Si stampano anche gli errori scritti dal raccoglitore nelle ultime 24 ore (tabella errori), solo come informazione.
+(20/10, sera: tolto il falso allarme sulla ZTL trovato nel primo giro.)
 Scrive anche una riga in logs\\controlla_leopi.log. Non modifica niente sul Pi.
 
 Come si lancia
@@ -35,7 +39,6 @@ LIMITI_MINUTI = {
     "trip_update_gtt": ("letto_utc", 30),
     "flussi_5t": ("generato_utc", 30),
     "occupazione_pk": ("generato_utc", 30),
-    "ztl_5t": ("scaricato_utc", 26 * 60),
 }
 LOG = comuni.RADICE / "logs" / "controlla_leopi.log"
 
@@ -47,6 +50,13 @@ CODICE_PI = (
     "    x=c.execute(f'SELECT {col} FROM {t} ORDER BY rowid DESC LIMIT 1').fetchone();r[t]=x[0] if x else None\n"
     "  except Exception as e:\n"
     "    r[t]='errore: '+str(e)\n"
+    "x=c.execute('SELECT max(scaricato_utc) FROM ztl_5t').fetchone();r['_ztl']=x[0] if x else None\n"
+    "import datetime as D\n"
+    "da=(D.datetime.now(D.timezone.utc)-D.timedelta(hours=24)).isoformat(timespec='seconds')\n"
+    "try:\n"
+    "  r['_errori']=[list(y) for y in c.execute('SELECT fonte,count(*),max(quando_utc) FROM errori WHERE quando_utc>=? GROUP BY fonte',(da,))]\n"
+    "except Exception as e:\n"
+    "  r['_errori']='errore: '+str(e)\n"
     "print(json.dumps(r))"
 )
 
@@ -84,12 +94,21 @@ def main():
             allarmi.append(t)
             continue
         minuti = (ora - parsa(v)).total_seconds() / 60
-        notte = t == "trip_update_gtt" and 0 <= ora_it.hour < 5
+        notte = t == "trip_update_gtt" and 0 <= ora_it.hour < 6
         ferma = minuti > limite and not notte
         righe.append(f"  {t:16s} ultima lettura {comuni.ora_locale(parsa(v)):%d/%m %H:%M} (da {minuti:,.0f} min)"
                      + ("  <-- FERMA" if ferma else ""))
         if ferma:
             allarmi.append(t)
+    ztl = ultimi.get("_ztl")
+    righe.append(f"  {'ztl_5t':16s} ultima versione salvata {comuni.ora_locale(parsa(ztl)):%d/%m/%Y} (si salva solo se cambia: nessun allarme)"
+                 if ztl else f"  {'ztl_5t':16s} nessuna versione salvata (nessun allarme)")
+    err = ultimi.get("_errori")
+    if isinstance(err, list):
+        righe.append("  errori del raccoglitore nelle ultime 24 ore: " + (
+            ", ".join(f"{f} {n} (ultimo {comuni.ora_locale(parsa(u)):%d/%m %H:%M})" for f, n, u in err) if err else "nessuno"))
+    elif err:
+        righe.append(f"  errori del raccoglitore: non letti ({err})")
     esito = "OK" if not allarmi else "ALLARME: ferme " + ", ".join(allarmi)
     print(f"Raccolta su leopi, {ora_it:%d/%m/%Y %H:%M}: {esito}")
     print("\n".join(righe))

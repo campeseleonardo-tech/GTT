@@ -10,3 +10,10 @@ verifica_ritardi_diurna.bat      controllo dei ritardi del solo 11/10
 V3_MODELLO.bat                   modello del traffico V3 (scartato, gia' calcolato)
 RAPPORTO_PILOTA.bat, RAPPORTO_CONTROLLA.bat  messa a punto dell'estrazione del rapporto GTT 2025 (finita)
 aggiorna_raccolta_leopi.bat, AGGIORNA_RACCOLTA_5T_CODICI.bat  sostituiti da scripts/AGGIORNA_RACCOLTA_LEOPI.bat
+
+Aggiunti dopo l'esito delle correzioni (20/10, sera):
+74_istat2011_auto_orari.py, 75_risultato6_v2.py, 76_verifiche_r6v2.py, 78_eventi_parcheggi.py
+                                 Risultato 6 prima delle correzioni (sostituiti da 81-85).
+ATTENZIONE: 77_strade_comuni.py e 80_porte_interscambio.py restano in scripts/: il 77 e' un modulo usato da 72 e
+73; dall'80 gli script 84 e 85 prendono funzioni (distanze, esagoni, profili). Il main() dell'80 invece non va piu'
+lanciato (cerca il 75, che ora e' qui).

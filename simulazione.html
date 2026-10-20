@@ -128,27 +128,6 @@
   .avviso{margin-top:18px;padding:10px 12px;border:1px solid #e0b84a;border-radius:10px;background:#fff3cd;color:#4a3b00;font-size:12.5px}
   .avviso strong{display:block;margin-bottom:4px}
 
-  /* caricamento a mano e vecchio formato "scenario" */
-  .area{min-height:90px;border:2px dashed var(--line);border-radius:12px;
-    display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;
-    padding:20px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
-  .area:hover,.area.attivo{border-color:var(--accent);background:#f0f9f9}
-  input[type="file"]{display:none}
-  .pulsantiera{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-  .sim-riga{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:13px;border-bottom:1px solid var(--line)}
-  .sim-riga:last-child{border-bottom:none}
-  .sim-val{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
-  .sim-val.positivo{color:#237347}.sim-val.negativo{color:#b42332}
-  .sim-nome{font-size:13px;font-weight:600;margin-bottom:2px}
-  .sim-meta{font-size:11px;color:var(--muted)}
-  .confronto{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
-  @media (max-width:600px){ .confronto{grid-template-columns:1fr} }
-  .con-blocco{background:#f8f9fb;border:1px solid var(--line);border-radius:10px;padding:12px}
-  .con-titolo{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
-  .con-val{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
-  .con-delta{font-size:13px;margin-top:2px}
-  .btn.rimuovi{background:none;border-color:transparent;color:#b42332;font-size:12px;padding:4px 8px}
-  .btn.rimuovi:hover{background:#fff0f0}
   .vuoto{color:var(--muted);font-size:14px;text-align:center;padding:20px}
 </style>
 </head>
@@ -164,20 +143,7 @@
 </div>
 
 <div id="galleria" class="galleria"></div>
-<div id="scenari"></div>
 
-<div class="card">
-  <h2>Carica altri risultati o scenari</h2>
-  <p style="font-size:13px;color:var(--muted);margin:0 0 8px">Trascina qui i file JSON prodotti dagli script del progetto (schede risultato o scenari di <code>calcola_simulazione.py</code>). Un file con lo stesso nome di una scheda la sostituisce.</p>
-  <div class="area" id="dropArea">
-    <span>Trascina qui i file JSON<br><small>o clicca per sceglierli</small></span>
-  </div>
-  <input type="file" id="fileInput" accept=".json,.txt,.log,application/json,text/plain" multiple>
-  <div class="pulsantiera">
-    <button class="btn primario" id="btnCarica">Scegli file…</button>
-    <button class="btn" id="btnPulisci" style="display:none">Togli i file caricati</button>
-  </div>
-</div>
 
 <dialog id="finestra" aria-labelledby="finTitolo">
   <div class="fin-testa">
@@ -195,12 +161,9 @@
 <script>
 "use strict";
 const $ = id => document.getElementById(id);
-const dropArea = $("dropArea"), fileInput = $("fileInput");
-let schede = [];       // formato "risultato": schede del progetto + file caricati a mano
-let simulazioni = [];  // vecchio formato "scenario" (calcola_simulazione.py)
+let schede = [];       // schede del progetto (data/schede_risultati.js)
 
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-function numero(n){ return Math.round(n).toLocaleString("it-IT"); }
 
 /* numero in stile italiano: punto delle migliaia anche sotto 10.000 (toLocaleString "it-IT" scrive 9104),
    una cifra decimale al massimo */
@@ -211,29 +174,19 @@ function formattaNumero(n){
 }
 function conUnita(n, unita){ return formattaNumero(n) + (unita ? (unita === "%" ? "%" : " " + esc(unita)) : ""); }
 
-/* Riconosce due formati:
-   - "scenario" (calcola_simulazione.py): passaggi totali base/scenario.
-   - "risultato" (schema generico dei RISULTATI, vedi scripts/schede_risultati.py):
-     {risultato, titolo, domanda, scenari:[{nome, numeri:[{label,prima,dopo,unita}], nota}], avviso, ...campi facoltativi} */
-function riconosciFormato(r){
-  if(r && typeof r === "object" && Array.isArray(r.scenari) && typeof r.titolo === "string"){
-    const ok = r.scenari.every(sc => sc && typeof sc.nome === "string" && Array.isArray(sc.numeri) &&
-      sc.numeri.every(n => n && typeof n.label === "string" && "dopo" in n));
-    if(ok) return "risultato";
-  }
-  const campi = ["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica"];
-  if(r && typeof r === "object" && campi.every(k => typeof r[k] === "number" && Number.isFinite(r[k])) &&
-     r.passaggi_totali_baseline >= 0 && r.passaggi_totali_scenario >= 0 && r.fermate_con_modifica >= 0){
-    return "scenario";
-  }
-  return null;
+/* Una scheda valida (schema dei RISULTATI, vedi scripts/schede_risultati.py):
+   {risultato, titolo, domanda, scenari:[{nome, numeri:[{label,prima,dopo,unita}], nota}], avviso, ...campi facoltativi} */
+function schedaValida(r){
+  return !!(r && typeof r === "object" && Array.isArray(r.scenari) && typeof r.titolo === "string" &&
+    r.scenari.every(sc => sc && typeof sc.nome === "string" && Array.isArray(sc.numeri) &&
+      sc.numeri.every(n => n && typeof n.label === "string" && "dopo" in n)));
 }
 
 /* ---------------- galleria ---------------- */
 function mostraGalleria(){
   const g = $("galleria");
   if(!schede.length){
-    g.innerHTML = '<div class="card vuoto" style="grid-column:1/-1">Nessuna scheda trovata. Esegui <code>python scripts\\schede_risultati.py</code> oppure carica un file JSON qui sotto.</div>';
+    g.innerHTML = '<div class="card vuoto" style="grid-column:1/-1">Nessuna scheda trovata. Esegui <code>python scripts\\schede_risultati.py</code>.</div>';
     return;
   }
   g.innerHTML = schede.map((s, i) => {
@@ -407,97 +360,14 @@ function apri(i){
 $("finChiudi").addEventListener("click", () => $("finestra").close());
 $("finestra").addEventListener("click", e => { if(e.target === e.currentTarget) e.currentTarget.close(); }); // clic sullo sfondo
 
-/* ---------------- vecchio formato "scenario" ---------------- */
-function mostraScenari(){
-  const box = $("scenari");
-  if(!simulazioni.length){ box.innerHTML = ""; return; }
-  let html = "";
-  simulazioni.forEach((r, i) => {
-    html += `<div class="card">
-      <div class="sim-nome">${esc(r._nome)}</div>
-      <div class="sim-meta">Caricato il ${r._data}</div>
-      <div style="margin-top:10px">
-        <div class="sim-riga"><span>Passaggi totali, base</span><span class="sim-val">${numero(r.passaggi_totali_baseline)}</span></div>
-        <div class="sim-riga"><span>Passaggi totali, scenario</span><span class="sim-val">${numero(r.passaggi_totali_scenario)}</span></div>
-        <div class="sim-riga"><span>Differenza (scenario − base)</span><span class="sim-val ${r.differenza_passaggi>0?'positivo':r.differenza_passaggi<0?'negativo':''}">${r.differenza_passaggi>0?'+':''}${numero(r.differenza_passaggi)}</span></div>
-        <div class="sim-riga"><span>Fermate con variazione</span><span class="sim-val">${numero(r.fermate_con_modifica)}</span></div>
-      </div>`;
-    const extra = Object.entries(r).filter(([k]) => !["passaggi_totali_baseline","passaggi_totali_scenario","differenza_passaggi","fermate_con_modifica","_nome","_data","_tipo"].includes(k));
-    if(extra.length){
-      html += '<details style="margin-top:8px;font-size:12px;color:var(--muted)"><summary>Altri dati</summary>';
-      for(const [k,v] of extra) html += `<div style="display:flex;justify-content:space-between;padding:2px 0"><span>${esc(k)}</span><strong>${typeof v==="number"?numero(v):esc(String(v))}</strong></div>`;
-      html += '</details>';
-    }
-    html += `<button class="btn rimuovi" data-i="${i}">Rimuovi</button></div>`;
-  });
-  if(simulazioni.length >= 2){
-    html += `<div class="card"><h2>Confronto</h2><div class="confronto">` + simulazioni.map(r => `<div class="con-blocco">
-        <div class="con-titolo">${esc(r._nome)}</div>
-        <div class="con-val">${numero(r.passaggi_totali_scenario)}</div>
-        <div class="con-delta" style="color:${r.differenza_passaggi>0?'#237347':r.differenza_passaggi<0?'#b42332':'var(--muted)'}">${r.differenza_passaggi>0?'+':''}${numero(r.differenza_passaggi)} vs base</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">${numero(r.fermate_con_modifica)} fermate toccate</div>
-      </div>`).join("") + `</div></div>`;
-  }
-  html += `<div class="avviso" style="margin-bottom:14px"><strong>⚠ SIMULAZIONE SU ORARIO PROGRAMMATO</strong>
-      I risultati mostrano l'offerta potenziale calcolata applicando le variazioni all'orario GTFS. Non tengono conto di traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri o regolarità del servizio. Un aumento di corse sulla carta non garantisce che i bus arrivino in orario. Dati programmati/stimati, non misurati.</div>`;
-  box.innerHTML = html;
-  box.querySelectorAll(".btn.rimuovi").forEach(b => b.addEventListener("click", () => { simulazioni.splice(+b.dataset.i, 1); mostra(); }));
-}
-
-function mostra(){
-  mostraGalleria();
-  mostraScenari();
-  $("btnPulisci").style.display = (simulazioni.length || schede.some(s => s._amano)) ? "inline-block" : "none";
-}
-
-/* ---------------- caricamento a mano ---------------- */
-async function processaFiles(files){
-  for(const file of files){
-    try{
-      const testo = await file.text();
-      const inizioLog = testo.lastIndexOf("\n{");
-      const r = JSON.parse(testo.slice(inizioLog>=0 ? inizioLog+1 : 0).trim());
-      const tipo = riconosciFormato(r);
-      if(!tipo) throw new Error("Formato non valido");
-      r._tipo = tipo; r._nome = file.name; r._data = new Date(file.lastModified).toLocaleString("it-IT"); r._amano = true;
-      const elenco = tipo === "risultato" ? schede : simulazioni;
-      const idx = elenco.findIndex(s => s._nome === file.name);  // stesso nome: sostituisce
-      if(idx >= 0) elenco[idx] = r; else elenco.push(r);
-    }catch(err){
-      alert(`Non riesco a leggere "${file.name}": ${err.message || "formato non riconosciuto"}.`);
-    }
-  }
-  mostra();
-}
-dropArea.addEventListener("click", () => fileInput.click());
-$("btnCarica").addEventListener("click", () => fileInput.click());
-dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("attivo"); });
-dropArea.addEventListener("dragleave", () => dropArea.classList.remove("attivo"));
-dropArea.addEventListener("drop", e => {
-  e.preventDefault(); dropArea.classList.remove("attivo");
-  if(e.dataTransfer.files.length) processaFiles(e.dataTransfer.files);
-});
-fileInput.addEventListener("change", e => { if(e.target.files.length) processaFiles(e.target.files); e.target.value = ""; });
-$("btnPulisci").addEventListener("click", () => {
-  simulazioni = [];
-  schede = schede.filter(s => !s._amano);
-  caricaSchedeProgetto(true);
-  mostra();
-});
-
 /* ---------------- avvio: le schede del progetto si mostrano da sole ---------------- */
-function caricaSchedeProgetto(soloMancanti){
-  for(const s of (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI : [])){
-    if(riconosciFormato(s) !== "risultato") continue;
-    s._tipo = "risultato";
-    s._nome = s._nome || ("risultato" + s.risultato);
-    if(soloMancanti && schede.some(x => x._nome === s._nome)) continue;
-    schede.push(s);
-  }
-  schede.sort((a, b) => (parseFloat(a.risultato) || 99) - (parseFloat(b.risultato) || 99));
+for(const s of (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI : [])){
+  if(!schedaValida(s)) continue;
+  s._nome = s._nome || ("risultato" + s.risultato);
+  schede.push(s);
 }
-caricaSchedeProgetto(false);
-mostra();
+schede.sort((a, b) => (parseFloat(a.risultato) || 99) - (parseFloat(b.risultato) || 99));
+mostraGalleria();
 </script>
 
 </body>

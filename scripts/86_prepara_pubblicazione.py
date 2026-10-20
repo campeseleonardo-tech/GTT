@@ -83,6 +83,15 @@ every card has a short summary in English. Tags: [MISURATO] measured, [PROGRAMMA
 """
 
 
+def numero_it(v):
+    """Numero all'italiana (10919 -> 10.919; 1.3 -> 1,3); il resto com'e'."""
+    if isinstance(v, bool) or not isinstance(v, (int, float)):
+        return str(v)
+    if isinstance(v, float) and not v.is_integer():
+        return f"{v:,.1f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    return f"{int(v):,}".replace(",", ".")
+
+
 def leggi_schede():
     testo = SCHEDE.read_text(encoding="utf-8")
     inizio = testo.index("[")
@@ -115,7 +124,7 @@ def main():
     for s in schede:
         nk = s.get("numero_chiave") or {}
         titolo = f"Risultato {s.get('risultato', '')} — {s['titolo']}".strip(" —")
-        riga = f"**{nk.get('valore')} {nk.get('unita', '')}** {nk.get('testo', '')}".strip() if nk else ""
+        riga = f"**{numero_it(nk.get('valore'))} {nk.get('unita', '')}** {nk.get('testo', '')}".strip() if nk else ""
         risposta = (s.get("risposta") or [""])[0]
         it.append(f"### {titolo}\n*{s.get('domanda', '')}*\n\n{riga}\n\n{risposta}\n")
         eng = s.get("in_english") or []

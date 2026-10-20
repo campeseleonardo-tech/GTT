@@ -74,7 +74,7 @@ GRIGLIA_BLOCCATO = (0.04, 0.06, 0.08)
 GRIGLIA_PENDOLARE = (0.15, 0.20, 0.25)
 
 
-# [agente] ora legale italiana, stessa regola di scripts/04_genera_mappa.py (_locale)
+# ora legale italiana, stessa regola di scripts/04_genera_mappa.py (_locale)
 def _ultima_domenica(anno, mese):
     d = datetime(anno, mese, 31).date()
     while d.weekday() != 6:

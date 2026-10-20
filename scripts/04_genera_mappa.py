@@ -516,7 +516,7 @@ def assegna_zone(zone, stops):
 
 
 # ---------------------------------------------------------------- velocita' commerciale misurata
-# [agente GT04-velocita] Ora legale italiana (copiata da 06_dati_live.py, che non si importa ne' si modifica)
+# Ora legale italiana (copiata da 06_dati_live.py, che non si importa ne' si modifica)
 def _ultima_domenica(anno, mese):
     d = date(anno, mese, 31)
     while d.weekday() != 6:
@@ -644,7 +644,7 @@ def calcola_velocita():
 
 
 # ---------------------------------------------------------------- pendolari ISTAT 2021
-# [agente GT05-pendolari] matrici comune contro comune (lavoro e studio), solo flussi da/verso Torino
+# matrici comune contro comune (lavoro e studio), solo flussi da/verso Torino
 PRO_COM_TORINO = 1272
 # valori attesi dalle note (MEMORIA_PROGETTO.md, sezione ISTAT): entrano, escono, dentro Torino
 PEND_ATTESI = {"lavoro": (138605, 71297, 212249), "studio": (48730, 6373, 120148)}
@@ -946,8 +946,8 @@ def main():
     else:
         print("  (sezioni di censimento non trovate: lancia 05_prepara_sezioni.py per il livello Domanda)")
 
-    vel, vel_meta = calcola_velocita()   # [agente GT04-velocita] None se lo storico non c'e'
-    pend = costruisci_pendolari(sez) if sez else None   # [agente GT05-pendolari] None se mancano sezioni o zip
+    vel, vel_meta = calcola_velocita()   # None se lo storico non c'e'
+    pend = costruisci_pendolari(sez) if sez else None   # None se mancano sezioni o zip
     omi = leggi_omi()
     imq = leggi_imq()
     catalogo = prepara_catalogo()   # indice dei nuovi dati + file js per il caricamento su richiesta
@@ -976,9 +976,9 @@ def main():
 
     comuni = nomi_comuni({int(x["c"]) for x in sez if x.get("c")} | {PRO_COM_TORINO}) if sez else {}
     dati = {
-        "vel": vel or {}, "vel_meta": vel_meta,   # [agente GT04-velocita]
+        "vel": vel or {}, "vel_meta": vel_meta,
         "comuni": comuni,   # PRO_COM -> nome, per schede e tooltip
-        "pend": pend,   # [agente GT05-pendolari]
+        "pend": pend,
         "omi": omi,     # OMI quote immobiliari
         "imq": imq,     # Mobilita' IMQ 2022 (attivita' 10)
         "catalogo": catalogo,   # indice del catalogo (i dati per gruppo stanno in data/catalogo/*.js)

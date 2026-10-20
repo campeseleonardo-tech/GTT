@@ -1,7 +1,8 @@
 # Piano e storia — Risultato 2 "metro di notte"
 
 Stato: **chiuso (v2) il 16/10/2026.** Numeri ufficiali in `docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt`,
-scheda in `simulazione.html` (trascinare `data/processed/risultato2_riepilogo_mappa.json`).
+scheda in `simulazione.html` (da `scripts/schede_risultati.py`). Dal 20/10 la scheda mostra anche il numero più severo
+(almeno +25% di servizi: 334.085 residenti con la metro ogni 15 minuti, 153.062 ogni 30).
 Qui stanno i dettagli; `MEMORIA_PROGETTO.md` ne tiene solo il riassunto.
 
 ## Domanda

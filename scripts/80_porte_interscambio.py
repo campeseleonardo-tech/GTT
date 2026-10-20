@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-SUPERATO il 20/10/2026 dallo script 84_risultato6_parcheggi.py (correzioni: docs/PIANO_CORREZIONI_GENERALI.md).
+SUPERATO il 20/10/2026 dallo script 84_risultato6_parcheggi.py (correzioni: docs/archivio/correzioni_20ott/PIANO_CORREZIONI_GENERALI.md).
 Resta per confronto e perche' lo script 84 ne riusa le funzioni (esagoni, profili, nomi): non cancellarlo.
+Il suo main() NON si lancia piu': cerca 75_risultato6_v2.py, spostato in scripts/archivio/ il 20/10 (sera).
 
 80_porte_interscambio.py  -  Risultato 6, versione con le AREE e i PUNTI PRIORITARI: dove mancano
 parcheggi per lasciare l'auto vicino alle fermate importanti, e quali parcheggi grandi potrebbero

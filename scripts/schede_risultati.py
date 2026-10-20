@@ -267,11 +267,14 @@ def arricchisci_r2(s):
             "Non dice quante auto in meno ci sarebbero: serve un metodo a parte.",
         ],
         "in_english": [
-            f"Question: if the metro ran through the night gap between {da} and {a} (with dummy runs), how many residents "
+            f"Question: if the metro ran through the night gap between {da} and {a} (simulated extra runs), how many residents "
             "would reach more services?",
             f"With a metro every 15 minutes in the gap, {n15['residenti_migliorati']:,} residents of Turin and the belt "
             f"(out of {totale_res:,}) would reach more services within 45 minutes. With a run every 30 minutes, "
-            f"{n30['residenti_migliorati']:,} would.",
+            f"{n30['residenti_migliorati']:,} would."
+            + (f" Counting only a clear gain (at least {round(100 * n15['soglia_quota'])}% more reachable services at "
+               f"night): {n15['residenti_migliorati_quota']:,} and {n30['residenti_migliorati_quota']:,} residents."
+               if "residenti_migliorati_quota" in n15 else ""),
             f"The average theoretical wait at the stop would be {n15['attesa_media_minuti']:.1f} minutes in the first "
             f"case and {n30['attesa_media_minuti']:.1f} in the second.",
             "Limits: scheduled timetable only, with no traffic, delays, vehicle capacity or real passengers; the count is "

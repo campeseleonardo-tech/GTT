@@ -1,160 +1,82 @@
-# Piano — Pulizia completa del progetto e nuovo ordine dei prossimi passi (20/10/2026)
+# Analisi completa, pulizia e prossimi passi (20/10/2026, sera)
 
-Scritto da Claude su richiesta di Leo, dopo le correzioni generali.
+Scritto da Claude su richiesta di Leo. Seconda versione: rifatta **dopo** l'esito delle correzioni generali
+(`docs/archivio/correzioni_20ott/ESITO_CORREZIONI_GENERALI.md`). La prima versione (stessa giornata, prima
+dell'esito) è nella storia di git.
 
-> **Stato (20/10, sera).** Risposte di Leo: superati **in archivio** (non cancellati); portfolio su **GitHub Pages**;
-> campo **ridotto** (via bici, telefonia, logistica, eventi; uno solo fra R3 e R5). **Già fatto** da Claude: 2.1 tranne
-> il R6 vecchio, 2.2, 2.3 tranne le voci «dopo l'esito», `immagini/` in `.gitignore`, testate dei piani, memoria
-> (sezioni 5 e 6). **Da fare dopo l'esito**: R6 vecchio (74-78, 80) e documenti delle correzioni in archivio, 2.5
-> (template e `simulazione.html`, che l'agente può aver toccato), memoria riscritta corta.
+Scelte di Leo (20/10): file superati **in archivio**, non cancellati; portfolio su **GitHub Pages**; campo
+**ridotto** (via bici, telefonia, logistica, eventi; uno solo fra Risultato 3 e 5).
 
-## 0. Cosa ho guardato e cosa no
+## 1. Ricontrollo dell'esito
 
-- Ho letto memoria, `AGENTS.md`, i documenti in `docs/`, tutti gli script e i `.bat`, e ho ricostruito chi legge e
-  chi scrive ogni file (catene del Risultato 6, mappa, schede, traffico, raccolta sul Pi).
-- **Non ho l'esito delle correzioni**: `docs/ESITO_CORREZIONI_GENERALI.md` non è su GitHub (l'agente sul PC non
-  doveva fare commit). Non so quindi se la catena nuova del Risultato 6 (81-85) ha girato bene sui dati veri.
-  Per questo le parti che dipendono dall'esito sono segnate **[dopo l'esito]**.
-- Non ho `data/` né il PC: in git c'è ancora la mappa **vecchia** (23,6 MB); quella nuova (~13 MB) è solo sul PC.
+L'agente ha eseguito tutto il piano: 0 errori, verifiche indipendenti 0 non superate, pagine senza errori, mappa da
+23,6 a 13,6 MB. **Ho ricontrollato i numeri del Risultato 6 sui dati dentro la nuova `mappa_torino.html`**: 391
+fermate (99 / 154 / 116 / 22), 253 senza posti bastanti, 76 aree (20 / 5 / 5 / 46 «Pochi dati»), distanze dei 20
+punti da Piazza Castello rifatte da zero: **tutto coincide** con l'esito e con i rapporti.
 
-## 1. La situazione in breve
+Le correzioni hanno funzionato su quello che dovevano correggere: i punti vicini al centro passano da 7 a 1, le
+auto sono solo conducenti, la quota (5,8%) e le auto in entrata sono dello stesso insieme (mattino, in entrata).
 
-| | Quanti | Davvero usati oggi | Superati o usati una volta sola |
+## 2. Cosa ho trovato (dal più importante)
+
+| # | Cosa | Perché conta | Stato |
 |---|---|---|---|
-| Script Python | 95 | 80 | 15 |
-| `.bat` / `.sh` / `.ps1` | 25 | 19 | 6 (5 superati + 2 quasi uguali da unire) |
-| Documenti in `docs/` (fuori archivio) | 61 | 11 note + ~34 rapporti riscritti dagli script | ~16 |
+| 1 | **Stesse auto contate in più punti del Risultato 6.** Maroncelli, Bosso e Ponte Cavalieri Templari stanno sullo stesso asse di Moncalieri, a 0,7-1,2 km l'uno dall'altro: 627 + 540 + 350 «posti che mancano», ma sono in gran parte le stesse auto. La somma dei 20 punti (6.356) supera tutte le auto che si potrebbero fermare (5.067). Altre coppie a meno di 1 km a Mirafiori e alle Vallette | Il grafico «I punti dove mancano più posti» fa pensare a 1.500 posti mancanti a Moncalieri | **Da decidere** (domanda 2): un punto per asse d'ingresso |
+| 2 | **Gioanetti a 1,4 km dal centro** è un punto prioritario | Fermare un'auto lì fa risparmiare poca strada | **Da decidere** (domanda 2): distanza minima, es. 3 km |
+| 3 | **Il repository è privato.** GitHub Pages da un repository privato richiede un account a pagamento | Cambia come si pubblica | **Da decidere** (domanda 1) |
+| 4 | **Falso allarme nel controllo di leopi**: la ZTL risultava «ferma dal 14/10», ma il raccoglitore la salva solo quando cambia (il dato è fermo dal 2024). Con il controllo ogni mattina l'allarme sarebbe suonato **tutti i giorni** e avresti imparato a ignorarlo | Un allarme sempre acceso non serve | **Corretto** in `controlla_leopi.py`: la ZTL non dà più allarme (si stampa la data dell'ultima versione); si stampano gli errori del raccoglitore delle ultime 24 ore; la «notte» del feed dei ritardi arriva alle 6. Provato su un database finto |
+| 5 | **Cartella da pubblicare di 90 MB** | Per GitHub Pages è tanto (ogni pubblicazione aggiunge peso al repository) | Da guardare al passo «Pubblicare»: quali file pesano (probabilmente le giornate registrate `replay_*.js`) |
+| 6 | **Risultato 2: il numero in grande è ancora quello debole** (773.307 = qualsiasi miglioramento, anche di un solo servizio). Quello severo (334.085, almeno +25% di servizi) è solo nel testo | È il titolo che legge chi passa | **Da decidere** (domanda 3) |
+| 7 | **La quota del 5,8% viene da 64 interviste** e si moltiplica per una stima di traffico a ±38%: i «posti che mancano» (627, 540…) hanno tre cifre ma sono ordini di grandezza | Precisione apparente | Proposta insieme alla domanda 2: arrotondare (es. «circa 600») |
+| 8 | **Il modello del traffico senza code** manda le auto sulle strade veloci: Corso Francia non è fra i 15 luoghi con più auto in entrata, Strada Trieste (Moncalieri) è in cima | I punti prioritari dipendono da questo | Proposta: confronto con i sensori 5T al mattino in entrata (dati che ci sono già) |
+| 9 | **Validazione del Risultato 6 quasi vuota**: dei 5 interscambi del Comune solo Stura dice qualcosa (pieno, su strada trafficata). Caio Mario ha il contatore fermo, Fermi non trasmette, Sofia è poco usato pur con molte auto accanto | Il risultato non ha ancora un controllo con la realtà | Più giorni di parcheggi (inizio novembre) + punto 8 |
+| 10 | **46 aree su 76 «Pochi dati»** | La vista «aree» della mappa è quasi tutta grigia | Da rivedere dopo i punti 1-2 |
+| 11 | README generato senza il punto delle migliaia nei numeri in grassetto («10919») | È la prima pagina | **Corretto** in `86_prepara_pubblicazione.py` |
+| 12 | Riassunto inglese del Risultato 2: mancava il numero severo, c'era «dummy runs» | Coerenza con il testo italiano | **Corretto** in `schede_risultati.py` |
+| 13 | Lo script 80 sembra superato, ma **84 e 85 ne usano le funzioni**; il 77 è un modulo usato da 72 e 73 | Spostarli in archivio avrebbe rotto la catena | Lasciati in `scripts/` con una nota; da sistemare quando si tocca l'84 |
 
-Il problema principale non è il numero dei file ma che **le cose vive e quelle superate stanno mescolate**:
-in `docs/` 16 documenti scritti a mano sono in mezzo a 44 rapporti generati; in `scripts/` gli script del
-Risultato 6 «vecchio» (74-78, 80) stanno accanto a quelli nuovi (81-85) senza nessun segno che non servono più;
-quattro piani dicono ancora «da fare» per lavori già finiti.
+## 3. Pulizia fatta oggi (nessun numero cambia)
 
-## 2. Proposta di pulizia (nessun numero cambia)
-
-Default (come finora): **spostare in archivio, non cancellare**. Git tiene comunque tutta la storia.
-
-### 2.1 Script superati → `scripts/archivio/`
-
-| Script | Perché è superato | Controllato che nessuno lo usa? |
-|---|---|---|
-| 74 `istat2011_auto_orari`, 75 `risultato6_v2`, 76 `verifiche_r6v2`, 77 `strade_comuni`, 78 `eventi_parcheggi`, 80 `porte_interscambio` | Risultato 6 prima delle correzioni; sostituiti da 81-85 | Sì: la catena nuova (`RISULTATO6_RIFAI.bat`) non li lancia; 83 legge `scenari.json` del 75 **solo se c'è** (confronto) e l'84 riscrive `porte.json` al posto dell'80. **[dopo l'esito]** |
-| `calcola_simulazione.py` + `scenario_esempio.json` | Simulatore generico, escluso il 9/10 | Sì: 28 ne ha solo copiato una funzione |
-| 02 `ispeziona_dati`, 09 `analisi_dati_diurni` | Controlli dei primi giorni (3-10/10); con il 02 va in archivio anche `RAPPORTO_ISPEZIONE.txt` | Sì |
-| 38 `verifica_provinciali`, 46 `verifica_5t_codici`, 47 `prova_raccolta_5t_su_copia`, 48 `verifiche_indipendenti`, 55 `verifiche_fase4`, `controllo_fase1_5t` | Verifiche fatte una volta durante le fasi del traffico | Sì: non sono nei `.bat` settimanali |
-
-**Restano** (e perché, visto che sembrano vecchi): 25 (il Risultato 6 v1 produce `risultato6_interscambio.json`,
-che 72 e 73 leggono ancora); 06 e `supervisore.py` (girano sul Pi); i passi delle fasi 3-4 del traffico (37, 43-45,
-50b, 53-54: la Fase 5 legge le loro uscite) e 49-50, 62 (modelli V3 e V4 scartati, ma servono ai confronti
-settimanali dello script 63). Il traffico non lo tocco.
-
-### 2.2 `.bat` → `scripts/archivio/` o uniti
-
-| Cosa | Proposta |
+| Cosa | Dove ora |
 |---|---|
-| `backup_da_leopi.bat` | Archivio: fa esattamente la prima metà di `FETCH_LEOPI_E_VELOCITA_5T.bat` (rischio di lanciare quello sbagliato) |
-| `verifica_ritardi_diurna.bat` | Archivio: controllo di un giorno solo (11/10, data scritta dentro) |
-| `V3_MODELLO.bat` | Archivio: modello V3 scartato, già calcolato |
-| `RAPPORTO_PILOTA.bat`, `RAPPORTO_CONTROLLA.bat` | Archivio: servivano a mettere a punto l'estrazione del rapporto GTT, finita. `RAPPORTO_1/2/3` restano |
-| `aggiorna_raccolta_leopi.bat` + `AGGIORNA_RACCOLTA_5T_CODICI.bat` | Quasi uguali (copiano il raccoglitore sul Pi e lo riavviano). Uno solo, `AGGIORNA_RACCOLTA_LEOPI.bat`, che fa la copia di sicurezza con la data nel nome e lancia entrambi i controlli |
-| `sync_da_leopi.bat` | **Resta**: non è un doppione (copia `stat.js` e `replay_*.js` che la mappa usa) |
+| 21 file superati o usati una volta (Risultato 6 prima delle correzioni: 74, 75, 76, 78; simulatore generico; verifiche delle fasi 1-4 del traffico; `.bat` doppi o di un giorno solo) | `scripts/archivio/` (elenco e motivi in `LEGGIMI.txt`) |
+| Due `.bat` quasi uguali per aggiornare il Pi | uno solo: `scripts\AGGIORNA_RACCOLTA_LEOPI.bat` (**non provato**: alla prima volta guarda il log) |
+| Analisi, piano ed esito delle correzioni | `docs/archivio/correzioni_20ott/` |
+| 6 rapporti del Risultato 6 prima delle correzioni; piani finiti (revisione mappa, rapporto GTT); rapporti di una volta; bozza telefonia | `docs/archivio/`, `docs/archivio/r6/`, `docs/archivio/idee/` |
+| `immagini/` | esclusa da git |
+| 63 commenti di lavorazione `[agente …]` (template della mappa, 04, 71) | tolti. Verificato: JavaScript, HTML e CSS del template sono **identici** a prima, commenti esclusi (confronto dell'albero del codice) |
+| Riquadro «Carica altri risultati o scenari» in `simulazione.html` (trascina file JSON, vecchio formato del simulatore) | tolto. Provata in Chromium con schede di prova: stesse schede, finestra e inglese di prima, nessun errore |
+| Stato in testa a `PIANO_RISULTATO2/4/6/9_*.md` e `PIANO_ACCESSIBILITA.md` | aggiornato (il Risultato 6 con i numeri corretti e i punti deboli) |
+| Memoria | riscritta corta |
 
-### 2.3 Documenti
+**Non fatto apposta**: cartella separata per i rapporti generati (hai scelto solo l'archivio); riunire i doppioni
+di codice (distanze in 22 script): si passa a `comuni.py` solo quando si tocca uno script; script del traffico
+(stampano «NON TORNANO» su numeri di oggi ma non fermano niente).
 
-**Restano in `docs/`** (le note vive): `FONTI_DATI.md`, `CONOSCENZA_TORINO_LEO.md`, `PIANO_ACCESSIBILITA.md`,
-`PIANO_RISULTATO2.md`, `PIANO_RISULTATO4.md`, `PIANO_RISULTATO6.md`, `PIANO_RISULTATO9_ATTESA.md`,
-`RIASSUNTO_TRAFFICO.md`, `RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`, `PIANO_COSTI.md`, questo piano.
+**Sul PC (Leo)**: cancellare il file `3)` nella radice e `scripts\*.bak_18ott`; il README nella radice va salvato
+in git **dopo** aver rilanciato `python scripts\86_prepara_pubblicazione.py` (numeri ora con il punto).
 
-**In archivio**:
+## 4. Prossimi passi, in ordine
 
-| Cosa | Dove |
-|---|---|
-| `ANALISI_PROGETTO.md`, `ANALISI_RISULTATO6.md`, `PIANO_CORREZIONI_GENERALI.md`, `ESITO_CORREZIONI_GENERALI.md` **[dopo l'esito]** | `docs/archivio/correzioni_20ott/` |
-| `RAPPORTO_RISULTATO6_V2.txt`, `RAPPORTO_R6V2_EVENTI/ISTAT2011/STRADE/VERIFICHE/MAPPA_DATI.txt` (scritti da 74-78, 80) | `docs/archivio/r6/` |
-| `PIANO_REVISIONE_MAPPA.md` (fatta il 18/10), `PIANO_RAPPORTO_SOSTENIBILITA.md` (fatto), `RAPPORTO_COLORI.txt` (sostituzioni fatte il 19/10), `RAPPORTO_RISULTATO4_v1.txt`, `RAPPORTO_ISPEZIONE.txt` (script 02) | `docs/archivio/` |
-
-`RAPPORTO_VELOCITA_5T_prima_fetch.txt` **resta**: lo riscrive `FETCH_LEOPI_E_VELOCITA_5T.bat` a ogni fetch (copia di
-confronto della settimana prima).
-| `richiesta_dati_telefonia.md` (bozza mai inviata) | `docs/archivio/idee/` (o la tieni tu fuori dal progetto) |
-
-**Rapporti generati in una cartella loro** (facoltativo, vedi domanda 2): i ~34 `RAPPORTO_*.txt` che gli script
-riscrivono a ogni giro in `docs/rapporti/`. Così `docs/` ha solo le ~11 note scritte a mano. Costo: cambiare
-il percorso di uscita in ~40 script (una riga ciascuno, la stessa) e i rimandi nei documenti.
-
-**Testate sbagliate da correggere** (dicono «da fare» per lavori finiti): `PIANO_ACCESSIBILITA.md` («prossimo
-passo: fase 0»), `PIANO_RISULTATO9_ATTESA.md` («da approvare»), `PIANO_RISULTATO4.md` (scritto «per un agente»,
-senza lo stato attuale in testa). Una riga «Stato al 20/10» in cima a ciascuno.
-
-### 2.4 Git
-
-| Cosa | Problema | Proposta |
-|---|---|---|
-| `immagini/` | **Non è in `.gitignore`**, anche se il piano diceva di sì: gli screenshot di `prova_pagine_r6.py` finirebbero nel prossimo commit | Aggiungerla a `.gitignore` (sicuro, lo farei subito) |
-| `mappa_torino.html` | 23,6 MB rigenerati e salvati a ogni giro (10 volte) | Leo ha scelto GitHub Pages: le pagine pubblicate devono stare in git. Si decide la cartella al passo «Pubblicare» (per esempio `pubblica/` tolta da `.gitignore` e salvata solo quando si pubblica; la mappa di lavoro nella radice fuori da git) |
-| `data/processed/vulnerabilita*.json` | 4 MB in git nonostante `data/` sia escluso | Toglierli da git **sul PC** con `git rm --cached data/processed/vulnerabilita*.json` e commit: se lo facessi io, al pull git li **cancellerebbe** dal PC |
-| `requirements.txt` | Senza versioni | Le scrive il passo 0.5 delle correzioni **[dopo l'esito]** |
-
-### 2.5 Codice (piccolo, sicuro)
-
-- `mappa_template.html`: 57 commenti tipo `[agente GT05-pendolari]` (e 6 in `04_genera_mappa.py`): sono note di
-  lavorazione, per chi legge il codice del portfolio sembrano disordine. Toglierli o ridurli a un commento normale.
-- `simulazione.html`: c'è ancora la zona «trascina qui i file JSON» e il codice del vecchio formato «scenario»
-  di `calcola_simulazione.py`. Toglierli; poi `prova_pagine_r6.py` per vedere che la pagina funziona.
-- `66_pubblicazione_incrocio.py`: due commenti con accenti rovinati («piÃ¹»). Solo testo.
-- Funzioni copiate (distanze in 22 script, `trova_radice` in 46): **non** rifare tutto adesso (rischio alto, nessun
-  numero cambia). Regola: chi tocca uno script per altri motivi passa a `comuni.py`.
-- Script del traffico settimanale con numeri attesi «di oggi» (35: 17 esclusi / 92 usabili; 36; 38b: 112 voci):
-  oggi stampano «NON TORNANO» ma non fermano la catena. Lasciati: si guardano nel log.
-
-### 2.6 Memoria **[dopo l'esito]**
-
-`MEMORIA_PROGETTO.md` va riscritta corta: la sezione 5 (correzioni in corso) diventa una riga in FATTO con i
-numeri nuovi del Risultato 6; il lungo elenco «Trovati da Claude» della sezione 7 va in archivio con le analisi
-(resta solo quello che è ancora un limite vero); le «piccole pulizie» (file `3)`, `*.bak_18ott`) si chiudono;
-l'elenco degli script nella sezione 3 segue la nuova divisione.
-
-## 3. Come la eseguirei (un passo alla volta)
-
-1. **[dopo l'esito]** Leggo `docs/ESITO_CORREZIONI_GENERALI.md`, ricontrollo i numeri, aggiorno il Risultato 6 nella
-   memoria e in `PIANO_RISULTATO6.md`.
-2. Spostamenti (2.1-2.3) con `git mv`, così la storia di ogni file resta collegata. Controllo con una ricerca che
-   nessuno script, `.bat` o pagina citi più un file spostato.
-3. `.gitignore` e git (2.4), solo per le voci che approvi.
-4. Codice (2.5). Prova: `python -m py_compile` su tutti gli script; tu lanci `scripts\RISULTATO6_RIFAI.bat` sul PC
-   (deve finire con `FATTO` e 0 errori nelle pagine).
-5. Memoria riscritta (2.6), commit sul ramo di lavoro quando dici tu.
-
-## 4. Prossimi passi, nuovo ordine (dal più rilevante)
-
-Criterio: prima quello che **scade** o **blocca**, poi quello che rende il portfolio **visibile**, poi quello che lo
+Criterio: prima ciò che **scade** o **sbaglia**, poi ciò che rende il portfolio **visibile**, poi ciò che lo
 rende **più forte**, poi il nuovo.
 
-| # | Cosa | Perché ora | Quanto |
+| # | Cosa | Perché ora | Chi / quanto |
 |---|---|---|---|
-| 1 | **Chiudere le correzioni**: esito, ricontrollo, memoria | Blocca tutto il resto del Risultato 6 | 1 sessione |
-| 2 | **Ora legale del 25/10** (domenica): controllo a mano dello script 26 dopo il fetch del 1/11 | Scade questa settimana; altrimenti un'ora di dati 5T fuori posto per sempre | 15 min |
-| 3 | **Pulizia** (questo piano) | Il progetto è difficile da leggere, anche per gli agenti | 1 sessione |
-| 4 | **Controllo automatico di leopi ogni mattina** (`schtasks`, già scritto) | Il 18/10 la raccolta si è fermata e ce ne siamo accorti dopo | 5 min (tu) |
-| 5 | **Pubblicare il portfolio**: dove (domanda 3), condizioni d'uso degli sfondi Esri, README, prova di `pubblica/` | Senza questo nessuno vede il lavoro | 1-2 sessioni |
-| 6 | **2-3 risultati di punta + «come sappiamo che è vero»** per ciascuno, con i dati che ci sono già (rapporto GTT 2025, sensori 5T, parcheggi 5T, la tua conoscenza) | È la cosa che oggi manca di più per la credibilità | 1 sessione a risultato |
-| 7 | **Rilanciare R4 e R9 con un mese di dati** (metà novembre) e R6 con ≥ 5 feriali di parcheggi (inizio novembre); poi R4 in mappa | Oggi sono su 1-2 settimane | `.bat` già pronti |
-| 8 | **Tempi TP contro auto per coppie di zone** | Base comune per «auto in meno» e costi del viaggio | 2-3 sessioni |
-| 9 | **Costi del viaggio** (`PIANO_COSTI.md`) | Dopo il punto 8 | da stimare |
-| 10 | Più avanti: treni SFM (GTFS regionale: servono a R6 e alla cintura), lista dei luoghi «speciali», effetto ZTL, Corso Moncalieri, mappa del traffico | Utili ma non urgenti | — |
+| 1 | **Unire il ramo di Claude in `prova`**, poi `python scripts\schede_risultati.py` e `python scripts\86_prepara_pubblicazione.py` | Porta sul PC pulizia e correzioni | Leo, 5 min |
+| 2 | **Controllo di leopi ogni mattina** con `schtasks` (ora senza falso allarme) | Il 18/10 la raccolta si è fermata e ce ne siamo accorti dopo | Leo, 5 min |
+| 3 | **Ora legale del 25/10**: controllo a mano dello script 26 dopo il fetch del 1/11 | Un'ora di dati 5T fuori posto per sempre, se sbagliata | Claude, 15 min |
+| 4 | **Risultato 6, ultimi ritocchi** (domanda 2): un punto per asse, distanza minima dal centro, numeri arrotondati; confronto delle auto in entrata con i sensori 5T del mattino | Oggi il grafico principale conta le stesse auto più volte | Claude, 1 sessione |
+| 5 | **Pubblicare** (domanda 1): dove, cartella leggera, condizioni d'uso degli sfondi Esri, README | Senza questo nessuno vede il lavoro | 1-2 sessioni |
+| 6 | **2-3 risultati di punta + «come sappiamo che è vero»** (rapporto GTT 2025, sensori e parcheggi 5T, la tua conoscenza). Candidati: Risultato 9 (attesa promessa contro reale: misurato, originale), Risultato 1 con la vulnerabilità («chi resta indietro»), Risultato 6 dopo il punto 4 | È la cosa che manca di più per la credibilità | 1 sessione a risultato |
+| 7 | **Rilanci con più dati**: Risultato 6 dopo ≥ 5 feriali di parcheggi (inizio novembre, `RISULTATO6_RIFAI.bat`); Risultati 4 e 9 con un mese (metà novembre); poi Risultato 4 in mappa | Oggi 1-2 settimane di dati | `.bat` pronti |
+| 8 | **Tempi del mezzo pubblico contro l'auto** per coppie di zone, poi **costi del viaggio** | Base comune per «auto in meno» e costi | 2-3 sessioni |
+| 9 | Più avanti: treni SFM (GTFS regionale), uno scenario fra Risultato 3 e 5, lista dei luoghi «speciali», effetto ZTL, Corso Moncalieri, velocità 5T pulite in mappa | Utili, non urgenti | — |
 
-**Da togliere o congelare** (proposta, domanda 4): Risultato 7 bici (nessun dato), richiesta dati telefonia,
-logistica, eventi (stadi/palazzetti). Dei due scenari rimasti (3 «più passaggi su una linea», 5 «linea nuova») ne
-terrei **uno**, dopo i punti 1-7: l'obiettivo dice «pochi scenari», e il Risultato 2 ne è già uno.
+## 5. Domande per Leo
 
-## 5. Cose da sapere
-
-- Lavoro su un ramo mio (`claude/zen-newton-brrak9`), uguale a `prova` all'inizio. Non tocco `prova`.
-- `.claude/launch.json` (citato nella memoria) non è in git: esiste solo sul PC.
-
-## 6. Domande per Leo
-
-1. Mi mandi l'esito? (commit e push di `docs/ESITO_CORREZIONI_GENERALI.md` su `prova`, o incollalo in chat)
-2. File superati: **archivio** (come finora) o **cancellazione** (git li tiene nella storia)? E i rapporti
-   generati in `docs/rapporti/`?
-3. Dove vuoi pubblicare il portfolio (cambia cosa tenere in git)?
-4. Va bene togliere bici, telefonia, logistica ed eventi, e tenere un solo scenario fra 3 e 5?
+1. **Pubblicazione** (il repository è privato): un repository pubblico nuovo solo per le pagine del portfolio
+   (consigliato: il progetto di lavoro resta privato), oppure rendere pubblico tutto `GTT`, oppure GitHub a pagamento?
+2. **Risultato 6**: va bene un punto per asse d'ingresso, distanza minima dal centro 3 km e «posti che mancano»
+   arrotondati?
+3. **Risultato 2**: il numero in grande diventa quello severo (334.085)?

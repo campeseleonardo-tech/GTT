@@ -1,12 +1,58 @@
-# Risultato 6 — Parcheggi di interscambio: RIEPILOGO FINALE (19/10/2026)
+# Risultato 6 — Parcheggi per lasciare l'auto: STATO ATTUALE (corretto il 20/10/2026)
 
-> **20/10/2026 — IN CORREZIONE.** L'analisi `docs/ANALISI_RISULTATO6.md` ha trovato errori di metodo (il risultato
-> segue la densità della città; c2 contava le destinazioni; parcheggi di ospedali e del centro contati; Fermi in area
-> «Buona»). Le correzioni sono nel piano `docs/PIANO_CORREZIONI_GENERALI.md` (script nuovi 81-86, codice già scritto
-> da Claude e provato su dati finti; lo esegue un agente sul PC). Finché l'esito non è ricontrollato, il riepilogo qui
-> sotto descrive lo stato **prima** delle correzioni. I piani e gli esiti dei giri del 18-19/10 sono in `docs/archivio/r6/`.
+Correzioni eseguite sul PC il 20/10 (esito: `docs/archivio/correzioni_20ott/ESITO_CORREZIONI_GENERALI.md`, analisi e
+piano nella stessa cartella) e **ricontrollate da Claude** sui dati dentro `mappa_torino.html` (classi, aree, distanze
+dei 20 punti dal centro: tutto coincide). Catena: `scripts\RISULTATO6_RIFAI.bat` (71, 72, 73, 81, 82, 83, 84, 79, 85,
+04, schede, prova delle pagine; ~4 minuti). Rapporti: `docs/RAPPORTO_R6_*.txt`.
 
-Questa sezione è lo **stato attuale**. Tutto ciò che segue è la **storia** del lavoro (versione 1 del 14/10, proposta del 18/10, giri dell'agente del 19/10): serve per capire le scelte, non descrive più il risultato.
+## Domanda
+Dove mancano posti per lasciare l'auto prima di entrare in città, vicino a una fermata importante, così da togliere
+auto dal centro?
+
+## Criteri (valori decisi con Leo il 20/10)
+| Criterio | Valore |
+|---|---|
+| Auto in entrata al mattino | IMQ 2022, partenza 06-10, conducente + car sharing: 87.162 dalla cintura e da fuori; torinesi dei quartieri periferici verso Q001-Q009 inclusi (29.988 = 34%, soglia 25%) |
+| Chi già oggi lascia l'auto | 5,8% (5.067 auto, **64 interviste**) |
+| Auto che passano accanto | instradamento sul modello del traffico V0 (stima debole ±38%) |
+| Fermate importanti | 10% più alto fra 3.898 luoghi fuori da Q001-Q009: **391**; segnali a2, b2, c4, e a pesi uguali |
+| Parcheggi adatti | aperti, fuori da Q001-Q009, ≥ 20 posti, non di ospedali/università/centri commerciali: 1.874 (157.103 posti) |
+| Fermata coperta | posti adatti entro 400 m a piedi ≥ auto che passano × 5,8% |
+
+## Risultati
+- **253 fermate importanti su 391 senza posti bastanti** (99 senza nessun parcheggio adatto, 154 con posti
+  insufficienti); 116 con posti sufficienti; 22 con poche auto da fermare.
+- **76 aree**: 20 critiche, 5 scarse, 5 buone, **46 «Pochi dati»** (meno di 5 fermate).
+- **20 punti prioritari**, quasi tutti fra 3,5 e 9,6 km dal centro (uno solo sotto 2,5 km: Gioanetti, 1,4 km; prima
+  erano 7): in testa Maroncelli e Bosso (Moncalieri), Pellerina (Le Vallette), Santa Rita.
+- **Validazione sui 5 interscambi del Comune**: solo Stura dice qualcosa (pieno, su strada con molte auto: coerente);
+  Caio Mario contatore fermo, Fermi non trasmette, Venchi Unica a metà, Sofia poco usato con molte auto accanto.
+- Mappa 13,6 MB (era 23,6); 142 parcheggi mostrati.
+
+## Punti deboli trovati da Claude nel ricontrollo (20/10, sera) — da decidere con Leo
+1. **Stesse auto contate in più punti.** Maroncelli, Bosso e Ponte Cavalieri Templari (stesso asse di Moncalieri,
+   0,7-1,2 km uno dall'altro) mostrano 627 + 540 + 350 posti che mancano, ma sono in buona parte le stesse auto. La
+   somma dei «posti che mancano» nei 20 punti è 6.356, più delle auto che in tutto si potrebbero fermare (5.067).
+   Coppie a meno di 1 km anche a Mirafiori (Barbera-Vigliani, Settembrini-Svincolo Mirafiori-Cattaneo) e alle Vallette
+   (Pellerina-Pianezza-Toscana). Il totale non è mostrato in pagina, ma il grafico dei 10 punti lo suggerisce.
+   Proposta: un punto per asse d'ingresso (come la regola del traffico: l'unità è l'asse).
+2. **Gioanetti a 1,4 km dal centro**: fermare lì un'auto fa risparmiare poca strada. Proposta: distanza minima dal
+   centro (es. 3 km) o peso per i km risparmiati.
+3. **Quota del 5,8% su 64 interviste** moltiplicata per una stima di traffico al ±38%: i «posti che mancano» sono
+   ordini di grandezza; meglio mostrarli arrotondati (es. «circa 600») o in fasce.
+4. **Il modello del traffico senza code** manda le auto sulle strade veloci: Corso Francia non è fra i 15 luoghi con
+   più auto in entrata, Strada Trieste (Moncalieri) è in cima. Si può controllare con i sensori 5T al mattino in
+   entrata (dati che ci sono già).
+5. **Validazione quasi vuota** (1 interscambio su 5 informativo) e **46 aree su 76 senza colore**: la vista «aree»
+   dice poco.
+
+## Prossimi passi
+Dopo ≥ 5 feriali di parcheggi (inizio novembre): `scripts\RISULTATO6_RIFAI.bat`. Screenshot di Leo. Decidere i punti
+1-5 qui sopra. Eventi (stadi, palazzetti): congelati (Leo, 20/10).
+
+---
+
+# Riepilogo del 19/10 (PRIMA delle correzioni: superato, resta per la storia)
 
 ## Domanda
 «Dove mancano posti per lasciare l'auto vicino a dove si entra in città o nel trasporto pubblico?» — per capire dove mettere un parcheggio nuovo o ampliarne uno, così da togliere auto dalla circolazione (si lascia l'auto e si prosegue con il trasporto pubblico). Tutta la città conta, tranne il centro (Q001) per le fermate; i parcheggi contano ovunque.
