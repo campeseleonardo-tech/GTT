@@ -1,7 +1,12 @@
 # Piano — Pulizia completa del progetto e nuovo ordine dei prossimi passi (20/10/2026)
 
-Scritto da Claude su richiesta di Leo, dopo le correzioni generali. **Solo proposta: niente è stato spostato,
-cancellato o cambiato.** Si esegue dopo le risposte di Leo alle domande della sezione 6.
+Scritto da Claude su richiesta di Leo, dopo le correzioni generali.
+
+> **Stato (20/10, sera).** Risposte di Leo: superati **in archivio** (non cancellati); portfolio su **GitHub Pages**;
+> campo **ridotto** (via bici, telefonia, logistica, eventi; uno solo fra R3 e R5). **Già fatto** da Claude: 2.1 tranne
+> il R6 vecchio, 2.2, 2.3 tranne le voci «dopo l'esito», `immagini/` in `.gitignore`, testate dei piani, memoria
+> (sezioni 5 e 6). **Da fare dopo l'esito**: R6 vecchio (74-78, 80) e documenti delle correzioni in archivio, 2.5
+> (template e `simulazione.html`, che l'agente può aver toccato), memoria riscritta corta.
 
 ## 0. Cosa ho guardato e cosa no
 
@@ -66,7 +71,10 @@ settimanali dello script 63). Il traffico non lo tocco.
 |---|---|
 | `ANALISI_PROGETTO.md`, `ANALISI_RISULTATO6.md`, `PIANO_CORREZIONI_GENERALI.md`, `ESITO_CORREZIONI_GENERALI.md` **[dopo l'esito]** | `docs/archivio/correzioni_20ott/` |
 | `RAPPORTO_RISULTATO6_V2.txt`, `RAPPORTO_R6V2_EVENTI/ISTAT2011/STRADE/VERIFICHE/MAPPA_DATI.txt` (scritti da 74-78, 80) | `docs/archivio/r6/` |
-| `PIANO_REVISIONE_MAPPA.md` (fatta il 18/10), `PIANO_RAPPORTO_SOSTENIBILITA.md` (fatto), `RAPPORTO_COLORI.txt` (sostituzioni fatte il 19/10), `RAPPORTO_RISULTATO4_v1.txt`, `RAPPORTO_VELOCITA_5T_prima_fetch.txt` | `docs/archivio/` |
+| `PIANO_REVISIONE_MAPPA.md` (fatta il 18/10), `PIANO_RAPPORTO_SOSTENIBILITA.md` (fatto), `RAPPORTO_COLORI.txt` (sostituzioni fatte il 19/10), `RAPPORTO_RISULTATO4_v1.txt`, `RAPPORTO_ISPEZIONE.txt` (script 02) | `docs/archivio/` |
+
+`RAPPORTO_VELOCITA_5T_prima_fetch.txt` **resta**: lo riscrive `FETCH_LEOPI_E_VELOCITA_5T.bat` a ogni fetch (copia di
+confronto della settimana prima).
 | `richiesta_dati_telefonia.md` (bozza mai inviata) | `docs/archivio/idee/` (o la tieni tu fuori dal progetto) |
 
 **Rapporti generati in una cartella loro** (facoltativo, vedi domanda 2): i ~34 `RAPPORTO_*.txt` che gli script
@@ -82,8 +90,8 @@ senza lo stato attuale in testa). Una riga «Stato al 20/10» in cima a ciascuno
 | Cosa | Problema | Proposta |
 |---|---|---|
 | `immagini/` | **Non è in `.gitignore`**, anche se il piano diceva di sì: gli screenshot di `prova_pagine_r6.py` finirebbero nel prossimo commit | Aggiungerla a `.gitignore` (sicuro, lo farei subito) |
-| `mappa_torino.html` | 23,6 MB rigenerati e salvati a ogni giro (10 volte) | Toglierla da git; la versione da mostrare sta in `pubblica/` (dipende da dove pubblichi: domanda 3) |
-| `data/processed/vulnerabilita*.json` | 4 MB in git nonostante `data/` sia escluso | Toglierli da git (restano sul PC) |
+| `mappa_torino.html` | 23,6 MB rigenerati e salvati a ogni giro (10 volte) | Leo ha scelto GitHub Pages: le pagine pubblicate devono stare in git. Si decide la cartella al passo «Pubblicare» (per esempio `pubblica/` tolta da `.gitignore` e salvata solo quando si pubblica; la mappa di lavoro nella radice fuori da git) |
+| `data/processed/vulnerabilita*.json` | 4 MB in git nonostante `data/` sia escluso | Toglierli da git **sul PC** con `git rm --cached data/processed/vulnerabilita*.json` e commit: se lo facessi io, al pull git li **cancellerebbe** dal PC |
 | `requirements.txt` | Senza versioni | Le scrive il passo 0.5 delle correzioni **[dopo l'esito]** |
 
 ### 2.5 Codice (piccolo, sicuro)

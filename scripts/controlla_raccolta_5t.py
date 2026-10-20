@@ -1,4 +1,4 @@
-"""Controllo da eseguire SUL Pi (lo lancia AGGIORNA_RACCOLTA_5T_CODICI.bat via ssh):
+"""Controllo da eseguire SUL Pi (lo lancia AGGIORNA_RACCOLTA_LEOPI.bat via ssh):
 verifica che il raccoglitore corretto salvi i 112 sensori fisici, cioe' che nell'ultimo
 istante salviato ci siano 112 righe e che i tre codici condivisi ("~2") abbiano dati.
 Sola lettura: non scrive niente sul Pi.

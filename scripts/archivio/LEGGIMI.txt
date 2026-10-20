@@ -1,0 +1,12 @@
+scripts/archivio - script e .bat superati o usati una volta sola (spostati qui il 20/10/2026, docs/PIANO_PULIZIA.md).
+Non fanno parte di nessuna catena di oggi: non lanciarli. Restano per la storia e per rifare un controllo vecchio.
+Alcuni cercano la cartella del progetto partendo da scripts/: se ne serve uno, riportalo prima in scripts/.
+
+calcola_simulazione.py, scenario_esempio.json  simulatore generico (escluso il 9/10)
+02_ispeziona_dati.py, 09_analisi_dati_diurni.py  controlli dei primi giorni di raccolta (3-10/10)
+38, 46, 47, 48, 55, controllo_fase1_5t.py  verifiche fatte una volta nelle fasi 1-4 del traffico
+backup_da_leopi.bat              doppione della prima meta' di FETCH_LEOPI_E_VELOCITA_5T.bat
+verifica_ritardi_diurna.bat      controllo dei ritardi del solo 11/10
+V3_MODELLO.bat                   modello del traffico V3 (scartato, gia' calcolato)
+RAPPORTO_PILOTA.bat, RAPPORTO_CONTROLLA.bat  messa a punto dell'estrazione del rapporto GTT 2025 (finita)
+aggiorna_raccolta_leopi.bat, AGGIORNA_RACCOLTA_5T_CODICI.bat  sostituiti da scripts/AGGIORNA_RACCOLTA_LEOPI.bat

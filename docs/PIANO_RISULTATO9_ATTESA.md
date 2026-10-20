@@ -1,6 +1,9 @@
 # Piano — Risultato 9: attesa promessa contro attesa reale [MISURATO]
 
-Scritto da Claude il 18/10/2026, **da approvare con Leo prima di costruire** (sezione 6: decisioni aperte).
+> **Stato (20/10/2026): versione 1 fatta il 18/10, scheda in `simulazione.html`** (numeri nella sezione 9).
+> Prossimo: rilancio con un mese di dati (metà novembre).
+
+Scritto da Claude il 18/10/2026, da approvare con Leo prima di costruire (sezione 6: decisioni aperte).
 Riparte dai dati e dallo script del Risultato 4 (`scripts/27_risultato4_regolarita.py`, `docs/PIANO_RISULTATO4.md`).
 
 ## 1. La domanda (in parole semplici)

@@ -1,4 +1,4 @@
-"""Controllo da eseguire SUL Pi (lo lancia aggiorna_raccolta_leopi.bat via ssh):
+"""Controllo da eseguire SUL Pi (lo lancia AGGIORNA_RACCOLTA_LEOPI.bat via ssh):
 stampa quante letture parcheggi/ZTL ci sono nello storico. Sola lettura."""
 import sqlite3
 

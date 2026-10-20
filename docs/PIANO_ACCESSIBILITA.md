@@ -1,6 +1,8 @@
 # Piano: rifare l'accessibilità per sezione (attività 1)
 
-Data: 11/10/2026. Stato: APPROVATO da Leo l'11/10 (decisioni in fondo). Prossimo passo: fase 0.
+Data: 11/10/2026. Approvato da Leo l'11/10 (decisioni in fondo).
+**Stato (20/10/2026): fatto il 15/10** (24 fasce orarie; piedi 15 min a 80 m/min, TP 45 min). Lo usano i Risultati 1,
+2 e 6 e la mappa. Si rifà con `scripts\ACCESSIBILITA_24ORE.bat` solo se cambia il GTFS.
 Script coinvolto: `scripts/18_accessibilita.py`. Uscite: `data/processed/accessibilita.json`,
 `docs/RAPPORTO_ACCESSIBILITA.txt`.
 

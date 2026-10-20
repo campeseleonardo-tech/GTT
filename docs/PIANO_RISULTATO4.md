@@ -1,5 +1,8 @@
 # Piano — Risultato 4: bus in ritardo e bus irregolari [MISURATO]
 
+> **Stato (20/10/2026): versione 2 fatta il 18/10, scheda in `simulazione.html`.** Numeri e copertura dei dati
+> nella sezione «Stato al 18/10/2026» in fondo. Prossimo: rilancio con un mese di dati (metà novembre).
+
 Scritto il 14/10/2026 per un agente. Esegui i passi **nell'ordine**, uno alla volta. Ogni passo ha un
 controllo: se non torna, **FERMATI** e scrivi a Leo cosa hai visto. Non inventare correzioni.
 
@@ -185,7 +188,7 @@ mappa. Rilanciare lo script quando ci saranno più sabati e domeniche.
   **Feriale: 5,3% in ritardo > 5 min · 10,5% grappolo+buco · ritardo mediano −0,4 min · 39,9% in anticipo.**
   Sale rispetto alla v1 (4,2%) perché giovedì 15 e venerdì 16 sono andati peggio (ricontrollo indipendente
   giorno per giorno: stessa tendenza). La v1 aveva giorni a metà (il 12/10 solo pomeriggio); è conservata in
-  `data/processed/risultato4_regolarita_v1.json` e `docs/RAPPORTO_RISULTATO4_v1.txt`. Scheda in `simulazione.html`.
+  `data/processed/risultato4_regolarita_v1.json` e `docs/archivio/RAPPORTO_RISULTATO4_v1.txt`. Scheda in `simulazione.html`.
 - **Copertura del feed ritardi** (`trip_update_gtt`, dal 10/10, una lettura al minuto; verificata 18/10):
   `delay` di corsa mai presente; per ogni fermata `stop_time_update.arr` ha `delay` in secondi (~70%) o l'arrivo
   previsto `time` (~30%, da confrontare con l'orario GTFS). Raccolta 05-24 locali (niente notte); solo ~90 linee

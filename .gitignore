@@ -10,3 +10,5 @@ agenti/
 # segreti: mai in git
 chiave_deepseek.txt
 pubblica/
+# screenshot di scripts/prova_pagine_r6.py
+immagini/
