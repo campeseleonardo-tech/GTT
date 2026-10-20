@@ -360,7 +360,9 @@ def main():
         ufficiale = p["tipo"] in ("interscambio_ufficiale", "park_ride_osm")
         grande_vicino = r_ad.get("adatto") and posti_rec(p) >= MIN_POSTI_MOSTRATO and \
             (D_f_all[i].min() <= RAGGIO_MOSTRATO_M or D_n_all[i].min() <= RAGGIO_MOSTRATO_M)
-        if not (ufficiale or grande_vicino):
+        in_centro = info_ad.get(p["id"], {}).get("zona_imq") in comuni.ZONE_CENTRALI and \
+            (posti_rec(p) >= MIN_POSTI_MOSTRATO or p["tipo"] == "garage_5t")
+        if not (ufficiale or grande_vicino or in_centro):
             continue
         st, g = stato_di(p)
         r5 = riemp_5t.get(p.get("id_5t")) if p.get("id_5t") else None
@@ -381,6 +383,7 @@ def main():
             "dist_fermata_importante_piedi_m": round(float(D_f_all[i].min()) * FATTORE_PIEDI),
             "nodo_vicino": nodo, "profilo_feriale": pf, "profilo_weekend": pw, "descrizione": descr,
             "auto_passaggio_txt": arrotonda_cento((pas.get("parcheggi", {}).get(p["id"]) or {}).get("c4", 0)),
+            "in_centro": bool(in_centro),
         })
     da_mostrare.sort(key=lambda x: -x["posti"])
     print(f"  parcheggi in mappa: {len(da_mostrare)}")

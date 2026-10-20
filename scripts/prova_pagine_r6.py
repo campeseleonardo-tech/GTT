@@ -56,7 +56,6 @@ IMMAGINI = RADICE / "immagini"
 PAROLE_ERRORE = ("Uncaught", "ReferenceError", "TypeError", "SyntaxError", "Failed to execute", "ERROR:CONSOLE")
 TITOLI_VISTA = {
     "parcheggi": "Dove ci sono parcheggi per lasciare l'auto?",
-    "aree": "In quali aree mancano posti per lasciare l'auto?",
     "mancano": "Dove servirebbe di più un parcheggio?",
 }
 
@@ -163,7 +162,7 @@ def main():
                         errori.append(f"{nome}: nella pagina manca il titolo della legenda «{atteso}»")
             print(f"  {nome}: {len(righe_err)} righe di errore, DOM {len(dom)} caratteri")
         IMMAGINI.mkdir(exist_ok=True)
-        for vista in (() if args.senza_screenshot else ("parcheggi", "aree", "mancano")):
+        for vista in (() if args.senza_screenshot else ("parcheggi", "mancano")):
             png = IMMAGINI / f"r6_{vista}.png"
             url = f"http://127.0.0.1:{PORTA}/mappa_torino.html#tema=interscambio&vista={vista}"
             esegui(br, url, [f"--screenshot={png}"], "shot_" + vista)
