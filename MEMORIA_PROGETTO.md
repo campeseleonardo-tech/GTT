@@ -92,9 +92,11 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 
 ## 6. PROSSIMI PASSI (in ordine; i lavori di ogni risultato sono nel suo piano, con i prompt)
 
-1. **Raccolta automatica** (Leo, una volta sola): `scripts\PI_UN_SOLO_PROCESSO.bat`, poi
-   `scripts\INSTALLA_RACCOLTA_GIORNALIERA.bat`, poi una prova a mano di `scripts\RACCOLTA_GIORNALIERA.bat`.
-2. **Giro 1** (modello minore): `docs/PIANO_GIRO1_RITOCCHI.md` (pannello e parcheggi del centro, via le aree, R2
+1. (fatto il 20/10 alle 14:45: raccolta automatica attiva, log controllati da Claude: un solo servizio sul Pi con 03
+   e 12, copia giornaliera OK.) Da tenere d'occhio: lo storico pesa **2,1 GB** e cresce di circa 190 MB al giorno
+   (soprattutto i ritardi): la copia intera richiede ~10 minuti oggi; verso i 6-8 GB servirà una copia solo dei
+   dati nuovi o una pulizia (il supervisore avvisa oltre 10 GB).
+2. **Giro 1** (modello minore, in corso): `docs/PIANO_GIRO1_RITOCCHI.md` (pannello e parcheggi del centro, via le aree, R2
    nascosto, R4+R9 in una scheda con linee ordinarie, R8 errore % e frase). Poi Claude ricontrolla.
 3. **Risultato 1 v2, fase A** (modello minore): `docs/PIANO_RISULTATO1.md`. Poi Claude ricontrolla; fase B (mappa) dopo.
 4. **Risultato 6**: prompt A (sensori 5T), poi B (proposta fermate importanti, Leo sceglie N e M), poi C
