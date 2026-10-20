@@ -47,7 +47,8 @@ Controlli stampati (OK/AVVISO): somma dei residenti per `n_mancanti` = residenti
 - `in_english`: domanda, titolo e sensibilità aggiornati con gli stessi numeri.
 Non toccato: `mappa_torino` (fase B, lavoro 4), `MEMORIA_PROGETTO.md`.
 
-## PASSO 5 — DA FARE da Leo sul PC (nel cloud niente dati)
+## PASSO 5 — fatto da Leo sul PC il 20/10 (commit «Risultato 1 v2: calcoli sul PC»); numeri nella sezione «VERSIONE 2» di `docs/RAPPORTO_RISULTATO1.txt`, ricontrollati da Claude
+(sotto, le istruzioni di allora)
 In ordine:
 1. `python scripts\21_risultato1_vuoti.py` (guardare i «v2 OK/AVVISO» e la sezione «VERSIONE 2» di `docs\RAPPORTO_RISULTATO1.txt`; buon senso dal piano: Torino, soglia 1.000, abitati con 3+ mancanti dell'ordine di 700-800; zone poco abitate circa 6.800).
 2. `python scripts\22_risultato1_candidati.py --gruppi salute,scuole` (nel rapporto: quanti candidati cambiano).

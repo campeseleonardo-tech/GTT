@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **20/10/2026, sera** (pulizia completa). File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
+Ultimo aggiornamento: **20/10/2026, sera** (piano della fase B del R1, prompt del R6 rivisti). File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
 Solo lo stato attuale, **conciso ma completo**: i dettagli di un passo stanno nel suo piano in `docs/`
 (qui una riga e il rimando). La storia sta in git. Sezioni fisse: 1 Obiettivo · 2 Regole · 3 Cartelle e dati ·
 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici. Non aggiungerne altre.
@@ -48,7 +48,7 @@ Radice: `mappa_torino.html`, `simulazione.html`, `MEMORIA_PROGETTO.md`, `AGENTS.
 `processed/`, `otp/` (R5), `scenari/`.
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 · 26 velocità 5T · 27 R4 ·
 28-29 R2 · 30-32 rapporto sostenibilità · 33-67 + `rete_osm.py` traffico (R8, vedi `docs/PIANO_RISULTATO8.md`)
-· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 87**.
+· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 87** (riservati: 87 popolarità, 88 confronto sensori, 89 proposta fermate).
 
 | Dato | Note |
 |---|---|
@@ -99,9 +99,16 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    l'ordine delle fermate importanti cambiava a ogni giro (insieme non ordinato nello script 83) e con lui il nome e
    la strada di un gruppo dell'84 (Chieri: 16 → 15 punti). Corretto con uno spareggio fisso: si vede al prossimo
    `RISULTATO6_RIFAI.bat`.
-3. **Risultato 1 v2, fase A** (modello minore): `docs/PIANO_RISULTATO1.md`. Poi Claude ricontrolla; fase B (mappa) dopo.
-4. **Risultato 6**: prompt A (sensori 5T), poi B (proposta fermate importanti, Leo sceglie N e M), poi C
-   (popolarità delle zone, script 87): `docs/PIANO_RISULTATO6.md`.
+3. (fatto il 20/10, ricontrollato: Risultato 1 v2 fase A, 751 abitati con 3+ mancanti.) **Risultato 1 fase B** (mappa
+   0-5, grigio sotto 1.000 ab/km², quali servizi mancano nel pannello, elenco delle sezioni critiche per il lavoro 7):
+   passi e prompt in `docs/PIANO_RISULTATO1.md`, sezione «Fase B», sul PC; esito `docs/ESITO_R1_MAPPA.md`. Poi con Leo il
+   lavoro 7 (5-10 sezioni critiche guardate a mano).
+4. **Risultato 6**: prompt A (rilancio della catena con il controllo dello spareggio + sensori 5T, script 88), poi B
+   (proposta fermate importanti, script 89, Leo sceglie N e M), poi C (popolarità delle zone senza i ritorni a casa,
+   script 87): `docs/PIANO_RISULTATO6.md` (prompt rivisti il 20/10 sera).
+4bis. **Risultato 4, lavori piccoli sui dati di oggi** (non serve aspettare novembre): tram contro bus (3), oltre 10
+   minuti contro il 2,3% di GTT (9), link linea → mappa (4), ritardo per km (5). Prompt da scrivere; dopo la fase B
+   del R1 (toccano lo stesso template).
 5. Pubblicare su GitHub Pages (ramo `gh-pages` con solo `pubblica/`), cartella leggera (oggi 90 MB), sfondi Esri.
 6. Rilanci con più dati: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 (con R9) con un mese (metà
    novembre); poi R4 in mappa. Screenshot di Leo per la scheda R6.
