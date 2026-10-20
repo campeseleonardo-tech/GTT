@@ -34,6 +34,9 @@ dopo l'analisi di Leo. **Nessuna modifica fatta al risultato**: è un piano.
    parte.
 3. Tutte le aggiunte qui sopra vanno nel piano come lavori, nell'ordine della tabella che segue.
 
+**Come eseguirli**: i lavori 1-2 sono nel **Giro 1** (`docs/PIANO_GIRO1_RITOCCHI.md`), con il prompt pronto.
+Gli altri si preparano dopo, uno per volta, con un prompt nello stesso stile.
+
 ## Lavori da fare (in ordine)
 
 | # | Lavoro | Dove | Quanto |

@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """
-supervisore.py - tiene sempre acceso il raccoglitore (03_raccolta_continua.py), senza finestra.
+supervisore.py - tiene sempre accesa TUTTA la raccolta, senza finestra: un solo processo (un solo servizio sul Pi).
 
 Cosa fa:
-  - avvia il raccoglitore e lo riavvia se si ferma (dopo 30 s);
+  - avvia i raccoglitori e li riavvia se si fermano (dopo 30 s):
+      03_raccolta_continua.py  (mezzi GTT, sensori 5T, parcheggi, ZTL)
+      12_ritardi_gtt.py raccogli-db  (ritardi GTT e avvisi; prima era un servizio a parte, gtt-ritardi, unito il 20/10/2026)
+    Se manca il file di uno dei due, quello si salta (e lo scrive nel log);
   - scrive tutto in GTT/logs/raccolta_AAAA-MM.log (un file al mese, mai cancellato);
   - impedisce a Windows di andare in stop mentre gira (lo schermo puo' spegnersi);
   - una volta a settimana (domenica sera) mostra una finestra: "Vuoi continuare?"
@@ -43,6 +46,12 @@ LOGDIR = RADICE / "logs"
 STATO = RADICE / "data" / "supervisore_stato.json"
 STOP = RADICE / "data" / "STOP_RACCOLTA.txt"
 RACCOGLITORE = AQUI / "03_raccolta_continua.py"
+RITARDI = AQUI / "12_ritardi_gtt.py"
+# nome -> (script, argomenti): tutti i raccoglitori tenuti accesi da questo supervisore
+RACCOGLITORI = {
+    "raccolta": (RACCOGLITORE, []),
+    "ritardi": (RITARDI, ["raccogli-db", "--db", str(DB), "--ogni-secondi", "60"]),
+}
 LIMITE_GB = 10
 ATTESA_RIAVVIO = 30
 ATTESA_RISPOSTA_MS = 3600 * 1000
@@ -151,13 +160,41 @@ def un_solo_supervisore():
     return s
 
 
-def lancia():
+def lancia(script=RACCOGLITORE, argomenti=()):
     py = sys.executable
     if WIN and py.lower().endswith("pythonw.exe"):
         py = py[:-11] + "python.exe"
     kw = {"creationflags": 0x08000000} if WIN else {}   # CREATE_NO_WINDOW
-    return subprocess.Popen([py, "-u", str(RACCOGLITORE)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+    return subprocess.Popen([py, "-u", str(script), *argomenti], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                             text=True, encoding="utf-8", errors="replace", **kw)
+
+
+def ferma_tutti(stato):
+    for p in stato.get("proc", {}).values():
+        try:
+            p.terminate()
+        except Exception:
+            pass
+
+
+def tieni_acceso(nome, script, argomenti, stato):
+    """Avvia un raccoglitore e lo riavvia quando si ferma, finche' non arriva lo stop."""
+    if not script.is_file():
+        log(f"{nome}: manca {script.name}, non lo avvio")
+        return
+    while not stato["stop"]:
+        try:
+            p = lancia(script, argomenti); stato["proc"][nome] = p
+            log(f"{nome} avviato (pid {p.pid})")
+            for riga in p.stdout:
+                scrivi_riga_raccoglitore(riga if nome == "raccolta" else f"[{nome}] {riga}")
+            p.wait()
+            log(f"{nome} terminato (codice {p.returncode})")
+        except Exception as e:
+            log(f"errore nell'avvio di {nome}: {e}")
+        if stato["stop"]:
+            break
+        time.sleep(ATTESA_RIAVVIO)
 
 
 def main():
@@ -170,7 +207,7 @@ def main():
         return
     resta_sveglio()
     log("supervisore avviato")
-    stato = {"stop": False}
+    stato = {"stop": False, "proc": {}}
 
     def ciclo_controlli():
         primo = True
@@ -182,8 +219,7 @@ def main():
                     STOP.write_text("Fermata su tua richiesta il " + datetime.now().isoformat() + ".\nCancella questo file (o lancia riavvia_raccolta.bat) per ripartire.\n", encoding="utf-8")
                     log("fermata su richiesta dell'utente")
                     stato["stop"] = True
-                    if stato.get("proc"):
-                        stato["proc"].terminate()
+                    ferma_tutti(stato)
                     return
                 controllo_spazio()
             except Exception as e:
@@ -194,8 +230,7 @@ def main():
                 if STOP.exists():
                     log("trovato STOP_RACCOLTA.txt: mi fermo")
                     stato["stop"] = True
-                    if stato.get("proc"):
-                        stato["proc"].terminate()
+                    ferma_tutti(stato)
                     return
                 time.sleep(60 if not forza else 1)
     threading.Thread(target=ciclo_controlli, daemon=True).start()
@@ -226,19 +261,13 @@ def main():
                 time.sleep(1)
     threading.Thread(target=ciclo_live, daemon=True).start()
 
-    while not stato["stop"]:
-        try:
-            p = lancia(); stato["proc"] = p
-            log(f"raccoglitore avviato (pid {p.pid})")
-            for riga in p.stdout:
-                scrivi_riga_raccoglitore(riga)
-            p.wait()
-            log(f"raccoglitore terminato (codice {p.returncode})")
-        except Exception as e:
-            log(f"errore nell'avvio del raccoglitore: {e}")
-        if stato["stop"]:
-            break
-        time.sleep(ATTESA_RIAVVIO)
+    fili = [threading.Thread(target=tieni_acceso, args=(nome, s, a, stato), daemon=True)
+            for nome, (s, a) in RACCOGLITORI.items()]
+    for f in fili:
+        f.start()
+    while not stato["stop"] and any(f.is_alive() for f in fili):
+        time.sleep(5)
+    ferma_tutti(stato)
     log("supervisore fermo")
 
 

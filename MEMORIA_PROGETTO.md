@@ -53,7 +53,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 | Dato | Note |
 |---|---|
 | GTFS GTT | 215 linee, 7.045 fermate (versione 20261002, valida fino al 31/01/2027) |
-| Storico leopi | copia `data/storico_backup.sqlite`, aggiornata **la domenica** con `scripts\FETCH_LEOPI_E_VELOCITA_5T.bat`. Mezzi GTT, ritardi (dal 10/10), 5T traffico, parcheggi 5T e ZTL (dal 14/10). Il mezzo 2897U ha l'orologio ~3 anni avanti (lo script 04 scarta le letture lontane oltre 1 h) |
+| Storico leopi | copia `data/storico_backup.sqlite`: dal 20/10 **ogni giorno alle 07:30** con `scripts\RACCOLTA_GIORNALIERA.bat` (attività di Windows «GTT raccolta giornaliera», installata con `INSTALLA_RACCOLTA_GIORNALIERA.bat`; copia anche `stat.js` e `replay_*.js` e controlla la raccolta). Sul Pi **un solo servizio** `gtt-raccolta` (supervisore → 03 + 12 ritardi; `gtt-ritardi` disattivato con `PI_UN_SOLO_PROCESSO.bat`). Le analisi (26, traffico, R6) si lanciano a mano. Mezzi GTT, ritardi (dal 10/10), 5T traffico, parcheggi 5T e ZTL (dal 14/10). Il mezzo 2897U ha l'orologio ~3 anni avanti (lo script 04 scarta le letture lontane oltre 1 h) |
 | Ritardi GTT | solo ~90 linee urbane, 05-24, ~80% delle corse programmate presenti: dettagli in `docs/PIANO_RISULTATO4.md` |
 | 5T traffico | già veicoli/ora; 112 sensori (3 codici doppi, corretti sul Pi il 17/10); dettagli in `docs/PIANO_RISULTATO8.md` |
 | Censimento 2021 | 8.317 sezioni, 1.557.493 abitanti (Torino 848.748), 69 comuni |
@@ -78,7 +78,8 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 | Rapporto sostenibilità GTT 2025 | 980 fatti verificati, `docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`. |
 | Schede risultato | `simulazione.html`: R1, R2, R4, R6, R8, R9 da `scripts/schede_risultati.py` → `data/schede_risultati.js`, con riassunto in inglese. Rieseguire lo script dopo ogni rilancio di un risultato. Scelte di Leo: due livelli, grafici + link mappa, solo risultati finiti. |
 | Pulizia (20/10) | 21 file superati in `scripts/archivio/` (`LEGGIMI.txt`), documenti finiti in `docs/archivio/`, un solo `scripts\AGGIORNA_RACCOLTA_LEOPI.bat`, commenti `[agente]` tolti, niente più «carica file» in `simulazione.html`. `docs/PIANO_PULIZIA.md`. |
-| Controllo leopi | `scripts\CONTROLLA_LEOPI.bat` (20/10; tolto il falso allarme sulla ZTL, che si salva solo se cambia). |
+| Controllo leopi | `scripts\CONTROLLA_LEOPI.bat` (20/10; tolto il falso allarme sulla ZTL, che si salva solo se cambia); dentro la raccolta giornaliera. |
+| Ora legale | Controllata da Claude il 20/10: tutte le conversioni UTC → ora italiana (04, 06, 12, 26, 27, 71, `comuni.py`) coincidono con il fuso ufficiale su 35.040 istanti del 2026-2027, cambio del 25/10 compreso. Niente controllo a mano. |
 
 ## 5. IN CORSO
 
@@ -89,22 +90,24 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 - **Analisi di Leo del 20/10** sui risultati: discussa, decisioni nei piani per risultato. Nessun risultato ancora modificato.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`.
 
-## 6. PROSSIMI PASSI (in ordine; i lavori di ogni risultato sono nel suo piano)
+## 6. PROSSIMI PASSI (in ordine; i lavori di ogni risultato sono nel suo piano, con i prompt)
 
-1. `schtasks` con `scripts\CONTROLLA_LEOPI.bat` ogni mattina (comando in `docs/archivio/correzioni_20ott/ESITO_CORREZIONI_GENERALI.md`, 3.5).
-2. Ora legale del 25/10: controllo a mano dello script 26 dopo il fetch del 1/11 (+ `TRAFFICO_RILANCIA_SENSORI.bat`).
-3. **Lavori piccoli che sistemano ciò che si vede** (un giro solo, poi una sola rigenerazione di mappa e schede):
-   pannello R6 + via le aree + parcheggi del centro (R6 1-3); R2 nascosto; R4+R9 in una scheda con solo linee
-   ordinarie (R4 1-2); R8 errore % e frase corretta (R8 1-2).
-4. **Risultato 1 rifatto** (mancanti 0-5, zone poco abitate, cintura con mezzo pubblico): `docs/PIANO_RISULTATO1.md`.
-5. Risultato 6: controllo con i sensori 5T del mattino; fermate importanti con regola fissa; poi «popolarità» delle
-   zone e linee utili (script 87, misura comune anche per R4).
-6. Pubblicare su GitHub Pages (proposta: ramo `gh-pages` con solo `pubblica/`), cartella leggera (oggi 90 MB), sfondi Esri.
-7. Rilanci con più dati: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 (con R9) con un mese (metà
+1. **Raccolta automatica** (Leo, una volta sola): `scripts\PI_UN_SOLO_PROCESSO.bat`, poi
+   `scripts\INSTALLA_RACCOLTA_GIORNALIERA.bat`, poi una prova a mano di `scripts\RACCOLTA_GIORNALIERA.bat`.
+2. **Giro 1** (modello minore): `docs/PIANO_GIRO1_RITOCCHI.md` (pannello e parcheggi del centro, via le aree, R2
+   nascosto, R4+R9 in una scheda con linee ordinarie, R8 errore % e frase). Poi Claude ricontrolla.
+3. **Risultato 1 v2, fase A** (modello minore): `docs/PIANO_RISULTATO1.md`. Poi Claude ricontrolla; fase B (mappa) dopo.
+4. **Risultato 6**: prompt A (sensori 5T), poi B (proposta fermate importanti, Leo sceglie N e M), poi C
+   (popolarità delle zone, script 87): `docs/PIANO_RISULTATO6.md`.
+5. Pubblicare su GitHub Pages (ramo `gh-pages` con solo `pubblica/`), cartella leggera (oggi 90 MB), sfondi Esri.
+6. Rilanci con più dati: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 (con R9) con un mese (metà
    novembre); poi R4 in mappa. Screenshot di Leo per la scheda R6.
-8. Tempi TP contro auto per coppie di zone IMQ, poi costi del viaggio (`docs/PIANO_COSTI.md`).
-9. Più avanti: R2 ripreso (popolo della notte), treni SFM, uno scenario fra R3 e R5, luoghi «speciali», effetto ZTL,
+7. Tempi TP contro auto per coppie di zone IMQ, poi costi del viaggio (`docs/PIANO_COSTI.md`).
+8. Più avanti: R2 ripreso (popolo della notte), treni SFM, uno scenario fra R3 e R5, luoghi «speciali», effetto ZTL,
    Corso Moncalieri, `velocita_5t.json` in mappa, tram contro bus (efficienza e costi).
+
+Come si lavora con il modello minore: un giro per volta (mai due insieme: toccano gli stessi file); lui lavora sul
+ramo `prova` senza commit e scrive `docs/ESITO_*.md`; Leo fa commit e push; Claude ricontrolla prima del giro dopo.
 
 Metrica trasversale (Leo, 16/10, da progettare): "quanti veicoli in meno potrebbero girare" da un miglioramento
 dell'accessibilità TP, con IMQ per modo come base.

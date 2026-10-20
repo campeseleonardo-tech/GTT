@@ -3,6 +3,8 @@
 > ## IN PAUSA (Leo, 20/10/2026)
 >
 > **Perché.** La domanda vera di Leo era: «uscendo la sera, con la metro aperta, sarebbe più facile tornare a casa?».
+> Nascondere la scheda è il passo 4 del **Giro 1** (`docs/PIANO_GIRO1_RITOCCHI.md`).
+>
 > Il risultato invece conta i **servizi raggiungibili** di notte: è normale che con la metro aperta tanta gente ne
 > raggiunga di più, ma di notte dorme e molti servizi (soprattutto i negozi) sono chiusi. Il numero non risponde
 > alla domanda.

@@ -29,8 +29,11 @@ dopo l'analisi di Leo (stessa data). **Nessuna modifica fatta al risultato**: è
    servizi mancanti; «tutti mancanti» resta come riga (8 persone, non fa titolo).
 2. **Zone poco abitate in grigio, fuori dal titolo**: soglia predefinita **1.000 ab/km²**, con sensibilità a 500 e
    2.000; i loro residenti si dicono a parte.
-3. **Cintura con una regola diversa**: Torino = 15 minuti a piedi; cintura = servizio raggiungibile **a piedi o col
-   mezzo pubblico** (tempo da fissare, default 20 minuti), sempre in tabelle separate.
+3. **Cintura con una regola diversa**: Torino = 15 minuti a piedi; cintura = servizio raggiungibile **a piedi in 15
+   minuti o col mezzo pubblico**, sempre in tabelle separate. Nota di Claude (20/10): il calcolo esistente (script 18)
+   ha il mezzo pubblico solo **entro 45 minuti**, ora per ora; default = **45 minuti alle 8 di un feriale** (già
+   calcolato). Un limite più stretto (es. 20 minuti) richiede di rifare l'accessibilità (diverse ore): solo se Leo
+   lo chiede.
 
 ## Prima stima (Claude, 20/10, dai dati in mappa; da rifare con lo script)
 
@@ -58,6 +61,51 @@ residenti, e vanno guardate una a una (dove sono, quale servizio manca). È un r
 
 Limite da scrivere sempre: capienza di ospedali, presidi e scuole non nota (un ospedale grande e un ambulatorio
 contano uguale); orario programmato; catalogo diverso fra Torino e cintura.
+
+## Come eseguirlo (fase A: calcoli e scheda; fase B: mappa, dopo)
+
+Fase A = lavori 1, 2, 3, 5, 6. Fase B = lavoro 4 (mappa), da fare dopo aver visto i numeri della fase A.
+Esito in `docs/ESITO_RISULTATO1_V2.md`; poi Leo fa commit e push e Claude ricontrolla.
+
+### Passi meccanici della fase A (per il modello minore)
+
+1. Prima: ramo `prova`, `git status` pulito, `git pull origin prova`. Nessun commit. Python del PATH.
+2. `scripts/21_risultato1_vuoti.py`: **non cambiare** le uscite di oggi; **aggiungi** nel JSON
+   `data/processed/risultato1_vuoti.json` una sezione `"v2"` e nel rapporto una sezione «VERSIONE 2»:
+   - per ogni sezione: `n_mancanti` = quanti dei 5 gruppi sono a «zero» (piedi 15 min);
+   - densità = residenti / km²: la superficie è il campo `"a"` (km²) di `data/processed/sezioni_torino.json`,
+     agganciata per `"id"`; costante `SOGLIA_POCO_ABITATA = 1000` (ab/km²) e sensibilità 500 e 2.000;
+   - Torino (sezioni con id che inizia per `1272`): residenti per `n_mancanti` 0..5, separati in «abitate» e «poco
+     abitate»; titolo = residenti **abitati** con `n_mancanti >= 3`; riga «tutti e 5 mancanti»;
+   - cintura: per scuole, salute, cibo un gruppo manca solo se è a zero **sia** a piedi 15 min **sia** col mezzo
+     pubblico entro 45 minuti all'ora `"08"` (campo `"tp"` di `accessibilita.json`: guarda le chiavi con
+     `python -c "import json;d=json.load(open('data/processed/accessibilita.json',encoding='utf-8'));s=d['sezioni'][0] if 'sezioni' in d else d[0];print(s.keys(), s['tp'].keys())"`
+     e adatta il nome della lista se è diverso); fermate e verde come Torino; tabelle sempre separate da Torino.
+   - Controlli (stampa OK/AVVISO): somma dei residenti per `n_mancanti` = residenti totali dell'ambito; nessuna
+     densità negativa; sezioni senza superficie contate e scritte (AVVISO se più di 10).
+   - Numeri attesi solo come controllo di buon senso (non scriverli nel codice): Torino, soglia 1.000, abitati con 3+
+     mancanti dell'ordine di 700-800; residenti in zone poco abitate circa 6.800.
+3. `scripts/22_risultato1_candidati.py`: i candidati per nuovi servizi solo su sezioni abitate (densità ≥ soglia):
+   aggiungi il filtro e scrivi nell'esito quanti candidati cambiano.
+4. `scripts/schede_risultati.py`, `scheda_r1`: il numero in grande diventa i residenti abitati con 3+ mancanti
+   (letti dal JSON, mai scritti a mano); «cibo» si chiama «negozi e attività commerciali»; aggiungi un grafico a
+   barre «Residenti per numero di servizi mancanti (0-5), zone abitate» e una riga con i residenti delle zone poco
+   abitate; sensibilità della soglia (500/1.000/2.000) nei criteri; limite «capienza di ospedali e scuole non nota».
+   Aggiorna `in_english` con gli stessi numeri.
+5. `python scripts\21_risultato1_vuoti.py`, `python scripts\22_risultato1_candidati.py --gruppi salute,scuole`,
+   `python scripts\schede_risultati.py`, `python scripts\prova_pagine_r6.py --senza-screenshot` (0 errori).
+6. Nell'esito: la sezione «VERSIONE 2» del rapporto, le righe cambiate, `git status`.
+
+### Prompt da incollare (per Leo)
+
+> Sei un agente che lavora sul progetto GTT in `C:\projects\Progetti\GTT`, ramo git `prova`. Prima:
+> `git branch --show-current` (deve dire `prova`), `git status` (se ci sono modifiche fermati e dimmelo),
+> `git pull origin prova`. Leggi `AGENTS.md` e `docs/PIANO_RISULTATO1.md`, poi esegui la sezione «Passi meccanici
+> della fase A», un passo alla volta. Aggiungi, non togliere: le uscite di oggi dello script 21 restano uguali. Niente
+> numeri scritti a mano nei testi. Se un nome di campo è diverso da quello del piano, guarda il file vero, adatta e
+> scrivilo. Scrivi tutto in `docs/ESITO_RISULTATO1_V2.md` (OK / AVVISO / FERMO per passo, righe cambiate, numeri).
+> Non fare commit, non modificare `MEMORIA_PROGETTO.md`. Python: `python` del PATH, mai Anaconda. Alla fine un
+> riassunto di 10 righe in italiano semplice.
 
 ## Storia
 

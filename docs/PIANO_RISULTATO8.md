@@ -17,6 +17,9 @@ Piano unico del risultato: in testa i commenti di Leo del 20/10 e i lavori, sott
 
 Primo lavoro: **tabella degli errori in % + frase corretta**. Migliorare il modello solo come idea, dopo.
 
+**Come eseguirli**: i lavori 1-2 sono nel **Giro 1** (`docs/PIANO_GIRO1_RITOCCHI.md`), con il prompt pronto.
+Gli altri si preparano dopo, uno per volta, con un prompt nello stesso stile.
+
 ## Lavori da fare (in ordine)
 
 | # | Lavoro | Dove | Quanto |

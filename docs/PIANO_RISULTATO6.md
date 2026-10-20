@@ -89,6 +89,61 @@ aggiunta la regola **almeno 50 posti mancanti** per entrare nella lista: giro de
 | 7 | Rilancio dopo ≥ 5 feriali di parcheggi (inizio novembre): `scripts\RISULTATO6_RIFAI.bat`; screenshot di Leo | — | — |
 | — | Congelato: eventi (stadi, palazzetti) | — | — |
 
+## Come eseguirli
+
+- Lavori 1-3: dentro il **Giro 1** (`docs/PIANO_GIRO1_RITOCCHI.md`, passi 1-3).
+- Lavori 4, 5, 6: **un prompt per volta**, nell'ordine, ognuno con il suo esito; Claude ricontrolla fra l'uno e
+  l'altro. Nessuno cambia i numeri pubblicati: producono rapporti e proposte. Le modifiche al risultato si decidono
+  dopo, con Leo.
+
+### Prompt A — controllo con i sensori 5T (lavoro 4, script 88)
+
+> Sei un agente sul progetto GTT (`C:\projects\Progetti\GTT`, ramo `prova`; prima `git status` pulito e
+> `git pull origin prova`; nessun commit; `python` del PATH, mai Anaconda). Leggi `AGENTS.md` e la sezione
+> «Commenti di Leo» di `docs/PIANO_RISULTATO6.md`. Scrivi **un solo script nuovo** `scripts/88_confronto_auto_sensori.py`
+> (solo lettura) che confronta le auto in entrata del mattino stimate dal modello con i sensori 5T:
+> 1. sensori: `data/processed/velocita_5t.json` (guarda le chiavi: per ogni sensore posizione e flussi per tipo di
+>    giorno e ora); flusso misurato = somma dei flussi **feriali** delle ore 6, 7, 8, 9 (ora locale);
+> 2. modello: carica lo script 81 con `comuni.carica_script("81_auto_di_passaggio.py")`, la rete come fa lo script
+>    81 nel suo `main()` e `data/processed/risultato6_v2/auto_passaggio.npz` (`flusso_archi`); per ogni sensore usa
+>    la funzione `c4_per_punti(rete, flusso_archi, [(id, lat, lon)], 50)` del modulo 81;
+> 3. tieni solo i sensori di Torino e cintura con flusso misurato > 0; confronto per **ordine** (correlazione di
+>    Spearman con `scipy.stats.spearmanr`), non per valore (il modello conta solo le auto in entrata del mattino, il
+>    sensore tutte le auto di un verso): stampa ρ, numero di sensori, e la tabella sensore / strada / misurato /
+>    modello / posizione in classifica nei due elenchi;
+> 4. scrivi `docs/RAPPORTO_R6_CONFRONTO_SENSORI.txt` con: ρ, le 10 strade dove le due classifiche sono più diverse,
+>    e una frase di lettura (ρ ≥ 0,6 buono, 0,4-0,6 debole, < 0,4 il modello non segue le strade d'ingresso).
+> Non toccare altri script né i risultati. Esito in `docs/ESITO_R6_SENSORI.md` con l'uscita completa. Alla fine un
+> riassunto di 10 righe in italiano semplice.
+
+### Prompt B — fermate importanti con regola fissa: solo la proposta (lavoro 5, script 89)
+
+> Stesse regole del prompt A. Scrivi `scripts/89_proposta_fermate_importanti.py` (solo lettura) che, per i 3.898
+> luoghi eleggibili di `data/processed/risultato6_v2/fermate_importanti.json` (o dei file che lo script 83 legge:
+> guarda il suo `main()`), stampa le **distribuzioni** di: passaggi all'ora fra le 7 e le 9 (segnale b2 o quello
+> che lo script 83 usa per le corse), auto in entrata che passano accanto (c4), presenza di metro/stazione/capolinea
+> (dai nodi, `nodi.json`). Poi conta quante fermate risultano importanti con la regola
+> «(metro o stazione o capolinea, oppure almeno N passaggi/ora) **e** almeno M auto che passano» per una griglia di
+> valori: N = 10, 15, 20, 30; M = 500, 1.000, 2.000, 3.000. Per ogni combinazione: quante fermate, quante delle 391
+> di oggi restano, quanti dei 16 punti prioritari di oggi hanno almeno una fermata nella nuova lista. Scrivi tutto in
+> `docs/RAPPORTO_R6_PROPOSTA_FERMATE.txt`. **Non** cambiare lo script 83 né i risultati: Leo sceglie N e M dopo.
+> Esito in `docs/ESITO_R6_PROPOSTA_FERMATE.md`.
+
+### Prompt C — popolarità delle zone e linee utili (lavoro 6, script 87)
+
+> Stesse regole del prompt A. Scrivi `scripts/87_popolarita_zone.py` (solo lettura dei dati, scrive solo i suoi
+> file). 1) Popolarità di ogni zona IMQ (101 zone): spostamenti che **arrivano** nella zona, dall'IMQ 2022
+> (`data/processed/imq/spostamenti.csv`, colonne `COD_ARR`, scopo e peso come le legge lo script 81 nella funzione
+> `leggi_domanda()`), separati per scopo in tre gruppi: lavoro/studio, acquisti/svago/servizi, altro; più il numero di
+> servizi del catalogo nella zona (dal file che usa lo script 21 o dal catalogo della mappa). 2) Per ogni linea GTT
+> (GTFS in `data/raw`, sola lettura): le zone che tocca (fermate dentro la zona, per coordinate, mai per nome) e un
+> punteggio «linea utile» = somma della popolarità delle zone toccate (scritta anche divisa per scopo). 3) Per ogni
+> parcheggio adatto (`data/processed/risultato6_v2/parcheggi_adatti.json`): quante linee utili (le prime 25%) passano
+> a meno di 400 m a piedi (linea d'aria × 1,3). Uscite: `data/processed/popolarita_zone.json` e
+> `docs/RAPPORTO_POPOLARITA_ZONE.txt` con le 15 zone più popolari, le 15 linee più utili, i 15 parcheggi adatti con più
+> linee utili. Controlli: somma degli arrivi = totale spostamenti IMQ (stesso peso), nessuna zona senza nome.
+> Esito in `docs/ESITO_POPOLARITA_ZONE.md`.
+
 ---
 
 # Riepilogo del 19/10 (PRIMA delle correzioni: superato, resta per la storia)
