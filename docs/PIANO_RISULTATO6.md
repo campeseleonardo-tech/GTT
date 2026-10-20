@@ -123,6 +123,107 @@ coerente con «almeno 50 posti mancanti»; M basso perché il modello sottostima
 **Si applica nel giro di modifica del R6**, dopo il prompt C, insieme alla riga dei sensori nei limiti e alle linee
 utili per parcheggio: una sola rigenerazione. Il prompt di quel giro si scrive dopo il ricontrollo del C.
 
+## Esito del prompt C e decisione di Leo (20/10 sera)
+Script 87 ricontrollato (`docs/RAPPORTO_POPOLARITA_ZONE.txt`): arrivi 4.444.360 + ritorni a casa 3.714.050 + senza
+zona 59.452 = totale IMQ, giusto. Classifica limitata alla Città metropolitana (Novara, Asti… escluse: le linee GTT
+non ci arrivano), servizi mostrati a parte e non sommati: scelte buone dell'agente. Linee utili 54 (in testa 2, 1085,
+56, 1442, M1); le linee più lunghe non dominano. Problema: in cintura una zona IMQ è un comune intero, quindi
+Moncalieri, Rivoli, Collegno, Nichelino, Settimo stanno fra le prime 10 solo perché sono grandi.
+**Leo sceglie: popolarità = arrivi (senza ritorni a casa) per km²** di zona. Valore predefinito di Claude per evitare
+che una zona minuscola con pochi casi vada in cima: nelle «20 zone più popolari» entrano solo le zone con almeno 50
+interviste di arrivo (righe dell'IMQ, non pesate); le altre restano nel file con `dati_scarsi = true`.
+Altri due valori predefiniti di Claude: le linee utili si mostrano **solo nel pannello del parcheggio** (non cambiano
+classi né punti); la riga dei sensori nei limiti legge ρ da un piccolo file scritto dallo script 88.
+
+## Giro 2 del Risultato 6 — modifiche decise (passi meccanici, sul PC)
+Regole come nel Giro 1 (`docs/PIANO_GIRO1_RITOCCHI.md`, sezione 0): ramo `prova`, un passo alla volta, nell'esito
+`docs/ESITO_R6_GIRO2.md` per ogni passo OK / AVVISO / FERMO e le righe cambiate (file, prima, dopo); niente numeri
+scritti a mano nei testi delle pagine (vengono dai file), salvo dove il passo lo dice.
+
+**Passo 1 — `scripts/87_popolarita_zone.py`: arrivi per km².**
+1. Superficie di ogni zona in km² dal suo poligono di `imq_zone_geo.json` (proiezione `comuni.proietta`, area con la
+   formula del poligono; anelli interni sottratti se ci sono). Controllo: nessuna superficie ≤ 0; somma delle zone di
+   Torino (codici `Q…`) fra 120 e 135 km² (Torino ne ha circa 130), altrimenti AVVISO.
+2. `popolarita` = arrivi (come oggi, senza ritorni a casa) / km²; restano nel file anche `arrivi` e `km2`. Costante
+   `MIN_INTERVISTE = 50`: zone con meno righe IMQ di arrivo hanno `dati_scarsi = true` e non entrano nelle 20 più
+   popolari. (a) e (b) delle linee e le linee utili dei parcheggi si ricalcolano con la nuova popolarità ((b) = somma
+   della popolarità per km² delle zone toccate).
+3. Rapporto: le 15 zone più popolari con arrivi, km², arrivi/km²; una riga «zone con dati scarsi: N».
+
+**Passo 2 — `scripts/88_confronto_auto_sensori.py`: piccolo file per la scheda.** Alla fine scrivi
+`data/processed/risultato6_v2/confronto_sensori.json` con `rho_a`, `rho_b`, `rho_b_senza_fuori_rete`, `n_a`, `n_b`,
+`n_b_senza_fuori_rete`, `generato`.
+
+**Passo 3 — `scripts/83_fermate_importanti.py`: regola fissa (Leo, 20/10).**
+1. Costanti `N_CORSE = 10` (corse/ora nelle ore dei pendolari, b2) e `M_AUTO = 1000` (auto in entrata che passano
+   accanto, c4), con il commento «Leo, 20/10: regola fissa al posto del 10% più alto». Leggi anche
+   `risultato6_v2/nodi.json` come fa lo script 89 (`metro`, `ferro`, `capolinea` per `id_luogo`).
+2. `scelti` = eleggibili con `(metro o ferro o capolinea o b2 >= N_CORSE) e c4 >= M_AUTO`. Il punteggio resta
+   calcolato com'è e serve solo per l'ordine e gli spareggi (`posizione`).
+3. `--percentuale`: default `None`; se data, vale la regola vecchia (solo per confronto). Il controllo «circa la
+   percentuale scelta» si fa solo in quel caso.
+4. `alternative`: al posto di 5% e 15%, le varianti `"N10_M500"`, `"N10_M2000"`, `"N15_M1000"` (stessa regola con
+   altri valori). Sensibilità: al posto di «senza un segnale» metti `"solo_nodi_e_corse"` (senza la condizione sulle
+   auto) e `"senza_nodi"` (solo corse e auto); `c4_ripiego` resta (la regola con c4 sostituito dal ripiego).
+5. `parametri`: `"regola": {"n_corse": N_CORSE, "m_auto": M_AUTO}`, `"percentuale": args.percentuale`. Rapporto:
+   la riga della soglia diventa la regola. Controllo AVVISO: il numero di fermate importanti è quello della riga
+   N 10, M 1.000 di `docs/RAPPORTO_R6_PROPOSTA_FERMATE.txt` (274) — scrivilo nell'esito, non nel codice.
+
+**Passo 4 — `scripts/84_risultato6_parcheggi.py`.** Il criterio «Fermate importanti» (cerca `"nome": "Fermate
+importanti", "valore": f"il {imp['parametri']['percentuale']`) diventa: valore «fuori dal centro, con metro, stazione o
+capolinea oppure almeno N corse all'ora nelle ore dei pendolari, e almeno M auto in entrata che passano accanto (X
+fermate)», perché «un parcheggio per lasciare l'auto serve dove passa un mezzo frequente e passano molte auto in
+entrata», effetto con le tre varianti di `sens['soglia_fermate']` (chiavi del passo 3.4). N, M e X letti dai dati.
+Passa la regola anche nel riepilogo che legge la scheda (dove oggi c'è `n_eleggibili`).
+
+**Passo 5 — `scripts/79_dati_mappa_r6.py` e `scripts/mappa_template.html`: linee utili nel pannello.**
+1. 79: se c'è `data/processed/popolarita_zone.json`, ogni parcheggio in mappa ha `linee_utili` (numero) e
+   `linee_utili_txt` (le prime 8 linee, separate da virgola); aggiungili a `CAMPI_PARCHEGGIO` (o al nome vero
+   dell'elenco dei campi dei parcheggi). Se il file manca: AVVISO e campi assenti.
+2. Template, `function r6SchedaParcheggio(p)`: riga «Linee utili a meno di 400 m» = `N (linee…)` se il campo c'è;
+   nell'approfondimento una frase: «Linea utile: tocca molte delle zone dove arriva più gente per km² (indagine IMQ
+   2022, esclusi i ritorni a casa).»
+3. Template, testo della guida (cerca `Le fermate importanti sono il 10% più alto per punteggio`): sostituisci la frase
+   con «Le fermate importanti sono quelle fuori dal centro (quartieri Q001-Q009) con metro, stazione o capolinea, o
+   con almeno 10 corse all'ora nelle ore dei pendolari, e con almeno 1.000 auto in entrata che passano accanto.»
+   (unico posto con i numeri a mano: aggiungi il controllo del passo 7.2).
+
+**Passo 6 — `scripts/schede_risultati.py`, `scheda_r6`.** Le due frasi con «10% più alto» (metodo e parametri) usano
+la regola dal riepilogo (N, M, numero di fermate). Nei limiti, se c'è `confronto_sensori.json`: «Controllo con i
+sensori 5T del mattino: il modello mette le strade d'ingresso in un ordine simile solo in parte (ρ = X su N luoghi);
+sottostima gli ingressi da nord-ovest.» con X e N dal file (X = `rho_b_senza_fuori_rete`, due decimali con la
+virgola). Stesse cose in `in_english`.
+
+**Passo 7 — catena e controlli.**
+1. `scripts/RISULTATO6_RIFAI.bat`: nella lista `for %%S in (...)` aggiungi `88_confronto_auto_sensori` dopo
+   `81_auto_di_passaggio` e `87_popolarita_zone` dopo `82_parcheggi_adatti`; aggiorna il commento con l'ordine.
+2. `scripts/85_verifiche_correzioni.py`: due controlli nuovi. (a) Ogni fermata importante rispetta la regola
+   (ricalcolata da `nodi.json`, `segnali.json`, `auto_passaggio.json` con N e M letti da `fermate_importanti.json`).
+   (b) Il testo della guida in `scripts/mappa_template.html` contiene `almeno {N} corse` e `almeno {M:,}` scritto
+   all'italiana (1.000): se no, NON SUPERATO.
+3. Lancia `scripts\RISULTATO6_RIFAI.bat`. Nell'esito: fermate importanti (attese 274), quante senza posti bastanti
+   (prima 253 su 391), i punti prioritari (nomi; prima 15), le verifiche dell'85 (0 non superate), le 15 zone più
+   popolari nuove, gli AVVISI del log, la dimensione di `mappa_torino.html`, `git status`.
+
+### Controlli di Claude dopo il giro
+Codice dei 7 passi; numeri del rapporto 83 contro lo script 89; zone popolari per km² sensate (centro e quartieri
+densi in cima, comuni grandi più in basso); mappa in Chromium (pannello del parcheggio con le linee utili, guida,
+vista dei punti), scheda R6 (regola e riga dei sensori).
+
+### Prompt da incollare (per Leo, sul PC)
+
+> Sei un agente che lavora sul progetto GTT in `C:\projects\Progetti\GTT`, ramo git `prova`. Prima:
+> `git branch --show-current` (deve dire `prova`, altrimenti fermati e dimmelo), `git status` (se ci sono modifiche
+> fermati e dimmelo), `git pull origin prova`. Leggi `AGENTS.md` e in `docs/PIANO_RISULTATO6.md` le sezioni «Esito del
+> prompt C e decisione di Leo» e «Giro 2 del Risultato 6», poi esegui i 7 passi, uno alla volta, nell'ordine. Cambia
+> solo quello che i passi dicono; niente numeri scritti a mano nei testi, salvo dove il passo lo dice. Se una riga da
+> cercare non c'è o un nome è diverso, guarda il file vero, adatta e scrivilo. Scrivi tutto in
+> `docs/ESITO_R6_GIRO2.md` (OK / AVVISO / FERMO per passo, righe cambiate prima/dopo, uscite dei controlli). Non
+> modificare `MEMORIA_PROGETTO.md`. Python: `python` del PATH, mai Anaconda. Alla fine fai commit e push come dice
+> `AGENTS.md` (sezione «Commit») e scrivi un riassunto di 10 righe in italiano semplice con: fermate importanti, fermate
+> senza posti bastanti, i punti prioritari, le 5 zone più popolari, le verifiche dell'85 e gli errori della prova
+> delle pagine.
+
 ## Come eseguirli
 
 - Lavori 1-3: dentro il **Giro 1** (`docs/PIANO_GIRO1_RITOCCHI.md`, passi 1-3).
