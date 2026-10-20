@@ -226,6 +226,103 @@ console; titolo della mappa = 751; elenco delle sezioni critiche pronto per il l
 > PATH, mai Anaconda. Alla fine fai commit e push come dice `AGENTS.md` (sezione «Commit») e scrivi un riassunto di 10
 > righe in italiano semplice, con il titolo che stampa lo script 04 e quanti errori ha trovato la prova delle pagine.
 
+## Fase B bis — correzioni dopo il ricontrollo (20/10 sera)
+
+### Cosa ha trovato Claude nel ricontrollo della fase B
+Mappa ricostruita in Chromium dal template con i dati di `mappa_torino.html`: nessun errore JavaScript; vista 0-5,
+grigio, legende, pannello (Torino, cintura, poco abitata) e vista «Salute» con i candidati funzionano; titolo nella
+pagina = 751. Il codice dei passi 1-4 è corretto. Problemi:
+1. **`KeyError: 'cibo'` in `scheda_r1`**: non è un errore vecchio. La fase A (passo 5 del piano, errore di Claude) ha
+   fatto lanciare lo script 22 con `--gruppi salute,scuole`, che è anche il valore predefinito dello script 22 e di
+   `RISULTATO1_CANDIDATI.bat`. Così ha sovrascritto il file dei candidati del 13/10, che aveva tutti e 5 i gruppi.
+2. **Più di metà del titolo è un errore del calcolo**: 389 dei 751 residenti sono in due sezioni di via Chieti
+   (12720005328, 245 ab., 46.226 ab/km²; 12720000972, 144 ab., 27.068 ab/km²) che risultano senza fermata a 15 minuti
+   a piedi, ma la fermata GTT 577 «Chieti» è a 81-166 m in linea d'aria. Il punto di partenza della sezione non è
+   collegato bene alle strade (stesso problema delle 4 sezioni «fuori rete» già corrette a mano nello script 18). Lo
+   stesso errore crea un candidato falso («nuova fermata» a 45,07306 7,71159, 389 residenti). Le altre 5 sezioni
+   critiche sono in collina (Lavazza, Mainero, Sant'Anna, Maddalena): plausibili, da guardare con Leo (lavoro 7).
+3. A zoom di città le sezioni critiche sono minuscole (0,01 km²): nella vista 0-5 non si vedono.
+4. Pannello: «Abitanti per km²» ripete la densità già scritta, non formattata, in «Residenti sezione»
+   («27068 / km²»).
+
+### Decisione di Leo (20/10 sera)
+**Segnalare ora**: regola generale nello script 21. Una sezione è **«da verificare»** se risulta senza fermata entro 15
+minuti a piedi ma ha una fermata GTT entro 300 m in linea d'aria. Le sezioni da verificare escono dal titolo e dai
+candidati e si contano a parte. La correzione vera (aggiungerle a `SEZIONI_FUORI_RETE` nello script 18) si fa al
+prossimo calcolo completo dell'accessibilità. Valori predefiniti di Claude: raggio 300 m (costante); in mappa colore
+lilla `#b9a6d6` per «da verificare»; cerchio rosso scuro attorno alle sezioni critiche nella vista 0-5.
+
+### Passi meccanici della fase B bis (per il modello minore, sul PC)
+Stesse regole della fase B. Esito in `docs/ESITO_R1_MAPPA_BIS.md`.
+
+**Passo 1 — candidati con tutti e 5 i gruppi.**
+1. `scripts/22_risultato1_candidati.py`: in `ap.add_argument("--gruppi", default="salute,scuole",` il default diventa
+   `"scuole,salute,cibo,fermate,verde"`; aggiorna l'esempio nella docstring (riga con `--gruppi salute,scuole`).
+2. `scripts/RISULTATO1_CANDIDATI.bat`: togli `--gruppi salute,scuole` dalla riga `python ...`; nei commenti e
+   nell'`echo` «salute e scuole» / «salute + scuole» diventa «tutti e 5 i gruppi».
+3. `scripts/schede_risultati.py`, `scheda_r1`: prima del ciclo `for g in ordine:` che usa `cand[g]`, se manca un
+   gruppo in `cand` alza `SystemExit` con il messaggio «Risultato 1: mancano i candidati di <gruppi>: lancia
+   scripts\RISULTATO1_CANDIDATI.bat» (meglio di un `KeyError`).
+
+**Passo 2 — `scripts/21_risultato1_vuoti.py`: sezioni «da verificare».**
+1. Costanti: `RAGGIO_FERMATA_SOSPETTA_M = 300` e il GTFS dello script 18 (`data/raw/gtt_gtfs_20261003_224530.zip`,
+   `stops.txt`, sola lettura). Funzione `fermata_piu_vicina_m(lat, lon)` con `comuni.haversine_m`; per la posizione
+   della sezione usa `s["lat"]`, `s["lon"]` di `accessibilita.json` come fa lo script 22 (se non ci sono: FERMO).
+2. Una sezione è **da verificare** se `s["piedi"]["15"]["fermate"] == 0` e la fermata più vicina è entro il raggio.
+   Ordine degli stati: prima «poco abitata» (densità sotto soglia), poi «da verificare», poi «abitata».
+3. In `riepilogo_ambito`: terza categoria `"da_verificare"` accanto a `"abitate"` e `"poco_abitate"` (stessa forma,
+   residenti per `n_mancanti`), più `"residenti_da_verificare"` e `"sezioni_da_verificare"`. Il controllo «somma dei
+   residenti per n_mancanti = residenti dell'ambito» somma le tre categorie.
+4. In `per_sez.append(...)` aggiungi `"verif": True/False`; in `v2.titolo` aggiungi
+   `"residenti_da_verificare"` (Torino, soglia di riferimento); in `v2` la lista `"sezioni_da_verificare"` (id, res,
+   densita, n_mancanti, mancano, `fermata_m` arrotondata) e `"raggio_fermata_sospetta_m"`. `sezioni_critiche_torino`
+   esclude le sezioni da verificare (il suo controllo con il titolo resta).
+5. Rapporto: nella «VERSIONE 2» una riga «zone da verificare (a parte)» accanto alle zone poco abitate, e una
+   sezione «SEZIONI DA VERIFICARE» (una riga per sezione, con la distanza della fermata) che finisce con «da
+   correggere nello script 18 (`SEZIONI_FUORI_RETE`) al prossimo calcolo completo dell'accessibilità».
+6. Buon senso (non scriverlo nel codice): Torino, soglia 1.000, titolo intorno a 362 (751 meno i 389 di via Chieti),
+   fra le da verificare le sezioni 12720005328 e 12720000972. Se esce molto diverso: AVVISO con le sezioni trovate.
+
+**Passo 3 — `scripts/22_risultato1_candidati.py`: le sezioni da verificare non fanno candidati.**
+Dove la funzione `abitata(s)` filtra le sezioni, escludi anche quelle da verificare con la stessa regola dello script
+21 (importa la sua funzione, non copiarla). Nel rapporto la riga «solo sezioni abitate» dice anche quante sezioni da
+verificare sono state tolte. Controllo: il candidato «fermate» a 45,07306 7,71159 non c'è più.
+
+**Passo 4 — `scripts/04_genera_mappa.py` e `scripts/mappa_template.html`.**
+1. 04: `r1` diventa `[n_mancanti, m, poco, verif]` (verif 1/0); il controllo del titolo esclude anche `verif == 1`.
+2. Template, vista `tutti` e viste per gruppo: sezione con `z.r1[3]===1` (e non poco abitata) colorata lilla
+   `#b9a6d6` (trasparenza come le altre aree), fuori dai gradini; in legenda un riquadro «dato da verificare (punto di
+   partenza lontano dalle strade)».
+3. Vista `tutti`: dopo il disegno delle sezioni, un cerchio (raggio 9 px, contorno 2,5 px `#a50026`, senza
+   riempimento) al centro (`z.x`, `z.y`) di ogni sezione di Torino abitata, non da verificare, con `z.r1[0] >= 3`;
+   in legenda «cerchio = zona abitata con 3 o più servizi mancanti».
+4. Pannello: sezione da verificare → `val` «Dato da verificare», `stato` «C'è una fermata vicina, ma il calcolo a
+   piedi non la raggiunge»; tooltip «da verificare». Togli la riga «Abitanti per km²» aggiunta nella fase B e, nelle
+   due righe `{ k: "Residenti sezione", v: ...}`, scrivi la densità con `Math.round(z.dens).toLocaleString("it-IT")`.
+
+**Passo 5 — `scripts/schede_risultati.py`, `scheda_r1`.** Fra i numeri «Oggi» una riga «Residenti in zone da
+verificare (a parte)» da `v2.titolo.residenti_da_verificare`; nella risposta, dopo la frase delle zone poco abitate:
+«Altri N residenti sono in zone dove il calcolo non raggiunge una fermata che c'è: contati a parte, da verificare.»;
+nei limiti la regola (raggio dal JSON). Stesse cose in `in_english`. Nessun numero scritto a mano.
+
+**Passo 6 — Lanci.** `python scripts\21_risultato1_vuoti.py` → `python scripts\22_risultato1_candidati.py` (tutti e 5 i
+gruppi, pochi minuti; non il `.bat`, che aspetta un tasto) → `python scripts\04_genera_mappa.py` → `python scripts\schede_risultati.py` (deve finire senza
+errori) → `python scripts\prova_pagine_r6.py --senza-screenshot` (0 errori). Nell'esito: titolo nuovo, sezioni da
+verificare (Torino e cintura), candidati per gruppo, `git status`.
+
+### Prompt da incollare (per Leo, sul PC)
+
+> Sei un agente che lavora sul progetto GTT in `C:\projects\Progetti\GTT`, ramo git `prova`. Prima:
+> `git branch --show-current` (deve dire `prova`, altrimenti fermati e dimmelo), `git status` (se ci sono modifiche
+> fermati e dimmelo), `git pull origin prova`. Leggi `AGENTS.md` e in `docs/PIANO_RISULTATO1.md` la sezione «Fase B
+> bis», poi esegui i «Passi meccanici della fase B bis», uno alla volta, nell'ordine. Cambia solo quello che i passi
+> dicono; niente numeri scritti a mano nei testi. Se una riga da cercare non c'è o un nome è diverso, guarda il file
+> vero, adatta e scrivilo. Scrivi tutto in `docs/ESITO_R1_MAPPA_BIS.md` (OK / AVVISO / FERMO per passo, righe cambiate
+> prima/dopo, uscite dei controlli). Non modificare `MEMORIA_PROGETTO.md`. Python: `python` del PATH, mai Anaconda.
+> Alla fine fai commit e push come dice `AGENTS.md` (sezione «Commit») e scrivi un riassunto di 10 righe in italiano
+> semplice con: il titolo nuovo, le sezioni da verificare trovate, i candidati per gruppo, se `schede_risultati.py`
+> è finito senza errori e quanti errori ha trovato la prova delle pagine.
+
 ## Storia
 
 - 11-12/10: piano dell'accessibilità (`docs/PIANO_ACCESSIBILITA.md`), giro completo il 12/10, fase A (vuoti) e

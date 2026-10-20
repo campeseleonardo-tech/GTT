@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **20/10/2026, sera** (piano della fase B del R1, prompt del R6 rivisti). File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
+Ultimo aggiornamento: **20/10/2026, sera** (ricontrollo della fase B del R1, piano della fase B bis). File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
 Solo lo stato attuale, **conciso ma completo**: i dettagli di un passo stanno nel suo piano in `docs/`
 (qui una riga e il rimando). La storia sta in git. Sezioni fisse: 1 Obiettivo · 2 Regole · 3 Cartelle e dati ·
 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici. Non aggiungerne altre.
@@ -101,8 +101,12 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    `RISULTATO6_RIFAI.bat`.
 3. (fatto il 20/10, ricontrollato: Risultato 1 v2 fase A, 751 abitati con 3+ mancanti.) **Risultato 1 fase B** (mappa
    0-5, grigio sotto 1.000 ab/km², quali servizi mancano nel pannello, elenco delle sezioni critiche per il lavoro 7):
-   passi e prompt in `docs/PIANO_RISULTATO1.md`, sezione «Fase B», sul PC; esito `docs/ESITO_R1_MAPPA.md`. Poi con Leo il
-   lavoro 7 (5-10 sezioni critiche guardate a mano).
+   fatta sul PC il 20/10 (`docs/ESITO_R1_MAPPA.md`), ricontrollata da Claude in Chromium: mappa OK. Trovati: candidati
+   ridotti a 2 gruppi da un errore del piano della fase A (`KeyError` nelle schede) e **389 dei 751 del titolo falsi**
+   (via Chieti: fermata a 81-166 m che il calcolo a piedi non raggiunge). **Fase B bis** (Leo: «segnalare ora», sezioni
+   «da verificare» fuori dal titolo, titolo atteso ~362): `docs/PIANO_RISULTATO1.md`, sul PC. Poi con Leo il lavoro 7
+   (5 sezioni critiche in collina, guardate a mano). Al prossimo calcolo completo dell'accessibilità (18): aggiungere
+   le sezioni da verificare a `SEZIONI_FUORI_RETE`.
 4. **Risultato 6**: prompt A (rilancio della catena con il controllo dello spareggio + sensori 5T, script 88), poi B
    (proposta fermate importanti, script 89, Leo sceglie N e M), poi C (popolarità delle zone senza i ritorni a casa,
    script 87): `docs/PIANO_RISULTATO6.md` (prompt rivisti il 20/10 sera).
