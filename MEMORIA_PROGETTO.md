@@ -141,6 +141,10 @@ logistica, eventi (stadi, palazzetti).
 
 - Risultato 6: i «posti che mancano» sono ordini di grandezza (quota da 64 interviste × traffico ±38%); il modello del
   traffico senza code preferisce le strade veloci; riempimento misurato solo per pochi garage 5T.
+- Risultato 6, controllo con i sensori 5T (script 88, 20/10): ordine delle auto in entrata del mattino, modello contro
+  sensori entro 25 km da Torino: rho 0,83 per sensore, **0,60 per luogo (0,596: debole)**, 0,52 senza i sensori fuori rete.
+  Il modello sottostima le provinciali (SP1, SP8, SP2) e sopravvaluta C.so Giulio Cesare, Unione Sovietica, Allamano,
+  Sebastopoli. Dettagli: docs/ESITO_R6_SENSORI.md.
 - Script 80 e 77 sembrano superati ma servono (funzioni per 84-85, modulo per 72-73). `supervisore.py` e `06_dati_live.py`
   girano sul Pi. I passi delle fasi 3-4 nel `.bat` del traffico hanno uscite lette dalla Fase 5: lasciati.
 - Codice copiato (distanze, radice del progetto, ora legale) in molti script: si passa a `comuni.py` quando si tocca uno script.

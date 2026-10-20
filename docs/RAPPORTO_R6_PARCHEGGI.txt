@@ -1,5 +1,5 @@
 RAPPORTO R6 - PARCHEGGI PER LASCIARE L'AUTO PRIMA DI ENTRARE IN CITTA' (script 84)
-Generato il 20/10/2026 15:06.
+Generato il 20/10/2026 17:42.
 
 == Fermate importanti ==
   391 fermate (fuori da Q001-Q009): nessun parcheggio 99, posti insufficienti 154, posti sufficienti 116, poche auto da fermare 22
@@ -122,7 +122,7 @@ Generato il 20/10/2026 15:06.
     TARICCO                        mancano 115: stesso asse di TRAFORO
     CARREFOUR                      mancano 112: stesso asse di PIANEZZA
     CHIESA                         mancano 111: stesso asse di STURA LAZIO
-    CARDINAL MAURIZIO              mancano 102: vicino al centro
+    BRICCA                         mancano 102: vicino al centro
     TRAPANI                        mancano 101: stesso asse di METRO MASSAUA
     SIRACUSA                       mancano 98: stesso asse di SANTA RITA
     LECCE                          mancano 98: stesso asse di PELLERINA
