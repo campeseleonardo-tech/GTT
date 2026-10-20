@@ -96,7 +96,7 @@ def main():
     c("mappa_r6.json sotto 1,5 MB", dim <= LIMITE_BYTE, bloccante=True, dettaglio=f"{dim} byte")
     c("ogni fermata in una sola area", sum(a["n_fermate"] for a in aree) == len(fermate), bloccante=True)
     c("niente punteggi grezzi nelle fermate", all("punteggio" not in f for f in fermate), bloccante=True)
-    c("20 punti prioritari", len(mappa["punti_prioritari"]) == 20, dettaglio=f"{len(mappa['punti_prioritari'])}")
+    c("punti prioritari: da 1 a 20", 1 <= len(mappa["punti_prioritari"]) <= 20, dettaglio=f"{len(mappa['punti_prioritari'])}")
     conta = {k: sum(1 for f in fermate if f["classe"] == k) for k in d["classi"]}
     print(f"mappa_r6.json: {dim} byte ({dim/1024:.0f} KB); aree {len(aree)}, punti {len(mappa['punti_prioritari'])}, "
           f"fermate {len(fermate)} {conta}, parcheggi {len(mappa['parcheggi'])}, profili {len(mappa['profili'])}")

@@ -43,8 +43,11 @@ auto dal centro?
 5. **Validazione quasi vuota** (1 interscambio su 5) e **46 aree su 76 senza colore**: più giorni di parcheggi
    (inizio novembre), poi si rivede.
 
-Punti 1-3 scritti nel codice (84, controlli nell'85) il 20/10 sera, **da eseguire sul PC** con
-`scripts\RISULTATO6_RIFAI.bat`: provati solo sui 20 punti dentro la mappa, non sull'intera catena.
+Punti 1-3 fatti nel codice (84, controlli nell'85) ed **eseguiti sul PC il 20/10 alle 11:52**: 60 gruppi, 41
+scartati (stesso asse o sotto 3 km), 19 punti; verifiche 0 non superate; somma dei posti che mancano 4.319 (sotto
+le 5.067 auto da fermare: ora torna). In testa: Maroncelli (Moncalieri, circa 650), Pellerina (circa 450), Santa
+Rita (circa 400), Barbera (circa 350), Metro Massaua (circa 300). Gli ultimi tre punti avevano 0-23 posti mancanti:
+aggiunta la regola **almeno 50 posti mancanti** per entrare nella lista (→ 16 punti), da rieseguire al prossimo giro.
 
 ## Prossimi passi
 Dopo ≥ 5 feriali di parcheggi (inizio novembre): `scripts\RISULTATO6_RIFAI.bat`. Screenshot di Leo. Decidere i punti

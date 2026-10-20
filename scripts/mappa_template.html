@@ -209,7 +209,7 @@
     <p><b>Programmato</b> = dagli orari GTT, non i passaggi reali. <b>Misurato</b> = registrato dai mezzi e dai sensori. <b>Censimento</b> = residenti ISTAT 2021. <b>Stimato</b> = calcolo nostro, con i limiti scritti nella scheda.</p>
     <p><b>Area:</b> Torino e 68 comuni intorno. Fuori Torino mancano treni e altri operatori, e i servizi (scuole, salute, negozi) vengono da OpenStreetMap, più incompleto del catalogo del Comune.</p>
     <p><b>Corse simulate:</b> posizione stimata dagli orari, a velocità costante. <b>Mezzi registrati:</b> posizioni GPS vere di una giornata.</p>
-    <p><b>Parcheggi per lasciare l'auto</b> (Risultato 6): dove lasciare l'auto <i>prima</i> di entrare in città e proseguire con i mezzi pubblici. Tre domande, nel menu «Cosa vedere». <b>Dove ci sono parcheggi?</b> I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) e gli interscambi del Comune, colorati per riempimento misurato di giorno. <b>In quali aree mancano posti?</b> Celle di circa 2 km² colorate per quota di fermate importanti dove i posti entro 400 m a piedi non bastano per le auto in entrata che passano al mattino. <b>Dove servirebbe di più un parcheggio?</b> I 20 punti dove mancano più posti. Le fermate importanti sono il 10% più alto per punteggio fra quelle della Città metropolitana fuori dal centro (quartieri Q001-Q009). Le auto che passano vengono dal modello del traffico: solo ordine di grandezza. Criteri, sensibilità, verifica sugli interscambi esistenti e limiti sono nella scheda del Risultato 6.</p>
+    <p><b>Parcheggi per lasciare l'auto</b> (Risultato 6): dove lasciare l'auto <i>prima</i> di entrare in città e proseguire con i mezzi pubblici. Tre domande, nel menu «Cosa vedere». <b>Dove ci sono parcheggi?</b> I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) e gli interscambi del Comune, colorati per riempimento misurato di giorno. <b>In quali aree mancano posti?</b> Celle di circa 2 km² colorate per quota di fermate importanti dove i posti entro 400 m a piedi non bastano per le auto in entrata che passano al mattino. <b>Dove servirebbe di più un parcheggio?</b> Fino a 20 punti dove mancano più posti, uno per asse d'ingresso e ad almeno 3 km dal centro. Le fermate importanti sono il 10% più alto per punteggio fra quelle della Città metropolitana fuori dal centro (quartieri Q001-Q009). Le auto che passano vengono dal modello del traffico: solo ordine di grandezza. Criteri, sensibilità, verifica sugli interscambi esistenti e limiti sono nella scheda del Risultato 6.</p>
     <p><b>Colori:</b> verde = bene, rosso = male. Blu→arancione = poco→tanto, senza giudizio. Le legende scrivono sempre i numeri.</p>
   </details>
 
@@ -929,12 +929,12 @@ function aggiornaScala(ws){
    Tre viste (menu «Cosa vedere»), ognuna risponde a una domanda e ha una sola scala di colori:
    1. «parcheggi»: Dove ci sono parcheggi? i parcheggi grandi, colore = riempimento misurato di giorno;
    2. «aree»: In quali aree mancano posti? celle esagonali, colore = quota di fermate senza posti bastanti (correzioni del 20/10);
-   3. «mancano»: Dove servirebbe di più un parcheggio? i 20 punti prioritari, numerati. */
+   3. «mancano»: Dove servirebbe di più un parcheggio? i punti prioritari (fino a 20), numerati. */
 const R6_VISTA = () => OPT_VAL.r6Vista || "parcheggi";
 const R6_DESC = {
   parcheggi: "Dove ci sono parcheggi per lasciare l'auto? I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) vicino alle fermate importanti, più gli interscambi del Comune: quanto sono grandi e quanto si riempiono di giorno.",
   aree: "In quali aree mancano posti? Per ogni area di circa 2 km²: quante fermate importanti non hanno abbastanza posti adatti entro 400 m a piedi per le auto che passano al mattino.",
-  mancano: "Dove servirebbe di più un parcheggio? I 20 punti dove passano più auto in entrata e mancano più posti, in ordine di posti che mancano."
+  mancano: "Dove servirebbe di più un parcheggio? Fino a 20 punti, uno per asse d'ingresso, dove passano più auto in entrata e mancano più posti, in ordine di posti che mancano (ordine di grandezza)."
 };
 const R6_CAT_AREA = ["Critica","Scarsa","Buona","Pochi dati"];
 const R6_COL_AREA = {Critica:"#d73027", Scarsa:"#fc8d59", Buona:"#1a9850", "Pochi dati":"#c9ccd1"};

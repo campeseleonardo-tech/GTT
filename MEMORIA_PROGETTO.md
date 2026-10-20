@@ -82,16 +82,16 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
 - **Risultato 6, punti per asse** (Leo, 20/10 sera): un punto per asse d'ingresso, almeno 3 km dal centro, posti che
-  mancano arrotondati. Scritto nell'84 (+ controlli nell'85), **da eseguire sul PC** con `RISULTATO6_RIFAI.bat`, poi
-  Claude ricontrolla. Risultato 2: numero in grande = 334.085 (severo), in `schede_risultati.py`.
+  mancano arrotondati: eseguito sul PC il 20/10 (19 punti, verifiche 0 non superate, ricontrollato da Claude).
+  Aggiunto dopo: almeno 50 posti mancanti per essere un punto (→ 16): entra al prossimo `RISULTATO6_RIFAI.bat`. Risultato 2: numero in grande = 334.085 (severo), in `schede_risultati.py`.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`; salvare in git `README.md` dopo aver rilanciato lo 86.
 
 ## 6. PROSSIMI PASSI (in ordine: dettagli in `docs/PIANO_PULIZIA.md` sezione 4)
 
-1. Leo unisce il ramo di Claude in `prova`, poi `scripts\RISULTATO6_RIFAI.bat` e `86_prepara_pubblicazione.py`.
+1. Leo unisce il ramo di Claude in `prova`, rilancia `scripts\RISULTATO6_RIFAI.bat` (regola dei 50 posti) e lo 86, commit e push.
 2. `schtasks` con `scripts\CONTROLLA_LEOPI.bat` ogni mattina (comando in `docs/archivio/correzioni_20ott/ESITO_CORREZIONI_GENERALI.md`, 3.5).
 3. Ora legale del 25/10: controllo a mano dello script 26 dopo il fetch del 1/11 (+ `TRAFFICO_RILANCIA_SENSORI.bat`).
-4. Risultato 6: Claude ricontrolla il giro con i punti per asse; poi confronto delle auto in entrata con i sensori 5T del mattino.
+4. Risultato 6: confronto delle auto in entrata con i sensori 5T del mattino.
 5. Pubblicare su GitHub Pages (proposta: ramo `gh-pages` con solo `pubblica/`), cartella leggera (oggi 90 MB), sfondi Esri.
 6. 2-3 risultati di punta, ognuno con «come sappiamo che è vero».
 7. Rilanci: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 e R9 con un mese (metà novembre); R4 in mappa.

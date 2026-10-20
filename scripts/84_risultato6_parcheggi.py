@@ -24,7 +24,7 @@ Regole (costanti qui sotto e opzioni da riga di comando; valori decisi nel PIANO
     Niente soglia fissa di posti (prima: 50): i posti si confrontano con le auto che passano.
   - Aree: esagoni (lato 900 m); quota senza = (nessun + insufficienti) / fermate valutate (senza «poche auto»);
     Critica >= 60%, Scarsa 30-59%, Buona < 30%; con meno di 5 fermate valutate: «Pochi dati».
-  - 20 punti: fermate «nessun» o «insufficienti» raggruppate entro 1 km; posti che mancano del gruppo =
+  - Punti prioritari (fino a 20, almeno 50 posti mancanti): fermate «nessun» o «insufficienti» raggruppate entro 1 km; posti che mancano del gruppo =
     potenziale piu' alto del gruppo - posti adatti che servono il gruppo; in ordine di posti che mancano.
     Un punto per asse (Leo, 20/10 sera): si tiene il gruppo con piu' posti mancanti e si scartano quelli a meno di
     2 km o sulla stessa strada a meno di 5 km (sono in gran parte le stesse auto); niente punti a meno di 3 km da Piazza
@@ -99,7 +99,8 @@ DIST_MIN_CENTRO_KM = 3.0           # niente punti prioritari piu' vicini a Piazz
 DIST_STESSO_ASSE_M = 2000.0        # due punti piu' vicini di cosi' contano in gran parte le stesse auto
 DIST_STESSA_STRADA_M = 5000.0      # stessa strada e piu' vicini di cosi': stesso asse (il nome da solo non basta:
                                    # «strada Torino» c'e' in molti comuni)
-N_PUNTI = 20
+N_PUNTI = 20                       # al massimo
+MIN_MANCANO_PUNTO = 50             # sotto: non e' una priorita' (Claude, 20/10 sera: c'erano punti con 0-23 posti mancanti)
 SOGLIA_PIENO, SOGLIA_LIBERO = 0.85, 0.50
 MIN_GIORNI_VALIDI = 2
 QUOTA_TOP_VALIDAZIONE = 0.20       # "strada con molte auto": nel 20% piu' alto dei luoghi eleggibili
@@ -332,6 +333,8 @@ def main():
     punti.sort(key=lambda p: (-p["mancano"], -p["_somma_punteggio"]))
     n_gruppi = len(punti)
     punti, scartati = un_punto_per_asse(punti, DIST_MIN_CENTRO_KM)
+    pochi = [p for p in punti if p["mancano"] < MIN_MANCANO_PUNTO]
+    punti = [p for p in punti if p["mancano"] >= MIN_MANCANO_PUNTO]
     scartati_in_cima = [(p, motivo) for p, motivo in scartati if p["mancano"] >= (punti[N_PUNTI - 1]["mancano"] if len(punti) >= N_PUNTI else 0)]
     punti = punti[:N_PUNTI]
     for k, p in enumerate(punti):
@@ -344,7 +347,7 @@ def main():
     for a in aree:
         for f in a["fermate_senza"]:
             f["mancano"] = arrotonda_mancano(f["mancano"])
-    print(f"  punti prioritari: {len(punti)} (gruppi {n_gruppi}; scartati perche' stesso asse o vicini al centro: "
+    print(f"  punti prioritari: {len(punti)} (gruppi {n_gruppi}; con meno di {MIN_MANCANO_PUNTO} posti mancanti: {len(pochi)}; scartati perche' stesso asse o vicini al centro: "
           f"{len(scartati)}, di cui {len(scartati_in_cima)} con piu' posti mancanti dell'ultimo tenuto)")
 
     # ---- parcheggi in mappa ----
@@ -514,7 +517,7 @@ def main():
     c("nessun valore negativo", all(f["mancano"] >= 0 and f["posti_adatti"] >= 0 for f in fermate), bloccante=True)
     c("somma auto delle direzioni = auto in entrata con zona nota",
       abs(sum(d["auto_in_entrata"] for d in direzioni) - sum(v["auto"] for z, v in zona_or.items() if z in centroidi)) <= 8)
-    c("i punti prioritari sono 20", len(punti) == N_PUNTI, dettaglio=f"{len(punti)}")
+    c(f"punti prioritari: da 1 a {N_PUNTI}", 1 <= len(punti) <= N_PUNTI, dettaglio=f"{len(punti)}")
     c("almeno un'area con categoria (non «Pochi dati»)", any(not a["pochi_dati"] for a in aree))
 
     # ---- riepilogo, criteri, affidabilita' ----
@@ -576,7 +579,7 @@ def main():
         {"nome": "Aree", "valore": f"celle di circa 2 km²; Critica ≥ {soglie[0]:g}%, Scarsa {soglie[1]:g}-{soglie[0] - 1:g}%, Buona < {soglie[1]:g}%; almeno {args.min_fermate_area} fermate, se no «Pochi dati»",
          "perche": "con una o due fermate la percentuale è 0% o 100% per caso",
          "effetto": "; ".join(f"soglie {k}: " + ", ".join(f"{a} {b}" for a, b in v.items()) for k, v in sens["soglie_aree"].items())},
-        {"nome": "20 punti", "valore": f"fermate senza posti bastanti raggruppate entro 1 km, in ordine di posti che mancano; uno per asse d'ingresso (niente punti a meno di {DIST_STESSO_ASSE_M / 1000:g} km, né sulla stessa strada a meno di {DIST_STESSA_STRADA_M / 1000:g} km); almeno {DIST_MIN_CENTRO_KM:g} km da Piazza Castello",
+        {"nome": "Punti prioritari", "valore": f"fino a {N_PUNTI}: fermate senza posti bastanti raggruppate entro 1 km, in ordine di posti che mancano (almeno {MIN_MANCANO_PUNTO}); uno per asse d'ingresso (niente punti a meno di {DIST_STESSO_ASSE_M / 1000:g} km, né sulla stessa strada a meno di {DIST_STESSA_STRADA_M / 1000:g} km); almeno {DIST_MIN_CENTRO_KM:g} km da Piazza Castello",
          "perche": "risponde a «dove metterne uno o ingrandirlo»; due punti sullo stesso asse contano le stesse auto; vicino al centro si risparmia poca strada",
          "effetto": f"candidati: parcheggi adatti con almeno 100 posti entro 600 m a piedi; scartati {len(scartati)} gruppi su {n_gruppi}"},
         {"nome": "Riempimento", "valore": f"misurato dal 5T dove c'è ({len(giorni)} giorni feriali, ore 10-16); pieno ≥ 85%",
@@ -606,7 +609,7 @@ def main():
           "== Aree ==", f"  {dict(cat_aree)}",
           *(f"  {a['id']:12s} {a['categoria']:10s} fermate {a['n_fermate']:3d} (valutate {a['n_valutate']}) "
             f"senza {a['quota_senza']:.0%}  {', '.join(a['zone_principali'])}" for a in aree), "",
-          "== 20 punti prioritari ==",
+          f"== Punti prioritari ({len(punti)}; al massimo {N_PUNTI}, con almeno {MIN_MANCANO_PUNTO} posti mancanti) ==",
           *(f"  {p['ordine']:2d}. {p['nome'][:30]:30s} {p['zona_nome'][:22]:22s} {p['dist_centro_km']:5.1f} km dal centro; "
             f"auto che passano ~{p['auto_passaggio_txt']}; da fermare {p['potenziale']}; posti {p['posti_adatti']}; "
             f"mancano circa {p['mancano']} (calcolo {p['mancano_stima']})"

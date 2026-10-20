@@ -546,7 +546,7 @@ def scheda_r6():
             f"Auto da fermare = auto che passano × {quota_txt}% (chi già oggi lascia l'auto per un mezzo pubblico).",
             f"Posti adatti: parcheggi aperti fuori dal centro, con almeno 20 posti, non di ospedali, università o centri "
             f"commerciali, entro {raggio} m a piedi (linea d'aria × 1,3); posti dichiarati o stimati con 25 m² a posto.",
-            "Aree: celle esagonali di circa 2 km²; 20 punti: fermate senza posti bastanti raggruppate entro 1 km, in "
+            "Aree: celle esagonali di circa 2 km²; punti prioritari (fino a 20, almeno 50 posti mancanti, uno per asse d'ingresso, oltre 3 km dal centro): fermate senza posti bastanti raggruppate entro 1 km, in "
             "ordine di posti che mancano.",
         ],
         "parametri": [["Centro escluso", "quartieri Q001-Q009 (fermate e parcheggi)"],
