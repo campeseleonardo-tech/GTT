@@ -7,7 +7,8 @@ mappa, poi si rigenera tutto **una volta sola** alla fine. Esito in `docs/ESITO_
 ## 0. Regole (valgono per tutto il giro)
 
 1. Cartella `C:\projects\Progetti\GTT`, ramo `prova` (`git branch --show-current`; se è un altro: FERMATI e dillo a
-   Leo). Prima di tutto: `git status` (deve essere pulito) e `git pull origin prova`. **Nessun commit**: lo fa Leo.
+   Leo). Prima di tutto: `git status` (deve essere pulito) e `git pull origin prova`. Alla fine **commit e push da
+   solo** (regole in `AGENTS.md`, sezione «Commit»).
 2. Python del PATH (`python`), mai Anaconda. Sola lettura su `data/raw/`, `data/storico_backup.sqlite`, sul Pi.
 3. Un passo alla volta, nell'ordine. Dopo ogni passo scrivi nell'esito: `PASSO x: OK` / `AVVISO` / `FERMO – motivo`,
    e **ogni riga di codice cambiata** (file, prima, dopo).
@@ -175,7 +176,8 @@ Controllo: `python -m py_compile scripts\schede_risultati.py`.
 > `docs/PIANO_GIRO1_RITOCCHI.md` dall'inizio alla fine, un passo alla volta, nell'ordine, seguendo le regole della
 > sezione 0. Cambia solo quello che ogni passo dice, con le righe esatte indicate; se una riga da cercare non c'è,
 > scrivilo e passa avanti. Scrivi tutto in `docs/ESITO_GIRO1_RITOCCHI.md`: per ogni passo OK / AVVISO / FERMO e ogni
-> riga di codice cambiata. Non fare commit, non modificare `MEMORIA_PROGETTO.md`, non toccare il Pi né il database.
+> riga di codice cambiata. Alla fine fai commit e push come dice `AGENTS.md` (sezione «Commit»). Non modificare
+> `MEMORIA_PROGETTO.md`, non toccare il Pi né il database.
 > Python: `python` del PATH, mai Anaconda. Alla fine scrivimi un riassunto di 10 righe in italiano semplice.
 
 Dopo: Leo fa commit e push (`git add -A`, `git commit -m "Giro 1 ritocchi"`, `git push origin prova`); Claude

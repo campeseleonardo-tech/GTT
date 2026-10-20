@@ -69,7 +69,7 @@ Esito in `docs/ESITO_RISULTATO1_V2.md`; poi Leo fa commit e push e Claude ricont
 
 ### Passi meccanici della fase A (per il modello minore)
 
-1. Prima: ramo `prova`, `git status` pulito, `git pull origin prova`. Nessun commit. Python del PATH.
+1. Prima: ramo `prova`, `git status` pulito, `git pull origin prova`. Alla fine commit e push da solo (`AGENTS.md`). Python del PATH.
 2. `scripts/21_risultato1_vuoti.py`: **non cambiare** le uscite di oggi; **aggiungi** nel JSON
    `data/processed/risultato1_vuoti.json` una sezione `"v2"` e nel rapporto una sezione «VERSIONE 2»:
    - per ogni sezione: `n_mancanti` = quanti dei 5 gruppi sono a «zero» (piedi 15 min);
@@ -104,7 +104,8 @@ Esito in `docs/ESITO_RISULTATO1_V2.md`; poi Leo fa commit e push e Claude ricont
 > della fase A», un passo alla volta. Aggiungi, non togliere: le uscite di oggi dello script 21 restano uguali. Niente
 > numeri scritti a mano nei testi. Se un nome di campo è diverso da quello del piano, guarda il file vero, adatta e
 > scrivilo. Scrivi tutto in `docs/ESITO_RISULTATO1_V2.md` (OK / AVVISO / FERMO per passo, righe cambiate, numeri).
-> Non fare commit, non modificare `MEMORIA_PROGETTO.md`. Python: `python` del PATH, mai Anaconda. Alla fine un
+> Alla fine fai commit e push come dice `AGENTS.md` (sezione «Commit»); se lavori nel cloud (niente `data/`), fai
+> solo le modifiche al codice, salta i passi che lanciano gli script e scrivilo nell'esito. Non modificare `MEMORIA_PROGETTO.md`. Python: `python` del PATH, mai Anaconda. Alla fine un
 > riassunto di 10 righe in italiano semplice.
 
 ## Storia

@@ -24,7 +24,7 @@ lavori in ordine; sotto la storia. Scenari in `data/scenari/<nome>.json`, avviso
 
 - Passo passo con Leo: decisioni importanti chieste prima; piccole scelte con default dichiarati.
 - **Verifica indipendente** di ogni fatto importante sui file veri prima di darlo a Leo.
-- Git: ramo `prova`; Claude committa solo quando Leo lo chiede. Nelle sessioni cloud Claude lavora su un ramo
+- Git: ramo `prova`; **commit e push sempre automatici** alla fine del lavoro (Leo, 20/10; regole in `AGENTS.md`). Nelle sessioni cloud Claude lavora su un ramo
   `claude/...` che Leo unisce in `prova`. Il repository GitHub è **pubblico** dal 20/10 (sera): niente segreti né dati personali in git.
 - Script provati su campione prima del giro vero. Python del PATH (3.14), non Anaconda.
 - Accesso: terminale sul PC e SSH **in sola lettura** verso leopi (`leopi@192.168.8.200`, chiave
@@ -34,7 +34,7 @@ lavori in ordine; sotto la storia. Scenari in `data/scenari/<nome>.json`, avviso
   vulnerabilità solo con l'indice dedicato, mai nazionalità.
 - Orari: il PC è in ora italiana (Git Bash mostra un'etichetta di fuso sbagliata).
 - **Ogni fase ha il suo `docs/PIANO_*.md`** (storia, decisioni, passi, prompt); la memoria ha il riassunto.
-- Agenti esterni (opencode): ramo `prova` senza commit, database in sola lettura, esito in `docs/ESITO_*.md`;
+- Agenti esterni (modello minore, sul PC o nel cloud): fanno commit e push da soli (`AGENTS.md`), database in sola lettura, esito in `docs/ESITO_*.md`;
   Claude ricontrolla i numeri prima di darli a Leo.
 - Prova delle pagine nel browser integrato: `.claude/launch.json` → `pagine-gtt` (porta 8765).
 - Regole fisse di Leo per il R6: le sue osservazioni non entrano nei dati (solo controllo a posteriori,
@@ -109,7 +109,8 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    Corso Moncalieri, `velocita_5t.json` in mappa, tram contro bus (efficienza e costi).
 
 Come si lavora con il modello minore: un giro per volta (mai due insieme: toccano gli stessi file); lui lavora sul
-ramo `prova` senza commit e scrive `docs/ESITO_*.md`; Leo fa commit e push; Claude ricontrolla prima del giro dopo.
+ramo `prova` (sul PC) o sul suo ramo (cloud), scrive `docs/ESITO_*.md` e fa commit e push da solo; se era nel cloud, Leo
+unisce il ramo e lancia i passi sui dati; Claude ricontrolla prima del giro dopo. Merge sempre con `--no-edit`.
 
 Metrica trasversale (Leo, 16/10, da progettare): "quanti veicoli in meno potrebbero girare" da un miglioramento
 dell'accessibilità TP, con IMQ per modo come base.
