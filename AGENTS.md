@@ -15,7 +15,17 @@ Passo passo: un passo alla volta, decisioni importanti chieste prima, piccole sc
 Lo storico vero vive sul Raspberry Pi "leopi" (192.168.8.200); sul PC c'è la copia settimanale data/storico_backup.sqlite (oltre 300 MB). Non modificare i dati in data/raw e lo storico: leggili e basta. Per prove lunghe parti da un campione piccolo.
 
 ## Ramo git
-Si lavora sul ramo "prova". Se all'inizio non sei su "prova", fermati e dillo a Leo.
+Sul PC di Leo si lavora sul ramo "prova": se all'inizio non sei su "prova", fermati e dillo a Leo.
+In una sessione cloud (cartella diversa da `C:\projects\Progetti\GTT`, ramo `claude/...`) resta sul ramo della
+sessione: Leo lo unisce poi in "prova". Nel cloud non ci sono `data/`, il Pi e Windows: fai le modifiche al codice
+e lascia a Leo i passi che girano sui dati.
+
+## Commit (Leo, 20/10/2026)
+Alla fine del lavoro fai **sempre** commit e push da solo, con un messaggio chiaro:
+- sul PC: `git add -A`, `git commit -m "..."`, `git pull --no-rebase origin prova`, `git push origin prova`;
+- nel cloud: `git add -A`, `git commit -m "..."`, `git push -u origin <ramo della sessione>`.
+Prima del commit controlla con `git status` che non entrino file da non salvare (`data/`, `.bak`, chiavi). Se il
+pull dà un conflitto, fermati e dillo a Leo. Per i merge usa sempre `--no-edit` (altrimenti git apre un editor).
 
 ## Python
 Sul PC si usa il python nel PATH (Python 3.14). NON usare Anaconda: il suo modulo json è rotto. Sul Pi Python 3.13.

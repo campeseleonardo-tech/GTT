@@ -99,7 +99,8 @@ aggiunta la regola **almeno 50 posti mancanti** per entrare nella lista: giro de
 ### Prompt A — controllo con i sensori 5T (lavoro 4, script 88)
 
 > Sei un agente sul progetto GTT (`C:\projects\Progetti\GTT`, ramo `prova`; prima `git status` pulito e
-> `git pull origin prova`; nessun commit; `python` del PATH, mai Anaconda). Leggi `AGENTS.md` e la sezione
+> `git pull origin prova`; alla fine commit e push da solo come dice `AGENTS.md`; `python` del PATH, mai Anaconda;
+> questi prompt leggono i dati: vanno eseguiti **sul PC**, non nel cloud). Leggi `AGENTS.md` e la sezione
 > «Commenti di Leo» di `docs/PIANO_RISULTATO6.md`. Scrivi **un solo script nuovo** `scripts/88_confronto_auto_sensori.py`
 > (solo lettura) che confronta le auto in entrata del mattino stimate dal modello con i sensori 5T:
 > 1. sensori: `data/processed/velocita_5t.json` (guarda le chiavi: per ogni sensore posizione e flussi per tipo di

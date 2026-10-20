@@ -926,9 +926,10 @@ function aggiornaScala(ws){
   el.innerHTML='<div style="width:'+Math.round(L/mpp)+'px" class="barra"></div><div>'+fmt(L)+(g?' · '+g:'')+'</div>';
 }
 /* ---------- [R6] Parcheggi per lasciare l'auto (Risultato 6) ----------
-   Tre viste (menu «Cosa vedere»), ognuna risponde a una domanda e ha una sola scala di colori:
+   Due viste (menu «Cosa vedere»), ognuna risponde a una domanda e ha una sola scala di colori
+   (la vista «aree» è stata tolta il 20/10: il suo codice resta ma non si può più scegliere):
    1. «parcheggi»: Dove ci sono parcheggi? i parcheggi grandi, colore = riempimento misurato di giorno;
-   3. «mancano»: Dove servirebbe di più un parcheggio? i punti prioritari (fino a 20), numerati. */
+   2. «mancano»: Dove servirebbe di più un parcheggio? i punti prioritari (fino a 20), numerati. */
 const R6_VISTA = () => OPT_VAL.r6Vista || "parcheggi";
 const R6_DESC = {
   parcheggi: "Dove ci sono parcheggi per lasciare l'auto? I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) vicino alle fermate importanti, più gli interscambi del Comune: quanto sono grandi e quanto si riempiono di giorno.",
@@ -2225,7 +2226,7 @@ const THEMES = [
    area:{tipo:"sez",modo:"vuln"}, over:{...NESSUNA}, vuln:true, opzioni:["subVuln"],
    legenda:()=>{ const m=$("subVuln")?$("subVuln").value:"vuln"; return ["occ","sc","sen"].includes(m)?legendaSezioni(m):legendaVuln(m); }},
   ...(R6 ? [{id:"interscambio", label:"Parcheggi per lasciare l'auto",
-   desc:"Dove lasciare l'auto prima di entrare in città. Tre domande: dove ci sono parcheggi, in quali aree mancano posti, dove servirebbe di più un parcheggio. Scegli nel menu «Cosa vedere».",
+   desc:"Dove lasciare l'auto prima di entrare in città. Due domande: dove ci sono parcheggi, dove servirebbe di più un parcheggio. Scegli nel menu «Cosa vedere».",
    area:null, over:{...NESSUNA}, r6vista:true, opzioni:["r6Vista"], legenda:legendaR6}] : []),
   {id:"imq", label:"Chi va dove: tutti gli spostamenti", desc:"Quanti spostamenti partono da ogni zona, a che ora e con che mezzo (indagine IMQ 2022, giorno feriale). Tocca una zona per vedere dove vanno.",
    area:{tipo:"imq"}, over:{...NESSUNA}, imq:true, opzioni:["imqMet"], legenda:legendaImq},
@@ -2379,7 +2380,7 @@ function aggiornaLegendaBase(){
 
 // [R6] il tema si può aprire da un indirizzo, es. mappa_torino.html#tema=interscambio
 const temaDaUrl = ()=>{ const m=/[#&?]tema=([a-z0-9_]+)/i.exec(location.hash||""); return m && THEMES.some(t=>t.id===m[1]) ? m[1] : "servizio"; };
-// [R6] #tema=interscambio&vista=parcheggi|aree|mancano: imposta la vista del menu (valore non valido -> parcheggi)
+// [R6] #tema=interscambio&vista=parcheggi|mancano: imposta la vista del menu (valore non valido -> parcheggi)
 function applicaVistaDaUrl(){
   if(temaDaUrl()!=="interscambio") return;
   const m=/[#&?]vista=([a-z0-9_]+)/i.exec(location.hash||"");
@@ -2392,7 +2393,7 @@ function applicaVistaDaUrl(){
 // [revisione 18/10] niente piu' dati "live": la pagina mostra orari, storico registrato e dati fissi, con le date scritte
 if(innerWidth<=640){ $("legendaBox").classList.add("chiusa"); $("legendaToggle").setAttribute("aria-expanded","false"); }   // telefono: legenda chiusa
 creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(adesso); sicuro(()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); });
-addEventListener("hashchange",()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); });   // [R6] #tema=interscambio&vista=aree apre direttamente tema e vista
+addEventListener("hashchange",()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); });   // [R6] #tema=interscambio&vista=mancano apre direttamente tema e vista
 sicuro(giornateRegistrate); sicuro(stato);
 sicuro(disegna); ultimoT=performance.now(); requestAnimationFrame(anima);
 (()=>{ const dl=$("listaLinee"); const nomi=[...new Set(Object.values(D.rotte).map(r=>r.s))].sort((a,b)=>a.localeCompare(b,"it",{numeric:true})); dl.innerHTML=nomi.map(n=>`<option value="${esc(n)}">`).join(""); })();
