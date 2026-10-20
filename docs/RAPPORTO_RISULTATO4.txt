@@ -66,17 +66,17 @@ modo  | passaggi | % ritardo>5 | % ritardo>10 | mediana | % grappolo+buco | copp
 tram  |   227057 |         4.6 |          0.0 |    -0.6 |            13.8 | 181564
 bus   |   923609 |         5.4 |          0.0 |    -0.4 |             8.4 | 295206
 
-RITARDO A FINE CORSA (feriale, linee ordinarie, >= 100 passaggi alle ultime 3 fermate): le 10 con piu' minuti ogni 10 km
- 1. linea 6     bus   | corsa 4.3 km | ritardo a fine corsa 1.2 min | 2.7 min ogni 10 km | 669 passaggi
- 2. linea 19    bus   | corsa 5.9 km | ritardo a fine corsa 1.1 min | 1.9 min ogni 10 km | 489 passaggi
- 3. linea 60    bus   | corsa 6.0 km | ritardo a fine corsa 0.6 min | 0.9 min ogni 10 km | 986 passaggi
- 4. linea 17    bus   | corsa 17.4 km | ritardo a fine corsa 1.2 min | 0.7 min ogni 10 km | 1044 passaggi
- 5. linea 132   bus   | corsa 8.1 km | ritardo a fine corsa 0.6 min | 0.7 min ogni 10 km | 562 passaggi
- 6. linea 33    bus   | corsa 11.9 km | ritardo a fine corsa 0.5 min | 0.4 min ogni 10 km | 1391 passaggi
- 7. linea 74    bus   | corsa 11.1 km | ritardo a fine corsa 0.3 min | 0.3 min ogni 10 km | 1085 passaggi
- 8. linea 76    bus   | corsa 9.6 km | ritardo a fine corsa 0.2 min | 0.2 min ogni 10 km | 1136 passaggi
- 9. linea 72    bus   | corsa 11.0 km | ritardo a fine corsa 0.2 min | 0.2 min ogni 10 km | 849 passaggi
-10. linea 61    bus   | corsa 11.2 km | ritardo a fine corsa 0.2 min | 0.2 min ogni 10 km | 1167 passaggi
+RITARDO A FINE CORSA (feriale, linee ordinarie, >= 100 passaggi alle ultime 3 fermate): le 10 con piu' ritardo a fine corsa (mediana, minuti); i minuti ogni 10 km sono solo una colonna: per km le linee corte vengono premiate
+ 1. linea 6     bus   | ritardo a fine corsa 1.2 min | corsa 4.3 km | 2.7 min ogni 10 km | 669 passaggi
+ 2. linea 17    bus   | ritardo a fine corsa 1.2 min | corsa 17.4 km | 0.7 min ogni 10 km | 1044 passaggi
+ 3. linea 19    bus   | ritardo a fine corsa 1.1 min | corsa 5.9 km | 1.9 min ogni 10 km | 489 passaggi
+ 4. linea 60    bus   | ritardo a fine corsa 0.6 min | corsa 6.0 km | 0.9 min ogni 10 km | 986 passaggi
+ 5. linea 132   bus   | ritardo a fine corsa 0.6 min | corsa 8.1 km | 0.7 min ogni 10 km | 562 passaggi
+ 6. linea 33    bus   | ritardo a fine corsa 0.5 min | corsa 11.9 km | 0.4 min ogni 10 km | 1391 passaggi
+ 7. linea 74    bus   | ritardo a fine corsa 0.3 min | corsa 11.1 km | 0.3 min ogni 10 km | 1085 passaggi
+ 8. linea 76    bus   | ritardo a fine corsa 0.2 min | corsa 9.6 km | 0.2 min ogni 10 km | 1136 passaggi
+ 9. linea 72    bus   | ritardo a fine corsa 0.2 min | corsa 11.0 km | 0.2 min ogni 10 km | 849 passaggi
+10. linea 61    bus   | ritardo a fine corsa 0.2 min | corsa 11.2 km | 0.2 min ogni 10 km | 1167 passaggi
 
 LINEE UTILI CONTRO ALTRE (linee utili = quelle dello script 87)
 linee utili: 54

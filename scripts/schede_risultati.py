@@ -68,7 +68,7 @@ def pct2(x):
 
 def link_linea(nome):
     """Link dalla scheda alla mappa con quella linea selezionata (tema «Puntualita' delle linee»)."""
-    return "mappa_torino.html#tema=puntualita&linea=" + quote(str(nome), safe="")
+    return "mappa_torino.html#tema=puntualita&linea=" + quote(str(nome), safe="") + "&ora=8"   # si apre alle 8 di un feriale
 
 
 def il(x):
@@ -445,9 +445,10 @@ def scheda_r4():
     modi = r.get("modi") or {}
     tram_f, bus_f = (modi.get("tram") or {}).get("0"), (modi.get("bus") or {}).get("0")
     utili = (r.get("linee_utili") or {}).get("0")
-    fine_corsa = sorted(((x["fine_corsa"]["min_per_10km"], n, x) for n, x in linee
+    # classifica per ritardo a fine corsa (mediana, minuti); i minuti ogni 10 km restano nella nota (Leo, 21/10)
+    fine_corsa = sorted(((x["fine_corsa"]["ritardo_mediana"], n, x) for n, x in linee
                          if x.get("fine_corsa") and x["fine_corsa"]["passaggi"] >= par.get("min_fine_corsa", 100)
-                         and str(n).isdigit()), key=lambda t: -t[0])[:10]
+                         and str(n).isdigit()), key=lambda t: (-t[0], -t[2]["fine_corsa"]["min_per_10km"]))[:10]
     rif10 = par.get("rif_gtt_ritardo10_pct")
     lf = (r.get("lettura_lontana_per_tipo") or {}).get("0")
     alta10 = (100.0 * (fer.get("ritardo10_n", 0) + lf["ritardo10"]) / (fer["passaggi"] + lf["scartati"])) if lf else None
@@ -464,10 +465,13 @@ def scheda_r4():
                      voce("bus: a grappolo o con un buco", round(bus_f["grappolo"] + bus_f["buco"], 1))]})
     if fine_corsa:
         grafici_nuovi.append({
-            "tipo": "barre", "titolo": "Ritardo a fine corsa: minuti ogni 10 km (feriale)", "unita": "min",
-            "nota": f"Ritardo mediano alle ultime {par.get('fine_corsa_ultime_fermate', 3)} fermate della corsa diviso la lunghezza della corsa. "
-                    f"Solo linee ordinarie con almeno {par.get('min_fine_corsa', 100)} passaggi di fine corsa. Clicca una linea per vederla nella mappa.",
-            "voci": [voce(f"linea {n}", val, tono="rosso", link=link_linea(n)) for val, n, _ in fine_corsa]})
+            "tipo": "barre", "titolo": "Ritardo a fine corsa (feriale)", "unita": "min",
+            "nota": f"Ritardo mediano alle ultime {par.get('fine_corsa_ultime_fermate', 3)} fermate della corsa, in minuti. "
+                    f"Solo linee ordinarie con almeno {par.get('min_fine_corsa', 100)} passaggi di fine corsa. "
+                    "I minuti ogni 10 km (ritardo diviso la lunghezza della corsa) sono nel rapporto: per km le linee corte vengono premiate. "
+                    "Clicca una linea per vederla nella mappa: la mappa si apre alle 8 di un feriale.",
+            "voci": [voce(f"linea {n} ({virgola(x['fine_corsa']['min_per_10km'])} min ogni 10 km)", val, tono="rosso", link=link_linea(n))
+                     for val, n, x in fine_corsa]})
     if utili:
         grafici_nuovi.append({
             "tipo": "barre", "titolo": "Linee utili contro altre (feriale)", "unita": "%",
@@ -568,7 +572,7 @@ def scheda_r4():
               if "ritardo10" in fer and rif10 is not None else []),
             *([f"Trams vs buses (weekdays): {tram_f['ritardo']:.1f}% of tram departures and {bus_f['ritardo']:.1f}% of bus departures "
                "are more than 5 minutes late."] if tram_f and bus_f else []),
-            *([f"Delay at the end of the trip, per 10 km: highest on line {fine_corsa[0][1]} ({fine_corsa[0][0]:.1f} minutes per 10 km)."]
+            *([f"Delay at the end of the trip (median, last stops): highest on line {fine_corsa[0][1]} ({fine_corsa[0][0]:.1f} minutes)."]
               if fine_corsa else []),
             *([f"Useful lines (touching the busiest zones per km2): {utili['utili']['ritardo']:.1f}% of departures more than 5 minutes late, "
                f"other lines {utili['altre']['ritardo']:.1f}% (weekdays)."] if utili else []),

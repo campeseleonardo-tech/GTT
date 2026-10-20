@@ -625,16 +625,18 @@ def main():
             R.append(f"{modo:5} | {c['passaggi']:8} | {c['ritardo']:11} | {c['ritardo10']:12} | {c['mediana']:7} "
                      f"| {round(c['grappolo'] + c['buco'], 1):15} | {c['coppie']}")
     R.append("")
-    class_fc = sorted(((v["fine_corsa"]["min_per_10km"], ln) for ln, v in
+    # classifica per ritardo a fine corsa (mediana, minuti); i minuti ogni 10 km restano come colonna (Leo, 21/10: per km premiava le linee corte)
+    class_fc = sorted(((v["fine_corsa"]["ritardo_mediana"], v["fine_corsa"]["min_per_10km"], ln) for ln, v in
                        ((ln, j_linee[ln]["0"]) for ln in j_linee if "0" in j_linee[ln])
                        if "fine_corsa" in v and v["fine_corsa"]["passaggi"] >= MIN_FINE_CORSA and linea_ordinaria(ln)),
                       reverse=True)
     R.append(f"RITARDO A FINE CORSA (feriale, linee ordinarie, >= {MIN_FINE_CORSA} passaggi alle ultime "
-             f"{FINE_CORSA_ULTIME} fermate): le 10 con piu' minuti ogni 10 km")
-    for i, (val, ln) in enumerate(class_fc[:10], 1):
+             f"{FINE_CORSA_ULTIME} fermate): le 10 con piu' ritardo a fine corsa (mediana, minuti); "
+             f"i minuti ogni 10 km sono solo una colonna: per km le linee corte vengono premiate")
+    for i, (val, per10, ln) in enumerate(class_fc[:10], 1):
         fc = j_linee[ln]["0"]["fine_corsa"]
-        R.append(f"{i:2}. linea {ln:<5} {modo_linea.get(ln, 'bus'):5} | corsa {fc['km_mediana']} km "
-                 f"| ritardo a fine corsa {fc['ritardo_mediana']} min | {val} min ogni 10 km | {fc['passaggi']} passaggi")
+        R.append(f"{i:2}. linea {ln:<5} {modo_linea.get(ln, 'bus'):5} | ritardo a fine corsa {val} min "
+                 f"| corsa {fc['km_mediana']} km | {per10} min ogni 10 km | {fc['passaggi']} passaggi")
     R.append("")
     R.append("LINEE UTILI CONTRO ALTRE (linee utili = quelle dello script 87)")
     if j_utili is None:

@@ -2471,6 +2471,12 @@ function applicaLineaDaUrl(){
   let v=""; try{ v=decodeURIComponent(m[1]).trim(); }catch(e){ return; }
   $("filtroLinea").value=v;
   if(tema.over && tema.over.Llinee) $("Llinee").checked=true;
+  // ora=<0-23> (es. #tema=puntualita&linea=17&ora=8): giorno feriale a quell'ora (la scheda manda qui con ora=8)
+  const mo=/[#&?]ora=(\d{1,2})(?!\d)/i.exec(location.hash||"");
+  if(mo && +mo[1]>=0 && +mo[1]<=23){
+    const bf=document.querySelector('#giorno button[data-k="0"]'); if(bf) bf.click();   // feriale (S.dt=0, aggiorna i pulsanti)
+    S.m=+mo[1]*60; aggiornaOra();
+  }
   baseVer++; chiede(); aggiornaLegenda();
 }
 
