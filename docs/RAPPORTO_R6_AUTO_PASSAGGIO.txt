@@ -1,5 +1,5 @@
 RAPPORTO R6 - AUTO IN ENTRATA CHE PASSANO ACCANTO AI LUOGHI (script 81)
-Generato il 20/10/2026 17:42. Metodo per c4: instradamento.
+Generato il 20/10/2026 18:21. Metodo per c4: instradamento.
 
 == Domanda del mattino (IMQ 2022, partenza 06:00-09:59, solo auto: conducente + car sharing) ==
   auto che entrano a Torino dalla cintura e da fuori (M_cint): 87.162 (1039 interviste)

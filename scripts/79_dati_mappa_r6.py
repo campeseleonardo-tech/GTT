@@ -61,6 +61,8 @@ ETICHETTE = {
     "profilo_weekend": "occupazione media ora per ora, weekend [DATI SCARSI]",
     "nodo_vicino": "nodo di trasporto importante entro 400 m: metro, treno, capolinea o molte corse (almeno 20 corse all'ora) oppure nessuno",
 }
+N_LINEE_TXT = 8          # linee utili scritte nel pannello del parcheggio
+POPOLARITA = RADICE / "data" / "processed" / "popolarita_zone.json"
 CAMPI_FERMATA = ("id", "nome", "lat", "lon", "zona_nome", "posizione", "classe", "strada", "auto_passaggio_txt",
                  "potenziale", "posti_adatti", "mancano", "parcheggi")
 CAMPI_AREA = ("id", "centro", "poligono", "n_fermate", "n_valutate", "nessun", "insufficienti", "sufficienti",
@@ -74,6 +76,21 @@ def main():
     d = json.loads(PORTE.read_text(encoding="utf-8"))
     c("porte.json viene dallo script 84 (ha il campo classi)", "classi" in d, bloccante=True)
 
+    # linee utili vicine (da 87_popolarita_zone.py): solo per i parcheggi adatti; se il file manca, campi assenti
+    parcheggi = d["parcheggi"]
+    if POPOLARITA.exists():
+        utili = {p["id"]: p for p in json.loads(POPOLARITA.read_text(encoding="utf-8"))["parcheggi_adatti"]}
+        for p in parcheggi:
+            u = utili.get(p.get("id"))
+            if u is not None:
+                p["linee_utili"] = u["linee_utili"]
+                p["linee_utili_txt"] = ", ".join(u["elenco_utili"][:N_LINEE_TXT])
+        c("linee utili aggiunte ai parcheggi adatti in mappa", any("linee_utili" in p for p in parcheggi),
+          dettaglio=f"{sum('linee_utili' in p for p in parcheggi)} su {len(parcheggi)} parcheggi in mappa")
+    else:
+        c(f"esiste {POPOLARITA.name} (lancia prima scripts\87_popolarita_zone.py): senza, niente linee utili nel pannello",
+          False)
+
     fermate = [{k: f.get(k) for k in CAMPI_FERMATA} for f in d["fermate"]]
     aree = [{k: a.get(k) for k in CAMPI_AREA} for a in d["aree"]]
     mappa = {
@@ -84,7 +101,7 @@ def main():
         "aree": aree,
         "punti_prioritari": d["punti_prioritari"],
         "fermate": fermate,
-        "parcheggi": d["parcheggi"],
+        "parcheggi": parcheggi,
         "profili": d["profili"],
         "criteri": d["criteri"],
         "riepilogo": d["riepilogo"],

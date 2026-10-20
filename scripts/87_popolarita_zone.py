@@ -3,9 +3,12 @@
 
 SOLO LETTURA dei dati; scrive solo data/processed/popolarita_zone.json e docs/RAPPORTO_POPOLARITA_ZONE.txt.
 
-1. Popolarita' di ogni zona IMQ = spostamenti che ARRIVANO nella zona (IMQ 2022, COD_ARR, peso PESO come nello script 81),
+1. Popolarita' di ogni zona IMQ = spostamenti che ARRIVANO nella zona (IMQ 2022, COD_ARR, peso PESO come nello script 81)
+   PER km2 di zona (Leo, 20/10: in cintura una zona e' un comune intero, quindi i comuni grandi non devono vincere per
+   la sola superficie; restano nel file anche `arrivi` e `km2`),
    esclusi i ritorni a casa (scopi 08 e 11), in tre gruppi: lavoro/studio (01,02,03), acquisti/cure/svago (04,06,07),
-   altro (05,09,10,12-16). La "popolarita'" usata per ordinare le zone e' il totale degli arrivi (senza ritorni).
+   altro (05,09,10,12-16). La "popolarita'" usata per ordinare le zone e' arrivi / km2 (senza ritorni a casa); le zone con meno di MIN_INTERVISTE
+   righe IMQ di arrivo hanno dati_scarsi = true e non entrano fra le piu' popolari.
    In piu' il numero di servizi nella zona, mostrato a parte e NON sommato: dentro Torino vengono dal catalogo
    comunale (completo), fuori Torino da OpenStreetMap (servizi_osm_cintura.json: scuole, salute, cibo; dato meno
    completo), quindi non sono confrontabili fra zone dentro e fuori Torino.
@@ -49,6 +52,7 @@ GRUPPI = {"lavoro_studio": ("01", "02", "03"), "acquisti_svago": ("04", "06", "0
           "altro": ("05", "09", "10", "12", "13", "14", "15", "16")}
 NOME_GRUPPO = {"lavoro_studio": "lavoro/studio", "acquisti_svago": "acquisti/cure/svago", "altro": "altro"}
 N_TOP_ZONE = 20
+MIN_INTERVISTE = 50   # Leo, 20/10: sotto questo numero di righe IMQ di arrivo la zona ha dati_scarsi e non entra fra le piu' popolari
 QUOTA_UTILI = 0.25
 DIST_PIEDI_M = 400.0
 N_RAPPORTO = 15
@@ -57,6 +61,18 @@ ESERCIZI = {("commercio", "attivita")}
 SERVIZI = {("istruzione", None), ("salute", None), ("servizi", None), ("sicurezza_sport", "impianti_sportivi"),
            ("commercio", "mercati_tematici"), ("commercio", "luoghi"), ("commercio", "musei"),
            ("commercio", "biblioteche"), ("commercio", "cinema")}
+
+
+def superficie_km2(anelli):
+    """Area in km2 della zona (proiezione di comuni.proietta, formula del poligono). I poligoni sono scritti con un verso
+    di percorrenza: gli anelli esterni hanno tutti lo stesso segno e i buchi il segno opposto, quindi la somma con segno
+    sottrae i buchi da sola. Ritorna anche la somma senza segno (per un controllo)."""
+    firmate = []
+    for a in anelli:
+        p = [comuni.proietta(la, lo) for la, lo in a]
+        n = len(p)
+        firmate.append(sum(p[i][0] * p[(i + 1) % n][1] - p[(i + 1) % n][0] * p[i][1] for i in range(n)) / 2.0)
+    return abs(sum(firmate)) / 1e6, sum(abs(x) for x in firmate) / 1e6
 
 
 def peso(x):
@@ -219,27 +235,46 @@ def main():
     c("punti del catalogo comunale in zone fuori Torino (atteso 0: il catalogo e' di Torino)", not cat_fuori_q,
       dettaglio=f"{sum(cat_fuori_q.values())} punti in " + ", ".join(f"{z} ({n})" for z, n in sorted(cat_fuori_q.items())))
 
+    aree = {z["cod"]: superficie_km2(z["anelli"]) for z in zone_geo}
+    km2 = {k: v[0] for k, v in aree.items()}
+    con_buchi = {k: v for k, v in aree.items() if v[1] - v[0] > 1e-6}
+    c("zone con anelli di verso opposto (buchi sottratti)", True,
+      dettaglio=f"{len(con_buchi)} zone: " + ", ".join(f"{k} ({v[1]:.2f} -> {v[0]:.2f} km2)" for k, v in sorted(con_buchi.items())[:8]))
+    sospette = [k for k, v in aree.items() if v[0] < 0.5 * v[1]]
+    c("nessuna zona perde piu' di meta' della superficie per i buchi", not sospette, dettaglio=", ".join(sospette))
+    c("nessuna superficie <= 0", all(v > 0 for v in km2.values()), bloccante=True,
+      dettaglio=", ".join(f"{k} {v:.3f}" for k, v in km2.items() if v <= 0))
+    km2_torino = sum(v for k, v in km2.items() if k.startswith("Q"))
+    c("superficie delle zone di Torino (Q...) fra 120 e 135 km2", 120 <= km2_torino <= 135,
+      dettaglio=f"{km2_torino:.1f} km2 in {sum(1 for k in km2 if k.startswith('Q'))} zone")
     zone = []
     for cod in sorted(nome_zona):
         g = {k: arr[cod].get(k, 0.0) for k in GRUPPI}
         zone.append({"cod": cod, "nome": nome_nome(nome_zona, cod), "macro": macro[cod],
-                     "arrivi": sum(g.values()), "arrivi_gruppi": g, "interviste": n_int.get(cod, 0),
+                     "arrivi": sum(g.values()), "km2": round(km2[cod], 3), "popolarita": sum(g.values()) / km2[cod],
+                     "dati_scarsi": n_int.get(cod, 0) < MIN_INTERVISTE,
+                     "arrivi_gruppi": g, "interviste": n_int.get(cod, 0),
                      "servizi": cat["servizi"].get(cod, 0) + osm["servizi"].get(cod, 0),
                      "esercizi": cat["esercizi"].get(cod, 0) + osm["esercizi"].get(cod, 0),
                      "fonte_servizi": "catalogo comunale" if cod.startswith("Q") else "OpenStreetMap (incompleto)"})
-    zone.sort(key=lambda z: (-z["arrivi"], z["cod"]))
+    zone.sort(key=lambda z: (-z["popolarita"], z["cod"]))
     for z in zone:
         z["in_universo"] = z["macro"] in comuni.MACRO_UNIVERSO
-    for k, z in enumerate([z for z in zone if z["in_universo"]], 1):   # classifica nella Citta' metropolitana
+    # classifica nella Citta' metropolitana, senza le zone con dati scarsi
+    for k, z in enumerate([z for z in zone if z["in_universo"] and not z["dati_scarsi"]], 1):
         z["posizione"] = k
     for z in zone:
         z.setdefault("posizione", None)
-    zone_u = [z for z in zone if z["in_universo"]]
+    zone_u = [z for z in zone if z["in_universo"] and not z["dati_scarsi"]]
+    n_scarse = sum(1 for z in zone if z["in_universo"] and z["dati_scarsi"])
+    c("zone della Citta' metropolitana con dati scarsi (meno di MIN_INTERVISTE righe di arrivo)", n_scarse == 0,
+      dettaglio=f"{n_scarse} su {sum(1 for z in zone if z['in_universo'])}")
+    c("almeno 20 zone con dati sufficienti", len(zone_u) >= N_TOP_ZONE, bloccante=True, dettaglio=f"{len(zone_u)}")
     top = zone_u[:N_TOP_ZONE]
     cod_top = {z["cod"] for z in top}
-    pop = {z["cod"]: z["arrivi"] for z in zone}
-    pop_g = {z["cod"]: z["arrivi_gruppi"] for z in zone}
-    c("somma degli arrivi per zona = arrivi contati", abs(sum(pop.values()) - tot["arrivi"]) < 1e-6 * tot["arrivi"],
+    pop = {z["cod"]: z["popolarita"] for z in zone}
+    pop_g = {z["cod"]: {k: v / z["km2"] for k, v in z["arrivi_gruppi"].items()} for z in zone}
+    c("somma degli arrivi per zona = arrivi contati", abs(sum(z["arrivi"] for z in zone) - tot["arrivi"]) < 1e-6 * tot["arrivi"],
       bloccante=True)
     n_senza_arrivi = sum(1 for z in zone if z["arrivi"] == 0)
     c("zone senza nessun arrivo nell'IMQ", n_senza_arrivi == 0, dettaglio=f"{n_senza_arrivi} su {len(zone)}")
@@ -313,7 +348,7 @@ def main():
       dettaglio=f"{senza_utili} su {len(park)}")
 
     # ---- uscite ----
-    parametri = {"gruppi_scopo": GRUPPI, "ritorni_esclusi": RITORNI, "zone_top": N_TOP_ZONE, "universo": comuni.MACRO_UNIVERSO, "quota_linee_utili": QUOTA_UTILI,
+    parametri = {"gruppi_scopo": GRUPPI, "ritorni_esclusi": RITORNI, "zone_top": N_TOP_ZONE, "min_interviste": MIN_INTERVISTE, "universo": comuni.MACRO_UNIVERSO, "quota_linee_utili": QUOTA_UTILI,
                  "distanza_piedi_m": DIST_PIEDI_M, "fattore_piedi": comuni.FATTORE_PIEDI, "gtfs": GTFS.name,
                  "n_linee": len(righe_linee), "n_utili": len(utili), "soglia_a": a_soglia,
                  "totali_imq": {k: round(v, 1) for k, v in tot.items()}}
@@ -322,11 +357,12 @@ def main():
 
     def txt_zona(z):
         g = z["arrivi_gruppi"]
-        return (f"{z['posizione']:3d}. {z['cod']} {z['nome'][:28]:28s} arrivi {z['arrivi']:>10,.0f} "
+        return (f"{z['posizione']:3d}. {z['cod']} {z['nome'][:28]:28s} arrivi {z['arrivi']:>9,.0f}  {z['km2']:7.2f} km2  "
+                f"{z['popolarita']:>8,.0f} arrivi/km2 "
                 f"(lavoro/studio {g['lavoro_studio']:,.0f}; acquisti/svago {g['acquisti_svago']:,.0f}; altro {g['altro']:,.0f}) "
                 f"servizi {z['servizi']} esercizi {z['esercizi']} [{z['fonte_servizi']}]")
     r = ["RAPPORTO - POPOLARITA' DELLE ZONE E LINEE GTT UTILI (script 87)", "",
-         f"Popolarita' = spostamenti IMQ che ARRIVANO nella zona, ritorni a casa (scopi {', '.join(RITORNI)}) esclusi: "
+         f"Popolarita' = spostamenti IMQ che ARRIVANO nella zona per km2, ritorni a casa (scopi {', '.join(RITORNI)}) esclusi: "
          f"{tot['arrivi']:,.0f} su {tot['tutti']:,.0f} (peso IMQ); ritorni esclusi {tot['ritorni']:,.0f}.",
          "Gruppi: lavoro/studio (" + ",".join(GRUPPI["lavoro_studio"]) + "); acquisti/cure/svago ("
          + ",".join(GRUPPI["acquisti_svago"]) + "); altro (" + ",".join(GRUPPI["altro"]) + ").",
@@ -337,15 +373,16 @@ def main():
          f"conta (b) = somma della popolarita' delle zone toccate. Utili: {len(utili)}; (a) di soglia {a_soglia}.",
          f"Parcheggio adatto: linee utili con una fermata entro {DIST_PIEDI_M:.0f} m a piedi (linea d'aria x {comuni.FATTORE_PIEDI}).",
          "", f"== Le {N_RAPPORTO} zone piu' popolari della Citta' metropolitana (Torino, cintura, resto CMTO) =="] + [txt_zona(z) for z in zone_u[:N_RAPPORTO]]
+    r.append(f"Zone della Citta' metropolitana con dati scarsi (meno di {MIN_INTERVISTE} righe IMQ di arrivo, fuori dalla classifica): {n_scarse}")
     fuori_u = [z for z in zone if not z["in_universo"]][:5]
     r += ["", "Fuori dalla Citta' metropolitana (non entrano nella classifica, le linee GTT non ci arrivano): "
           + "; ".join(f"{z['nome']} ({z['arrivi']:,.0f})" for z in fuori_u) + " ..."]
     r += ["", "== Le 5 zone piu' popolari per gruppo di scopo =="]
     for g in GRUPPI:
-        piu = sorted(zone_u, key=lambda z: (-z["arrivi_gruppi"][g], z["cod"]))[:5]
-        r.append(f"  {NOME_GRUPPO[g]}: " + "; ".join(f"{z['nome']} ({z['arrivi_gruppi'][g]:,.0f})" for z in piu))
+        piu = sorted(zone_u, key=lambda z: (-pop_g[z["cod"]][g], z["cod"]))[:5]
+        r.append(f"  {NOME_GRUPPO[g]}: " + "; ".join(f"{z['nome']} ({pop_g[z['cod']][g]:,.0f}/km2)" for z in piu))
     r += ["", f"== Le {N_RAPPORTO} linee piu' utili ==",
-          "  pos. linea   (a) zone top toccate   (b) popolarita' zone toccate   zone toccate   fermate   [b: lavoro | svago | altro]"]
+          "  pos. linea   (a) zone top toccate   (b) arrivi/km2 delle zone toccate   zone toccate   fermate   [b: lavoro | svago | altro]"]
     for x in righe_linee[:N_RAPPORTO]:
         bg = x["b_gruppi"]
         r.append(f"  {x['posizione']:3d}. {x['linea']:8s} (a)={x['a']:2d}  (b)={x['b']:>10,.0f}  zone {x['zone_toccate']:3d}  "

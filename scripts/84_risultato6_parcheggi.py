@@ -541,7 +541,7 @@ def main():
         "giorni_feriali_validi": giorni,
         "quota_mattino": round(quota, 4), "quota_dati_scarsi": pas.get("quota_dati_scarsi"),
         "M_cint": pas["M_cint"], "M_tor": pas["M_tor"], "torinesi": pas["torinesi"], "f_mattino": pas["f_mattino"],
-        "c4_metodo": pas.get("c4_metodo"), "n_eleggibili": imp["n_eleggibili"],
+        "c4_metodo": pas.get("c4_metodo"), "n_eleggibili": imp["n_eleggibili"], "regola_fermate": imp["parametri"]["regola"],
         "mancano_totale_20_punti": int(sum(p["mancano_stima"] for p in punti)),
         "riferimento_direzioni": direzioni, "validazione": validazione,
         "profili_ufficiali": [p for p in profili if p["tipo"] == "interscambio_ufficiale"],
@@ -561,10 +561,15 @@ def main():
     ]
     sr = sens["raggio_piedi"]
     sq = sens["quota"]
+    regola = imp["parametri"]["regola"]        # N e M dallo script 83 (None solo con la vecchia regola a percentuale)
+    varianti_regola = {k: {"n": int(k.split("_")[0][1:]), "m": int(k.split("_")[1][1:])} for k in imp.get("alternative", {})}
     criteri = [
-        {"nome": "Fermate importanti", "valore": f"il {imp['parametri']['percentuale']:g}% più alto del punteggio fra {m80.it(imp['n_eleggibili'])} luoghi della Città metropolitana fuori dal centro ({n_imp} fermate)",
-         "perche": "strada importante, molte corse nelle ore dei pendolari, molte auto in entrata che passano accanto, metro o stazione vicina (pesi uguali)",
-         "effetto": f"con il 5%: {sens['soglia_fermate'].get('5', {}).get('fermate', 'n.d.')} fermate; con il 15%: {sens['soglia_fermate'].get('15', {}).get('fermate', 'n.d.')}"},
+        {"nome": "Fermate importanti",
+         "valore": f"fuori dal centro, con metro, stazione o capolinea oppure almeno {regola['n_corse']} corse all'ora nelle ore dei pendolari, "
+                   f"e almeno {m80.it(regola['m_auto'])} auto in entrata che passano accanto ({n_imp} fermate)",
+         "perche": "un parcheggio per lasciare l'auto serve dove passa un mezzo frequente e passano molte auto in entrata",
+         "effetto": "; ".join(f"con N {v['n']}, M {m80.it(v['m'])}: {sens['soglia_fermate'].get(k, {}).get('fermate', 'n.d.')} fermate"
+                              for k, v in varianti_regola.items())},
         {"nome": "Centro escluso", "valore": "quartieri Q001-Q009 (Centro, San Salvario, Crocetta, San Paolo, Cenisia, San Donato, Aurora, Vanchiglia, Nizza Millefonti)",
          "perche": "un parcheggio per lasciare l'auto serve prima di entrare nella città densa, non a due passi dalla destinazione",
          "effetto": "vale sia per le fermate sia per i parcheggi"},

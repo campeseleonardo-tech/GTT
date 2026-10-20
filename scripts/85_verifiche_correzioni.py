@@ -13,6 +13,8 @@ Verifiche
   6. Regole "adatto" di 8 parcheggi a caso rifatte a mano                      -> coerenti
   7. Nessuna fermata importante, nessun punto, nessun parcheggio adatto in Q001-Q009
   8. Ogni fermata importante in una sola area
+  A. Ogni fermata importante rispetta la regola fissa (N e M letti da fermate_importanti.json), ricalcolata
+  B. Il testo della guida in mappa_template.html contiene i numeri N e M della regola (1.000 all'italiana)
 Seme casuale 20261020. Scrive docs/RAPPORTO_R6_VERIFICHE_CORREZIONI.txt. Codice di uscita 1 se una verifica
 non torna (e' un controllo: non modifica nulla).
 
@@ -138,9 +140,25 @@ def main():
     imp_pt = {x["id_luogo"]: x["punteggio"] for x in imp["importanti"]}
     for i in random.sample(sorted(imp_pt), min(8, len(imp_pt))):
         c(f"4. punteggio di {i} rifatto con pandas", abs(pt[i] - imp_pt[i]) <= 0.01, dettaglio=f"{pt[i]:.2f} contro {imp_pt[i]}")
-    soglia = imp["soglia"]
-    c("4. numero di fermate importanti dalla soglia", int((pt >= soglia - 0.005).sum()) == len(imp_pt),
-      dettaglio=f"{int((pt >= soglia - 0.005).sum())} contro {len(imp_pt)}")
+    reg = imp["parametri"].get("regola")
+    if reg:
+        # regola fissa (Leo, 20/10), ricalcolata da nodi.json, segnali.json e auto_passaggio.json con N e M di fermate_importanti.json
+        nodi = {n["id_luogo"]: n for n in json.loads((P / "nodi.json").read_text(encoding="utf-8"))["luoghi"]}
+        nodo = {i: bool(nodi.get(i, {}).get("metro") or nodi.get(i, {}).get("ferro") or nodi.get(i, {}).get("capolinea")) for i in el}
+        attese = {i for i in el if (nodo[i] or t.at[i, "b2"] >= reg["n_corse"]) and t.at[i, "c4"] >= reg["m_auto"]}
+        c("A. ogni fermata importante rispetta la regola e nessuna fermata che la rispetta manca",
+          set(imp_pt) == attese,
+          dettaglio=f"regola N {reg['n_corse']}, M {reg['m_auto']}: {len(attese)} attese contro {len(imp_pt)}; "
+                    f"fuori regola {len(set(imp_pt) - attese)}, mancanti {len(attese - set(imp_pt))}")
+        template = (AQUI / "mappa_template.html").read_text(encoding="utf-8")
+        m_it = f"{reg['m_auto']:,}".replace(",", ".")
+        c("B. il testo della guida in mappa_template.html contiene i numeri della regola",
+          f"almeno {reg['n_corse']} corse" in template and f"almeno {m_it} auto" in template,
+          dettaglio=f"cercati «almeno {reg['n_corse']} corse» e «almeno {m_it} auto»")
+    else:
+        soglia = imp["soglia"]
+        c("4. numero di fermate importanti dalla soglia", int((pt >= soglia - 0.005).sum()) == len(imp_pt),
+          dettaglio=f"{int((pt >= soglia - 0.005).sum())} contro {len(imp_pt)}")
 
     # 5. classi
     par = porte["parametri"]

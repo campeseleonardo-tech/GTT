@@ -15,6 +15,7 @@ sensori di tutto il Piemonte, che non c'entrano con le auto che entrano a Torino
 """
 import json
 import sys
+import time
 from collections import Counter
 from pathlib import Path
 
@@ -31,6 +32,7 @@ P = RADICE / "data" / "processed" / "risultato6_v2"
 NPZ = P / "auto_passaggio.npz"
 RETE_DIR = RADICE / "data" / "processed" / "traffico_c" / "rete"
 RAPPORTO = RADICE / "docs" / "RAPPORTO_R6_CONFRONTO_SENSORI.txt"
+OUT_JSON = P / "confronto_sensori.json"
 
 ORE = (6, 7, 8, 9)
 RAGGIO_M = 50
@@ -201,7 +203,15 @@ def main():
     rap += ["", "--- (a) sensore per sensore ---"] + tabella(righe_a, "sensore / strada")
     rap += ["", "--- (b) per luogo ---"] + tabella(righe_b, "luogo / strada")
     RAPPORTO.write_text("\n".join(rap) + "\n", encoding="utf-8")
-    print(f"\nScritto {RAPPORTO.relative_to(RADICE)}")
+    # piccolo file per la scheda del Risultato 6 (lo legge schede_risultati.py)
+    ok_b2 = rho_b2 is not None
+    OUT_JSON.write_text(json.dumps({
+        "rho_a": round(rho_a, 3), "rho_b": round(rho_b, 3),
+        "rho_b_senza_fuori_rete": round(rho_b2 if ok_b2 else rho_b, 3),
+        "n_a": len(righe_a), "n_b": len(righe_b),
+        "n_b_senza_fuori_rete": n_b2 if ok_b2 else len(righe_b),
+        "generato": time.strftime("%d/%m/%Y %H:%M")}, ensure_ascii=False), encoding="utf-8")
+    print(f"\nScritti {RAPPORTO.relative_to(RADICE)} e {OUT_JSON.relative_to(RADICE)}")
     print(f"Lettura (b): {lettura(rho_b)}")
     av = c.avvisi()
     print(f"{len(av)} AVVISI" if av else "nessun avviso")

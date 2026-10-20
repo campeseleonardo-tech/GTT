@@ -14,7 +14,9 @@ Cosa cambia rispetto a S2
     150 m), b2 mancante = 0, c4 mancante = 0.
   - Universo: luoghi della Citta' metropolitana FUORI dalla zona centrale Q001-Q009 (la stessa zona centrale
     usata per i parcheggi). I percentili e la soglia si calcolano solo su questi luoghi ("eleggibili").
-  - Fermate importanti = il 10% piu' alto del punteggio fra gli eleggibili (--percentuale 10).
+  - Fermate importanti = regola fissa (Leo, 20/10): (metro, stazione o capolinea, oppure almeno N_CORSE corse/ora) e
+    almeno M_AUTO auto che passano. Il punteggio serve solo per l'ordine. Con --percentuale X vale la vecchia regola
+    (il X% piu' alto del punteggio), solo per confronto.
   - e resta 0 o 100 (non e' un percentile); la sensibilita' "senza e" dice quanto pesa.
 
 Cosa legge
@@ -48,6 +50,8 @@ P = RADICE / "data" / "processed" / "risultato6_v2"
 LUOGHI = P / "luoghi.json"
 SEGNALI = P / "segnali.json"
 PASSAGGIO = P / "auto_passaggio.json"
+NODI = P / "nodi.json"
+PROPOSTA = RADICE / "docs" / "RAPPORTO_R6_PROPOSTA_FERMATE.txt"
 SCENARI = P / "scenari.json"
 ZONE = RADICE / "data" / "processed" / "imq_zone.json"
 OUT = P / "fermate_importanti.json"
@@ -56,7 +60,12 @@ RAPPORTO = RADICE / "docs" / "RAPPORTO_R6_FERMATE_IMPORTANTI.txt"
 SEGNALI_USATI = ("a2", "b2", "c4", "e")
 PESI = {"a2": 1.0, "b2": 1.0, "c4": 1.0, "e": 1.0}
 MANCANTE = {"a2": 1, "b2": 0.0, "c4": 0}
-PERCENTUALE = 10.0
+# Leo, 20/10: regola fissa al posto del 10% piu' alto.
+# Fermata importante = (metro o stazione o capolinea, oppure almeno N_CORSE corse/ora nelle ore dei pendolari)
+# e almeno M_AUTO auto in entrata che passano accanto.
+N_CORSE = 10      # segnale b2 (corse all'ora, media ore 6-10 e 16-20 di un feriale)
+M_AUTO = 1000     # segnale c4 (auto in entrata che passano accanto)
+M_AUTO_IT = f"{M_AUTO:,}".replace(",", ".")   # per i testi all'italiana (1.000)
 
 
 def punteggi(eleggibili, valori, pesi):
@@ -71,6 +80,12 @@ def punteggi(eleggibili, valori, pesi):
     return {i: sum(w * perc[s][i] for s, w in pesi.items()) / tot_w for i in eleggibili}, perc
 
 
+def regola(eleggibili, valori, nodo, n_corse=N_CORSE, m_auto=M_AUTO, con_nodi=True, con_auto=True):
+    """Fermate che rispettano la regola fissa (le varianti servono per la sensibilita')."""
+    return {i for i in eleggibili
+            if ((con_nodi and nodo[i]) or valori["b2"][i] >= n_corse) and (not con_auto or valori["c4"][i] >= m_auto)}
+
+
 def scegli(pt, percentuale):
     soglia = comuni.soglia_quantile(list(pt.values()), 100.0 - percentuale)
     return soglia, {i for i, v in pt.items() if v >= soglia}
@@ -79,19 +94,21 @@ def scegli(pt, percentuale):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pesi", default=",".join(f"{k}={v:g}" for k, v in PESI.items()))
-    ap.add_argument("--percentuale", type=float, default=PERCENTUALE)
+    ap.add_argument("--percentuale", type=float, default=None,
+                    help="se data, vale la vecchia regola (il X%% piu' alto del punteggio), solo per confronto")
     args = ap.parse_args()
     pesi = {k: float(v) for k, v in (x.split("=") for x in args.pesi.split(","))}
     c = comuni.Controlli()
     t0 = time.time()
 
-    for f in (LUOGHI, SEGNALI, PASSAGGIO, ZONE):
+    for f in (LUOGHI, SEGNALI, PASSAGGIO, ZONE, NODI):
         c(f"esiste {f.name}", f.exists(), bloccante=True)
     c("i pesi riguardano solo a2, b2, c4, e", set(pesi) <= set(SEGNALI_USATI) and sum(pesi.values()) > 0, bloccante=True)
     luoghi = {l["id_luogo"]: l for l in json.loads(LUOGHI.read_text(encoding="utf-8"))["luoghi"]}
     seg = {s["id_luogo"]: s for s in json.loads(SEGNALI.read_text(encoding="utf-8"))["luoghi"]}
     pas = json.loads(PASSAGGIO.read_text(encoding="utf-8"))
     macro = {z["cod"]: z["macro"] for z in json.loads(ZONE.read_text(encoding="utf-8"))}
+    nodi = {n["id_luogo"]: n for n in json.loads(NODI.read_text(encoding="utf-8"))["luoghi"]}
 
     eleggibili = [i for i, l in luoghi.items()
                   if l.get("zona_imq") and macro.get(l["zona_imq"]) in comuni.MACRO_UNIVERSO
@@ -115,37 +132,52 @@ def main():
     c("c4 presente per tutti gli eleggibili", mancanti["c4"] == 0, dettaglio=f"mancante in {mancanti['c4']}")
 
     pt, perc = punteggi(eleggibili, valori, pesi)
-    soglia, scelti = scegli(pt, args.percentuale)
+    nodo = {i: bool(nodi.get(i, {}).get("metro") or nodi.get(i, {}).get("ferro") or nodi.get(i, {}).get("capolinea"))
+            for i in eleggibili}
+    c("nodi.json copre tutti gli eleggibili", all(i in nodi for i in eleggibili),
+      dettaglio=f"{sum(i not in nodi for i in eleggibili)} mancanti")
+    if args.percentuale is None:
+        soglia, scelti = None, regola(eleggibili, valori, nodo)
+    else:
+        soglia, scelti = scegli(pt, args.percentuale)
     ordine = sorted(eleggibili, key=lambda i: (-pt[i], i))   # a pari punteggio: codice del luogo (ordine fisso)
     posizione = {i: k + 1 for k, i in enumerate(ordine)}
-    print(f"soglia {soglia:.2f}: fermate importanti {len(scelti)}")
-    c("le fermate importanti sono circa la percentuale scelta (+-3 punti)",
-      abs(len(scelti) / len(eleggibili) * 100 - args.percentuale) <= 3,
-      dettaglio=f"{len(scelti)} su {len(eleggibili)}")
+    if args.percentuale is None:
+        print(f"regola: (metro/stazione/capolinea o almeno {N_CORSE} corse/ora) e almeno {M_AUTO_IT} auto: "
+              f"fermate importanti {len(scelti)}")
+        attese = None
+        if PROPOSTA.exists():
+            for riga in PROPOSTA.read_text(encoding="utf-8").splitlines():
+                parti = riga.replace("|", " ").split()
+                if len(parti) > 3 and parti[0] == str(N_CORSE) and parti[1] == str(M_AUTO) and parti[2].isdigit():
+                    attese = int(parti[2])
+                    break
+        c(f"il numero di fermate importanti e' quello della riga N {N_CORSE}, M {M_AUTO_IT} della proposta (script 89)",
+          attese is not None and attese == len(scelti),
+          dettaglio=f"{len(scelti)} contro {attese if attese is not None else 'riga non trovata'}")
+    else:
+        print(f"soglia {soglia:.2f}: fermate importanti {len(scelti)} (vecchia regola, {args.percentuale:g}%)")
+        c("le fermate importanti sono circa la percentuale scelta (+-3 punti)",
+          abs(len(scelti) / len(eleggibili) * 100 - args.percentuale) <= 3,
+          dettaglio=f"{len(scelti)} su {len(eleggibili)}")
     c("nessuna fermata importante in zona centrale",
       not any(luoghi[i]["zona_imq"] in comuni.ZONE_CENTRALI for i in scelti), bloccante=True)
 
-    # alternative di soglia (per la sensibilita' nello script 84)
+    # alternative alla regola (per la sensibilita' nello script 84)
     alternative = {}
-    for pc in (5.0, 15.0):
-        _, alt = scegli(pt, pc)
-        alternative[str(int(pc))] = sorted(alt)
+    for n_alt, m_alt in ((10, 500), (10, 2000), (15, 1000)):
+        alternative[f"N{n_alt}_M{m_alt}"] = sorted(regola(eleggibili, valori, nodo, n_alt, m_alt))
 
-    # sensibilita': togliere un segnale alla volta; c4 col ripiego
+    # sensibilita': senza la condizione sulle auto, senza i nodi; c4 col ripiego
     sens = {}
-    for s in pesi:
-        if len(pesi) == 1:
-            continue
-        p2 = {k: w for k, w in pesi.items() if k != s}
-        pt2, _ = punteggi(eleggibili, valori, p2)
-        _, sc2 = scegli(pt2, args.percentuale)
-        sens[f"senza_{s}"] = {"entrano": len(sc2 - scelti), "escono": len(scelti - sc2)}
+    for nome_s, sc2 in (("solo_nodi_e_corse", regola(eleggibili, valori, nodo, con_auto=False)),
+                        ("senza_nodi", regola(eleggibili, valori, nodo, con_nodi=False))):
+        sens[nome_s] = {"fermate": len(sc2), "entrano": len(sc2 - scelti), "escono": len(scelti - sc2)}
     zona_or = pas.get("auto_per_zona_origine", {})
     rip = {i: (zona_or.get(luoghi[i]["zona_imq"], {}).get("auto", 0) if not luoghi[i]["zona_imq"].startswith("Q") else 0)
            for i in eleggibili}
-    pt3, _ = punteggi(eleggibili, {**valori, "c4": rip}, pesi)
-    _, sc3 = scegli(pt3, args.percentuale)
-    sens["c4_ripiego"] = {"entrano": len(sc3 - scelti), "escono": len(scelti - sc3)}
+    sc3 = regola(eleggibili, {**valori, "c4": rip}, nodo)
+    sens["c4_ripiego"] = {"fermate": len(sc3), "entrano": len(sc3 - scelti), "escono": len(scelti - sc3)}
 
     confronto = None
     if SCENARI.exists():
@@ -165,10 +197,11 @@ def main():
     per_zona = Counter(x["zona_imq"] for x in imp)
     dati = {"generato": time.strftime("%d/%m/%Y %H:%M"),
             "parametri": {"segnali": list(pesi), "pesi": pesi, "mancante": MANCANTE,
+                          "regola": {"n_corse": N_CORSE, "m_auto": M_AUTO} if args.percentuale is None else None,
                           "percentuale": args.percentuale, "zone_centrali": list(comuni.ZONE_CENTRALI),
                           "universo": list(comuni.MACRO_UNIVERSO), "c4_metodo": pas.get("c4_metodo"),
                           "torinesi": pas.get("torinesi")},
-            "n_luoghi": len(luoghi), "n_eleggibili": len(eleggibili), "soglia": round(soglia, 2),
+            "n_luoghi": len(luoghi), "n_eleggibili": len(eleggibili), "soglia": None if soglia is None else round(soglia, 2),
             "mancanti": mancanti, "importanti": imp, "alternative": alternative,
             "sensibilita": sens, "confronto_S2": confronto, "per_zona": dict(per_zona), "controlli": c.righe}
     OUT.write_text(json.dumps(dati, ensure_ascii=False), encoding="utf-8")
@@ -177,16 +210,18 @@ def main():
          f"Generato il {dati['generato']}.",
          f"Segnali {', '.join(f'{k} (peso {v:g})' for k, v in pesi.items())}; c4 col metodo «{pas.get('c4_metodo')}»; "
          f"torinesi nella domanda: {'si' if pas.get('torinesi') else 'no'}.",
-         f"Luoghi {len(luoghi)}; eleggibili (Citta' metropolitana fuori da Q001-Q009) {len(eleggibili)}; "
-         f"soglia del {args.percentuale:g}% piu' alto = {soglia:.2f}; fermate importanti {len(scelti)}.",
+         f"Luoghi {len(luoghi)}; eleggibili (Citta' metropolitana fuori da Q001-Q009) {len(eleggibili)}.",
+         (f"regola fissa: (metro, stazione o capolinea, oppure almeno {N_CORSE} corse/ora) e almeno {M_AUTO_IT} auto che passano; "
+          f"fermate importanti {len(scelti)}." if args.percentuale is None else
+          f"soglia del {args.percentuale:g}% piu' alto = {soglia:.2f}; fermate importanti {len(scelti)}."),
          f"Segnali mancanti fra gli eleggibili (messi al minimo): {mancanti}", "",
          "== Le 30 fermate importanti con il punteggio piu' alto ==",
          *(f"  {x['posizione']:4d}. {x['nome'][:38]:38s} {x['zona_imq']:5s} a2={x['segnali']['a2']} "
            f"b2={x['segnali']['b2']} c4={x['segnali']['c4']} e={x['segnali']['e']}" for x in imp[:30]), "",
          "== Fermate importanti per zona IMQ ==", *(f"  {z}: {n}" for z, n in per_zona.most_common()), "",
          "== Sensibilita' (quante fermate importanti entrano / escono) ==",
-         *(f"  {k}: entrano {v['entrano']}, escono {v['escono']}" for k, v in sens.items()),
-         f"  soglia 5%: {len(alternative['5'])} fermate; 15%: {len(alternative['15'])}", "",
+         *(f"  {k}: {v['fermate']} fermate; entrano {v['entrano']}, escono {v['escono']}" for k, v in sens.items()),
+         *(f"  regola {k.replace('_', ', ').replace('N', 'N ').replace('M', 'M ')}: {len(v)} fermate" for k, v in alternative.items()), "",
          "== Confronto con lo scenario S2 (19/10) ==", f"  {confronto}", "",
          "== Controlli ==", *("  " + x for x in c.righe)]
     RAPPORTO.write_text("\n".join(r) + "\n", encoding="utf-8")

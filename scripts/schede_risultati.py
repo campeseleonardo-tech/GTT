@@ -564,6 +564,12 @@ def scheda_r6():
     uff = {v["nome"]: v for v in val}
     raggio = int(par.get("raggio_piedi_m", 400))
     quota_txt = virgola(100 * rie["quota_mattino"])
+    reg = rie["regola_fermate"]                      # N e M dallo script 83, via 84
+    n_corse, m_auto = reg["n_corse"], migliaia(reg["m_auto"])
+    regola_txt = (f"fuori dal centro, con metro, stazione o capolinea oppure almeno {n_corse} corse all'ora nelle ore dei "
+                  f"pendolari, e con almeno {m_auto} auto in entrata che passano accanto")
+    sens_file = R6_FILE.parent / "confronto_sensori.json"
+    sens5t = json.loads(sens_file.read_text(encoding="utf-8")) if sens_file.exists() else None
     tre_punti = ", ".join(f"{p['ordine']}. {nome_pulito(p['nome'])} ({p['zona_nome']})" for p in punti[:3])
     con_cat = [a for a in aree if not a.get("pochi_dati")]
     critiche = sorted([a for a in con_cat if a["categoria"] == "Critica"], key=lambda a: -(a["nessun"] + a["insufficienti"]))
@@ -627,9 +633,9 @@ def scheda_r6():
         "affidabilita": r.get("affidabilita", []),
         "immagini": [],
         "metodo": [
-            "Fermate importanti: il 10% più alto di un punteggio fra i luoghi di fermata della Città metropolitana fuori "
-            "dal centro (quartieri Q001-Q009): importanza della strada, corse nelle ore dei pendolari, auto in entrata che "
-            "passano accanto, metro o stazione vicina, con pesi uguali.",
+            f"Fermate importanti: fra i luoghi di fermata della Città metropolitana, quelle {regola_txt} "
+            "(centro = quartieri Q001-Q009). Regola fissa; il punteggio (importanza della strada, corse, auto, metro o "
+            "stazione, pesi uguali) serve solo per l'ordine.",
             "Auto in entrata che passano accanto: le auto che entrano a Torino al mattino (indagine IMQ 2022) fatte "
             "«guidare» sul percorso più veloce della rete stradale; si legge la strada più trafficata entro 100 m.",
             f"Auto da fermare = auto che passano × {quota_txt}% (chi già oggi lascia l'auto per un mezzo pubblico).",
@@ -639,7 +645,8 @@ def scheda_r6():
             "ordine di posti che mancano.",
         ],
         "parametri": [["Centro escluso", "quartieri Q001-Q009 (fermate e parcheggi)"],
-                      ["Fermate importanti", f"10% più alto ({migliaia(n_fermate)} su {migliaia(rie['n_eleggibili'])})"],
+                      ["Fermate importanti", f"metro, stazione o capolinea o almeno {n_corse} corse all'ora, e almeno {m_auto} auto che passano "
+                                             f"({migliaia(n_fermate)} su {migliaia(rie['n_eleggibili'])})"],
                       ["Distanza", f"{raggio} m a piedi (linea d'aria × 1,3)"],
                       ["Auto da fermare", f"auto che passano × {quota_txt}%"],
                       ["Posti stimati", "25 m² a posto (±30%)"],
@@ -650,6 +657,9 @@ def scheda_r6():
             f"Riempimento misurato su soli {len(rie['giorni_feriali_validi'])} giorni feriali e solo dove il 5T lo trasmette "
             "[DATI SCARSI]: Fermi e i parcheggi gratuiti non sono misurati.",
             "Quota di chi lascia l'auto: indagine IMQ 2022, poche interviste.",
+            *([f"Controllo con i sensori 5T del mattino: il modello mette le strade d'ingresso in un ordine simile solo in parte "
+               f"(ρ = {sens5t['rho_b_senza_fuori_rete']:.2f}".replace(".", ",") + f" su {sens5t['n_b_senza_fuori_rete']} luoghi); "
+               "sottostima gli ingressi da nord-ovest."] if sens5t else []),
             "Parcheggi da OpenStreetMap incompleti; posti spesso stimati dalla superficie (±30%).",
             "Distanza a piedi stimata (linea d'aria × 1,3). Treni non considerati.",
         ],
@@ -675,8 +685,13 @@ def scheda_r6():
             f"{100 * rie['quota_mattino']:.1f}% of these drivers already continue by public transport. "
             f"{n_senza:,} of {n_fermate:,} important stops outside the centre lack enough suitable parking within "
             f"{raggio} m on foot for the cars passing by.",
+            f"Important stops: outside the centre, with a metro, train station or terminus or at least {n_corse} departures "
+            f"per hour at commuting times, and at least {migliaia(reg['m_auto']).replace('.', ',')} cars entering the city passing by.",
             "Limits: car flows come from a simple traffic model (order of magnitude only); occupancy is measured on "
             "few days and only where the city's 5T system reports it; trains are not included.",
+            *([f"Check against the 5T morning sensors: the model ranks the entry roads in a similar order only in part "
+               f"(rho = {sens5t['rho_b_senza_fuori_rete']:.2f} over {sens5t['n_b_senza_fuori_rete']} places); "
+               "it underestimates the entries from the north-west."] if sens5t else []),
         ],
         "scenari": [{
             "nome": "Oggi",

@@ -1,5 +1,5 @@
 RAPPORTO R6 - VERIFICHE INDIPENDENTI DELLE CORREZIONI (script 85)
-Generato il 20/10/2026 17:43; seme 20261020.
+Generato il 20/10/2026 18:22; seme 20261020.
 
 OK     1. M_cint rifatto con pandas — 87161.9 contro 87161.9
 OK     1. M_tor rifatto con pandas — 29987.8 contro 29987.8
@@ -13,35 +13,36 @@ OK     3. c4 di L00671 rifatto a mano — 0 contro 0
 OK     3. c4 di L01213 rifatto a mano — 557 contro 557
 OK     3. c4 di L00263 rifatto a mano — 0 contro 0
 OK     3. c4 di L02643 rifatto a mano — 0 contro 0
-OK     4. punteggio di L02798 rifatto con pandas — 65.13 contro 65.13
-OK     4. punteggio di L01537 rifatto con pandas — 72.00 contro 72.0
-OK     4. punteggio di L01032 rifatto con pandas — 70.05 contro 70.05
-OK     4. punteggio di L01668 rifatto con pandas — 64.63 contro 64.63
-OK     4. punteggio di L02440 rifatto con pandas — 68.60 contro 68.6
-OK     4. punteggio di L01165 rifatto con pandas — 73.05 contro 73.05
-OK     4. punteggio di L02942 rifatto con pandas — 70.50 contro 70.5
-OK     4. punteggio di L01578 rifatto con pandas — 69.97 contro 69.97
-OK     4. numero di fermate importanti dalla soglia — 391 contro 391
-OK     5. classe di L03146 rifatta a mano — Nessun parcheggio / 0 posti contro Nessun parcheggio / 0
-OK     5. classe di L03271 rifatta a mano — Poche auto da fermare / 112 posti contro Poche auto da fermare / 112
-OK     5. classe di L02893 rifatta a mano — Posti insufficienti / 38 posti contro Posti insufficienti / 38
-OK     5. classe di L01552 rifatta a mano — Nessun parcheggio / 0 posti contro Nessun parcheggio / 0
-OK     5. classe di L01365 rifatta a mano — Posti sufficienti / 648 posti contro Posti sufficienti / 648
-OK     5. classe di L00918 rifatta a mano — Posti insufficienti / 101 posti contro Posti insufficienti / 101
-OK     5. classe di L00867 rifatta a mano — Poche auto da fermare / 347 posti contro Poche auto da fermare / 347
-OK     5. classe di L01386 rifatta a mano — Posti insufficienti / 151 posti contro Posti insufficienti / 151
-OK     6. regole 'adatto' di P00933 (osm_pubblico) — motivo adatto
-OK     6. regole 'adatto' di P02208 (osm_pubblico) — motivo pochi_posti
-OK     6. regole 'adatto' di P03814 (lungo_strada) — motivo tipo_non_aperto
+OK     4. punteggio di L03471 rifatto con pandas — 66.43 contro 66.43
+OK     4. punteggio di L01801 rifatto con pandas — 72.28 contro 72.28
+OK     4. punteggio di L01297 rifatto con pandas — 59.31 contro 59.31
+OK     4. punteggio di L02154 rifatto con pandas — 56.79 contro 56.79
+OK     4. punteggio di L03119 rifatto con pandas — 85.12 contro 85.12
+OK     4. punteggio di L01365 rifatto con pandas — 67.88 contro 67.88
+OK     4. punteggio di L01970 rifatto con pandas — 69.18 contro 69.18
+OK     4. punteggio di L03668 rifatto con pandas — 56.99 contro 56.99
+OK     A. ogni fermata importante rispetta la regola e nessuna fermata che la rispetta manca — regola N 10, M 1000: 274 attese contro 274; fuori regola 0, mancanti 0
+OK     B. il testo della guida in mappa_template.html contiene i numeri della regola — cercati «almeno 10 corse» e «almeno 1.000 auto»
+OK     5. classe di L01827 rifatta a mano — Posti insufficienti / 44 posti contro Posti insufficienti / 44
+OK     5. classe di L01629 rifatta a mano — Posti insufficienti / 105 posti contro Posti insufficienti / 105
+OK     5. classe di L01176 rifatta a mano — Nessun parcheggio / 0 posti contro Nessun parcheggio / 0
+OK     5. classe di L01128 rifatta a mano — Posti insufficienti / 22 posti contro Posti insufficienti / 22
+OK     5. classe di L01673 rifatta a mano — Posti insufficienti / 27 posti contro Posti insufficienti / 27
+OK     5. classe di L01432 rifatta a mano — Posti insufficienti / 20 posti contro Posti insufficienti / 20
+OK     5. classe di L02338 rifatta a mano — Posti insufficienti / 152 posti contro Posti insufficienti / 152
+OK     5. classe di L03267 rifatta a mano — Nessun parcheggio / 0 posti contro Nessun parcheggio / 0
 OK     6. regole 'adatto' di P03335 (osm_pubblico) — motivo pochi_posti
 OK     6. regole 'adatto' di P02254 (privato) — motivo tipo_non_aperto
 OK     6. regole 'adatto' di P01690 (osm_pubblico) — motivo adatto
 OK     6. regole 'adatto' di P03643 (osm_pubblico) — motivo adatto
 OK     6. regole 'adatto' di P00743 (lungo_strada) — motivo tipo_non_aperto
+OK     6. regole 'adatto' di P02615 (lungo_strada) — motivo tipo_non_aperto
+OK     6. regole 'adatto' di P01674 (osm_pubblico) — motivo adatto
+OK     6. regole 'adatto' di P00763 (lungo_strada) — motivo tipo_non_aperto
 OK     7. nessuna fermata importante in Q001-Q009
 OK     7. nessun parcheggio adatto in Q001-Q009
 OK     7. punti prioritari vicini al centro (solo informazione: le loro fermate sono fuori da Q001-Q009) — a meno di 2,5 km da Piazza Castello: nessuno
-OK     7. un punto per asse (rifatto: nessuna coppia di punti a meno di 2 km o sulla stessa strada a meno di 5 km) — 15 punti
+OK     7. un punto per asse (rifatto: nessuna coppia di punti a meno di 2 km o sulla stessa strada a meno di 5 km) — 12 punti
 OK     7. nessun punto prioritario a meno di 3 km da Piazza Castello (rifatto da zero)
 OK     8. ogni fermata importante in una sola area
 

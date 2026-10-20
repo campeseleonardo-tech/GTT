@@ -209,7 +209,7 @@
     <p><b>Programmato</b> = dagli orari GTT, non i passaggi reali. <b>Misurato</b> = registrato dai mezzi e dai sensori. <b>Censimento</b> = residenti ISTAT 2021. <b>Stimato</b> = calcolo nostro, con i limiti scritti nella scheda.</p>
     <p><b>Area:</b> Torino e 68 comuni intorno. Fuori Torino mancano treni e altri operatori, e i servizi (scuole, salute, negozi) vengono da OpenStreetMap, più incompleto del catalogo del Comune.</p>
     <p><b>Corse simulate:</b> posizione stimata dagli orari, a velocità costante. <b>Mezzi registrati:</b> posizioni GPS vere di una giornata.</p>
-    <p><b>Parcheggi per lasciare l'auto</b> (Risultato 6): dove lasciare l'auto <i>prima</i> di entrare in città e proseguire con i mezzi pubblici. Due domande, nel menu «Cosa vedere». <b>Dove ci sono parcheggi?</b> I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) e gli interscambi del Comune, colorati per riempimento misurato di giorno. <b>Dove servirebbe di più un parcheggio?</b> Fino a 20 punti dove mancano più posti, uno per asse d'ingresso e ad almeno 3 km dal centro. Le fermate importanti sono il 10% più alto per punteggio fra quelle della Città metropolitana fuori dal centro (quartieri Q001-Q009). Le auto che passano vengono dal modello del traffico: solo ordine di grandezza. Criteri, sensibilità, verifica sugli interscambi esistenti e limiti sono nella scheda del Risultato 6.</p>
+    <p><b>Parcheggi per lasciare l'auto</b> (Risultato 6): dove lasciare l'auto <i>prima</i> di entrare in città e proseguire con i mezzi pubblici. Due domande, nel menu «Cosa vedere». <b>Dove ci sono parcheggi?</b> I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) e gli interscambi del Comune, colorati per riempimento misurato di giorno. <b>Dove servirebbe di più un parcheggio?</b> Fino a 20 punti dove mancano più posti, uno per asse d'ingresso e ad almeno 3 km dal centro. Le fermate importanti sono quelle fuori dal centro (quartieri Q001-Q009) con metro, stazione o capolinea, o con almeno 10 corse all'ora nelle ore dei pendolari, e con almeno 1.000 auto in entrata che passano accanto. Le auto che passano vengono dal modello del traffico: solo ordine di grandezza. Criteri, sensibilità, verifica sugli interscambi esistenti e limiti sono nella scheda del Risultato 6.</p>
     <p><b>Colori:</b> verde = bene, rosso = male. Blu→arancione = poco→tanto, senza giudizio. Le legende scrivono sempre i numeri.</p>
   </details>
 
@@ -1101,6 +1101,7 @@ function r6SchedaParcheggio(p){
       ...(p.in_centro ? [{k:"In centro", v:"non serve a lasciare l'auto prima di entrare in città"}] : []),
       {k:"Distanza a piedi dalla fermata importante più vicina", v:`${r6N(p.dist_fermata_importante_piedi_m)} m (stimata)`},
       {k:"Nodo di trasporto vicino", v:esc(nodo)},
+      ...(p.linee_utili!=null ? [{k:"Linee utili a meno di 400 m", v:`${r6N(p.linee_utili)}${p.linee_utili_txt?` (${esc(p.linee_utili_txt)}${p.linee_utili>p.linee_utili_txt.split(", ").length?", …":""})`:""}`}] : []),
       {k:"Auto in entrata sulla strada più trafficata entro 300 m", v:r6Auto(p.auto_passaggio_txt)},
       {k:"Come si riempie di giorno", v:`${esc(R6_STATO_TXT[p.stato]||p.stato)}${p.riempimento_giorno!=null?" [MISURATO] [DATI SCARSI]":""}`},
       ...(p.descrizione ? [{k:"In parole", v:esc(p.descrizione)}] : []),
@@ -1109,7 +1110,8 @@ function r6SchedaParcheggio(p){
       {k:"Posti", v:esc(p.posti_origine||"nessuno")}
     ],
     appTitolo: "Come si riempie in un giorno feriale e nel weekend", appAperto: !!p.profilo_feriale,
-    approfondimento: p.profilo_feriale ? r6Curva(p.profilo_feriale, p.profilo_weekend) : "<p>Nessuna misura del riempimento [DATI SCARSI].</p>",
+    approfondimento: (p.profilo_feriale ? r6Curva(p.profilo_feriale, p.profilo_weekend) : "<p>Nessuna misura del riempimento [DATI SCARSI].</p>")
+      + (p.linee_utili!=null ? "<p>Linea utile: tocca molte delle zone dove arriva più gente per km² (indagine IMQ 2022, esclusi i ritorni a casa).</p>" : ""),
     avviso: "Posti dichiarati o stimati dalla superficie (25 m² a posto, ±30%). Distanze a piedi stimate (linea d'aria × 1,3)."
   });
 }
