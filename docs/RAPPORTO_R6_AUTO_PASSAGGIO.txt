@@ -1,0 +1,45 @@
+RAPPORTO R6 - AUTO IN ENTRATA CHE PASSANO ACCANTO AI LUOGHI (script 81)
+Generato il 20/10/2026 01:57. Metodo per c4: instradamento.
+
+== Domanda del mattino (IMQ 2022, partenza 06:00-09:59, solo auto: conducente + car sharing) ==
+  auto che entrano a Torino dalla cintura e da fuori (M_cint): 87.162 (1039 interviste)
+  persone in auto sugli stessi spostamenti (con i passeggeri): 95.297
+  auto dai quartieri periferici di Torino verso Q001-Q009 (M_tor): 29.988 (344 interviste)
+  M_tor / M_cint = 34%; soglia 25% -> torinesi nella domanda: SI
+  chi gia' oggi lascia l'auto per un mezzo pubblico (f_mattino): 5.067 (64 interviste)
+  quota_mattino = f_mattino / M_cint = 5.8%
+
+== Instradamento ==
+  {"peso_domanda": 117149.7, "perso_stesso_nodo": 0.0, "perso_zona_senza_punti": 0.0, "perso_non_raggiungibile": 0.0, "origini": 648, "prova": false, "nota_verifica": "per la verifica dei percorsi: 76_verifiche_r6v2.py"}
+
+== I 15 luoghi fuori dalla zona centrale con piu' auto in entrata che passano accanto [STIMATO] ==
+    13.119  Fermata 3064 - MARONCELLI                zona C009  strada trieste
+    11.972  Fermata 3065 - MARONCELLI                zona C009  strada unita d italia
+    11.731  Fermata 3060 - BOSSO                     zona C009  strada diramazione per moncalieri
+    11.731  Fermata 3062 - SANGONE                   zona C009  strada trieste
+    11.731  Fermata 3063 - SANGONE                   zona C009  strada trieste
+    10.838  Fermata 2626 - LECCE                     zona Q014  strada potenza
+    10.838  Fermata 3413 - REGINA MARGHERITA         zona Q014  strada regina margherita
+     8.904  Fermata 1040 - PONTE CAVALIERI TEMPLARI  zona C009  strada trieste
+     8.904  Fermata 1037 - TRIESTE OVEST             zona C009  strada roma
+     8.904  Fermata 1038 - TRIESTE OVEST             zona C009  strada roma
+     8.630  Fermata 317 - SANTA RITA                 zona Q011  strada orbassano
+     8.536  Fermata 729 - ORBASSANO                  zona Q011  strada orbassano
+     8.536  Fermata 728 - ORBASSANO                  zona Q011  strada orbassano
+     8.385  Fermata 299 - SETTEMBRINI                zona Q023  strada orbassano
+     8.024  Fermata 305 - CATTANEO SUD               zona Q012  strada orbassano
+
+== Controlli ==
+  OK     esiste spostamenti.csv
+  OK     esiste luoghi.json
+  OK     auto in entrata dalla cintura > 0
+  OK     auto conducenti minori delle persone in auto
+  OK     interviste di f_mattino almeno 30 — 64 interviste
+  OK     si perde meno del 15% della domanda — perso 0.0%
+  OK     in cima ci sono strade d'ingresso note (Francia, Unione Sovietica, Genova...) — 7 su 15
+  OK     nessun c4 negativo
+
+== Limiti ==
+- Modello del traffico V0 (percorso piu' veloce, senza code): stima debole (C-DEBOLE, circa +-38%), solo ordine di grandezza.
+- Le stesse auto passano davanti a piu' fermate dello stesso corso: i numeri dei luoghi non si sommano.
+- Indagine IMQ campionaria; solo residenti 11-84 anni; nessun pendolare da fuori Piemonte.

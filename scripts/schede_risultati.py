@@ -75,6 +75,10 @@ def minuti(hhmm):
 
 # ---------------------------------------------------------------- Risultato 1
 
+GRUPPI_EN = {"scuole": "schools", "salute": "health", "cibo": "food", "fermate": "public transport stops",
+             "verde": "green space"}   # nomi dei gruppi del risultato 1 in inglese (solo per la traduzione)
+
+
 def scheda_r1():
     vuoti = leggi("risultato1_vuoti.json")
     cand = leggi("risultato1_candidati.json")["gruppi"]
@@ -151,6 +155,19 @@ def scheda_r1():
             "Si conta se un servizio c'è, non quanto è grande o se ha posto (una scuola piena conta come una vuota).",
             "I punti nuovi sono posizioni ipotetiche: non tengono conto di costi, spazi liberi o permessi, e "
             "non si sommano tra gruppi.",
+        ],
+        "in_english": [
+            "Question: how many Turin residents lack at least one essential service (schools, health, food, stops, "
+            "green space) within 15 minutes on foot, and how many would gain one with a few new services?",
+            f"{senza:,} residents out of {testa['residenti_torino']:,} ({testa['quota_residenti_torino']:.1f}%) lack at "
+            f"least one of the 5 services within 15 minutes on foot. The most often missing one is "
+            f"{GRUPPI_EN.get(testa['gruppo_piu_carente_a_torino'], testa['gruppo_piu_carente_a_torino'])}, with "
+            f"{gruppi[testa['gruppo_piu_carente_a_torino']]['torino']['zero']['residenti']:,} "
+            "residents without a nearby service of that kind.",
+            f"Up to 5 new services per group, placed where they help most, would bring {salvati:,} of these cases "
+            "within 15 minutes, counted group by group.",
+            "Limits: only the City of Turin is covered; outside it the service catalogue is missing, so a zero there "
+            "often means missing data.",
         ],
         "mappa": {"id": "faseb", "tema": "Dove mancano i servizi",
                   "nota": "Nella mappa, menu dei temi: \"Dove mancano i servizi\" (zone scoperte e punti nuovi) "
@@ -248,6 +265,17 @@ def arricchisci_r2(s):
             "userebbero la metro di notte.",
             "Le corse finte non hanno tempi di sosta alle fermate e non tengono conto di costi e manutenzione notturna.",
             "Non dice quante auto in meno ci sarebbero: serve un metodo a parte.",
+        ],
+        "in_english": [
+            f"Question: if the metro ran through the night gap between {da} and {a} (with dummy runs), how many residents "
+            "would reach more services?",
+            f"With a metro every 15 minutes in the gap, {n15['residenti_migliorati']:,} residents of Turin and the belt "
+            f"(out of {totale_res:,}) would reach more services within 45 minutes. With a run every 30 minutes, "
+            f"{n30['residenti_migliorati']:,} would.",
+            f"The average theoretical wait at the stop would be {n15['attesa_media_minuti']:.1f} minutes in the first "
+            f"case and {n30['attesa_media_minuti']:.1f} in the second.",
+            "Limits: scheduled timetable only, with no traffic, delays, vehicle capacity or real passengers; the count is "
+            "of reachable destinations, not of people using the metro.",
         ],
         "mappa": {"id": "accessibilita", "tema": "Accessibilità ai servizi",
                   "nota": "La mappa mostra la situazione di oggi ora per ora (tema \"Accessibilità ai servizi\", "
@@ -372,6 +400,17 @@ def scheda_r4():
             f"Scartato il {round(100 * (tot - s['usati']) / tot)}% dei passaggi (corse non nell'orario ufficiale "
             "o lette troppo lontano dall'arrivo).",
             "Dice quanto spesso c'è ritardo, non quante persone aspettano né quanto erano pieni i mezzi.",
+        ],
+        "in_english": [
+            "Question: how often do GTT vehicles arrive late, and how often do frequent lines bunch together or leave "
+            "gaps?",
+            f"On weekdays {fer['ritardo']:.1f}% of departures arrive more than 5 minutes late; on Saturdays "
+            f"{c['1']['ritardo']:.1f}%. On frequent lines {fer['grappolo'] + fer['buco']:.1f}% of consecutive pairs of "
+            "vehicles bunch together or leave a gap.",
+            f"The most common problem is early arrival: {fer['anticipo']:.1f}% of weekday departures arrive more than one "
+            "minute before the timetable.",
+            f"Limits: only {r['giorni']['0']} weekdays, {r['giorni']['1']} Saturdays and {r['giorni']['2']} Sundays of data, "
+            "some of them partial; the night is not measured.",
         ],
         "mappa": None,
         "fonti": ["docs/RAPPORTO_RISULTATO4.txt", "docs/PIANO_RISULTATO4.md", "scripts/27_risultato4_regolarita.py"],
@@ -674,6 +713,17 @@ def scheda_r8():
             "Il tratto di Corso Moncalieri va controllato a mano: una fermata con 26 passaggi all'ora è a 40 m, "
             "ma copre solo un quarto della tratta.",
         ],
+        "in_english": [
+            "Question: on Turin's major roads, where is there a lot of traffic and little public transport nearby?",
+            f"Of {u['n_tratte']:,} road sections ({u['km']:.1f} km), {u['quota_km_coperta_tp'] * 100:.1f}% of the length "
+            "has a frequent stop (at least 4 departures an hour) within 300 m, or the metro within 600 m. Heavy-traffic "
+            f"sections (over {round(u['soglie']['q66']):,} vehicles a day): {c['molto_traffico']}; of these, "
+            f"{c['da_guardare']} also have little public transport.",
+            "In practice this is one main case: Corso Regina Margherita westbound, a fast road with no frequent stop "
+            "within 300 m, plus one stretch of Corso Moncalieri covered for only a quarter of its length.",
+            f"Limits: traffic figures are estimates with a typical error of ±{fascia50}%; use them to rank the roads, not "
+            "to count vehicles.",
+        ],
         "mappa": None,
         "fonti": ["docs/RIASSUNTO_TRAFFICO.md", "docs/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
                   "docs/archivio/traffico/ESITO_FASE5_TRAFFICO.md", "data/processed/risultato8_traffico_tp_v2.json"],
@@ -797,6 +847,16 @@ def scheda_r9():
             "non di quelle rare (per quelle conta la puntualità, risultato 4).",
             "Pochi giorni (gli stessi del risultato 4, non tutti interi): va rifatto con più settimane di dati. "
             "La domenica le linee frequenti sono poche: troppo pochi dati per dare un numero.",
+        ],
+        "in_english": [
+            "Question: on frequent lines, how many more minutes does a passenger who arrives at the stop without checking "
+            "the timetable wait on average, compared with what the timetable promises?",
+            f"On weekdays the timetable promises an average wait of {fer['promessa_min']:.1f} minutes; the real one is "
+            f"between {fer['reale_min_bassa']:.1f} and {fer['reale_min_alta']:.1f} minutes. That is "
+            f"{fer['in_piu_min_bassa']:.1f} to {fer['in_piu_min_alta']:.1f} minutes more per wait, at least "
+            f"{round(fer['in_piu_pct_bassa']):,}% above the promise.",
+            f"Limits: only {r['giorni']['0']} weekdays of data so far; real arrivals are estimated from the GTT feed, not "
+            "seen at the stop; the night is not included.",
         ],
         "mappa": None,
         "fonti": ["docs/RAPPORTO_RISULTATO9_ATTESA.txt", "docs/PIANO_RISULTATO9_ATTESA.md",

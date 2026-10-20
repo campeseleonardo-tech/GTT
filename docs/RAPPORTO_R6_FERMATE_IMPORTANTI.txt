@@ -1,0 +1,93 @@
+RAPPORTO R6 - FERMATE IMPORTANTI CON IL PUNTEGGIO CORRETTO (script 83)
+Generato il 20/10/2026 01:58.
+Segnali a2 (peso 1), b2 (peso 1), c4 (peso 1), e (peso 1); c4 col metodo «instradamento»; torinesi nella domanda: si.
+Luoghi 5087; eleggibili (Citta' metropolitana fuori da Q001-Q009) 3898; soglia del 10% piu' alto = 63.50; fermate importanti 391.
+Segnali mancanti fra gli eleggibili (messi al minimo): {'a2': 1183, 'b2': 0, 'c4': 0}
+
+== Le 30 fermate importanti con il punteggio piu' alto ==
+     1. METRO MARCHE                           Q014  a2=5 b2=48.375 c4=7108 e=100
+     2. METRO MASSAUA                          Q014  a2=5 b2=37.875 c4=7025 e=100
+     3. METRO PARADISO                         C003  a2=5 b2=53.0 c4=5515 e=100
+     4. Fermata 3233 - STAZIONE STURA          Q019  a2=5 b2=21.75 c4=6999 e=100
+     5. METRO POZZO STRADA                     Q014  a2=5 b2=38.0 c4=4243 e=100
+     6. METRO MONTE GRAPPA                     Q014  a2=5 b2=37.875 c4=3994 e=100
+     7. Fermata 1333 - CENTRO COMMERCIALE      Q019  a2=5 b2=15.875 c4=6999 e=100
+     8. Fermata 3560 - STAZIONE STURA          Q019  a2=5 b2=13.0 c4=6999 e=100
+     9. Fermata 94 - STRADELLA - GROSSETO FS   Q016  a2=4 b2=17.0 c4=1980 e=100
+    10. Fermata 83 - LULLI - GROSSETO FS       Q016  a2=4 b2=13.625 c4=2437 e=100
+    11. Fermata 415 - LARGO GROSSETO SUD       Q016  a2=4 b2=9.25 c4=1980 e=100
+    12. METRO BENGASI                          C009  a2=3 b2=37.5 c4=1742 e=100
+    13. Fermata 3585 - FOSSATA                 Q017  a2=4 b2=6.0 c4=3994 e=100
+    14. Fermata 3094 - BORGO MERCATO           C009  a2=3 b2=10.0 c4=3121 e=100
+    15. Fermata 2306 - STAZIONE RIGOLA         C004  a2=3 b2=14.375 c4=1221 e=100
+    16. Fermata 891 - IV NOVEMBRE - STAZIONE   C011  a2=3 b2=11.25 c4=1215 e=100
+    17. Fermata 915 - TORINO - STAZIONE        C011  a2=3 b2=11.0 c4=1215 e=100
+    18. Fermata 2601 - PIO VII                 Q010  a2=2 b2=38.875 c4=2616 e=100
+    19. Fermata 3258 - PARCO SEMPIONE          Q018  a2=4 b2=4.125 c4=3130 e=100
+    20. Fermata 1042 - CADUTI PER LA LIBERTÀ   C009  a2=4 b2=19.375 c4=144 e=100
+    21. Fermata 3259 - PARCO SEMPIONE          Q019  a2=4 b2=4.0 c4=3130 e=100
+    22. Fermata 3170 - CREA                    Q013  a2=3 b2=14.375 c4=674 e=100
+    23. Fermata 3162 - LISA                    C023  a2=4 b2=13.375 c4=119 e=100
+    24. Fermata 2294 - STAZIONE VENARIA        C004  a2=4 b2=9.125 c4=247 e=100
+    25. Fermata 2304 - SANDRE                  C004  a2=3 b2=10.0 c4=732 e=100
+    26. Fermata 3604 - CADUTI PER LA LIBERTÀ   C009  a2=4 b2=11.875 c4=144 e=100
+    27. Fermata 2321 - PIAVE                   C004  a2=4 b2=8.875 c4=247 e=100
+    28. Fermata 3090 - CARIGNANO               C009  a2=2 b2=10.0 c4=3121 e=100
+    29. METRO FERMI                            C003  a2=2 b2=64.0 c4=1019 e=100
+    30. Fermata 3688 - SOPRAELEVATA            Q019  a2=4 b2=5.125 c4=677 e=100
+
+== Fermate importanti per zona IMQ ==
+  Q011: 42
+  Q012: 29
+  C009: 27
+  Q023: 27
+  Q019: 26
+  Q021: 24
+  C003: 21
+  Q020: 20
+  Q022: 18
+  Q018: 16
+  Q014: 14
+  C007: 14
+  C016: 13
+  Q015: 12
+  Q013: 11
+  C002: 10
+  Q017: 9
+  C021: 9
+  C013: 9
+  C004: 8
+  Q016: 7
+  C011: 4
+  C023: 4
+  Q010: 3
+  C006: 3
+  C008: 3
+  C065: 2
+  C014: 2
+  C017: 1
+  E034: 1
+  C018: 1
+  E055: 1
+
+== Sensibilita' (quante fermate importanti entrano / escono) ==
+  senza_a2: entrano 99, escono 99
+  senza_b2: entrano 106, escono 104
+  senza_c4: entrano 67, escono 66
+  senza_e: entrano 50, escono 50
+  c4_ripiego: entrano 239, escono 239
+  soglia 5%: 197 fermate; 15%: 586
+
+== Confronto con lo scenario S2 (19/10) ==
+  {'S2': 378, 'nuove': 391, 'restano': 171, 'entrano': 220, 'escono': 207, 'S2_in_zona_centrale': 108}
+
+== Controlli ==
+  OK     esiste luoghi.json
+  OK     esiste segnali.json
+  OK     esiste auto_passaggio.json
+  OK     esiste imq_zone.json
+  OK     i pesi riguardano solo a2, b2, c4, e
+  OK     eleggibili > 1000 — 3898
+  OK     c4 presente per tutti gli eleggibili — mancante in 0
+  OK     le fermate importanti sono circa la percentuale scelta (+-3 punti) — 391 su 3898
+  OK     nessuna fermata importante in zona centrale

@@ -1,0 +1,47 @@
+RAPPORTO R6 - PARCHEGGI ADATTI A LASCIARE L'AUTO (script 82)
+Generato il 20/10/2026 01:58.
+
+== Catena dei conteggi ==
+  trovati 5205 -> aperti 3431 -> fuori dalla zona centrale 3208 -> con almeno 20 posti 2006 -> adatti (non di destinazione) 1874
+  posti nei parcheggi adatti: 157.103
+
+== Motivi ==
+  adatto: 1874
+  tipo_non_aperto: 1774
+  pochi_posti: 1202
+  zona_centrale: 223
+  destinazione_retail: 81
+  destinazione_hospital: 31
+  destinazione_mall: 18
+  destinazione_university: 2
+
+== I 20 parcheggi piu' grandi esclusi perche' di destinazione ==
+    1226 posti  OSM way 1214372723             destinazione_mall      Piazza Paradiso
+    1221 posti  OSM way 95001467               destinazione_retail    retail
+     810 posti  OSM way 527193641              destinazione_retail    Il Gialdo
+     651 posti  OSM way 246576155              destinazione_retail    retail
+     624 posti  OSM way 189712285              destinazione_hospital  Istituto per la Ricerca e la Cura del Cancro Candiolo (IRCCS)
+     592 posti  OSM way 1337212772             destinazione_retail    TO Dream - Urban District
+     587 posti  OSM way 242177429              destinazione_hospital  hospital
+     551 posti  OSM way 189712284              destinazione_hospital  Istituto per la Ricerca e la Cura del Cancro Candiolo (IRCCS)
+     548 posti  OSM way 593918508              destinazione_retail    La Vetrina di Cambiano
+     514 posti  OSM way 1362946173             destinazione_retail    MondoJuve
+     500 posti  OSM way 139840651              destinazione_hospital  Ospedale San Luigi Gonzaga
+     494 posti  OSM way 186193688              destinazione_retail    45° NORD Entertainment Center
+     478 posti  OSM way 100193877              destinazione_mall      Le Fornaci
+     428 posti  OSM way 771637237              destinazione_retail    45° NORD Entertainment Center
+     366 posti  OSM way 294383909              destinazione_hospital  Ospedale di Rivoli
+     363 posti  OSM way 48277250               destinazione_mall      Millecity Center
+     362 posti  OSM way 165944885              destinazione_mall      Centro Commerciale Area 12
+     360 posti  Piazza del Donatore di Sangue  destinazione_hospital  Ospedale San Giovanni Bosco
+     348 posti  OSM way 481397543              destinazione_mall      mall
+     340 posti  OSM way 1362946174             destinazione_retail    MondoJuve
+
+== Controlli ==
+  OK     esiste parcheggi.json
+  OK     parcheggi aperti senza zona IMQ: pochi (< 2%) — 9 senza zona (contano come fuori dal centro)
+  OK     esiste il PBF di OpenStreetMap
+  OK     trovate aree di destinazione — 328
+  OK     almeno un parcheggio adatto
+  OK     nessun parcheggio adatto in zona centrale
+  OK     gli interscambi ufficiali fuori centro sono adatti

@@ -1,11 +1,11 @@
 # Librerie Python usate dagli script (Python 3.13-3.14, NON Anaconda).
 # Le versioni esatte installate sul PC vanno scritte qui con: python -m pip show <nome>  (vedi PIANO_CORREZIONI_GENERALI.md)
-numpy
-scipy
-pandas
-shapely
-pyproj
-osmium
-pypdf        # solo per il rapporto di sostenibilita' (script 30)
-networkx     # facoltativo: verifiche dei percorsi (script 42 --verifica, 85)
-matplotlib   # facoltativo: grafico dello script 44
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.6
+shapely==2.2.0
+pyproj==3.8.0
+osmium==4.3.1
+pypdf==6.20.0        # solo per il rapporto di sostenibilita' (script 30)
+networkx==3.7        # facoltativo: verifiche dei percorsi (script 42 --verifica, 85)
+matplotlib==3.11.2   # facoltativo: grafico dello script 44

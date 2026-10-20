@@ -1,0 +1,168 @@
+RAPPORTO R6 - PARCHEGGI PER LASCIARE L'AUTO PRIMA DI ENTRARE IN CITTA' (script 84)
+Generato il 20/10/2026 01:58.
+
+== Fermate importanti ==
+  391 fermate (fuori da Q001-Q009): nessun parcheggio 99, posti insufficienti 154, posti sufficienti 116, poche auto da fermare 22
+  quota_mattino 5.8%; auto da fermare = auto che passano x quota; raggio 400 m a piedi
+
+== Aree ==
+  {'Critica': 20, 'Scarsa': 5, 'Buona': 5, 'Pochi dati': 46}
+  c-1468_3704  Critica    fermate  24 (valutate 24) senza 100%  Santa Rita, Mirafiori Nord
+  c-1465_3705  Critica    fermate  13 (valutate 13) senza 100%  Borgo Po e Cavoretto, Madonna del Pilone
+  c-1469_3706  Critica    fermate  10 (valutate 10) senza 100%  Pozzo Strada, Parella
+  c-1469_3709  Critica    fermate   9 (valutate 8) senza 100%  Madonna di Campagna, Le Vallette
+  c-1469_3708  Critica    fermate   8 (valutate 8) senza 100%  Le Vallette
+  c-1465_3701  Critica    fermate   7 (valutate 7) senza 100%  Moncalieri
+  c-1465_3706  Critica    fermate   7 (valutate 7) senza 100%  Madonna del Pilone
+  c-1467_3701  Critica    fermate   6 (valutate 6) senza 100%  Mirafiori Sud
+  c-1469_3704  Critica    fermate   5 (valutate 5) senza 100%  Grugliasco, Mirafiori Nord
+  c-1469_3707  Critica    fermate   5 (valutate 5) senza 100%  Parella, Le Vallette
+  c-1467_3704  Critica    fermate  15 (valutate 15) senza 93%  Santa Rita
+  c-1468_3703  Critica    fermate  12 (valutate 12) senza 92%  Mirafiori Nord, Santa Rita
+  c-1472_3706  Critica    fermate   9 (valutate 8) senza 88%  Collegno, Grugliasco
+  c-1465_3707  Critica    fermate   6 (valutate 6) senza 83%  Madonna del Pilone
+  c-1467_3708  Critica    fermate  19 (valutate 19) senza 79%  Falchera, Barriera di Milano
+  c-1467_3707  Critica    fermate   8 (valutate 8) senza 75%  Barriera di Milano, Borgata Vittoria
+  c-1471_3706  Critica    fermate   7 (valutate 6) senza 67%  Collegno, Grugliasco
+  c-1470_3706  Critica    fermate   6 (valutate 6) senza 67%  Parella
+  c-1467_3702  Critica    fermate  19 (valutate 19) senza 63%  Mirafiori Sud, Mirafiori Nord
+  c-1467_3709  Critica    fermate   5 (valutate 5) senza 60%  Falchera
+  c-1466_3709  Scarsa     fermate   7 (valutate 7) senza 57%  Regio Parco, Falchera
+  c-1473_3706  Scarsa     fermate  10 (valutate 10) senza 50%  Rivoli, Collegno
+  c-1467_3703  Scarsa     fermate  16 (valutate 16) senza 44%  Santa Rita, Mirafiori Nord
+  c-1464_3700  Scarsa     fermate  10 (valutate 5) senza 40%  Moncalieri
+  c-1462_3700  Scarsa     fermate   5 (valutate 5) senza 40%  Moncalieri
+  c-1464_3708  Buona      fermate   7 (valutate 7) senza 29%  San Mauro Torinese
+  c-1466_3708  Buona      fermate  10 (valutate 10) senza 20%  Regio Parco
+  c-1469_3702  Buona      fermate   6 (valutate 6) senza 17%  Beinasco
+  c-1467_3710  Buona      fermate   7 (valutate 7) senza 14%  Falchera
+  c-1474_3706  Buona      fermate   7 (valutate 7) senza 0%  Rivoli
+  c-1464_3706  Pochi dati fermate   5 (valutate 4) senza 100%  Madonna del Pilone
+  c-1464_3707  Pochi dati fermate   4 (valutate 4) senza 100%  Madonna del Pilone, San Mauro Torinese
+  c-1465_3703  Pochi dati fermate   4 (valutate 4) senza 100%  Borgo Po e Cavoretto
+  c-1468_3709  Pochi dati fermate   4 (valutate 4) senza 100%  Borgata Vittoria, Falchera
+  c-1461_3699  Pochi dati fermate   4 (valutate 4) senza 100%  Moncalieri
+  c-1469_3703  Pochi dati fermate   3 (valutate 3) senza 100%  Mirafiori Sud
+  c-1466_3705  Pochi dati fermate   3 (valutate 3) senza 100%  Borgo Po e Cavoretto
+  c-1469_3705  Pochi dati fermate   3 (valutate 3) senza 100%  Pozzo Strada
+  c-1465_3708  Pochi dati fermate   3 (valutate 3) senza 100%  Regio Parco
+  c-1470_3705  Pochi dati fermate   2 (valutate 1) senza 100%  Pozzo Strada, Grugliasco
+  c-1473_3707  Pochi dati fermate   2 (valutate 1) senza 100%  Collegno, Pianezza
+  c-1462_3704  Pochi dati fermate   2 (valutate 2) senza 100%  Pino Torinese, Madonna del Pilone
+  c-1459_3702  Pochi dati fermate   2 (valutate 2) senza 100%  Chieri
+  c-1460_3703  Pochi dati fermate   2 (valutate 2) senza 100%  Pino Torinese
+  c-1468_3702  Pochi dati fermate   1 (valutate 1) senza 100%  Mirafiori Sud
+  c-1468_3705  Pochi dati fermate   1 (valutate 1) senza 100%  Pozzo Strada
+  c-1471_3704  Pochi dati fermate   1 (valutate 1) senza 100%  Grugliasco
+  c-1472_3708  Pochi dati fermate   1 (valutate 1) senza 100%  Collegno
+  c-1466_3710  Pochi dati fermate   1 (valutate 1) senza 100%  San Mauro Torinese
+  c-1465_3702  Pochi dati fermate   1 (valutate 1) senza 100%  Moncalieri
+  c-1468_3708  Pochi dati fermate   4 (valutate 4) senza 75%  Borgata Vittoria
+  c-1466_3707  Pochi dati fermate   4 (valutate 4) senza 50%  Barriera di Milano, Regio Parco
+  c-1458_3702  Pochi dati fermate   2 (valutate 2) senza 50%  Chieri
+  c-1470_3704  Pochi dati fermate   3 (valutate 3) senza 33%  Grugliasco
+  c-1465_3699  Pochi dati fermate   4 (valutate 4) senza 0%  Nichelino
+  c-1472_3711  Pochi dati fermate   4 (valutate 3) senza 0%  Venaria Reale
+  c-1457_3701  Pochi dati fermate   4 (valutate 1) senza 0%  Chieri
+  c-1464_3709  Pochi dati fermate   4 (valutate 4) senza 0%  San Mauro Torinese
+  c-1470_3710  Pochi dati fermate   3 (valutate 3) senza 0%  Venaria Reale
+  c-1466_3702  Pochi dati fermate   3 (valutate 3) senza 0%  Mercati generali
+  c-1458_3697  Pochi dati fermate   3 (valutate 0) senza 0%  Cambiano
+  c-1470_3702  Pochi dati fermate   3 (valutate 3) senza 0%  Beinasco
+  c-1465_3711  Pochi dati fermate   2 (valutate 2) senza 0%  Settimo Torinese
+  c-1471_3701  Pochi dati fermate   2 (valutate 2) senza 0%  Orbassano
+  c-1471_3711  Pochi dati fermate   1 (valutate 0) senza 0%  Venaria Reale
+  c-1457_3700  Pochi dati fermate   1 (valutate 1) senza 0%  Chieri
+  c-1467_3716  Pochi dati fermate   1 (valutate 1) senza 0%  Volpiano
+  c-1475_3707  Pochi dati fermate   1 (valutate 0) senza 0%  Alpignano
+  c-1458_3698  Pochi dati fermate   1 (valutate 0) senza 0%  Cambiano
+  c-1467_3717  Pochi dati fermate   1 (valutate 1) senza 0%  Volpiano
+  c-1465_3712  Pochi dati fermate   1 (valutate 1) senza 0%  Settimo Torinese
+  c-1468_3718  Pochi dati fermate   1 (valutate 1) senza 0%  Caluso E Limitrofi
+  c-1463_3709  Pochi dati fermate   1 (valutate 1) senza 0%  San Mauro Torinese
+  c-1470_3709  Pochi dati fermate   1 (valutate 1) senza 0%  Madonna di Campagna
+  c-1475_3706  Pochi dati fermate   1 (valutate 1) senza 0%  Rivoli
+  c-1461_3716  Pochi dati fermate   1 (valutate 0) senza 0%  Chivasso
+
+== 20 punti prioritari ==
+   1. MARONCELLI                     Moncalieri               6.3 km dal centro; auto che passano ~13100; da fermare 762; posti 135; mancano 627
+   2. BOSSO                          Moncalieri               6.8 km dal centro; auto che passano ~11700; da fermare 682; posti 142; mancano 540
+   3. PELLERINA                      Le Vallette              3.5 km dal centro; auto che passano ~7300; da fermare 426; posti 0; mancano 426
+   4. SANTA RITA                     Santa Rita               4.0 km dal centro; auto che passano ~8600; da fermare 501; posti 117; mancano 384
+   5. PONTE CAVALIERI TEMPLARI       Moncalieri               7.9 km dal centro; auto che passano ~8900; da fermare 517; posti 167; mancano 350
+   6. BARBERA                        Mirafiori Sud            7.2 km dal centro; auto che passano ~6000; da fermare 349; posti 0; mancano 349
+   7. SETTEMBRINI                    Mirafiori Sud            7.1 km dal centro; auto che passano ~8400; da fermare 487; posti 151; mancano 336
+   8. PIANEZZA                       Le Vallette              3.6 km dal centro; auto che passano ~5700; da fermare 330; posti 0; mancano 330
+   9. CATTANEO                       Mirafiori Nord           6.1 km dal centro; auto che passano ~8000; da fermare 466; posti 137; mancano 329
+  10. METRO MASSAUA                  Parella                  4.7 km dal centro; auto che passano ~7000; da fermare 408; posti 105; mancano 303
+  11. PIANEZZA                       Pianezza                 9.6 km dal centro; auto che passano ~4700; da fermare 271; posti 0; mancano 271
+  12. VILLA LUIGINA                  Pino Torinese            5.5 km dal centro; auto che passano ~4600; da fermare 266; posti 0; mancano 266
+  13. SVINCOLO MIRAFIORI             Mirafiori Sud            7.8 km dal centro; auto che passano ~6900; da fermare 402; posti 151; mancano 251
+  14. GIOANETTI                      Borgo Po e Cavoretto     1.4 km dal centro; auto che passano ~4900; da fermare 285; posti 38; mancano 247
+  15. PASINI                         Madonna del Pilone       3.5 km dal centro; auto che passano ~4200; da fermare 241; posti 0; mancano 241
+  16. TOSCANA                        Le Vallette              3.7 km dal centro; auto che passano ~4100; da fermare 238; posti 0; mancano 238
+  17. RIETI NORD                     Parella                  6.3 km dal centro; auto che passano ~7100; da fermare 413; posti 178; mancano 235
+  18. LEONARDO DA VINCI              Grugliasco               8.4 km dal centro; auto che passano ~3900; da fermare 225; posti 0; mancano 225
+  19. TRAFORO                        Pino Torinese            8.6 km dal centro; auto che passano ~3500; da fermare 205; posti 0; mancano 205
+  20. VIGLIANI                       Mirafiori Sud            6.5 km dal centro; auto che passano ~6000; da fermare 349; posti 146; mancano 203
+
+== Validazione sugli interscambi del Comune (solo fatti misurati) ==
+  Cosa ci si aspetta, PRIMA di guardare: un interscambio pieno dovrebbe stare su una strada con molte auto in entrata
+  (nel 20% piu' alto dei luoghi, cioe' almeno 1004 auto); uno vuoto, su una strada con poche.
+  CAIO MARIO             418 posti  stato libero       il valore non cambia (2%): forse il contatore è fermo; auto sulla strada piu' trafficata entro 300 m ~3900 -> non si può dire: il contatore sembra fermo
+  FERMI                  300 posti  stato non_misurato non trasmette; auto sulla strada piu' trafficata entro 300 m ~1000 -> non si può dire: non trasmette il riempimento
+  SOFIA                  272 posti  stato libero       è più pieno di notte che di giorno: 55% di notte, 32% di giorno; auto sulla strada piu' trafficata entro 300 m ~3100 -> da capire: accanto passano molte auto in entrata ma è poco usato (prezzo? posizione? collegamento?)
+  STURA                  589 posti  stato pieno        sempre quasi pieno: 80% di notte, 90% di giorno; auto sulla strada piu' trafficata entro 300 m ~7600 -> coerente: pieno, su una strada con molte auto in entrata
+  VENCHI UNICA           437 posti  stato a_meta       sempre intorno al 51%; auto sulla strada piu' trafficata entro 300 m ~7100 -> non si può dire: riempimento a metà
+
+== Controllo a posteriori con le osservazioni di Leo (NON entra nei dati mostrati) ==
+  Fermi (capolinea metro, Collegno): sempre pieno; i parcheggi gratuiti intorno si riempiono soprattutto al mattino (Leo, 20/10/2026) | adatti nel raggio 11 (1520 posti), gratuiti 7 (1112 posti) -> non può confermare: nessun parcheggio adatto nel raggio trasmette il riempimento
+
+== Direzioni d'ingresso (solo riferimento) ==
+  Nord       auto    7459 da fermare    433 posti adatti   27174 Bastano
+  Nord-est   auto   13272 da fermare    771 posti adatti   22716 Bastano
+  Est        auto    2227 da fermare    129 posti adatti    2058 Bastano
+  Sud-est    auto    8388 da fermare    487 posti adatti   17941 Bastano
+  Sud        auto   11358 da fermare    660 posti adatti   16001 Bastano
+  Sud-ovest  auto   13146 da fermare    764 posti adatti   28303 Bastano
+  Ovest      auto   22817 da fermare   1326 posti adatti   28299 Bastano
+  Nord-ovest auto    8495 da fermare    494 posti adatti   14611 Bastano
+
+== Sensibilita' ==
+  raggio_piedi: {'300': {'nessun': 157, 'insufficienti': 137, 'sufficienti': 75, 'poche_auto': 22}, '400': {'nessun': 99, 'insufficienti': 154, 'sufficienti': 116, 'poche_auto': 22}, '500': {'nessun': 69, 'insufficienti': 151, 'sufficienti': 149, 'poche_auto': 22}}
+  quota: {'x0.5': {'nessun': 96, 'insufficienti': 105, 'sufficienti': 158, 'poche_auto': 32}, 'x1': {'nessun': 99, 'insufficienti': 154, 'sufficienti': 116, 'poche_auto': 22}, 'x2': {'nessun': 99, 'insufficienti': 191, 'sufficienti': 83, 'poche_auto': 18}}
+  regola_50_posti: {'senza_50_posti': 149, 'con_50_posti': 242}
+  senza_filtro_destinazioni: {'nessun': 97, 'insufficienti': 151, 'sufficienti': 121, 'poche_auto': 22}
+  senza_soglia_posti: {'nessun': 75, 'insufficienti': 176, 'sufficienti': 118, 'poche_auto': 22}
+  soglia_fermate: {'5': {'fermate': 197, 'nessun': 44, 'insufficienti': 79, 'sufficienti': 58, 'poche_auto': 16}, '15': {'fermate': 586, 'nessun': 170, 'insufficienti': 193, 'sufficienti': 185, 'poche_auto': 38}}
+  soglie_aree: {'50/25': {'Critica': 22, 'Scarsa': 4, 'Buona': 4, 'Pochi dati': 46}, '66/33': {'Critica': 18, 'Scarsa': 7, 'Buona': 5, 'Pochi dati': 46}}
+
+== Controlli ==
+  OK     esiste fermate_importanti.json
+  OK     esiste parcheggi.json
+  OK     esiste parcheggi_adatti.json
+  OK     esiste riempimento.json
+  OK     esiste nodi.json
+  OK     esiste luoghi.json
+  OK     esiste auto_passaggio.json
+  OK     esiste imq_zone.json
+  OK     esiste imq_zone_geo.json
+  OK     ci sono parcheggi adatti
+  OK     ci sono fermate importanti
+  OK     ogni fermata in una sola area
+  OK     trovati i 5 interscambi ufficiali — 5
+  OK     nessuna fermata importante in zona centrale
+  AVVISO nessun punto prioritario in zona centrale — nessun punto a meno di 1,5 km da Piazza Castello
+  OK     nessun parcheggio adatto in zona centrale
+  OK     nessun valore negativo
+  OK     somma auto delle direzioni = auto in entrata con zona nota
+  OK     i punti prioritari sono 20 — 20
+  OK     almeno un'area con categoria (non «Pochi dati»)
+
+== Limiti ==
+- Auto che passano: modello del traffico V0 (stima debole, ±38%): solo ordine di grandezza.
+- Le stesse auto passano davanti a piu' fermate dello stesso corso: i numeri delle fermate non si sommano.
+- Quota di chi lascia l'auto: indagine IMQ 2022, poche interviste.
+- Posti stimati dalla superficie (25 m² a posto; meta' dei parcheggi fra 14 e 33 m²).
+- Riempimento misurato su pochi giorni e solo dove il 5T lo trasmette [DATI SCARSI].
+- Distanza a piedi stimata (linea d'aria x 1,3). Treni non considerati.
