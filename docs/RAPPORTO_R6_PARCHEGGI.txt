@@ -1,5 +1,5 @@
 RAPPORTO R6 - PARCHEGGI PER LASCIARE L'AUTO PRIMA DI ENTRARE IN CITTA' (script 84)
-Generato il 20/10/2026 12:11.
+Generato il 20/10/2026 15:06.
 
 == Fermate importanti ==
   391 fermate (fuori da Q001-Q009): nessun parcheggio 99, posti insufficienti 154, posti sufficienti 116, poche auto da fermare 22
@@ -84,7 +84,7 @@ Generato il 20/10/2026 12:11.
   c-1475_3706  Pochi dati fermate   1 (valutate 1) senza 0%  Rivoli
   c-1461_3716  Pochi dati fermate   1 (valutate 0) senza 0%  Chivasso
 
-== Punti prioritari (16; al massimo 20, con almeno 50 posti mancanti) ==
+== Punti prioritari (15; al massimo 20, con almeno 50 posti mancanti) ==
    1. MARONCELLI                     Moncalieri               6.3 km dal centro; auto che passano ~13100; da fermare 762; posti 135; mancano circa 650 (calcolo 627); stesso asse: BOSSO, PONTE CAVALIERI TEMPLARI, FIOCCARDO
    2. PELLERINA                      Le Vallette              3.5 km dal centro; auto che passano ~7300; da fermare 426; posti 0; mancano circa 450 (calcolo 426); stesso asse: PIANEZZA, TOSCANA, LECCE, RIVOLI SUD
    3. SANTA RITA                     Santa Rita               4.0 km dal centro; auto che passano ~8600; da fermare 501; posti 117; mancano circa 400 (calcolo 384); stesso asse: SETTEMBRINI, CATTANEO, PARCO RUFFINI, FILADELFIA, LEPANTO, SIRACUSA, GUIDO RENI, GIAMBONE
@@ -95,13 +95,12 @@ Generato il 20/10/2026 12:11.
    8. SVINCOLO MIRAFIORI             Mirafiori Sud            7.8 km dal centro; auto che passano ~6900; da fermare 402; posti 151; mancano circa 250 (calcolo 251)
    9. PASINI                         Madonna del Pilone       3.5 km dal centro; auto che passano ~4200; da fermare 241; posti 0; mancano circa 250 (calcolo 241); stesso asse: CARRARA, CASALE N.431, BIAMINO
   10. LEONARDO DA VINCI              Grugliasco               8.4 km dal centro; auto che passano ~3900; da fermare 225; posti 0; mancano circa 200 (calcolo 225); stesso asse: BAROCCHIO OVEST
-  11. TRAFORO                        Pino Torinese            8.6 km dal centro; auto che passano ~3500; da fermare 205; posti 0; mancano circa 200 (calcolo 205)
+  11. TRAFORO                        Pino Torinese            8.6 km dal centro; auto che passano ~3500; da fermare 205; posti 0; mancano circa 200 (calcolo 205); stesso asse: TARICCO
   12. POTENZA                        Le Vallette              4.1 km dal centro; auto che passano ~4000; da fermare 234; posti 64; mancano circa 150 (calcolo 170); stesso asse: FOSSATA
-  13. STURA LAZIO                    Regio Parco              4.6 km dal centro; auto che passano ~3500; da fermare 202; posti 32; mancano circa 150 (calcolo 170); stesso asse: CHIESA, ABBADIA DI BERTOLLA, DERNA EST
+  13. STURA LAZIO                    Regio Parco              4.6 km dal centro; auto che passano ~3500; da fermare 202; posti 32; mancano circa 150 (calcolo 170); stesso asse: CHIESA, CEBROSA, DERNA EST
   14. REBAUDENGO SUD                 Falchera                 3.7 km dal centro; auto che passano ~4800; da fermare 276; posti 126; mancano circa 150 (calcolo 150)
   15. MARSÈ                          Moncalieri               9.1 km dal centro; auto che passano ~2800; da fermare 162; posti 44; mancano circa 100 (calcolo 118); stesso asse: GENOVA N.212
-  16. VALLE CEPPI                    Chieri                  10.5 km dal centro; auto che passano ~3400; da fermare 197; posti 82; mancano circa 100 (calcolo 115)
-  Scartati 41 gruppi su 60 (stesso asse di un punto tenuto o a meno di 3 km dal centro);
+  Scartati 42 gruppi su 60 (stesso asse di un punto tenuto o a meno di 3 km dal centro);
   quelli con piu' posti mancanti dell'ultimo punto tenuto:
     BOSSO                          mancano 540: stesso asse di MARONCELLI
     PONTE CAVALIERI TEMPLARI       mancano 350: stesso asse di MARONCELLI
@@ -120,9 +119,10 @@ Generato il 20/10/2026 12:11.
     PARCO RUFFINI                  mancano 132: stesso asse di SANTA RITA
     FILADELFIA                     mancano 119: stesso asse di SANTA RITA
     LEPANTO                        mancano 115: stesso asse di SANTA RITA
+    TARICCO                        mancano 115: stesso asse di TRAFORO
     CARREFOUR                      mancano 112: stesso asse di PIANEZZA
     CHIESA                         mancano 111: stesso asse di STURA LAZIO
-    BRICCA                         mancano 102: vicino al centro
+    CARDINAL MAURIZIO              mancano 102: vicino al centro
     TRAPANI                        mancano 101: stesso asse di METRO MASSAUA
     SIRACUSA                       mancano 98: stesso asse di SANTA RITA
     LECCE                          mancano 98: stesso asse di PELLERINA
@@ -130,7 +130,7 @@ Generato il 20/10/2026 12:11.
     PROVANA                        mancano 94: stesso asse di METRO MASSAUA
     MAGENTA                        mancano 94: stesso asse di METRO MASSAUA
     GENOVA N.212                   mancano 92: stesso asse di MARSÈ
-    ABBADIA DI BERTOLLA            mancano 90: stesso asse di STURA LAZIO
+    CEBROSA                        mancano 90: stesso asse di STURA LAZIO
     FOSSATA                        mancano 77: stesso asse di POTENZA
     PALERMO                        mancano 66: vicino al centro
     CASALE N.431                   mancano 46: stesso asse di PASINI
@@ -148,11 +148,11 @@ Generato il 20/10/2026 12:11.
 == Validazione sugli interscambi del Comune (solo fatti misurati) ==
   Cosa ci si aspetta, PRIMA di guardare: un interscambio pieno dovrebbe stare su una strada con molte auto in entrata
   (nel 20% piu' alto dei luoghi, cioe' almeno 1004 auto); uno vuoto, su una strada con poche.
-  CAIO MARIO             418 posti  stato libero       il valore non cambia (2%): forse il contatore è fermo; auto sulla strada piu' trafficata entro 300 m ~3900 -> non si può dire: il contatore sembra fermo
+  CAIO MARIO             418 posti  stato libero       il valore non cambia (1%): forse il contatore è fermo; auto sulla strada piu' trafficata entro 300 m ~3900 -> non si può dire: il contatore sembra fermo
   FERMI                  300 posti  stato non_misurato non trasmette; auto sulla strada piu' trafficata entro 300 m ~1000 -> non si può dire: non trasmette il riempimento
-  SOFIA                  272 posti  stato libero       è più pieno di notte che di giorno: 55% di notte, 32% di giorno; auto sulla strada piu' trafficata entro 300 m ~3100 -> da capire: accanto passano molte auto in entrata ma è poco usato (prezzo? posizione? collegamento?)
-  STURA                  589 posti  stato pieno        sempre quasi pieno: 80% di notte, 90% di giorno; auto sulla strada piu' trafficata entro 300 m ~7600 -> coerente: pieno, su una strada con molte auto in entrata
-  VENCHI UNICA           437 posti  stato a_meta       sempre intorno al 51%; auto sulla strada piu' trafficata entro 300 m ~7100 -> non si può dire: riempimento a metà
+  SOFIA                  272 posti  stato libero       è più pieno di notte che di giorno: 54% di notte, 32% di giorno; auto sulla strada piu' trafficata entro 300 m ~3100 -> da capire: accanto passano molte auto in entrata ma è poco usato (prezzo? posizione? collegamento?)
+  STURA                  589 posti  stato pieno        sempre quasi pieno: 80% di notte, 91% di giorno; auto sulla strada piu' trafficata entro 300 m ~7600 -> coerente: pieno, su una strada con molte auto in entrata
+  VENCHI UNICA           437 posti  stato a_meta       sempre intorno al 52%; auto sulla strada piu' trafficata entro 300 m ~7100 -> non si può dire: riempimento a metà
 
 == Controllo a posteriori con le osservazioni di Leo (NON entra nei dati mostrati) ==
   Fermi (capolinea metro, Collegno): sempre pieno; i parcheggi gratuiti intorno si riempiono soprattutto al mattino (Leo, 20/10/2026) | adatti nel raggio 11 (1520 posti), gratuiti 7 (1112 posti) -> non può confermare: nessun parcheggio adatto nel raggio trasmette il riempimento
@@ -196,7 +196,7 @@ Generato il 20/10/2026 12:11.
   OK     nessun parcheggio adatto in zona centrale
   OK     nessun valore negativo
   OK     somma auto delle direzioni = auto in entrata con zona nota
-  OK     punti prioritari: da 1 a 20 — 16
+  OK     punti prioritari: da 1 a 20 — 15
   OK     almeno un'area con categoria (non «Pochi dati»)
 
 == Limiti ==

@@ -36,7 +36,7 @@ interscambio, perche' chi arriva in centro non lascia l'auto per prendere un mez
 
 == TABELLA DI SENSIBILITA' della zona centrale ==
   zone centrali | di fatto | solo sulla carta | potenziale | non interscambio (di cui zona centrale)
-  Q001                      11                4        866       2550 (56)
+  Q001                      12                4        866       2549 (56)
   Q001-Q005                  7                4        820       2600 (126)
   Q001-Q009 (default)        0                4        758       2669 (223)
   Q001-Q012                  0                4        709       2718 (317)
@@ -50,7 +50,7 @@ interscambio, perche' chi arriva in centro non lascia l'auto per prendere un mez
   VENCHI UNICA             interscambio_ufficiale Q014  False dato_bloccato      3 True   solo_sulla_carta
   ANCONA                   garage_5t              Q007  True  pendolare          1 True   non_interscambio
   BACIGALUPO               garage_5t              Q009  True  pendolare          1 True   non_interscambio
-  BIXIO                    garage_5t              Q005  True  misto              0 True   non_interscambio
+  BIXIO                    garage_5t              Q005  True  pendolare          0 True   non_interscambio
   BODONI                   garage_5t              Q001  True  destinazione       1 True   non_interscambio
   BOLZANO                  garage_5t              Q001  True  pendolare          2 True   non_interscambio
   BUENOS AIRES             garage_5t              Q011  False sconosciuto        2 True   potenziale
@@ -67,9 +67,9 @@ interscambio, perche' chi arriva in centro non lascia l'auto per prendere un mez
   GARDINO                  garage_5t              Q004  True  sconosciuto        1 True   non_interscambio
   ISOLATO SANTO STEFANO    garage_5t              Q001  True  sconosciuto        1 True   non_interscambio
   ISONZO                   garage_5t              Q004  True  sconosciuto        1 True   non_interscambio
-  LANCIA                   garage_5t              Q004  True  residenziale       1 True   non_interscambio
+  LANCIA                   garage_5t              Q004  True  misto              1 True   non_interscambio
   LERA                     garage_5t              Q013  False sconosciuto        2 True   potenziale
-  LINGOTTO                 garage_5t              Q009  True  misto              2 True   non_interscambio
+  LINGOTTO                 garage_5t              Q009  True  dato_bloccato      2 True   non_interscambio
   MADAMA CRISTINA          garage_5t              Q002  True  destinazione       1 True   non_interscambio
   MAROCCHETTI              garage_5t              Q002  True  sconosciuto        0 True   non_interscambio
   MERCATO CENTRALE         garage_5t              Q007  True  destinazione       2 True   non_interscambio
@@ -85,7 +85,7 @@ interscambio, perche' chi arriva in centro non lascia l'auto per prendere un mez
   PORTA NUOVA (in costruzi garage_5t              Q001  True  sconosciuto        3 True   non_interscambio
   PORTA NUOVA FS           garage_5t              Q001  True  destinazione       3 True   non_interscambio
   PORTA PALAZZO            garage_5t              Q007  True  destinazione       1 True   non_interscambio
-  PORTA SUSA FS            garage_5t              Q001  True  destinazione       2 True   non_interscambio
+  PORTA SUSA FS            garage_5t              Q001  True  pendolare          2 True   non_interscambio
   RACCONIGI                garage_5t              Q005  True  nessun_dato        0 True   non_interscambio
   RE UMBERTO               garage_5t              Q001  True  pendolare          1 True   non_interscambio
   RICHELMY                 garage_5t              Q006  True  misto              1 True   non_interscambio

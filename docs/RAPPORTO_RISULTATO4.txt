@@ -1,52 +1,52 @@
 RISULTATO 4 — Bus in ritardo e bus irregolari [MISURATO]
 ==================================================================
-Periodo: 2026-10-10 -> 2026-10-18   giorni: feriale 5, sabato 2, domenica 2
-Passaggi osservati (ultime letture): 1486011
-  usati: 1280961 (86.2%)
-  scartati fuori GTFS: 143990 (9.7%)
-  scartati lettura lontana (>10 min): 61060 (4.1%)
+Periodo: 2026-10-10 -> 2026-10-20   giorni: feriale 7, sabato 2, domenica 2
+Passaggi osservati (ultime letture): 1781048
+  usati: 1534222 (86.1%)
+  scartati fuori GTFS: 174059 (9.8%)
+  scartati lettura lontana (>10 min): 72767 (4.1%)
 
 I 3 NUMERI (feriale)
-1. passaggi in ritardo > 5 min: 5.3%
+1. passaggi in ritardo > 5 min: 5.2%
 2. coppie a grappolo 8.7% + a buco 1.8% = 10.5% (linee frequenti)
 3. ritardo mediano: -0.4 min
 
 PUNTUALITA' CITTA' — per tipo di giorno
 tipo giorno | passaggi | % anticipo | % puntuale | % ritardo>5 | mediana | p90
-feriale     |   901778 |       39.9 |       54.8 |         5.3 |    -0.4 | 3.4
+feriale     |  1150666 |       40.1 |       54.7 |         5.2 |    -0.4 | 3.4
 sabato      |   227049 |       34.7 |       58.3 |         7.0 |    -0.1 | 4.1
-domenica    |   152134 |       36.6 |       58.1 |         5.3 |    -0.2 | 3.4
+domenica    |   156507 |       36.7 |       57.9 |         5.4 |    -0.2 | 3.5
 
 PUNTUALITA' CITTA' — fasce orarie (feriale, ora locale dell'arrivo programmato)
 fascia        | passaggi | % anticipo | % puntuale | % ritardo>5 | mediana | p90
-punta_mattina |   123179 |       45.3 |       50.9 |         3.8 |    -0.8 | 2.8
-giorno        |   355102 |       39.1 |       55.4 |         5.5 |    -0.4 | 3.5
-punta_sera    |   168282 |       41.9 |       52.1 |         6.0 |    -0.5 | 3.6
-sera          |   177058 |       36.6 |       57.2 |         6.2 |    -0.2 | 3.8
-notte         |    78157 |       38.4 |       58.5 |         3.1 |    -0.4 | 2.4
+punta_mattina |   154642 |       44.7 |       51.3 |         4.0 |    -0.7 | 2.9
+giorno        |   479464 |       39.2 |       55.3 |         5.6 |    -0.4 | 3.5
+punta_sera    |   203749 |       42.2 |       52.2 |         5.6 |    -0.5 | 3.4
+sera          |   215966 |       38.0 |       56.2 |         5.8 |    -0.3 | 3.6
+notte         |    96845 |       38.0 |       58.7 |         3.3 |    -0.4 | 2.5
 
-10 LINEE PEGGIORI PER % IN RITARDO (feriale, >= 200 passaggi)
- 1. linea RV2    35.9% in ritardo | 2226 passaggi | mediana 3.4 min | p90 8.0 min
- 2. linea VEX    28.6% in ritardo | 276 passaggi | mediana 2.2 min | p90 7.8 min
- 3. linea 17     20.2% in ritardo | 21483 passaggi | mediana 1.1 min | p90 6.8 min
- 4. linea LS1    18.9% in ritardo | 333 passaggi | mediana 2.3 min | p90 6.7 min
- 5. linea 68+    17.6% in ritardo | 1612 passaggi | mediana 0.5 min | p90 6.6 min
- 6. linea 17/    16.2% in ritardo | 7634 passaggi | mediana 1.1 min | p90 6.4 min
- 7. linea 66     14.2% in ritardo | 4571 passaggi | mediana 0.4 min | p90 5.9 min
- 8. linea 84     13.7% in ritardo | 483 passaggi | mediana 1.7 min | p90 5.8 min
- 9. linea 82     13.4% in ritardo | 277 passaggi | mediana 0.4 min | p90 6.0 min
-10. linea 68     11.3% in ritardo | 20443 passaggi | mediana 0.0 min | p90 5.3 min
+10 LINEE PEGGIORI PER % IN RITARDO (feriale, linee ordinarie, >= 2000 passaggi)
+ 1. linea 17     19.6% in ritardo | 28160 passaggi | mediana 1.1 min | p90 6.8 min
+ 2. linea 6      12.7% in ritardo | 5408 passaggi | mediana 0.2 min | p90 5.6 min
+ 3. linea 66     12.6% in ritardo | 5158 passaggi | mediana 0.2 min | p90 5.6 min
+ 4. linea 68     10.3% in ritardo | 26639 passaggi | mediana 0.0 min | p90 5.1 min
+ 5. linea 61     10.1% in ritardo | 21770 passaggi | mediana 0.1 min | p90 5.0 min
+ 6. linea 60      8.9% in ritardo | 10403 passaggi | mediana 0.1 min | p90 4.6 min
+ 7. linea 33      8.8% in ritardo | 26691 passaggi | mediana 0.2 min | p90 4.7 min
+ 8. linea 32      8.2% in ritardo | 11129 passaggi | mediana 0.2 min | p90 4.4 min
+ 9. linea 76      8.1% in ritardo | 18076 passaggi | mediana 0.0 min | p90 4.4 min
+10. linea 72      8.0% in ritardo | 13511 passaggi | mediana -0.1 min | p90 4.4 min
 
-10 LINEE PEGGIORI PER IRREGOLARITA' (feriale, >= 100 coppie)
- 1. linea 14     32.6% grappolo+buco | 304 coppie | grappolo 31.9% | buco 0.7%
- 2. linea 30     30.8% grappolo+buco | 221 coppie | grappolo 0.0% | buco 30.8%
- 3. linea 29     27.4% grappolo+buco | 498 coppie | grappolo 14.3% | buco 13.1%
- 4. linea 4      21.7% grappolo+buco | 49245 coppie | grappolo 15.8% | buco 5.9%
- 5. linea 12     19.4% grappolo+buco | 129 coppie | grappolo 19.4% | buco 0.0%
- 6. linea 45     19.0% grappolo+buco | 1287 coppie | grappolo 11.7% | buco 7.3%
- 7. linea 43     19.0% grappolo+buco | 663 coppie | grappolo 14.3% | buco 4.7%
- 8. linea 32     16.8% grappolo+buco | 776 coppie | grappolo 13.8% | buco 3.0%
- 9. linea 17     15.7% grappolo+buco | 3154 coppie | grappolo 8.5% | buco 7.2%
-10. linea 67     14.3% grappolo+buco | 4340 coppie | grappolo 12.1% | buco 2.2%
+10 LINEE PEGGIORI PER IRREGOLARITA' (feriale, linee ordinarie, >= 100 coppie)
+ 1. linea 30     30.8% grappolo+buco | 221 coppie | grappolo 0.0% | buco 30.8%
+ 2. linea 14     27.3% grappolo+buco | 369 coppie | grappolo 26.8% | buco 0.5%
+ 3. linea 29     25.3% grappolo+buco | 675 coppie | grappolo 13.3% | buco 12.0%
+ 4. linea 4      22.0% grappolo+buco | 63902 coppie | grappolo 16.1% | buco 5.9%
+ 5. linea 45     20.9% grappolo+buco | 1666 coppie | grappolo 14.4% | buco 6.5%
+ 6. linea 43     19.7% grappolo+buco | 816 coppie | grappolo 13.7% | buco 6.0%
+ 7. linea 12     19.4% grappolo+buco | 129 coppie | grappolo 19.4% | buco 0.0%
+ 8. linea 17     16.2% grappolo+buco | 4113 coppie | grappolo 9.4% | buco 6.8%
+ 9. linea 32     15.7% grappolo+buco | 912 coppie | grappolo 12.6% | buco 3.1%
+10. linea 13     13.8% grappolo+buco | 18710 coppie | grappolo 11.2% | buco 2.6%
 
 [MISURATO] dal feed GTFS-Realtime GTT; il ritardo è quello stimato dal sistema GTT alla fermata nell'ultima lettura prima dell'arrivo; sabato e domenica con 1 solo giorno: [DATI SCARSI].

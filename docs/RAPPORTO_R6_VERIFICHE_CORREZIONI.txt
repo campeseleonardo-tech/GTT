@@ -1,5 +1,5 @@
 RAPPORTO R6 - VERIFICHE INDIPENDENTI DELLE CORREZIONI (script 85)
-Generato il 20/10/2026 12:11; seme 20261020.
+Generato il 20/10/2026 15:06; seme 20261020.
 
 OK     1. M_cint rifatto con pandas — 87161.9 contro 87161.9
 OK     1. M_tor rifatto con pandas — 29987.8 contro 29987.8
@@ -41,7 +41,7 @@ OK     6. regole 'adatto' di P00743 (lungo_strada) — motivo tipo_non_aperto
 OK     7. nessuna fermata importante in Q001-Q009
 OK     7. nessun parcheggio adatto in Q001-Q009
 OK     7. punti prioritari vicini al centro (solo informazione: le loro fermate sono fuori da Q001-Q009) — a meno di 2,5 km da Piazza Castello: nessuno
-OK     7. un punto per asse (rifatto: nessuna coppia di punti a meno di 2 km o sulla stessa strada a meno di 5 km) — 16 punti
+OK     7. un punto per asse (rifatto: nessuna coppia di punti a meno di 2 km o sulla stessa strada a meno di 5 km) — 15 punti
 OK     7. nessun punto prioritario a meno di 3 km da Piazza Castello (rifatto da zero)
 OK     8. ogni fermata importante in una sola area
 

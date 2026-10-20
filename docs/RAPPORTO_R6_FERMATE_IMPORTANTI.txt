@@ -1,5 +1,5 @@
 RAPPORTO R6 - FERMATE IMPORTANTI CON IL PUNTEGGIO CORRETTO (script 83)
-Generato il 20/10/2026 12:11.
+Generato il 20/10/2026 15:06.
 Segnali a2 (peso 1), b2 (peso 1), c4 (peso 1), e (peso 1); c4 col metodo «instradamento»; torinesi nella domanda: si.
 Luoghi 5087; eleggibili (Citta' metropolitana fuori da Q001-Q009) 3898; soglia del 10% piu' alto = 63.50; fermate importanti 391.
 Segnali mancanti fra gli eleggibili (messi al minimo): {'a2': 1183, 'b2': 0, 'c4': 0}
@@ -34,7 +34,7 @@ Segnali mancanti fra gli eleggibili (messi al minimo): {'a2': 1183, 'b2': 0, 'c4
     27. Fermata 2321 - PIAVE                   C004  a2=4 b2=8.875 c4=247 e=100
     28. Fermata 3090 - CARIGNANO               C009  a2=2 b2=10.0 c4=3121 e=100
     29. METRO FERMI                            C003  a2=2 b2=64.0 c4=1019 e=100
-    31. Fermata 3687 - SOPRAELEVATA            Q019  a2=4 b2=5.125 c4=677 e=100
+    30. Fermata 3688 - SOPRAELEVATA            Q019  a2=4 b2=5.125 c4=677 e=100
 
 == Fermate importanti per zona IMQ ==
   Q011: 42
