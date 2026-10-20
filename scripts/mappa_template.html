@@ -579,7 +579,7 @@ const sez = (D.sezioni||[]).map(z=>{
     if(g==="tutti"){
       const et=["0","1","2","3","4","5 (tutti)"];
       return `<div class="t">Quanti servizi essenziali mancano · ${TAG.sim}</div>`
-        +`<div class="puntini">${PAL_SEZ.r1.map((c,k)=>`<span><i style="background:${c}"></i>${et[k]}</span>`).join("")}${grigio}<span><i style="background:none;border:2.5px solid #a50026;border-radius:50%"></i>cerchio = zona abitata con 3 o piu' servizi mancanti</span></div>`
+        +`<div class="puntini">${PAL_SEZ.r1.map((c,k)=>`<span><i style="background:${c}"></i>${et[k]}</span>`).join("")}${grigio}<span><i style="background:none;border:2.5px solid #a50026;border-radius:50%"></i>cerchio = zona abitata con 3 o più servizi mancanti</span></div>`
         +`<div class="et" style="display:block">Torino: a piedi in 15 minuti. Fuori Torino: a piedi in 15 minuti o con i mezzi pubblici in 45 (partenza alle 8 di un feriale); scuole, salute e negozi da OpenStreetMap, meno completi.</div>`;
     }
     const haCandidati = !!(D.fb_candidati && (D.fb_candidati[g]||[]).length);

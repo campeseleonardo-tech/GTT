@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **20/10/2026, sera** (ricontrollo della fase B del R1, piano della fase B bis). File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
+Ultimo aggiornamento: **20/10/2026, sera** (Risultato 1 v2 chiuso: fasi A, B, B bis ricontrollate). File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
 Solo lo stato attuale, **conciso ma completo**: i dettagli di un passo stanno nel suo piano in `docs/`
 (qui una riga e il rimando). La storia sta in git. Sezioni fisse: 1 Obiettivo · 2 Regole · 3 Cartelle e dati ·
 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici. Non aggiungerne altre.
@@ -69,7 +69,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 | Raccolta leopi | Attiva dal 3/10; parcheggi 5T + ZTL dal 14/10. 18/10: backup notturno fallito, rifatto da Claude (verificato); feed tempo reale GTT fermo dalle ~09:05 (guasto esterno, buco nei dati di quel giorno). |
 | Mappa | **Revisione completa fatta il 18/10** (`docs/archivio/PIANO_REVISIONE_MAPPA.md`): 9 temi, niente dati "live", colori leggibili, nomi dei comuni, guida con fonti e date; pubblico = portfolio. Aperto: condizioni d'uso degli sfondi Esri prima di pubblicare. |
 | Accessibilità (18) | 24 fasce orarie (15/10); piedi 15 min (80 m/min), TP 45 min. `docs/PIANO_ACCESSIBILITA.md`. |
-| Risultato 1 (21-22) | v1: 10.919 torinesi senza almeno un servizio a 15' (1,3%). Da rifare (Leo, 20/10): servizi mancanti 0-5, zone sotto 1.000 ab/km² in grigio, cintura con mezzo pubblico. Prima stima: a Torino 751 residenti (zone abitate) con 3+ servizi mancanti. `docs/PIANO_RISULTATO1.md`. |
+| Risultato 1 (21-22) | **v2 del 20/10** (fasi A, B, B bis, ricontrollate da Claude anche in Chromium): **362 torinesi in zone abitate con 3+ servizi mancanti** (5 sezioni in collina: Lavazza, Mainero, Sant'Anna ×2, Maddalena); 6.768 in zone poco abitate (sotto 1.000 ab/km², grigio); 389 «da verificare» (2 sezioni di via Chieti: fermata a 75-179 m che il calcolo a piedi non raggiunge; da aggiungere a `SEZIONI_FUORI_RETE` dello script 18 al prossimo calcolo completo); cintura con a piedi o mezzo pubblico 45' alle 8. Mappa: tema «Dove mancano i servizi» a gradini 0-5, cerchi sulle zone critiche, viste per servizio con i candidati (5 gruppi: scuole 5, salute 5, cibo 3, fermate 1, verde 0). `docs/PIANO_RISULTATO1.md`. |
 | Risultato 2 (28-29) | Chiuso il 16/10: metro ogni 15' di notte → **334.085 residenti con almeno +25% di servizi** (ogni 30': 153.062; numero in grande da 20/10); con qualsiasi miglioramento 773.307 (652.891). **In pausa** (Leo, 20/10): non risponde alla domanda «tornare a casa la sera»; scheda da nascondere; ripresa con il «popolo della notte» (IMQ 00-05). `docs/PIANO_RISULTATO2.md`. |
 | Risultato 4 «Puntualità e attese» (27 + 70) | Giro 1 del 20/10: una scheda con l'ex R9; classifiche solo linee ordinarie (≥ 2.000 passaggi; in testa la 17). Dati 10-20/10 (7 feriali): feriale **5,2%** in ritardo > 5 min, 10,5% grappolo+buco; attesa promessa 4,8 min, reale 5,4-6,3 (+0,6-1,6). Idee: link linea→mappa, ritardo/km, tram contro bus. `docs/PIANO_RISULTATO4.md`. |
 | Risultato 6 (24-25, 68-73, 77, 79-85) | **Corretto il 20/10** (esito ricontrollato da Claude): 391 fermate importanti fuori dal centro, **253 senza posti bastanti** entro 400 m a piedi (99 senza nessun parcheggio adatto); 15 punti prioritari (giro del 20/10 15:06; uno per asse, ≥ 3 km dal centro, ≥ 50 posti mancanti); in mappa anche 80 parcheggi del centro (viola), 2 viste; auto in entrata 87.162, chi già lascia l'auto 5,8% (64 interviste); torinesi inclusi (34%). Validazione: solo Stura informativo. Mappa 13,6 MB. Da fare (Leo, 20/10): pannello del parcheggio rotto (CSS), parcheggi del centro in mappa, via la vista «aree», fermate importanti con regola fissa, «popolarità» delle zone e linee utili (script 87). `docs/PIANO_RISULTATO6.md`. Catena `scripts\RISULTATO6_RIFAI.bat` (~4 min). |
@@ -101,12 +101,10 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    `RISULTATO6_RIFAI.bat`.
 3. (fatto il 20/10, ricontrollato: Risultato 1 v2 fase A, 751 abitati con 3+ mancanti.) **Risultato 1 fase B** (mappa
    0-5, grigio sotto 1.000 ab/km², quali servizi mancano nel pannello, elenco delle sezioni critiche per il lavoro 7):
-   fatta sul PC il 20/10 (`docs/ESITO_R1_MAPPA.md`), ricontrollata da Claude in Chromium: mappa OK. Trovati: candidati
-   ridotti a 2 gruppi da un errore del piano della fase A (`KeyError` nelle schede) e **389 dei 751 del titolo falsi**
-   (via Chieti: fermata a 81-166 m che il calcolo a piedi non raggiunge). **Fase B bis** (Leo: «segnalare ora», sezioni
-   «da verificare» fuori dal titolo, titolo atteso ~362): `docs/PIANO_RISULTATO1.md`, sul PC. Poi con Leo il lavoro 7
-   (5 sezioni critiche in collina, guardate a mano). Al prossimo calcolo completo dell'accessibilità (18): aggiungere
-   le sezioni da verificare a `SEZIONI_FUORI_RETE`.
+   e B bis fatte sul PC il 20/10 e ricontrollate da Claude (Chromium: 0 errori, titolo 362 in pagina, cerchi sulle 5
+   zone critiche). **Prossimo: lavoro 7 con Leo** (le 5 sezioni di collina guardate a mano, elenco in
+   `docs/PIANO_RISULTATO1.md`, «Lavoro 7»). Al prossimo calcolo completo dell'accessibilità (18): le 2 sezioni da
+   verificare in `SEZIONI_FUORI_RETE`. Corretto da Claude nel template «piu'» → «più» (si vede al prossimo 04).
 4. **Risultato 6**: prompt A (rilancio della catena con il controllo dello spareggio + sensori 5T, script 88), poi B
    (proposta fermate importanti, script 89, Leo sceglie N e M), poi C (popolarità delle zone senza i ritorni a casa,
    script 87): `docs/PIANO_RISULTATO6.md` (prompt rivisti il 20/10 sera).

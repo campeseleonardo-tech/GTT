@@ -323,6 +323,26 @@ verificare (Torino e cintura), candidati per gruppo, `git status`.
 > semplice con: il titolo nuovo, le sezioni da verificare trovate, i candidati per gruppo, se `schede_risultati.py`
 > è finito senza errori e quanti errori ha trovato la prova delle pagine.
 
+## Ricontrollo della fase B bis (Claude, 20/10 sera): OK
+Codice di 21, 22, 04, template e scheda letto; mappa ricostruita in Chromium dal template con i dati di
+`mappa_torino.html`: 0 errori JavaScript, `r1_meta.titolo` = 362 (= 751 − 389), le 2 sezioni di via Chieti mostrano
+«Dato da verificare», 5 cerchi rossi sulle zone critiche in collina, legende con lilla e cerchio, densità in formato
+italiano. Candidati per 5 gruppi; quello falso di via Chieti è sparito. Unico ritocco (fatto da Claude nel template):
+«piu'» → «più» nella legenda. Resta da guardare nella scheda (Leo, `simulazione.html`): titolo 362 e riga «zone da
+verificare» (i dati della scheda sono in `data/`, fuori da git). Il primo limite della scheda («Solo Torino: in cintura il
+catalogo… non c'è») resta: è ancora vero per il catalogo comunale.
+
+## Lavoro 7 — le 5 sezioni critiche, da guardare con Leo
+| Sezione | Residenti | Dove (fermata GTT più vicina, linea d'aria) | Mancano a 15' a piedi |
+|---|---|---|---|
+| 12720003044 | 140 | 45,05168 7,72721 — Lavazza N.36 a 132 m | scuole, salute, negozi |
+| 12720003783 | 116 | 45,04003 7,72359 — Mainero N.126 a 229 m | scuole, salute, negozi |
+| 12720003836 | 53 | 45,05293 7,73081 — Sant'Anna N.80 a 143 m | scuole, salute, negozi |
+| 12720006938 | 38 | 45,02974 7,70456 — Maddalena a 375 m | scuole, salute, negozi |
+| 12720005880 | 15 | 45,05940 7,73137 — Sant'Anna N.79 a 589 m | scuole, salute, fermate |
+Domanda per ogni riga: è davvero così (collina, strade in salita, niente negozi né ambulatori vicino)? Se Leo dice sì
+il risultato è confermato; se no, la sezione va fra quelle da verificare.
+
 ## Storia
 
 - 11-12/10: piano dell'accessibilità (`docs/PIANO_ACCESSIBILITA.md`), giro completo il 12/10, fase A (vuoti) e
