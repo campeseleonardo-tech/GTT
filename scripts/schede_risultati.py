@@ -338,13 +338,13 @@ def scheda_r4():
     tot = s["usati"] + s["fuori_gtfs"] + s["lettura_lontana"]
     fer = c["0"]
     linee = [(nome, v["0"]) for nome, v in r["linee"].items() if "0" in v]
-    peggio_rit = sorted((x for x in linee if x[1]["passaggi"] >= par["min_passaggi"]),
+    peggio_rit = sorted((x for x in linee if x[1]["passaggi"] >= par.get("min_passaggi_classifica", 2000) and str(x[0]).isdigit()),
                         key=lambda x: -x[1]["ritardo"])[:10]
-    peggio_irr = sorted((x for x in linee if (x[1].get("coppie") or 0) >= par["min_coppie"]),
+    peggio_irr = sorted((x for x in linee if (x[1].get("coppie") or 0) >= par["min_coppie"] and str(x[0]).isdigit()),
                         key=lambda x: -(x[1]["grappolo"] + x[1]["buco"]))[:10]
     nomi_fasce = {"punta_mattina": "punta del mattino (7-9)", "giorno": "giorno (9-16)",
                   "punta_sera": "punta della sera (16-19)", "sera": "sera (19-24)", "notte": "notte e primo mattino (fino alle 7, dati parziali)"}
-    return {
+    scheda = {
         "risultato": "4",
         "titolo": "Bus in ritardo e bus irregolari",
         "tag": "MISURATO",
@@ -375,7 +375,7 @@ def scheda_r4():
             {"tipo": "barre", "titolo": "Passaggi in ritardo oltre 5 minuti, per tipo di giorno",
              "unita": "%", "voci": [voce(nomi[k].lower(), c[k]["ritardo"], tono="rosso") for k in ("0", "1", "2")]},
             {"tipo": "barre", "titolo": "Le 10 linee più in ritardo (feriale)", "unita": "%",
-             "nota": f"Solo linee con almeno {par['min_passaggi']} passaggi osservati.",
+             "nota": f"Solo linee ordinarie (nome di sole cifre) con almeno {par.get('min_passaggi_classifica', 2000)} passaggi osservati.",
              "voci": [voce(f"linea {n}", x["ritardo"], tono="rosso") for n, x in peggio_rit]},
             {"tipo": "barre", "titolo": "Le 10 linee più irregolari (feriale): grappolo + buco", "unita": "%",
              "nota": f"Solo linee frequenti (un mezzo ogni {int(par['freq_max_min'])} minuti o meno) con almeno "
@@ -431,6 +431,16 @@ def scheda_r4():
         ],
         "scenari": scenari,
     }
+    r9 = scheda_r9()
+    scheda["titolo"] = "Puntualità e attese"
+    scheda["domanda"] = scheda["domanda"] + " E quanto si aspetta davvero alla fermata, rispetto a quello che promette l'orario?"
+    scheda["risposta"] = scheda["risposta"] + ["Attesa: " + r9["risposta"][0]] + r9["risposta"][1:]
+    for chiave in ("grafici", "scenari", "limiti"):
+        scheda[chiave] = scheda.get(chiave, []) + r9.get(chiave, [])
+    scheda["in_english"] = scheda.get("in_english", []) + r9.get("in_english", [])[1:]
+    scheda["fonti"] = [f.replace("PIANO_RISULTATO9_ATTESA.md", "PIANO_RISULTATO4.md")
+                       for f in scheda.get("fonti", []) + r9.get("fonti", [])]
+    return scheda
 
 
 # ---------------------------------------------------------------- Risultato 6
@@ -505,7 +515,7 @@ def scheda_r6():
             f"oggi il {quota_txt}% di chi arriva in auto prosegue con un mezzo pubblico.",
             f"Delle {migliaia(n_fermate)} fermate importanti fuori dal centro, {migliaia(n_senza)} non hanno abbastanza "
             f"posti adatti entro {raggio} m a piedi per le auto da fermare ({migliaia(rie['fermate_nessun_parcheggio'])} "
-            f"non ne hanno nessuno); le aree più scoperte: {tre_critiche}.",
+            f"non ne hanno nessuno).",
             f"I punti dove servirebbe di più un parcheggio (posti che mancano, ordine di grandezza): {tre_punti}.",
         ],
         "grafici": [
@@ -522,11 +532,6 @@ def scheda_r6():
                       voce("posti insufficienti", rie["fermate_insufficienti"], tono="arancio"),
                       voce("posti sufficienti", rie["fermate_sufficienti"], tono="verde"),
                       voce("poche auto da fermare", rie["fermate_poche_auto"])]},
-            {"tipo": "pila", "titolo": "Le aree: critiche, scarse, buone", "unita": "aree",
-             "nota": "Critica: almeno il 60% delle fermate senza posti bastanti; Scarsa 30-59%; Buona meno del 30%. "
-                     f"Con meno di 5 fermate valutate: «Pochi dati» ({apc.get('Pochi dati', 0)} aree, non contate qui).",
-             "voci": [voce("Critica", apc["Critica"], tono="rosso"), voce("Scarsa", apc["Scarsa"], tono="arancio"),
-                      voce("Buona", apc["Buona"], tono="verde")]},
             {"tipo": "barre", "titolo": "I punti dove mancano più posti", "unita": "posti",
              "nota": "Posti che mancano = auto da fermare − posti adatti vicini [STIMATO, ordine di grandezza].",
              "voci": [voce(f"{p['ordine']}. {nome_pulito(p['nome'])}", p["mancano"], tono="rosso") for p in punti[:10]]},
@@ -546,7 +551,7 @@ def scheda_r6():
             f"Auto da fermare = auto che passano × {quota_txt}% (chi già oggi lascia l'auto per un mezzo pubblico).",
             f"Posti adatti: parcheggi aperti fuori dal centro, con almeno 20 posti, non di ospedali, università o centri "
             f"commerciali, entro {raggio} m a piedi (linea d'aria × 1,3); posti dichiarati o stimati con 25 m² a posto.",
-            "Aree: celle esagonali di circa 2 km²; punti prioritari (fino a 20, almeno 50 posti mancanti, uno per asse d'ingresso, oltre 3 km dal centro): fermate senza posti bastanti raggruppate entro 1 km, in "
+            "Punti prioritari (fino a 20, almeno 50 posti mancanti, uno per asse d'ingresso, oltre 3 km dal centro): fermate senza posti bastanti raggruppate entro 1 km, in "
             "ordine di posti che mancano.",
         ],
         "parametri": [["Centro escluso", "quartieri Q001-Q009 (fermate e parcheggi)"],
@@ -554,7 +559,6 @@ def scheda_r6():
                       ["Distanza", f"{raggio} m a piedi (linea d'aria × 1,3)"],
                       ["Auto da fermare", f"auto che passano × {quota_txt}%"],
                       ["Posti stimati", "25 m² a posto (±30%)"],
-                      ["Aree", "celle di circa 2 km²; almeno 5 fermate valutate"],
                       ["Giorni feriali di riempimento", giorni]],
         "limiti": [
             "Auto che passano: modello del traffico (percorso più veloce, senza code), stima debole: solo ordine di grandezza. "
@@ -567,7 +571,7 @@ def scheda_r6():
         ],
         "criteri": r.get("criteri", []),
         "mappa": {"id": "interscambio", "tema": "Parcheggi per lasciare l'auto",
-                  "nota": "Tre domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi, in quali aree mancano posti, dove servirebbe di più un parcheggio."},
+                  "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."},
         "fonti": ["docs/RAPPORTO_R6_PARCHEGGI.txt", "docs/RAPPORTO_R6_AUTO_PASSAGGIO.txt",
                   "docs/RAPPORTO_R6_FERMATE_IMPORTANTI.txt", "docs/RAPPORTO_R6_PARCHEGGI_ADATTI.txt",
                   "scripts/81_auto_di_passaggio.py", "scripts/82_parcheggi_adatti.py", "scripts/83_fermate_importanti.py",
@@ -596,7 +600,6 @@ def scheda_r6():
                 num("Fermate importanti fuori dal centro", n_fermate, "fermate"),
                 num("Senza posti bastanti", n_senza, "fermate"),
                 num("Senza nessun parcheggio adatto", rie["fermate_nessun_parcheggio"], "fermate"),
-                num("Aree in categoria Critica", apc["Critica"], "aree"),
             ],
             "nota": "Stime [STIMATO]: auto dal modello del traffico, posti da OpenStreetMap, Comune e 5T; riempimento da 5T [DATI SCARSI].",
         }],
@@ -683,6 +686,11 @@ def scheda_r8():
              "unita": "veicoli/giorno",
              "nota": "Barra chiara = misurato dal sensore, barra scura = stima del modello senza usare quel sensore.",
              "voci": [voce(s["via"].replace("(TO)", "").replace("Unita' D'italia", "Unità d'Italia").strip(), round(st), prima=s["misurato"]) for s, st in loo]},
+            {"tipo": "barre", "titolo": "Errore della stima su ogni sensore (%)", "unita": "%",
+             "nota": "Errore = |stimato − misurato| / misurato. Metà dei sensori sotto il valore tipico, gli altri sopra.",
+             "voci": [voce(s["via"].replace("(TO)", "").replace("Unita' D'italia", "Unità d'Italia").strip(),
+                           round(100 * abs(st - s["misurato"]) / s["misurato"]), tono="rosso")
+                      for s, st in sorted(loo, key=lambda x: abs(x[1] - x[0]["misurato"]) / x[0]["misurato"])]},
         ],
         "metodo": [
             "Domanda: gli spostamenti in auto dell'indagine IMQ 2022 (residenti, giorno feriale), assegnati alla "
@@ -723,7 +731,7 @@ def scheda_r8():
         ],
         "in_english": [
             "Question: on Turin's major roads, where is there a lot of traffic and little public transport nearby?",
-            f"Of {u['n_tratte']:,} road sections ({u['km']:.1f} km), {u['quota_km_coperta_tp'] * 100:.1f}% of the length "
+            f"Of {u['n_tratte']:,} road sections on Turin's major roads ({u['km']:.1f} km), {u['quota_km_coperta_tp'] * 100:.1f}% of the length "
             "has a frequent stop (at least 4 departures an hour) within 300 m, or the metro within 600 m. Heavy-traffic "
             f"sections (over {round(u['soglie']['q66']):,} vehicles a day): {c['molto_traffico']}; of these, "
             f"{c['da_guardare']} also have little public transport.",
@@ -733,7 +741,7 @@ def scheda_r8():
             "to count vehicles.",
         ],
         "mappa": None,
-        "fonti": ["docs/RIASSUNTO_TRAFFICO.md", "docs/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
+        "fonti": ["docs/PIANO_RISULTATO8.md", "docs/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
                   "docs/archivio/traffico/ESITO_FASE5_TRAFFICO.md", "data/processed/risultato8_traffico_tp_v2.json"],
         "generato": ora(),
         "avviso": [
@@ -880,11 +888,16 @@ def scheda_r9():
     }
 
 
+NASCOSTE = {"risultato2"}   # in pausa (Leo, 20/10/2026): docs/PIANO_RISULTATO2.md
+
+
 def main():
     schede = []
     for nome, fabbrica in (("risultato1", scheda_r1), ("risultato2", None),
                            ("risultato4", scheda_r4), ("risultato6", scheda_r6),
-                           ("risultato8", scheda_r8), ("risultato9", scheda_r9)):
+                           ("risultato8", scheda_r8)):
+        if nome in NASCOSTE:
+            continue
         file = f"{nome}_riepilogo_mappa.json"
         if fabbrica is None:
             s = arricchisci_r2(leggi(file))  # il JSON di R2 resta quello dello script 29

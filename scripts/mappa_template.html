@@ -75,8 +75,8 @@
   .sc-stato{font-size:11.5px;color:var(--muted);margin-top:2px}
   .sc-det{display:grid;gap:3px;font-size:12px;margin-bottom:8px}
   .sc-det-row{display:flex;justify-content:space-between;gap:6px;line-height:1.35;align-items:baseline}
-  .sc-det-k{color:var(--muted);flex:none}
-  .sc-det-v{color:var(--ink);text-align:right;word-break:break-word}
+  .sc-det-k{color:var(--muted);flex:0 1 auto;max-width:60%}
+  .sc-det-v{color:var(--ink);text-align:right;word-break:break-word;flex:1 1 auto;min-width:0}
   .sc-app{margin-top:4px;border-top:1px solid var(--line);padding-top:6px;font-size:11.5px}
   .sc-app summary{cursor:pointer;font-weight:600;color:var(--ink);margin-bottom:4px}
   .sc-app-body{color:var(--ink);line-height:1.35;margin-top:4px}
@@ -209,7 +209,7 @@
     <p><b>Programmato</b> = dagli orari GTT, non i passaggi reali. <b>Misurato</b> = registrato dai mezzi e dai sensori. <b>Censimento</b> = residenti ISTAT 2021. <b>Stimato</b> = calcolo nostro, con i limiti scritti nella scheda.</p>
     <p><b>Area:</b> Torino e 68 comuni intorno. Fuori Torino mancano treni e altri operatori, e i servizi (scuole, salute, negozi) vengono da OpenStreetMap, più incompleto del catalogo del Comune.</p>
     <p><b>Corse simulate:</b> posizione stimata dagli orari, a velocità costante. <b>Mezzi registrati:</b> posizioni GPS vere di una giornata.</p>
-    <p><b>Parcheggi per lasciare l'auto</b> (Risultato 6): dove lasciare l'auto <i>prima</i> di entrare in città e proseguire con i mezzi pubblici. Tre domande, nel menu «Cosa vedere». <b>Dove ci sono parcheggi?</b> I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) e gli interscambi del Comune, colorati per riempimento misurato di giorno. <b>In quali aree mancano posti?</b> Celle di circa 2 km² colorate per quota di fermate importanti dove i posti entro 400 m a piedi non bastano per le auto in entrata che passano al mattino. <b>Dove servirebbe di più un parcheggio?</b> Fino a 20 punti dove mancano più posti, uno per asse d'ingresso e ad almeno 3 km dal centro. Le fermate importanti sono il 10% più alto per punteggio fra quelle della Città metropolitana fuori dal centro (quartieri Q001-Q009). Le auto che passano vengono dal modello del traffico: solo ordine di grandezza. Criteri, sensibilità, verifica sugli interscambi esistenti e limiti sono nella scheda del Risultato 6.</p>
+    <p><b>Parcheggi per lasciare l'auto</b> (Risultato 6): dove lasciare l'auto <i>prima</i> di entrare in città e proseguire con i mezzi pubblici. Due domande, nel menu «Cosa vedere». <b>Dove ci sono parcheggi?</b> I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) e gli interscambi del Comune, colorati per riempimento misurato di giorno. <b>Dove servirebbe di più un parcheggio?</b> Fino a 20 punti dove mancano più posti, uno per asse d'ingresso e ad almeno 3 km dal centro. Le fermate importanti sono il 10% più alto per punteggio fra quelle della Città metropolitana fuori dal centro (quartieri Q001-Q009). Le auto che passano vengono dal modello del traffico: solo ordine di grandezza. Criteri, sensibilità, verifica sugli interscambi esistenti e limiti sono nella scheda del Risultato 6.</p>
     <p><b>Colori:</b> verde = bene, rosso = male. Blu→arancione = poco→tanto, senza giudizio. Le legende scrivono sempre i numeri.</p>
   </details>
 
@@ -928,12 +928,10 @@ function aggiornaScala(ws){
 /* ---------- [R6] Parcheggi per lasciare l'auto (Risultato 6) ----------
    Tre viste (menu «Cosa vedere»), ognuna risponde a una domanda e ha una sola scala di colori:
    1. «parcheggi»: Dove ci sono parcheggi? i parcheggi grandi, colore = riempimento misurato di giorno;
-   2. «aree»: In quali aree mancano posti? celle esagonali, colore = quota di fermate senza posti bastanti (correzioni del 20/10);
    3. «mancano»: Dove servirebbe di più un parcheggio? i punti prioritari (fino a 20), numerati. */
 const R6_VISTA = () => OPT_VAL.r6Vista || "parcheggi";
 const R6_DESC = {
   parcheggi: "Dove ci sono parcheggi per lasciare l'auto? I parcheggi adatti (fuori dal centro, non di ospedali o centri commerciali) vicino alle fermate importanti, più gli interscambi del Comune: quanto sono grandi e quanto si riempiono di giorno.",
-  aree: "In quali aree mancano posti? Per ogni area di circa 2 km²: quante fermate importanti non hanno abbastanza posti adatti entro 400 m a piedi per le auto che passano al mattino.",
   mancano: "Dove servirebbe di più un parcheggio? Fino a 20 punti, uno per asse d'ingresso, dove passano più auto in entrata e mancano più posti, in ordine di posti che mancano (ordine di grandezza)."
 };
 const R6_CAT_AREA = ["Critica","Scarsa","Buona","Pochi dati"];
@@ -999,7 +997,7 @@ function disegnaR6Parcheggi(ws,ox,oy){
   for(const p of R6.parcheggi){
     const X=p.x*ws-ox, Y=p.y*ws-oy; if(X<-16||Y<-16||X>W+16||Y>H+16) continue;
     const r=r6RaggioPx(p), stim=r6Stimato(p);
-    cx.beginPath(); cx.arc(X,Y,r,0,6.2832); cx.fillStyle=R6_COL_STATO[p.stato]||"#9aa3b2";
+    cx.beginPath(); cx.arc(X,Y,r,0,6.2832); cx.fillStyle=p.in_centro?"#6a51a3":(R6_COL_STATO[p.stato]||"#9aa3b2");
     cx.globalAlpha=.9; cx.fill(); cx.globalAlpha=1;
     cx.lineWidth=p.tipo==="interscambio_ufficiale"?2.6:1.4; cx.strokeStyle=p.tipo==="interscambio_ufficiale"?"#1d2430":"#fff";
     cx.setLineDash(stim?[3,2]:[]); cx.stroke(); cx.setLineDash([]);
@@ -1079,10 +1077,11 @@ function r6SchedaParcheggio(p){
   const motivo = {zona_centrale:"è in centro", pochi_posti:"ha meno di 20 posti", destinazione_hospital:"è di un ospedale", destinazione_university:"è di un'università",
     destinazione_college:"è di una scuola superiore o università", destinazione_retail:"è di un'area commerciale", destinazione_mall:"è di un centro commerciale"}[p.motivo_non_adatto];
   return creaScheda({
-    titolo: esc(p.nome), badge:"stimato", sub: esc(p.tipo_testo||"Parcheggio"),
+    titolo: esc(p.nome), badge: stim ? "stimato" : null, sub: esc(p.tipo_testo||"Parcheggio"),
     val: `${r6N(p.posti)} posti${stim?" [STIMATO]":""}`,
     stato: tariffa,
     dettagli: [
+      ...(p.in_centro ? [{k:"In centro", v:"non serve a lasciare l'auto prima di entrare in città"}] : []),
       {k:"Distanza a piedi dalla fermata importante più vicina", v:`${r6N(p.dist_fermata_importante_piedi_m)} m (stimata)`},
       {k:"Nodo di trasporto vicino", v:esc(nodo)},
       {k:"Auto in entrata sulla strada più trafficata entro 300 m", v:r6Auto(p.auto_passaggio_txt)},
@@ -1113,6 +1112,7 @@ function legendaR6(){
       +`<div class="puntini"><span><i style="background:#9aa3b2;width:6px;height:6px"></i>pochi posti</span>`
       +`<span><i style="background:#9aa3b2;width:14px;height:14px"></i>molti posti (grandezza = posti)</span>`
       +`<span><i style="background:#fff;border:2.5px solid #1d2430"></i>interscambio del Comune</span>`
+      +`<span><i style="background:#6a51a3"></i>in centro (non per lasciare l'auto)</span>`
       +`<span><i style="background:#fff;border:1.5px dashed #6b7280"></i>posti stimati dalla superficie [STIMATO]</span></div>`
       +`<div class="et" style="display:block">Parcheggi adatti (fuori dal centro, non di ospedali, università o centri commerciali) con almeno 100 posti vicino a una fermata importante o a un nodo di trasporto importante, più gli interscambi del Comune e i park &amp; ride. Riempimento misurato dal 5T su pochi giorni feriali [DATI SCARSI]: i parcheggi grigi non trasmettono il riempimento.</div>`
       +fonti;
@@ -2246,7 +2246,6 @@ let tema = THEMES[0];   // tema di partenza: Servizio e abitanti
 const OPZIONI = {
   r6Vista:{etichetta:"Cosa vedere", voci:[
     ["parcheggi","Dove ci sono parcheggi?"],
-    ["aree","In quali aree mancano parcheggi?"],
     ["mancano","Dove servirebbe di più un parcheggio?"]]},
   subServizio:{etichetta:"Cosa vedere", voci:[
     ["rapp","Offerta rispetto agli abitanti"],
@@ -2384,7 +2383,7 @@ const temaDaUrl = ()=>{ const m=/[#&?]tema=([a-z0-9_]+)/i.exec(location.hash||""
 function applicaVistaDaUrl(){
   if(temaDaUrl()!=="interscambio") return;
   const m=/[#&?]vista=([a-z0-9_]+)/i.exec(location.hash||"");
-  const v = m && ["parcheggi","aree","mancano"].includes(m[1]) ? m[1] : "parcheggi";
+  const v = m && ["parcheggi","mancano"].includes(m[1]) ? m[1] : "parcheggi";
   if($("r6Vista")) $("r6Vista").value = v;
   OPT_VAL.r6Vista = v; impostaR6Vista(); baseVer++; chiede(); aggiornaLegenda();
 }
