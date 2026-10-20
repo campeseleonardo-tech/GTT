@@ -343,6 +343,10 @@ catalogo… non c'è») resta: è ancora vero per il catalogo comunale.
 Domanda per ogni riga: è davvero così (collina, strade in salita, niente negozi né ambulatori vicino)? Se Leo dice sì
 il risultato è confermato; se no, la sezione va fra quelle da verificare.
 
+**Esito (Leo, 20/10 sera): confermate tutte e 5.** Sono in collina (a est del Po e di corso Moncalieri): strade piccole,
+poca gente, pochi servizi, poco traffico. Il Risultato 1 v2 è chiuso. Lettura: a Torino le carenze vere di servizi a
+piedi sono solo in collina; il resto della città è «dei 15 minuti».
+
 ## Storia
 
 - 11-12/10: piano dell'accessibilità (`docs/PIANO_ACCESSIBILITA.md`), giro completo il 12/10, fase A (vuoti) e

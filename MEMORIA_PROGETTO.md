@@ -102,8 +102,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 3. (fatto il 20/10, ricontrollato: Risultato 1 v2 fase A, 751 abitati con 3+ mancanti.) **Risultato 1 fase B** (mappa
    0-5, grigio sotto 1.000 ab/km², quali servizi mancano nel pannello, elenco delle sezioni critiche per il lavoro 7):
    e B bis fatte sul PC il 20/10 e ricontrollate da Claude (Chromium: 0 errori, titolo 362 in pagina, cerchi sulle 5
-   zone critiche). **Prossimo: lavoro 7 con Leo** (le 5 sezioni di collina guardate a mano, elenco in
-   `docs/PIANO_RISULTATO1.md`, «Lavoro 7»). Al prossimo calcolo completo dell'accessibilità (18): le 2 sezioni da
+   zone critiche). Lavoro 7 fatto con Leo: le 5 zone critiche sono tutte in collina, **confermate**. **R1 v2 chiuso.** Al prossimo calcolo completo dell'accessibilità (18): le 2 sezioni da
    verificare in `SEZIONI_FUORI_RETE`. Corretto da Claude nel template «piu'» → «più» (si vede al prossimo 04).
 4. **Risultato 6**: prompt A (rilancio della catena con il controllo dello spareggio + sensori 5T, script 88), poi B
    (proposta fermate importanti, script 89, Leo sceglie N e M), poi C (popolarità delle zone senza i ritorni a casa,
