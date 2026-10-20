@@ -24,7 +24,7 @@ cloud `claude/festive-noether-tjjecr`: Leo l'ha unito in `prova` prima di questo
 - `popolarita` = arrivi / km² (restano `arrivi`, `km2`); `dati_scarsi` se meno di 50 righe IMQ di arrivo (3 zone su 101 nella
   Città metropolitana: AVVISO). (a), (b) delle linee e linee utili dei parcheggi ricalcolati con la nuova popolarità; anche le
   5 zone per gruppo di scopo sono per km². Rapporto: colonne arrivi, km², arrivi/km², riga «dati scarsi».
-- Prima → dopo: prime 5 zone Q001 Centro, Moncalieri, Rivoli, Parella, San Donato → **Centro (44.404 arrivi/km²), San Paolo
+- Prima → dopo: prime 5 zone Centro, Nizza Millefonti, Moncalieri, Rivoli, Parella → **Centro (44.404 arrivi/km²), San Paolo
   (21.346), Cenisia (19.477), San Donato (18.535), Nizza Millefonti (17.672)**. Moncalieri, Rivoli, Collegno non sono più in cima.
 - Linee in testa per (a): 1085 (12), 2 (11), 93/ (10), 91 (9), 24 (8). Linee utili: 54 (come prima), soglia (a) = 4.
 - Parcheggi adatti senza linea utile entro 400 m: 1.264 su 1.874 (prima 1.123; AVVISO).
