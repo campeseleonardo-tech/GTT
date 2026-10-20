@@ -93,6 +93,25 @@ giro; corretto con uno spareggio fisso negli script 83 e 84, il numero definitiv
 | 7 | Rilancio dopo ≥ 5 feriali di parcheggi (inizio novembre): `scripts\RISULTATO6_RIFAI.bat`; screenshot di Leo | — | — |
 | — | Congelato: eventi (stadi, palazzetti) | — | — |
 
+## Esito del prompt A (20/10 sera, ricontrollato da Claude)
+- **Spareggio**: catena rifatta due volte, **15 punti prioritari identici** (nomi, ordine, zone). Chiuso.
+- **Confronto con i sensori 5T** (script 88, `docs/RAPPORTO_R6_CONFRONTO_SENSORI.txt`; codice letto, corretto):
+  33 sensori entro 25 km con flusso al mattino. ρ = 0,83 sensore per sensore, ma è gonfiato (i due versi dello stesso
+  punto contano due volte e 8 sensori su strade fuori dalla rete del modello stanno tutti in fondo in entrambe le
+  classifiche). **Numero onesto: ρ = 0,52 su 23 luoghi dentro la rete** (0,60 con tutti i 27): **debole**, come il
+  modello del traffico del R8 (0,605).
+- Dove sbaglia: **sottostima gli ingressi da nord-ovest** (SP8 Druento, SP1 Valli di Lanzo, SP2 Germagnano, Corso
+  Vercelli, raccordo di Caselle: misurati 3.000-5.000, modello 500-1.100) e **sovrastima i corsi interni a ovest**
+  (Sebastopoli, Allamano, Unione Sovietica). In parte non è un errore: i sensori lontani (14-16 km) contano anche
+  il traffico locale, che non va a Torino. In cima l'ordine è giusto (Unità d'Italia, Trieste a Moncalieri, Orbassano).
+- **Dubbio del punto debole 4 risolto**: Corso Francia non è sottostimato (modello 7°-10°, sensori 13°-14° su 27),
+  Corso Trieste (Moncalieri) è 2° anche nei sensori. Il modello senza code non stravolge le strade d'ingresso
+  principali.
+- Effetto sul risultato: nessun numero cambia. I punti del nord (Pellerina, Potenza, Rebaudengo, Stura Lazio,
+  Pianezza) potrebbero servire **più** di quanto dice il modello, non meno. **Valore predefinito di Claude**: una riga
+  nei limiti della scheda R6 («confronto con i sensori 5T: ordine debole, ρ 0,52; il modello sottostima gli ingressi
+  da nord-ovest»), letta dal rapporto, nel prossimo giro che tocca la scheda R6 (dopo i prompt B e C).
+
 ## Come eseguirli
 
 - Lavori 1-3: dentro il **Giro 1** (`docs/PIANO_GIRO1_RITOCCHI.md`, passi 1-3).
