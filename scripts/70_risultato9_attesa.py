@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Risultato 9 — attesa promessa contro attesa reale [MISURATO].
 
-Piano: docs/PIANO_RISULTATO9_ATTESA.md (approvato da Leo il 18/10/2026 con i default D1-D5).
+Piano: docs/PIANO_RISULTATO4.md, parte B (prima docs/PIANO_RISULTATO9_ATTESA.md; approvato da Leo il 18/10/2026 con i default D1-D5).
 
 Domanda: sulle linee frequenti, quanti minuti in piu' aspetta in media chi arriva alla fermata a caso,
 rispetto a quanto promette l'orario?

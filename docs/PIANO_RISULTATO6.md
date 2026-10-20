@@ -23,8 +23,9 @@ auto dal centro?
 - **253 fermate importanti su 391 senza posti bastanti** (99 senza nessun parcheggio adatto, 154 con posti
   insufficienti); 116 con posti sufficienti; 22 con poche auto da fermare.
 - **76 aree**: 20 critiche, 5 scarse, 5 buone, **46 «Pochi dati»** (meno di 5 fermate).
-- **20 punti prioritari**, quasi tutti fra 3,5 e 9,6 km dal centro (uno solo sotto 2,5 km: Gioanetti, 1,4 km; prima
-  erano 7): in testa Maroncelli e Bosso (Moncalieri), Pellerina (Le Vallette), Santa Rita.
+- **16 punti prioritari** (giro del 20/10 12:11: uno per asse d'ingresso, almeno 3 km dal centro, almeno 50 posti
+  mancanti): in testa Maroncelli (Moncalieri, circa 650), Pellerina (circa 450), Santa Rita (circa 400), Barbera,
+  Metro Massaua.
 - **Validazione sui 5 interscambi del Comune**: solo Stura dice qualcosa (pieno, su strada con molte auto: coerente);
   Caio Mario contatore fermo, Fermi non trasmette, Venchi Unica a metà, Sofia poco usato con molte auto accanto.
 - Mappa 13,6 MB (era 23,6); 142 parcheggi mostrati.
@@ -50,9 +51,43 @@ Rita (circa 400), Barbera (circa 350), Metro Massaua (circa 300). Gli ultimi tre
 aggiunta la regola **almeno 50 posti mancanti** per entrare nella lista: giro del 20/10 12:11, **16 punti**, verifiche
 0 non superate.
 
-## Prossimi passi
-Dopo ≥ 5 feriali di parcheggi (inizio novembre): `scripts\RISULTATO6_RIFAI.bat`. Screenshot di Leo. Decidere i punti
-1-5 qui sopra. Eventi (stadi, palazzetti): congelati (Leo, 20/10).
+## Commenti di Leo (20/10) e fattibilità
+
+| Commento | Controllo | Fattibile? |
+|---|---|---|
+| **Il pannello a destra cliccando un parcheggio è rotto** | Confermato da Claude in Chromium sulla mappa del 20/10: le etichette lunghe («Distanza a piedi dalla fermata importante più vicina») non vanno a capo e schiacciano i valori, che finiscono una lettera per riga fuori dal riquadro. Causa: una regola CSS (`.sc-det-k{flex:none}` in `mappa_template.html`). In più il bollino «STIMATO» compare anche sui parcheggi con posti dichiarati (Stura) | Sì, piccolo (CSS + bollino solo se i posti sono stimati). Riguarda tutte le schede con etichette lunghe, non solo il R6 |
+| **«Dove ci sono parcheggi» anche per il centro** | I parcheggi del centro sono esclusi perché non servono a lasciare l'auto prima di entrare; ci sono nei dati (`parcheggi.json`, garage 5T con riempimento) | Sì, piccolo-medio: mostrati con un colore a parte («in centro: non per lasciare l'auto»), fuori dai conteggi |
+| **«In quali aree manca parcheggio» con gli esagoni non dice nulla** | 46 aree su 76 sono «Pochi dati» | Sì: si toglie la vista |
+| **L'unico sottotema pulito è «Dove servirebbe un parcheggio»** | Dopo il giro del 20/10 (16 punti per asse) | — |
+| **«Fermate importanti» balla troppo** fra 5%, 10% e 15% (197 / 391 / 586) | È una classifica: la soglia decide quante sono | Sì, medio: regola fissa (sotto) |
+| **Parcheggi esistenti e «linee utili»**: quante linee utili tocca ogni parcheggio; linea utile = tocca servizi e zone «popolari» | Servizi per sezione ci sono; spostamenti in arrivo per zona IMQ (101 zone, per scopo) ci sono; per sezione no | Sì, medio: «popolarità» per zona IMQ + servizi (sotto) |
+
+## Decisioni di Leo (20/10)
+
+1. **Pannello** corretto; **parcheggi del centro mostrati** con colore a parte; **vista «aree» tolta**: restano 2 viste
+   («Dove ci sono parcheggi?», «Dove servirebbe di più un parcheggio?»). Lo script 84 può smettere di calcolare le
+   aree, o tenerle solo nel rapporto.
+2. **Fermate importanti con una regola fissa**, non una percentuale. Proposta di Claude da discutere: fermata
+   importante = fuori da Q001-Q009 **e** (metro, stazione o capolinea **oppure** almeno N passaggi all'ora fra le 7 e
+   le 9) **e** almeno M auto in entrata che passano accanto. N e M si scelgono guardando le distribuzioni (non per
+   far tornare un numero), e si dichiara quante fermate ne escono.
+3. **«Popolarità» delle zone come misura comune**: spostamenti che **arrivano** in ogni zona IMQ (per scopo:
+   lavoro/studio, svago e acquisti, altro) + servizi del catalogo; **linea utile** = linea che tocca zone popolari e
+   servizi. Serve a R6 (parcheggi che portano a linee utili), R4 (linee in zone affollate), costi. Va in uno script
+   suo (numero libero 87).
+
+## Lavori da fare (in ordine)
+
+| # | Lavoro | Dove | Quanto |
+|---|---|---|---|
+| 1 | Pannello: etichette che vanno a capo; bollino «STIMATO» solo se i posti sono stimati | `mappa_template.html` | piccolo |
+| 2 | Togliere la vista «aree» (mappa, scheda, testi); tenere le aree solo nel rapporto o toglierle | template, 84, `schede_risultati.py` | piccolo |
+| 3 | Parcheggi del centro nella vista «Dove ci sono parcheggi?», colore a parte, fuori dai conteggi | 84, 79, template | piccolo-medio |
+| 4 | Confronto auto in entrata (modello) con i sensori 5T del mattino in entrata: il controllo con la realtà che manca | nuovo controllo nell'85 o script a parte | medio |
+| 5 | Fermate importanti con regola fissa (decisione 2): proposta con le distribuzioni, poi scelta di Leo | 83 | medio |
+| 6 | Popolarità delle zone + linee utili (script 87); poi per ogni parcheggio adatto: quante linee utili tocca | 87, poi 84 | medio |
+| 7 | Rilancio dopo ≥ 5 feriali di parcheggi (inizio novembre): `scripts\RISULTATO6_RIFAI.bat`; screenshot di Leo | — | — |
+| — | Congelato: eventi (stadi, palazzetti) | — | — |
 
 ---
 

@@ -58,6 +58,9 @@ in git **dopo** aver rilanciato `python scripts\86_prepara_pubblicazione.py` (nu
 
 ## 4. Prossimi passi, in ordine
 
+> **Superato il 20/10 (sera)** dopo l'analisi di Leo sui risultati: l'ordine attuale è in `MEMORIA_PROGETTO.md`
+> (sezione 6) e i lavori di ogni risultato nel suo piano (`docs/PIANO_RISULTATO1/2/4/6/8.md`).
+
 Criterio: prima ciò che **scade** o **sbaglia**, poi ciò che rende il portfolio **visibile**, poi ciò che lo
 rende **più forte**, poi il nuovo.
 

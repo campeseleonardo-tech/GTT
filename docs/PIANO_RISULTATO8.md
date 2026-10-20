@@ -1,4 +1,36 @@
-# Traffico veicolare (Risultato 8) — riassunto unico
+# Piano — Risultato 8: traffico sulle strade e trasporto pubblico (prima `RIASSUNTO_TRAFFICO.md`)
+
+Piano unico del risultato: in testa i commenti di Leo del 20/10 e i lavori, sotto il riassunto del 18/10 (invariato).
+**Nessuna modifica fatta al risultato**: è un piano.
+
+## Commenti di Leo (20/10) e fattibilità
+
+| Commento | Controllo | Fattibile? |
+|---|---|---|
+| R8 è pulito | — | — |
+| **Misurato e stimato per strada anche in percentuale**, per vedere come si distribuisce l'errore | La scheda ha già il grafico «Prova del modello sui 20 sensori» (barre misurato/stimato), ma non l'errore in %. Gli errori ci sono già (`docs/RAPPORTO_TRAFFICO_V4.txt`): dallo 0,2% di Corso Orbassano (40097) al 177% di Corso Unione Sovietica; metà entro ±38%, 9 su 10 entro ±64% | Sì, piccolo: colonna o grafico «errore %» nella scheda, ordinato |
+| **Si può ridurre l'errore?** | Leve, in ordine di costo: (1) **più punti di confronto**: oggi 20 unità-sensore; i 3 codici doppi salvati dal 17/10 e altri sensori abbinati per posizione possono aggiungerne qualcuno; (2) **domanda per fascia oraria e code** nel modello (la Fase 5 ha visto che senza code Piazza Castello → Collegno vale 13,8 min contro 20-35 reali); (3) pendolari da fuori Piemonte, merci, turisti (dati che non abbiamo). Il modello più ricco V4 non aveva migliorato la correlazione | (1) piccolo-medio, da provare dopo 6 feriali con i codici nuovi; (2) grande; (3) no |
+| **«95,3%» = «non ci sono zone completamente prive di fermate»** | Non proprio: il 95,3% riguarda solo le **strade grandi di Torino** (343 km). La frase giusta è «**lungo le strade grandi di Torino c'è quasi sempre una fermata frequente a meno di 300 m**». Per le zone: dal Risultato 1, 1.204 torinesi non hanno una fermata a 15 minuti a piedi (soprattutto in zone poco abitate) | Sì, piccolo: correggere la frase nella scheda e nel README |
+| **Incrociare con i parcheggi** (una fermata serve a poco se non posso lasciare l'auto) | È la domanda del Risultato 6 | Solo idea: il collegamento si fa nel R6 (parcheggi vicino a linee utili), non qui |
+
+## Decisioni di Leo (20/10)
+
+Primo lavoro: **tabella degli errori in % + frase corretta**. Migliorare il modello solo come idea, dopo.
+
+## Lavori da fare (in ordine)
+
+| # | Lavoro | Dove | Quanto |
+|---|---|---|---|
+| 1 | Errore in % per ognuno dei 20 sensori nella scheda (ordinato; colore verde→rosso per l'errore) | `schede_risultati.py` (`scheda_r8`) | piccolo |
+| 2 | Frase corretta sul 95,3% (solo strade grandi di Torino) in scheda, inglese e README; nelle fonti della scheda il piano diventa `docs/PIANO_RISULTATO8.md` (oggi cita ancora `RIASSUNTO_TRAFFICO.md`) | `schede_risultati.py` | piccolo |
+| 3 | Routine settimanale: fetch, `TRAFFICO_RILANCIA_SENSORI.bat`; ora legale del 25/10 da controllare a mano nello script 26 dopo il fetch del 1/11 | — | — |
+| 4 | Dopo 6 feriali con i codici nuovi (dal 17/10): provare ad aggiungere unità di confronto | 33-44 | piccolo-medio |
+| 5 | Corso Moncalieri: controllo a mano della copertura TP | — | piccolo |
+| — | Idee: modello con le code; mappa del traffico (solo se Leo vuole); `velocita_5t.json` al posto del «tipico» di `stat.js` in mappa | — | — |
+
+---
+
+# Riassunto del 18/10 (invariato)
 
 Scritto da Claude il 18/10/2026 a partire dai piani, dagli esiti e dai rapporti delle Fasi 1-5 (ora in
 `docs/archivio/traffico/`). Qui c'è tutto quello che serve per capire e riprendere il lavoro; i documenti

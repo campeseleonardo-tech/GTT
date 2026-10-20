@@ -1,5 +1,26 @@
 # Piano e storia — Risultato 2 "metro di notte"
 
+> ## IN PAUSA (Leo, 20/10/2026)
+>
+> **Perché.** La domanda vera di Leo era: «uscendo la sera, con la metro aperta, sarebbe più facile tornare a casa?».
+> Il risultato invece conta i **servizi raggiungibili** di notte: è normale che con la metro aperta tanta gente ne
+> raggiunga di più, ma di notte dorme e molti servizi (soprattutto i negozi) sono chiusi. Il numero non risponde
+> alla domanda.
+>
+> **Decisione.** Scheda **nascosta** da `simulazione.html` e dal README finché non lo riprendiamo; dati e script
+> (28, 29, `RISULTATO2_*.bat`) restano. Da fare (piccolo): togliere R2 dall'elenco delle schede in
+> `schede_risultati.py` con un interruttore, non cancellandolo.
+>
+> **Come riprenderlo (ordine scelto da Leo).**
+> 1. **Il popolo della notte** con l'IMQ 2022: spostamenti con partenza 00:00-05:00 (da dove, verso dove, con quale
+>    mezzo, per quale scopo). Attenzione: pochi casi (indagine campionaria, residenti 11-84 anni, nessun turista o
+>    visitatore). Controllo: quante interviste ci sono davvero in quelle ore, prima di fare qualsiasi calcolo.
+> 2. **Tornare a casa**: da 3-4 zone della vita notturna (da scegliere con Leo, es. San Salvario, Vanchiglia, Quadrilatero,
+>    Murazzi) il tempo per tornare a casa in ogni quartiere, con e senza la metro di notte (motore di accessibilità
+>    già pronto, scenari `notte15`/`notte30` già calcolati). Risponde alla domanda di Leo.
+> 3. **Solo idea**: incidenti di notte evitabili. Dati trovati: incidenti di aperTO 2011-2017, senza l'informazione
+>    sull'alcol; troppo vecchi e senza la variabile che serve. Non si fa senza una fonte nuova.
+
 Stato: **chiuso (v2) il 16/10/2026.** Numeri ufficiali in `docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt`,
 scheda in `simulazione.html` (da `scripts/schede_risultati.py`). Dal 20/10 la scheda mostra anche il numero più severo
 (almeno +25% di servizi: 334.085 residenti con la metro ogni 15 minuti, 153.062 ogni 30).
