@@ -35,6 +35,14 @@ Uscite:
                                           "manca" per sezione per uso in mappa)
   docs/RAPPORTO_RISULTATO1.txt          (i 3 numeri di testa + dettaglio)
 
+VERSIONE 2 (decisioni di Leo, 20/10/2026, docs/PIANO_RISULTATO1.md): le uscite sopra restano uguali; il
+JSON ha in piu' la sezione "v2" e il rapporto la sezione "VERSIONE 2" in fondo.
+  - per sezione: n_mancanti = quanti dei 5 gruppi sono a "zero" (a Torino: piedi 15 min; in cintura, per scuole,
+    salute e cibo, zero sia a piedi sia col mezzo pubblico entro 45 min alle 08 di un feriale);
+  - densita' = residenti / km2 (superficie dal campo "a" di sezioni_torino.json): sotto SOGLIA_POCO_ABITATA
+    (1.000 ab/km2, sensibilita' 500 e 2.000) la sezione e' "poco abitata", in grigio e fuori dal titolo;
+  - titolo = residenti delle sezioni abitate di Torino con 3 o piu' servizi mancanti.
+
 Usage:
     python 21_risultato1_vuoti.py [--percentile 10]
 """
@@ -48,11 +56,20 @@ RADICE = Path(__file__).resolve().parent.parent
 ACCESS = RADICE / "data/processed/accessibilita.json"
 OUT = RADICE / "data/processed/risultato1_vuoti.json"
 RAPPORTO = RADICE / "docs/RAPPORTO_RISULTATO1.txt"
+SEZIONI_GEO = RADICE / "data/processed/sezioni_torino.json"   # campo "a" = superficie in km2
 
 GRUPPI = ["scuole", "salute", "cibo", "fermate", "verde"]
 SOLO_TORINO_PERCENTILE = {"scuole", "salute", "cibo"}  # dove si fissa la soglia "pochissimo"
 NON_COMPARABILE_CINTURA = {"scuole", "salute", "cibo"}  # catalogo assente in cintura
 COMUNE_TORINO_PREFIX = "1272"
+
+# ---- versione 2 (20/10/2026)
+SOGLIA_POCO_ABITATA = 1000          # ab/km2: sotto, la sezione e' "poco abitata" (Leo, 20/10/2026)
+SENSIBILITA_SOGLIA = (500, 2000)    # prove di sensibilita' sulla soglia
+SOGLIA_TITOLO = 3                   # titolo = residenti abitati con almeno 3 servizi mancanti
+ORA_TP = "08"                       # mezzo pubblico: alle 08 di un feriale (gia' calcolato da 18_accessibilita.py)
+GRUPPI_TP_CINTURA = {"scuole", "salute", "cibo"}  # in cintura manca solo se zero a piedi E col mezzo pubblico
+MAX_SENZA_SUPERFICIE = 10           # oltre, AVVISO
 
 
 def e_torino(sid):
@@ -91,6 +108,149 @@ def conta(sottoinsieme, g, soglia):
         "zero": {"residenti": res_zero, "sezioni": sez_zero, "quota_residenti": pct(res_zero)},
         "pochissimo": {"residenti": res_poco, "sezioni": sez_poco, "quota_residenti": pct(res_poco)},
     }
+
+
+def carica_superfici():
+    """{id sezione: superficie in km2} da sezioni_torino.json (campo "a"). Solo lettura."""
+    return {str(s["id"]): s.get("a") for s in json.loads(SEZIONI_GEO.read_text(encoding="utf-8"))}
+
+
+def densita(sez, superfici):
+    """residenti / km2, oppure None se la superficie manca o non e' positiva."""
+    a = superfici.get(str(sez["id"]))
+    return sez["res"] / a if a and a > 0 else None
+
+
+def n_mancanti_sezione(s, ora_tp=ORA_TP):
+    """Ritorna (n_mancanti con la regola v2, n_mancanti solo a piedi, tp_disponibile).
+    Torino: gruppo mancante = zero a piedi in 15 min. Cintura: per scuole/salute/cibo mancante solo se zero a piedi
+    E zero col mezzo pubblico entro il cutoff TP all'ora ora_tp; fermate e verde come Torino."""
+    tp = (s.get("tp") or {}).get(ora_tp)
+    torino = e_torino(s["id"])
+    n_v2 = n_piedi = 0
+    for g in GRUPPI:
+        a_zero = s["piedi"]["15"].get(g, 0) == 0
+        n_piedi += a_zero
+        if torino or g not in GRUPPI_TP_CINTURA or tp is None:
+            n_v2 += a_zero
+        else:
+            n_v2 += a_zero and tp.get(g, 0) == 0
+    return n_v2, n_piedi, tp is not None
+
+
+def riepilogo_ambito(righe_sez, soglia):
+    """righe_sez = [{"res", "n", "dens"}]: residenti per n_mancanti 0..5, separati abitate / poco abitate.
+    Le sezioni senza superficie (dens None) contano come abitate (dichiarato nel rapporto)."""
+    per = {"abitate": {str(k): 0 for k in range(6)}, "poco_abitate": {str(k): 0 for k in range(6)}}
+    sez_poco = 0
+    for r in righe_sez:
+        poco = r["dens"] is not None and r["dens"] < soglia
+        per["poco_abitate" if poco else "abitate"][str(r["n"])] += r["res"]
+        sez_poco += poco
+    tot_ab = sum(per["abitate"].values())
+    tot_poco = sum(per["poco_abitate"].values())
+    return {
+        "soglia_ab_km2": soglia,
+        "per_n_mancanti": per,
+        "residenti_abitate": tot_ab,
+        "residenti_poco_abitate": tot_poco,
+        "sezioni_poco_abitate": sez_poco,
+        "abitate_con_3_o_piu_mancanti": sum(per["abitate"][str(k)] for k in range(SOGLIA_TITOLO, 6)),
+        "abitate_con_1_o_piu_mancanti": sum(per["abitate"][str(k)] for k in range(1, 6)),
+        "abitate_tutti_5_mancanti": per["abitate"]["5"],
+        "tutte_le_zone_tutti_5_mancanti": per["abitate"]["5"] + per["poco_abitate"]["5"],
+    }
+
+
+def calcola_v2(sezioni, superfici):
+    """Sezione "v2" del JSON: Torino e cintura sempre separate; ritorna (dict, lista di controlli (esito, testo))."""
+    righe = {"torino": [], "cintura": [], "cintura_regola_di_oggi": []}
+    per_sez = []
+    senza_sup = senza_tp = 0
+    negative = 0
+    for s in sezioni:
+        n2, n_piedi, tp_ok = n_mancanti_sezione(s)
+        d = densita(s, superfici)
+        senza_sup += d is None
+        negative += d is not None and d < 0
+        amb = "torino" if e_torino(s["id"]) else "cintura"
+        if amb == "cintura":
+            senza_tp += not tp_ok
+            righe["cintura_regola_di_oggi"].append({"res": s["res"], "n": n_piedi, "dens": d})
+        righe[amb].append({"res": s["res"], "n": n2, "dens": d})
+        per_sez.append({"id": s["id"], "n_mancanti": n2, "densita": None if d is None else round(d, 1)})
+
+    soglie = [SOGLIA_POCO_ABITATA] + [x for x in SENSIBILITA_SOGLIA if x != SOGLIA_POCO_ABITATA]
+    ambiti = {amb: {str(x): riepilogo_ambito(righe[amb], x) for x in sorted(soglie)}
+              for amb in ("torino", "cintura", "cintura_regola_di_oggi")}
+    ref = ambiti["torino"][str(SOGLIA_POCO_ABITATA)]
+    v2 = {
+        "soglia_poco_abitata_ab_km2": SOGLIA_POCO_ABITATA,
+        "soglia_titolo_n_mancanti": SOGLIA_TITOLO,
+        "sensibilita_ab_km2": list(SENSIBILITA_SOGLIA),
+        "ora_tp_cintura": ORA_TP,
+        "regola": ("Torino: servizio mancante = zero destinazioni entro 15 min a piedi. Cintura: per scuole, salute e "
+                   "cibo mancante solo se zero a piedi (15 min) E zero col mezzo pubblico (entro 45 min, alle 08 di "
+                   "un feriale); fermate e verde come Torino. Tabelle sempre separate."),
+        "titolo": {"residenti_abitati_con_3_o_piu_mancanti": ref["abitate_con_3_o_piu_mancanti"],
+                   "residenti_torino": ref["residenti_abitate"] + ref["residenti_poco_abitate"],
+                   "residenti_poco_abitate": ref["residenti_poco_abitate"],
+                   "residenti_tutti_5_mancanti": ref["tutte_le_zone_tutti_5_mancanti"]},
+        "sezioni_senza_superficie": senza_sup,
+        "sezioni_cintura_senza_tp": senza_tp,
+        "torino": ambiti["torino"],
+        "cintura": ambiti["cintura"],
+        "cintura_regola_di_oggi": ambiti["cintura_regola_di_oggi"],
+        "sezioni": per_sez,
+    }
+    controlli = []
+    for amb in ("torino", "cintura"):
+        tot = sum(s["res"] for s in sezioni if (e_torino(s["id"])) == (amb == "torino"))
+        for x, r in ambiti[amb].items():
+            somma = r["residenti_abitate"] + r["residenti_poco_abitate"]
+            controlli.append(("OK" if somma == tot else "AVVISO",
+                              f"{amb}, soglia {x}: somma residenti per n_mancanti = {somma:,} (residenti ambito {tot:,})"))
+    controlli.append(("OK" if negative == 0 else "AVVISO", f"densita' negative: {negative}"))
+    controlli.append(("OK" if senza_sup <= MAX_SENZA_SUPERFICIE else "AVVISO",
+                      f"sezioni senza superficie: {senza_sup} (contate come abitate; AVVISO se piu' di {MAX_SENZA_SUPERFICIE})"))
+    controlli.append(("OK" if senza_tp == 0 else "AVVISO",
+                      f"sezioni di cintura senza mezzo pubblico alle {ORA_TP}: {senza_tp} (per loro vale solo il piedi)"))
+    return v2, controlli
+
+
+def righe_rapporto_v2(v2, controlli):
+    """Sezione "VERSIONE 2" in fondo al rapporto (aggiunta: il testo della versione 1 resta uguale)."""
+    t = v2["titolo"]
+    ref = str(v2["soglia_poco_abitata_ab_km2"])
+    out = ["", "=" * 78, "VERSIONE 2 (20/10/2026): servizi mancanti per sezione, zone poco abitate a parte",
+           f"regola: {v2['regola']}",
+           f"soglia 'poco abitata': sotto {v2['soglia_poco_abitata_ab_km2']:,} ab/km2 (sensibilita': "
+           + ", ".join(f"{x:,}" for x in v2["sensibilita_ab_km2"]) + ")",
+           "",
+           f"TITOLO: {t['residenti_abitati_con_3_o_piu_mancanti']:,} residenti di Torino, in zone abitate, "
+           f"senza {SOGLIA_TITOLO} o piu' dei 5 servizi (su {t['residenti_torino']:,} residenti di Torino)",
+           f"  tutti e 5 mancanti (tutte le zone): {t['residenti_tutti_5_mancanti']:,} residenti (non fa titolo)",
+           f"  residenti nelle zone poco abitate (a parte): {t['residenti_poco_abitate']:,}",
+           ""]
+    for amb, nome in (("torino", "TORINO"), ("cintura", "CINTURA (regola v2: piedi 15 min o mezzo pubblico 45 min alle "
+                                                         f"{v2['ora_tp_cintura']}; scuole/salute/cibo non comparabili con Torino)"),
+                      ("cintura_regola_di_oggi", "CINTURA con la regola di oggi (solo a piedi), per confronto")):
+        out.append(f"{nome}: residenti per numero di servizi mancanti (soglia {ref} ab/km2)")
+        r = v2[amb][ref]["per_n_mancanti"]
+        for k in range(6):
+            out.append(f"  {k} mancanti: abitate {r['abitate'][str(k)]:,}   poco abitate {r['poco_abitate'][str(k)]:,}")
+        out.append("  sensibilita' della soglia (poco abitate / abitate con 3+ mancanti / abitate con 1+ mancanti):")
+        for x in sorted(v2[amb], key=int):
+            q = v2[amb][x]
+            out.append(f"    {int(x):>5} ab/km2: {q['residenti_poco_abitate']:,} / "
+                       f"{q['abitate_con_3_o_piu_mancanti']:,} / {q['abitate_con_1_o_piu_mancanti']:,}")
+        out.append("")
+    out.append("CONTROLLI:")
+    out += [f"  {esito}: {testo}" for esito, testo in controlli]
+    out.append("LIMITI v2: capienza di ospedali, presidi e scuole non nota (un ospedale grande e un ambulatorio "
+               "contano uguale); orario programmato [STIMATO]; catalogo diverso fra Torino e cintura; sezioni senza "
+               "superficie contate come abitate.")
+    return out
 
 
 def main():
@@ -169,6 +329,10 @@ def main():
         "sezioni_manca": [
             {"id": sid, "manca": v} for sid, v in per_sezione_manca.items() if v],
     }
+    v2, controlli_v2 = calcola_v2(sezioni, carica_superfici())
+    esito["v2"] = v2
+    for esito_c, testo_c in controlli_v2:
+        print(f"  v2 {esito_c}: {testo_c}")
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(esito, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"Scritto {OUT} ({OUT.stat().st_size/1e3:.0f} KB)")
@@ -213,6 +377,7 @@ def main():
         "comune, non di raggiungibilita' a piedi per sezione): citate come riferimento nella "
         "scheda finale, non calcolate.",
     ]
+    righe += righe_rapporto_v2(v2, controlli_v2)
     RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
     RAPPORTO.write_text("\n".join(righe), encoding="utf-8")
     print(f"Scritto {RAPPORTO}")

@@ -21,6 +21,10 @@ Procedura (decisa con Leo il 12/10):
      di guadagno, togliendo ogni volta le sezioni gia' coperte, cosi' i
      candidati finali non contano due volte gli stessi residenti.
 
+Solo sezioni ABITATE (decisione di Leo, 20/10/2026): le sezioni a zero con densita' sotto --soglia-densita
+(default SOGLIA_POCO_ABITATA di 21_risultato1_vuoti.py, 1.000 ab/km2) non generano candidati e non contano nei
+residenti "a zero"; il rapporto scrive quanti candidati e quante sezioni cambiano rispetto a prima.
+
 Ambito: SOLO Torino (deciso il 12/10: il catalogo comunale non esiste in
 cintura, quindi candidati lì userebbero solo OSM, poco affidabile).
 
@@ -29,7 +33,7 @@ Uscite:
   docs/RAPPORTO_RISULTATO1_CANDIDATI.txt
 
 Usage:
-    python 22_risultato1_candidati.py --gruppi salute,scuole [--cluster-metri 400] [--max-candidati 5]
+    python 22_risultato1_candidati.py --gruppi salute,scuole [--cluster-metri 400] [--max-candidati 5] [--soglia-densita 1000]
 """
 
 import argparse
@@ -53,6 +57,12 @@ _spec = importlib.util.spec_from_file_location(
     "acc18", Path(__file__).resolve().parent / "18_accessibilita.py")
 acc18 = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(acc18)
+
+# densita' e soglia "poco abitata": stesse funzioni e costante dello script 21 (un solo posto dove cambiarle)
+_spec21 = importlib.util.spec_from_file_location(
+    "vuoti21", Path(__file__).resolve().parent / "21_risultato1_vuoti.py")
+vuoti21 = importlib.util.module_from_spec(_spec21)
+_spec21.loader.exec_module(vuoti21)
 
 
 def e_torino(sid):
@@ -84,6 +94,8 @@ def main():
     ap.add_argument("--cluster-metri", type=float, default=400.0)
     ap.add_argument("--max-candidati", type=int, default=5,
                      help="candidati finali proposti per gruppo (selezione greedy)")
+    ap.add_argument("--soglia-densita", type=float, default=vuoti21.SOGLIA_POCO_ABITATA,
+                     help="ab/km2: le sezioni sotto questa densita' non generano candidati (default: soglia di 21)")
     ap.add_argument("--guadagno-minimo", type=int, default=20,
                      help="scarta un candidato che guadagna meno di tanti residenti")
     args = ap.parse_args()
@@ -94,16 +106,29 @@ def main():
     vel_mmin = access["parametri"]["velocita_piedi"]
     torino = [s for s in access["sezioni"] if e_torino(s["id"]) and s["res"] > 0]
     print(f"Sezioni di Torino con residenti: {len(torino)}")
+    superfici = vuoti21.carica_superfici()
+
+    def abitata(s):
+        """Densita' >= soglia; senza superficie conta come abitata (come in 21)."""
+        d = vuoti21.densita(s, superfici)
+        return d is None or d >= args.soglia_densita
 
     # ---- 1-2: sezioni a zero per gruppo + clustering in candidati
     candidati_per_gruppo = {}
+    cambio_filtro = {}  # per gruppo: quanto cambia con il filtro "solo sezioni abitate"
     tutti_candidati = []  # (idx_globale, lat, lon, gruppo)
     for g in gruppi:
-        zero = [s for s in torino if s["piedi"]["15"].get(g, 0) == 0]
-        cand = clusterizza(zero, args.cluster_metri)
+        zero_tutte = [s for s in torino if s["piedi"]["15"].get(g, 0) == 0]
+        zero = [s for s in zero_tutte if abitata(s)]
+        cand_prima = len(clusterizza(zero_tutte, args.cluster_metri)) if zero_tutte else 0
+        cand = clusterizza(zero, args.cluster_metri) if zero else []
         candidati_per_gruppo[g] = cand
-        print(f"  {g}: {len(zero)} sezioni a zero -> {len(cand)} candidati "
-              f"(celle di {args.cluster_metri:.0f} m)")
+        cambio_filtro[g] = {"sezioni_zero_prima": len(zero_tutte), "sezioni_zero_abitate": len(zero),
+                            "residenti_zero_prima": sum(s["res"] for s in zero_tutte),
+                            "residenti_zero_abitate": sum(s["res"] for s in zero),
+                            "candidati_prima": cand_prima, "candidati_dopo": len(cand)}
+        print(f"  {g}: {len(zero_tutte)} sezioni a zero, {len(zero)} abitate -> {len(cand)} candidati "
+              f"(prima del filtro {cand_prima}; celle di {args.cluster_metri:.0f} m)")
         for c in cand:
             tutti_candidati.append({"gruppo": g, "lat": c["lat"], "lon": c["lon"],
                                      "sezioni_cluster": c["sezioni"]})
@@ -144,7 +169,7 @@ def main():
     esito_gruppi = {}
     for g in gruppi:
         idx_g = [i for i, c in enumerate(tutti_candidati) if c["gruppo"] == g]
-        zero_ids_g = {s["id"] for s in torino if s["piedi"]["15"].get(g, 0) == 0}
+        zero_ids_g = {s["id"] for s in torino if s["piedi"]["15"].get(g, 0) == 0 and abitata(s)}
         scoperte = set(zero_ids_g)
         scelti = []
         disponibili = set(idx_g)
@@ -171,6 +196,7 @@ def main():
             "candidati_scelti": scelti,
             "residenti_guadagnati_totali": sum(c["residenti_guadagnati"] for c in scelti),
             "residenti_restano_a_zero": sum(res_sezione[oid] for oid in scoperte),
+            "filtro_abitate": cambio_filtro[g],
         }
 
     esito = {
@@ -178,7 +204,8 @@ def main():
         "fonte": "data/processed/accessibilita.json + nuovo giro R5 (solo candidati, Torino)",
         "parametri": {"cutoff_piedi_min": taglio, "velocita_piedi_kmh": vel_kmh,
                        "cluster_metri": args.cluster_metri, "max_candidati": args.max_candidati,
-                       "guadagno_minimo": args.guadagno_minimo},
+                       "guadagno_minimo": args.guadagno_minimo,
+                       "soglia_densita_ab_km2": args.soglia_densita},
         "nota": ("Ogni candidato e' una ZONA indicativa (centroide pesato delle sezioni scoperte "
                  "vicine), non un indirizzo o un terreno verificato disponibile. "
                  "'Residenti guadagnati' conta solo chi oggi e' a zero per quel gruppo; "
@@ -206,6 +233,11 @@ def main():
         righe.append(f"  TOTALE con questi {len(d['candidati_scelti'])} candidati: "
                      f"{d['residenti_guadagnati_totali']:,} residenti guadagnati, "
                      f"{d['residenti_restano_a_zero']:,} restano a zero")
+        f_ = d["filtro_abitate"]
+        righe.append(f"  solo sezioni abitate (>= {args.soglia_densita:,.0f} ab/km2): sezioni a zero "
+                     f"{f_['sezioni_zero_prima']} -> {f_['sezioni_zero_abitate']}, residenti a zero "
+                     f"{f_['residenti_zero_prima']:,} -> {f_['residenti_zero_abitate']:,}, zone candidate "
+                     f"{f_['candidati_prima']} -> {f_['candidati_dopo']}")
         righe.append("")
     righe.append("LIMITI: zone indicative (non indirizzi/terreni verificati); non dice se il "
                  "servizio basterebbe o verrebbe usato; ORARIO PROGRAMMATO [STIMATO]; solo Torino.")

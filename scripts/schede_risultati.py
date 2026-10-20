@@ -75,8 +75,14 @@ def minuti(hhmm):
 
 # ---------------------------------------------------------------- Risultato 1
 
-GRUPPI_EN = {"scuole": "schools", "salute": "health", "cibo": "food", "fermate": "public transport stops",
+GRUPPI_EN = {"scuole": "schools", "salute": "health", "cibo": "shops and commercial activities",
+             "fermate": "public transport stops",
              "verde": "green space"}   # nomi dei gruppi del risultato 1 in inglese (solo per la traduzione)
+NOMI_R1 = {"cibo": "negozi e attività commerciali"}   # il gruppo "cibo" contiene tutte le attività commerciali (20/10/2026)
+
+
+def nome_r1(g):
+    return NOMI_R1.get(g, g)
 
 
 def scheda_r1():
@@ -84,20 +90,43 @@ def scheda_r1():
     cand = leggi("risultato1_candidati.json")["gruppi"]
     testa = vuoti["numeri_di_testa"]
     gruppi = vuoti["gruppi"]
+    v2 = vuoti["v2"]    # versione 2 (20/10/2026): serve aver rilanciato 21_risultato1_vuoti.py
+    t2 = v2["titolo"]
+    SOGLIA_TITOLO_R1 = v2["soglia_titolo_n_mancanti"]   # dal JSON, non scritta qui
+    rif = str(v2["soglia_poco_abitata_ab_km2"])
+    r2 = v2["torino"][rif]
+    abitate = r2["per_n_mancanti"]["abitate"]
+    titolo_n = t2["residenti_abitati_con_3_o_piu_mancanti"]
+    titolo_pct = 100.0 * titolo_n / t2["residenti_torino"]
+    poco = t2["residenti_poco_abitate"]
+    tutti5 = t2["residenti_tutti_5_mancanti"]
+    soglia_txt = migliaia(v2["soglia_poco_abitata_ab_km2"])
+    sens = {x: v2["torino"][x] for x in sorted(v2["torino"], key=int)}
+    sens_txt = "; ".join(f"con {migliaia(int(x))} ab/km² le zone poco abitate sono {migliaia(q['residenti_poco_abitate'])} "
+                         f"residenti e quelli con {SOGLIA_TITOLO_R1} o più servizi mancanti {migliaia(q['abitate_con_3_o_piu_mancanti'])}"
+                         for x, q in sens.items())
+    sens_en = "; ".join(f"at {int(x):,} inhabitants/km² the sparsely populated zones hold {q['residenti_poco_abitate']:,} "
+                        f"residents and those missing {SOGLIA_TITOLO_R1}+ services {q['abitate_con_3_o_piu_mancanti']:,}"
+                        for x, q in sens.items())
+    cint = v2["cintura"][rif]
     ordine = sorted(gruppi, key=lambda g: -gruppi[g]["torino"]["zero"]["residenti"])
     senza = testa["residenti_torino_senza_almeno_un_servizio_essenziale_a_zero"]
-    oggi = [num("Residenti senza almeno un servizio essenziale", senza, "residenti"),
-            num("Quota dei residenti di Torino", testa["quota_residenti_torino"], "%")]
-    oggi += [num(f"Senza {g} entro 15 min", gruppi[g]["torino"]["zero"]["residenti"], "residenti")
+    oggi = [num(f"Residenti di zone abitate senza {SOGLIA_TITOLO_R1} o più servizi", titolo_n, "residenti"),
+            num("Quota dei residenti di Torino", round(titolo_pct, 1), "%"),
+            num("Tutti e 5 i servizi mancanti", tutti5, "residenti"),
+            num("Residenti nelle zone poco abitate (a parte)", poco, "residenti"),
+            num("Residenti senza almeno un servizio essenziale", senza, "residenti"),
+            num("Quota dei residenti di Torino senza almeno un servizio", testa["quota_residenti_torino"], "%")]
+    oggi += [num(f"Senza {nome_r1(g)} entro 15 min", gruppi[g]["torino"]["zero"]["residenti"], "residenti")
              for g in ordine]
     dopo, barre_dopo = [], []
     for g in ordine:
         c = cand[g]
         n_punti = len(c["candidati_scelti"])
         etichetta = f"{n_punti} {'punto nuovo' if n_punti == 1 else 'punti nuovi'}"
-        dopo.append(num(f"Senza {g} ({etichetta})", c["residenti_restano_a_zero"], "residenti",
+        dopo.append(num(f"Senza {nome_r1(g)} ({etichetta})", c["residenti_restano_a_zero"], "residenti",
                         prima=c["residenti_a_zero_totali"]))
-        barre_dopo.append(voce(f"{g} ({etichetta})", c["residenti_restano_a_zero"],
+        barre_dopo.append(voce(f"{nome_r1(g)} ({etichetta})", c["residenti_restano_a_zero"],
                                prima=c["residenti_a_zero_totali"], tono="rosso"))
     salvati = sum(cand[g]["residenti_guadagnati_totali"] for g in ordine)
     return {
@@ -107,30 +136,42 @@ def scheda_r1():
         "stato": "Fatto (12-14/10/2026)",
         "in_breve": "Torino è una città compatta, ma non tutti hanno scuola, medico, negozi, "
                     "una fermata e un po' di verde a un quarto d'ora a piedi da casa.",
-        "domanda": "Quanti residenti di Torino non hanno almeno un servizio essenziale (scuole, salute, cibo, "
-                   "fermate, verde) entro 15 minuti a piedi, e quanti ne recupererebbe qualche servizio nuovo?",
-        "numero_chiave": {"valore": senza, "unita": "residenti",
-                          "testo": f"senza almeno un servizio essenziale a 15 minuti a piedi "
-                                   f"({virgola(testa['quota_residenti_torino'])}% dei torinesi)"},
+        "domanda": "Quanti residenti di Torino, nelle zone abitate, non hanno più servizi essenziali (scuole, salute, "
+                   "negozi e attività commerciali, fermate, verde) entro 15 minuti a piedi, e quanti ne "
+                   "recupererebbe qualche servizio nuovo?",
+        "numero_chiave": {"valore": titolo_n, "unita": "residenti",
+                          "testo": f"di zone abitate di Torino senza {SOGLIA_TITOLO_R1} o più dei 5 servizi essenziali "
+                                   f"a 15 minuti a piedi ({virgola(titolo_pct)}% dei torinesi)"},
         "racconto": "Una delle domande da cui è partito il progetto: dove mancano i servizi? L'idea di "
                     "riferimento è la \"città dei 15 minuti\", in cui le cose di tutti i giorni si raggiungono "
                     "a piedi.",
         "risposta": [
-            f"{migliaia(senza)} residenti su {migliaia(testa['residenti_torino'])} "
+            f"{migliaia(titolo_n)} residenti su {migliaia(t2['residenti_torino'])} ({virgola(titolo_pct)}%) vivono in "
+            f"zone abitate (almeno {soglia_txt} abitanti per km²) e non hanno {SOGLIA_TITOLO_R1} o più dei 5 servizi entro 15 minuti a piedi. "
+            f"Tutti e 5 mancano a {migliaia(tutti5)} residenti.",
+            f"Altri {migliaia(poco)} residenti vivono in zone poco abitate (parchi, collina): sono contati a parte, "
+            "fuori dal titolo.",
+            f"Contando anche le zone poco abitate, {migliaia(senza)} residenti su {migliaia(testa['residenti_torino'])} "
             f"({virgola(testa['quota_residenti_torino'])}%) non hanno almeno uno dei 5 servizi entro 15 minuti a piedi.",
-            f"Il servizio che manca più spesso è la {testa['gruppo_piu_carente_a_torino']}: "
+            f"Il servizio che manca più spesso è {nome_r1(testa['gruppo_piu_carente_a_torino'])}: "
             f"{migliaia(gruppi[testa['gruppo_piu_carente_a_torino']]['torino']['zero']['residenti'])} residenti senza un servizio di questo tipo vicino.",
             f"Pochi servizi nuovi messi nei punti giusti (al massimo 5 per gruppo) riporterebbero "
             f"entro i 15 minuti {migliaia(salvati)} di questi casi, contati gruppo per gruppo.",
         ],
         "grafici": [
+            {"tipo": "barre", "titolo": "Residenti per numero di servizi mancanti (0-5), zone abitate",
+             "unita": "residenti",
+             "nota": f"Zone abitate = almeno {soglia_txt} abitanti per km². Le zone poco abitate "
+                     f"({migliaia(poco)} residenti) sono escluse. Servizi mancanti = zero entro 15 minuti a piedi.",
+             "voci": [voce(f"{k} mancanti", abitate[str(k)], tono="rosso" if k >= SOGLIA_TITOLO_R1 else None)
+                      for k in range(6)]},
             {"tipo": "barre", "titolo": "Residenti di Torino senza il servizio entro 15 minuti a piedi",
              "unita": "residenti",
-             "voci": [voce(g, gruppi[g]["torino"]["zero"]["residenti"], tono="rosso") for g in ordine]},
+             "voci": [voce(nome_r1(g), gruppi[g]["torino"]["zero"]["residenti"], tono="rosso") for g in ordine]},
             {"tipo": "barre", "titolo": "Residenti con pochissimi servizi di quel tipo vicini",
              "unita": "residenti",
              "nota": "\"Pochissimi\" = sotto il livello che ha il 10% dei residenti meno servito (soglia per gruppo).",
-             "voci": [voce(g, gruppi[g]["torino"]["pochissimo"]["residenti"]) for g in ordine]},
+             "voci": [voce(nome_r1(g), gruppi[g]["torino"]["pochissimo"]["residenti"]) for g in ordine]},
             {"tipo": "barre", "titolo": "Residenti senza il servizio: oggi e con i punti nuovi",
              "unita": "residenti", "nota": "Barra chiara = oggi, barra scura = con i punti nuovi.",
              "voci": barre_dopo},
@@ -139,27 +180,53 @@ def scheda_r1():
             "Per ognuna delle 4.044 sezioni di censimento di Torino (centinaia di persone ciascuna) si contano "
             "i servizi raggiungibili camminando 15 minuti sulla rete stradale reale (OpenStreetMap), con il "
             "motore di percorsi R5.",
-            "Cinque gruppi trattati separatamente, senza un indice unico: scuole, salute, cibo (attività "
-            "commerciali del catalogo comunale), fermate del trasporto pubblico, verde.",
+            "Cinque gruppi trattati separatamente, senza un indice unico: scuole, salute, negozi e attività "
+            "commerciali (catalogo comunale), fermate del trasporto pubblico, verde.",
             "\"Senza\" = zero servizi di quel gruppo entro 15 minuti. I residenti vengono dal censimento ISTAT 2021.",
+            f"Per ogni sezione si contano quanti dei 5 gruppi mancano (0-5). Le sezioni con meno di {soglia_txt} "
+            "abitanti per km² (superficie e residenti del censimento) sono \"poco abitate\": in grigio e fuori dal "
+            f"titolo, che conta i residenti delle zone abitate con {SOGLIA_TITOLO_R1} o più servizi mancanti.",
             "Fase B: per ogni gruppo si cercano fino a 5 punti (raggruppando le zone scoperte entro 400 m) che "
             "riportano dentro i 15 minuti più residenti possibile, uno dopo l'altro.",
         ],
+        "criteri": [
+            {"nome": "Zona poco abitata", "valore": f"sotto {soglia_txt} abitanti per km²",
+             "perche": "parchi, collina e zone poco abitabili sono vuoti per natura: contarli come carenza falserebbe il titolo",
+             "effetto": "; ".join(f"{migliaia(int(x))} ab/km²: {migliaia(q['residenti_poco_abitate'])} residenti poco abitati, "
+                                  f"{migliaia(q['abitate_con_3_o_piu_mancanti'])} abitati con {SOGLIA_TITOLO_R1} o più servizi mancanti, "
+                                  f"{migliaia(q['abitate_con_1_o_piu_mancanti'])} abitati con almeno 1" for x, q in sens.items())},
+            {"nome": "Titolo", "valore": f"residenti delle zone abitate con {SOGLIA_TITOLO_R1} o più dei 5 servizi mancanti",
+             "perche": "guardare dove mancano più servizi insieme, non uno solo",
+             "effetto": f"\"tutti e 5 mancanti\": {migliaia(tutti5)} residenti (non fa titolo)"},
+            {"nome": "Cintura (a parte)", "valore": f"servizio raggiungibile a piedi in 15 minuti o col mezzo pubblico entro 45 minuti alle {v2['ora_tp_cintura']}:00 di un feriale (scuole, salute, negozi)",
+             "perche": "fuori Torino si va in paese e non a piedi: la regola della città dei 15 minuti non vale",
+             "effetto": f"{migliaia(cint['abitate_con_3_o_piu_mancanti'])} residenti di zone abitate con {SOGLIA_TITOLO_R1} o più servizi mancanti: "
+                        "non confrontabile con Torino (catalogo diverso)"},
+        ],
         "parametri": [["Tempo a piedi", "15 minuti"], ["Velocità a piedi", "80 m al minuto (4,8 km/h)"],
+                      ["Zona poco abitata", f"sotto {soglia_txt} ab/km² (prove con "
+                                            + " e ".join(migliaia(x) for x in v2["sensibilita_ab_km2"]) + ")"],
                       ["Sezioni di Torino", "4.044"], ["Residenti", migliaia(testa["residenti_torino"])],
                       ["Punti nuovi per gruppo", "fino a 5"]],
         "limiti": [
             "Solo Torino: in cintura il catalogo dei servizi non c'è, quindi lì \"zero\" vuol dire spesso "
             "\"manca il dato\", non \"manca il servizio\".",
-            "Il gruppo \"cibo\" usa tutte le attività commerciali del catalogo, senza distinguere la categoria.",
+            "Il gruppo \"negozi e attività commerciali\" usa tutte le attività commerciali del catalogo, senza distinguere la categoria.",
             "Si conta se un servizio c'è, non quanto è grande o se ha posto (una scuola piena conta come una vuota).",
+            "Capienza di ospedali, presidi e scuole non nota: un ospedale grande e un ambulatorio contano uguale.",
+            "Orario programmato: niente ritardi né affollamento. Le sezioni senza superficie contano come abitate.",
             "I punti nuovi sono posizioni ipotetiche: non tengono conto di costi, spazi liberi o permessi, e "
             "non si sommano tra gruppi.",
         ],
         "in_english": [
-            "Question: how many Turin residents lack at least one essential service (schools, health, food, stops, "
-            "green space) within 15 minutes on foot, and how many would gain one with a few new services?",
-            f"{senza:,} residents out of {testa['residenti_torino']:,} ({testa['quota_residenti_torino']:.1f}%) lack at "
+            f"Question: how many Turin residents in inhabited areas lack {SOGLIA_TITOLO_R1} or more essential services "
+            "(schools, health, shops and commercial activities, stops, green space) within 15 minutes on foot, and "
+            "how many would gain one with a few new services?",
+            f"{titolo_n:,} residents out of {t2['residenti_torino']:,} ({titolo_pct:.1f}%) live in inhabited areas "
+            f"(at least {v2['soglia_poco_abitata_ab_km2']:,} inhabitants per km²) and lack {SOGLIA_TITOLO_R1} or more of the 5 services "
+            f"within 15 minutes on foot; all 5 are missing for {tutti5:,}. A further {poco:,} residents live in sparsely "
+            f"populated areas (parks, hills), counted separately. Sensitivity of the threshold: {sens_en}.",
+            f"Counting those areas too, {senza:,} residents out of {testa['residenti_torino']:,} ({testa['quota_residenti_torino']:.1f}%) lack at "
             f"least one of the 5 services within 15 minutes on foot. The most often missing one is "
             f"{GRUPPI_EN.get(testa['gruppo_piu_carente_a_torino'], testa['gruppo_piu_carente_a_torino'])}, with "
             f"{gruppi[testa['gruppo_piu_carente_a_torino']]['torino']['zero']['residenti']:,} "
@@ -184,7 +251,7 @@ def scheda_r1():
         ],
         "scenari": [
             {"nome": "Oggi", "numeri": oggi,
-             "nota": f"Il gruppo con più residenti scoperti è {testa['gruppo_piu_carente_a_torino']}."},
+             "nota": f"Il gruppo con più residenti scoperti è {nome_r1(testa['gruppo_piu_carente_a_torino'])}. Sensibilità della soglia: {sens_txt}."},
             {"nome": "Con pochi servizi nuovi nei punti migliori", "numeri": dopo,
              "nota": "Fino a 5 punti per gruppo, scelti dove recuperano più residenti (raggruppamento 400 m)."},
         ],
