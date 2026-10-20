@@ -63,20 +63,22 @@ rende **più forte**, poi il nuovo.
 
 | # | Cosa | Perché ora | Chi / quanto |
 |---|---|---|---|
-| 1 | **Unire il ramo di Claude in `prova`**, poi `python scripts\schede_risultati.py` e `python scripts\86_prepara_pubblicazione.py` | Porta sul PC pulizia e correzioni | Leo, 5 min |
+| 1 | **Unire il ramo di Claude in `prova`**, poi doppio clic su `scripts\RISULTATO6_RIFAI.bat` (rifà il Risultato 6 con i punti per asse, la mappa, le schede e prova le pagine) e `python scripts\86_prepara_pubblicazione.py` | Porta sul PC pulizia e correzioni, e le prova sui dati veri | Leo, 10 min |
 | 2 | **Controllo di leopi ogni mattina** con `schtasks` (ora senza falso allarme) | Il 18/10 la raccolta si è fermata e ce ne siamo accorti dopo | Leo, 5 min |
 | 3 | **Ora legale del 25/10**: controllo a mano dello script 26 dopo il fetch del 1/11 | Un'ora di dati 5T fuori posto per sempre, se sbagliata | Claude, 15 min |
-| 4 | **Risultato 6, ultimi ritocchi** (domanda 2): un punto per asse, distanza minima dal centro, numeri arrotondati; confronto delle auto in entrata con i sensori 5T del mattino | Oggi il grafico principale conta le stesse auto più volte | Claude, 1 sessione |
-| 5 | **Pubblicare** (domanda 1): dove, cartella leggera, condizioni d'uso degli sfondi Esri, README | Senza questo nessuno vede il lavoro | 1-2 sessioni |
+| 4 | **Risultato 6**: Claude ricontrolla il nuovo giro (punti per asse); poi confronto delle auto in entrata con i sensori 5T del mattino | È il controllo con la realtà che manca | Claude, 1 sessione |
+| 5 | **Pubblicare** su GitHub Pages (repository ora pubblico): ramo `gh-pages`, cartella leggera (oggi 90 MB), condizioni d'uso degli sfondi Esri, README | Senza questo nessuno vede il lavoro | 1-2 sessioni |
 | 6 | **2-3 risultati di punta + «come sappiamo che è vero»** (rapporto GTT 2025, sensori e parcheggi 5T, la tua conoscenza). Candidati: Risultato 9 (attesa promessa contro reale: misurato, originale), Risultato 1 con la vulnerabilità («chi resta indietro»), Risultato 6 dopo il punto 4 | È la cosa che manca di più per la credibilità | 1 sessione a risultato |
 | 7 | **Rilanci con più dati**: Risultato 6 dopo ≥ 5 feriali di parcheggi (inizio novembre, `RISULTATO6_RIFAI.bat`); Risultati 4 e 9 con un mese (metà novembre); poi Risultato 4 in mappa | Oggi 1-2 settimane di dati | `.bat` pronti |
 | 8 | **Tempi del mezzo pubblico contro l'auto** per coppie di zone, poi **costi del viaggio** | Base comune per «auto in meno» e costi | 2-3 sessioni |
 | 9 | Più avanti: treni SFM (GTFS regionale), uno scenario fra Risultato 3 e 5, lista dei luoghi «speciali», effetto ZTL, Corso Moncalieri, velocità 5T pulite in mappa | Utili, non urgenti | — |
 
-## 5. Domande per Leo
+## 5. Risposte di Leo (20/10, sera) e cosa ho fatto
 
-1. **Pubblicazione** (il repository è privato): un repository pubblico nuovo solo per le pagine del portfolio
-   (consigliato: il progetto di lavoro resta privato), oppure rendere pubblico tutto `GTT`, oppure GitHub a pagamento?
-2. **Risultato 6**: va bene un punto per asse d'ingresso, distanza minima dal centro 3 km e «posti che mancano»
-   arrotondati?
-3. **Risultato 2**: il numero in grande diventa quello severo (334.085)?
+1. **Pubblicazione**: Leo ha reso **pubblico** il repository `GTT`. Controllato: in git non ci sono chiavi o password
+   (`chiave_deepseek.txt` è esclusa). Tutto il progetto (memoria, note, script) ora è visibile. Proposta per Pages:
+   un ramo a parte (es. `gh-pages`) con solo il contenuto di `pubblica/`, rifatto a ogni pubblicazione, così la
+   mappa da 13 MB non si accumula nella storia di `prova`. Da decidere al passo «Pubblicare».
+2. **Risultato 6**: un punto per asse, almeno 3 km dal centro, posti arrotondati → **fatto nello script 84** (e
+   controlli nell'85). Dettagli in `docs/PIANO_RISULTATO6.md`. Da eseguire sul PC.
+3. **Risultato 2**: numero in grande = quello severo (334.085) → **fatto** in `schede_risultati.py`.

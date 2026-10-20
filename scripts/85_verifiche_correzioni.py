@@ -176,6 +176,16 @@ def main():
            if comuni.haversine_m(p["centro"][0], p["centro"][1], comuni.CENTRO_LAT, comuni.CENTRO_LON) < 2500]
     c("7. punti prioritari vicini al centro (solo informazione: le loro fermate sono fuori da Q001-Q009)", True,
       dettaglio="a meno di 2,5 km da Piazza Castello: " + (", ".join(p["nome"] for p in vic) or "nessuno"))
+    pp = porte["punti_prioritari"]
+
+    def dist(p, q):
+        return comuni.haversine_m(p["centro"][0], p["centro"][1], q["centro"][0], q["centro"][1])
+    doppi = [(p["nome"], q["nome"]) for i, p in enumerate(pp) for q in pp[i + 1:]
+             if dist(p, q) < 2000 or (p.get("strada") and p.get("strada") == q.get("strada") and dist(p, q) < 5000)]
+    c("7. un punto per asse (rifatto: nessuna coppia di punti a meno di 2 km o sulla stessa strada a meno di 5 km)",
+      not doppi, dettaglio=", ".join(f"{a}-{b}" for a, b in doppi) or f"{len(pp)} punti")
+    c("7. nessun punto prioritario a meno di 3 km da Piazza Castello (rifatto da zero)",
+      not any(comuni.haversine_m(p["centro"][0], p["centro"][1], comuni.CENTRO_LAT, comuni.CENTRO_LON) < 3000 for p in pp))
     c("8. ogni fermata importante in una sola area", sum(a["n_fermate"] for a in porte["aree"]) == len(porte["fermate"]))
 
     errori = [r for r in c.righe if not r.startswith("OK")]

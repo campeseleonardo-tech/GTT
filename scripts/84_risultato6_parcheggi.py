@@ -26,6 +26,10 @@ Regole (costanti qui sotto e opzioni da riga di comando; valori decisi nel PIANO
     Critica >= 60%, Scarsa 30-59%, Buona < 30%; con meno di 5 fermate valutate: «Pochi dati».
   - 20 punti: fermate «nessun» o «insufficienti» raggruppate entro 1 km; posti che mancano del gruppo =
     potenziale piu' alto del gruppo - posti adatti che servono il gruppo; in ordine di posti che mancano.
+    Un punto per asse (Leo, 20/10 sera): si tiene il gruppo con piu' posti mancanti e si scartano quelli a meno di
+    2 km o sulla stessa strada a meno di 5 km (sono in gran parte le stesse auto); niente punti a meno di 3 km da Piazza
+    Castello (fermare li' un'auto fa risparmiare poca strada). I posti che mancano si mostrano arrotondati
+    (ordine di grandezza: quota da poche interviste x stima del traffico).
     Candidati ad ampliarsi: parcheggi adatti >= 100 posti entro 600 m a piedi dal centro del punto.
   - Parcheggi in mappa: adatti con >= 100 posti entro 400 m (linea d'aria) da una fermata importante o da un
     nodo forte, piu' tutti gli interscambi ufficiali e i park&ride di OpenStreetMap.
@@ -91,6 +95,10 @@ RAGGIO_MOSTRATO_M = 400.0          # linea d'aria, solo per scegliere cosa diseg
 SOGLIE_AREE = (60.0, 30.0)
 MIN_FERMATE_AREA = 5
 DIAMETRO_PUNTI_M = 1000.0
+DIST_MIN_CENTRO_KM = 3.0           # niente punti prioritari piu' vicini a Piazza Castello
+DIST_STESSO_ASSE_M = 2000.0        # due punti piu' vicini di cosi' contano in gran parte le stesse auto
+DIST_STESSA_STRADA_M = 5000.0      # stessa strada e piu' vicini di cosi': stesso asse (il nome da solo non basta:
+                                   # «strada Torino» c'e' in molti comuni)
 N_PUNTI = 20
 SOGLIA_PIENO, SOGLIA_LIBERO = 0.85, 0.50
 MIN_GIORNI_VALIDI = 2
@@ -129,6 +137,34 @@ def categoria_area(quota, n_valutate, soglie, min_fermate):
 
 def arrotonda_cento(x):
     return int(round(x / 100.0) * 100)
+
+
+def arrotonda_mancano(x):
+    """Posti che mancano come ordine di grandezza: decine sotto 100, cinquantine sotto 1.000, centinaia sopra."""
+    passo = 10 if x < 100 else 50 if x < 1000 else 100
+    return int(round(x / passo) * passo)
+
+
+def stesso_asse(p, q, dist_asse_m=DIST_STESSO_ASSE_M, dist_strada_m=DIST_STESSA_STRADA_M):
+    d = comuni.haversine_m(p["centro"][0], p["centro"][1], q["centro"][0], q["centro"][1])
+    return d < dist_asse_m or (bool(p.get("strada")) and p.get("strada") == q.get("strada") and d < dist_strada_m)
+
+
+def un_punto_per_asse(punti, dist_min_km):
+    """punti gia' in ordine di importanza -> tenuti, scartati. Si scarta un punto troppo vicino al centro, o sullo
+    stesso asse di un punto gia' tenuto (vicino, o sulla stessa strada non lontano): le stesse auto che passano."""
+    tenuti, scartati = [], []
+    for p in punti:
+        if p["dist_centro_km"] < dist_min_km:
+            scartati.append((p, "vicino al centro"))
+            continue
+        simile = next((q for q in tenuti if stesso_asse(p, q)), None)
+        if simile is not None:
+            simile.setdefault("stesse_auto", []).append(p["nome"])
+            scartati.append((p, f"stesso asse di {simile['nome']}"))
+            continue
+        tenuti.append(p)
+    return tenuti, scartati
 
 
 def main():
@@ -294,11 +330,22 @@ def main():
                 "_somma_punteggio": sum(fermate[k]["punteggio"] for k in membri),
             })
     punti.sort(key=lambda p: (-p["mancano"], -p["_somma_punteggio"]))
+    n_gruppi = len(punti)
+    punti, scartati = un_punto_per_asse(punti, DIST_MIN_CENTRO_KM)
+    scartati_in_cima = [(p, motivo) for p, motivo in scartati if p["mancano"] >= (punti[N_PUNTI - 1]["mancano"] if len(punti) >= N_PUNTI else 0)]
     punti = punti[:N_PUNTI]
     for k, p in enumerate(punti):
         p["ordine"] = k + 1
         p.pop("_somma_punteggio")
-    print(f"  punti prioritari: {len(punti)}")
+        p["mancano_stima"] = p["mancano"]
+        p["mancano"] = arrotonda_mancano(p["mancano"])
+        for f in p["fermate"]:
+            f["mancano"] = arrotonda_mancano(f["mancano"])
+    for a in aree:
+        for f in a["fermate_senza"]:
+            f["mancano"] = arrotonda_mancano(f["mancano"])
+    print(f"  punti prioritari: {len(punti)} (gruppi {n_gruppi}; scartati perche' stesso asse o vicini al centro: "
+          f"{len(scartati)}, di cui {len(scartati_in_cima)} con piu' posti mancanti dell'ultimo tenuto)")
 
     # ---- parcheggi in mappa ----
     tutti_aperti = [p for p in tutti if p["tipo"] in TIPO_TESTO]
@@ -458,9 +505,10 @@ def main():
 
     # ---- controlli ----
     c("nessuna fermata importante in zona centrale", not any(f["zona"] in comuni.ZONE_CENTRALI for f in fermate), bloccante=True)
-    c("nessun punto prioritario in zona centrale",
-      not any(comuni.haversine_m(p["centro"][0], p["centro"][1], comuni.CENTRO_LAT, comuni.CENTRO_LON) < 1500 for p in punti),
-      dettaglio="nessun punto a meno di 1,5 km da Piazza Castello")
+    c(f"nessun punto prioritario a meno di {DIST_MIN_CENTRO_KM:g} km dal centro",
+      not any(p["dist_centro_km"] < DIST_MIN_CENTRO_KM for p in punti), bloccante=True)
+    c("un punto per asse: nessuna coppia di punti sullo stesso asse",
+      not any(stesso_asse(p, q) for i, p in enumerate(punti) for q in punti[i + 1:]), bloccante=True)
     c("nessun parcheggio adatto in zona centrale", not any(info_ad[p["id"]]["zona_imq"] in comuni.ZONE_CENTRALI for p in adatti),
       bloccante=True)
     c("nessun valore negativo", all(f["mancano"] >= 0 and f["posti_adatti"] >= 0 for f in fermate), bloccante=True)
@@ -488,7 +536,7 @@ def main():
         "quota_mattino": round(quota, 4), "quota_dati_scarsi": pas.get("quota_dati_scarsi"),
         "M_cint": pas["M_cint"], "M_tor": pas["M_tor"], "torinesi": pas["torinesi"], "f_mattino": pas["f_mattino"],
         "c4_metodo": pas.get("c4_metodo"), "n_eleggibili": imp["n_eleggibili"],
-        "mancano_totale_20_punti": int(sum(p["mancano"] for p in punti)),
+        "mancano_totale_20_punti": int(sum(p["mancano_stima"] for p in punti)),
         "riferimento_direzioni": direzioni, "validazione": validazione,
         "profili_ufficiali": [p for p in profili if p["tipo"] == "interscambio_ufficiale"],
     }
@@ -528,8 +576,9 @@ def main():
         {"nome": "Aree", "valore": f"celle di circa 2 km²; Critica ≥ {soglie[0]:g}%, Scarsa {soglie[1]:g}-{soglie[0] - 1:g}%, Buona < {soglie[1]:g}%; almeno {args.min_fermate_area} fermate, se no «Pochi dati»",
          "perche": "con una o due fermate la percentuale è 0% o 100% per caso",
          "effetto": "; ".join(f"soglie {k}: " + ", ".join(f"{a} {b}" for a, b in v.items()) for k, v in sens["soglie_aree"].items())},
-        {"nome": "20 punti", "valore": "fermate senza posti bastanti raggruppate entro 1 km, in ordine di posti che mancano",
-         "perche": "risponde a «dove metterne uno o ingrandirlo»", "effetto": "candidati: parcheggi adatti con almeno 100 posti entro 600 m a piedi"},
+        {"nome": "20 punti", "valore": f"fermate senza posti bastanti raggruppate entro 1 km, in ordine di posti che mancano; uno per asse d'ingresso (niente punti a meno di {DIST_STESSO_ASSE_M / 1000:g} km, né sulla stessa strada a meno di {DIST_STESSA_STRADA_M / 1000:g} km); almeno {DIST_MIN_CENTRO_KM:g} km da Piazza Castello",
+         "perche": "risponde a «dove metterne uno o ingrandirlo»; due punti sullo stesso asse contano le stesse auto; vicino al centro si risparmia poca strada",
+         "effetto": f"candidati: parcheggi adatti con almeno 100 posti entro 600 m a piedi; scartati {len(scartati)} gruppi su {n_gruppi}"},
         {"nome": "Riempimento", "valore": f"misurato dal 5T dove c'è ({len(giorni)} giorni feriali, ore 10-16); pieno ≥ 85%",
          "perche": "un parcheggio pieno non serve", "effetto": "colora i parcheggi e mostra i profili; non cambia le classi delle fermate"},
     ]
@@ -559,8 +608,13 @@ def main():
             f"senza {a['quota_senza']:.0%}  {', '.join(a['zone_principali'])}" for a in aree), "",
           "== 20 punti prioritari ==",
           *(f"  {p['ordine']:2d}. {p['nome'][:30]:30s} {p['zona_nome'][:22]:22s} {p['dist_centro_km']:5.1f} km dal centro; "
-            f"auto che passano ~{p['auto_passaggio_txt']}; da fermare {p['potenziale']}; posti {p['posti_adatti']}; mancano {p['mancano']}"
-            for p in punti), "",
+            f"auto che passano ~{p['auto_passaggio_txt']}; da fermare {p['potenziale']}; posti {p['posti_adatti']}; "
+            f"mancano circa {p['mancano']} (calcolo {p['mancano_stima']})"
+            + (f"; stesso asse: {', '.join(p['stesse_auto'])}" if p.get("stesse_auto") else "")
+            for p in punti),
+          f"  Scartati {len(scartati)} gruppi su {n_gruppi} (stesso asse di un punto tenuto o a meno di {DIST_MIN_CENTRO_KM:g} km dal centro);",
+          "  quelli con piu' posti mancanti dell'ultimo punto tenuto:",
+          *(f"    {p['nome'][:30]:30s} mancano {p['mancano']}: {motivo}" for p, motivo in scartati_in_cima), "",
           "== Validazione sugli interscambi del Comune (solo fatti misurati) ==",
           "  Cosa ci si aspetta, PRIMA di guardare: un interscambio pieno dovrebbe stare su una strada con molte auto in entrata",
           f"  (nel {QUOTA_TOP_VALIDAZIONE:.0%} piu' alto dei luoghi, cioe' almeno {soglia_molte} auto); uno vuoto, su una strada con poche.",

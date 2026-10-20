@@ -29,22 +29,22 @@ auto dal centro?
   Caio Mario contatore fermo, Fermi non trasmette, Venchi Unica a metà, Sofia poco usato con molte auto accanto.
 - Mappa 13,6 MB (era 23,6); 142 parcheggi mostrati.
 
-## Punti deboli trovati da Claude nel ricontrollo (20/10, sera) — da decidere con Leo
-1. **Stesse auto contate in più punti.** Maroncelli, Bosso e Ponte Cavalieri Templari (stesso asse di Moncalieri,
-   0,7-1,2 km uno dall'altro) mostrano 627 + 540 + 350 posti che mancano, ma sono in buona parte le stesse auto. La
-   somma dei «posti che mancano» nei 20 punti è 6.356, più delle auto che in tutto si potrebbero fermare (5.067).
-   Coppie a meno di 1 km anche a Mirafiori (Barbera-Vigliani, Settembrini-Svincolo Mirafiori-Cattaneo) e alle Vallette
-   (Pellerina-Pianezza-Toscana). Il totale non è mostrato in pagina, ma il grafico dei 10 punti lo suggerisce.
-   Proposta: un punto per asse d'ingresso (come la regola del traffico: l'unità è l'asse).
-2. **Gioanetti a 1,4 km dal centro**: fermare lì un'auto fa risparmiare poca strada. Proposta: distanza minima dal
-   centro (es. 3 km) o peso per i km risparmiati.
-3. **Quota del 5,8% su 64 interviste** moltiplicata per una stima di traffico al ±38%: i «posti che mancano» sono
-   ordini di grandezza; meglio mostrarli arrotondati (es. «circa 600») o in fasce.
-4. **Il modello del traffico senza code** manda le auto sulle strade veloci: Corso Francia non è fra i 15 luoghi con
-   più auto in entrata, Strada Trieste (Moncalieri) è in cima. Si può controllare con i sensori 5T al mattino in
-   entrata (dati che ci sono già).
-5. **Validazione quasi vuota** (1 interscambio su 5 informativo) e **46 aree su 76 senza colore**: la vista «aree»
-   dice poco.
+## Punti deboli trovati da Claude nel ricontrollo (20/10, sera) e decisioni di Leo
+1. **Stesse auto contate in più punti** (Maroncelli, Bosso e Ponte Cavalieri Templari sullo stesso asse di
+   Moncalieri; somma dei 20 punti 6.356 > 5.067 auto che si possono fermare). **Leo: un punto per asse.** Nello
+   script 84: si tiene il gruppo con più posti mancanti e si scartano quelli a meno di 2 km, o sulla stessa strada a
+   meno di 5 km (solo il nome non basta: «strada Torino» c'è a Pino e a Mirafiori). Sui 20 punti di oggi ne
+   restano 11 su assi diversi; la lista si riempie fino a 20 con gli altri gruppi.
+2. **Gioanetti a 1,4 km dal centro.** **Leo: niente punti a meno di 3 km** da Piazza Castello.
+3. **«Posti che mancano» con precisione apparente** (quota da 64 interviste × traffico ±38%). **Leo: arrotondati**
+   (decine sotto 100, cinquantine sotto 1.000, centinaia sopra); il calcolo resta in `mancano_stima`.
+4. **Modello del traffico senza code** (Corso Francia fuori dai 15 luoghi con più auto, Strada Trieste in cima):
+   da controllare con i sensori 5T del mattino in entrata. Da fare.
+5. **Validazione quasi vuota** (1 interscambio su 5) e **46 aree su 76 senza colore**: più giorni di parcheggi
+   (inizio novembre), poi si rivede.
+
+Punti 1-3 scritti nel codice (84, controlli nell'85) il 20/10 sera, **da eseguire sul PC** con
+`scripts\RISULTATO6_RIFAI.bat`: provati solo sui 20 punti dentro la mappa, non sull'intera catena.
 
 ## Prossimi passi
 Dopo ≥ 5 feriali di parcheggi (inizio novembre): `scripts\RISULTATO6_RIFAI.bat`. Screenshot di Leo. Decidere i punti

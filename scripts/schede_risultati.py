@@ -209,8 +209,13 @@ def arricchisci_r2(s):
         "tag": "PROGRAMMATO / STIMATO",
         "stato": "Chiuso (16/10/2026)",
         "in_breve": f"La metro M1 non passa dalle {da} alle {a}: in quelle ore restano solo i bus notturni.",
-        "numero_chiave": {"valore": n15["residenti_migliorati"], "unita": "residenti",
-                          "testo": "raggiungerebbero più servizi di notte con una metro ogni 15 minuti"},
+        # numero in grande: quello severo (almeno +soglia_quota di servizi), scelta di Leo del 20/10
+        "numero_chiave": ({"valore": n15["residenti_migliorati_quota"], "unita": "residenti",
+                           "testo": f"raggiungerebbero almeno il {round(100 * n15['soglia_quota'])}% di servizi in più "
+                                    "di notte con una metro ogni 15 minuti"}
+                          if "residenti_migliorati_quota" in n15 else
+                          {"valore": n15["residenti_migliorati"], "unita": "residenti",
+                           "testo": "raggiungerebbero più servizi di notte con una metro ogni 15 minuti"}),
         "racconto": "Uno dei problemi notati all'inizio del progetto: la metro chiude la sera. Dopo l'ultima corsa "
                     f"arriva un bus sostitutivo, poi dalle {da} alle {a} non c'è più niente sulla linea.",
         "risposta": [

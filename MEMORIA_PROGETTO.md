@@ -23,7 +23,7 @@ ritardo e irregolari (v2) · **5** linea nuova · **6** parcheggi per lasciare l
 - Passo passo con Leo: decisioni importanti chieste prima; piccole scelte con default dichiarati.
 - **Verifica indipendente** di ogni fatto importante sui file veri prima di darlo a Leo.
 - Git: ramo `prova`; Claude committa solo quando Leo lo chiede. Nelle sessioni cloud Claude lavora su un ramo
-  `claude/...` che Leo unisce in `prova`. Il repository GitHub è **privato**.
+  `claude/...` che Leo unisce in `prova`. Il repository GitHub è **pubblico** dal 20/10 (sera): niente segreti né dati personali in git.
 - Script provati su campione prima del giro vero. Python del PATH (3.14), non Anaconda.
 - Accesso: terminale sul PC e SSH **in sola lettura** verso leopi (`leopi@192.168.8.200`, chiave
   `~/.ssh/id_gtt_leopi`). Scrivere/riavviare sul Pi → `.bat` a doppio clic per Leo (`cd /d "%~dp0.."`, log in
@@ -68,7 +68,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 | Mappa | **Revisione completa fatta il 18/10** (`docs/archivio/PIANO_REVISIONE_MAPPA.md`): 9 temi, niente dati "live", colori leggibili, nomi dei comuni, guida con fonti e date; pubblico = portfolio. Aperto: condizioni d'uso degli sfondi Esri prima di pubblicare. |
 | Accessibilità (18) | 24 fasce orarie (15/10); piedi 15 min (80 m/min), TP 45 min. `docs/PIANO_ACCESSIBILITA.md`. |
 | Risultato 1 | 10.919 residenti a Torino senza servizi essenziali a 15' (1,3%), peggiore la salute; candidati per nuovi servizi in mappa. |
-| Risultato 2 (28-29) | Chiuso il 16/10: metro ogni 15' di notte → 773.307 residenti con accesso migliore (ogni 30': 652.891); con almeno +25% di servizi 334.085 (153.062). `docs/PIANO_RISULTATO2.md`. |
+| Risultato 2 (28-29) | Chiuso il 16/10: metro ogni 15' di notte → **334.085 residenti con almeno +25% di servizi** (ogni 30': 153.062; numero in grande da 20/10); con qualsiasi miglioramento 773.307 (652.891). `docs/PIANO_RISULTATO2.md`. |
 | Risultato 4 v2 (27) | 18/10: feriale 5,3% in ritardo > 5 min, 10,5% grappolo+buco. `docs/PIANO_RISULTATO4.md`. |
 | Risultato 6 (24-25, 68-73, 77, 79-85) | **Corretto il 20/10** (esito ricontrollato da Claude): 391 fermate importanti fuori dal centro, **253 senza posti bastanti** entro 400 m a piedi (99 senza nessun parcheggio adatto); 76 aree (20 critiche, 46 «Pochi dati»); 20 punti prioritari (1 solo sotto 2,5 km dal centro, prima 7); auto in entrata 87.162, chi già lascia l'auto 5,8% (64 interviste); torinesi inclusi (34%). Validazione: solo Stura informativo. Mappa 13,6 MB. Punti deboli da decidere (stesse auto in più punti, Gioanetti a 1,4 km): `docs/PIANO_RISULTATO6.md`. Catena `scripts\RISULTATO6_RIFAI.bat` (~4 min). |
 | Risultato 8 v1 (33-67) | 18/10, Fase 5 di opencode ricontrollata: 95,3% dei km di strade grandi di Torino serviti dal TP; "molto traffico e poco TP" quasi solo Corso Regina Margherita ovest. Stima C-DEBOLE (errore ±38%). `docs/RIASSUNTO_TRAFFICO.md`. |
@@ -81,17 +81,18 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 ## 5. IN CORSO
 
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
-- **Domande aperte a Leo** (`docs/PIANO_PULIZIA.md` sezione 5): dove pubblicare (repository privato), ritocchi al
-  Risultato 6, numero in grande del Risultato 2.
+- **Risultato 6, punti per asse** (Leo, 20/10 sera): un punto per asse d'ingresso, almeno 3 km dal centro, posti che
+  mancano arrotondati. Scritto nell'84 (+ controlli nell'85), **da eseguire sul PC** con `RISULTATO6_RIFAI.bat`, poi
+  Claude ricontrolla. Risultato 2: numero in grande = 334.085 (severo), in `schede_risultati.py`.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`; salvare in git `README.md` dopo aver rilanciato lo 86.
 
 ## 6. PROSSIMI PASSI (in ordine: dettagli in `docs/PIANO_PULIZIA.md` sezione 4)
 
-1. Leo unisce il ramo di Claude in `prova`, poi `schede_risultati.py` e `86_prepara_pubblicazione.py`.
+1. Leo unisce il ramo di Claude in `prova`, poi `scripts\RISULTATO6_RIFAI.bat` e `86_prepara_pubblicazione.py`.
 2. `schtasks` con `scripts\CONTROLLA_LEOPI.bat` ogni mattina (comando in `docs/archivio/correzioni_20ott/ESITO_CORREZIONI_GENERALI.md`, 3.5).
 3. Ora legale del 25/10: controllo a mano dello script 26 dopo il fetch del 1/11 (+ `TRAFFICO_RILANCIA_SENSORI.bat`).
-4. Risultato 6: un punto per asse, distanza minima dal centro, numeri arrotondati, confronto con i sensori 5T del mattino.
-5. Pubblicare (GitHub Pages; repository privato: decidere come), cartella leggera (`pubblica/` oggi 90 MB), sfondi Esri.
+4. Risultato 6: Claude ricontrolla il giro con i punti per asse; poi confronto delle auto in entrata con i sensori 5T del mattino.
+5. Pubblicare su GitHub Pages (proposta: ramo `gh-pages` con solo `pubblica/`), cartella leggera (oggi 90 MB), sfondi Esri.
 6. 2-3 risultati di punta, ognuno con «come sappiamo che è vero».
 7. Rilanci: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 e R9 con un mese (metà novembre); R4 in mappa.
    Screenshot di Leo per la scheda R6.
