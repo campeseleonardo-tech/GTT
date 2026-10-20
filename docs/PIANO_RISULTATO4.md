@@ -183,6 +183,74 @@ dell'ora, legenda, linea da indirizzo `#tema=puntualita&linea=17`), link della s
 > italiano semplice con: oltre 10 minuti (e il confronto con GTT), tram contro bus, le 3 linee con più ritardo per km,
 > linee utili contro altre, e gli errori della prova delle pagine.
 
+## Ricontrollo del Giro 2 (Claude, 21/10) e problema trovato
+
+Codice e numeri del Giro 2 a posto (tram + bus = città, fine corsa su 88,5% delle corse, 90 linee in mappa; mappa in
+Chromium: `#tema=puntualita&linea=17` apre il tema con la 17 filtrata, legenda giusta, nessun errore). Numeri feriali:
+oltre 5 minuti tram 4,6%, bus 5,4%; grappolo+buco tram 13,8%, bus 8,4%; attesa in più tram 0,6-1,1 min, bus
+0,6-2,3; linee utili 5,6% in ritardo contro 4,4% delle altre.
+
+**Problema (trovato dall'agente, confermato da Claude sul codice):** fra i passaggi usati nessun ritardo supera 10
+minuti (massimo 9,98). La regola D3 scarta un passaggio se l'ultima lettura è a più di 10 minuti dall'arrivo stimato;
+nei feriali ne scarta 49.818, e **34.929 di questi hanno un ritardo oltre 10 minuti**. Spiegazione probabile: il feed
+GTT smette di elencare la fermata verso l'orario programmato, quindi per un mezzo molto in ritardo l'ultima lettura è
+lontana dall'arrivo e D3 la butta. Conseguenza: **i ritardi lunghi non entrano mai nei conti**, e anche il titolo
+«5,2% in ritardo oltre 5 minuti» è sottostimato. Rimettendo dentro gli scartati con ritardo oltre 10 minuti il titolo
+salirebbe verso l'8% (ordine di grandezza, da verificare). Va controllato con un dato indipendente prima di cambiare
+la regola: le **posizioni GPS dei mezzi** (tabella `mezzi_gtt`), già usate dallo script 70 per il «controllo col GPS».
+
+## Giro 3 del Risultato 4 — verifica della regola D3 con il GPS (solo lettura) + due ritocchi
+
+Valori predefiniti di Claude: 2 giorni feriali interi (15/10 e 16/10; se uno è incompleto, il feriale intero più
+vicino); al massimo 3.000 passaggi per gruppo, presi a passo fisso (uno ogni k, niente caso); passaggio GPS valido se
+il mezzo passa a meno di 60 m dalla fermata (come lo script 70).
+
+**Passo 1 — nuovo `scripts/90_verifica_ritardi_gps.py` (sola lettura, scrive solo il suo rapporto).**
+1. Carica lo script 27 con `comuni.carica_script("27_risultato4_regolarita.py")` e usane `carica_gtfs()`,
+   `leggi_giorno()` e le funzioni dell'ora; dallo script 70 (stesso modo) usa la logica di `controllo_gps()` per trovare
+   l'istante in cui il mezzo passa vicino alla fermata (copiala in una funzione che lavora su un passaggio alla volta, se
+   non si può riusare così com'è).
+2. Per ogni giorno ricostruisci i passaggi come `costruisci_passaggi()` dello script 27 ma **tenendo anche gli
+   scartati per lettura lontana**, con: linea, trip, seq, stop, orario programmato, ritardo del feed, arrivo stimato,
+   istante dell'ultima lettura.
+3. Gruppi: (A) usati con ritardo del feed fino a 5 min; (B) usati con ritardo 5-10; (C) scartati per lettura lontana.
+   Per ognuno, sui passaggi con GPS valido: ritardo vero = passaggio GPS − orario programmato.
+4. Rapporto `docs/RAPPORTO_R4_VERIFICA_GPS.txt`: per gruppo, quanti passaggi e quanti con GPS valido; distribuzione del
+   ritardo vero (% sotto 5, 5-10, oltre 10); differenza mediana fra arrivo stimato dal feed e GPS; per il gruppo C anche
+   la distribuzione di (ultima lettura − orario programmato) in minuti (serve a capire quando il feed smette di elencare
+   la fermata). In fondo la **stima corretta** per i 2 giorni: % in ritardo oltre 5 e oltre 10 minuti, contando i
+   passaggi usati come oggi più gli scartati con il ritardo vero del GPS (pesati per quanti sono gli scartati in
+   tutto), accanto a quella di oggi.
+5. Controlli: almeno 300 passaggi con GPS valido nel gruppo C (se no AVVISO); tram + bus nel rapporto.
+
+**Passo 2 — ritocco: classifica del ritardo a fine corsa.** In `27_risultato4_regolarita.py` (rapporto) e nella scheda
+R4 la classifica «ritardo a fine corsa» si ordina per **ritardo a fine corsa (mediana, minuti)**, non per minuti ogni
+10 km (che premiava le linee corte: in testa la 6 con 4,3 km e 1,2 minuti); i minuti ogni 10 km restano come colonna e
+nella nota. Titolo del grafico: «Ritardo a fine corsa (feriale)».
+
+**Passo 3 — ritocco: i link aprono la mappa alle 8.** Template: `applicaLineaDaUrl()` legge anche `ora=<0-23>`
+dall'indirizzo e, se c'è, porta lo slider a quell'ora (`S.m = ora*60`, poi `aggiornaOra(); aggiornaLegenda();`). Scheda
+R4: `link_linea()` aggiunge `&ora=8`; la nota del grafico dice «la mappa si apre alle 8 di un feriale».
+
+**Passo 4 — lanci.** `python scripts\90_verifica_ritardi_gps.py` → `python scripts\27_risultato4_regolarita.py` →
+`python scripts\70_risultato9_attesa.py` → `python scripts\04_genera_mappa.py` → `python scripts\schede_risultati.py`
+→ `python scripts\prova_pagine_r6.py --senza-screenshot`. Esito in `docs/ESITO_R4_VERIFICA_GPS.md` con l'uscita
+completa dello script 90. **Non** cambiare la regola D3: si decide con Leo dopo aver visto la verifica.
+
+### Prompt da incollare (per Leo, sul PC)
+
+> Sei un agente che lavora sul progetto GTT in `C:\projects\Progetti\GTT`, ramo git `prova`. Prima:
+> `git branch --show-current` (deve dire `prova`, altrimenti fermati e dimmelo), `git status` (se ci sono modifiche
+> fermati e dimmelo), `git pull origin prova`. Leggi `AGENTS.md` e in `docs/PIANO_RISULTATO4.md` le sezioni
+> «Ricontrollo del Giro 2» e «Giro 3 del Risultato 4», poi esegui i 4 passi, uno alla volta, nell'ordine. Database in
+> sola lettura (`file:...?mode=ro`). Non cambiare la regola D3 né altre regole D1-D9. Niente numeri scritti a mano nei
+> testi. Se un nome di tabella, colonna o funzione è diverso dal piano, guarda il file vero, adatta e scrivilo. Esito in
+> `docs/ESITO_R4_VERIFICA_GPS.md` (OK / AVVISO / FERMO per passo, righe cambiate prima/dopo, uscita completa dello
+> script 90). Non modificare `MEMORIA_PROGETTO.md`. Python: `python` del PATH, mai Anaconda. Alla fine fai commit e
+> push come dice `AGENTS.md` (sezione «Commit») e scrivi un riassunto di 10 righe in italiano semplice: per i tre gruppi
+> quanti passaggi hanno il GPS e che ritardo vero hanno, e la stima corretta di «oltre 5» e «oltre 10» minuti accanto a
+> quella di oggi.
+
 ---
 
 # PARTE A — storia del Risultato 4

@@ -48,7 +48,7 @@ Radice: `mappa_torino.html`, `simulazione.html`, `MEMORIA_PROGETTO.md`, `AGENTS.
 `processed/`, `otp/` (R5), `scenari/`.
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 · 26 velocità 5T · 27 R4 ·
 28-29 R2 · 30-32 rapporto sostenibilità · 33-67 + `rete_osm.py` traffico (R8, vedi `docs/PIANO_RISULTATO8.md`)
-· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 87 popolarità delle zone e linee utili, 88 confronto auto e sensori 5T, 89 proposta fermate importanti · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 90**.
+· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 87 popolarità delle zone e linee utili, 88 confronto auto e sensori 5T, 89 proposta fermate importanti · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 90** (riservato al Giro 3 del R4: 90 verifica ritardi con GPS).
 
 | Dato | Note |
 |---|---|
@@ -115,7 +115,11 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    script 87): `docs/PIANO_RISULTATO6.md` (prompt rivisti il 20/10 sera).
 4bis. **Risultato 4, lavori piccoli sui dati di oggi** (non serve aspettare novembre): tram contro bus (3), oltre 10
    minuti contro il 2,3% di GTT (9), link linea → mappa (4), ritardo per km (5), più R4 in mappa (7, tema «Puntualità
-   delle linee») e linee utili contro altre (8): **Giro 2 del R4**, passi e prompt in `docs/PIANO_RISULTATO4.md`, sul PC.
+   delle linee») e linee utili contro altre (8): **Giro 2 del R4 fatto il 21/10 e ricontrollato** (tram 4,6% / bus 5,4% in
+   ritardo; linee utili 5,6% contro 4,4%; tema «Puntualità delle linee» in mappa, link dalle schede). **Problema**: la
+   regola D3 butta tutti i passaggi con ritardo oltre 10 minuti (34.929 nei feriali): il 5,2% del titolo è
+   sottostimato (forse ~8%). **Prossimo: Giro 3 del R4** (verifica con il GPS dei mezzi, script 90, solo lettura; più
+   due ritocchi), poi decisione di Leo sulla regola D3. Prossimo numero libero dopo il 90: 91.
 5. Pubblicare su GitHub Pages (ramo `gh-pages` con solo `pubblica/`), cartella leggera (oggi 90 MB), sfondi Esri.
 6. Rilanci con più dati: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 (con R9) con un mese (metà
    novembre); poi R4 in mappa. Screenshot di Leo per la scheda R6.
