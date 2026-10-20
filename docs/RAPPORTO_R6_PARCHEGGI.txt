@@ -1,5 +1,5 @@
 RAPPORTO R6 - PARCHEGGI PER LASCIARE L'AUTO PRIMA DI ENTRARE IN CITTA' (script 84)
-Generato il 20/10/2026 01:58.
+Generato il 20/10/2026 11:52.
 
 == Fermate importanti ==
   391 fermate (fuori da Q001-Q009): nessun parcheggio 99, posti insufficienti 154, posti sufficienti 116, poche auto da fermare 22
@@ -85,26 +85,68 @@ Generato il 20/10/2026 01:58.
   c-1461_3716  Pochi dati fermate   1 (valutate 0) senza 0%  Chivasso
 
 == 20 punti prioritari ==
-   1. MARONCELLI                     Moncalieri               6.3 km dal centro; auto che passano ~13100; da fermare 762; posti 135; mancano 627
-   2. BOSSO                          Moncalieri               6.8 km dal centro; auto che passano ~11700; da fermare 682; posti 142; mancano 540
-   3. PELLERINA                      Le Vallette              3.5 km dal centro; auto che passano ~7300; da fermare 426; posti 0; mancano 426
-   4. SANTA RITA                     Santa Rita               4.0 km dal centro; auto che passano ~8600; da fermare 501; posti 117; mancano 384
-   5. PONTE CAVALIERI TEMPLARI       Moncalieri               7.9 km dal centro; auto che passano ~8900; da fermare 517; posti 167; mancano 350
-   6. BARBERA                        Mirafiori Sud            7.2 km dal centro; auto che passano ~6000; da fermare 349; posti 0; mancano 349
-   7. SETTEMBRINI                    Mirafiori Sud            7.1 km dal centro; auto che passano ~8400; da fermare 487; posti 151; mancano 336
-   8. PIANEZZA                       Le Vallette              3.6 km dal centro; auto che passano ~5700; da fermare 330; posti 0; mancano 330
-   9. CATTANEO                       Mirafiori Nord           6.1 km dal centro; auto che passano ~8000; da fermare 466; posti 137; mancano 329
-  10. METRO MASSAUA                  Parella                  4.7 km dal centro; auto che passano ~7000; da fermare 408; posti 105; mancano 303
-  11. PIANEZZA                       Pianezza                 9.6 km dal centro; auto che passano ~4700; da fermare 271; posti 0; mancano 271
-  12. VILLA LUIGINA                  Pino Torinese            5.5 km dal centro; auto che passano ~4600; da fermare 266; posti 0; mancano 266
-  13. SVINCOLO MIRAFIORI             Mirafiori Sud            7.8 km dal centro; auto che passano ~6900; da fermare 402; posti 151; mancano 251
-  14. GIOANETTI                      Borgo Po e Cavoretto     1.4 km dal centro; auto che passano ~4900; da fermare 285; posti 38; mancano 247
-  15. PASINI                         Madonna del Pilone       3.5 km dal centro; auto che passano ~4200; da fermare 241; posti 0; mancano 241
-  16. TOSCANA                        Le Vallette              3.7 km dal centro; auto che passano ~4100; da fermare 238; posti 0; mancano 238
-  17. RIETI NORD                     Parella                  6.3 km dal centro; auto che passano ~7100; da fermare 413; posti 178; mancano 235
-  18. LEONARDO DA VINCI              Grugliasco               8.4 km dal centro; auto che passano ~3900; da fermare 225; posti 0; mancano 225
-  19. TRAFORO                        Pino Torinese            8.6 km dal centro; auto che passano ~3500; da fermare 205; posti 0; mancano 205
-  20. VIGLIANI                       Mirafiori Sud            6.5 km dal centro; auto che passano ~6000; da fermare 349; posti 146; mancano 203
+   1. MARONCELLI                     Moncalieri               6.3 km dal centro; auto che passano ~13100; da fermare 762; posti 135; mancano circa 650 (calcolo 627); stesso asse: BOSSO, PONTE CAVALIERI TEMPLARI, FIOCCARDO
+   2. PELLERINA                      Le Vallette              3.5 km dal centro; auto che passano ~7300; da fermare 426; posti 0; mancano circa 450 (calcolo 426); stesso asse: PIANEZZA, TOSCANA, LECCE, RIVOLI SUD
+   3. SANTA RITA                     Santa Rita               4.0 km dal centro; auto che passano ~8600; da fermare 501; posti 117; mancano circa 400 (calcolo 384); stesso asse: SETTEMBRINI, CATTANEO, PARCO RUFFINI, FILADELFIA, LEPANTO, SIRACUSA, GUIDO RENI, GIAMBONE
+   4. BARBERA                        Mirafiori Sud            7.2 km dal centro; auto che passano ~6000; da fermare 349; posti 0; mancano circa 350 (calcolo 349); stesso asse: VIGLIANI, DROSSO CAP
+   5. METRO MASSAUA                  Parella                  4.7 km dal centro; auto che passano ~7000; da fermare 408; posti 105; mancano circa 300 (calcolo 303); stesso asse: RIETI NORD, TRAPANI, PROVANA, MAGENTA, CREA, XX SETTEMBRE, TRAPANI
+   6. PIANEZZA                       Pianezza                 9.6 km dal centro; auto che passano ~4700; da fermare 271; posti 0; mancano circa 250 (calcolo 271); stesso asse: CARREFOUR
+   7. VILLA LUIGINA                  Pino Torinese            5.5 km dal centro; auto che passano ~4600; da fermare 266; posti 0; mancano circa 250 (calcolo 266)
+   8. SVINCOLO MIRAFIORI             Mirafiori Sud            7.8 km dal centro; auto che passano ~6900; da fermare 402; posti 151; mancano circa 250 (calcolo 251)
+   9. PASINI                         Madonna del Pilone       3.5 km dal centro; auto che passano ~4200; da fermare 241; posti 0; mancano circa 250 (calcolo 241); stesso asse: CARRARA, CASALE N.431, BIAMINO
+  10. LEONARDO DA VINCI              Grugliasco               8.4 km dal centro; auto che passano ~3900; da fermare 225; posti 0; mancano circa 200 (calcolo 225); stesso asse: BAROCCHIO OVEST
+  11. TRAFORO                        Pino Torinese            8.6 km dal centro; auto che passano ~3500; da fermare 205; posti 0; mancano circa 200 (calcolo 205)
+  12. POTENZA                        Le Vallette              4.1 km dal centro; auto che passano ~4000; da fermare 234; posti 64; mancano circa 150 (calcolo 170); stesso asse: FOSSATA
+  13. STURA LAZIO                    Regio Parco              4.6 km dal centro; auto che passano ~3500; da fermare 202; posti 32; mancano circa 150 (calcolo 170); stesso asse: CHIESA, CEBROSA, DERNA EST
+  14. REBAUDENGO SUD                 Falchera                 3.7 km dal centro; auto che passano ~4800; da fermare 276; posti 126; mancano circa 150 (calcolo 150)
+  15. MARSÈ                          Moncalieri               9.1 km dal centro; auto che passano ~2800; da fermare 162; posti 44; mancano circa 100 (calcolo 118); stesso asse: GENOVA N.212
+  16. GAIDANO                        Chieri                  10.5 km dal centro; auto che passano ~3400; da fermare 197; posti 82; mancano circa 100 (calcolo 115)
+  17. SICILIA                        Borgo Po e Cavoretto     3.5 km dal centro; auto che passano ~1500; da fermare 89; posti 66; mancano circa 20 (calcolo 23)
+  18. CASCINETTE                     Falchera                 5.7 km dal centro; auto che passano ~7300; da fermare 423; posti 400; mancano circa 20 (calcolo 23)
+  19. LA VALLE                       San Mauro Torinese       6.5 km dal centro; auto che passano ~2200; da fermare 131; posti 129; mancano circa 0 (calcolo 2)
+  Scartati 41 gruppi su 60 (stesso asse di un punto tenuto o a meno di 3 km dal centro);
+  quelli con piu' posti mancanti dell'ultimo punto tenuto:
+    BOSSO                          mancano 540: stesso asse di MARONCELLI
+    PONTE CAVALIERI TEMPLARI       mancano 350: stesso asse di MARONCELLI
+    SETTEMBRINI                    mancano 336: stesso asse di SANTA RITA
+    PIANEZZA                       mancano 330: stesso asse di PELLERINA
+    CATTANEO                       mancano 329: stesso asse di SANTA RITA
+    GIOANETTI                      mancano 247: vicino al centro
+    TOSCANA                        mancano 238: stesso asse di PELLERINA
+    RIETI NORD                     mancano 235: stesso asse di METRO MASSAUA
+    VIGLIANI                       mancano 203: stesso asse di BARBERA
+    DROSSO CAP                     mancano 190: stesso asse di BARBERA
+    BAROCCHIO OVEST                mancano 168: stesso asse di LEONARDO DA VINCI
+    BALDISSERA                     mancano 162: vicino al centro
+    BORROMINI                      mancano 149: vicino al centro
+    CARRARA                        mancano 135: stesso asse di PASINI
+    PARCO RUFFINI                  mancano 132: stesso asse di SANTA RITA
+    FILADELFIA                     mancano 119: stesso asse di SANTA RITA
+    LEPANTO                        mancano 115: stesso asse di SANTA RITA
+    CARREFOUR                      mancano 112: stesso asse di PIANEZZA
+    CHIESA                         mancano 111: stesso asse di STURA LAZIO
+    BRICCA                         mancano 102: vicino al centro
+    TRAPANI                        mancano 101: stesso asse di METRO MASSAUA
+    SIRACUSA                       mancano 98: stesso asse di SANTA RITA
+    LECCE                          mancano 98: stesso asse di PELLERINA
+    GUIDO RENI                     mancano 95: stesso asse di SANTA RITA
+    PROVANA                        mancano 94: stesso asse di METRO MASSAUA
+    MAGENTA                        mancano 94: stesso asse di METRO MASSAUA
+    GENOVA N.212                   mancano 92: stesso asse di MARSÈ
+    CEBROSA                        mancano 90: stesso asse di STURA LAZIO
+    FOSSATA                        mancano 77: stesso asse di POTENZA
+    PALERMO                        mancano 66: vicino al centro
+    CASALE N.431                   mancano 46: stesso asse di PASINI
+    CREA                           mancano 39: stesso asse di METRO MASSAUA
+    XX SETTEMBRE                   mancano 23: stesso asse di METRO MASSAUA
+    TRAPANI                        mancano 20: stesso asse di METRO MASSAUA
+    GIAMBONE                       mancano 18: stesso asse di SANTA RITA
+    RIVOLI SUD                     mancano 18: stesso asse di PELLERINA
+    FIOCCARDO                      mancano 2: stesso asse di MARONCELLI
+    PALERMO                        mancano 0: vicino al centro
+    BIAMINO                        mancano 0: stesso asse di PASINI
+    DERNA EST                      mancano 0: stesso asse di STURA LAZIO
+    CIMAROSA                       mancano 0: vicino al centro
 
 == Validazione sugli interscambi del Comune (solo fatti misurati) ==
   Cosa ci si aspetta, PRIMA di guardare: un interscambio pieno dovrebbe stare su una strada con molte auto in entrata
@@ -152,11 +194,12 @@ Generato il 20/10/2026 01:58.
   OK     ogni fermata in una sola area
   OK     trovati i 5 interscambi ufficiali — 5
   OK     nessuna fermata importante in zona centrale
-  AVVISO nessun punto prioritario in zona centrale — nessun punto a meno di 1,5 km da Piazza Castello
+  OK     nessun punto prioritario a meno di 3 km dal centro
+  OK     un punto per asse: nessuna coppia di punti sullo stesso asse
   OK     nessun parcheggio adatto in zona centrale
   OK     nessun valore negativo
   OK     somma auto delle direzioni = auto in entrata con zona nota
-  OK     i punti prioritari sono 20 — 20
+  AVVISO i punti prioritari sono 20 — 19
   OK     almeno un'area con categoria (non «Pochi dati»)
 
 == Limiti ==

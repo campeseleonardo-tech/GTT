@@ -1,5 +1,5 @@
 RAPPORTO R6 - FERMATE IMPORTANTI CON IL PUNTEGGIO CORRETTO (script 83)
-Generato il 20/10/2026 01:58.
+Generato il 20/10/2026 11:52.
 Segnali a2 (peso 1), b2 (peso 1), c4 (peso 1), e (peso 1); c4 col metodo «instradamento»; torinesi nella domanda: si.
 Luoghi 5087; eleggibili (Citta' metropolitana fuori da Q001-Q009) 3898; soglia del 10% piu' alto = 63.50; fermate importanti 391.
 Segnali mancanti fra gli eleggibili (messi al minimo): {'a2': 1183, 'b2': 0, 'c4': 0}
