@@ -1,5 +1,5 @@
 RISULTATO 2 - METRO DI NOTTE: servizi raggiungibili in piu' nel buco notturno (v2, nessuna soglia)
-generato: 2026-10-16T20:34:33+00:00  giorno: 2026-10-12  finestra: 00:50-05:22  ore ricalcolate: 01,02,03,04
+generato: 2026-10-19T23:52:03+00:00  giorno: 2026-10-12  finestra: 00:50-05:22  ore ricalcolate: 01,02,03,04
 
 NOTA METODO: la versione precedente contava solo le sezioni che passavano da ZERO servizi
 assoluti a qualcosa: a Torino questo non succede mai (bus notturni gia' presenti ovunque,
