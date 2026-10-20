@@ -151,6 +151,10 @@ logistica, eventi (stadi, palazzetti).
 - Risultato 6, fermate importanti con regola fissa (script 89, solo proposta, 20/10): la regola «(metro/stazione/capolinea o
   N corse/ora) e M auto» dà da 25 a 347 fermate sulla griglia N 10-30, M 500-3000; Leo deve scegliere N e M. Più la regola è
   severa, meno punti prioritari di oggi restano coperti (da 12 su 15 a 2). Dettagli: docs/ESITO_R6_PROPOSTA_FERMATE.md.
+- Popolarità delle zone e linee utili (script 87, 20/10): popolarità = arrivi IMQ senza ritorni a casa, classifica solo nella
+  Città metropolitana; servizi mostrati a parte (catalogo dentro Torino, OSM fuori: non confrontabili). Linea utile = 25% con più
+  zone fra le 20 più popolari. Molti parcheggi adatti non hanno linee utili vicine (vedi i controlli). Uscite:
+  data/processed/popolarita_zone.json, docs/ESITO_POPOLARITA_ZONE.md.
 - Script 80 e 77 sembrano superati ma servono (funzioni per 84-85, modulo per 72-73). `supervisore.py` e `06_dati_live.py`
   girano sul Pi. I passi delle fasi 3-4 nel `.bat` del traffico hanno uscite lette dalla Fase 5: lasciati.
 - Codice copiato (distanze, radice del progetto, ora legale) in molti script: si passa a `comuni.py` quando si tocca uno script.
