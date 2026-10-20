@@ -48,7 +48,7 @@ Radice: `mappa_torino.html`, `simulazione.html`, `MEMORIA_PROGETTO.md`, `AGENTS.
 `processed/`, `otp/` (R5), `scenari/`.
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 · 26 velocità 5T · 27 R4 ·
 28-29 R2 · 30-32 rapporto sostenibilità · 33-67 + `rete_osm.py` traffico (R8, vedi `docs/PIANO_RISULTATO8.md`)
-· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 87** (88 fatto: confronto sensori; riservati: 87 popolarità, 89 proposta fermate).
+· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 87** (88 e 89 fatti; riservato: 87 popolarità).
 
 | Dato | Note |
 |---|---|
@@ -106,7 +106,8 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    verificare in `SEZIONI_FUORI_RETE`. Corretto da Claude nel template «piu'» → «più» (si vede al prossimo 04).
 4. **Risultato 6**: (prompt A fatto il 20/10 sera, ricontrollato: spareggio OK, 15 punti identici in due giri; confronto
    con i sensori 5T **debole**, ρ 0,52 su 23 luoghi, il modello sottostima gli ingressi da nord-ovest; riga nei limiti
-   della scheda da aggiungere dopo B e C.) Poi B
+   della scheda da aggiungere dopo B e C.) (Prompt B fatto, ricontrollato: **Leo sceglie N 10 corse/ora, M 1.000 auto**,
+   274 fermate importanti al posto di 391; si applica nel giro di modifica dopo il C.) Poi B
    (proposta fermate importanti, script 89, Leo sceglie N e M), poi C (popolarità delle zone senza i ritorni a casa,
    script 87): `docs/PIANO_RISULTATO6.md` (prompt rivisti il 20/10 sera).
 4bis. **Risultato 4, lavori piccoli sui dati di oggi** (non serve aspettare novembre): tram contro bus (3), oltre 10

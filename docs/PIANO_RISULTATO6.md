@@ -112,6 +112,17 @@ giro; corretto con uno spareggio fisso negli script 83 e 84, il numero definitiv
   nei limiti della scheda R6 («confronto con i sensori 5T: ordine debole, ρ 0,52; il modello sottostima gli ingressi
   da nord-ovest»), letta dal rapporto, nel prossimo giro che tocca la scheda R6 (dopo i prompt B e C).
 
+## Esito del prompt B e decisione di Leo (20/10 sera)
+Script 89 ricontrollato (stessi 3.898 eleggibili dello script 83; `docs/RAPPORTO_R6_PROPOSTA_FERMATE.txt`). Unica
+scorciatoia: i punti prioritari collegati alle fermate per nome entro 3 km (solo per la proposta; nello script 83 si
+usano le coordinate). **Leo sceglie N = 10, M = 1.000**: fermata importante = fuori da Q001-Q009 **e** (metro, stazione
+o capolinea, **oppure** almeno 10 corse/ora nelle ore dei pendolari) **e** almeno 1.000 auto in entrata che passano
+accanto. Ne escono **274** (205 Torino, 68 cintura, 1 resto), 211 delle 391 di oggi restano, 63 nuove; 12 dei 15 punti
+di oggi hanno ancora una fermata. Perché: 10 corse/ora = un mezzo ogni 6 minuti; 1.000 auto × 5,8% ≈ 58 posti,
+coerente con «almeno 50 posti mancanti»; M basso perché il modello sottostima il nord-ovest.
+**Si applica nel giro di modifica del R6**, dopo il prompt C, insieme alla riga dei sensori nei limiti e alle linee
+utili per parcheggio: una sola rigenerazione. Il prompt di quel giro si scrive dopo il ricontrollo del C.
+
 ## Come eseguirli
 
 - Lavori 1-3: dentro il **Giro 1** (`docs/PIANO_GIRO1_RITOCCHI.md`, passi 1-3).
@@ -170,12 +181,14 @@ C esclude i ritorni a casa dalla popolarità e non premia le linee solo perché 
 ### Prompt C — popolarità delle zone e linee utili (lavoro 6, script 87)
 
 > Stesse regole del prompt A (senza il punto 0). Scrivi `scripts/87_popolarita_zone.py` (solo lettura dei dati,
-> scrive solo i suoi file). 1) Popolarità di ogni zona IMQ (101 zone): spostamenti che **arrivano** nella zona,
+> scrive solo i suoi file). 1) Popolarità di ogni zona IMQ (le zone di `data/processed/imq_zone.json`, geometria in
+> `imq_zone_geo.json`: non scrivere il numero a mano): spostamenti che **arrivano** nella zona,
 > dall'IMQ 2022 (`data/processed/imq/spostamenti.csv`, separatore `;`, colonne `COD_ARR`, `SCOPO` e peso come le legge
 > lo script 81 nella funzione `leggi_domanda()`), **esclusi i ritorni a casa** (scopi `08` e `11`: altrimenti le zone
 > popolari sarebbero solo quelle dove si abita), in tre gruppi: lavoro/studio (`01`, `02`, `03`), acquisti/cure/svago
 > (`04`, `06`, `07`), altro (`05`, `09`, `10` e `12`-`16`, come fa lo script 14); più il numero di servizi del
-> catalogo nella zona (dal file che usa lo script 21 o dal catalogo della mappa). 2) Per ogni linea GTT (GTFS in
+> catalogo nella zona (Torino: `data/processed/catalogo` come lo legge lo script 18; fuori Torino
+> `data/processed/servizi_osm_cintura.json`, dato meno completo: scrivilo). 2) Per ogni linea GTT (GTFS in
 > `data/raw`, sola lettura): le zone che tocca (fermate dentro la zona, per coordinate, mai per nome) e due punteggi:
 > (a) **quante delle 20 zone più popolari tocca** (punteggio principale: non premia una linea solo perché è lunga);
 > (b) somma della popolarità delle zone toccate (solo confronto, anche divisa per scopo). «Linea utile» = 25% più alto
