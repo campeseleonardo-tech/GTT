@@ -319,6 +319,96 @@ in `docs/ESITO_R4_GPS_PROVA.md` con l'uscita completa.
 > (sezione «Commit») e scrivi un riassunto di 10 righe in italiano semplice: copertura del GPS, i controlli, e la
 > tabella feed contro GPS (oltre 5, oltre 10, grappolo+buco) per città, tram e bus.
 
+## Esito del Giro 4 (prova sul GPS, 21/10) — ricontrollato da Claude
+
+Tutti i controlli OK (`docs/RAPPORTO_R4_GPS_PROVA.txt`, 15 e 16/10): copertura GPS **80,1%** dei passaggi programmati
+delle corse viste (nessuna linea ordinaria sotto 60%); dove il feed è preciso, feed − GPS = −0,3 min (il GPS è
+affidabile); tempi non decrescenti 99,1% anche con la ricerca libera; ritardo alla prima fermata −1,6 min; calcolo
+veloce (~17 s per giorno).
+| Feriale, 2 giorni | in ritardo oltre 5 | oltre 10 | grappolo+buco |
+|---|---|---|---|
+| Feed (oggi) | 6,0% | 0,0% | 10,8% |
+| GPS, tutti i passaggi | **15,4%** | **6,5%** | **22,5%** |
+| GPS tram / bus | 16,2% / 15,2% | 8,1% / 6,1% | 28,5% / 18,7% |
+Fasce col GPS: punta del mattino 8,6%, giorno 17,4%, punta della sera 18,3%, sera 17,4%. Linee peggiori col GPS: 6, 17,
+69, 66, 33 (41-28%). Il feed sottostimava ritardi e irregolarità di 2-3 volte. Il GPS manca per circa il 20% dei
+passaggi delle corse viste: da dichiarare.
+
+## Giro 5 del Risultato 4 — tutto il Risultato 4 sul GPS (sul PC)
+
+Valori predefiniti di Claude:
+- **Fonte degli arrivi = GPS** per puntualità, regolarità, fine corsa, linee utili e attese (ex R9), con le regole del
+  Giro 4 (stessa corsa, ≤ 60 m, segmenti ≤ 180 s, fermate in ordine, |ritardo| ≤ 60 min). Il feed resta solo come
+  **confronto** (città e modi) nel rapporto e nella scheda: spiega perché i numeri sono cambiati.
+- Le regole D1-D3 valgono solo per il feed; D4-D9 restano (classi, fasce, coppie, minimi delle classifiche).
+- **Colori della mappa** ricalibrati sui valori col GPS: sotto 10% · 10-15 · 15-20 · 20-30 · oltre 30%.
+- **Confronto con GTT**: col GPS l'oltre 10 minuti è circa 6%, GTT dichiara 2,3% per il 2025. Nella scheda si scrive
+  solo che il metodo di GTT non è pubblicato e che noi misuriamo a ogni fermata, con il GPS, su pochi giorni di
+  ottobre: niente ipotesi sul perché.
+
+**Passo 1 — `scripts/27_risultato4_regolarita.py`: arrivi dal GPS.**
+1. Porta nello script 27 le funzioni del GPS dello script 91 (`_segmento`, `cerca_vincolata`, `passaggi_corsa` e le
+   costanti `DIST_GPS_M`, `SEGMENTO_MAX_S`, `MAX_RITARDO_VERO_MIN`), con un commento «dal Giro 4, script 91». Lo script
+   91 resta com'è.
+2. Nuova funzione `costruisci_passaggi_gps(con, giorno, trip_info, nome_linea, prog, fermate)` che legge `mezzi_gtt`
+   del giorno (come lo script 91) e ritorna **le stesse tuple** di `costruisci_passaggi` (posizioni `P_LINEA … P_TRIP`),
+   con `P_EST` = istante GPS, `P_RIT` = ritardo vero, `P_FONTE` = "gps"; più i conteggi della copertura (passaggi
+   programmati delle corse viste, con GPS valido, corse viste).
+3. Costante `FONTE_ARRIVI = "gps"` e opzione `--fonte feed` (calcolo di prima, per confronto). Con `gps`: tutti gli
+   aggregati di oggi si riempiono con i passaggi del GPS; in più, per ogni giorno, si calcolano dal feed (funzione di
+   oggi) solo città e modi, scritti nel JSON in `"confronto_feed"` (stessi campi di `citta` e `modi`).
+4. JSON: `"fonte": "gps"`, `"copertura_gps": {totale e per giorno}`, `"regole_gps": {…}`; gli scarti D3 restano solo
+   dentro `confronto_feed`. Rapporto: in testa una riga «Arrivi misurati con il GPS dei mezzi (dal 21/10); prima dal feed
+   GTT, che sottostima i ritardi: vedi CONFRONTO COL FEED»; la sezione nuova «CONFRONTO COL FEED» (città, tram, bus:
+   oltre 5, oltre 10, grappolo+buco) e «COPERTURA DEL GPS»; le altre sezioni con gli stessi titoli di oggi.
+5. Controlli (OK/AVVISO): copertura totale sopra 60%; tram + bus + metro = città; oltre 10 ≤ oltre 5; mediana fra −5 e
+   +10 min; quota oltre 5 minuti feriale col GPS fra 8% e 25% (buon senso dalla prova: circa 15%).
+
+**Passo 2 — `scripts/70_risultato9_attesa.py`: attese sul GPS.** In `elabora_giorno` sostituisci la fonte: `stimato`
+viene da `r4.costruisci_passaggi_gps(...)` (stesse chiavi `(trip, seq)` → istante), `nel_feed` diventa l'insieme delle
+corse viste nel GPS e `linee_coperte` le linee di quelle corse. Il resto (stima bassa/alta con le corse mancanti) resta.
+Rinomina nel rapporto «assenti dal feed» in «assenti dal GPS». Il controllo col GPS di oggi (passo 4 del vecchio piano)
+non serve più: lascialo ma scrivi nel rapporto che è un controllo del feed, non della fonte usata.
+
+**Passo 3 — `scripts/mappa_template.html`.** Nel tema `puntualita`: soglie `[10, 15, 20, 30]` al posto di
+`[2.5, 5, 7.5, 10]` e legenda «sotto 10%», «10-15%», «15-20%», «20-30%», «oltre 30%»; nella riga del periodo aggiungi
+«misurato con il GPS dei mezzi». Nella descrizione del tema «Misurato dal feed GTT» diventa «Misurato con il GPS dei
+mezzi».
+
+**Passo 4 — `scripts/schede_risultati.py` (scheda R4 con la parte attese).**
+1. Metodo: la frase «Per ogni corsa e fermata si tiene l'ultima lettura prima del passaggio…» diventa «Per ogni corsa e
+   fermata si prende l'istante in cui il GPS del mezzo passa a meno di 60 metri dalla fermata e lo si confronta con
+   l'orario ufficiale (GTFS).»; la frase sul feed diventa «Il Raspberry Pi registra ogni minuto le posizioni GPS dei
+   mezzi GTT.».
+2. Risposta: una frase dal `confronto_feed`: «Il feed in tempo reale di GTT, che usavamo prima, dava X% in ritardo
+   invece di Y%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.» La frase dell'oltre 10
+   minuti diventa «Oltre 10 minuti: Z% nei feriali. GTT dichiara il 2,3% per il 2025: il suo metodo non è pubblicato; noi
+   misuriamo a ogni fermata con il GPS, su pochi giorni.» (togli il testo «0,00% tra i misurati… stima alta»).
+3. Limiti: togli quelli che valgono solo per il feed («Il ritardo è quello dichiarato dal feed…», «Scartato il …% dei
+   passaggi…») e aggiungi: «Il GPS c'è per circa N% dei passaggi delle corse viste (dal JSON); le corse mai viste dal
+   GPS non si contano.» e «Distanza di 60 metri dalla fermata: un mezzo fermo poco prima conta come arrivato poco dopo.»
+4. Avviso in testa e `in_english` allineati (GPS, numeri nuovi, confronto col feed). Niente numeri scritti a mano
+   tranne il 2,3.
+
+**Passo 5 — lanci.** `python scripts\27_risultato4_regolarita.py` → `python scripts\70_risultato9_attesa.py` →
+`python scripts\04_genera_mappa.py` → `python scripts\schede_risultati.py` → `python scripts\prova_pagine_r6.py
+--senza-screenshot` (0 errori). Nell'esito: copertura, i numeri nuovi contro quelli di prima (feriale oltre 5, oltre 10,
+grappolo+buco, tram, bus, fasce, le 10 linee peggiori, attesa promessa e in più), quante linee in mappa, durata, `git
+status`.
+
+### Prompt da incollare (per Leo, sul PC)
+
+> Sei un agente che lavora sul progetto GTT in `C:\projects\Progetti\GTT`, ramo git `prova`. Prima:
+> `git branch --show-current` (deve dire `prova`, altrimenti fermati e dimmelo), `git status` (se ci sono modifiche
+> fermati e dimmelo), `git pull origin prova`. Leggi `AGENTS.md` e in `docs/PIANO_RISULTATO4.md` le sezioni «Esito del
+> Giro 4» e «Giro 5 del Risultato 4», poi esegui i 5 passi, uno alla volta, nell'ordine. Database in sola lettura
+> (`file:...?mode=ro`). Cambia solo quello che i passi dicono; niente numeri scritti a mano nei testi, salvo il 2,3 di
+> GTT. Se un nome di tabella, colonna o funzione è diverso dal piano, guarda il file vero, adatta e scrivilo. Esito in
+> `docs/ESITO_R4_GIRO5.md` (OK / AVVISO / FERMO per passo, righe cambiate prima/dopo, uscite dei controlli). Non
+> modificare `MEMORIA_PROGETTO.md`. Python: `python` del PATH, mai Anaconda. Alla fine fai commit e push come dice
+> `AGENTS.md` (sezione «Commit») e scrivi un riassunto di 10 righe in italiano semplice: copertura del GPS, i numeri
+> nuovi contro quelli di prima, le 5 linee peggiori, l'attesa in più, gli errori della prova delle pagine.
+
 ---
 
 # PARTE A — storia del Risultato 4

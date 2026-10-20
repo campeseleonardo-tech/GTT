@@ -48,7 +48,7 @@ Radice: `mappa_torino.html`, `simulazione.html`, `MEMORIA_PROGETTO.md`, `AGENTS.
 `processed/`, `otp/` (R5), `scenari/`.
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 · 26 velocità 5T · 27 R4 ·
 28-29 R2 · 30-32 rapporto sostenibilità · 33-67 + `rete_osm.py` traffico (R8, vedi `docs/PIANO_RISULTATO8.md`)
-· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 87 popolarità delle zone e linee utili, 88 confronto auto e sensori 5T, 89 proposta fermate importanti · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 92** (90 verifica ritardi col GPS; 91 riservato alla prova del R4 sul GPS).
+· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 87 popolarità delle zone e linee utili, 88 confronto auto e sensori 5T, 89 proposta fermate importanti · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 92** (90 verifica ritardi col GPS, 91 prova del R4 sul GPS).
 
 | Dato | Note |
 |---|---|
@@ -120,8 +120,10 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
    regola D3 butta tutti i passaggi con ritardo oltre 10 minuti (34.929 nei feriali): il 5,2% del titolo è
    sottostimato. Giro 3 (21/10, script 90) ricontrollato: il feed smette di aggiornare la fermata all'orario previsto,
    quindi sottostima **tutti** i ritardi; col GPS circa 16% oltre 5 minuti e 8% oltre 10 (ordine di grandezza).
-   **Leo: rifare il R4 sul GPS.** Prossimo: **Giro 4 del R4** (prova su 2 giorni, script 91, solo lettura), poi Giro 5
-   (tutti i giorni, 27 e 70 sul GPS). Fino ad allora il 5,2% pubblicato è da considerare sottostimato.
+   **Leo: rifare il R4 sul GPS.** Giro 4 (prova su 2 giorni, script 91) ricontrollato: copertura GPS 80%, controlli OK;
+   feriale col GPS **15,4% oltre 5 minuti, 6,5% oltre 10, grappolo+buco 22,5%** (feed 6,0 / 0,0 / 10,8). **Prossimo:
+   Giro 5 del R4** (27 e 70 sul GPS, mappa e scheda): `docs/PIANO_RISULTATO4.md`, sul PC. Fino ad allora il 5,2%
+   pubblicato è sottostimato.
 5. Pubblicare su GitHub Pages (ramo `gh-pages` con solo `pubblica/`), cartella leggera (oggi 90 MB), sfondi Esri.
 6. Rilanci con più dati: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 (con R9) con un mese (metà
    novembre); poi R4 in mappa. Screenshot di Leo per la scheda R6.
