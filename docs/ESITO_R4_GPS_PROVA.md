@@ -1,0 +1,244 @@
+# Esito R4 - prova del calcolo sul GPS (Giro 4)
+
+**Esito: OK.** Tutti i controlli (a)-(e) e quelli di struttura sono OK, 0 avvisi. Script `scripts/91_risultato4_gps_prova.py`
+(sola lettura, 2 giorni feriali 15 e 16/10; circa 17 s per giorno). Nessun altro script, risultato o pagina cambiato.
+
+Note dell'agente:
+- Soglia delle classifiche: 571 passaggi (2000 dello script 27 x 2 giorni / 7 giorni feriali nel feed).
+- Il controllo (c) e' vuoto per costruzione con la ricerca in ordine di fermata; l'ho fatto su un campione (1 corsa ogni 25) con la ricerca libera dello script 90: 99,10% delle coppie crescenti; ricerca ordinata e libera danno lo stesso istante (entro 1 s) nel 99,5% dei casi.
+- Il controllo (d) passa ma vicino al limite basso: mediana -1,6 min alla prima fermata (limite -2).
+- Il 15/10 ci sono 912 corse nel GPS che non sono nel GTFS (nessuna il 16/10): non entrano nei conti.
+- Le corse viste nel GPS (con almeno 2 posizioni) sono il 54,9% di quelle programmate: la copertura 80,1% e' sui passaggi delle corse viste.
+- Col feed oggi l'oltre 10 minuti e' 0,00% perche' D3 scarta i passaggi lunghi; col GPS sugli stessi passaggi e' 4,12%.
+
+## Uscita completa dello script
+
+```
+  OK     20261015 e' un giorno feriale
+  OK     20261016 e' un giorno feriale
+CONTROLLI
+  OK     ci sono passaggi GPS in entrambi i giorni
+  OK     (a) copertura GPS sopra 60% dei passaggi programmati delle corse viste — 80.1% (381855 su 477006); 20261015: 77.9%, 20261016: 82.1%
+  OK     (b) differenza mediana feed - GPS entro +-1 min (ultima lettura a meno di 2 min dall'arrivo) — -0.3 min su 194891 passaggi; sugli stessi passaggi senza il filtro delle letture vicine: -0.4 min su 345433
+  OK     (c) tempi GPS non decrescenti lungo la corsa per oltre 99% delle coppie di fermate (ricerca libera, 1 corsa ogni 25) — 99.10% (14840 su 14975); la ricerca ordinata li rende non decrescenti per costruzione; ricerca ordinata = libera (entro 1 s) nel 99.5% dei 15413 passaggi confrontati
+  OK     (d) ritardo alla prima fermata della corsa: mediana fra -2 e +3 min — -1.6 min su 8589 corse
+  OK     (e) passaggi GPS dei due giorni simili (differenza entro 20% del maggiore) — 20261015: 183767, 20261016: 198088
+  OK     passaggi nel confronto 'stessi' uguali per feed e GPS — 345433
+  OK     feed_oggi: passaggi tram + bus + metro = citta' — 432421 contro 432421
+  OK     feed_oggi: oltre 10 minuti <= oltre 5 minuti
+  OK     feed_oggi: mediana plausibile fra -5 e +10 min — -0.3 min
+  OK     gps_tutti: passaggi tram + bus + metro = citta' — 381855 contro 381855
+  OK     gps_tutti: oltre 10 minuti <= oltre 5 minuti
+  OK     gps_tutti: mediana plausibile fra -5 e +10 min — 0.0 min
+  OK     feed_stessi: passaggi tram + bus + metro = citta' — 345433 contro 345433
+  OK     feed_stessi: oltre 10 minuti <= oltre 5 minuti
+  OK     feed_stessi: mediana plausibile fra -5 e +10 min — -0.4 min
+  OK     gps_stessi: passaggi tram + bus + metro = citta' — 345433 contro 345433
+  OK     gps_stessi: oltre 10 minuti <= oltre 5 minuti
+  OK     gps_stessi: mediana plausibile fra -5 e +10 min — -0.0 min
+RAPPORTO R4 - PROVA DEL CALCOLO SUL GPS (script 91, solo lettura)
+======================================================================
+Giorni feriali: 20261015, 20261016. GPS valido: stessa corsa a meno di 60 m dalla fermata, segmenti di non piu' di 180 s, fermate in ordine di stop_sequence con passaggio dopo quello della fermata prima, |ritardo| <= 60 min. Finestra GPS come lo script 70 (dalle 02:00 locali di ogni giorno a 26 ore).
+Soglia classifiche: 571 passaggi nei 2 giorni (= 2000 dello script 27 x 2 giorni / 7 giorni feriali nel feed). Coppie di regolarita': stesse regole D6-D7 dello script 27.
+
+COPERTURA DEL GPS
+giorno | righe GPS | corse GPS | corse fuori GTFS | passaggi programmati | con GPS valido | copertura | feed usati | secondi
+20261015 |    384090 |      7476 |              912 |               235764 |         183767 |     77.9% |     220319 | 16.7
+20261016 |    421796 |      7680 |                0 |               241242 |         198088 |     82.1% |     212102 | 17.5
+totale: 381855 passaggi GPS su 477006 programmati delle corse viste (80.1%)
+
+Dei passaggi con GPS valido, il feed (D3) ha: usato 345433 (90.5%); scartato D3 12701 (3.3%); assente 23721 (6.2%)
+  tram: usato 67561 (88.6%); scartato D3 3188 (4.2%); assente 5496 (7.2%)
+  bus: usato 277872 (90.9%); scartato D3 9513 (3.1%); assente 18225 (6.0%)
+
+FEED CONTRO GPS (feriale, 2 giorni)
+feed oggi = passaggi usati dallo script 27; stessi = solo passaggi che hanno sia GPS valido sia feed usato; GPS tutti = tutti i passaggi con GPS valido (anche scartati o assenti nel feed)
+CITTA'
+insieme                  | passaggi | %antic | %>5min | %>10 | mediana | coppie  | %grapp | %buco | grap+buco
+feed oggi (tutti usati)  |   432421 |   38.0 |    6.0 |   0.00 |    -0.3 |  179827 |    8.9 |   1.9 |   10.8
+feed, stessi passaggi    |   345433 |   38.5 |    5.2 |   0.00 |    -0.4 |  129484 |    7.9 |   1.4 |    9.3
+GPS, stessi passaggi     |   345433 |   37.2 |   13.1 |   4.12 |    -0.0 |  129484 |   14.5 |   3.8 |   18.3
+GPS, tutti               |   381855 |   37.1 |   15.4 |   6.47 |     0.0 |  143779 |   16.6 |   5.9 |   22.5
+
+TRAM
+insieme                  | passaggi | %antic | %>5min | %>10 | mediana | coppie  | %grapp | %buco | grap+buco
+feed oggi (tutti usati)  |    81102 |   42.1 |    6.0 |   0.00 |    -0.6 |   65452 |   11.2 |   3.0 |   14.2
+feed, stessi passaggi    |    67561 |   43.5 |    4.5 |   0.00 |    -0.7 |   50586 |    9.9 |   2.2 |   12.1
+GPS, stessi passaggi     |    67561 |   41.3 |   12.6 |   4.88 |    -0.4 |   50586 |   17.9 |   5.6 |   23.5
+GPS, tutti               |    76245 |   40.4 |   16.2 |   8.13 |    -0.3 |   56345 |   20.2 |   8.3 |   28.5
+
+BUS
+insieme                  | passaggi | %antic | %>5min | %>10 | mediana | coppie  | %grapp | %buco | grap+buco
+feed oggi (tutti usati)  |   351319 |   37.1 |    6.0 |   0.00 |    -0.2 |  114375 |    7.6 |   1.2 |    8.8
+feed, stessi passaggi    |   277872 |   37.3 |    5.3 |   0.00 |    -0.3 |   78898 |    6.7 |   0.9 |    7.6
+GPS, stessi passaggi     |   277872 |   36.2 |   13.2 |   3.93 |     0.0 |   78898 |   12.4 |   2.7 |   15.1
+GPS, tutti               |   305610 |   36.3 |   15.2 |   6.06 |     0.1 |   87434 |   14.3 |   4.4 |   18.7
+
+FASCE ORARIE (feriale): % oltre 5 minuti, feed oggi contro GPS tutti
+fascia         | feed: passaggi | feed %>5 | feed mediana | GPS: passaggi | GPS %>5 | GPS %>10 | GPS mediana
+punta_mattina  |          62982 |      3.1 |         -0.8 |         41019 |     8.6 |     2.49 | -0.6
+giorno         |         173899 |      6.8 |         -0.2 |        151776 |    17.4 |     7.77 | 0.2
+punta_sera     |          75225 |      7.2 |         -0.3 |         71077 |    18.3 |     8.91 | 0.1
+sera           |          80821 |      6.5 |         -0.1 |         73784 |    17.4 |     6.19 | 0.4
+notte          |          39494 |      3.4 |         -0.4 |         44199 |     6.9 |     2.23 | -0.5
+
+10 LINEE PEGGIORI PER % IN RITARDO OLTRE 5 MINUTI COL GPS (feriale, linee ordinarie, >= 571 passaggi nei 2 giorni)
+pos | linea | modo | GPS %>5 | GPS %>10 | GPS mediana | passaggi GPS | feed %>5 | passaggi feed | posizione col feed
+  1 | 6     | bus  |    41.2 |    26.35 |         2.8 |         1518 |     14.0 |          1519 | 3 su 52
+  2 | 17    | bus  |    40.7 |    21.66 |         3.2 |        10495 |     19.3 |         10615 | 1 su 52
+  3 | 69    | bus  |    35.0 |    31.69 |         1.5 |          732 |      9.7 |           790 | 10 su 52
+  4 | 66    | bus  |    33.3 |    14.19 |         2.3 |         1924 |     15.9 |          2187 | 2 su 52
+  5 | 33    | bus  |    27.5 |     7.51 |         1.7 |         9604 |      9.3 |         11169 | 13 su 52
+  6 | 68    | bus  |    27.3 |    15.31 |         0.9 |         8182 |     11.7 |          9590 | 5 su 52
+  7 | 61    | bus  |    27.2 |    15.83 |         1.1 |         8157 |     10.2 |          8438 | 8 su 52
+  8 | 60    | bus  |    26.8 |    12.88 |         2.0 |         3252 |     12.7 |          3572 | 4 su 52
+  9 | 4     | tram |    26.4 |     15.2 |         1.0 |        23147 |     10.0 |         24475 | 9 su 52
+ 10 | 52    | bus  |    26.0 |    13.82 |         0.7 |         7670 |     10.9 |          8477 | 7 su 52
+
+10 LINEE CON LA COPERTURA GPS PIU' BASSA (linee ordinarie, >= 200 passaggi programmati delle corse viste)
+linea | modo | copertura | passaggi programmati | con GPS | corse programmate (2 giorni) | corse viste nel GPS
+30    | bus  |     64.4% |                  508 |     327 |                          286 | 11
+54    | bus  |     68.3% |                  379 |     259 |                           64 | 16
+22    | bus  |     68.8% |                  471 |     324 |                           16 | 11
+19    | bus  |     69.5% |                 2016 |    1402 |                          156 | 97
+78    | bus  |     70.5% |                  468 |     330 |                           96 | 36
+47    | bus  |     71.2% |                 1914 |    1362 |                          192 | 176
+29    | bus  |     72.2% |                 5589 |    4036 |                          214 | 195
+76    | bus  |     73.3% |                 7858 |    5757 |                          248 | 245
+68    | bus  |     74.2% |                11015 |    8173 |                          322 | 277
+44    | bus  |     74.5% |                 6679 |    4974 |                          158 | 151
+copertura per linea ordinaria: mediana 79.9%, minima 64.4%, 0 linee su 59 sotto 60%
+corse programmate attive nei 2 giorni: 27466; viste nel GPS con almeno 2 posizioni: 15092 (54.9%)
+
+CONTROLLI
+  OK     20261015 e' un giorno feriale
+  OK     20261016 e' un giorno feriale
+  OK     ci sono passaggi GPS in entrambi i giorni
+  OK     (a) copertura GPS sopra 60% dei passaggi programmati delle corse viste — 80.1% (381855 su 477006); 20261015: 77.9%, 20261016: 82.1%
+  OK     (b) differenza mediana feed - GPS entro +-1 min (ultima lettura a meno di 2 min dall'arrivo) — -0.3 min su 194891 passaggi; sugli stessi passaggi senza il filtro delle letture vicine: -0.4 min su 345433
+  OK     (c) tempi GPS non decrescenti lungo la corsa per oltre 99% delle coppie di fermate (ricerca libera, 1 corsa ogni 25) — 99.10% (14840 su 14975); la ricerca ordinata li rende non decrescenti per costruzione; ricerca ordinata = libera (entro 1 s) nel 99.5% dei 15413 passaggi confrontati
+  OK     (d) ritardo alla prima fermata della corsa: mediana fra -2 e +3 min — -1.6 min su 8589 corse
+  OK     (e) passaggi GPS dei due giorni simili (differenza entro 20% del maggiore) — 20261015: 183767, 20261016: 198088
+  OK     passaggi nel confronto 'stessi' uguali per feed e GPS — 345433
+  OK     feed_oggi: passaggi tram + bus + metro = citta' — 432421 contro 432421
+  OK     feed_oggi: oltre 10 minuti <= oltre 5 minuti
+  OK     feed_oggi: mediana plausibile fra -5 e +10 min — -0.3 min
+  OK     gps_tutti: passaggi tram + bus + metro = citta' — 381855 contro 381855
+  OK     gps_tutti: oltre 10 minuti <= oltre 5 minuti
+  OK     gps_tutti: mediana plausibile fra -5 e +10 min — 0.0 min
+  OK     feed_stessi: passaggi tram + bus + metro = citta' — 345433 contro 345433
+  OK     feed_stessi: oltre 10 minuti <= oltre 5 minuti
+  OK     feed_stessi: mediana plausibile fra -5 e +10 min — -0.4 min
+  OK     gps_stessi: passaggi tram + bus + metro = citta' — 345433 contro 345433
+  OK     gps_stessi: oltre 10 minuti <= oltre 5 minuti
+  OK     gps_stessi: mediana plausibile fra -5 e +10 min — -0.0 min
+
+Letture: prova su 2 giorni, solo ordine di grandezza; il feed oggi e' quello dello script 27 (non cambia). Il giro completo su tutti i giorni (Giro 5) si scrive dopo la lettura di questa prova.
+
+
+Scritti data\processed\risultato4_gps_prova.json e docs\RAPPORTO_R4_GPS_PROVA.txt; avvisi: 0
+```
+
+## Rapporto scritto (docs/RAPPORTO_R4_GPS_PROVA.txt)
+
+```
+RAPPORTO R4 - PROVA DEL CALCOLO SUL GPS (script 91, solo lettura)
+======================================================================
+Giorni feriali: 20261015, 20261016. GPS valido: stessa corsa a meno di 60 m dalla fermata, segmenti di non piu' di 180 s, fermate in ordine di stop_sequence con passaggio dopo quello della fermata prima, |ritardo| <= 60 min. Finestra GPS come lo script 70 (dalle 02:00 locali di ogni giorno a 26 ore).
+Soglia classifiche: 571 passaggi nei 2 giorni (= 2000 dello script 27 x 2 giorni / 7 giorni feriali nel feed). Coppie di regolarita': stesse regole D6-D7 dello script 27.
+
+COPERTURA DEL GPS
+giorno | righe GPS | corse GPS | corse fuori GTFS | passaggi programmati | con GPS valido | copertura | feed usati | secondi
+20261015 |    384090 |      7476 |              912 |               235764 |         183767 |     77.9% |     220319 | 16.7
+20261016 |    421796 |      7680 |                0 |               241242 |         198088 |     82.1% |     212102 | 17.5
+totale: 381855 passaggi GPS su 477006 programmati delle corse viste (80.1%)
+
+Dei passaggi con GPS valido, il feed (D3) ha: usato 345433 (90.5%); scartato D3 12701 (3.3%); assente 23721 (6.2%)
+  tram: usato 67561 (88.6%); scartato D3 3188 (4.2%); assente 5496 (7.2%)
+  bus: usato 277872 (90.9%); scartato D3 9513 (3.1%); assente 18225 (6.0%)
+
+FEED CONTRO GPS (feriale, 2 giorni)
+feed oggi = passaggi usati dallo script 27; stessi = solo passaggi che hanno sia GPS valido sia feed usato; GPS tutti = tutti i passaggi con GPS valido (anche scartati o assenti nel feed)
+CITTA'
+insieme                  | passaggi | %antic | %>5min | %>10 | mediana | coppie  | %grapp | %buco | grap+buco
+feed oggi (tutti usati)  |   432421 |   38.0 |    6.0 |   0.00 |    -0.3 |  179827 |    8.9 |   1.9 |   10.8
+feed, stessi passaggi    |   345433 |   38.5 |    5.2 |   0.00 |    -0.4 |  129484 |    7.9 |   1.4 |    9.3
+GPS, stessi passaggi     |   345433 |   37.2 |   13.1 |   4.12 |    -0.0 |  129484 |   14.5 |   3.8 |   18.3
+GPS, tutti               |   381855 |   37.1 |   15.4 |   6.47 |     0.0 |  143779 |   16.6 |   5.9 |   22.5
+
+TRAM
+insieme                  | passaggi | %antic | %>5min | %>10 | mediana | coppie  | %grapp | %buco | grap+buco
+feed oggi (tutti usati)  |    81102 |   42.1 |    6.0 |   0.00 |    -0.6 |   65452 |   11.2 |   3.0 |   14.2
+feed, stessi passaggi    |    67561 |   43.5 |    4.5 |   0.00 |    -0.7 |   50586 |    9.9 |   2.2 |   12.1
+GPS, stessi passaggi     |    67561 |   41.3 |   12.6 |   4.88 |    -0.4 |   50586 |   17.9 |   5.6 |   23.5
+GPS, tutti               |    76245 |   40.4 |   16.2 |   8.13 |    -0.3 |   56345 |   20.2 |   8.3 |   28.5
+
+BUS
+insieme                  | passaggi | %antic | %>5min | %>10 | mediana | coppie  | %grapp | %buco | grap+buco
+feed oggi (tutti usati)  |   351319 |   37.1 |    6.0 |   0.00 |    -0.2 |  114375 |    7.6 |   1.2 |    8.8
+feed, stessi passaggi    |   277872 |   37.3 |    5.3 |   0.00 |    -0.3 |   78898 |    6.7 |   0.9 |    7.6
+GPS, stessi passaggi     |   277872 |   36.2 |   13.2 |   3.93 |     0.0 |   78898 |   12.4 |   2.7 |   15.1
+GPS, tutti               |   305610 |   36.3 |   15.2 |   6.06 |     0.1 |   87434 |   14.3 |   4.4 |   18.7
+
+FASCE ORARIE (feriale): % oltre 5 minuti, feed oggi contro GPS tutti
+fascia         | feed: passaggi | feed %>5 | feed mediana | GPS: passaggi | GPS %>5 | GPS %>10 | GPS mediana
+punta_mattina  |          62982 |      3.1 |         -0.8 |         41019 |     8.6 |     2.49 | -0.6
+giorno         |         173899 |      6.8 |         -0.2 |        151776 |    17.4 |     7.77 | 0.2
+punta_sera     |          75225 |      7.2 |         -0.3 |         71077 |    18.3 |     8.91 | 0.1
+sera           |          80821 |      6.5 |         -0.1 |         73784 |    17.4 |     6.19 | 0.4
+notte          |          39494 |      3.4 |         -0.4 |         44199 |     6.9 |     2.23 | -0.5
+
+10 LINEE PEGGIORI PER % IN RITARDO OLTRE 5 MINUTI COL GPS (feriale, linee ordinarie, >= 571 passaggi nei 2 giorni)
+pos | linea | modo | GPS %>5 | GPS %>10 | GPS mediana | passaggi GPS | feed %>5 | passaggi feed | posizione col feed
+  1 | 6     | bus  |    41.2 |    26.35 |         2.8 |         1518 |     14.0 |          1519 | 3 su 52
+  2 | 17    | bus  |    40.7 |    21.66 |         3.2 |        10495 |     19.3 |         10615 | 1 su 52
+  3 | 69    | bus  |    35.0 |    31.69 |         1.5 |          732 |      9.7 |           790 | 10 su 52
+  4 | 66    | bus  |    33.3 |    14.19 |         2.3 |         1924 |     15.9 |          2187 | 2 su 52
+  5 | 33    | bus  |    27.5 |     7.51 |         1.7 |         9604 |      9.3 |         11169 | 13 su 52
+  6 | 68    | bus  |    27.3 |    15.31 |         0.9 |         8182 |     11.7 |          9590 | 5 su 52
+  7 | 61    | bus  |    27.2 |    15.83 |         1.1 |         8157 |     10.2 |          8438 | 8 su 52
+  8 | 60    | bus  |    26.8 |    12.88 |         2.0 |         3252 |     12.7 |          3572 | 4 su 52
+  9 | 4     | tram |    26.4 |     15.2 |         1.0 |        23147 |     10.0 |         24475 | 9 su 52
+ 10 | 52    | bus  |    26.0 |    13.82 |         0.7 |         7670 |     10.9 |          8477 | 7 su 52
+
+10 LINEE CON LA COPERTURA GPS PIU' BASSA (linee ordinarie, >= 200 passaggi programmati delle corse viste)
+linea | modo | copertura | passaggi programmati | con GPS | corse programmate (2 giorni) | corse viste nel GPS
+30    | bus  |     64.4% |                  508 |     327 |                          286 | 11
+54    | bus  |     68.3% |                  379 |     259 |                           64 | 16
+22    | bus  |     68.8% |                  471 |     324 |                           16 | 11
+19    | bus  |     69.5% |                 2016 |    1402 |                          156 | 97
+78    | bus  |     70.5% |                  468 |     330 |                           96 | 36
+47    | bus  |     71.2% |                 1914 |    1362 |                          192 | 176
+29    | bus  |     72.2% |                 5589 |    4036 |                          214 | 195
+76    | bus  |     73.3% |                 7858 |    5757 |                          248 | 245
+68    | bus  |     74.2% |                11015 |    8173 |                          322 | 277
+44    | bus  |     74.5% |                 6679 |    4974 |                          158 | 151
+copertura per linea ordinaria: mediana 79.9%, minima 64.4%, 0 linee su 59 sotto 60%
+corse programmate attive nei 2 giorni: 27466; viste nel GPS con almeno 2 posizioni: 15092 (54.9%)
+
+CONTROLLI
+  OK     20261015 e' un giorno feriale
+  OK     20261016 e' un giorno feriale
+  OK     ci sono passaggi GPS in entrambi i giorni
+  OK     (a) copertura GPS sopra 60% dei passaggi programmati delle corse viste — 80.1% (381855 su 477006); 20261015: 77.9%, 20261016: 82.1%
+  OK     (b) differenza mediana feed - GPS entro +-1 min (ultima lettura a meno di 2 min dall'arrivo) — -0.3 min su 194891 passaggi; sugli stessi passaggi senza il filtro delle letture vicine: -0.4 min su 345433
+  OK     (c) tempi GPS non decrescenti lungo la corsa per oltre 99% delle coppie di fermate (ricerca libera, 1 corsa ogni 25) — 99.10% (14840 su 14975); la ricerca ordinata li rende non decrescenti per costruzione; ricerca ordinata = libera (entro 1 s) nel 99.5% dei 15413 passaggi confrontati
+  OK     (d) ritardo alla prima fermata della corsa: mediana fra -2 e +3 min — -1.6 min su 8589 corse
+  OK     (e) passaggi GPS dei due giorni simili (differenza entro 20% del maggiore) — 20261015: 183767, 20261016: 198088
+  OK     passaggi nel confronto 'stessi' uguali per feed e GPS — 345433
+  OK     feed_oggi: passaggi tram + bus + metro = citta' — 432421 contro 432421
+  OK     feed_oggi: oltre 10 minuti <= oltre 5 minuti
+  OK     feed_oggi: mediana plausibile fra -5 e +10 min — -0.3 min
+  OK     gps_tutti: passaggi tram + bus + metro = citta' — 381855 contro 381855
+  OK     gps_tutti: oltre 10 minuti <= oltre 5 minuti
+  OK     gps_tutti: mediana plausibile fra -5 e +10 min — 0.0 min
+  OK     feed_stessi: passaggi tram + bus + metro = citta' — 345433 contro 345433
+  OK     feed_stessi: oltre 10 minuti <= oltre 5 minuti
+  OK     feed_stessi: mediana plausibile fra -5 e +10 min — -0.4 min
+  OK     gps_stessi: passaggi tram + bus + metro = citta' — 345433 contro 345433
+  OK     gps_stessi: oltre 10 minuti <= oltre 5 minuti
+  OK     gps_stessi: mediana plausibile fra -5 e +10 min — -0.0 min
+
+Letture: prova su 2 giorni, solo ordine di grandezza; il feed oggi e' quello dello script 27 (non cambia). Il giro completo su tutti i giorni (Giro 5) si scrive dopo la lettura di questa prova.
+
+```
