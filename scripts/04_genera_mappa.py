@@ -643,6 +643,34 @@ def calcola_velocita():
     return vel, meta
 
 
+# ---------------------------------------------------------------- puntualita' delle linee (Risultato 4)
+R4_FILE = RADICE / "data" / "processed" / "risultato4_regolarita.json"
+R4_FASCE = {"notte": "0-7", "punta_mattina": "7-9", "giorno": "9-16", "punta_sera": "16-19", "sera": "19-24"}   # D9 del piano
+
+
+def leggi_r4():
+    """Per il tema «Puntualita' delle linee»: {nome linea minuscolo: {tipo: {fascia: % in ritardo oltre 5 min}, "n": {tipo: passaggi}}}
+    solo per linee e fasce con almeno min_passaggi passaggi (dal JSON dello script 27). Ritorna (dati, meta) oppure (None, None)."""
+    if not R4_FILE.exists():
+        print("  (puntualita': risultato4_regolarita.json non trovato, tema Puntualita' senza dati: lancia scripts/27)")
+        return None, None
+    j = json.loads(R4_FILE.read_text(encoding="utf-8"))
+    minimo = j["parametri"]["min_passaggi"]
+    out = {}
+    for linea, per_tipo in j["linee"].items():
+        for tipo, b in per_tipo.items():
+            fasce = {f: v["ritardo"] for f, v in (b.get("fasce") or {}).items() if v["passaggi"] >= minimo}
+            if not fasce:
+                continue
+            e = out.setdefault(str(linea).lower(), {"n": {}})
+            e[tipo] = fasce
+            e["n"][tipo] = b["passaggi"]
+    meta = {"periodo": j["periodo"], "soglia_min": j["parametri"]["soglia_ritardo_min"], "min_passaggi": minimo,
+            "fasce": R4_FASCE, "giorni": j["giorni"]}
+    print(f"  puntualita': {len(out)} linee con dati (almeno {minimo} passaggi per fascia), periodo {j['periodo']['da']} - {j['periodo']['a']}")
+    return out, meta
+
+
 # ---------------------------------------------------------------- pendolari ISTAT 2021
 # matrici comune contro comune (lavoro e studio), solo flussi da/verso Torino
 PRO_COM_TORINO = 1272
@@ -964,6 +992,7 @@ def main():
         print("  (sezioni di censimento non trovate: lancia 05_prepara_sezioni.py per il livello Domanda)")
 
     vel, vel_meta = calcola_velocita()   # None se lo storico non c'e'
+    r4, r4_meta = leggi_r4()             # puntualita' per linea, dallo script 27 (None se manca)
     pend = costruisci_pendolari(sez) if sez else None   # None se mancano sezioni o zip
     omi = leggi_omi()
     imq = leggi_imq()
@@ -994,6 +1023,7 @@ def main():
     comuni = nomi_comuni({int(x["c"]) for x in sez if x.get("c")} | {PRO_COM_TORINO}) if sez else {}
     dati = {
         "vel": vel or {}, "vel_meta": vel_meta,
+        "r4": r4 or {}, "r4_meta": r4_meta,   # [R4] puntualita' per linea e fascia (tema «Puntualita' delle linee»)
         "comuni": comuni,   # PRO_COM -> nome, per schede e tooltip
         "pend": pend,
         "omi": omi,     # OMI quote immobiliari

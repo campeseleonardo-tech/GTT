@@ -50,3 +50,40 @@ notte         |    96845 |       38.0 |       58.7 |         3.3 |    -0.4 | 2.5
 10. linea 13     13.8% grappolo+buco | 18710 coppie | grappolo 11.2% | buco 2.6%
 
 [MISURATO] dal feed GTFS-Realtime GTT; il ritardo è quello stimato dal sistema GTT alla fermata nell'ultima lettura prima dell'arrivo; sabato e domenica con 1 solo giorno: [DATI SCARSI].
+
+OLTRE 10 MINUTI (stessa misura del rapporto GTT 2025)
+tipo giorno | passaggi | % ritardo>5 | % ritardo>10
+feriale     |  1150666 |         5.2 | 0.0
+sabato      |   227049 |         7.0 | 0.0
+domenica    |   156507 |         5.4 | 0.0
+feriale tram  |   227057 |         4.6 | 0.0
+feriale bus   |   923609 |         5.4 | 0.0
+ATTENZIONE (feriale): la regola D3 scarta i passaggi con la lettura piu' lontana di 10 minuti dall'arrivo stimato; tra gli scartati 34929 (su 49818) hanno un ritardo oltre 10 minuti, mentre tra i passaggi usati ce ne sono 0. La misura sopra e' quindi un MINIMO; includendo gli scartati (stima alta, lettura non definitiva) l'oltre 10 minuti salirebbe a 2.91%.
+GTT dichiara 2.3% nel 2025 (anno intero, tutte le linee, bus e tram): confronto solo come ordine di grandezza (noi: pochi giorni di ottobre, linee urbane del feed).
+
+TRAM CONTRO BUS (feriale)
+modo  | passaggi | % ritardo>5 | % ritardo>10 | mediana | % grappolo+buco | coppie
+tram  |   227057 |         4.6 |          0.0 |    -0.6 |            13.8 | 181564
+bus   |   923609 |         5.4 |          0.0 |    -0.4 |             8.4 | 295206
+
+RITARDO A FINE CORSA (feriale, linee ordinarie, >= 100 passaggi alle ultime 3 fermate): le 10 con piu' minuti ogni 10 km
+ 1. linea 6     bus   | corsa 4.3 km | ritardo a fine corsa 1.2 min | 2.7 min ogni 10 km | 669 passaggi
+ 2. linea 19    bus   | corsa 5.9 km | ritardo a fine corsa 1.1 min | 1.9 min ogni 10 km | 489 passaggi
+ 3. linea 60    bus   | corsa 6.0 km | ritardo a fine corsa 0.6 min | 0.9 min ogni 10 km | 986 passaggi
+ 4. linea 17    bus   | corsa 17.4 km | ritardo a fine corsa 1.2 min | 0.7 min ogni 10 km | 1044 passaggi
+ 5. linea 132   bus   | corsa 8.1 km | ritardo a fine corsa 0.6 min | 0.7 min ogni 10 km | 562 passaggi
+ 6. linea 33    bus   | corsa 11.9 km | ritardo a fine corsa 0.5 min | 0.4 min ogni 10 km | 1391 passaggi
+ 7. linea 74    bus   | corsa 11.1 km | ritardo a fine corsa 0.3 min | 0.3 min ogni 10 km | 1085 passaggi
+ 8. linea 76    bus   | corsa 9.6 km | ritardo a fine corsa 0.2 min | 0.2 min ogni 10 km | 1136 passaggi
+ 9. linea 72    bus   | corsa 11.0 km | ritardo a fine corsa 0.2 min | 0.2 min ogni 10 km | 849 passaggi
+10. linea 61    bus   | corsa 11.2 km | ritardo a fine corsa 0.2 min | 0.2 min ogni 10 km | 1167 passaggi
+
+LINEE UTILI CONTRO ALTRE (linee utili = quelle dello script 87)
+linee utili: 54
+tipo giorno | gruppo | passaggi | % ritardo>5 | % ritardo>10 | % grappolo+buco | coppie
+feriale     | utili  |   740337 |         5.6 |          0.0 |            11.1 | 369907
+feriale     | altre  |   410329 |         4.4 |          0.0 |             8.1 | 106863
+sabato      | utili  |   145550 |         7.2 |          0.0 |             9.4 | 45582
+sabato      | altre  |    81499 |         6.7 |          0.0 |             6.8 | 8356
+domenica    | utili  |   106436 |         5.8 |          0.0 |             6.9 | 9940
+domenica    | altre  |    50071 |         4.6 |          0.0 |             5.7 | 2354

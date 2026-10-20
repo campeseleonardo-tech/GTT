@@ -54,11 +54,15 @@ from calendar import monthrange
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import comuni  # noqa: E402  (haversine_m per la lunghezza delle corse)
+
 RADICE = Path(__file__).resolve().parent.parent
 DB = RADICE / "data" / "storico_backup.sqlite"
 GTFS = RADICE / "data" / "raw" / "gtt_gtfs_20261003_224530.zip"
 OUT_JSON = RADICE / "data" / "processed" / "risultato4_regolarita.json"
 OUT_RAPPORTO = RADICE / "docs" / "RAPPORTO_RISULTATO4.txt"
+POPOLARITA = RADICE / "data" / "processed" / "popolarita_zone.json"     # script 87: linee utili
 
 TAG = "MISURATO"
 GIORNO_PROVA = "20261013"
@@ -70,6 +74,11 @@ MAX_LETTURA = 600.0          # secondi (10 minuti)
 FREQ_MAX = 15.0              # minuti
 MIN_PASSAGGI = 200
 MIN_COPPIE = 100
+SOGLIA_RITARDO_10 = 10.0     # ritardo oltre 10 minuti: la misura del rapporto GTT 2025
+RIF_GTT_RITARDO10_PCT = 2.3  # rapporto di sostenibilita' GTT 2025: passaggi bus/tram in ritardo > 10', anno 2025 (docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md)
+FINE_CORSA_ULTIME = 3        # fine corsa = passaggi alle ultime 3 fermate della corsa
+MIN_FINE_CORSA = 100         # passaggi di fine corsa minimi per entrare nella classifica dei minuti ogni 10 km
+MODI = ("tram", "metro", "bus")
 MIN_PASSAGGI_CLASSIFICA = 2000   # classifica delle linee peggiori: solo linee ordinarie (Leo, 20/10/2026)
 
 
@@ -137,27 +146,52 @@ def da_gttfs(g):
 # ---------- GTFS ----------
 
 def carica_gtfs():
+    """Ritorna trip_info, nome_linea, prog e, in piu': modo_linea (nome -> tram/metro/bus da route_type),
+    ultima_seq (corsa -> ultima stop_sequence) e km_corsa (corsa -> somma delle distanze in linea d'aria fra fermate
+    consecutive)."""
     trip_info = {}
     nome_linea = {}
+    modo_linea = {}
     prog = {}
+    coord = {}
+    per_corsa = {}
     with zipfile.ZipFile(GTFS) as z:
         with z.open("routes.txt") as f:
             for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
                 nome_linea[r["route_id"]] = r["route_short_name"]
+                # route_type 0 tram, 1 metro, altro bus (3 = bus, 7 = funicolare)
+                modo_linea[r["route_short_name"]] = {"0": "tram", "1": "metro"}.get(r.get("route_type", ""), "bus")
+        with z.open("stops.txt") as f:
+            for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
+                try:
+                    coord[r["stop_id"]] = (float(r["stop_lat"]), float(r["stop_lon"]))
+                except (ValueError, KeyError):
+                    continue
         with z.open("trips.txt") as f:
             for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
                 trip_info[r["trip_id"]] = (r["route_id"], int(r["direction_id"] or 0))
         with z.open("stop_times.txt") as f:
             for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
                 h, m, s = (int(x) for x in r["arrival_time"].split(":"))
-                prog[(r["trip_id"], int(r["stop_sequence"]))] = (h * 3600 + m * 60 + s, r["stop_id"])
-    return trip_info, nome_linea, prog
+                seq = int(r["stop_sequence"])
+                prog[(r["trip_id"], seq)] = (h * 3600 + m * 60 + s, r["stop_id"])
+                per_corsa.setdefault(r["trip_id"], []).append((seq, r["stop_id"]))
+    ultima_seq, km_corsa = {}, {}
+    for tid, lista in per_corsa.items():
+        lista.sort()
+        ultima_seq[tid] = lista[-1][0]
+        km = 0.0
+        for (_, a), (_, b) in zip(lista[:-1], lista[1:]):
+            if a in coord and b in coord:
+                km += comuni.haversine_m(coord[a][0], coord[a][1], coord[b][0], coord[b][1])
+        km_corsa[tid] = km / 1000.0
+    return trip_info, nome_linea, prog, modo_linea, ultima_seq, km_corsa
 
 
 # ---------- aggregatori ----------
 
 def agg_punt():
-    return [0, 0, 0, 0, array("d")]
+    return [0, 0, 0, 0, array("d"), 0]          # ..., ritardi, passaggi in ritardo oltre SOGLIA_RITARDO_10
 
 
 def agg_reg():
@@ -173,6 +207,8 @@ def conta_punt(a, rit):
     else:
         a[2] += 1
     a[4].append(rit)
+    if rit > SOGLIA_RITARDO_10:
+        a[5] += 1
 
 
 def mediana(vals):
@@ -197,7 +233,8 @@ def pct(x, n):
 def stat_punt(a):
     n = a[0]
     return {"passaggi": n, "anticipo": pct(a[1], n), "puntuale": pct(a[2], n),
-            "ritardo": pct(a[3], n), "mediana": mediana(a[4]), "p90": p90(a[4])}
+            "ritardo": pct(a[3], n), "ritardo10": round(100.0 * a[5] / n, 2) if n else 0.0, "ritardo10_n": a[5],
+            "mediana": mediana(a[4]), "p90": p90(a[4])}
 
 
 def stat_reg(a):
@@ -235,7 +272,7 @@ def costruisci_passaggi(ultimo, giorno, trip_info, nome_linea, prog):
     off = offset_data_locale(data)
     mezzanotte = datetime(data.year, data.month, data.day, tzinfo=timezone.utc) - timedelta(hours=off)
     passaggi = []
-    scarti = [0, 0]          # fuori GTFS, lettura lontana
+    scarti = [0, 0, 0]       # fuori GTFS, lettura lontana, lettura lontana con ritardo oltre SOGLIA_RITARDO_10
     esempi = {"delay": None, "time": None}
     for (tid, seq), (letto, arr) in ultimo.items():
         info = trip_info.get(tid)
@@ -260,6 +297,8 @@ def costruisci_passaggi(ultimo, giorno, trip_info, nome_linea, prog):
         letto_dt = datetime.fromisoformat(letto)
         if abs((est - letto_dt).total_seconds()) > MAX_LETTURA:
             scarti[1] += 1
+            if rit > SOGLIA_RITARDO_10:
+                scarti[2] += 1      # solo informativo: D3 li scarta, ma sono ritardi lunghi (vedi «OLTRE 10 MINUTI»)
             continue
         if esempi[fonte] is None:
             esempi[fonte] = {
@@ -325,7 +364,7 @@ def main():
     prova = "--prova" in sys.argv[1:]
 
     print("Carico il GTFS...", file=sys.stderr)
-    trip_info, nome_linea, prog = carica_gtfs()
+    trip_info, nome_linea, prog, modo_linea, ultima_seq, km_corsa = carica_gtfs()
     print(f"GTFS: {len(trip_info)} corse, {len(prog)} fermate di corsa", file=sys.stderr)
 
     con = sqlite3.connect(f"file:{DB}?mode=ro", uri=True, timeout=60)
@@ -340,6 +379,10 @@ def main():
     giorni_tipo = {"0": 0, "1": 0, "2": 0}
     punt_citta, punt_citta_fascia, punt_linea, punt_fascia = {}, {}, {}, {}
     reg_citta, reg_linea = {}, {}
+    punt_modo = {}                       # (tipo, modo) -> aggregato di puntualita'
+    fine = {}                            # (tipo, linea) -> [(ritardo, km_corsa)] dei passaggi alle ultime fermate
+    corse_osservate = corse_con_fine = 0
+    lontane = {}                         # tipo -> [passaggi scartati per lettura lontana, di cui con ritardo > 10 min]
     scarti = {"fuori_gtfs": 0, "lettura_lontana": 0, "usati": 0}
     letti_totali = 0
     # controlli indipendenti (passo 5)
@@ -357,12 +400,24 @@ def main():
         del ultimo
         scarti["fuori_gtfs"] += sc[0]
         scarti["lettura_lontana"] += sc[1]
+        l = lontane.setdefault(tipo, [0, 0])
+        l[0] += sc[1]
+        l[1] += sc[2]
         scarti["usati"] += len(passaggi)
         giorni_tipo[str(tipo)] += 1
         for k, v in es.items():
             if esempi[k] is None and v is not None:
                 esempi[k] = v
+        visti, visti_fine = set(), set()
         for pg in passaggi:
+            modo = modo_linea.get(pg[P_LINEA], "bus")
+            conta_punt(punt_modo.setdefault((tipo, modo), agg_punt()), pg[P_RIT])
+            tid = pg[P_TRIP]
+            visti.add(tid)
+            us = ultima_seq.get(tid)
+            if us is not None and pg[P_SEQ] >= us - (FINE_CORSA_ULTIME - 1) and km_corsa.get(tid):
+                fine.setdefault((tipo, pg[P_LINEA]), []).append((pg[P_RIT], km_corsa[tid]))
+                visti_fine.add(tid)
             conta_punt(punt_citta.setdefault(tipo, agg_punt()), pg[P_RIT])
             conta_punt(punt_citta_fascia.setdefault((tipo, pg[P_FASCIA]), agg_punt()), pg[P_RIT])
             conta_punt(punt_linea.setdefault((tipo, pg[P_LINEA]), agg_punt()), pg[P_RIT])
@@ -376,6 +431,8 @@ def main():
                 per_seq["seq 16-30"].append(pg[P_RIT])
             else:
                 per_seq["seq 31+"].append(pg[P_RIT])
+        corse_osservate += len(visti)
+        corse_con_fine += len(visti_fine)
         c, per_linea, es = regolarita(passaggi, tipo)
         if c[0]:
             r = reg_citta.setdefault(tipo, agg_reg())
@@ -395,7 +452,11 @@ def main():
     parametri = {"soglia_ritardo_min": SOGLIA_RITARDO, "soglia_anticipo_min": SOGLIA_ANTICIPO,
                  "max_lettura_lontana_min": MAX_LETTURA / 60, "freq_max_min": FREQ_MAX,
                  "min_passaggi": MIN_PASSAGGI, "min_passaggi_classifica": MIN_PASSAGGI_CLASSIFICA,
-                 "min_coppie": MIN_COPPIE}
+                 "min_coppie": MIN_COPPIE, "soglia_ritardo10_min": SOGLIA_RITARDO_10,
+                 "rif_gtt_ritardo10_pct": RIF_GTT_RITARDO10_PCT,
+                 "rif_gtt_fonte": "rapporto di sostenibilita' GTT 2025: passaggi bus/tram in ritardo > 10 minuti, anno 2025 "
+                                  "(docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md)",
+                 "fine_corsa_ultime_fermate": FINE_CORSA_ULTIME, "min_fine_corsa": MIN_FINE_CORSA}
     j_citta = {}
     for t, a in punt_citta.items():
         blocco = stat_punt(a)
@@ -414,12 +475,62 @@ def main():
             if b and b[0]:
                 fas[f] = stat_punt(b)
         blocco["fasce"] = fas
+        fc = fine.get((t, linea))
+        if fc:
+            blocco["fine_corsa"] = {
+                "passaggi": len(fc), "ritardo_mediana": mediana([r for r, _ in fc]),
+                "km_mediana": round(float(mediana([k for _, k in fc])), 1),
+                "min_per_10km": round(float(mediana([r / k * 10.0 for r, k in fc])), 1)}
         j_linee.setdefault(linea, {})[t] = blocco
+
+    # tram contro bus: aggregati per modo (puntualita' dai passaggi; regolarita' sommando le linee del modo)
+    reg_modo = {}
+    for (t, linea), c in reg_linea.items():
+        r = reg_modo.setdefault((t, modo_linea.get(linea, "bus")), agg_reg())
+        for i in range(4):
+            r[i] += c[i]
+    j_modi = {}
+    for (t, modo), a in punt_modo.items():
+        blocco = stat_punt(a)
+        blocco.update(stat_reg(reg_modo.get((t, modo), agg_reg())))
+        j_modi.setdefault(modo, {})[t] = blocco
+
+    # linee utili (script 87) contro le altre: somme dei contatori, non medie di percentuali
+    j_utili = None
+    utili_set = set()
+    if POPOLARITA.exists():
+        pop = json.loads(POPOLARITA.read_text(encoding="utf-8"))
+        utili_set = {x["linea"] for x in pop["linee"] if x.get("utile")}
+        j_utili = {}
+        for t in TIPI:
+            gruppi = {"utili": [0, 0, 0], "altre": [0, 0, 0]}      # passaggi, ritardo>5, ritardo>10
+            coppie = {"utili": agg_reg(), "altre": agg_reg()}
+            for (tt, linea), a in punt_linea.items():
+                if tt != t:
+                    continue
+                k = "utili" if linea in utili_set else "altre"
+                gruppi[k][0] += a[0]
+                gruppi[k][1] += a[3]
+                gruppi[k][2] += a[5]
+                c = reg_linea.get((t, linea))
+                if c:
+                    for i in range(4):
+                        coppie[k][i] += c[i]
+            if gruppi["utili"][0] or gruppi["altre"][0]:
+                j_utili[t] = {k: {"passaggi": g[0], "ritardo": pct(g[1], g[0]), "ritardo10": round(100.0 * g[2] / g[0], 2) if g[0] else 0.0, "ritardo10_n": g[2],
+                                  "coppie": coppie[k][0], "grappolo_buco": pct(coppie[k][1] + coppie[k][2], coppie[k][0])}
+                              for k, g in gruppi.items()}
 
     json_out = {
         "generato": datetime.now().astimezone().isoformat(timespec="seconds"),
         "tag": TAG, "periodo": per, "giorni": giorni_tipo, "parametri": parametri,
-        "scarti": scarti, "citta": j_citta, "linee": j_linee}
+        "scarti": scarti, "citta": j_citta, "linee": j_linee,
+        "modi": j_modi, "modo_linea": modo_linea,
+        "corse_fine": {"osservate": corse_osservate, "con_fine_corsa": corse_con_fine},
+        "lettura_lontana_per_tipo": {t: {"scartati": v[0], "ritardo10": v[1]} for t, v in lontane.items()}}
+    if j_utili is not None:
+        json_out["linee_utili"] = j_utili
+        json_out["n_linee_utili"] = len(utili_set)
 
     # ---------- rapporto ----------
     R = []
@@ -482,6 +593,61 @@ def main():
     R.append("[MISURATO] dal feed GTFS-Realtime GTT; il ritardo è quello stimato dal sistema GTT "
              "alla fermata nell'ultima lettura prima dell'arrivo; sabato e domenica con 1 solo "
              "giorno: [DATI SCARSI].")
+
+    # ---- aggiunte del Giro 2 (in coda: il testo di sopra resta com'e') ----
+    R.append("")
+    R.append("OLTRE 10 MINUTI (stessa misura del rapporto GTT 2025)")
+    R.append("tipo giorno | passaggi | % ritardo>5 | % ritardo>10")
+    for t in TIPI:
+        if t in j_citta:
+            c = j_citta[t]
+            R.append(f"{nomi[t]:11} | {c['passaggi']:8} | {c['ritardo']:11} | {c['ritardo10']}")
+    for modo in MODI:
+        c = j_modi.get(modo, {}).get("0")
+        if c:
+            R.append(f"feriale {modo:5} | {c['passaggi']:8} | {c['ritardo']:11} | {c['ritardo10']}")
+    lf = lontane.get("0", [0, 0])
+    fer10 = j_citta.get("0", {})
+    if fer10:
+        stima_alta = 100.0 * (fer10["ritardo10_n"] + lf[1]) / (fer10["passaggi"] + lf[0]) if fer10["passaggi"] + lf[0] else 0.0
+        R.append(f"ATTENZIONE (feriale): la regola D3 scarta i passaggi con la lettura piu' lontana di {int(MAX_LETTURA / 60)} minuti "
+                 f"dall'arrivo stimato; tra gli scartati {lf[1]} (su {lf[0]}) hanno un ritardo oltre {SOGLIA_RITARDO_10:g} minuti, "
+                 f"mentre tra i passaggi usati ce ne sono {fer10['ritardo10_n']}. La misura sopra e' quindi un MINIMO; includendo "
+                 f"gli scartati (stima alta, lettura non definitiva) l'oltre {SOGLIA_RITARDO_10:g} minuti salirebbe a {round(stima_alta, 2)}%.")
+    R.append(f"GTT dichiara {RIF_GTT_RITARDO10_PCT}% nel 2025 (anno intero, tutte le linee, bus e tram): confronto solo come "
+             f"ordine di grandezza (noi: pochi giorni di ottobre, linee urbane del feed).")
+    R.append("")
+    R.append("TRAM CONTRO BUS (feriale)")
+    R.append("modo  | passaggi | % ritardo>5 | % ritardo>10 | mediana | % grappolo+buco | coppie")
+    for modo in MODI:
+        c = j_modi.get(modo, {}).get("0")
+        if c:
+            R.append(f"{modo:5} | {c['passaggi']:8} | {c['ritardo']:11} | {c['ritardo10']:12} | {c['mediana']:7} "
+                     f"| {round(c['grappolo'] + c['buco'], 1):15} | {c['coppie']}")
+    R.append("")
+    class_fc = sorted(((v["fine_corsa"]["min_per_10km"], ln) for ln, v in
+                       ((ln, j_linee[ln]["0"]) for ln in j_linee if "0" in j_linee[ln])
+                       if "fine_corsa" in v and v["fine_corsa"]["passaggi"] >= MIN_FINE_CORSA and linea_ordinaria(ln)),
+                      reverse=True)
+    R.append(f"RITARDO A FINE CORSA (feriale, linee ordinarie, >= {MIN_FINE_CORSA} passaggi alle ultime "
+             f"{FINE_CORSA_ULTIME} fermate): le 10 con piu' minuti ogni 10 km")
+    for i, (val, ln) in enumerate(class_fc[:10], 1):
+        fc = j_linee[ln]["0"]["fine_corsa"]
+        R.append(f"{i:2}. linea {ln:<5} {modo_linea.get(ln, 'bus'):5} | corsa {fc['km_mediana']} km "
+                 f"| ritardo a fine corsa {fc['ritardo_mediana']} min | {val} min ogni 10 km | {fc['passaggi']} passaggi")
+    R.append("")
+    R.append("LINEE UTILI CONTRO ALTRE (linee utili = quelle dello script 87)")
+    if j_utili is None:
+        R.append(f"(manca {POPOLARITA.name}: lancia prima scripts/87_popolarita_zone.py)")
+    else:
+        R.append(f"linee utili: {len(utili_set)}")
+        R.append("tipo giorno | gruppo | passaggi | % ritardo>5 | % ritardo>10 | % grappolo+buco | coppie")
+        for t in TIPI:
+            for k in ("utili", "altre"):
+                v = j_utili.get(t, {}).get(k)
+                if v:
+                    R.append(f"{nomi[t]:11} | {k:6} | {v['passaggi']:8} | {v['ritardo']:11} | {v['ritardo10']:12} "
+                             f"| {v['grappolo_buco']:15} | {v['coppie']}")
     testo = "\n".join(R) + "\n"
 
     # ---------- controlli (passo 5) a schermo ----------
@@ -501,6 +667,21 @@ def main():
     fer_reg = round(fer.get("grappolo", 0) + fer.get("buco", 0) + fer.get("regolare", 0), 1)
     C.append(f"  somma classi puntualita' feriale: {fer_somma}%")
     C.append(f"  somma classi regolarita' feriale: {fer_reg}%")
+    # controlli del Giro 2
+    def esito(ok):
+        return "OK" if ok else "AVVISO"
+    for t in TIPI:
+        if t in j_citta:
+            somma_modi = sum(j_modi.get(m, {}).get(t, {}).get("passaggi", 0) for m in MODI)
+            C.append(f"  {esito(somma_modi == j_citta[t]['passaggi'])} {nomi[t]}: passaggi tram + metro + bus = citta' "
+                     f"({somma_modi} contro {j_citta[t]['passaggi']})")
+            C.append(f"  {esito(j_citta[t]['ritardo10'] <= j_citta[t]['ritardo'])} {nomi[t]}: oltre 10 minuti "
+                     f"({j_citta[t]['ritardo10']}%) <= oltre 5 minuti ({j_citta[t]['ritardo']}%)")
+    quota_fc = 100.0 * corse_con_fine / corse_osservate if corse_osservate else 0.0
+    C.append(f"  {esito(quota_fc > 30)} corse osservate con almeno un passaggio di fine corsa: {round(quota_fc, 1)}% "
+             f"({corse_con_fine} su {corse_osservate}; OK sopra 30%)")
+    C.append(f"  {esito(j_utili is not None)} linee utili: " + (f"{len(utili_set)} linee da {POPOLARITA.name}"
+             if j_utili is not None else f"manca {POPOLARITA.name}, blocco non scritto"))
     for k in ("delay", "time"):
         if esempi[k]:
             C.append(f"  esempio {k}: {json.dumps(esempi[k], ensure_ascii=False)}")

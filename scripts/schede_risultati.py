@@ -21,6 +21,7 @@ Nessun calcolo nuovo sui dati grezzi: solo numeri gia' presenti nei file prodott
 (ricontrollati da Claude il 18/10/2026) e semplici somme/conteggi su di essi.
 """
 import json
+from urllib.parse import quote
 import re
 from collections import Counter
 from datetime import datetime, timezone
@@ -40,8 +41,10 @@ def num(label, dopo, unita, prima=None):
     return {"label": label, "prima": prima, "dopo": dopo, "unita": unita}
 
 
-def voce(label, valore, prima=None, tono=None):
+def voce(label, valore, prima=None, tono=None, link=None):
     v = {"label": label, "valore": valore}
+    if link is not None:   # [R4] la barra e' un link (es. alla linea nella mappa)
+        v["link"] = link
     if prima is not None:
         v["prima"] = prima
     if tono is not None:   # [R6] "verde"/"rosso" = bene/male; senza tono = blu neutro (quantità)
@@ -56,6 +59,16 @@ def migliaia(n):
 def virgola(x):
     testo = f"{x:.1f}".replace(".", ",")
     return testo[:-2] if testo.endswith(",0") else testo
+
+
+def pct2(x):
+    """percentuale con due decimali e virgola (per valori piccoli, es. 'oltre 10 minuti')."""
+    return f"{x:.2f}".replace(".", ",")
+
+
+def link_linea(nome):
+    """Link dalla scheda alla mappa con quella linea selezionata (tema «Puntualita' delle linee»)."""
+    return "mappa_torino.html#tema=puntualita&linea=" + quote(str(nome), safe="")
 
 
 def il(x):
@@ -414,6 +427,7 @@ def scheda_r4():
                     round(x["grappolo"] + x["buco"], 1), "%"),
                 num("Ritardo mediano", x["mediana"], "min"),
                 num("Passaggi in anticipo oltre 1 min", x["anticipo"], "%"),
+                *([num("Passaggi in ritardo oltre 10 min", x["ritardo10"], "%")] if "ritardo10" in x else []),
             ],
         })
     scenari[0]["nota"] = ("Molti passaggi risultano in anticipo perché l'orario ufficiale ha margini; "
@@ -428,6 +442,41 @@ def scheda_r4():
                         key=lambda x: -(x[1]["grappolo"] + x[1]["buco"]))[:10]
     nomi_fasce = {"punta_mattina": "punta del mattino (7-9)", "giorno": "giorno (9-16)",
                   "punta_sera": "punta della sera (16-19)", "sera": "sera (19-24)", "notte": "notte e primo mattino (fino alle 7, dati parziali)"}
+    modi = r.get("modi") or {}
+    tram_f, bus_f = (modi.get("tram") or {}).get("0"), (modi.get("bus") or {}).get("0")
+    utili = (r.get("linee_utili") or {}).get("0")
+    fine_corsa = sorted(((x["fine_corsa"]["min_per_10km"], n, x) for n, x in linee
+                         if x.get("fine_corsa") and x["fine_corsa"]["passaggi"] >= par.get("min_fine_corsa", 100)
+                         and str(n).isdigit()), key=lambda t: -t[0])[:10]
+    rif10 = par.get("rif_gtt_ritardo10_pct")
+    lf = (r.get("lettura_lontana_per_tipo") or {}).get("0")
+    alta10 = (100.0 * (fer.get("ritardo10_n", 0) + lf["ritardo10"]) / (fer["passaggi"] + lf["scartati"])) if lf else None
+    grafici_nuovi = []
+    if tram_f and bus_f:
+        grafici_nuovi.append({
+            "tipo": "barre", "titolo": "Tram contro bus (feriale)", "unita": "%",
+            "nota": f"Tram: {migliaia(tram_f['passaggi'])} passaggi; bus: {migliaia(bus_f['passaggi'])}.",
+            "voci": [voce("tram: in ritardo oltre 5 min", tram_f["ritardo"], tono="rosso"),
+                     voce("bus: in ritardo oltre 5 min", bus_f["ritardo"], tono="rosso"),
+                     voce("tram: in ritardo oltre 10 min", tram_f["ritardo10"], tono="rosso"),
+                     voce("bus: in ritardo oltre 10 min", bus_f["ritardo10"], tono="rosso"),
+                     voce("tram: a grappolo o con un buco", round(tram_f["grappolo"] + tram_f["buco"], 1)),
+                     voce("bus: a grappolo o con un buco", round(bus_f["grappolo"] + bus_f["buco"], 1))]})
+    if fine_corsa:
+        grafici_nuovi.append({
+            "tipo": "barre", "titolo": "Ritardo a fine corsa: minuti ogni 10 km (feriale)", "unita": "min",
+            "nota": f"Ritardo mediano alle ultime {par.get('fine_corsa_ultime_fermate', 3)} fermate della corsa diviso la lunghezza della corsa. "
+                    f"Solo linee ordinarie con almeno {par.get('min_fine_corsa', 100)} passaggi di fine corsa. Clicca una linea per vederla nella mappa.",
+            "voci": [voce(f"linea {n}", val, tono="rosso", link=link_linea(n)) for val, n, _ in fine_corsa]})
+    if utili:
+        grafici_nuovi.append({
+            "tipo": "barre", "titolo": "Linee utili contro altre (feriale)", "unita": "%",
+            "nota": f"Linee utili = le {r.get('n_linee_utili')} che toccano più delle zone dove arriva più gente per km² "
+                    f"(Risultato 6). Passaggi: {migliaia(utili['utili']['passaggi'])} sulle utili, {migliaia(utili['altre']['passaggi'])} sulle altre.",
+            "voci": [voce("linee utili: in ritardo oltre 5 min", utili["utili"]["ritardo"], tono="rosso"),
+                     voce("altre linee: in ritardo oltre 5 min", utili["altre"]["ritardo"], tono="rosso"),
+                     voce("linee utili: a grappolo o con un buco", utili["utili"]["grappolo_buco"]),
+                     voce("altre linee: a grappolo o con un buco", utili["altre"]["grappolo_buco"])]})
     scheda = {
         "risultato": "4",
         "titolo": "Bus in ritardo e bus irregolari",
@@ -448,6 +497,14 @@ def scheda_r4():
             "consecutivi arriva a grappolo o lascia un buco.",
             f"Il problema più comune è l'anticipo: {il(fer['anticipo'])}% dei passaggi feriali arriva "
             "più di un minuto prima dell'orario.",
+            *([f"Oltre 10 minuti: {pct2(fer['ritardo10'])}% nei feriali tra i passaggi misurati"
+               + (f" ({pct2(alta10)}% includendo quelli scartati perché letti troppo lontano dall'arrivo: stima alta)" if alta10 is not None else "")
+               + f". GTT dichiara {virgola(rif10)}% per il 2025, su tutto l'anno e tutte le linee: solo ordine di grandezza."]
+              if "ritardo10" in fer and rif10 is not None else []),
+            *([f"Tram e bus: in ritardo oltre 5 minuti {il(tram_f['ritardo'])}% dei passaggi dei tram e {il(bus_f['ritardo'])}% "
+               f"dei bus (feriale)."] if tram_f and bus_f else []),
+            *([f"Linee utili (quelle che toccano più zone affollate): in ritardo oltre 5 minuti {il(utili['utili']['ritardo'])}% dei passaggi, "
+               f"contro {il(utili['altre']['ritardo'])}% delle altre linee (feriale)."] if utili else []),
         ],
         "grafici": [
             {"tipo": "pila", "titolo": "Come arrivano i mezzi nei giorni feriali", "unita": "%",
@@ -459,12 +516,14 @@ def scheda_r4():
             {"tipo": "barre", "titolo": "Passaggi in ritardo oltre 5 minuti, per tipo di giorno",
              "unita": "%", "voci": [voce(nomi[k].lower(), c[k]["ritardo"], tono="rosso") for k in ("0", "1", "2")]},
             {"tipo": "barre", "titolo": "Le 10 linee più in ritardo (feriale)", "unita": "%",
-             "nota": f"Solo linee ordinarie (nome di sole cifre) con almeno {par.get('min_passaggi_classifica', 2000)} passaggi osservati.",
-             "voci": [voce(f"linea {n}", x["ritardo"], tono="rosso") for n, x in peggio_rit]},
+             "nota": f"Solo linee ordinarie (nome di sole cifre) con almeno {par.get('min_passaggi_classifica', 2000)} passaggi osservati. "
+                     "Clicca una linea per vederla nella mappa.",
+             "voci": [voce(f"linea {n}", x["ritardo"], tono="rosso", link=link_linea(n)) for n, x in peggio_rit]},
             {"tipo": "barre", "titolo": "Le 10 linee più irregolari (feriale): grappolo + buco", "unita": "%",
              "nota": f"Solo linee frequenti (un mezzo ogni {int(par['freq_max_min'])} minuti o meno) con almeno "
-                     f"{par['min_coppie']} coppie osservate.",
-             "voci": [voce(f"linea {n}", round(x["grappolo"] + x["buco"], 1)) for n, x in peggio_irr]},
+                     f"{par['min_coppie']} coppie osservate. Clicca una linea per vederla nella mappa.",
+             "voci": [voce(f"linea {n}", round(x["grappolo"] + x["buco"], 1), link=link_linea(n)) for n, x in peggio_irr]},
+            *grafici_nuovi,
         ],
         "metodo": [
             "Il Raspberry Pi legge ogni minuto il feed in tempo reale di GTT: per ogni corsa, il ritardo "
@@ -503,8 +562,19 @@ def scheda_r4():
             "minute before the timetable.",
             f"Limits: only {r['giorni']['0']} weekdays, {r['giorni']['1']} Saturdays and {r['giorni']['2']} Sundays of data, "
             "some of them partial; the night is not measured.",
+            *([f"More than 10 minutes late: {fer['ritardo10']:.2f}% of weekday departures among the measured ones"
+               + (f" ({alta10:.2f}% if the ones discarded for being read too far from arrival are included: upper estimate)" if alta10 is not None else "")
+               + f". GTT reports {rif10}% for 2025, over the whole year and all lines: order of magnitude only."]
+              if "ritardo10" in fer and rif10 is not None else []),
+            *([f"Trams vs buses (weekdays): {tram_f['ritardo']:.1f}% of tram departures and {bus_f['ritardo']:.1f}% of bus departures "
+               "are more than 5 minutes late."] if tram_f and bus_f else []),
+            *([f"Delay at the end of the trip, per 10 km: highest on line {fine_corsa[0][1]} ({fine_corsa[0][0]:.1f} minutes per 10 km)."]
+              if fine_corsa else []),
+            *([f"Useful lines (touching the busiest zones per km2): {utili['utili']['ritardo']:.1f}% of departures more than 5 minutes late, "
+               f"other lines {utili['altre']['ritardo']:.1f}% (weekdays)."] if utili else []),
         ],
-        "mappa": None,
+        "mappa": {"id": "puntualita", "tema": "Puntualità delle linee",
+                  "nota": "Nella mappa, tema «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."},
         "fonti": ["docs/RAPPORTO_RISULTATO4.txt", "docs/PIANO_RISULTATO4.md", "scripts/27_risultato4_regolarita.py"],
         "generato": ora(),
         "avviso": [
@@ -522,6 +592,17 @@ def scheda_r4():
     for chiave in ("grafici", "scenari", "limiti"):
         scheda[chiave] = scheda.get(chiave, []) + r9.get(chiave, [])
     scheda["in_english"] = scheda.get("in_english", []) + r9.get("in_english", [])[1:]
+    modi9 = (leggi("risultato9_attesa.json").get("modi") or {}).get("0") or {}
+    if modi9.get("tram") and modi9.get("bus"):
+        t9, b9 = modi9["tram"], modi9["bus"]
+        scheda["risposta"] = scheda["risposta"] + [
+            f"Attesa alla fermata sulle linee frequenti (feriale): tram, promessa {virgola(t9['promessa_min'])} min, in più "
+            f"{virgola(t9['in_piu_min_bassa'])}-{virgola(t9['in_piu_min_alta'])} min; bus, promessa {virgola(b9['promessa_min'])} min, "
+            f"in più {virgola(b9['in_piu_min_bassa'])}-{virgola(b9['in_piu_min_alta'])} min."]
+        scheda["in_english"] = scheda["in_english"] + [
+            f"Waiting time on frequent lines (weekdays): trams promise {t9['promessa_min']:.1f} min, {t9['in_piu_min_bassa']:.1f}-"
+            f"{t9['in_piu_min_alta']:.1f} min more in reality; buses {b9['promessa_min']:.1f} min, {b9['in_piu_min_bassa']:.1f}-"
+            f"{b9['in_piu_min_alta']:.1f} min more."]
     scheda["fonti"] = [f.replace("PIANO_RISULTATO9_ATTESA.md", "PIANO_RISULTATO4.md")
                        for f in scheda.get("fonti", []) + r9.get("fonti", [])]
     return scheda

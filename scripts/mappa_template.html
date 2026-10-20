@@ -1253,6 +1253,13 @@ function disegnaBase(ws,ox,oy,i){
     for(const l of linee){
       if(fl && l.nome!==fl) continue;
       const f=(D.rotte[l.id]||{f:[]}).f[i]||0;
+      if(tema.puntualita){   // [R4] linee colorate per % di passaggi in ritardo, nell'ora scelta con lo slider
+        const v=r4Valore(l.nome,S.dt,S.h); if(!f&&v==null) continue; if(!dentroVista(l.bb,ws,ox,oy)) continue;
+        cx.strokeStyle=v==null?"#9aa0ad":PAL_VR[r4Classe(v)]; cx.globalAlpha=v==null?.5:.95; cx.lineWidth=v==null?1.4:3.2;
+        cx.beginPath(); const a=l.pts;
+        for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y);}
+        cx.stroke(); continue;
+      }
       if(tema.id==="velocita" || tema.velocita){   // velocità commerciale (anche nel tema unificato «Traffico e velocità»)
         const c=velCella(l.id,S.dt,S.h); if(!f&&!c) continue; if(!dentroVista(l.bb,ws,ox,oy)) continue;
         const ok=c&&c[1]>=VEL_MIN_CAMP; cx.strokeStyle=ok?VEL_PAL[velClasse(c[0])]:"#9aa0ad"; cx.globalAlpha=ok?.95:.55; cx.lineWidth=ok?3.2:1.8;
@@ -1339,6 +1346,23 @@ const SENS_CLASSI = ["<15","15–30","30–45",">45 km/h"];
 const sensClasse = v => v<15?0 : v<30?1 : v<45?2 : 3;
 const velCella = (id,dt,h) => { const v=((D.vel||{})[id]||{})[dt]; return v?v[h]||null:null; };
 const velClasse = k => k<12?0 : k<16?1 : k<20?2 : 3;
+/* [R4] puntualità delle linee: D.r4[nome linea minuscolo][tipo giorno][fascia] = % passaggi in ritardo oltre D.r4_meta.soglia_min minuti */
+const fasciaR4 = h => h<7?"notte" : h<9?"punta_mattina" : h<16?"giorno" : h<19?"punta_sera" : "sera";   // D9 del piano del Risultato 4
+const NOME_FASCIA_R4 = {notte:"notte (0-7)", punta_mattina:"punta del mattino (7-9)", giorno:"giorno (9-16)", punta_sera:"punta della sera (16-19)", sera:"sera (19-24)"};
+const r4Classe = v => v<2.5?0 : v<5?1 : v<7.5?2 : v<10?3 : 4;      // verde -> rosso con PAL_VR
+const r4Valore = (nome,dt,h) => { const e=(D.r4||{})[nome], f=e&&e[String(dt)], v=f?f[fasciaR4(h)]:undefined; return v==null?null:v; };
+const r4Data = d => String(d||"").split("-").reverse().join("/");
+function legendaR4(){
+  const M=D.r4_meta;
+  if(!M) return `<div class="t">Puntualità delle linee</div><div class="et" style="display:block">Dati non disponibili (lancia scripts/27_risultato4_regolarita.py e poi 04_genera_mappa.py).</div>`;
+  const cl=["sotto 2,5%","2,5-5%","5-7,5%","7,5-10%","oltre 10%"];
+  const righe=cl.map((c,k)=>`<span><i style="background:${PAL_VR[k]}"></i>${c}</span>`).join("");
+  const fa=fasciaR4(S.h);
+  return `<div class="t">Passaggi in ritardo oltre ${M.soglia_min} minuti · fascia ${NOME_FASCIA_R4[fa]} · ${GIORNI[S.dt].toLowerCase()} ${TAG.mis}</div>`
+    +`<div class="puntini">${righe}<span><i style="background:#9aa0ad"></i>nessun dato (extraurbane, poche corse osservate)</span></div>`
+    +`<div class="et" style="display:block">Periodo ${r4Data(M.periodo.da)} - ${r4Data(M.periodo.a)}; una linea è colorata se ha almeno ${M.min_passaggi} passaggi osservati in quella fascia.`
+    +(fa==="notte"?` La notte non è misurata (la raccolta riparte verso le 5).`:"")+`</div>`;
+}
 const velScarsa = () => { const M=D.vel_meta; if(!M||M.ore==null||M.ore<72) return true;
   const g=Object.values(D.vel||{}).flatMap(t=>Object.values(t).flatMap(o=>Object.values(o).map(c=>c[2]))); return !g.length || Math.max(...g)<3; };
 function velOreTxt(id,dt){   // ore con dati sufficienti, in intervalli: "6–9, 12, 15–22"
@@ -1895,6 +1919,10 @@ function cercaTip(sx,sy,click){
     if(l){
       if(click) return apriScheda(schedaLinea(l), null);
       const r=D.rotte[l.id]||{s:l.id,t:3,l:""}, c=velCella(l.id,S.dt,S.h);
+      if(tema.puntualita){   // [R4]
+        const pv=r4Valore(l.nome,S.dt,S.h);
+        return mostraTipBase(tipC(`Linea ${esc(r.s)}`, pv==null ? "nessun dato di puntualità a quest'ora" : `${pv.toLocaleString("it-IT",{maximumFractionDigits:1})}% in ritardo oltre ${D.r4_meta.soglia_min} min (${NOME_FASCIA_R4[fasciaR4(S.h)]})`, tipoNome(r.t)), sx, sy);
+      }
       return mostraTipBase(tipC(`Linea ${esc(r.s)}`, c ? c[0].toFixed(1)+" km/h (misurata)" : ((D.rotte[l.id]||{f:[]}).f[i]||0)+" corse/ora", tipoNome(r.t)), sx, sy);
     }
   }
@@ -2279,6 +2307,9 @@ const THEMES = [
   {id:"misurati", label:"Bus e traffico misurati", desc:"Velocità vera dei bus (dal GPS, fermate comprese) e traffico tipico ai sensori, all'ora scelta. Puoi anche rivedere i mezzi di una giornata.",
    area:null, over:{...NESSUNA,Lsensori:1,Llinee:1}, sensoriGrandi:true, velocita:true, giornata:true,
    legenda:()=>legendaVelocita()},
+  ...(D.r4_meta ? [{id:"puntualita", label:"Puntualità delle linee",
+   desc:"Quanti passaggi arrivano con più di 5 minuti di ritardo, linea per linea, nell'ora scelta con il cursore. Misurato dal feed GTT.",
+   area:null, over:{...NESSUNA,Llinee:1}, puntualita:true, legenda:()=>legendaR4()}] : []),
   {id:"omi", label:"Valore immobiliare", desc:"Quanto costa al metro quadro comprare casa, un negozio, un ufficio, un box o un magazzino, zona per zona (Agenzia delle Entrate, 2025).",
    area:{tipo:"omi"}, over:{...NESSUNA}, omi:true, opzioni:["omiTipo"], legenda:legendaOmi},
   {id:"catalogo", label:"Catalogo dei dati (inventario)", desc:"Tutti i luoghi dei dati aperti del Comune (scuole, salute, negozi, sport, ciclabili…), un gruppo alla volta. Utile per vedere cosa c'è e cosa manca.",
@@ -2409,7 +2440,7 @@ function aggiornaLegenda(){
 function aggiornaLegendaBase(){
   const blocchi=[], t=tema.legenda();
   if(t) blocchi.push(t);
-  if(vis("Llinee") && !tema.velocita && tema.id!=="velocita"){   // nel tema con velocità la legenda delle linee è quella della velocità
+  if(vis("Llinee") && !tema.velocita && tema.id!=="velocita" && !tema.puntualita){   // nel tema con velocità la legenda delle linee è quella della velocità
     blocchi.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
   }
   if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14)</div><div class="puntini"><span><i style="background:rgba(74,163,223,.85)"></i>grandezza = passaggi/ora</span></div>`);
@@ -2434,11 +2465,20 @@ function applicaVistaDaUrl(){
   OPT_VAL.r6Vista = v; impostaR6Vista(); baseVer++; chiede(); aggiornaLegenda();
 }
 
+// [R4] #tema=puntualita&linea=17 : riempie il campo «Mostra solo una linea» e ridisegna
+function applicaLineaDaUrl(){
+  const m=/[#&?]linea=([^&]+)/i.exec(location.hash||""); if(!m) return;
+  let v=""; try{ v=decodeURIComponent(m[1]).trim(); }catch(e){ return; }
+  $("filtroLinea").value=v;
+  if(tema.over && tema.over.Llinee) $("Llinee").checked=true;
+  baseVer++; chiede(); aggiornaLegenda();
+}
+
 /* ---------- avvio ---------- */
 // [revisione 18/10] niente piu' dati "live": la pagina mostra orari, storico registrato e dati fissi, con le date scritte
 if(innerWidth<=640){ $("legendaBox").classList.add("chiusa"); $("legendaToggle").setAttribute("aria-expanded","false"); }   // telefono: legenda chiusa
-creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(adesso); sicuro(()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); });
-addEventListener("hashchange",()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); });   // [R6] #tema=interscambio&vista=mancano apre direttamente tema e vista
+creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(adesso); sicuro(()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); applicaLineaDaUrl(); });
+addEventListener("hashchange",()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); applicaLineaDaUrl(); });   // [R6] #tema=interscambio&vista=mancano apre direttamente tema e vista
 sicuro(giornateRegistrate); sicuro(stato);
 sicuro(disegna); ultimoT=performance.now(); requestAnimationFrame(anima);
 (()=>{ const dl=$("listaLinee"); const nomi=[...new Set(Object.values(D.rotte).map(r=>r.s))].sort((a,b)=>a.localeCompare(b,"it",{numeric:true})); dl.innerHTML=nomi.map(n=>`<option value="${esc(n)}">`).join(""); })();

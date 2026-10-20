@@ -49,6 +49,7 @@ r4 = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(r4)
 
 OUT_JSON = RADICE / "data" / "processed" / "risultato9_attesa.json"
+IN_R4 = RADICE / "data" / "processed" / "risultato4_regolarita.json"   # scritto dallo script 27: modo_linea
 OUT_RAPPORTO = RADICE / "docs" / "RAPPORTO_RISULTATO9_ATTESA.txt"
 TAG = "MISURATO"
 GIORNO_PROVA = "20261015"
@@ -324,7 +325,7 @@ def media_pesata(chiavi, acc):
             "corse_assenti_tutto_pct": round(100 * somma["manca_tutti"] / somma["corse"], 1) if somma["corse"] else None}
 
 
-def aggrega(acc, freq, fermate):
+def aggrega(acc, freq, fermate, modo_linea=None):
     chiavi_freq = [k for k, a in acc.items() if frequente(a, freq)]
     # dati scarsi: linea-fascia-tipo con piu' del 20% di corse assenti dal feed
     per_lft = defaultdict(lambda: [0.0, 0.0])
@@ -361,7 +362,12 @@ def aggrega(acc, freq, fermate):
     scarse_elenco = sorted(({"linea": l, "fascia": f, "tipo": t,
                              "assenti_pct": round(100 * per_lft[(l, f, t)][1] / per_lft[(l, f, t)][0], 1)}
                             for (l, f, t) in scarse), key=lambda x: -x["assenti_pct"])
-    return {"citta": citta, "citta_fascia": citta_fascia, "linee": per_linea, "fermate": per_fermata,
+    # attesa per modo (tram / metro / bus): stessa media pesata sulle chiavi buone di quel tipo di giorno e di quel modo
+    modi = None
+    if modo_linea:
+        modi = {t: {m: media_pesata([k for k in buone if k[4] == t and modo_linea.get(k[0], "bus") == m], acc)
+                    for m in sorted(set(modo_linea.values()))} for t in r4.TIPI}
+    return {"citta": citta, "citta_fascia": citta_fascia, "linee": per_linea, "fermate": per_fermata, "modi": modi,
             "chiavi_frequenti": len(chiavi_freq), "chiavi_usate": len(buone),
             "dati_scarsi": scarse_elenco}
 
@@ -377,7 +383,12 @@ def main():
     scrivi = not prova and "--freq" not in args
 
     print("Carico il GTFS...", file=sys.stderr)
-    trip_info, nome_linea, prog = r4.carica_gtfs()
+    trip_info, nome_linea, prog, _modo_gtfs, _ultima_seq, _km_corsa = r4.carica_gtfs()
+    modo_linea = None
+    if IN_R4.exists():
+        modo_linea = json.loads(IN_R4.read_text(encoding="utf-8")).get("modo_linea")
+    if not modo_linea:
+        print(f"AVVISO: manca modo_linea in {IN_R4.name} (lancia prima scripts/27): niente attesa per modo", file=sys.stderr)
     servizio, cal, eccezioni, fermate = carica_calendario()
     con = sqlite3.connect(f"file:{r4.DB}?mode=ro", uri=True, timeout=60)
     giorni = [r[0] for r in con.execute("SELECT DISTINCT start_date FROM trip_update_gtt ORDER BY 1")]
@@ -397,7 +408,7 @@ def main():
         del passaggi
     con.close()
 
-    ris = aggrega(acc, freq, fermate)
+    ris = aggrega(acc, freq, fermate, modo_linea)
     # sensibilita' D2 (solo citta', feriale)
     sens = {}
     for f in (10.0, 12.0, 15.0):
@@ -483,6 +494,19 @@ def main():
     R.append("linea la 'alta' puo' quindi uscire poco sotto la 'bassa'. Per la citta' la forbice e' ordinata.")
     R.append("Limiti: arrivi stimati dal feed (non visti sul posto); solo linee urbane presenti nel feed; niente notte;")
     R.append("corse mancanti -> forbice bassa/alta; chi arriva 'a caso' (vero per le linee frequenti); pochi giorni.")
+    R.append("")
+    R.append("ATTESA PER MODO (feriale, linee frequenti, stessa media pesata della citta')")
+    if ris.get("modi") is None:
+        R.append("  (manca modo_linea: lancia prima scripts/27_risultato4_regolarita.py)")
+    else:
+        R.append("modo  | promessa | in piu' bassa - alta | reale bassa - alta | intervalli programmati | intervalli oss.")
+        for m, c in ris["modi"]["0"].items():
+            if c:
+                R.append(f"{m:<5} | {c['promessa_min']:8.1f} | {c['in_piu_min_bassa']:8.1f} - {c['in_piu_min_alta']:<8.1f} | "
+                         f"{c['reale_min_bassa']:8.1f} - {c['reale_min_alta']:<8.1f} | {c['intervalli_programmati']:>22} | "
+                         f"{c['intervalli_osservati']:>10}")
+            else:
+                R.append(f"{m:<5} | nessuna linea frequente con dati")
     testo = "\n".join(R)
     print(testo)
 

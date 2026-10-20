@@ -76,8 +76,8 @@ DATI SCARSI (linea-fascia-tipo con > 20% corse assenti dal feed, fuori dai numer
   linea 13    giorno        sabato    assenti 30.1%
   linea 13    punta_mattina feriale   assenti 29.6%
   linea 13    punta_sera    domenica  assenti 24.9%
-  linea 13+   giorno        feriale   assenti 23.0%
   linea 13+   sera          sabato    assenti 23.0%
+  linea 13+   giorno        feriale   assenti 23.0%
   linea 13    punta_sera    sabato    assenti 20.5%
 
 CONTROLLO COL GPS (passo 4): arrivo stimato dal feed - passaggio del GPS vicino alla fermata
@@ -119,3 +119,9 @@ Nota: le due stime usano tratti diversi (la bassa solo i tratti senza corse manc
 linea la 'alta' puo' quindi uscire poco sotto la 'bassa'. Per la citta' la forbice e' ordinata.
 Limiti: arrivi stimati dal feed (non visti sul posto); solo linee urbane presenti nel feed; niente notte;
 corse mancanti -> forbice bassa/alta; chi arriva 'a caso' (vero per le linee frequenti); pochi giorni.
+
+ATTESA PER MODO (feriale, linee frequenti, stessa media pesata della citta')
+modo  | promessa | in piu' bassa - alta | reale bassa - alta | intervalli programmati | intervalli oss.
+bus   |      5.4 |      0.6 - 2.3      |      6.0 - 7.8      |                  82033 |      49375
+metro | nessuna linea frequente con dati
+tram  |      4.3 |      0.6 - 1.1      |      4.9 - 5.4      |                 130313 |      98550
