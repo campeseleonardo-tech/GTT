@@ -227,6 +227,215 @@ def compatta_acc(piedi, tp):
     return [riga(piedi), [riga(tp[f"{h:02d}"]) if f"{h:02d}" in tp else None for h in range(24)]]
 
 
+# ---------------------------------------------------------------- peso della pagina (giro 4, 21/10)
+# Numeri interi in forma di testo corto. Alfabeto di 89 simboli (ASCII 35-126 senza "/", "<" e "\\", cosi' niente
+# escape nel JSON e niente "</script>"). Un numero >= 0 si scrive a cifre: i simboli 0..63 chiudono il numero, i
+# simboli 64..88 sono cifre intermedie in base 25 (le piu' basse per prime). Valori fino a 63 = 1 simbolo.
+# I numeri con segno passano da zigzag (x>=0 -> 2x, x<0 -> -2x-1). Il lettore e' in mappa_template.html
+# (blocco DECODIFICA): le due parti vanno cambiate insieme.
+ALFA = "".join(chr(c) for c in range(35, 127) if c not in (47, 60, 92))
+CD_FINE = 64
+CD_BASE = len(ALFA) - CD_FINE
+
+
+def cod_nn(z):
+    """Intero >= 0 -> testo."""
+    out = []
+    while z >= CD_FINE:
+        out.append(ALFA[CD_FINE + z % CD_BASE])
+        z //= CD_BASE
+    out.append(ALFA[z])
+    return "".join(out)
+
+
+def cod_int(x):
+    """Intero con segno -> testo (zigzag)."""
+    return cod_nn(2 * x if x >= 0 else -2 * x - 1)
+
+
+def decod_nn(s):
+    """Testo -> lista di interi >= 0 (solo per le prove)."""
+    out, acc, mul = [], 0, 1
+    for ch in s:
+        d = ALFA.index(ch)
+        if d >= CD_FINE:
+            acc += (d - CD_FINE) * mul
+            mul *= CD_BASE
+        else:
+            out.append(acc + d * mul)
+            acc, mul = 0, 1
+    return out
+
+
+def decod_int(s):
+    return [(z >> 1) if z % 2 == 0 else -((z + 1) >> 1) for z in decod_nn(s)]
+
+
+def compatta_acc_testo(acc):
+    """acc compatto [piedi(5), 24 ore(5 ciascuna)] -> testo con le differenze dall'ora precedente
+    (le ore coi mezzi si somigliano molto: 1,6 MB invece di 4,6). Ogni altra forma resta com'e'."""
+    if not (isinstance(acc, list) and len(acc) == 2 and len(acc[0]) == 5 and isinstance(acc[1], list) and len(acc[1]) == 24):
+        return acc
+    righe = [acc[0]] + acc[1]
+    if any(not isinstance(r, list) or len(r) != 5 or any(type(v) is not int for v in r) for r in righe):
+        return acc
+    prec, out = [0] * 5, []
+    for r in righe:
+        out.extend(cod_int(v - q) for v, q in zip(r, prec))
+        prec = r
+    return "".join(out)
+
+
+def compatta_vcomp(vc):
+    """{occ, ist, aff, anz} (3 decimali) -> testo di 4 numeri: millesimi + 1, 0 = manca. Gli altri campi
+    (la mappa non li legge) si tolgono. Se i valori non sono a 3 decimali resta il dizionario."""
+    ch = ("occ", "ist", "aff", "anz")
+    if not vc:
+        return 0
+    num = []
+    for k in ch:
+        v = vc.get(k)
+        if v is None:
+            num.append(0)
+            continue
+        m = round(v * 1000)
+        if abs(m - v * 1000) > 1e-6 or m < 0:
+            return {k: vc[k] for k in ch if k in vc}
+        num.append(m + 1)
+    return "".join(cod_nn(x) for x in num)
+
+
+def compatta_fb(fb):
+    """{gruppo: 'zero'|'pochissimo'} -> un intero in base 3 (ordine GRUPPI_ACC); 0 = nessun vuoto."""
+    if not fb:
+        return 0
+    liv = {"pochissimo": 1, "zero": 2}
+    if any(g not in GRUPPI_ACC or v not in liv for g, v in fb.items()):
+        return fb
+    return sum(liv[v] * 3 ** GRUPPI_ACC.index(g) for g, v in fb.items())
+
+
+M_LAT = 110574.0   # metri per grado di latitudine (basta per una tolleranza di 5 m)
+M_LON = 111320.0
+
+
+def semplifica_anello(anello, tol_m=5.0, dec=4):
+    """Anello chiuso [[lat, lon], ...] -> coordinate a `dec` decimali + Douglas-Peucker con tolleranza in metri.
+    Non toglie anelli e non ne lascia con meno di 4 punti (quelli gia' piccoli restano com'erano).
+    L'anello chiuso si spezza nel punto piu' lontano dal primo e si semplificano le due meta'."""
+    if len(anello) < 4:
+        return [[round(a, dec), round(b, dec)] for a, b in anello]
+    arr = [(round(a, dec), round(b, dec)) for a, b in anello]
+    pul = [arr[0]]
+    for q in arr[1:]:
+        if q != pul[-1]:
+            pul.append(q)
+    if pul[0] != pul[-1]:
+        pul.append(pul[0])
+    if len(pul) < 4:
+        pul = arr
+    if len(pul) <= 4:
+        return [list(q) for q in pul]
+    cl = M_LON * math.cos(math.radians(pul[0][0]))
+    xy = [(b * cl, a * M_LAT) for a, b in pul]
+
+    def dp(i0, i1, tieni):
+        pila = [(i0, i1)]
+        while pila:
+            a, b = pila.pop()
+            ax, ay = xy[a]
+            dx, dy = xy[b][0] - ax, xy[b][1] - ay
+            den = math.hypot(dx, dy)
+            dmax, imax = -1.0, -1
+            for i in range(a + 1, b):
+                px_, py_ = xy[i]
+                d = math.hypot(px_ - ax, py_ - ay) if den == 0 else abs(dy * (px_ - ax) - dx * (py_ - ay)) / den
+                if d > dmax:
+                    dmax, imax = d, i
+            if dmax > tol_m:
+                tieni[imax] = True
+                pila.append((a, imax))
+                pila.append((imax, b))
+
+    n = len(pul)
+    lontano = max(range(1, n - 1), key=lambda i: (xy[i][0] - xy[0][0]) ** 2 + (xy[i][1] - xy[0][1]) ** 2)
+    tieni = [False] * n
+    tieni[0] = tieni[n - 1] = tieni[lontano] = True
+    dp(0, lontano, tieni)
+    dp(lontano, n - 1, tieni)
+    ris = [list(pul[i]) for i in range(n) if tieni[i]]
+    return ris if len(ris) >= 4 else [list(q) for q in pul]
+
+
+def compatta_forma(anelli, dec=4):
+    """Forma di una sezione (lista di anelli) -> un testo: anelli separati da spazio; per ognuno il primo punto
+    e poi le differenze, in unita' di 10^-dec gradi (lat, lon); l'ultimo punto (= il primo) non si scrive."""
+    scala = 10 ** dec
+    anelli_s = []
+    for a in anelli:
+        s = semplifica_anello(a, 5.0, dec)
+        if s[0] != s[-1]:
+            s.append(list(s[0]))
+        anelli_s.append(s)
+    parti = []
+    for s in anelli_s:
+        prec, out = (0, 0), []
+        for la, lo in s[:-1]:
+            q = (round(la * scala), round(lo * scala))
+            out.append(cod_int(q[0] - prec[0]) + cod_int(q[1] - prec[1]))
+            prec = q
+        parti.append("".join(out))
+    return " ".join(parti), anelli_s
+
+
+def compatta_riquadro(anelli):
+    """Riquadro della sezione dalle forme ORIGINALI (5 decimali): lat min, lon min, altezza, larghezza, in 10^-5
+    gradi. Serve a tenere il centro della sezione identico a prima anche dopo la semplificazione."""
+    lat = [round(p[0] * 1e5) for a in anelli for p in a]
+    lon = [round(p[1] * 1e5) for a in anelli for p in a]
+    return cod_int(min(lat)) + cod_int(min(lon)) + cod_int(max(lat) - min(lat)) + cod_int(max(lon) - min(lon))
+
+
+def compatta_fermate(stops):
+    """Passaggi per ora (72 valori: 3 tipi di giorno x 24 ore) in un testo di 72 numeri."""
+    for s in stops:
+        d = s["d"]
+        if isinstance(d, list) and len(d) == 72 and all(type(v) is int and v >= 0 for v in d):
+            s["d"] = "".join(cod_nn(v) for v in d)
+    return stops
+
+
+COLONNE_SEZ = ["p", "a", "c", "f", "occ", "p1564", "sen", "p014", "em", "ist9", "it", "pf1", "pf3", "v", "r1"]
+
+
+def compatta_sezioni(sez):
+    """Elenco di sezioni (dizionari) -> colonne: un elenco per campo, cosi' i nomi dei campi non si ripetono
+    8.300 volte. Il campo ab (abitazioni) non era letto dalla mappa e si toglie. Ordine di ogni colonna = ordine
+    delle sezioni."""
+    col = {k: [x.get(k) for x in sez] for k in COLONNE_SEZ}
+    col["g"], col["bb"] = [], []
+    for x in sez:
+        testo, _ = compatta_forma(x["g"])
+        col["g"].append(testo)
+        col["bb"].append(compatta_riquadro(x["g"]))
+    col["acc"] = [compatta_acc_testo(x["acc"]) for x in sez]
+    col["vc"] = [compatta_vcomp(x["vcomp"]) for x in sez]
+    col["fb"] = [compatta_fb(x["fb"]) for x in sez]
+    col["n"] = len(sez)
+    return col
+
+
+def catalogo_ridotto(indice):
+    """Dell'indice del catalogo alla mappa servono solo id, nome, tipo e numero di elementi di ogni dato:
+    licenza, CRS, campi mancanti e anomalie non si mostrano piu' (restano nei file di data/processed/catalogo)."""
+    if not indice:
+        return indice
+    return {"gruppi": [{"id": g["id"], "nome": g.get("nome", g["id"]),
+                        "dati": [{"id": d["id"], "nome": d.get("nome", d["id"]), "tipo": d.get("tipo"),
+                                  "n": (d.get("stat") or {}).get("elementi")} for d in g.get("dati", [])]}
+                       for g in indice.get("gruppi", [])]}
+
+
 def date_riferimento(inizio, fine):
     """Un martedi', un sabato e una domenica tipici (DATE_FISSE); se una data e' fuori dalla validita' del
     feed, AVVISO e si torna alla regola vecchia (il prossimo giorno di quel tipo) solo per quella data."""
@@ -951,6 +1160,9 @@ def main():
         "r1_meta": r1_meta,
         "r6": r6,
     }
+    dati["sezioni"] = compatta_sezioni(sez)
+    dati["fermate"] = compatta_fermate(stops)
+    dati["catalogo"] = catalogo_ridotto(catalogo)
     testo = json.dumps(dati, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/")
     html = TEMPLATE.read_text(encoding="utf-8").replace('"__DATI__"', testo)
     USCITA.write_text(html, encoding="utf-8")

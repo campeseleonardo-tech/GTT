@@ -101,7 +101,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
   spostati in `docs/rapporti/` (gli script scrivono lì). Restano i passi 8 (script superati), 9 (`.bat`), 11 (README), 13
   (`mappa_torino.html` fuori da git).
   **Mappa giro 1 fatto (21/10, ricontrollato)**: partenza senza tema su satellite, due gruppi di temi, «Quando» solo
-  nei temi con l'ora, tolti pendolari, corse simulate, avvisi, griglia, replay; mappa 13,1 MB. **Giro 2 fatto (21/10, ricontrollato)**: velocità bus su tutto lo storico (avviso: 2 sabati), sensori da `velocita_5t.json` dentro la mappa (via `stat.js`), «Tutti i servizi» (punteggio 0-100, calcolato nel browser; dal 21/10 sera percentili separati Torino / cintura, quindi punteggi non confrontabili fra le due aree). **Correzioni urgenti 5.1 (1-4) fatte il 21/10 (ricontrollate)**: cartella OMI `data/raw/omi_2025_2`, email tolta dagli script, README senza numeri, catalogo nella pubblicazione. Il vecchio nome della cartella OMI resta nella storia di git (decisione di Leo se riscriverla). **Giro 3 della mappa fatto (21/10, `docs/piani/ESITO_MAPPA_GIRO3.md`)**: «Chi abita qui» completo (8 viste e profilo al clic; niente 80+: l'ISTAT ha solo «oltre 74»), persone sole, grigio sotto 1.000 ab/km², confine di Torino, legende corte, telefono con «Temi»; mappa 13,5 MB. Prossimo: giro 4 (Luoghi della città, peso, schede uniformi).
+  nei temi con l'ora, tolti pendolari, corse simulate, avvisi, griglia, replay; mappa 13,1 MB. **Giro 2 fatto (21/10, ricontrollato)**: velocità bus su tutto lo storico (avviso: 2 sabati), sensori da `velocita_5t.json` dentro la mappa (via `stat.js`), «Tutti i servizi» (punteggio 0-100, calcolato nel browser; dal 21/10 sera percentili separati Torino / cintura, quindi punteggi non confrontabili fra le due aree). **Correzioni urgenti 5.1 (1-4) fatte il 21/10 (ricontrollate)**: cartella OMI `data/raw/omi_2025_2`, email tolta dagli script, README senza numeri, catalogo nella pubblicazione. Il vecchio nome della cartella OMI resta nella storia di git (decisione di Leo se riscriverla). **Giro 4 della mappa scritto nel cloud (21/10, `docs/piani/ESITO_MAPPA_GIRO4.md`; da rigenerare e provare sul PC)**: peso stimato 6,1 MB (acc come testo a differenze, forme semplificate e a testo, colonne al posto di record, fermate più corte) con valori letti identici; «Luoghi della città» a 6 caselle (provato con dati finti). **Giro 3 della mappa fatto (21/10, `docs/piani/ESITO_MAPPA_GIRO3.md`)**: «Chi abita qui» completo (8 viste e profilo al clic; niente 80+: l'ISTAT ha solo «oltre 74»), persone sole, grigio sotto 1.000 ab/km², confine di Torino, legende corte, telefono con «Temi»; mappa 13,5 MB. Prossimo: giro 4 (Luoghi della città, peso, schede uniformi).
   **R4 confronto con GTT (B1, B2, B4) fatto il 21/10 (ricontrollato; dettaglio in `docs/R4_puntualita.md`)**: «oltre 10 minuti» in 4 definizioni, media settimana 5/1/1: a ogni fermata 5,49%, alla prima fermata 3,92%, a metà corsa 5,24%, fuori punta 5,30% (GTT 2,3%); forbice corse senza GPS feriale 4,3-5,7%; ±1 minuto = 4,6-6,4%. La definizione spiega solo una parte della differenza. B3 (stagione) resta per gennaio/luglio.
 
 - **R1 A1 + A3 (21/10; dettaglio in `docs/R1_servizi.md`)**: **numeri calcolati sul PC il 21/10** (copertura a 15 minuti 99,2%, a 10 96,8%, a 5 68,3%; esposti al traffico 22,6%; 180 tratte molto trafficate come nel R8).
@@ -199,7 +199,7 @@ logistica, eventi (stadi, palazzetti).
 - Script 80 e 77 sembrano superati ma servono (funzioni per 84-85, modulo per 72-73). `supervisore.py` e `06_dati_live.py`
   girano sul Pi. I passi delle fasi 3-4 nel `.bat` del traffico hanno uscite lette dalla Fase 5: lasciati.
 - Codice copiato (distanze, radice del progetto, ora legale) in molti script: si passa a `comuni.py` quando si tocca uno script.
-- `mappa_torino.html` (13,1 MB) è ancora salvata in git a ogni giro: si decide con la pubblicazione.
+- `mappa_torino.html` (13,5 MB; dal giro 4 ~6,1 MB una volta rigenerata) è ancora salvata in git a ogni giro: si decide con la pubblicazione.
 
 ## 8. Standard tecnici
 
@@ -207,7 +207,7 @@ logistica, eventi (stadi, palazzetti).
   controllano aprendo la pagina nel browser ed esercitando l'interfaccia. Prova automatica: `python scripts\prova_pagine_r6.py` (errori a runtime su mappa e scheda).
 - **Fermate e strade**: mai abbinare per nome, solo per coordinate. Un corso che cambia nome o comune è un solo
   asse; l'unità del traffico è la tratta d'asse.
-- **Mappa**: un campo nuovo in `D.sezioni[i]` va aggiunto anche nella proiezione `sez` di `mappa_template.html`;
+- **Mappa**: da giro 4 (21/10) `D.sezioni` è a colonne e in forma compatta (`compatta_sezioni` nel 04, lettori nel blocco DECODIFICA del template: vanno cambiati insieme). Un campo nuovo va aggiunto in `COLONNE_SEZ` (o a una colonna codificata) nel 04 **e** nella proiezione `sez` del template;
   chi cambia l'ora (`#ora`) deve richiamare `aggiornaLegenda()`. Numeri in italiano (virgola decimale).
 - **Script 24**: corridoio = stesso nome + tratti collegati o entro ~100-200 m; togliere "(TO)" dai nomi 5T.
 - **Script 18, solo piedi**: `--solo-piedi` salta il mezzo pubblico (`--ore` si ignora); la firma dei parziali contiene i minuti a piedi ma non l'uscita: cancellare `accessibilita_parziale/` prima di ogni lancio.

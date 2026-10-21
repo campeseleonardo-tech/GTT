@@ -241,23 +241,71 @@ const unLat = y => { const n=Math.PI-2*Math.PI*y; return 180/Math.PI*Math.atan(0
   /* ---------- preparazione dati ---------- */
 /* sezioni di censimento: centro, abitanti, e fermate/abitanti entro 400 m (griglia spaziale) */
 const RAGGIO=400;
-// accessibilità in forma compatta (04_genera_mappa.py, compatta_acc): si ricostruiscono
+/* DECODIFICA:INIZIO — legge i numeri scritti da 04_genera_mappa.py (cod_nn, cod_int, compatta_*): se si cambia
+   qui si cambia anche li'. Alfabeto di 89 simboli (ASCII 35-126 senza "/", "<", "\\"): i simboli 0..63 chiudono un
+   numero, 64..88 sono cifre intermedie in base 25 (le piu' basse per prime). Con segno = zigzag. */
+const CD_T=64, CD_B=25, CD_VAL=new Int16Array(128).fill(-1);
+(()=>{ let k=0; for(let c=35;c<127;c++) if(c!==47&&c!==60&&c!==92) CD_VAL[c]=k++; })();
+function cdNumeri(s, conSegno){
+  const out=[]; let acc=0, mul=1;
+  for(let i=0;i<s.length;i++){
+    const d=CD_VAL[s.charCodeAt(i)];
+    if(d>=CD_T){ acc+=(d-CD_T)*mul; mul*=CD_B; }
+    else { acc+=d*mul; out.push(conSegno ? (acc%2 ? -(acc+1)/2 : acc/2) : acc); acc=0; mul=1; }
+  }
+  return out;
+}
+// accessibilità in forma compatta (04_genera_mappa.py, compatta_acc + compatta_acc_testo): si ricostruiscono
 // gli stessi dizionari {piedi:{gruppo:v}, tp:{"hh":{gruppo:v}}} di prima
 const GRUPPI_ACC = ["scuole","salute","cibo","fermate","verde"];
 function espandiAcc(a){
+  if(typeof a==="string"){   // 25 righe da 5 numeri (piedi + 24 ore), ognuno come differenza dalla riga prima
+    const n=cdNumeri(a,true), righe=[]; let prec=[0,0,0,0,0];
+    for(let r=0;r<n.length/5;r++){ prec=prec.map((q,i)=>q+n[5*r+i]); righe.push(prec); }
+    a=[righe[0], righe.slice(1)];
+  }
   if(!Array.isArray(a)) return a||{};
   const riga = r => { const o={}; if(r) GRUPPI_ACC.forEach((g,i)=>{ if(r[i]!=null) o[g]=r[i]; }); return o; };
   const tp={}; (a[1]||[]).forEach((r,h)=>{ if(r) tp[String(h).padStart(2,"0")]=riga(r); });
   return {piedi:riga(a[0]), tp};
 }
-const sez = (D.sezioni||[]).map(z=>{
-  const polys=z.g.map(poly=>{const a=new Float64Array(poly.length*2); poly.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);}); return a;});
-  let x0=1,y0=1,x1=0,y1=0;
-  polys.forEach(a=>{for(let i=0;i<a.length;i+=2){x0=Math.min(x0,a[i]);x1=Math.max(x1,a[i]);y0=Math.min(y0,a[i+1]);y1=Math.max(y1,a[i+1]);}});
-  const cxn=(x0+x1)/2, cyn=(y0+y1)/2;
-  return {p:z.p, c:z.c, km2:z.a, occ:z.occ, p1564:z.p1564, sen:z.sen, f:z.f, p014:z.p014, em:z.em, ist9:z.ist9, it:z.it, pf1:z.pf1, pf3:z.pf3, v:z.v, vcomp:z.vcomp||{}, gruppi:z.gruppi||{}, acc:espandiAcc(z.acc), fb:z.fb||{}, r1:z.r1||null,
-    polys,bb:[x0,y0,x1,y1], x:cxn, y:cyn, dens:z.p/Math.max(z.a,0.0005), st:[], np:z.p};
-});
+function espandiVcomp(v){   // 4 numeri: millesimi + 1 (0 = manca), nell'ordine occ, ist, aff, anz
+  if(typeof v!=="string") return v||{};
+  const o={}; cdNumeri(v,false).forEach((x,i)=>{ if(x>0) o[["occ","ist","aff","anz"][i]]=(x-1)/1000; });
+  return o;
+}
+function espandiFb(f){   // base 3, un cifra per gruppo (ordine GRUPPI_ACC): 1 = pochissimo, 2 = zero
+  if(typeof f!=="number") return f||{};
+  const o={}; GRUPPI_ACC.forEach((g,i)=>{ const c=Math.floor(f/Math.pow(3,i))%3; if(c) o[g]=c===1?"pochissimo":"zero"; });
+  return o;
+}
+function espandiForma(s){   // anelli di coordinate unitarie [x0,y0,x1,y1,...]: primo punto, poi differenze, in 1e-4 gradi
+  return s.split(" ").filter(Boolean).map(r=>{
+    const n=cdNumeri(r,true), a=new Float64Array(n.length+2); let la=0, lo=0;
+    for(let i=0;i<n.length;i+=2){ la+=n[i]; lo+=n[i+1]; a[i]=px(lo/1e4); a[i+1]=py(la/1e4); }
+    a[n.length]=a[0]; a[n.length+1]=a[1];   // l'anello e' chiuso: l'ultimo punto e' il primo
+    return a;
+  });
+}
+function espandiRiquadro(s){   // [x0,y0,x1,y1] unitari dalla forma originale (lat min, lon min, altezza, larghezza in 1e-5 gradi)
+  const n=cdNumeri(s,true), la0=n[0]/1e5, lo0=n[1]/1e5, la1=(n[0]+n[2])/1e5, lo1=(n[1]+n[3])/1e5;
+  return [px(lo0), py(la1), px(lo1), py(la0)];
+}
+function espandiFermate(){   // passaggi per ora: 72 numeri in testo -> array
+  for(const s of D.fermate||[]) if(typeof s.d==="string") s.d=cdNumeri(s.d,false);
+}
+/* DECODIFICA:FINE */
+espandiFermate();
+const sez = (()=>{
+  const C=D.sezioni||{}, out=[];
+  for(let i=0;i<(C.n||0);i++){
+    const polys=espandiForma(C.g[i]), bb=espandiRiquadro(C.bb[i]);
+    const cxn=(bb[0]+bb[2])/2, cyn=(bb[1]+bb[3])/2;
+    out.push({p:C.p[i], c:C.c[i], km2:C.a[i], occ:C.occ[i], p1564:C.p1564[i], sen:C.sen[i], f:C.f[i], p014:C.p014[i], em:C.em[i], ist9:C.ist9[i], it:C.it[i], pf1:C.pf1[i], pf3:C.pf3[i], v:C.v[i], vcomp:espandiVcomp(C.vc[i]), gruppi:{}, acc:espandiAcc(C.acc[i]), fb:espandiFb(C.fb[i]), r1:C.r1[i]||null,
+      polys,bb,x:cxn,y:cyn,dens:C.p[i]/Math.max(C.a[i],0.0005), st:[], np:C.p[i]});
+  }
+  return out;
+})();
   let sezOk=false;
   // confine del comune di Torino (D.confine_torino, dai confini ISTAT): anelli proiettati
   const CONFINE=(D.confine_torino||[]).map(r=>{ const a=new Float64Array(r.length*2); r.forEach((q,i)=>{a[2*i]=px(q[1]);a[2*i+1]=py(q[0]);}); return a; });
@@ -338,77 +386,83 @@ const sez = (D.sezioni||[]).map(z=>{
   }
   function imqNum(x){ return (x==null||isNaN(x))?"—":Math.round(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g,"."); }
 
-  /* ---------- CATALOGO dei nuovi dati (gruppi caricati su richiesta) ----------
-     L'indice (metadati) e' incorporato; i dati di ogni gruppo stanno in
-     data/catalogo/<gruppo>.js e si caricano solo quando il gruppo e' scelto. */
+  /* ---------- LUOGHI DELLA CITTÀ (sei caselle, dal catalogo dei dati aperti del Comune) ----------
+     Ogni casella raccoglie alcuni dati del catalogo (id come in D.catalogo). I dati di ogni gruppo stanno in
+     data/catalogo/<gruppo>.js e si caricano solo quando serve una casella che li usa. Al clic: nome e indirizzo. */
   const CAT_INDICE = D.catalogo || null;
-  const CAT_PAL = ["#e6194b","#3cb44b","#4363d8","#f58231","#911eb4","#008080","#f032e6","#9a6324","#808000","#000075","#00b0f0","#bc80bd"];
-  const CAT = {gruppo:null, dati:{}, caricati:{}, sel:{}};
-  const CAT_TAG = '<span class="tag">CATALOGO</span>';
-  function catColoreDato(id){ let h=0; for(let k=0;k<id.length;k++) h=(h*31+id.charCodeAt(k))>>>0; return CAT_PAL[h%CAT_PAL.length]; }
-  function catSig(){ if(tema.id!=="catalogo") return "-"; if(!CAT.gruppo||CAT.caricati[CAT.gruppo]!==true) return (CAT.gruppo||"")+"|0"; return CAT.gruppo+"|"+CAT.dati[CAT.gruppo].map(d=>CAT.sel[CAT.gruppo+"/"+d.id]?"1":"0").join(""); }
-  function preparaGruppo(g){
-    const src=(window.CATALOGO||{})[g];
-    if(!src){ CAT.caricati[g]="errore"; return false; }
+  const LUOGHI = [
+    {id:"scuole",   nome:"Scuole e nidi",         colore:"#4363d8", voci:[["istruzione",["scuole","infanzia_nidi_comunali","infanzia_nidi_convenzionati","infanzia_nidi_aziendali","infanzia_micronidi","infanzia_primavera"]]]},
+    {id:"salute",   nome:"Ospedali e salute",     colore:"#e6194b", voci:[["salute",["ospedali","consultori","farmacie"]]]},
+    {id:"mercati",  nome:"Mercati",               colore:"#f58231", voci:[["commercio",["mercati","mercati_tematici"]]]},
+    {id:"cultura",  nome:"Cultura (musei, biblioteche, cinema)", colore:"#911eb4", voci:[["commercio",["musei","biblioteche","cinema"]]]},
+    {id:"sport",    nome:"Sport",                 colore:"#3cb44b", voci:[["sicurezza_sport",["impianti_sportivi"]]]},
+    {id:"mobilita", nome:"Mobilità (ciclabili, bike sharing, ricarica, parcheggi in struttura)", colore:"#008080", voci:[["reti",["ciclabili","bike_sharing","ricarica_elettrica","parcheggi_strutture"]]]}
+  ];
+  const CAT = {sel:{scuole:true}, dati:{}, stato:{}, gruppi:{}};   // stato di una casella: "carico" | "ok" | "errore"
+  const catGruppiDi = c => c.voci.map(v=>v[0]);
+  function catSig(){ return tema.id!=="catalogo" ? "-" : LUOGHI.map(c=>(CAT.sel[c.id]?"1":"0")+(CAT.stato[c.id]==="ok"?"k":"")).join(""); }
+  function catPreparaCasella(c){
     const out=[];
-    for(const d of src.dati){
-      const dd={id:d.id, meta:d, tipo:d.tipo, campi:d.campi||[], colore:catColoreDato(d.id), heavy:(d.id==="attivita"||d.id==="alberate")};
-      if(d.tipo==="punti"){
-        const n=d.elementi.length; dd.px=new Float64Array(n); dd.py=new Float64Array(n); dd.coli=new Uint8Array(n); dd.el=d.elementi;
-        const set=new Map(); for(const e of d.elementi){ const c=e[3]||""; if(!set.has(c)) set.set(c,set.size); }
-        for(let i=0;i<n;i++){ const e=d.elementi[i]; dd.px[i]=px(e[1]); dd.py[i]=py(e[0]); dd.coli[i]=(set.get(e[3]||"")||0)%CAT_PAL.length; }
-      } else if(d.tipo==="linee"){
-        dd.lines=[];
-        for(const e of d.elementi){ const pts=e[3]; const a=new Float64Array(pts.length*2); let x0=1,y0=1,x1=0,y1=0;
-          pts.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);x0=Math.min(x0,a[2*i]);x1=Math.max(x1,a[2*i]);y0=Math.min(y0,a[2*i+1]);y1=Math.max(y1,a[2*i+1]);});
-          dd.lines.push({el:e,pts:a,bb:[x0,y0,x1,y1]}); }
-      } else if(d.tipo==="poligoni"){
-        dd.polys=[];
-        for(const e of d.elementi){ let x0=1,y0=1,x1=0,y1=0;
-          const rings=e[3].map(r=>{const a=new Float64Array(r.length*2); r.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);x0=Math.min(x0,a[2*i]);x1=Math.max(x1,a[2*i]);y0=Math.min(y0,a[2*i+1]);y1=Math.max(y1,a[2*i+1]);}); return a;});
-          dd.polys.push({el:e,rings,bb:[x0,y0,x1,y1]}); }
+    for(const [g,ids] of c.voci){
+      const src=(window.CATALOGO||{})[g]; if(!src) return false;
+      for(const d of src.dati){
+        if(!ids.includes(d.id)) continue;
+        const dd={id:d.id, nome:(d.nome||d.id).replace(/\s*\(.*\)\s*$/,""), tipo:d.tipo, colore:c.colore, n:d.elementi.length};
+        if(d.tipo==="punti"){
+          dd.px=new Float64Array(dd.n); dd.py=new Float64Array(dd.n); dd.el=d.elementi;
+          d.elementi.forEach((e,i)=>{ dd.px[i]=px(e[1]); dd.py[i]=py(e[0]); });
+        } else if(d.tipo==="linee"){
+          dd.lines=d.elementi.map(e=>{ const pts=e[3], a=new Float64Array(pts.length*2); let x0=1,y0=1,x1=0,y1=0;
+            pts.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);x0=Math.min(x0,a[2*i]);x1=Math.max(x1,a[2*i]);y0=Math.min(y0,a[2*i+1]);y1=Math.max(y1,a[2*i+1]);});
+            return {el:e,pts:a,bb:[x0,y0,x1,y1]}; });
+        } else if(d.tipo==="poligoni"){
+          dd.polys=d.elementi.map(e=>{ let x0=1,y0=1,x1=0,y1=0;
+            const rings=e[3].map(r=>{const a=new Float64Array(r.length*2); r.forEach((p,i)=>{a[2*i]=px(p[1]);a[2*i+1]=py(p[0]);x0=Math.min(x0,a[2*i]);x1=Math.max(x1,a[2*i]);y0=Math.min(y0,a[2*i+1]);y1=Math.max(y1,a[2*i+1]);}); return a;});
+            return {el:e,rings,bb:[x0,y0,x1,y1]}; });
+        } else continue;
+        out.push(dd);
       }
-      CAT.sel[g+"/"+dd.id]=true;
-      out.push(dd);
     }
-    CAT.dati[g]=out; CAT.caricati[g]=true; return true;
+    CAT.dati[c.id]=out; return true;
   }
-  function catAssicura(g, cb){
-    if(CAT.caricati[g]===true || CAT.caricati[g]==="errore"){ cb&&cb(); return; }
-    ricarica("catalogo/"+g+".js", ()=>{ preparaGruppo(g); baseVer++; chiede(); aggiornaLegenda(); cb&&cb(); });
+  function catCaricaGruppo(g, fine){   // un solo caricamento per gruppo, anche se lo chiedono due caselle insieme
+    if(window.CATALOGO && window.CATALOGO[g]){ fine(true); return; }
+    const w=CAT.gruppi[g]||(CAT.gruppi[g]={fine:[]}); w.fine.push(fine);
+    if(w.fine.length>1) return;
+    ricarica("catalogo/"+g+".js", ()=>{ const f=w.fine; w.fine=[]; f.forEach(x=>x(true)); }, ()=>{ const f=w.fine; w.fine=[]; f.forEach(x=>x(false)); });
   }
-  function catPopola(g){
-    const box=$("catDati"); if(!box) return; box.innerHTML="";
-    const gd=CAT_INDICE && CAT_INDICE.gruppi.find(x=>x.id===g);
-    for(const d of CAT.dati[g]||[]){
-      const l=document.createElement("label"); l.className="lv"; l.style.fontSize="12px";
-      const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=!!CAT.sel[g+"/"+d.id];
-      cb.onchange=()=>{ CAT.sel[g+"/"+d.id]=cb.checked; baseVer++; chiede(); aggiornaLegenda(); };
-      const nome=document.createElement("span"); nome.innerHTML=`${esc(d.meta.nome)} <span style="color:var(--muted)">(${d.meta.stat.record})</span>`;
-      const info=document.createElement("a"); info.href="#"; info.textContent="i"; info.title="Scheda del dato (fonte, anno, licenza, note)"; info.style.cssText="margin-left:auto;color:var(--accent);font-weight:700;text-decoration:none";
-      info.onclick=(ev)=>{ ev.preventDefault(); ev.stopPropagation(); apriScheda(schedaCatalogoDato(d), null); };
-      l.appendChild(cb); l.appendChild(nome); l.appendChild(info); box.appendChild(l);
-    }
-    const info=$("catInfo"); if(info && gd) info.textContent=gd.desc||"";
+  function catAssicura(c){
+    if(CAT.stato[c.id]) return;
+    CAT.stato[c.id]="carico";
+    let attesi=catGruppiDi(c).length, ok=true;
+    const fatto=()=>{ CAT.stato[c.id]=(ok&&catPreparaCasella(c))?"ok":"errore"; baseVer++; chiede(); aggiornaLegenda(); catAggiornaEtichette(); };
+    for(const g of catGruppiDi(c)) catCaricaGruppo(g, buono=>{ if(!buono) ok=false; if(--attesi===0) fatto(); });
   }
-  function costruisciCatalogo(box){   // il catalogo entra nell'area Opzioni come gli altri temi
-    if(!CAT_INDICE){ box.innerHTML='<div class="opt-nota">Catalogo non presente: lancia 11_prepara_catalogo.py e poi 04_genera_mappa.py.</div>'; return; }
-    if(!CAT.gruppo) CAT.gruppo=CAT_INDICE.gruppi[0].id;
-    const lab=document.createElement("label"); lab.className="opt-lab"; lab.textContent="Gruppo di dati";
-    const sel=document.createElement("select"); sel.id="catGruppo"; sel.className="opt-sel"; sel.setAttribute("aria-label","Gruppo di dati del catalogo");
-    sel.innerHTML=CAT_INDICE.gruppi.map(g=>`<option value="${esc(g.id)}">${esc(g.nome)}</option>`).join("");
-    sel.value=CAT.gruppo;
-    sel.onchange=()=>{ CAT.gruppo=sel.value; baseVer++; catAssicura(CAT.gruppo, ()=>catPopola(CAT.gruppo)); chiede(); aggiornaLegenda(); };
+  function catNumero(c){ return (CAT.dati[c.id]||[]).reduce((a,d)=>a+d.n,0); }
+  function catAggiornaEtichette(){
+    for(const c of LUOGHI){ const el=$("catN_"+c.id); if(!el) continue;
+      const s=CAT.stato[c.id]; el.textContent = s==="ok" ? "("+catNumero(c).toLocaleString("it-IT")+")" : s==="errore" ? "(dati non disponibili)" : s==="carico" ? "(carico…)" : ""; }
+  }
+  function costruisciCatalogo(box){   // le sei caselle entrano nell'area Opzioni come gli altri temi
+    if(!CAT_INDICE){ box.innerHTML='<div class="opt-nota">I dati dei luoghi non sono nella pagina: lancia 11_prepara_catalogo.py e poi 04_genera_mappa.py.</div>'; return; }
     const dati=document.createElement("div"); dati.id="catDati"; dati.className="opt-check";
-    const info=document.createElement("div"); info.id="catInfo"; info.className="opt-nota";
-    box.appendChild(lab); box.appendChild(sel); box.appendChild(dati); box.appendChild(info);
-    catAssicura(CAT.gruppo, ()=>catPopola(CAT.gruppo));
+    for(const c of LUOGHI){
+      const l=document.createElement("label"); l.className="lv"; l.style.fontSize="12px";
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.id="catCasella_"+c.id; cb.checked=!!CAT.sel[c.id];
+      cb.onchange=()=>{ CAT.sel[c.id]=cb.checked; if(cb.checked) catAssicura(c); baseVer++; chiede(); aggiornaLegenda(); catAggiornaEtichette(); };
+      const sw=document.createElement("span"); sw.className="sw"; sw.style.background=c.colore; sw.style.borderRadius="50%";
+      const nome=document.createElement("span"); nome.innerHTML=`${esc(c.nome)} <span id="catN_${c.id}" style="color:var(--muted)"></span>`;
+      l.appendChild(cb); l.appendChild(sw); l.appendChild(nome); dati.appendChild(l);
+    }
+    const info=document.createElement("div"); info.className="opt-nota"; info.textContent="Spunta una o più caselle; clicca un punto per vedere nome e indirizzo.";
+    box.appendChild(dati); box.appendChild(info);
+    for(const c of LUOGHI) if(CAT.sel[c.id]) catAssicura(c);
+    catAggiornaEtichette();
   }
   function dentroVistaCat(bb,ws,ox,oy){ return !(bb[2]*ws<ox||bb[0]*ws>ox+W||bb[3]*ws<oy||bb[1]*ws>oy+H); }
+  const catAttive = () => LUOGHI.filter(c=>CAT.sel[c.id] && CAT.stato[c.id]==="ok");
   function disegnaCatalogo(ws,ox,oy){
-    const g=CAT.gruppo; if(!g||CAT.caricati[g]!==true) return;
-    for(const dd of CAT.dati[g]){
-      if(!CAT.sel[g+"/"+dd.id]) continue;
+    for(const c of catAttive()) for(const dd of CAT.dati[c.id]){
       if(dd.tipo==="poligoni"){
         cx.globalAlpha=.30; cx.fillStyle=dd.colore;
         for(const p of dd.polys){ if(!dentroVistaCat(p.bb,ws,ox,oy)) continue; tracciaAnelli(p.rings,ws,ox,oy); cx.fill("evenodd"); }
@@ -420,14 +474,11 @@ const sez = (D.sezioni||[]).map(z=>{
         for(const l of dd.lines){ if(!dentroVistaCat(l.bb,ws,ox,oy)) continue; const a=l.pts; cx.beginPath(); for(let k=0;k<a.length;k+=2){const X=a[k]*ws-ox,Y=a[k+1]*ws-oy;k?cx.lineTo(X,Y):cx.moveTo(X,Y);} cx.stroke(); }
         cx.globalAlpha=1;
       } else if(dd.tipo==="punti"){
-        if(dd.heavy && view.zoom<14) continue;   // [catalogo] i gruppi voluminosi solo a zoom ravvicinato
-        const r=dd.heavy?1.8:2.6;
-        cx.globalAlpha=dd.heavy?.85:1;
+        cx.fillStyle=dd.colore; cx.strokeStyle="rgba(255,255,255,.9)"; cx.lineWidth=1;
         for(let i=0;i<dd.px.length;i++){
           const X=dd.px[i]*ws-ox, Y=dd.py[i]*ws-oy; if(X<-4||Y<-4||X>W+4||Y>H+4) continue;
-          cx.beginPath(); cx.arc(X,Y,r,0,6.2832); cx.fillStyle=dd.heavy?dd.colore:CAT_PAL[dd.coli[i]]; cx.fill();
+          cx.beginPath(); cx.arc(X,Y,3.2,0,6.2832); cx.fill(); cx.stroke();
         }
-        cx.globalAlpha=1;
       }
     }
   }
@@ -439,93 +490,46 @@ const sez = (D.sezioni||[]).map(z=>{
     return false;
   }
   function cercaCat(sx,sy,ws,ox,oy){
-    const g=CAT.gruppo, ds=CAT.dati[g]||[]; let best=null, bd2=100;
-    for(const dd of ds){
-      if(!CAT.sel[g+"/"+dd.id]) continue;
+    let best=null, bd2=100;
+    for(const c of catAttive()) for(const dd of CAT.dati[c.id]){
       if(dd.tipo==="punti"){
-        if(dd.heavy && view.zoom<14) continue;
-        const R=dd.heavy?5:8, R2=R*R;
+        const R2=64;
         for(let i=0;i<dd.px.length;i++){
           const X=dd.px[i]*ws-ox, Y=dd.py[i]*ws-oy, d2=(X-sx)*(X-sx)+(Y-sy)*(Y-sy);
-          if(d2<R2 && d2<bd2){ bd2=d2; best={dd,el:dd.el[i],tipo:"punti"}; }
+          if(d2<R2 && d2<bd2){ bd2=d2; best={c,dd,el:dd.el[i]}; }
         }
       } else if(dd.tipo==="poligoni"){
         const ux=(ox+sx)/ws, uy=(oy+sy)/ws;
         for(const p of dd.polys){ if(ux<p.bb[0]||ux>p.bb[2]||uy<p.bb[1]||uy>p.bb[3]) continue;
-          if(catDentro(p.rings,ux,uy)){ best={dd,el:p.el,tipo:"poligoni"}; bd2=0; break; } }
+          if(catDentro(p.rings,ux,uy) && bd2>0.5){ best={c,dd,el:p.el}; bd2=0.5; break; } }
       } else if(dd.tipo==="linee"){
         const m2=36;
         for(const l of dd.lines){ const a=l.pts;
           for(let k=2;k<a.length;k+=2){ const x1=a[k-2]*ws-ox,y1=a[k-1]*ws-oy,x2=a[k]*ws-ox,y2=a[k+1]*ws-oy;
             const dx=x2-x1,dy=y2-y1,L=dx*dx+dy*dy; let t=L?((sx-x1)*dx+(sy-y1)*dy)/L:0; t=Math.max(0,Math.min(1,t));
             const d2=(x1+t*dx-sx)*(x1+t*dx-sx)+(y1+t*dy-sy)*(y1+t*dy-sy);
-            if(d2<m2 && d2<bd2){ bd2=d2; best={dd,el:l.el,tipo:"linee"}; } } }
+            if(d2<m2 && d2<bd2){ bd2=d2; best={c,dd,el:l.el}; } } }
       }
     }
     return best;
   }
-  function catNome(dd,e){ return dd.tipo==="punti" ? (e[2]||e[3]||"") : (e[0]||e[1]||""); }
-  function catAttr(dd,e){   // {campo:valore} degli attributi extra
-    const base=dd.tipo==="punti"?6:4, out=[];
-    for(let i=0;i<dd.campi.length;i++){ const v=e[base+i]; if(v!==""&&v!=null) out.push({k:dd.campi[i],v:v}); }
-    return out;
-  }
-  function tipCat(dd,e){
-    const nome=catNome(dd,e)||dd.meta.nome;
-    const sub=dd.tipo==="punti"?(e[5]||""):"";
-    return tipC(esc(nome), sub?esc(sub):null, esc(dd.meta.nome));
-  }
-  function schedaCatElemento(dd,e,tipo){
-    const m=dd.meta, det=[];
-    det.push({k:"Dato", v:esc(m.nome)});
-    if(tipo==="punti"){
-      if(e[3]) det.push({k:"Categoria", v:esc(e[3])});
-      if(e[5]) det.push({k:"Indirizzo", v:esc(e[5])});
-      if(e[4]) det.push({k:"Identificativo", v:esc(e[4])});
-      det.push({k:"Coordinate", v:Number(e[0]).toFixed(5)+", "+Number(e[1]).toFixed(5)});
-    } else {
-      if(e[1]) det.push({k:"Categoria", v:esc(e[1])});
-      if(e[2]) det.push({k:"Identificativo", v:esc(e[2])});
-    }
-    for(const a of catAttr(dd,e)) det.push({k:a.k, v:esc(a.v)});
-    const cat=(m.stat&&m.stat.categorie);
-    const app=cat?cat.slice(0,15).map(c=>`<div class="sc-det-row"><span class="sc-det-k">${esc(c.nome)}:</span> <strong class="sc-det-v">${c.n}</strong></div>`).join(""):"";
+  // un elemento del catalogo: punti [la,lo,nome,categoria,id,indirizzo,...], linee e poligoni [nome,categoria,id,geometria,...]
+  const catNome = (dd,e) => (dd.tipo==="punti" ? (e[2]||e[3]) : (e[0]||e[1])) || dd.nome;
+  const catIndirizzo = (dd,e) => dd.tipo==="punti" ? (e[5]||"") : "";
+  function tipCat(h){ const ind=catIndirizzo(h.dd,h.el); return tipC(esc(catNome(h.dd,h.el)), ind?esc(ind):null, esc(h.c.nome.replace(/\s*\(.*\)\s*$/,""))); }
+  function schedaCatElemento(h){
+    const ind=catIndirizzo(h.dd,h.el);
     return creaScheda({
-      titolo:esc(catNome(dd,e))||esc(m.nome), badge:CAT_TAG,
-      sub:esc(m.nome),
-      dettagli:det,
-      appTitolo:cat?"Prime categorie (per numero)":"Perché non è un numero di viaggi",
-      approfondimento:app||'<div class="sc-det-row">Luogo/attrattore potenziale: senza iscritti, capienza o flussi misurati non è un conteggio di viaggi.</div>',
-      appAperto:false
+      titolo:esc(catNome(h.dd,h.el)),
+      sub:esc(h.dd.nome),
+      dettagli: ind ? [{k:"Indirizzo", v:esc(ind)}] : []
     });
   }
-  function schedaCatalogoDato(dd){
-    const m=dd.meta, s=m.stat||{}, det=[];
-    det.push({k:"Fonte", v:esc(m.fonte||"—")});
-    det.push({k:"Anno", v:esc(m.anno||"—")});
-    det.push({k:"Licenza", v:esc(m.licenza||"—")});
-    det.push({k:"Formato", v:esc(m.formato||"—")});
-    det.push({k:"Copertura", v:esc(m.copertura||"—")});
-    det.push({k:"Coordinate", v:esc(m.crs||"EPSG:3003")});
-    det.push({k:"Record", v:String(s.record!=null?s.record:"—")+(s.elementi!=null&&s.elementi!==s.record?" ("+s.elementi+" elementi)":"")});
-    det.push({k:"Duplicati sull'id", v:String(s.duplicati_id!=null?s.duplicati_id:"—")});
-    det.push({k:"Senza geometria", v:String(s.senza_geometria!=null?s.senza_geometria:"—")});
-    if(s.fuori_area) det.push({k:"Fuori area", v:String(s.fuori_area)});
-    const miss=Object.entries(s.campi_mancanti||{}).filter(([,v])=>v>0).map(([k,v])=>`${esc(k)}: ${v}`).join(", ");
-    if(miss) det.push({k:"Campi mancanti", v:miss});
-    if(m.note) det.push({k:"Nota", v:esc(m.note)});
-    const anom=(m.anomalie||[]).length?m.anomalie.map(esc).join("; "):"nessuna";
-    det.push({k:"Anomalie", v:anom});
-    return creaScheda({titolo:esc(m.nome), badge:CAT_TAG, sub:esc(dd.tipo), dettagli:det});
-  }
   function legendaCatalogo(){
-    if(!CAT_INDICE) return `<div class="t">Catalogo</div><div class="et" style="display:block">Non presente: lancia 11_prepara_catalogo.py e poi 04_genera_mappa.py.</div>`;
-    const g=CAT.gruppo||CAT_INDICE.gruppi[0].id;
-    const gd=CAT_INDICE.gruppi.find(x=>x.id===g);
-    const dd=CAT.dati[g]||[];
-    const righe=dd.filter(d=>CAT.sel[g+"/"+d.id]).map(d=>`<div class="puntini"><span><i style="background:${d.colore}"></i>${esc(d.meta.nome)} (${d.meta.stat.record})${d.heavy?" · da zoom 14":""}</span></div>`).join("");
-    return `<div class="t">Catalogo: ${esc(gd?gd.nome:"")} ${CAT_TAG}</div>${righe}`+
-      `<div class="et" style="display:block">Dati aperti del Comune di Torino. Sono luoghi, non numero di persone che li usano.</div>`;
+    if(!CAT_INDICE) return `<div class="t">Luoghi della città</div><div class="et" style="display:block">Dati non presenti nella pagina.</div>`;
+    const righe=catAttive().map(c=>`<div class="puntini"><span><i style="background:${c.colore}"></i>${esc(c.nome.replace(/\s*\(.*\)\s*$/,""))} (${catNumero(c).toLocaleString("it-IT")})</span></div>`).join("");
+    return `<div class="t">Luoghi della città</div>${righe||'<div class="et" style="display:block">Spunta una casella per vedere i luoghi.</div>'}`+
+      `<div class="et" style="display:block">Dati aperti del Comune di Torino. Sono luoghi, non il numero di persone che li usano.</div>`;
   }
 
   function legendaVuln(modo){
@@ -766,9 +770,9 @@ const T5 = D.t5 || null;   // traffico tipico dei sensori (script 26), dentro la
 // «media di N giorni feriali / sabati / domeniche»
 const giorniMedia = (g,dt) => { const n=(g||{})[String(dt)]||0; return `${n} ${n===1?["giorno feriale","sabato","domenica"][dt]:["giorni feriali","sabati","domeniche"][dt]}${n<3?" (pochi: dato provvisorio)":""}`; };
 
-function ricarica(nome,dopo){
+function ricarica(nome,dopo,errore){
   const s=document.createElement("script"); s.src="data/"+nome+"?t="+Date.now();
-  s.onload=()=>{ s.remove(); dopo&&dopo(); }; s.onerror=()=>s.remove(); document.head.appendChild(s);
+  s.onload=()=>{ s.remove(); dopo&&dopo(); }; s.onerror=()=>{ s.remove(); errore&&errore(); }; document.head.appendChild(s);
 }
 
 /* traffico tipico per sensore: T5.s[id][tipo*24+ora] = [km/h, veicoli/ora] (solo celle affidabili) */
@@ -1223,7 +1227,7 @@ function disegnaBase(ws,ox,oy,i){
     }
   }
   if(tema.id==="interscambio" && R6) disegnaR6(ws,ox,oy);   // parcheggi di interscambio
-  if(tema.id==="catalogo") disegnaCatalogo(ws,ox,oy);   // [catalogo] punti/linee/poligoni del gruppo scelto
+  if(tema.id==="catalogo") disegnaCatalogo(ws,ox,oy);   // [luoghi] punti/linee/poligoni delle caselle scelte
 }
 function disegnaSopra(ws,ox,oy,i){
   if(tema.id==="interscambio" && R6) disegnaR6Sopra(ws,ox,oy);   // cerchio del parcheggio scelto
@@ -1712,12 +1716,12 @@ function cercaTip(sx,sy,click){
   const vicino=(arr,r,fn)=>{ let best=null,bd=r*r; for(const o of arr){ const dx=o.x*ws-ox-sx, dy=o.y*ws-oy-sy, d=dx*dx+dy*dy; if(d<bd&&(!fn||fn(o))){bd=d;best=o;} } return best; };
 
   // 0. Catalogo dei nuovi dati (se e' il tema attivo)
-  if(tema.id==="catalogo" && CAT.gruppo && CAT.caricati[CAT.gruppo]===true){
+  if(tema.id==="catalogo"){
     const hit=cercaCat(sx,sy,ws,ox,oy);
     if(hit){
-      if(click) return apriScheda(schedaCatElemento(hit.dd,hit.el,hit.tipo), null);
+      if(click) return apriScheda(schedaCatElemento(hit), null);
       cv.style.cursor="pointer";
-      return mostraTipBase(tipCat(hit.dd,hit.el), sx, sy);
+      return mostraTipBase(tipCat(hit), sx, sy);
     }
   }
 
@@ -2117,7 +2121,7 @@ const THEMES = [
   ...(R6 ? [{id:"interscambio", label:"Parcheggi di scambio", gruppo:1,
    desc:"Dove lasciare l'auto prima di entrare in città. Due domande: dove ci sono parcheggi, dove servirebbe di più un parcheggio. Scegli nel menu «Cosa vedere».",
    area:null, over:{...NESSUNA}, r6vista:true, opzioni:["r6Vista"], legenda:legendaR6}] : []),
-  {id:"catalogo", label:"Luoghi della città", gruppo:1, desc:"Tutti i luoghi dei dati aperti del Comune (scuole, salute, negozi, sport, ciclabili…), un gruppo alla volta. Utile per vedere cosa c'è e cosa manca.",
+  {id:"catalogo", label:"Luoghi della città", gruppo:1, desc:"Sei caselle di luoghi dai dati aperti del Comune: scuole e nidi, salute, mercati, cultura, sport, mobilità. Utile per vedere cosa c'è e cosa manca.",
    area:null, over:{...NESSUNA}, catalogo:true, legenda:legendaCatalogo}
 ];
 // nessun tema (partenza): mappa pulita sul satellite, niente legenda
