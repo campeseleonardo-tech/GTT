@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **20/10/2026, sera** (Risultato 1 v2 chiuso: fasi A, B, B bis ricontrollate). File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
+Ultimo aggiornamento: **21/10/2026** (analisi completa e piani per rendere il progetto presentabile: `docs/ANALISI_STATO.md`). File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine.
 Solo lo stato attuale, **conciso ma completo**: i dettagli di un passo stanno nel suo piano in `docs/`
 (qui una riga e il rimando). La storia sta in git. Sezioni fisse: 1 Obiettivo · 2 Regole · 3 Cartelle e dati ·
 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici. Non aggiungerne altre.
@@ -81,6 +81,15 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 | Ora legale | Controllata da Claude il 20/10: tutte le conversioni UTC → ora italiana (04, 06, 12, 26, 27, 71, `comuni.py`) coincidono con il fuso ufficiale su 35.040 istanti del 2026-2027, cambio del 25/10 compreso. Niente controllo a mano. |
 
 ## 5. IN CORSO
+
+- **Progetto presentabile** (Leo, 21/10): analisi completa in `docs/ANALISI_STATO.md`; piani `docs/PIANO_DOCUMENTI.md`
+  (documenti superati da **cancellare**), `docs/PIANO_MAPPA.md` (partenza vuota su satellite, 2 gruppi di temi con nomi
+  nuovi, «Tutti i servizi», «Chi abita qui» più completo, solo IMQ per gli spostamenti, velocità e traffico = media per
+  tipo di giorno, via giornate singole, corse simulate, avvisi, pendolari), `docs/PIANO_RISULTATI.md` (R1 con soglie
+  5/10/15', servizi contesi e esposizione al traffico; R4 tabella delle definizioni contro il 2,3% di GTT; R6 con il test
+  tempo TP contro auto; R8 riformulato «dove il mezzo pubblico non conviene»; case × fragilità × servizi; capienze),
+  `docs/PIANO_SCHEDE.md` (schede corte, un grafico principale). Nessuna modifica al codice ancora: si parte da
+  documenti e mappa (giro 1 di `PIANO_MAPPA.md`).
 
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
 - **Risultato 6, punti per asse** (Leo, 20/10 sera): un punto per asse d'ingresso, almeno 3 km dal centro, posti che
