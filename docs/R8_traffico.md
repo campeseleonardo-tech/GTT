@@ -58,23 +58,26 @@ ai sensori corso Unione Sovietica è +177% e corso Sebastopoli +99%.
 
 ## Noi contro Google Maps
 
-Controllo a mano, **martedì 20/10/2026 alle 8:00**. Google non entra nel calcolo né nella taratura: serve solo a vedere se i nostri tempi sono sensati.
-I primi 6 percorsi partono da Piazza Castello; gli ultimi 2 sono percorsi di controllo. Tempi in minuti.
+**Metodo della forbice.** Il tempo in auto non conta semafori e incroci, quindi ha un fattore di punta incerto. Il risultato è una **forbice con due fattori**:
+il **limite alto** del rapporto coi mezzi pubblici usa il fattore dei sensori 5T (1,2: mediana di velocità 2-5 / velocità alle 8 su 97 sensori);
+il **limite basso** usa il fattore di Google Maps (2,1: mediana di (tempo Google − 5) / flusso libero sui 6 percorsi da Piazza Castello). I due percorsi di controllo non entrano nel fattore.
 
-| Percorso | Mezzi pubblici, nostri | Mezzi pubblici, Google | Auto, nostra (ora di punta) | Auto, Google |
-|---|---|---|---|---|
-| Piazza Castello → Collegno | 47 | non controllato | 21 | 19 |
-| Piazza Castello → Venaria Reale | 64 | non controllato | 20 | 31 |
-| Piazza Castello → Settimo Torinese | 62 | non controllato | 22 | 38 |
-| Piazza Castello → Moncalieri | 48 | non controllato | 19 | 34 |
-| Piazza Castello → Orbassano | 74 | non controllato | 27 | 44 |
-| Piazza Castello → Rivoli | 66 | non controllato | 27 | 38 |
-| Corso Racconigi → Piazza Castello (controllo) | 31 | 30-35 (mezzi pubblici) | 13 | 29 |
-| Moncalieri → Lingotto (controllo) | 33 | 30-35 (solo GTT; col treno 19-23) | 13 | 14 |
+Controllo a mano, **martedì 20/10/2026 alle 8:00**. I primi 6 percorsi partono da Piazza Castello; gli ultimi 2 sono di controllo. Tempi in minuti.
 
-- **Mezzi pubblici**: i nostri tempi sono in linea con Google sui due percorsi dove Google li dà (31 contro 30-35, 33 contro 30-35 solo GTT). Col treno Google scende a 19-23 sul Moncalieri → Lingotto: i treni nei nostri dati non ci sono.
-- **Auto**: il nostro tempo di punta (flusso libero × 1,2 + 5 minuti) è **più basso di Google di 11,4 minuti in media** (sui 6 percorsi da Piazza Castello); sotto di oltre il 25% in 5 percorsi su 6. Il fattore 1,2 viene dai sensori 5T (97 sensori, mediana 1,16) e sottostima la congestione sui percorsi lunghi verso la cintura.
-- Conseguenza: i tempi in auto sono ottimisti, quindi il rapporto mediano coi mezzi pubblici (2,9) è un po' alto. Resta un ordine di grandezza.
+| Percorso | Mezzi pubblici, nostri | Mezzi pubblici, Google | Auto, nostra (fattore alto 1,2) | Auto, nostra (fattore basso 2,1) | Auto, Google |
+|---|---|---|---|---|---|
+| Piazza Castello → Collegno | 47 | non controllato | 21 | 33 | 19 |
+| Piazza Castello → Venaria Reale | 64 | non controllato | 20 | 32 | 31 |
+| Piazza Castello → Settimo Torinese | 62 | non controllato | 22 | 35 | 38 |
+| Piazza Castello → Moncalieri | 48 | non controllato | 19 | 29 | 34 |
+| Piazza Castello → Orbassano | 74 | non controllato | 27 | 43 | 44 |
+| Piazza Castello → Rivoli | 66 | non controllato | 27 | 43 | 38 |
+| Corso Racconigi → Piazza Castello (controllo) | 31 | 30-35 (mezzi pubblici) | 13 | 18 | 29 |
+| Moncalieri → Lingotto (controllo) | 33 | 30-35 (solo GTT; col treno 19-23) | 13 | 19 | 14 |
+
+- **Mezzi pubblici**: i nostri tempi sono in linea con Google sui due percorsi di controllo (31 contro 30-35, 33 contro 30-35 solo GTT). Col treno Google scende a 19-23 sul Moncalieri → Lingotto: i treni nei nostri dati non ci sono.
+- **Auto**: col fattore alto siamo sotto Google di 11,4 minuti in media (sui 6 percorsi); col fattore basso di 1,7 (differenza media, nostro meno Google). La verità sta nella forbice.
+- Rapporto mediano coi mezzi pubblici (Torino-Torino e Torino-cintura): **da 1,96 a 2,94**.
 
 ## Limiti
 

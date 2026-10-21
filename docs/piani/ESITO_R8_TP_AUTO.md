@@ -127,3 +127,35 @@ Il controllo previsto è scattato: il nostro tempo di punta è sotto quello di G
 | 1,5 (sensibilità) | 2,52 | 91,0% | 1.752 (0,8%) | 18.115 (8,2%) | 179.472 (81,5%) | 20.969 (9,5%) |
 
 Le fasce sono «auto (% delle auto)». Un fattore più basso rende l'auto più veloce e quindi alza il rapporto: il titolo passa da 2,5 a 2,9 volte. Con i tempi di Google (più alti) il rapporto sarebbe più basso: il 2,9 è un limite alto.
+
+## Forbice (21/10/2026)
+
+Il risultato è ora una forbice con due fattori di punta. Il fattore del limite basso viene da Google Maps, ma **solo** per quel limite; il calcolo del limite alto resta quello di prima.
+
+| Punto | Stato | Cosa è stato fatto |
+|---|---|---|
+| Fattore alto | OK | Sensori 5T: **1,2** (mediana su 97 sensori), come prima. Dà il limite **alto** del rapporto. |
+| Fattore basso | OK | Mediana di (tempo Google − 5) / flusso libero sui 6 percorsi di `GOOGLE_AUTO_MIN`, arrotondata a 0,1: **2,1** (valori per percorso: 1,07, 2,04, 2,29, 2,54, 2,17, 1,81). Dà il limite **basso**. Commento nel codice: «Google Maps, 6 percorsi controllati a mano: usato solo per il limite basso della forbice». |
+| Misure | OK | Per entrambi i fattori: rapporto mediano, quota oltre 2 e fasce, gruppi (a)+(b). Tolta la sensibilità ±0,3. |
+| Scheda R8 | OK | Titolo «da 2 a 3 volte» (2,0 e 2,9 arrotondati all'intero, differenza oltre 0,5); barre per fascia con due barre (limite basso e alto); punti chiave: quota oltre 2 nei due casi, 3 coppie peggiori col fattore basso, tempi coi mezzi confermati da Google; limite sulla rete senza semafori. Inglese con gli stessi numeri. Il 95,3% delle strade grandi è passato in una parte chiusa a parte. |
+| Documento | OK | `docs/R8_traffico.md`: riga sul metodo della forbice e tabella «noi contro Google» con i due fattori. |
+| Prove | OK | 93 (prova e completo), `schede_risultati.py`, `04_genera_mappa.py`, `prova_pagine_r6.py`: 0 errori su 18 pagine. |
+
+### Risultato (gruppi Torino-Torino + Torino-cintura, 220.307 auto)
+
+| Limite | Fattore | Rapporto mediano | Oltre 2 | sotto 1,5 | 1,5-2 | 2-3 | oltre 3 |
+|---|---|---|---|---|---|---|---|
+| **Basso** (Google) | 2,1 | **1,96** | 41,4% | 8.649 (3,9%) | 120.360 (54,6%) | 90.508 (41,1%) | 791 (0,4%) |
+| **Alto** (sensori) | 1,2 | **2,94** | 97,0% | 0 (0,0%) | 6.661 (3,0%) | 115.033 (52,2%) | 98.612 (44,8%) |
+
+Le fasce sono «auto (% delle auto)». Il controllo del fattore basso contro Google passa (1,7 minuti in media, nessun percorso oltre il 25% sotto); quello del fattore alto resta in AVVISO (-11,4 minuti), come atteso per un limite alto.
+Piazza Castello → Collegno in auto di punta: 20,7 (alto) e 32,5 (basso), dentro la fascia 20-35 con entrambi.
+
+### Per gruppo (fattore basso | alto)
+
+| Gruppo | Mediano basso | Mediano alto | Oltre 2 basso | Oltre 2 alto |
+|---|---|---|---|---|
+| (a) Torino-Torino | 1,96 | 2,78 | 39,2% | 93,5% |
+| (b) Torino-cintura (e cintura-Torino) | 1,97 | 3,07 | 43,4% | 100,0% |
+| (ab) principale: Torino-Torino e Torino-cintura | 1,96 | 2,94 | 41,4% | 97,0% |
+| (c) cintura-cintura | 2,23 | 3,49 | 78,8% | 100,0% |

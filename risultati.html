@@ -176,7 +176,7 @@ const PALETTE_PILA = ["var(--neu-blu)", "var(--neu-arancio)", "#9aa3b2", "#c9b27
 
 function graficoBarre(g){
   const voci = g.voci || [];
-  const max = Math.max(1, ...voci.flatMap(v => [Math.abs(v.valore||0), Math.abs(v.prima||0)]));
+  const max = g.max || Math.max(1, ...voci.flatMap(v => [Math.abs(v.valore||0), Math.abs(v.prima||0)]));
   const righe = voci.map(v => {
     const pct = x => Math.max(1.5, Math.abs(x) / max * 100);
     const haPrima = typeof v.prima === "number";
@@ -195,6 +195,11 @@ function graficoBarre(g){
   const haTesto = voci.some(v => v.testo);
   const unita = g.unita && g.unita !== "%" && !haTesto ? `<div class="nota" style="margin-top:2px">Valori in ${esc(g.unita)}.</div>` : "";
   return righe + unita;
+}
+
+/* barre a gruppi: un titolo per gruppo (es. fascia) e sotto le sue barre (es. limite basso e alto), tutte sulla stessa scala */
+function graficoBarreGruppi(g){
+  return (g.gruppi || []).map(gr => `<div style="margin:8px 0 2px;font-size:12px;font-weight:600">${esc(gr.label)}</div>` + graficoBarre({voci: gr.voci, unita: g.unita, max: g.max})).join("");
 }
 
 function graficoPila(g){
@@ -268,7 +273,7 @@ function graficoDispersione(g){
 function ymaxGrezzo(pts){ return Math.max(10, ...pts.map(p => p[1])); }
 
 function grafico(g){
-  const corpo = g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
+  const corpo = g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "barre_gruppi" ? graficoBarreGruppi(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
   return `<div class="grafico"><h5>${esc(g.titolo)}</h5>${corpo}${g.nota ? `<div class="nota">${esc(g.nota)}</div>` : ""}</div>`;
 }
 
