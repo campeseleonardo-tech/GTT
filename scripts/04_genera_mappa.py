@@ -287,7 +287,6 @@ def elabora_gtfs(percorso):
     dep = defaultdict(lambda: [0] * 72)
     linee_fermata = defaultdict(set)
     inizio_corsa = {}
-    tempi = {}  # trip_id -> [seq_primo, minuti_partenza, seq_ultimo, minuti_arrivo]
     with z.open("stop_times.txt") as f:
         rd = csv.reader(io.TextIOWrapper(f, encoding="utf-8-sig"))
         ix = {n: i for i, n in enumerate(next(rd))}
@@ -307,19 +306,6 @@ def elabora_gtfs(percorso):
                 if flags[k]:
                     dep[sid][k * 24 + hh] += 1
             linee_fermata[sid].add(rid)
-            try:
-                minuti = int(ora[:2]) * 60 + int(ora[3:5]) + int(ora[6:8]) / 60 if len(ora) >= 8 else int(ora[:2]) * 60 + int(ora[3:5])
-            except ValueError:
-                minuti = None
-            if minuti is not None:
-                tt = tempi.get(r[i_t])
-                if tt is None:
-                    tempi[r[i_t]] = [seq, minuti, seq, minuti]
-                else:
-                    if seq < tt[0]:
-                        tt[0], tt[1] = seq, minuti
-                    if seq > tt[2]:
-                        tt[2], tt[3] = seq, minuti
             prec = inizio_corsa.get(r[i_t])
             if prec is None or seq < prec[0]:
                 inizio_corsa[r[i_t]] = (seq, hh)
@@ -347,27 +333,6 @@ def elabora_gtfs(percorso):
         if len(seq) >= 2 and rid in rotte:
             linee.append({"id": rid, "d": d, "p": [[round(a, 5), round(b, 5)] for a, b in seq]})
 
-    # corse per la simulazione: linea+direzione -> indice del tracciato; partenza e arrivo in minuti dalla mezzanotte
-    indice_linea = {(l["id"], l["d"]): i for i, l in enumerate(linee)}
-    corse = [[], [], []]
-    senza_forma = 0
-    for tid, (rid, flags, d) in viaggi.items():
-        tt = tempi.get(tid)
-        if not tt or tt[2] == tt[0] or tt[3] <= tt[1]:
-            continue
-        i = indice_linea.get((rid, d))
-        if i is None:
-            i = next((indice_linea[k] for k in ((rid, "0"), (rid, "1"), (rid, "")) if k in indice_linea), None)
-        if i is None:
-            senza_forma += 1
-            continue
-        for k in range(3):
-            if flags[k]:
-                corse[k].append([i, round(tt[1], 1), round(tt[3], 1)])
-    for c in corse:
-        c.sort(key=lambda x: x[1])
-    print(f"  corse simulabili (feriale/sabato/domenica): {[len(c) for c in corse]}; senza tracciato: {senza_forma}")
-
     stops = []
     for sid, dv in dep.items():
         s = fermate.get(sid)
@@ -382,7 +347,7 @@ def elabora_gtfs(percorso):
             "n_linee": len(rotte), "n_fermate_totali": len(fermate)}
     # solo le linee con tracciato o con corse servono al browser
     rotte = {k: v for k, v in rotte.items() if any(v["f"]) or any(l["id"] == k for l in linee)}
-    return meta, rotte, linee, stops, corse
+    return meta, rotte, linee, stops
 
 
 # ---------------------------------------------------------------- zone (Gauss-Boaga -> WGS84)
@@ -671,140 +636,7 @@ def leggi_r4():
     return out, meta
 
 
-# ---------------------------------------------------------------- pendolari ISTAT 2021
-# matrici comune contro comune (lavoro e studio), solo flussi da/verso Torino
 PRO_COM_TORINO = 1272
-# valori attesi dalle note (MEMORIA_PROGETTO.md, sezione ISTAT): entrano, escono, dentro Torino
-PEND_ATTESI = {"lavoro": (138605, 71297, 212249), "studio": (48730, 6373, 120148)}
-
-
-def _numero(v):
-    """Numero da testo ('12', '12,5', '12.5'); None se non e' un numero."""
-    try:
-        return float(str(v).strip().replace(",", "."))
-    except ValueError:
-        return None
-
-
-def leggi_matrice_pendolari(percorso, etichetta):
-    """Legge una matrice ISTAT (file di testo separato da tab, anche dentro uno zip).
-    Trova da sola la riga di intestazione e le colonne; prova utf-8 poi latin-1.
-    Restituisce {"ent": {comune: n}, "usc": {comune: n}, "int": n, "tot": n}: flussi da/verso Torino."""
-    if Path(percorso).suffix.lower() == ".zip":
-        with zipfile.ZipFile(percorso) as z:
-            nomi = [n for n in z.namelist() if not n.endswith("/")]
-            testuali = [n for n in nomi if n.lower().endswith((".txt", ".csv", ".tsv", ".dat"))] or nomi
-            if not testuali:
-                raise ValueError("zip vuoto")
-            nome = max(testuali, key=lambda n: z.getinfo(n).file_size)   # il file piu' grande e' la matrice
-            grezzo = z.read(nome)
-    else:
-        nome = Path(percorso).name
-        grezzo = Path(percorso).read_bytes()
-    try:
-        testo, codifica = grezzo.decode("utf-8-sig"), "utf-8"
-    except UnicodeDecodeError:
-        testo, codifica = grezzo.decode("latin-1"), "latin-1"
-    righe_txt = [r for r in testo.splitlines() if r.strip()]
-    if not righe_txt:
-        raise ValueError("file vuoto")
-    sep = max(["\t", ";", ","], key=righe_txt[0].count)   # atteso: tab
-    righe = list(csv.reader(righe_txt, delimiter=sep))
-    intest = righe[0] if _numero(righe[0][-1]) is None else None
-    n_col = len(righe[0])
-    # colonne: provincia residenza, comune residenza, provincia lavoro/studio, comune lavoro/studio, numero
-    ix = [0, 1, 2, 3, 4] if n_col >= 5 else [None, 0, None, 1, 2]
-    if intest:
-        H = [h.strip().upper() for h in intest]
-        pv = [i for i, h in enumerate(H) if "PROV" in h]
-        cm = [i for i, h in enumerate(H) if "COM" in h and "PROV" not in h]
-        if len(pv) == 2 and len(cm) == 2:
-            ix = [pv[0], cm[0], pv[1], cm[1], len(H) - 1]
-    print(f"  {etichetta}: {Path(percorso).name} -> {nome} ({codifica}, separatore {sep!r}), {len(righe)} righe")
-    print(f"    intestazione: {intest if intest else '(assente)'}; colonne usate (prov.res, com.res, prov.dest, com.dest, n): {ix}")
-
-    def codice(r, ip, ic):
-        c = _numero(r[ic]) if ic is not None and ic < len(r) else None
-        if c is None:
-            return None
-        c = int(c)
-        if c >= 1000 or ip is None:
-            return c                      # gia' PRO_COM
-        p = _numero(r[ip]) if ip < len(r) else None
-        return None if p is None else int(p) * 1000 + c   # PRO_COM = provincia*1000 + comune
-
-    ent, usc, interno, tot, scartate = defaultdict(float), defaultdict(float), 0.0, 0.0, 0
-    for r in (righe[1:] if intest else righe):
-        try:
-            n = _numero(r[ix[4]])
-            a, b = codice(r, ix[0], ix[1]), codice(r, ix[2], ix[3])
-        except IndexError:
-            n = a = b = None
-        if n is None or a is None or b is None:
-            scartate += 1
-            continue
-        tot += n
-        if a == PRO_COM_TORINO and b == PRO_COM_TORINO:
-            interno += n
-        elif b == PRO_COM_TORINO:
-            ent[a] += n
-        elif a == PRO_COM_TORINO:
-            usc[b] += n
-    e, u = sum(ent.values()), sum(usc.values())
-    att = PEND_ATTESI.get(etichetta)
-    print(f"    righe scartate: {scartate}; persone totali nel file: {tot:,.0f}".replace(",", "."))
-    print(f"    Torino {etichetta}: entrano {e:,.0f}, escono {u:,.0f}, dentro {interno:,.0f}".replace(",", "."))
-    if att:
-        print(f"    attesi dalle note:    entrano {att[0]:,}, escono {att[1]:,}, dentro {att[2]:,}".replace(",", "."))
-        for v, a_, et in zip((e, u, interno), att, ("entrano", "escono", "dentro")):
-            if abs(v - a_) > 0.05 * a_:
-                print(f"    ATTENZIONE: '{et}' si scosta di oltre il 5% dal valore atteso ({v:.0f} contro {a_}): colonne o file da controllare")
-    return {"ent": dict(ent), "usc": dict(usc), "int": interno, "tot": tot}
-
-
-def costruisci_pendolari(sezioni):
-    """Oggetto compatto per la mappa: per ogni comune delle sezioni, pendolari verso/da Torino
-    (lavoro, studio), abitanti e baricentro pesato con gli abitanti. None se mancano i file."""
-    cartella = RADICE / "data" / "raw" / "istat" / "pendolarismo_2021"
-    f_lav, f_stu = cartella / "matrix_pendoLAVORO_2021.txt", cartella / "matrix_pendoSTUDIO_2021.txt"
-    if not (f_lav.is_file() and f_stu.is_file()):
-        print("  (matrici pendolarismo ISTAT non trovate in data/raw/istat/pendolarismo_2021: il tema Pendolari restera' vuoto)")
-        return None
-    try:
-        M = [leggi_matrice_pendolari(f_lav, "lavoro"), leggi_matrice_pendolari(f_stu, "studio")]
-    except Exception as e:   # file strano: non bloccare tutta la mappa
-        print(f"  (matrici pendolarismo non leggibili: {e}; il tema Pendolari restera' vuoto)")
-        return None
-    acc = {}   # comune -> [abitanti, somma lat*ab, somma lon*ab]
-    for s in sezioni:
-        pts = [q for anello in s["g"] for q in anello]
-        if not pts or not s.get("c"):
-            continue
-        la = (min(q[0] for q in pts) + max(q[0] for q in pts)) / 2
-        lo = (min(q[1] for q in pts) + max(q[1] for q in pts)) / 2
-        a = acc.setdefault(int(s["c"]), [0, 0.0, 0.0])
-        a[0] += s["p"]; a[1] += la * s["p"]; a[2] += lo * s["p"]
-    if PRO_COM_TORINO not in acc:
-        print("  (Torino non presente nelle sezioni: tema Pendolari vuoto)")
-        return None
-    ri = lambda x: int(round(x))
-    com = []
-    for c, (p, sla, slo) in sorted(acc.items()):
-        if c == PRO_COM_TORINO or p <= 0:
-            continue
-        com.append({"c": c, "p": p, "la": round(sla / p, 4), "lo": round(slo / p, 4),
-                    "i": [ri(m["ent"].get(c, 0)) for m in M], "u": [ri(m["usc"].get(c, 0)) for m in M]})
-    p, sla, slo = acc[PRO_COM_TORINO]
-    tor = {"p": p, "la": round(sla / p, 4), "lo": round(slo / p, 4),
-           "i": [ri(sum(m["ent"].values())) for m in M], "u": [ri(sum(m["usc"].values())) for m in M],
-           "n": [ri(m["int"]) for m in M]}
-    nell_area = {x["c"] for x in com}
-    altri = {"i": [ri(sum(v for k, v in m["ent"].items() if k not in nell_area)) for m in M],
-             "u": [ri(sum(v for k, v in m["usc"].items() if k not in nell_area)) for m in M],
-             "n": len({k for m in M for k in list(m["ent"]) + list(m["usc"]) if k not in nell_area and k != PRO_COM_TORINO})}
-    print(f"  pendolari: {len(com)} comuni nell'area (+ Torino); da altri comuni fuori area entrano {altri['i']} (lavoro, studio), "
-          f"escono {altri['u']}; flusso interno a Torino {tor['n']}")
-    return {"tor": tor, "com": com, "altri": altri}
 
 
 def nomi_comuni(codici):
@@ -914,7 +746,7 @@ def main():
     print("Uso questi file:", f_gtfs.name, f_5t.name, f_vp.name, sep="\n  ")
 
     print("Leggo GTFS (qualche secondo)...")
-    meta_gtfs, rotte, linee, stops, corse = elabora_gtfs(f_gtfs)
+    meta_gtfs, rotte, linee, stops = elabora_gtfs(f_gtfs)
     print(f"  fermate con passaggi: {len(stops)}, linee con tracciato: {len(linee)}")
     meta5t, sensori = leggi_5t(f_5t)
     ts_vp, mezzi = leggi_mezzi(f_vp)
@@ -993,39 +825,15 @@ def main():
 
     vel, vel_meta = calcola_velocita()   # None se lo storico non c'e'
     r4, r4_meta = leggi_r4()             # puntualita' per linea, dallo script 27 (None se manca)
-    pend = costruisci_pendolari(sez) if sez else None   # None se mancano sezioni o zip
     omi = leggi_omi()
     imq = leggi_imq()
     catalogo = prepara_catalogo()   # indice dei nuovi dati + file js per il caricamento su richiesta
-
-    # ---- avvisi/disservizi GTT ancora attivi (linee/fermate coinvolte), badge nel tema Servizio GTT ----
-    avvisi_out, avvisi_data = [], None
-    candidati_avvisi = sorted((RADICE / "data" / "processed").glob("avvisi_*.json"))
-    if candidati_avvisi:
-        f_avv = candidati_avvisi[-1]   # il piu' recente per nome file (data nel nome, es. avvisi_20261009.json)
-        m_d = re.search(r"(\d{4})(\d{2})(\d{2})", f_avv.name)
-        avvisi_data = f"{m_d.group(1)}-{m_d.group(2)}-{m_d.group(3)}" if m_d else None
-        avv_data = json.loads(f_avv.read_text(encoding="utf-8"))
-        ora_ts = datetime.now(timezone.utc).timestamp()
-        tutti = avv_data.get("avvisi", [])
-        for a in tutti:
-            attivi = [p for p in a.get("periodi", []) if p.get("end", 0) >= ora_ts]
-            if not attivi:
-                continue   # avviso gia' concluso rispetto a oggi: non lo mostriamo (dato puo' invecchiare)
-            avvisi_out.append({
-                "id": a.get("id"), "header": a.get("header"), "descrizione": a.get("descrizione"),
-                "severita": a.get("severita"), "effetto": a.get("effetto"), "causa": a.get("causa"),
-                "url": a.get("url"), "linee": a.get("linee", []), "fermate": a.get("fermate", []),
-                "fino": max(p["end"] for p in attivi),
-            })
-        print(f"  avvisi GTT: {len(avvisi_out)}/{len(tutti)} ancora attivi (da {f_avv.name})")
 
     comuni = nomi_comuni({int(x["c"]) for x in sez if x.get("c")} | {PRO_COM_TORINO}) if sez else {}
     dati = {
         "vel": vel or {}, "vel_meta": vel_meta,
         "r4": r4 or {}, "r4_meta": r4_meta,   # puntualita' per linea e fascia (tema «Puntualita' delle linee»)
         "comuni": comuni,   # PRO_COM -> nome, per schede e tooltip
-        "pend": pend,
         "omi": omi,     # OMI quote immobiliari
         "imq": imq,     # Mobilita' IMQ 2022 (attivita' 10)
         "catalogo": catalogo,   # indice del catalogo (i dati per gruppo stanno in data/catalogo/*.js)
@@ -1033,10 +841,8 @@ def main():
             "costruita_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "gtfs": meta_gtfs, "t5": meta5t, "mezzi_ts": ts_vp,
             "file": {"gtfs": f_gtfs.name, "t5": f_5t.name, "mezzi": f_vp.name},
-            "avvisi_data": avvisi_data,   # data della fotografia degli avvisi GTT (AAAA-MM-GG) o None
         },
-        "rotte": rotte, "linee": linee, "fermate": stops, "sensori": sensori, "sezioni": sez, "corse": corse,
-        "avvisi": avvisi_out,
+        "rotte": rotte, "linee": linee, "fermate": stops, "sensori": sensori, "sezioni": sez,
         "fb_candidati": fb_candidati,
         "r1_meta": r1_meta,
         "r6": r6,

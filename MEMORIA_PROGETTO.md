@@ -93,7 +93,9 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
   **Pulizia dei documenti fatta (passi 1-7, 10, 12 di `PIANO_DOCUMENTI.md`; esito in `docs/piani/ESITO_DOCUMENTI.md`)**:
   cancellati archivio, esiti, piani chiusi e piani dei risultati (contenuto vivo in `docs/R*.md` e `docs/METODO.md`), rapporti
   spostati in `docs/rapporti/` (gli script scrivono lì). Restano i passi 8 (script superati), 9 (`.bat`), 11 (README), 13
-  (`mappa_torino.html` fuori da git) e poi si parte dalla mappa (giro 1 di `PIANO_MAPPA.md`).
+  (`mappa_torino.html` fuori da git).
+  **Mappa giro 1 fatto (21/10, `docs/piani/ESITO_MAPPA_GIRO1.md`)**: partenza senza tema su satellite, due gruppi di temi, «Quando» solo
+  nei temi con l'ora, tolti pendolari, corse simulate, avvisi, griglia, replay; mappa 13,1 MB. Prossimo: giro 2 di `PIANO_MAPPA.md`.
 
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
 - **Risultato 6, punti per asse** (Leo, 20/10 sera): un punto per asse d'ingresso, almeno 3 km dal centro, posti che
@@ -182,7 +184,7 @@ logistica, eventi (stadi, palazzetti).
 - Script 80 e 77 sembrano superati ma servono (funzioni per 84-85, modulo per 72-73). `supervisore.py` e `06_dati_live.py`
   girano sul Pi. I passi delle fasi 3-4 nel `.bat` del traffico hanno uscite lette dalla Fase 5: lasciati.
 - Codice copiato (distanze, radice del progetto, ora legale) in molti script: si passa a `comuni.py` quando si tocca uno script.
-- `mappa_torino.html` (13,6 MB) è ancora salvata in git a ogni giro: si decide con la pubblicazione.
+- `mappa_torino.html` (13,1 MB) è ancora salvata in git a ogni giro: si decide con la pubblicazione.
 
 ## 8. Standard tecnici
 

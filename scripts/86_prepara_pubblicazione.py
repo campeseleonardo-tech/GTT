@@ -6,8 +6,7 @@ NON pubblica niente: crea solo la cartella pubblica/ (esclusa da git) e scrive R
 Cosa fa
 -------
   1. Copia in pubblica/ le pagine (mappa_torino.html, simulazione.html) e tutti i file che caricano
-     (data/stat.js, data/processed/orari_fermate.js, data/schede_risultati.js, data/replay_*.js,
-     immagini/), con gli stessi percorsi relativi. Avvisa se un file manca.
+     (data/stat.js, data/processed/orari_fermate.js, data/schede_risultati.js, immagini/), con gli stessi percorsi relativi. Avvisa se un file manca.
   2. Scrive README.md (italiano, poi English) con un paragrafo per ogni risultato finito: domanda, numero
      principale e prima frase della risposta letti da data/schede_risultati.js (nessun numero scritto a mano);
      la parte inglese usa il campo in_english delle schede.
@@ -111,9 +110,6 @@ def main():
             (DEST / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, DEST / rel)
             copiati += 1
-    for src in sorted((RADICE / "data").glob("replay_*.js")):
-        shutil.copy2(src, DEST / "data" / src.name)
-        copiati += 1
     if (RADICE / "immagini").is_dir():
         shutil.copytree(RADICE / "immagini", DEST / "immagini")
     peso = sum(f.stat().st_size for f in DEST.rglob("*") if f.is_file())
