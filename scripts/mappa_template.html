@@ -203,7 +203,6 @@ window.addEventListener("error", function(e){
   b.style.display="block"; b.textContent="Errore nella pagina: "+(e.message||"sconosciuto")+(e.lineno?" (riga "+e.lineno+")":"")+". Copia questo messaggio e mandalo a Claude.";
 });
 </script>
-<script src="data/stat.js"></script>
 <script>
 const DATI = "__DATI__";
 </script>
@@ -522,11 +521,12 @@ const sez = (D.sezioni||[]).map(z=>{
       +`<div class="et" style="display:block">${modo==="vuln"?"Media di occupazione, istruzione, affollamento e anziani, confrontata con le altre sezioni dell'area.":"Posizione della sezione rispetto alle altre (0 = la migliore, 100 = la peggiore)."} 5 gruppi con lo stesso numero di sezioni.</div>`;
   }
   function legendaAcc(){
-    const g=$("subAccGruppo")?.value||"scuole";
+    const g=$("subAccGruppo")?.value||"tutti";
     const modalita=$("subAccModo")?.value||"piedi";
     const nomi={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
     const ac=accCalcola(), so=ac.sogl;
-    const avviso=NOTA_OSM[g]?`<div class="et" style="display:block">${NOTA_OSM[g]}</div>`:"";
+    const notaG=g==="tutti"?"Fuori Torino scuole, salute e negozi da OpenStreetMap: alcuni possono mancare.":NOTA_OSM[g];
+    const avviso=notaG?`<div class="et" style="display:block">${notaG}</div>`:"";
     const fasciaOra = modalita==="tp" ? tpFasciaVicina(S.h) : null;
     const titModo = modalita==="tp"
       ? `con mezzi pubblici (45 min, partenza alle ${fasciaOra}:00)`
@@ -534,6 +534,10 @@ const sez = (D.sezioni||[]).map(z=>{
     const noteModo = modalita==="tp"
       ? `Quanti servizi si raggiungono in 45 minuti con bus, tram e metro (cammino compreso), partendo alle ${fasciaOra}:00 di un giorno feriale. Orari programmati: nella realtà un po' meno.`
       : `Quanti servizi si raggiungono a piedi in 15 minuti.`;
+    if(g==="tutti") return `<div class="t">Tutti i servizi: punteggio 0–100 ${titModo} ${TAG.sim}</div>`
+      +scalaSoglie(PAL_SEZ.acc,so,"meno serviti","più serviti")
+      +`<div class="et" style="display:block">Media della posizione della zona (rispetto a tutte le altre) per scuole, salute, negozi, fermate e verde. 100 = tra le meglio servite per ogni tipo. ${noteModo} 5 gruppi con lo stesso numero di sezioni. Tocca una zona per i 5 numeri.</div>`
+      +avviso;
     return `<div class="t">Accessibilità ${titModo} · ${esc(nomi[g]||g)} ${TAG.sim}</div>`
       +scalaSoglie(PAL_SEZ.acc,so,"pochi","molti")
       +`<div class="et" style="display:block">${noteModo} 5 gruppi con lo stesso numero di sezioni.</div>`
@@ -632,7 +636,25 @@ function tpFasciaVicina(h){
   return String(h).padStart(2,"0");
 }
 // valore di accessibilita' per sezione/gruppo/modalita' (piedi 15' o tp 45', fascia piu' vicina)
+/* «Tutti i servizi»: punteggio 0-100 = media dei percentili dei 5 gruppi (scuole, salute, negozi, fermate, verde) della sezione
+   tra tutte le sezioni della mappa, calcolata a parte per «a piedi» e per «coi mezzi» (e per ora). Valore mancante = 0 servizi.
+   Percentile a posizione media: (sezioni con meno + metà di quelle uguali) / totale. */
+const accPunt={};   // "modalita|fascia" -> {ord, punt:Map(sezione -> punteggio), perc}
+function accGrezzo(z,g,modalita){ const a=z.acc||{}; const v=modalita==="tp"?((a.tp||{})[tpFasciaVicina(S.h)]||{})[g]:(a.piedi||{})[g]; return Number.isFinite(v)?v:0; }
+function accOrdinati(modalita){
+  const k=modalita+"|"+(modalita==="tp"?tpFasciaVicina(S.h):""); if(accPunt[k]) return accPunt[k];
+  const ord=GRUPPI_ACC.map(g=>Float64Array.from(sez,z=>accGrezzo(z,g,modalita)).sort());
+  const inf=(a,x)=>{ let lo=0,hi=a.length; while(lo<hi){ const m=(lo+hi)>>1; if(a[m]<x) lo=m+1; else hi=m; } return lo; };
+  const sup=(a,x)=>{ let lo=0,hi=a.length; while(lo<hi){ const m=(lo+hi)>>1; if(a[m]<=x) lo=m+1; else hi=m; } return lo; };
+  const perc=(i,x)=>{ const a=ord[i]; return (inf(a,x)+sup(a,x))/2/a.length; };
+  const punt=new Map();
+  for(const z of sez) punt.set(z, 100*GRUPPI_ACC.reduce((t,g,i)=>t+perc(i,accGrezzo(z,g,modalita)),0)/GRUPPI_ACC.length);
+  return accPunt[k]={ord,punt,perc};
+}
+// i 5 numeri di una sezione: [gruppo, servizi raggiungibili, percentile 0-100]
+function accCinque(z,modalita){ const o=accOrdinati(modalita); return GRUPPI_ACC.map((g,i)=>{ const n=accGrezzo(z,g,modalita); return [g,n,Math.round(100*o.perc(i,n))]; }); }
 function accValore(z, gruppo, modalita){
+  if(gruppo==="tutti") return accOrdinati(modalita).punt.get(z);
   const a=z.acc||{};
   if(modalita==="tp"){
     const f=tpFasciaVicina(S.h);
@@ -641,7 +663,7 @@ function accValore(z, gruppo, modalita){
   return (a.piedi||{})[gruppo];
 }
 function accCalcola(){   // soglie dei quintili ricalcolate solo se cambiano gruppo/modalita/fascia oraria
-  const g=$("subAccGruppo")?.value||"scuole";
+  const g=$("subAccGruppo")?.value||"tutti";
   const modalita=$("subAccModo")?.value||"piedi";
   const fascia=modalita==="tp"?tpFasciaVicina(S.h):"";
   const k=g+"|"+modalita+"|"+fascia;
@@ -653,7 +675,7 @@ function accCalcola(){   // soglie dei quintili ricalcolate solo se cambiano gru
   accCache={k,sogl};
   return accCache;
 }
-const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="acc"?accValore(z,$("subAccGruppo")?.value||"scuole",$("subAccModo")?.value||"piedi"):modo==="fb"?null:sezRapp(z,i);
+const valSez=(z,modo,i)=>modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="occ"?(z.p1564>0&&z.occ!=null?z.occ/z.p1564*100:null):modo==="sc"?z.sc:modo==="sen"?z.sen:modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="acc"?accValore(z,$("subAccGruppo")?.value||"tutti",$("subAccModo")?.value||"piedi"):modo==="fb"?null:sezRapp(z,i);
 
 const linee = D.linee.map((l,ii) => {
   const a=new Float64Array(l.p.length*2); let x0=1,y0=1,x1=0,y1=0;
@@ -693,15 +715,17 @@ function schedaFbCandidato(c, gruppo){
     appAperto: true
   });
 }
-const ST = () => window.STAT || null;
+const T5 = D.t5 || null;   // traffico tipico dei sensori (script 26), dentro la mappa
+// «media di N giorni feriali / sabati / domeniche»
+const giorniMedia = (g,dt) => { const n=(g||{})[String(dt)]||0; return `${n} ${n===1?["giorno feriale","sabato","domenica"][dt]:["giorni feriali","sabati","domeniche"][dt]}${n<3?" (pochi: dato provvisorio)":""}`; };
 
 function ricarica(nome,dopo){
   const s=document.createElement("script"); s.src="data/"+nome+"?t="+Date.now();
   s.onload=()=>{ s.remove(); dopo&&dopo(); }; s.onerror=()=>s.remove(); document.head.appendChild(s);
 }
 
-/* traffico tipico per sensore (da storico) */
-function tipicoSens(s,i){ const T=ST(); if(!T||!T.tipico||!T.tipico[s.id]) return null; const c=T.tipico[s.id][i===undefined?idx():i]; return c&&c[0]!=null?{v:c[0],f:c[1],n:c[2]}:null; }
+/* traffico tipico per sensore: T5.s[id][tipo*24+ora] = [km/h, veicoli/ora] (solo celle affidabili) */
+function tipicoSens(s,i){ if(!T5||!T5.s[s.id]) return null; const c=T5.s[s.id][i===undefined?idx():i]; return c?{v:c[0],f:c[1]}:null; }
 
 const GG=["dom","lun","mar","mer","gio","ven","sab"], MM=["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
 function fmtGiorno(g,anno){ const [a,m,d]=String(g).split("-").map(Number); if(!d) return String(g); const x=new Date(Date.UTC(a,m-1,d)); return `${GG[x.getUTCDay()]} ${d} ${MM[m-1]}${anno?" "+a:""}`; }
@@ -784,7 +808,7 @@ function disegna(){
   if(W===0||H===0||!cv.width||!cv.height){ chiede(); return; }
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
   const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),valOp("omiTipo"),valOp("imqMet"),
-    ["Lsez","Lomi","LImq","Llinee","Lfermate"].map(vis).join(),tema.id,(ST()||{}).generato,catSig()].join("|");
+    ["Lsez","Lomi","LImq","Llinee","Lfermate"].map(vis).join(),tema.id,catSig()].join("|");
   if(chiave!==baseKey){
     baseKey=chiave;
     if(bcv.width!==cv.width||bcv.height!==cv.height){ bcv.width=cv.width; bcv.height=cv.height; }
@@ -1234,7 +1258,7 @@ function legendaVelocita(){
   if(!M||!n) return `<div class="t">Velocità commerciale ${TAG.mis}</div><div class="et" style="display:block">Nessun dato di velocità: serve lo storico dei mezzi (data/storico.sqlite) al momento di rigenerare la mappa.</div>`;
   return `<div class="t">Velocità vera dei bus ${TAG.mis}</div>`
     +`<div class="puntini"><span><i style="background:${VEL_PAL[0]}"></i>&lt;12</span><span><i style="background:${VEL_PAL[1]}"></i>12–16</span><span><i style="background:${VEL_PAL[2]}"></i>16–20</span><span><i style="background:${VEL_PAL[3]}"></i>&gt;20 km/h</span><span><i style="background:#9aa0ad"></i>dati insufficienti</span></div>`
-    +`<div class="et" style="display:block">Velocità media dei mezzi, fermate comprese, ${GIORNI[S.dt].toLowerCase()} alle ${pad(S.h)}:00. GPS registrato dal ${fmt(M.primo*1000)} al ${fmt(M.ultimo*1000)}.</div>`;
+    +`<div class="et" style="display:block">Media di ${giorniMedia(M.giorni,S.dt)}, fermate comprese, alle ${pad(S.h)}:00 (GPS dal ${fmt(M.primo*1000)} al ${fmt(M.ultimo*1000)}).</div>`;
 }
 /* ---------- interazione ---------- */
 function zoomA(nuovo,sx,sy){
@@ -1428,9 +1452,9 @@ function schedaSensore(s){
     sub: `Sensore di traffico 5T · ${sensoTxt}`,
     val: tp ? `${tp.v.toFixed(0)} km/h · ${Math.round(tp.f).toLocaleString("it-IT")} veicoli/ora` : "Nessun dato a quest'ora",
     stato: `Valore tipico: ${GIORNI[S.dt].toLowerCase()} alle ${pad(S.h)}:00`,
-    dettagli: tp ? [{ k: "Ore registrate", v: `${tp.n} (stesso tipo di giorno e ora)` }] : [],
+    dettagli: tp ? [{ k: "Media di", v: giorniMedia(T5.meta.giorni, S.dt) }] : [],
     appTitolo: "Da dove viene",
-    approfondimento: `Media delle letture del sensore (ogni 5 minuti) nei giorni registrati. Pochi sensori, quasi tutti a Torino e su strade grandi.`,
+    approfondimento: `Media delle letture affidabili del sensore (ogni 5 minuti) nei giorni registrati, per tipo di giorno e ora. Pochi sensori, quasi tutti a Torino e su strade grandi.`,
     appAperto: false
   });
 }
@@ -1499,11 +1523,11 @@ function schedaSezione(z){
     val = z.v!=null ? `${z.v} / 100` : "Dato non disponibile";
     stato = "Indice di vulnerabilità (0 = la sezione messa meglio, 100 = la peggiore)";
   } else if(modo === "acc"){
-    const gruppo = $("subAccGruppo")?.value || "scuole";
+    const gruppo = $("subAccGruppo")?.value || "tutti";
     const modalitaAcc = $("subAccModo")?.value || "piedi";
-    const nomiAcc = {scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
+    const nomiAcc = {tutti:"Tutti i servizi",scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
     const raw = accValore(z, gruppo, modalitaAcc);
-    val = raw!=null ? `${Math.round(raw).toLocaleString("it-IT")} servizi raggiungibili` : "Dato non disponibile";
+    val = raw==null ? "Dato non disponibile" : gruppo==="tutti" ? `Punteggio ${Math.round(raw)} su 100` : `${Math.round(raw).toLocaleString("it-IT")} servizi raggiungibili`;
     const fasciaOraSc = modalitaAcc==="tp" ? tpFasciaVicina(S.h) : null;
     const modoAccTxt = modalitaAcc==="tp"
       ? `mezzi pubblici, 45 min (partenza alle ${fasciaOraSc}:00 di un feriale, STIMATO)`
@@ -1552,11 +1576,15 @@ function schedaSezione(z){
     { k: "Passaggi GTT alle " + hh + ":00", v: `${serv} passaggi/ora programmati` }
   ];
   const det = [...profilo, ...(fam === "trasporto" ? contestoServizio : contestoBase)];
+  if(fam === "acc" && ($("subAccGruppo")?.value||"tutti")==="tutti"){   // i 5 numeri del punteggio, in cima ai dettagli
+    const nomi5={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività",fermate:"Fermate",verde:"Verde"};
+    det.unshift(...accCinque(z,$("subAccModo")?.value||"piedi").map(([g,n,pc])=>({ k: nomi5[g]+" raggiungibili", v: `${Math.round(n).toLocaleString("it-IT")} · più di ${pc}% delle sezioni` })));
+  }
   if(fam === "fb"){
     det.push({ k: "Regola", v: z.c===TORINO_PC ? "Torino: a piedi 15 min" : "Cintura: a piedi 15 min o mezzi pubblici 45 min" });
   }
   let app = "";
-  const gOsm = fam==="acc" ? ($("subAccGruppo")?.value||"scuole") : fam==="fb" ? ($("subFbGruppo")?.value||"salute") : null;
+  const gOsm = fam==="acc" ? ($("subAccGruppo")?.value||"tutti") : fam==="fb" ? ($("subFbGruppo")?.value||"salute") : null;
   const notaOsm = (gOsm && NOTA_OSM[gOsm] && z.c!==TORINO_PC) ? `<br><i>${NOTA_OSM[gOsm]}</i>` : "";
   if(fam === "demo"){
     app += `Censimento 2021: chi abita nella sezione, non quanti viaggi fa.`;
@@ -1568,7 +1596,7 @@ function schedaSezione(z){
     const modoAccApp = ($("subAccModo")?.value||"piedi")==="tp"
       ? "con mezzi pubblici in 45 minuti, partendo nell'ora scelta di un giorno feriale (orario programmato)"
       : "a piedi in 15 minuti (velocità stimata 4,8 km/h)";
-    app += `Servizi raggiungibili ${modoAccApp}.${notaOsm}`;
+    app += (($("subAccGruppo")?.value||"tutti")==="tutti" ? `Punteggio 0–100: per ognuno dei 5 gruppi (scuole, salute, negozi, fermate, verde) si guarda in che posizione sta la sezione rispetto a tutte le altre; il punteggio è la media delle 5 posizioni. Servizi raggiungibili ${modoAccApp}.` : `Servizi raggiungibili ${modoAccApp}.`)+notaOsm;
   } else if(fam === "fb"){
     app += `Servizio mancante = nessuno raggiungibile (Torino: a piedi in 15 minuti; fuori Torino anche con i mezzi pubblici in 45). Zone sotto ${((D.r1_meta||{}).soglia||0).toLocaleString("it-IT")} ab/km² in grigio: parchi, collina, aree poco abitate.${notaOsm}`;
   }
@@ -1729,12 +1757,12 @@ function cercaTip(sx,sy,click){
           val = raw!=null ? `${compNomiTip[modo]||modo}: percentile ${(raw*100).toFixed(1)}` : "dato non disponibile";
         } else if(modo==="acc"){
           nome="Accessibilità ai servizi";
-          const gruppo=$("subAccGruppo")?.value||"scuole";
+          const gruppo=$("subAccGruppo")?.value||"tutti";
           const modalitaAcc=$("subAccModo")?.value||"piedi";
           extra = modalitaAcc==="tp" ? "mezzi pubblici, 45 min (STIMATO)" : "a piedi, 15 min (STIMATO)";
           const nomiAcc={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività commerciali",fermate:"Fermate",verde:"Verde"};
           const raw=accValore(z,gruppo,modalitaAcc);
-          val = raw!=null ? `${Math.round(raw).toLocaleString("it-IT")} ${nomiAcc[gruppo]||gruppo} raggiungibili` : "dato non disponibile";
+          val = raw==null ? "dato non disponibile" : gruppo==="tutti" ? `punteggio ${Math.round(raw)} / 100` : `${Math.round(raw).toLocaleString("it-IT")} ${nomiAcc[gruppo]||gruppo} raggiungibili`;
         } else if(modo==="fb"){
           nome="Dove manca un servizio"; extra="STIMATO";
           const gruppo=$("subFbGruppo")?.value||"salute";
@@ -1796,11 +1824,11 @@ function fmt(ms){
 function eta(ms){ const m=Math.round((Date.now()-ms)/60000); if(m<2) return "adesso"; if(m<90) return m+" min fa"; if(m<2880) return Math.round(m/60)+" h fa"; return Math.round(m/1440)+" giorni fa"; }
 function stato(){
   // fonti con le loro date, senza pallini "live"
-  const T=ST(), M=D.vel_meta, el=[];
+  const M=D.vel_meta, el=[];
   const riga=(titolo,testo)=>`<div class="riga"><span class="pallino ok"></span><div><b>${titolo}</b>: ${testo}</div></div>`;
   el.push(riga("Orari GTT",`in vigore dal ${esc(fmtGiorno(D.meta.gtfs.inizio,1))} al ${esc(fmtGiorno(D.meta.gtfs.fine,1))}`));
   if(M&&M.primo) el.push(riga("Mezzi GTT registrati (GPS)",`dal ${fmt(M.primo*1000)} al ${fmt(M.ultimo*1000)}`));
-  if(T&&T.primo) el.push(riga("Sensori di traffico 5T",`${sensori.length} sensori, dal ${fmt(Date.parse(T.primo))} al ${fmt(Date.parse(T.ultimo))}`));
+  if(T5) el.push(riga("Sensori di traffico 5T",`${Object.keys(T5.s).length} sensori con dati, dal ${esc(r4Data(T5.meta.periodo.da))} al ${esc(r4Data(T5.meta.periodo.a))}`));
   el.push(riga("Residenti","censimento ISTAT 2021 (sezioni)"));
   el.push(riga("Spostamenti","indagine IMQ 2022 (Agenzia della Mobilità Piemontese)"));
   el.push(riga("Servizi","dati aperti del Comune di Torino; fuori Torino OpenStreetMap"));
@@ -1839,7 +1867,6 @@ const TAG = {
   mis:'<span class="tag misurato">MISURATO</span>', prog:'<span class="tag programmato">PROGRAMMATO</span>',
   sim:'<span class="tag stimato">STIMATO</span>', cens:'<span class="tag censimento">CENSIMENTO</span>'
 };
-const storicoScarso = () => { const T=ST(); return !T || Math.max(T.ore_mezzi||0,T.ore_t5||0)<72; };
 const fnum = v => (v>=100?Math.round(v):Math.round(v*10)/10).toLocaleString("it-IT");   // virgola decimale, punto delle migliaia
 const scalaHtml = (pal,et) => `<div class="sc">${pal.map(c=>`<span style="background:${c}"></span>`).join("")}</div><div class="et">${et.map(x=>`<span>${x}</span>`).join("")}</div>`;
 /* scala a 5 colori con le 4 soglie scritte sotto i confini tra i colori, e le parole agli estremi */
@@ -2061,6 +2088,7 @@ const OPZIONI = {
     ["vuln_aff","Case affollate"],
     ["vuln_anz","Anziani (65+)"]]},
   subAccGruppo:{etichetta:"Servizio essenziale", voci:[
+    ["tutti","Tutti i servizi (punteggio 0–100)"],
     ["scuole","Scuole"],
     ["salute","Salute"],
     ["cibo","Negozi e attività commerciali"],
@@ -2155,11 +2183,11 @@ function aggiornaLegendaBase(){
     blocchi.push(`<div class="t">Linee (spessore = corse/ora)</div><div class="puntini"><span><i style="background:${COL.metro}"></i>metro</span><span><i style="background:${COL.tram}"></i>tram</span><span><i style="background:${COL.bus}"></i>bus</span></div>`);
   }
   if(vis("Lfermate")) blocchi.push(`<div class="t">Fermate (da zoom 14)</div><div class="puntini"><span><i style="background:rgba(74,163,223,.85)"></i>grandezza = passaggi/ora</span></div>`);
-  if(vis("Lsensori")){ const T=ST();
+  if(vis("Lsensori")){
     blocchi.push(`<div class="t">Traffico tipico ai sensori 5T ${TAG.mis}</div>`
-      +(T&&T.tipico?`<div class="puntini">${SENS_CLASSI.map((c,k)=>`<span><i style="background:${VEL_PAL[k]}"></i>${c}</span>`).join("")}<span><i style="background:#fff;border:1.5px dashed #8a8f98"></i>nessun dato a quest'ora</span></div>`
-        +`<div class="et" style="display:block">Velocità media (colore) e veicoli all'ora (grandezza) nei giorni registrati, ${GIORNI[S.dt].toLowerCase()} alle ${pad(S.h)}:00${T.primo?` (dal ${fmt(Date.parse(T.primo))} al ${fmt(Date.parse(T.ultimo))})`:""}.</div>`
-        :`<div class="et" style="display:block">Storico dei sensori non disponibile (manca data/stat.js).</div>`)); }
+      +(T5?`<div class="puntini">${SENS_CLASSI.map((c,k)=>`<span><i style="background:${VEL_PAL[k]}"></i>${c}</span>`).join("")}<span><i style="background:#fff;border:1.5px dashed #8a8f98"></i>nessun dato a quest'ora</span></div>`
+        +`<div class="et" style="display:block">Velocità media (colore) e veicoli all'ora (grandezza): media di ${giorniMedia(T5.meta.giorni,S.dt)}, alle ${pad(S.h)}:00 (dal ${esc(r4Data(T5.meta.periodo.da))} al ${esc(r4Data(T5.meta.periodo.a))}). Solo letture affidabili.</div>`
+        :`<div class="et" style="display:block">Dati dei sensori non disponibili (lancia 26_velocita_5t.py e poi 04_genera_mappa.py).</div>`)); }
   leg.innerHTML=blocchi.map(b=>`<div class="blocco">${b}</div>`).join(""); $("legendaBox").style.display=blocchi.length?"block":"none";
 }
 

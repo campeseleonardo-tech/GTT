@@ -6,7 +6,7 @@ NON pubblica niente: crea solo la cartella pubblica/ (esclusa da git) e scrive R
 Cosa fa
 -------
   1. Copia in pubblica/ le pagine (mappa_torino.html, simulazione.html) e tutti i file che caricano
-     (data/stat.js, data/processed/orari_fermate.js, data/schede_risultati.js, immagini/), con gli stessi percorsi relativi. Avvisa se un file manca.
+     (data/processed/orari_fermate.js, data/schede_risultati.js, immagini/), con gli stessi percorsi relativi. Avvisa se un file manca.
   2. Scrive README.md (italiano, poi English) con un paragrafo per ogni risultato finito: domanda, numero
      principale e prima frase della risposta letti da data/schede_risultati.js (nessun numero scritto a mano);
      la parte inglese usa il campo in_english delle schede.
@@ -29,7 +29,7 @@ RADICE = comuni.RADICE
 DEST = RADICE / "pubblica"
 SCHEDE = RADICE / "data" / "schede_risultati.js"
 README = RADICE / "README.md"
-FILE_FISSI = ["mappa_torino.html", "simulazione.html", "data/stat.js", "data/processed/orari_fermate.js",
+FILE_FISSI = ["mappa_torino.html", "simulazione.html", "data/processed/orari_fermate.js",
               "data/schede_risultati.js"]
 
 INTRO_IT = """# Mobilità a Torino — come si muove la città

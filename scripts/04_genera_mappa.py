@@ -166,6 +166,34 @@ def leggi_5t(percorso):
     return meta, [s for s in sensori if s["la"] is not None and s["lo"] is not None]
 
 
+def leggi_sensori_tipici(sensori):
+    """Traffico tipico dei sensori dallo script 26 (data/processed/velocita_5t.json, solo letture affidabili).
+    Ritorna {"meta": {periodo, giorni}, "s": {id: [72 voci: [km/h, veicoli/ora] o 0]}} o None. Indice = tipo*24 + ora."""
+    f = RADICE / "data" / "processed" / "velocita_5t.json"
+    if not f.is_file():
+        print("  (velocita_5t.json non trovato: lancia 26_velocita_5t.py; i sensori restano senza dati)")
+        return None
+    j = json.loads(f.read_text(encoding="utf-8"))
+    ids = {str(x["id"]) for x in sensori}
+    out, celle_ok = {}, 0
+    for sid, sd in j["sensori"].items():
+        voci = [0] * 72
+        for tipo, ore in sd.get("celle", {}).items():
+            for ora, c in ore.items():
+                if c.get("ok") and c.get("v") is not None:
+                    voci[int(tipo) * 24 + int(ora)] = [round(c["v"], 1), round(c["f"])]
+                    celle_ok += 1
+        if any(voci):
+            out[sid] = voci
+    giorni = {k: v for k, v in j["giorni"].items()}
+    for t, nome in (("0", "feriali"), ("1", "sabati"), ("2", "domeniche")):
+        if giorni.get(t, 0) < VEL_GIORNI_MIN:
+            print(f"  AVVISO: sensori 5T: solo {giorni.get(t, 0)} giorni {nome} (meno di {VEL_GIORNI_MIN}): media provvisoria")
+    print(f"  sensori tipici: {len(out)} sensori con dati ({len(set(out) & ids)} presenti nell'XML 5T), {celle_ok} celle ok, "
+          f"periodo {j['periodo']['da']} - {j['periodo']['a']}, giorni {giorni}")
+    return {"meta": {"periodo": j["periodo"], "giorni": giorni}, "s": out}
+
+
 # ---------------------------------------------------------------- GTFS
 def leggi_csv(z, nome):
     with z.open(nome) as f:
@@ -496,7 +524,7 @@ def _locale(dt_utc):
     return dt_utc + timedelta(hours=2 if inizio <= dt_utc < fine else 1)
 
 
-VEL_GIORNI = 28        # quanti giorni di storico si leggono
+VEL_GIORNI_MIN = 3     # sotto questi giorni per un tipo di giorno la media e' provvisoria (AVVISO)
 VEL_DT_MIN, VEL_DT_MAX = 20, 180   # secondi tra due posizioni consecutive
 VEL_MAX_KMH = 90       # oltre: errore GPS, si scarta
 VEL_FERMO_M = 20       # spostamento sotto cui il mezzo conta come fermo
@@ -526,14 +554,13 @@ def calcola_velocita():
     try:
         con = sqlite3.connect(f"file:{db}?mode=ro", uri=True, timeout=30)
         try:
-            da = (datetime.now(timezone.utc) - timedelta(days=VEL_GIORNI)).isoformat(timespec="seconds")
             # si scarta la lettura se ts_feed dista piu' di un'ora dal momento in cui e' stata letta:
             # orologio di bordo sbagliato (es. mezzo 2897U, ~3 anni avanti) o posizione vecchia ripetuta dal feed
-            fuori_ora = con.execute("SELECT count(*) FROM mezzi_gtt WHERE letto_utc >= ? AND "
-                                    "abs(ts_feed - CAST(strftime('%s', letto_utc) AS INTEGER)) > 3600", (da,)).fetchone()[0]
+            fuori_ora = con.execute("SELECT count(*) FROM mezzi_gtt WHERE "
+                                    "abs(ts_feed - CAST(strftime('%s', letto_utc) AS INTEGER)) > 3600").fetchone()[0]
             cur = con.execute("SELECT veicolo, linea, ts_feed, lat, lng FROM mezzi_gtt "
-                              "WHERE letto_utc >= ? AND abs(ts_feed - CAST(strftime('%s', letto_utc) AS INTEGER)) <= 3600 "
-                              "ORDER BY veicolo, ts_feed", (da,))
+                              "WHERE abs(ts_feed - CAST(strftime('%s', letto_utc) AS INTEGER)) <= 3600 "
+                              "ORDER BY veicolo, ts_feed")
             veic = linea = None
             base = None          # (ts, lat, lng) ultima posizione di riferimento
             pend = []            # tratti fermi non ancora decisi: (chiave, secondi)
@@ -601,9 +628,18 @@ def calcola_velocita():
         if s > 0:
             vel.setdefault(ln, {}).setdefault(str(tipo), {})[str(ora)] = [round(m / s * 3.6, 1), n, len(gg)]
     ore = round((ultimo - primo) / 3600, 1) if primo is not None else 0
-    meta = {"primo": primo, "ultimo": ultimo, "ore": ore, "righe": righe, "scartati_gps": scartati}
+    # giorni distinti con dati per tipo di giorno (tutto lo storico, non una finestra)
+    gg_tipo = {0: set(), 1: set(), 2: set()}
+    for (ln, tipo, ora, giorno) in somme:
+        gg_tipo[tipo].add(giorno)
+    giorni = {str(t): len(g) for t, g in gg_tipo.items()}
+    for t, nome in ((0, "feriali"), (1, "sabati"), (2, "domeniche")):
+        if len(gg_tipo[t]) < VEL_GIORNI_MIN:
+            print(f"  AVVISO: velocita': solo {len(gg_tipo[t])} giorni {nome} nello storico (meno di {VEL_GIORNI_MIN}): media provvisoria")
+    meta = {"primo": primo, "ultimo": ultimo, "ore": ore, "righe": righe, "scartati_gps": scartati, "giorni": giorni}
     ore_con_dati = sum(len(o) for t in vel.values() for o in t.values())
-    print(f"  velocita': {len(vel)} linee con dati, {ore_con_dati} celle linea/tipo/ora, {ore} ore di storico "
+    print(f"  velocita': {len(vel)} linee con dati, {ore_con_dati} celle linea/tipo/ora, {ore} ore di storico, "
+          f"giorni feriali/sabati/domeniche {giorni['0']}/{giorni['1']}/{giorni['2']} "
           f"({righe} righe lette, {scartati} salti GPS scartati, {fuori_ora} righe con ora della posizione lontana oltre 1 h dalla lettura)")
     return vel, meta
 
@@ -824,6 +860,7 @@ def main():
         print("  (sezioni di censimento non trovate: lancia 05_prepara_sezioni.py per il livello Domanda)")
 
     vel, vel_meta = calcola_velocita()   # None se lo storico non c'e'
+    t5 = leggi_sensori_tipici(sensori)   # traffico tipico dei sensori (script 26), al posto di data/stat.js
     r4, r4_meta = leggi_r4()             # puntualita' per linea, dallo script 27 (None se manca)
     omi = leggi_omi()
     imq = leggi_imq()
@@ -833,6 +870,7 @@ def main():
     dati = {
         "vel": vel or {}, "vel_meta": vel_meta,
         "r4": r4 or {}, "r4_meta": r4_meta,   # puntualita' per linea e fascia (tema «Puntualita' delle linee»)
+        "t5": t5,
         "comuni": comuni,   # PRO_COM -> nome, per schede e tooltip
         "omi": omi,     # OMI quote immobiliari
         "imq": imq,     # Mobilita' IMQ 2022 (attivita' 10)
