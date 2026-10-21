@@ -703,6 +703,69 @@ def nomi_comuni(codici):
     return out
 
 
+def _utm32_a_wgs84(x, y):
+    """UTM 32N (WGS84) -> (lat, lon) in gradi (stessa formula dello script 05)."""
+    A, F = 6378137.0, 1 / 298.257223563
+    E2 = F * (2 - F)
+    EP2 = E2 / (1 - E2)
+    K0 = 0.9996
+    x -= 500000.0
+    mu = (y / K0) / (A * (1 - E2 / 4 - 3 * E2 ** 2 / 64 - 5 * E2 ** 3 / 256))
+    e1 = (1 - math.sqrt(1 - E2)) / (1 + math.sqrt(1 - E2))
+    p = (mu + (3 * e1 / 2 - 27 * e1 ** 3 / 32) * math.sin(2 * mu) + (21 * e1 ** 2 / 16 - 55 * e1 ** 4 / 32) * math.sin(4 * mu)
+         + (151 * e1 ** 3 / 96) * math.sin(6 * mu) + (1097 * e1 ** 4 / 512) * math.sin(8 * mu))
+    c1 = EP2 * math.cos(p) ** 2
+    t1 = math.tan(p) ** 2
+    n1 = A / math.sqrt(1 - E2 * math.sin(p) ** 2)
+    r1 = A * (1 - E2) / (1 - E2 * math.sin(p) ** 2) ** 1.5
+    d = x / (n1 * K0)
+    lat = p - (n1 * math.tan(p) / r1) * (d * d / 2 - (5 + 3 * t1 + 10 * c1 - 4 * c1 * c1 - 9 * EP2) * d ** 4 / 24
+                                          + (61 + 90 * t1 + 298 * c1 + 45 * t1 * t1 - 252 * EP2 - 3 * c1 * c1) * d ** 6 / 720)
+    lon = (d - (1 + 2 * t1 + c1) * d ** 3 / 6 + (5 - 2 * c1 + 28 * t1 - 3 * c1 * c1 + 8 * EP2 + 24 * t1 * t1) * d ** 5 / 120) / math.cos(p)
+    return math.degrees(lat), 9.0 + math.degrees(lon)
+
+
+def confine_torino():
+    """Confine del comune di Torino (PRO_COM 1272) dai confini ISTAT 2022 (WGS84), anelli [[lat, lon], ...] semplificati
+    (circa 5 m). Il .shp si legge in sequenza: un record per riga del dbf, nello stesso ordine. [] se il file manca."""
+    f = RADICE / "data" / "raw" / "istat" / "confini_2022" / "Limiti01012022_g.zip"
+    if not f.is_file():
+        print("  (confini ISTAT 2022 non trovati: niente confine di Torino in mappa)")
+        return []
+    with zipfile.ZipFile(f) as z:
+        nomi = z.namelist()
+        dbf = z.read(next(n for n in nomi if n.endswith("Com01012022_g_WGS84.dbf")))
+        shp = z.read(next(n for n in nomi if n.endswith("Com01012022_g_WGS84.shp")))
+    n_rec, l_head, l_rec = struct.unpack("<IHH", dbf[4:12])
+    campi, pos = [], 32
+    while dbf[pos] != 0x0D:
+        campi.append((dbf[pos:pos + 11].split(b"\0")[0].decode(), dbf[pos + 16]))
+        pos += 32
+    inizio, off = 1, {}
+    for nome, lung in campi:
+        off[nome] = (inizio, inizio + lung)
+        inizio += lung
+    anelli, o = [], 100
+    for k in range(n_rec):
+        lung_parole = struct.unpack(">i", shp[o + 4:o + 8])[0]
+        corpo = o + 8
+        r = dbf[l_head + k * l_rec: l_head + (k + 1) * l_rec]
+        if int(r[off["PRO_COM"][0]:off["PRO_COM"][1]].strip() or 0) == PRO_COM_TORINO and struct.unpack("<i", shp[corpo:corpo + 4])[0] == 5:
+            n_parti, n_punti = struct.unpack("<2i", shp[corpo + 36:corpo + 44])
+            parti = list(struct.unpack(f"<{n_parti}i", shp[corpo + 44:corpo + 44 + 4 * n_parti])) + [n_punti]
+            p0 = corpo + 44 + 4 * n_parti
+            pts = struct.unpack(f"<{2 * n_punti}d", shp[p0:p0 + 16 * n_punti])
+            for a_, b_ in zip(parti, parti[1:]):
+                ring = [_utm32_a_wgs84(pts[2 * i], pts[2 * i + 1]) for i in range(a_, b_)]      # (lat, lon)
+                ring = semplifica(ring, 0.00005)
+                if len(ring) >= 4:
+                    anelli.append([[round(la, 5), round(lo, 5)] for la, lo in ring])
+            break
+        o = corpo + lung_parole * 2
+    print(f"  confine di Torino: {len(anelli)} anelli, {sum(len(a) for a in anelli)} punti")
+    return anelli
+
+
 # ---------------------------------------------------------------- main
 def leggi_omi():
     """Legge data/processed/omi_zone.json (O1); ritorna lista compatta o None."""
@@ -841,7 +904,9 @@ def main():
     sez, f_sez = [], RADICE / "data" / "processed" / "sezioni_torino.json"
     if f_sez.is_file():
         sez = [{"p": x["p"], "a": x["a"], "g": x["g"], "c": x.get("c", 0), "f": x.get("f", 0), "ab": x.get("ab", 0),
-                "occ": x.get("occ"), "p1564": x.get("p1564"), "sc": x.get("sc"), "sen": x.get("sen"),
+                "occ": x.get("occ"), "p1564": x.get("p1564"), "sen": x.get("sen"),
+                "p014": x.get("p014"), "em": x.get("em"), "ist9": x.get("ist9"), "it": x.get("it"),
+                "pf1": x.get("pf1"), "pf3": x.get("pf3"),
                 "v": vuln.get(x.get("id",""), {}).get("v"),
                 "vcomp": vuln.get(x.get("id",""), {}).get("comp", {}),
                 "acc": acc.get(x.get("id",""), {}),
@@ -871,6 +936,7 @@ def main():
         "vel": vel or {}, "vel_meta": vel_meta,
         "r4": r4 or {}, "r4_meta": r4_meta,   # puntualita' per linea e fascia (tema «Puntualita' delle linee»)
         "t5": t5,
+        "confine_torino": confine_torino(),   # anelli del comune di Torino (linea scura in mappa)
         "comuni": comuni,   # PRO_COM -> nome, per schede e tooltip
         "omi": omi,     # OMI quote immobiliari
         "imq": imq,     # Mobilita' IMQ 2022 (attivita' 10)

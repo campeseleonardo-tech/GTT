@@ -101,7 +101,9 @@ def leggi_indicatori(sezioni):
         sys.exit(f"File ISTAT non trovato: {INDICATORI}")
     ns = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
     richiesti = {"SEZ21_ID", "P101", "P15", "P16", *[f"P{i}" for i in range(17, 27)],
-                 "P27", "P28", "P29",
+                 "P14", "P27", "P28", "P29",
+                 # famiglie per numero di componenti (PF1 totale, PF3 = una sola persona)
+                 "PF1", "PF3",
                  # titoli di studio (pop 9+): tracciato R01 2021
                  "P83", "P86", "P87", "P88", "P89", "P90"}
     target = {str(s["id"]): s for s in sezioni if s["p"] > 0}
@@ -177,7 +179,15 @@ def leggi_indicatori(sezioni):
         pezzi_ist = [numero(dati, f"P{i}", sid) for i in (86, 87, 88, 89, 90)]
         if ist9 > 0 and sum(pezzi_ist) != ist9:
             print(f"  [NOTA] sezione {sid}: titoli di studio {sum(pezzi_ist)} != pop 9+ {ist9}")
+        classi = [numero(dati, f"P{i}", sid) for i in range(14, 30)]   # P14 <5 anni ... P29 oltre 74 anni
+        centri = [2.5, 7.5, 12.5, 17.5, 22.5, 27.5, 32.5, 37.5, 42.5, 47.5, 52.5, 57.5, 62.5, 67.5, 72.5, 80.0]   # centro di ogni classe; 80 per «oltre 74» (stima)
+        tot_cl = sum(classi)
         target[sid].update({
+            # bambini e ragazzi 0-14 (P14-P16) e eta' media stimata dai centri delle classi (mai la nazionalita')
+            "p014": sum(classi[:3]),
+            "em": round(sum(c * n for c, n in zip(centri, classi)) / tot_cl, 1) if tot_cl else None,
+            # famiglie: totale e con un solo componente
+            "pf1": numero(dati, "PF1", sid), "pf3": numero(dati, "PF3", sid),
             "occ": occupati,
             "p1564": popolazione_lavorativa,
             "sc": numero(dati, "P15", sid) + numero(dati, "P16", sid),
@@ -194,6 +204,8 @@ def leggi_indicatori(sezioni):
         print(f"  {nome}: occupati 15-64 {occ}, residenti 15-64 {p1564}, "
               f"quota occupati {100*occ/p1564:.1f}% se il denominatore e' positivo; "
               f"residenti 5-14 {sum(s['sc'] for s in gruppo)}, residenti 65+ {sum(s['sen'] for s in gruppo)}")
+        print(f"         0-14 anni {sum(s['p014'] for s in gruppo)}, famiglie {sum(s['pf1'] for s in gruppo)} di cui di una persona {sum(s['pf3'] for s in gruppo)}, "
+              f"eta' media stimata (pesata) {sum(s['em']*s['p'] for s in gruppo if s['em'] is not None)/max(1,sum(s['p'] for s in gruppo if s['em'] is not None)):.1f}")
         ist9 = sum(s["ist9"] for s in gruppo)
         bassa = sum(s["i0"] + s["iel"] for s in gruppo)
         if ist9:
