@@ -409,6 +409,54 @@ status`.
 > `AGENTS.md` (sezione «Commit») e scrivi un riassunto di 10 righe in italiano semplice: copertura del GPS, i numeri
 > nuovi contro quelli di prima, le 5 linee peggiori, l'attesa in più, gli errori della prova delle pagine.
 
+## Ricontrollo del Giro 5 (Claude, 21/10): OK, con un problema sulle attese
+
+Codice di `costruisci_passaggi_gps` letto (finestra 02-26, corse del GTFS, scarto oltre 60 min: giusto anche per le
+corse con lo stesso codice in giorni diversi); controlli dello script 27 tutti OK; mappa in Chromium senza errori, 86
+linee colorate con valori ben distribuiti (punta del mattino: mediana 11,8%, da 0 a 46%); `linea=17&ora=17` apre la 17
+alla punta della sera. Numeri feriali su 7 giorni col GPS: **13,3% oltre 5 minuti** (feed 5,2%), **5,05% oltre 10**
+(feed 0), grappolo+buco **20,4%** (feed 10,5%); tram 13,0%, bus 13,4%; linee peggiori 17 (37%), 6 (35%), 19, 66, 68.
+Copertura GPS 77,3%. Piccola cosa: `#ora=8` senza `linea=` non sposta l'ora (i link della scheda hanno sempre la linea:
+nessun effetto pratico).
+**Problema**: le attese (script 70) si sono svuotate: chiavi usate da 3.254 a 1.133, intervalli osservati da 147.925 a
+32.825, bus con soli 780 intervalli (la media è quasi tutta tram). Causa: la regola «oltre 20% di corse assenti =
+dati scarsi» ora conta le corse senza GPS (14,5%), e il **14/10 ha quasi niente GPS** (1.605 corse viste contro
+6.500-7.600 degli altri feriali): tutte le chiavi con quel giorno diventano «scarse».
+
+## Giro 6 del Risultato 4 — attese: via i giorni senza GPS (piccolo, sul PC)
+
+Valori predefiniti di Claude: un giorno **entra nel calcolo** (27 e 70) solo se le corse viste nel GPS sono almeno la
+**metà della mediana** dei giorni dello stesso tipo (oggi esce solo il 14/10). La soglia «dati scarsi» del 70 resta al
+20%; se dopo l'esclusione i bus hanno ancora meno di 10.000 intervalli osservati, AVVISO e si decide con Leo.
+
+**Passo 1 — `scripts/27_risultato4_regolarita.py`.** Funzione `giorni_gps_validi(con, giorni)` che conta per ogni giorno
+le corse viste nel GPS (stessa finestra e stessa regola di `costruisci_passaggi_gps`: almeno 2 posizioni, corsa nel
+GTFS) e tiene i giorni con almeno metà della mediana del loro tipo (feriale, sabato, domenica). Costante
+`MIN_QUOTA_GIORNO_GPS = 0.5`. Con `--fonte gps` i giorni esclusi non entrano negli aggregati; JSON
+`"giorni_esclusi_gps": [{"giorno", "corse_viste", "mediana_tipo"}]`; rapporto: una riga in COPERTURA DEL GPS. `giorni`
+del JSON conta solo i giorni usati.
+
+**Passo 2 — `scripts/70_risultato9_attesa.py`.** Usa `r4.giorni_gps_validi()` per saltare gli stessi giorni (scrivili nel
+rapporto). Stampa in coda le chiavi frequenti / usate e gli intervalli osservati per tram e bus; AVVISO se i bus hanno
+meno di 10.000 intervalli.
+
+**Passo 3 — template.** In `applicaLineaDaUrl()` l'`ora=` vale anche senza `linea=`.
+
+**Passo 4 — lanci.** 27 → 70 → `04_genera_mappa.py` → `schede_risultati.py` → `prova_pagine_r6.py --senza-screenshot`.
+Nell'esito: giorni esclusi, i numeri del R4 prima/dopo (devono cambiare poco), le attese prima/dopo con gli intervalli
+per tram e bus.
+
+### Prompt da incollare (per Leo, sul PC)
+
+> Sei un agente che lavora sul progetto GTT in `C:\projects\Progetti\GTT`, ramo git `prova`. Prima:
+> `git branch --show-current` (deve dire `prova`, altrimenti fermati e dimmelo), `git status` (se ci sono modifiche
+> fermati e dimmelo), `git pull origin prova`. Leggi `AGENTS.md` e in `docs/PIANO_RISULTATO4.md` le sezioni
+> «Ricontrollo del Giro 5» e «Giro 6 del Risultato 4», poi esegui i 4 passi, uno alla volta. Database in sola lettura.
+> Cambia solo quello che i passi dicono; niente numeri scritti a mano nei testi. Esito in `docs/ESITO_R4_GIRO6.md` (OK
+> / AVVISO / FERMO per passo, righe cambiate prima/dopo, uscite). Non modificare `MEMORIA_PROGETTO.md`. Python: `python`
+> del PATH, mai Anaconda. Alla fine fai commit e push come dice `AGENTS.md` (sezione «Commit») e scrivi un riassunto di
+> 8 righe in italiano semplice: giorni esclusi, R4 prima/dopo, attese prima/dopo con gli intervalli di tram e bus.
+
 ---
 
 # PARTE A — storia del Risultato 4
