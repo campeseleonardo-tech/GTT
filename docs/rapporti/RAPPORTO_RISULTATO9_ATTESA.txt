@@ -79,7 +79,7 @@ DATI SCARSI (linea-fascia-tipo con > 20% corse assenti dal GPS, fuori dai numeri
   linea 2     notte         feriale   assenti 36.4%
   linea 2     giorno        feriale   assenti 35.7%
   linea 13    punta_mattina feriale   assenti 34.8%
-  linea 17/   punta_mattina feriale   assenti 33.3%
+  linea 32    punta_mattina feriale   assenti 33.3%
 
 CONTROLLO COL GPS (passo 4): arrivo stimato dal feed - passaggio del GPS vicino alla fermata
   (e' un controllo del feed, non della fonte usata: dal Giro 5 gli arrivi di questo rapporto vengono dal GPS)

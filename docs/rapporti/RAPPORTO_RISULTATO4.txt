@@ -109,3 +109,28 @@ sabato      | utili  |   158376 |        17.8 |         7.69 |            21.7 |
 sabato      | altre  |    86206 |        15.0 |          6.0 |            17.3 | 8568
 domenica    | utili  |    77082 |        13.2 |          4.8 |            20.4 | 6712
 domenica    | altre  |    34494 |         9.4 |         2.57 |            10.7 | 1610
+
+CONFRONTO CON GTT
+GTT dichiara 2.3% dei passaggi bus/tram oltre 10 minuti (anno 2025, tutte le linee, metodo non pubblicato).
+Qui la stessa quota in 4 definizioni; settimana = media pesata 5 feriale / 1 sabato / 1 domenica delle percentuali.
+OLTRE 10 MINUTI: definizione | feriale | sabato | domenica | settimana | passaggi feriale
+(a) a ogni fermata (come oggi)                         |   5.44% |    7.1% |    4.11% |     5.49% | 944276
+(b) solo alla prima fermata della corsa                |   3.86% |   5.34% |    2.81% |     3.92% | 21374
+(c) solo alla fermata di mezzo della corsa             |   5.29% |   6.92% |    3.34% |     5.24% | 30292
+(d) solo fuori dalle ore di punta (fuori da 7-9 e 16-19) |   5.27% |   6.75% |    3.98% |      5.3% | 657981
+OLTRE 5 MINUTI: definizione | feriale | sabato | domenica | settimana | passaggi feriale
+(a) a ogni fermata (come oggi)                         |  14.12% |  16.81% |   12.03% |    14.21% | 944276
+(b) solo alla prima fermata della corsa                |   7.77% |  10.11% |    6.36% |      7.9% | 21374
+(c) solo alla fermata di mezzo della corsa             |   14.0% |  16.32% |   11.45% |    13.97% | 30292
+(d) solo fuori dalle ore di punta (fuori da 7-9 e 16-19) |  13.76% |  16.72% |   11.88% |    13.91% | 657981
+
+Incertezza (i): il numero (a) con tutti i passaggi spostati di -1 e +1 minuto (oltre 10 | oltre 5)
+  -1 min: feriale 4.61% | 11.42%; sabato 6.18% | 13.83%; domenica 3.44% | 9.45%
+  +0 min: feriale 5.44% | 14.12%; sabato 7.1% | 16.81%; domenica 4.11% | 12.03%
+  +1 min: feriale 6.44% | 17.72%; sabato 8.19% | 20.62%; domenica 5.01% | 15.64%
+Incertezza (ii): passaggi programmati delle corse viste senza GPS valido; forbice sulla quota oltre 10 minuti
+  (le corse mai viste dal GPS non si contano; 'peggiori' = quota del 10% dei giorni peggiori dello stesso tipo, almeno 1 giorno)
+  tipo giorno | con GPS | senza GPS | misurato | mancanti puntuali | mancanti come i peggiori | quota peggiori
+  feriale     |  944276 |    256258 |    5.44% |             4.28% |                    5.74% | 6.81%
+  sabato      |  244582 |     65754 |     7.1% |             5.59% |                    7.29% | 8.0%
+  domenica    |  111576 |     37779 |    4.11% |             3.07% |                    4.11% | 4.11%

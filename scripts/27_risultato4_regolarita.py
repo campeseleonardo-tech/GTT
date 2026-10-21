@@ -43,6 +43,14 @@ python scripts/27_risultato4_regolarita.py [--prova] [--fonte gps|feed]
 --prova = solo start_date 20261013, rapporto a schermo, nessun file scritto.
 --fonte = da dove vengono gli arrivi: gps (predefinita dal 21/10, Giro 5) oppure feed (calcolo di prima, D1-D3).
 Con gps le regole D1-D3 valgono solo per il confronto col feed; D4-D9 restano.
+
+Aggiunte B1 e B2 (piano R4 parte B, 21/10): in coda al rapporto e nel JSON ("confronto_gtt") senza toccare il resto.
+B1: la quota di passaggi oltre 10 minuti in 4 definizioni: (a) a ogni fermata, (b) solo alla prima fermata della corsa,
+    (c) solo alla fermata di mezzo della corsa, (d) solo fuori dalle ore di punta (fuori da 7-9 e 16-19);
+    per feriale, sabato, domenica e media della settimana pesata 5 / 1 / 1 (pesi sulle percentuali dei tre tipi di giorno).
+B2: (i) il numero (a) con tutti i passaggi spostati di -1 e +1 minuto; (ii) forbice per i passaggi senza GPS
+    (passaggi programmati delle corse viste senza arrivo GPS valido): tutti puntuali oppure tutti con la quota di ritardo
+    dei peggiori 10% di giorni dello stesso tipo. Le corse mai viste dal GPS non si contano (non si sa se hanno girato).
 """
 
 import csv
@@ -84,6 +92,12 @@ RIF_GTT_RITARDO10_PCT = 2.3  # rapporto di sostenibilita' GTT 2025: passaggi bus
 FINE_CORSA_ULTIME = 3        # fine corsa = passaggi alle ultime 3 fermate della corsa
 MIN_FINE_CORSA = 100         # passaggi di fine corsa minimi per entrare nella classifica dei minuti ogni 10 km
 MODI = ("tram", "metro", "bus")
+# B1/B2
+DEFINIZIONI = (("a", "a ogni fermata (come oggi)"), ("b", "solo alla prima fermata della corsa"),
+               ("c", "solo alla fermata di mezzo della corsa"), ("d", "solo fuori dalle ore di punta (fuori da 7-9 e 16-19)"))
+PESI_SETTIMANA = {"0": 5, "1": 1, "2": 1}     # feriale, sabato, domenica
+SPOSTAMENTI_MIN = (-1, 0, 1)                  # B2 (i)
+QUOTA_GIORNI_PEGGIORI = 0.10                  # B2 (ii): il 10% dei giorni peggiori (almeno 1) dello stesso tipo
 
 # dal Giro 4, script 91: arrivi misurati con il GPS dei mezzi (tabella mezzi_gtt). Il feed resta solo come confronto.
 FONTE_ARRIVI = "gps"             # "gps" (predefinita) oppure "feed" con --fonte feed (calcolo di prima)
@@ -560,6 +574,20 @@ def main():
     conf_citta, conf_modo, conf_reg_citta, conf_reg_linea = {}, {}, {}, {}   # confronto col feed (solo con fonte gps)
     conf_scarti = {"fuori_gtfs": 0, "lettura_lontana": 0, "usati": 0}
     letti_totali = 0
+    # B1/B2: contatori [passaggi, oltre 5, oltre 10]
+    seqs = defaultdict(list)
+    for (tid_, seq_) in prog:
+        seqs[tid_].append(seq_)
+    prima_seq, meta_seq = {}, {}
+    for tid_, lista_ in seqs.items():
+        lista_.sort()
+        prima_seq[tid_], meta_seq[tid_] = lista_[0], lista_[(len(lista_) - 1) // 2]
+    del seqs
+    def_cnt = defaultdict(lambda: [0, 0, 0])      # (definizione, tipo)
+    punta_n = defaultdict(int)                    # tipo: passaggi nelle ore di punta (per il controllo della somma)
+    sh_cnt = defaultdict(lambda: [0, 0, 0])       # (tipo, spostamento)
+    giorno_cnt = defaultdict(lambda: [0, 0, 0])   # (tipo, giorno): definizione (a)
+    mancanti = defaultdict(int)                   # tipo: passaggi programmati senza GPS valido
     # controlli indipendenti (passo 5)
     per_fonte = {"delay": array("d"), "time": array("d"), "gps": array("d")}
     per_seq = {"seq 1-5": array("d"), "seq 6-15": array("d"),
@@ -609,7 +637,28 @@ def main():
             if esempi[k] is None and v is not None:
                 esempi[k] = v
         visti, visti_fine = set(), set()
+        if gps:
+            mancanti[tipo] += max(0, cop_giorno[giorno]["programmati"] - cop_giorno[giorno]["validi"])
         for pg in passaggi:
+            rit_ = pg[P_RIT]
+            for d_, cond_ in (("a", True), ("b", pg[P_SEQ] == prima_seq.get(pg[P_TRIP])), ("c", pg[P_SEQ] == meta_seq.get(pg[P_TRIP])),
+                              ("d", pg[P_FASCIA] not in ("punta_mattina", "punta_sera"))):
+                if cond_:
+                    c_ = def_cnt[(d_, tipo)]
+                    c_[0] += 1
+                    c_[1] += rit_ > SOGLIA_RITARDO
+                    c_[2] += rit_ > SOGLIA_RITARDO_10
+            if pg[P_FASCIA] in ("punta_mattina", "punta_sera"):
+                punta_n[tipo] += 1
+            for sp_ in SPOSTAMENTI_MIN:
+                c_ = sh_cnt[(tipo, sp_)]
+                c_[0] += 1
+                c_[1] += rit_ + sp_ > SOGLIA_RITARDO
+                c_[2] += rit_ + sp_ > SOGLIA_RITARDO_10
+            c_ = giorno_cnt[(tipo, giorno)]
+            c_[0] += 1
+            c_[1] += rit_ > SOGLIA_RITARDO
+            c_[2] += rit_ > SOGLIA_RITARDO_10
             modo = modo_linea.get(pg[P_LINEA], "bus")
             conta_punt(punt_modo.setdefault((tipo, modo), agg_punt()), pg[P_RIT])
             tid = pg[P_TRIP]
@@ -721,6 +770,51 @@ def main():
                                   "coppie": coppie[k][0], "grappolo_buco": pct(coppie[k][1] + coppie[k][2], coppie[k][0])}
                               for k, g in gruppi.items()}
 
+    # ---------- B1 e B2: confronto con GTT ----------
+    q2 = lambda x, n: round(100.0 * x / n, 2) if n else None
+    tipi_ok = [t for t in TIPI if def_cnt[("a", t)][0]]
+    def settimana(valori):
+        """Media pesata 5/1/1 delle percentuali dei tipi di giorno presenti (pesi riscalati se ne manca uno)."""
+        pv = [(PESI_SETTIMANA[t], valori[t]) for t in tipi_ok if valori.get(t) is not None]
+        return round(sum(w * v for w, v in pv) / sum(w for w, _ in pv), 2) if pv else None
+    j_def = {}
+    for d_, nome_ in DEFINIZIONI:
+        per_t = {}
+        for t in tipi_ok:
+            n_, o5_, o10_ = def_cnt[(d_, t)]
+            per_t[t] = {"passaggi": n_, "ritardo5": o5_, "ritardo10": o10_, "ritardo5_pct": q2(o5_, n_), "ritardo10_pct": q2(o10_, n_)}
+        j_def[d_] = {"nome": nome_, "per_tipo": per_t,
+                     "settimana": {"ritardo5_pct": settimana({t: v["ritardo5_pct"] for t, v in per_t.items()}),
+                                   "ritardo10_pct": settimana({t: v["ritardo10_pct"] for t, v in per_t.items()})}}
+    j_sp = {}
+    for sp_ in SPOSTAMENTI_MIN:
+        j_sp[f"{sp_:+d}"] = {t: {"ritardo5_pct": q2(sh_cnt[(t, sp_)][1], sh_cnt[(t, sp_)][0]),
+                                 "ritardo10_pct": q2(sh_cnt[(t, sp_)][2], sh_cnt[(t, sp_)][0])} for t in tipi_ok}
+    j_forbice = None
+    if gps:
+        j_forbice = {}
+        for t in tipi_ok:
+            n_, o5_, o10_ = def_cnt[("a", t)]
+            m_ = mancanti[t]
+            giorni_t = sorted(((g_, c_) for (tt_, g_), c_ in giorno_cnt.items() if tt_ == t),
+                              key=lambda x: -(x[1][2] / x[1][0] if x[1][0] else 0))
+            k_ = max(1, math.ceil(QUOTA_GIORNI_PEGGIORI * len(giorni_t)))
+            peggiori = giorni_t[:k_]
+            n_p = sum(c_[0] for _, c_ in peggiori)
+            r5_p = sum(c_[1] for _, c_ in peggiori) / n_p if n_p else 0.0
+            r10_p = sum(c_[2] for _, c_ in peggiori) / n_p if n_p else 0.0
+            j_forbice[t] = {
+                "passaggi_con_gps": n_, "passaggi_senza_gps": m_, "giorni": len(giorni_t),
+                "giorni_peggiori": [g_ for g_, _ in peggiori],
+                "quota_peggiori_ritardo5_pct": round(100 * r5_p, 2), "quota_peggiori_ritardo10_pct": round(100 * r10_p, 2),
+                "ritardo10_pct": {"misurato": q2(o10_, n_), "mancanti_puntuali": q2(o10_, n_ + m_),
+                                  "mancanti_come_peggiori": q2(o10_ + m_ * r10_p, n_ + m_)},
+                "ritardo5_pct": {"misurato": q2(o5_, n_), "mancanti_puntuali": q2(o5_, n_ + m_),
+                                 "mancanti_come_peggiori": q2(o5_ + m_ * r5_p, n_ + m_)}}
+    confronto_gtt = {"riferimento_gtt_ritardo10_pct": RIF_GTT_RITARDO10_PCT, "pesi_settimana": PESI_SETTIMANA,
+                     "fonte": fonte, "definizioni": j_def,
+                     "incertezza": {"spostamento_min": j_sp, "senza_gps": j_forbice}}
+
     json_out = {
         "generato": datetime.now().astimezone().isoformat(timespec="seconds"),
         "tag": TAG, "periodo": per, "giorni": giorni_tipo, "parametri": parametri,
@@ -728,6 +822,7 @@ def main():
         "modi": j_modi, "modo_linea": modo_linea,
         "corse_fine": {"osservate": corse_osservate, "con_fine_corsa": corse_con_fine}}
     json_out["fonte"] = fonte
+    json_out["confronto_gtt"] = confronto_gtt
     if gps:
         # il feed resta solo come confronto: stessi campi di "citta" e "modi"
         reg_modo_f = {}
@@ -925,6 +1020,32 @@ def main():
                 if v:
                     R.append(f"{nomi[t]:11} | {k:6} | {v['passaggi']:8} | {v['ritardo']:11} | {v['ritardo10']:12} "
                              f"| {v['grappolo_buco']:15} | {v['coppie']}")
+    # ---- B1 e B2 (in coda) ----
+    R.append("")
+    R.append("CONFRONTO CON GTT")
+    R.append(f"GTT dichiara {RIF_GTT_RITARDO10_PCT}% dei passaggi bus/tram oltre {SOGLIA_RITARDO_10:g} minuti (anno 2025, tutte le linee, metodo non pubblicato).")
+    R.append("Qui la stessa quota in 4 definizioni; settimana = media pesata 5 feriale / 1 sabato / 1 domenica delle percentuali.")
+    for sog_, chiave_, tit_ in ((SOGLIA_RITARDO_10, "ritardo10", "OLTRE 10 MINUTI"), (SOGLIA_RITARDO, "ritardo5", "OLTRE 5 MINUTI")):
+        R.append(f"{tit_}: definizione | feriale | sabato | domenica | settimana | passaggi feriale")
+        for d_, nome_ in DEFINIZIONI:
+            b_ = j_def[d_]
+            cel = [("-" if b_["per_tipo"].get(t, {}).get(chiave_ + "_pct") is None else f"{b_['per_tipo'][t][chiave_ + '_pct']}%") for t in TIPI]
+            R.append(f"({d_}) {nome_:<50} | {cel[0]:>7} | {cel[1]:>7} | {cel[2]:>8} | {str(b_['settimana'][chiave_ + '_pct']) + '%':>9} | "
+                     f"{b_['per_tipo'].get('0', {}).get('passaggi', 0)}")
+    R.append("")
+    R.append("Incertezza (i): il numero (a) con tutti i passaggi spostati di -1 e +1 minuto (oltre 10 | oltre 5)")
+    for sp_ in SPOSTAMENTI_MIN:
+        k_ = f"{sp_:+d}"
+        R.append(f"  {k_:>2} min: " + "; ".join(f"{nomi[t]} {j_sp[k_][t]['ritardo10_pct']}% | {j_sp[k_][t]['ritardo5_pct']}%" for t in tipi_ok))
+    if j_forbice is not None:
+        R.append("Incertezza (ii): passaggi programmati delle corse viste senza GPS valido; forbice sulla quota oltre 10 minuti")
+        R.append("  (le corse mai viste dal GPS non si contano; 'peggiori' = quota del 10% dei giorni peggiori dello stesso tipo, almeno 1 giorno)")
+        R.append("  tipo giorno | con GPS | senza GPS | misurato | mancanti puntuali | mancanti come i peggiori | quota peggiori")
+        for t in tipi_ok:
+            f_ = j_forbice[t]
+            R.append(f"  {nomi[t]:11} | {f_['passaggi_con_gps']:7} | {f_['passaggi_senza_gps']:9} | {f_['ritardo10_pct']['misurato']:7}% | "
+                     f"{f_['ritardo10_pct']['mancanti_puntuali']:16}% | {f_['ritardo10_pct']['mancanti_come_peggiori']:23}% | "
+                     f"{f_['quota_peggiori_ritardo10_pct']}%")
     testo = "\n".join(R) + "\n"
 
     # ---------- controlli (passo 5) a schermo ----------
@@ -963,6 +1084,19 @@ def main():
         for t in TIPI:
             if t in j_citta:
                 C.append(f"  {esito(-5 <= j_citta[t]['mediana'] <= 10)} {nomi[t]}: mediana {j_citta[t]['mediana']} min fra -5 e +10")
+    for t in tipi_ok:
+        for d_, _n in DEFINIZIONI:
+            n_, o5_, o10_ = def_cnt[(d_, t)]
+            C.append(f"  {esito(o10_ <= o5_)} {nomi[t]} ({d_}): oltre 10 minuti ({o10_}) <= oltre 5 minuti ({o5_}), su {n_} passaggi")
+        a_n = def_cnt[("a", t)][0]
+        C.append(f"  {esito(a_n == j_citta[t]['passaggi'])} {nomi[t]} (a): passaggi = totale della citta' ({a_n} contro {j_citta[t]['passaggi']})")
+        C.append(f"  {esito(def_cnt[('d', t)][0] + punta_n[t] == a_n)} {nomi[t]}: passaggi fuori punta + di punta = totale "
+                 f"({def_cnt[('d', t)][0]} + {punta_n[t]} contro {a_n})")
+        C.append(f"  {esito(sh_cnt[(t, 0)][2] == def_cnt[('a', t)][2] and sh_cnt[(t, 0)][0] == a_n)} {nomi[t]}: spostamento 0 uguale a (a)")
+        if j_forbice is not None:
+            f_ = j_forbice[t]["ritardo10_pct"]
+            C.append(f"  {esito(f_['mancanti_puntuali'] <= f_['misurato'] <= f_['mancanti_come_peggiori'] + 1e-9)} {nomi[t]}: forbice "
+                     f"{f_['mancanti_puntuali']} <= {f_['misurato']} <= {f_['mancanti_come_peggiori']}")
     quota_fc = 100.0 * corse_con_fine / corse_osservate if corse_osservate else 0.0
     C.append(f"  {esito(quota_fc > 30)} corse osservate con almeno un passaggio di fine corsa: {round(quota_fc, 1)}% "
              f"({corse_con_fine} su {corse_osservate}; OK sopra 30%)")

@@ -96,6 +96,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
   (`mappa_torino.html` fuori da git).
   **Mappa giro 1 fatto (21/10, `docs/piani/ESITO_MAPPA_GIRO1.md`)**: partenza senza tema su satellite, due gruppi di temi, «Quando» solo
   nei temi con l'ora, tolti pendolari, corse simulate, avvisi, griglia, replay; mappa 13,1 MB. **Giro 2 fatto (21/10, `ESITO_MAPPA_GIRO2.md`)**: velocità bus su tutto lo storico (avviso: 2 sabati), sensori da `velocita_5t.json` dentro la mappa (via `stat.js`), «Tutti i servizi» (punteggio 0-100, calcolato nel browser). Prossimo: giro 3 di `PIANO_MAPPA.md`.
+  **R4 confronto con GTT (B1, B2, B4) fatto il 21/10 (`docs/piani/ESITO_R4_GTT.md`)**: «oltre 10 minuti» in 4 definizioni, media settimana 5/1/1: a ogni fermata 5,49%, alla prima fermata 3,92%, a metà corsa 5,24%, fuori punta 5,30% (GTT 2,3%); forbice corse senza GPS feriale 4,3-5,7%; ±1 minuto = 4,6-6,4%. La definizione spiega solo una parte della differenza. B3 (stagione) resta per gennaio/luglio.
 
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
 - **Risultato 6, punti per asse** (Leo, 20/10 sera): un punto per asse d'ingresso, almeno 3 km dal centro, posti che

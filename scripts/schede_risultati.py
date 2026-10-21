@@ -405,6 +405,12 @@ def fasce_r4():
     return righe
 
 
+# GTT: passaggi bus e tram in ritardo oltre 10 minuti nel 2025, 2,3% (rapporto di sostenibilita' GTT 2025, p. 128;
+# sintesi in docs/rapporti/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md). Costante: non esce da nessun nostro calcolo.
+GTT_RITARDO10_2025_PCT = 2.3
+DEF_R4 = (("a", "a ogni fermata"), ("b", "solo alla prima fermata"), ("c", "solo a metà corsa"), ("d", "fuori dalle ore di punta"))
+
+
 # copertura verificata su trip_update_gtt (ore 06-24 con almeno 50 minuti letti)
 GIORNI_PARZIALI_R4 = ("sabato 10 dalle 15, lunedì 12 dalle 12, martedì 13 con buchi il pomeriggio e la sera, "
                       "domenica 18 fino alle 9:30 (poi guasto del feed GTT)")
@@ -454,7 +460,31 @@ def scheda_r4():
                          if x.get("fine_corsa") and x["fine_corsa"]["passaggi"] >= par.get("min_fine_corsa", 100)
                          and str(n).isdigit()), key=lambda t: (-t[0], -t[2]["fine_corsa"]["min_per_10km"]))[:10]
     rif10 = par.get("rif_gtt_ritardo10_pct")
-    grafici_nuovi = []
+    cg = r.get("confronto_gtt")      # B1: 4 definizioni di «oltre 10 minuti» (script 27), mai scritte a mano
+    grafici_nuovi, righe_gtt, righe_gtt_en = [], [], []
+    if cg:
+        dd = cg["definizioni"]
+        sett = {k: dd[k]["settimana"]["ritardo10_pct"] for k, _ in DEF_R4}
+        fer10 = {k: dd[k]["per_tipo"]["0"]["ritardo10_pct"] for k, _ in DEF_R4}
+        grafici_nuovi.append({
+            "tipo": "barre", "titolo": "Noi e GTT: passaggi in ritardo oltre 10 minuti", "unita": "%",
+            "nota": f"Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata {pct2(fer10['a'])}%, "
+                    f"alla prima fermata {pct2(fer10['b'])}%, a metà corsa {pct2(fer10['c'])}%, fuori punta {pct2(fer10['d'])}%. "
+                    f"GTT: anno 2025, tutte le linee, metodo non pubblicato.",
+            "voci": [voce("GTT (2025, anno intero)", GTT_RITARDO10_2025_PCT)]
+                    + [voce(f"noi, {nome}", sett[k], tono="rosso") for k, nome in DEF_R4]})
+        basso, alto = min([GTT_RITARDO10_2025_PCT] + list(sett.values())), max(sett.values())
+        righe_gtt = [
+            "Non è la stessa misura: GTT fa la media dell'anno intero, estate e sere comprese, su tutte le linee, con un metodo che non pubblica; "
+            "noi misuriamo pochi giorni di ottobre, solo le linee urbane, dalle 5 a mezzanotte.",
+            f"{'Il ritardo cresce lungo la corsa: ' if sett['b'] < sett['a'] else ''}alla prima fermata è {pct2(sett['b'])}%, "
+            f"a metà corsa {pct2(sett['c'])}%, a ogni fermata {pct2(sett['a'])}%, fuori dalle ore di punta {pct2(sett['d'])}% (media della settimana).",
+            f"Tutte e due le misure dicono che i ritardi gravi sono una piccola parte dei passaggi: tra {virgola(basso)}% e {virgola(alto)}%.",
+        ]
+        righe_gtt_en = [
+            f"Why our number differs from GTT's {GTT_RITARDO10_2025_PCT}% (more than 10 minutes late, 2025): GTT averages the whole year on all lines with "
+            f"an unpublished method; we measure a few October days on urban lines. At the first stop of the trip we get {sett['b']:.2f}%, "
+            f"at every stop {sett['a']:.2f}% (weekly average)."]
     if tram_f and bus_f:
         grafici_nuovi.append({
             "tipo": "barre", "titolo": "Tram contro bus (feriale)", "unita": "%",
@@ -508,6 +538,7 @@ def scheda_r4():
             *([f"Oltre 10 minuti: {pct2(fer['ritardo10'])}% nei feriali. GTT dichiara il {virgola(rif10)}% per il 2025: "
                "il suo metodo non è pubblicato; noi misuriamo a ogni fermata con il GPS, su pochi giorni."]
               if "ritardo10" in fer and rif10 is not None else []),
+            *righe_gtt,
             *([f"Tram e bus: in ritardo oltre 5 minuti {il(tram_f['ritardo'])}% dei passaggi dei tram e {il(bus_f['ritardo'])}% "
                f"dei bus (feriale)."] if tram_f and bus_f else []),
             *([f"Linee utili (quelle che toccano più zone affollate): in ritardo oltre 5 minuti {il(utili['utili']['ritardo'])}% dei passaggi, "
@@ -573,6 +604,7 @@ def scheda_r4():
             *([f"More than 10 minutes late: {fer['ritardo10']:.2f}% of weekday departures. GTT reports {rif10}% for 2025: "
                "its method is not published; we measure at every stop with GPS, over a few days."]
               if "ritardo10" in fer and rif10 is not None else []),
+            *righe_gtt_en,
             *([f"Trams vs buses (weekdays): {tram_f['ritardo']:.1f}% of tram departures and {bus_f['ritardo']:.1f}% of bus departures "
                "are more than 5 minutes late."] if tram_f and bus_f else []),
             *([f"Delay at the end of the trip (median, last stops): highest on line {fine_corsa[0][1]} ({fine_corsa[0][0]:.1f} minutes)."]
