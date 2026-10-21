@@ -16,7 +16,7 @@ fascia_90 = 90esimo percentile. Fuori dall'intervallo validato [0,7 x min, 1,3 x
 max dei sensori] la stima e' un'estrapolazione e la fascia si allarga x2.
 
 Output: data/processed/traffico_d/tratte_traffico.json
-        docs/RAPPORTO_AFFIDABILITA.txt
+        docs/rapporti/RAPPORTO_AFFIDABILITA.txt
 """
 
 import csv
@@ -35,7 +35,8 @@ import rete_osm  # noqa: E402
 PROC = AQUI.parent / "data" / "processed"
 OUT = PROC / "traffico_d"
 RETE_DIR = OUT / "rete"
-RAPPORTO = AQUI.parent / "docs" / "RAPPORTO_AFFIDABILITA.txt"
+RAPPORTO = AQUI.parent / "docs" / "rapporti" / "RAPPORTO_AFFIDABILITA.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 CINTURA = {"Beinasco", "Borgaro Torinese", "Collegno", "Druento", "Grugliasco", "Moncalieri",
            "Nichelino", "Orbassano", "Pecetto Torinese", "Pino Torinese", "San Mauro Torinese",

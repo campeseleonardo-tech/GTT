@@ -15,10 +15,10 @@ incrocia traffico x trasporto pubblico con le definizioni FISSATE nel piano:
     soglie di sensibilita';
   - divario = percentile del traffico - percentile della copertura TP.
 
-Controllo di buon senso (NON taratura): accordo con docs/CONOSCENZA_TORINO_LEO.md.
+Controllo di buon senso (NON taratura): accordo con il controllo di buon senso di docs/R8_traffico.md.
 
 Output: data/processed/risultato8_traffico_tp_v2.json
-        docs/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt
+        docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt
 """
 
 import json
@@ -31,7 +31,8 @@ import numpy as np
 AQUI = Path(__file__).resolve().parent
 PROC = AQUI.parent / "data" / "processed"
 OUT = PROC / "traffico_d"
-RAPPORTO = AQUI.parent / "docs" / "RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt"
+RAPPORTO = AQUI.parent / "docs" / "rapporti" / "RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 # --- conoscenza di Leo (controllo di buon senso, mai taratura) ---
 LEO_STRADE = [

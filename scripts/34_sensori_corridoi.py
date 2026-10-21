@@ -19,7 +19,7 @@ quindi si carica con importlib).
 
 Output:
 - data/processed/sensori_corridoi.json
-- docs/RAPPORTO_SENSORI_CORRIDOI.txt
+- docs/rapporti/RAPPORTO_SENSORI_CORRIDOI.txt
 
 Solo libreria standard. Nessuna scrittura sul database.
 """
@@ -33,7 +33,8 @@ RADICE = Path(__file__).resolve().parents[1]
 IN_SENSORI = RADICE / "data" / "processed" / "flusso_5t_sensori.json"
 IN_CORRIDOI = RADICE / "data" / "processed" / "importanza_vie.json"
 OUT = RADICE / "data" / "processed" / "sensori_corridoi.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_SENSORI_CORRIDOI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_SENSORI_CORRIDOI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 SOGLIA_M = 60   # come lo script 24
 RIGHE = []

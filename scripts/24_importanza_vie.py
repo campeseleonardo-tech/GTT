@@ -38,7 +38,7 @@ Uso:
 
 Output:
     data/processed/importanza_vie.json       - dati per corridoio (punteggio, componenti, geometria)
-    docs/RAPPORTO_IMPORTANZA_VIE.txt         - riepilogo leggibile, da controllare prima di usare il resto
+    docs/rapporti/RAPPORTO_IMPORTANZA_VIE.txt         - riepilogo leggibile, da controllare prima di usare il resto
 """
 import argparse
 import json
@@ -67,7 +67,8 @@ OSM_PBF = RADICE / "data" / "otp" / "rete" / "torino_cintura.osm.pbf"
 IMQ_ZONE_GEO = RADICE / "data" / "processed" / "imq_zone_geo.json"
 STORICO_5T = RADICE / "data" / "storico_backup.sqlite"
 OUT = RADICE / "data" / "processed" / "importanza_vie.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_IMPORTANZA_VIE.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_IMPORTANZA_VIE.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 # --- A: mappa tag OSM -> punteggio di base (1-5) -----------------------------------
 # Qualunque tag "highway" non elencato qui prende punteggio 1 (strada locale/minore).

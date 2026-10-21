@@ -26,7 +26,7 @@ Output:
   data/processed/traffico_d/assi.json
   data/processed/traffico_d/tratte.csv
   data/processed/traffico_d/assi_tratte.npz   (edge -> asse, edge -> tratta)
-  docs/RAPPORTO_ASSI_TRATTE.txt
+  docs/rapporti/RAPPORTO_ASSI_TRATTE.txt
 """
 
 import csv
@@ -54,7 +54,8 @@ RADICE = trova_radice()
 PROC = RADICE / "data" / "processed"
 OUT = PROC / "traffico_d"
 RETE_DIR = OUT / "rete"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_ASSI_TRATTE.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_ASSI_TRATTE.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 DEV_STRAIGHT = math.radians(35.0)
 DEV_STESSO_NOME = math.radians(45.0)

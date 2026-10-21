@@ -12,7 +12,7 @@ verso quando il tag manca: CORSIE_DEFAULT_VERSO.
 
 Output: data/processed/traffico_d/corsie.csv
         data/processed/traffico_d/tratte_corsie.json
-        docs/RAPPORTO_CORSIE.txt
+        docs/rapporti/RAPPORTO_CORSIE.txt
 """
 
 import csv
@@ -39,7 +39,8 @@ RADICE = trova_radice()
 PROC = RADICE / "data" / "processed"
 OUT = PROC / "traffico_d"
 RETE_DIR = OUT / "rete"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_CORSIE.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_CORSIE.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 
 def main():

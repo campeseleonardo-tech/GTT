@@ -34,4 +34,4 @@ echo ---- valutazione 63 finita %TIME% ---- >> "%LOG%"
 echo ==== FINE %DATE% %TIME% ==== >> "%LOG%"
 echo.
 echo Fatto. Il log e' in %LOG%
-echo Valutazione: docs\RAPPORTO_TRAFFICO_V4.txt
+echo Valutazione: docs\rapporti\RAPPORTO_TRAFFICO_V4.txt

@@ -19,8 +19,8 @@ punti di errore mediano dalla migliore).
 
 Output:
   data/processed/traffico_c/taratura_validazione.json
-  docs/RAPPORTO_TRAFFICO_C_VALIDAZIONE.txt
-  docs/grafico_misurato_vs_previsto.png (se matplotlib e' disponibile)
+  docs/rapporti/RAPPORTO_TRAFFICO_C_VALIDAZIONE.txt
+  docs/rapporti/grafico_misurato_vs_previsto.png (se matplotlib e' disponibile)
 """
 
 import json
@@ -43,7 +43,8 @@ def trova_radice():
 
 RADICE = trova_radice()
 OUT_DIR = RADICE / "data" / "processed" / "traffico_c"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_TRAFFICO_C_VALIDAZIONE.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TRAFFICO_C_VALIDAZIONE.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 ERRORE_MEDIANO_A = 0.369   # metodo A, 17/10
 
 
@@ -117,7 +118,7 @@ def main():
 
     a("VALIDAZIONE DEL METODO C - PACCHETTO F")
     a("=" * 74)
-    a("Criteri ripresi parola per parola dalla sezione 1 di docs/PIANO_TRAFFICO_FASE3.md:")
+    a("Criteri ripresi parola per parola dalla tabella delle classi di esito di docs/R8_traffico.md:")
     a('  "C-ASSOLUTO: errore mediano <= 35% e migliore di A e rho >= 0,7"')
     a('  "C-INDICE:  rho >= 0,7 ma errore > 35% o non migliore di A"')
     a('  "C-DEBOLE:  0,5 <= rho < 0,7"')
@@ -336,9 +337,10 @@ def main():
         ax.set_title(f"Modello vs sensori (n={n}) - [STIMATO]")
         ax.legend()
         fig.tight_layout()
-        fig.savefig(RADICE / "docs" / "grafico_misurato_vs_previsto.png", dpi=110)
+        (RADICE / "docs" / "rapporti").mkdir(parents=True, exist_ok=True)
+        fig.savefig(RADICE / "docs" / "rapporti" / "grafico_misurato_vs_previsto.png", dpi=110)
         a("")
-        a("  Grafico: docs/grafico_misurato_vs_previsto.png")
+        a("  Grafico: docs/rapporti/grafico_misurato_vs_previsto.png")
     except Exception as e:
         a(f"  (grafico non prodotto: {e})")
 

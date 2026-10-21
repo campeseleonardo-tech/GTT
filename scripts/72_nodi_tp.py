@@ -50,8 +50,8 @@ Cosa scrive
 -----------
   data/processed/risultato6_v2/nodi.json
   data/processed/risultato6_v2/parcheggi_funzione.json
-  docs/RAPPORTO_R6V2_NODI.txt
-  docs/RAPPORTO_R6V2_FUNZIONE.txt
+  docs/rapporti/RAPPORTO_R6V2_NODI.txt
+  docs/rapporti/RAPPORTO_R6V2_FUNZIONE.txt
 
 Come si lancia
 --------------
@@ -96,8 +96,10 @@ ASSI = RADICE / "data" / "processed" / "traffico_d" / "assi_tratte.npz"
 TRATTE = RADICE / "data" / "processed" / "traffico_d" / "tratte_traffico.json"
 OUT_NODI = RADICE / "data" / "processed" / "risultato6_v2" / "nodi.json"
 OUT_FUNZ = RADICE / "data" / "processed" / "risultato6_v2" / "parcheggi_funzione.json"
-RAP_NODI = RADICE / "docs" / "RAPPORTO_R6V2_NODI.txt"
-RAP_FUNZ = RADICE / "docs" / "RAPPORTO_R6V2_FUNZIONE.txt"
+RAP_NODI = RADICE / "docs" / "rapporti" / "RAPPORTO_R6V2_NODI.txt"
+RAP_NODI.parent.mkdir(parents=True, exist_ok=True)
+RAP_FUNZ = RADICE / "docs" / "rapporti" / "RAPPORTO_R6V2_FUNZIONE.txt"
+RAP_FUNZ.parent.mkdir(parents=True, exist_ok=True)
 
 GIORNO_TIPO = "20261012"
 GIORNI = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]

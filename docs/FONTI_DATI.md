@@ -41,7 +41,7 @@ Dove stanno i file e cosa contengono: inventario ISTAT in `MEMORIA_PROGETTO.md`.
 - Indagine IMQ 2022 (MTM, Agenzia Mobilità Piemontese): usati i dati aperti (`data/raw/IMQ2022_opendata_web/`).
   Richiesta di zone di campionamento e altre elaborazioni INVIATA da Leo; risposta attesa.
 - Dati da telefonia mobile (TIM/Wind usati dall'agenzia, Vodafone usati con il Politecnico): non pubblici.
-  Bozza (mai inviata, idea congelata il 20/10) in `archivio/idee/richiesta_dati_telefonia.md`.
+  Idea congelata: nessuna richiesta inviata.
 
 ## Rete stradale (per R5)
 

@@ -22,7 +22,7 @@ rinormalizzano.
 
 Uscite:
   data/processed/vulnerabilita.json   (indice + componenti per sezione)
-  docs/RAPPORTO_VULNERABILITA.txt     (sintesi e top 10)
+  docs/rapporti/RAPPORTO_VULNERABILITA.txt     (sintesi e top 10)
 
 Usage:
     python 19_vulnerabilita.py [--pesi occ=1,ist=1,aff=1,anz=1,serv=1,verde=1]
@@ -38,7 +38,8 @@ RADICE = Path(__file__).resolve().parent.parent
 SEZIONI = RADICE / "data/processed/sezioni_torino.json"
 ACCESS = RADICE / "data/processed/accessibilita.json"
 OUT = RADICE / "data/processed/vulnerabilita.json"
-RAPPORTO = RADICE / "docs/RAPPORTO_VULNERABILITA.txt"
+RAPPORTO = RADICE / "docs/rapporti/RAPPORTO_VULNERABILITA.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 PRO_COM_TORINO = 30001  # non usato: il comune resta il campo "c" del json
 

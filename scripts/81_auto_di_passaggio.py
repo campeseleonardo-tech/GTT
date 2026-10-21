@@ -35,7 +35,7 @@ Cosa scrive
 -----------
   data/processed/risultato6_v2/auto_passaggio.json   (numeri della domanda, decisione, c4 per luogo)
   data/processed/risultato6_v2/auto_passaggio.npz    (flusso per arco)
-  docs/RAPPORTO_R6_AUTO_PASSAGGIO.txt
+  docs/rapporti/RAPPORTO_R6_AUTO_PASSAGGIO.txt
 
 Come si lancia
 --------------
@@ -68,7 +68,8 @@ RETE_DIR = RADICE / "data" / "processed" / "traffico_c" / "rete"
 PUNTI = RADICE / "data" / "processed" / "traffico_c" / "punti.json"
 OUT = P / "auto_passaggio.json"
 OUT_NPZ = P / "auto_passaggio.npz"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6_AUTO_PASSAGGIO.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_AUTO_PASSAGGIO.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 SOGLIA_TORINESI = 0.25
 RAGGIO_STRADA_M = 100.0

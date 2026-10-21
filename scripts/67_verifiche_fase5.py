@@ -8,7 +8,7 @@ scripts/67_verifiche_fase5.py - Verifiche indipendenti (sezione 11 del piano Fas
 4) tre assi cambiati di nome controllati contro la mappa OSM (continuita' fisica);
 5) git status senza file vietati toccati.
 
-Output: docs/RAPPORTO_FASE5_VERIFICHE.txt
+Output: docs/rapporti/RAPPORTO_FASE5_VERIFICHE.txt
 """
 
 import csv
@@ -31,7 +31,8 @@ RADICE = AQUI.parent
 PROC = RADICE / "data" / "processed"
 OUT = PROC / "traffico_d"
 RAW = RADICE / "data" / "raw"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_FASE5_VERIFICHE.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_FASE5_VERIFICHE.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 RETE_DIR = OUT / "rete"
 
 

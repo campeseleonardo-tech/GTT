@@ -13,7 +13,7 @@ Costruisce il prodotto finale per corridoio:
 
 Output:
   data/processed/traffico_stimato_finale.json
-  docs/RAPPORTO_TRAFFICO_C.txt
+  docs/rapporti/RAPPORTO_TRAFFICO_C.txt
 """
 
 import json
@@ -35,7 +35,8 @@ def trova_radice():
 
 RADICE = trova_radice()
 OUT_DIR = RADICE / "data" / "processed" / "traffico_c"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_TRAFFICO_C.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TRAFFICO_C.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 
 def main():

@@ -21,7 +21,7 @@ Controlli (tolleranza 5%): totale auto-conducente ~4,18 milioni/giorno e
 
 Output:
   data/processed/traffico_c/domanda_auto.json
-  docs/RAPPORTO_TRAFFICO_C_DOMANDA.txt
+  docs/rapporti/RAPPORTO_TRAFFICO_C_DOMANDA.txt
 """
 
 import csv
@@ -45,7 +45,8 @@ SPOSTAMENTI = RADICE / "data" / "processed" / "imq" / "spostamenti.csv"
 ZONE_JSON = RADICE / "data" / "processed" / "imq_zone.json"
 OUT_DIR = RADICE / "data" / "processed" / "traffico_c"
 OUT = OUT_DIR / "domanda_auto.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_TRAFFICO_C_DOMANDA.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TRAFFICO_C_DOMANDA.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 MEZZI_NON_MOTORIZZATI = {"", "01", "16", "20", "26"}  # piedi, bici, bike sharing, monopattino
 TOTALE_RIFERIMENTO = 8217863.0

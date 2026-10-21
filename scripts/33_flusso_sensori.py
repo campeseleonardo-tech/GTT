@@ -35,7 +35,7 @@ Come si legge il resto:
 
 Output:
 - data/processed/flusso_5t_sensori.json
-- docs/RAPPORTO_FLUSSO_5T_SENSORI.txt
+- docs/rapporti/RAPPORTO_FLUSSO_5T_SENSORI.txt
 
 Con --prova si stampa a console il blocco dei primi 5 sensori (per codice) e NON
 si scrive nessun file.
@@ -53,7 +53,8 @@ RADICE = Path(__file__).resolve().parents[1]
 IN = RADICE / "data" / "processed" / "velocita_5t.json"
 ESCLUSI = RADICE / "data" / "processed" / "sensori_esclusi.json"
 OUT = RADICE / "data" / "processed" / "flusso_5t_sensori.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_FLUSSO_5T_SENSORI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_FLUSSO_5T_SENSORI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 ORE = 24
 NOME_TIPO = {0: "feriale", 1: "sabato", 2: "domenica"}

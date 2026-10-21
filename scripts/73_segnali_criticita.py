@@ -47,7 +47,7 @@ Cosa legge
 Cosa scrive
 -----------
   data/processed/risultato6_v2/segnali.json
-  docs/RAPPORTO_R6V2_SEGNALI.txt
+  docs/rapporti/RAPPORTO_R6V2_SEGNALI.txt
 
 Come si lancia
 --------------
@@ -89,7 +89,8 @@ ZTL = RADICE / "data" / "processed" / "traffico_d" / "ztl_unificata.json"
 ZONE_GEO = RADICE / "data" / "processed" / "imq_zone_geo.json"
 GIRO1_SEGNALI = RADICE / "data" / "processed" / "risultato6_v2" / "giro1" / "segnali.json"
 OUT = RADICE / "data" / "processed" / "risultato6_v2" / "segnali.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6V2_SEGNALI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6V2_SEGNALI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 RAGGIO_STRADA_M = 150.0
 RAGGIO_SENSORE_M = 300.0

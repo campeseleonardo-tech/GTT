@@ -2,7 +2,7 @@
 """35_sensori_esclusi.py
 
 Elenco dei sensori 5T da NON usare per misurare il traffico, con il motivo.
-Piano: docs/PIANO_TRAFFICO_FASE2.md, sezione 3, Passo 7a.
+Vedi docs/R8_traffico.md.
 
 Regole (periodo = giorni locali 2026-10-09 -> 2026-10-16, UTC+2):
 - "morto"      : ha letture nel periodo ma TUTTE con accuratezza = 0;
@@ -13,7 +13,7 @@ L'ordine di controllo e' morto -> bloccato -> pochi dati: ogni sensore ha UN sol
 
 Output:
 - data/processed/sensori_esclusi.json  (lista di {lcd1, nome, motivo})
-- docs/RAPPORTO_SENSORI_ESCLUSI.txt
+- docs/rapporti/RAPPORTO_SENSORI_ESCLUSI.txt
 
 Solo libreria standard. Database in sola lettura.
 """
@@ -27,7 +27,8 @@ RADICE = Path(__file__).resolve().parents[1]
 DB = RADICE / "data" / "storico_backup.sqlite"
 VELOCITA = RADICE / "data" / "processed" / "velocita_5t.json"
 OUT = RADICE / "data" / "processed" / "sensori_esclusi.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_SENSORI_ESCLUSI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_SENSORI_ESCLUSI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 DA, A = "2026-10-09", "2026-10-16"   # giorni locali (UTC+2)
 MIN_COPPIE = 20                       # sotto questo numero di coppie distinte: "bloccato"

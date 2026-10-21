@@ -20,7 +20,7 @@ percentili). Per ciascuna si controlla la copertura (deciso con Leo il 14/10): c
 parcheggio di interscambio entro --raggio-copertura-m (default 200 m, in linea d'aria)?
 Se si', e' coperta: oltre, non ha senso lasciare l'auto li' e proseguire a piedi.
 
-Parcheggi (Passo 0 di docs/PIANO_RISULTATO6.md): elenco e coordinate da 5T get_pk
+Parcheggi (vedi docs/R6_parcheggi.md): elenco e coordinate da 5T get_pk
 (data/raw/5t_get_pk_*.xml, il piu' recente). "Interscambio ufficiale" = segnato SI nel
 file del Comune (Stura, Caio Mario, Sofia, Venchi Unica) + Fermi (Collegno, capolinea
 metro: fuori Comune, aggiunto a mano). Gli altri garage in struttura sono riportati a
@@ -35,7 +35,7 @@ Uso:
 
 Output:
     data/processed/risultato6_interscambio.json
-    docs/RAPPORTO_RISULTATO6.txt   <-- controlla questo prima di usare i dati
+    docs/rapporti/RAPPORTO_RISULTATO6.txt   <-- controlla questo prima di usare i dati
 """
 import argparse
 import csv
@@ -70,7 +70,8 @@ PARCHEGGI_5T_GLOB = "5t_get_pk_*.xml"
 PARCHEGGI_ZIP = RADICE / "data" / "raw" / "parcheggi_accesso_controllato_csv.zip"
 PARCHEGGI_CSV = "parcheggi_accesso_controllato.csv"
 OUT = RADICE / "data" / "processed" / "risultato6_interscambio.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_RISULTATO6.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_RISULTATO6.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 INTERSCAMBIO_A_MANO = {"FERMI"}  # fuori Comune di Torino, non nel file del Comune
 GIORNO_TIPO = "20261012"  # stesso giorno tipo feriale usato in 18_accessibilita.py

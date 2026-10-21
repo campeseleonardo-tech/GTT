@@ -25,7 +25,7 @@ Cosa legge
 Cosa scrive
 -----------
   data/processed/risultato6_v2/parcheggi.json
-  docs/RAPPORTO_R6V2_PARCHEGGI.txt
+  docs/rapporti/RAPPORTO_R6V2_PARCHEGGI.txt
 
 Come si lancia
 --------------
@@ -62,7 +62,8 @@ CSV_COMUNE = "parcheggi_accesso_controllato.csv"
 PBF = RADICE / "data" / "otp" / "rete" / "torino_cintura.osm.pbf"
 DB = RADICE / "data" / "storico_backup.sqlite"
 OUT = RADICE / "data" / "processed" / "risultato6_v2" / "parcheggi.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6V2_PARCHEGGI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6V2_PARCHEGGI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 UFFICIALI = {"STURA", "CAIO MARIO", "SOFIA", "VENCHI UNICA", "FERMI"}  # 4 Comune + Fermi
 RAGGIO_ABBINA_OSM_M = 60.0     # 5T/Comune vs OSM: entro 60 m dal centro

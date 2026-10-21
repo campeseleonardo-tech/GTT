@@ -13,7 +13,7 @@ Controlli obbligatori: tempi di viaggio (Castello->Collegno 20-35 min in punta),
 velocita' del modello sui tratti dei sensori vs misurate.
 
 Output: data/processed/traffico_d/valutazione_fase5.json
-        docs/RAPPORTO_TRAFFICO_V4.txt
+        docs/rapporti/RAPPORTO_TRAFFICO_V4.txt
 """
 
 import json
@@ -30,7 +30,8 @@ import rete_osm  # noqa: E402
 PROC = AQUI.parent / "data" / "processed"
 OUT = PROC / "traffico_d"
 RETE_DIR = OUT / "rete"
-RAPPORTO = AQUI.parent / "docs" / "RAPPORTO_TRAFFICO_V4.txt"
+RAPPORTO = AQUI.parent / "docs" / "rapporti" / "RAPPORTO_TRAFFICO_V4.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 ERRORE_A = 0.369
 
 VARIANTI = ["v0", "v4", "abl1", "abl2", "abl3"]

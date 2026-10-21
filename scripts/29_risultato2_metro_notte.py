@@ -16,7 +16,7 @@ Legge tre file gia' pronti (nessun nuovo giro R5):
 Output:
   data/processed/risultato2_metro_notte.json       (dettaglio completo per sezione)
   data/processed/risultato2_riepilogo_mappa.json   (pochi numeri, per la scheda in simulazione.html)
-  docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt
+  docs/rapporti/RAPPORTO_RISULTATO2_METRO_NOTTE.txt
 """
 import json
 from datetime import datetime, timezone
@@ -30,7 +30,8 @@ SCENARI = {
 }
 OUT = RADICE / "data/processed/risultato2_metro_notte.json"
 OUT_RIEPILOGO = RADICE / "data/processed/risultato2_riepilogo_mappa.json"
-RAPPORTO = RADICE / "docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt"
+RAPPORTO = RADICE / "docs/rapporti/RAPPORTO_RISULTATO2_METRO_NOTTE.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 # [correzioni 20/10/2026] secondo numero, piu' severo: residenti con almeno il 25% di servizi in piu' di notte
 SOGLIA_QUOTA = 0.25

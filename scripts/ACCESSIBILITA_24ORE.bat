@@ -30,7 +30,7 @@ goto giro
 
 :fatto
 echo.
-echo FATTO. Controlla docs\RAPPORTO_ACCESSIBILITA.txt (deve dire "sezioni: 8317" e 24 ore)
+echo FATTO. Controlla docs\rapporti\RAPPORTO_ACCESSIBILITA.txt (deve dire "sezioni: 8317" e 24 ore)
 echo e data\processed\accessibilita.json. Poi avvisa Claude.
 pause
 exit /b 0

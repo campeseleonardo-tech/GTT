@@ -3,7 +3,7 @@
 
 Legge i fatti gia' verificati (data/processed/rapporto_gtt/fatti.json) e chiede al
 modello un riassunto MOLTO corto in italiano. Scrive
-docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md.
+docs/rapporti/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md.
 
 Controllo locale (0 token): ogni numero che compare nel riassunto deve esistere in
 fatti.json (valori, anni, pagine). Se un numero non c'e', rifa' la chiamata una volta;
@@ -22,7 +22,8 @@ from pathlib import Path
 
 RADICE = Path(__file__).resolve().parent.parent
 FATTI_JSON = RADICE / "data/processed/rapporto_gtt/fatti.json"
-RIASSUNTO_MD = RADICE / "docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md"
+RIASSUNTO_MD = RADICE / "docs/rapporti/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md"
+RIASSUNTO_MD.parent.mkdir(parents=True, exist_ok=True)
 
 PROMPT_RIASSUNTO = """Ti do un elenco di fatti gia' verificati, estratti dal Rapporto di sostenibilita' GTT 2025, in JSON. Scrivi in italiano, semplice e senza gergo, un riassunto MOLTO corto per un progetto di analisi della mobilita' di Torino.
 

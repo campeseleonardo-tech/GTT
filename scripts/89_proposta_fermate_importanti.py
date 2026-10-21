@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """89 - Proposta di regola fissa per le "fermate importanti" (lavoro 5). SOLO LETTURA.
 
-Non cambia lo script 83 ne' i risultati: scrive solo docs/RAPPORTO_R6_PROPOSTA_FERMATE.txt. Sceglie Leo N e M.
+Non cambia lo script 83 ne' i risultati: scrive solo docs/rapporti/RAPPORTO_R6_PROPOSTA_FERMATE.txt. Sceglie Leo N e M.
 
 Universo: gli stessi luoghi eleggibili dello script 83 (Citta' metropolitana fuori da Q001-Q009).
 Segnali, come li legge lo script 83: b2 (corse/ora, media ore 6-10 e 16-20 di un feriale) da segnali.json;
@@ -26,7 +26,8 @@ P = RADICE / "data" / "processed" / "risultato6_v2"
 LUOGHI, SEGNALI, PASSAGGIO = P / "luoghi.json", P / "segnali.json", P / "auto_passaggio.json"
 NODI, IMPORTANTI, MAPPA = P / "nodi.json", P / "fermate_importanti.json", P / "mappa_r6.json"
 ZONE = RADICE / "data" / "processed" / "imq_zone.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6_PROPOSTA_FERMATE.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_PROPOSTA_FERMATE.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 GRIGLIA_N = (10, 15, 20, 30)
 GRIGLIA_M = (500, 1000, 2000, 3000)
 PERC = (10, 25, 50, 75, 90, 95, 99)

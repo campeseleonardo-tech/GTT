@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Risultato 9 — attesa promessa contro attesa reale [MISURATO].
 
-Piano: docs/PIANO_RISULTATO4.md, parte B (prima docs/PIANO_RISULTATO9_ATTESA.md; approvato da Leo il 18/10/2026 con i default D1-D5).
+Documento del risultato: docs/R4_puntualita.md.
 
 Domanda: sulle linee frequenti, quanti minuti in piu' aspetta in media chi arriva alla fermata a caso,
 rispetto a quanto promette l'orario?
@@ -28,7 +28,7 @@ Uso:
   python scripts/70_risultato9_attesa.py            giro completo, scrive JSON e rapporto
   python scripts/70_risultato9_attesa.py --prova    solo 15/10, rapporto a schermo, nessun file
   python scripts/70_risultato9_attesa.py --freq 10  sensibilita' (soglia diversa), nessun file
-Uscite: data/processed/risultato9_attesa.json, docs/RAPPORTO_RISULTATO9_ATTESA.txt
+Uscite: data/processed/risultato9_attesa.json, docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt
 """
 
 import csv
@@ -50,7 +50,8 @@ _spec.loader.exec_module(r4)
 
 OUT_JSON = RADICE / "data" / "processed" / "risultato9_attesa.json"
 IN_R4 = RADICE / "data" / "processed" / "risultato4_regolarita.json"   # scritto dallo script 27: modo_linea
-OUT_RAPPORTO = RADICE / "docs" / "RAPPORTO_RISULTATO9_ATTESA.txt"
+OUT_RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_RISULTATO9_ATTESA.txt"
+OUT_RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 TAG = "MISURATO"
 GIORNO_PROVA = "20261015"
 

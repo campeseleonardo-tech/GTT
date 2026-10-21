@@ -5,10 +5,10 @@ Le domande di Leo hanno una risposta qui; i lavori stanno nei piani:
 
 | Piano | Cosa |
 |---|---|
-| `docs/PIANO_DOCUMENTI.md` | pulizia di documenti e script, un documento per risultato |
-| `docs/PIANO_MAPPA.md` | mappa più semplice: temi, nomi, partenza vuota su satellite, peso |
-| `docs/PIANO_RISULTATI.md` | R1, R4 (confronto con GTT), R6, R8 e le analisi nuove (case, servizi, criticità) |
-| `docs/PIANO_SCHEDE.md` | schede dei risultati più corte, grafici giusti, niente rumore di sviluppo |
+| `docs/piani/PIANO_DOCUMENTI.md` | pulizia di documenti e script, un documento per risultato |
+| `docs/piani/PIANO_MAPPA.md` | mappa più semplice: temi, nomi, partenza vuota su satellite, peso |
+| `docs/piani/PIANO_RISULTATI.md` | R1, R4 (confronto con GTT), R6, R8 e le analisi nuove (case, servizi, criticità) |
+| `docs/piani/PIANO_SCHEDE.md` | schede dei risultati più corte, grafici giusti, niente rumore di sviluppo |
 
 Decisioni di Leo (21/10, alle domande di Claude): il «R2» della domanda su GTT è il **Risultato 4**; di «Chi va dove»
 resta **solo l'IMQ**; «Velocità e traffico» = **media per tipo di giorno** (feriale, sabato, domenica) su tutti i

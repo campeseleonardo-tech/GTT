@@ -14,7 +14,7 @@ echo.
 echo FATTO. Controlla:
 echo   data\processed\risultato2_metro_notte.json
 echo   data\processed\risultato2_riepilogo_mappa.json
-echo   docs\RAPPORTO_RISULTATO2_METRO_NOTTE.txt
+echo   docs\rapporti\RAPPORTO_RISULTATO2_METRO_NOTTE.txt
 echo.
 echo Per terminare, premi un tasto (o chiudi la finestra) ...
 pause > nul

@@ -11,7 +11,7 @@ scripts/39_fattibilita_rete.py - Pacchetto A del piano Fase 3 (prova di fattibil
    tempo) e su un percorso centro -> Collegno (atteso 20-35 minuti).
 5. Stima il tempo del giro completo.
 
-Scrive docs/RAPPORTO_TRAFFICO_C_FATTIBILITA.txt. Non modifica altri file.
+Scrive docs/rapporti/RAPPORTO_TRAFFICO_C_FATTIBILITA.txt. Non modifica altri file.
 """
 
 import json
@@ -44,7 +44,8 @@ RADICE = trova_radice()
 PBF = RADICE / "data" / "otp" / "rete" / "torino_cintura.osm.pbf"
 OUT_DIR = RADICE / "data" / "processed" / "traffico_c"
 RETE_DIR = OUT_DIR / "rete"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_TRAFFICO_C_FATTIBILITA.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TRAFFICO_C_FATTIBILITA.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 JAVA_HOME = RADICE / "data" / "otp" / "jdk-25.0.4.1+1-jre"
 

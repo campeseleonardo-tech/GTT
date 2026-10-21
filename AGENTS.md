@@ -6,7 +6,7 @@ città (chi va dove, dove mancano servizi, dove sono le criticità) e pochi scen
 sull'accessibilità. Gioco e simulatore universale esclusi. Dettagli in MEMORIA_PROGETTO.md.
 
 ## Memoria
-La memoria del progetto è MEMORIA_PROGETTO.md (decisioni, limiti, cose da fare). Leggila all'inizio. Aggiornala alla fine se hai deciso o scoperto qualcosa. Non creare altri documenti di memoria o di passaggio. I piani di lavoro vanno in docs/ (es. docs/PIANO_ACCESSIBILITA.md).
+La memoria del progetto è MEMORIA_PROGETTO.md (decisioni, limiti, cose da fare). Leggila all'inizio. Aggiornala alla fine se hai deciso o scoperto qualcosa. Non creare altri documenti di memoria o di passaggio. I piani di lavoro vanno in docs/piani/ (es. docs/piani/PIANO_MAPPA.md).
 
 ## Come si lavora con Leo
 Passo passo: un passo alla volta, decisioni importanti chieste prima, piccole scelte con valori predefiniti dichiarati. Spiegazioni semplici, senza gergo.

@@ -27,7 +27,7 @@ Cosa legge
 Cosa scrive
 -----------
   data/processed/risultato6_v2/fermate_importanti.json
-  docs/RAPPORTO_R6_FERMATE_IMPORTANTI.txt
+  docs/rapporti/RAPPORTO_R6_FERMATE_IMPORTANTI.txt
 
 Come si lancia
 --------------
@@ -51,11 +51,12 @@ LUOGHI = P / "luoghi.json"
 SEGNALI = P / "segnali.json"
 PASSAGGIO = P / "auto_passaggio.json"
 NODI = P / "nodi.json"
-PROPOSTA = RADICE / "docs" / "RAPPORTO_R6_PROPOSTA_FERMATE.txt"
+PROPOSTA = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_PROPOSTA_FERMATE.txt"
 SCENARI = P / "scenari.json"
 ZONE = RADICE / "data" / "processed" / "imq_zone.json"
 OUT = P / "fermate_importanti.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6_FERMATE_IMPORTANTI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_FERMATE_IMPORTANTI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 SEGNALI_USATI = ("a2", "b2", "c4", "e")
 PESI = {"a2": 1.0, "b2": 1.0, "c4": 1.0, "e": 1.0}

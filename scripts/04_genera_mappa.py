@@ -176,13 +176,13 @@ def data_gtfs(s):
     return date(int(s[:4]), int(s[4:6]), int(s[6:8]))
 
 
-# Giorni tipici FISSI (correzioni del 20/10/2026): prima si prendevano "il prossimo martedi', sabato e
+# Giorni tipici FISSI: prima si prendevano "il prossimo martedi', sabato e
 # domenica" rispetto al giorno in cui si rigenera la mappa, che poteva cadere sul cambio dell'ora (25/10)
 # o su un festivo. Si cambiano qui, con giorni normali dentro la validita' del GTFS.
 DATE_FISSE = {"fer": date(2026, 11, 10), "sab": date(2026, 11, 14), "dom": date(2026, 11, 15)}
 
 
-# Accessibilita' in forma compatta (correzioni del 20/10/2026): erano dizionari con i nomi dei gruppi ripetuti
+# Accessibilita' in forma compatta: erano dizionari con i nomi dei gruppi ripetuti
 # per ognuna delle 24 ore di ognuna delle ~8.300 sezioni (14,6 MB su 23,6 della mappa). Ora:
 #   [ [piedi: 5 valori nell'ordine di GRUPPI_ACC], [24 ore: 5 valori o null] ]
 # La mappa (espandiAcc in mappa_template.html) ricostruisce gli stessi dizionari all'avvio: valori identici.
@@ -962,7 +962,7 @@ def main():
             fb_candidati[g] = [{"lat": c["lat"], "lon": c["lon"], "residenti_guadagnati": c["residenti_guadagnati"],
                                  "n_sezioni_coperte": c["n_sezioni_coperte"]} for c in gd.get("candidati_scelti", [])]
         print(f"  risultato1 (candidati nuovo servizio): {', '.join(f'{g}:{len(v)}' for g, v in fb_candidati.items())}")
-    # [R6] Risultato 6: zone IMQ, fermate importanti, parcheggi (file unico prodotto dallo script 79-80)
+    # Risultato 6: zone IMQ, fermate importanti, parcheggi (file unico prodotto dallo script 79-80)
     r6 = None
     f_r6 = RADICE / "data" / "processed" / "risultato6_v2" / "mappa_r6.json"
     if f_r6.is_file():
@@ -1023,7 +1023,7 @@ def main():
     comuni = nomi_comuni({int(x["c"]) for x in sez if x.get("c")} | {PRO_COM_TORINO}) if sez else {}
     dati = {
         "vel": vel or {}, "vel_meta": vel_meta,
-        "r4": r4 or {}, "r4_meta": r4_meta,   # [R4] puntualita' per linea e fascia (tema «Puntualita' delle linee»)
+        "r4": r4 or {}, "r4_meta": r4_meta,   # puntualita' per linea e fascia (tema «Puntualita' delle linee»)
         "comuni": comuni,   # PRO_COM -> nome, per schede e tooltip
         "pend": pend,
         "omi": omi,     # OMI quote immobiliari

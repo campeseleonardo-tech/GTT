@@ -30,7 +30,7 @@ cintura, quindi candidati lì userebbero solo OSM, poco affidabile).
 
 Uscite:
   data/processed/risultato1_candidati.json
-  docs/RAPPORTO_RISULTATO1_CANDIDATI.txt
+  docs/rapporti/RAPPORTO_RISULTATO1_CANDIDATI.txt
 
 Usage:
     python 22_risultato1_candidati.py --gruppi scuole,salute,cibo,fermate,verde [--cluster-metri 400] [--max-candidati 5] [--soglia-densita 1000]
@@ -47,7 +47,8 @@ from pathlib import Path
 RADICE = Path(__file__).resolve().parent.parent
 ACCESS = RADICE / "data/processed/accessibilita.json"
 OUT = RADICE / "data/processed/risultato1_candidati.json"
-RAPPORTO = RADICE / "docs/RAPPORTO_RISULTATO1_CANDIDATI.txt"
+RAPPORTO = RADICE / "docs/rapporti/RAPPORTO_RISULTATO1_CANDIDATI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 COMUNE_TORINO_PREFIX = "1272"
 
 # Riusa le funzioni del motore R5 gia' scritte e provate in 18_accessibilita.py

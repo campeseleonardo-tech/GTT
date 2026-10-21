@@ -35,7 +35,7 @@ data/raw/gtt_gtfs_20261003_224530.zip -> trips.txt, routes.txt, stop_times.txt.
 Output
 ------
 data/processed/risultato4_regolarita.json
-docs/RAPPORTO_RISULTATO4.txt
+docs/rapporti/RAPPORTO_RISULTATO4.txt
 
 Uso
 ---
@@ -65,7 +65,8 @@ RADICE = Path(__file__).resolve().parent.parent
 DB = RADICE / "data" / "storico_backup.sqlite"
 GTFS = RADICE / "data" / "raw" / "gtt_gtfs_20261003_224530.zip"
 OUT_JSON = RADICE / "data" / "processed" / "risultato4_regolarita.json"
-OUT_RAPPORTO = RADICE / "docs" / "RAPPORTO_RISULTATO4.txt"
+OUT_RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_RISULTATO4.txt"
+OUT_RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 POPOLARITA = RADICE / "data" / "processed" / "popolarita_zone.json"     # script 87: linee utili
 
 TAG = "MISURATO"
@@ -79,7 +80,7 @@ FREQ_MAX = 15.0              # minuti
 MIN_PASSAGGI = 200
 MIN_COPPIE = 100
 SOGLIA_RITARDO_10 = 10.0     # ritardo oltre 10 minuti: la misura del rapporto GTT 2025
-RIF_GTT_RITARDO10_PCT = 2.3  # rapporto di sostenibilita' GTT 2025: passaggi bus/tram in ritardo > 10', anno 2025 (docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md)
+RIF_GTT_RITARDO10_PCT = 2.3  # rapporto di sostenibilita' GTT 2025: passaggi bus/tram in ritardo > 10', anno 2025 (docs/rapporti/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md)
 FINE_CORSA_ULTIME = 3        # fine corsa = passaggi alle ultime 3 fermate della corsa
 MIN_FINE_CORSA = 100         # passaggi di fine corsa minimi per entrare nella classifica dei minuti ogni 10 km
 MODI = ("tram", "metro", "bus")
@@ -654,7 +655,7 @@ def main():
                  "min_coppie": MIN_COPPIE, "soglia_ritardo10_min": SOGLIA_RITARDO_10,
                  "rif_gtt_ritardo10_pct": RIF_GTT_RITARDO10_PCT,
                  "rif_gtt_fonte": "rapporto di sostenibilita' GTT 2025: passaggi bus/tram in ritardo > 10 minuti, anno 2025 "
-                                  "(docs/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md)",
+                                  "(docs/rapporti/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md)",
                  "fine_corsa_ultime_fermate": FINE_CORSA_ULTIME, "min_fine_corsa": MIN_FINE_CORSA}
     j_citta = {}
     for t, a in punt_citta.items():

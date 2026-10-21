@@ -28,7 +28,7 @@ Cosa legge
 Cosa scrive
 -----------
   data/processed/risultato6_v2/riempimento.json
-  docs/RAPPORTO_R6V2_RIEMPIMENTO.txt
+  docs/rapporti/RAPPORTO_R6V2_RIEMPIMENTO.txt
 
 Come si lancia
 --------------
@@ -55,7 +55,8 @@ def trova_radice():
 RADICE = trova_radice()
 DB = RADICE / "data" / "storico_backup.sqlite"
 OUT = RADICE / "data" / "processed" / "risultato6_v2" / "riempimento.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6V2_RIEMPIMENTO.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6V2_RIEMPIMENTO.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 LETTURE_MINIME_GIORNO = 230     # su ~288 possibili (una ogni 5 minuti)
 ORE_NOTTE = (2, 3, 4)           # N

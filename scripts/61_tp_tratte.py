@@ -16,7 +16,7 @@ Diagnostica richiesta dal piano: spiega perche' nella Fase 4 Corso Cairoli
 risultava con le linee 24 e 93 ma 0,0 passaggi/ora (e Corso Fiume 1 linea, 0,0).
 
 Output: data/processed/traffico_d/tp_tratte.csv
-        docs/RAPPORTO_TP_ACCESSIBILITA.txt
+        docs/rapporti/RAPPORTO_TP_ACCESSIBILITA.txt
 """
 
 import csv
@@ -44,7 +44,8 @@ RADICE = trova_radice()
 RAW = RADICE / "data" / "raw"
 PROC = RADICE / "data" / "processed"
 OUT = PROC / "traffico_d"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_TP_ACCESSIBILITA.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TP_ACCESSIBILITA.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 RAGGIO = 300.0
 SOGLIA_MIN = 4.0
@@ -337,7 +338,7 @@ def main():
             for d, fid, am, li in vic[:8]:
                 a_(f"        {d:4d} m  fermata {fid}  {am:.1f} partenze/h  linee {','.join(li)}")
     a_("")
-    a_("Vedi anche docs/RAPPORTO_TP_PER_STRADA.txt (metodo vecchio) per il confronto.")
+    a_("Vedi anche docs/rapporti/RAPPORTO_TP_PER_STRADA.txt (metodo vecchio) per il confronto.")
     RAPPORTO.write_text("\n".join(righe) + "\n", encoding="utf-8")
     print("\n".join(righe))
     print(f"\nScritto {OUT/'tp_tratte.csv'}")

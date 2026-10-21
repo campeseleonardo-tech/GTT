@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """88 - Confronto fra le auto in entrata del mattino stimate dal modello (script 81) e i sensori 5T.
 
-SOLO LETTURA: non modifica nessun risultato. Scrive solo docs/RAPPORTO_R6_CONFRONTO_SENSORI.txt.
+SOLO LETTURA: non modifica nessun risultato. Scrive solo docs/rapporti/RAPPORTO_R6_CONFRONTO_SENSORI.txt.
 
 Misurato: data/processed/velocita_5t.json, feriale ("0"), somma di f (veicoli/ora) delle ore 6-9, solo
 celle con ok vero. Un sensore conta un verso solo.
@@ -31,7 +31,8 @@ SENSORI = RADICE / "data" / "processed" / "velocita_5t.json"
 P = RADICE / "data" / "processed" / "risultato6_v2"
 NPZ = P / "auto_passaggio.npz"
 RETE_DIR = RADICE / "data" / "processed" / "traffico_c" / "rete"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6_CONFRONTO_SENSORI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_CONFRONTO_SENSORI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 OUT_JSON = P / "confronto_sensori.json"
 
 ORE = (6, 7, 8, 9)

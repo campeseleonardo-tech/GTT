@@ -18,7 +18,7 @@ Altezza del corridoio per il trasporto pubblico: si usa il tratto PIU' SERVIZIO
 bus e la media le farebbe sembrare "scoperte" a torto.
 
 Output: data/processed/risultato8_traffico_tp.json
-        docs/RAPPORTO_RISULTATO8_TRAFFICO_TP.txt
+        docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP.txt
 """
 
 import json
@@ -322,7 +322,8 @@ def main():
         "Le strade di bordo (valori non affidabili) e le autostrade/tangenziali sono fuori dall'universo.",
     ]:
         a(f"  - {lim}")
-    (AQUI.parent / "docs" / "RAPPORTO_RISULTATO8_TRAFFICO_TP.txt").write_text("\n".join(righe) + "\n", encoding="utf-8")
+    (AQUI.parent / "docs" / "rapporti").mkdir(parents=True, exist_ok=True)
+    (AQUI.parent / "docs" / "rapporti" / "RAPPORTO_RISULTATO8_TRAFFICO_TP.txt").write_text("\n".join(righe) + "\n", encoding="utf-8")
     print("\n".join(righe))
 
 

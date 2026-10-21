@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """87 - Popolarita' delle zone IMQ e linee GTT "utili" (lavoro 6 del Risultato 6).
 
-SOLO LETTURA dei dati; scrive solo data/processed/popolarita_zone.json e docs/RAPPORTO_POPOLARITA_ZONE.txt.
+SOLO LETTURA dei dati; scrive solo data/processed/popolarita_zone.json e docs/rapporti/RAPPORTO_POPOLARITA_ZONE.txt.
 
 1. Popolarita' di ogni zona IMQ = spostamenti che ARRIVANO nella zona (IMQ 2022, COD_ARR, peso PESO come nello script 81)
    PER km2 di zona (Leo, 20/10: in cintura una zona e' un comune intero, quindi i comuni grandi non devono vincere per
@@ -45,7 +45,8 @@ GTFS = D / "raw" / "gtt_gtfs_20261003_224530.zip"
 P6 = D / "processed" / "risultato6_v2"
 ADATTI, PARCHEGGI = P6 / "parcheggi_adatti.json", P6 / "parcheggi.json"
 OUT = D / "processed" / "popolarita_zone.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_POPOLARITA_ZONE.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_POPOLARITA_ZONE.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 RITORNI = ("08", "11")
 GRUPPI = {"lavoro_studio": ("01", "02", "03"), "acquisti_svago": ("04", "06", "07"),

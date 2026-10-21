@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """90 - Verifica della regola D3 dello script 27 con le posizioni GPS dei mezzi (Risultato 4, Giro 3).
 
-SOLO LETTURA: database aperto in sola lettura; scrive solo docs/RAPPORTO_R4_VERIFICA_GPS.txt. NON cambia D3 ne' nessun'altra
+SOLO LETTURA: database aperto in sola lettura; scrive solo docs/rapporti/RAPPORTO_R4_VERIFICA_GPS.txt. NON cambia D3 ne' nessun'altra
 regola D1-D9: serve a decidere con Leo.
 
 Domanda: la regola D3 scarta i passaggi la cui ultima lettura e' a piu' di 10 minuti dall'arrivo stimato. Gli scartati hanno
@@ -31,7 +31,8 @@ sys.path.insert(0, str(AQUI))
 import comuni  # noqa: E402
 
 RADICE = comuni.RADICE
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R4_VERIFICA_GPS.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R4_VERIFICA_GPS.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 GIORNI = ("20261015", "20261016")      # 2 feriali interi (valore predefinito di Claude, 21/10)
 MAX_PER_GRUPPO = 3000                  # in tutto, per gruppo
 DIST_GPS_M = 60.0                      # come lo script 70

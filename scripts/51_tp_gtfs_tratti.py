@@ -30,7 +30,7 @@ Input:  data/raw/gtt_gtfs_20261003_224530.zip
         data/processed/traffico_c/segmenti.csv   (id_tratto -> corridoio)
 Output: data/processed/traffico_c/tp_conteggi.npz  (conteggi per tratto)
         data/processed/traffico_c/tp_tratti.csv
-        docs/RAPPORTO_TP_PER_STRADA.txt (parte 1: tratti + controlli)
+        docs/rapporti/RAPPORTO_TP_PER_STRADA.txt (parte 1: tratti + controlli)
 """
 
 import argparse
@@ -62,7 +62,8 @@ RADICE = trova_radice()
 RAW = RADICE / "data" / "raw"
 OUT_DIR = RADICE / "data" / "processed" / "traffico_c"
 RETE_DIR = OUT_DIR / "rete"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_TP_PER_STRADA.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TP_PER_STRADA.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 GTFS = RAW / "gtt_gtfs_20261003_224530.zip"
 
 SOGLIA_AGGANCIO_M = 25.0

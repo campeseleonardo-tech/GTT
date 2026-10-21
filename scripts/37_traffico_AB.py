@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """37_traffico_AB.py
 
-Passo 9 del piano docs/PIANO_TRAFFICO_FASE2.md: i metodi A e B per stimare il
+Vedi docs/R8_traffico.md: i metodi A e B per stimare il
 traffico dove il sensore non c'e', con la prova "nascondi un sensore".
 
 Grandezze usate (dal file dello script 33 v2, feriale):
@@ -30,7 +30,7 @@ I risultati NON si "aggiustano": se gli errori sono grandi, si scrivono come son
 
 Output:
 - data/processed/traffico_stimato_AB.json
-- docs/RAPPORTO_TRAFFICO_AB.txt
+- docs/rapporti/RAPPORTO_TRAFFICO_AB.txt
 
 Solo libreria standard.
 """
@@ -49,7 +49,8 @@ IN_CONF = RADICE / "data" / "processed" / "abbinamenti_confermati_v2.json"
 IN_ESCLUSI = RADICE / "data" / "processed" / "sensori_esclusi.json"
 IN_CORRIDOI = RADICE / "data" / "processed" / "importanza_vie.json"
 OUT = RADICE / "data" / "processed" / "traffico_stimato_AB.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_TRAFFICO_AB.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TRAFFICO_AB.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 TIPO = "0"                # feriale
 SOGLIA_B_M = 1000         # metro 1 km, in linea d'aria (approssimazione dichiarata)

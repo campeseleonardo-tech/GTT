@@ -17,7 +17,7 @@ type logs\32_rapporto_riassunto.log
 echo ----------------------------------------------
 echo.
 echo FATTO. Apri il riassunto con Blocco note o un editor:
-echo   docs\RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md
+echo   docs\rapporti\RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md
 echo Devi vedere: una sintesi corta, la tabella "Numeri chiave" e la sezione "Limiti".
 echo.
 echo Per terminare, premi un tasto (o chiudi la finestra) ...

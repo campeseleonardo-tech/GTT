@@ -15,7 +15,7 @@ Verifiche
   8. Ogni fermata importante in una sola area
   A. Ogni fermata importante rispetta la regola fissa (N e M letti da fermate_importanti.json), ricalcolata
   B. Il testo della guida in mappa_template.html contiene i numeri N e M della regola (1.000 all'italiana)
-Seme casuale 20261020. Scrive docs/RAPPORTO_R6_VERIFICHE_CORREZIONI.txt. Codice di uscita 1 se una verifica
+Seme casuale 20261020. Scrive docs/rapporti/RAPPORTO_R6_VERIFICHE_CORREZIONI.txt. Codice di uscita 1 se una verifica
 non torna (e' un controllo: non modifica nulla).
 
 Come si lancia
@@ -36,7 +36,8 @@ import comuni  # noqa: E402
 
 RADICE = comuni.RADICE
 P = RADICE / "data" / "processed" / "risultato6_v2"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6_VERIFICHE_CORREZIONI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_VERIFICHE_CORREZIONI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 SEME = 20261020
 
 

@@ -33,9 +33,9 @@ Uscite:
   data/processed/risultato1_vuoti.json  (soglie, numeri per gruppo e ambito,
                                           sezioni peggiori a Torino, flag
                                           "manca" per sezione per uso in mappa)
-  docs/RAPPORTO_RISULTATO1.txt          (i 3 numeri di testa + dettaglio)
+  docs/rapporti/RAPPORTO_RISULTATO1.txt          (i 3 numeri di testa + dettaglio)
 
-VERSIONE 2 (decisioni di Leo, 20/10/2026, docs/PIANO_RISULTATO1.md): le uscite sopra restano uguali; il
+VERSIONE 2 (vedi docs/R1_servizi.md): le uscite sopra restano uguali; il
 JSON ha in piu' la sezione "v2" e il rapporto la sezione "VERSIONE 2" in fondo.
   - per sezione: n_mancanti = quanti dei 5 gruppi sono a "zero" (a Torino: piedi 15 min; in cintura, per scuole,
     salute e cibo, zero sia a piedi sia col mezzo pubblico entro 45 min alle 08 di un feriale);
@@ -62,7 +62,8 @@ import comuni
 RADICE = Path(__file__).resolve().parent.parent
 ACCESS = RADICE / "data/processed/accessibilita.json"
 OUT = RADICE / "data/processed/risultato1_vuoti.json"
-RAPPORTO = RADICE / "docs/RAPPORTO_RISULTATO1.txt"
+RAPPORTO = RADICE / "docs/rapporti/RAPPORTO_RISULTATO1.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 SEZIONI_GEO = RADICE / "data/processed/sezioni_torino.json"   # campo "a" = superficie in km2
 
 GRUPPI = ["scuole", "salute", "cibo", "fermate", "verde"]

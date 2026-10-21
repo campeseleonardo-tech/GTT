@@ -705,7 +705,8 @@ def analizza(args):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print(testo)
     DOCS.mkdir(parents=True, exist_ok=True)
-    (DOCS / "RAPPORTO_RITARDI_GTT.txt").write_text(testo, encoding="utf-8")
+    (DOCS / "rapporti").mkdir(parents=True, exist_ok=True)
+    (DOCS / "rapporti" / "RAPPORTO_RITARDI_GTT.txt").write_text(testo, encoding="utf-8")
     ris = dict(righe=n_righe, corse_distinte=len(corse),
                match_gtfs=[matched, len(corse)],
                per_giorno={g: dict(c) for g, c in per_giorno.items()},
@@ -714,7 +715,7 @@ def analizza(args):
     ELAB.mkdir(parents=True, exist_ok=True)
     (ELAB / "ritardi_analisi.json").write_text(
         json.dumps(ris, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
-    print(f"Rapporto: {DOCS / 'RAPPORTO_RITARDI_GTT.txt'}")
+    print(f"Rapporto: {DOCS / 'rapporti' / 'RAPPORTO_RITARDI_GTT.txt'}")
     print(f"Aggregati: {ELAB / 'ritardi_analisi.json'}")
     return 0
 

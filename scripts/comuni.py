@@ -27,7 +27,7 @@ from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
 
-# zona centrale: per fermate E parcheggi (decisione del 20/10/2026, PIANO_CORREZIONI_GENERALI.md)
+# zona centrale: per fermate E parcheggi (vedi docs/R6_parcheggi.md)
 ZONE_CENTRALI = tuple(f"Q{n:03d}" for n in range(1, 10))
 MACRO_UNIVERSO = ("01 Torino", "02 Cintura", "03 Resto CMTO")
 CENTRO_LAT, CENTRO_LON = 45.0711, 7.6857          # Piazza Castello

@@ -49,7 +49,7 @@ if errorlevel 1 goto errore
 echo.
 echo FATTO. Controlla:
 echo   data\processed\risultato2_metro_notte.json
-echo   docs\RAPPORTO_RISULTATO2_METRO_NOTTE.txt
+echo   docs\rapporti\RAPPORTO_RISULTATO2_METRO_NOTTE.txt
 echo.
 echo Per terminare, premi un tasto (o chiudi la finestra) ...
 pause > nul

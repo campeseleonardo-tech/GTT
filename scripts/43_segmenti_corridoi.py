@@ -20,7 +20,7 @@ nessun flusso negativo, corridoi senza flusso elencati con il motivo.
 Output:
   data/processed/traffico_c/segmenti.csv
   data/processed/traffico_c/corridoi_modello.json
-  docs/RAPPORTO_TRAFFICO_C_SEGMENTI.txt
+  docs/rapporti/RAPPORTO_TRAFFICO_C_SEGMENTI.txt
 """
 
 import csv
@@ -50,7 +50,8 @@ RADICE = trova_radice()
 PROC = RADICE / "data" / "processed"
 OUT_DIR = PROC / "traffico_c"
 RETE_DIR = OUT_DIR / "rete"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_TRAFFICO_C_SEGMENTI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TRAFFICO_C_SEGMENTI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 # soglia di vicinanza tratto <-> corridoio quando il nome non basta
 VICINANZA_M = 25.0

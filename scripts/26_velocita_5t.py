@@ -10,7 +10,7 @@ Differenze rispetto al "tipico" di data/stat.js (06_dati_live.py sul Pi):
   si escludono perche' non hanno storico di affidabilita');
 - il "tipico" di stat.js non scarta nulla.
 
-Regole (piano docs/PIANO_VELOCITA_5T.md):
+Regole (vedi docs/R8_traffico.md):
 - velocita' tipica = media PESATA PER IL FLUSSO (sum(v*f)/sum(f)) solo su
   letture con flusso > 0, cosi' come in stat.js, per poter confrontare;
 - flusso tipico = media del flusso su TUTTE le letture affidabili della cella,
@@ -22,7 +22,7 @@ Regole (piano docs/PIANO_VELOCITA_5T.md):
 Letture in SOLA LETTURA su data/storico_backup.sqlite.
 Output:
 - data/processed/velocita_5t.json
-- docs/RAPPORTO_VELOCITA_5T.txt
+- docs/rapporti/RAPPORTO_VELOCITA_5T.txt
 
 Con --prova si calcolano solo i primi 2 giorni locali dopo l'8/10 21:30 UTC e
 il rapporto va SOLO su console (non tocca i file di output).
@@ -41,7 +41,8 @@ from pathlib import Path
 RADICE = Path(__file__).resolve().parents[1]
 DB = RADICE / "data" / "storico_backup.sqlite"
 OUT = RADICE / "data" / "processed" / "velocita_5t.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_VELOCITA_5T.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_VELOCITA_5T.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 MIN_GIORNI = 2      # giorni distinti minimi per una cella "ok"
 MIN_LETTURE = 6     # letture con flusso > 0 minimi per una cella "ok"

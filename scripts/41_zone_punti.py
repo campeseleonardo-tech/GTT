@@ -21,7 +21,7 @@ le destinazioni non domestiche" e' la variante V3.
 Output:
   data/processed/traffico_c/punti.json    (zona -> punti: lat, lon, nodo, peso, tipo)
   data/processed/traffico_c/porte.json    (elenco delle porte)
-  docs/RAPPORTO_TRAFFICO_C_PUNTI.txt
+  docs/rapporti/RAPPORTO_TRAFFICO_C_PUNTI.txt
 """
 
 import json
@@ -48,7 +48,8 @@ RADICE = trova_radice()
 PROC = RADICE / "data" / "processed"
 OUT_DIR = PROC / "traffico_c"
 RETE_DIR = OUT_DIR / "rete"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_TRAFFICO_C_PUNTI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TRAFFICO_C_PUNTI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 # riquadro del taglio OSM (script 17)
 LON_MIN, LAT_MIN, LON_MAX, LAT_MAX = 7.45, 44.90, 7.93, 45.24

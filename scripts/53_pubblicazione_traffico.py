@@ -25,7 +25,8 @@ import numpy as np
 AQUI = Path(__file__).resolve().parent
 PROC = AQUI.parent / "data" / "processed"
 OUT_DIR = PROC / "traffico_c"
-RAPPORTO = AQUI.parent / "docs" / "RAPPORTO_TRAFFICO_C_V2.txt"
+RAPPORTO = AQUI.parent / "docs" / "rapporti" / "RAPPORTO_TRAFFICO_C_V2.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 SENS_AB = PROC / "traffico_stimato_AB.json"
 
 CINTURA = {"Beinasco", "Borgaro Torinese", "Collegno", "Druento", "Grugliasco", "Moncalieri",

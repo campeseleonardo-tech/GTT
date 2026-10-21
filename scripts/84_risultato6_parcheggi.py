@@ -9,7 +9,7 @@ Domanda
 Dove, vicino a una fermata importante (fuori dal centro), passano molte auto in entrata al mattino che
 potrebbero lasciare l'auto, e non ci sono abbastanza posti adatti per farlo?
 
-Regole (costanti qui sotto e opzioni da riga di comando; valori decisi nel PIANO_CORREZIONI_GENERALI.md)
+Regole (costanti qui sotto e opzioni da riga di comando; valori in docs/R6_parcheggi.md)
 ------
   - Fermate importanti: quelle dello script 83 (punteggio corretto, fuori da Q001-Q009).
   - Parcheggi: solo quelli ADATTI dello script 82 (aperti, fuori dal centro, >= 20 posti, non di destinazione).
@@ -48,7 +48,7 @@ Cosa legge
 Cosa scrive
 -----------
   data/processed/risultato6_v2/porte.json   (stesso nome di prima: lo legge lo script 79)
-  docs/RAPPORTO_R6_PARCHEGGI.txt
+  docs/rapporti/RAPPORTO_R6_PARCHEGGI.txt
 
 Come si lancia
 --------------
@@ -84,7 +84,8 @@ ZONE = RADICE / "data" / "processed" / "imq_zone.json"
 ZONE_GEO = RADICE / "data" / "processed" / "imq_zone_geo.json"
 OSSERVAZIONI = RADICE / "data" / "ref" / "parcheggi_osservazioni.json"
 OUT = P / "porte.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6_PARCHEGGI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_PARCHEGGI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 FATTORE_PIEDI = comuni.FATTORE_PIEDI
 RAGGIO_PIEDI_M = 400.0

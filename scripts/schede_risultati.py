@@ -18,7 +18,7 @@ Campi in piu' per la finestra di dettaglio (tutti facoltativi):
   grafici [{tipo: "barre"|"pila"|"orario", titolo, unita, nota, voci|righe}],
   metodo [frasi], parametri [[nome, valore]], limiti [frasi], mappa {tema, nota} | null, fonti [file].
 Nessun calcolo nuovo sui dati grezzi: solo numeri gia' presenti nei file prodotti dagli script
-(ricontrollati da Claude il 18/10/2026) e semplici somme/conteggi su di essi.
+e semplici somme/conteggi su di essi.
 """
 import json
 from urllib.parse import quote
@@ -43,11 +43,11 @@ def num(label, dopo, unita, prima=None):
 
 def voce(label, valore, prima=None, tono=None, link=None):
     v = {"label": label, "valore": valore}
-    if link is not None:   # [R4] la barra e' un link (es. alla linea nella mappa)
+    if link is not None:   # la barra e' un link (es. alla linea nella mappa)
         v["link"] = link
     if prima is not None:
         v["prima"] = prima
-    if tono is not None:   # [R6] "verde"/"rosso" = bene/male; senza tono = blu neutro (quantità)
+    if tono is not None:   # "verde"/"rosso" = bene/male; senza tono = blu neutro (quantità)
         v["tono"] = tono
     return v
 
@@ -91,7 +91,7 @@ def minuti(hhmm):
 GRUPPI_EN = {"scuole": "schools", "salute": "health", "cibo": "shops and commercial activities",
              "fermate": "public transport stops",
              "verde": "green space"}   # nomi dei gruppi del risultato 1 in inglese (solo per la traduzione)
-NOMI_R1 = {"cibo": "negozi e attività commerciali"}   # il gruppo "cibo" contiene tutte le attività commerciali (20/10/2026)
+NOMI_R1 = {"cibo": "negozi e attività commerciali"}   # il gruppo "cibo" contiene tutte le attività commerciali
 
 
 def nome_r1(g):
@@ -103,7 +103,7 @@ def scheda_r1():
     cand = leggi("risultato1_candidati.json")["gruppi"]
     testa = vuoti["numeri_di_testa"]
     gruppi = vuoti["gruppi"]
-    v2 = vuoti["v2"]    # versione 2 (20/10/2026): serve aver rilanciato 21_risultato1_vuoti.py
+    v2 = vuoti["v2"]    # versione 2: serve aver rilanciato 21_risultato1_vuoti.py
     t2 = v2["titolo"]
     SOGLIA_TITOLO_R1 = v2["soglia_titolo_n_mancanti"]   # dal JSON, non scritta qui
     rif = str(v2["soglia_poco_abitata_ab_km2"])
@@ -153,7 +153,7 @@ def scheda_r1():
         "risultato": "1",
         "titolo": "Dove mancano i servizi a piedi",
         "tag": "STIMATO",
-        "stato": "Fatto (12-14/10/2026)",
+        "stato": "Fatto",
         "in_breve": "Torino è una città compatta, ma non tutti hanno scuola, medico, negozi, "
                     "una fermata e un po' di verde a un quarto d'ora a piedi da casa.",
         "domanda": "Quanti residenti di Torino, nelle zone abitate, non hanno più servizi essenziali (scuole, salute, "
@@ -269,7 +269,7 @@ def scheda_r1():
                   "nota": "Nella mappa, tema \"Dove mancano i servizi\": all'apertura quanti servizi mancano in ogni "
                           "zona (0-5, zone poco abitate in grigio); nel menu un servizio alla volta, con i punti dove "
                           "aggiungerne uno."},
-        "fonti": ["docs/RAPPORTO_RISULTATO1.txt", "docs/RAPPORTO_RISULTATO1_CANDIDATI.txt",
+        "fonti": ["docs/R1_servizi.md", "docs/rapporti/RAPPORTO_RISULTATO1.txt", "docs/rapporti/RAPPORTO_RISULTATO1_CANDIDATI.txt",
                   "scripts/21_risultato1_vuoti.py", "scripts/22_risultato1_candidati.py"],
         "generato": ora(),
         "avviso": [
@@ -304,9 +304,9 @@ def arricchisci_r2(s):
             n["label"] = accenti(n["label"])
     s.update({
         "tag": "PROGRAMMATO / STIMATO",
-        "stato": "Chiuso (16/10/2026)",
+        "stato": "Chiuso",
         "in_breve": f"La metro M1 non passa dalle {da} alle {a}: in quelle ore restano solo i bus notturni.",
-        # numero in grande: quello severo (almeno +soglia_quota di servizi), scelta di Leo del 20/10
+        # numero in grande: quello severo (almeno +soglia_quota di servizi)
         "numero_chiave": ({"valore": n15["residenti_migliorati_quota"], "unita": "residenti",
                            "testo": f"raggiungerebbero almeno il {round(100 * n15['soglia_quota'])}% di servizi in più "
                                     "di notte con una metro ogni 15 minuti"}
@@ -385,7 +385,7 @@ def arricchisci_r2(s):
         "mappa": {"id": "accessibilita", "tema": "Accessibilità ai servizi",
                   "nota": "La mappa mostra la situazione di oggi ora per ora (tema \"Accessibilità ai servizi\", "
                           "cursore dell'ora sulla notte); lo scenario con la metro non è ancora in mappa."},
-        "fonti": ["docs/RAPPORTO_RISULTATO2_METRO_NOTTE.txt", "docs/PIANO_RISULTATO2.md",
+        "fonti": ["docs/R2_metro_notte.md", "docs/rapporti/RAPPORTO_RISULTATO2_METRO_NOTTE.txt",
                   "scripts/28_scenario_metro_notte.py", "scripts/29_risultato2_metro_notte.py"],
     })
     return s
@@ -395,7 +395,7 @@ def arricchisci_r2(s):
 
 def fasce_r4():
     """Tabella 'fasce orarie (feriale)' del rapporto dello script 27 (non e' nel JSON)."""
-    testo = (DOCS / "RAPPORTO_RISULTATO4.txt").read_text(encoding="utf-8")
+    testo = (DOCS / "rapporti" / "RAPPORTO_RISULTATO4.txt").read_text(encoding="utf-8")
     blocco = testo.split("fasce orarie (feriale")[1].split("\n\n")[0]
     righe = []
     for riga in blocco.splitlines():
@@ -405,7 +405,7 @@ def fasce_r4():
     return righe
 
 
-# copertura verificata da Claude il 18/10/2026 su trip_update_gtt (ore 06-24 con almeno 50 minuti letti)
+# copertura verificata su trip_update_gtt (ore 06-24 con almeno 50 minuti letti)
 GIORNI_PARZIALI_R4 = ("sabato 10 dalle 15, lunedì 12 dalle 12, martedì 13 con buchi il pomeriggio e la sera, "
                       "domenica 18 fino alle 9:30 (poi guasto del feed GTT)")
 
@@ -449,7 +449,7 @@ def scheda_r4():
     modi = r.get("modi") or {}
     tram_f, bus_f = (modi.get("tram") or {}).get("0"), (modi.get("bus") or {}).get("0")
     utili = (r.get("linee_utili") or {}).get("0")
-    # classifica per ritardo a fine corsa (mediana, minuti); i minuti ogni 10 km restano nella nota (Leo, 21/10)
+    # classifica per ritardo a fine corsa (mediana, minuti); i minuti ogni 10 km restano nella nota
     fine_corsa = sorted(((x["fine_corsa"]["ritardo_mediana"], n, x) for n, x in linee
                          if x.get("fine_corsa") and x["fine_corsa"]["passaggi"] >= par.get("min_fine_corsa", 100)
                          and str(n).isdigit()), key=lambda t: (-t[0], -t[2]["fine_corsa"]["min_per_10km"]))[:10]
@@ -487,7 +487,7 @@ def scheda_r4():
         "risultato": "4",
         "titolo": "Bus in ritardo e bus irregolari",
         "tag": "MISURATO",
-        "stato": f"Versione 2 ({r['periodo']['da'][8:10]}-{r['periodo']['a'][8:10]}/10/2026)",
+        "stato": "Versione 2",
         "in_breve": "L'orario alla fermata promette un passaggio ogni tot minuti. Quanto spesso i mezzi GTT "
                     "arrivano davvero in ritardo, o a coppie lasciando un buco?",
         "domanda": "Quanto spesso i mezzi GTT arrivano in ritardo, e quanto spesso sulle linee frequenti "
@@ -582,7 +582,7 @@ def scheda_r4():
         ],
         "mappa": {"id": "puntualita", "tema": "Puntualità delle linee",
                   "nota": "Nella mappa, tema «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."},
-        "fonti": ["docs/RAPPORTO_RISULTATO4.txt", "docs/PIANO_RISULTATO4.md", "scripts/27_risultato4_regolarita.py"],
+        "fonti": ["docs/R4_puntualita.md", "docs/rapporti/RAPPORTO_RISULTATO4.txt", "scripts/27_risultato4_regolarita.py"],
         "generato": ora(),
         "avviso": [
             "Dati [MISURATO] — pochi giorni",
@@ -610,8 +610,7 @@ def scheda_r4():
             f"Waiting time on frequent lines (weekdays): trams promise {t9['promessa_min']:.1f} min, {t9['in_piu_min_bassa']:.1f}-"
             f"{t9['in_piu_min_alta']:.1f} min more in reality; buses {b9['promessa_min']:.1f} min, {b9['in_piu_min_bassa']:.1f}-"
             f"{b9['in_piu_min_alta']:.1f} min more."]
-    scheda["fonti"] = [f.replace("PIANO_RISULTATO9_ATTESA.md", "PIANO_RISULTATO4.md")
-                       for f in scheda.get("fonti", []) + r9.get("fonti", [])]
+    scheda["fonti"] = ["docs/R4_puntualita.md"] + [f for f in scheda.get("fonti", []) + r9.get("fonti", []) if f != "docs/R4_puntualita.md"]
     return scheda
 
 
@@ -639,7 +638,7 @@ def date_it(iso_list):
 
 
 def scheda_r6():
-    """Risultato 6 corretto (20/10/2026): legge mappa_r6.json (script 79 <- 84). Prima la scoperta misurata
+    """Risultato 6 corretto: legge mappa_r6.json (script 79 <- 84). Prima la scoperta misurata
     sugli interscambi del Comune, poi dove mancano posti prima di entrare in città, poi la verifica."""
     r = json.loads(R6_FILE.read_text(encoding="utf-8"))
     rie, aree, punti, profili = r["riepilogo"], r["aree"], r["punti_prioritari"], r.get("profili", [])
@@ -754,8 +753,8 @@ def scheda_r6():
         "criteri": r.get("criteri", []),
         "mappa": {"id": "interscambio", "tema": "Parcheggi per lasciare l'auto",
                   "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."},
-        "fonti": ["docs/RAPPORTO_R6_PARCHEGGI.txt", "docs/RAPPORTO_R6_AUTO_PASSAGGIO.txt",
-                  "docs/RAPPORTO_R6_FERMATE_IMPORTANTI.txt", "docs/RAPPORTO_R6_PARCHEGGI_ADATTI.txt",
+        "fonti": ["docs/R6_parcheggi.md", "docs/rapporti/RAPPORTO_R6_PARCHEGGI.txt", "docs/rapporti/RAPPORTO_R6_AUTO_PASSAGGIO.txt",
+                  "docs/rapporti/RAPPORTO_R6_FERMATE_IMPORTANTI.txt", "docs/rapporti/RAPPORTO_R6_PARCHEGGI_ADATTI.txt",
                   "scripts/81_auto_di_passaggio.py", "scripts/82_parcheggi_adatti.py", "scripts/83_fermate_importanti.py",
                   "scripts/84_risultato6_parcheggi.py", "data/processed/risultato6_v2/mappa_r6.json"],
         "generato": ora(),
@@ -834,7 +833,7 @@ def scheda_r8():
         "risultato": "8",
         "titolo": "Traffico sulle strade e trasporto pubblico",
         "tag": "STIMATO / MISURATO / PROGRAMMATO",
-        "stato": "Versione 1 (18/10/2026)",
+        "stato": "Versione 1",
         "in_breve": "Quante auto passano sulle strade grandi di Torino? E dove c'è tanto traffico ma nessun bus, "
                     "tram o metro comodo, così che l'auto resta l'unica scelta?",
         "domanda": "Sulle strade grandi di Torino, dove c'è molto traffico e poco trasporto pubblico vicino?",
@@ -928,8 +927,8 @@ def scheda_r8():
             "to count vehicles.",
         ],
         "mappa": None,
-        "fonti": ["docs/PIANO_RISULTATO8.md", "docs/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
-                  "docs/archivio/traffico/ESITO_FASE5_TRAFFICO.md", "data/processed/risultato8_traffico_tp_v2.json"],
+        "fonti": ["docs/R8_traffico.md", "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
+                  "data/processed/risultato8_traffico_tp_v2.json"],
         "generato": ora(),
         "avviso": [
             "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
@@ -983,7 +982,7 @@ def scheda_r9():
         "risultato": "9",
         "titolo": "Quanto si aspetta davvero alla fermata",
         "tag": "MISURATO",
-        "stato": f"Versione 1 ({r['periodo']['da'][8:10]}-{r['periodo']['a'][8:10]}/10/2026)",
+        "stato": "Versione 1",
         "in_breve": "L'orario promette un bus ogni pochi minuti. Se però i bus arrivano a coppie e poi lasciano un "
                     "buco, alla fermata si aspetta di più, anche se in un'ora ne passano tanti quanti promessi.",
         "domanda": "Sulle linee frequenti, quanti minuti in più aspetta in media chi arriva alla fermata senza "
@@ -1062,7 +1061,7 @@ def scheda_r9():
             "(within 60 metres of the stop); the night is not included.",
         ],
         "mappa": None,
-        "fonti": ["docs/RAPPORTO_RISULTATO9_ATTESA.txt", "docs/PIANO_RISULTATO9_ATTESA.md",
+        "fonti": ["docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt", "docs/R4_puntualita.md",
                   "scripts/70_risultato9_attesa.py"],
         "generato": ora(),
         "avviso": [
@@ -1075,7 +1074,7 @@ def scheda_r9():
     }
 
 
-NASCOSTE = {"risultato2"}   # in pausa (Leo, 20/10/2026): docs/PIANO_RISULTATO2.md
+NASCOSTE = {"risultato2"}   # in pausa: docs/R2_metro_notte.md
 
 
 def main():

@@ -18,7 +18,7 @@ Cosa legge
 Cosa scrive
 -----------
   data/processed/risultato6_v2/luoghi.json
-  docs/RAPPORTO_R6V2_LUOGHI.txt
+  docs/rapporti/RAPPORTO_R6V2_LUOGHI.txt
 
 Come si lancia
 --------------
@@ -46,7 +46,8 @@ RADICE = trova_radice()
 IN_FERMATE = RADICE / "data" / "processed" / "risultato6_interscambio.json"
 IN_ZONE = RADICE / "data" / "processed" / "imq_zone_geo.json"
 OUT = RADICE / "data" / "processed" / "risultato6_v2" / "luoghi.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6V2_LUOGHI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6V2_LUOGHI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 RAGGIO_UNIONE_M = 40.0        # fermate entro 40 m = stesso luogo (a catena)
 LATO_CELLA = 0.0005           # gradi, griglia per non confrontare tutte le coppie

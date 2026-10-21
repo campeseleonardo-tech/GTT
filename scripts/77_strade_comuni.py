@@ -36,7 +36,7 @@ Come si importa
 
 Cosa scrive
 -----------
-  docs/RAPPORTO_R6V2_STRADE.txt   (solo quando si lancia la funzione di prova)
+  docs/rapporti/RAPPORTO_R6V2_STRADE.txt   (solo quando si lancia la funzione di prova)
 
 Come si lancia (prova: stampa i controlli e scrive il rapporto)
 ---------------------------------------------------------------
@@ -65,7 +65,8 @@ RETE = RADICE / "data" / "processed" / "traffico_d" / "rete" / "rete_auto.npz"
 ASSI = RADICE / "data" / "processed" / "traffico_d" / "assi_tratte.npz"
 TRATTE = RADICE / "data" / "processed" / "traffico_d" / "tratte_traffico.json"
 LUOGHI = RADICE / "data" / "processed" / "risultato6_v2" / "luoghi.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6V2_STRADE.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6V2_STRADE.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 LAT_RIF = 45.07
 FATTORE_GRADI_M = 111000.0

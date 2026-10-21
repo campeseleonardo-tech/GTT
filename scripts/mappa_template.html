@@ -92,7 +92,7 @@
   .sim{display:flex;align-items:center;gap:8px;margin-top:8px}
   .sim select,#modoSez,#basemap,#filtroLinea{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff}
   #filtroLinea{width:100%;margin:2px 0 4px}
-  /* [pulizia] area Opzioni: etichette e tendine uniformi per tutti i temi */
+  /* area Opzioni: etichette e tendine uniformi per tutti i temi */
   #boxOpzioni{margin-top:6px}
   .opt-lab{display:block;font-size:11.5px;color:var(--muted);margin:6px 0 2px}
   .opt-sel{width:100%;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:8px;background:#fff}
@@ -102,7 +102,7 @@
   #boxSim p{font-size:12px;color:var(--muted);margin:4px 0}
   #attrib{position:fixed;right:6px;bottom:4px;font-size:10.5px;color:#444;background:rgba(255,255,255,.8);padding:1px 6px;border-radius:4px}
   #attrib a{color:inherit}
-  /* [pulizia] legenda fuori dal pannello: riquadro flottante a destra, richiudibile */
+  /* legenda fuori dal pannello: riquadro flottante a destra, richiudibile */
   #legendaBox{position:fixed;right:12px;bottom:28px;width:min(330px,calc(100vw - 24px));max-height:46vh;overflow:auto;padding:4px 10px 8px;z-index:4}
   #legendaToggle{width:100%;text-align:left;border:0;background:none;font:inherit;font-weight:700;color:var(--ink);cursor:pointer;padding:3px 0}
   #legendaToggle::after{content:" ▾"}
@@ -161,7 +161,7 @@
   <h2>Tema</h2>
   <select id="temi" aria-label="Tema della mappa" style="width:100%;font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:600"></select>
   <div id="temaDesc" style="font-size:12px;color:var(--muted);margin:6px 0 0"></div>
-  <!-- [pulizia] opzioni del tema: una sola area, costruita dal codice in modo uniforme -->
+  <!-- opzioni del tema: una sola area, costruita dal codice in modo uniforme -->
   <div id="boxOpzioni"></div>
   <!-- stato interno dell'area colorata: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
   <div style="display:none"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi"><input type="checkbox" id="LImq">
@@ -213,7 +213,7 @@
     <p><b>Colori:</b> verde = bene, rosso = male. Blu→arancione = poco→tanto, senza giudizio. Le legende scrivono sempre i numeri.</p>
   </details>
 
-  <!-- [pulizia] la legenda è ora un riquadro separato fuori dal pannello -->
+  <!-- la legenda è ora un riquadro separato fuori dal pannello -->
 </div>
 <button id="apri" class="card">Pannello</button>
 
@@ -264,7 +264,7 @@ const unLat = y => { const n=Math.PI-2*Math.PI*y; return 180/Math.PI*Math.atan(0
   /* ---------- preparazione dati ---------- */
 /* sezioni di censimento: centro, abitanti, e fermate/abitanti entro 400 m (griglia spaziale) */
 const RAGGIO=400;
-// [correzioni 20/10] accessibilità in forma compatta (04_genera_mappa.py, compatta_acc): si ricostruiscono
+// accessibilità in forma compatta (04_genera_mappa.py, compatta_acc): si ricostruiscono
 // gli stessi dizionari {piedi:{gruppo:v}, tp:{"hh":{gruppo:v}}} di prima
 const GRUPPI_ACC = ["scuole","salute","cibo","fermate","verde"];
 function espandiAcc(a){
@@ -290,9 +290,9 @@ const sez = (D.sezioni||[]).map(z=>{
     bo:"Box", pa:"Posti auto coperti", ps:"Posti auto scoperti", ne:"Negozi", uf:"Uffici", la:"Laboratori",
     ci:"Capannoni tipici", in:"Capannoni industriali", ma:"Magazzini", cc:"Centri commerciali"
   };
-  // [revisione 18/10] classi per tipologia (5 gruppi con lo stesso numero di zone): prima erano fisse 1000-3500 €/m²
+  // classi per tipologia (5 gruppi con lo stesso numero di zone): prima erano fisse 1000-3500 €/m²
   // per tutte, e capannoni e magazzini (300-600 €/m²) uscivano di un solo colore
-  // [R6] due sole scale di colore, uguali in tutta la mappa: verde = bene, rosso = male (giudizio chiaro);
+  // due sole scale di colore, uguali in tutta la mappa: verde = bene, rosso = male (giudizio chiaro);
   // blu -> arancione smorzati = quantità neutre (poco -> tanto, nessun giudizio). Le legende scrivono sempre i numeri.
   const PAL_VR   = ["#1a9850","#91cf60","#fee08b","#fc8d59","#d73027"];  // verde (bene) -> rosso (male)
   const PAL_RV   = [...PAL_VR].reverse();                                  // rosso (male) -> verde (bene)
@@ -408,7 +408,7 @@ const sez = (D.sezioni||[]).map(z=>{
     }
     const info=$("catInfo"); if(info && gd) info.textContent=gd.desc||"";
   }
-  function costruisciCatalogo(box){   // [pulizia] il catalogo entra nell'area Opzioni come gli altri temi
+  function costruisciCatalogo(box){   // il catalogo entra nell'area Opzioni come gli altri temi
     if(!CAT_INDICE){ box.innerHTML='<div class="opt-nota">Catalogo non presente: lancia 11_prepara_catalogo.py e poi 04_genera_mappa.py.</div>'; return; }
     if(!CAT.gruppo) CAT.gruppo=CAT_INDICE.gruppi[0].id;
     const lab=document.createElement("label"); lab.className="opt-lab"; lab.textContent="Gruppo di dati";
@@ -631,7 +631,7 @@ function calcolaSoglieSez(){
     if(v.length) sezSoglie[k]=[0.2,0.4,0.6,0.8].map(q=>v[Math.min(v.length-1,Math.floor(q*v.length))]);
   }
 }
-// [R6] le scale di colore (PAL_VR, PAL_RV, PAL_NEU) sono definite prima, vicino a OMI_PAL
+// le scale di colore (PAL_VR, PAL_RV, PAL_NEU) sono definite prima, vicino a OMI_PAL
 const PAL_POCO_MALE=PAL_RV;   // valore basso = peggio (offerta, accessibilità): indice 0 = rosso
 const PAL_ALTO_MALE=PAL_VR;   // valore alto = peggio (vulnerabilità): indice 0 = verde
 const PAL_RAPP=PAL_RV;
@@ -677,7 +677,7 @@ function pendCalcola(){   // valori per comune, soglie dei colori e primi 30 flu
 const classeSez=(v,modo)=>{ const s=sezSoglie[modo]||[0,0,0,0]; return s.filter(x=>v>x).length; };
 /* combina gruppo×livello di vuoto in una delle 3 classi (per la mappa e per la scheda) */
 let accCache={k:""};
-// 15/10: le 24 fasce orarie sono ora tutte calcolate, quindi l'ora scelta
+// le 24 fasce orarie sono tutte calcolate, quindi l'ora scelta
 // corrisponde sempre esattamente a una fascia disponibile (non serve più cercare la più vicina).
 function tpFasciaVicina(h){
   return String(h).padStart(2,"0");
@@ -731,7 +731,7 @@ const avvisiPerLinea = new Map(), avvisiPerFermata = new Map();
 });
 const fbCandidati = {};   // candidati fase B (per gruppo, quando calcolati) con coordinate proiettate
 for(const g in (D.fb_candidati||{})) fbCandidati[g] = (D.fb_candidati[g]||[]).map(c=>({...c, x:px(c.lon), y:py(c.lat)}));
-// [R6] Risultato 6: aree, punti prioritari, fermate e parcheggi (null se il file dati manca)
+// Risultato 6: aree, punti prioritari, fermate e parcheggi (null se il file dati manca)
 const R6 = D.r6 ? (()=>{ const r=D.r6, pj=a=>a.map(o=>({...o,x:px(o.lon),y:py(o.lat)}));
   const aree=(r.aree||[]).map(a=>{ const o=new Float64Array(a.poligono.length*2); a.poligono.forEach((p,i)=>{o[2*i]=px(p[1]); o[2*i+1]=py(p[0]);});
     let x0=Infinity,x1=-Infinity,y0=Infinity,y1=-Infinity;
@@ -803,7 +803,7 @@ function disegnaReplay(ws,ox,oy){
   }
 }
 
-/* [revisione 18/10] tendina delle giornate registrate (da data/stat.js) */
+/* tendina delle giornate registrate (da data/stat.js) */
 function giornateRegistrate(){
   const T=ST(), sel=$("repGiorno"); if(!sel) return;
   const gs=Object.keys((T&&T.giorni)||{}).sort();
@@ -844,7 +844,7 @@ const CRED={
   stradale:'Mappa © Esri, HERE, Garmin, USGS, OpenStreetMap contributors',
   sat:'Immagini © Esri, Maxar, Earthstar Geographics',
   nessuno:''};
-let baseCorrente="chiara", tileOk=0, tileErr=0, intSfondo=1;   // [revisione 18/10] partenza: mappa chiara, piena
+let baseCorrente="chiara", tileOk=0, tileErr=0, intSfondo=1;   // partenza: mappa chiara, piena
 function creditiSfondo(){ const c=CRED[baseCorrente]; $("attrib").innerHTML=(c?c+" · ":"")+"dati GTT, 5T, ISTAT, Comune di Torino"; }
 // avviso non bloccante se molte mattonelle falliscono e nessuna è arrivata
 function aggiornaAvvisoSfondo(){ $("avvisoSfondo").style.display=(baseCorrente!=="nessuno"&&tileErr>20&&tileOk===0)?"block":"none"; }
@@ -875,8 +875,8 @@ function disegnaMattonelle(ws,ox,oy){
 
 /* ---------- disegno ---------- */
 const vis = id => $(id).checked;
-const valOp = id => { const e=$(id); return e?e.value:""; };   // [pulizia] le opzioni esistono solo nel tema attivo
-/* [pulizia] aspetto uniforme dei livelli a colori (sezioni, zone, OMI, IMQ) */
+const valOp = id => { const e=$(id); return e?e.value:""; };   // le opzioni esistono solo nel tema attivo
+/* aspetto uniforme dei livelli a colori (sezioni, zone, OMI, IMQ) */
 const AREA_ALPHA=.5, AREA_STROKE="rgba(40,50,70,.25)", AREA_STROKE_W=.4;
 function dentroVista(bb,ws,ox,oy){ return !(bb[2]*ws<ox||bb[0]*ws>ox+W||bb[3]*ws<oy||bb[1]*ws>oy+H); }
 function tracciaAnelli(poly,ws,ox,oy){
@@ -887,7 +887,7 @@ const bcv=document.createElement("canvas"), bcx=bcv.getContext("2d"), cxPrincipa
 let baseKey="";
 function disegna(){
   sporco=false;
-  // [R6] mai drawImage su un canvas di misura zero: era la causa del banner "Errore nella pagina"
+  // mai drawImage su un canvas di misura zero: era la causa del banner "Errore nella pagina"
   if(W===0||H===0||!cv.width||!cv.height){ chiede(); return; }
   const ws=256*Math.pow(2,view.zoom), ox=view.cx*ws-W/2, oy=view.cy*ws-H/2, i=idx();
   const chiave=[view.cx,view.cy,view.zoom,W,H,dpr,S.dt,S.h,baseVer,baseCorrente,$("modoSez").value,filtroL(),valOp("pendTipo"),valOp("pendDir"),valOp("pendVal"),valOp("omiTipo"),valOp("imqMet"),
@@ -941,9 +941,9 @@ function aggiornaScala(ws){
   el.style.left=(copre?(pn.right+12>W-170?Math.max(12,W/2-80):pn.right+12):12)+"px";
   el.innerHTML='<div style="width:'+Math.round(L/mpp)+'px" class="barra"></div><div>'+fmt(L)+(g?' · '+g:'')+'</div>';
 }
-/* ---------- [R6] Parcheggi per lasciare l'auto (Risultato 6) ----------
+/* ---------- Parcheggi per lasciare l'auto (Risultato 6) ----------
    Due viste (menu «Cosa vedere»), ognuna risponde a una domanda e ha una sola scala di colori
-   (la vista «aree» è stata tolta il 20/10: il suo codice resta ma non si può più scegliere):
+   (la vista «aree» è stata tolta: il suo codice resta ma non si può più scegliere):
    1. «parcheggi»: Dove ci sono parcheggi? i parcheggi grandi, colore = riempimento misurato di giorno;
    2. «mancano»: Dove servirebbe di più un parcheggio? i punti prioritari (fino a 20), numerati. */
 const R6_VISTA = () => OPT_VAL.r6Vista || "parcheggi";
@@ -1045,7 +1045,7 @@ function disegnaR6Sopra(ws,ox,oy){
   const p=schedaSel.r6, X=p.x*ws-ox, Y=p.y*ws-oy;
   cx.beginPath(); cx.arc(X,Y,15,0,6.2832); cx.lineWidth=2.5; cx.strokeStyle="#111"; cx.stroke();
 }
-// [R6] testi, schede e legenda (italiano semplice; [STIMATO] / [MISURATO] / [DATI SCARSI] sempre visibili)
+// testi, schede e legenda (italiano semplice; [STIMATO] / [MISURATO] / [DATI SCARSI] sempre visibili)
 function r6SchedaArea(a){
   const nomi = a.zone_principali.join(" - ") || "area senza nome";
   const pieni = a.parcheggi_pieni.length ? a.parcheggi_pieni.map(p=>`${esc(p.nome)} (${r6N(p.posti)} posti)`).join("; ") : "nessuno tra quelli misurati";
@@ -1253,7 +1253,7 @@ function disegnaBase(ws,ox,oy,i){
     for(const l of linee){
       if(fl && l.nome!==fl) continue;
       const f=(D.rotte[l.id]||{f:[]}).f[i]||0;
-      if(tema.puntualita){   // [R4] linee colorate per % di passaggi in ritardo, nell'ora scelta con lo slider
+      if(tema.puntualita){   // linee colorate per % di passaggi in ritardo, nell'ora scelta con lo slider
         const v=r4Valore(l.nome,S.dt,S.h); if(!f&&v==null) continue; if(!dentroVista(l.bb,ws,ox,oy)) continue;
         cx.strokeStyle=v==null?"#9aa0ad":PAL_VR[r4Classe(v)]; cx.globalAlpha=v==null?.5:.95; cx.lineWidth=v==null?1.4:3.2;
         cx.beginPath(); const a=l.pts;
@@ -1284,11 +1284,11 @@ function disegnaBase(ws,ox,oy,i){
       cx.beginPath(); cx.arc(X,Y,v?Math.min(3,.9+Math.sqrt(v)*.3):.8,0,6.2832); cx.fill(); if(v) cx.stroke();
     }
   }
-  if(tema.id==="interscambio" && R6) disegnaR6(ws,ox,oy);   // [R6] parcheggi di interscambio
+  if(tema.id==="interscambio" && R6) disegnaR6(ws,ox,oy);   // parcheggi di interscambio
   if(tema.id==="catalogo") disegnaCatalogo(ws,ox,oy);   // [catalogo] punti/linee/poligoni del gruppo scelto
 }
 function disegnaSopra(ws,ox,oy,i){
-  if(tema.id==="interscambio" && R6) disegnaR6Sopra(ws,ox,oy);   // [R6] cerchio del parcheggio scelto
+  if(tema.id==="interscambio" && R6) disegnaR6Sopra(ws,ox,oy);   // cerchio del parcheggio scelto
   if(schedaSel && schedaSel.polys){   // contorno sottile della sezione selezionata
     cx.strokeStyle="#111"; cx.lineWidth=1.5; cx.beginPath();
     for(const a of schedaSel.polys){ for(let k=0;k<a.length;k+=2){ const X=a[k]*ws-ox,Y=a[k+1]*ws-oy; k?cx.lineTo(X,Y):cx.moveTo(X,Y); } cx.closePath(); }
@@ -1341,12 +1341,12 @@ function disegnaSopra(ws,ox,oy,i){
 }
 /* velocità commerciale misurata per linea (D.vel[linea][tipo][ora] = [km/h, campioni, giorni]) */
 const VEL_MIN_CAMP = 20;   // sotto questi campioni (≈ 20 minuti-veicolo) la cella resta grigia
-const VEL_PAL = ["#d73027","#fc8d59","#91cf60","#1a9850"];   // [R6] rosso = lento, verde = veloce
+const VEL_PAL = ["#d73027","#fc8d59","#91cf60","#1a9850"];   // rosso = lento, verde = veloce
 const SENS_CLASSI = ["<15","15–30","30–45",">45 km/h"];
 const sensClasse = v => v<15?0 : v<30?1 : v<45?2 : 3;
 const velCella = (id,dt,h) => { const v=((D.vel||{})[id]||{})[dt]; return v?v[h]||null:null; };
 const velClasse = k => k<12?0 : k<16?1 : k<20?2 : 3;
-/* [R4] puntualità delle linee: D.r4[nome linea minuscolo][tipo giorno][fascia] = % passaggi in ritardo oltre D.r4_meta.soglia_min minuti */
+/* puntualità delle linee: D.r4[nome linea minuscolo][tipo giorno][fascia] = % passaggi in ritardo oltre D.r4_meta.soglia_min minuti */
 const fasciaR4 = h => h<7?"notte" : h<9?"punta_mattina" : h<16?"giorno" : h<19?"punta_sera" : "sera";   // D9 del piano del Risultato 4
 const NOME_FASCIA_R4 = {notte:"notte (0-7)", punta_mattina:"punta del mattino (7-9)", giorno:"giorno (9-16)", punta_sera:"punta della sera (16-19)", sera:"sera (19-24)"};
 const r4Classe = v => v<10?0 : v<15?1 : v<20?2 : v<30?3 : 4;      // verde -> rosso con PAL_VR
@@ -1919,7 +1919,7 @@ function cercaTip(sx,sy,click){
     if(l){
       if(click) return apriScheda(schedaLinea(l), null);
       const r=D.rotte[l.id]||{s:l.id,t:3,l:""}, c=velCella(l.id,S.dt,S.h);
-      if(tema.puntualita){   // [R4]
+      if(tema.puntualita){   // 
         const pv=r4Valore(l.nome,S.dt,S.h);
         return mostraTipBase(tipC(`Linea ${esc(r.s)}`, pv==null ? "nessun dato di puntualità a quest'ora" : `${pv.toLocaleString("it-IT",{maximumFractionDigits:1})}% in ritardo oltre ${D.r4_meta.soglia_min} min (${NOME_FASCIA_R4[fasciaR4(S.h)]})`, tipoNome(r.t)), sx, sy);
       }
@@ -2036,7 +2036,7 @@ function fmt(ms){
 }
 function eta(ms){ const m=Math.round((Date.now()-ms)/60000); if(m<2) return "adesso"; if(m<90) return m+" min fa"; if(m<2880) return Math.round(m/60)+" h fa"; return Math.round(m/1440)+" giorni fa"; }
 function stato(){
-  // [revisione 18/10] fonti con le loro date, senza pallini "live"
+  // fonti con le loro date, senza pallini "live"
   const T=ST(), M=D.vel_meta, el=[];
   const riga=(titolo,testo)=>`<div class="riga"><span class="pallino ok"></span><div><b>${titolo}</b>: ${testo}</div></div>`;
   el.push(riga("Orari GTT",`in vigore dal ${esc(fmtGiorno(D.meta.gtfs.inizio,1))} al ${esc(fmtGiorno(D.meta.gtfs.fine,1))}`));
@@ -2110,7 +2110,7 @@ const TAG = {
 const storicoScarso = () => { const T=ST(); return !T || Math.max(T.ore_mezzi||0,T.ore_t5||0)<72; };
 const fnum = v => (v>=100?Math.round(v):Math.round(v*10)/10).toLocaleString("it-IT");   // virgola decimale, punto delle migliaia
 const scalaHtml = (pal,et) => `<div class="sc">${pal.map(c=>`<span style="background:${c}"></span>`).join("")}</div><div class="et">${et.map(x=>`<span>${x}</span>`).join("")}</div>`;
-/* [revisione 18/10] scala a 5 colori con le 4 soglie scritte sotto i confini tra i colori, e le parole agli estremi */
+/* scala a 5 colori con le 4 soglie scritte sotto i confini tra i colori, e le parole agli estremi */
 const scalaSoglie = (pal,so,sx,dx) => `<div class="sc" style="margin-bottom:0">${pal.map(c=>`<span style="background:${c}"></span>`).join("")}</div>`
   +`<div style="position:relative;height:14px;font-size:11px;color:var(--muted)">${so.slice(0,4).map((v,k)=>`<span style="position:absolute;left:${20*(k+1)}%;transform:translateX(-50%)">${fnum(v)}</span>`).join("")}</div>`
   +`<div class="et"><span>${sx}</span><span>${dx}</span></div>`;
@@ -2282,7 +2282,7 @@ function legendaImq(){
 }
 function imqNotaOra(){ const n=$("imqNota"); if(!n) return; n.textContent=tema.imq?("Ora considerata dallo slider in alto: "+pad(S.h)+":00 · l'indagine IMQ è del giorno feriale"):""; }
 
-/* [revisione 18/10] 9 temi: tolti Criticità (doppione), Tempo reale (non vero per chi guarda da fuori) e Zone 2011;
+/* 9 temi: tolti Criticità (doppione), Tempo reale (non vero per chi guarda da fuori) e Zone 2011;
    profilo dei residenti spostato in Vulnerabilità; Traffico+Tempo reale -> "Bus e traffico misurati" con la giornata registrata */
 const THEMES = [
   {id:"servizio", label:"Servizio e abitanti", desc:"",
@@ -2317,7 +2317,7 @@ const THEMES = [
 ];
 let tema = THEMES[0];   // tema di partenza: Servizio e abitanti
 
-/* [pulizia] area Opzioni unica: ogni tema dichiara le proprie scelte, il codice le costruisce sempre allo stesso modo.
+/* area Opzioni unica: ogni tema dichiara le proprie scelte, il codice le costruisce sempre allo stesso modo.
    Aggiungere un'opzione = aggiungere una voce in OPZIONI e il suo id nella lista "opzioni" del tema. */
 const OPZIONI = {
   r6Vista:{etichetta:"Cosa vedere", voci:[
@@ -2394,7 +2394,7 @@ function renderOpzioni(){
     box.appendChild(lab); box.appendChild(sel);
     if(def.notaId){ const n=document.createElement("div"); n.id=def.notaId; n.className="opt-nota"; box.appendChild(n); }
   }
-  if(tema.giornata){   // [revisione 18/10] giornata registrata: stessa tendina di Sovrapposizioni, messa in vista
+  if(tema.giornata){   // giornata registrata: stessa tendina di Sovrapposizioni, messa in vista
     const src=$("repGiorno"), lab=document.createElement("label"); lab.className="opt-lab"; lab.textContent="Rivedi i mezzi di una giornata";
     const sel=document.createElement("select"); sel.className="opt-sel"; sel.setAttribute("aria-label","Giornata registrata");
     sel.innerHTML=src.innerHTML.replace("(nessuna giornata)","(nessuna)"); sel.value=src.value;
@@ -2421,7 +2421,7 @@ function applicaTema(id){
   for(const k in tema.over) $(k).checked = !!tema.over[k];
   $("temi").value=tema.id;
   $("temaDesc").textContent=tema.desc;
-  renderOpzioni();                                                        // [pulizia] una sola area Opzioni
+  renderOpzioni();                                                        // una sola area Opzioni
   if(tema.subServizio) impostaSubServizio($("subServizio").value, false);
   if(tema.r6vista){ impostaR6Vista(); $("legendaBox").classList.remove("chiusa"); $("legendaToggle").setAttribute("aria-expanded","true"); }   // legenda aperta quando si apre il tema
   baseVer++; chiede(); aggiornaLegenda(); imqNotaOra();
@@ -2432,7 +2432,7 @@ $("temi").onchange=e=>applicaTema(e.target.value);
 
 /* legenda: solo il tema attivo + le sovrapposizioni accese */
 const leg=$("legenda");
-// [R6] se la legenda di un tema fallisce, mostra un avviso invece di lasciare quella del tema precedente
+// se la legenda di un tema fallisce, mostra un avviso invece di lasciare quella del tema precedente
 function aggiornaLegenda(){
   try { aggiornaLegendaBase(); }
   catch(e){ console.error("legenda:", e); const l=$("legenda"); if(l) l.innerHTML='<div class="t">Legenda non disponibile</div>'; }
@@ -2454,9 +2454,9 @@ function aggiornaLegendaBase(){
   leg.innerHTML=blocchi.map(b=>`<div class="blocco">${b}</div>`).join(""); $("legendaBox").style.display=blocchi.length?"block":"none";
 }
 
-// [R6] il tema si può aprire da un indirizzo, es. mappa_torino.html#tema=interscambio
+// il tema si può aprire da un indirizzo, es. mappa_torino.html#tema=interscambio
 const temaDaUrl = ()=>{ const m=/[#&?]tema=([a-z0-9_]+)/i.exec(location.hash||""); return m && THEMES.some(t=>t.id===m[1]) ? m[1] : "servizio"; };
-// [R6] #tema=interscambio&vista=parcheggi|mancano: imposta la vista del menu (valore non valido -> parcheggi)
+// #tema=interscambio&vista=parcheggi|mancano: imposta la vista del menu (valore non valido -> parcheggi)
 function applicaVistaDaUrl(){
   if(temaDaUrl()!=="interscambio") return;
   const m=/[#&?]vista=([a-z0-9_]+)/i.exec(location.hash||"");
@@ -2465,7 +2465,7 @@ function applicaVistaDaUrl(){
   OPT_VAL.r6Vista = v; impostaR6Vista(); baseVer++; chiede(); aggiornaLegenda();
 }
 
-// [R4] #tema=puntualita&linea=17 : riempie il campo «Mostra solo una linea» e ridisegna
+// #tema=puntualita&linea=17 : riempie il campo «Mostra solo una linea» e ridisegna
 function applicaLineaDaUrl(){
   const m=/[#&?]linea=([^&]+)/i.exec(location.hash||"");
   const mo=/[#&?]ora=(\d{1,2})(?!\d)/i.exec(location.hash||"");
@@ -2484,10 +2484,10 @@ function applicaLineaDaUrl(){
 }
 
 /* ---------- avvio ---------- */
-// [revisione 18/10] niente piu' dati "live": la pagina mostra orari, storico registrato e dati fissi, con le date scritte
+// niente piu' dati "live": la pagina mostra orari, storico registrato e dati fissi, con le date scritte
 if(innerWidth<=640){ $("legendaBox").classList.add("chiusa"); $("legendaToggle").setAttribute("aria-expanded","false"); }   // telefono: legenda chiusa
 creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(adesso); sicuro(()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); applicaLineaDaUrl(); });
-addEventListener("hashchange",()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); applicaLineaDaUrl(); });   // [R6] #tema=interscambio&vista=mancano apre direttamente tema e vista
+addEventListener("hashchange",()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); applicaLineaDaUrl(); });   // #tema=interscambio&vista=mancano apre direttamente tema e vista
 sicuro(giornateRegistrate); sicuro(stato);
 sicuro(disegna); ultimoT=performance.now(); requestAnimationFrame(anima);
 (()=>{ const dl=$("listaLinee"); const nomi=[...new Set(Object.values(D.rotte).map(r=>r.s))].sort((a,b)=>a.localeCompare(b,"it",{numeric:true})); dl.innerHTML=nomi.map(n=>`<option value="${esc(n)}">`).join(""); })();

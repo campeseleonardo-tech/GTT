@@ -21,7 +21,7 @@ strade note e strade residenziali.
 
 Input:  tp_conteggi.npz, tp_tratti.csv, segmenti.csv, importanza_vie.json,
         data/raw/gtt_gtfs_20261003_224530.zip, rete
-Output: data/processed/tp_corridoi.json, parte 2 di docs/RAPPORTO_TP_PER_STRADA.txt
+Output: data/processed/tp_corridoi.json, parte 2 di docs/rapporti/RAPPORTO_TP_PER_STRADA.txt
 """
 
 import csv
@@ -56,7 +56,8 @@ RADICE = trova_radice()
 PROC = RADICE / "data" / "processed"
 OUT_DIR = PROC / "traffico_c"
 RETE_DIR = OUT_DIR / "rete"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_TP_PER_STRADA.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TP_PER_STRADA.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 GTFS = RADICE / "data" / "raw" / "gtt_gtfs_20261003_224530.zip"
 
 

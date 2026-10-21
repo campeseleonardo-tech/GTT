@@ -3,7 +3,7 @@
 scripts/50b_v3_valutazione.py - Pacchetto A (Fase 3-bis), parte 3: valutazione.
 
 Confronta il modello V3 (e le ablazioni diagnostiche) con il modello V0 sugli
-stessi criteri FISSATI nella Fase 3 (docs/PIANO_TRAFFICO_FASE3.md, sezione 1):
+stessi criteri FISSATI nella Fase 3 (docs/R8_traffico.md, tabella delle classi):
 stesse unita'-sensore, taratura leave-one-out, errore mediano con intervallo al
 90%, rho di Spearman, confronto col metodo A (36,9%).
 
@@ -18,7 +18,7 @@ Controlli obbligatori del pacchetto A:
     misurate dai sensori (velocita_5t.json).
 
 Output: data/processed/traffico_c/v3/valutazione_v3.json
-        docs/RAPPORTO_TRAFFICO_C_V3.txt
+        docs/rapporti/RAPPORTO_TRAFFICO_C_V3.txt
 """
 
 import json
@@ -34,7 +34,8 @@ import rete_osm  # noqa: E402
 
 PROC = AQUI.parent / "data" / "processed"
 OUT_DIR = PROC / "traffico_c"
-RAPPORTO = AQUI.parent / "docs" / "RAPPORTO_TRAFFICO_C_V3.txt"
+RAPPORTO = AQUI.parent / "docs" / "rapporti" / "RAPPORTO_TRAFFICO_C_V3.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 ERRORE_A = 0.369
 
 # 6 percorsi noti (lat, lon)
@@ -295,7 +296,7 @@ def main():
     }
     (OUT_DIR / "v3" / "valutazione_v3.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print("\n".join(righe))
-    print("Scritti docs/RAPPORTO_TRAFFICO_C_V3.txt e v3/valutazione_v3.json")
+    print("Scritti docs/rapporti/RAPPORTO_TRAFFICO_C_V3.txt e v3/valutazione_v3.json")
     return variante_finale, classe
 
 

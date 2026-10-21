@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """38b_codici_condivisi.py
 
-Passo 8c del piano docs/PIANO_TRAFFICO_FASE2.md: i codici `lcd1` condivisi da due
+Vedi docs/R8_traffico.md: i codici `lcd1` condivisi da due
 sensori fisici diversi.
 
 (i) legge il file XML grezzo del 3/10 (`data/raw/5t_flussi_20261003_224539.xml`)
@@ -29,7 +29,8 @@ RADICE = Path(__file__).resolve().parents[1]
 DB = RADICE / "data" / "storico_backup.sqlite"
 XML = RADICE / "data" / "raw" / "5t_flussi_20261003_224539.xml"
 V2 = RADICE / "data" / "processed" / "sensori_corridoi_v2.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_CODICI_CONDIVISI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_CODICI_CONDIVISI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 ATTESI_VOCI = 112
 ATTESI_CODICI = 109

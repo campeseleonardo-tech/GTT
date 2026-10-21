@@ -8,7 +8,7 @@
   :root{
     --bg:#f4f5f7; --card:#ffffff; --ink:#1d2330; --muted:#5d6678; --line:#dfe3ea; --accent:#1b6f73;
     --accent-chiaro:#b9dcdd; --traccia:#e7ebf1; --rosso:#b4432f; --blu:#7aa6d1;
-    /* [R6] due sole scale, uguali in tutta la pagina e nella mappa: verde = bene, rosso = male;
+    /* due sole scale, uguali in tutta la pagina e nella mappa: verde = bene, rosso = male;
        blu -> arancione smorzati = quantità neutre (poco -> tanto) */
     --vr-verde:#1a9850; --vr-giallo:#fee08b; --vr-rosso:#d73027;
     --neu-blu:#6a98c4; --neu-blu-chiaro:#b4cbe0; --neu-arancio:#e08a38;
@@ -77,7 +77,7 @@
   .grafico .nota{font-size:11.5px;color:var(--muted);margin-top:8px}
   .barra-riga{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;align-items:center;gap:8px;margin:5px 0;font-size:12px}
   .barra-etichetta{color:var(--muted);line-height:1.25;overflow-wrap:anywhere}
-  .barra-link{color:var(--accent);text-decoration:none}   /* [R4] etichetta che apre la linea nella mappa */
+  .barra-link{color:var(--accent);text-decoration:none}   /* etichetta che apre la linea nella mappa */
   .barra-link:hover,.barra-link:focus-visible{text-decoration:underline}
   .barra-traccia{position:relative;height:12px;background:var(--traccia);border-radius:6px;overflow:hidden}
   .barra-traccia span{position:absolute;left:0;top:0;bottom:0;border-radius:6px}
@@ -108,7 +108,7 @@
   table.param{border-collapse:collapse;font-size:12.5px;margin-top:6px}
   table.param td{padding:4px 12px 4px 0;border-bottom:1px solid var(--line);vertical-align:top}
   table.param td:first-child{color:var(--muted)}
-  /* [R6] tabella dei criteri: 4 colonne; su schermo stretto le righe diventano blocchi */
+  /* tabella dei criteri: 4 colonne; su schermo stretto le righe diventano blocchi */
   table.criteri{width:100%}
   table.criteri th{text-align:left;padding:4px 12px 6px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);font-weight:600;vertical-align:top}
   table.criteri td{padding:6px 12px 6px 0;border-bottom:1px solid var(--line);vertical-align:top}
@@ -210,7 +210,7 @@ function mostraGalleria(){
 }
 
 /* ---------------- grafici (solo HTML/CSS, niente librerie: la pagina funziona offline) ---------------- */
-// [R6] colori: "verde"/"rosso" = bene/male (un giudizio chiaro); "giallo", "blu", "arancio" = categorie; senza tono = blu neutro
+// colori: "verde"/"rosso" = bene/male (un giudizio chiaro); "giallo", "blu", "arancio" = categorie; senza tono = blu neutro
 const TONO_COL = {verde:"var(--vr-verde)", rosso:"var(--vr-rosso)", giallo:"var(--vr-giallo)", blu:"var(--neu-blu)", arancio:"var(--neu-arancio)"};
 const TONI = {pieno:"var(--neu-blu)", medio:"var(--neu-blu-chiaro)", vuoto:"var(--vr-rosso)"};
 const PALETTE_PILA = ["var(--neu-blu)", "var(--neu-arancio)", "#9aa3b2", "#c9b27a", "#8d7bb0"];
@@ -256,7 +256,7 @@ function graficoOrario(g){
   return righe + `<div class="orario-asse">${tacche}</div>`;
 }
 
-/* [R6] curva delle 24 ore (valori 0-1 per ora; null interrompe la linea). Asse x 0-24 h, asse y 0-100 %. */
+/* curva delle 24 ore (valori 0-1 per ora; null interrompe la linea). Asse x 0-24 h, asse y 0-100 %. */
 function graficoProfilo(g){
   const LW = 480, LH = 170, PL = 34, PR = 12, PT = 10, PB = 26, AW = LW - PL - PR, AH = LH - PT - PB;
   const X = h => PL + h / 24 * AW, Y = v => PT + (1 - v) * AH;
@@ -306,7 +306,7 @@ function bloccoNumeri(r){
 function sezione(titolo, html){ return html ? `<div class="sez"><h4>${titolo}</h4>${html}</div>` : ""; }
 function lista(arr, cls){ return Array.isArray(arr) && arr.length ? `<ul class="${cls}">${arr.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""; }
 
-// [R6] un'immagine che non si trova: via la figura, e la sezione se non resta nulla
+// un'immagine che non si trova: via la figura, e la sezione se non resta nulla
 function immagineFallita(img){
   const lista = img.closest(".imm-lista"), sez = img.closest(".sez");
   img.closest("figure").remove();
@@ -323,17 +323,17 @@ function apri(i){
         ${Array.isArray(s.metodo) ? `<ol>${s.metodo.map(x => `<li>${esc(x)}</li>`).join("")}</ol>` : ""}
         ${Array.isArray(s.parametri) && s.parametri.length ? `<table class="param">${s.parametri.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table>` : ""}
       </details>` : "";
-  // [R6] il link apre la mappa già sul tema giusto (es. mappa_torino.html#tema=interscambio)
+  // il link apre la mappa già sul tema giusto (es. mappa_torino.html#tema=interscambio)
   const mappa = s.mappa
     ? `<div class="mappa-box"><p>${esc(s.mappa.nota || "")}</p><a class="btn primario" href="mappa_torino.html${s.mappa.id ? "#tema=" + encodeURIComponent(s.mappa.id) : ""}" style="text-decoration:none">Apri la mappa</a></div>`
     : (s.tag ? `<p style="font-size:12.5px;color:var(--muted)">Questo risultato non è ancora disegnato nella mappa.</p>` : "");
   const avviso = Array.isArray(s.avviso) && s.avviso.length
     ? `<div class="avviso"><strong>${esc(s.avviso[0])}</strong>${esc(s.avviso.slice(1).join(" "))}</div>` : "";
-  // [R6] «I criteri, uno per uno»: tabella a 4 colonne (criterio, valore, perché, cosa cambia)
+  // «I criteri, uno per uno»: tabella a 4 colonne (criterio, valore, perché, cosa cambia)
   const criteri = Array.isArray(s.criteri) && s.criteri.length
     ? `<table class="param criteri"><thead><tr><th>Criterio</th><th>Valore usato</th><th>Perché</th><th>Cosa cambia se lo cambiamo</th></tr></thead><tbody>${s.criteri.map(c => `<tr><td>${esc(c.nome)}</td><td>${esc(c.valore)}</td><td>${esc(c.perche)}</td><td>${esc(c.effetto)}</td></tr>`).join("")}</tbody></table>`
     : "";
-  // [R6] immagini fatte da Leo (cartella immagini/): se un file manca, la figura sparisce e la sezione pure
+  // immagini (cartella immagini/): se un file manca, la figura sparisce e la sezione pure
   const immagini = Array.isArray(s.immagini) && s.immagini.length
     ? `<div class="imm-lista">${s.immagini.map(im => `<figure><img src="${esc(im.file)}" alt="${esc(im.didascalia)}" onerror="immagineFallita(this)"><figcaption>${esc(im.didascalia)}</figcaption></figure>`).join("")}</div>`
     : "";
@@ -345,7 +345,7 @@ function apri(i){
     sezione("Com'è fatta in mappa", immagini) +
     sezione("Prima e dopo, numero per numero", bloccoNumeri(s)) +
     sezione("I criteri, uno per uno", criteri) +
-    // [correzioni 20/10] verifica del metodo su casi noti (solo fatti misurati) e riassunto in inglese
+    // verifica del metodo su casi noti (solo fatti misurati) e riassunto in inglese
     sezione("Il metodo funziona? La verifica sui casi noti", Array.isArray(s.verifica) && s.verifica.length ? `<table class="param criteri"><thead><tr><th>Dove</th><th>Cosa sappiamo</th><th>Esito</th></tr></thead><tbody>${s.verifica.map(v => `<tr><td>${esc(v.nome)}</td><td>${esc(v.fatto)}</td><td>${esc(v.esito)}</td></tr>`).join("")}</tbody></table>` : "") +
     sezione("Quanto sono affidabili i dati", Array.isArray(s.affidabilita) && s.affidabilita.length ? `<table class="param">${s.affidabilita.map(a => `<tr><td>${esc(a.voce)}</td><td>${esc(a.valore)}</td></tr>`).join("")}</table>` : "") +
     sezione("Il metodo", metodo) +

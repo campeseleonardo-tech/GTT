@@ -3,7 +3,7 @@
 scripts/49_v3_punti_domanda.py - Pacchetto A (Fase 3-bis), parte 1: modello V3.
 
 Costruisce gli ingredienti del modello piu' realistico V3 (fissato nel piano
-docs/PIANO_TRAFFICO_FASE4.md, sezione 3, non modificabile):
+docs/R8_traffico.md, non modificabile):
   1. DESTINAZIONI PER ATTRATTORI: ogni zona ha insiemi di punti pesati per
      gruppo di scopo (casa, lavoro, studio, acquisti, cure, altro). "casa" =
      popolazione (punti del modello V0); gli altri = punti di servizio
@@ -21,7 +21,7 @@ Output:
   data/processed/traffico_c/v3/punti_v3.json
   data/processed/traffico_c/v3/porte_v3.json
   data/processed/traffico_c/v3/domanda_v3.json
-  docs/RAPPORTO_TRAFFICO_C_V3.txt (intestazione)
+  docs/rapporti/RAPPORTO_TRAFFICO_C_V3.txt (intestazione)
 """
 
 import csv

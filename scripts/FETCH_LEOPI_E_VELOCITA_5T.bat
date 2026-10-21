@@ -17,13 +17,13 @@ powershell -NoProfile -Command "Get-Content 'logs\backup_da_leopi.log' -Tail 5"
 
 echo [2/3] Salvo una copia dei risultati 5T precedenti...
 if exist data\processed\velocita_5t.json copy /y data\processed\velocita_5t.json data\processed\velocita_5t_prima_fetch.json >nul
-if exist docs\RAPPORTO_VELOCITA_5T.txt copy /y docs\RAPPORTO_VELOCITA_5T.txt docs\RAPPORTO_VELOCITA_5T_prima_fetch.txt >nul
+if exist docs\rapporti\RAPPORTO_VELOCITA_5T.txt copy /y docs\rapporti\RAPPORTO_VELOCITA_5T.txt docs\rapporti\RAPPORTO_VELOCITA_5T_prima_fetch.txt >nul
 
 echo [3/3] Ricalcolo velocita'/flusso 5T...
 python scripts\26_velocita_5t.py > logs\26_velocita_5t.log 2>&1
 if errorlevel 1 goto errore
 echo      Prime righe del rapporto:
-powershell -NoProfile -Command "Get-Content 'docs\RAPPORTO_VELOCITA_5T.txt' -TotalCount 12"
+powershell -NoProfile -Command "Get-Content 'docs\rapporti\RAPPORTO_VELOCITA_5T.txt' -TotalCount 12"
 
 echo.
 echo FATTO. Torna da Claude e scrivi "fetch fatto".

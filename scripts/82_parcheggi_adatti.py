@@ -27,7 +27,7 @@ Cosa legge
 Cosa scrive
 -----------
   data/processed/risultato6_v2/parcheggi_adatti.json
-  docs/RAPPORTO_R6_PARCHEGGI_ADATTI.txt
+  docs/rapporti/RAPPORTO_R6_PARCHEGGI_ADATTI.txt
 
 Come si lancia
 --------------
@@ -52,7 +52,8 @@ FUNZIONE = P / "parcheggi_funzione.json"
 ZONE_GEO = RADICE / "data" / "processed" / "imq_zone_geo.json"
 PBF = RADICE / "data" / "otp" / "rete" / "torino_cintura.osm.pbf"
 OUT = P / "parcheggi_adatti.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R6_PARCHEGGI_ADATTI.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_PARCHEGGI_ADATTI.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 TIPI_APERTI = ("interscambio_ufficiale", "garage_5t", "park_ride_osm", "osm_pubblico")
 TIPI_MAI_DESTINAZIONE = ("interscambio_ufficiale", "park_ride_osm")

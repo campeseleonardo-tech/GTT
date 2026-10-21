@@ -14,7 +14,7 @@ TRATTA la quota di lunghezza dentro una ZTL e dentro un'area pedonale.
 
 Output: data/processed/traffico_d/ztl_unificata.json
         data/processed/traffico_d/tratte_ztl.csv
-        docs/RAPPORTO_ZTL.txt
+        docs/rapporti/RAPPORTO_ZTL.txt
 """
 
 import csv
@@ -44,7 +44,8 @@ RADICE = trova_radice()
 RAW = RADICE / "data" / "raw"
 PROC = RADICE / "data" / "processed"
 OUT = PROC / "traffico_d"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_ZTL.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_ZTL.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 
 def parse_wkt_poligoni(wkt):

@@ -3,7 +3,7 @@
 
 Abbina i 92 sensori 5T usabili a un corridoio stradale di
 data/processed/importanza_vie.json, usando la POSIZIONE, non solo il nome.
-Piano: docs/PIANO_TRAFFICO_FASE2.md, sezione 3, Passo 8.
+Vedi docs/R8_traffico.md.
 
 Per ogni sensore usabile (non in data/processed/sensori_esclusi.json):
 - i 3 corridoi piu' vicini entro 60 m (nome, punteggio, distanza, se hanno lo
@@ -24,7 +24,7 @@ con importlib: il nome del file inizia con un numero).
 
 Output:
 - data/processed/sensori_corridoi_v2.json
-- docs/RAPPORTO_ABBINAMENTO_POSIZIONE.txt  (contiene la tabella DA_VEDERE completa)
+- docs/rapporti/RAPPORTO_ABBINAMENTO_POSIZIONE.txt  (contiene la tabella DA_VEDERE completa)
 
 Solo libreria standard. Database in sola lettura (qui non serve nemmeno).
 """
@@ -39,7 +39,8 @@ IN_SENSORI = RADICE / "data" / "processed" / "flusso_5t_sensori.json"
 IN_ESCLUSI = RADICE / "data" / "processed" / "sensori_esclusi.json"
 IN_CORRIDOI = RADICE / "data" / "processed" / "importanza_vie.json"
 OUT = RADICE / "data" / "processed" / "sensori_corridoi_v2.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_ABBINAMENTO_POSIZIONE.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_ABBINAMENTO_POSIZIONE.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 SOGLIA_NOME_M = 60      # SICURO: stesso nome entro questa distanza
 SOGLIA_VEDERE_M = 40    # DA_VEDERE: nome diverso entro questa distanza

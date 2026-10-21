@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python3
 """Accessibilita' per sezione di censimento (motore R5/r5py).
-Scrive data/processed/accessibilita.json + docs/RAPPORTO_ACCESSIBILITA.txt.
+Scrive data/processed/accessibilita.json + docs/rapporti/RAPPORTO_ACCESSIBILITA.txt.
 
-Decisio nel piano docs/PIANO_ACCESSIBILITA.md:
+Scelte (vedi docs/METODO.md):
 - D1: dentro Torino solo il catalogo comunale; i servizi OSM (script 20) entrano
   soltanto nei lotti che contengono sezioni FUORI Torino.
 - D2: cammino 4,8 km/h = 80 m/min (anche per i margini).
@@ -36,7 +36,8 @@ GTFS = RADICE / "data/raw/gtt_gtfs_20261003_224530.zip"
 OSM_TAGLIATO = RADICE / "data/otp/rete/torino_cintura.osm.pbf"
 JAVA_HOME = RADICE / "data/otp/jdk-25.0.4.1+1-jre"
 OUT = RADICE / "data/processed/accessibilita.json"
-RAPPORTO = RADICE / "docs/RAPPORTO_ACCESSIBILITA.txt"
+RAPPORTO = RADICE / "docs/rapporti/RAPPORTO_ACCESSIBILITA.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 DIR_PARZ = RADICE / "data/processed/accessibilita_parziale"
 CENTROIDI = RADICE / "data/processed/centroidi_fuori_rete.json"
 
@@ -433,7 +434,8 @@ def main():
             GTFS = RADICE / GTFS
     if args.out:
         OUT = RADICE / "data/processed" / f"{args.out}.json"
-        RAPPORTO = RADICE / "docs" / f"RAPPORTO_{args.out.upper()}.txt"
+        RAPPORTO = RADICE / "docs" / "rapporti" / f"RAPPORTO_{args.out.upper()}.txt"
+        RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
     tieni_pc_sveglio()
 
     sezioni = carica_sezioni()

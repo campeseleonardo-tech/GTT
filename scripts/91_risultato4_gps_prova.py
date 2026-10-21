@@ -3,7 +3,7 @@
 """91 - Risultato 4 calcolato sul GPS: prova su 2 giorni feriali (Giro 4).
 
 SOLO LETTURA: database aperto in sola lettura; scrive solo data/processed/risultato4_gps_prova.json e
-docs/RAPPORTO_R4_GPS_PROVA.txt. Non cambia lo script 27, i suoi risultati ne' le pagine.
+docs/rapporti/RAPPORTO_R4_GPS_PROVA.txt. Non cambia lo script 27, i suoi risultati ne' le pagine.
 
 Idea (decisione di Leo, 21/10): il feed GTT smette di elencare la fermata all'orario programmato, quindi per i mezzi in
 ritardo la stima del feed e' troppo bassa (script 90). Qui il ritardo di un passaggio e' preso dal GPS:
@@ -36,7 +36,8 @@ import comuni  # noqa: E402
 
 RADICE = comuni.RADICE
 OUT_JSON = RADICE / "data" / "processed" / "risultato4_gps_prova.json"
-RAPPORTO = RADICE / "docs" / "RAPPORTO_R4_GPS_PROVA.txt"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R4_GPS_PROVA.txt"
+RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 GIORNI = ("20261015", "20261016")      # come lo script 90
 DIST_GPS_M = 60.0
 SEGMENTO_MAX_S = 180
