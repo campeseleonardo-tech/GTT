@@ -1,0 +1,58 @@
+RAPPORTO CASE x FRAGILITA' x SERVIZI (script 95), solo Torino, unita' = zona OMI
+generato 2026-10-21T22:34:07+00:00
+
+Torino: 4,044 sezioni abitate, 848,748 abitanti; zone OMI 47, usate 46 (848,410 abitanti). Escluse (sotto 500 abitanti o senza prezzo): B9 STATI UNITI.
+Avvertenze: OMI = quotazioni, non compravendite; zone grandi; un solo semestre; correlazione, non causa; l'indice di vulnerabilita' non e' una misura di reddito.
+
+E1  SI PAGA PER I SERVIZI?
+  Spearman prezzo-servizi = 0.614 su 46 zone (intervallo 95%: 0.387 / 0.786)
+  retta: prezzo = 1369.9 + 12.88 x punteggio servizi  (euro/m2)
+  5 zone piu' care dei servizi (sopra la retta):
+    B1 ROMA                      prezzo   3650 atteso   2429 residuo  +1221  servizi  82.2  abitanti 1,093
+    C12 CRIMEA                   prezzo   2925 atteso   1821 residuo  +1104  servizi  35.0  abitanti 7,445
+    B2 CARLO EMANUELE II         prezzo   3425 atteso   2390 residuo  +1035  servizi  79.2  abitanti 10,989
+    E1 COLLINARE VILLA DELLA REGINA prezzo   2175 atteso   1443 residuo   +732  servizi   5.7  abitanti 9,568
+    C1 VALENTINO                 prezzo   2700 atteso   2142 residuo   +558  servizi  59.9  abitanti 5,486
+  5 zone piu' convenienti (sotto la retta):
+    D20 BARRIERA DI MILANO       prezzo   1050 atteso   2112 residuo  -1062  servizi  57.6  abitanti 48,588
+    D21 REBAUDENGO - REGIO PARCO prezzo   1045 atteso   1800 residuo   -755  servizi  33.4  abitanti 28,202
+    C17 PORTA PALAZZO - MARIA AUSILIATRICE prezzo   1500 atteso   2162 residuo   -662  servizi  61.5  abitanti 13,406
+    C21 CAMPIDOGLIO - MARTINETTO prezzo   1700 atteso   2279 residuo   -579  servizi  70.5  abitanti 10,462
+    D11 SPINA 4 - DOCKS DORA     prezzo   1375 atteso   1943 residuo   -568  servizi  44.5  abitanti 4,322
+
+E2  DOPPIO SVANTAGGIO (soglie fissate: fragilita' nel 20% piu' alto e servizi nel 20% piu' basso)
+  zone: fragilita' > 49.78 e servizi <= 33.42
+    D6 MIRAFIORI SUD             abitanti  33,481  fragilita'  63.0  servizi  25.6  prezzo   1300
+    D23 LUCENTO - VALLETTE       abitanti  31,262  fragilita'  65.9  servizi  21.3  prezzo   1300
+    D21 REBAUDENGO - REGIO PARCO abitanti  28,202  fragilita'  64.9  servizi  33.4  prezzo   1045
+    D22 CORONA NORD              abitanti  25,756  fragilita'  63.1  servizi  15.4  prezzo   1250
+    D15 BARCA - BERTOLLA         abitanti  10,584  fragilita'  58.5  servizi   9.5  prezzo   1600
+  residenti nelle zone in doppio svantaggio: 129,285 (15.2% dei residenti delle zone usate)
+  per sezione (quintili: fragilita' > 57.7, servizi <= 34.37; 3,520 sezioni, 839,657 residenti, fuori le zone grigie):
+    tutte e due              216 sezioni    79,598 residenti
+    solo fragilita' alta     483 sezioni   142,406 residenti
+    solo servizi bassi       489 sezioni   100,600 residenti
+    nessuna                 2332 sezioni   517,053 residenti
+  torinesi in sezioni con entrambe le condizioni: 79,598 (9.5%)
+
+E3  IL VALORE DELLA METRO
+  zone con una fermata M1 a meno di 600 m dal centro della zona (centroide dell'anello piu' grande), confronto a pari distanza da Piazza Castello, fasce di 2 km; prezzo medio = media semplice fra zone
+  zone con metro: B2 CARLO EMANUELE II, B3 SOLFERINO, B4 VINZAGLIO, B8 SAN SALVARIO, C15 DUCA D AOSTA, C2 DANTE, C22 ADRIANO - BERNINI - RIVOLI, C3 SAN SECONDO, C7 DUCHESSA JOLANDA, D16 NIZZA MILLEFONTI, D25 AERONAUTICA - LESNA
+      0-2 km  con metro:  6 zone,   2542  |  senza:  8 zone,   2469  |  differenza 73
+      2-4 km  con metro:  3 zone,   2192  |  senza: 16 zone,   1973  |  differenza 219
+      4-6 km  con metro:  2 zone,   1712  |  senza: 10 zone,   1660  |  differenza 52
+      6-8 km  con metro:  0 zone,      -  |  senza:  1 zone,   1300  |  differenza -
+  DIFFERENZA FRA ZONE, NON EFFETTO CAUSALE.
+
+CONTROLLI
+  OK     ci sono sezioni di Torino abitate — 4044
+  OK     l'indice di vulnerabilita' e' solo censimento (senza servizi e verde: altrimenti il confronto con i servizi e' circolare) — 1 sezioni con serv/verde nell'indice
+  OK     ci sono zone OMI di Torino — 47
+  OK     sezioni senza zona OMI sotto l'1% — 1 su 4044 (0.02%)
+  OK     gli abitanti delle zone + quelli delle sezioni senza zona = abitanti di Torino — 848,744 + senza zona = 848,748
+  OK     zone con almeno 500 abitanti senza prezzo OMI (escluse) — nessuna
+  OK     nessun prezzo nullo nelle zone usate — 46 zone usate
+  OK     abbastanza zone per una correlazione (almeno 10)
+  OK     servizi e fragilita' di zona fra 0 e 100
+  OK     le 4 classi delle sezioni sommano alle sezioni di riferimento
+  OK     fermate della metropolitana trovate nel GTFS (la M1 ne ha circa 23) — 23
