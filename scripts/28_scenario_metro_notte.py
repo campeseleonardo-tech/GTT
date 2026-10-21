@@ -16,7 +16,7 @@ Output:
   data/scenari/gtt_gtfs_notte15.zip
   data/scenari/gtt_gtfs_notte30.zip
 
-La logica dei service_id attivi e' copiata da scripts/calcola_simulazione.py
+La logica dei service_id attivi segue il calendario GTFS (calendar e calendar_dates)
 (funzione servizi_attivi), come richiesto.
 """
 import csv
@@ -40,7 +40,7 @@ def log(msg):
     print(msg, flush=True)
 
 
-# --- logica dei service_id attivi: copiata da scripts/calcola_simulazione.py ---
+# --- logica dei service_id attivi (calendar e calendar_dates) ---
 def data_gtfs(s):
     return date(int(s[:4]), int(s[4:6]), int(s[6:8]))
 

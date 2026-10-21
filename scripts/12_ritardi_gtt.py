@@ -21,7 +21,7 @@ della stessa corsa e stop_sequence (campione: mediana 0, p25/p75 -1,2/+1,2, p95 
 Questo strumento oggi conta corse attive/soppresse; il calcolo dei ritardi in minuti
 non e' ancora implementato (serve al Risultato 4).
 
-Ore locali Europe/Rome calcolate a mano (regola UE), come in 09_analisi_dati_diurni.py.
+Ore locali Europe/Rome calcolate a mano (regola UE), come in comuni.py.
 Solo raccogli-db scrive nelle sue due tabelle SQLite; nessun sottocomando modifica i grezzi.
 """
 import argparse

@@ -1,7 +1,6 @@
 @echo off
 rem AGGIORNA_RACCOLTA_LEOPI.bat - porta sul Raspberry Pi la versione di scripts\03_raccolta_continua.py
-rem che c'e' sul PC e riavvia la raccolta. Unisce i due .bat di prima (aggiorna_raccolta_leopi.bat del 14/10 e
-rem AGGIORNA_RACCOLTA_5T_CODICI.bat del 17/10, ora in scripts\archivio).
+rem che c'e' sul PC e riavvia la raccolta.
 rem Doppio clic. Se il Pi chiede la password di sudo, scrivila e premi Invio. Log in logs\aggiorna_raccolta_leopi.log
 rem
 rem Per tornare indietro: sul Pi, "cp ~/GTT/scripts/03_raccolta_continua.py.bak_<data> ~/GTT/scripts/03_raccolta_continua.py"

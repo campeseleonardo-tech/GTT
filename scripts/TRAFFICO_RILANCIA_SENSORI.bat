@@ -45,7 +45,7 @@ call :passo scripts\54_incrocio_traffico_tp.py
 rem --- FASE 5: la valutazione, le fasce, la pubblicazione e le verifiche cambiano
 rem     con i sensori; gli assi, le corsie, la ZTL, il TP per posizione (60-61) e il
 rem     modello V4 (62) NON dipendono dai sensori (si rifanno solo se cambia la rete
-rem     o il GTFS, con FASE5_MODELLO.bat). ---
+rem     o il GTFS, con i comandi di docs\R8_traffico.md). ---
 call :passo scripts\63_v4_valutazione.py
 call :passo scripts\65_affidabilita.py
 call :passo scripts\66_pubblicazione_incrocio.py

@@ -88,7 +88,7 @@ Perché questa misura: con la classe «1,5 volte» il risultato passava da 1 pun
   contatore fermo, Fermi non trasmette, Venchi Unica è a metà, Sofia è poco usato con molte auto accanto. Le
   osservazioni personali sui parcheggi servono solo come controllo a posteriori (`data/ref/parcheggi_osservazioni.json`)
   e non entrano nei dati.
-- **Sensibilità della regola** (script 89): N 10-30 corse/ora e M 500-3.000 auto danno da 25 a 347 fermate; più la
+- **Sensibilità della regola** (misurata una volta, lo script è stato tolto): N 10-30 corse/ora e M 500-3.000 auto danno da 25 a 347 fermate; più la
   regola è severa, meno dei punti prioritari restano coperti.
 
 ### Bus contro auto verso Piazza Castello (script 94)
@@ -123,7 +123,7 @@ parcheggi.
 | 79 | dati della mappa |
 | 80 | funzioni usate da 84-85 |
 | 85 | verifiche automatiche |
-| 87 · 88 · 89 | popolarità delle zone e linee utili · confronto con i sensori 5T · proposta di sensibilità |
+| 87 · 88 | popolarità delle zone e linee utili · confronto con i sensori 5T |
 
 Catena completa (circa 4 minuti), da lanciare dopo ogni rifacimento dei dati:
 

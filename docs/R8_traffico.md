@@ -126,7 +126,13 @@ Risultato: `data/processed/risultato8_traffico_tp_v2.json` (universo, assi da gu
 ```
 scripts\FETCH_LEOPI_E_VELOCITA_5T.bat      (dopo ogni raccolta dal Pi)
 scripts\TRAFFICO_RILANCIA_SENSORI.bat      (riscrive anche i rapporti)
-scripts\FASE5_MODELLO.bat                  (assi, corsie, ZTL, TP, modello; lungo, circa 1 ora)
+python scripts\62_v4_modello.py --variante v4 --iter 8 --outdir v4     (solo se cambiano rete o GTFS; lungo, circa 1 ora)
+python scripts\63_v4_valutazione.py
+```
+Le varianti di confronto (`--variante v0`, `abl1`, `abl2`, `abl3`, con `--outdir` uguale al nome) si rifanno allo stesso modo prima del 63;
+lo stato `msa_stato.npz` di una variante si cancella (cartella `data\processed\traffico_d\<variante>`) per rifare da capo.
+
+```
 python scripts\schede_risultati.py
 ```
 

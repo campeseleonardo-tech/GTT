@@ -56,7 +56,7 @@ def scrivi(msg=""):
     RIGHE.append(str(msg))
 
 
-# ---------- ora locale Europe/Rome (copiato da 09_analisi_dati_diurni.py) ----------
+# ---------- ora locale Europe/Rome (come in comuni.py) ----------
 
 def ultima_domenica(anno, mese):
     """Giorno dell'ultima domenica del mese (date.weekday: lun=0 ... dom=6)."""

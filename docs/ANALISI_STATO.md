@@ -250,9 +250,9 @@ detto così).
 
 ### 5.4 Da togliere
 
-- `scripts/archivio/` (22 file) e i `.bat` superati: passi 8-9 di `PIANO_DOCUMENTI.md`, ancora da fare.
+- ~~Script e `.bat` superati~~: fatto (passi 8-9 di `PIANO_DOCUMENTI.md`).
 - `docs/piani/ESITO_*.md` dopo ogni ricontrollo (la regola c'è già nella memoria).
-- La memoria è cresciuta (205 righe): sezioni 4 e 6 vanno riscritte corte dopo la pulizia degli script.
+- ~~La memoria è cresciuta~~: riscritta in meno di 120 righe (passo 12).
 - `mappa_torino.html` dal ramo principale quando si pubblica (13 MB a ogni giro nella storia di git).
 
 ### 5.5 Da aggiungere (idee che valgono il lavoro)
