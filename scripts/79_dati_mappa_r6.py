@@ -89,7 +89,7 @@ def main():
         c("linee utili aggiunte ai parcheggi adatti in mappa", any("linee_utili" in p for p in parcheggi),
           dettaglio=f"{sum('linee_utili' in p for p in parcheggi)} su {len(parcheggi)} parcheggi in mappa")
     else:
-        c(f"esiste {POPOLARITA.name} (lancia prima scripts\87_popolarita_zone.py): senza, niente linee utili nel pannello",
+        c(f"esiste {POPOLARITA.name} (lancia prima scripts\\87_popolarita_zone.py): senza, niente linee utili nel pannello",
           False)
 
     # tempi coi mezzi e in auto verso Piazza Castello e classe (da 94_r6_bus_contro_auto.py): si aggiunge solo il campo bus_auto,
@@ -103,7 +103,7 @@ def main():
         c("ogni punto prioritario ha la classe bus contro auto", all("bus_auto" in p for p in d["punti_prioritari"]),
           dettaglio=f"{sum('bus_auto' in p for p in d['punti_prioritari'])} su {len(d['punti_prioritari'])}")
     else:
-        c(f"esiste {BUS_AUTO.name} (lancia prima scripts\94_r6_bus_contro_auto.py): senza, niente classe nel pannello", False)
+        c(f"esiste {BUS_AUTO.name} (lancia prima scripts\\94_r6_bus_contro_auto.py): senza, niente classe nel pannello", False)
 
     fermate = [{k: f.get(k) for k in CAMPI_FERMATA} for f in d["fermate"]]
     aree = [{k: a.get(k) for k in CAMPI_AREA} for a in d["aree"]]
