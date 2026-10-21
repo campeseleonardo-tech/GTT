@@ -240,8 +240,33 @@ function graficoLinea(g){
   return `<svg viewBox="0 0 ${LW} ${LH}" role="img" aria-label="${esc(g.titolo)}">${guide}${nomi}${linee}</svg>`;
 }
 
+/* dispersione: un punto per coppia (x, y, grandezza); linea di riferimento y = linea * x (es. «il doppio») */
+function graficoDispersione(g){
+  const LW = 480, LH = 250, PL = 44, PR = 14, PT = 12, PB = 44, AW = LW - PL - PR, AH = LH - PT - PB;
+  const pts = g.punti || [];
+  const passo = v => v <= 60 ? 10 : v <= 150 ? 20 : 30;
+  const xmax = Math.ceil(Math.max(10, ...pts.map(p => p[0])) / passo(60)) * passo(60);
+  const ymax = Math.ceil(Math.max(10, ...pts.map(p => p[1])) / passo(ymaxGrezzo(pts))) * passo(ymaxGrezzo(pts));
+  const X = v => PL + v / xmax * AW, Y = v => PT + (1 - v / ymax) * AH;
+  const maxAuto = Math.max(1, ...pts.map(p => p[2]));
+  const tx = [], ty = [];
+  for(let v = 0; v <= xmax; v += passo(60)) tx.push(v);
+  for(let v = 0; v <= ymax; v += passo(ymaxGrezzo(pts))) ty.push(v);
+  const griglia = tx.map(v => `<line x1="${X(v).toFixed(1)}" x2="${X(v).toFixed(1)}" y1="${PT}" y2="${PT + AH}" style="stroke:var(--line)"/><text x="${X(v).toFixed(1)}" y="${PT + AH + 14}" text-anchor="middle" font-size="10" style="fill:var(--muted)">${v}</text>`).join("")
+    + ty.map(v => `<line x1="${PL}" x2="${PL + AW}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" style="stroke:var(--line)"/><text x="${PL - 6}" y="${(Y(v) + 3.5).toFixed(1)}" text-anchor="end" font-size="10" style="fill:var(--muted)">${v}</text>`).join("");
+  const k = g.linea || 2;
+  const xf = Math.min(xmax, ymax / k);
+  const linea = `<line x1="${X(0)}" y1="${Y(0)}" x2="${X(xf).toFixed(1)}" y2="${Y(k * xf).toFixed(1)}" style="stroke:var(--vr-rosso)" stroke-width="2" stroke-dasharray="6 4"/>`
+    + `<text x="${(X(xf) - 6).toFixed(1)}" y="${(Y(k * xf) + 14).toFixed(1)}" text-anchor="end" font-size="11" font-weight="700" style="fill:var(--vr-rosso)">${esc(g.linea_label || "")}</text>`;
+  const punti = pts.map(p => `<circle cx="${X(p[0]).toFixed(1)}" cy="${Y(p[1]).toFixed(1)}" r="${(2 + 6 * Math.sqrt(p[2] / maxAuto)).toFixed(1)}" style="fill:var(--neu-blu);fill-opacity:.45;stroke:var(--neu-blu)" stroke-width=".6"><title>${formattaNumero(Math.round(p[2]))} auto: ${formattaNumero(Math.round(p[0]))} min in auto, ${formattaNumero(Math.round(p[1]))} min coi mezzi</title></circle>`).join("");
+  const assi = `<text x="${PL + AW / 2}" y="${LH - 6}" text-anchor="middle" font-size="11" style="fill:var(--muted)">${esc(g.xlabel || "")}</text>`
+    + `<text transform="translate(12 ${PT + AH / 2}) rotate(-90)" text-anchor="middle" font-size="11" style="fill:var(--muted)">${esc(g.ylabel || "")}</text>`;
+  return `<svg viewBox="0 0 ${LW} ${LH}" role="img" aria-label="${esc(g.titolo)}">${griglia}${linea}${punti}${assi}</svg>`;
+}
+function ymaxGrezzo(pts){ return Math.max(10, ...pts.map(p => p[1])); }
+
 function grafico(g){
-  const corpo = g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
+  const corpo = g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
   return `<div class="grafico"><h5>${esc(g.titolo)}</h5>${corpo}${g.nota ? `<div class="nota">${esc(g.nota)}</div>` : ""}</div>`;
 }
 
