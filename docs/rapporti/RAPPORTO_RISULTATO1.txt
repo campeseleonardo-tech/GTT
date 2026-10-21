@@ -1,5 +1,5 @@
 RAPPORTO RISULTATO 1 - fase A: dove mancano i servizi essenziali (STIMATO, a piedi)
-generato: 2026-10-20T13:59:36+00:00
+generato: 2026-10-21T14:13:04+00:00
 fonte: data/processed/accessibilita.json (giro completo 12/10/2026, [STIMATO])
 cutoff a piedi: 15 min   soglia 'pochissimo': sotto il 10% dei residenti
 
@@ -102,3 +102,29 @@ SEZIONI DA VERIFICARE (zero fermate a 15 min a piedi, ma una fermata GTT entro 3
   12720000972 (torino): 144 residenti, 27,068 ab/km2, fermata a 75 m, mancano: scuole, salute, fermate
   (2 sezioni, 389 residenti) da correggere nello script 18 (SEZIONI_FUORI_RETE) al prossimo calcolo completo dell'accessibilita'.
 LIMITI v2: capienza di ospedali, presidi e scuole non nota (un ospedale grande e un ambulatorio contano uguale); orario programmato [STIMATO]; catalogo diverso fra Torino e cintura; sezioni senza superficie contate come abitate.
+
+==============================================================================
+VERSIONE 3 (21/10/2026): copertura a 5, 10 e 15 minuti a piedi, Torino, zone abitate
+regola: Un servizio c'e' se il gruppo ha almeno una destinazione entro i minuti indicati a piedi (80 m/min). Zone abitate = almeno 1.000 ab/km2; le zone da verificare (v2) restano fuori finche' l'accessibilita' a 15 minuti non e' rifatta con la correzione dei centroidi di via Chieti.
+zone abitate: 841,591 residenti in 3,543 sezioni (esclusi 389 residenti delle zone da verificare)
+
+A 5 MINUTI: tutti e 5 i servizi per 574,422 residenti (68.25%)
+  residenti per numero di servizi presenti: 0: 6,257   1: 4,809   2: 9,202   3: 59,733   4: 187,168   5: 574,422
+  residenti senza il servizio: scuole 138,187, salute 172,371, negozi 12,662, fermate 17,443, verde 44,098
+A 10 MINUTI: tutti e 5 i servizi per 814,527 residenti (96.78%)
+  residenti per numero di servizi presenti: 0: 0   1: 405   2: 1,267   3: 4,792   4: 20,600   5: 814,527
+  residenti senza il servizio: scuole 16,773, salute 16,578, negozi 974, fermate 1,083, verde 197
+A 15 MINUTI: tutti e 5 i servizi per 834,963 residenti (99.21%)
+  residenti per numero di servizi presenti: 0: 0   1: 0   2: 362   3: 964   4: 5,302   5: 834,963
+  residenti senza il servizio: scuole 2,529, salute 5,340, negozi 347, fermate 100, verde 0
+
+Per circoscrizione saltato: le sezioni di sezioni_torino.json non hanno il campo (circoscrizione, circ, cir).
+
+CONTROLLI v3:
+  OK: 5 minuti: somma dei residenti per numero di servizi = 841,591 (zone abitate 841,591)
+  OK: 10 minuti: somma dei residenti per numero di servizi = 841,591 (zone abitate 841,591)
+  OK: 15 minuti: somma dei residenti per numero di servizi = 841,591 (zone abitate 841,591)
+  OK: copertura 5 min 574,422 <= 10 min 814,527 residenti
+  OK: sezioni con piu' servizi a 5 minuti che a 10: 0
+  OK: copertura 10 min 814,527 <= 15 min 834,963 residenti
+  OK: sezioni con piu' servizi a 10 minuti che a 15: 0

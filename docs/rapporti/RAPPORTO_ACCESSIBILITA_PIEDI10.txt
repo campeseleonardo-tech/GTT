@@ -1,0 +1,24 @@
+RAPPORTO ACCESSIBILITA' (orario programmato, STIMATO - motore R5/r5py su GTFS + OSM)
+generato: 2026-10-21T14:08:02+00:00  giorno tipo: 2026-10-12  ore: []
+sezioni: 8317 (Torino 4044, cintura 4273)
+cutoff a piedi: 10 min (80 m/min)  TP: non calcolato (--solo-piedi)
+gruppi (celle di destinazione): {'scuole': 1032, 'salute': 809, 'cibo': 11928, 'fermate': 6241, 'verde': 10775}
+  NOTA: le destinazioni sono accorpate in celle di ~50 m con peso: il totale pesato vale il numero dei punti originali. Destinazioni STESSE per tutte le sezioni (catalogo comunale + OSM della cintura), margine TP 20 km in linea d'aria.
+
+== Torino (comune 1272): 4044 sezioni ==
+  Servizi raggiungibili A PIEDI entro 10 min (mediane pesate per gruppo):
+    scuole  : 13
+    salute  : 7
+    cibo    : 522
+    fermate : 31
+    verde   : 40
+  Sezioni a zero anche a piedi: 5
+
+== Cintura (comuni != 1272): 4273 sezioni ==
+  Servizi raggiungibili A PIEDI entro 10 min (mediane pesate per gruppo):
+    scuole  : 1
+    salute  : 1
+    cibo    : 3
+    fermate : 6
+    verde   : 11
+  Sezioni a zero anche a piedi: 322
