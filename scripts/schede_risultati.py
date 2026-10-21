@@ -433,8 +433,12 @@ def scheda_r4():
     scenari[0]["nota"] = ("Molti passaggi risultano in anticipo perché l'orario ufficiale ha margini; "
                           "un ritardo mediano negativo vuol dire 'di solito un po' prima'.")
     s = r["scarti"]
-    tot = s["usati"] + s["fuori_gtfs"] + s["lettura_lontana"]
     fer = c["0"]
+    # dal Giro 5 gli arrivi sono del GPS; il feed resta solo come confronto (JSON: confronto_feed, copertura_gps, regole_gps)
+    cf = r["confronto_feed"]
+    cf_fer = cf["citta"]["0"]
+    cop_gps = r["copertura_gps"]["totale"]
+    dist_gps = int(r["regole_gps"]["dist_gps_m"])
     linee = [(nome, v["0"]) for nome, v in r["linee"].items() if "0" in v]
     peggio_rit = sorted((x for x in linee if x[1]["passaggi"] >= par.get("min_passaggi_classifica", 2000) and str(x[0]).isdigit()),
                         key=lambda x: -x[1]["ritardo"])[:10]
@@ -450,8 +454,6 @@ def scheda_r4():
                          if x.get("fine_corsa") and x["fine_corsa"]["passaggi"] >= par.get("min_fine_corsa", 100)
                          and str(n).isdigit()), key=lambda t: (-t[0], -t[2]["fine_corsa"]["min_per_10km"]))[:10]
     rif10 = par.get("rif_gtt_ritardo10_pct")
-    lf = (r.get("lettura_lontana_per_tipo") or {}).get("0")
-    alta10 = (100.0 * (fer.get("ritardo10_n", 0) + lf["ritardo10"]) / (fer["passaggi"] + lf["scartati"])) if lf else None
     grafici_nuovi = []
     if tram_f and bus_f:
         grafici_nuovi.append({
@@ -501,9 +503,10 @@ def scheda_r4():
             "consecutivi arriva a grappolo o lascia un buco.",
             f"Il problema più comune è l'anticipo: {il(fer['anticipo'])}% dei passaggi feriali arriva "
             "più di un minuto prima dell'orario.",
-            *([f"Oltre 10 minuti: {pct2(fer['ritardo10'])}% nei feriali tra i passaggi misurati"
-               + (f" ({pct2(alta10)}% includendo quelli scartati perché letti troppo lontano dall'arrivo: stima alta)" if alta10 is not None else "")
-               + f". GTT dichiara {virgola(rif10)}% per il 2025, su tutto l'anno e tutte le linee: solo ordine di grandezza."]
+            f"Il feed in tempo reale di GTT, che usavamo prima, dava il {virgola(cf_fer['ritardo'])}% in ritardo invece del "
+            f"{virgola(fer['ritardo'])}%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.",
+            *([f"Oltre 10 minuti: {pct2(fer['ritardo10'])}% nei feriali. GTT dichiara il {virgola(rif10)}% per il 2025: "
+               "il suo metodo non è pubblicato; noi misuriamo a ogni fermata con il GPS, su pochi giorni."]
               if "ritardo10" in fer and rif10 is not None else []),
             *([f"Tram e bus: in ritardo oltre 5 minuti {il(tram_f['ritardo'])}% dei passaggi dei tram e {il(bus_f['ritardo'])}% "
                f"dei bus (feriale)."] if tram_f and bus_f else []),
@@ -530,30 +533,29 @@ def scheda_r4():
             *grafici_nuovi,
         ],
         "metodo": [
-            "Il Raspberry Pi legge ogni minuto il feed in tempo reale di GTT: per ogni corsa, il ritardo "
-            "previsto alle fermate successive.",
-            "Per ogni corsa e fermata si tiene l'ultima lettura prima del passaggio, la più vicina all'arrivo "
-            "vero, e la si confronta con l'orario ufficiale (GTFS).",
+            "Il Raspberry Pi registra ogni minuto le posizioni GPS dei mezzi GTT.",
+            f"Per ogni corsa e fermata si prende l'istante in cui il GPS del mezzo passa a meno di {dist_gps} metri dalla "
+            "fermata e lo si confronta con l'orario ufficiale (GTFS).",
             "Classi: in anticipo sotto -1 minuto, puntuale da -1 a +5, in ritardo oltre +5.",
             "Regolarità: per due mezzi consecutivi della stessa linea alla stessa fermata, \"grappolo\" se "
             "l'intervallo vero è meno della metà di quello previsto, \"buco\" se è più del doppio. Solo linee "
             "con un mezzo ogni 15 minuti o meno.",
         ],
         "parametri": [["Periodo", f"{r['periodo']['da']} - {r['periodo']['a']}"],
-                      ["Passaggi usati", f"{migliaia(s['usati'])} ({round(100 * s['usati'] / tot)}%)"],
+                      ["Passaggi con GPS valido", f"{migliaia(s['usati'])} ({virgola(cop_gps['copertura_pct'])}% di quelli programmati dalle corse viste)"],
                       ["Soglia ritardo", f"{virgola(par['soglia_ritardo_min'])} min"],
                       ["Soglia anticipo", f"{virgola(par['soglia_anticipo_min'])} min"],
-                      ["Lettura troppo lontana", f"oltre {int(par['max_lettura_lontana_min'])} min, scartata"]],
+                      ["Distanza dalla fermata", f"entro {dist_gps} m"]],
         "limiti": [
             f"Pochi giorni ({r['giorni']['0']} feriali, {r['giorni']['1']} sabati, {r['giorni']['2']} domeniche), "
             f"e non tutti interi: {GIORNI_PARZIALI_R4}. Ogni giorno conta con le ore che hanno dati.",
             "La raccolta si ferma a mezzanotte e riparte verso le 5: la notte non è misurata.",
-            "Il feed copre solo le linee urbane (circa 90): le extraurbane non ci sono mai. Anche sulle linee "
-            "coperte manca circa 1 corsa su 5 (il 15/10: 80% delle corse programmate presenti): se alcune erano "
-            "saltate davvero, la puntualità reale è peggiore e i buchi sono più di quelli contati.",
-            "Il ritardo è quello dichiarato dal feed di GTT a ridosso della fermata, non osservato sul posto.",
-            f"Scartato il {round(100 * (tot - s['usati']) / tot)}% dei passaggi (corse non nell'orario ufficiale "
-            "o lette troppo lontano dall'arrivo).",
+            "Il GPS copre solo le linee urbane (circa 90): le extraurbane non ci sono mai. Anche sulle linee "
+            "coperte alcune corse non sono mai viste dal GPS: se erano saltate davvero, la puntualità reale è peggiore "
+            "e i buchi sono più di quelli contati.",
+            f"Il GPS c'è per circa il {round(cop_gps['copertura_pct'])}% dei passaggi delle corse viste; "
+            "le corse mai viste dal GPS non si contano.",
+            f"Distanza di {dist_gps} metri dalla fermata: un mezzo fermo poco prima conta come arrivato poco dopo.",
             "Dice quanto spesso c'è ritardo, non quante persone aspettano né quanto erano pieni i mezzi.",
         ],
         "in_english": [
@@ -566,9 +568,10 @@ def scheda_r4():
             "minute before the timetable.",
             f"Limits: only {r['giorni']['0']} weekdays, {r['giorni']['1']} Saturdays and {r['giorni']['2']} Sundays of data, "
             "some of them partial; the night is not measured.",
-            *([f"More than 10 minutes late: {fer['ritardo10']:.2f}% of weekday departures among the measured ones"
-               + (f" ({alta10:.2f}% if the ones discarded for being read too far from arrival are included: upper estimate)" if alta10 is not None else "")
-               + f". GTT reports {rif10}% for 2025, over the whole year and all lines: order of magnitude only."]
+            f"Arrivals are now measured with the vehicles' GPS; the GTT real-time feed we used before gave {cf_fer['ritardo']:.1f}% "
+            f"late instead of {fer['ritardo']:.1f}% because it stops updating a stop at its scheduled time, so it underestimates delays.",
+            *([f"More than 10 minutes late: {fer['ritardo10']:.2f}% of weekday departures. GTT reports {rif10}% for 2025: "
+               "its method is not published; we measure at every stop with GPS, over a few days."]
               if "ritardo10" in fer and rif10 is not None else []),
             *([f"Trams vs buses (weekdays): {tram_f['ritardo']:.1f}% of tram departures and {bus_f['ritardo']:.1f}% of bus departures "
                "are more than 5 minutes late."] if tram_f and bus_f else []),
@@ -583,9 +586,9 @@ def scheda_r4():
         "generato": ora(),
         "avviso": [
             "Dati [MISURATO] — pochi giorni",
-            f"Arrivi reali dal feed GTT raccolto dal Raspberry Pi, {r['periodo']['da']} - {r['periodo']['a']}: "
-            f"usato il {round(100 * s['usati'] / tot)}% dei passaggi letti (scartati quelli fuori orario ufficiale "
-            "o con lettura lontana). Giorni non tutti interi e solo linee urbane presenti nel feed: vedi i limiti."
+            f"Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, {r['periodo']['da']} - {r['periodo']['a']}: "
+            f"il GPS c'è per il {round(cop_gps['copertura_pct'])}% dei passaggi programmati delle corse viste (prima si usava il feed GTT, "
+            "che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
         ],
         "scenari": scenari,
     }
@@ -973,7 +976,7 @@ def scheda_r9():
                                        prima=c["promessa_min"]),
                                    num("Attesa media alla fermata, stima alta", c["reale_min_alta"], "min",
                                        prima=c["promessa_min"]),
-                                   num("Corse programmate assenti dal feed", c["corse_assenti_feed_pct"], "%")]})
+                                   num("Corse programmate assenti dal GPS", c["corse_assenti_feed_pct"], "%")]})
     scenari[0]["nota"] = "Prima = attesa promessa dall'orario, dopo = attesa reale stimata dai passaggi."
     sens = r["sensibilita_freq"]
     return {
@@ -1020,12 +1023,12 @@ def scheda_r9():
             "Per chi arriva alla fermata a caso, l'attesa media dipende da quanto sono regolari i passaggi: con gli "
             "intervalli h1, h2, ... è (h1² + h2² + ...) / (2 × (h1 + h2 + ...)). Bus ogni 10 minuti esatti: 5 minuti. "
             "Stessi due bus all'ora ma con intervalli di 2 e 18 minuti: 8,2 minuti.",
-            "Attesa promessa = la formula sugli orari ufficiali (GTFS). Attesa reale = la formula sugli arrivi stimati "
-            "dal feed GTT a ridosso della fermata (stessa lettura del risultato 4).",
+            "Attesa promessa = la formula sugli orari ufficiali (GTFS). Attesa reale = la formula sugli arrivi misurati "
+            "con il GPS dei mezzi (stessa misura del risultato 4).",
             f"Solo linee frequenti: intervallo programmato medio di {int(par['freq_max_min'])} minuti o meno, per "
             "fermata, linea, verso e fascia oraria. Solo nelle ore in cui il Raspberry Pi stava raccogliendo.",
-            "Corse che non compaiono nel feed: non si sa se sono saltate o solo non trasmesse, quindi due stime. "
-            "Bassa: si usano solo i tratti senza corse mancanti. Alta: una corsa assente sia dal feed sia dal GPS "
+            "Corse che non compaiono nel GPS: non si sa se sono saltate o solo non trasmesse, quindi due stime. "
+            "Bassa: si usano solo i tratti senza corse mancanti. Alta: una corsa assente dal GPS "
             "conta come saltata.",
             "Media della città pesata sul numero di intervalli programmati (non ci sono dati sui passeggeri).",
         ],
@@ -1033,15 +1036,15 @@ def scheda_r9():
                       ["Linea frequente", f"intervallo medio ≤ {int(par['freq_max_min'])} min"],
                       ["Intervalli osservati (feriale)", migliaia(fer["intervalli_osservati"])],
                       ["Esclusi per dati scarsi", f"linea-fascia con più del {int(par['max_mancanti'] * 100)}% di corse assenti"],
-                      ["Controllo col GPS", f"{gps.get('passaggi_confrontati', '-')} passaggi delle linee "
+                      ["Controllo del feed col GPS", f"{gps.get('passaggi_confrontati', '-')} passaggi delle linee "
                                             f"{', '.join(gps.get('linee', []))}: differenza tipica "
                                             f"{virgola(gps.get('differenza_assoluta_mediana_min') or 0)} min"],
                       ["Soglia 10 / 15 min", f"in più {virgola(sens['10']['in_piu_min_bassa'])} / "
                                              f"{virgola(sens['15']['in_piu_min_bassa'])} min (stima bassa)"]],
         "limiti": [
-            "Arrivi stimati dal feed GTT a ridosso della fermata, non visti sul posto; il controllo col GPS dei mezzi "
-            f"dà una differenza tipica di {virgola(gps.get('differenza_assoluta_mediana_min') or 0)} minuti.",
-            "Solo le linee urbane presenti nel feed; niente extraurbane e niente notte.",
+            "Arrivi misurati con il GPS dei mezzi (a meno di 60 metri dalla fermata); il vecchio feed GTT, controllato col GPS, "
+            f"dava una differenza tipica di {virgola(gps.get('differenza_assoluta_mediana_min') or 0)} minuti.",
+            "Solo le linee urbane viste dal GPS; niente extraurbane e niente notte.",
             "Le corse mancanti rendono il risultato una forbice, non un numero solo.",
             "Vale per chi arriva alla fermata senza guardare orario o app: è il caso tipico delle linee frequenti, "
             "non di quelle rare (per quelle conta la puntualità, risultato 4).",
@@ -1055,8 +1058,8 @@ def scheda_r9():
             f"between {fer['reale_min_bassa']:.1f} and {fer['reale_min_alta']:.1f} minutes. That is "
             f"{fer['in_piu_min_bassa']:.1f} to {fer['in_piu_min_alta']:.1f} minutes more per wait, at least "
             f"{round(fer['in_piu_pct_bassa']):,}% above the promise.",
-            f"Limits: only {r['giorni']['0']} weekdays of data so far; real arrivals are estimated from the GTT feed, not "
-            "seen at the stop; the night is not included.",
+            f"Limits: only {r['giorni']['0']} weekdays of data so far; real arrivals are measured with the vehicles' GPS "
+            "(within 60 metres of the stop); the night is not included.",
         ],
         "mappa": None,
         "fonti": ["docs/RAPPORTO_RISULTATO9_ATTESA.txt", "docs/PIANO_RISULTATO9_ATTESA.md",
@@ -1064,8 +1067,8 @@ def scheda_r9():
         "generato": ora(),
         "avviso": [
             "Dati [MISURATO] — forbice per le corse mancanti",
-            "Arrivi stimati dal feed GTT raccolto dal Raspberry Pi, solo linee urbane frequenti e ore con raccolta "
-            "attiva. Stima bassa = solo tratti senza corse mancanti; stima alta = corse assenti da feed e GPS "
+            "Arrivi misurati con il GPS dei mezzi raccolto dal Raspberry Pi, solo linee urbane frequenti e ore con raccolta "
+            "attiva. Stima bassa = solo tratti senza corse mancanti; stima alta = corse assenti dal GPS "
             "contate come saltate."
         ],
         "scenari": scenari,

@@ -39,18 +39,22 @@ docs/RAPPORTO_RISULTATO4.txt
 
 Uso
 ---
-python scripts/27_risultato4_regolarita.py [--prova]
+python scripts/27_risultato4_regolarita.py [--prova] [--fonte gps|feed]
 --prova = solo start_date 20261013, rapporto a schermo, nessun file scritto.
+--fonte = da dove vengono gli arrivi: gps (predefinita dal 21/10, Giro 5) oppure feed (calcolo di prima, D1-D3).
+Con gps le regole D1-D3 valgono solo per il confronto col feed; D4-D9 restano.
 """
 
 import csv
 import io
 import json
+import math
 import sqlite3
 import sys
 import zipfile
 from array import array
 from calendar import monthrange
+from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -79,6 +83,14 @@ RIF_GTT_RITARDO10_PCT = 2.3  # rapporto di sostenibilita' GTT 2025: passaggi bus
 FINE_CORSA_ULTIME = 3        # fine corsa = passaggi alle ultime 3 fermate della corsa
 MIN_FINE_CORSA = 100         # passaggi di fine corsa minimi per entrare nella classifica dei minuti ogni 10 km
 MODI = ("tram", "metro", "bus")
+
+# dal Giro 4, script 91: arrivi misurati con il GPS dei mezzi (tabella mezzi_gtt). Il feed resta solo come confronto.
+FONTE_ARRIVI = "gps"             # "gps" (predefinita) oppure "feed" con --fonte feed (calcolo di prima)
+DIST_GPS_M = 60.0                # passaggio GPS valido: a meno di 60 m dalla fermata
+SEGMENTO_MAX_S = 180             # segmento fra due posizioni consecutive lungo al massimo 180 s
+MAX_RITARDO_VERO_MIN = 60.0      # |ritardo| oltre 60 minuti = corrispondenza sbagliata, passaggio non valido
+COPERTURA_MIN_PCT = 60.0         # controllo: passaggi con GPS valido / programmati delle corse viste
+RITARDO_GPS_FERIALE_ATTESO = (8.0, 25.0)   # buon senso dalla prova del Giro 4 (circa 15%)
 MIN_PASSAGGI_CLASSIFICA = 2000   # classifica delle linee peggiori: solo linee ordinarie (Leo, 20/10/2026)
 
 
@@ -186,6 +198,124 @@ def carica_gtfs():
                 km += comuni.haversine_m(coord[a][0], coord[a][1], coord[b][0], coord[b][1])
         km_corsa[tid] = km / 1000.0
     return trip_info, nome_linea, prog, modo_linea, ultima_seq, km_corsa
+
+
+def carica_fermate():
+    """stop_id -> (nome, lat, lon) da stops.txt (come lo script 70)."""
+    fermate = {}
+    with zipfile.ZipFile(GTFS) as z:
+        with z.open("stops.txt") as f:
+            for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
+                try:
+                    fermate[r["stop_id"]] = (r.get("stop_name", ""), float(r["stop_lat"]), float(r["stop_lon"]))
+                except (ValueError, KeyError):
+                    continue
+    return fermate
+
+
+# ---------- passaggi dal GPS (dal Giro 4, script 91) ----------
+
+def _segmento(punti, i, flat, flon, kx):
+    """(dist, istante) del punto del segmento i piu' vicino alla fermata; None se il segmento non e' usabile.
+    Dal Giro 4, script 91 (stessa geometria di controllo_gps() dello script 70, con il rifiuto veloce dei segmenti lontani)."""
+    t0, la0, lo0 = punti[i]
+    t1, la1, lo1 = punti[i + 1]
+    if t1 <= t0 or t1 - t0 > SEGMENTO_MAX_S:
+        return None
+    x0, y0 = (lo0 - flon) * kx, (la0 - flat) * 110540.0
+    x1, y1 = (lo1 - flon) * kx, (la1 - flat) * 110540.0
+    r = DIST_GPS_M
+    if (x0 > r and x1 > r) or (x0 < -r and x1 < -r) or (y0 > r and y1 > r) or (y0 < -r and y1 < -r):
+        return (1e9, t0)
+    dx, dy = x1 - x0, y1 - y0
+    l2 = dx * dx + dy * dy
+    f = 0.0 if l2 == 0 else max(0.0, min(1.0, -(x0 * dx + y0 * dy) / l2))
+    return (math.hypot(x0 + f * dx, y0 + f * dy), t0 + f * (t1 - t0))
+
+
+def cerca_vincolata(punti, flat, flon, kx, t_prec, i0):
+    """Dal Giro 4, script 91. Primo gruppo di segmenti vicini alla fermata con istante >= t_prec, dal segmento i0.
+    Ritorna (istante, indice del segmento) del piu' vicino del gruppo, oppure None."""
+    migliore = None
+    for i in range(i0, len(punti) - 1):
+        s = _segmento(punti, i, flat, flon, kx)
+        vicino = s is not None and s[0] <= DIST_GPS_M and s[1] >= t_prec
+        if vicino:
+            if migliore is None or s[0] < migliore[0]:
+                migliore = (s[0], s[1], i)
+        elif migliore is not None and s is not None:
+            break
+    return (migliore[1], migliore[2]) if migliore else None
+
+
+def passaggi_corsa(punti, fermate_corsa, sched_base, fermate):
+    """Dal Giro 4, script 91. Per ogni fermata della corsa (ordinata per stop_sequence) il passaggio GPS valido:
+    {seq: istante}. Il passaggio di una fermata viene solo dopo quello della fermata prima."""
+    out = {}
+    t_prec, i0 = -1e18, 0
+    for seq, sec, stop in fermate_corsa:
+        info = fermate.get(stop)
+        if not info:
+            continue
+        flat, flon = info[1], info[2]
+        kx = 111320.0 * math.cos(math.radians(flat))
+        r = cerca_vincolata(punti, flat, flon, kx, t_prec, i0)
+        if r is None or abs(r[0] - (sched_base + sec)) / 60.0 > MAX_RITARDO_VERO_MIN:
+            continue
+        out[seq] = r[0]
+        t_prec, i0 = r[0], r[1]
+    return out
+
+
+def costruisci_passaggi_gps(con, giorno, trip_info, nome_linea, prog, fermate):
+    """Come costruisci_passaggi ma con gli arrivi del GPS (tabella mezzi_gtt). Ritorna (passaggi, copertura).
+    Le tuple sono le stesse (P_LINEA ... P_TRIP): P_EST = istante GPS, P_RIT = ritardo vero in minuti, P_FONTE = "gps".
+    copertura = passaggi programmati delle corse viste, con GPS valido, corse viste, corse GPS fuori GTFS, righe lette."""
+    data = datetime.strptime(giorno, "%Y%m%d").date()
+    off = offset_data_locale(data)
+    mezz = datetime(data.year, data.month, data.day, tzinfo=timezone.utc) - timedelta(hours=off)
+    base = mezz.timestamp()
+    finestra = (base + 2 * 3600, base + 26 * 3600)       # finestra come lo script 70
+    pos = defaultdict(list)
+    righe = 0
+    for corsa, ts, lat, lng in con.execute(
+            "SELECT corsa, ts_feed, lat, lng FROM mezzi_gtt WHERE letto_utc BETWEEN ? AND ?",
+            ((mezz + timedelta(hours=2)).isoformat(), (mezz + timedelta(hours=26)).isoformat())):
+        righe += 1
+        if corsa and ts and lat and lng:
+            pos[corsa].append((ts, lat, lng))
+    corse = [t for t in pos if t in trip_info]
+    corse_set = set(corse)
+    fuori = len(pos) - len(corse)
+    stops_corsa = defaultdict(list)
+    for (tid, seq), (sec, stop) in prog.items():
+        if tid in corse_set:
+            stops_corsa[tid].append((seq, sec, stop))
+    passaggi = []
+    cop = {"programmati": 0, "validi": 0, "corse_viste": 0, "corse_fuori_gtfs": fuori, "righe": righe}
+    fascia_cache = {}
+    for tid in corse:
+        punti = sorted(set(pos[tid]))
+        if len(punti) < 2:
+            continue
+        cop["corse_viste"] += 1
+        fermate_c = sorted(stops_corsa[tid])
+        route, direzione = trip_info[tid]
+        linea = nome_linea.get(route, route)
+        trovati = passaggi_corsa(punti, fermate_c, base, fermate)
+        for seq, sec, stop in fermate_c:
+            sched = base + sec
+            if finestra[0] <= sched <= finestra[1]:
+                cop["programmati"] += 1
+            if seq not in trovati:
+                continue
+            cop["validi"] += 1
+            h = int(sched) // 3600
+            if h not in fascia_cache:
+                fascia_cache[h] = fascia_oraria(a_roma(datetime.fromtimestamp(sched, timezone.utc)).hour)
+            t = trovati[seq]
+            passaggi.append((linea, direzione, stop, sched, t, (t - sched) / 60.0, fascia_cache[h], seq, "gps", tid))
+    return passaggi, cop
 
 
 # ---------- aggregatori ----------
@@ -362,9 +492,16 @@ def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     prova = "--prova" in sys.argv[1:]
+    fonte = FONTE_ARRIVI
+    if "--fonte" in sys.argv[1:]:
+        fonte = sys.argv[sys.argv.index("--fonte") + 1]
+        if fonte not in ("gps", "feed"):
+            raise SystemExit("--fonte vuole gps oppure feed")
+    gps = fonte == "gps"
 
     print("Carico il GTFS...", file=sys.stderr)
     trip_info, nome_linea, prog, modo_linea, ultima_seq, km_corsa = carica_gtfs()
+    fermate = carica_fermate() if gps else {}
     print(f"GTFS: {len(trip_info)} corse, {len(prog)} fermate di corsa", file=sys.stderr)
 
     con = sqlite3.connect(f"file:{DB}?mode=ro", uri=True, timeout=60)
@@ -384,9 +521,13 @@ def main():
     corse_osservate = corse_con_fine = 0
     lontane = {}                         # tipo -> [passaggi scartati per lettura lontana, di cui con ritardo > 10 min]
     scarti = {"fuori_gtfs": 0, "lettura_lontana": 0, "usati": 0}
+    cop_tot = {"programmati": 0, "validi": 0, "corse_viste": 0, "corse_fuori_gtfs": 0, "righe": 0}
+    cop_giorno = {}
+    conf_citta, conf_modo, conf_reg_citta, conf_reg_linea = {}, {}, {}, {}   # confronto col feed (solo con fonte gps)
+    conf_scarti = {"fuori_gtfs": 0, "lettura_lontana": 0, "usati": 0}
     letti_totali = 0
     # controlli indipendenti (passo 5)
-    per_fonte = {"delay": array("d"), "time": array("d")}
+    per_fonte = {"delay": array("d"), "time": array("d"), "gps": array("d")}
     per_seq = {"seq 1-5": array("d"), "seq 6-15": array("d"),
                "seq 16-30": array("d"), "seq 31+": array("d")}
     esempi = {"delay": None, "time": None}
@@ -398,11 +539,36 @@ def main():
         letti_totali += len(ultimo)
         passaggi, sc, tipo, es = costruisci_passaggi(ultimo, giorno, trip_info, nome_linea, prog)
         del ultimo
-        scarti["fuori_gtfs"] += sc[0]
-        scarti["lettura_lontana"] += sc[1]
         l = lontane.setdefault(tipo, [0, 0])
         l[0] += sc[1]
         l[1] += sc[2]
+        if gps:
+            # il feed serve solo al confronto (citta' e modi); D1-D3 valgono solo per lui
+            conf_scarti["fuori_gtfs"] += sc[0]
+            conf_scarti["lettura_lontana"] += sc[1]
+            conf_scarti["usati"] += len(passaggi)
+            for pg in passaggi:
+                conta_punt(conf_citta.setdefault(tipo, agg_punt()), pg[P_RIT])
+                conta_punt(conf_modo.setdefault((tipo, modo_linea.get(pg[P_LINEA], "bus")), agg_punt()), pg[P_RIT])
+            c_f, per_linea_f, _es = regolarita(passaggi, tipo)
+            r = conf_reg_citta.setdefault(tipo, agg_reg())
+            for i in range(4):
+                r[i] += c_f[i]
+            for k, t in per_linea_f.items():
+                r = conf_reg_linea.setdefault(k, agg_reg())
+                for i in range(4):
+                    r[i] += t[i]
+            del passaggi
+            passaggi, cop = costruisci_passaggi_gps(con, giorno, trip_info, nome_linea, prog, fermate)
+            cop_giorno[giorno] = cop
+            for k, v in cop.items():
+                cop_tot[k] += v
+            es = {"delay": None, "time": None}
+            print(f"      GPS: {cop['validi']} passaggi validi su {cop['programmati']} programmati "
+                  f"({cop['corse_viste']} corse viste)", file=sys.stderr)
+        else:
+            scarti["fuori_gtfs"] += sc[0]
+            scarti["lettura_lontana"] += sc[1]
         scarti["usati"] += len(passaggi)
         giorni_tipo[str(tipo)] += 1
         for k, v in es.items():
@@ -526,8 +692,38 @@ def main():
         "tag": TAG, "periodo": per, "giorni": giorni_tipo, "parametri": parametri,
         "scarti": scarti, "citta": j_citta, "linee": j_linee,
         "modi": j_modi, "modo_linea": modo_linea,
-        "corse_fine": {"osservate": corse_osservate, "con_fine_corsa": corse_con_fine},
-        "lettura_lontana_per_tipo": {t: {"scartati": v[0], "ritardo10": v[1]} for t, v in lontane.items()}}
+        "corse_fine": {"osservate": corse_osservate, "con_fine_corsa": corse_con_fine}}
+    json_out["fonte"] = fonte
+    if gps:
+        # il feed resta solo come confronto: stessi campi di "citta" e "modi"
+        reg_modo_f = {}
+        for (t, linea), cc in conf_reg_linea.items():
+            r = reg_modo_f.setdefault((t, modo_linea.get(linea, "bus")), agg_reg())
+            for i in range(4):
+                r[i] += cc[i]
+        cf_citta = {}
+        for t, a in conf_citta.items():
+            b = stat_punt(a)
+            b.update(stat_reg(conf_reg_citta.get(t, agg_reg())))
+            cf_citta[t] = b
+        cf_modi = {}
+        for (t, modo), a in conf_modo.items():
+            b = stat_punt(a)
+            b.update(stat_reg(reg_modo_f.get((t, modo), agg_reg())))
+            cf_modi.setdefault(modo, {})[t] = b
+        json_out["confronto_feed"] = {
+            "citta": cf_citta, "modi": cf_modi, "scarti": conf_scarti,
+            "max_lettura_lontana_min": MAX_LETTURA / 60,
+            "lettura_lontana_per_tipo": {t: {"scartati": v[0], "ritardo10": v[1]} for t, v in lontane.items()}}
+        json_out["copertura_gps"] = {
+            "totale": {**cop_tot, "copertura_pct": pct(cop_tot["validi"], cop_tot["programmati"])},
+            "per_giorno": {g: {**v, "copertura_pct": pct(v["validi"], v["programmati"])} for g, v in cop_giorno.items()}}
+        json_out["regole_gps"] = {"dist_gps_m": DIST_GPS_M, "segmento_max_s": SEGMENTO_MAX_S,
+                                  "max_ritardo_vero_min": MAX_RITARDO_VERO_MIN,
+                                  "finestra": "dalle 02:00 locali del giorno a 26 ore dalla mezzanotte locale (come lo script 70)",
+                                  "fermate_in_ordine": True, "origine": "dal Giro 4, script 91"}
+    else:
+        json_out["lettura_lontana_per_tipo"] = {t: {"scartati": v[0], "ritardo10": v[1]} for t, v in lontane.items()}
     if j_utili is not None:
         json_out["linee_utili"] = j_utili
         json_out["n_linee_utili"] = len(utili_set)
@@ -536,14 +732,20 @@ def main():
     R = []
     R.append("RISULTATO 4 — Bus in ritardo e bus irregolari [MISURATO]")
     R.append("=" * 66)
+    if gps:
+        R.append("Arrivi misurati con il GPS dei mezzi (dal 21/10); prima dal feed GTT, che sottostima i ritardi: "
+                 "vedi CONFRONTO COL FEED")
     R.append(f"Periodo: {per['da']} -> {per['a']}   giorni: feriale {giorni_tipo['0']}, "
              f"sabato {giorni_tipo['1']}, domenica {giorni_tipo['2']}")
-    tot_sc = scarti["fuori_gtfs"] + scarti["lettura_lontana"] + scarti["usati"]
-    R.append(f"Passaggi osservati (ultime letture): {tot_sc}")
-    R.append(f"  usati: {scarti['usati']} ({pct(scarti['usati'], tot_sc)}%)")
-    R.append(f"  scartati fuori GTFS: {scarti['fuori_gtfs']} ({pct(scarti['fuori_gtfs'], tot_sc)}%)")
-    R.append(f"  scartati lettura lontana (>10 min): {scarti['lettura_lontana']} "
-             f"({pct(scarti['lettura_lontana'], tot_sc)}%)")
+    if gps:
+        R.append(f"Passaggi con GPS valido: {scarti['usati']} (su {cop_tot['programmati']} programmati dalle corse viste)")
+    else:
+        tot_sc = scarti["fuori_gtfs"] + scarti["lettura_lontana"] + scarti["usati"]
+        R.append(f"Passaggi osservati (ultime letture): {tot_sc}")
+        R.append(f"  usati: {scarti['usati']} ({pct(scarti['usati'], tot_sc)}%)")
+        R.append(f"  scartati fuori GTFS: {scarti['fuori_gtfs']} ({pct(scarti['fuori_gtfs'], tot_sc)}%)")
+        R.append(f"  scartati lettura lontana (>10 min): {scarti['lettura_lontana']} "
+                 f"({pct(scarti['lettura_lontana'], tot_sc)}%)")
     R.append("")
     fer = j_citta.get("0", {})
     R.append("I 3 NUMERI (feriale)")
@@ -552,9 +754,34 @@ def main():
              f" = {round(fer.get('grappolo', 0.0) + fer.get('buco', 0.0), 1)}% (linee frequenti)")
     R.append(f"3. ritardo mediano: {fer.get('mediana', 0.0)} min")
     R.append("")
+    nomi = {"0": "feriale", "1": "sabato", "2": "domenica"}
+    if gps:
+        R.append("COPERTURA DEL GPS")
+        R.append("giorno    | righe GPS | corse viste | corse GPS fuori GTFS | passaggi programmati | con GPS valido | copertura")
+        for g, v in cop_giorno.items():
+            R.append(f"{g} | {v['righe']:9} | {v['corse_viste']:11} | {v['corse_fuori_gtfs']:20} | {v['programmati']:20} "
+                     f"| {v['validi']:14} | {pct(v['validi'], v['programmati'])}%")
+        R.append(f"totale: {cop_tot['validi']} passaggi con GPS valido su {cop_tot['programmati']} programmati delle corse viste "
+                 f"({pct(cop_tot['validi'], cop_tot['programmati'])}%); le corse mai viste dal GPS non si contano.")
+        R.append(f"GPS valido: stessa corsa a meno di {DIST_GPS_M:.0f} m dalla fermata, segmenti di non piu' di {SEGMENTO_MAX_S} s, "
+                 f"fermate in ordine, |ritardo| <= {MAX_RITARDO_VERO_MIN:.0f} min; finestra dalle 02:00 locali (come lo script 70).")
+        R.append("")
+        R.append("CONFRONTO COL FEED (feriale): lo stesso calcolo con il feed GTT di prima (regole D1-D3), per spiegare perche' i numeri sono cambiati")
+        R.append("insieme | passaggi | % ritardo>5 | % ritardo>10 | % grappolo+buco | coppie")
+        cf = json_out["confronto_feed"]
+        for nome, b_feed, b_gps in (("citta'", cf["citta"].get("0"), j_citta.get("0")),
+                                    ("tram", cf["modi"].get("tram", {}).get("0"), j_modi.get("tram", {}).get("0")),
+                                    ("bus", cf["modi"].get("bus", {}).get("0"), j_modi.get("bus", {}).get("0"))):
+            for etichetta, b in (("feed", b_feed), ("GPS", b_gps)):
+                if b:
+                    R.append(f"{nome:6} {etichetta:4} | {b['passaggi']:8} | {b['ritardo']:11} | {b['ritardo10']:12} "
+                             f"| {round(b['grappolo'] + b['buco'], 1):15} | {b['coppie']}")
+        R.append(f"Il feed smette di elencare la fermata all'orario programmato: per i mezzi in ritardo la sua stima resta troppo bassa. "
+                 f"Scarti D3 del feed (solo confronto): fuori GTFS {cf['scarti']['fuori_gtfs']}, lettura lontana {cf['scarti']['lettura_lontana']}, "
+                 f"usati {cf['scarti']['usati']}.")
+        R.append("")
     R.append("PUNTUALITA' CITTA' — per tipo di giorno")
     R.append("tipo giorno | passaggi | % anticipo | % puntuale | % ritardo>5 | mediana | p90")
-    nomi = {"0": "feriale", "1": "sabato", "2": "domenica"}
     for t in TIPI:
         if t in j_citta:
             c = j_citta[t]
@@ -590,9 +817,13 @@ def main():
         R.append(f"{i:2}. linea {ln:<5} {val:5}% grappolo+buco | {c['coppie']} coppie "
                  f"| grappolo {c['grappolo']}% | buco {c['buco']}%")
     R.append("")
-    R.append("[MISURATO] dal feed GTFS-Realtime GTT; il ritardo è quello stimato dal sistema GTT "
-             "alla fermata nell'ultima lettura prima dell'arrivo; sabato e domenica con 1 solo "
-             "giorno: [DATI SCARSI].")
+    if gps:
+        R.append("[MISURATO] con il GPS dei mezzi GTT (Raspberry Pi, una posizione al minuto circa): il ritardo e' l'istante in cui "
+                 "il mezzo passa a meno di 60 m dalla fermata meno l'orario programmato; sabato e domenica con pochi giorni: [DATI SCARSI].")
+    else:
+        R.append("[MISURATO] dal feed GTFS-Realtime GTT; il ritardo è quello stimato dal sistema GTT "
+                 "alla fermata nell'ultima lettura prima dell'arrivo; sabato e domenica con 1 solo "
+                 "giorno: [DATI SCARSI].")
 
     # ---- aggiunte del Giro 2 (in coda: il testo di sopra resta com'e') ----
     R.append("")
@@ -608,14 +839,18 @@ def main():
             R.append(f"feriale {modo:5} | {c['passaggi']:8} | {c['ritardo']:11} | {c['ritardo10']}")
     lf = lontane.get("0", [0, 0])
     fer10 = j_citta.get("0", {})
-    if fer10:
+    if fer10 and not gps:
         stima_alta = 100.0 * (fer10["ritardo10_n"] + lf[1]) / (fer10["passaggi"] + lf[0]) if fer10["passaggi"] + lf[0] else 0.0
         R.append(f"ATTENZIONE (feriale): la regola D3 scarta i passaggi con la lettura piu' lontana di {int(MAX_LETTURA / 60)} minuti "
                  f"dall'arrivo stimato; tra gli scartati {lf[1]} (su {lf[0]}) hanno un ritardo oltre {SOGLIA_RITARDO_10:g} minuti, "
                  f"mentre tra i passaggi usati ce ne sono {fer10['ritardo10_n']}. La misura sopra e' quindi un MINIMO; includendo "
                  f"gli scartati (stima alta, lettura non definitiva) l'oltre {SOGLIA_RITARDO_10:g} minuti salirebbe a {round(stima_alta, 2)}%.")
-    R.append(f"GTT dichiara {RIF_GTT_RITARDO10_PCT}% nel 2025 (anno intero, tutte le linee, bus e tram): confronto solo come "
-             f"ordine di grandezza (noi: pochi giorni di ottobre, linee urbane del feed).")
+    if gps:
+        R.append(f"GTT dichiara {RIF_GTT_RITARDO10_PCT}% nel 2025: il suo metodo non e' pubblicato; noi misuriamo a ogni fermata con il GPS, "
+                 f"su pochi giorni di ottobre e sulle linee urbane.")
+    else:
+        R.append(f"GTT dichiara {RIF_GTT_RITARDO10_PCT}% nel 2025 (anno intero, tutte le linee, bus e tram): confronto solo come "
+                 f"ordine di grandezza (noi: pochi giorni di ottobre, linee urbane del feed).")
     R.append("")
     R.append("TRAM CONTRO BUS (feriale)")
     R.append("modo  | passaggi | % ritardo>5 | % ritardo>10 | mediana | % grappolo+buco | coppie")
@@ -679,6 +914,15 @@ def main():
                      f"({somma_modi} contro {j_citta[t]['passaggi']})")
             C.append(f"  {esito(j_citta[t]['ritardo10'] <= j_citta[t]['ritardo'])} {nomi[t]}: oltre 10 minuti "
                      f"({j_citta[t]['ritardo10']}%) <= oltre 5 minuti ({j_citta[t]['ritardo']}%)")
+    if gps:
+        cop_pct = 100.0 * cop_tot["validi"] / cop_tot["programmati"] if cop_tot["programmati"] else 0.0
+        C.append(f"  {esito(cop_pct > COPERTURA_MIN_PCT)} copertura GPS {round(cop_pct, 1)}% (OK sopra {COPERTURA_MIN_PCT:g}%)")
+        r5 = j_citta.get("0", {}).get("ritardo", 0.0)
+        C.append(f"  {esito(RITARDO_GPS_FERIALE_ATTESO[0] <= r5 <= RITARDO_GPS_FERIALE_ATTESO[1])} oltre 5 minuti feriale col GPS: {r5}% "
+                 f"(OK fra {RITARDO_GPS_FERIALE_ATTESO[0]:g}% e {RITARDO_GPS_FERIALE_ATTESO[1]:g}%)")
+        for t in TIPI:
+            if t in j_citta:
+                C.append(f"  {esito(-5 <= j_citta[t]['mediana'] <= 10)} {nomi[t]}: mediana {j_citta[t]['mediana']} min fra -5 e +10")
     quota_fc = 100.0 * corse_con_fine / corse_osservate if corse_osservate else 0.0
     C.append(f"  {esito(quota_fc > 30)} corse osservate con almeno un passaggio di fine corsa: {round(quota_fc, 1)}% "
              f"({corse_con_fine} su {corse_osservate}; OK sopra 30%)")

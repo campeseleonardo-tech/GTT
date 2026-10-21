@@ -1349,18 +1349,18 @@ const velClasse = k => k<12?0 : k<16?1 : k<20?2 : 3;
 /* [R4] puntualità delle linee: D.r4[nome linea minuscolo][tipo giorno][fascia] = % passaggi in ritardo oltre D.r4_meta.soglia_min minuti */
 const fasciaR4 = h => h<7?"notte" : h<9?"punta_mattina" : h<16?"giorno" : h<19?"punta_sera" : "sera";   // D9 del piano del Risultato 4
 const NOME_FASCIA_R4 = {notte:"notte (0-7)", punta_mattina:"punta del mattino (7-9)", giorno:"giorno (9-16)", punta_sera:"punta della sera (16-19)", sera:"sera (19-24)"};
-const r4Classe = v => v<2.5?0 : v<5?1 : v<7.5?2 : v<10?3 : 4;      // verde -> rosso con PAL_VR
+const r4Classe = v => v<10?0 : v<15?1 : v<20?2 : v<30?3 : 4;      // verde -> rosso con PAL_VR
 const r4Valore = (nome,dt,h) => { const e=(D.r4||{})[nome], f=e&&e[String(dt)], v=f?f[fasciaR4(h)]:undefined; return v==null?null:v; };
 const r4Data = d => String(d||"").split("-").reverse().join("/");
 function legendaR4(){
   const M=D.r4_meta;
   if(!M) return `<div class="t">Puntualità delle linee</div><div class="et" style="display:block">Dati non disponibili (lancia scripts/27_risultato4_regolarita.py e poi 04_genera_mappa.py).</div>`;
-  const cl=["sotto 2,5%","2,5-5%","5-7,5%","7,5-10%","oltre 10%"];
+  const cl=["sotto 10%","10-15%","15-20%","20-30%","oltre 30%"];
   const righe=cl.map((c,k)=>`<span><i style="background:${PAL_VR[k]}"></i>${c}</span>`).join("");
   const fa=fasciaR4(S.h);
   return `<div class="t">Passaggi in ritardo oltre ${M.soglia_min} minuti · fascia ${NOME_FASCIA_R4[fa]} · ${GIORNI[S.dt].toLowerCase()} ${TAG.mis}</div>`
     +`<div class="puntini">${righe}<span><i style="background:#9aa0ad"></i>nessun dato (extraurbane, poche corse osservate)</span></div>`
-    +`<div class="et" style="display:block">Periodo ${r4Data(M.periodo.da)} - ${r4Data(M.periodo.a)}; una linea è colorata se ha almeno ${M.min_passaggi} passaggi osservati in quella fascia.`
+    +`<div class="et" style="display:block">Periodo ${r4Data(M.periodo.da)} - ${r4Data(M.periodo.a)}, misurato con il GPS dei mezzi; una linea è colorata se ha almeno ${M.min_passaggi} passaggi osservati in quella fascia.`
     +(fa==="notte"?` La notte non è misurata (la raccolta riparte verso le 5).`:"")+`</div>`;
 }
 const velScarsa = () => { const M=D.vel_meta; if(!M||M.ore==null||M.ore<72) return true;
@@ -2308,7 +2308,7 @@ const THEMES = [
    area:null, over:{...NESSUNA,Lsensori:1,Llinee:1}, sensoriGrandi:true, velocita:true, giornata:true,
    legenda:()=>legendaVelocita()},
   ...(D.r4_meta ? [{id:"puntualita", label:"Puntualità delle linee",
-   desc:"Quanti passaggi arrivano con più di 5 minuti di ritardo, linea per linea, nell'ora scelta con il cursore. Misurato dal feed GTT.",
+   desc:"Quanti passaggi arrivano con più di 5 minuti di ritardo, linea per linea, nell'ora scelta con il cursore. Misurato con il GPS dei mezzi.",
    area:null, over:{...NESSUNA,Llinee:1}, puntualita:true, legenda:()=>legendaR4()}] : []),
   {id:"omi", label:"Valore immobiliare", desc:"Quanto costa al metro quadro comprare casa, un negozio, un ufficio, un box o un magazzino, zona per zona (Agenzia delle Entrate, 2025).",
    area:{tipo:"omi"}, over:{...NESSUNA}, omi:true, opzioni:["omiTipo"], legenda:legendaOmi},

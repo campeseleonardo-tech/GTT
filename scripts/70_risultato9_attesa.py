@@ -9,11 +9,11 @@ rispetto a quanto promette l'orario?
 
 Formula (per fermata, linea, verso, fascia oraria): con intervalli h1..hn fra passaggi consecutivi
   attesa media = somma(h^2) / (2 * somma(h))
-  attesa promessa = formula sugli orari GTFS; attesa reale = formula sugli arrivi stimati dal feed
+  attesa promessa = formula sugli orari GTFS; attesa reale = formula sugli arrivi misurati con il GPS (dal Giro 5; prima dal feed)
   attesa in piu' = reale - promessa
 
 Corse mancanti (D1), forbice:
-  stima BASSA: solo tratti di corse programmate consecutive TUTTE presenti nel feed; promessa e reale
+  stima BASSA: solo tratti di corse programmate consecutive TUTTE viste dal GPS; promessa e reale
                calcolate sugli stessi tratti (le corse mancanti non creano buchi).
   stima ALTA:  una corsa assente sia dal feed dei ritardi sia dal GPS (mezzi_gtt) e' considerata non
                effettuata; una corsa presente solo nel GPS (o con lettura scartata) arriva in orario.
@@ -22,7 +22,7 @@ Linee frequenti (D2): intervallo programmato medio <= 12 minuti per fermata-line
 Media della citta' (D3): pesata sul numero di intervalli programmati.
 Solo ore con la raccolta attiva (almeno 50 minuti letti nell'ora) e solo linee presenti nel feed quel giorno.
 
-Riusa, senza modificarlo, scripts/27_risultato4_regolarita.py (lettura del feed, regole D1-D5 del R4).
+Riusa, senza modificarlo, scripts/27_risultato4_regolarita.py (dal Giro 5: passaggi dal GPS, costruisci_passaggi_gps).
 
 Uso:
   python scripts/70_risultato9_attesa.py            giro completo, scrive JSON e rapporto
@@ -132,17 +132,16 @@ def corse_gps(con, mezz):
                                       (da, a))}
 
 
-def elabora_giorno(con, giorno, trip_info, nome_linea, prog, servizio, cal, eccezioni, acc, esempi):
+def elabora_giorno(con, giorno, trip_info, nome_linea, prog, servizio, cal, eccezioni, acc, esempi, fermate):
     mezz = mezzanotte_utc(giorno)
     d = datetime.strptime(giorno, "%Y%m%d").date()
     tipo = str(r4.tipo_giorno_data(d))
-    ultimo = r4.leggi_giorno(con, giorno)
-    nel_feed = {tid for tid, _ in ultimo}
-    passaggi, _, _, _ = r4.costruisci_passaggi(ultimo, giorno, trip_info, nome_linea, prog)
-    del ultimo
+    # Giro 5: gli arrivi vengono dal GPS (r4.costruisci_passaggi_gps); "nel_feed" ora sono le corse viste nel GPS
+    passaggi, _cop = r4.costruisci_passaggi_gps(con, giorno, trip_info, nome_linea, prog, fermate)
+    gps = corse_gps(con, mezz)
+    nel_feed = set(gps)
     stimato = {(p[P_TRIP], p[P_SEQ]): p[P_EST] for p in passaggi}
     linee_coperte = {nome_linea.get(trip_info[t][0]) for t in nel_feed if t in trip_info}
-    gps = corse_gps(con, mezz)
     attive = ore_attive(con, mezz)
     attivi = servizi_attivi(giorno, cal, eccezioni)
 
@@ -399,12 +398,17 @@ def main():
     for n, giorno in enumerate(giorni, 1):
         print(f"[{n}/{len(giorni)}] {giorno}...", file=sys.stderr)
         tipo, conteggi, passaggi = elabora_giorno(con, giorno, trip_info, nome_linea, prog, servizio, cal,
-                                                  eccezioni, acc, esempi)
+                                                  eccezioni, acc, esempi, fermate)
         tipi_giorno[tipo] += 1
         per_giorno[giorno] = {"tipo": tipo, **conteggi}
         if giorno == GIORNO_PROVA:
             print("  controllo GPS...", file=sys.stderr)
-            gps = controllo_gps(con, giorno, passaggi, fermate)
+            # controllo del feed (non della fonte usata): servono i passaggi stimati dal feed, non quelli del GPS
+            ultimo = r4.leggi_giorno(con, giorno)
+            passaggi_feed, _, _, _ = r4.costruisci_passaggi(ultimo, giorno, trip_info, nome_linea, prog)
+            del ultimo
+            gps = controllo_gps(con, giorno, passaggi_feed, fermate)
+            del passaggi_feed
         del passaggi
     con.close()
 
@@ -424,7 +428,7 @@ def main():
     R.append(f"Linee frequenti: intervallo programmato medio <= {freq:g} min per fermata-linea-verso-fascia "
              f"(almeno {MIN_INTERVALLI_CHIAVE} intervalli)")
     R.append(f"Chiavi fermata-linea-verso-fascia-giorno frequenti: {ris['chiavi_frequenti']}, usate: {ris['chiavi_usate']} "
-             f"(tolte quelle con > {int(MAX_MANCANTI * 100)}% di corse assenti dal feed)")
+             f"(tolte quelle con > {int(MAX_MANCANTI * 100)}% di corse assenti dal GPS)")
     R.append("")
     fer = ris["citta"]["0"]
     if fer:
@@ -433,8 +437,7 @@ def main():
         R.append(f"  attesa reale:     {fer['reale_min_bassa']:.1f} min (stima bassa) - {fer['reale_min_alta']:.1f} min (stima alta)")
         R.append(f"  attesa in piu':   {fer['in_piu_min_bassa']:.1f} - {fer['in_piu_min_alta']:.1f} min "
                  f"(stima bassa = +{fer['in_piu_pct_bassa']:.0f}% sulla promessa)")
-        R.append(f"  corse programmate assenti dal feed: {fer['corse_assenti_feed_pct']}%, "
-                 f"assenti anche dal GPS: {fer['corse_assenti_tutto_pct']}%")
+        R.append(f"  corse programmate assenti dal GPS: {fer['corse_assenti_feed_pct']}%")
     R.append("")
     R.append("PER TIPO DI GIORNO")
     R.append("tipo      | promessa | reale bassa | reale alta | in piu' bassa | in piu' alta | intervalli oss.")
@@ -470,12 +473,13 @@ def main():
         R.append(f"{i:2}. linea {x['linea']:<5} v{x['direzione']} {x['nome'][:34]:<34} promessa {x['promessa_min']:4.1f} | "
                  f"in piu' {x['in_piu_min_bassa']:4.1f} - {x['in_piu_min_alta']:4.1f} min | intervalli {x['intervalli_osservati']}")
     R.append("")
-    R.append(f"DATI SCARSI (linea-fascia-tipo con > {int(MAX_MANCANTI * 100)}% corse assenti dal feed, fuori dai numeri): "
+    R.append(f"DATI SCARSI (linea-fascia-tipo con > {int(MAX_MANCANTI * 100)}% corse assenti dal GPS, fuori dai numeri): "
              f"{len(ris['dati_scarsi'])}")
     for x in ris["dati_scarsi"][:15]:
         R.append(f"  linea {x['linea']:<5} {x['fascia']:<13} {nomi_tipo[x['tipo']]:<9} assenti {x['assenti_pct']}%")
     R.append("")
     R.append("CONTROLLO COL GPS (passo 4): arrivo stimato dal feed - passaggio del GPS vicino alla fermata")
+    R.append("  (e' un controllo del feed, non della fonte usata: dal Giro 5 gli arrivi di questo rapporto vengono dal GPS)")
     if gps:
         R.append(f"  linee {', '.join(gps['linee'])}, giorno {gps['giorno']}: {gps['passaggi_confrontati']} passaggi, "
                  f"{gps['fermate']} fermate")
@@ -484,7 +488,7 @@ def main():
         if gps["differenza_assoluta_mediana_min"] is not None and gps["differenza_assoluta_mediana_min"] > 1:
             R.append("  ATTENZIONE: |differenza| mediana oltre 1 minuto -> da decidere con Leo (piano, passo 4)")
     R.append("")
-    R.append("ESEMPI PER IL CONTROLLO A MANO (passo 2): orario, arrivo stimato (ora italiana), nel feed, nel GPS")
+    R.append("ESEMPI PER IL CONTROLLO A MANO (passo 2): orario, arrivo misurato dal GPS (ora italiana), corsa vista dal GPS (feed= e gps= coincidono)")
     for linea, e in sorted(esempi.items()):
         R.append(f"  linea {linea} verso {e['direzione']} fermata {e['stop_id']} ({fermate.get(e['stop_id'], ('?',))[0]}), {e['giorno']}")
         for sch, est, f, g in e["passaggi"]:
@@ -492,7 +496,7 @@ def main():
     R.append("")
     R.append("Nota: le due stime usano tratti diversi (la bassa solo i tratti senza corse mancanti); per una singola")
     R.append("linea la 'alta' puo' quindi uscire poco sotto la 'bassa'. Per la citta' la forbice e' ordinata.")
-    R.append("Limiti: arrivi stimati dal feed (non visti sul posto); solo linee urbane presenti nel feed; niente notte;")
+    R.append("Limiti: arrivi misurati con il GPS (meno di 60 m dalla fermata); solo linee urbane viste dal GPS quel giorno; niente notte;")
     R.append("corse mancanti -> forbice bassa/alta; chi arriva 'a caso' (vero per le linee frequenti); pochi giorni.")
     R.append("")
     R.append("ATTESA PER MODO (feriale, linee frequenti, stessa media pesata della citta')")
