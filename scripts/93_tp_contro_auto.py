@@ -15,8 +15,11 @@ D2 - tempi in auto: rete del modello del traffico (scripts/rete_osm.py), cammino
      Sensibilita' con 1,3 e 1,8. Controllo: Piazza Castello -> Collegno nella fascia 20-35 minuti (Fase 5).
 D3 - confronto: rapporto = tempo coi mezzi / tempo in auto (di punta). Auto della coppia = viaggi IMQ in auto come
      conducente (domanda_auto.json dello script 40), partenza dalle 6 alle 10 (ore 6-9), giorno feriale.
-     Classi: sotto 2,5 «conviene», da 2,5 a 3,5 «poco», oltre 3,5 «non conviene». Le soglie del primo calcolo
-     (1,5 e 2) restano nel JSON e nel rapporto, sotto «precedenti», per il confronto.
+     Nessuna soglia di «convenienza»: titolo = rapporto mediano pesato per le auto; auto per fasce FISSE del
+     rapporto (sotto 1,5, 1,5-2, 2-3, oltre 3). Tre gruppi di coppie: (a) Torino-Torino, (b) Torino-cintura,
+     (c) cintura-cintura; il risultato principale usa (a)+(b): fuori Torino mancano treni e bus di altre aziende.
+     Cammino a 4,8 km/h. Punti agganciati alla parte principale della rete stradale. I due calcoli precedenti
+     (cammino a 3,6 km/h) restano nel JSON sotto «precedenti», segnati come superati.
 
 Come si lancia
 --------------
@@ -58,10 +61,9 @@ ORE_MATTINO = range(6, 10)          # partenza 06:00-09:59
 FATTORE_PREDEFINITO = 1.5
 MIN_PARCHEGGIO = 5.0
 FATTORI_SENS = (1.3, 1.8)
-SOGLIA_CONVIENE, SOGLIA_NON = 2.5, 3.5          # soglie del 21/10 (Leo)
-SOGLIE_PRECEDENTI = (1.5, 2.0)                  # soglie del primo calcolo: restano nei file per il confronto
+FASCE = (1.5, 2.0, 3.0)             # fasce fisse del rapporto TP/auto, decise prima di vedere i numeri
+VEL_PIEDI_KMH = 4.8                 # 80 m al minuto, come lo script 18 e tutto il progetto (r5py di serie: 3,6)
 QUOTA_MIN_COLLEGATA = 0.5           # meta' del peso delle coppie di punti con collegamento
-AVVISO_QUOTA_NON_CONVIENE = 0.60
 
 # percorsi noti (lat, lon), gli stessi dello script 50b; il primo e' il controllo della Fase 5
 CASTELLO = (45.0703, 7.6869)
@@ -71,11 +73,6 @@ NOTI = [("Piazza Castello → Collegno", CASTELLO, (45.0721, 7.5717)),
         ("Piazza Castello → Moncalieri", CASTELLO, (45.0005, 7.6810)),
         ("Piazza Castello → Orbassano", CASTELLO, (45.0070, 7.5373)),
         ("Piazza Castello → Rivoli", CASTELLO, (45.0709, 7.5167))]
-
-
-def classe(rapporto, soglie=None):
-    basso, alto = soglie or (SOGLIA_CONVIENE, SOGLIA_NON)
-    return "conviene" if rapporto < basso else ("poco" if rapporto <= alto else "non conviene")
 
 
 def nome_zona(n):
@@ -126,11 +123,32 @@ def matrice_auto(zone, extra):
     tieni = src[sel] != dst[sel]
     M = csr_matrix((w[sel][tieni], (src[sel][tieni], dst[sel][tieni])), shape=(N, N))
 
-    def nodo_vicino(lat, lon):
-        d2 = (xy[:, 0] - lat) ** 2 + (xy[:, 1] - lon) ** 2
-        return int(np.argmin(d2))
+    # parte principale della rete = la piu' grande componente fortemente connessa; i punti fuori da essa si agganciano al nodo piu' vicino dentro
+    from scipy.sparse.csgraph import connected_components
+    _, etichette = connected_components(M, directed=True, connection="strong")
+    principale = np.argmax(np.bincount(etichette))
+    nodi_princ = np.nonzero(etichette == principale)[0]
+    xy_princ = xy[nodi_princ]
+    spostati = {"n": 0, "su": 0, "max_m": 0.0}
 
-    nodi_extra = [(nodo_vicino(a[0], a[1]), nodo_vicino(b[0], b[1])) for _, a, b in extra]
+    def nodo_vicino(lat, lon):
+        d2 = (xy_princ[:, 0] - lat) ** 2 + (xy_princ[:, 1] - lon) ** 2
+        return int(nodi_princ[int(np.argmin(d2))])
+
+    def aggancia(nodo, lat, lon):
+        spostati["su"] += 1
+        if etichette[nodo] == principale:
+            return nodo
+        nuovo = nodo_vicino(lat, lon)
+        spostati["n"] += 1
+        spostati["max_m"] = max(spostati["max_m"], float(rete_osm.haversine_m(lat, lon, *xy[nuovo])))
+        return nuovo
+
+    for z in zone.values():
+        for p in z["punti"]:
+            p["nodo"] = aggancia(p["nodo"], p["lat"], p["lon"])
+    nodi_extra = [(aggancia(int(np.argmin((xy[:, 0] - a[0]) ** 2 + (xy[:, 1] - a[1]) ** 2)), a[0], a[1]),
+                   aggancia(int(np.argmin((xy[:, 0] - b[0]) ** 2 + (xy[:, 1] - b[1]) ** 2)), b[0], b[1])) for _, a, b in extra]
     nodi = sorted({p["nodo"] for z in zone.values() for p in z["punti"]} | {n for c in nodi_extra for n in c})
     t = {}
     for i in range(0, len(nodi), 25):
@@ -139,7 +157,7 @@ def matrice_auto(zone, extra):
         for k, a in enumerate(gruppo):
             for j, b in enumerate(nodi):
                 t[(a, b)] = float(dist[k, j])
-    return t, nodi_extra
+    return t, nodi_extra, spostati
 
 
 def tempo_zone_auto(za, zb, t):
@@ -172,7 +190,7 @@ def matrice_tp(zone, extra, lotto, log):
         elenco.append((f"NOTO{k}_A", a[0], a[1]))
         elenco.append((f"NOTO{k}_B", b[0], b[1]))
     ids = [e[0] for e in elenco]
-    firma = f"{len(ids)}-{round(sum(e[1] + e[2] for e in elenco), 5)}-{GIORNO}-{PARTENZA}-{FINESTRA_MIN}-{TEMPO_MAX_MIN}"
+    firma = f"{len(ids)}-{round(sum(e[1] + e[2] for e in elenco), 5)}-{GIORNO}-{PARTENZA}-{FINESTRA_MIN}-{TEMPO_MAX_MIN}-piedi{VEL_PIEDI_KMH}"
     n = len(ids)
     T = np.full((n, n), np.nan)
     fatti = np.zeros(n, dtype=bool)
@@ -197,7 +215,7 @@ def matrice_tp(zone, extra, lotto, log):
         orig = gdf.iloc[blocco]
         mat = TravelTimeMatrix(rete, origins=orig, destinations=gdf, departure=quando,
                                departure_time_window=dt.timedelta(minutes=FINESTRA_MIN),
-                               transport_modes=[TM.TRANSIT, TM.WALK],
+                               transport_modes=[TM.TRANSIT, TM.WALK], speed_walking=VEL_PIEDI_KMH,
                                max_time=dt.timedelta(minutes=TEMPO_MAX_MIN))
         mat = pd.DataFrame(mat)
         col = "travel_time" if "travel_time" in mat.columns else "travel_time_p50"
@@ -226,6 +244,47 @@ def tempo_zone_tp(za, ca, zb, cb, ids_pos, T):
     return (somma / peso if peso else None), (peso / tot if tot else 0.0)
 
 
+def mediana_pesata(coppie, f):
+    """mediana del rapporto TP/auto pesata per le auto (fattore di punta f)."""
+    v = sorted((p["tp_min"] / punta(p["libero_min"], f), p["auto"]) for p in coppie)
+    tot = sum(w for _, w in v)
+    if not v or tot <= 0:
+        return None
+    acc = 0.0
+    for r, w in v:
+        acc += w
+        if acc >= tot / 2:
+            return r
+    return v[-1][0]
+
+
+def punta(libero, f):
+    return libero * f + MIN_PARCHEGGIO
+
+
+def fasce(coppie, f):
+    """auto e coppie per fascia FISSA di rapporto (fissate prima di vedere i numeri)."""
+    tot = sum(p["auto"] for p in coppie)
+    estremi = [0.0, *FASCE, float("inf")]
+    out = []
+    for lo, hi in zip(estremi[:-1], estremi[1:]):
+        sel = [p for p in coppie if lo <= p["tp_min"] / punta(p["libero_min"], f) < hi]
+        a = sum(p["auto"] for p in sel)
+        out.append({"da": lo, "a": (None if hi == float("inf") else hi), "auto": round(a), "coppie": len(sel),
+                    "pct": (100 * a / tot if tot else 0.0)})
+    return out
+
+
+def quota_oltre(coppie, f, soglia):
+    tot = sum(p["auto"] for p in coppie)
+    return sum(p["auto"] for p in coppie if p["tp_min"] / punta(p["libero_min"], f) >= soglia) / tot if tot else 0.0
+
+
+def riepilogo(coppie, f):
+    return {"fattore": f, "auto": round(sum(p["auto"] for p in coppie)), "coppie": len(coppie),
+            "mediano": mediana_pesata(coppie, f), "fasce": fasce(coppie, f), "quota_oltre_2": quota_oltre(coppie, f, 2.0)}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--prova", type=int, default=0, help="usa solo le N zone con piu' auto in uscita")
@@ -250,68 +309,68 @@ def main():
         zone = {k: v for k, v in zone.items() if k in tieni}
         auto = carica_auto(zone)
         totale_zone = sum(auto.values())
-    log(f"zone: {len(zone)} con punti; auto del mattino fra le zone incluse: {totale_zone:,.0f}")
+    torino = {k for k, z in zone.items() if z["nome"].startswith("Torino,")}   # regola controllata sul file vero: coincide con i codici Q e con la macro «01 Torino»
+    log(f"zone: {len(zone)} con punti ({len(torino)} di Torino); auto del mattino fra le zone incluse: {totale_zone:,.0f}")
 
     log("D2: tempi in auto sulla rete del modello del traffico ...")
-    t_auto, nodi_extra = matrice_auto(zone, NOTI)
-    log("D1: tempi coi mezzi pubblici (r5py) ...")
+    t_auto, nodi_extra, spostati = matrice_auto(zone, NOTI)
+    log(f"  punti agganciati alla parte principale della rete: {spostati['n']} su {spostati['su']} spostati (distanza massima {spostati['max_m']:.0f} m)")
+    log("D1: tempi coi mezzi pubblici (r5py, cammino a 4,8 km/h) ...")
     ids, T = matrice_tp(zone, NOTI, args.lotto, log)
     pos = {i: k for k, i in enumerate(ids)}
 
-    # ---- tempi per coppia di zone
+    # ---- tempi per coppia di zone, in tre gruppi: (a) Torino-Torino, (b) Torino-cintura e cintura-Torino, (c) cintura-cintura
+    def gruppo(a, b):
+        n = (a in torino) + (b in torino)
+        return "a" if n == 2 else ("b" if n == 1 else "c")
+
     cod = sorted(zone)
-    coppie = []
-    senza_link = []
-    auto_senza = 0.0
+    coppie, senza_link = [], []
     intra = 0.0
+    infiniti = 0
     for a in cod:
         for b in cod:
             v = auto.get((a, b), 0.0)
             if a == b:
                 intra += v
                 continue
-            ta = tempo_zone_auto(zone[a], zone[b], t_auto) / 60.0           # minuti, flusso libero
-            tp, quota = tempo_zone_tp(zone[a], a, zone[b], b, pos, T)
-            if tp is None or quota < QUOTA_MIN_COLLEGATA:
-                auto_senza += v
-                senza_link.append({"da": a, "a": b, "auto": round(v, 1), "auto_libero_min": round(ta, 1), "quota_collegata": round(quota, 2)})
+            secondi = tempo_zone_auto(zone[a], zone[b], t_auto)
+            if not np.isfinite(secondi):
+                infiniti += 1
                 continue
-            coppie.append({"da": a, "a": b, "auto": v, "tp_min": tp, "libero_min": ta, "quota_collegata": quota})
-
-    def punta(libero, f):
-        return libero * f + MIN_PARCHEGGIO
-
-    def riepilogo(f, soglie=None):
-        tot = sum(p["auto"] for p in coppie)
-        per = defaultdict(float)
-        n_per = defaultdict(int)
-        for p in coppie:
-            k = classe(p["tp_min"] / punta(p["libero_min"], f), soglie)
-            per[k] += p["auto"]
-            n_per[k] += 1
-        return {"fattore": f, "auto_collegate": round(tot), "auto": {k: round(v) for k, v in per.items()},
-                "coppie": dict(n_per), "quota_non_conviene": per["non conviene"] / tot if tot else 0.0,
-                "quota_conviene": per["conviene"] / tot if tot else 0.0}
-
-    base = riepilogo(args.fattore)
-    sens = [riepilogo(f) for f in FATTORI_SENS]
-    prec_base = riepilogo(args.fattore, SOGLIE_PRECEDENTI)
-    prec_sens = [riepilogo(f, SOGLIE_PRECEDENTI) for f in FATTORI_SENS]
+            ta = secondi / 60.0
+            tp, quota = tempo_zone_tp(zone[a], a, zone[b], b, pos, T)
+            g = gruppo(a, b)
+            if tp is None or quota < QUOTA_MIN_COLLEGATA:
+                senza_link.append({"da": a, "a": b, "gruppo": g, "auto": v, "auto_libero_min": round(ta, 1), "quota_collegata": round(quota, 2)})
+                continue
+            coppie.append({"da": a, "a": b, "gruppo": g, "auto": v, "tp_min": tp, "libero_min": ta, "quota_collegata": quota})
     for p in coppie:
         p["auto_punta_min"] = punta(p["libero_min"], args.fattore)
         p["rapporto"] = p["tp_min"] / p["auto_punta_min"]
-        p["classe"] = classe(p["rapporto"])
-    auto_coll = sum(p["auto"] for p in coppie)
 
-    peggiori = sorted((p for p in coppie if p["classe"] == "non conviene"), key=lambda p: -p["auto"])[:15]
+    ab = [p for p in coppie if p["gruppo"] in ("a", "b")]
+    gruppi = {}
+    nomi_gruppi = {"a": "Torino-Torino", "b": "Torino-cintura (e cintura-Torino)", "c": "cintura-cintura",
+                   "ab": "principale: Torino-Torino e Torino-cintura"}
+    for g, elenco in (("a", [p for p in coppie if p["gruppo"] == "a"]), ("b", [p for p in coppie if p["gruppo"] == "b"]),
+                      ("c", [p for p in coppie if p["gruppo"] == "c"]), ("ab", ab)):
+        ss = [s for s in senza_link if (s["gruppo"] in g)]
+        gruppi[g] = {"nome": nomi_gruppi[g], **riepilogo(elenco, args.fattore),
+                     "senza_collegamento": {"coppie": len(ss), "auto": round(sum(s["auto"] for s in ss))},
+                     "sensibilita": [riepilogo(elenco, f) for f in FATTORI_SENS]}
+        if g == "c":
+            gruppi[g]["nota"] = "dati del mezzo pubblico incompleti: mancano treni e bus di altre aziende"
+    base = gruppi["ab"]
+    peggiori = sorted((p for p in ab if p["rapporto"] >= 2.0), key=lambda p: -p["auto"])[:15]
     per_zona = []
     for a in cod:
-        mie = [p for p in coppie if p["da"] == a]
+        mie = [p for p in ab if p["da"] == a]
         tot = sum(p["auto"] for p in mie)
-        nc = sum(p["auto"] for p in mie if p["classe"] == "non conviene")
-        per_zona.append({"zona": a, "nome": zone[a]["nome"], "auto_uscita": round(tot), "auto_non_conviene": round(nc),
-                         "quota_non_conviene": (nc / tot if tot else None)})
-    per_zona.sort(key=lambda z: -(z["quota_non_conviene"] or 0))
+        oltre = sum(p["auto"] for p in mie if p["rapporto"] >= 2.0)
+        per_zona.append({"zona": a, "nome": zone[a]["nome"], "auto_uscita": round(tot), "auto_oltre_2": round(oltre),
+                         "quota_oltre_2": (oltre / tot if tot else None)})
+    per_zona.sort(key=lambda z: -(z["quota_oltre_2"] or 0))
 
     # ---- controllo di buon senso: percorsi noti
     noti = []
@@ -325,8 +384,13 @@ def main():
     # ---- controlli
     c("nessun tempo negativo o nullo fra zone diverse",
       all(p["tp_min"] > 0 and p["libero_min"] > 0 for p in coppie), bloccante=True)
-    c("coppie senza collegamento coi mezzi entro 120 minuti (contate a parte)", True,
-      dettaglio=f"{len(senza_link)} coppie, {auto_senza:,.0f} auto")
+    c("nessun tempo infinito in auto fra zone", infiniti == 0 and all(np.isfinite(n["auto_libero_min"]) for n in noti),
+      dettaglio=f"{infiniti} coppie di zone, {sum(1 for n in noti if not np.isfinite(n['auto_libero_min']))} percorsi noti; punti spostati: {spostati['n']} su {spostati['su']}",
+      bloccante=True)
+    auto_senza = sum(s["auto"] for s in senza_link)
+    c("coppie senza collegamento coi mezzi entro 120 minuti (contate a parte, per gruppo)", True,
+      dettaglio="; ".join(f"{g}: {gruppi[g]['senza_collegamento']['coppie']} coppie, {gruppi[g]['senza_collegamento']['auto']:,} auto" for g in "abc"))
+    auto_coll = sum(p["auto"] for p in coppie)
     somma = auto_coll + auto_senza + intra
     c("somma delle auto = totale IMQ 06-10 delle zone incluse", abs(somma - totale_zone) < 1e-6 * max(totale_zone, 1),
       dettaglio=f"{somma:,.0f} / {totale_zone:,.0f} (collegate {auto_coll:,.0f}, senza collegamento {auto_senza:,.0f}, dentro la zona {intra:,.0f})",
@@ -334,70 +398,83 @@ def main():
     cast = noti[0]
     c("Piazza Castello → Collegno in auto di punta nella fascia 20-35 minuti", 20 <= cast["auto_punta_min"] <= 35,
       dettaglio=f"{cast['auto_libero_min']:.1f} minuti a flusso libero, {cast['auto_punta_min']:.1f} di punta (fattore {args.fattore})")
-    if base["quota_non_conviene"] > AVVISO_QUOTA_NON_CONVIENE:
-        c(f"AVVISO: piu' del {int(AVVISO_QUOTA_NON_CONVIENE * 100)}% delle auto e' su coppie «non conviene»", False,
-          dettaglio=f"{100 * base['quota_non_conviene']:.1f}%: da spiegare")
 
     nomi = {k: v["nome"] for k, v in zone.items()}
-    titolo = {"auto_collegate": round(auto_coll), "auto_non_conviene": base["auto"].get("non conviene", 0),
-              "quota_non_conviene": base["quota_non_conviene"],
-              "su_dieci": round(10 * base["quota_non_conviene"], 1)}
+    titolo = {"rapporto_mediano": base["mediano"], "quota_oltre_2": base["quota_oltre_2"], "auto_collegate": base["auto"]}
     prova = bool(args.prova)
     suff = "_prova" if prova else ""
+    precedenti = None
+    if OUT_JSON.is_file() and not prova:
+        vecchio = json.loads(OUT_JSON.read_text(encoding="utf-8"))
+        if "gruppi" not in vecchio:                    # primo calcolo (cammino a 3,6 km/h): si conserva una volta sola
+            precedenti = {"nota": "calcolati con cammino a 3,6 km/h: superati",
+                          "soglie_1_5_e_2": vecchio["precedenti"], "soglie_2_5_e_3_5": {"soglie": vecchio["parametri"]["soglie"], "base": vecchio["base"], "sensibilita": vecchio["sensibilita"]},
+                          "noti": vecchio["noti"]}
+        else:
+            precedenti = vecchio.get("precedenti")
     out = {
         "stimato": True,
         "parametri": {"giorno": str(GIORNO), "partenza": f"{PARTENZA:%H:%M}", "finestra_min": FINESTRA_MIN,
-                      "tempo_max_min": TEMPO_MAX_MIN, "punti_per_zona": PUNTI_PER_ZONA, "ore_auto": list(ORE_MATTINO),
-                      "fattore_punta": args.fattore, "minuti_parcheggio": MIN_PARCHEGGIO,
-                      "soglie": [SOGLIA_CONVIENE, SOGLIA_NON], "n_zone": len(zone), "prova": prova},
-        "titolo": titolo, "base": base, "sensibilita": sens,
-        "precedenti": {"soglie": list(SOGLIE_PRECEDENTI), "base": prec_base, "sensibilita": prec_sens},
-        "peggiori": [{"da": p["da"], "a": p["a"], "da_nome": nomi[p["da"]], "a_nome": nomi[p["a"]], "auto": round(p["auto"]),
+                      "tempo_max_min": TEMPO_MAX_MIN, "velocita_piedi_kmh": VEL_PIEDI_KMH, "punti_per_zona": PUNTI_PER_ZONA,
+                      "ore_auto": list(ORE_MATTINO), "fattore_punta": args.fattore, "minuti_parcheggio": MIN_PARCHEGGIO,
+                      "fasce": list(FASCE), "n_zone": len(zone), "n_zone_torino": len(torino), "punti_spostati": spostati, "prova": prova},
+        "titolo": titolo, "gruppi": gruppi,
+        "peggiori": [{"da": p["da"], "a": p["a"], "da_nome": nomi[p["da"]], "a_nome": nomi[p["a"]], "gruppo": p["gruppo"], "auto": round(p["auto"]),
                       "tp_min": round(p["tp_min"], 1), "auto_punta_min": round(p["auto_punta_min"], 1),
                       "rapporto": round(p["rapporto"], 2)} for p in peggiori],
         "per_zona": per_zona,
-        "coppie": [{"da": p["da"], "a": p["a"], "auto": round(p["auto"], 1), "tp_min": round(p["tp_min"], 1),
-                    "auto_punta_min": round(p["auto_punta_min"], 1), "rapporto": round(p["rapporto"], 2),
-                    "classe": p["classe"]} for p in sorted(coppie, key=lambda p: -p["auto"])],
-        "senza_collegamento": senza_link, "dentro_zona_auto": round(intra),
+        "coppie": [{"da": p["da"], "a": p["a"], "gruppo": p["gruppo"], "auto": round(p["auto"], 1), "tp_min": round(p["tp_min"], 1),
+                    "auto_punta_min": round(p["auto_punta_min"], 1), "rapporto": round(p["rapporto"], 2)}
+                   for p in sorted(coppie, key=lambda p: -p["auto"])],
+        "senza_collegamento": [{**s, "auto": round(s["auto"], 1)} for s in senza_link], "dentro_zona_auto": round(intra),
         "noti": noti, "totale_auto_zone": round(totale_zone),
         "controlli": list(c.righe),
     }
+    if precedenti:
+        out["precedenti"] = precedenti
     dest_json = OUT_JSON.with_name(OUT_JSON.stem + suff + ".json")
     dest_json.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
 
+    def riga_fasce(rr):
+        return "; ".join(f"{('sotto ' + format(f['a'], 'g')) if f['da'] == 0 else (('oltre ' + format(f['da'], 'g')) if f['a'] is None else format(f['da'], 'g') + '-' + format(f['a'], 'g'))}: "
+                         f"{f['auto']:,} auto ({f['pct']:.1f}%)" for f in rr["fasce"])
+
     r = [f"RAPPORTO TP CONTRO AUTO (Risultato 8, parte D, STIMATO){' - PROVA' if prova else ''}",
          f"generato: {dt.datetime.now().isoformat(timespec='seconds')}", "",
-         f"Zone IMQ con punti: {len(zone)} (zone solo «porta» escluse); fino a {PUNTI_PER_ZONA} punti per zona, i piu' pesanti.",
-         f"Tempi coi mezzi: r5py, giorno {GIORNO}, mediana delle partenze 7:45-8:15, mezzi pubblici + cammino, massimo {TEMPO_MAX_MIN} minuti.",
+         f"Zone IMQ con punti: {len(zone)} (zone solo «porta» escluse; {len(torino)} di Torino); fino a {PUNTI_PER_ZONA} punti per zona, i piu' pesanti.",
+         f"Tempi coi mezzi: r5py, giorno {GIORNO}, mediana delle partenze 7:45-8:15, mezzi pubblici + cammino a {VEL_PIEDI_KMH:g} km/h, massimo {TEMPO_MAX_MIN} minuti.",
          f"Tempi in auto: rete del modello del traffico, flusso libero x {args.fattore} + {MIN_PARCHEGGIO:.0f} minuti (parcheggio e cammino).",
+         f"Punti agganciati alla parte principale della rete: {spostati['n']} su {spostati['su']} spostati (distanza massima {spostati['max_m']:.0f} m).",
          f"Auto: viaggi IMQ in auto conducente, partenza 6-10, feriale. Totale fra le zone incluse: {totale_zone:,.0f}.",
-         "", "TITOLO",
-         f"  auto del mattino su coppie «non conviene» (TP oltre {SOGLIA_NON:g} volte l'auto): {titolo['auto_non_conviene']:,} su {titolo['auto_collegate']:,} "
-         f"({100 * titolo['quota_non_conviene']:.1f}%, cioe' {titolo['su_dieci']:.1f} su 10)",
-         f"  per classe: " + "; ".join(f"{k}: {v:,} auto in {base['coppie'].get(k, 0)} coppie" for k, v in base["auto"].items()),
-         f"  senza collegamento TP entro {TEMPO_MAX_MIN} minuti (a parte): {len(senza_link)} coppie, {auto_senza:,.0f} auto; dentro la stessa zona (non confrontate): {intra:,.0f}",
-         "", "SENSIBILITA' AL FATTORE DI PUNTA"]
-    for s in [base] + sens:
-        r.append(f"  fattore {s['fattore']}: «non conviene» {100 * s['quota_non_conviene']:.1f}% delle auto, «conviene» {100 * s['quota_conviene']:.1f}%")
-    r += ["", f"SOGLIE PRECEDENTI ({SOGLIE_PRECEDENTI[0]:g} e {SOGLIE_PRECEDENTI[1]:g}), tenute per il confronto"]
-    for s in [prec_base] + prec_sens:
-        r.append(f"  fattore {s['fattore']}: «non conviene» {100 * s['quota_non_conviene']:.1f}% delle auto ({s['auto'].get('non conviene', 0):,}), «conviene» {100 * s['quota_conviene']:.1f}%")
-    r += ["", "LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (non conviene)",
+         f"Gruppi: (a) Torino-Torino, (b) Torino-cintura e cintura-Torino, (c) cintura-cintura. Il risultato principale usa (a)+(b).",
+         f"Fasce fisse del rapporto (tempo coi mezzi / tempo in auto), decise prima di vedere i numeri: sotto {FASCE[0]:g}, {FASCE[0]:g}-{FASCE[1]:g}, {FASCE[1]:g}-{FASCE[2]:g}, oltre {FASCE[2]:g}.",
+         "", "TITOLO (gruppi a+b)",
+         f"  al mattino, coi mezzi pubblici si impiega in media {titolo['rapporto_mediano']:.2f} volte il tempo dell'auto (rapporto mediano pesato per le auto)",
+         f"  quota di auto con rapporto oltre 2: {100 * titolo['quota_oltre_2']:.1f}% di {titolo['auto_collegate']:,} auto",
+         "", "FASCE E MEDIANA PER GRUPPO"]
+    for g in ("a", "b", "ab", "c"):
+        gg = gruppi[g]
+        r.append(f"  ({g}) {gg['nome']}: {gg['coppie']} coppie, {gg['auto']:,} auto, mediano {gg['mediano']:.2f}" + (f" - {gg['nota']}" if g == "c" else ""))
+        r.append(f"      {riga_fasce(gg)}")
+        r.append(f"      senza collegamento entro {TEMPO_MAX_MIN} minuti (a parte): {gg['senza_collegamento']['coppie']} coppie, {gg['senza_collegamento']['auto']:,} auto")
+    r += ["", "SENSIBILITA' AL FATTORE DI PUNTA (gruppi a+b)"]
+    for s in [base] + base["sensibilita"]:
+        r.append(f"  fattore {s['fattore']}: mediano {s['mediano']:.2f}; oltre 2: {100 * s['quota_oltre_2']:.1f}% delle auto; {riga_fasce(s)}")
+    r += ["", "LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (rapporto oltre 2; solo gruppi a e b)",
           "  da → a | auto | TP min | auto di punta min | rapporto"]
     for p in out["peggiori"]:
         r.append(f"  {p['da_nome']} → {p['a_nome']} | {p['auto']:,} | {p['tp_min']:.0f} | {p['auto_punta_min']:.0f} | {p['rapporto']:.1f}")
-    r += ["", "PER ZONA: quota delle auto in uscita su coppie «non conviene» (prime 15)"]
+    r += ["", "PER ZONA: quota delle auto in uscita con rapporto oltre 2 (prime 15, gruppi a+b)"]
     for z in per_zona[:15]:
-        r.append(f"  {z['nome']}: {100 * (z['quota_non_conviene'] or 0):.0f}% di {z['auto_uscita']:,} auto")
+        r.append(f"  {z['nome']}: {100 * (z['quota_oltre_2'] or 0):.0f}% di {z['auto_uscita']:,} auto")
     r += ["", "CONTROLLO DI BUON SENSO: percorsi noti (minuti)",
           "  percorso | auto flusso libero | auto di punta | auto di punta 1,3-1,8 | mezzi pubblici"]
     for n in noti:
         r.append(f"  {n['nome']} | {n['auto_libero_min']:.1f} | {n['auto_punta_min']:.1f} | {n['auto_punta_13']:.1f}-{n['auto_punta_18']:.1f} | "
                  + (f"{n['tp_min']:.0f}" if n["tp_min"] is not None else "nessun collegamento"))
     r += ["", "CONTROLLI"] + [f"  {x}" for x in c.righe]
-    r += ["", "LIMITI: tempi TP da orario programmato (ottimisti); auto senza code vere (fattore fisso e 5 minuti per parcheggiare); "
-              "il centro di ogni zona e' una media di punti, non una casa; IMQ e' un'indagine campionaria."]
+    r += ["", "LIMITI: tempi TP da orario programmato (ottimisti); fuori Torino mancano treni e altre aziende (gruppo c a parte, gruppo b da leggere con cautela); "
+              "auto senza code vere (fattore fisso e 5 minuti per parcheggiare); il centro di ogni zona e' una media di punti; IMQ e' un'indagine campionaria."]
     dest_rapp = RAPPORTO.with_name(RAPPORTO.stem + suff + ".txt")
     dest_rapp.write_text("\n".join(r) + "\n", encoding="utf-8")
     log(f"scritto {dest_json.relative_to(RADICE)} e {dest_rapp.relative_to(RADICE)} ({time.time() - t_inizio:.0f} s)")

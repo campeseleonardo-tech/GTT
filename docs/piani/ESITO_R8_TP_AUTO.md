@@ -1,67 +1,89 @@
-# Esito — R8 parte D: dove il mezzo pubblico non conviene rispetto all'auto (21/10/2026)
+# Esito — R8 parte D: tempi coi mezzi pubblici contro auto, calcolo corretto (21/10/2026)
 
-Piano: `PIANO_RISULTATI.md`, parte D (D1, D2, D3). Script nuovo `scripts/93_tp_contro_auto.py` (sola lettura). Prossimo numero libero: 94.
-Stato: **OK** = fatto e provato; **AVVISO** = fatto, con un limite da sapere.
+Piano: `PIANO_RISULTATI.md`, parte D. Script `scripts/93_tp_contro_auto.py`. Questa è la **seconda versione del calcolo**: la prima aveva due errori
+(cammino a 3,6 km/h e coppie fra comuni della cintura senza treni e altre aziende) e due soglie scelte dopo aver visto i numeri.
+Stato: **OK** = fatto e provato.
+
+## Cosa è cambiato
 
 | Punto | Stato | Cosa è stato fatto |
 |---|---|---|
-| Unità | OK | 71 zone IMQ con punti in `punti.json` (le 141 zone solo «porta» sono fuori); fino a 5 punti per zona, i più pesanti, pesi rinormalizzati. Tempo fra due zone = media pesata dei tempi fra i punti. |
-| D1 tempi coi mezzi | OK | r5py come lo script 18 (stesso GTFS, stessa rete OSM), giorno 2026-10-12, partenza 7:45 con finestra di 30 minuti (7:45-8:15, mediana), mezzi pubblici + cammino, massimo 120 minuti. Prova su 10 zone: 17 secondi. Calcolo completo (359 origini): **31 secondi**, quindi **nessun `.bat`** (il salvataggio a tappe c'è lo stesso: `data/processed/tp_contro_auto_parziale.npz`). |
-| D2 tempi in auto | OK | Rete del modello del traffico, cammino minimo come nello script 42, flusso libero. Ora di punta = tempo × 1,5 + 5 minuti. Sensibilità con 1,3 e 1,8. |
-| D3 confronto | OK | Rapporto = tempo coi mezzi / tempo in auto. Auto della coppia = viaggi IMQ in auto conducente, partenza 6-10 (ore 6, 7, 8, 9), feriale. Classi (soglie cambiate il 21/10): sotto 2,5 conviene, 2,5-3,5 poco, oltre 3,5 non conviene. Il primo calcolo (1,5 e 2) resta nel JSON e nel rapporto, sotto «precedenti». |
-| Controlli dello script | OK | Nessun tempo negativo o nullo; somma delle auto = totale IMQ 06-10 delle zone incluse (465.534); coppie senza collegamento contate a parte. Un primo lancio si è fermato per un errore di arrotondamento di 1 auto nella somma: corretto. |
-| Scheda R8 | OK | `forma_r8` legge `tp_contro_auto.json`: titolo, dispersione (nuovo tipo di grafico in `risultati.html`), 3 punti chiave, limiti, inglese. 0 avvisi sui testi. Il 95,3% delle strade grandi è una riga. |
-| Prove | OK | 93 (prova e completo), `schede_risultati.py`, `04_genera_mappa.py` (13,5 MB), `prova_pagine_r6.py`: **0 errori su 18 pagine**. Scheda R8 in Chromium a 375 px: 1,28 schermate chiusa, nessuno scroll orizzontale. |
+| 1 Velocità a piedi | OK | `speed_walking=4.8` nella chiamata r5py, come lo script 18 (80 m al minuto). La firma del file parziale ora comprende la velocità: il calcolo vecchio non viene riusato. |
+| 2 Punti non collegati | OK | Zone e percorsi noti sono agganciati al nodo più vicino della più grande componente fortemente connessa della rete. **Spostati 1 punti su 359** (al massimo 52 m): è il punto del percorso noto verso Rivoli. Nuovo controllo: nessun tempo infinito in auto fra zone (0 coppie, 0 percorsi noti). |
+| 3 Tre gruppi | OK | Zona «Torino» = nome che comincia con «Torino,» (dopo la pulizia di «01 Torino-»). Controllata sul file vero: coincide con i codici Q e con la macro «01 Torino» (23 zone su 71). Non ho usato la regola del comune 1272. (a) Torino-Torino, (b) Torino-cintura e cintura-Torino, (c) cintura-cintura. Il risultato principale è (a)+(b); (c) è a parte, con la scritta «dati del mezzo pubblico incompleti: mancano treni e bus di altre aziende». Le coppie senza collegamento sono contate per gruppo. |
+| 4 Misure senza soglia | OK | Titolo = rapporto mediano pesato per le auto. Fasce fisse: sotto 1,5, 1,5-2, 2-3, oltre 3. Sensibilità al fattore di punta 1,3 / 1,5 / 1,8 sul mediano e sulle fasce. Tolte le classi «conviene / poco / non conviene» e le soglie 2,5 e 3,5. I due calcoli di prima sono nel JSON sotto `precedenti`, con la nota «calcolati con cammino a 3,6 km/h: superati». |
+| 5 Scheda R8 | OK | Titolo-risposta, barre delle auto per fascia (gruppi a+b), dispersione con le linee a 1,5 e a 2, punti chiave (quota oltre 2, 3 coppie peggiori, 95,3% delle strade), limiti con la frase sui comuni della cintura. Testi senza avvisi. Chiusa, 1,03 schermate a 1024 px. |
+| Prove | OK | 93 (prima `--prova 10`, poi completo: 50 secondi), `schede_risultati.py`, `04_genera_mappa.py` (13,5 MB), `prova_pagine_r6.py` (0 errori su 18 pagine). Controlli dello script tutti OK (somma delle auto = 465.534). |
 
-## Risultato
+## Risultato (gruppi a+b)
 
-- Titolo: **«Per 1 auto su 10 del mattino il mezzo pubblico impiega più di 3,5 volte l'auto»**.
-- Auto del mattino su coppie «non conviene»: **27,844 su 275,943 (10.1%)**.
-  Per classe: non conviene 27,844 auto in 306 coppie; poco 196,363 in 1840; conviene 51,736 in 361.
-- Sensibilità al fattore di punta (soglie nuove): 1,3 → 22.1%; 1,5 → 10.1%; 1,8 → 5.0% (conviene 55.1%).
-- **Soglie di prima (1,5 e 2), tenute per il confronto**: 1,3 → 99.2%; 1,5 → 98.6% (271,965 auto); 1,8 → 91.4%. Identici al primo calcolo.
-- A parte: 2,463 coppie senza collegamento coi mezzi entro 120 minuti (25,389 auto); 164,203 auto dentro la stessa zona (non confrontate).
+- **Titolo: «Al mattino, coi mezzi pubblici si impiega in media 2,5 volte il tempo dell'auto»** (rapporto mediano 2,52, 220.307 auto).
+- Quota di auto con rapporto oltre 2: **91,0%**.
+- Nessun numero dipende da una soglia scelta dopo: le fasce sono fisse.
 
-## Soglie cambiate (Leo, 21/10)
+### Fasce e mediana per gruppo (fattore di punta 1,5)
 
-Con le soglie 1,5 e 2 il 98,6% delle auto era «non conviene» (AVVISO del controllo sopra il 60%): il rapporto distingueva poco, perché il tempo coi mezzi comprende cammino, attesa e cambi e l'auto è a flusso libero (rapporto mediano 2,9, minimo 1,57).
-Con 2,5 e 3,5 la quota è 10.1% e il controllo non scatta. Il calcolo non è cambiato: i tempi e le coppie sono gli stessi, cambia solo la classe. I risultati con le soglie di prima sono nel JSON (`precedenti`) e nel rapporto, così alla fine si possono confrontare.
-Resta vero che i tempi coi mezzi vengono da un motore (R5) e non da un calcolatore di percorsi reale: non li ho confrontati con uno. Mancano code vere (fattore fisso 1,5) e ricerca del parcheggio (5 minuti fissi).
+| Gruppo | Coppie | Auto | Rapporto mediano | sotto 1,5 | 1,5-2 | 2-3 | oltre 3 | Senza collegamento (a parte) |
+|---|---|---|---|---|---|---|---|---|
+| (a) Torino-Torino | 506 | 103.190 | 2,44 | 1.752 (1,7%) | 15.707 (15,2%) | 77.794 (75,4%) | 7.937 (7,7%) | 0 coppie, 0 auto |
+| (b) Torino-cintura (e cintura-Torino) | 1555 | 117.117 | 2,58 | 0 (0,0%) | 2.408 (2,1%) | 101.678 (86,8%) | 13.032 (11,1%) | 653 coppie, 5.616 auto |
+| (ab) principale: Torino-Torino e Torino-cintura | 2061 | 220.307 | 2,52 | 1.752 (0,8%) | 18.115 (8,2%) | 179.472 (81,5%) | 20.969 (9,5%) | 653 coppie, 5.616 auto |
+| (c) cintura-cintura | 658 | 61.808 | 2,96 | 0 (0,0%) | 94 (0,2%) | 33.952 (54,9%) | 27.762 (44,9%) | 1598 coppie, 13.600 auto |
 
-## Le 15 coppie peggiori per auto coinvolte
+Nota: le colonne delle fasce sono «auto (% delle auto del gruppo)».
+
+### Sensibilità al fattore di punta (gruppi a+b)
+
+| Fattore | Rapporto mediano | Oltre 2 | sotto 1,5 | 1,5-2 | 2-3 | oltre 3 |
+|---|---|---|---|---|---|---|
+| 1,5 | 2,52 | 91,0% | 1.752 (0,8%) | 18.115 (8,2%) | 179.472 (81,5%) | 20.969 (9,5%) |
+| 1,3 | 2,78 | 95,9% | 621 (0,3%) | 8.520 (3,9%) | 145.050 (65,8%) | 66.116 (30,0%) |
+| 1,8 | 2,20 | 77,1% | 2.424 (1,1%) | 48.066 (21,8%) | 166.566 (75,6%) | 3.251 (1,5%) |
+
+## Prima e dopo: percorsi noti (minuti)
+
+Piazza Castello → Collegno coi mezzi scende da 50 a **47** (sotto i 50 di prima). In auto resta in fascia 20-35 (24.7). Rivoli in auto era «infinito», ora è 18.2 minuti a flusso libero.
+
+| Percorso | Mezzi pubblici prima (3,6 km/h) | Mezzi pubblici dopo (4,8 km/h) | Auto, flusso libero | Auto di punta (1,3-1,8) |
+|---|---|---|---|---|
+| Piazza Castello → Collegno | 50 | 47 | 13.1 | 24.7 (22.0-28.6) |
+| Piazza Castello → Venaria Reale | 70 | 64 | 12.7 | 24.1 (21.5-27.9) |
+| Piazza Castello → Settimo Torinese | 67 | 62 | 14.4 | 26.6 (23.7-30.9) |
+| Piazza Castello → Moncalieri | 51 | 48 | 11.4 | 22.1 (19.8-25.5) |
+| Piazza Castello → Orbassano | 79 | 74 | 18.0 | 32.0 (28.4-37.4) |
+| Piazza Castello → Rivoli | 69 | 66 | 18.2 | 32.3 (28.7-37.8) |
+
+## Confronto con i calcoli superati
+
+- Prima, soglie 1,5 e 2: «non conviene» 98,6% delle auto.
+- Prima, soglie 2,5 e 3,5: «non conviene» 10,1% delle auto.
+- Ora, senza soglie: rapporto mediano 2,52; oltre 2 il 91,0% delle auto. Il cammino corretto e il solo ambito Torino spostano il mediano da 2,9 a 2,5.
+- Il gruppo (c) mostra la distorsione dei dati mancanti: mediano 2,96, 44,9% delle auto oltre 3, e 1598 coppie senza collegamento.
+
+## Le 15 coppie peggiori per auto coinvolte (rapporto oltre 2, solo gruppi a e b)
+
+«Peggiori» = quelle con più auto fra le coppie con rapporto oltre 2, come dice il piano; il rapporto di ognuna è nell'ultima colonna.
 
 | # | Coppia | Auto | Mezzi pubblici (min) | Auto di punta (min) | Rapporto |
 |---|---|---|---|---|---|
-| 1 | Leini → Caselle Torinese | 826 | 100 | 16 | 6.1 |
-| 2 | Vinovo → Nichelino | 759 | 69 | 17 | 4.2 |
-| 3 | Torino. Mirafiori Sud → Rivoli | 719 | 86 | 24 | 3.7 |
-| 4 | Beinasco → Rivoli | 562 | 88 | 23 | 3.8 |
-| 5 | Vinovo → Moncalieri | 539 | 90 | 22 | 4.1 |
-| 6 | Volpiano → Settimo Torinese | 527 | 91 | 23 | 4.0 |
-| 7 | Nichelino → Rivoli | 518 | 96 | 25 | 3.8 |
-| 8 | Pianezza → Rivoli | 510 | 72 | 20 | 3.7 |
-| 9 | Collegno → Venaria Reale | 473 | 73 | 21 | 3.5 |
-| 10 | San Maurizio Canavese E Limitrofi → Cirie' | 470 | 82 | 16 | 5.0 |
-| 11 | Volpiano → Leini | 439 | 89 | 16 | 5.7 |
-| 12 | Torino. Madonna Del Pilone → Torino. Borgo Po E Cavoretto | 438 | 63 | 18 | 3.5 |
-| 13 | Caselle Torinese → Leini | 438 | 100 | 17 | 6.0 |
-| 14 | Nichelino → Vinovo | 415 | 64 | 17 | 3.8 |
-| 15 | Vinovo → Torino. Mirafiori Sud | 383 | 86 | 20 | 4.4 |
+| 1 | Torino, San Paolo → Torino, Centro | 1.342 | 31 | 13 | 2,4 |
+| 2 | Torino, Mirafiori Nord → Torino, Santa Rita | 1.324 | 19 | 9 | 2,1 |
+| 3 | Torino, Barriera di Milano → Torino, Falchera | 1.208 | 24 | 11 | 2,2 |
+| 4 | Moncalieri → Torino, Nizza Millefonti | 1.149 | 43 | 18 | 2,4 |
+| 5 | Torino, Mirafiori Sud → Torino, Mirafiori Nord | 1.108 | 38 | 15 | 2,5 |
+| 6 | Rivalta di Torino → Torino, Centro | 1.082 | 80 | 35 | 2,3 |
+| 7 | Torino, Borgo Po E Cavoretto → Torino, Centro | 970 | 33 | 14 | 2,5 |
+| 8 | Nichelino → Torino, Nizza Millefonti | 968 | 31 | 15 | 2,1 |
+| 9 | Torino, Mirafiori Sud → Torino, Centro | 941 | 44 | 21 | 2,1 |
+| 10 | Torino, Pozzo Strada → Grugliasco | 929 | 34 | 14 | 2,5 |
+| 11 | Torino, Mirafiori Nord → Torino, Nizza Millefonti | 917 | 38 | 15 | 2,5 |
+| 12 | Rivoli → Torino, Centro | 910 | 63 | 27 | 2,4 |
+| 13 | Torino, Vanchiglia → Torino, Centro | 901 | 30 | 13 | 2,4 |
+| 14 | Torino, Madonna Del Pilone → Torino, Vanchiglia | 894 | 35 | 12 | 2,8 |
+| 15 | Torino, San Paolo → Torino, Crocetta | 893 | 22 | 10 | 2,3 |
 
-## Controllo di buon senso: percorsi noti (minuti)
+## Da sapere
 
-La coppia Piazza Castello → Collegno deve stare in auto di punta fra 20 e 35 minuti (Fase 5): **24.7 minuti (13.1 a flusso libero) → OK**. Fra parentesi, con fattore 1,3 e 1,8.
-
-| Percorso | Auto, flusso libero | Auto di punta (1,3-1,8) | Mezzi pubblici |
-|---|---|---|---|
-| Piazza Castello → Collegno | 13.1 | 24.7 (22.0-28.6) | 50 |
-| Piazza Castello → Venaria Reale | 12.7 | 24.1 (21.5-27.9) | 70 |
-| Piazza Castello → Settimo Torinese | 14.4 | 26.6 (23.7-30.9) | 67 |
-| Piazza Castello → Moncalieri | 11.4 | 22.1 (19.8-25.5) | 51 |
-| Piazza Castello → Orbassano | 18.0 | 32.0 (28.4-37.4) | 79 |
-| Piazza Castello → Rivoli | inf | inf (inf-inf) | 69 |
-
-## Non fatto
-
-- D4 (vista nuova «Dove i mezzi non convengono» nella mappa) e D5: non richiesti in questo passo.
-- Per circoscrizione e per zona sulla scheda: la quota per zona è nel JSON (`per_zona`), non ancora mostrata.
+- Il gruppo (b) va letto con cautela: lato cintura mancano treni e altre aziende (653 coppie senza collegamento, 5.616 auto, escluse dal numero).
+- I tempi coi mezzi vengono dal motore R5 sul solo orario GTT: non li ho confrontati con un calcolatore di percorsi reale.
+- Non fatto: D4 (vista in mappa). La quota per zona è nel JSON (`per_zona`), non sulla scheda.
