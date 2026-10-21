@@ -84,6 +84,10 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 
 ## 5. IN CORSO
 
+- **Revisione finale di Claude (21/10)** dopo pulizia documenti, mappa giri 1-2 e R4 contro GTT: `docs/ANALISI_STATO.md` sezione 5.
+  Da correggere subito: codice personale nel nome della cartella OMI ed email negli script (repository pubblico), README con
+  numeri vecchi, catalogo non copiato dallo script 86, percentili di «Tutti i servizi» separati Torino/cintura.
+
 - **Progetto presentabile** (Leo, 21/10): analisi in `docs/ANALISI_STATO.md`; piani in `docs/piani/`: `PIANO_DOCUMENTI.md`,
   `PIANO_MAPPA.md` (partenza vuota su satellite, 2 gruppi di temi con nomi nuovi, «Tutti i servizi», «Chi abita qui» più completo,
   solo IMQ per gli spostamenti, velocità e traffico = media per tipo di giorno, via giornate singole, corse simulate, avvisi,

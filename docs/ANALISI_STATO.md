@@ -199,3 +199,76 @@ R6 (punto b). Il 95,3% resta come riga («quasi tutte le strade grandi hanno una
 - **R3/R5** (scenario di linea): mai fatti; per il portfolio bastano R1, R4, R6, R8 fatti bene.
 - **Repository pubblico**: niente dati personali; il nome «Leo» nei documenti di lavoro va tolto da ciò che si
   pubblica (README, pagine).
+
+---
+
+## 5. Revisione finale (dopo pulizia dei documenti, mappa giri 1-2 e confronto R4 con GTT)
+
+Controllato da Claude su `prova`: esiti letti, mappa aperta in Chromium su tutti gli 11 temi (computer e telefono),
+codice e testi cercati. **Nessun errore JavaScript.** I tre giri sono fatti bene e i numeri tornano (es. «Tutti i
+servizi»: Piazza Castello 92, Mirafiori Sud 46, Venaria 38; confronto con GTT: 3,9% alla partenza, 5,5% a ogni fermata,
+forbice 4,3-5,7% per le corse senza GPS: la differenza con il 2,3% di GTT **non** si spiega solo con la definizione, e va
+detto così).
+
+### 5.1 Da correggere subito (problemi veri)
+
+| # | Problema | Perché conta | Lavoro |
+|---|---|---|---|
+| 1 | **Dato personale nel repository pubblico**: il nome della cartella OMI scaricata contiene un codice personale (in `docs/FONTI_DATI.md` e `scripts/08_prepara_omi.py`); l'email personale è nell'intestazione delle richieste di 3 script (01, 03, 12) | il repository è pubblico | piccolo: rinominare la cartella sul PC (es. `data/raw/omi_2025_2/`), percorso nel 08, togliere la riga dai documenti; email → una casella dedicata al progetto o niente contatto. **Il codice resta nella storia di git**: per toglierlo davvero serve riscrivere la storia (decisione di Leo) |
+| 2 | **README vecchio** (10.919 residenti, 5,2%, 253 fermate, «Leo, 2026»): è la prima cosa che si vede su GitHub | numeri sbagliati in vetrina | piccolo: rigenerarlo (script 86) dopo le schede; nel frattempo togliere i numeri |
+| 3 | **Pubblicazione rotta per «Luoghi della città»**: la mappa carica `data/catalogo/<gruppo>.js`, ma lo script 86 non copia quei file in `pubblica/` | il tema sarebbe vuoto online | piccolo: aggiungerli a `FILE_FISSI` nel 86 e provare con `prova_pagine_r6.py --cartella pubblica` |
+| 4 | **«Tutti i servizi» mescola due fonti**: il percentile è calcolato su tutta l'area, ma fuori Torino scuole, salute e negozi vengono da OpenStreetMap (più povero): la cintura viene tutta rossa anche per mancanza di dati | messaggio falsato | piccolo: percentili **separati** Torino / cintura (o cintura in grigio per i gruppi OSM), detto in legenda |
+| 5 | **Le zone grandi e vuote dominano la vista**: colline, campi e parchi sono sezioni enormi con pochi abitanti; nei temi delle sezioni l'occhio vede la superficie, non le persone | mappa che inganna | piccolo-medio: come nei «Servizi mancanti», grigio chiaro per le sezioni sotto 1.000 ab/km² in **tutti** i temi delle sezioni (o opacità proporzionale agli abitanti) |
+| 6 | **Periodi diversi fra temi e schede**: bus 4-21/10 (13 feriali), sensori 9-18/10 (6), R4 10-20/10 (6), parcheggi 3 giorni | confuso e difficile da difendere | piccolo: per la versione da presentare, **un periodo unico congelato** (es. 4 settimane), tutti gli script rilanciati sulla stessa finestra, scritto una volta in testa alle pagine |
+
+### 5.2 Da migliorare (mappa)
+
+- **Ancora da fare dal piano**: «Chi abita qui» completo con il profilo della zona (sezione 3), «Luoghi della città»
+  ridotto a 6 caselle (oggi è ancora il catalogo grezzo con i nomi tecnici, es. «Reti e accessibilita'»), peso (13,1 MB,
+  sezione 7), schede uniformi (sezione 8).
+- **Testi di legenda troppo lunghi** in quasi tutti i temi (R6: 9 righe di testo; «Velocità e traffico»: date al minuto,
+  «GPS dal 4 ott, 01:43»). Regola: titolo, colori con numeri, **una** riga di fonte; il resto nella guida.
+- **Parcheggi di scambio**: i parcheggi del centro (viola, pieni) sono la cosa più visibile, ma non sono l'oggetto del
+  tema. Viola chiaro e più piccoli, o accesi solo da «Altre opzioni».
+- **Prezzo delle case**: togliere box e magazzini (piano, sezione 1); le classi 1.125-1.675 €/m² sono strette: con 5
+  classi a quantili va bene, ma scrivere in legenda anche minimo e massimo.
+- **«Spostamenti»**: c'è ancora «Residenti 11-84 anni» (va in «Chi abita qui»).
+- **Telefono**: il pannello occupa metà dello schermo e resta aperto all'avvio; partire chiuso con un bottone «Temi».
+- **Nome della pagina dei risultati**: `simulazione.html` non contiene più simulazioni: rinominarla `risultati.html`
+  (tenere un rimando dal vecchio nome) e aggiungere una **pagina d'ingresso** `index.html` (titolo, 3 righe, due bottoni:
+  Mappa, Risultati): serve anche per GitHub Pages.
+- **Sfondo**: condizioni d'uso di Esri ancora da controllare; con il satellite come partenza è più importante di prima.
+
+### 5.3 Da migliorare (risultati e schede)
+
+- **Le schede non sono ancora state toccate** (`PIANO_SCHEDE.md`): oggi sono il punto più debole della presentazione. È il
+  lavoro con più resa.
+- **R4**: aggiungere alla scheda la frase onesta che esce dal confronto: «anche contando come GTT alla partenza, noi
+  troviamo 3,9%; il resto della differenza è stagione e metodo». La stagione (B3) si chiude solo a gennaio.
+- **R1, R6, R8**: i lavori grossi del piano (A, C, D) sono ancora da fare; R6 aspetta i parcheggi di inizio novembre.
+- **R2 e R3/R5**: per il portfolio meglio non mostrarli finché non sono rifatti. Va bene presentare **4 risultati**.
+
+### 5.4 Da togliere
+
+- `scripts/archivio/` (22 file) e i `.bat` superati: passi 8-9 di `PIANO_DOCUMENTI.md`, ancora da fare.
+- `docs/piani/ESITO_*.md` dopo ogni ricontrollo (la regola c'è già nella memoria).
+- La memoria è cresciuta (205 righe): sezioni 4 e 6 vanno riscritte corte dopo la pulizia degli script.
+- `mappa_torino.html` dal ramo principale quando si pubblica (13 MB a ogni giro nella storia di git).
+
+### 5.5 Da aggiungere (idee che valgono il lavoro)
+
+1. **Pagina d'ingresso** con i 4 risultati in una riga ciascuno (vedi 5.2): la prima impressione del portfolio.
+2. **Una mappa statica per scheda** (immagine del tema giusto, già prodotta da `prova_pagine_r6.py`): chi legge la
+   scheda capisce senza aprire la mappa.
+3. **«Doppio svantaggio»** (fragilità alta e pochi servizi, parte E del piano): è la mappa più significativa che si
+   può fare con i dati già pronti, e lega tre temi che oggi sono separati.
+4. **Sezione «Come è fatto»** breve nel README (raccolta su Raspberry Pi ogni minuto, 20 giorni di GPS, motore R5): per
+   un portfolio la parte tecnica è un pregio, oggi è nascosta nei documenti.
+
+### 5.6 Ordine consigliato da qui
+
+1. Correzioni 5.1 (1-4): un giro piccolo, subito.
+2. Mappa giro 3 («Chi abita qui», zone vuote in grigio, legende corte, parcheggi del centro, telefono).
+3. Schede (`PIANO_SCHEDE.md`) per R4 e R6, poi pagina d'ingresso e README.
+4. R1 nuovo (parte A), R8 nuovo (parte D), poi R6 con i dati di novembre (parte C).
+5. Periodo congelato, mappa giro 4 (peso, luoghi), pulizia di script e `.bat`, pubblicazione.
