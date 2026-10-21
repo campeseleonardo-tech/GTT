@@ -101,7 +101,7 @@
 <div class="testa">
   <div>
     <h1>Risultati</h1>
-    <p class="sub">Quattro domande sulla mobilità di Torino, ognuna con la sua risposta, un grafico e i limiti dei dati.</p>
+    <p class="sub">Cinque domande sulla mobilità e sui servizi di Torino, ognuna con la sua risposta, un grafico e i limiti dei dati.</p>
   </div>
   <span><a href="index.html" class="back">Home</a> · <a href="mappa_torino.html" class="back">Mappa →</a></span>
 </div>
@@ -144,6 +144,9 @@ function schedaValida(r){
   return !!(f && typeof f.titolo === "string" && f.numero && Array.isArray(f.punti));
 }
 
+/* numero mostrato in pagina (1-5); il numero interno (s.risultato) resta valido per i link #rN */
+function numeroDi(s){ return s.numero_pubblico != null ? s.numero_pubblico : s.risultato; }
+
 /* ---------------- elenco ---------------- */
 function etichetta(s){
   const t = s.forma.etichetta || "";
@@ -158,7 +161,7 @@ function mostraGalleria(){
   g.innerHTML = schede.map((s, i) => {
     const f = s.forma;
     return `<button class="scheda" data-i="${i}" aria-haspopup="dialog">
-      <div class="scheda-alto"><span>Risultato ${esc(s.risultato)}</span>${etichetta(s)}</div>
+      <div class="scheda-alto"><span>Risultato ${esc(numeroDi(s))}</span>${etichetta(s)}</div>
       <h3>${esc(f.titolo)}</h3>
       <p class="cerca">${esc(f.domanda)}</p>
       <div class="chiave"><span class="val">${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>
@@ -251,25 +254,35 @@ function graficoDispersione(g){
   const LW = 480, LH = 250, PL = 44, PR = 14, PT = 12, PB = 44, AW = LW - PL - PR, AH = LH - PT - PB;
   const pts = g.punti || [];
   const passo = v => v <= 60 ? 10 : v <= 150 ? 20 : 30;
-  const xmax = Math.ceil(Math.max(10, ...pts.map(p => p[0])) / passo(60)) * passo(60);
-  const ymax = Math.ceil(Math.max(10, ...pts.map(p => p[1])) / passo(ymaxGrezzo(pts))) * passo(ymaxGrezzo(pts));
+  const pX = g.passo_x || passo(60), pY = g.passo_y || passo(ymaxGrezzo(pts));   // passi degli assi: di solito automatici, a mano se servono
+  const xmax = Math.ceil(Math.max(10, ...pts.map(p => p[0])) / pX) * pX;
+  const ymax = Math.ceil(Math.max(10, ...pts.map(p => p[1])) / pY) * pY;
   const X = v => PL + v / xmax * AW, Y = v => PT + (1 - v / ymax) * AH;
   const maxAuto = Math.max(1, ...pts.map(p => p[2]));
   const tx = [], ty = [];
-  for(let v = 0; v <= xmax; v += passo(60)) tx.push(v);
-  for(let v = 0; v <= ymax; v += passo(ymaxGrezzo(pts))) ty.push(v);
+  for(let v = 0; v <= xmax; v += pX) tx.push(v);
+  for(let v = 0; v <= ymax; v += pY) ty.push(v);
   const griglia = tx.map(v => `<line x1="${X(v).toFixed(1)}" x2="${X(v).toFixed(1)}" y1="${PT}" y2="${PT + AH}" style="stroke:var(--line)"/><text x="${X(v).toFixed(1)}" y="${PT + AH + 14}" text-anchor="middle" font-size="10" style="fill:var(--muted)">${v}</text>`).join("")
     + ty.map(v => `<line x1="${PL}" x2="${PL + AW}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" style="stroke:var(--line)"/><text x="${PL - 6}" y="${(Y(v) + 3.5).toFixed(1)}" text-anchor="end" font-size="10" style="fill:var(--muted)">${v}</text>`).join("");
-  const linee = g.linee || [{k: g.linea || 2, label: g.linea_label || ""}];
+  const linee = g.linee || (g.retta ? [] : [{k: g.linea || 2, label: g.linea_label || ""}]);
+  // retta di tendenza y = a + b*x (es. prezzo contro servizi), tagliata dentro il grafico
+  const retta = (() => {
+    const r = g.retta; if(!r) return "";
+    let x0 = 0, x1 = xmax;
+    if(r.b > 0){ x1 = Math.min(xmax, (ymax - r.a) / r.b); x0 = Math.max(0, -r.a / r.b); }
+    const y0 = r.a + r.b * x0, y1 = r.a + r.b * x1;
+    return `<line x1="${X(x0).toFixed(1)}" y1="${Y(y0).toFixed(1)}" x2="${X(x1).toFixed(1)}" y2="${Y(y1).toFixed(1)}" style="stroke:var(--accent)" stroke-width="2.2"/>`
+      + `<text x="${(X(x1) - 6).toFixed(1)}" y="${(Y(y1) + 14).toFixed(1)}" text-anchor="end" font-size="11" font-weight="700" style="fill:var(--accent)">${esc(r.label || "")}</text>`;
+  })();
   const linea = linee.map(l => {
     const xf = Math.min(xmax, ymax / l.k);
     return `<line x1="${X(0)}" y1="${Y(0)}" x2="${X(xf).toFixed(1)}" y2="${Y(l.k * xf).toFixed(1)}" style="stroke:var(--vr-rosso)" stroke-width="2" stroke-dasharray="6 4"/>`
       + `<text x="${(X(xf) - 6).toFixed(1)}" y="${(Y(l.k * xf) + 14).toFixed(1)}" text-anchor="end" font-size="11" font-weight="700" style="fill:var(--vr-rosso)">${esc(l.label)}</text>`;
   }).join("");
-  const punti = pts.map(p => `<circle cx="${X(p[0]).toFixed(1)}" cy="${Y(p[1]).toFixed(1)}" r="${(2 + 6 * Math.sqrt(p[2] / maxAuto)).toFixed(1)}" style="fill:var(--neu-blu);fill-opacity:.45;stroke:var(--neu-blu)" stroke-width=".6"><title>${formattaNumero(Math.round(p[2]))} auto: ${formattaNumero(Math.round(p[0]))} min in auto, ${formattaNumero(Math.round(p[1]))} min coi mezzi</title></circle>`).join("");
+  const punti = pts.map(p => `<circle cx="${X(p[0]).toFixed(1)}" cy="${Y(p[1]).toFixed(1)}" r="${(2 + 6 * Math.sqrt(p[2] / maxAuto)).toFixed(1)}" style="fill:var(--neu-blu);fill-opacity:.45;stroke:var(--neu-blu)" stroke-width=".6"><title>${p.length > 3 ? esc(p[3]) + ": " + formattaNumero(Math.round(p[2])) + " abitanti, " + esc(g.xnome || "x") + " " + formattaNumero(Math.round(p[0])) + ", " + esc(g.ynome || "y") + " " + formattaNumero(Math.round(p[1])) : formattaNumero(Math.round(p[2])) + " auto: " + formattaNumero(Math.round(p[0])) + " min in auto, " + formattaNumero(Math.round(p[1])) + " min coi mezzi"}</title></circle>`).join("");
   const assi = `<text x="${PL + AW / 2}" y="${LH - 6}" text-anchor="middle" font-size="11" style="fill:var(--muted)">${esc(g.xlabel || "")}</text>`
     + `<text transform="translate(12 ${PT + AH / 2}) rotate(-90)" text-anchor="middle" font-size="11" style="fill:var(--muted)">${esc(g.ylabel || "")}</text>`;
-  return `<svg viewBox="0 0 ${LW} ${LH}" role="img" aria-label="${esc(g.titolo)}">${griglia}${linea}${punti}${assi}</svg>`;
+  return `<svg viewBox="0 0 ${LW} ${LH}" role="img" aria-label="${esc(g.titolo)}">${griglia}${linea}${retta}${punti}${assi}</svg>`;
 }
 function ymaxGrezzo(pts){ return Math.max(10, ...pts.map(p => p[1])); }
 
@@ -284,10 +297,10 @@ function parte(titolo, html, lang){ return html ? `<details class="parte"${lang 
 
 function apri(i){
   const s = schede[i], f = s.forma;
-  $("finMeta").innerHTML = `Risultato ${esc(s.risultato)} ${etichetta(s)}`;
+  $("finMeta").innerHTML = `Risultato ${esc(numeroDi(s))} ${etichetta(s)}`;
   $("finTitolo").textContent = f.titolo;
   const mappa = f.mappa
-    ? `<div class="azioni"><a class="btn primario" href="mappa_torino.html#tema=${encodeURIComponent(f.mappa.id)}">Vedi sulla mappa</a></div>` : "";
+    ? `<div class="azioni"><a class="btn primario" href="mappa_torino.html#tema=${encodeURIComponent(f.mappa.id)}${f.mappa.vista ? "&vista=" + encodeURIComponent(f.mappa.vista) : ""}">Vedi sulla mappa</a></div>` : "";
   const criteri = Array.isArray(f.criteri) && f.criteri.length
     ? `<div class="sottotitolo">I criteri</div><table class="param">${f.criteri.map(c => `<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td></tr>`).join("")}</table>` : "";
   const confronto = Array.isArray(f.confronto) && f.confronto.length
@@ -307,7 +320,7 @@ function apri(i){
   const d = $("finestra");
   if(!d.open) d.showModal();
   d.scrollTop = 0;
-  try { history.replaceState(null, "", "#r" + s.risultato); } catch(e){}
+  try { history.replaceState(null, "", "#p" + numeroDi(s)); } catch(e){}
 }
 function chiudi(){
   $("finestra").close();
@@ -320,10 +333,11 @@ $("finestra").addEventListener("close", () => { try { history.replaceState(null,
 for(const s of (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI : [])){
   if(schedaValida(s)) schede.push(s);
 }
-schede.sort((a, b) => (parseFloat(a.risultato) || 99) - (parseFloat(b.risultato) || 99));
+schede.sort((a, b) => (parseFloat(numeroDi(a)) || 99) - (parseFloat(numeroDi(b)) || 99));
 mostraGalleria();
-const dalLink = /^#r(\d+)$/.exec(location.hash);      // es. risultati.html#r4 apre il risultato 4
-if(dalLink){ const k = schede.findIndex(s => s.risultato === dalLink[1]); if(k >= 0) apri(k); }
+// #r4 = numero interno (link di prima, restano validi); #p2 = numero in pagina (1-5)
+const dalLink = /^#([rp])(\d+)$/.exec(location.hash);
+if(dalLink){ const k = schede.findIndex(s => dalLink[1] === "r" ? s.risultato === dalLink[2] : String(numeroDi(s)) === dalLink[2]); if(k >= 0) apri(k); }
 </script>
 
 </body>

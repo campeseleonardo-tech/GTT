@@ -5,6 +5,7 @@ Legge i file gia' prodotti dagli script dei risultati e scrive:
   data/processed/risultato4_riepilogo_mappa.json   (Risultato 4, da 27)
   data/processed/risultato6_v2/mappa_r6.json   (Risultato 6, da 79 e 84) -> data/processed/risultato6_riepilogo_mappa.json
   data/processed/risultato8_riepilogo_mappa.json   (Risultato 8, dalla Fase 5 del traffico, script 56-67)
+  data/processed/risultato10_riepilogo_mappa.json  (Risultato 10 = «Case, servizi e fragilita'», da case_fragilita_servizi.json dello script 95)
   data/schede_risultati.js   (tutte le schede, R2 compreso, caricate da sole da risultati.html)
 
 Il riepilogo base del Risultato 2 lo scrive 29_risultato2_metro_notte.py: qui si legge e si arricchisce
@@ -509,7 +510,7 @@ def scheda_r4():
         grafici_nuovi.append({
             "tipo": "barre", "titolo": "Linee utili contro altre (feriale)", "unita": "%",
             "nota": f"Linee utili = le {r.get('n_linee_utili')} che toccano più delle zone dove arriva più gente per km² "
-                    f"(Risultato 6). Passaggi: {migliaia(utili['utili']['passaggi'])} sulle utili, {migliaia(utili['altre']['passaggi'])} sulle altre.",
+                    f"(Risultato 3). Passaggi: {migliaia(utili['utili']['passaggi'])} sulle utili, {migliaia(utili['altre']['passaggi'])} sulle altre.",
             "voci": [voce("linee utili: in ritardo oltre 5 min", utili["utili"]["ritardo"], tono="rosso"),
                      voce("altre linee: in ritardo oltre 5 min", utili["altre"]["ritardo"], tono="rosso"),
                      voce("linee utili: a grappolo o con un buco", utili["utili"]["grappolo_buco"]),
@@ -1137,6 +1138,8 @@ def forma_base(s, titolo, domanda, numero, principale, punti, altri, calcolo, cr
          "punti": punti, "altri": altri, "calcolo": calcolo, "criteri": criteri, "limiti": limiti, "english": english}
     if mappa and s.get("mappa"):
         f["mappa"] = {"id": s["mappa"]["id"], "nota": s["mappa"]["nota"]}
+        if s["mappa"].get("vista"):   # es. #tema=vulnerabilita&vista=doppio
+            f["mappa"]["vista"] = s["mappa"]["vista"]
     f.update(extra)
     return f
 
@@ -1453,14 +1456,141 @@ def forma_r8(s):
         mappa=False, extra=extra)
 
 
-FORME = {"risultato1": forma_r1, "risultato4": forma_r4, "risultato6": forma_r6, "risultato8": forma_r8}
+# ---------------------------------------------------------------- Risultato 10 (pubblico: 5) «Case, servizi e fragilita'»
+# Tutti i numeri vengono da data/processed/case_fragilita_servizi.json (script 95); qui niente e' scritto a mano.
+
+def nome_zona(n):
+    """«D6 MIRAFIORI SUD» -> «Mirafiori Sud»: via il codice OMI davanti, maiuscole normali."""
+    parole = n.split(" ", 1)
+    resto = parole[1] if len(parole) == 2 and re.fullmatch(r"[A-Z]\d+", parole[0]) else n
+    return " ".join(w.capitalize() for w in resto.split())
+
+
+def scheda_r10():
+    j = leggi("case_fragilita_servizi.json")
+    e1, e2, e3 = j["e1_si_paga_per_i_servizi"], j["e2_doppio_svantaggio"], j["e3_valore_metro"]
+    se = e2["sezioni"]
+    quota = se["quota_residenti_di_riferimento"]
+    n_su = max(1, round(1 / quota)) if quota else 0
+    return {
+        "risultato": "10",
+        "titolo": "Case, servizi e fragilità",
+        "tag": "STIMATO / CENSIMENTO",
+        "stato": "Prima versione",
+        "in_breve": "Le case costano di più dove ci sono più servizi? E dove la fragilità sociale è alta e i servizi sono pochi?",
+        "domanda": "Si paga per i servizi? E chi vive dove la fragilità è alta e i servizi sono pochi?",
+        "numero_chiave": {"valore": se["residenti_doppio_svantaggio"], "unita": "",
+                          "testo": f"residenti in sezioni con fragilità alta e pochi servizi ({virgola(100 * quota)}% dei residenti)"},
+        "racconto": "", "risposta": [], "grafici": [], "metodo": [], "limiti": [], "parametri": [],
+        "mappa": {"id": "vulnerabilita", "vista": "doppio", "nota": "Vista «Doppio svantaggio» nel tema Fragilità sociale."},
+        "fonti": ["docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt", "data/processed/case_fragilita_servizi.json"],
+        "generato": ora(),
+        "avviso": ["Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."],
+        "in_english": [],
+        "scenari": [{
+            "nome": "Oggi",
+            "numeri": [
+                num("Residenti in sezioni con fragilità alta e pochi servizi", se["residenti_doppio_svantaggio"], "residenti"),
+                num("Quota dei residenti di Torino", round(100 * quota, 1), "%"),
+                num("Zone in doppio svantaggio", len(e2["zone"]), "zone"),
+                num("Correlazione prezzo-servizi (Spearman)", e1["spearman"], ""),
+            ],
+            "nota": "Zone OMI di Torino; le sezioni si sommano nella zona, pesate per abitanti.",
+        }],
+        "_n_su": n_su,
+    }
+
+
+def forma_r10(s):
+    j = leggi("case_fragilita_servizi.json")
+    e1, e2, e3 = j["e1_si_paga_per_i_servizi"], j["e2_doppio_svantaggio"], j["e3_valore_metro"]
+    cn, se = j["conteggi"], e2["sezioni"]
+    retta = e1["retta"]
+    ic = e1["spearman_ic95"]
+    soglie = e2["soglie_fissate"]
+    n_su = s["_n_su"]
+    # grafico principale: una zona = un punto (servizi, prezzo, abitanti, nome) e la retta di tendenza
+    zone = j["zone"]
+    principale = {"tipo": "dispersione", "titolo": f"Prezzo delle case e servizi a piedi, una zona OMI per punto ({len(zone)} zone)",
+                  "xlabel": "punteggio «Tutti i servizi» a piedi, 0-100", "ylabel": "prezzo delle case, euro al m²",
+                  "passo_x": 20, "passo_y": 500, "xnome": "servizi", "ynome": "euro al m²",
+                  "punti": [[z["servizi"], z["prezzo"], z["abitanti"], nome_zona(z["zona"])] for z in zone],
+                  "retta": {"a": retta["intercetta_eur_m2"], "b": retta["pendenza_eur_m2_per_punto_servizi"], "label": "tendenza"},
+                  "nota": f"Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: ogni 10 punti di servizi in più, "
+                          f"{migliaia(round(10 * retta['pendenza_eur_m2_per_punto_servizi']))} euro al m² in più."}
+    zd = e2["zone"]
+    nomi_zd = ", ".join(nome_zona(z["zona"]) for z in zd[:5]) + (" e altre" if len(zd) > 5 else "")
+    # metro: media delle differenze nelle fasce dove si hanno sia zone con metro sia senza
+    fasce = [f for f in e3["fasce"] if f["differenza"] is not None]
+    diff_media = round(sum(f["differenza"] for f in fasce) / len(fasce)) if fasce else None
+    senza_media = round(sum(f["senza_metro"]["prezzo_medio"] for f in fasce) / len(fasce)) if fasce else None
+    if diff_media is None:
+        kp_metro = "Vicino alla metro non si può confrontare il prezzo: mancano zone con e senza metro a pari distanza dal centro."
+    else:
+        entita = "poco di più" if 0 < diff_media < 0.15 * senza_media else "di più" if diff_media > 0 else "non di più"
+        kp_metro = (f"Vicino alla metro le case costano {entita} ({'+' if diff_media > 0 else ''}{migliaia(diff_media)} euro al m² in media, a pari distanza dal centro). "
+                    "Differenza fra zone, non effetto causale.")
+    classi = se["classi"]
+    nomi_classi = [("tutte_e_due", "fragilità alta e servizi bassi", "rosso"), ("solo_fragilita", "solo fragilità alta", "arancio"),
+                   ("solo_servizi", "solo servizi bassi", "blu"), ("nessuna", "nessuna delle due", "verde")]
+    graf_classi = {"tipo": "barre", "titolo": "Residenti delle sezioni di Torino per condizione", "unita": "residenti",
+                   "nota": f"Sezioni abitate di Torino, senza le zone quasi disabitate. Fragilità alta = indice sopra {virgola(se['soglia_fragilita_sopra'])} su 100 (il 20% più alto); "
+                           f"servizi bassi = punteggio fino a {virgola(se['soglia_servizi_fino_a'])} su 100 (il 20% più basso).",
+                   "voci": [{"label": n, "valore": classi[k]["residenti"], "tono": tn, "testo": f"{migliaia(classi[k]['residenti'])} ({migliaia(classi[k]['sezioni'])} sezioni)"}
+                            for k, n, tn in nomi_classi]}
+    graf_metro = {"tipo": "barre_gruppi", "titolo": "Prezzo medio delle case, con e senza una fermata della metro vicina", "unita": "€/m²",
+                  "nota": "Per fascia di distanza da Piazza Castello (2 km). Fermata M1 entro 600 m dal centro della zona. Media semplice fra zone: differenza fra zone, non effetto della metro.",
+                  "gruppi": [{"label": f"{f['fascia_km']} km dal centro",
+                              "voci": [v for v in (
+                                  {"label": f"con metro ({f['con_metro']['zone']} zone)", "valore": f["con_metro"]["prezzo_medio"], "tono": "blu",
+                                   "testo": f"{migliaia(f['con_metro']['prezzo_medio'])}"} if f["con_metro"]["prezzo_medio"] is not None else None,
+                                  {"label": f"senza metro ({f['senza_metro']['zone']} zone)", "valore": f["senza_metro"]["prezzo_medio"], "tono": "arancio",
+                                   "testo": f"{migliaia(f['senza_metro']['prezzo_medio'])}"} if f["senza_metro"]["prezzo_medio"] is not None else None) if v]}
+                             for f in e3["fasce"]]}
+    nz_usate = cn["zone_usate"]
+    return forma_base(
+        s,
+        f"1 torinese su {n_su} vive dove la fragilità è alta e i servizi sono pochi",
+        "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
+        {"valore": se["residenti_doppio_svantaggio"], "unita": "",
+         "testo": f"residenti in sezioni con fragilità alta e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei torinesi"},
+        principale,
+        [f"Prezzo e servizi vanno insieme: correlazione di Spearman {pct2(e1['spearman'])} su {e1['n_zone']} zone (da {pct2(ic[0])} a {pct2(ic[1])}).",
+         f"{len(zd)} zone sono in doppio svantaggio: {nomi_zd}. Ci abitano {migliaia(e2['residenti_zone_doppio_svantaggio'])} persone.",
+         kp_metro],
+        [graf_classi, graf_metro],
+        [f"Unità: le {nz_usate} zone OMI di Torino con almeno 500 abitanti. Le sezioni si sommano nella zona, pesate per abitanti.",
+         "Servizi: punteggio «Tutti i servizi» a piedi in 15 minuti. Fragilità: indice del censimento 2021 (lavoro, istruzione, case, anziani).",
+         "Prezzo: centro della forbice OMI per le abitazioni civili. Tendenza: retta dei minimi quadrati.",
+         f"Doppio svantaggio = fragilità nel 20% più alto e servizi nel 20% più basso. Soglie fissate prima dei numeri: {virgola(soglie['fragilita_sopra'])} e {virgola(soglie['servizi_fino_a'])}.",
+         "Metro: zone con una fermata M1 entro 600 m dal centro, contro le altre alla stessa distanza da Piazza Castello."],
+        [["Zone", f"{nz_usate} zone OMI di Torino, almeno 500 abitanti"],
+         ["Fragilità alta", f"indice sopra {virgola(se['soglia_fragilita_sopra'])} su 100 (sezioni) / {virgola(soglie['fragilita_sopra'])} (zone)"],
+         ["Servizi bassi", f"punteggio fino a {virgola(se['soglia_servizi_fino_a'])} su 100 (sezioni) / {virgola(soglie['servizi_fino_a'])} (zone)"],
+         ["Metro vicina", "fermata M1 entro 600 m dal centro della zona"],
+         ["Fasce", "2 km da Piazza Castello"]],
+        ["I prezzi sono quotazioni OMI, non compravendite.",
+         "C'è un solo semestre di quotazioni (2025/2).",
+         "Le zone OMI sono grandi: dentro una zona i prezzi e i servizi cambiano molto.",
+         "L'indice di fragilità non è il reddito: misura lavoro, istruzione, affollamento e anziani."],
+        ["Question: do homes cost more where services are plentiful, and who lives where fragility is high and services are few?",
+         f"Answer: 1 Turin resident in {n_su} ({migliaia(se['residenti_doppio_svantaggio'])} people, {100 * se['quota_residenti_di_riferimento']:.1f}%) lives where fragility is high and services are few. "
+         f"Price and services go together (Spearman {e1['spearman']:.2f} over {e1['n_zone']} zones).",
+         "Limit: price quotes, not sales; one semester; large zones. The metro price gap is between zones, not a causal effect."],
+        )
+
+
+FORME = {"risultato1": forma_r1, "risultato4": forma_r4, "risultato6": forma_r6, "risultato8": forma_r8, "risultato10": forma_r10}
+
+# numerazione pubblica (Leo): in pagina i risultati sono 1-5; i numeri interni e i link #rN restano validi
+NUMERO_PUBBLICO = {"risultato1": 1, "risultato4": 2, "risultato6": 3, "risultato8": 4, "risultato10": 5}
 
 
 def main():
     schede = []
     for nome, fabbrica in (("risultato1", scheda_r1), ("risultato2", None),
                            ("risultato4", scheda_r4), ("risultato6", scheda_r6),
-                           ("risultato8", scheda_r8)):
+                           ("risultato8", scheda_r8), ("risultato10", scheda_r10)):
         if nome in NASCOSTE:
             continue
         file = f"{nome}_riepilogo_mappa.json"
@@ -1469,6 +1599,8 @@ def main():
         else:
             s = fabbrica()
             s["forma"] = FORME[nome](s)
+            s["numero_pubblico"] = NUMERO_PUBBLICO[nome]
+            s.pop("_n_su", None)
             print(f"{nome}: forma - «{s['forma']['titolo']}», numero grande {s['forma']['numero']['valore']} {s['forma']['numero']['unita']}")
             controlla_forma(nome, s["forma"])
             (PROC / file).write_text(json.dumps(s, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -1479,7 +1611,11 @@ def main():
     OUT_JS.write_text("// generato da scripts/schede_risultati.py - non modificare a mano\n"
                       "window.SCHEDE_RISULTATI = " + json.dumps(schede, ensure_ascii=False, indent=1) + ";\n",
                       encoding="utf-8")
-    print(f"scritto {OUT_JS.relative_to(RADICE)} con {len(schede)} schede")
+    try:
+        mostra = OUT_JS.relative_to(RADICE)
+    except ValueError:   # solo nelle prove, con un'altra cartella
+        mostra = OUT_JS
+    print(f"scritto {mostra} con {len(schede)} schede")
 
 
 if __name__ == "__main__":

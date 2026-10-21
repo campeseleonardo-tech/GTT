@@ -2307,6 +2307,12 @@ const ALIAS_TEMI = ["offerta","domanda","rapporto","traffico","velocita","traffi
 const temaDaUrl = ()=>{ const m=/[#&?]tema=([a-z0-9_]+)/i.exec(location.hash||""); return m && (THEMES.some(t=>t.id===m[1]) || ALIAS_TEMI.includes(m[1])) ? m[1] : ""; };
 // #tema=interscambio&vista=parcheggi|mancano: imposta la vista del menu (valore non valido -> parcheggi)
 function applicaVistaDaUrl(){
+  if(temaDaUrl()==="vulnerabilita"){   // #tema=vulnerabilita&vista=doppio: la vista «Doppio svantaggio»
+    if(/[#&?]vista=doppio(?![a-z0-9_])/i.test(location.hash||"") && $("subVuln")){
+      $("subVuln").value="vuln_doppio"; $("modoSez").value="vuln_doppio"; baseVer++; chiede(); aggiornaLegenda();
+    }
+    return;
+  }
   if(temaDaUrl()!=="interscambio") return;
   const m=/[#&?]vista=([a-z0-9_]+)/i.exec(location.hash||"");
   const v = m && ["parcheggi","mancano"].includes(m[1]) ? m[1] : "parcheggi";
