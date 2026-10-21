@@ -157,7 +157,7 @@
 
   <!-- stato interno dell'area colorata e dei sensori: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
   <div style="display:none"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi"><input type="checkbox" id="LImq"><input type="checkbox" id="Lsensori">
-    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="g014"></option><option value="a65"></option><option value="emed"></option><option value="lau"></option><option value="occ"></option><option value="fam"></option><option value="sole"></option><option value="vuln"></option><option value="vuln_sole"></option><option value="vuln_occ"></option><option value="vuln_ist"></option><option value="vuln_aff"></option><option value="vuln_anz"></option><option value="acc"></option><option value="fb"></option></select></div>
+    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="g014"></option><option value="a65"></option><option value="emed"></option><option value="lau"></option><option value="occ"></option><option value="fam"></option><option value="sole"></option><option value="vuln"></option><option value="vuln_sole"></option><option value="vuln_occ"></option><option value="vuln_ist"></option><option value="vuln_aff"></option><option value="vuln_anz"></option><option value="vuln_doppio"></option><option value="acc"></option><option value="fb"></option></select></div>
 
   <h2>Sfondo</h2>
   <select id="basemap" aria-label="Sfondo della mappa">
@@ -533,6 +533,15 @@ const sez = (()=>{
   }
 
   function legendaVuln(modo){
+    if(modo==="vuln_doppio"){
+      const d=doppioSoglie(), n1=x=>nf1(Math.round(x*10)/10);
+      const riga=(k,t)=>`<span><i style="background:${PAL_DOPPIO[k]}"></i>${t}</span>`;
+      return `<div class="t">Doppio svantaggio (fragili e con pochi servizi) ${TAG.cens}</div>`
+        +`<div class="puntini">${riga(3,"tutte e due")}${riga(2,"solo fragilità alta")}</div>`
+        +`<div class="puntini">${riga(1,"solo servizi bassi")}${riga(0,"nessuna")}</div>`
+        +GRIGIO_POCHI
+        +`<div class="et" style="display:block">Soglie fissate sulle sezioni abitate di Torino: fragilità alta = indice sopra ${n1(d.sf)} su 100 (il 20% più alto); servizi bassi = punteggio «Tutti i servizi» a piedi (15 minuti) fino a ${n1(d.ss)} su 100 (il 20% più basso). Solo Torino: la cintura è in grigio. Censimento 2021 e servizi stimati.</div>`;
+    }
     const nomi={vuln:"Indice (0–100)",vuln_occ:"Senza lavoro (15–64 anni)",vuln_ist:"Poca istruzione",vuln_aff:"Case affollate",vuln_anz:"Anziani (65+)",vuln_sole:"Persone sole (% di famiglie di una persona)"};
     const pal=PAL_SEZ[modo]||PAL_SEZ.vuln, so=(sezSoglie[modo]||[0,0,0,0]).map(v=>(modo==="vuln"||modo==="vuln_sole")?v:v*100);
     return `<div class="t">Fragilità sociale · ${esc(nomi[modo]||modo)} ${TAG.cens}</div>`
@@ -656,8 +665,9 @@ const PAL_POCO_MALE=PAL_RV;   // valore basso = peggio (offerta, accessibilità)
 const PAL_ALTO_MALE=PAL_VR;   // valore alto = peggio (vulnerabilità): indice 0 = verde
 const PAL_RAPP=PAL_RV;
 const PAL_BASE=PAL_NEU;
+const PAL_DOPPIO=["#e3f0df","#6a98c4","#fdae61","#a50026"];   // 0 nessuna · 1 solo servizi bassi · 2 solo fragilità alta · 3 tutte e due
 const PAL_SEZ={dens:PAL_NEU, serv:PAL_RV, rapp:PAL_RAPP, g014:PAL_NEU, a65:PAL_NEU, emed:PAL_NEU, lau:PAL_NEU, occ:PAL_NEU, fam:PAL_NEU, sole:PAL_NEU, vuln_sole:PAL_ALTO_MALE,
-  vuln:PAL_ALTO_MALE, vuln_occ:PAL_ALTO_MALE, vuln_ist:PAL_ALTO_MALE, vuln_aff:PAL_ALTO_MALE, vuln_anz:PAL_ALTO_MALE,
+  vuln:PAL_ALTO_MALE, vuln_occ:PAL_ALTO_MALE, vuln_ist:PAL_ALTO_MALE, vuln_aff:PAL_ALTO_MALE, vuln_anz:PAL_ALTO_MALE, vuln_doppio:PAL_DOPPIO,
 };
 PAL_SEZ.acc = PAL_RV;   // rosso = pochi servizi raggiungibili, verde = molti
 PAL_SEZ.fb = ["#e3f0df","#fc8d59","#d73027"];   // 0=ok (verde chiarissimo), 1=pochissimo, 2=manca
@@ -726,7 +736,24 @@ function accCalcola(){   // soglie dei quintili ricalcolate solo se cambiano gru
   accCache={k,sogl};
   return accCache;
 }
-const valSez=(z,modo,i)=>NUOVI.has(modo)?valNuovo(z,modo):modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="acc"?accValore(z,$("subAccGruppo")?.value||"tutti",$("subAccModo")?.value||"piedi"):modo==="fb"?null:sezRapp(z,i);
+/* «Doppio svantaggio»: fragilità nel 20% più alto E servizi a piedi nel 20% più basso. Soglie sulle sezioni abitate di Torino con
+   l'indice, senza le zone grigie; stessa regola dello script 95 (valore ordinato in posizione min(n-1, floor(q*n))). Solo Torino:
+   fuori, i servizi vengono da OpenStreetMap e non si confrontano. */
+let doppioCache=null;
+function doppioSoglie(){
+  if(doppioCache) return doppioCache;
+  const punt=accOrdinati("piedi").punt;
+  const rif=sez.filter(z=>z.c===TORINO_PC && z.v!=null && z.dens>=DENS_MIN);
+  const q=(a,f)=>{ const s=Float64Array.from(a).sort(); return s.length?s[Math.min(s.length-1,Math.floor(f*s.length))]:NaN; };
+  return doppioCache={sf:q(rif.map(z=>z.v),.8), ss:q(rif.map(z=>punt.get(z)),.2), n:rif.length};
+}
+function doppioClasse(z){   // 0 nessuna · 1 solo servizi bassi · 2 solo fragilità alta · 3 tutte e due · null = non valutabile (fuori Torino, senza indice)
+  if(z.c!==TORINO_PC || z.v==null) return null;
+  const d=doppioSoglie(), f=z.v>d.sf, s=accOrdinati("piedi").punt.get(z)<=d.ss;
+  return f&&s?3:f?2:s?1:0;
+}
+const DOPPIO_TESTI=["Nessuna delle due condizioni","Solo servizi bassi","Solo fragilità alta","Fragilità alta e servizi bassi"];
+const valSez=(z,modo,i)=>modo==="vuln_doppio"?doppioClasse(z):NUOVI.has(modo)?valNuovo(z,modo):modo==="dens"?z.dens:modo==="serv"?sezServ(z,i):modo==="vuln"?z.v:modo==="vuln_occ"?(z.vcomp||{}).occ:modo==="vuln_ist"?(z.vcomp||{}).ist:modo==="vuln_aff"?(z.vcomp||{}).aff:modo==="vuln_anz"?(z.vcomp||{}).anz:modo==="acc"?accValore(z,$("subAccGruppo")?.value||"tutti",$("subAccModo")?.value||"piedi"):modo==="fb"?null:sezRapp(z,i);
 
 const linee = D.linee.map((l,ii) => {
   const a=new Float64Array(l.p.length*2); let x0=1,y0=1,x1=0,y1=0;
@@ -1127,6 +1154,7 @@ function disegnaBase(ws,ox,oy,i){
       const c=ac ? ac.sogl.filter(x=>valore>x).length
         : fbGruppo==="tutti" ? (z.r1?z.r1[0]:0)
         : fbGruppo ? (r1Manca(z,fbGruppo)?2:((z.fb||{})[fbGruppo]==="pochissimo")?1:0)
+        : modo==="vuln_doppio" ? valore
         : classeSez(valore,modo);
       // riempimento semitrasparente (~0.5) per vedere lo sfondo; contorno sottile
       const verif=!!fbGruppo && r1Verif(z);
@@ -1574,6 +1602,11 @@ function schedaSezione(z){
   } else if(NUOVI.has(modo)){
     val = testoNuovo(z, modo);
     stato = NOME_NUOVO[modo] + (z.p<AB_MIN && modo!=="fam" ? "" : "; censimento 2021");
+  } else if(modo === "vuln_doppio"){
+    const cl = doppioClasse(z), d = doppioSoglie(), pz = accOrdinati("piedi").punt.get(z);
+    val = cl==null ? "Fuori Torino: non valutato" : DOPPIO_TESTI[cl];
+    stato = cl==null ? "Il confronto vale solo per Torino (fuori, i servizi vengono da OpenStreetMap)"
+      : `Fragilità ${nf1(z.v)} su 100 (alta sopra ${nf1(Math.round(d.sf*10)/10)}) · servizi a piedi ${nf1(Math.round(pz))} su 100 (bassi fino a ${nf1(Math.round(d.ss*10)/10)})`;
   } else if(modo.startsWith("vuln_")){
     const compNomi = {vuln_occ:"Senza lavoro (15–64 anni)",vuln_ist:"Poca istruzione",vuln_aff:"Case affollate",vuln_anz:"Anziani (65+)"};
     const raw = (z.vcomp||{})[modo.replace("vuln_","")];
@@ -1643,6 +1676,8 @@ function schedaSezione(z){
     app += `Censimento 2021: chi abita nella sezione, non quanti viaggi fa.`;
   } else if(fam === "trasporto"){
     app += `Passaggi programmati GTT alle fermate entro 400 m dal centro della sezione. Fuori Torino mancano treni e bus di altre aziende.`;
+  } else if(fam === "vuln" && modo === "vuln_doppio"){
+    app += `Fragilità = indice composito del censimento 2021; servizi = punteggio «Tutti i servizi» a piedi in 15 minuti (stima). Si guardano le sezioni di Torino: «alta» e «bassa» sono il 20% più alto e il 20% più basso delle sezioni abitate (soglie nella legenda).`;
   } else if(fam === "vuln"){
     app += `Censimento 2021. Ogni sezione è confrontata con le altre dell'area per lavoro, istruzione, affollamento delle case e anziani; l'indice è la media.`;
   } else if(fam === "acc"){
@@ -1814,7 +1849,10 @@ function cercaTip(sx,sy,click){
         else if(modo==="serv") val=`${sezServ(z,i)} passaggi/ora`;
         else if(modo==="dens") val=`${Math.round(z.dens)} ab./km²`;
         else if(NUOVI.has(modo)) val = testoNuovo(z,modo);
-        else if(modo==="vuln"){
+        else if(modo==="vuln_doppio"){
+          nome="Doppio svantaggio"; extra="solo Torino";
+          const cl=doppioClasse(z); val = cl==null ? "fuori Torino: non valutato" : DOPPIO_TESTI[cl];
+        } else if(modo==="vuln"){
           nome="Vulnerabilità sociale"; extra="indice composito (STIMA)";
           val = z.v!=null ? `${z.v} / 100` : "dato non disponibile";
         } else if(modo.startsWith("vuln_")){
@@ -2158,7 +2196,8 @@ const OPZIONI = {
     ["vuln_ist","Poca istruzione"],
     ["vuln_aff","Case affollate"],
     ["vuln_anz","Anziani (65+)"],
-    ["vuln_sole","Persone sole"]]},
+    ["vuln_sole","Persone sole"],
+    ["vuln_doppio","Doppio svantaggio (fragili e con pochi servizi)"]]},
   subAccGruppo:{etichetta:"Servizio essenziale", voci:[
     ["tutti","Tutti i servizi (punteggio 0–100)"],
     ["scuole","Scuole"],

@@ -38,7 +38,7 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 (chiuso, si lanciano a mano) · 33-67 + `rete_osm.py` traffico R8 (35-38b abbinamento sensori, 37 metodi A/B, 49-50b modello V3 e 62-63 V4: le uscite sono lette dal 53, 65-67 e dalla scheda R8: **non cancellarli**) ·
 70 attesa (R4) · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti,
 84 risultato, 85 verifiche, 94 bus contro auto · 86 cartella `pubblica/` e README (riscrive `README.md`) · 87 popolarità zone e linee utili · 88 confronto auto/sensori 5T · 92 esposizione al traffico (R1) ·
-93 tempi TP contro auto (R8) · `comuni.py` funzioni comuni · `schede_risultati.py` schede · `controlla_leopi.py`, `supervisore.py`, `06_dati_live.py`, `03`, `12` girano/si installano sul Pi. **Prossimo numero libero: 95.**
+93 tempi TP contro auto (R8) · 95 case × fragilità × servizi (parte E, solo Torino, zone OMI) · `comuni.py` funzioni comuni · `schede_risultati.py` schede · `controlla_leopi.py`, `supervisore.py`, `06_dati_live.py`, `03`, `12` girano/si installano sul Pi. **Prossimo numero libero: 96.**
 Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORNALIERA`, `CONTROLLA_LEOPI`, `AGGIORNA_RACCOLTA_LEOPI` (porta 03 sul Pi), `FETCH_LEOPI_E_VELOCITA_5T`,
 `ACCESSIBILITA_24ORE`, `R1_PIEDI_5_10`, `RISULTATO1_VUOTI`, `RISULTATO1_CANDIDATI`, `RISULTATO6_RIFAI`, `TRAFFICO_RILANCIA_SENSORI`, `TRAFFICO_RICALCOLA_MODELLO`, **`RIFAI_MAPPA_E_SCHEDE`** (04, schede, 86, prova pagine).
 
@@ -81,7 +81,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 - **R6, minuti di pareggio** (codice scritto nel cloud, da lanciare sul PC: 94, 79, schede, 04, prova pagine): titolo della scheda = minuti per parcheggiare in centro oltre i quali il bus dai punti pareggia l'auto (mediana dei 12 punti, forbice dei due fattori).
 - **R4 Giro 6**: attese svuotate (il 14/10 ha quasi niente GPS) → giorni con poco GPS esclusi, poi pubblicazione. B3 (stagione) per gennaio/luglio.
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il R6 (più feriali di riempimento).
-- **Piani aperti** (`docs/piani/`): `PIANO_DOCUMENTI` (restano 11 README, 13 mappa fuori da git), `PIANO_MAPPA` (restano le schede uniformi dei temi), `PIANO_RISULTATI` (R1, R4, R8 «dove il mezzo pubblico non conviene», case × fragilità × servizi, capienze), `PIANO_SCHEDE`, `PIANO_COSTI`.
+- **Piani aperti** (`docs/piani/`): `PIANO_DOCUMENTI` (restano 11 README, 13 mappa fuori da git), `PIANO_MAPPA` (restano le schede uniformi dei temi), `PIANO_RISULTATI` (R1, R4, R8 «dove il mezzo pubblico non conviene», capienze; parte E case × fragilità × servizi: script 95 e vista «Doppio svantaggio» scritti nel cloud, da lanciare sul PC: 95, 04, prova pagine, vedi `ESITO_CASE_FRAGILITA.md`), `PIANO_SCHEDE`, `PIANO_COSTI`.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`. Il vecchio nome della cartella OMI resta nella storia di git (Leo decide se riscriverla). Condizioni d'uso degli sfondi Esri da controllare prima di pubblicare.
 
 ## 6. PROSSIMI PASSI
