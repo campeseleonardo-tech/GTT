@@ -1338,7 +1338,7 @@ def forma_r6(s):
            if migliore else "Nessun punto ha un collegamento coi mezzi entro 120 minuti.")
     return forma_base(
         s,
-        f"I parcheggi di scambio convengono se in centro si perdono almeno {forbice_m} minuti a parcheggiare",
+        f"Dai parcheggi di scambio il bus vale l'auto solo se in centro si perdono {forbice_m} minuti a parcheggiare",
         "Dove mancano posti per lasciare l'auto, e quando il bus da lì verso il centro è veloce quanto l'auto?",
         {"valore": forbice_m, "unita": "minuti",
          "testo": f"persi in centro per parcheggiare: sotto questa soglia l'auto batte il bus (mediana dei {n_punti_ba} punti)"},

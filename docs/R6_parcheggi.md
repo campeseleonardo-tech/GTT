@@ -10,6 +10,8 @@ solo per pochi garage.
 
 **I parcheggi di scambio convengono solo se in centro si perdono abbastanza minuti a parcheggiare.** Misura principale (script 94): i **minuti di pareggio**, cioè quanti minuti per parcheggiare in centro rendono il tempo in auto uguale al tempo coi mezzi da quel punto a Piazza Castello alle 8 (minuti = tempo coi mezzi − flusso libero × fattore di punta). Con i due fattori dell'auto (Google e sensori) viene una forbice per punto; il titolo della scheda usa la mediana dei 12 punti. Non c'è nessuna soglia scelta da noi: la classe con 1,5 volte e la sensibilità a 5/10/15 minuti restano sotto, solo per confronto. I numeri si leggono in `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt` (sezione «MINUTI DI PAREGGIO»).
 
+Numeri (calcolo sul PC): mediana dei 12 punti **21-28 minuti**; i più promettenti sono vicini alla metro (Metro Massaua 7-15, e fra gli interscambi Fermi 7-17 e Venchi Unica 9-17); i più lontani 33-44 (Leonardo da Vinci). Stura è pieno anche se servono 17-27 minuti: chi lo usa sceglie per altri motivi (costo, ZTL, stress del traffico), che il calcolo dei tempi non vede.
+
 Perché questa misura: con la classe «1,5 volte» il risultato passava da 1 punto su 12 (5 minuti di parcheggio) a 10 su 12 (10 minuti). Il risultato vero è quindi la soglia stessa, ed è la conclusione classica sui parcheggi di scambio: funzionano se parcheggiare in centro è scomodo o caro.
 
 - Interscambi esistenti: pieno e con bus competitivo, Stura; poco usati e senza bus competitivo, Caio Mario e Sofia (Caio Mario ha il contatore fermo).
