@@ -13,7 +13,7 @@ Piano: `PIANO_MAPPA.md`, sezioni 4 e 5. File: `scripts/04_genera_mappa.py`, `scr
 | Legenda «media di N giorni feriali/sabati/domeniche» | OK | Sia per i bus sia per i sensori; scheda del sensore «Media di». |
 | «Tutti i servizi» in «Servizi a portata», predefinita | OK | Prima voce del menu, scelta all'apertura del tema. |
 | Punteggio 0-100 = media dei percentili dei 5 gruppi | OK | Percentile a posizione media su tutte le 8.317 sezioni della mappa; valore mancante = 0 servizi. Calcolato a parte per «a piedi» e per «coi mezzi» (per ogni ora). |
-| Legenda verde→rosso, 5 classi | OK | Cinque gruppi con lo stesso numero di sezioni (soglie 20, 34, 41, 62, 79 a piedi); estremi «meno serviti / più serviti». |
+| Legenda verde→rosso, 5 classi | OK | Cinque gruppi con lo stesso numero di sezioni (soglie 20, 41, 62, 79 a piedi); estremi «meno serviti / più serviti». |
 | Clic sulla sezione: 5 numeri | OK | Punteggio + per ogni gruppo servizi raggiungibili e «più di N% delle sezioni». Provato in Chromium: sezione cliccata = 75, uguale al calcolo indipendente in Python (75,2). |
 
 Scelta di metodo (AVVISO, diversa dal piano): il punteggio si calcola **nel browser** all'avvio, non nel 04, per non aggiungere
