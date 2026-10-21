@@ -1347,6 +1347,8 @@ def forma_r8(s):
     par, ti = t["parametri"], t["titolo"]
     ab = t["gruppi"]["ab"]
     f_basso, f_alto = ab["sensibilita"]
+    gg = t["google"]
+    n_basso, n_alto = virgola(par["fattori_sensibilita"][0]), virgola(par["fattori_sensibilita"][1])
     mediano = virgola(round(ti["rapporto_mediano"], 1))
     coppie_ab = [p for p in t["coppie"] if p["gruppo"] in ("a", "b")]
     ordinate = sorted(coppie_ab, key=lambda p: -p["auto"])[:600]
@@ -1395,13 +1397,15 @@ def forma_r8(s):
          "Le auto di una coppia sono i viaggi in auto dell'indagine, in partenza dalle 6 alle 10 di un feriale."],
         par_crit,
         ["Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero.",
-         "I tempi coi mezzi pubblici usano l'orario programmato: sono ottimisti, senza ritardi né affollamento.",
-         f"L'auto non ha code vere: il fattore {virgola(par['fattore_punta'])} è fisso. Con 1,3 il rapporto mediano è {virgola(round(f_basso['mediano'], 1))}, con 1,8 è {virgola(round(f_alto['mediano'], 1))}.",
+         f"Tempi in auto controllati su 6 percorsi di Google Maps: i nostri sono più bassi di {virgola(round(-gg['differenza_media_min'], 1))} minuti in media. "
+         "Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero.",
+         f"Mezzi pubblici su orario programmato. L'auto non ha code vere: il fattore {virgola(par['fattore_punta'])} viene dai sensori. Con {n_basso} il rapporto mediano è {virgola(round(f_basso['mediano'], 1))}, con {n_alto} è {virgola(round(f_alto['mediano'], 1))}.",
          f"L'indagine è un campione. I viaggi dentro una zona e {migliaia(senza_ab['coppie'])} coppie senza collegamento ({migliaia(senza_ab['auto'])} auto) non sono nel confronto."],
         ["Question: for which trips is the car much faster than public transport, and how many cars make them?",
          f"Answer: in the morning, public transport takes {ti['rapporto_mediano']:.1f} times as long as the car (median, weighted by cars). "
          f"For {100 * ti['quota_oltre_2']:.1f}% of cars it takes more than twice as long.",
-         "Limit: outside Turin trains and other operators are missing, so trips between towns around Turin are not in the figure."],
+         f"Limit: car times were checked on 6 Google Maps routes and ours are {-gg['differenza_media_min']:.1f} minutes lower on average. "
+         "Without metropolitan trains public transport looks slower than it is. Trips between towns around Turin are not in the figure."],
         mappa=False)
 
 

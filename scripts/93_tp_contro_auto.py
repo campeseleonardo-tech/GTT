@@ -25,7 +25,7 @@ Come si lancia
 --------------
   python scripts\\93_tp_contro_auto.py --prova 10        (10 zone: scrive file con suffisso _prova)
   python scripts\\93_tp_contro_auto.py                   (tutte le zone; ripartibile: salva a tappe)
-  Opzioni: --fattore 1.5   --lotto 20
+  Opzioni: --fattore 1.2 (se manca, si calcola dai sensori 5T)   --lotto 20
 
 Uscite: data/processed/tp_contro_auto.json, docs/rapporti/RAPPORTO_TP_CONTRO_AUTO.txt
 """
@@ -58,21 +58,56 @@ FINESTRA_MIN = 30
 TEMPO_MAX_MIN = 120
 PUNTI_PER_ZONA = 5
 ORE_MATTINO = range(6, 10)          # partenza 06:00-09:59
-FATTORE_PREDEFINITO = 1.5
+VELOCITA_5T = PROC / "velocita_5t.json"
+ORE_NOTTE = (2, 3, 4)               # strade libere: dalle 2 alle 5
+ORA_PUNTA = 8
+PASSO_SENSIBILITA = 0.3             # sensibilita' = fattore -/+ 0.3
 MIN_PARCHEGGIO = 5.0
-FATTORI_SENS = (1.3, 1.8)
 FASCE = (1.5, 2.0, 3.0)             # fasce fisse del rapporto TP/auto, decise prima di vedere i numeri
 VEL_PIEDI_KMH = 4.8                 # 80 m al minuto, come lo script 18 e tutto il progetto (r5py di serie: 3,6)
 QUOTA_MIN_COLLEGATA = 0.5           # meta' del peso delle coppie di punti con collegamento
 
 # percorsi noti (lat, lon), gli stessi dello script 50b; il primo e' il controllo della Fase 5
 CASTELLO = (45.0703, 7.6869)
+# tempi in auto controllati a mano su Google Maps, martedi' 20/10 alle 8:00, partendo da Piazza Castello (minuti).
+# NON entrano nel calcolo ne' nella taratura: servono solo al confronto nel rapporto.
+GOOGLE_AUTO_MIN = {"Piazza Castello → Collegno": 19, "Piazza Castello → Venaria Reale": 31,
+                   "Piazza Castello → Settimo Torinese": 38, "Piazza Castello → Moncalieri": 34,
+                   "Piazza Castello → Orbassano": 44, "Piazza Castello → Rivoli": 38}
+# due percorsi in piu', solo per il controllo (Google, 21/10): mezzi pubblici (min, max) e auto
+CONTROLLI_GOOGLE = {"Corso Racconigi → Piazza Castello": {"auto": 29, "mezzi": (30, 35), "mezzi_nota": "mezzi pubblici"},
+                    "Moncalieri → Lingotto": {"auto": 14, "mezzi": (30, 35), "mezzi_nota": "solo GTT; col treno 19-23"}}
+SOGLIA_AVVISO_GOOGLE = 0.25
 NOTI = [("Piazza Castello → Collegno", CASTELLO, (45.0721, 7.5717)),
         ("Piazza Castello → Venaria Reale", CASTELLO, (45.1352, 7.6330)),
         ("Piazza Castello → Settimo Torinese", CASTELLO, (45.1395, 7.7703)),
         ("Piazza Castello → Moncalieri", CASTELLO, (45.0005, 7.6810)),
         ("Piazza Castello → Orbassano", CASTELLO, (45.0070, 7.5373)),
-        ("Piazza Castello → Rivoli", CASTELLO, (45.0709, 7.5167))]
+        ("Piazza Castello → Rivoli", CASTELLO, (45.0709, 7.5167)),
+        ("Corso Racconigi → Piazza Castello", (45.0650, 7.6440), CASTELLO),
+        ("Moncalieri → Lingotto", (45.0005, 7.6810), (45.0270, 7.6600))]
+N_NOTI_TARATURA = 6                 # i primi 6; gli altri sono solo controllo
+
+
+def fattore_da_sensori():
+    """Fattore di punta = mediana, sui sensori 5T con dati affidabili, di velocita' media fra le 2 e le 5 / velocita' alle 8
+    (giorno feriale). Un sensore senza dati affidabili di notte o alle 8 resta fuori. Arrotondato a 0,1."""
+    d = json.loads(VELOCITA_5T.read_text(encoding="utf-8"))
+    valori = []
+    for v in d["sensori"].values():
+        celle = v["celle"].get("0")
+        if not celle:
+            continue
+        notte = [celle[str(h)]["v"] for h in ORE_NOTTE if str(h) in celle and celle[str(h)]["ok"] and celle[str(h)]["v"]]
+        punta8 = celle.get(str(ORA_PUNTA))
+        if not notte or not punta8 or not punta8["ok"] or not punta8["v"]:
+            continue
+        valori.append(float(np.mean(notte)) / punta8["v"])
+    x = np.array(valori)
+    q = np.percentile(x, [0, 25, 50, 75, 100])
+    stat = {"sensori_totali": len(d["sensori"]), "sensori_usati": len(x), "minimo": q[0], "q1": q[1], "mediana": q[2], "q3": q[3],
+            "massimo": q[4], "periodo": d["periodo"], "giorni_feriali": d["giorni"]["0"]}
+    return round(float(q[2]), 1), stat
 
 
 def nome_zona(n):
@@ -288,11 +323,15 @@ def riepilogo(coppie, f):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--prova", type=int, default=0, help="usa solo le N zone con piu' auto in uscita")
-    ap.add_argument("--fattore", type=float, default=FATTORE_PREDEFINITO)
+    ap.add_argument("--fattore", type=float, default=None, help="fattore di punta (se manca: dai sensori 5T)")
     ap.add_argument("--lotto", type=int, default=20, help="origini per chiamata r5py (e per salvataggio)")
     args = ap.parse_args()
     t_inizio = time.time()
     c = comuni.Controlli()
+    fattore_sensori, stat_sensori = fattore_da_sensori()
+    if args.fattore is None:
+        args.fattore = fattore_sensori
+    f_sens = (round(args.fattore - PASSO_SENSIBILITA, 1), round(args.fattore + PASSO_SENSIBILITA, 1))
 
     def log(m):
         print(f"[{time.strftime('%H:%M:%S')}] {m}", flush=True)
@@ -358,7 +397,7 @@ def main():
         ss = [s for s in senza_link if (s["gruppo"] in g)]
         gruppi[g] = {"nome": nomi_gruppi[g], **riepilogo(elenco, args.fattore),
                      "senza_collegamento": {"coppie": len(ss), "auto": round(sum(s["auto"] for s in ss))},
-                     "sensibilita": [riepilogo(elenco, f) for f in FATTORI_SENS]}
+                     "sensibilita": [riepilogo(elenco, f) for f in f_sens]}
         if g == "c":
             gruppi[g]["nota"] = "dati del mezzo pubblico incompleti: mancano treni e bus di altre aziende"
     base = gruppi["ab"]
@@ -378,8 +417,11 @@ def main():
         libero = t_auto[(nodi_extra[k][0], nodi_extra[k][1])] / 60.0
         tp = T[pos[f"NOTO{k}_A"], pos[f"NOTO{k}_B"]]
         noti.append({"nome": nome, "auto_libero_min": libero, "auto_punta_min": punta(libero, args.fattore),
-                     "auto_punta_13": punta(libero, 1.3), "auto_punta_18": punta(libero, 1.8),
-                     "tp_min": (float(tp) if tp == tp else None)})
+                     "auto_punta_basso": punta(libero, f_sens[0]), "auto_punta_alto": punta(libero, f_sens[1]),
+                     "tp_min": (float(tp) if tp == tp else None), "controllo": k >= N_NOTI_TARATURA,
+                     "google_auto_min": (GOOGLE_AUTO_MIN.get(nome) or CONTROLLI_GOOGLE.get(nome, {}).get("auto")),
+                     "google_mezzi_min": (list(CONTROLLI_GOOGLE[nome]["mezzi"]) if nome in CONTROLLI_GOOGLE else None),
+                     "google_mezzi_nota": (CONTROLLI_GOOGLE[nome]["mezzi_nota"] if nome in CONTROLLI_GOOGLE else None)})
 
     # ---- controlli
     c("nessun tempo negativo o nullo fra zone diverse",
@@ -399,6 +441,15 @@ def main():
     c("Piazza Castello → Collegno in auto di punta nella fascia 20-35 minuti", 20 <= cast["auto_punta_min"] <= 35,
       dettaglio=f"{cast['auto_libero_min']:.1f} minuti a flusso libero, {cast['auto_punta_min']:.1f} di punta (fattore {args.fattore})")
 
+    # ---- confronto con Google Maps (solo controllo, non entra nel calcolo)
+    con_google = [n for n in noti if n["google_auto_min"] and n["nome"] in GOOGLE_AUTO_MIN]
+    diff = [n["auto_punta_min"] - n["google_auto_min"] for n in con_google]
+    diff_media = float(np.mean(diff))
+    sotto = [n["nome"] for n in con_google if (n["google_auto_min"] - n["auto_punta_min"]) / n["google_auto_min"] > SOGLIA_AVVISO_GOOGLE]
+    c(f"nostro tempo di punta non sotto Google di oltre il {int(SOGLIA_AVVISO_GOOGLE * 100)}% in piu' di meta' dei percorsi",
+      len(sotto) <= len(con_google) / 2,
+      dettaglio=f"differenza media {diff_media:+.1f} minuti (nostro meno Google); percorsi con il nostro tempo molto sotto: {len(sotto)} su {len(con_google)}")
+
     nomi = {k: v["nome"] for k, v in zone.items()}
     titolo = {"rapporto_mediano": base["mediano"], "quota_oltre_2": base["quota_oltre_2"], "auto_collegate": base["auto"]}
     prova = bool(args.prova)
@@ -410,13 +461,18 @@ def main():
             precedenti = {"nota": "calcolati con cammino a 3,6 km/h: superati",
                           "soglie_1_5_e_2": vecchio["precedenti"], "soglie_2_5_e_3_5": {"soglie": vecchio["parametri"]["soglie"], "base": vecchio["base"], "sensibilita": vecchio["sensibilita"]},
                           "noti": vecchio["noti"]}
+        elif "fattori_sensibilita" not in vecchio["parametri"]:      # versione con fattore fisso 1,5: si conserva per il confronto
+            precedenti = {**(vecchio.get("precedenti") or {}),
+                          "fattore_1_5_fisso": {"nota": "fattore di punta 1,5 scelto a mano, prima della taratura sui sensori 5T",
+                                                "gruppo_ab": vecchio["gruppi"]["ab"], "noti": vecchio["noti"]}}
         else:
             precedenti = vecchio.get("precedenti")
     out = {
         "stimato": True,
         "parametri": {"giorno": str(GIORNO), "partenza": f"{PARTENZA:%H:%M}", "finestra_min": FINESTRA_MIN,
                       "tempo_max_min": TEMPO_MAX_MIN, "velocita_piedi_kmh": VEL_PIEDI_KMH, "punti_per_zona": PUNTI_PER_ZONA,
-                      "ore_auto": list(ORE_MATTINO), "fattore_punta": args.fattore, "minuti_parcheggio": MIN_PARCHEGGIO,
+                      "ore_auto": list(ORE_MATTINO), "fattore_punta": args.fattore, "fattori_sensibilita": list(f_sens), "fattore_sensori": stat_sensori,
+                      "minuti_parcheggio": MIN_PARCHEGGIO,
                       "fasce": list(FASCE), "n_zone": len(zone), "n_zone_torino": len(torino), "punti_spostati": spostati, "prova": prova},
         "titolo": titolo, "gruppi": gruppi,
         "peggiori": [{"da": p["da"], "a": p["a"], "da_nome": nomi[p["da"]], "a_nome": nomi[p["a"]], "gruppo": p["gruppo"], "auto": round(p["auto"]),
@@ -427,7 +483,8 @@ def main():
                     "auto_punta_min": round(p["auto_punta_min"], 1), "rapporto": round(p["rapporto"], 2)}
                    for p in sorted(coppie, key=lambda p: -p["auto"])],
         "senza_collegamento": [{**s, "auto": round(s["auto"], 1)} for s in senza_link], "dentro_zona_auto": round(intra),
-        "noti": noti, "totale_auto_zone": round(totale_zone),
+        "noti": noti, "google": {"data": "martedì 20/10/2026 ore 8:00", "differenza_media_min": diff_media, "percorsi_molto_sotto": sotto},
+        "totale_auto_zone": round(totale_zone),
         "controlli": list(c.righe),
     }
     if precedenti:
@@ -443,7 +500,11 @@ def main():
          f"generato: {dt.datetime.now().isoformat(timespec='seconds')}", "",
          f"Zone IMQ con punti: {len(zone)} (zone solo «porta» escluse; {len(torino)} di Torino); fino a {PUNTI_PER_ZONA} punti per zona, i piu' pesanti.",
          f"Tempi coi mezzi: r5py, giorno {GIORNO}, mediana delle partenze 7:45-8:15, mezzi pubblici + cammino a {VEL_PIEDI_KMH:g} km/h, massimo {TEMPO_MAX_MIN} minuti.",
-         f"Tempi in auto: rete del modello del traffico, flusso libero x {args.fattore} + {MIN_PARCHEGGIO:.0f} minuti (parcheggio e cammino).",
+         f"Tempi in auto: rete del modello del traffico, flusso libero x {args.fattore:g} + {MIN_PARCHEGGIO:.0f} minuti (parcheggio e cammino).",
+         f"Fattore di punta dai sensori 5T: mediana di (velocita' media 2-5 / velocita' alle 8, feriale) su {stat_sensori['sensori_usati']} sensori "
+         f"con dati affidabili (su {stat_sensori['sensori_totali']}; periodo {stat_sensori['periodo']['da']} - {stat_sensori['periodo']['a']}, {stat_sensori['giorni_feriali']} giorni feriali).",
+         f"  distribuzione fra sensori: minimo {stat_sensori['minimo']:.2f}, 1° quartile {stat_sensori['q1']:.2f}, mediana {stat_sensori['mediana']:.2f} (arrotondata a {args.fattore:g}), "
+         f"3° quartile {stat_sensori['q3']:.2f}, massimo {stat_sensori['massimo']:.2f}. Sensibilita': {f_sens[0]:g} e {f_sens[1]:g}.",
          f"Punti agganciati alla parte principale della rete: {spostati['n']} su {spostati['su']} spostati (distanza massima {spostati['max_m']:.0f} m).",
          f"Auto: viaggi IMQ in auto conducente, partenza 6-10, feriale. Totale fra le zone incluse: {totale_zone:,.0f}.",
          f"Gruppi: (a) Torino-Torino, (b) Torino-cintura e cintura-Torino, (c) cintura-cintura. Il risultato principale usa (a)+(b).",
@@ -468,13 +529,23 @@ def main():
     for z in per_zona[:15]:
         r.append(f"  {z['nome']}: {100 * (z['quota_oltre_2'] or 0):.0f}% di {z['auto_uscita']:,} auto")
     r += ["", "CONTROLLO DI BUON SENSO: percorsi noti (minuti)",
-          "  percorso | auto flusso libero | auto di punta | auto di punta 1,3-1,8 | mezzi pubblici"]
+          f"  percorso | auto flusso libero | auto di punta (fattore {args.fattore:g}) | con {f_sens[0]:g}-{f_sens[1]:g} | mezzi pubblici nostri"]
     for n in noti:
-        r.append(f"  {n['nome']} | {n['auto_libero_min']:.1f} | {n['auto_punta_min']:.1f} | {n['auto_punta_13']:.1f}-{n['auto_punta_18']:.1f} | "
+        r.append(f"  {n['nome']}{' (solo controllo)' if n['controllo'] else ''} | {n['auto_libero_min']:.1f} | {n['auto_punta_min']:.1f} | {n['auto_punta_basso']:.1f}-{n['auto_punta_alto']:.1f} | "
                  + (f"{n['tp_min']:.0f}" if n["tp_min"] is not None else "nessun collegamento"))
+    r += ["", "NOI CONTRO GOOGLE MAPS (solo controllo, martedì 20/10 alle 8:00; non entra nel calcolo)",
+          "  percorso | flusso libero | nostro tempo di punta | Google auto | differenza (nostro - Google)"]
+    for n in con_google:
+        r.append(f"  {n['nome']} | {n['auto_libero_min']:.1f} | {n['auto_punta_min']:.1f} | {n['google_auto_min']} | {n['auto_punta_min'] - n['google_auto_min']:+.1f}")
+    r.append(f"  differenza media: {diff_media:+.1f} minuti")
+    r += ["  percorsi in piu', solo controllo (mezzi pubblici e auto):"]
+    for n in noti:
+        if n["google_mezzi_min"]:
+            r.append(f"  {n['nome']} | nostri mezzi {n['tp_min']:.0f} min contro Google {n['google_mezzi_min'][0]}-{n['google_mezzi_min'][1]} ({n['google_mezzi_nota']}) | "
+                     f"nostra auto di punta {n['auto_punta_min']:.1f} contro Google {n['google_auto_min']}")
     r += ["", "CONTROLLI"] + [f"  {x}" for x in c.righe]
     r += ["", "LIMITI: tempi TP da orario programmato (ottimisti); fuori Torino mancano treni e altre aziende (gruppo c a parte, gruppo b da leggere con cautela); "
-              "auto senza code vere (fattore fisso e 5 minuti per parcheggiare); il centro di ogni zona e' una media di punti; IMQ e' un'indagine campionaria."]
+              "auto senza code vere (fattore fisso dai sensori 5T e 5 minuti per parcheggiare); il centro di ogni zona e' una media di punti; IMQ e' un'indagine campionaria."]
     dest_rapp = RAPPORTO.with_name(RAPPORTO.stem + suff + ".txt")
     dest_rapp.write_text("\n".join(r) + "\n", encoding="utf-8")
     log(f"scritto {dest_json.relative_to(RADICE)} e {dest_rapp.relative_to(RADICE)} ({time.time() - t_inizio:.0f} s)")

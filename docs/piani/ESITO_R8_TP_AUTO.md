@@ -87,3 +87,43 @@ Piazza Castello → Collegno coi mezzi scende da 50 a **47** (sotto i 50 di prim
 - Il gruppo (b) va letto con cautela: lato cintura mancano treni e altre aziende (653 coppie senza collegamento, 5.616 auto, escluse dal numero).
 - I tempi coi mezzi vengono dal motore R5 sul solo orario GTT: non li ho confrontati con un calcolatore di percorsi reale.
 - Non fatto: D4 (vista in mappa). La quota per zona è nel JSON (`per_zona`), non sulla scheda.
+
+## Taratura su Google (21/10/2026)
+
+| Punto | Stato | Cosa è stato fatto |
+|---|---|---|
+| 1 Fattore dai sensori 5T | OK | Per ogni sensore con dati affidabili di giorno feriale: velocità media fra le 2 e le 5 (ore 2, 3, 4) divisa per la velocità alle 8. Fuori i sensori senza dati di notte o alle 8. **97 sensori su 112**; distribuzione: minimo 0,35, 1° quartile 1,08, mediana 1,16, 3° quartile 1,26, massimo 5,02. **Fattore = mediana arrotondata a 0,1 = 1,2**; sensibilità 0,9 e 1,5. Periodo 2026-10-09 - 2026-10-18, 6 giorni feriali. |
+| 2 Google come controllo | OK | `GOOGLE_AUTO_MIN` nello script, mai usato nel calcolo. Tabella flusso libero / nostro tempo di punta / Google e differenza media nel rapporto. |
+| 3 Due percorsi in più | OK | Corso Racconigi → Piazza Castello e Moncalieri → Lingotto, solo controllo. |
+| 4 Scheda R8 | OK | Titolo col nuovo rapporto mediano; limiti con Google e treni (testo adattato, vedi sotto); inglese con gli stessi numeri. |
+| 5 Documento | OK | Tabella «Noi contro Google Maps» in `docs/R8_traffico.md`. |
+| Prove | OK | 93 (prova e completo), `schede_risultati.py`, `04_genera_mappa.py`, `prova_pagine_r6.py`: 0 errori su 18 pagine. |
+
+### AVVISO: i nostri tempi in auto sono molto sotto Google
+
+Il controllo previsto è scattato: il nostro tempo di punta è sotto quello di Google di oltre il 25% in 5 percorsi su 6, con **11,4 minuti in meno in media**.
+
+| Percorso | Flusso libero | Nostro, punta (fattore 1,2) | Google | Differenza |
+|---|---|---|---|---|
+| Piazza Castello → Collegno | 13,1 | 20,7 | 19 | 1,7 |
+| Piazza Castello → Venaria Reale | 12,7 | 20,3 | 31 | -10,7 |
+| Piazza Castello → Settimo Torinese | 14,4 | 22,3 | 38 | -15,7 |
+| Piazza Castello → Moncalieri | 11,4 | 18,7 | 34 | -15,3 |
+| Piazza Castello → Orbassano | 18,0 | 26,6 | 44 | -17,4 |
+| Piazza Castello → Rivoli | 18,2 | 26,8 | 38 | -11,2 |
+
+- Solo Piazza Castello → Collegno torna (20,7 contro 19). Sugli altri 5 percorsi Google dà da 2,1 a 3,0 volte il nostro flusso libero: il fattore dei sensori (1,2) è molto più basso.
+- Possibile causa (non verificata): i sensori 5T stanno soprattutto su corsi dove alle 8 il traffico scorre ancora; mediana 1,16 con un massimo di 5,0 fra sensori.
+- Sui due percorsi di controllo i tempi coi mezzi coincidono con Google (31 contro 30-35, 33 contro 30-35); l'auto di Racconigi → Castello è 12,6 contro 29 di Google (possibile causa, non verificata: percorso breve in centro, dove un flusso libero ignora semafori e ricerca del parcheggio).
+- Come richiesto Google non entra nel calcolo: il fattore resta 1,2. **La frase sui limiti della scheda è stata scritta come «controllati» e non «tarati» su 6 percorsi di Google**, perché la taratura non c'è: dice la verità sul metodo.
+
+### Rapporto mediano prima e dopo (gruppi Torino-Torino + Torino-cintura)
+
+| Fattore di punta | Rapporto mediano | Oltre 2 | sotto 1,5 | 1,5-2 | 2-3 | oltre 3 |
+|---|---|---|---|---|---|---|
+| 1,5 (scelto a mano, prima) | 2,52 | 91,0% | 1.752 (0,8%) | 18.115 (8,2%) | 179.472 (81,5%) | 20.969 (9,5%) |
+| **1,2 (sensori 5T, ora)** | **2,94** | **97,0%** | 0 (0,0%) | 6.661 (3,0%) | 115.033 (52,2%) | 98.612 (44,8%) |
+| 0,9 (sensibilità) | 3,56 | 99,7% | 0 (0,0%) | 621 (0,3%) | 41.524 (18,8%) | 178.163 (80,9%) |
+| 1,5 (sensibilità) | 2,52 | 91,0% | 1.752 (0,8%) | 18.115 (8,2%) | 179.472 (81,5%) | 20.969 (9,5%) |
+
+Le fasce sono «auto (% delle auto)». Un fattore più basso rende l'auto più veloce e quindi alza il rapporto: il titolo passa da 2,5 a 2,9 volte. Con i tempi di Google (più alti) il rapporto sarebbe più basso: il 2,9 è un limite alto.

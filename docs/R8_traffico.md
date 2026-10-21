@@ -56,6 +56,26 @@ centro-centro non è prioritario. Il modello **sottovaluta** il semicentro (Bolz
 Umberto, Vittorio Emanuele II) e **sopravvaluta** raccordi e strade corte (Palestrina, Monte Lungo, Quarto dei Mille);
 ai sensori corso Unione Sovietica è +177% e corso Sebastopoli +99%.
 
+## Noi contro Google Maps
+
+Controllo a mano, **martedì 20/10/2026 alle 8:00**. Google non entra nel calcolo né nella taratura: serve solo a vedere se i nostri tempi sono sensati.
+I primi 6 percorsi partono da Piazza Castello; gli ultimi 2 sono percorsi di controllo. Tempi in minuti.
+
+| Percorso | Mezzi pubblici, nostri | Mezzi pubblici, Google | Auto, nostra (ora di punta) | Auto, Google |
+|---|---|---|---|---|
+| Piazza Castello → Collegno | 47 | non controllato | 21 | 19 |
+| Piazza Castello → Venaria Reale | 64 | non controllato | 20 | 31 |
+| Piazza Castello → Settimo Torinese | 62 | non controllato | 22 | 38 |
+| Piazza Castello → Moncalieri | 48 | non controllato | 19 | 34 |
+| Piazza Castello → Orbassano | 74 | non controllato | 27 | 44 |
+| Piazza Castello → Rivoli | 66 | non controllato | 27 | 38 |
+| Corso Racconigi → Piazza Castello (controllo) | 31 | 30-35 (mezzi pubblici) | 13 | 29 |
+| Moncalieri → Lingotto (controllo) | 33 | 30-35 (solo GTT; col treno 19-23) | 13 | 14 |
+
+- **Mezzi pubblici**: i nostri tempi sono in linea con Google sui due percorsi dove Google li dà (31 contro 30-35, 33 contro 30-35 solo GTT). Col treno Google scende a 19-23 sul Moncalieri → Lingotto: i treni nei nostri dati non ci sono.
+- **Auto**: il nostro tempo di punta (flusso libero × 1,2 + 5 minuti) è **più basso di Google di 11,4 minuti in media** (sui 6 percorsi da Piazza Castello); sotto di oltre il 25% in 5 percorsi su 6. Il fattore 1,2 viene dai sensori 5T (97 sensori, mediana 1,16) e sottostima la congestione sui percorsi lunghi verso la cintura.
+- Conseguenza: i tempi in auto sono ottimisti, quindi il rapporto mediano coi mezzi pubblici (2,9) è un po' alto. Resta un ordine di grandezza.
+
 ## Limiti
 
 - Stima debole; senza un sensore sull'asse la classifica mette in cima strade poco credibili (corso Dogliotti circa
