@@ -9,7 +9,7 @@ Solo lo stato attuale, **conciso ma completo**: i dettagli di un risultato stann
 
 Portfolio di Leo su Torino: capire come funziona la città (chi va dove, dove mancano servizi, dove sono le
 criticità) + pochi scenari "cosa succede se". Prodotti: la mappa `mappa_torino.html` e i RISULTATI, uno alla
-volta (domanda → pochi numeri → grafici → limiti), presentati come schede in `simulazione.html`. Mappa e schede
+volta (domanda → pochi numeri → grafici → limiti), presentati come schede in `risultati.html`. Mappa e schede
 sono due filoni separati. Interesse in crescita: traffico, parcheggi, costi. Nel tempo i dati
 MISURATI (raccolta su leopi, sempre attiva) devono calibrare quelli simulati.
 
@@ -42,7 +42,7 @@ lasciare l'auto · ~~**7** bici~~ (tolto) · **8** traffico. Di 3 e 5 se ne far�
 
 ## 3. Cartelle e dati
 
-Radice: `README.md`, `mappa_torino.html`, `simulazione.html`, `MEMORIA_PROGETTO.md`, `AGENTS.md`. `docs/`: `METODO.md` (dati, area,
+Radice: `README.md`, `mappa_torino.html`, `risultati.html`, `MEMORIA_PROGETTO.md`, `AGENTS.md`. `docs/`: `METODO.md` (dati, area,
 accessibilità, etichette, standard, colori), `FONTI_DATI.md`, un documento per risultato (`R1_servizi.md`, `R2_metro_notte.md`,
 `R4_puntualita.md`, `R6_parcheggi.md`, `R8_traffico.md`), `ANALISI_STATO.md`, `piani/` (piani aperti: documenti, mappa, risultati,
 schede, costi; l'esito dell'ultimo giro in `piani/ESITO_*.md`), `rapporti/` (i `RAPPORTO_*.txt` che gli script riscrivono, il grafico
@@ -77,8 +77,8 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 | Risultato 6 (24-25, 68-73, 77, 79-89) | **Giro 2 del 20/10 sera** (ricontrollato): fermate importanti con regola fissa (≥ 10 corse/ora o metro/stazione/capolinea, e ≥ 1.000 auto in entrata): **274**, **179 senza posti bastanti** entro 400 m a piedi (68 senza nessun parcheggio adatto); **12 punti prioritari** (uno per asse, ≥ 3 km dal centro, ≥ 50 posti mancanti); linee utili (script 87, popolarità per km²) nel pannello; confronto con i sensori 5T debole (ρ 0,52); in mappa anche 80 parcheggi del centro (viola), 2 viste; auto in entrata 87.162, chi già lascia l'auto 5,8% (64 interviste); torinesi inclusi (34%). Validazione: solo Stura informativo. Mappa 13,6 MB. Da fare (Leo, 20/10): pannello del parcheggio rotto (CSS), parcheggi del centro in mappa, via la vista «aree», fermate importanti con regola fissa, «popolarità» delle zone e linee utili (script 87). `docs/R6_parcheggi.md`. Catena `scripts\RISULTATO6_RIFAI.bat` (~4 min). |
 | Risultato 8 v1 (33-67) | 18/10, Fase 5 di opencode ricontrollata: 95,3% dei km di strade grandi di Torino serviti dal TP; "molto traffico e poco TP" quasi solo Corso Regina Margherita ovest. Stima C-DEBOLE (errore ±38%). Da fare: errore % per sensore in scheda, frase corretta (il 95,3% vale solo per le strade grandi). `docs/R8_traffico.md`. |
 | Rapporto sostenibilità GTT 2025 | 980 fatti verificati, `docs/rapporti/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`. |
-| Schede risultato | `simulazione.html`: R1, R2, R4, R6, R8, R9 da `scripts/schede_risultati.py` → `data/schede_risultati.js`, con riassunto in inglese. Rieseguire lo script dopo ogni rilancio di un risultato. Scelte di Leo: due livelli, grafici + link mappa, solo risultati finiti. |
-| Pulizia (20/10) | 21 file superati in `scripts/archivio/` (`LEGGIMI.txt`), documenti finiti poi cancellati, un solo `scripts\AGGIORNA_RACCOLTA_LEOPI.bat`, commenti `[agente]` tolti, niente più «carica file» in `simulazione.html`. |
+| Schede risultato | **Forma nuova dal 21/10** (`PIANO_SCHEDE.md`): `index.html` (ingresso, 4 riquadri), `risultati.html` (era `simulazione.html`, che ora rimanda alla nuova), schede R1, R4, R6, R8 con campo `forma` scritto da `scripts/schede_risultati.py` → `data/schede_risultati.js` (titolo-risposta, numero grande, grafico principale, 3 punti chiave, parti chiuse). R2 nascosto; i campi vecchi restano nel JSON ma non si mostrano. R1 e R8 hanno ancora i contenuti vecchi (cambiano con `PIANO_RISULTATI` A e D). Prima: R1, R2, R4, R6, R8, R9 con riassunto in inglese. Rieseguire lo script dopo ogni rilancio di un risultato. Scelte di Leo: due livelli, grafici + link mappa, solo risultati finiti. |
+| Pulizia (20/10) | 21 file superati in `scripts/archivio/` (`LEGGIMI.txt`), documenti finiti poi cancellati, un solo `scripts\AGGIORNA_RACCOLTA_LEOPI.bat`, commenti `[agente]` tolti, niente più «carica file» in `risultati.html`. |
 | Controllo leopi | `scripts\CONTROLLA_LEOPI.bat` (20/10; tolto il falso allarme sulla ZTL, che si salva solo se cambia); dentro la raccolta giornaliera. |
 | Ora legale | Controllata da Claude il 20/10: tutte le conversioni UTC → ora italiana (04, 06, 12, 26, 27, 71, `comuni.py`) coincidono con il fuso ufficiale su 35.040 istanti del 2026-2027, cambio del 25/10 compreso. Niente controllo a mano. |
 

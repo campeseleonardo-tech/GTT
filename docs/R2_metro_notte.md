@@ -5,7 +5,7 @@ buco notturno reale?
 
 **Stato: in pausa.** Il numero conta i *servizi raggiungibili* di notte, non risponde alla domanda «uscendo la sera,
 con la metro aperta, sarebbe più facile tornare a casa?»: di notte molti servizi (soprattutto i negozi) sono chiusi.
-La scheda è nascosta da `simulazione.html`; dati e script restano. **Tag:** [STIMATO] su orario programmato.
+La scheda è nascosta da `risultati.html`; dati e script restano. **Tag:** [STIMATO] su orario programmato.
 
 ## Il buco notturno (GTFS reale, feriale di riferimento 12/10/2026)
 

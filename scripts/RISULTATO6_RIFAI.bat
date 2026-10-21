@@ -3,7 +3,7 @@ rem RISULTATO6_RIFAI.bat - rifa tutta la catena del Risultato 6 corretto (20/10/
 rem Doppio clic. Si ferma al primo errore. Log in logs\risultato6_rifai.log
 rem Ordine: 71 riempimento, 72 nodi e zone dei parcheggi, 73 segnali, 81 auto che passano, 88 confronto con i sensori 5T,
 rem 82 parcheggi adatti, 87 popolarita delle zone e linee utili, 83 fermate importanti, 84 risultato, 79 dati per la mappa, 85 verifiche indipendenti, 04 mappa,
-rem schede_risultati (simulazione.html), prova_pagine_r6 (errori nelle pagine).
+rem schede_risultati (risultati.html), prova_pagine_r6 (errori nelle pagine).
 cd /d "%~dp0.."
 if not exist logs mkdir logs
 set "LOG=logs\risultato6_rifai.log"

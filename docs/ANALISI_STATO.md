@@ -234,8 +234,8 @@ detto così).
   classi a quantili va bene, ma scrivere in legenda anche minimo e massimo.
 - **«Spostamenti»**: c'è ancora «Residenti 11-84 anni» (va in «Chi abita qui»).
 - **Telefono**: il pannello occupa metà dello schermo e resta aperto all'avvio; partire chiuso con un bottone «Temi».
-- **Nome della pagina dei risultati**: `simulazione.html` non contiene più simulazioni: rinominarla `risultati.html`
-  (tenere un rimando dal vecchio nome) e aggiungere una **pagina d'ingresso** `index.html` (titolo, 3 righe, due bottoni:
+- **Nome della pagina dei risultati** (fatto 21/10): era `simulazione.html`, ora `risultati.html`
+  (il vecchio nome porta alla nuova pagina); aggiunta la **pagina d'ingresso** `index.html` (titolo, 3 righe, due bottoni:
   Mappa, Risultati): serve anche per GitHub Pages.
 - **Sfondo**: condizioni d'uso di Esri ancora da controllare; con il satellite come partenza è più importante di prima.
 

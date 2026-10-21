@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Risultati – Mobilità a Torino</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --card:#ffffff; --ink:#1d2330; --muted:#5d6678; --line:#dfe3ea; --accent:#1b6f73;
+    --traccia:#e7ebf1;
+    /* due sole scale, uguali in tutta la pagina e nella mappa: verde = bene, rosso = male;
+       blu -> arancione smorzati = quantità neutre (poco -> tanto) */
+    --vr-verde:#1a9850; --vr-giallo:#fee08b; --vr-rosso:#d73027;
+    --neu-blu:#6a98c4; --neu-blu-chiaro:#b4cbe0; --neu-arancio:#e08a38;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  body{max-width:1040px;margin:0 auto;padding:20px 16px 40px}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 16px;max-width:70ch}
+  .btn{display:inline-block;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer;font-weight:600;color:var(--ink);text-decoration:none}
+  .btn:hover{background:#f0f3f7}
+  .btn.primario{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn.primario:hover{background:#165e62}
+  .testa{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .back{font-size:13px;color:var(--accent);text-decoration:none;white-space:nowrap}
+  .back:hover{text-decoration:underline}
+  .pill{display:inline-block;white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:1px 8px;font-size:11px;font-weight:600;letter-spacing:.03em;color:var(--muted);background:#f8f9fb}
+  .pill.misurato{color:#1e5e2f;border-color:#b9dcc3;background:#eef8f1}
+
+  /* elenco delle schede */
+  .galleria{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:22px}
+  @media (max-width:720px){ .galleria{grid-template-columns:1fr} }
+  .scheda{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;cursor:pointer;
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
+    box-shadow:0 2px 10px rgba(20,30,50,.08);transition:box-shadow .15s,border-color .15s}
+  .scheda:hover,.scheda:focus-visible{border-color:var(--accent);box-shadow:0 4px 18px rgba(27,111,115,.18)}
+  .scheda:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .scheda-alto{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+  .scheda h3{margin:0;font-size:17px}
+  .scheda .cerca{margin:0;color:var(--muted);font-size:12.5px}
+  .chiave{display:flex;align-items:baseline;gap:8px;margin-top:4px;padding-top:10px;border-top:1px solid var(--line)}
+  .chiave .val{font-size:26px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .chiave .txt{font-size:12.5px;color:var(--muted)}
+  .apri{font-size:12.5px;font-weight:600;color:var(--accent);margin-top:auto}
+
+  /* finestra della scheda */
+  dialog{border:none;border-radius:16px;padding:0;width:min(780px,calc(100vw - 24px));max-height:calc(100vh - 24px);
+    box-shadow:0 20px 60px rgba(10,20,40,.35);color:var(--ink);background:var(--card)}
+  dialog::backdrop{background:rgba(20,28,40,.55)}
+  .fin-testa{position:sticky;top:0;z-index:1;background:var(--card);border-bottom:1px solid var(--line);
+    padding:14px 20px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .fin-testa h2{font-size:20px;line-height:1.25;margin:4px 0 0}
+  .fin-chiudi{border:none;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--muted);padding:2px 6px;border-radius:6px}
+  .fin-chiudi:hover{background:#f0f3f7;color:var(--ink)}
+  .fin-corpo{padding:14px 20px 22px}
+  .domanda{margin:0 0 14px;color:var(--muted);font-size:15px}
+  .grande{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
+  .grande .val{font-size:38px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1}
+  .grande .txt{font-size:14px;color:var(--ink)}
+  .punti{margin:14px 0 6px;padding-left:20px}
+  .punti li{margin:5px 0}
+  .azioni{margin:12px 0 4px}
+  details.parte{border:1px solid var(--line);border-radius:10px;padding:9px 14px;background:#fbfcfd;margin-top:8px}
+  details.parte summary{cursor:pointer;font-weight:600}
+  details.parte[open] summary{margin-bottom:8px}
+  details.parte ol,details.parte ul{margin:6px 0 6px;padding-left:20px}
+  details.parte li{margin:4px 0}
+  details.parte p{margin:6px 0}
+  .sottotitolo{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:14px 0 4px}
+
+  /* grafici (solo HTML/CSS e un SVG: la pagina funziona offline) */
+  .grafico{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fbfcfd;min-width:0;margin-top:8px}
+  .grafico h5{margin:0 0 10px;font-size:13px}
+  .grafico svg{display:block;width:100%;height:auto}
+  .grafico .nota{font-size:11.5px;color:var(--muted);margin-top:8px}
+  .barra-riga{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;align-items:center;gap:8px;margin:5px 0;font-size:12px}
+  .barra-etichetta{color:var(--muted);line-height:1.25;overflow-wrap:anywhere}
+  .barra-link{color:var(--accent);text-decoration:none}
+  .barra-link:hover,.barra-link:focus-visible{text-decoration:underline}
+  .barra-traccia{position:relative;height:12px;background:var(--traccia);border-radius:6px;overflow:hidden}
+  .barra-traccia span{position:absolute;left:0;top:0;bottom:0;border-radius:6px}
+  .barra-valore{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pila{display:flex;height:22px;border-radius:7px;overflow:hidden;background:var(--traccia)}
+  .pila span{height:100%}
+  .pila100-riga{display:grid;grid-template-columns:72px 1fr;align-items:center;gap:8px;margin:7px 0;font-size:12px}
+  .pila100-riga .pila{height:28px}
+  .pila100-riga .pila span{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;overflow:hidden}
+  .legenda{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12px;color:var(--muted)}
+  .legenda i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .legenda b{color:var(--ink);font-variant-numeric:tabular-nums}
+  table.param{border-collapse:collapse;font-size:12.5px;margin-top:6px;width:100%}
+  table.param td{padding:5px 12px 5px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  table.param td:first-child{color:var(--muted);width:40%}
+  .vuoto{color:var(--muted);font-size:14px;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+
+<div class="testa">
+  <div>
+    <h1>Risultati</h1>
+    <p class="sub">Quattro domande sulla mobilità di Torino, ognuna con la sua risposta, un grafico e i limiti dei dati.</p>
+  </div>
+  <span><a href="index.html" class="back">Home</a> · <a href="mappa_torino.html" class="back">Mappa →</a></span>
+</div>
+
+<div id="galleria" class="galleria"></div>
+
+<dialog id="finestra" aria-labelledby="finTitolo">
+  <div class="fin-testa">
+    <div>
+      <div id="finMeta" style="font-size:12px;color:var(--muted)"></div>
+      <h2 id="finTitolo"></h2>
+    </div>
+    <button class="fin-chiudi" id="finChiudi" aria-label="Chiudi">×</button>
+  </div>
+  <div class="fin-corpo" id="finCorpo"></div>
+</dialog>
+
+<!-- le schede dei risultati; se manca, la pagina funziona lo stesso -->
+<script src="data/schede_risultati.js"></script>
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+let schede = [];
+
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* numero in stile italiano: punto delle migliaia anche sotto 10.000, al massimo una cifra decimale */
+function formattaNumero(n){
+  if(typeof n !== "number" || !Number.isFinite(n)) return esc(String(n));
+  if(Number.isInteger(n)) return (n < 0 ? "−" : "") + String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return n.toLocaleString("it-IT", {maximumFractionDigits:1});
+}
+function conUnita(n, unita){ return formattaNumero(n) + (unita ? (unita === "%" ? "%" : " " + esc(unita)) : ""); }
+function valoreGrande(n){ return formattaNumero(n.valore) + (n.unita === "%" ? "%" : ""); }
+function dopoGrande(n){ return n.unita && n.unita !== "%" ? esc(n.unita) + " " : ""; }
+
+/* una scheda valida ha la «forma» (scripts/schede_risultati.py) */
+function schedaValida(r){
+  const f = r && r.forma;
+  return !!(f && typeof f.titolo === "string" && f.numero && Array.isArray(f.punti));
+}
+
+/* ---------------- elenco ---------------- */
+function etichetta(s){
+  const t = s.forma.etichetta || "";
+  return t ? `<span class="pill ${/MISURATO/.test(t) ? "misurato" : ""}">${esc(t)}</span>` : "";
+}
+function mostraGalleria(){
+  const g = $("galleria");
+  if(!schede.length){
+    g.innerHTML = '<div class="vuoto" style="grid-column:1/-1">Nessun risultato trovato.</div>';
+    return;
+  }
+  g.innerHTML = schede.map((s, i) => {
+    const f = s.forma;
+    return `<button class="scheda" data-i="${i}" aria-haspopup="dialog">
+      <div class="scheda-alto"><span>Risultato ${esc(s.risultato)}</span>${etichetta(s)}</div>
+      <h3>${esc(f.titolo)}</h3>
+      <p class="cerca">${esc(f.domanda)}</p>
+      <div class="chiave"><span class="val">${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>
+      <span class="apri">Apri →</span>
+    </button>`;
+  }).join("");
+  g.querySelectorAll(".scheda").forEach(b => b.addEventListener("click", () => apri(+b.dataset.i)));
+}
+
+/* ---------------- grafici ---------------- */
+// «verde»/«rosso» = bene/male; «giallo», «blu», «arancio» = categorie; senza tono = blu neutro
+const TONO_COL = {verde:"var(--vr-verde)", rosso:"var(--vr-rosso)", giallo:"var(--vr-giallo)", blu:"var(--neu-blu)", arancio:"var(--neu-arancio)"};
+const TONO_TESTO = {verde:"#fff", rosso:"#fff", giallo:"var(--ink)", blu:"var(--ink)", arancio:"var(--ink)"};
+const PALETTE_PILA = ["var(--neu-blu)", "var(--neu-arancio)", "#9aa3b2", "#c9b27a", "#8d7bb0"];
+
+function graficoBarre(g){
+  const voci = g.voci || [];
+  const max = Math.max(1, ...voci.flatMap(v => [Math.abs(v.valore||0), Math.abs(v.prima||0)]));
+  const righe = voci.map(v => {
+    const pct = x => Math.max(1.5, Math.abs(x) / max * 100);
+    const haPrima = typeof v.prima === "number";
+    const sep = g.forbice ? " – " : " → ";
+    const val = v.testo ? esc(v.testo)
+      : (haPrima ? conUnita(v.prima, g.unita === "%" ? "%" : "") + sep : "") + conUnita(v.valore, g.unita === "%" ? "%" : "");
+    return `<div class="barra-riga">
+      <span class="barra-etichetta" title="${esc(v.label)}">${v.link ? `<a href="${esc(v.link)}" class="barra-link">${esc(v.label)}</a>` : esc(v.label)}</span>
+      <span class="barra-traccia">
+        ${haPrima ? `<span style="width:${pct(v.prima)}%;background:var(--neu-blu-chiaro)"></span>` : ""}
+        <span style="width:${pct(v.valore)}%;background:${TONO_COL[v.tono] || "var(--neu-blu)"}"></span>
+      </span>
+      <span class="barra-valore">${val}</span>
+    </div>`;
+  }).join("");
+  const haTesto = voci.some(v => v.testo);
+  const unita = g.unita && g.unita !== "%" && !haTesto ? `<div class="nota" style="margin-top:2px">Valori in ${esc(g.unita)}.</div>` : "";
+  return righe + unita;
+}
+
+function graficoPila(g){
+  const voci = g.voci || [];
+  const tot = voci.reduce((a, v) => a + Math.max(0, v.valore || 0), 0) || 1;
+  const col = (v, j) => TONO_COL[v.tono] || PALETTE_PILA[j % PALETTE_PILA.length];
+  const pezzi = voci.map((v, j) => `<span style="width:${Math.max(0, v.valore) / tot * 100}%;background:${col(v, j)}" title="${esc(v.label)}"></span>`).join("");
+  const leg = voci.map((v, j) => `<span><i style="background:${col(v, j)}"></i>${esc(v.label)}: <b>${conUnita(v.valore, g.unita === "%" ? "%" : g.unita)}</b></span>`).join("");
+  return `<div class="pila" role="img" aria-label="${esc(g.titolo)}">${pezzi}</div><div class="legenda">${leg}</div>`;
+}
+
+/* barre a 100% impilate, una per riga (es. feriale, sabato, domenica); legenda dalla prima riga */
+function graficoPila100(g){
+  const righe = g.righe || [];
+  const corpo = righe.map(r => {
+    const tot = r.voci.reduce((a, v) => a + Math.max(0, v.valore || 0), 0) || 1;
+    const pezzi = r.voci.map(v => {
+      const w = Math.max(0, v.valore) / tot * 100;
+      return `<span style="width:${w}%;background:${TONO_COL[v.tono] || "var(--neu-blu)"};color:${TONO_TESTO[v.tono] || "var(--ink)"}" title="${esc(v.label)}: ${conUnita(v.valore, "%")}">${w >= 9 ? formattaNumero(Math.round(w * 10) / 10) + "%" : ""}</span>`;
+    }).join("");
+    return `<div class="pila100-riga"><span class="barra-etichetta">${esc(r.label)}</span><div class="pila" role="img" aria-label="${esc(r.label)}">${pezzi}</div></div>`;
+  }).join("");
+  const leg = (righe[0] ? righe[0].voci : []).map(v => `<span><i style="background:${TONO_COL[v.tono] || "var(--neu-blu)"}"></i>${esc(v.label)}</span>`).join("");
+  return corpo + `<div class="legenda">${leg}</div>`;
+}
+
+/* linea su poche categorie (es. fasce orarie); asse da zero, valore scritto su ogni punto */
+function graficoLinea(g){
+  const LW = 480, LH = 190, PL = 56, PR = 56, PT = 22, PB = 34, AW = LW - PL - PR, AH = LH - PT - PB;
+  const cat = g.categorie || [], serie = g.serie || [];
+  const max = Math.max(1, ...serie.flatMap(s => s.valori.filter(v => typeof v === "number")));
+  const tetto = Math.ceil(max * 1.15 / 5) * 5;
+  const X = i => PL + (cat.length > 1 ? i / (cat.length - 1) : .5) * AW, Y = v => PT + (1 - v / tetto) * AH;
+  const guide = [0, tetto / 2, tetto].map(v => `<line x1="${PL}" x2="${LW - PR}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" style="stroke:var(--line)"/>`
+    + `<text x="${PL - 6}" y="${(Y(v) + 4).toFixed(1)}" text-anchor="end" font-size="10" style="fill:var(--muted)">${formattaNumero(v)}${g.unita === "%" ? "%" : ""}</text>`).join("");
+  const nomi = cat.map((c, i) => `<text x="${X(i).toFixed(1)}" y="${LH - 12}" text-anchor="middle" font-size="10" style="fill:var(--muted)">${esc(c)}</text>`).join("");
+  const linee = serie.map(s => {
+    const pts = s.valori.map((v, i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`);
+    const punti = s.valori.map((v, i) => `<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3.5" style="fill:var(--accent)"/>`
+      + `<text x="${X(i).toFixed(1)}" y="${(Y(v) - 8).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--ink)">${formattaNumero(v)}${g.unita === "%" ? "%" : ""}</text>`).join("");
+    return `<polyline points="${pts.join(" ")}" fill="none" style="stroke:var(--accent)" stroke-width="2.2" stroke-linejoin="round"/>${punti}`;
+  }).join("");
+  return `<svg viewBox="0 0 ${LW} ${LH}" role="img" aria-label="${esc(g.titolo)}">${guide}${nomi}${linee}</svg>`;
+}
+
+function grafico(g){
+  const corpo = g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
+  return `<div class="grafico"><h5>${esc(g.titolo)}</h5>${corpo}${g.nota ? `<div class="nota">${esc(g.nota)}</div>` : ""}</div>`;
+}
+
+/* ---------------- scheda ---------------- */
+function elenco(arr, tag){ return Array.isArray(arr) && arr.length ? `<${tag}>${arr.map(x => `<li>${esc(x)}</li>`).join("")}</${tag}>` : ""; }
+function parte(titolo, html, lang){ return html ? `<details class="parte"${lang ? ` lang="${lang}"` : ""}><summary>${titolo}</summary>${html}</details>` : ""; }
+
+function apri(i){
+  const s = schede[i], f = s.forma;
+  $("finMeta").innerHTML = `Risultato ${esc(s.risultato)} ${etichetta(s)}`;
+  $("finTitolo").textContent = f.titolo;
+  const mappa = f.mappa
+    ? `<div class="azioni"><a class="btn primario" href="mappa_torino.html#tema=${encodeURIComponent(f.mappa.id)}">Vedi sulla mappa</a></div>` : "";
+  const criteri = Array.isArray(f.criteri) && f.criteri.length
+    ? `<div class="sottotitolo">I criteri</div><table class="param">${f.criteri.map(c => `<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td></tr>`).join("")}</table>` : "";
+  const confronto = Array.isArray(f.confronto) && f.confronto.length
+    ? `<div class="sottotitolo">Confronto con GTT</div>${elenco(f.confronto, "ul")}` : "";
+  const extra = f.extra
+    ? parte(esc(f.extra.titolo), `<p>${esc(f.extra.punto)}</p>${grafico(f.extra.grafico)}`) : "";
+  $("finCorpo").innerHTML =
+    `<p class="domanda">${esc(f.domanda)}</p>` +
+    `<div class="grande"><span class="val">${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>` +
+    grafico(f.principale) + mappa +
+    elenco(f.punti, "ul").replace("<ul>", '<ul class="punti">') +
+    parte("Altri grafici", (f.altri || []).map(grafico).join("")) +
+    extra +
+    parte("Come l'abbiamo calcolato", elenco(f.calcolo, "ol") + confronto + criteri) +
+    parte("Limiti", elenco(f.limiti, "ul")) +
+    parte("In English", (f.english || []).map(x => `<p>${esc(x)}</p>`).join(""), "en");
+  const d = $("finestra");
+  if(!d.open) d.showModal();
+  d.scrollTop = 0;
+  try { history.replaceState(null, "", "#r" + s.risultato); } catch(e){}
+}
+function chiudi(){
+  $("finestra").close();
+}
+$("finChiudi").addEventListener("click", chiudi);
+$("finestra").addEventListener("click", e => { if(e.target === e.currentTarget) chiudi(); });
+$("finestra").addEventListener("close", () => { try { history.replaceState(null, "", location.pathname); } catch(e){} });
+
+/* ---------------- avvio ---------------- */
+for(const s of (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI : [])){
+  if(schedaValida(s)) schede.push(s);
+}
+schede.sort((a, b) => (parseFloat(a.risultato) || 99) - (parseFloat(b.risultato) || 99));
+mostraGalleria();
+const dalLink = /^#r(\d+)$/.exec(location.hash);      // es. risultati.html#r4 apre il risultato 4
+if(dalLink){ const k = schede.findIndex(s => s.risultato === dalLink[1]); if(k >= 0) apri(k); }
+</script>
+
+</body>
+</html>

@@ -1,11 +1,11 @@
-"""Schede dei RISULTATI per simulazione.html.
+"""Schede dei RISULTATI per risultati.html.
 
 Legge i file gia' prodotti dagli script dei risultati e scrive:
   data/processed/risultato1_riepilogo_mappa.json   (Risultato 1, da 21 e 22)
   data/processed/risultato4_riepilogo_mappa.json   (Risultato 4, da 27)
   data/processed/risultato6_v2/mappa_r6.json   (Risultato 6, da 79 e 84) -> data/processed/risultato6_riepilogo_mappa.json
   data/processed/risultato8_riepilogo_mappa.json   (Risultato 8, dalla Fase 5 del traffico, script 56-67)
-  data/schede_risultati.js   (tutte le schede, R2 compreso, caricate da sole da simulazione.html)
+  data/schede_risultati.js   (tutte le schede, R2 compreso, caricate da sole da risultati.html)
 
 Il riepilogo base del Risultato 2 lo scrive 29_risultato2_metro_notte.py: qui si legge e si arricchisce
 solo nel .js (il file JSON di R2 non viene riscritto).
@@ -1109,6 +1109,232 @@ def scheda_r9():
 NASCOSTE = {"risultato2"}   # in pausa: docs/R2_metro_notte.md
 
 
+# ---------------------------------------------------------------- Forma nuova delle schede (PIANO_SCHEDE.md)
+# Ogni scheda ha un campo "forma" con tutto quello che la pagina mostra: etichetta, titolo-risposta, domanda in una riga,
+# numero grande, grafico principale, 3 punti chiave, e le parti chiuse (altri grafici, calcolo, limiti, inglese).
+# I campi vecchi restano nel JSON ma la pagina non li usa. I numeri vengono sempre dai file dei risultati.
+
+PAROLE_VIETATE = re.compile(r"\bLeo\b|\bgiro\b|\bfase\b|\bversione\b|\.py\b|\.json\b|\.md\b|\bIMQ\b|\bQ00\d|\b5T\b|\bGTFS\b", re.I)
+
+
+def controlla_forma(nome, f):
+    """Avvisi sui testi della forma: frasi di oltre 20 parole e parole che non vanno nelle pagine."""
+    testi = [f["titolo"], f["domanda"], f["numero"]["testo"], *f["punti"], *f["calcolo"], *f.get("confronto", []),
+             *f["limiti"], *f["english"], *(a for a in [f.get("extra", {}).get("punto")] if a)]
+    for t in testi:
+        if PAROLE_VIETATE.search(t):
+            print(f"  ATTENZIONE {nome}: parola da togliere in «{t[:60]}»")
+        for frase in re.split(r"(?<=[a-zA-ZàèéìòùÀ%)\]»])[.;:] +(?=[A-ZÈÀ])", t):
+            if len(frase.split()) > 20:
+                print(f"  ATTENZIONE {nome}: frase di {len(frase.split())} parole: «{frase[:70]}…»")
+    if len(f["punti"]) != 3 or len(f["limiti"]) > 4 or len(f["altri"]) > 2 or len(f["english"]) != 3 or len(f["calcolo"]) > 5:
+        print(f"  ATTENZIONE {nome}: numero di righe fuori misura")
+
+
+def forma_base(s, titolo, domanda, numero, principale, punti, altri, calcolo, criteri, limiti, english, mappa=True, **extra):
+    f = {"etichetta": s["tag"], "titolo": titolo, "domanda": domanda, "numero": numero, "principale": principale,
+         "punti": punti, "altri": altri, "calcolo": calcolo, "criteri": criteri, "limiti": limiti, "english": english}
+    if mappa and s.get("mappa"):
+        f["mappa"] = {"id": s["mappa"]["id"], "nota": s["mappa"]["nota"]}
+    f.update(extra)
+    return f
+
+
+def grafico_per_titolo(s, inizio):
+    return next(g for g in s["grafici"] if g["titolo"].startswith(inizio))
+
+
+def numero_di(s, label_inizio, scenario=0):
+    return next(n for n in s["scenari"][scenario]["numeri"] if n["label"].startswith(label_inizio))["dopo"]
+
+
+def forma_r1(s):
+    quota_senza = numero_di(s, "Quota dei residenti di Torino senza almeno")
+    senza = numero_di(s, "Residenti senza almeno un servizio")
+    tre_o_piu = numero_di(s, "Residenti di zone abitate senza")
+    tutti5 = numero_di(s, "Tutti e 5")
+    senza_tipo = [(n["label"], n["dopo"]) for n in s["scenari"][0]["numeri"] if n["label"].startswith("Senza ") and n["label"].endswith("entro 15 min")]
+    primo_nome = senza_tipo[0][0].replace("Senza ", "").replace(" entro 15 min", "")
+    recuperati = sum(n["prima"] - n["dopo"] for n in s["scenari"][1]["numeri"])
+    par = dict(map(tuple, s["parametri"]))
+    soglia = par["Zona poco abitata"].split(" ab")[0].replace("sotto ", "")
+    principale = dict(grafico_per_titolo(s, "Residenti di Torino senza il servizio"), titolo="Residenti che non hanno il servizio a 15 minuti a piedi")
+    return forma_base(
+        s,
+        "Quasi tutti i torinesi hanno i servizi essenziali a 15 minuti a piedi",
+        "Quanti torinesi non hanno scuole, salute, negozi, fermate e verde a 15 minuti a piedi?",
+        {"valore": quota_senza, "unita": "%", "testo": f"dei torinesi ({migliaia(senza)}) non ha almeno uno dei 5 servizi a 15 minuti"},
+        principale,
+        [f"Il servizio che manca più spesso è {primo_nome}: {migliaia(senza_tipo[0][1])} residenti non ne hanno uno vicino.",
+         f"{migliaia(tre_o_piu)} residenti di zone abitate non hanno 3 o più dei 5 servizi; a {tutti5} mancano tutti e 5.",
+         f"Con al massimo 5 punti nuovi per tipo di servizio, {migliaia(recuperati)} mancanze rientrano nei 15 minuti."],
+        [grafico_per_titolo(s, "Residenti per numero di servizi mancanti"), grafico_per_titolo(s, "Residenti senza il servizio: oggi")],
+        ["Per ogni sezione di censimento si contano i servizi raggiungibili a piedi in 15 minuti.",
+         "I tipi di servizio sono cinque, contati separatamente: scuole, salute, negozi, fermate, verde.",
+         f"Si cammina sulla rete stradale reale (OpenStreetMap), a {par['Velocità a piedi'].split(' (')[0]}.",
+         "I residenti vengono dal censimento ISTAT 2021.",
+         f"Le zone con meno di {soglia} abitanti per km² sono grigie e contate a parte."],
+        [list(p) for p in s["parametri"]],
+        ["Solo Torino: in cintura il catalogo dei servizi manca, quindi «zero» spesso vuol dire dato mancante.",
+         "Si conta se un servizio c'è, non quanto è grande né se ha posto.",
+         "I punti nuovi sono ipotesi: non tengono conto di costi, spazi liberi o permessi.",
+         "Le fermate usano l'orario programmato: niente ritardi né affollamento."],
+        ["Question: how many Turin residents lack schools, health, shops, stops or green space within 15 minutes on foot?",
+         f"Answer: {senza:,} residents ({quota_senza:.1f}%) lack at least one of the 5 services; {tre_o_piu:,} in inhabited areas lack three or more.",
+         "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."])
+
+
+def forma_r4(s):
+    r = leggi("risultato4_regolarita.json")
+    c, par = r["citta"], r["parametri"]
+    fer = c["0"]
+    dd = r["confronto_gtt"]["definizioni"]
+    a_fer, b_fer = dd["a"]["per_tipo"]["0"]["ritardo10_pct"], dd["b"]["per_tipo"]["0"]["ritardo10_pct"]
+    a_set, b_set = dd["a"]["settimana"]["ritardo10_pct"], dd["b"]["settimana"]["ritardo10_pct"]
+    nomi = {"0": "feriale", "1": "sabato", "2": "domenica"}
+    pila = {"tipo": "pila100", "titolo": "Come arrivano i mezzi", "unita": "%",
+            "nota": "Ogni barra è un tipo di giorno: 100% dei passaggi.",
+            "righe": [{"label": nomi[k], "voci": [
+                voce("in anticipo (oltre 1 minuto)", c[k]["anticipo"], tono="blu"),
+                voce("puntuali", c[k]["puntuale"], tono="verde"),
+                voce("ritardo da 5 a 10 minuti", round(c[k]["ritardo"] - c[k]["ritardo10"], 2), tono="giallo"),
+                voce("ritardo oltre 10 minuti", c[k]["ritardo10"], tono="rosso")]} for k in ("0", "1", "2")]}
+    fasce = [(f, v) for f, _, v in fasce_r4() if f != "notte"]
+    nomi_f = {"punta_mattina": "punta mattino (7-9)", "giorno": "giorno (9-16)", "punta_sera": "punta sera (16-19)", "sera": "sera (19-24)"}
+    linea = {"tipo": "linea", "titolo": "Ritardo oltre 5 minuti, per fascia oraria (feriale)", "unita": "%",
+             "categorie": [nomi_f[f] for f, _ in fasce], "serie": [{"label": "passaggi in ritardo", "valori": [v for _, v in fasce]}]}
+    noi_gtt = next(g for g in s["grafici"] if g["titolo"].startswith("Noi e GTT"))
+    linee = [(n, v["0"]) for n, v in r["linee"].items() if "0" in v]
+    peggio = max((x for x in linee if x[1]["passaggi"] >= par.get("min_passaggi_classifica", 2000) and str(x[0]).isdigit()),
+                 key=lambda x: x[1]["ritardo"])
+    tram, bus = r["modi"]["tram"]["0"], r["modi"]["bus"]["0"]
+    gb_tram, gb_bus = tram["grappolo"] + tram["buco"], bus["grappolo"] + bus["buco"]
+    dist = int(r["regole_gps"]["dist_gps_m"])
+    gg = r["giorni"]
+    r9 = scheda_r9()
+    f9 = r9["scenari"][0]["numeri"]
+    attese = (f9[0], f9[1])
+    extra = {"titolo": "Quanto si aspetta alla fermata",
+             "punto": f"Sulle linee frequenti si aspettano da {virgola(attese[0]['dopo'] - attese[0]['prima'])} a "
+                      f"{virgola(attese[1]['dopo'] - attese[1]['prima'])} minuti in più di quanto promette l'orario (feriale).",
+             "grafico": dict(r9["grafici"][0], titolo="Attesa media alla fermata, per fascia oraria (feriale)")}
+    return forma_base(
+        s,
+        f"I ritardi gravi sono circa il {round(fer['ritardo10'])}% dei passaggi",
+        "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
+        {"valore": a_fer, "unita": "%", "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo"},
+        pila,
+        [f"Oltre 10 minuti di ritardo: {virgola(a_fer)}% dei passaggi a ogni fermata, {virgola(b_fer)}% se si guarda solo la partenza.",
+         f"La linea più in ritardo è la {peggio[0]}: {virgola(peggio[1]['ritardo'])}% dei passaggi feriali oltre 5 minuti.",
+         f"I tram arrivano più a grappolo dei bus: {virgola(gb_tram)}% delle coppie di mezzi contro {virgola(gb_bus)}% (feriale)."],
+        [noi_gtt, linea],
+        ["Il Raspberry Pi registra ogni minuto la posizione GPS dei mezzi GTT.",
+         f"Il passaggio è l'istante in cui il GPS è a meno di {dist} metri dalla fermata.",
+         "Il ritardo è quell'istante meno l'orario ufficiale.",
+         f"In anticipo oltre {virgola(abs(par['soglia_anticipo_min']))} minuto; in ritardo oltre {virgola(par['soglia_ritardo_min'])} minuti.",
+         "Grappolo: due mezzi attaccati. Buco: intervallo doppio del previsto. Solo linee frequenti."],
+        [list(p) for p in s["parametri"]],
+        [f"Pochi giorni: {gg['0']} feriali, {gg['1']} sabati e {gg['2']} {'domenica' if gg['2'] == 1 else 'domeniche'}, non tutti interi.",
+         "Solo le linee urbane viste dal GPS, dalle 5 a mezzanotte.",
+         f"Il GPS copre circa il {round(r['copertura_gps']['totale']['copertura_pct'])}% dei passaggi programmati; le corse mai viste non si contano.",
+         "Contiamo quanto spesso c'è ritardo, non quante persone aspettano."],
+        [f"Question: how often are GTT vehicles late or bunched? Answer: {fer['ritardo10']:.1f}% of weekday departures are more than 10 minutes late.",
+         f"GTT reports {GTT_RITARDO10_2025_PCT}% for 2025. Counting only the first stop we get {b_set:.1f}%; the rest is season and method.",
+         f"Limit: only {gg['0']} weekdays, {gg['1']} Saturdays and {gg['2']} Sunday of data, urban lines only, no night."],
+        confronto=[f"GTT dichiara il {virgola(GTT_RITARDO10_2025_PCT)}% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
+                   f"Noi misuriamo pochi giorni di ottobre sulle linee urbane: {virgola(a_set)}% a ogni fermata, {virgola(b_set)}% alla partenza.",
+                   f"Anche contando come GTT alla partenza troviamo il {virgola(b_set)}%; il resto della differenza è stagione e metodo."],
+        extra=extra)
+
+
+def forma_r6(s):
+    r = json.loads(R6_FILE.read_text(encoding="utf-8"))
+    rie, punti, par = r["riepilogo"], r["punti_prioritari"], r.get("parametri", {})
+    n_assi, n_fermate, n_senza = len(punti), rie["fermate_importanti"], rie["fermate_senza_posti_bastanti"]
+    raggio = int(par.get("raggio_piedi_m", 400))
+    quota = virgola(100 * rie["quota_mattino"])
+    reg = rie["regola_fermate"]
+    val = rie.get("validazione", [])
+    misurati = [v for v in val if v["stato"] != "non_misurato" and not v["esito"].startswith("non si può dire")]
+    pieni = sum(1 for v in val if v["stato"] == "pieno")
+    ordinati = sorted(punti, key=lambda p: -p["mancano"])
+    terzo = max(1, round(len(ordinati) / 3))
+    classi = [("alto", "rosso"), ("medio", "arancio"), ("basso", "giallo")]
+    voci = []
+    for i, p in enumerate(ordinati):
+        nome_cl, tono = classi[min(i // terzo, 2)]
+        voci.append({"label": nome_pulito(p["nome"]), "valore": p["mancano"], "tono": tono, "testo": f"bisogno {nome_cl}"})
+    principale = {"tipo": "barre", "titolo": f"I {n_assi} punti d'ingresso, per bisogno di parcheggio", "unita": "posti",
+                  "nota": "Il bisogno è alto, medio o basso a terzi, in base ai posti che mancano. Le lunghezze sono un ordine di grandezza.",
+                  "voci": voci}
+    riempimento = {"tipo": "barre", "titolo": "Riempimento degli interscambi esistenti", "unita": "%",
+                   "nota": "Barra chiara = notte, barra scura = giorno. Solo gli interscambi con dati affidabili, pochi giorni.",
+                   "voci": [voce(nome_pulito(v["nome"]), round(100 * v["G_giorno"]), prima=round(100 * v["N_notte"])) for v in misurati]}
+    return forma_base(
+        s,
+        f"Servono parcheggi di scambio soprattutto su {n_assi} assi d'ingresso",
+        "Dove mancano posti per lasciare l'auto prima di entrare in città, vicino a una fermata importante?",
+        {"valore": n_senza, "unita": "fermate", "testo": f"importanti su {n_fermate}, fuori dal centro, non hanno posti bastanti entro {raggio} metri a piedi"},
+        principale,
+        [f"{n_senza} fermate importanti su {n_fermate} non hanno posti bastanti a {raggio} metri a piedi.",
+         f"Ogni mattina entrano a Torino circa {migliaia(int(round(rie['M_cint'], -2)))} auto; il {quota}% prosegue con un mezzo pubblico.",
+         f"Gli interscambi esistenti sono poco pieni: di giorno solo {pieni} su {len(val)} è pieno."],
+        [riempimento],
+        [f"Fermate importanti: fuori dal centro, con metro, stazione o capolinea, oppure {reg['n_corse']} corse all'ora.",
+         f"Servono anche almeno {migliaia(reg['m_auto'])} auto in entrata che passano accanto alla fermata.",
+         "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
+         f"Auto da fermare: auto che passano per il {quota}% che già oggi lascia l'auto. Posti: parcheggi adatti entro {raggio} metri.",
+         "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso."],
+        [["Fermate importanti", f"{reg['n_corse']} corse all'ora o metro, e {migliaia(reg['m_auto'])} auto che passano"],
+         ["Centro escluso", "i 9 quartieri centrali"],
+         ["Distanza a piedi", f"{raggio} metri"],
+         ["Auto da fermare", f"auto che passano × {quota}%"]],
+        ["Non misuriamo ancora se dal parcheggio il mezzo pubblico è più veloce dell'auto (lavoro in corso).",
+         "Le auto che passano vengono da un modello del traffico: valgono come ordine di grandezza.",
+         f"Il riempimento è misurato su {len(rie['giorni_feriali_validi'])} giorni feriali e solo dove il sistema di traffico del Comune lo trasmette.",
+         "I parcheggi vengono da OpenStreetMap e sono incompleti; i posti sono spesso stimati, con ±30%."],
+        ["Question: where are park-and-ride spaces missing before the city, next to an important stop?",
+         f"Answer: {n_senza} of {n_fermate} important stops lack enough parking within {raggio} m. The {n_assi} priority points sit on different entry roads.",
+         "Limit: we do not yet measure whether public transport from the car park is faster than driving (work in progress)."])
+
+
+def forma_r8(s):
+    r = leggi("risultato8_traffico_tp_v2.json")
+    u, c, tar = r["universo_torino"], r["conteggi"], r["taratura"]
+    fascia50 = round(tar["fascia_50"] * 100)
+    quota = round(u["quota_km_coperta_tp"] * 100, 1)
+    n_sensori = len(leggi("traffico_d/v0/sensori.json")["sensori"])
+    soglia = migliaia(round(u["soglie"]["q66"]))
+    par = [p for p in s["parametri"] if p[0] in ("Strade grandi di Torino", "Errore tipico (metà dei casi)", "Validato tra", "Soglia 'molto traffico'")]
+    return forma_base(
+        s,
+        "Quasi tutte le strade grandi di Torino hanno un mezzo pubblico vicino",
+        "Sulle strade grandi di Torino, dove c'è molto traffico e poco trasporto pubblico?",
+        {"valore": quota, "unita": "%", "testo": f"dei km di strade grandi ha fermate frequenti vicine ({virgola(u['km_coperti_tp'])} su {virgola(u['km'])})"},
+        s["grafici"][0],
+        [f"{c['molto_traffico']} tratte su {migliaia(u['n_tratte'])} hanno molto traffico: oltre {soglia} veicoli al giorno.",
+         f"Solo {c['da_guardare']} tratte hanno molto traffico e poco trasporto pubblico.",
+         f"In metà dei casi la stima del traffico sbaglia al massimo del {fascia50}%: ordina le strade, non le conta."],
+        [s["grafici"][1], s["grafici"][2]],
+        ["Gli spostamenti in auto dell'indagine sugli spostamenti 2022 vanno sulla strada più veloce.",
+         f"Il modello è tarato su {n_sensori} sensori di traffico del Comune.",
+         "Le strade grandi sono tagliate in tratte da 300 metri a 1,5 chilometri.",
+         "Ha trasporto pubblico la tratta con una fermata da 4 passaggi all'ora entro 300 metri, o la metro entro 600.",
+         "Molto traffico significa nel terzo più alto delle tratte."],
+        par,
+        [f"Errore tipico ±{fascia50}%: la stima ordina le strade, non conta i veicoli.",
+         f"Solo {n_sensori} sensori di misura, quasi tutti su corsi trafficati.",
+         "Contiamo i residenti da 11 a 84 anni: mancano merci, turisti e chi viene da fuori.",
+         "Il trasporto pubblico è quello programmato: niente ritardi né affollamento."],
+        ["Question: on Turin's major roads, where is there a lot of traffic and little public transport nearby?",
+         f"Answer: {quota}% of the length of major roads has a frequent stop nearby. Only {c['da_guardare']} of {c['molto_traffico']} heavy-traffic sections have little public transport.",
+         f"Limit: traffic figures are estimates with a typical error of ±{fascia50}%; they rank roads, they do not count vehicles."],
+        mappa=False)
+
+
+FORME = {"risultato1": forma_r1, "risultato4": forma_r4, "risultato6": forma_r6, "risultato8": forma_r8}
+
+
 def main():
     schede = []
     for nome, fabbrica in (("risultato1", scheda_r1), ("risultato2", None),
@@ -1121,6 +1347,9 @@ def main():
             s = arricchisci_r2(leggi(file))  # il JSON di R2 resta quello dello script 29
         else:
             s = fabbrica()
+            s["forma"] = FORME[nome](s)
+            print(f"{nome}: forma - «{s['forma']['titolo']}», numero grande {s['forma']['numero']['valore']} {s['forma']['numero']['unita']}")
+            controlla_forma(nome, s["forma"])
             (PROC / file).write_text(json.dumps(s, ensure_ascii=False, indent=2), encoding="utf-8")
         s["_nome"] = file
         schede.append(s)

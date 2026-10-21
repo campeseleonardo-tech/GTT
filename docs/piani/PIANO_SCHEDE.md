@@ -1,6 +1,6 @@
 # Piano — schede dei risultati chiare e presentabili
 
-Oggi ogni scheda (`simulazione.html`, testi da `scripts/schede_risultati.py`) ha fino a **15 sezioni**: problema,
+Oggi ogni scheda (`risultati.html`, testi da `scripts/schede_risultati.py`) ha fino a **15 sezioni**: problema,
 domanda, risposta (6 frasi lunghe), grafici, immagini, prima/dopo, criteri a 4 colonne, verifica, affidabilità,
 metodo, limiti, mappa, file del progetto, inglese, avviso. In testa «Fatto (12-14/10/2026)». Troppo testo, e parla
 dello sviluppo («fase B», «giro», nomi di file).
@@ -53,12 +53,12 @@ torte, assi da zero per le barre, etichette dirette invece di legende.
 
 | # | Lavoro | Dove | Quanto |
 |---|---|---|---|
-| 1 | Struttura nuova della scheda (sezioni sopra) e pagina indice | `simulazione.html` | medio |
+| 1 | Struttura nuova della scheda (sezioni sopra) e pagina indice | `risultati.html` | medio |
 | 2 | Schema dei dati della scheda: campi nuovi `punti_chiave` (3), `grafico_principale`, `altri_grafici` (≤ 2), `criteri` a 2 colonne; via `stato`, `fonti`, `numeri` prima/dopo dalla pagina | `schede_risultati.py` | medio |
-| 3 | Tipi di grafico che mancano: barre a 100% impilate, linea per andamento orario, dispersione | `simulazione.html` | medio |
+| 3 | Tipi di grafico che mancano: barre a 100% impilate, linea per andamento orario, dispersione | `risultati.html` | medio |
 | 4 | Riscrivere i testi di R4 e R6 subito (i risultati non cambiano molto); R1 e R8 dopo `PIANO_RISULTATI.md` A e D | `schede_risultati.py` | medio |
 | 5 | Immagini della mappa per l'indice (screenshot automatici di `prova_pagine_r6.py`, già nella cartella `immagini/`) | — | piccolo |
 | 6 | README allineato alle schede (stessi titoli e numeri, letti dal JSON) | 86 | piccolo |
 
-Prova: `python scripts\schede_risultati.py` e `python scripts\prova_pagine_r6.py`; Leo apre `simulazione.html` e
+Prova: `python scripts\schede_risultati.py` e `python scripts\prova_pagine_r6.py`; Leo apre `risultati.html` e
 controlla che ogni scheda stia in una schermata e mezza senza aprire le parti chiuse.

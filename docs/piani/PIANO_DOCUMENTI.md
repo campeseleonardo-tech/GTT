@@ -9,7 +9,7 @@ vista (resta in git). Decisione di Leo (21/10): i documenti superati si **cancel
 README.md                  presentazione (italiano + inglese), link a mappa e schede
 AGENTS.md                  regole per gli agenti (resta, è di lavoro)
 MEMORIA_PROGETTO.md        memoria (resta, accorciata: solo stato e decisioni vive)
-mappa_torino.html, simulazione.html
+mappa_torino.html, risultati.html
 docs/
   METODO.md                dati, area, etichette, motore di accessibilità, colori: una pagina
   FONTI_DATI.md            fonti e licenze (ripulita dalle note di lavoro)

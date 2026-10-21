@@ -65,7 +65,9 @@ def pagine_da_provare():
     temi = re.findall(r'\{id:"([a-z_]+)", label:', TEMPLATE.read_text(encoding="utf-8"))
     out = [(f"mappa {v}", f"mappa_torino.html#tema=interscambio&vista={v}") for v in TITOLI_VISTA]
     out += [(f"mappa tema {t}", f"mappa_torino.html#tema={t}") for t in dict.fromkeys(temi) if t != "interscambio"]
-    out.append(("scheda", "simulazione.html"))
+    out.append(("ingresso", "index.html"))
+    out += [(f"scheda R{n}", f"risultati.html#r{n}") for n in (1, 4, 6, 8)]
+    out.append(("elenco schede", "risultati.html"))
     return out
 
 

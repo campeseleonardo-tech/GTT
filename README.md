@@ -2,8 +2,8 @@
 
 Progetto personale di analisi dei dati (2026): chi va dove, dove mancano servizi, dove sono le criticità
 del trasporto pubblico a Torino e nella Città metropolitana, e pochi scenari «cosa succede se».
-Due pagine: **`mappa_torino.html`** (mappa con i temi) e **`simulazione.html`** (le schede dei risultati: domanda,
-risposta, grafici, criteri, limiti).
+Si parte da **`index.html`**. Due pagine: **`mappa_torino.html`** (mappa con i temi) e **`risultati.html`** (le schede dei
+risultati: risposta, grafico, punti chiave, calcolo, limiti).
 
 Ogni numero porta un'etichetta: [MISURATO] = misura vera (sensori 5T, mezzi GTT registrati ogni minuto da un
 Raspberry Pi dal 3/10/2026); [PROGRAMMATO] = orario ufficiale GTT; [STIMATO] = calcolo nostro su dati veri;
@@ -38,7 +38,7 @@ catene (es. `scripts/RISULTATO6_RIFAI.bat`). I dati grezzi non sono nel reposito
 
 Personal data-analysis project (2026) on public transport and mobility in Turin, Italy: who travels where,
 where services are missing, where the problems are, and a few "what if" scenarios. Two pages:
-**`mappa_torino.html`** (interactive map) and **`simulazione.html`** (one card per result). The pages are in Italian;
+**`mappa_torino.html`** (interactive map) and **`risultati.html`** (one card per result). The pages are in Italian;
 every card has a short summary in English. Tags: [MISURATO] measured, [PROGRAMMATO] scheduled timetable,
 [STIMATO] estimated, [DATI SCARSI] little data.
 

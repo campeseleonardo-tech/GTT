@@ -15,7 +15,7 @@ Legge tre file gia' pronti (nessun nuovo giro R5):
 
 Output:
   data/processed/risultato2_metro_notte.json       (dettaglio completo per sezione)
-  data/processed/risultato2_riepilogo_mappa.json   (pochi numeri, per la scheda in simulazione.html)
+  data/processed/risultato2_riepilogo_mappa.json   (pochi numeri, per la scheda in risultati.html)
   docs/rapporti/RAPPORTO_RISULTATO2_METRO_NOTTE.txt
 """
 import json

@@ -5,10 +5,10 @@ NON pubblica niente: crea solo la cartella pubblica/ (esclusa da git) e scrive R
 
 Cosa fa
 -------
-  1. Copia in pubblica/ le pagine (mappa_torino.html, simulazione.html) e tutti i file che caricano
+  1. Copia in pubblica/ le pagine (index.html, mappa_torino.html, risultati.html; simulazione.html rimanda a risultati.html) e tutti i file che caricano
      (data/processed/orari_fermate.js, data/schede_risultati.js, data/catalogo/*.js, immagini/), con gli stessi percorsi relativi. Avvisa se un file manca.
   2. Scrive README.md (italiano, poi English) senza i numeri dei risultati: al loro posto «Risultati in
-     aggiornamento: vedi la pagina dei risultati» (i numeri vivono nelle schede di simulazione.html).
+     aggiornamento: vedi la pagina dei risultati» (i numeri vivono nelle schede di risultati.html).
   3. Stampa il peso della cartella.
 
 Come si lancia
@@ -28,15 +28,15 @@ RADICE = comuni.RADICE
 DEST = RADICE / "pubblica"
 SCHEDE = RADICE / "data" / "schede_risultati.js"
 README = RADICE / "README.md"
-FILE_FISSI = ["mappa_torino.html", "simulazione.html", "data/processed/orari_fermate.js",
+FILE_FISSI = ["index.html", "mappa_torino.html", "risultati.html", "simulazione.html", "data/processed/orari_fermate.js",
               "data/schede_risultati.js"]
 
 INTRO_IT = """# Mobilità a Torino — come si muove la città
 
 Progetto personale di analisi dei dati (2026): chi va dove, dove mancano servizi, dove sono le criticità
 del trasporto pubblico a Torino e nella Città metropolitana, e pochi scenari «cosa succede se».
-Due pagine: **`mappa_torino.html`** (mappa con i temi) e **`simulazione.html`** (le schede dei risultati: domanda,
-risposta, grafici, criteri, limiti).
+Si parte da **`index.html`**. Due pagine: **`mappa_torino.html`** (mappa con i temi) e **`risultati.html`** (le schede dei
+risultati: risposta, grafico, punti chiave, calcolo, limiti).
 
 Ogni numero porta un'etichetta: [MISURATO] = misura vera (sensori 5T, mezzi GTT registrati ogni minuto da un
 Raspberry Pi dal 3/10/2026); [PROGRAMMATO] = orario ufficiale GTT; [STIMATO] = calcolo nostro su dati veri;
@@ -76,7 +76,7 @@ INTRO_EN = """
 
 Personal data-analysis project (2026) on public transport and mobility in Turin, Italy: who travels where,
 where services are missing, where the problems are, and a few "what if" scenarios. Two pages:
-**`mappa_torino.html`** (interactive map) and **`simulazione.html`** (one card per result). The pages are in Italian;
+**`mappa_torino.html`** (interactive map) and **`risultati.html`** (one card per result). The pages are in Italian;
 every card has a short summary in English. Tags: [MISURATO] measured, [PROGRAMMATO] scheduled timetable,
 [STIMATO] estimated, [DATI SCARSI] little data.
 
@@ -108,7 +108,7 @@ def main():
     peso = sum(f.stat().st_size for f in DEST.rglob("*") if f.is_file())
     print(f"pubblica/: {copiati} file, {peso / 1e6:.1f} MB")
 
-    # i numeri dei risultati non stanno nel README (invecchiano): ci sono nelle schede di simulazione.html
+    # i numeri dei risultati non stanno nel README (invecchiano): ci sono nelle schede di risultati.html
     README.write_text(INTRO_IT + RISULTATI_IT + FONTI + INTRO_EN + RISULTATI_EN, encoding="utf-8")
     print(f"Scritto: {README}; avvisi: {len(c.avvisi())}")
     return 0
