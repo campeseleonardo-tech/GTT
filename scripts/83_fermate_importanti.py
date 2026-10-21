@@ -51,7 +51,6 @@ LUOGHI = P / "luoghi.json"
 SEGNALI = P / "segnali.json"
 PASSAGGIO = P / "auto_passaggio.json"
 NODI = P / "nodi.json"
-PROPOSTA = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_PROPOSTA_FERMATE.txt"
 SCENARI = P / "scenari.json"
 ZONE = RADICE / "data" / "processed" / "imq_zone.json"
 OUT = P / "fermate_importanti.json"
@@ -146,16 +145,6 @@ def main():
     if args.percentuale is None:
         print(f"regola: (metro/stazione/capolinea o almeno {N_CORSE} corse/ora) e almeno {M_AUTO_IT} auto: "
               f"fermate importanti {len(scelti)}")
-        attese = None
-        if PROPOSTA.exists():
-            for riga in PROPOSTA.read_text(encoding="utf-8").splitlines():
-                parti = riga.replace("|", " ").split()
-                if len(parti) > 3 and parti[0] == str(N_CORSE) and parti[1] == str(M_AUTO) and parti[2].isdigit():
-                    attese = int(parti[2])
-                    break
-        c(f"il numero di fermate importanti e' quello della riga N {N_CORSE}, M {M_AUTO_IT} della proposta (script 89)",
-          attese is not None and attese == len(scelti),
-          dettaglio=f"{len(scelti)} contro {attese if attese is not None else 'riga non trovata'}")
     else:
         print(f"soglia {soglia:.2f}: fermate importanti {len(scelti)} (vecchia regola, {args.percentuale:g}%)")
         c("le fermate importanti sono circa la percentuale scelta (+-3 punti)",

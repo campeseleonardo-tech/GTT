@@ -95,7 +95,6 @@ attese `scheda_r9`) in `scripts/schede_risultati.py`.
 | `27_risultato4_regolarita.py` | puntualità, regolarità, fine corsa, linee utili, confronto col feed (opzione `--fonte feed` per il calcolo col feed) |
 | `70_risultato9_attesa.py` | attesa promessa contro reale, per linea, fermata, modo |
 | `87_popolarita_zone.py` | popolarità delle zone e linee utili (input) |
-| `90_verifica_ritardi_gps.py` · `91_risultato4_gps_prova.py` | verifica del feed col GPS e prova del calcolo sul GPS |
 
 ```
 python scripts\27_risultato4_regolarita.py

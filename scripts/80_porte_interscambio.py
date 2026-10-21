@@ -2,7 +2,7 @@
 """
 SUPERATO dallo script 84_risultato6_parcheggi.py (vedi docs/R6_parcheggi.md).
 Resta per confronto e perche' lo script 84 ne riusa le funzioni (esagoni, profili, nomi): non cancellarlo.
-Il suo main() NON si lancia piu': cerca 75_risultato6_v2.py, spostato in scripts/archivio/.
+Il suo main() NON si lancia piu': cerca uno script (la versione 2 del R6) che non c'e' piu'.
 
 80_porte_interscambio.py  -  Risultato 6, versione con le AREE e i PUNTI PRIORITARI: dove mancano
 parcheggi per lasciare l'auto vicino alle fermate importanti, e quali parcheggi grandi potrebbero
@@ -89,7 +89,7 @@ OSSERVAZIONI = RADICE / "data" / "ref" / "parcheggi_osservazioni.json"
 ZONE = RADICE / "data" / "processed" / "imq_zone.json"
 ZONE_GEO = RADICE / "data" / "processed" / "imq_zone_geo.json"
 S73 = AQUI / "73_segnali_criticita.py"
-S75 = AQUI / "75_risultato6_v2.py"
+S75 = AQUI / "risultato6_v2.py"   # script tolto: main() non si lancia piu'
 OUT = P / "porte.json"
 RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_PORTE.txt"
 RAPPORTO.parent.mkdir(parents=True, exist_ok=True)

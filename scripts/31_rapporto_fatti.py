@@ -333,7 +333,7 @@ def main():
     args = ap.parse_args()
 
     if not PAGINE_JSON.exists():
-        raise SystemExit(f"ERRORE: manca {PAGINE_JSON}. Lancia prima lo script 30 (o RAPPORTO_1_ESTRAI.bat).")
+        raise SystemExit(f"ERRORE: manca {PAGINE_JSON}. Lancia prima lo script 30.")
     pagine = json.loads(PAGINE_JSON.read_text(encoding="utf-8"))
     if not pagine:
         raise SystemExit("ERRORE: pagine.json e' vuoto.")

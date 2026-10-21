@@ -75,7 +75,7 @@ chiedevi di caricare «come oggi».
 
 ## 3. Controllo dei valori
 
-`scripts/archivio/controllo_valori_giro4.js` (Node; fa leggere gli stessi dati dal lettore del template di oggi e da quello
+`scripts/prove/controllo_valori_giro4.js` (Node; fa leggere gli stessi dati dal lettore del template di oggi e da quello
 nuovo e confronta). Risultato:
 
 - **tutte le 8.317 sezioni** (200 di campione, seme fisso, comprese): 1.039.625 valori di accessibilità (5 gruppi × [a
@@ -85,7 +85,7 @@ nuovo e confronta). Risultato:
   passaggi per ora e dati di tutte le 7.036 fermate;
 - il controllo è stato provato anche sbagliando di proposito un simbolo: trova le differenze (20 su una sezione).
 
-Dati usati: `scripts/archivio/estrai_dati_giro4.py` estrae DATI dal file, `trasforma_dati_giro4.py` applica le funzioni del 04.
+Dati usati: `scripts/prove/estrai_dati_giro4.py` estrae DATI dal file, `trasforma_dati_giro4.py` applica le funzioni del 04.
 
 ## 4. Prova nel browser (Playwright + Chromium, 0 errori JavaScript)
 
@@ -105,6 +105,6 @@ Dati usati: `scripts/archivio/estrai_dati_giro4.py` estrae DATI dal file, `trasf
    caselle: spuntare ognuna, controllare che il numero e i punti compaiano e che il clic dia nome e indirizzo (per punti
    senza nome ci sarà la categoria). Provare «Mercati» e «Cultura» e annotare quanto tarda (vedi sopra).
 3. `python scripts\prova_pagine_r6.py`. Atteso: 0 errori su tutte le pagine (mappa, tutti i temi, schede).
-4. Facoltativo (serve Node): il controllo dei valori sta in `scripts/archivio/controllo_valori_giro4.js`; serve il JSON dei dati vecchi, che dopo la rigenerazione non c'è più: non è indispensabile.
+4. Facoltativo (serve Node): il controllo dei valori sta in `scripts/prove/controllo_valori_giro4.js`; serve il JSON dei dati vecchi, che dopo la rigenerazione non c'è più: non è indispensabile.
 
 Non provato (non si può nel cloud): il 04 completo sui dati veri, `prova_pagine_r6.py` su Windows, il catalogo vero.

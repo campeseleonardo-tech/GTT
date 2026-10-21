@@ -99,7 +99,7 @@ PESI_SETTIMANA = {"0": 5, "1": 1, "2": 1}     # feriale, sabato, domenica
 SPOSTAMENTI_MIN = (-1, 0, 1)                  # B2 (i)
 QUOTA_GIORNI_PEGGIORI = 0.10                  # B2 (ii): il 10% dei giorni peggiori (almeno 1) dello stesso tipo
 
-# dal Giro 4, script 91: arrivi misurati con il GPS dei mezzi (tabella mezzi_gtt). Il feed resta solo come confronto.
+# arrivi misurati con il GPS dei mezzi (tabella mezzi_gtt). Il feed resta solo come confronto.
 FONTE_ARRIVI = "gps"             # "gps" (predefinita) oppure "feed" con --fonte feed (calcolo di prima)
 DIST_GPS_M = 60.0                # passaggio GPS valido: a meno di 60 m dalla fermata
 SEGMENTO_MAX_S = 180             # segmento fra due posizioni consecutive lungo al massimo 180 s
@@ -121,7 +121,7 @@ FASCE = ("punta_mattina", "giorno", "punta_sera", "sera", "notte")   # D9
 P_LINEA, P_DIR, P_STOP, P_SCHED, P_EST, P_RIT, P_FASCIA, P_SEQ, P_FONTE, P_TRIP = range(10)
 
 
-# ---------- ora locale Europe/Rome (copiate da 09_analisi_dati_diurni.py) ----------
+# ---------- ora locale Europe/Rome (come in comuni.py) ----------
 
 def ultima_domenica(anno, mese):
     """Giorno dell'ultima domenica del mese (date.weekday: lun=0 ... dom=6)."""
@@ -229,11 +229,11 @@ def carica_fermate():
     return fermate
 
 
-# ---------- passaggi dal GPS (dal Giro 4, script 91) ----------
+# ---------- passaggi dal GPS ----------
 
 def _segmento(punti, i, flat, flon, kx):
     """(dist, istante) del punto del segmento i piu' vicino alla fermata; None se il segmento non e' usabile.
-    Dal Giro 4, script 91 (stessa geometria di controllo_gps() dello script 70, con il rifiuto veloce dei segmenti lontani)."""
+    Stessa geometria di controllo_gps() dello script 70, con il rifiuto veloce dei segmenti lontani."""
     t0, la0, lo0 = punti[i]
     t1, la1, lo1 = punti[i + 1]
     if t1 <= t0 or t1 - t0 > SEGMENTO_MAX_S:
@@ -250,7 +250,7 @@ def _segmento(punti, i, flat, flon, kx):
 
 
 def cerca_vincolata(punti, flat, flon, kx, t_prec, i0):
-    """Dal Giro 4, script 91. Primo gruppo di segmenti vicini alla fermata con istante >= t_prec, dal segmento i0.
+    """Primo gruppo di segmenti vicini alla fermata con istante >= t_prec, dal segmento i0.
     Ritorna (istante, indice del segmento) del piu' vicino del gruppo, oppure None."""
     migliore = None
     for i in range(i0, len(punti) - 1):
@@ -265,7 +265,7 @@ def cerca_vincolata(punti, flat, flon, kx, t_prec, i0):
 
 
 def passaggi_corsa(punti, fermate_corsa, sched_base, fermate):
-    """Dal Giro 4, script 91. Per ogni fermata della corsa (ordinata per stop_sequence) il passaggio GPS valido:
+    """Per ogni fermata della corsa (ordinata per stop_sequence) il passaggio GPS valido:
     {seq: istante}. Il passaggio di una fermata viene solo dopo quello della fermata prima."""
     out = {}
     t_prec, i0 = -1e18, 0
@@ -851,7 +851,7 @@ def main():
         json_out["regole_gps"] = {"dist_gps_m": DIST_GPS_M, "segmento_max_s": SEGMENTO_MAX_S,
                                   "max_ritardo_vero_min": MAX_RITARDO_VERO_MIN,
                                   "finestra": "dalle 02:00 locali del giorno a 26 ore dalla mezzanotte locale (come lo script 70)",
-                                  "fermate_in_ordine": True, "origine": "dal Giro 4, script 91"}
+                                  "fermate_in_ordine": True, "origine": "gps"}
     else:
         json_out["lettura_lontana_per_tipo"] = {t: {"scartati": v[0], "ritardo10": v[1]} for t, v in lontane.items()}
     if j_utili is not None:

@@ -18,7 +18,7 @@ La scheda è nascosta da `risultati.html`; dati e script restano. **Tag:** [STIM
   ogni direzione), valide solo il 12/10/2026: ogni 15 minuti (19 corse per direzione) o ogni 30 (10 corse). Uscite:
   `data/scenari/gtt_gtfs_notte15.zip` e `gtt_gtfs_notte30.zip`.
 - `18_accessibilita.py` con `--gtfs` e `--out`: ore 01-04, circa 1 ora per ora simulata, circa 4 ore per scenario.
-  `RISULTATO2_METRO_NOTTE.bat` cancella prima `data/processed/accessibilita_parziale/` (la firma dei parziali non
+  Prima di ogni scenario cancellare `data/processed/accessibilita_parziale/` (la firma dei parziali non
   contiene il percorso del GTFS e riuserebbe i numeri dello scenario precedente).
 - **Metrica:** per ogni sezione, servizi raggiungibili con la metro di notte − servizi di base, sommato sulle 4 ore;
   «migliorata» = qualsiasi aumento. (Contare le sezioni che passano da zero servizi a più di zero non funziona:
@@ -55,6 +55,12 @@ La scheda è nascosta da `risultati.html`; dati e script restano. **Tag:** [STIM
 
 ## Script
 
-`28_scenario_metro_notte.py`, `29_*` (numeri), `scripts\RISULTATO2_METRO_NOTTE.bat` (giro completo, molte ore),
-`scripts\RISULTATO2_RICALCOLA_NUMERI.bat` (solo lo script 29, pochi secondi); riepilogo per la scheda in
-`data/processed/risultato2_riepilogo_mappa.json`.
+`28_scenario_metro_notte.py`, `29_*` (numeri); riepilogo per la scheda in `data/processed/risultato2_riepilogo_mappa.json`.
+Per rifarlo (molte ore, dalla radice del progetto; cancellare `data\processed\accessibilita_parziale` prima di ogni scenario):
+
+```
+python scripts\28_scenario_metro_notte.py
+python scripts\18_accessibilita.py --giorno 2026-10-12 --ore 1,2,3,4 --gtfs data\scenari\gtt_gtfs_notte15.zip --out accessibilita_notte15 --salva-tappe
+python scripts\18_accessibilita.py --giorno 2026-10-12 --ore 1,2,3,4 --gtfs data\scenari\gtt_gtfs_notte30.zip --out accessibilita_notte30 --salva-tappe
+python scripts\29_risultato2_metro_notte.py        (solo i numeri: pochi secondi)
+```

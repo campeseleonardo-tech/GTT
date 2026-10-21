@@ -95,7 +95,7 @@ def main():
         pass
 
     if not FATTI_JSON.exists():
-        raise SystemExit(f"ERRORE: manca {FATTI_JSON}. Lancia prima lo script 31 (o RAPPORTO_2_FATTI.bat).")
+        raise SystemExit(f"ERRORE: manca {FATTI_JSON}. Lancia prima lo script 31.")
     esito = json.loads(FATTI_JSON.read_text(encoding="utf-8"))
     fatti = esito.get("fatti", []) if isinstance(esito, dict) else esito
     if not fatti:
