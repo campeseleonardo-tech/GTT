@@ -1,12 +1,12 @@
 RISULTATO 4 — Bus in ritardo e bus irregolari [MISURATO]
 ==================================================================
 Arrivi misurati con il GPS dei mezzi (dal 21/10); prima dal feed GTT, che sottostima i ritardi: vedi CONFRONTO COL FEED
-Periodo: 2026-10-10 -> 2026-10-20   giorni: feriale 7, sabato 2, domenica 2
-Passaggi con GPS valido: 1256405 (su 1625310 programmati dalle corse viste)
+Periodo: 2026-10-10 -> 2026-10-20   giorni: feriale 6, sabato 2, domenica 1
+Passaggi con GPS valido: 1300434 (su 1660225 programmati dalle corse viste)
 
 I 3 NUMERI (feriale)
-1. passaggi in ritardo > 5 min: 13.3%
-2. coppie a grappolo 15.5% + a buco 4.9% = 20.4% (linee frequenti)
+1. passaggi in ritardo > 5 min: 14.1%
+2. coppie a grappolo 15.9% + a buco 5.0% = 20.9% (linee frequenti)
 3. ritardo mediano: -0.1 min
 
 COPERTURA DEL GPS
@@ -15,98 +15,97 @@ giorno    | righe GPS | corse viste | corse GPS fuori GTFS | passaggi programmat
 20261011 |    222625 |        4540 |                  182 |               149355 |         111576 | 74.7%
 20261012 |    349853 |        5168 |                    0 |               169169 |         127869 | 75.6%
 20261013 |    312270 |        6570 |                  682 |               209630 |         154142 | 73.5%
-20261014 |    393182 |        1605 |                   49 |                43430 |          32289 | 74.3%
 20261015 |    384090 |        7405 |                  912 |               235764 |         183767 | 77.9%
 20261016 |    421796 |        7631 |                    0 |               241242 |         198088 | 82.1%
 20261017 |    274199 |        5468 |                  584 |               180911 |         142057 | 78.5%
-20261018 |     30983 |         716 |                   86 |                22518 |          15245 | 67.7%
 20261019 |    158208 |        3379 |                  382 |               109337 |          77067 | 70.5%
-20261020 |    224329 |        4169 |                  469 |               134529 |         111780 | 83.1%
-totale: 1256405 passaggi con GPS valido su 1625310 programmati delle corse viste (77.3%); le corse mai viste dal GPS non si contano.
+20261020 |    409477 |        7313 |                  872 |               235392 |         203343 | 86.4%
+Giorni esclusi per poco GPS (corse viste sotto 0.5 volte la mediana dei giorni dello stesso tipo): 20261014 (1605 corse viste, mediana 5869); 20261018 (716 corse viste, mediana 2628); 20261021 (833 corse viste, mediana 5869)
+totale: 1300434 passaggi con GPS valido su 1660225 programmati delle corse viste (78.3%); le corse mai viste dal GPS non si contano.
 GPS valido: stessa corsa a meno di 60 m dalla fermata, segmenti di non piu' di 180 s, fermate in ordine, |ritardo| <= 60 min; finestra dalle 02:00 locali (come lo script 70).
 
 CONFRONTO COL FEED (feriale): lo stesso calcolo con il feed GTT di prima (regole D1-D3), per spiegare perche' i numeri sono cambiati
 insieme | passaggi | % ritardo>5 | % ritardo>10 | % grappolo+buco | coppie
-citta' feed |  1150666 |         5.2 |          0.0 |            10.5 | 476770
-citta' GPS  |   885002 |        13.3 |         5.05 |            20.4 | 347387
-tram   feed |   227057 |         4.6 |          0.0 |            13.8 | 181564
-tram   GPS  |   196480 |        13.0 |         5.12 |            25.5 | 145002
-bus    feed |   923609 |         5.4 |          0.0 |             8.4 | 295206
-bus    GPS  |   688522 |        13.4 |         5.03 |            16.8 | 202385
-Il feed smette di elencare la fermata all'orario programmato: per i mezzi in ritardo la sua stima resta troppo bassa. Scarti D3 del feed (solo confronto): fuori GTFS 174059, lettura lontana 72767, usati 1534222.
+citta' feed |  1019751 |         5.4 |          0.0 |            10.5 | 423825
+citta' GPS  |   944276 |        14.1 |         5.44 |            20.9 | 364269
+tram   feed |   200706 |         5.1 |          0.0 |            14.0 | 160349
+tram   GPS  |   195848 |        14.4 |         5.66 |            26.7 | 143737
+bus    feed |   819045 |         5.5 |          0.0 |             8.4 | 263476
+bus    GPS  |   748428 |        14.0 |         5.38 |            17.1 | 220532
+Il feed smette di elencare la fermata all'orario programmato: per i mezzi in ritardo la sua stima resta troppo bassa. Scarti D3 del feed (solo confronto): fuori GTFS 153778, lettura lontana 65943, usati 1379279.
 
 PUNTUALITA' CITTA' — per tipo di giorno
 tipo giorno | passaggi | % anticipo | % puntuale | % ritardo>5 | mediana | p90
-feriale     |   885002 |       38.7 |       48.0 |        13.3 |    -0.1 | 6.3
+feriale     |   944276 |       37.9 |       48.0 |        14.1 |    -0.1 | 6.6
 sabato      |   244582 |       34.3 |       48.9 |        16.8 |     0.3 | 7.7
-domenica    |   126821 |       37.7 |       50.9 |        11.4 |    -0.1 | 5.5
+domenica    |   111576 |       37.4 |       50.6 |        12.0 |    -0.1 | 5.7
 
 PUNTUALITA' CITTA' — fasce orarie (feriale, ora locale dell'arrivo programmato)
 fascia        | passaggi | % anticipo | % puntuale | % ritardo>5 | mediana | p90
-punta_mattina |   120916 |       39.2 |       48.6 |        12.2 |    -0.2 | 5.8
-giorno        |   361366 |       37.1 |       48.3 |        14.7 |    -0.0 | 6.8
-punta_sera    |   139060 |       39.1 |       45.4 |        15.5 |    -0.1 | 7.5
-sera          |   153936 |       37.7 |       47.7 |        14.6 |    -0.0 | 6.7
-notte         |   109724 |       44.2 |       50.5 |         5.4 |    -0.6 | 3.3
+punta_mattina |   117396 |       39.0 |       48.7 |        12.3 |    -0.2 | 5.9
+giorno        |   366849 |       36.4 |       48.4 |        15.2 |     0.1 | 7.1
+punta_sera    |   168899 |       37.5 |       45.7 |        16.8 |     0.1 | 8.0
+sera          |   182830 |       36.5 |       47.9 |        15.6 |     0.1 | 7.1
+notte         |   108302 |       44.4 |       49.8 |         5.7 |    -0.6 | 3.4
 
 10 LINEE PEGGIORI PER % IN RITARDO (feriale, linee ordinarie, >= 2000 passaggi)
- 1. linea 17     37.1% in ritardo | 25830 passaggi | mediana 2.4 min | p90 14.5 min
- 2. linea 6      35.3% in ritardo | 4078 passaggi | mediana 1.9 min | p90 16.4 min
- 3. linea 19     26.5% in ritardo | 3466 passaggi | mediana 1.9 min | p90 11.6 min
- 4. linea 66     25.8% in ritardo | 4518 passaggi | mediana 1.3 min | p90 10.2 min
- 5. linea 68     25.2% in ritardo | 15585 passaggi | mediana 0.7 min | p90 12.3 min
- 6. linea 33     24.3% in ritardo | 21331 passaggi | mediana 1.3 min | p90 9.1 min
- 7. linea 61     23.1% in ritardo | 18945 passaggi | mediana 0.9 min | p90 11.2 min
- 8. linea 4      22.3% in ritardo | 55495 passaggi | mediana 0.8 min | p90 10.0 min
- 9. linea 72     21.2% in ritardo | 10397 passaggi | mediana 0.4 min | p90 9.6 min
-10. linea 60     19.0% in ritardo | 8130 passaggi | mediana 0.9 min | p90 9.4 min
+ 1. linea 17     38.1% in ritardo | 28233 passaggi | mediana 2.6 min | p90 14.7 min
+ 2. linea 6      36.7% in ritardo | 4673 passaggi | mediana 2.3 min | p90 15.8 min
+ 3. linea 19     30.1% in ritardo | 3961 passaggi | mediana 2.2 min | p90 14.0 min
+ 4. linea 68     26.9% in ritardo | 17595 passaggi | mediana 1.0 min | p90 12.1 min
+ 5. linea 33     26.2% in ritardo | 23097 passaggi | mediana 1.5 min | p90 9.7 min
+ 6. linea 66     25.9% in ritardo | 4479 passaggi | mediana 1.3 min | p90 10.3 min
+ 7. linea 61     23.1% in ritardo | 20899 passaggi | mediana 0.9 min | p90 10.9 min
+ 8. linea 4      22.7% in ritardo | 60346 passaggi | mediana 0.9 min | p90 9.9 min
+ 9. linea 72     22.2% in ritardo | 11718 passaggi | mediana 0.4 min | p90 10.0 min
+10. linea 52     19.7% in ritardo | 19474 passaggi | mediana 0.4 min | p90 9.2 min
 
 10 LINEE PEGGIORI PER IRREGOLARITA' (feriale, linee ordinarie, >= 100 coppie)
  1. linea 14     42.4% grappolo+buco | 264 coppie | grappolo 36.0% | buco 6.4%
- 2. linea 4      40.2% grappolo+buco | 47210 coppie | grappolo 28.3% | buco 11.9%
- 3. linea 30     38.5% grappolo+buco | 179 coppie | grappolo 0.0% | buco 38.5%
- 4. linea 17     30.2% grappolo+buco | 3598 coppie | grappolo 19.8% | buco 10.4%
- 5. linea 45     28.8% grappolo+buco | 752 coppie | grappolo 22.3% | buco 6.5%
- 6. linea 61     27.3% grappolo+buco | 9655 coppie | grappolo 21.4% | buco 5.9%
- 7. linea 43     25.5% grappolo+buco | 632 coppie | grappolo 19.6% | buco 5.9%
- 8. linea 29     25.4% grappolo+buco | 362 coppie | grappolo 14.9% | buco 10.5%
- 9. linea 68     24.0% grappolo+buco | 8755 coppie | grappolo 17.5% | buco 6.5%
-10. linea 12     23.5% grappolo+buco | 132 coppie | grappolo 22.7% | buco 0.8%
+ 2. linea 30     41.7% grappolo+buco | 120 coppie | grappolo 0.0% | buco 41.7%
+ 3. linea 4      40.1% grappolo+buco | 51433 coppie | grappolo 28.4% | buco 11.7%
+ 4. linea 45     31.5% grappolo+buco | 885 coppie | grappolo 25.6% | buco 5.9%
+ 5. linea 17     31.0% grappolo+buco | 3643 coppie | grappolo 20.0% | buco 11.0%
+ 6. linea 29     28.8% grappolo+buco | 398 coppie | grappolo 19.3% | buco 9.5%
+ 7. linea 61     27.2% grappolo+buco | 10582 coppie | grappolo 21.7% | buco 5.5%
+ 8. linea 43     27.0% grappolo+buco | 660 coppie | grappolo 18.8% | buco 8.2%
+ 9. linea 68     23.4% grappolo+buco | 9805 coppie | grappolo 17.1% | buco 6.3%
+10. linea 13     23.1% grappolo+buco | 14699 coppie | grappolo 17.7% | buco 5.4%
 
 [MISURATO] con il GPS dei mezzi GTT (Raspberry Pi, una posizione al minuto circa): il ritardo e' l'istante in cui il mezzo passa a meno di 60 m dalla fermata meno l'orario programmato; sabato e domenica con pochi giorni: [DATI SCARSI].
 
 OLTRE 10 MINUTI (stessa misura del rapporto GTT 2025)
 tipo giorno | passaggi | % ritardo>5 | % ritardo>10
-feriale     |   885002 |        13.3 | 5.05
+feriale     |   944276 |        14.1 | 5.44
 sabato      |   244582 |        16.8 | 7.1
-domenica    |   126821 |        11.4 | 3.85
-feriale tram  |   196480 |        13.0 | 5.12
-feriale bus   |   688522 |        13.4 | 5.03
+domenica    |   111576 |        12.0 | 4.11
+feriale tram  |   195848 |        14.4 | 5.66
+feriale bus   |   748428 |        14.0 | 5.38
 GTT dichiara 2.3% nel 2025: il suo metodo non e' pubblicato; noi misuriamo a ogni fermata con il GPS, su pochi giorni di ottobre e sulle linee urbane.
 
 TRAM CONTRO BUS (feriale)
 modo  | passaggi | % ritardo>5 | % ritardo>10 | mediana | % grappolo+buco | coppie
-tram  |   196480 |        13.0 |         5.12 |    -0.4 |            25.5 | 145002
-bus   |   688522 |        13.4 |         5.03 |    -0.1 |            16.8 | 202385
+tram  |   195848 |        14.4 |         5.66 |    -0.3 |            26.7 | 143737
+bus   |   748428 |        14.0 |         5.38 |    -0.0 |            17.1 | 220532
 
 RITARDO A FINE CORSA (feriale, linee ordinarie, >= 100 passaggi alle ultime 3 fermate): le 10 con piu' ritardo a fine corsa (mediana, minuti); i minuti ogni 10 km sono solo una colonna: per km le linee corte vengono premiate
- 1. linea 4     tram  | ritardo a fine corsa 3.1 min | corsa 15.3 km | 2.2 min ogni 10 km | 3783 passaggi
- 2. linea 19    bus   | ritardo a fine corsa 3.0 min | corsa 6.0 km | 5.0 min ogni 10 km | 439 passaggi
- 3. linea 17    bus   | ritardo a fine corsa 2.6 min | corsa 17.4 km | 1.5 min ogni 10 km | 1404 passaggi
- 4. linea 6     bus   | ritardo a fine corsa 2.2 min | corsa 4.3 km | 5.5 min ogni 10 km | 600 passaggi
- 5. linea 33    bus   | ritardo a fine corsa 1.9 min | corsa 11.9 km | 1.7 min ogni 10 km | 1708 passaggi
- 6. linea 44    bus   | ritardo a fine corsa 1.6 min | corsa 11.8 km | 1.2 min ogni 10 km | 774 passaggi
- 7. linea 60    bus   | ritardo a fine corsa 1.3 min | corsa 7.4 km | 2.0 min ogni 10 km | 873 passaggi
- 8. linea 132   bus   | ritardo a fine corsa 1.3 min | corsa 8.1 km | 1.5 min ogni 10 km | 684 passaggi
- 9. linea 68    bus   | ritardo a fine corsa 1.3 min | corsa 11.1 km | 1.2 min ogni 10 km | 947 passaggi
-10. linea 61    bus   | ritardo a fine corsa 1.3 min | corsa 12.0 km | 1.2 min ogni 10 km | 1143 passaggi
+ 1. linea 19    bus   | ritardo a fine corsa 3.2 min | corsa 6.0 km | 5.4 min ogni 10 km | 507 passaggi
+ 2. linea 4     tram  | ritardo a fine corsa 3.2 min | corsa 15.3 km | 2.2 min ogni 10 km | 4098 passaggi
+ 3. linea 17    bus   | ritardo a fine corsa 2.9 min | corsa 17.4 km | 1.7 min ogni 10 km | 1527 passaggi
+ 4. linea 6     bus   | ritardo a fine corsa 2.6 min | corsa 4.3 km | 6.2 min ogni 10 km | 683 passaggi
+ 5. linea 33    bus   | ritardo a fine corsa 2.3 min | corsa 11.9 km | 2.0 min ogni 10 km | 1850 passaggi
+ 6. linea 68    bus   | ritardo a fine corsa 1.8 min | corsa 11.1 km | 1.6 min ogni 10 km | 1070 passaggi
+ 7. linea 44    bus   | ritardo a fine corsa 1.6 min | corsa 13.4 km | 1.2 min ogni 10 km | 838 passaggi
+ 8. linea 60    bus   | ritardo a fine corsa 1.5 min | corsa 7.4 km | 2.2 min ogni 10 km | 975 passaggi
+ 9. linea 132   bus   | ritardo a fine corsa 1.5 min | corsa 8.1 km | 1.8 min ogni 10 km | 629 passaggi
+10. linea 72    bus   | ritardo a fine corsa 1.4 min | corsa 11.0 km | 1.3 min ogni 10 km | 989 passaggi
 
 LINEE UTILI CONTRO ALTRE (linee utili = quelle dello script 87)
 linee utili: 54
 tipo giorno | gruppo | passaggi | % ritardo>5 | % ritardo>10 | % grappolo+buco | coppie
-feriale     | utili  |   586734 |        14.5 |         5.56 |            21.4 | 272222
-feriale     | altre  |   298268 |        10.9 |         4.05 |            17.2 | 75165
+feriale     | utili  |   623308 |        15.5 |         6.08 |            21.9 | 284991
+feriale     | altre  |   320968 |        11.4 |         4.19 |            17.2 | 79278
 sabato      | utili  |   158376 |        17.8 |         7.69 |            21.7 | 44657
 sabato      | altre  |    86206 |        15.0 |          6.0 |            17.3 | 8568
-domenica    | utili  |    87850 |        12.5 |         4.48 |            20.0 | 6865
-domenica    | altre  |    38971 |         8.9 |         2.45 |            10.5 | 1675
+domenica    | utili  |    77082 |        13.2 |          4.8 |            20.4 | 6712
+domenica    | altre  |    34494 |         9.4 |         2.57 |            10.7 | 1610

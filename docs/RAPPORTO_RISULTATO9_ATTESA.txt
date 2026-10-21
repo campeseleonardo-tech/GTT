@@ -1,81 +1,85 @@
 RISULTATO 9 — ATTESA PROMESSA CONTRO ATTESA REALE [MISURATO]
 ==================================================================
-Giorni: 20261010 -> 20261020 (11: feriali 7, sabati 2, domeniche 2); solo ore con raccolta attiva (>= 50 min letti)
+Giorni: 20261010 -> 20261020 (9: feriali 6, sabati 2, domeniche 1); solo ore con raccolta attiva (>= 50 min letti)
+Giorni esclusi per poco GPS (stessa regola dello script 27): 20261014 (1605 corse viste, mediana del tipo 5869); 20261018 (716 corse viste, mediana del tipo 2628); 20261021 (833 corse viste, mediana del tipo 5869)
 Linee frequenti: intervallo programmato medio <= 12 min per fermata-linea-verso-fascia (almeno 6 intervalli)
-Chiavi fermata-linea-verso-fascia-giorno frequenti: 3779, usate: 1133 (tolte quelle con > 20% di corse assenti dal GPS)
+Chiavi fermata-linea-verso-fascia-giorno frequenti: 3844, usate: 2505 (tolte quelle con > 20% di corse assenti dal GPS)
 
 I NUMERI (feriale, linee frequenti, media pesata sugli intervalli programmati)
-  attesa promessa:  4.8 min
-  attesa reale:     5.9 min (stima bassa) - 7.1 min (stima alta)
-  attesa in piu':   1.1 - 2.3 min (stima bassa = +22% sulla promessa)
-  corse programmate assenti dal GPS: 14.5%
+  attesa promessa:  4.7 min
+  attesa reale:     6.3 min (stima bassa) - 7.1 min (stima alta)
+  attesa in piu':   1.6 - 2.4 min (stima bassa = +34% sulla promessa)
+  corse programmate assenti dal GPS: 13.3%
 
 PER TIPO DI GIORNO
 tipo      | promessa | reale bassa | reale alta | in piu' bassa | in piu' alta | intervalli oss.
-feriale   |      4.8 |         5.9 |        7.1 |           1.1 |          2.3 |      32825
+feriale   |      4.7 |         6.3 |        7.1 |           1.6 |          2.4 |      72420
 sabato    |      4.8 |         6.9 |        7.0 |           2.1 |          2.2 |       7932
 domenica  |      4.8 |         5.2 |        6.0 |           0.4 |          1.2 |        354
 
 PER FASCIA ORARIA (feriale)
 fascia        | promessa | in piu' bassa | in piu' alta | intervalli oss.
-punta_mattina |      4.1 |           1.3 |          1.7 |       2096
-giorno        |      4.5 |           1.1 |          2.8 |      15135
-punta_sera    |      4.7 |           1.2 |          2.3 |       9651
-sera          |      7.7 |           0.8 |          1.7 |       1848
-notte         |      5.7 |           0.8 |          1.0 |       4095
+punta_mattina |      4.5 |           1.3 |          1.6 |       3851
+giorno        |      3.8 |           1.5 |          3.0 |      30026
+punta_sera    |      4.4 |           2.1 |          2.4 |      24087
+sera          |      8.2 |           1.4 |          1.6 |       9553
+notte         |      6.2 |           0.6 |          1.2 |       4903
 
 SENSIBILITA' alla soglia 'frequente' (feriale): 
-  <= 10 min: promessa 4.5, in piu' 1.1 - 2.4 min, intervalli 47529
-  <= 12 min: promessa 4.8, in piu' 1.1 - 2.3 min, intervalli 56803
-  <= 15 min: promessa 6.0, in piu' 1.1 - 2.5 min, intervalli 95154
+  <= 10 min: promessa 4.0, in piu' 1.8 - 2.6 min, intervalli 94353
+  <= 12 min: promessa 4.7, in piu' 1.6 - 2.4 min, intervalli 129489
+  <= 15 min: promessa 6.0, in piu' 1.4 - 2.7 min, intervalli 246999
 
 10 LINEE CON PIU' ATTESA IN PIU' (feriale, stima bassa, >= 30 intervalli osservati)
- 1. linea 16 CD promessa  5.5 min | in piu'  1.4 -  2.3 min | assenti 12.7% | intervalli 2374
- 2. linea 15    promessa  4.7 min | in piu'  1.3 -  2.5 min | assenti 16.5% | intervalli 12903
- 3. linea 4     promessa  5.4 min | in piu'  0.9 -  1.1 min | assenti 14.7% | intervalli 3124
- 4. linea 10    promessa  4.2 min | in piu'  0.9 -  2.3 min | assenti 11.7% | intervalli 11992
- 5. linea 13    promessa  8.0 min | in piu'  0.8 -  1.7 min | assenti 16.5% | intervalli 1652
- 6. linea 11    promessa  6.0 min | in piu'  0.8 -  2.2 min | assenti 13.3% | intervalli 91
- 7. linea 13+   promessa  5.4 min | in piu'  0.4 -  1.9 min | assenti 15.6% | intervalli 689
+ 1. linea 61    promessa  5.9 min | in piu'  3.2 -  3.6 min | assenti 15.6% | intervalli 151
+ 2. linea 33    promessa  5.5 min | in piu'  2.2 -  1.6 min | assenti 4.5% | intervalli 205
+ 3. linea 4     promessa  4.2 min | in piu'  2.2 -  2.3 min | assenti 11.5% | intervalli 32759
+ 4. linea 46    promessa  5.5 min | in piu'  1.9 -  2.9 min | assenti 1.7% | intervalli 195
+ 5. linea 15    promessa  4.7 min | in piu'  1.6 -  2.8 min | assenti 17.4% | intervalli 10606
+ 6. linea 16 CD promessa  5.8 min | in piu'  1.6 -  2.2 min | assenti 10.9% | intervalli 1827
+ 7. linea 2     promessa  4.9 min | in piu'  1.4 -  2.8 min | assenti 17.2% | intervalli 4060
+ 8. linea 62    promessa  6.2 min | in piu'  1.2 -  2.5 min | assenti 12.5% | intervalli 1975
+ 9. linea 3     promessa  5.0 min | in piu'  1.2 -  1.2 min | assenti 12.5% | intervalli 134
+10. linea 56    promessa  5.8 min | in piu'  1.0 -  1.3 min | assenti 6.8% | intervalli 280
 
 20 FERMATE (linea e verso) CON PIU' ATTESA IN PIU' (feriale, stima bassa)
- 1. linea 4     v0 Fermata 1114 - PASTRENGO           promessa  5.7 | in piu'  3.0 -  2.1 min | intervalli 34
- 2. linea 15    v0 Fermata 248 - ARCIVESCOVADO        promessa  4.7 | in piu'  2.6 -  2.1 min | intervalli 152
- 3. linea 4     v0 Fermata 1916 - STATI UNITI         promessa  5.7 | in piu'  2.4 -  2.0 min | intervalli 36
- 4. linea 16 CD v0 Fermata 618 - FERRUCCI             promessa  5.8 | in piu'  2.2 -  2.7 min | intervalli 60
- 5. linea 4     v1 Fermata 1913 - VESPUCCI            promessa  4.7 | in piu'  2.2 -  1.1 min | intervalli 56
- 6. linea 4     v1 Fermata 1914 - SOMMEILLER          promessa  4.5 | in piu'  2.2 -  1.1 min | intervalli 62
- 7. linea 16 CD v0 Fermata 617 - MEDITERRANEO         promessa  5.8 | in piu'  2.2 -  2.6 min | intervalli 60
- 8. linea 16 CD v0 Fermata 616 - DUCA DEGLI ABRUZZI   promessa  5.7 | in piu'  2.1 -  2.7 min | intervalli 59
- 9. linea 15    v1 Fermata 579 - BRIANZA              promessa  4.8 | in piu'  2.1 -  3.3 min | intervalli 172
-10. linea 15    v0 Fermata 246 - BERTOLA              promessa  4.7 | in piu'  2.1 -  1.9 min | intervalli 152
-11. linea 15    v1 Fermata 567 - SANTA GIULIA         promessa  4.6 | in piu'  2.0 -  3.5 min | intervalli 166
-12. linea 16 CD v0 Fermata 428 - DE GASPERI           promessa  5.7 | in piu'  2.0 -  2.6 min | intervalli 59
-13. linea 16 CD v0 Fermata 619 - SAN PAOLO            promessa  5.8 | in piu'  2.0 -  2.7 min | intervalli 57
-14. linea 15    v1 Fermata 3445 - SABOTINO            promessa  4.7 | in piu'  2.0 -  2.9 min | intervalli 161
-15. linea 15    v1 Fermata 577 - CHIETI               promessa  4.8 | in piu'  2.0 -  3.2 min | intervalli 172
-16. linea 4     v1 Fermata 2523 - OSPEDALE MAURIZIANO promessa  4.8 | in piu'  2.0 -  1.2 min | intervalli 60
-17. linea 4     v0 Fermata 2527 - VESPUCCI            promessa  6.6 | in piu'  2.0 -  1.5 min | intervalli 32
-18. linea 15    v1 Fermata 568 - REGINA MARGHERITA    promessa  4.6 | in piu'  1.9 -  3.5 min | intervalli 165
-19. linea 15    v1 Fermata 581 - PALLANZA             promessa  4.8 | in piu'  1.9 -  3.2 min | intervalli 171
-20. linea 15    v1 Fermata 583 - CADORE               promessa  4.8 | in piu'  1.9 -  3.3 min | intervalli 176
+ 1. linea 4     v0 Fermata 3233 - STAZIONE STURA      promessa  4.2 | in piu'  3.6 -  1.5 min | intervalli 212
+ 2. linea 2     v0 Fermata 82 - REBAUDENGO            promessa  4.9 | in piu'  3.4 -  5.4 min | intervalli 44
+ 3. linea 4     v0 Fermata 3237 - ULIVI               promessa  4.2 | in piu'  3.3 -  1.6 min | intervalli 276
+ 4. linea 4     v0 Fermata 3239 - ABETI               promessa  4.2 | in piu'  3.3 -  1.9 min | intervalli 358
+ 5. linea 4     v1 Fermata 3358 - CASTELLO DI MIRAFIO promessa  4.0 | in piu'  3.2 -  2.2 min | intervalli 373
+ 6. linea 15    v0 Fermata 248 - ARCIVESCOVADO        promessa  4.7 | in piu'  3.2 -  2.3 min | intervalli 128
+ 7. linea 4     v0 Fermata 3224 - SCOTELLARO          promessa  4.2 | in piu'  3.0 -  2.2 min | intervalli 390
+ 8. linea 10N   v0 Fermata 350 - MASSARI CAP          promessa  5.7 | in piu'  3.0 -  4.1 min | intervalli 138
+ 9. linea 2     v1 Fermata 150 - UNIONE SOVIETICA     promessa  5.0 | in piu'  2.9 -  3.2 min | intervalli 43
+10. linea 4     v0 Fermata 243 - DUOMO - MUSEI REALI  promessa  4.2 | in piu'  2.9 -  2.1 min | intervalli 386
+11. linea 4     v1 Fermata 3368 - CAIO MARIO          promessa  4.0 | in piu'  2.9 -  2.6 min | intervalli 411
+12. linea 2     v1 Fermata 136 - PITAGORA SUD         promessa  4.9 | in piu'  2.8 -  2.9 min | intervalli 44
+13. linea 2     v1 Fermata 140 - TAZZOLI              promessa  4.9 | in piu'  2.8 -  3.1 min | intervalli 46
+14. linea 4     v1 Fermata 285 - DROSSO CAP           promessa  4.0 | in piu'  2.8 -  2.2 min | intervalli 303
+15. linea 2     v1 Fermata 138 - DANDOLO              promessa  4.9 | in piu'  2.8 -  2.9 min | intervalli 44
+16. linea 2     v1 Fermata 144 - D'ARBOREA            promessa  4.9 | in piu'  2.8 -  3.1 min | intervalli 45
+17. linea 4     v0 Fermata 236 - EMILIA               promessa  4.1 | in piu'  2.8 -  2.4 min | intervalli 390
+18. linea 4     v0 Fermata 241 - BORGO DORA           promessa  4.1 | in piu'  2.8 -  2.3 min | intervalli 395
+19. linea 2     v1 Fermata 142 - TAZZOLI C.2          promessa  4.9 | in piu'  2.7 -  3.1 min | intervalli 44
+20. linea 4     v1 Fermata 282 - TRAIANO              promessa  4.0 | in piu'  2.7 -  2.4 min | intervalli 399
 
-DATI SCARSI (linea-fascia-tipo con > 20% corse assenti dal GPS, fuori dai numeri): 52
+DATI SCARSI (linea-fascia-tipo con > 20% corse assenti dal GPS, fuori dai numeri): 30
   linea 36N   punta_mattina feriale   assenti 100.0%
-  linea 30    punta_mattina feriale   assenti 88.5%
-  linea 68    punta_mattina feriale   assenti 73.6%
-  linea 8     punta_mattina feriale   assenti 71.8%
-  linea 36    punta_mattina feriale   assenti 68.0%
-  linea 2     punta_mattina feriale   assenti 64.0%
-  linea 18    punta_mattina feriale   assenti 63.8%
-  linea 52    punta_mattina feriale   assenti 61.4%
-  linea 16 CS punta_mattina feriale   assenti 60.6%
-  linea 9     punta_mattina feriale   assenti 58.8%
-  linea 61    punta_mattina feriale   assenti 58.6%
-  linea 10N   punta_mattina feriale   assenti 58.2%
-  linea 8     giorno        feriale   assenti 57.6%
-  linea 3     punta_mattina feriale   assenti 55.9%
-  linea 17/   punta_mattina feriale   assenti 55.6%
+  linea 30    punta_mattina feriale   assenti 82.3%
+  linea 81    punta_mattina feriale   assenti 63.6%
+  linea 67    punta_mattina feriale   assenti 50.0%
+  linea 8     giorno        feriale   assenti 48.2%
+  linea 68    punta_mattina feriale   assenti 47.0%
+  linea 8     punta_mattina feriale   assenti 43.3%
+  linea 13+   giorno        feriale   assenti 42.0%
+  linea 13+   punta_mattina feriale   assenti 36.9%
+  linea 18    giorno        feriale   assenti 36.8%
+  linea 36    punta_mattina feriale   assenti 36.6%
+  linea 2     notte         feriale   assenti 36.4%
+  linea 2     giorno        feriale   assenti 35.7%
+  linea 13    punta_mattina feriale   assenti 34.8%
+  linea 17/   punta_mattina feriale   assenti 33.3%
 
 CONTROLLO COL GPS (passo 4): arrivo stimato dal feed - passaggio del GPS vicino alla fermata
   (e' un controllo del feed, non della fonte usata: dal Giro 5 gli arrivi di questo rapporto vengono dal GPS)
@@ -120,6 +124,12 @@ corse mancanti -> forbice bassa/alta; chi arriva 'a caso' (vero per le linee fre
 
 ATTESA PER MODO (feriale, linee frequenti, stessa media pesata della citta')
 modo  | promessa | in piu' bassa - alta | reale bassa - alta | intervalli programmati | intervalli oss.
-bus   |      5.5 |      0.5 - 2.0      |      6.0 - 7.5      |                   1820 |        780
+bus   |      5.6 |      1.1 - 2.4      |      6.7 - 8.0      |                  28302 |      14500
 metro | nessuna linea frequente con dati
-tram  |      4.8 |      1.1 - 2.3      |      5.9 - 7.1      |                  54983 |      32045
+tram  |      4.5 |      1.8 - 2.4      |      6.3 - 6.9      |                 101187 |      57920
+
+RIEPILOGO DEI DATI USATI (Giro 6)
+  chiavi fermata-linea-verso-fascia-giorno frequenti: 3844, usate: 2505
+  tram: intervalli osservati 57920, programmati 101187
+  bus: intervalli osservati 14500, programmati 28302
+  OK: i bus hanno 14500 intervalli osservati (almeno 10000)

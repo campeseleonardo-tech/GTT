@@ -89,6 +89,7 @@ FONTE_ARRIVI = "gps"             # "gps" (predefinita) oppure "feed" con --fonte
 DIST_GPS_M = 60.0                # passaggio GPS valido: a meno di 60 m dalla fermata
 SEGMENTO_MAX_S = 180             # segmento fra due posizioni consecutive lungo al massimo 180 s
 MAX_RITARDO_VERO_MIN = 60.0      # |ritardo| oltre 60 minuti = corrispondenza sbagliata, passaggio non valido
+MIN_QUOTA_GIORNO_GPS = 0.5       # Giro 6: un giorno entra solo con almeno meta' della mediana delle corse viste dei giorni dello stesso tipo
 COPERTURA_MIN_PCT = 60.0         # controllo: passaggi con GPS valido / programmati delle corse viste
 RITARDO_GPS_FERIALE_ATTESO = (8.0, 25.0)   # buon senso dalla prova del Giro 4 (circa 15%)
 MIN_PASSAGGI_CLASSIFICA = 2000   # classifica delle linee peggiori: solo linee ordinarie (Leo, 20/10/2026)
@@ -265,6 +266,32 @@ def passaggi_corsa(punti, fermate_corsa, sched_base, fermate):
         out[seq] = r[0]
         t_prec, i0 = r[0], r[1]
     return out
+
+
+def giorni_gps_validi(con, giorni, trip_info):
+    """Giro 6. Tiene i giorni con abbastanza GPS: corse viste (stessa finestra e stessa regola di costruisci_passaggi_gps:
+    corsa nel GTFS, almeno 2 posizioni) almeno MIN_QUOTA_GIORNO_GPS volte la mediana dei giorni dello stesso tipo
+    (feriale, sabato, domenica). Ritorna (giorni validi in ordine, esclusi = [{"giorno", "corse_viste", "mediana_tipo"}])."""
+    viste, tipo = {}, {}
+    for giorno in giorni:
+        data = datetime.strptime(giorno, "%Y%m%d").date()
+        mezz = datetime(data.year, data.month, data.day, tzinfo=timezone.utc) - timedelta(hours=offset_data_locale(data))
+        n = 0
+        for (corsa,) in con.execute(
+                "SELECT corsa FROM mezzi_gtt WHERE letto_utc BETWEEN ? AND ? AND corsa <> '' AND ts_feed AND lat AND lng "
+                "GROUP BY corsa HAVING COUNT(DISTINCT ts_feed || '|' || lat || '|' || lng) >= 2",
+                ((mezz + timedelta(hours=2)).isoformat(), (mezz + timedelta(hours=26)).isoformat())):
+            n += corsa in trip_info
+        viste[giorno] = n
+        tipo[giorno] = tipo_giorno_data(data)
+    validi, esclusi = [], []
+    for giorno in giorni:
+        med = mediana([viste[g] for g in giorni if tipo[g] == tipo[giorno]])
+        if viste[giorno] >= MIN_QUOTA_GIORNO_GPS * med:
+            validi.append(giorno)
+        else:
+            esclusi.append({"giorno": giorno, "corse_viste": viste[giorno], "mediana_tipo": med})
+    return validi, esclusi
 
 
 def costruisci_passaggi_gps(con, giorno, trip_info, nome_linea, prog, fermate):
@@ -511,6 +538,12 @@ def main():
         giorni = [g for g in giorni if g == GIORNO_PROVA]
         if not giorni:
             raise SystemExit(f"Nessuna riga per {GIORNO_PROVA}")
+    esclusi_gps = []
+    if gps and not prova:
+        giorni, esclusi_gps = giorni_gps_validi(con, giorni, trip_info)
+        for e in esclusi_gps:
+            print(f"Giorno escluso (poco GPS): {e['giorno']}, {e['corse_viste']} corse viste, mediana del tipo {e['mediana_tipo']}",
+                  file=sys.stderr)
     print(f"Giorni: {giorni}", file=sys.stderr)
 
     giorni_tipo = {"0": 0, "1": 0, "2": 0}
@@ -715,6 +748,7 @@ def main():
             "citta": cf_citta, "modi": cf_modi, "scarti": conf_scarti,
             "max_lettura_lontana_min": MAX_LETTURA / 60,
             "lettura_lontana_per_tipo": {t: {"scartati": v[0], "ritardo10": v[1]} for t, v in lontane.items()}}
+        json_out["giorni_esclusi_gps"] = esclusi_gps
         json_out["copertura_gps"] = {
             "totale": {**cop_tot, "copertura_pct": pct(cop_tot["validi"], cop_tot["programmati"])},
             "per_giorno": {g: {**v, "copertura_pct": pct(v["validi"], v["programmati"])} for g, v in cop_giorno.items()}}
@@ -761,6 +795,11 @@ def main():
         for g, v in cop_giorno.items():
             R.append(f"{g} | {v['righe']:9} | {v['corse_viste']:11} | {v['corse_fuori_gtfs']:20} | {v['programmati']:20} "
                      f"| {v['validi']:14} | {pct(v['validi'], v['programmati'])}%")
+        if esclusi_gps:
+            R.append("Giorni esclusi per poco GPS (corse viste sotto " + f"{MIN_QUOTA_GIORNO_GPS:g}" + " volte la mediana dei giorni dello stesso tipo): "
+                     + "; ".join(f"{e['giorno']} ({e['corse_viste']} corse viste, mediana {e['mediana_tipo']:g})" for e in esclusi_gps))
+        else:
+            R.append("Giorni esclusi per poco GPS: nessuno")
         R.append(f"totale: {cop_tot['validi']} passaggi con GPS valido su {cop_tot['programmati']} programmati delle corse viste "
                  f"({pct(cop_tot['validi'], cop_tot['programmati'])}%); le corse mai viste dal GPS non si contano.")
         R.append(f"GPS valido: stessa corsa a meno di {DIST_GPS_M:.0f} m dalla fermata, segmenti di non piu' di {SEGMENTO_MAX_S} s, "

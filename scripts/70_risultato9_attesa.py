@@ -56,6 +56,7 @@ GIORNO_PROVA = "20261015"
 
 FREQ_MAX = 12.0          # D2, minuti
 MIN_MINUTI_ORA = 50      # ora "attiva" se la raccolta ha letto almeno 50 minuti
+MIN_INTERVALLI_BUS_AVVISO = 10000   # Giro 6: sotto questi intervalli osservati sui bus (feriale) la media per modo e' poco affidabile
 MAX_MANCANTI = 0.20      # linea-fascia con piu' del 20% di corse assenti dal feed -> dati scarsi
 MIN_INTERVALLI_CHIAVE = 6    # intervalli programmati minimi per fermata-linea-verso-fascia (somma dei giorni)
 MIN_INTERVALLI_CLASSIFICA = 30
@@ -391,8 +392,15 @@ def main():
     servizio, cal, eccezioni, fermate = carica_calendario()
     con = sqlite3.connect(f"file:{r4.DB}?mode=ro", uri=True, timeout=60)
     giorni = [r[0] for r in con.execute("SELECT DISTINCT start_date FROM trip_update_gtt ORDER BY 1")]
+    esclusi_gps = []
     if prova:
         giorni = [GIORNO_PROVA]
+    else:
+        # Giro 6: stessi giorni dello script 27 (via quelli con poco GPS)
+        giorni, esclusi_gps = r4.giorni_gps_validi(con, giorni, trip_info)
+        for e in esclusi_gps:
+            print(f"Giorno escluso (poco GPS): {e['giorno']}, {e['corse_viste']} corse viste, mediana del tipo {e['mediana_tipo']}",
+                  file=sys.stderr)
     acc, esempi, per_giorno, gps = {}, {}, {}, None
     tipi_giorno = {t: 0 for t in r4.TIPI}
     for n, giorno in enumerate(giorni, 1):
@@ -425,6 +433,11 @@ def main():
     R.append("=" * 66)
     R.append(f"Giorni: {giorni[0]} -> {giorni[-1]} ({len(giorni)}: feriali {tipi_giorno['0']}, sabati "
              f"{tipi_giorno['1']}, domeniche {tipi_giorno['2']}); solo ore con raccolta attiva (>= {MIN_MINUTI_ORA} min letti)")
+    if esclusi_gps:
+        R.append("Giorni esclusi per poco GPS (stessa regola dello script 27): " + "; ".join(
+            f"{e['giorno']} ({e['corse_viste']} corse viste, mediana del tipo {e['mediana_tipo']:g})" for e in esclusi_gps))
+    else:
+        R.append("Giorni esclusi per poco GPS: nessuno")
     R.append(f"Linee frequenti: intervallo programmato medio <= {freq:g} min per fermata-linea-verso-fascia "
              f"(almeno {MIN_INTERVALLI_CHIAVE} intervalli)")
     R.append(f"Chiavi fermata-linea-verso-fascia-giorno frequenti: {ris['chiavi_frequenti']}, usate: {ris['chiavi_usate']} "
@@ -511,6 +524,19 @@ def main():
                          f"{c['intervalli_osservati']:>10}")
             else:
                 R.append(f"{m:<5} | nessuna linea frequente con dati")
+    # Giro 6: riepilogo di quanto resta dopo l'esclusione dei giorni senza GPS
+    R.append("")
+    R.append("RIEPILOGO DEI DATI USATI (Giro 6)")
+    R.append(f"  chiavi fermata-linea-verso-fascia-giorno frequenti: {ris['chiavi_frequenti']}, usate: {ris['chiavi_usate']}")
+    modi_f = (ris.get("modi") or {}).get("0") or {}
+    for m in ("tram", "bus"):
+        c = modi_f.get(m)
+        R.append(f"  {m}: intervalli osservati {c['intervalli_osservati'] if c else 0}, programmati {c['intervalli_programmati'] if c else 0}")
+    n_bus = (modi_f.get("bus") or {}).get("intervalli_osservati", 0)
+    if n_bus < MIN_INTERVALLI_BUS_AVVISO:
+        R.append(f"  AVVISO: i bus hanno {n_bus} intervalli osservati, meno di {MIN_INTERVALLI_BUS_AVVISO}: da decidere con Leo")
+    else:
+        R.append(f"  OK: i bus hanno {n_bus} intervalli osservati (almeno {MIN_INTERVALLI_BUS_AVVISO})")
     testo = "\n".join(R)
     print(testo)
 
@@ -520,7 +546,7 @@ def main():
                              "min_intervalli_chiave": MIN_INTERVALLI_CHIAVE,
                              "min_intervalli_classifica": MIN_INTERVALLI_CLASSIFICA},
                "periodo": {"da": r4.da_gttfs(giorni[0]), "a": r4.da_gttfs(giorni[-1])}, "giorni": tipi_giorno,
-               "per_giorno": per_giorno, "sensibilita_freq": sens, "controllo_gps": gps, "esempi": esempi, **ris}
+               "giorni_esclusi_gps": esclusi_gps, "per_giorno": per_giorno, "sensibilita_freq": sens, "controllo_gps": gps, "esempi": esempi, **ris}
         OUT_JSON.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
         OUT_RAPPORTO.write_text(testo, encoding="utf-8")
         print(f"Scritto: {OUT_JSON}\nScritto: {OUT_RAPPORTO}")
