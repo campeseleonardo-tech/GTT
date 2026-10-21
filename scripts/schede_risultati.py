@@ -1307,6 +1307,24 @@ def forma_r6(s):
     principale = {"tipo": "barre", "titolo": f"I {n_assi} punti d'ingresso, per bisogno di parcheggio", "unita": "posti",
                   "nota": "Il bisogno è alto, medio o basso a terzi, in base ai posti che mancano. Le lunghezze sono un ordine di grandezza.",
                   "voci": voci}
+    ba = json.loads((PROC / "r6_bus_contro_auto.json").read_text(encoding="utf-8"))
+    n_conv, n_dip, n_non = (ba["riepilogo"]["punti"][k] for k in ("conviene", "dipende", "non_conviene"))
+    n_punti_ba = ba["riepilogo"]["n_punti"]
+    inter = [l for l in ba["luoghi"] if l["tipo"] == "interscambio"]
+    ci = ba["riepilogo"]["interscambi"]
+    quanti = lambda n: "nessun punto" if n == 0 else ("un punto" if n == 1 else f"{n} punti")
+    f_ba_lo, f_ba_hi = virgola(ba["parametri"]["fattore_basso"]), virgola(ba["parametri"]["fattore_alto"])
+    ultimi = [l for l in inter if l["nome"] in ("SOFIA", "VENCHI UNICA")]
+    graf_inter = {"tipo": "barre", "titolo": "Dagli interscambi esistenti a Piazza Castello, minuti coi mezzi pubblici", "unita": "minuti",
+                  "nota": f"Alle 8 di un feriale. A destra il tempo in auto, parcheggio compreso, fra i due fattori di punta ({f_ba_hi} e {f_ba_lo}).",
+                  "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["tp_min"]), "tono": {"conviene": "verde", "dipende": "giallo", "non_conviene": "rosso"}[l["classe"]],
+                            "testo": f"{round(l['tp_min'])} contro {round(l['auto_alto_min'])}-{round(l['auto_basso_min'])} in auto: {l['classe_testo']}"}
+                           for l in inter]}
+    extra = {"titolo": "Interscambi esistenti e bus verso il centro",
+             "punto": f"Gli interscambi esistenti sono poco pieni: di giorno solo {pieni} su {len(val)} è pieno. "
+                      + " ".join(f"Da {nome_pulito(l['nome'])} {l['classe_testo']}." for l in ultimi)
+                      + f" Il bus conviene da {ci['conviene']} interscambi su {ba['riepilogo']['n_interscambi']}.",
+             "grafico": graf_inter}
     riempimento = {"tipo": "barre", "titolo": "Riempimento degli interscambi esistenti", "unita": "%",
                    "nota": "Barra chiara = notte, barra scura = giorno. Solo gli interscambi con dati affidabili, pochi giorni.",
                    "voci": [voce(nome_pulito(v["nome"]), round(100 * v["G_giorno"]), prima=round(100 * v["N_notte"])) for v in misurati]}
@@ -1318,7 +1336,7 @@ def forma_r6(s):
         principale,
         [f"{n_senza} fermate importanti su {n_fermate} non hanno posti bastanti a {raggio} metri a piedi.",
          f"Ogni mattina entrano a Torino circa {migliaia(int(round(rie['M_cint'], -2)))} auto; il {quota}% prosegue con un mezzo pubblico.",
-         f"Gli interscambi esistenti sono poco pieni: di giorno solo {pieni} su {len(val)} è pieno."],
+         f"Da {quanti(n_conv)} su {n_punti_ba} il bus verso il centro conviene; da {quanti(n_dip)} dipende dal traffico."],
         [riempimento],
         [f"Fermate importanti: fuori dal centro, con metro, stazione o capolinea, oppure {reg['n_corse']} corse all'ora.",
          f"Servono anche almeno {migliaia(reg['m_auto'])} auto in entrata che passano accanto alla fermata.",
@@ -1329,13 +1347,14 @@ def forma_r6(s):
          ["Centro escluso", "i 9 quartieri centrali"],
          ["Distanza a piedi", f"{raggio} metri"],
          ["Auto da fermare", f"auto che passano × {quota}%"]],
-        ["Non misuriamo ancora se dal parcheggio il mezzo pubblico è più veloce dell'auto (lavoro in corso).",
+        [f"Il bus verso Piazza Castello è solo GTT, senza treni. L'auto è stimata fra due fattori di punta, {f_ba_hi} e {f_ba_lo}.",
          "Le auto che passano vengono da un modello del traffico: valgono come ordine di grandezza.",
          f"Il riempimento è misurato su {len(rie['giorni_feriali_validi'])} giorni feriali e solo dove il sistema di traffico del Comune lo trasmette.",
          "I parcheggi vengono da OpenStreetMap e sono incompleti; i posti sono spesso stimati, con ±30%."],
         ["Question: where are park-and-ride spaces missing before the city, next to an important stop?",
          f"Answer: {n_senza} of {n_fermate} important stops lack enough parking within {raggio} m. The {n_assi} priority points sit on different entry roads.",
-         "Limit: we do not yet measure whether public transport from the car park is faster than driving (work in progress)."])
+         f"Limit: the bus beats the car from {n_conv} of {n_punti_ba} points; from {n_dip} it depends on traffic. Bus times use GTT only."],
+        extra=extra)
 
 
 def forbice_estremi(x, y):

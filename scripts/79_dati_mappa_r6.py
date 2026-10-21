@@ -63,6 +63,7 @@ ETICHETTE = {
 }
 N_LINEE_TXT = 8          # linee utili scritte nel pannello del parcheggio
 POPOLARITA = RADICE / "data" / "processed" / "popolarita_zone.json"
+BUS_AUTO = RADICE / "data" / "processed" / "r6_bus_contro_auto.json"
 CAMPI_FERMATA = ("id", "nome", "lat", "lon", "zona_nome", "posizione", "classe", "strada", "auto_passaggio_txt",
                  "potenziale", "posti_adatti", "mancano", "parcheggi")
 CAMPI_AREA = ("id", "centro", "poligono", "n_fermate", "n_valutate", "nessun", "insufficienti", "sufficienti",
@@ -90,6 +91,19 @@ def main():
     else:
         c(f"esiste {POPOLARITA.name} (lancia prima scripts\87_popolarita_zone.py): senza, niente linee utili nel pannello",
           False)
+
+    # tempi coi mezzi e in auto verso Piazza Castello e classe (da 94_r6_bus_contro_auto.py): si aggiunge solo il campo bus_auto,
+    # i punti non si tolgono dall'elenco. Se il file manca, i punti restano senza.
+    if BUS_AUTO.exists():
+        ba = {l["nome"]: l for l in json.loads(BUS_AUTO.read_text(encoding="utf-8"))["luoghi"]}
+        for p in list(d["punti_prioritari"]) + [x for x in parcheggi if x.get("tipo") == "interscambio_ufficiale"]:
+            l = ba.get(p["nome"])
+            if l is not None:
+                p["bus_auto"] = {k: l[k] for k in ("tp_min", "auto_alto_min", "auto_basso_min", "rapporto_basso", "rapporto_alto", "classe", "classe_testo")}
+        c("ogni punto prioritario ha la classe bus contro auto", all("bus_auto" in p for p in d["punti_prioritari"]),
+          dettaglio=f"{sum('bus_auto' in p for p in d['punti_prioritari'])} su {len(d['punti_prioritari'])}")
+    else:
+        c(f"esiste {BUS_AUTO.name} (lancia prima scripts\94_r6_bus_contro_auto.py): senza, niente classe nel pannello", False)
 
     fermate = [{k: f.get(k) for k in CAMPI_FERMATA} for f in d["fermate"]]
     aree = [{k: a.get(k) for k in CAMPI_AREA} for a in d["aree"]]

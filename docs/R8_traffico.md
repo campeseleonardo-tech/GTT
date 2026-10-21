@@ -79,6 +79,24 @@ Controllo a mano, **martedì 20/10/2026 alle 8:00**. I primi 6 percorsi partono 
 - **Auto**: col fattore alto siamo sotto Google di 11,4 minuti in media (sui 6 percorsi); col fattore basso di 1,7 (differenza media, nostro meno Google). La verità sta nella forbice.
 - Rapporto mediano coi mezzi pubblici (Torino-Torino e Torino-cintura): **da 1,96 a 2,94**.
 
+### Forbice: rapporto mediano e fasce (Torino-Torino e Torino-cintura, 220.307 auto)
+
+Fasce fisse del rapporto (tempo coi mezzi / tempo in auto), fissate prima di vedere i numeri. Celle: auto (% delle auto).
+
+| Limite | Fattore | Rapporto mediano | Oltre 2 | sotto 1,5 | 1,5-2 | 2-3 | oltre 3 |
+|---|---|---|---|---|---|---|---|
+| **Basso** (Google Maps) | 2,1 | **1,96** | 41,4% | 8.649 (3,9%) | 120.360 (54,6%) | 90.508 (41,1%) | 791 (0,4%) |
+| **Alto** (sensori 5T) | 1,2 | **2,94** | 97,0% | 0 (0,0%) | 6.661 (3,0%) | 115.033 (52,2%) | 98.612 (44,8%) |
+
+Per gruppo (basso | alto). Cintura-cintura è a parte: mancano treni e altre aziende.
+
+| Gruppo | Mediano basso | Mediano alto | Oltre 2 basso | Oltre 2 alto |
+|---|---|---|---|---|
+| (a) Torino-Torino | 1,96 | 2,78 | 39,2% | 93,5% |
+| (b) Torino-cintura (e cintura-Torino) | 1,97 | 3,07 | 43,4% | 100,0% |
+| (ab) principale: Torino-Torino e Torino-cintura | 1,96 | 2,94 | 41,4% | 97,0% |
+| (c) cintura-cintura | 2,23 | 3,49 | 78,8% | 100,0% |
+
 ## Limiti
 
 - Stima debole; senza un sensore sull'asse la classifica mette in cima strade poco credibili (corso Dogliotti circa
@@ -100,6 +118,7 @@ Controllo a mano, **martedì 20/10/2026 alle 8:00**. I primi 6 percorsi partono 
 | 33-48, `rete_osm.py` | flusso per sensore, esclusioni, abbinamento, modello della domanda sulla rete |
 | 56-67 | assi e tratte, corsie, ZTL, TP per posizione, valutazione finale |
 | `schede_risultati.py` (`scheda_r8`) | scheda con errore % per sensore |
+| 93 | tempo coi mezzi contro auto fra zone IMQ: forbice con due fattori di punta → `tp_contro_auto.json` (si rifà in circa 1 minuto) |
 
 Risultato: `data/processed/risultato8_traffico_tp_v2.json` (universo, assi da guardare, tratte); dettaglio per tratta in
 `data/processed/traffico_d/tratte_traffico.json`; valutazione in `traffico_d/valutazione_fase5.json`.

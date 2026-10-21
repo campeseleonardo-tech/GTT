@@ -1008,6 +1008,16 @@ function r6SchedaArea(a){
     avviso: "Critica: almeno il 60% delle fermate senza posti bastanti; Scarsa 30-59%; Buona meno del 30%; con meno di 5 fermate valutate: «Pochi dati». Stime, non misure complete."
   });
 }
+/* righe «dal luogo a Piazza Castello»: tempi coi mezzi e in auto (due fattori di punta) e classe, da scripts/94_r6_bus_contro_auto.py */
+function r6BusAuto(p){
+  const b=p.bus_auto; if(!b) return [];
+  const dec=x=>x==null?"—":r6N(x,1);
+  return [
+    {k:"A Piazza Castello coi mezzi pubblici (alle 8)", v:b.tp_min==null?"nessun collegamento entro 120 minuti":`${r6N(Math.round(b.tp_min))} minuti [STIMATO]`},
+    {k:"A Piazza Castello in auto, ora di punta", v:`${r6N(Math.round(b.auto_alto_min))}-${r6N(Math.round(b.auto_basso_min))} minuti, parcheggio compreso [STIMATO]`},
+    {k:"Il bus verso il centro", v:`${esc(b.classe_testo)}${b.rapporto_basso==null?"":` (tempo coi mezzi / tempo in auto: da ${dec(b.rapporto_basso)} a ${dec(b.rapporto_alto)})`}`}
+  ];
+}
 function r6SchedaPunto(p){
   const fer = r6Righe(p.fermate.map(f=>`${esc(f.nome)} (${esc(f.classe.toLowerCase())})${f.mancano?`: mancano circa ${r6N(f.mancano)} posti`:""}`), "—");
   const cand = r6Righe(p.candidati.map(c=>`${esc(c.nome)}: ${r6N(c.dist_piedi_m)} m a piedi, ${r6N(c.posti)} posti, ${esc(R6_STATO_TXT[c.stato]||c.stato)}${c.gia_pieno?" (già pieno)":""}`),
@@ -1020,11 +1030,12 @@ function r6SchedaPunto(p){
     dettagli: [
       {k:"Auto da fermare (chi potrebbe lasciare l'auto)", v:`${r6N(p.potenziale)} [STIMATO]`},
       {k:`Posti adatti entro ${r6Raggio()} m a piedi`, v:r6N(p.posti_adatti)},
-      {k:"Fermate importanti del punto", v:`${r6N(p.n_fermate)} (${r6N(p.nessun)} senza parcheggio, ${r6N(p.insufficienti)} con posti insufficienti)`}
+      {k:"Fermate importanti del punto", v:`${r6N(p.n_fermate)} (${r6N(p.nessun)} senza parcheggio, ${r6N(p.insufficienti)} con posti insufficienti)`},
+      ...r6BusAuto(p)
     ],
     appTitolo: "Fermate di questo punto", appAperto: true,
     approfondimento: fer + `<p><b>Parcheggi che potrebbero ampliarsi</b> (adatti, almeno 100 posti, entro 600 m a piedi):</p>` + cand,
-    avviso: "Il punto raggruppa fermate entro 1 km. Auto che passano: modello del traffico, solo ordine di grandezza. «Ampliarsi» = da valutare sul posto, non un progetto."
+    avviso: "Il punto raggruppa fermate entro 1 km. Auto che passano: modello del traffico, solo ordine di grandezza. «Ampliarsi» = da valutare sul posto, non un progetto. Tempi verso Piazza Castello: solo mezzi GTT, senza treni; in auto fra il rallentamento dei sensori e quello di Google Maps. Il bus «conviene» se impiega al massimo 1,5 volte l'auto con entrambi."
   });
 }
 function r6SchedaParcheggio(p){
@@ -1048,6 +1059,7 @@ function r6SchedaParcheggio(p){
       ...(p.descrizione ? [{k:"In parole", v:esc(p.descrizione)}] : []),
       ...(motivo ? [{k:"Non contato fra i posti adatti perché", v:esc(motivo)}] : []),
       ...(val ? [{k:"Il metodo funziona qui?", v:esc(val.esito)}] : []),
+      ...r6BusAuto(p),
       {k:"Posti", v:esc(p.posti_origine||"nessuno")}
     ],
     appTitolo: "Come si riempie in un giorno feriale e nel weekend", appAperto: !!p.profilo_feriale,

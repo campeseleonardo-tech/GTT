@@ -1,0 +1,172 @@
+# -*- coding: utf-8 -*-
+"""
+scripts/94_r6_bus_contro_auto.py - Risultato 6, parte C (C1, C2, C3): dal parcheggio al centro, il mezzo pubblico conviene all'auto?
+
+Sola lettura sui dati. Per ogni punto prioritario del R6 (script 84, porte.json) e per ogni interscambio esistente del
+Comune si confronta il viaggio verso Piazza Castello:
+  - mezzi pubblici: r5py come lo script 93 (funzioni importate da li'), giorno 2026-10-12, partenza 7:45 con
+    finestra di 30 minuti, mediana, cammino a 4,8 km/h;
+  - auto: tempo a flusso libero sulla rete del modello del traffico x fattore di punta + 5 minuti per parcheggiare.
+    I due fattori della forbice del R8 si leggono da data/processed/tp_contro_auto.json (basso = Google Maps, alto = sensori 5T).
+
+Regola di classe, fissata prima di vedere i numeri. Rapporto = tempo coi mezzi / tempo in auto:
+  - «il bus conviene»:      rapporto <= 1,5 con entrambi i fattori;
+  - «dipende dal traffico»: rapporto <= 1,5 solo col fattore basso (l'auto lenta);
+  - «il bus non conviene»:  rapporto oltre 1,5 con entrambi (anche se i mezzi non arrivano entro 120 minuti).
+I punti non si tolgono dall'elenco del R6: si aggiunge solo la classe.
+
+Come si lancia
+--------------
+  python scripts\\94_r6_bus_contro_auto.py
+Prima servono gli script 84 (punti) e 93 (fattori).
+
+Uscite: data/processed/r6_bus_contro_auto.json, docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt
+"""
+import datetime as dt
+import json
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+
+AQUI = Path(__file__).resolve().parent
+sys.path.insert(0, str(AQUI))
+import comuni  # noqa: E402
+
+RADICE = comuni.RADICE
+PROC = RADICE / "data" / "processed"
+PORTE = PROC / "risultato6_v2" / "porte.json"
+TP_AUTO = PROC / "tp_contro_auto.json"
+OUT_JSON = PROC / "r6_bus_contro_auto.json"
+RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_BUS_CONTRO_AUTO.txt"
+PARZIALE = PROC / "r6_bus_contro_auto_parziale.npz"      # diverso da quello dello script 93: non si sovrascrivono
+
+SOGLIA = 1.5                                              # rapporto massimo perche' il bus «convenga»
+CLASSI = {"conviene": "il bus conviene", "dipende": "dipende dal traffico", "non_conviene": "il bus non conviene"}
+INTERSCAMBI_POCO_PIENI = ("SOFIA", "VENCHI UNICA")
+
+
+def classe_di(r_basso, r_alto):
+    if r_alto is not None and r_alto <= SOGLIA:
+        return "conviene"
+    if r_basso is not None and r_basso <= SOGLIA:
+        return "dipende"
+    return "non_conviene"
+
+
+def main():
+    t0 = time.time()
+    m93 = comuni.carica_script("93_tp_contro_auto.py")
+    m93.PARZIALE = PARZIALE
+    c = comuni.Controlli()
+
+    def log(m):
+        print(f"[{time.strftime('%H:%M:%S')}] {m}", flush=True)
+
+    c(f"esistono {PORTE.name} e {TP_AUTO.name} (lancia prima gli script 84 e 93)", PORTE.exists() and TP_AUTO.exists(), bloccante=True)
+    t93 = json.loads(TP_AUTO.read_text(encoding="utf-8"))
+    f_alto, f_basso = t93["parametri"]["fattore_punta"], t93["parametri"]["fattore_basso_google"]
+    c("fattori letti dal JSON dello script 93 (calcolo completo, non prova)", not t93["parametri"].get("prova"),
+      dettaglio=f"alto {f_alto:g} (sensori), basso {f_basso:g} (Google)", bloccante=True)
+    porte = json.loads(PORTE.read_text(encoding="utf-8"))
+
+    luoghi = [{"nome": p["nome"], "tipo": "punto_prioritario", "lat": p["centro"][0], "lon": p["centro"][1], "mancano": p["mancano"],
+               "dist_centro_km": p["dist_centro_km"]} for p in porte["punti_prioritari"]]
+    n_punti = len(luoghi)
+    for p in porte["parcheggi"]:
+        if p["tipo"] == "interscambio_ufficiale":
+            luoghi.append({"nome": p["nome"], "tipo": "interscambio", "lat": p["lat"], "lon": p["lon"], "posti": p["posti"],
+                           "stato": p["stato"], "riempimento_giorno": p.get("riempimento_giorno"), "descrizione": p.get("descrizione"),
+                           "auto_passaggio_txt": p.get("auto_passaggio_txt")})
+    c("tutti i 12 punti prioritari del R6 e i 5 interscambi presenti", n_punti == len(porte["punti_prioritari"]) == 12 and len(luoghi) - n_punti == 5,
+      dettaglio=f"{n_punti} punti + {len(luoghi) - n_punti} interscambi", bloccante=True)
+    extra = [(f"{l['nome']} → Piazza Castello", (l["lat"], l["lon"]), m93.CASTELLO) for l in luoghi]
+
+    log("tempi in auto sulla rete del modello del traffico ...")
+    t_auto, nodi_extra, spostati = m93.matrice_auto({}, extra)
+    log(f"  punti agganciati alla parte principale della rete: {spostati['n']} su {spostati['su']}")
+    log("tempi coi mezzi pubblici (r5py, cammino a 4,8 km/h) ...")
+    ids, T = m93.matrice_tp({}, extra, 20, log)
+    pos = {i: k for k, i in enumerate(ids)}
+
+    for k, l in enumerate(luoghi):
+        libero = t_auto[nodi_extra[k]] / 60.0
+        tp = T[pos[f"NOTO{k}_A"], pos[f"NOTO{k}_B"]]
+        l["libero_min"] = round(libero, 1)
+        l["auto_alto_min"] = round(m93.punta(libero, f_alto), 1)
+        l["auto_basso_min"] = round(m93.punta(libero, f_basso), 1)
+        l["tp_min"] = round(float(tp), 1) if tp == tp else None
+        if l["tp_min"] is None:
+            l["rapporto_alto"] = l["rapporto_basso"] = None
+            l["nota"] = "nessun collegamento coi mezzi entro 120 minuti"
+            l["classe"] = "non_conviene"
+        else:
+            l["rapporto_alto"] = round(l["tp_min"] / l["auto_alto_min"], 2)
+            l["rapporto_basso"] = round(l["tp_min"] / l["auto_basso_min"], 2)
+            l["classe"] = classe_di(l["rapporto_basso"], l["rapporto_alto"])
+        l["classe_testo"] = CLASSI[l["classe"]]
+
+    punti, inter = luoghi[:n_punti], luoghi[n_punti:]
+    conta = {k: sum(1 for l in punti if l["classe"] == k) for k in CLASSI}
+    conta_i = {k: sum(1 for l in inter if l["classe"] == k) for k in CLASSI}
+
+    c("nessun tempo nullo, negativo o infinito", all(np.isfinite(l["libero_min"]) and l["libero_min"] > 0 and l["auto_basso_min"] > 0
+                                                       and (l["tp_min"] is None or l["tp_min"] > 0) for l in luoghi), bloccante=True)
+    c("tutti i punti del R6 hanno una classe", all(l["classe"] in CLASSI for l in punti) and len(punti) == len(porte["punti_prioritari"]), bloccante=True)
+    c("il rapporto basso non supera quello alto", all(l["rapporto_basso"] <= l["rapporto_alto"] for l in luoghi if l["tp_min"] is not None),
+      dettaglio="l'auto piu' lenta (fattore Google) rende il rapporto piu' basso")
+    c("senza collegamento coi mezzi", True, dettaglio=f"{sum(1 for l in luoghi if l['tp_min'] is None)} luoghi")
+
+    # ---- paragrafo sugli interscambi esistenti
+    def virgola(x, dec=1):
+        return f"{x:.{dec}f}".replace(".", ",")
+
+    def riga_i(l):
+        if l["tp_min"] is None:
+            return f"{l['nome']}: i mezzi non arrivano a Piazza Castello entro 120 minuti; {l['classe_testo']}."
+        return (f"{l['nome']} ({l['stato'].replace('_', ' ')}): {l['tp_min']:.0f} minuti coi mezzi contro {l['auto_alto_min']:.0f}-{l['auto_basso_min']:.0f} in auto "
+                f"(rapporto {virgola(l['rapporto_basso'])}-{virgola(l['rapporto_alto'])}); {l['classe_testo']}.")
+    par_inter = "Interscambi esistenti del Comune, stesso test. " + " ".join(riga_i(l) for l in inter)
+    poco_pieni = [l for l in inter if l["nome"] in INTERSCAMBI_POCO_PIENI]
+    if poco_pieni:
+        par_inter += " Quelli poco pieni: " + "; ".join(f"da {l['nome']} {l['classe_testo']}" for l in poco_pieni) + "."
+
+    prova = {l["nome"]: l for l in luoghi}
+    out = {"stimato": True,
+           "parametri": {"destinazione": "Piazza Castello", "giorno": str(m93.GIORNO), "partenza": f"{m93.PARTENZA:%H:%M}", "finestra_min": m93.FINESTRA_MIN,
+                         "velocita_piedi_kmh": m93.VEL_PIEDI_KMH, "minuti_parcheggio": m93.MIN_PARCHEGGIO, "fattore_alto": f_alto,
+                         "fattore_basso": f_basso, "soglia_rapporto": SOGLIA, "punti_spostati": spostati},
+           "regola": {"conviene": "rapporto <= 1,5 con entrambi i fattori", "dipende": "rapporto <= 1,5 solo col fattore basso",
+                      "non_conviene": "rapporto oltre 1,5 con entrambi"},
+           "riepilogo": {"punti": conta, "interscambi": conta_i, "n_punti": len(punti), "n_interscambi": len(inter)},
+           "luoghi": luoghi, "paragrafo_interscambi": par_inter, "controlli": list(c.righe)}
+    OUT_JSON.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    r = ["RAPPORTO R6: IL BUS CONTRO L'AUTO VERSO PIAZZA CASTELLO (Risultato 6, parte C, STIMATO)",
+         f"generato: {dt.datetime.now().isoformat(timespec='seconds')}", "",
+         f"Mezzi pubblici: r5py, giorno {m93.GIORNO}, partenza 7:45-8:15, mediana, cammino a {m93.VEL_PIEDI_KMH:g} km/h.",
+         f"Auto: flusso libero x fattore di punta + {m93.MIN_PARCHEGGIO:.0f} minuti. Fattori dello script 93: basso {f_basso:g} (Google Maps), alto {f_alto:g} (sensori 5T).",
+         "Rapporto = tempo coi mezzi / tempo in auto. Regola fissata prima dei numeri:",
+         "  il bus conviene: rapporto <= 1,5 con entrambi i fattori; dipende dal traffico: <= 1,5 solo col fattore basso; il bus non conviene: oltre 1,5 con entrambi.", "",
+         f"PUNTI PRIORITARI DEL R6: {conta['conviene']} il bus conviene, {conta['dipende']} dipende dal traffico, {conta['non_conviene']} il bus non conviene (su {len(punti)})",
+         "  luogo | mancano | mezzi min | auto min (fattore alto-basso) | rapporto (basso-alto) | classe"]
+    for l in punti:
+        rap = f"{l['rapporto_basso']:.2f}-{l['rapporto_alto']:.2f}" if l["tp_min"] is not None else "nessun collegamento"
+        r.append(f"  {l['nome']} | {l['mancano']} | {l['tp_min'] if l['tp_min'] is not None else '-'} | {l['auto_alto_min']:.1f}-{l['auto_basso_min']:.1f} | {rap} | {l['classe_testo']}")
+    r += ["", f"INTERSCAMBI ESISTENTI: {conta_i['conviene']} il bus conviene, {conta_i['dipende']} dipende, {conta_i['non_conviene']} non conviene (su {len(inter)})",
+          "  luogo | stato | mezzi min | auto min (fattore alto-basso) | rapporto (basso-alto) | classe"]
+    for l in inter:
+        rap = f"{l['rapporto_basso']:.2f}-{l['rapporto_alto']:.2f}" if l["tp_min"] is not None else "nessun collegamento"
+        r.append(f"  {l['nome']} | {l['stato']} | {l['tp_min'] if l['tp_min'] is not None else '-'} | {l['auto_alto_min']:.1f}-{l['auto_basso_min']:.1f} | {rap} | {l['classe_testo']}")
+    r += ["", par_inter, "", "CONTROLLI"] + [f"  {x}" for x in c.righe]
+    r += ["", "LIMITI: tempi coi mezzi da orario programmato, solo GTT (niente treni: i luoghi fuori Torino possono risultare peggiori del vero); "
+              "la rete stradale non conta semafori e incroci; un solo punto per luogo (centro delle fermate importanti per i punti prioritari); "
+              "la destinazione e' sempre Piazza Castello."]
+    RAPPORTO.write_text("\n".join(r) + "\n", encoding="utf-8")
+    log(f"scritto {OUT_JSON.relative_to(RADICE)} e {RAPPORTO.relative_to(RADICE)} ({time.time() - t0:.0f} s)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -44,10 +44,15 @@ solo per pochi garage.
 - **Sensibilità della regola** (script 89): N 10-30 corse/ora e M 500-3.000 auto danno da 25 a 347 fermate; più la
   regola è severa, meno dei punti prioritari restano coperti.
 
+### Bus contro auto verso Piazza Castello (script 94)
+
+Per i 12 punti prioritari e i 5 interscambi: tempo coi mezzi (r5py, 8:00 di un feriale) contro tempo in auto (flusso libero × fattore + 5 minuti, con i due fattori del R8). Regola fissata prima dei numeri, rapporto = mezzi / auto: **il bus conviene** se ≤ 1,5 con entrambi i fattori; **dipende dal traffico** se ≤ 1,5 solo col fattore basso; **non conviene** se oltre 1,5 con entrambi.
+Esito: **0 punti su 12 il bus conviene, 1 dipende (Metro Massaua), 11 no**; interscambi: 0 conviene, 3 dipende (Stura, Venchi Unica, Fermi), 2 no (Caio Mario, Sofia). Tempi coi mezzi solo GTT, senza treni. Tabella completa in `data/processed/r6_bus_contro_auto.json` e `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt`.
+
 ## Mappa e scheda
 
 Tema «Parcheggi per lasciare l'auto»: fermate importanti, parcheggi adatti, punti prioritari, pannello con linee
-utili. Scheda `scheda_r6` in `scripts/schede_risultati.py`. In pagina niente versioni, scenari, eventi o classi dei
+utili; il pannello dei punti prioritari e degli interscambi mostra anche i tempi verso Piazza Castello e la classe (script 94). Scheda `scheda_r6` in `scripts/schede_risultati.py`. In pagina niente versioni, scenari, eventi o classi dei
 parcheggi.
 
 ## Limiti
@@ -68,6 +73,7 @@ parcheggi.
 | 82 | parcheggi adatti |
 | 83 | fermate importanti (regola N, M) |
 | 84 | risultato: coperture, punti prioritari |
+| 94 | bus contro auto verso Piazza Castello: classe dei punti prioritari e degli interscambi (serve il 93) |
 | 79 | dati della mappa |
 | 80 | funzioni usate da 84-85 |
 | 85 | verifiche automatiche |
