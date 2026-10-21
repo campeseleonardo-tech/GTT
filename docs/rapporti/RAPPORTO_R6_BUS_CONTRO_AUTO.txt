@@ -1,5 +1,5 @@
 RAPPORTO R6: IL BUS CONTRO L'AUTO VERSO PIAZZA CASTELLO (Risultato 6, parte C, STIMATO)
-generato: 2026-10-21T22:49:14
+generato: 2026-10-21T23:03:56
 
 Mezzi pubblici: r5py, giorno 2026-10-12, partenza 7:45-8:15, mediana, cammino a 4.8 km/h.
 Auto: flusso libero x fattore di punta + 5 minuti. Fattori dello script 93: basso 2.1 (Google Maps), alto 1.2 (sensori 5T).
@@ -28,6 +28,28 @@ INTERSCAMBI ESISTENTI: 0 il bus conviene, 3 dipende, 2 non conviene (su 5)
   CAIO MARIO | libero | 38.0 | 16.0-24.3 | 1.56-2.38 | il bus non conviene
   FERMI | non_misurato | 31.0 | 18.6-28.9 | 1.07-1.67 | dipende dal traffico
   SOFIA | libero | 33.0 | 13.3-19.6 | 1.68-2.48 | il bus non conviene
+
+MINUTI DI PAREGGIO: minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (fattore basso - alto; 0 = il bus e' gia' piu' veloce)
+  mediana dei punti prioritari: 20.85 - 27.5 minuti
+  mediana degli interscambi:    17.4 - 24.7 minuti
+  luogo | tipo | stato | minuti di pareggio (basso - alto)
+  FERMI | interscambio | non_misurato | 7.1 - 17.4
+  VENCHI UNICA | interscambio | a_meta | 8.8 - 17
+  STURA | interscambio | pieno | 17.4 - 26.7
+  SOFIA | interscambio | libero | 18.4 - 24.7
+  CAIO MARIO | interscambio | libero | 18.7 - 27
+  METRO MASSAUA | punto_prioritario | - | 7.3 - 14.9
+  PASINI | punto_prioritario | - | 15.6 - 20.9
+  DERNA EST | punto_prioritario | - | 18.6 - 25.2
+  REGINA MARGHERITA | punto_prioritario | - | 19.4 - 24.4
+  STURA LAZIO | punto_prioritario | - | 20.7 - 27.7
+  SANTA RITA | punto_prioritario | - | 20.8 - 27.3
+  ZARA | punto_prioritario | - | 20.9 - 26.1
+  DROSSO CAP | punto_prioritario | - | 21.3 - 30.6
+  FERRARA | punto_prioritario | - | 23 - 34.1
+  PONTE CAVALIERI TEMPLARI | punto_prioritario | - | 28 - 37.8
+  MARSÈ | punto_prioritario | - | 29.2 - 42.8
+  LEONARDO DA VINCI | punto_prioritario | - | 32.9 - 44.1
 
 SENSIBILITA': MINUTI PER PARCHEGGIARE IN CENTRO (la classe ufficiale e' quella con 5)
   minuti | punti: conviene / dipende / non conviene | interscambi: conviene / dipende / non conviene
@@ -59,6 +81,8 @@ CONTROLLI
   OK     esistono porte.json e tp_contro_auto.json (lancia prima gli script 84 e 93)
   OK     fattori letti dal JSON dello script 93 (calcolo completo, non prova) — alto 1.2 (sensori), basso 2.1 (Google)
   OK     tutti i 12 punti prioritari del R6 e i 5 interscambi presenti — 12 punti + 5 interscambi
+  OK     minuti di pareggio fra 0 e 120 — da 7.1 a 44.1
+  OK     mediana dei punti: col fattore alto >= col fattore basso — basso 20.85, alto 27.5
   OK     la sensibilita' con 5 minuti coincide con la classe ufficiale
   OK     nessun tempo nullo, negativo o infinito
   OK     tutti i punti del R6 hanno una classe
