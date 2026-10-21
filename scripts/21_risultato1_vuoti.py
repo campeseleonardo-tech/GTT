@@ -43,6 +43,13 @@ JSON ha in piu' la sezione "v2" e il rapporto la sezione "VERSIONE 2" in fondo.
     (1.000 ab/km2, sensibilita' 500 e 2.000) la sezione e' "poco abitata", in grigio e fuori dal titolo;
   - titolo = residenti delle sezioni abitate di Torino con 3 o piu' servizi mancanti.
 
+VERSIONE 3 (21/10/2026, Piano risultati A1): le uscite sopra restano uguali; il JSON ha in piu' la sezione "v3" e il
+rapporto la sezione "VERSIONE 3" in fondo. Solo Torino, solo zone abitate (almeno 1.000 ab/km2, senza le zone "da
+verificare"): residenti con tutti e 5 i servizi a 5, 10 e 15 minuti a piedi, e residenti per numero di servizi presenti
+(0-5) a ogni soglia. Legge anche data/processed/accessibilita_piedi10.json e accessibilita_piedi5.json (script 18
+con --solo-piedi, scripts/R1_PIEDI_5_10.bat); se un file manca la soglia e' saltata e scritto nel rapporto.
+Per circoscrizione solo se le sezioni hanno il campo; altrimenti salta e lo scrive.
+
 Usage:
     python 21_risultato1_vuoti.py [--percentile 10]
 """
@@ -80,6 +87,12 @@ GRUPPI_TP_CINTURA = {"scuole", "salute", "cibo"}  # in cintura manca solo se zer
 MAX_SENZA_SUPERFICIE = 10           # oltre, AVVISO
 RAGGIO_FERMATA_SOSPETTA_M = 300     # sezione "da verificare": zero fermate a piedi ma una fermata GTT entro questo raggio (Leo, 20/10)
 GTFS = RADICE / "data/raw/gtt_gtfs_20261003_224530.zip"   # stesso GTFS dello script 18 (sola lettura)
+
+# ---- versione 3 (21/10/2026)
+SOGLIE_PIEDI_MIN = (5, 10, 15)      # minuti a piedi; il 15 viene da accessibilita.json, 5 e 10 da script 18 --solo-piedi
+FILE_PIEDI = {5: RADICE / "data/processed/accessibilita_piedi5.json",
+              10: RADICE / "data/processed/accessibilita_piedi10.json"}
+CAMPI_CIRCOSCRIZIONE = ("circoscrizione", "circ", "cir")   # nomi possibili del campo in sezioni_torino.json
 
 
 def e_torino(sid):
@@ -348,6 +361,152 @@ def righe_rapporto_v2(v2, controlli):
     return out
 
 
+# ---------------------------------------------------------------- versione 3: copertura a 5, 10 e 15 minuti
+
+def carica_piedi_per_soglia(soglia, sezioni_15):
+    """{id sezione: {gruppo: destinazioni}} per una soglia a piedi, oppure (None, motivo) se non disponibile."""
+    if soglia == 15:
+        return {str(s["id"]): s["piedi"]["15"] for s in sezioni_15}, None
+    f = FILE_PIEDI[soglia]
+    if not f.is_file():
+        return None, f"manca {f.name} (lancia scripts\\R1_PIEDI_5_10.bat)"
+    d = json.loads(f.read_text(encoding="utf-8"))
+    if d.get("parametri", {}).get("cutoff_piedi_min") != soglia:
+        return None, f"{f.name} e' stato calcolato a {d.get('parametri', {}).get('cutoff_piedi_min')} minuti, non {soglia}"
+    return {str(s["id"]): s["piedi"][str(soglia)] for s in d["sezioni"]}, None
+
+
+def carica_circoscrizioni():
+    """{id sezione: circoscrizione} se sezioni_torino.json ha il campo, altrimenti {}."""
+    out = {}
+    for s in json.loads(SEZIONI_GEO.read_text(encoding="utf-8")):
+        for campo in CAMPI_CIRCOSCRIZIONE:
+            if s.get(campo) not in (None, ""):
+                out[str(s["id"])] = str(s[campo])
+                break
+    return out
+
+
+def conteggi_soglia(base, piedi):
+    """base = [{"id","res","circ"}]; piedi = {id: {gruppo: n}}. Ritorna residenti per numero di servizi presenti (0-5),
+    quota con tutti e 5, residenti senza il servizio per gruppo. Un servizio c'e' se il gruppo ha almeno 1 destinazione."""
+    per_n = {str(k): 0 for k in range(6)}
+    senza = {g: 0 for g in GRUPPI}
+    for b in base:
+        p = piedi[b["id"]]
+        presenti = sum(1 for g in GRUPPI if p.get(g, 0) > 0)
+        per_n[str(presenti)] += b["res"]
+        for g in GRUPPI:
+            if p.get(g, 0) == 0:
+                senza[g] += b["res"]
+    tot = sum(per_n.values())
+    return {"residenti": tot, "per_n_servizi": per_n, "tutti_5": per_n["5"],
+            "quota_tutti_5": round(100.0 * per_n["5"] / tot, 2) if tot else None, "senza_servizio": senza}
+
+
+def calcola_v3(sezioni, superfici, v2):
+    """Sezione "v3" del JSON: Torino, zone abitate (>= SOGLIA_POCO_ABITATA ab/km2; le sezioni senza superficie contano
+    come abitate; le zone "da verificare" della v2 restano fuori finche' l'accessibilita' a 15 minuti non e' rifatta con
+    la correzione dei centroidi). Ritorna (dict, controlli [(esito, testo)])."""
+    verif = {c["id"] for c in v2["sezioni_da_verificare"]}
+    circ = carica_circoscrizioni()
+    base, fuori_verif = [], 0
+    for s in sezioni:
+        if not e_torino(s["id"]):
+            continue
+        d = densita(s, superfici)
+        if d is not None and d < SOGLIA_POCO_ABITATA:
+            continue
+        if s["id"] in verif:
+            fuori_verif += s["res"]
+            continue
+        base.append({"id": str(s["id"]), "res": s["res"], "circ": circ.get(str(s["id"]))})
+    tot_base = sum(b["res"] for b in base)
+    controlli = []
+    soglie, non_calcolate = {}, {}
+    piedi_per_soglia = {}
+    for m in SOGLIE_PIEDI_MIN:
+        piedi, motivo = carica_piedi_per_soglia(m, sezioni)
+        if piedi is not None:
+            mancanti = [b["id"] for b in base if b["id"] not in piedi]
+            if mancanti:
+                piedi, motivo = None, f"{len(mancanti)} sezioni abitate di Torino senza dati a {m} minuti"
+        if piedi is None:
+            non_calcolate[str(m)] = motivo
+            continue
+        piedi_per_soglia[m] = piedi
+        r = conteggi_soglia(base, piedi)
+        soglie[str(m)] = r
+        controlli.append(("OK" if r["residenti"] == tot_base and sum(r["per_n_servizi"].values()) == tot_base else "ERRORE",
+                          f"{m} minuti: somma dei residenti per numero di servizi = {sum(r['per_n_servizi'].values()):,} "
+                          f"(zone abitate {tot_base:,})"))
+    for k, motivo in non_calcolate.items():
+        controlli.append(("AVVISO", f"{k} minuti non calcolato: {motivo}"))
+    disponibili = sorted(int(k) for k in soglie)
+    for a, b in zip(disponibili, disponibili[1:]):
+        ok = soglie[str(a)]["tutti_5"] <= soglie[str(b)]["tutti_5"]
+        controlli.append(("OK" if ok else "ERRORE",
+                          f"copertura {a} min {soglie[str(a)]['tutti_5']:,} <= {b} min {soglie[str(b)]['tutti_5']:,} residenti"))
+        n_viol = sum(1 for x in base if sum(1 for g in GRUPPI if piedi_per_soglia[a][x["id"]].get(g, 0) > 0)
+                     > sum(1 for g in GRUPPI if piedi_per_soglia[b][x["id"]].get(g, 0) > 0))
+        controlli.append(("OK" if n_viol == 0 else "AVVISO",
+                          f"sezioni con piu' servizi a {a} minuti che a {b}: {n_viol}"))
+    v3 = {
+        "ambito": "Torino, zone abitate",
+        "soglia_poco_abitata_ab_km2": SOGLIA_POCO_ABITATA,
+        "minuti_a_piedi": disponibili,
+        "soglie_non_calcolate": non_calcolate,
+        "residenti_zone_abitate": tot_base,
+        "sezioni_zone_abitate": len(base),
+        "residenti_da_verificare_esclusi": fuori_verif,
+        "regola": ("Un servizio c'e' se il gruppo ha almeno una destinazione entro i minuti indicati a piedi (80 m/min). "
+                   "Zone abitate = almeno 1.000 ab/km2; le zone da verificare (v2) restano fuori finche' l'accessibilita' "
+                   "a 15 minuti non e' rifatta con la correzione dei centroidi di via Chieti."),
+        "soglie": soglie,
+    }
+    if circ:
+        per_circ = {}
+        for c in sorted({b["circ"] for b in base if b["circ"] is not None}):
+            sotto = [b for b in base if b["circ"] == c]
+            per_circ[c] = {m: conteggi_soglia(sotto, piedi_per_soglia[int(m)]) for m in soglie}
+        v3["circoscrizioni"] = per_circ
+        somma = sum(r["residenti"] for c in per_circ.values() for r in list(c.values())[:1])
+        controlli.append(("OK" if somma == sum(b["res"] for b in base if b["circ"] is not None) else "ERRORE",
+                          f"circoscrizioni: somma dei residenti {somma:,}"))
+    else:
+        v3["circoscrizioni"] = None
+        v3["nota_circoscrizioni"] = ("Per circoscrizione saltato: le sezioni di sezioni_torino.json non hanno il campo "
+                                     f"({', '.join(CAMPI_CIRCOSCRIZIONE)}).")
+    return v3, controlli
+
+
+def righe_rapporto_v3(v3, controlli):
+    """Sezione "VERSIONE 3" in fondo al rapporto (aggiunta: il testo delle versioni 1 e 2 resta uguale)."""
+    out = ["", "=" * 78,
+           "VERSIONE 3 (21/10/2026): copertura a 5, 10 e 15 minuti a piedi, Torino, zone abitate",
+           f"regola: {v3['regola']}",
+           f"zone abitate: {v3['residenti_zone_abitate']:,} residenti in {v3['sezioni_zone_abitate']:,} sezioni "
+           f"(esclusi {v3['residenti_da_verificare_esclusi']:,} residenti delle zone da verificare)", ""]
+    nomi = {"scuole": "scuole", "salute": "salute", "cibo": "negozi", "fermate": "fermate", "verde": "verde"}
+    for m in v3["minuti_a_piedi"]:
+        r = v3["soglie"][str(m)]
+        out.append(f"A {m} MINUTI: tutti e 5 i servizi per {r['tutti_5']:,} residenti ({r['quota_tutti_5']}%)")
+        out.append("  residenti per numero di servizi presenti: "
+                   + "   ".join(f"{k}: {r['per_n_servizi'][str(k)]:,}" for k in range(6)))
+        out.append("  residenti senza il servizio: " + ", ".join(f"{nomi[g]} {r['senza_servizio'][g]:,}" for g in GRUPPI))
+    for k, motivo in v3["soglie_non_calcolate"].items():
+        out.append(f"A {k} MINUTI: NON CALCOLATO - {motivo}")
+    if v3["circoscrizioni"]:
+        out += ["", "PER CIRCOSCRIZIONE (tutti e 5 i servizi)"]
+        for c, per in v3["circoscrizioni"].items():
+            out.append(f"  {c}: " + "   ".join(f"{m} min {r['tutti_5']:,}/{r['residenti']:,} ({r['quota_tutti_5']}%)"
+                                               for m, r in per.items()))
+    else:
+        out += ["", v3["nota_circoscrizioni"]]
+    out += ["", "CONTROLLI v3:"] + [f"  {e}: {t}" for e, t in controlli]
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--percentile", type=float, default=10.0,
@@ -428,6 +587,10 @@ def main():
     esito["v2"] = v2
     for esito_c, testo_c in controlli_v2:
         print(f"  v2 {esito_c}: {testo_c}")
+    v3, controlli_v3 = calcola_v3(sezioni, carica_superfici(), v2)
+    esito["v3"] = v3
+    for esito_c, testo_c in controlli_v3:
+        print(f"  v3 {esito_c}: {testo_c}")
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(esito, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"Scritto {OUT} ({OUT.stat().st_size/1e3:.0f} KB)")
@@ -473,9 +636,12 @@ def main():
         "scheda finale, non calcolate.",
     ]
     righe += righe_rapporto_v2(v2, controlli_v2)
+    righe += righe_rapporto_v3(v3, controlli_v3)
     RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
     RAPPORTO.write_text("\n".join(righe), encoding="utf-8")
     print(f"Scritto {RAPPORTO}")
+    if any(e == "ERRORE" for e, _ in controlli_v3):
+        sys.exit("ERRORE nei controlli della versione 3 (vedi il rapporto): i numeri v3 non vanno usati")
 
 
 if __name__ == "__main__":

@@ -91,6 +91,7 @@ def minuti(hhmm):
 GRUPPI_EN = {"scuole": "schools", "salute": "health", "cibo": "shops and commercial activities",
              "fermate": "public transport stops",
              "verde": "green space"}   # nomi dei gruppi del risultato 1 in inglese (solo per la traduzione)
+GRUPPI_R1 = ["scuole", "salute", "cibo", "fermate", "verde"]   # ordine dei 5 gruppi (come GRUPPI dello script 21)
 NOMI_R1 = {"cibo": "negozi e attività commerciali"}   # il gruppo "cibo" contiene tutte le attività commerciali
 
 
@@ -1149,36 +1150,75 @@ def numero_di(s, label_inizio, scenario=0):
 
 
 def forma_r1(s):
+    """Scheda R1 (Piano risultati A1 + A3): copertura a 5, 10 e 15 minuti (v3 di 21_risultato1_vuoti.py) ed esposizione
+    al traffico (92_esposizione_traffico.py). Tutti i numeri vengono dai JSON."""
+    v2 = leggi("risultato1_vuoti.json")["v2"]
+    v3 = leggi("risultato1_vuoti.json").get("v3")
+    esp = leggi("esposizione_traffico.json")
+    if not v3 or any(m not in v3["minuti_a_piedi"] for m in (5, 10, 15)):
+        raise SystemExit("Risultato 1: la copertura a 5 e 10 minuti non c'e' in risultato1_vuoti.json: lancia "
+                         "scripts\\R1_PIEDI_5_10.bat e poi scripts\\21_risultato1_vuoti.py")
     quota_senza = numero_di(s, "Quota dei residenti di Torino senza almeno")
     senza = numero_di(s, "Residenti senza almeno un servizio")
     tre_o_piu = numero_di(s, "Residenti di zone abitate senza")
-    tutti5 = numero_di(s, "Tutti e 5")
-    senza_tipo = [(n["label"], n["dopo"]) for n in s["scenari"][0]["numeri"] if n["label"].startswith("Senza ") and n["label"].endswith("entro 15 min")]
-    primo_nome = senza_tipo[0][0].replace("Senza ", "").replace(" entro 15 min", "")
-    recuperati = sum(n["prima"] - n["dopo"] for n in s["scenari"][1]["numeri"])
+    n_critiche = len(v2["sezioni_critiche_torino"])
     par = dict(map(tuple, s["parametri"]))
     soglia = par["Zona poco abitata"].split(" ab")[0].replace("sotto ", "")
-    principale = dict(grafico_per_titolo(s, "Residenti di Torino senza il servizio"), titolo="Residenti che non hanno il servizio a 15 minuti a piedi")
+    pr = esp["parametri"]
+    raggio, raggio_v = int(pr["raggio_esposta_m"]), int(pr["raggio_vicina_m"])
+    classi = esp["classi"]
+    sol = v3["soglie"]
+
+    def quota(m, k):   # % dei residenti delle zone abitate con k servizi presenti a m minuti
+        return 100.0 * sol[str(m)]["per_n_servizi"][str(k)] / sol[str(m)]["residenti"]
+
+    righe = []
+    for m in (5, 10, 15):
+        cinque, quattro = round(quota(m, 5), 1), round(quota(m, 4), 1)
+        righe.append({"label": f"{m} minuti", "voci": [
+            voce("tutti e 5 i servizi", cinque, tono="verde"),
+            voce("4 servizi", quattro, tono="giallo"),
+            voce("3 o meno", round(100 - cinque - quattro, 1), tono="rosso")]})
+    principale = {"tipo": "pila100", "titolo": "Residenti per servizi raggiunti a piedi", "unita": "%",
+                  "nota": f"Ogni barra è un tempo a piedi: 100% dei residenti delle zone abitate (almeno {soglia} abitanti per km²).",
+                  "righe": righe}
+    grafico_traffico = {"tipo": "barre", "titolo": "Residenti per distanza da una strada molto trafficata", "unita": "residenti",
+                        "nota": f"Distanza dal centro della sezione. Strada molto trafficata: almeno "
+                                f"{migliaia(pr['soglia_molto_traffico_veic_giorno'])} veicoli al giorno. "
+                                f"Stima debole: il modello sbaglia del ±{pr['fascia_errore_pct']}% in metà dei casi.",
+                        "voci": [voce(f"esposti (meno di {raggio} m)", classi["esposta"]["residenti"], tono="rosso"),
+                                 voce(f"vicini ({raggio}-{raggio_v} m)", classi["vicina"]["residenti"], tono="giallo"),
+                                 voce(f"lontani (oltre {raggio_v} m)", classi["lontana"]["residenti"], tono="verde")]}
+    ordine = sorted(GRUPPI_R1, key=lambda g: -sol["15"]["senza_servizio"][g])
+    grafico_senza = {"tipo": "barre", "titolo": "Residenti senza il servizio a 15 minuti a piedi", "unita": "residenti",
+                     "nota": f"Solo zone abitate (almeno {soglia} abitanti per km²).",
+                     "voci": [voce(nome_r1(g), sol["15"]["senza_servizio"][g], tono="rosso") for g in ordine]}
+    calcolo = ["Per ogni sezione di censimento si contano i servizi raggiungibili a piedi in 5, 10 e 15 minuti.",
+               "I tipi di servizio sono cinque, contati separatamente: scuole, salute, negozi, fermate, verde.",
+               f"Si cammina sulla rete stradale reale (OpenStreetMap), a {par['Velocità a piedi'].split(' (')[0]}.",
+               f"Residenti dal censimento ISTAT 2021; le zone con meno di {soglia} abitanti per km² sono grigie e contate a parte.",
+               f"Si è esposti se il centro della sezione è a meno di {raggio} m da una strada molto trafficata."]
+    parametri = [["Tempi a piedi", "5, 10 e 15 minuti"] if p[0] == "Tempo a piedi" else list(p) for p in s["parametri"]]
+    parametri += [["Strada molto trafficata", f"almeno {migliaia(pr['soglia_molto_traffico_veic_giorno'])} veicoli al giorno"],
+                  ["Esposto al traffico", f"a meno di {raggio} m dalla strada"]]
     return forma_base(
         s,
-        "Quasi tutti i torinesi hanno i servizi essenziali a 15 minuti a piedi",
-        "Quanti torinesi non hanno scuole, salute, negozi, fermate e verde a 15 minuti a piedi?",
-        {"valore": quota_senza, "unita": "%", "testo": f"dei torinesi ({migliaia(senza)}) non ha almeno uno dei 5 servizi a 15 minuti"},
+        "A 15 minuti quasi tutti hanno i servizi; a 5 minuti molti meno",
+        "Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata?",
+        {"valore": round(quota(15, 5), 1), "unita": "%",
+         "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi"},
         principale,
-        [f"Il servizio che manca più spesso è {primo_nome}: {migliaia(senza_tipo[0][1])} residenti non ne hanno uno vicino.",
-         f"{migliaia(tre_o_piu)} residenti di zone abitate non hanno 3 o più dei 5 servizi; a {tutti5} mancano tutti e 5.",
-         f"Con al massimo 5 punti nuovi per tipo di servizio, {migliaia(recuperati)} mancanze rientrano nei 15 minuti."],
-        [grafico_per_titolo(s, "Residenti per numero di servizi mancanti"), grafico_per_titolo(s, "Residenti senza il servizio: oggi")],
-        ["Per ogni sezione di censimento si contano i servizi raggiungibili a piedi in 15 minuti.",
-         "I tipi di servizio sono cinque, contati separatamente: scuole, salute, negozi, fermate, verde.",
-         f"Si cammina sulla rete stradale reale (OpenStreetMap), a {par['Velocità a piedi'].split(' (')[0]}.",
-         "I residenti vengono dal censimento ISTAT 2021.",
-         f"Le zone con meno di {soglia} abitanti per km² sono grigie e contate a parte."],
-        [list(p) for p in s["parametri"]],
+        [f"A 5 minuti solo {il(quota(5, 5))}% dei residenti ha tutti e 5 i servizi; a 10 minuti {il(quota(10, 5))}%.",
+         f"{migliaia(classi['esposta']['residenti'])} residenti ({virgola(classi['esposta']['quota'])}%) vivono a meno di "
+         f"{raggio} m da una strada molto trafficata.",
+         f"I {migliaia(tre_o_piu)} residenti senza 3 o più servizi sono in {n_critiche} {'sezione' if n_critiche == 1 else 'sezioni'} di collina: dove manca davvero tutto."],
+        [grafico_traffico, grafico_senza],
+        calcolo,
+        parametri,
         ["Solo Torino: in cintura il catalogo dei servizi manca, quindi «zero» spesso vuol dire dato mancante.",
-         "Si conta se un servizio c'è, non quanto è grande né se ha posto.",
+         "Si conta se un servizio c'è, non quanto è grande né se ha posto. Le fermate usano l'orario programmato: niente ritardi né affollamento.",
          "I punti nuovi sono ipotesi: non tengono conto di costi, spazi liberi o permessi.",
-         "Le fermate usano l'orario programmato: niente ritardi né affollamento."],
+         "Il traffico è una stima e sostituisce rumore e smog, che non misuriamo."],
         ["Question: how many Turin residents lack schools, health, shops, stops or green space within 15 minutes on foot?",
          f"Answer: {senza:,} residents ({quota_senza:.1f}%) lack at least one of the 5 services; {tre_o_piu:,} in inhabited areas lack three or more.",
          "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."])

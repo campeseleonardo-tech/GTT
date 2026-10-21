@@ -1787,9 +1787,12 @@ function cercaTip(sx,sy,click){
     for(const z of sez){
       if(ux<z.bb[0]||ux>z.bb[2]||uy<z.bb[1]||uy>z.bb[3]) continue;
       if(dentroZona({polys:[z.polys]},ux,uy)){
-        if(click) return apriScheda(schedaSezione(z), z);
-        cv.style.cursor="pointer";
         const modo=$("modoSez").value;
+        if(click){
+          if(modo!=="dens" && z.dens<DENS_MIN){ chiudiScheda(); return mostraTipBase(tipC("zona con pochi abitanti"), sx, sy); }   // zona grigia: solo una riga, niente scheda
+          return apriScheda(schedaSezione(z), z);
+        }
+        cv.style.cursor="pointer";
         let nome="Sezione di censimento", val, extra=nomeComune(z.c);
         if(modo==="rapp") val=`${Math.round(sezRapp(z,i)).toLocaleString("it-IT")} passaggi ogni 1000 ab.`;
         else if(modo==="serv") val=`${sezServ(z,i)} passaggi/ora`;

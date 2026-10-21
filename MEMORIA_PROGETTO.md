@@ -50,7 +50,7 @@ della validazione del traffico e `RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`). Do
 `data/` (non in git): `raw/` (non toccare), `processed/`, `otp/` (R5), `scenari/`.
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 · 26 velocità 5T · 27 R4 ·
 28-29 R2 · 30-32 rapporto sostenibilità · 33-67 + `rete_osm.py` traffico (R8, vedi `docs/R8_traffico.md`)
-· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 87 popolarità delle zone e linee utili, 88 confronto auto e sensori 5T, 89 proposta fermate importanti · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 92** (90 verifica ritardi col GPS, 91 prova del R4 sul GPS).
+· 70 R9 · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo delle strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti, 84 risultato, 85 verifiche · 87 popolarità delle zone e linee utili, 88 confronto auto e sensori 5T, 89 proposta fermate importanti · 92 esposizione al traffico dei residenti (R1) · 86 cartella `pubblica/` e README · `comuni.py` funzioni comuni · `controlla_leopi.py` · `schede_risultati.py` schede. Catena R6: `scripts/RISULTATO6_RIFAI.bat`. Superati in `scripts/archivio/` (elenco in `LEGGIMI.txt`). **Prossimo numero libero: 93** (90 verifica ritardi col GPS, 91 prova del R4 sul GPS).
 
 | Dato | Note |
 |---|---|
@@ -102,6 +102,12 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
   nei temi con l'ora, tolti pendolari, corse simulate, avvisi, griglia, replay; mappa 13,1 MB. **Giro 2 fatto (21/10, ricontrollato)**: velocità bus su tutto lo storico (avviso: 2 sabati), sensori da `velocita_5t.json` dentro la mappa (via `stat.js`), «Tutti i servizi» (punteggio 0-100, calcolato nel browser; dal 21/10 sera percentili separati Torino / cintura, quindi punteggi non confrontabili fra le due aree). **Correzioni urgenti 5.1 (1-4) fatte il 21/10 (ricontrollate)**: cartella OMI `data/raw/omi_2025_2`, email tolta dagli script, README senza numeri, catalogo nella pubblicazione. Il vecchio nome della cartella OMI resta nella storia di git (decisione di Leo se riscriverla). **Giro 3 della mappa fatto (21/10, `docs/piani/ESITO_MAPPA_GIRO3.md`)**: «Chi abita qui» completo (8 viste e profilo al clic; niente 80+: l'ISTAT ha solo «oltre 74»), persone sole, grigio sotto 1.000 ab/km², confine di Torino, legende corte, telefono con «Temi»; mappa 13,5 MB. Prossimo: giro 4 (Luoghi della città, peso, schede uniformi).
   **R4 confronto con GTT (B1, B2, B4) fatto il 21/10 (ricontrollato; dettaglio in `docs/R4_puntualita.md`)**: «oltre 10 minuti» in 4 definizioni, media settimana 5/1/1: a ogni fermata 5,49%, alla prima fermata 3,92%, a metà corsa 5,24%, fuori punta 5,30% (GTT 2,3%); forbice corse senza GPS feriale 4,3-5,7%; ±1 minuto = 4,6-6,4%. La definizione spiega solo una parte della differenza. B3 (stagione) resta per gennaio/luglio.
 
+- **R1 A1 + A3 (cloud, 21/10; dettaglio in `docs/piani/ESITO_R1_A1_A3.md`)**: codice pronto, **numeri ancora da calcolare sul PC** (nel cloud non ci sono `data/` né R5).
+  Script 18 con `--solo-piedi` (e `--out` accetta anche un percorso); 2 sezioni di via Chieti in `SEZIONI_FUORI_RETE`; `scripts\R1_PIEDI_5_10.bat`
+  (prova su 200 sezioni, poi 10 e 5 minuti; uscite `accessibilita_piedi10.json` e `accessibilita_piedi5.json`); script 21 con sezione «v3» (copertura
+  a 5/10/15 minuti, solo zone abitate; per circoscrizione saltato: il campo non c'è); script 92 (esposizione al traffico, nomi dei campi di
+  `tratte_traffico.json` da confermare al primo lancio); scheda R1 nuova in `schede_risultati.py`; `.gitattributes` per i `.bat`; mappa: clic su zona grigia = una riga.
+  Da fare sul PC: `R1_PIEDI_5_10.bat`, poi 21, 92, schede, 04, prova delle pagine.
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
 - **Risultato 6, punti per asse** (Leo, 20/10 sera): un punto per asse d'ingresso, almeno 3 km dal centro, posti che
   mancano arrotondati: eseguito sul PC il 20/10 (19 punti, verifiche 0 non superate, ricontrollato da Claude).
@@ -200,6 +206,7 @@ logistica, eventi (stadi, palazzetti).
 - **Mappa**: un campo nuovo in `D.sezioni[i]` va aggiunto anche nella proiezione `sez` di `mappa_template.html`;
   chi cambia l'ora (`#ora`) deve richiamare `aggiornaLegenda()`. Numeri in italiano (virgola decimale).
 - **Script 24**: corridoio = stesso nome + tratti collegati o entro ~100-200 m; togliere "(TO)" dai nomi 5T.
+- **Script 18, solo piedi**: `--solo-piedi` salta il mezzo pubblico (`--ore` si ignora); la firma dei parziali contiene i minuti a piedi ma non l'uscita: cancellare `accessibilita_parziale/` prima di ogni lancio.
 - **Script 18**: la firma della run non contiene il percorso del GTFS: tra due lanci con GTFS diversi pulire
   `data/processed/accessibilita_parziale/` (il `.bat` del Risultato 2 lo fa già).
 - **Bridge** (chat senza terminale): `device_commit_files` a volte non scrive i file grossi; rileggere dopo.

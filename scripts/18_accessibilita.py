@@ -50,6 +50,9 @@ SEZIONI_FUORI_RETE = {
     "12720004264": "R5 a piedi 11% della linea d'aria (Fase 4)",
     "12720005521": "R5 a piedi 0 con prove in linea d'aria (Fase 4)",
     "12720006601": "R5 a piedi 6% della linea d'aria (Fase 4)",
+    # via Chieti (R1 v2, 20/10): fermata GTT a 75-179 m che il calcolo a piedi non raggiunge
+    "12720005328": "via Chieti: zero fermate a piedi con una fermata a 179 m (R1 v2)",
+    "12720000972": "via Chieti: zero fermate a piedi con una fermata a 75 m (R1 v2)",
 }
 RAGGIO_CENTROIDE = 200  # metri: raggio in cui si cerca il nodo OSM piu' vicino
 
@@ -425,16 +428,19 @@ def main():
     ap.add_argument("--velocita-piedi", type=float, default=80)  # 4.8 km/h = 80 m/min
     ap.add_argument("--velocita-tp", type=float, default=4.8)  # 4.8 km/h per margine TP
     ap.add_argument("--niente-correzione-centroidi", action="store_true")
+    ap.add_argument("--solo-piedi", action="store_true",
+                    help="salta la parte coi mezzi pubblici (e --ore): serve per le soglie 5 e 10 minuti")
     args = ap.parse_args()
-    args.ore = [int(x) for x in args.ore.split(",")]
+    args.ore = [] if args.solo_piedi else [int(x) for x in args.ore.split(",") if x.strip()]
     global GTFS, OUT, RAPPORTO
     if args.gtfs:
         GTFS = Path(args.gtfs)
         if not GTFS.is_absolute():
             GTFS = RADICE / GTFS
     if args.out:
-        OUT = RADICE / "data/processed" / f"{args.out}.json"
-        RAPPORTO = RADICE / "docs" / "rapporti" / f"RAPPORTO_{args.out.upper()}.txt"
+        nome_out = Path(args.out).stem  # vale sia "accessibilita_piedi5" sia un percorso con .json
+        OUT = RADICE / "data/processed" / f"{nome_out}.json"
+        RAPPORTO = RADICE / "docs" / "rapporti" / f"RAPPORTO_{nome_out.upper()}.txt"
         RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
     tieni_pc_sveglio()
 
@@ -552,7 +558,9 @@ def main():
     # ---- COL TRASPORTO PUBBLICO, per ora (destinazioni STESSE per tutte le origini:
     # catalogo comunale dentro Torino + punti OSM solo fuori, vedi FIX 4)
     from r5py import TransportMode as TM
-    for ora in args.ore:
+    if args.solo_piedi:
+        log("--solo-piedi: parte coi mezzi pubblici saltata")
+    for ora in args.ore:  # con --solo-piedi args.ore e' vuoto
         log(f"TP ore {ora:02d}:00, cutoff {args.cutoff_tp} min, velocita' {args.velocita_tp:.1f} km/h...")
         fatti = riprendi_parziali(f"tp_{ora}", firma) if args.salva_tappe else {}
         for dd in fatti.values():
@@ -597,6 +605,7 @@ def main():
                   "sezioni: catalogo comunale (dentro Torino) + OSM (solo punti fuori dal "
                   "Comune). " + f"Centroidi corretti per sezione: {sorted(SEZIONI_FUORI_RETE)}.",
         "parametri": {
+            "solo_piedi": args.solo_piedi,
             "giorno": args.giorno,
             "ore": args.ore,
             "cutoff_piedi_min": args.cutoff_piedi,
@@ -633,7 +642,8 @@ def main():
         f"generato: {esito['generato']}  giorno tipo: {args.giorno}  ore: {args.ore}",
         f"sezioni: {len(esito['sezioni'])} (Torino {len(gr['Torino (comune 1272)'])}, "
         f"cintura {len(gr['Cintura (comuni != 1272)'])})",
-        f"cutoff a piedi: {args.cutoff_piedi} min ({args.velocita_piedi:.0f} m/min)  TP: {args.cutoff_tp} min",
+        f"cutoff a piedi: {args.cutoff_piedi} min ({args.velocita_piedi:.0f} m/min)  "
+        + ("TP: non calcolato (--solo-piedi)" if args.solo_piedi else f"TP: {args.cutoff_tp} min"),
         f"gruppi (celle di destinazione): {esito['gruppi']}",
         "  NOTA: le destinazioni sono accorpate in celle di ~50 m con peso: il totale pesato "
         "vale il numero dei punti originali. Destinazioni STESSE per tutte le sezioni "

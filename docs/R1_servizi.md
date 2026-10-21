@@ -42,6 +42,15 @@ Tema «Dove mancano i servizi» della mappa: gradini 0-5 (verde → rosso), grig
 le zone da verificare, cerchi sulle zone abitate con 3+ mancanti, viste per singolo servizio con i candidati.
 La scheda è `scheda_r1` in `scripts/schede_risultati.py`.
 
+## Copertura a 5, 10 e 15 minuti e traffico (v3, 21/10)
+
+Sezione «v3» di `risultato1_vuoti.json` e «VERSIONE 3» del rapporto: per Torino, solo zone abitate (almeno 1.000 ab/km²),
+residenti con tutti e 5 i servizi a 5, 10 e 15 minuti a piedi e residenti per numero di servizi presenti (0-5). I tempi a 5 e 10
+minuti vengono dallo script 18 con `--solo-piedi` (`scripts\R1_PIEDI_5_10.bat`: `accessibilita_piedi5.json` e
+`accessibilita_piedi10.json`, `accessibilita.json` non si tocca). Controlli: la somma dei residenti torna a ogni soglia; copertura a 5 ≤ 10 ≤ 15.
+Per circoscrizione: saltato, le sezioni non hanno il campo. Esposizione al traffico: script 92, classi esposta (meno di 100 m) /
+vicina (100-250 m) / lontana. Il traffico è una stima e sostituisce rumore e smog, che non misuriamo.
+
 ## Limiti
 
 - Capienza di ospedali, presidi e scuole non nota: un ospedale e un ambulatorio contano uguale.
@@ -50,7 +59,7 @@ La scheda è `scheda_r1` in `scripts/schede_risultati.py`.
 - Fuori Torino scuole, salute e negozi vengono da OpenStreetMap (senza relazioni/multipoligoni): Torino e cintura non
   sono confrontabili.
 - I candidati sono zone indicative, non indirizzi verificati.
-- Le 2 sezioni da verificare vanno aggiunte a `SEZIONI_FUORI_RETE` dello script 18 al prossimo calcolo completo.
+- Le 2 sezioni da verificare (via Chieti) sono già in `SEZIONI_FUORI_RETE` dello script 18: valgono dal prossimo calcolo. Finché l'accessibilità a 15 minuti non è rifatta restano fuori dalla copertura v3.
 
 ## Script e come rifarlo
 
@@ -59,6 +68,7 @@ La scheda è `scheda_r1` in `scripts/schede_risultati.py`.
 | `18_accessibilita.py` | accessibilità per sezione (input; si rifà solo se cambia il GTFS: `scripts\ACCESSIBILITA_24ORE.bat`) |
 | `21_risultato1_vuoti.py` | conteggio 0-5, zone poco abitate e da verificare, sezioni critiche |
 | `22_risultato1_candidati.py` | dove aggiungere un servizio (tutti e 5 i gruppi) |
+| `92_esposizione_traffico.py` | residenti a meno di 100 m da una strada molto trafficata (≥ 11.720 veicoli/giorno, come il R8): stima debole |
 | `schede_risultati.py` | scheda (`data/schede_risultati.js`) |
 
 ```
