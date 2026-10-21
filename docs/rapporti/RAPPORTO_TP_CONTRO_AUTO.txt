@@ -1,5 +1,5 @@
 RAPPORTO TP CONTRO AUTO (Risultato 8, parte D, STIMATO)
-generato: 2026-10-21T16:24:55
+generato: 2026-10-21T16:37:08
 
 Zone IMQ con punti: 71 (zone solo «porta» escluse); fino a 5 punti per zona, i piu' pesanti.
 Tempi coi mezzi: r5py, giorno 2026-10-12, mediana delle partenze 7:45-8:15, mezzi pubblici + cammino, massimo 120 minuti.
@@ -7,49 +7,54 @@ Tempi in auto: rete del modello del traffico, flusso libero x 1.5 + 5 minuti (pa
 Auto: viaggi IMQ in auto conducente, partenza 6-10, feriale. Totale fra le zone incluse: 465,534.
 
 TITOLO
-  auto del mattino su coppie «non conviene» (TP oltre il doppio dell'auto): 271,965 su 275,943 (98.6%, cioe' 9.9 su 10)
-  per classe: non conviene: 271,965 auto in 2484 coppie; poco: 3,977 auto in 23 coppie
+  auto del mattino su coppie «non conviene» (TP oltre 3.5 volte l'auto): 27,844 su 275,943 (10.1%, cioe' 1.0 su 10)
+  per classe: poco: 196,363 auto in 1840 coppie; non conviene: 27,844 auto in 306 coppie; conviene: 51,736 auto in 361 coppie
   senza collegamento TP entro 120 minuti (a parte): 2463 coppie, 25,389 auto; dentro la stessa zona (non confrontate): 164,203
 
 SENSIBILITA' AL FATTORE DI PUNTA
-  fattore 1.5: «non conviene» 98.6% delle auto, «conviene» 0.0%
-  fattore 1.3: «non conviene» 99.2% delle auto, «conviene» 0.0%
-  fattore 1.8: «non conviene» 91.4% delle auto, «conviene» 0.6%
+  fattore 1.5: «non conviene» 10.1% delle auto, «conviene» 18.7%
+  fattore 1.3: «non conviene» 22.1% delle auto, «conviene» 8.6%
+  fattore 1.8: «non conviene» 5.0% delle auto, «conviene» 55.1%
+
+SOGLIE PRECEDENTI (1.5 e 2), tenute per il confronto
+  fattore 1.5: «non conviene» 98.6% delle auto (271,965), «conviene» 0.0%
+  fattore 1.3: «non conviene» 99.2% delle auto (273,676), «conviene» 0.0%
+  fattore 1.8: «non conviene» 91.4% delle auto (252,280), «conviene» 0.6%
 
 LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (non conviene)
   da → a | auto | TP min | auto di punta min | rapporto
-  Collegno → Grugliasco | 1,668 | 30 | 12 | 2.6
-  Nichelino → Moncalieri | 1,408 | 54 | 17 | 3.2
-  Torino, Crocetta → Torino, Centro | 1,355 | 23 | 10 | 2.2
-  Grugliasco → Collegno | 1,348 | 30 | 12 | 2.5
-  Torino, San Paolo → Torino, Centro | 1,342 | 35 | 13 | 2.7
-  Torino, Mirafiori Nord → Torino, Santa Rita | 1,324 | 23 | 9 | 2.5
-  Torino, San Donato → Torino, Centro | 1,269 | 21 | 10 | 2.1
-  Torino, Barriera di Milano → Torino, Falchera | 1,208 | 28 | 11 | 2.5
-  Rivoli → Collegno | 1,172 | 33 | 14 | 2.4
-  Moncalieri → Torino, Nizza Millefonti | 1,149 | 46 | 18 | 2.6
-  Torino, Mirafiori Sud → Torino, Mirafiori Nord | 1,108 | 42 | 15 | 2.8
-  Rivalta di Torino → Torino, Centro | 1,082 | 84 | 35 | 2.4
-  Torino, Parella → Torino, Pozzo Strada | 1,038 | 19 | 9 | 2.1
-  Alpignano → Rivoli | 1,037 | 50 | 16 | 3.1
-  Collegno → Rivoli | 1,029 | 32 | 14 | 2.4
+  Leini → Caselle Torinese | 826 | 100 | 16 | 6.1
+  Vinovo → Nichelino | 759 | 69 | 17 | 4.2
+  Torino, Mirafiori Sud → Rivoli | 719 | 86 | 24 | 3.7
+  Beinasco → Rivoli | 562 | 88 | 23 | 3.8
+  Vinovo → Moncalieri | 539 | 90 | 22 | 4.1
+  Volpiano → Settimo Torinese | 527 | 91 | 23 | 4.0
+  Nichelino → Rivoli | 518 | 96 | 25 | 3.8
+  Pianezza → Rivoli | 510 | 72 | 20 | 3.7
+  Collegno → Venaria Reale | 473 | 73 | 21 | 3.5
+  San Maurizio Canavese E Limitrofi → Cirie' | 470 | 82 | 16 | 5.0
+  Volpiano → Leini | 439 | 89 | 16 | 5.7
+  Torino, Madonna Del Pilone → Torino, Borgo Po E Cavoretto | 438 | 63 | 18 | 3.5
+  Caselle Torinese → Leini | 438 | 100 | 17 | 6.0
+  Nichelino → Vinovo | 415 | 64 | 17 | 3.8
+  Vinovo → Torino, Mirafiori Sud | 383 | 86 | 20 | 4.4
 
 PER ZONA: quota delle auto in uscita su coppie «non conviene» (prime 15)
-  Grugliasco: 100% di 6,852 auto
-  Collegno: 100% di 10,245 auto
-  Venaria Reale: 100% di 5,785 auto
-  Borgaro Torinese: 100% di 2,799 auto
-  Settimo Torinese: 100% di 6,047 auto
-  San Mauro Torinese: 100% di 3,330 auto
-  Pino Torinese: 100% di 1,834 auto
-  Moncalieri: 100% di 9,347 auto
-  Pecetto Torinese: 100% di 930 auto
-  Nichelino: 100% di 9,278 auto
   Candiolo: 100% di 313 auto
-  Beinasco: 100% di 3,846 auto
-  Orbassano: 100% di 4,976 auto
-  Rivalta di Torino: 100% di 6,580 auto
-  Rivoli: 100% di 10,057 auto
+  Caselle Torinese: 100% di 1,901 auto
+  La Loggia: 100% di 783 auto
+  Carignano: 100% di 62 auto
+  Piobesi Torinese: 100% di 271 auto
+  Givoletto E Limitrofi: 100% di 284 auto
+  Riva Presso Chieri E Limitrofi: 100% di 287 auto
+  San Maurizio Canavese E Limitrofi: 100% di 470 auto
+  Cavagnolo E Limitrofi: 100% di 93 auto
+  Cirie': 100% di 184 auto
+  Volpiano: 94% di 2,142 auto
+  Pecetto Torinese: 90% di 930 auto
+  Avigliana E Limitrofi: 74% di 373 auto
+  Vinovo: 74% di 3,134 auto
+  Mappano: 66% di 578 auto
 
 CONTROLLO DI BUON SENSO: percorsi noti (minuti)
   percorso | auto flusso libero | auto di punta | auto di punta 1,3-1,8 | mezzi pubblici
@@ -65,6 +70,5 @@ CONTROLLI
   OK     coppie senza collegamento coi mezzi entro 120 minuti (contate a parte) — 2463 coppie, 25,389 auto
   OK     somma delle auto = totale IMQ 06-10 delle zone incluse — 465,534 / 465,534 (collegate 275,943, senza collegamento 25,389, dentro la zona 164,203)
   OK     Piazza Castello → Collegno in auto di punta nella fascia 20-35 minuti — 13.1 minuti a flusso libero, 24.7 di punta (fattore 1.5)
-  AVVISO AVVISO: piu' del 60% delle auto e' su coppie «non conviene» — 98.6%: da spiegare
 
 LIMITI: tempi TP da orario programmato (ottimisti); auto senza code vere (fattore fisso e 5 minuti per parcheggiare); il centro di ogni zona e' una media di punti, non una casa; IMQ e' un'indagine campionaria.

@@ -1346,6 +1346,9 @@ def forma_r8(s):
     quota_strade = round(u["quota_km_coperta_tp"] * 100, 1)
     par, ti, base = t["parametri"], t["titolo"], t["base"]
     f_basso, f_alto = t["sensibilita"]
+    prec = t["precedenti"]
+    soglia = par["soglie"][1]
+    vs = virgola(soglia)
     quota = 100 * ti["quota_non_conviene"]
     peggiori = t["peggiori"]
     coppie = t["coppie"]
@@ -1354,9 +1357,9 @@ def forma_r8(s):
     disp = {"tipo": "dispersione", "titolo": "Tempo in auto e tempo coi mezzi pubblici, una coppia di zone per punto",
             "xlabel": "minuti in auto (ora di punta)", "ylabel": "minuti coi mezzi pubblici",
             "punti": [[p["auto_punta_min"], p["tp_min"], p["auto"]] for p in ordinate],
-            "linea": SOGLIA_DOPPIO, "linea_label": "il doppio",
+            "linea": soglia, "linea_label": f"{vs} volte",
             "nota": f"Ogni punto è una coppia di zone, grande quanto le auto del mattino. Sono le {len(ordinate)} coppie con più auto "
-                    f"({virgola(quota_punti)}% delle auto). Sopra la linea il mezzo pubblico impiega più del doppio."}
+                    f"({virgola(quota_punti)}% delle auto). Sopra la linea il mezzo pubblico impiega più di " + vs + " volte l'auto."}
     pare = {"tipo": "barre", "titolo": "Le 15 coppie con più auto dove il mezzo pubblico non conviene", "unita": "auto",
             "nota": "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale). A destra i minuti coi mezzi contro quelli in auto.",
             "voci": [{"label": f"{p['da_nome']} → {p['a_nome']}", "valore": p["auto"], "tono": "rosso",
@@ -1369,14 +1372,14 @@ def forma_r8(s):
     par_crit = [["Zone", f"{par['n_zone']} zone dell'indagine sugli spostamenti, fino a {par['punti_per_zona']} punti ciascuna"],
                 ["Mezzi pubblici", f"partenza {par['partenza']}-8:15 di un feriale, mediana, al massimo {par['tempo_max_min']} minuti"],
                 ["Auto in ora di punta", f"tempo a flusso libero × {virgola(par['fattore_punta'])} + {virgola(par['minuti_parcheggio'])} minuti"],
-                ["Classi", f"sotto {virgola(par['soglie'][0])} conviene; fino a {virgola(par['soglie'][1])} poco; oltre non conviene"],
+                ["Classi", f"sotto {virgola(par['soglie'][0])} conviene; fino a {vs} poco; oltre non conviene"],
                 ["Auto della coppia", "viaggi in auto dalle 6 alle 10, giorno feriale"]]
     return forma_base(
         s,
-        f"Per {ten} auto su 10 del mattino il mezzo pubblico impiega più del doppio",
+        f"Per {ten} auto su 10 del mattino il mezzo pubblico impiega più di {vs} volte l'auto",
         "Per quali spostamenti l'auto è molto più veloce dei mezzi pubblici, e quante auto li fanno?",
         {"valore": round(quota, 1), "unita": "%", "testo": f"delle auto del mattino ({migliaia(ti['auto_non_conviene'])} su {migliaia(ti['auto_collegate'])}) "
-                                                         "fa un viaggio dove i mezzi pubblici impiegano più del doppio"},
+                                                         f"fa un viaggio dove i mezzi pubblici impiegano più di {vs} volte l'auto"},
         disp,
         ["Le 3 coppie peggiori: " + ", ".join(f"{p['da_nome']} → {p['a_nome']}" for p in p3) + ".",
          f"Con la punta a 1,3 volte sono il {virgola(100 * f_basso['quota_non_conviene'])}% delle auto; a 1,8 volte il {virgola(100 * f_alto['quota_non_conviene'])}%.",
@@ -1385,21 +1388,19 @@ def forma_r8(s):
         ["Le zone sono quelle dell'indagine sugli spostamenti 2022 con punti di calcolo; ognuna ha fino a 5 punti.",
          "Mezzi pubblici: a piedi, bus, tram e metro, con partenza fra le 7:45 e le 8:15. Si prende la mediana.",
          f"Auto: tempo a flusso libero sulla rete stradale, per {virgola(par['fattore_punta'])} nell'ora di punta, più 5 minuti per il parcheggio.",
-         "Rapporto = tempo coi mezzi diviso tempo in auto. Oltre 2 non conviene, da 1,5 a 2 poco, sotto 1,5 conviene.",
+         f"Rapporto = tempo coi mezzi diviso tempo in auto. Oltre {vs} non conviene, da {virgola(par['soglie'][0])} a {vs} poco, sotto conviene.",
          "Le auto di una coppia sono i viaggi in auto dell'indagine, in partenza dalle 6 alle 10 di un feriale."],
         par_crit,
         ["I tempi coi mezzi pubblici usano l'orario programmato: sono ottimisti, senza ritardi né affollamento.",
          f"L'auto non ha code vere: il fattore {virgola(par['fattore_punta'])} è fisso, e i 5 minuti per parcheggiare sono una stima.",
          f"L'indagine è un campione. I viaggi dentro una zona e {migliaia(mancano)} coppie senza collegamento ({migliaia(round(auto_senza))} auto) non sono nel confronto.",
-         "Quasi ogni coppia supera il rapporto 1,5: conta più la distanza dalla linea del doppio che la classe."],
+         f"Con le soglie di prima ({virgola(prec['soglie'][0])} e {virgola(prec['soglie'][1])}) era «non conviene» il {virgola(100 * prec['base']['quota_non_conviene'])}% delle auto."],
         [f"Question: for which trips is the car much faster than public transport, and how many cars make them?",
-         f"Answer: for {ti['su_dieci']:.1f} morning cars out of 10, public transport takes more than twice as long ({quota:.1f}%). "
-         f"With a rush-hour factor of 1.3 it is {100 * f_basso['quota_non_conviene']:.1f}%, with 1.8 it is {100 * f_alto['quota_non_conviene']:.1f}%.",
+         f"Answer: for {ti['su_dieci']:.1f} morning cars out of 10, public transport takes more than {soglia:g} times as long ({quota:.1f}%). "
+         f"With a rush-hour factor of 1.3 it is {100 * f_basso['quota_non_conviene']:.1f}%, with 1.8 it is {100 * f_alto['quota_non_conviene']:.1f}%. "
+         f"With the earlier thresholds ({prec['soglie'][0]:g} and {prec['soglie'][1]:g}) it was {100 * prec['base']['quota_non_conviene']:.1f}%.",
          "Limit: public transport uses the scheduled timetable and cars have no real congestion, only a fixed factor."],
         mappa=False)
-
-
-SOGLIA_DOPPIO = 2
 
 
 FORME = {"risultato1": forma_r1, "risultato4": forma_r4, "risultato6": forma_r6, "risultato8": forma_r8}

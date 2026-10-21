@@ -15,7 +15,8 @@ D2 - tempi in auto: rete del modello del traffico (scripts/rete_osm.py), cammino
      Sensibilita' con 1,3 e 1,8. Controllo: Piazza Castello -> Collegno nella fascia 20-35 minuti (Fase 5).
 D3 - confronto: rapporto = tempo coi mezzi / tempo in auto (di punta). Auto della coppia = viaggi IMQ in auto come
      conducente (domanda_auto.json dello script 40), partenza dalle 6 alle 10 (ore 6-9), giorno feriale.
-     Classi: sotto 1,5 «conviene», da 1,5 a 2 «poco», oltre 2 «non conviene».
+     Classi: sotto 2,5 «conviene», da 2,5 a 3,5 «poco», oltre 3,5 «non conviene». Le soglie del primo calcolo
+     (1,5 e 2) restano nel JSON e nel rapporto, sotto «precedenti», per il confronto.
 
 Come si lancia
 --------------
@@ -57,7 +58,8 @@ ORE_MATTINO = range(6, 10)          # partenza 06:00-09:59
 FATTORE_PREDEFINITO = 1.5
 MIN_PARCHEGGIO = 5.0
 FATTORI_SENS = (1.3, 1.8)
-SOGLIA_CONVIENE, SOGLIA_NON = 1.5, 2.0
+SOGLIA_CONVIENE, SOGLIA_NON = 2.5, 3.5          # soglie del 21/10 (Leo)
+SOGLIE_PRECEDENTI = (1.5, 2.0)                  # soglie del primo calcolo: restano nei file per il confronto
 QUOTA_MIN_COLLEGATA = 0.5           # meta' del peso delle coppie di punti con collegamento
 AVVISO_QUOTA_NON_CONVIENE = 0.60
 
@@ -71,8 +73,9 @@ NOTI = [("Piazza Castello → Collegno", CASTELLO, (45.0721, 7.5717)),
         ("Piazza Castello → Rivoli", CASTELLO, (45.0709, 7.5167))]
 
 
-def classe(rapporto):
-    return "conviene" if rapporto < SOGLIA_CONVIENE else ("poco" if rapporto <= SOGLIA_NON else "non conviene")
+def classe(rapporto, soglie=None):
+    basso, alto = soglie or (SOGLIA_CONVIENE, SOGLIA_NON)
+    return "conviene" if rapporto < basso else ("poco" if rapporto <= alto else "non conviene")
 
 
 def nome_zona(n):
@@ -278,12 +281,12 @@ def main():
     def punta(libero, f):
         return libero * f + MIN_PARCHEGGIO
 
-    def riepilogo(f):
+    def riepilogo(f, soglie=None):
         tot = sum(p["auto"] for p in coppie)
         per = defaultdict(float)
         n_per = defaultdict(int)
         for p in coppie:
-            k = classe(p["tp_min"] / punta(p["libero_min"], f))
+            k = classe(p["tp_min"] / punta(p["libero_min"], f), soglie)
             per[k] += p["auto"]
             n_per[k] += 1
         return {"fattore": f, "auto_collegate": round(tot), "auto": {k: round(v) for k, v in per.items()},
@@ -292,6 +295,8 @@ def main():
 
     base = riepilogo(args.fattore)
     sens = [riepilogo(f) for f in FATTORI_SENS]
+    prec_base = riepilogo(args.fattore, SOGLIE_PRECEDENTI)
+    prec_sens = [riepilogo(f, SOGLIE_PRECEDENTI) for f in FATTORI_SENS]
     for p in coppie:
         p["auto_punta_min"] = punta(p["libero_min"], args.fattore)
         p["rapporto"] = p["tp_min"] / p["auto_punta_min"]
@@ -346,6 +351,7 @@ def main():
                       "fattore_punta": args.fattore, "minuti_parcheggio": MIN_PARCHEGGIO,
                       "soglie": [SOGLIA_CONVIENE, SOGLIA_NON], "n_zone": len(zone), "prova": prova},
         "titolo": titolo, "base": base, "sensibilita": sens,
+        "precedenti": {"soglie": list(SOGLIE_PRECEDENTI), "base": prec_base, "sensibilita": prec_sens},
         "peggiori": [{"da": p["da"], "a": p["a"], "da_nome": nomi[p["da"]], "a_nome": nomi[p["a"]], "auto": round(p["auto"]),
                       "tp_min": round(p["tp_min"], 1), "auto_punta_min": round(p["auto_punta_min"], 1),
                       "rapporto": round(p["rapporto"], 2)} for p in peggiori],
@@ -367,13 +373,16 @@ def main():
          f"Tempi in auto: rete del modello del traffico, flusso libero x {args.fattore} + {MIN_PARCHEGGIO:.0f} minuti (parcheggio e cammino).",
          f"Auto: viaggi IMQ in auto conducente, partenza 6-10, feriale. Totale fra le zone incluse: {totale_zone:,.0f}.",
          "", "TITOLO",
-         f"  auto del mattino su coppie «non conviene» (TP oltre il doppio dell'auto): {titolo['auto_non_conviene']:,} su {titolo['auto_collegate']:,} "
+         f"  auto del mattino su coppie «non conviene» (TP oltre {SOGLIA_NON:g} volte l'auto): {titolo['auto_non_conviene']:,} su {titolo['auto_collegate']:,} "
          f"({100 * titolo['quota_non_conviene']:.1f}%, cioe' {titolo['su_dieci']:.1f} su 10)",
          f"  per classe: " + "; ".join(f"{k}: {v:,} auto in {base['coppie'].get(k, 0)} coppie" for k, v in base["auto"].items()),
          f"  senza collegamento TP entro {TEMPO_MAX_MIN} minuti (a parte): {len(senza_link)} coppie, {auto_senza:,.0f} auto; dentro la stessa zona (non confrontate): {intra:,.0f}",
          "", "SENSIBILITA' AL FATTORE DI PUNTA"]
     for s in [base] + sens:
         r.append(f"  fattore {s['fattore']}: «non conviene» {100 * s['quota_non_conviene']:.1f}% delle auto, «conviene» {100 * s['quota_conviene']:.1f}%")
+    r += ["", f"SOGLIE PRECEDENTI ({SOGLIE_PRECEDENTI[0]:g} e {SOGLIE_PRECEDENTI[1]:g}), tenute per il confronto"]
+    for s in [prec_base] + prec_sens:
+        r.append(f"  fattore {s['fattore']}: «non conviene» {100 * s['quota_non_conviene']:.1f}% delle auto ({s['auto'].get('non conviene', 0):,}), «conviene» {100 * s['quota_conviene']:.1f}%")
     r += ["", "LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (non conviene)",
           "  da → a | auto | TP min | auto di punta min | rapporto"]
     for p in out["peggiori"]:
