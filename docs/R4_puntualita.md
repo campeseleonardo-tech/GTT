@@ -56,8 +56,7 @@ Giorni usati: 6 feriali, 2 sabati, 1 domenica (10-20 ottobre 2026; esclusi 14, 1
 ### Confronto con GTT (oltre 10 minuti, feriale · settimana 5/1/1)
 
 GTT 2,3%. Noi: a ogni fermata 5,44% · 5,49%; solo alla prima fermata 3,86% · 3,92%; a metà corsa 5,29% · 5,24%; fuori dalle ore di punta 5,27% · 5,30%.
-Incertezza: ±1 minuto sui passaggi = 4,6-6,4% (feriale); corse senza GPS tutte puntuali o come i giorni peggiori = 4,3-5,7%. Dettaglio in `docs/piani/ESITO_R4_GTT.md`
-e nella sezione «CONFRONTO CON GTT» del rapporto; JSON `confronto_gtt`.
+Incertezza: ±1 minuto sui passaggi = 4,6-6,4% (feriale); corse senza GPS tutte puntuali o come i giorni peggiori = 4,3-5,7%. Dettaglio nella sezione «CONFRONTO CON GTT» del rapporto; JSON `confronto_gtt`.
 
 ### Attese (alla fermata, linee frequenti)
 

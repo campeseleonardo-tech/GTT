@@ -43,7 +43,7 @@ RADICE = trova_radice()
 RAW = RADICE / "data" / "raw"
 RAW.mkdir(parents=True, exist_ok=True)
 
-UA = "GTT-progetto-personale/0.1 (studio personale; contatto: campese.leonardo@gmail.com)"
+UA = "GTT-progetto-personale/0.1 (studio personale)"
 
 FONTI = [
     # (nome file, url, descrizione)

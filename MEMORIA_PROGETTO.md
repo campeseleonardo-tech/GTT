@@ -94,13 +94,13 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
   pendolari), `PIANO_RISULTATI.md` (R1 con soglie 5/10/15', servizi contesi e esposizione al traffico; R4 tabella delle
   definizioni contro il 2,3% di GTT; R6 con il test tempo TP contro auto; R8 riformulato «dove il mezzo pubblico non
   conviene»; case × fragilità × servizi; capienze), `PIANO_SCHEDE.md` (schede corte, un grafico principale).
-  **Pulizia dei documenti fatta (passi 1-7, 10, 12 di `PIANO_DOCUMENTI.md`; esito in `docs/piani/ESITO_DOCUMENTI.md`)**:
+  **Pulizia dei documenti fatta (passi 1-7, 10, 12 di `PIANO_DOCUMENTI.md`; esito cancellato dopo il ricontrollo)**:
   cancellati archivio, esiti, piani chiusi e piani dei risultati (contenuto vivo in `docs/R*.md` e `docs/METODO.md`), rapporti
   spostati in `docs/rapporti/` (gli script scrivono lì). Restano i passi 8 (script superati), 9 (`.bat`), 11 (README), 13
   (`mappa_torino.html` fuori da git).
-  **Mappa giro 1 fatto (21/10, `docs/piani/ESITO_MAPPA_GIRO1.md`)**: partenza senza tema su satellite, due gruppi di temi, «Quando» solo
-  nei temi con l'ora, tolti pendolari, corse simulate, avvisi, griglia, replay; mappa 13,1 MB. **Giro 2 fatto (21/10, `ESITO_MAPPA_GIRO2.md`)**: velocità bus su tutto lo storico (avviso: 2 sabati), sensori da `velocita_5t.json` dentro la mappa (via `stat.js`), «Tutti i servizi» (punteggio 0-100, calcolato nel browser). Prossimo: giro 3 di `PIANO_MAPPA.md`.
-  **R4 confronto con GTT (B1, B2, B4) fatto il 21/10 (`docs/piani/ESITO_R4_GTT.md`)**: «oltre 10 minuti» in 4 definizioni, media settimana 5/1/1: a ogni fermata 5,49%, alla prima fermata 3,92%, a metà corsa 5,24%, fuori punta 5,30% (GTT 2,3%); forbice corse senza GPS feriale 4,3-5,7%; ±1 minuto = 4,6-6,4%. La definizione spiega solo una parte della differenza. B3 (stagione) resta per gennaio/luglio.
+  **Mappa giro 1 fatto (21/10, ricontrollato)**: partenza senza tema su satellite, due gruppi di temi, «Quando» solo
+  nei temi con l'ora, tolti pendolari, corse simulate, avvisi, griglia, replay; mappa 13,1 MB. **Giro 2 fatto (21/10, ricontrollato)**: velocità bus su tutto lo storico (avviso: 2 sabati), sensori da `velocita_5t.json` dentro la mappa (via `stat.js`), «Tutti i servizi» (punteggio 0-100, calcolato nel browser; dal 21/10 sera percentili separati Torino / cintura, quindi punteggi non confrontabili fra le due aree). **Correzioni urgenti 5.1 (1-4) fatte il 21/10 (`docs/piani/ESITO_CORREZIONI_URGENTI.md`)**: cartella OMI `data/raw/omi_2025_2`, email tolta dagli script, README senza numeri, catalogo nella pubblicazione. Il vecchio nome della cartella OMI resta nella storia di git (decisione di Leo se riscriverla). Prossimo: giro 3 di `PIANO_MAPPA.md`.
+  **R4 confronto con GTT (B1, B2, B4) fatto il 21/10 (ricontrollato; dettaglio in `docs/R4_puntualita.md`)**: «oltre 10 minuti» in 4 definizioni, media settimana 5/1/1: a ogni fermata 5,49%, alla prima fermata 3,92%, a metà corsa 5,24%, fuori punta 5,30% (GTT 2,3%); forbice corse senza GPS feriale 4,3-5,7%; ±1 minuto = 4,6-6,4%. La definizione spiega solo una parte della differenza. B3 (stagione) resta per gennaio/luglio.
 
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il Risultato 6 (più giorni feriali di riempimento).
 - **Risultato 6, punti per asse** (Leo, 20/10 sera): un punto per asse d'ingresso, almeno 3 km dal centro, posti che

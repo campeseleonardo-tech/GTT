@@ -4,9 +4,9 @@
 Piano OMI (O1): integra le quotazioni OMI 2025/2 nella mappa.
 
 Input (sola lettura; NON modificare):
-- data/raw/QIP1445919_CMPLRD98T08F335C/QIP_1445919_1_20252_VALORI.csv
-- data/raw/QIP1445919_CMPLRD98T08F335C/QIP_1445919_1_20252_ZONE.csv
-- data/raw/QIP1445919_CMPLRD98T08F335C/TO20252/*.kml
+- data/raw/omi_2025_2/*_VALORI.csv
+- data/raw/omi_2025_2/*_ZONE.csv
+- data/raw/omi_2025_2/TO20252/*.kml
 
 Output:
 - data/processed/omi_zone.json
@@ -50,12 +50,12 @@ def trova_radice():
 
 
 RADICE = trova_radice()
-RAW = RADICE / "data" / "raw" / "QIP1445919_CMPLRD98T08F335C"
+RAW = RADICE / "data" / "raw" / "omi_2025_2"
 OUT = RADICE / "data" / "processed" / "omi_zone.json"
 SEZIONI = RADICE / "data" / "processed" / "sezioni_torino.json"
 
-VALORI = RAW / "QIP_1445919_1_20252_VALORI.csv"
-ZONE = RAW / "QIP_1445919_1_20252_ZONE.csv"
+VALORI = next(iter(sorted(RAW.glob("*_VALORI.csv"))), RAW / "VALORI.csv")   # il nome del file porta un codice di richiesta: si cerca per suffisso
+ZONE = next(iter(sorted(RAW.glob("*_ZONE.csv"))), RAW / "ZONE.csv")
 KML_DIR = RAW / "TO20252"
 
 TOLL_M = 20.0
@@ -179,7 +179,7 @@ def leggi_area_comuni():
 
 def main():
     if not (VALORI.is_file() and ZONE.is_file() and KML_DIR.is_dir()):
-        sys.exit("File OMI non trovati in data/raw/QIP1445919_CMPLRD98T08F335C")
+        sys.exit("File OMI non trovati in data/raw/omi_2025_2")
 
     comuni_area = leggi_area_comuni()  # atteso: 69 comuni (include Moncucco 5070)
 

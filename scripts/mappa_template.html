@@ -536,7 +536,7 @@ const sez = (D.sezioni||[]).map(z=>{
       : `Quanti servizi si raggiungono a piedi in 15 minuti.`;
     if(g==="tutti") return `<div class="t">Tutti i servizi: punteggio 0–100 ${titModo} ${TAG.sim}</div>`
       +scalaSoglie(PAL_SEZ.acc,so,"meno serviti","più serviti")
-      +`<div class="et" style="display:block">Media della posizione della zona (rispetto a tutte le altre) per scuole, salute, negozi, fermate e verde. 100 = tra le meglio servite per ogni tipo. ${noteModo} 5 gruppi con lo stesso numero di sezioni. Tocca una zona per i 5 numeri.</div>`
+      +`<div class="et" style="display:block">Media della posizione della zona per scuole, salute, negozi, fermate e verde. 100 = tra le meglio servite per ogni tipo. <b>Confronto con le zone di Torino</b> per le sezioni di Torino, <b>con le zone della cintura</b> per quelle della cintura (fuori Torino i servizi vengono da OpenStreetMap, più incompleto). ${noteModo} 5 gruppi con lo stesso numero di sezioni. Tocca una zona per i 5 numeri.</div>`
       +avviso;
     return `<div class="t">Accessibilità ${titModo} · ${esc(nomi[g]||g)} ${TAG.sim}</div>`
       +scalaSoglie(PAL_SEZ.acc,so,"pochi","molti")
@@ -636,23 +636,27 @@ function tpFasciaVicina(h){
   return String(h).padStart(2,"0");
 }
 // valore di accessibilita' per sezione/gruppo/modalita' (piedi 15' o tp 45', fascia piu' vicina)
-/* «Tutti i servizi»: punteggio 0-100 = media dei percentili dei 5 gruppi (scuole, salute, negozi, fermate, verde) della sezione
-   tra tutte le sezioni della mappa, calcolata a parte per «a piedi» e per «coi mezzi» (e per ora). Valore mancante = 0 servizi.
-   Percentile a posizione media: (sezioni con meno + metà di quelle uguali) / totale. */
-const accPunt={};   // "modalita|fascia" -> {ord, punt:Map(sezione -> punteggio), perc}
+/* «Tutti i servizi»: punteggio 0-100 = media dei percentili dei 5 gruppi (scuole, salute, negozi, fermate, verde) della sezione,
+   calcolata a parte per «a piedi» e per «coi mezzi» (e per ora). Il percentile è SEPARATO: le sezioni di Torino si confrontano solo con
+   quelle di Torino, quelle della cintura solo con quelle della cintura (fuori Torino scuole, salute e negozi vengono da OpenStreetMap,
+   più povero: nel confronto unico la cintura risulterebbe rossa anche per mancanza di dati). Valore mancante = 0 servizi.
+   Percentile a posizione media: (sezioni con meno + metà di quelle uguali) / totale dell'area. */
+const accPunt={};   // "modalita|fascia" -> {punt:Map(sezione -> punteggio), perc}
+const areaAcc = z => z.c===TORINO_PC ? "t" : "c";
 function accGrezzo(z,g,modalita){ const a=z.acc||{}; const v=modalita==="tp"?((a.tp||{})[tpFasciaVicina(S.h)]||{})[g]:(a.piedi||{})[g]; return Number.isFinite(v)?v:0; }
 function accOrdinati(modalita){
   const k=modalita+"|"+(modalita==="tp"?tpFasciaVicina(S.h):""); if(accPunt[k]) return accPunt[k];
-  const ord=GRUPPI_ACC.map(g=>Float64Array.from(sez,z=>accGrezzo(z,g,modalita)).sort());
+  const ord={};
+  for(const ar of ["t","c"]){ const zs=sez.filter(z=>areaAcc(z)===ar); ord[ar]=GRUPPI_ACC.map(g=>Float64Array.from(zs,z=>accGrezzo(z,g,modalita)).sort()); }
   const inf=(a,x)=>{ let lo=0,hi=a.length; while(lo<hi){ const m=(lo+hi)>>1; if(a[m]<x) lo=m+1; else hi=m; } return lo; };
   const sup=(a,x)=>{ let lo=0,hi=a.length; while(lo<hi){ const m=(lo+hi)>>1; if(a[m]<=x) lo=m+1; else hi=m; } return lo; };
-  const perc=(i,x)=>{ const a=ord[i]; return (inf(a,x)+sup(a,x))/2/a.length; };
+  const perc=(ar,i,x)=>{ const a=ord[ar][i]; return a.length?(inf(a,x)+sup(a,x))/2/a.length:0; };
   const punt=new Map();
-  for(const z of sez) punt.set(z, 100*GRUPPI_ACC.reduce((t,g,i)=>t+perc(i,accGrezzo(z,g,modalita)),0)/GRUPPI_ACC.length);
-  return accPunt[k]={ord,punt,perc};
+  for(const z of sez){ const ar=areaAcc(z); punt.set(z, 100*GRUPPI_ACC.reduce((t,g,i)=>t+perc(ar,i,accGrezzo(z,g,modalita)),0)/GRUPPI_ACC.length); }
+  return accPunt[k]={punt,perc};
 }
-// i 5 numeri di una sezione: [gruppo, servizi raggiungibili, percentile 0-100]
-function accCinque(z,modalita){ const o=accOrdinati(modalita); return GRUPPI_ACC.map((g,i)=>{ const n=accGrezzo(z,g,modalita); return [g,n,Math.round(100*o.perc(i,n))]; }); }
+// i 5 numeri di una sezione: [gruppo, servizi raggiungibili, percentile 0-100 nella sua area (Torino o cintura)]
+function accCinque(z,modalita){ const o=accOrdinati(modalita), ar=areaAcc(z); return GRUPPI_ACC.map((g,i)=>{ const n=accGrezzo(z,g,modalita); return [g,n,Math.round(100*o.perc(ar,i,n))]; }); }
 function accValore(z, gruppo, modalita){
   if(gruppo==="tutti") return accOrdinati(modalita).punt.get(z);
   const a=z.acc||{};
@@ -1578,7 +1582,7 @@ function schedaSezione(z){
   const det = [...profilo, ...(fam === "trasporto" ? contestoServizio : contestoBase)];
   if(fam === "acc" && ($("subAccGruppo")?.value||"tutti")==="tutti"){   // i 5 numeri del punteggio, in cima ai dettagli
     const nomi5={scuole:"Scuole",salute:"Salute",cibo:"Negozi e attività",fermate:"Fermate",verde:"Verde"};
-    det.unshift(...accCinque(z,$("subAccModo")?.value||"piedi").map(([g,n,pc])=>({ k: nomi5[g]+" raggiungibili", v: `${Math.round(n).toLocaleString("it-IT")} · più di ${pc}% delle sezioni` })));
+    det.unshift(...accCinque(z,$("subAccModo")?.value||"piedi").map(([g,n,pc])=>({ k: nomi5[g]+" raggiungibili", v: `${Math.round(n).toLocaleString("it-IT")} · più di ${pc}% delle sezioni ${z.c===TORINO_PC?"di Torino":"della cintura"}` })));
   }
   if(fam === "fb"){
     det.push({ k: "Regola", v: z.c===TORINO_PC ? "Torino: a piedi 15 min" : "Cintura: a piedi 15 min o mezzi pubblici 45 min" });
@@ -1596,7 +1600,7 @@ function schedaSezione(z){
     const modoAccApp = ($("subAccModo")?.value||"piedi")==="tp"
       ? "con mezzi pubblici in 45 minuti, partendo nell'ora scelta di un giorno feriale (orario programmato)"
       : "a piedi in 15 minuti (velocità stimata 4,8 km/h)";
-    app += (($("subAccGruppo")?.value||"tutti")==="tutti" ? `Punteggio 0–100: per ognuno dei 5 gruppi (scuole, salute, negozi, fermate, verde) si guarda in che posizione sta la sezione rispetto a tutte le altre; il punteggio è la media delle 5 posizioni. Servizi raggiungibili ${modoAccApp}.` : `Servizi raggiungibili ${modoAccApp}.`)+notaOsm;
+    app += (($("subAccGruppo")?.value||"tutti")==="tutti" ? `Punteggio 0–100: per ognuno dei 5 gruppi (scuole, salute, negozi, fermate, verde) si guarda in che posizione sta la sezione rispetto alle altre della sua area; il punteggio è la media delle 5 posizioni. Le sezioni di Torino si confrontano con quelle di Torino, quelle della cintura con quelle della cintura. Servizi raggiungibili ${modoAccApp}.` : `Servizi raggiungibili ${modoAccApp}.`)+notaOsm;
   } else if(fam === "fb"){
     app += `Servizio mancante = nessuno raggiungibile (Torino: a piedi in 15 minuti; fuori Torino anche con i mezzi pubblici in 45). Zone sotto ${((D.r1_meta||{}).soglia||0).toLocaleString("it-IT")} ab/km² in grigio: parchi, collina, aree poco abitate.${notaOsm}`;
   }

@@ -53,7 +53,7 @@ RAD = trova_radice()
 ELAB = RAD / "data" / "processed"
 RAW = RAD / "data" / "raw"
 DOCS = RAD / "docs"
-UA = "GTT-progetto-personale/0.1 (studio personale; contatto: campese.leonardo@gmail.com)"
+UA = "GTT-progetto-personale/0.1 (studio personale)"
 URL_TU = "https://percorsieorari.gtt.to.it/das_gtfsrt/trip_update.aspx"
 URL_AL = "https://percorsieorari.gtt.to.it/das_gtfsrt/alerts.aspx"
 

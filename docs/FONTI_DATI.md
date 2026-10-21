@@ -24,7 +24,7 @@ Dove stanno i file e cosa contengono: inventario ISTAT in `MEMORIA_PROGETTO.md`.
 ## OMI (Agenzia delle Entrate): SCARICATO l'8/10/2026
 
 - Quotazioni immobiliari semestre 2025/2 e perimetri delle zone OMI, provincia di Torino (312 comuni).
-- File in `data/raw/QIP1445919_CMPLRD98T08F335C/` (due CSV + `TO20252/` con i KML, uno per comune). Non toccare.
+- File in `data/raw/omi_2025_2/` (due CSV + `TO20252/` con i KML, uno per comune). Non toccare.
 - Scaricati a mano da Leo dal servizio Forniture dati OMI / GeoPOI dell'Agenzia. In caso di uso: citare
   "Agenzia delle Entrate - OMI".
 - Mancante (facoltativo): provincia di Asti, per coprire Moncucco Torinese (unico comune dell'area non coperto).

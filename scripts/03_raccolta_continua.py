@@ -48,7 +48,7 @@ def trova_radice():
 
 RADICE = trova_radice()
 DB = RADICE / "data" / "storico.sqlite"
-UA = "GTT-progetto-personale/0.1 (studio personale; contatto: campese.leonardo@gmail.com)"
+UA = "GTT-progetto-personale/0.1 (studio personale)"
 URL_5T = "https://opendata.5t.torino.it/get_fdt"
 URL_PK = "https://opendata.5t.torino.it/get_pk"
 URL_ZTL = "https://opendata.5t.torino.it/get_access_control"

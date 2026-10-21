@@ -6,10 +6,9 @@ NON pubblica niente: crea solo la cartella pubblica/ (esclusa da git) e scrive R
 Cosa fa
 -------
   1. Copia in pubblica/ le pagine (mappa_torino.html, simulazione.html) e tutti i file che caricano
-     (data/processed/orari_fermate.js, data/schede_risultati.js, immagini/), con gli stessi percorsi relativi. Avvisa se un file manca.
-  2. Scrive README.md (italiano, poi English) con un paragrafo per ogni risultato finito: domanda, numero
-     principale e prima frase della risposta letti da data/schede_risultati.js (nessun numero scritto a mano);
-     la parte inglese usa il campo in_english delle schede.
+     (data/processed/orari_fermate.js, data/schede_risultati.js, data/catalogo/*.js, immagini/), con gli stessi percorsi relativi. Avvisa se un file manca.
+  2. Scrive README.md (italiano, poi English) senza i numeri dei risultati: al loro posto «Risultati in
+     aggiornamento: vedi la pagina dei risultati» (i numeri vivono nelle schede di simulazione.html).
   3. Stampa il peso della cartella.
 
 Come si lancia
@@ -34,7 +33,7 @@ FILE_FISSI = ["mappa_torino.html", "simulazione.html", "data/processed/orari_fer
 
 INTRO_IT = """# Mobilità a Torino — come si muove la città
 
-Progetto personale di analisi dei dati (Leo, 2026): chi va dove, dove mancano servizi, dove sono le criticità
+Progetto personale di analisi dei dati (2026): chi va dove, dove mancano servizi, dove sono le criticità
 del trasporto pubblico a Torino e nella Città metropolitana, e pochi scenari «cosa succede se».
 Due pagine: **`mappa_torino.html`** (mappa con i temi) e **`simulazione.html`** (le schede dei risultati: domanda,
 risposta, grafici, criteri, limiti).
@@ -46,6 +45,9 @@ capienza e domanda reale.
 
 ## I risultati
 """
+
+RISULTATI_IT = "\nRisultati in aggiornamento: vedi la pagina dei risultati.\n"
+RISULTATI_EN = "\nResults being updated: see the results page.\n"
 
 FONTI = """
 ## Fonti e licenze
@@ -72,7 +74,7 @@ INTRO_EN = """
 
 # Mobility in Turin — how the city moves (English)
 
-Personal data-analysis project (Leo, 2026) on public transport and mobility in Turin, Italy: who travels where,
+Personal data-analysis project (2026) on public transport and mobility in Turin, Italy: who travels where,
 where services are missing, where the problems are, and a few "what if" scenarios. Two pages:
 **`mappa_torino.html`** (interactive map) and **`simulazione.html`** (one card per result). The pages are in Italian;
 every card has a short summary in English. Tags: [MISURATO] measured, [PROGRAMMATO] scheduled timetable,
@@ -80,21 +82,6 @@ every card has a short summary in English. Tags: [MISURATO] measured, [PROGRAMMA
 
 ## Results
 """
-
-
-def numero_it(v):
-    """Numero all'italiana (10919 -> 10.919; 1.3 -> 1,3); il resto com'e'."""
-    if isinstance(v, bool) or not isinstance(v, (int, float)):
-        return str(v)
-    if isinstance(v, float) and not v.is_integer():
-        return f"{v:,.1f}".replace(",", "X").replace(".", ",").replace("X", ".")
-    return f"{int(v):,}".replace(",", ".")
-
-
-def leggi_schede():
-    testo = SCHEDE.read_text(encoding="utf-8")
-    inizio = testo.index("[")
-    return json.loads(testo[inizio:testo.rstrip().rstrip(";").rindex("]") + 1])
 
 
 def main():
@@ -110,26 +97,20 @@ def main():
             (DEST / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, DEST / rel)
             copiati += 1
+    # la mappa carica data/catalogo/<gruppo>.js quando si apre «Luoghi della città»
+    for src in sorted((RADICE / "data" / "catalogo").glob("*.js")):
+        (DEST / "data" / "catalogo").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, DEST / "data" / "catalogo" / src.name)
+        copiati += 1
+    c("catalogo copiato (data/catalogo/*.js)", (DEST / "data" / "catalogo").is_dir())
     if (RADICE / "immagini").is_dir():
         shutil.copytree(RADICE / "immagini", DEST / "immagini")
     peso = sum(f.stat().st_size for f in DEST.rglob("*") if f.is_file())
     print(f"pubblica/: {copiati} file, {peso / 1e6:.1f} MB")
 
-    schede = leggi_schede()
-    it, en = [], []
-    for s in schede:
-        nk = s.get("numero_chiave") or {}
-        titolo = f"Risultato {s.get('risultato', '')} — {s['titolo']}".strip(" —")
-        unita = nk.get("unita", "") if nk else ""
-        riga = (f"**{numero_it(nk.get('valore'))}{'' if unita == '%' else ' '}{unita}** {nk.get('testo', '')}".strip()
-                if nk else "")
-        risposta = (s.get("risposta") or [""])[0]
-        it.append(f"### {titolo}\n*{s.get('domanda', '')}*\n\n{riga}\n\n{risposta}\n")
-        eng = s.get("in_english") or []
-        c(f"riassunto in inglese per {titolo}", bool(eng))
-        en.append(f"### Result {s.get('risultato', '')}\n" + (" ".join(eng) if eng else "*(English summary to be written)*") + "\n")
-    README.write_text(INTRO_IT + "\n".join(it) + FONTI + INTRO_EN + "\n".join(en), encoding="utf-8")
-    print(f"Scritto: {README} ({len(schede)} risultati); avvisi: {len(c.avvisi())}")
+    # i numeri dei risultati non stanno nel README (invecchiano): ci sono nelle schede di simulazione.html
+    README.write_text(INTRO_IT + RISULTATI_IT + FONTI + INTRO_EN + RISULTATI_EN, encoding="utf-8")
+    print(f"Scritto: {README}; avvisi: {len(c.avvisi())}")
     return 0
 
 
