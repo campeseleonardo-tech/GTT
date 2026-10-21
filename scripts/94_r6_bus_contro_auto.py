@@ -15,6 +15,12 @@ Regola di classe, fissata prima di vedere i numeri. Rapporto = tempo coi mezzi /
   - «il bus non conviene»:  rapporto oltre 1,5 con entrambi (anche se i mezzi non arrivano entro 120 minuti).
 I punti non si tolgono dall'elenco del R6: si aggiunge solo la classe.
 
+Minuti di pareggio (misura principale della scheda, senza soglie scelte da noi): quanti minuti si devono perdere in
+centro per parcheggiare perche' il tempo in auto sia uguale al tempo coi mezzi, cioe'
+  tempo coi mezzi = flusso libero x fattore + minuti  ->  minuti = tempo coi mezzi - flusso libero x fattore.
+Con i due fattori viene una forbice per luogo (fattore basso = auto lenta = meno minuti). Sotto 0 vale 0: il bus e' gia'
+piu' veloce. Classi e sensibilita' 5/10/15 restano nel JSON per confronto.
+
 Come si lancia
 --------------
   python scripts\\94_r6_bus_contro_auto.py
@@ -43,6 +49,7 @@ RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_BUS_CONTRO_AUTO.txt"
 PARZIALE = PROC / "r6_bus_contro_auto_parziale.npz"      # diverso da quello dello script 93: non si sovrascrivono
 
 MINUTI_SENSIBILITA = (5, 10, 15)                          # minuti per parcheggiare in centro; la classe ufficiale e' quella con 5
+PAREGGIO_MAX = 120                                        # controllo: minuti di pareggio oltre questo valore = errore
 SOGLIA = 1.5                                              # rapporto massimo perche' il bus «convenga»
 CLASSI = {"conviene": "il bus conviene", "dipende": "dipende dal traffico", "non_conviene": "il bus non conviene"}
 INTERSCAMBI_POCO_PIENI = ("SOFIA", "VENCHI UNICA")
@@ -107,6 +114,12 @@ def main():
             l["rapporto_basso"] = round(l["tp_min"] / l["auto_basso_min"], 2)
             l["classe"] = classe_di(l["rapporto_basso"], l["rapporto_alto"])
         l["classe_testo"] = CLASSI[l["classe"]]
+        # minuti di pareggio: parcheggio in centro che rende l'auto lenta quanto il bus (forbice dei due fattori)
+        if l["tp_min"] is None:
+            l["pareggio_basso_min"] = l["pareggio_alto_min"] = None
+        else:
+            l["pareggio_basso_min"] = round(max(0.0, l["tp_min"] - libero * f_basso), 1)
+            l["pareggio_alto_min"] = round(max(0.0, l["tp_min"] - libero * f_alto), 1)
         # sensibilita': stessa regola con 5, 10 e 15 minuti di parcheggio al posto dei 5 predefiniti
         l["classi_sensibilita"] = {}
         for m in MINUTI_SENSIBILITA:
@@ -118,6 +131,24 @@ def main():
     punti, inter = luoghi[:n_punti], luoghi[n_punti:]
     conta = {k: sum(1 for l in punti if l["classe"] == k) for k in CLASSI}
     conta_i = {k: sum(1 for l in inter if l["classe"] == k) for k in CLASSI}
+
+    def mediana(v):
+        v = sorted(x for x in v if x is not None)
+        if not v:
+            return None
+        n = len(v)
+        return v[n // 2] if n % 2 else (v[n // 2 - 1] + v[n // 2]) / 2
+
+    pareggio = {"punti": {"mediana_basso_min": mediana(l["pareggio_basso_min"] for l in punti),
+                          "mediana_alto_min": mediana(l["pareggio_alto_min"] for l in punti)},
+                "interscambi": {"mediana_basso_min": mediana(l["pareggio_basso_min"] for l in inter),
+                                "mediana_alto_min": mediana(l["pareggio_alto_min"] for l in inter)}}
+    pv = [x for l in luoghi for x in (l["pareggio_basso_min"], l["pareggio_alto_min"]) if x is not None]
+    c(f"minuti di pareggio fra 0 e {PAREGGIO_MAX}", all(0 <= x <= PAREGGIO_MAX for x in pv),
+      dettaglio=f"da {min(pv):g} a {max(pv):g}" if pv else "nessun valore", bloccante=True)
+    c("mediana dei punti: col fattore alto >= col fattore basso",
+      pareggio["punti"]["mediana_alto_min"] is not None and pareggio["punti"]["mediana_alto_min"] >= pareggio["punti"]["mediana_basso_min"],
+      dettaglio=f"basso {pareggio['punti']['mediana_basso_min']}, alto {pareggio['punti']['mediana_alto_min']}", bloccante=True)
 
     sens = {}
     for m in MINUTI_SENSIBILITA:
@@ -153,6 +184,7 @@ def main():
                          "fattore_basso": f_basso, "soglia_rapporto": SOGLIA, "punti_spostati": spostati},
            "regola": {"conviene": "rapporto <= 1,5 con entrambi i fattori", "dipende": "rapporto <= 1,5 solo col fattore basso",
                       "non_conviene": "rapporto oltre 1,5 con entrambi"},
+           "pareggio": pareggio,
            "sensibilita_parcheggio": sens,
            "riepilogo": {"punti": conta, "interscambi": conta_i, "n_punti": len(punti), "n_interscambi": len(inter)},
            "luoghi": luoghi, "paragrafo_interscambi": par_inter, "controlli": list(c.righe)}
@@ -174,6 +206,13 @@ def main():
     for l in inter:
         rap = f"{l['rapporto_basso']:.2f}-{l['rapporto_alto']:.2f}" if l["tp_min"] is not None else "nessun collegamento"
         r.append(f"  {l['nome']} | {l['stato']} | {l['tp_min'] if l['tp_min'] is not None else '-'} | {l['auto_alto_min']:.1f}-{l['auto_basso_min']:.1f} | {rap} | {l['classe_testo']}")
+    r += ["", "MINUTI DI PAREGGIO: minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (fattore basso - alto; 0 = il bus e' gia' piu' veloce)",
+          f"  mediana dei punti prioritari: {pareggio['punti']['mediana_basso_min']} - {pareggio['punti']['mediana_alto_min']} minuti",
+          f"  mediana degli interscambi:    {pareggio['interscambi']['mediana_basso_min']} - {pareggio['interscambi']['mediana_alto_min']} minuti",
+          "  luogo | tipo | stato | minuti di pareggio (basso - alto)"]
+    for l in sorted(luoghi, key=lambda l: (l["tipo"], l["pareggio_basso_min"] if l["pareggio_basso_min"] is not None else 999)):
+        mp = f"{l['pareggio_basso_min']:g} - {l['pareggio_alto_min']:g}" if l["pareggio_basso_min"] is not None else "nessun collegamento"
+        r.append(f"  {l['nome']} | {l['tipo']} | {l.get('stato', '-')} | {mp}")
     r += ["", "SENSIBILITA': MINUTI PER PARCHEGGIARE IN CENTRO (la classe ufficiale e' quella con 5)",
           "  minuti | punti: conviene / dipende / non conviene | interscambi: conviene / dipende / non conviene"]
     for m in MINUTI_SENSIBILITA:

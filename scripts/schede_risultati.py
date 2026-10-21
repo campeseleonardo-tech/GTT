@@ -1308,70 +1308,62 @@ def forma_r6(s):
                   "nota": "Il bisogno è alto, medio o basso a terzi, in base ai posti che mancano. Le lunghezze sono un ordine di grandezza.",
                   "voci": voci}
     ba = json.loads((PROC / "r6_bus_contro_auto.json").read_text(encoding="utf-8"))
-    n_conv, n_dip, n_non = (ba["riepilogo"]["punti"][k] for k in ("conviene", "dipende", "non_conviene"))
     n_punti_ba = ba["riepilogo"]["n_punti"]
     inter = [l for l in ba["luoghi"] if l["tipo"] == "interscambio"]
-    ci = ba["riepilogo"]["interscambi"]
-    quanti = lambda n: "nessun punto" if n == 0 else ("un punto" if n == 1 else f"{n} punti")
     f_ba_lo, f_ba_hi = virgola(ba["parametri"]["fattore_basso"]), virgola(ba["parametri"]["fattore_alto"])
-    ultimi = [l for l in inter if l["nome"] in ("SOFIA", "VENCHI UNICA")]
     graf_inter = {"tipo": "barre", "titolo": "Dagli interscambi esistenti a Piazza Castello, minuti coi mezzi pubblici", "unita": "minuti",
                   "nota": f"Alle 8 di un feriale. A destra il tempo in auto, parcheggio compreso, fra i due fattori di punta ({f_ba_hi} e {f_ba_lo}).",
-                  "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["tp_min"]), "tono": {"conviene": "verde", "dipende": "giallo", "non_conviene": "rosso"}[l["classe"]],
-                            "testo": f"{round(l['tp_min'])} contro {round(l['auto_alto_min'])}-{round(l['auto_basso_min'])} in auto: {l['classe_testo']}"}
+                  "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["tp_min"]), "testo": f"{round(l['tp_min'])} contro {round(l['auto_alto_min'])}-{round(l['auto_basso_min'])} in auto"}
                            for l in inter]}
     extra = {"titolo": "Interscambi esistenti e bus verso il centro",
-             "punto": f"Gli interscambi esistenti sono poco pieni: di giorno solo {pieni} su {len(val)} è pieno. "
-                      + " ".join(f"Da {nome_pulito(l['nome'])} {l['classe_testo']}." for l in ultimi)
-                      + f" Il bus conviene da {ci['conviene']} interscambi su {ba['riepilogo']['n_interscambi']}.",
+             "punto": f"Gli interscambi esistenti sono poco pieni: di giorno solo {pieni} su {len(val)} è pieno.",
              "grafico": graf_inter}
-    # messaggio: dove il bus verso il centro e' competitivo (conviene o dipende dal traffico); sensibilita' ai minuti di parcheggio in centro
-    sens = ba["sensibilita_parcheggio"]
-    N, N10, N15 = (sens[m]["punti"]["conviene"] + sens[m]["punti"]["dipende"] for m in ("5", "10", "15"))
-    su_n = f"{N} punto" if N == 1 else f"{N} punti"
-    tono_cl = {"conviene": "verde", "dipende": "giallo", "non_conviene": "rosso"}
-    pb = sorted(ba["luoghi"][:n_punti_ba], key=lambda l: l["rapporto_basso"])
-    bisogno_ba = {"tipo": "barre", "titolo": "Rapporto fra tempo coi mezzi e tempo in auto verso Piazza Castello, per punto", "unita": "volte", "max": 3,
-                  "soglia": 1.5, "soglia_label": "1,5 volte",
-                  "nota": "Barra scura = auto lenta (fattore di Google), barra chiara = auto veloce (fattore dei sensori). Linea nera = 1,5: sotto, il bus è competitivo. "
-                          "Verde = il bus conviene; giallo = dipende dal traffico; rosso = non conviene.",
-                  "voci": [{"label": nome_pulito(l["nome"]), "valore": l["rapporto_basso"], "prima": l["rapporto_alto"], "tono": tono_cl[l["classe"]],
-                            "testo": f"{virgola(l['rapporto_basso'])}–{virgola(l['rapporto_alto'])}"} for l in pb]}
-    competitivo = lambda l: l["classe"] != "non_conviene"
-    nm = lambda ls: ", ".join(nome_pulito(l["nome"]) for l in ls) or "nessuno"
+    # messaggio: minuti di pareggio = minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (script 94, senza soglie scelte da noi)
+    pm = ba["pareggio"]["punti"]
+    lo_m, hi_m = round(pm["mediana_basso_min"]), round(pm["mediana_alto_min"])
+    forbice_m = f"{lo_m}–{hi_m}" if hi_m != lo_m else f"{lo_m}"
+    pb = sorted((l for l in ba["luoghi"][:n_punti_ba] if l["pareggio_basso_min"] is not None), key=lambda l: l["pareggio_basso_min"])
+    pareggio_g = {"tipo": "barre", "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto", "unita": "minuti",
+                  "nota": "Verso Piazza Castello alle 8. Barra scura = auto lenta (fattore di Google), barra chiara = auto veloce (fattore dei sensori). "
+                          "Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
+                  "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["pareggio_basso_min"]), "prima": round(l["pareggio_alto_min"]),
+                            "testo": f"{round(l['pareggio_basso_min'])}–{round(l['pareggio_alto_min'])} min"} for l in pb]}
+    mi = lambda l: f"{round(l['pareggio_basso_min'])}–{round(l['pareggio_alto_min'])} minuti" if l["pareggio_basso_min"] is not None else "nessun collegamento"
     pieni_i = [l for l in inter if l["stato"] == "pieno"]
     vuoti_i = [l for l in inter if l["stato"] == "libero"]
-    kp1 = (f"Interscambio pieno e bus competitivo: {nm([l for l in pieni_i if competitivo(l)])}. "
-           f"Poco usato e bus non competitivo: {nm([l for l in vuoti_i if not competitivo(l)])}.")
-    if any(competitivo(l) for l in vuoti_i):
-        kp1 += f" Poco usato ma con bus competitivo: {nm([l for l in vuoti_i if competitivo(l)])}."
+    kp1 = ("Interscambi esistenti: pieni " + (", ".join(f"{nome_pulito(l['nome'])} ({mi(l)})" for l in pieni_i) or "nessuno")
+           + "; poco usati " + (", ".join(f"{nome_pulito(l['nome'])} ({mi(l)})" for l in vuoti_i) or "nessuno") + ".")
+    migliore = pb[0] if pb else None
+    kp3 = (f"Il punto più promettente è {nome_pulito(migliore['nome'])}: bastano {mi(migliore)} perché il bus pareggi l'auto."
+           if migliore else "Nessun punto ha un collegamento coi mezzi entro 120 minuti.")
     return forma_base(
         s,
-        f"I parcheggi di scambio funzionano solo dove il mezzo pubblico è veloce: oggi su {su_n} su {n_punti_ba}",
-        "Dove mancano posti per lasciare l'auto, e da dove il bus verso il centro è competitivo?",
-        {"valore": N, "unita": f"su {n_punti_ba} punti", "testo": "hanno un bus verso il centro competitivo con l'auto (conviene o dipende dal traffico)"},
-        bisogno_ba,
+        f"I parcheggi di scambio convengono se in centro si perdono almeno {forbice_m} minuti a parcheggiare",
+        "Dove mancano posti per lasciare l'auto, e quando il bus da lì verso il centro è veloce quanto l'auto?",
+        {"valore": forbice_m, "unita": "minuti",
+         "testo": f"persi in centro per parcheggiare: sotto questa soglia l'auto batte il bus (mediana dei {n_punti_ba} punti)"},
+        pareggio_g,
         [kp1,
          f"{n_senza} fermate importanti su {n_fermate} non hanno posti bastanti a {raggio} metri a piedi.",
-         f"Con 10 o 15 minuti per parcheggiare in centro, i punti con il bus competitivo diventano {N10} e {N15}."],
+         kp3],
         [principale],
         [f"Fermate importanti: fuori dal centro, con metro, stazione o capolinea, oppure {reg['n_corse']} corse all'ora.",
          "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
          f"Auto da fermare: auto che passano per il {quota}% che già oggi lascia l'auto. Posti: parcheggi adatti entro {raggio} metri.",
          "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.",
-         "Bus competitivo: tempo coi mezzi al massimo 1,5 volte quello in auto, verso Piazza Castello alle 8."],
+         "Minuti di pareggio: tempo coi mezzi verso Piazza Castello alle 8, meno il tempo in auto senza parcheggio."],
         [["Fermate importanti", f"{reg['n_corse']} corse all'ora o metro, e {migliaia(reg['m_auto'])} auto che passano"],
          ["Distanza a piedi", f"{raggio} metri"],
          ["Auto da fermare", f"auto che passano × {quota}%"],
-         ["Bus contro auto", f"verso Piazza Castello alle 8, auto con fattore {f_ba_hi} (sensori) e {f_ba_lo} (Google), 5 minuti di parcheggio"]],
+         ["Bus contro auto", f"verso Piazza Castello alle 8, auto con fattore {f_ba_hi} (sensori) e {f_ba_lo} (Google)"]],
         [f"I tempi coi mezzi sono solo GTT, senza treni. L'auto è stimata fra due fattori di punta, {f_ba_hi} e {f_ba_lo}.",
-         "Il parcheggio in centro è fissato a 5 minuti; con 10 o 15 minuti il risultato cambia molto.",
-         "Il costo del parcheggio non è considerato.",
+         "Il costo del parcheggio in centro non è nel calcolo: pesa come minuti in più.",
+         "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello.",
          "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati, con ±30%."],
-        [f"Question: where do park-and-ride spaces help, and from where is the bus to the centre competitive with the car?",
-         f"Answer: only {N} of {n_punti_ba} priority points have a competitive bus (it wins or depends on traffic). With 10 or 15 minutes to park downtown it is {N10} and {N15} points. "
+        ["Question: when is the bus from a park-and-ride as fast as the car to the centre?",
+         f"Answer: park-and-ride pays off only if parking downtown costs at least {forbice_m} minutes (median of {n_punti_ba} priority points). "
          f"Also, {n_senza} of {n_fermate} important stops lack enough parking.",
-         "Limit: bus times use GTT only, without trains. Downtown parking is fixed at 5 minutes. Parking cost is not considered."],
+         "Limit: bus times use GTT only, without trains; parking cost is not considered."],
         extra=extra)
 
 

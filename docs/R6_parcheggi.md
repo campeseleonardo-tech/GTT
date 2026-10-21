@@ -8,7 +8,9 @@ solo per pochi garage.
 
 ## Messaggio
 
-**I parcheggi di scambio funzionano solo dove il mezzo pubblico è veloce: oggi su 1 punto su 12.** Un parcheggio di scambio serve se da lì il bus verso il centro è competitivo con l'auto (tempo coi mezzi al massimo 1,5 volte quello in auto, a Piazza Castello alle 8). Oggi lo è su 1 punti su 12 (conviene o dipende dal traffico). Con 10 minuti per parcheggiare in centro diventano 10, con 15 diventano 12: il risultato dipende molto da quanto costa parcheggiare in centro, e la classe ufficiale usa 5 minuti.
+**I parcheggi di scambio convengono solo se in centro si perdono abbastanza minuti a parcheggiare.** Misura principale (script 94): i **minuti di pareggio**, cioè quanti minuti per parcheggiare in centro rendono il tempo in auto uguale al tempo coi mezzi da quel punto a Piazza Castello alle 8 (minuti = tempo coi mezzi − flusso libero × fattore di punta). Con i due fattori dell'auto (Google e sensori) viene una forbice per punto; il titolo della scheda usa la mediana dei 12 punti. Non c'è nessuna soglia scelta da noi: la classe con 1,5 volte e la sensibilità a 5/10/15 minuti restano sotto, solo per confronto. I numeri si leggono in `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt` (sezione «MINUTI DI PAREGGIO»).
+
+Perché questa misura: con la classe «1,5 volte» il risultato passava da 1 punto su 12 (5 minuti di parcheggio) a 10 su 12 (10 minuti). Il risultato vero è quindi la soglia stessa, ed è la conclusione classica sui parcheggi di scambio: funzionano se parcheggiare in centro è scomodo o caro.
 
 - Interscambi esistenti: pieno e con bus competitivo, Stura; poco usati e senza bus competitivo, Caio Mario e Sofia (Caio Mario ha il contatore fermo).
 - Fermate importanti senza posti bastanti: 179 su 274.
