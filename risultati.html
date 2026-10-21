@@ -188,6 +188,7 @@ function graficoBarre(g){
       <span class="barra-traccia">
         ${haPrima ? `<span style="width:${pct(v.prima)}%;background:var(--neu-blu-chiaro)"></span>` : ""}
         <span style="width:${pct(v.valore)}%;background:${TONO_COL[v.tono] || "var(--neu-blu)"}"></span>
+        ${typeof g.soglia === "number" ? `<span style="left:${g.soglia / max * 100}%;width:2px;border-radius:0;background:var(--ink)" title="${esc(g.soglia_label || "soglia")}"></span>` : ""}
       </span>
       <span class="barra-valore">${val}</span>
     </div>`;

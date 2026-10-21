@@ -42,6 +42,7 @@ OUT_JSON = PROC / "r6_bus_contro_auto.json"
 RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_R6_BUS_CONTRO_AUTO.txt"
 PARZIALE = PROC / "r6_bus_contro_auto_parziale.npz"      # diverso da quello dello script 93: non si sovrascrivono
 
+MINUTI_SENSIBILITA = (5, 10, 15)                          # minuti per parcheggiare in centro; la classe ufficiale e' quella con 5
 SOGLIA = 1.5                                              # rapporto massimo perche' il bus «convenga»
 CLASSI = {"conviene": "il bus conviene", "dipende": "dipende dal traffico", "non_conviene": "il bus non conviene"}
 INTERSCAMBI_POCO_PIENI = ("SOFIA", "VENCHI UNICA")
@@ -106,11 +107,24 @@ def main():
             l["rapporto_basso"] = round(l["tp_min"] / l["auto_basso_min"], 2)
             l["classe"] = classe_di(l["rapporto_basso"], l["rapporto_alto"])
         l["classe_testo"] = CLASSI[l["classe"]]
+        # sensibilita': stessa regola con 5, 10 e 15 minuti di parcheggio al posto dei 5 predefiniti
+        l["classi_sensibilita"] = {}
+        for m in MINUTI_SENSIBILITA:
+            if l["tp_min"] is None:
+                l["classi_sensibilita"][str(m)] = "non_conviene"
+            else:
+                l["classi_sensibilita"][str(m)] = classe_di(l["tp_min"] / (libero * f_basso + m), l["tp_min"] / (libero * f_alto + m))
 
     punti, inter = luoghi[:n_punti], luoghi[n_punti:]
     conta = {k: sum(1 for l in punti if l["classe"] == k) for k in CLASSI}
     conta_i = {k: sum(1 for l in inter if l["classe"] == k) for k in CLASSI}
 
+    sens = {}
+    for m in MINUTI_SENSIBILITA:
+        sens[str(m)] = {"punti": {k: sum(1 for l in punti if l["classi_sensibilita"][str(m)] == k) for k in CLASSI},
+                        "interscambi": {k: sum(1 for l in inter if l["classi_sensibilita"][str(m)] == k) for k in CLASSI}}
+    c("la sensibilita' con 5 minuti coincide con la classe ufficiale", sens["5"]["punti"] == conta and sens["5"]["interscambi"] == conta_i and
+      all(l["classi_sensibilita"]["5"] == l["classe"] for l in luoghi), bloccante=True)
     c("nessun tempo nullo, negativo o infinito", all(np.isfinite(l["libero_min"]) and l["libero_min"] > 0 and l["auto_basso_min"] > 0
                                                        and (l["tp_min"] is None or l["tp_min"] > 0) for l in luoghi), bloccante=True)
     c("tutti i punti del R6 hanno una classe", all(l["classe"] in CLASSI for l in punti) and len(punti) == len(porte["punti_prioritari"]), bloccante=True)
@@ -139,6 +153,7 @@ def main():
                          "fattore_basso": f_basso, "soglia_rapporto": SOGLIA, "punti_spostati": spostati},
            "regola": {"conviene": "rapporto <= 1,5 con entrambi i fattori", "dipende": "rapporto <= 1,5 solo col fattore basso",
                       "non_conviene": "rapporto oltre 1,5 con entrambi"},
+           "sensibilita_parcheggio": sens,
            "riepilogo": {"punti": conta, "interscambi": conta_i, "n_punti": len(punti), "n_interscambi": len(inter)},
            "luoghi": luoghi, "paragrafo_interscambi": par_inter, "controlli": list(c.righe)}
     OUT_JSON.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -159,6 +174,14 @@ def main():
     for l in inter:
         rap = f"{l['rapporto_basso']:.2f}-{l['rapporto_alto']:.2f}" if l["tp_min"] is not None else "nessun collegamento"
         r.append(f"  {l['nome']} | {l['stato']} | {l['tp_min'] if l['tp_min'] is not None else '-'} | {l['auto_alto_min']:.1f}-{l['auto_basso_min']:.1f} | {rap} | {l['classe_testo']}")
+    r += ["", "SENSIBILITA': MINUTI PER PARCHEGGIARE IN CENTRO (la classe ufficiale e' quella con 5)",
+          "  minuti | punti: conviene / dipende / non conviene | interscambi: conviene / dipende / non conviene"]
+    for m in MINUTI_SENSIBILITA:
+        sp, si = sens[str(m)]["punti"], sens[str(m)]["interscambi"]
+        r.append(f"  {m} | {sp['conviene']} / {sp['dipende']} / {sp['non_conviene']} | {si['conviene']} / {si['dipende']} / {si['non_conviene']}")
+    r.append("  luogo: classe con 5 | 10 | 15 minuti")
+    for l in luoghi:
+        r.append(f"  {l['nome']}: " + " | ".join(CLASSI[l['classi_sensibilita'][str(m)]] for m in MINUTI_SENSIBILITA))
     r += ["", par_inter, "", "CONTROLLI"] + [f"  {x}" for x in c.righe]
     r += ["", "LIMITI: tempi coi mezzi da orario programmato, solo GTT (niente treni: i luoghi fuori Torino possono risultare peggiori del vero); "
               "la rete stradale non conta semafori e incroci; un solo punto per luogo (centro delle fermate importanti per i punti prioritari); "

@@ -6,6 +6,49 @@ da togliere auto dal centro?
 **Tag dati:** [STIMATO] (indagine IMQ 2022 + modello del traffico + inventario dei parcheggi); riempimento [MISURATO]
 solo per pochi garage.
 
+## Messaggio
+
+**I parcheggi di scambio funzionano solo dove il mezzo pubblico è veloce: oggi su 1 punto su 12.** Un parcheggio di scambio serve se da lì il bus verso il centro è competitivo con l'auto (tempo coi mezzi al massimo 1,5 volte quello in auto, a Piazza Castello alle 8). Oggi lo è su 1 punti su 12 (conviene o dipende dal traffico). Con 10 minuti per parcheggiare in centro diventano 10, con 15 diventano 12: il risultato dipende molto da quanto costa parcheggiare in centro, e la classe ufficiale usa 5 minuti.
+
+- Interscambi esistenti: pieno e con bus competitivo, Stura; poco usati e senza bus competitivo, Caio Mario e Sofia (Caio Mario ha il contatore fermo).
+- Fermate importanti senza posti bastanti: 179 su 274.
+- Limiti: tempi coi mezzi solo GTT, senza treni; parcheggio in centro fissato a 5 minuti; costo del parcheggio non considerato.
+
+### Sensibilità ai minuti per parcheggiare in centro
+
+| Minuti | Punti: conviene / dipende / non conviene | Interscambi: conviene / dipende / non conviene |
+|---|---|---|
+| 5 | 0 / 1 / 11 | 0 / 3 / 2 |
+| 10 | 1 / 9 / 2 | 2 / 3 / 0 |
+| 15 | 4 / 8 / 0 | 5 / 0 / 0 |
+
+### Punti prioritari (rapporto = tempo coi mezzi / tempo in auto)
+
+| Luogo | Posti che mancano | Mezzi (min) | Auto (min, fattore alto-basso) | Rapporto (basso-alto) | Classe (5 min) | Classe con 5 / 10 / 15 min |
+|---|---|---|---|---|---|---|
+| Santa Rita | 450 | 36 | 14-20 | 1,8-2,6 | il bus non conviene | non conviene / dipende / dipende |
+| Metro Massaua | 350 | 25 | 15-23 | 1,1-1,7 | dipende dal traffico | dipende / conviene / conviene |
+| Ponte Cavalieri Templari | 350 | 51 | 18-28 | 1,8-2,8 | il bus non conviene | non conviene / non conviene / dipende |
+| Regina Margherita | 350 | 31 | 12-17 | 1,9-2,7 | il bus non conviene | non conviene / dipende / conviene |
+| Pasini | 250 | 28 | 12-17 | 1,6-2,3 | il bus non conviene | non conviene / dipende / conviene |
+| Leonardo Da Vinci | 200 | 59 | 20-31 | 1,9-3,0 | il bus non conviene | non conviene / non conviene / dipende |
+| Drosso Cap | 200 | 43 | 17-27 | 1,6-2,5 | il bus non conviene | non conviene / dipende / dipende |
+| Stura Lazio | 200 | 37 | 14-21 | 1,7-2,6 | il bus non conviene | non conviene / dipende / dipende |
+| Marsè | 150 | 61 | 23-37 | 1,7-2,6 | il bus non conviene | non conviene / dipende / dipende |
+| Derna Est | 100 | 34 | 14-20 | 1,7-2,5 | il bus non conviene | non conviene / dipende / conviene |
+| Ferrara | 80 | 49 | 20-31 | 1,6-2,5 | il bus non conviene | non conviene / dipende / dipende |
+| Zara | 60 | 33 | 12-17 | 1,9-2,8 | il bus non conviene | non conviene / dipende / dipende |
+
+### Interscambi esistenti
+
+| Luogo | Riempimento | Mezzi (min) | Auto (min, fattore alto-basso) | Rapporto (basso-alto) | Classe (5 min) | Classe con 5 / 10 / 15 min |
+|---|---|---|---|---|---|---|
+| Stura | pieno | 39 | 17-27 | 1,5-2,2 | dipende dal traffico | dipende / dipende / conviene |
+| Venchi Unica | a meta | 28 | 16-24 | 1,2-1,8 | dipende dal traffico | dipende / conviene / conviene |
+| Caio Mario | libero | 38 | 16-24 | 1,6-2,4 | il bus non conviene | non conviene / dipende / conviene |
+| Fermi | non misurato | 31 | 19-29 | 1,1-1,7 | dipende dal traffico | dipende / conviene / conviene |
+| Sofia | libero | 33 | 13-20 | 1,7-2,5 | il bus non conviene | non conviene / dipende / conviene |
+
 ## Come si calcola
 
 | Criterio | Valore |
@@ -46,8 +89,7 @@ solo per pochi garage.
 
 ### Bus contro auto verso Piazza Castello (script 94)
 
-Per i 12 punti prioritari e i 5 interscambi: tempo coi mezzi (r5py, 8:00 di un feriale) contro tempo in auto (flusso libero × fattore + 5 minuti, con i due fattori del R8). Regola fissata prima dei numeri, rapporto = mezzi / auto: **il bus conviene** se ≤ 1,5 con entrambi i fattori; **dipende dal traffico** se ≤ 1,5 solo col fattore basso; **non conviene** se oltre 1,5 con entrambi.
-Esito: **0 punti su 12 il bus conviene, 1 dipende (Metro Massaua), 11 no**; interscambi: 0 conviene, 3 dipende (Stura, Venchi Unica, Fermi), 2 no (Caio Mario, Sofia). Tempi coi mezzi solo GTT, senza treni. Tabella completa in `data/processed/r6_bus_contro_auto.json` e `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt`.
+Regola fissata prima dei numeri, rapporto = mezzi / auto: **il bus conviene** se ≤ 1,5 con entrambi i fattori del R8 (1,2 sensori, 2,1 Google); **dipende dal traffico** se ≤ 1,5 solo col fattore basso; **non conviene** se oltre 1,5 con entrambi. Auto = flusso libero × fattore + minuti di parcheggio (5 ufficiale). Tabelle e sensibilità in testa al documento; dettagli in `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt`.
 
 ## Mappa e scheda
 

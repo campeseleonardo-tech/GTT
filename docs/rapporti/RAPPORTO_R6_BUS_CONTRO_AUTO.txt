@@ -1,5 +1,5 @@
 RAPPORTO R6: IL BUS CONTRO L'AUTO VERSO PIAZZA CASTELLO (Risultato 6, parte C, STIMATO)
-generato: 2026-10-21T22:30:31
+generato: 2026-10-21T22:49:14
 
 Mezzi pubblici: r5py, giorno 2026-10-12, partenza 7:45-8:15, mediana, cammino a 4.8 km/h.
 Auto: flusso libero x fattore di punta + 5 minuti. Fattori dello script 93: basso 2.1 (Google Maps), alto 1.2 (sensori 5T).
@@ -29,12 +29,37 @@ INTERSCAMBI ESISTENTI: 0 il bus conviene, 3 dipende, 2 non conviene (su 5)
   FERMI | non_misurato | 31.0 | 18.6-28.9 | 1.07-1.67 | dipende dal traffico
   SOFIA | libero | 33.0 | 13.3-19.6 | 1.68-2.48 | il bus non conviene
 
+SENSIBILITA': MINUTI PER PARCHEGGIARE IN CENTRO (la classe ufficiale e' quella con 5)
+  minuti | punti: conviene / dipende / non conviene | interscambi: conviene / dipende / non conviene
+  5 | 0 / 1 / 11 | 0 / 3 / 2
+  10 | 1 / 9 / 2 | 2 / 3 / 0
+  15 | 4 / 8 / 0 | 5 / 0 / 0
+  luogo: classe con 5 | 10 | 15 minuti
+  SANTA RITA: il bus non conviene | dipende dal traffico | dipende dal traffico
+  METRO MASSAUA: dipende dal traffico | il bus conviene | il bus conviene
+  PONTE CAVALIERI TEMPLARI: il bus non conviene | il bus non conviene | dipende dal traffico
+  REGINA MARGHERITA: il bus non conviene | dipende dal traffico | il bus conviene
+  PASINI: il bus non conviene | dipende dal traffico | il bus conviene
+  LEONARDO DA VINCI: il bus non conviene | il bus non conviene | dipende dal traffico
+  DROSSO CAP: il bus non conviene | dipende dal traffico | dipende dal traffico
+  STURA LAZIO: il bus non conviene | dipende dal traffico | dipende dal traffico
+  MARSÈ: il bus non conviene | dipende dal traffico | dipende dal traffico
+  DERNA EST: il bus non conviene | dipende dal traffico | il bus conviene
+  FERRARA: il bus non conviene | dipende dal traffico | dipende dal traffico
+  ZARA: il bus non conviene | dipende dal traffico | dipende dal traffico
+  STURA: dipende dal traffico | dipende dal traffico | il bus conviene
+  VENCHI UNICA: dipende dal traffico | il bus conviene | il bus conviene
+  CAIO MARIO: il bus non conviene | dipende dal traffico | il bus conviene
+  FERMI: dipende dal traffico | il bus conviene | il bus conviene
+  SOFIA: il bus non conviene | dipende dal traffico | il bus conviene
+
 Interscambi esistenti del Comune, stesso test. STURA (pieno): 39 minuti coi mezzi contro 17-27 in auto (rapporto 1,5-2,2); dipende dal traffico. VENCHI UNICA (a meta): 28 minuti coi mezzi contro 16-24 in auto (rapporto 1,2-1,8); dipende dal traffico. CAIO MARIO (libero): 38 minuti coi mezzi contro 16-24 in auto (rapporto 1,6-2,4); il bus non conviene. FERMI (non misurato): 31 minuti coi mezzi contro 19-29 in auto (rapporto 1,1-1,7); dipende dal traffico. SOFIA (libero): 33 minuti coi mezzi contro 13-20 in auto (rapporto 1,7-2,5); il bus non conviene. Quelli poco pieni: da VENCHI UNICA dipende dal traffico; da SOFIA il bus non conviene.
 
 CONTROLLI
   OK     esistono porte.json e tp_contro_auto.json (lancia prima gli script 84 e 93)
   OK     fattori letti dal JSON dello script 93 (calcolo completo, non prova) — alto 1.2 (sensori), basso 2.1 (Google)
   OK     tutti i 12 punti prioritari del R6 e i 5 interscambi presenti — 12 punti + 5 interscambi
+  OK     la sensibilita' con 5 minuti coincide con la classe ufficiale
   OK     nessun tempo nullo, negativo o infinito
   OK     tutti i punti del R6 hanno una classe
   OK     il rapporto basso non supera quello alto — l'auto piu' lenta (fattore Google) rende il rapporto piu' basso

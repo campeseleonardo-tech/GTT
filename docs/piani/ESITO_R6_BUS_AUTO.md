@@ -64,3 +64,27 @@ Interscambi esistenti del Comune, stesso test. STURA (pieno): 39 minuti coi mezz
 - Un solo punto per luogo; per i punti prioritari è il centro delle fermate importanti, non una fermata precisa.
 - Col fattore alto la soglia 1,5 non è mai rispettata; il limite basso dà la sola eccezione. L'esito dipende dalla soglia scelta prima dei numeri: non è stata cambiata.
 - Lo script 94 riscrive `r6_bus_contro_auto_parziale.npz`, diverso dal file parziale del 93 (non si sovrascrivono).
+
+
+## Messaggio nuovo e sensibilità (21/10/2026)
+
+| Punto | Stato | Cosa è stato fatto |
+|---|---|---|
+| Sensibilità nello script 94 | OK | Classi ricalcolate con 5, 10 e 15 minuti di parcheggio in centro (`MINUTI_SENSIBILITA`). La classe ufficiale resta quella con 5 (controllo bloccante: la colonna 5 coincide). Nel JSON: `sensibilita_parcheggio` e `classi_sensibilita` per luogo; nel rapporto una tabella e le classi per luogo. |
+| Scheda R6 | OK | Titolo «I parcheggi di scambio funzionano solo dove il mezzo pubblico è veloce: oggi su 1 punto su 12»; numero grande 1 su 12; grafico principale = rapporto dei 12 punti (barra scura = limite basso, chiara = alto, linea a 1,5, colore = classe; `soglia` nuovo in `risultati.html`); punti chiave: interscambi pieni/vuoti con i nomi, fermate senza posti, N10 = 10 e N15 = 12; altro grafico: punti per bisogno di posti; limiti con GTT senza treni, parcheggio a 5 minuti, costo non considerato; inglese con gli stessi numeri. Criteri ridotti a 4 righe e metodo a 5. |
+| Documento | OK | `docs/R6_parcheggi.md`: messaggio in testa, tabella dei luoghi con classe a 5/10/15 minuti, sensibilità. |
+| Prove | OK | 94, 79, `schede_risultati.py`, `04_genera_mappa.py`, `prova_pagine_r6.py`: 0 errori su 18 pagine; scheda controllata in Chromium. |
+
+### Sensibilità (punti | interscambi: conviene / dipende / non conviene)
+
+| Minuti | Punti | Interscambi | Punti competitivi |
+|---|---|---|---|
+| 5 | 0 / 1 / 11 | 0 / 3 / 2 | 1 su 12 |
+| 10 | 1 / 9 / 2 | 2 / 3 / 0 | 10 su 12 |
+| 15 | 4 / 8 / 0 | 5 / 0 / 0 | 12 su 12 |
+
+### Da sapere
+
+- Il messaggio è molto sensibile ai minuti di parcheggio: da 1 punto su 12 (5 minuti) a 10 (10 minuti) a 12 (15 minuti). Il numero ufficiale resta 1, ma va letto con questa forbice.
+- «Competitivo» = conviene o dipende dal traffico. Col fattore alto dei sensori solo 1 punto su 12 conviene già con 10 minuti.
+- Interscambi: Venchi Unica (a metà) e Fermi (non misurato) hanno il bus competitivo ma non sono né pieni né vuoti: restano fuori dal punto chiave.
