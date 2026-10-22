@@ -322,4 +322,17 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 ## Decisioni di Leo
 
-(da compilare: fonte per fonte, git / Release / fonte; piano 2, passo 3)
+Prese il 22/10/2026, dopo l'inventario sui dati veri. Lo script 96 le applica da solo (posto «fonte» e «fuori»): le tabelle sopra si aggiornano al prossimo lancio.
+
+| Cosa | Deciso | Perché / come si rifà |
+|---|---|---|
+| **IMQ 2022**: file originale (`.accdb`), spostamenti e interviste (`data/processed/imq/*.csv`), zone di campionamento | **fonte**: non entrano né in git né nella Release; si riscaricano dalla fonte | Licenza non indicata (© Agenzia, «per studio e ricerca»). Indirizzo: pagina «open data IMQ 2022» di MTM (in `docs/FONTI_DATI.md`); poi gli script 13-16 rifanno i file. Leo scrive all'Agenzia per chiedere il permesso |
+| **OMI**: file grezzi (`data/raw/omi_2025_2/`) | **fonte**: non si pubblicano; si riscaricano a mano | Nessuna licenza esplicita, solo «citare la fonte». Procedura: servizio Forniture dati OMI, semestre 2025/2, provincia di Torino |
+| **File del Pi** (`live.js`, `stat.js`, `agg_cache.json`, `replay_*.js`, `get_*.xml`) | **fuori** | Servivano alla vecchia mappa live; la mappa non usa più dati live |
+| Java di OTP, `data/backup/`, cache e prove | **fuori** | Strumenti, copie e avanzi, non dati |
+| ISTAT, OpenStreetMap (estratto), GTFS GTT e copie dei GTFS di scenario | **Release** | CC BY 4.0 / ODbL / CC BY: con citazione (OSM con ODbL). Leo controlla a mano la licenza della scheda GTFS statico |
+| Dati delle pagine, risultati e riferimenti piccoli | **git** | come proposto dall'inventario |
+| Storico SQLite | **riassunti** (script 97) | piano 2, passo 4 |
+
+Ancora aperti: il PDF del rapporto di sostenibilità GTT 2025 (`rapporto_di_sostenibilita_2025.pdf`, 3 MB: oggi in Release, ma è un documento di GTT di cui la licenza non è stata controllata);
+i numeri aggregati dell'IMQ dentro `mappa_torino.html` (restano con la citazione, da confermare con l'Agenzia); `IMQ2022_opendata_web.accdb` esiste due volte (`data/` e `data/raw/`, 60 MB l'una): se non serve la copia, cancellare a mano quella fuori da `raw`.

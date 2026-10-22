@@ -18,7 +18,7 @@ va rispettata la licenza (attribuzione, ecc.); **NON CHIARO** = la pagina uffici
 | **OpenStreetMap** (rete stradale, servizi della cintura) | ODbL 1.0 | [copyright OSM](https://www.openstreetmap.org/copyright) | con condizioni: attribuzione e **condivisione alle stesse condizioni** (ODbL) per i dati derivati: un estratto tagliato si può ripubblicare sotto ODbL | «© contributori di OpenStreetMap» con link a openstreetmap.org/copyright e indicazione della licenza ODbL | sì |
 | **Sfondi della mappa (Esri)** | non verificata qui | — | non si ripubblicano (si caricano dal browser) | «Esri, Maxar, Earthstar Geographics» (già nella mappa) | decisione di Leo: consentiti finché il progetto non è commerciale |
 
-Da chiedere o decidere prima della Release: **IMQ 2022** (microdati) e **OMI** (file grezzi) sono NON CHIARO; GTFS statico di GTT e licenza IODL 2.0 da ricontrollare sulla pagina ufficiale.
+**Deciso da Leo il 22/10:** IMQ 2022 e OMI (NON CHIARO) non si pubblicano: restano fuori da git e dalla Release e si riscaricano dalla fonte (`docs/DATI.md`, «Decisioni di Leo»). Da ricontrollare sulla pagina ufficiale: GTFS statico di GTT e testo della IODL 2.0.
 Se manca la certezza, il dato resta fuori dalla Release e lo script che lo scarica dà solo l'indirizzo.
 
 ## Indirizzi e file

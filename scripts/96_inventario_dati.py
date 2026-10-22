@@ -18,6 +18,7 @@ Cosa fa
        Release    data/raw/ e, fuori da raw, i file da 5 MB in su che qualcuno legge (zip nella Release di GitHub)
        git        file sotto 5 MB letti da una pagina o da uno script, o scritti da uno script dei risultati
                   (sopra 5 MB solo se una pagina li carica; sopra 50 MB sempre Release: AVVISO)
+       fonte      IMQ 2022 e OMI grezzi (decisione di Leo 22/10): licenza non chiara, non si pubblicano, si riscaricano dalla fonte
        fuori      nessuno script e nessuna pagina lo cita: probabilmente avanzo (non si pubblica)
      «fuori» anche: strumenti (cartelle jdk/jre), copie di sicurezza (backup, «prima_correzioni»), cache e prove (_parziale, _test).
      Zip, pdf, pbf e simili letti solo dagli script vanno in Release anche se piccoli.
@@ -47,7 +48,10 @@ RADICE = comuni.RADICE
 SOGLIA_GIT = 5 * 1024 * 1024
 SOGLIA_MAX = 50 * 1024 * 1024
 ESTENSIONI_GREZZE = (".zip", ".pdf", ".pbf", ".gz", ".accdb", ".7z", ".xlsx")
-FUORI_SE = re.compile(r"(^|/)(jdk|jre)[^/]*/|(^|/)backup[^/]*/|_prima_|prima_correzioni|_parziale|_test(/|\.|$)|(^|/)STOP_RACCOLTA", re.I)
+FUORI_SE = re.compile(r"(^|/)(jdk|jre)[^/]*/|(^|/)backup[^/]*/|_prima_|prima_correzioni|_parziale|_test(/|\.|$)|(^|/)STOP_RACCOLTA|"
+                      r"^(live\.js|stat\.js|agg_cache\.json|get_[a-z]+\.xml|replay_[^/]*\.js)$", re.I)
+# decisioni di Leo (22/10/2026): licenza non chiara -> il file non si pubblica, si riscarica dalla fonte (docs/FONTI_DATI.md)
+FONTE_SE = re.compile(r"(^|/)imq[^/]*/|(^|/)imq2022|^raw/omi", re.I)
 RAGGRUPPA_SOPRA = 30          # cartelle con piu' file di cosi' = una riga sola
 CARTELLE_GENERICHE = {"data", "raw", "processed"}
 INIZIO, FINE = "<!-- INVENTARIO:INIZIO -->", "<!-- INVENTARIO:FINE -->"
@@ -163,6 +167,8 @@ def posto(rel_data, peso, legge, scrive):
         return "fuori", "strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto"
     if nome.endswith((".sqlite", ".sqlite3", ".db", "-wal", "-shm")):
         return "riassunto", "storico della raccolta: si tengono i riassunti (script 97)"
+    if FONTE_SE.search(rel_data):
+        return "fonte", "IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo)"
     if parti[0] == "raw":
         return "Release", "dato grezzo (controllare la licenza in docs/FONTI_DATI.md)"
     da_pagine = any(p in PAGINE or p.endswith("mappa_template.html") for p in legge)
@@ -225,13 +231,13 @@ def testo_md(righe, data_txt):
         t = tot.setdefault(r["posto"], [0, 0])
         t[0] += 1
         t[1] += r["peso"]
-    ordine = ["git", "Release", "riassunto", "fuori"]
+    ordine = ["git", "Release", "riassunto", "fonte", "fuori"]
     L = [INIZIO, "",
          f"*Inventario scritto da `scripts/96_inventario_dati.py` il {datetime.now():%d/%m/%Y} sulla cartella {data_txt}. Le proposte sono automatiche (regole in testa allo script): "
          "decide Leo, fonte per fonte (piano 2, passo 3).*", "",
          "### Totali per posto", "", "| Posto | File | Peso (MB) | Cosa vuol dire |", "|---|---|---|---|"]
     spiegazione = {"git": "dentro il repository", "Release": "zip nella Release di GitHub", "riassunto": "dello storico si tengono solo i riassunti (script 97)",
-                   "fuori": "nessuno lo cita: non si pubblica"}
+                   "fonte": "non si pubblica: si riscarica dalla fonte (IMQ, OMI)", "fuori": "nessuno lo cita: non si pubblica"}
     for p in ordine:
         n, s = tot.get(p, [0, 0])
         L.append(f"| {p} | {n} | {mb(s)} | {spiegazione[p]} |")
@@ -242,10 +248,10 @@ def testo_md(righe, data_txt):
     gruppi = {}
     for r in righe:
         gruppi.setdefault(cartella_di(r["rel"]), []).append(r)
-    L += ["### Per cartella", "", "| Cartella | File | Peso (MB) | git | Release | riassunto | fuori | Deciso |", "|---|---|---|---|---|---|---|---|"]
+    L += ["### Per cartella", "", "| Cartella | File | Peso (MB) | git | Release | riassunto | fonte | fuori |", "|---|---|---|---|---|---|---|---|"]
     for c, rs in sorted(gruppi.items()):
         per = {p: sum(1 for r in rs if r["posto"] == p) for p in ordine}
-        L.append(f"| `data/{c}` | {len(rs)} | {mb(sum(r['peso'] for r in rs))} | {per['git']} | {per['Release']} | {per['riassunto']} | {per['fuori']} | |")
+        L.append(f"| `data/{c}` | {len(rs)} | {mb(sum(r['peso'] for r in rs))} | {per['git']} | {per['Release']} | {per['riassunto']} | {per['fonte']} | {per['fuori']} |")
     L += ["", "### Per file", "",
           f"Le cartelle con più di {RAGGRUPPA_SOPRA} file sono in una riga sola (elenco completo: rilanciare lo script e guardare `--data`).", ""]
     for c, rs in sorted(gruppi.items()):
@@ -341,7 +347,7 @@ def main():
     scrivi_doc(uscita, md)
     print(f"\nScritto: {uscita}")
     print(f"\n{'posto':10s} {'file':>8s} {'MB':>12s}")
-    for p in ("git", "Release", "riassunto", "fuori"):
+    for p in ("git", "Release", "riassunto", "fonte", "fuori"):
         n, s = tot.get(p, [0, 0])
         print(f"{p:10s} {n:8d} {mb(s):>12s}")
     print(f"{'tutto':10s} {len(righe):8d} {mb(sum(r['peso'] for r in righe)):>12s}")

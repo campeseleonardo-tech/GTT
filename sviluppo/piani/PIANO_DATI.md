@@ -20,7 +20,7 @@ Limiti di GitHub: file singolo < 100 MB (sopra 50 MB avvisa); repository consigl
 |---|---|---|---|
 | 1 | **FATTO (C2; lancio sul PC: P2)**: inventario: script `96_inventario_dati.py` che elenca ogni file di `data/` con peso e quali script lo leggono o lo scrivono; scrive `docs/DATI.md` con una proposta di posto (git / Release / fonte) | CLOUD (script) → PC (lancio) | piccolo |
 | 2 | **FATTO (C2; Leo conferma)**: licenze delle fonti, una per una, in `docs/FONTI_DATI.md`: GTT GTFS e GTFS-RT, 5T, ISTAT, IMQ 2022, OMI (si possono ripubblicare le quotazioni o solo citare?), aperTO, OSM (ODbL: i dati derivati si condividono con la stessa licenza) | CLOUD (ricerca) + Leo conferma | medio |
-| 3 | **Decidere fonte per fonte** con inventario e licenze (tabella in `docs/DATI.md`) | Leo + Claude | piccolo |
+| 3 | **FATTO (22/10, `docs/DATI.md`)**: decidere fonte per fonte con inventario e licenze (tabella in `docs/DATI.md`) | Leo + Claude | piccolo |
 | 4 | **Riassunti dello storico** (script `97_riassunti_storico.py`): passaggi per corsa e fermata dal GPS (R4), medie per sensore 5T e ora (R8), riempimento dei parcheggi per ora (R6), un file compresso per mese; **gli script dei risultati leggono i riassunti** quando lo storico non c'è. Più **un'ora tipica di posizioni dei mezzi** (≤ 300 KB) per l'animazione della home (piano 4, A) | CLOUD (script) → PC (lancio) | medio |
 | 5 | **`.gitignore` nuovo**: `data/raw/` e lo storico restano fuori; entrano le cartelle scelte. Controllo automatico: nessun file sopra 50 MB, totale sotto 300 MB | CLOUD | piccolo |
 | 6 | **Release**: script `98_prepara_release.py` che crea gli zip con l'elenco dei file e un codice di controllo (sha256); Leo li carica nella pagina Releases | CLOUD (script) → PC + GITHUB | piccolo |
