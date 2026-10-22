@@ -161,11 +161,11 @@ def main():
     try:
         gs = subprocess.run(["git", "status", "--porcelain"], cwd=str(RADICE),
                             capture_output=True, text=True).stdout
-        vietati = ["MEMORIA_PROGETTO.md", "scripts/mappa_template.html", "scripts/04_genera_mappa.py"]
+        vietati = ["sviluppo/MEMORIA_PROGETTO.md", "scripts/mappa_template.html", "scripts/04_genera_mappa.py"]
         toccati_vietati = [v for v in vietati if any(v in riga for riga in gs.splitlines())]
         a_(f"    righe modificate/nuove: {len(gs.splitlines())}")
         a_(f"    file vietati toccati: {toccati_vietati or 'NESSUNO'}")
-        a_(f"    (MEMORIA_PROGETTO.md e mappa_template.html erano gia' modificati prima della "
+        a_(f"    (sviluppo/MEMORIA_PROGETTO.md e mappa_template.html erano gia' modificati prima della "
            f"sessione; 04_genera_mappa.py non compare -> intatto)")
     except Exception as e:
         a_(f"    git status non disponibile: {e}")

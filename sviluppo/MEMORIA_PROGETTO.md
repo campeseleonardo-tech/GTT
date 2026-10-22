@@ -1,7 +1,7 @@
 # Memoria del progetto GTT
 
 Ultimo aggiornamento: **22/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
-risultato stanno nel suo documento in `docs/` (`R1_servizi.md` …), i piani aperti in `docs/piani/`, la storia in git. Sezioni fisse (non aggiungerne): 1 Obiettivo · 2 Regole · 3 Cartelle e dati · 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici.
+risultato stanno nel suo documento in `docs/` (`R1_servizi.md` …), i piani aperti in `sviluppo/piani/`, la storia in git. Sezioni fisse (non aggiungerne): 1 Obiettivo · 2 Regole · 3 Cartelle e dati · 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici.
 
 ## 1. Obiettivo
 
@@ -14,7 +14,7 @@ Risultati: **1** servizi · **2** metro di notte (**in pausa**, scheda nascosta)
 avviso standard: «SIMULAZIONE SU ORARIO PROGRAMMATO — non tiene conto di traffico, ritardi, capienza, domanda reale.»
 **Racconto per il portfolio** (Leo, 22/10): il progetto mette alla prova sui dati veri di Torino quello che la sua tesi triennale
 (2020, Industry 4.0 e smart city, solo letteratura) prometteva: «la tesi era la promessa, il progetto è la verifica» (limiti dell'IoT e
-della qualità dei dati). Cornici, temi in comune, dati da verificare e frase per il post in `docs/TESI_E_PROGETTO.md`.
+della qualità dei dati). Cornici, temi in comune, dati da verificare e frase per il post in `sviluppo/TESI_E_PROGETTO.md`.
 
 ## 2. Regole di lavoro
 
@@ -26,8 +26,8 @@ della qualità dei dati). Cornici, temi in comune, dati da verificare e frase pe
 - Accesso: terminale sul PC e SSH **in sola lettura** verso leopi (`leopi@192.168.8.200`, chiave `~/.ssh/id_gtt_leopi`). Scrivere o riavviare sul Pi → `.bat` a doppio clic per Leo
   (`cd /d "%~dp0.."`, log in `logs/`, stop al primo errore); calcoli lunghi in una finestra `.bat` propria.
 - Tag dati: [MISURATO]/[PROGRAMMATO]/[STIMATO]/[CENSIMENTO]/[DATI SCARSI]. Niente dati personali; vulnerabilità solo con l'indice dedicato, mai nazionalità.
-- Piani aperti in `docs/piani/PIANO_*.md`; a lavoro chiuso il contenuto vivo passa nel documento del risultato e qui, il piano si cancella. Documenti e script superati si **cancellano** (Leo 21/10).
-- Agenti esterni (modello minore, PC o cloud): un giro per volta (mai due insieme), commit e push da soli, database in sola lettura, esito in `docs/piani/ESITO_*.md` (cancellato dopo il ricontrollo).
+- Piani aperti in `sviluppo/piani/PIANO_*.md`; a lavoro chiuso il contenuto vivo passa nel documento del risultato e qui, il piano si cancella. Documenti e script superati si **cancellano** (Leo 21/10).
+- Agenti esterni (modello minore, PC o cloud): un giro per volta (mai due insieme), commit e push da soli, database in sola lettura, esito in `sviluppo/piani/ESITO_*.md` (cancellato dopo il ricontrollo).
 - Le soglie e le regole di un risultato si fissano **prima** di vedere i numeri (R6, R8). Regole di Leo per il R6: le sue osservazioni non entrano nei dati (solo controllo a posteriori,
   `data/ref/parcheggi_osservazioni.json`); in pagina niente versioni, scenari, eventi, classi dei parcheggi.
 - Prova delle pagine nel browser integrato: `.claude/launch.json` → `pagine-gtt` (porta 8765).
@@ -67,7 +67,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 - **R6 parcheggi** (24-25, 68-73, 77, 79-85, 87, 88, 94): fermate importanti con regola fissa (≥ 10 corse/ora o metro/stazione/capolinea, e ≥ 1.000 auto in entrata, scelta di Leo): **274**, **179 senza posti bastanti** entro 400 m a piedi
   (68 senza alcun parcheggio adatto); **12 punti prioritari** (uno per asse, ≥ 3 km dal centro, ≥ 50 posti mancanti; Maroncelli e Chieri escono, Leo: lasciare così); auto in entrata 87.162, chi già lascia l'auto 5,8% (64 interviste), torinesi inclusi 34%;
   in mappa anche 80 parcheggi del centro (viola), 2 viste. **Parte C bus contro auto** (94): 0 conviene, 1 dipende (Metro Massaua), 11 no; interscambi 0/3/2; messaggio della scheda «funzionano solo dove il mezzo pubblico è veloce: oggi 1 punto su 12»;
-  sensibilità ai minuti di parcheggio in centro 5 → 1, 10 → 10, 15 → 12 punti competitivi (classe ufficiale 5 minuti). `docs/R6_parcheggi.md`; catena `RISULTATO6_RIFAI.bat` (~4 min). **Rifatto 22/10 con 5 feriali** (15, 16, 19, 20, 21/10): numeri sopra invariati (274, 179, 12 punti, 0/1/11, pareggio 20,85–27,5); cambia solo la classe di LANCIA (misto → residenziale). `docs/piani/ESITO_P0.md`.
+  sensibilità ai minuti di parcheggio in centro 5 → 1, 10 → 10, 15 → 12 punti competitivi (classe ufficiale 5 minuti). `docs/R6_parcheggi.md`; catena `RISULTATO6_RIFAI.bat` (~4 min). **Rifatto 22/10 con 5 feriali** (15, 16, 19, 20, 21/10): numeri sopra invariati (274, 179, 12 punti, 0/1/11, pareggio 20,85–27,5); cambia solo la classe di LANCIA (misto → residenziale). `sviluppo/piani/ESITO_P0.md`.
 - **R8 traffico** (33-67, 93): stima C-DEBOLE, errore mediano 38,4% (±38%), rho 0,605, 20 punti di misura; 95,3% dei km di strade grandi di Torino serviti dal TP (vale solo per le strade grandi); «molto traffico e poco TP» quasi solo Corso Regina Margherita ovest.
   **Parte D** (93): tempo coi mezzi contro auto, forbice con due fattori di punta (1,2 sensori 5T; 2,1 Google Maps): rapporto mediano **da 1,96 a 2,94** («da 2 a 3 volte il tempo dell'auto»), auto oltre 2 volte da 41% a 97%; cintura-cintura a parte. `docs/R8_traffico.md`.
 - **Mappa** (giri 1-4 fatti): partenza senza tema su satellite, due gruppi di temi, «Chi abita qui» (8 viste), «Fragilità sociale», «Servizi a portata», «Servizi mancanti», «Prezzo delle case», «Mezzi pubblici sotto casa», «Spostamenti» (IMQ),
@@ -78,11 +78,11 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 
 ## 5. IN CORSO
 
-- **Cinque piani** (22/10, rivisti dopo l'analisi: ripetizioni tolte, aggiunte) in `docs/piani/`: **1** `PIANO_RIORGANIZZAZIONE` (`main` creato da Leo il 22/10, da rendere di default; repository
+- **Cinque piani** (22/10, rivisti dopo l'analisi: ripetizioni tolte, aggiunte) in `sviluppo/piani/`: **1** `PIANO_RIORGANIZZAZIONE` (`main` creato da Leo il 22/10, da rendere di default; repository
   rinominato **`Turin-mobility`** (fatto da Leo, sito «Torino Mobilità»), appunti in `sviluppo/`, script 86 che non riscrive più il README, Pages da `main`) · **2** `PIANO_DATI` (estratti in git + Release; dello storico
   solo i **riassunti**, Leo) · **3** `PIANO_RISULTATI` (R6 con 5 feriali e scheda 5 fatti 22/10, `ESITO_P0.md`; resta: R4 a un mese; etichetta [DATI SCARSI] dello script 71 da decidere con più settimane; A2, F, C4, E4 **fuori**, Leo) · **4** `PIANO_GRAFICA`
   (decisioni di Leo: mezzi in movimento in home; numeri che contano **solo** nei numeri grandi; omini, gara bus/auto (scheda 3) e area che si espande (scheda 4) nelle schede;
-  ore che scorrono in mappa; `progetto.html`; un file di stile; verde acqua → corallo) · **5** `PIANO_CODICE`. `PIANO_COSTI` dopo la pubblicazione. **Prompt** per far fare tutto a un modello, giro per giro (CLOUD C1-C13, PC P0-P8, ordine e fermate per Leo): `docs/piani/PROMPT_LAVORI.md`.
+  ore che scorrono in mappa; `progetto.html`; un file di stile; verde acqua → corallo) · **5** `PIANO_CODICE`. `PIANO_COSTI` dopo la pubblicazione. **Prompt** per far fare tutto a un modello, giro per giro (CLOUD C1-C13, PC P0-P8, ordine e fermate per Leo): `sviluppo/piani/PROMPT_LAVORI.md`.
 - **Rami** (22/10): nessun lavoro fuori da `prova`; i rami `claude/...` vecchi si cancellano (Leo). «Chi sono»: LinkedIn leocampese, email campese.leonardo@gmail.com. Niente contatore delle visite (Leo). Controllo fisso: `scripts\CONTROLLA_RAMI.bat` (`controlla_rami.py`).
 - **Raccolta parcheggi** su leopi continua (R6 rifatto con 5 feriali il 22/10). `LICENSE` (MIT per il codice, dati con la licenza della fonte) creato il 22/10.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`. Il vecchio nome della cartella OMI resta nella storia di git.

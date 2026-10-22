@@ -19,7 +19,7 @@ Pagina di riferimento aperTO per GTT tempo reale: https://aperto.comune.torino.i
 
 Tutto scaricato e verificato: pendolarismo 2021 (lavoro e studio, comune contro comune), matrici 2011 (110 zip
 per provincia + nazionale con mezzo e orario), basi territoriali 2021 Piemonte, indicatori regionali 2021.
-Dove stanno i file e cosa contengono: inventario ISTAT in `MEMORIA_PROGETTO.md`.
+Dove stanno i file e cosa contengono: inventario ISTAT in `sviluppo/MEMORIA_PROGETTO.md`.
 
 ## OMI (Agenzia delle Entrate): SCARICATO l'8/10/2026
 
@@ -28,7 +28,7 @@ Dove stanno i file e cosa contengono: inventario ISTAT in `MEMORIA_PROGETTO.md`.
 - Scaricati a mano da Leo dal servizio Forniture dati OMI / GeoPOI dell'Agenzia. In caso di uso: citare
   "Agenzia delle Entrate - OMI".
 - Mancante (facoltativo): provincia di Asti, per coprire Moncucco Torinese (unico comune dell'area non coperto).
-- In mappa dal 9/10: sezione 4 di `MEMORIA_PROGETTO.md`.
+- In mappa dal 9/10: sezione 4 di `sviluppo/MEMORIA_PROGETTO.md`.
 
 ## Da scaricare a mano (eventuale, non urgente)
 

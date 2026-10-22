@@ -50,7 +50,7 @@ prova: cosa dicono davvero, e dove l'IoT e la «smart city» mostrano i loro lim
 ## Cosa manca per chiudere il cerchio con la tesi di Management
 
 Il livello «business» dell'IoT: costi del servizio, valore per i soldi spesi (es. costo per passeggero di tram contro
-bus; costo di un parcheggio di scambio contro i minuti risparmiati). Piano: `docs/piani/PIANO_COSTI.md`.
+bus; costo di un parcheggio di scambio contro i minuti risparmiati). Piano: `sviluppo/piani/PIANO_COSTI.md`.
 
 ## Dati della letteratura citati nella tesi, utili come confronto (DA VERIFICARE sulla fonte originale prima di usarli)
 
