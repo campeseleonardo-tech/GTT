@@ -83,13 +83,13 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
   solo i **riassunti**, Leo) · **3** `PIANO_RISULTATI` (manca: R6 con ≥ 5 feriali, controllo scheda 5, R4 a un mese; A2, F, C4, E4 **fuori**, Leo) · **4** `PIANO_GRAFICA`
   (decisioni di Leo: mezzi in movimento in home; numeri che contano **solo** nei numeri grandi; omini, gara bus/auto (scheda 3) e area che si espande (scheda 4) nelle schede;
   ore che scorrono in mappa; `progetto.html`; un file di stile; verde acqua → corallo) · **5** `PIANO_CODICE`. `PIANO_COSTI` dopo la pubblicazione.
-- **Rami** (22/10): nessun lavoro fuori da `prova`; i rami `claude/...` vecchi si cancellano (Leo). «Chi sono»: LinkedIn leocampese, email campese.leonardo@gmail.com. Visite con GoatCounter (senza cookie). Controllo fisso: `scripts\CONTROLLA_RAMI.bat` (`controlla_rami.py`).
+- **Rami** (22/10): nessun lavoro fuori da `prova`; i rami `claude/...` vecchi si cancellano (Leo). «Chi sono»: LinkedIn leocampese, email campese.leonardo@gmail.com. Niente contatore delle visite (Leo). Controllo fisso: `scripts\CONTROLLA_RAMI.bat` (`controlla_rami.py`).
 - **Raccolta parcheggi** su leopi continua (il R6 si rifà appena ci sono ≥ 5 feriali interi: già dal 22/10). `LICENSE` (MIT per il codice, dati con la licenza della fonte) creato il 22/10.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`. Il vecchio nome della cartella OMI resta nella storia di git.
 
 ## 6. PROSSIMI PASSI
 
-1. Piano 1: `main` come ramo di default e rami vecchi cancellati (Leo su GitHub: la sessione cloud non ha il permesso), poi passi 4-7 (cloud). Sul PC: `RISULTATO6_RIFAI.bat` e `RIFAI_MAPPA_E_SCHEDE.bat`, controllo della scheda 5.
+1. Piano 1: `main` è il ramo di default e i rami vecchi sono cancellati (Leo, 22/10); restano i passi 4-7 (cloud). Sul PC: `RISULTATO6_RIFAI.bat` e `RIFAI_MAPPA_E_SCHEDE.bat`, controllo della scheda 5.
 2. Piano 2: inventario dei dati (script 96 sul PC) e licenze delle fonti; piano 4: prove di stile (cloud), Leo sceglie.
 3. Rilanci con più dati: R4 con un mese (metà novembre), poi stagione. Screenshot di Leo per la scheda R6.
 4. Più avanti: tempi TP contro auto per coppie di zone IMQ e costi (`PIANO_COSTI.md`); R2 ripreso (popolo della notte), treni SFM, scenario fra R3 e R5, effetto ZTL, tram contro bus.

@@ -38,7 +38,6 @@ nel sistema; pagine che funzionano anche senza le animazioni.
 | **L. Caricamento della mappa** | mentre arrivano i 6 MB: il contorno di Torino che si disegna e una barra; la finestra delle schede si apre con una dissolvenza | mappa, risultati |
 | **M. Mappa più comoda** | su telefono il pannello sale dal basso; schede dei temi uniformi (titolo = nome del posto, 3-5 righe, fonte in piccolo); «◎ Cintura» diventa «Tutta l'area»; ultime date e sigle tolte dal testo; bottone «copia il link di questa vista» | mappa |
 | **N. Come funziona** | schema animato: sensori e GPS → Raspberry Pi → storico → script → pagine (i livelli dell'IoT della tesi) | `progetto.html` |
-| **Q. Visite** (Leo, 22/10: sì, «pulito») | GoatCounter: niente cookie, niente dati personali, nessun banner da accettare; un solo script piccolo caricato dopo la pagina; non conta le visite dal PC di Leo né le prove locali; riga nel piè di pagina «Statistiche anonime delle visite, senza cookie». Leo crea l'account gratuito (codice proposto `turin-mobility`) | home, risultati, progetto, mappa, `r/` |
 | **O. Pagina «non trovata»** | `404.html` nello stile del sito con i link alle pagine | radice |
 | **P. Pagine dei singoli risultati** | `r/1.html` … `r/5.html`: pagine minime, scritte dallo script delle schede, con titolo, descrizione e immagine del risultato, che portano subito a `risultati.html#pN`. Un post su LinkedIn mostra la scheda giusta. Poco lavoro (Leo: sì, se resta poco) | radice, cartella `r/` |
 
@@ -63,7 +62,7 @@ nel sistema; pagine che funzionano anche senza le animazioni.
 | 7 | **F + L + M** mappa: ore che scorrono, caricamento, pannello su telefono, schede dei temi, link della vista | CLOUD | medio |
 | 8 | **E** area che si espande nella scheda 4: script dei tempi da 2-3 luoghi (mezzi e auto) | CLOUD (script) → PC (calcolo) → CLOUD | medio |
 | 9 | **G + N** `progetto.html` | CLOUD | grande |
-| 10 | **O**, **P**, **Q** (Leo crea l'account GoatCounter); screenshot per il README (piano 1) | CLOUD + Leo | piccolo |
+| 10 | **O**, **P**; screenshot per il README (piano 1) | CLOUD | piccolo |
 
 Prova di ogni passo: le pagine aperte in un browser senza schermo (0 errori, screenshot a misura di computer e telefono, anche
 con «riduci movimento»); Leo guarda gli screenshot e poi le pagine vere sul PC.

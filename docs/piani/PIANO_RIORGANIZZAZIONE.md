@@ -36,8 +36,8 @@ AGENTS.md            corto: rimanda a sviluppo/AGENTS.md
 | # | Passo | Dove | Quanto |
 |---|---|---|---|
 | 1 | **FATTO (22/10)**: memoria allineata, `ESITO_*.md` e piani vecchi cancellati, rami controllati (nessun lavoro perso) | CLOUD | — |
-| 2 | **`main`**: creato da `prova` e repository rinominato `Turin-mobility` (**FATTO**, Leo 22/10). Resta: renderlo **ramo di default** (Settings → General → Default branch); sul PC `git remote set-url origin https://github.com/campeseleonardo-tech/Turin-mobility.git` (il vecchio indirizzo funziona lo stesso). In `main` si entra solo con un blocco finito e provato | GITHUB (Leo) | piccolo |
-| 3 | **Rami vecchi** (ok di Leo, 22/10; la sessione cloud non ha il permesso di cancellarli): Leo li cancella da GitHub → Branches: `festive-noether-tjjecr`, `festive-noether-vzy1mo`, `keen-faraday-73k145`, `practical-lamport-5laaug`, `sweet-lovelace-hmqh81`, `zen-newton-brrak9`; `vibrant-planck-cztsh9` e `sharp-maxwell-mpqd8z` dopo l'unione in `prova` | GITHUB (Leo) | piccolo |
+| 2 | **`main`**: creato da `prova` e repository rinominato `Turin-mobility` (**FATTO**, Leo 22/10). `main` è ramo di default e il PC punta al nuovo indirizzo (**FATTO**, Leo 22/10). In `main` si entra solo con un blocco finito e provato | GITHUB (Leo) | piccolo |
+| 3 | **Rami vecchi** cancellati da Leo il 22/10 (**FATTO**); `vibrant-planck-cztsh9` e `sharp-maxwell-mpqd8z` dopo l'unione in `prova` | GITHUB (Leo) | piccolo |
 | 4 | **`sviluppo/`**: spostare `MEMORIA_PROGETTO.md`, `docs/piani/`, `docs/TESI_E_PROGETTO.md`; `AGENTS.md` in radice ridotto a poche righe (`docs/ANALISI_STATO.md` già cancellato il 22/10); aggiornare i percorsi citati (`git grep`) | CLOUD | piccolo |
 | 5 | **Dati di accesso fuori dai testi pubblici**: IP del Pi, utente SSH, percorso della chiave → file locale `config_locale.json` (in `.gitignore`) letto da script e `.bat` | CLOUD (codice) + PC (file) | piccolo |
 | 6 | **Testi puliti**: niente «Leo», «giro», «fase», date di sviluppo nelle pagine e nei commenti (`simulazione.html` già cancellata il 22/10) | CLOUD | medio |
