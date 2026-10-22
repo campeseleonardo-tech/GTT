@@ -13,3 +13,5 @@ chiave_deepseek.txt
 immagini/
 # dati di accesso al Raspberry Pi di casa (scripts/config_locale.esempio.json)
 config_locale.json
+# vecchia copia che scriveva lo script 86 (ora solo controllo): se compare sul PC, non va in git
+pubblica/
