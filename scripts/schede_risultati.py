@@ -4,7 +4,7 @@ Legge i file gia' prodotti dagli script dei risultati e scrive:
   data/processed/risultato1_riepilogo_mappa.json   (Risultato 1, da 21 e 22)
   data/processed/risultato4_riepilogo_mappa.json   (Risultato 4, da 27)
   data/processed/risultato6_v2/mappa_r6.json   (Risultato 6, da 79 e 84) -> data/processed/risultato6_riepilogo_mappa.json
-  data/processed/risultato8_riepilogo_mappa.json   (Risultato 8, dalla Fase 5 del traffico, script 56-67)
+  data/processed/risultato8_riepilogo_mappa.json   (Risultato 8, script 56-67)
   data/processed/risultato10_riepilogo_mappa.json  (Risultato 10 = «Case, servizi e fragilita'», da case_fragilita_servizi.json dello script 95)
   data/schede_risultati.js   (tutte le schede, R2 compreso, caricate da sole da risultati.html)
 
@@ -210,7 +210,7 @@ def scheda_r1():
             f"Per ogni sezione si contano quanti dei 5 gruppi mancano (0-5). Le sezioni con meno di {soglia_txt} "
             "abitanti per km² (superficie e residenti del censimento) sono \"poco abitate\": in grigio e fuori dal "
             f"titolo, che conta i residenti delle zone abitate con {SOGLIA_TITOLO_R1} o più servizi mancanti.",
-            "Fase B: per ogni gruppo si cercano fino a 5 punti (raggruppando le zone scoperte entro 400 m) che "
+            "Dove aggiungere un servizio: per ogni gruppo si cercano fino a 5 punti (raggruppando le zone scoperte entro 400 m) che "
             "riportano dentro i 15 minuti più residenti possibile, uno dopo l'altro.",
         ],
         "criteri": [
@@ -442,7 +442,7 @@ def scheda_r4():
                           "un ritardo mediano negativo vuol dire 'di solito un po' prima'.")
     s = r["scarti"]
     fer = c["0"]
-    # dal Giro 5 gli arrivi sono del GPS; il feed resta solo come confronto (JSON: confronto_feed, copertura_gps, regole_gps)
+    # gli arrivi sono del GPS; il feed resta solo come confronto (JSON: confronto_feed, copertura_gps, regole_gps)
     cf = r["confronto_feed"]
     cf_fer = cf["citta"]["0"]
     cop_gps = r["copertura_gps"]["totale"]
@@ -519,7 +519,7 @@ def scheda_r4():
         "risultato": "4",
         "titolo": "Bus in ritardo e bus irregolari",
         "tag": "MISURATO",
-        "stato": "Versione 2",
+        "stato": "Fatto",
         "in_breve": "L'orario alla fermata promette un passaggio ogni tot minuti. Quanto spesso i mezzi GTT "
                     "arrivano davvero in ritardo, o a coppie lasciando un buco?",
         "domanda": "Quanto spesso i mezzi GTT arrivano in ritardo, e quanto spesso sulle linee frequenti "
@@ -722,7 +722,7 @@ def scheda_r6():
         "risposta": [
             f"Gli interscambi che ci sono: nei giorni misurati {scoperta} [MISURATO, DATI SCARSI]. "
             f"Pieni di giorno: {pieni} su {len(val)}.",
-            f"Ogni mattina entrano a Torino circa {migliaia(int(round(rie['M_cint'], -2)))} auto [STIMATO, IMQ 2022]; "
+            f"Ogni mattina entrano a Torino circa {migliaia(int(round(rie['M_cint'], -2)))} auto [STIMATO, indagine sugli spostamenti 2022]; "
             f"oggi il {quota_txt}% di chi arriva in auto prosegue con un mezzo pubblico.",
             f"Delle {migliaia(n_fermate)} fermate importanti fuori dal centro, {migliaia(n_senza)} non hanno abbastanza "
             f"posti adatti entro {raggio} m a piedi per le auto da fermare ({migliaia(rie['fermate_nessun_parcheggio'])} "
@@ -755,9 +755,9 @@ def scheda_r6():
         "immagini": [],
         "metodo": [
             f"Fermate importanti: fra i luoghi di fermata della Città metropolitana, quelle {regola_txt} "
-            "(centro = quartieri Q001-Q009). Regola fissa; il punteggio (importanza della strada, corse, auto, metro o "
+            "(centro = i quartieri centrali). Regola fissa; il punteggio (importanza della strada, corse, auto, metro o "
             "stazione, pesi uguali) serve solo per l'ordine.",
-            "Auto in entrata che passano accanto: le auto che entrano a Torino al mattino (indagine IMQ 2022) fatte "
+            "Auto in entrata che passano accanto: le auto che entrano a Torino al mattino (indagine sugli spostamenti 2022) fatte "
             "«guidare» sul percorso più veloce della rete stradale; si legge la strada più trafficata entro 100 m.",
             f"Auto da fermare = auto che passano × {quota_txt}% (chi già oggi lascia l'auto per un mezzo pubblico).",
             f"Posti adatti: parcheggi aperti fuori dal centro, con almeno 20 posti, non di ospedali, università o centri "
@@ -765,7 +765,7 @@ def scheda_r6():
             "Punti prioritari (fino a 20, almeno 50 posti mancanti, uno per asse d'ingresso, oltre 3 km dal centro): fermate senza posti bastanti raggruppate entro 1 km, in "
             "ordine di posti che mancano.",
         ],
-        "parametri": [["Centro escluso", "quartieri Q001-Q009 (fermate e parcheggi)"],
+        "parametri": [["Centro escluso", "i quartieri centrali (fermate e parcheggi)"],
                       ["Fermate importanti", f"metro, stazione o capolinea o almeno {n_corse} corse all'ora, e almeno {m_auto} auto che passano "
                                              f"({migliaia(n_fermate)} su {migliaia(rie['n_eleggibili'])})"],
                       ["Distanza", f"{raggio} m a piedi (linea d'aria × 1,3)"],
@@ -777,7 +777,7 @@ def scheda_r6():
             "Le stesse auto passano davanti a più fermate dello stesso corso.",
             f"Riempimento misurato su soli {len(rie['giorni_feriali_validi'])} giorni feriali e solo dove il 5T lo trasmette "
             "[DATI SCARSI]: Fermi e i parcheggi gratuiti non sono misurati.",
-            "Quota di chi lascia l'auto: indagine IMQ 2022, poche interviste.",
+            "Quota di chi lascia l'auto: indagine sugli spostamenti 2022, poche interviste.",
             *([f"Controllo con i sensori 5T del mattino: il modello mette le strade d'ingresso in un ordine simile solo in parte "
                f"(ρ = {sens5t['rho_b_senza_fuori_rete']:.2f}".replace(".", ",") + f" su {sens5t['n_b_senza_fuori_rete']} luoghi); "
                "sottostima gli ingressi da nord-ovest."] if sens5t else []),
@@ -867,14 +867,14 @@ def scheda_r8():
         "risultato": "8",
         "titolo": "Traffico sulle strade e trasporto pubblico",
         "tag": "STIMATO / MISURATO / PROGRAMMATO",
-        "stato": "Versione 1",
+        "stato": "Fatto",
         "in_breve": "Quante auto passano sulle strade grandi di Torino? E dove c'è tanto traffico ma nessun bus, "
                     "tram o metro comodo, così che l'auto resta l'unica scelta?",
         "domanda": "Sulle strade grandi di Torino, dove c'è molto traffico e poco trasporto pubblico vicino?",
         "numero_chiave": {"valore": round(u["quota_km_coperta_tp"] * 100, 1), "unita": "%",
                           "testo": f"dei km di strade grandi di Torino hanno fermate frequenti a pochi passi "
                                    f"({virgola(u['km_coperti_tp'])} km su {virgola(u['km'])})"},
-        "racconto": "Una prima versione trovava 23 strade \"con molto traffico e poco trasporto pubblico\". "
+        "racconto": "Un primo calcolo trovava 23 strade \"con molto traffico e poco trasporto pubblico\". "
                     "Ricontrollando, quasi tutte erano un errore di misura: i bus si cercavano lungo la strada per "
                     "nome invece che per posizione delle fermate (Corso Cairoli risultava senza passaggi). Rifatto il "
                     "calcolo, la lista si è quasi svuotata: è questa la risposta.",
@@ -913,7 +913,7 @@ def scheda_r8():
                       for s, st in sorted(loo, key=lambda x: abs(x[1] - x[0]["misurato"]) / x[0]["misurato"])]},
         ],
         "metodo": [
-            "Domanda: gli spostamenti in auto dell'indagine IMQ 2022 (residenti, giorno feriale), assegnati alla "
+            "Domanda: gli spostamenti in auto dell'indagine sugli spostamenti 2022 (residenti, giorno feriale), assegnati alla "
             "strada più veloce sulla rete di OpenStreetMap.",
             f"Taratura su {err['n']} punti di misura dei sensori 5T: un solo fattore per tutta la città, provato "
             "togliendo un sensore alla volta e stimandolo con gli altri.",
@@ -941,7 +941,7 @@ def scheda_r8():
             f"Solo {err['n']} punti di misura, quasi tutti su corsi trafficati: sotto circa "
             f"{migliaia(int(round(tar['intervallo_validato_measured'][0], -3)))} veicoli al giorno la stima non è "
             "verificata.",
-            "Solo i residenti tra 11 e 84 anni (indagine IMQ): mancano merci, turisti e chi viene da fuori. Il "
+            "Solo i residenti tra 11 e 84 anni (indagine sugli spostamenti): mancano merci, turisti e chi viene da fuori. Il "
             "modello non sa fare le code: l'ora di punta non è verificata.",
             "Trasporto pubblico programmato: niente ritardi né affollamento. Il centro (ZTL, aree pedonali) non è "
             "stimato bene.",
@@ -1016,7 +1016,7 @@ def scheda_r9():
         "risultato": "9",
         "titolo": "Quanto si aspetta davvero alla fermata",
         "tag": "MISURATO",
-        "stato": "Versione 1",
+        "stato": "Fatto",
         "in_breve": "L'orario promette un bus ogni pochi minuti. Se però i bus arrivano a coppie e poi lasciano un "
                     "buco, alla fermata si aspetta di più, anche se in un'ora ne passano tanti quanti promessi.",
         "domanda": "Sulle linee frequenti, quanti minuti in più aspetta in media chi arriva alla fermata senza "
@@ -1476,7 +1476,7 @@ def scheda_r10():
         "risultato": "10",
         "titolo": "Case, servizi e fragilità",
         "tag": "STIMATO / CENSIMENTO",
-        "stato": "Prima versione",
+        "stato": "Fatto",
         "in_breve": "Le case costano di più dove ci sono più servizi? E dove la fragilità sociale è alta e i servizi sono pochi?",
         "domanda": "Si paga per i servizi? E chi vive dove la fragilità è alta e i servizi sono pochi?",
         "numero_chiave": {"valore": se["residenti_doppio_svantaggio"], "unita": "",
@@ -1582,7 +1582,7 @@ def forma_r10(s):
 
 FORME = {"risultato1": forma_r1, "risultato4": forma_r4, "risultato6": forma_r6, "risultato8": forma_r8, "risultato10": forma_r10}
 
-# numerazione pubblica (Leo): in pagina i risultati sono 1-5; i numeri interni e i link #rN restano validi
+# numerazione pubblica: in pagina i risultati sono 1-5; i numeri interni e i link #rN restano validi
 NUMERO_PUBBLICO = {"risultato1": 1, "risultato4": 2, "risultato6": 3, "risultato8": 4, "risultato10": 5}
 
 

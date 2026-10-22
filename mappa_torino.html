@@ -200,7 +200,7 @@
   <div id="legenda"></div>
 </div>
 
-<div id="zoom" class="card"><button id="zp" aria-label="Ingrandisci" title="Ingrandisci">+</button><button id="zm" aria-label="Riduci" title="Riduci">−</button><button id="zh" class="pic" aria-label="Torino" title="Centra su Torino">⌂</button><button id="zc" class="pic" aria-label="Cintura" title="Vedi anche la cintura">◎</button><div class="zl" id="zl"></div></div>
+<div id="zoom" class="card"><button id="zp" aria-label="Ingrandisci" title="Ingrandisci">+</button><button id="zm" aria-label="Riduci" title="Riduci">−</button><button id="zh" class="pic" aria-label="Torino" title="Centra su Torino">⌂</button><button id="zc" class="pic" aria-label="Tutta l'area" title="Tutta l'area">◎</button><div class="zl" id="zl"></div></div>
 <div id="tip" class="card"></div>
 <div id="scheda" class="card"><button id="schedaX" aria-label="Chiudi" title="Chiudi (Esc)">×</button><div id="schedaCorpo"></div></div>
 <div id="scala"></div>
@@ -1095,7 +1095,7 @@ function r6SchedaParcheggio(p){
     ],
     appTitolo: "Come si riempie in un giorno feriale e nel weekend", appAperto: !!p.profilo_feriale,
     approfondimento: (p.profilo_feriale ? r6Curva(p.profilo_feriale, p.profilo_weekend) : "<p>Nessuna misura del riempimento [DATI SCARSI].</p>")
-      + (p.linee_utili!=null ? "<p>Linea utile: tocca molte delle zone dove arriva più gente per km² (indagine IMQ 2022, esclusi i ritorni a casa).</p>" : ""),
+      + (p.linee_utili!=null ? "<p>Linea utile: tocca molte delle zone dove arriva più gente per km² (indagine sugli spostamenti 2022, esclusi i ritorni a casa).</p>" : ""),
     avviso: "Posti dichiarati o stimati dalla superficie (25 m² a posto, ±30%). Distanze a piedi stimate (linea d'aria × 1,3)."
   });
 }
@@ -1104,7 +1104,7 @@ function r6TipPunto(p){ return tipC(`${r6N(p.ordine)}. ${esc(p.nome)}`, `mancano
 function r6TipParcheggio(p){ return tipC(esc(p.nome), `${r6N(p.posti)} posti${r6Stimato(p)?" [STIMATO]":""}`, esc(R6_STATO_TXT[p.stato]||"")); }
 function r6RigheFonti(){
   const giorni=(R6.riepilogo.giorni_feriali_validi||[]).map(r6Data);
-  return `<div class="et" style="display:block">Fonti: 5T, Comune, OpenStreetMap, IMQ 2022; riempimento su ${r6N(giorni.length)} giorni feriali [DATI SCARSI]. Dettagli nella guida.</div>`;
+  return `<div class="et" style="display:block">Fonti: 5T, Comune, OpenStreetMap, indagine sugli spostamenti 2022; riempimento su ${r6N(giorni.length)} giorni feriali [DATI SCARSI]. Dettagli nella guida.</div>`;
 }
 function legendaR6(){
   const v=R6_VISTA(), fonti=r6RigheFonti();
@@ -1935,7 +1935,7 @@ function stato(){
   if(M&&M.primo) el.push(riga("Mezzi GTT registrati (GPS)",`dal ${fmt(M.primo*1000)} al ${fmt(M.ultimo*1000)}`));
   if(T5) el.push(riga("Sensori di traffico 5T",`${Object.keys(T5.s).length} sensori con dati, dal ${esc(r4Data(T5.meta.periodo.da))} al ${esc(r4Data(T5.meta.periodo.a))}`));
   el.push(riga("Residenti","censimento ISTAT 2021 (sezioni)"));
-  el.push(riga("Spostamenti","indagine IMQ 2022 (Agenzia della Mobilità Piemontese)"));
+  el.push(riga("Spostamenti","indagine sugli spostamenti 2022 (Agenzia della Mobilità Piemontese)"));
   el.push(riga("Servizi","dati aperti del Comune di Torino; fuori Torino OpenStreetMap"));
   el.push(riga("Valori immobiliari","Agenzia delle Entrate, 2° semestre 2025"));
   el.push(`<div style="font-size:11.5px;color:var(--muted)">Mappa generata il ${fmt(Date.parse(D.meta.costruita_utc))}.</div>`);
@@ -2088,13 +2088,13 @@ function schedaImq(z){
   const tabDest=`<table style="width:100%;border-collapse:collapse;font-size:12px">${dest.map(f=>rigaT(esc(f.dn||f.d)+(f.est?' <span style="color:#b25e00">(fuori CMTO)</span>':''),`${imqNum(f.v)}${f.aff?"":" <span style='color:#b25e00'>*</span>"}`)).join("")||`<tr><td style="padding:6px;color:var(--muted)">—</td></tr>`}</table>`;
   return creaScheda({
     titolo: `${esc(z.n||z.c)}`,
-    badge: '<span class="tag stimato">IMQ</span>',
-    sub: `Zona di indagine IMQ 2022 · ${esc(z.m||"")}`,
+    badge: '<span class="tag stimato">indagine 2022</span>',
+    sub: `Zona di indagine sugli spostamenti 2022 · ${esc(z.m||"")}`,
     val: `Residenti 11-84: ${imqNum(z.res)}`,
     stato: `Spostamenti/giorno in partenza: ${imqNum(totOra)}<br>Pubblico ${quota("pub")}% · Privato ${quota("pri")}% · Altro ${quota("alt")}%`,
     dettagli: [
       {k:"Ora di punta", v:`${pad(punta)}:00 (${imqNum(pv)} spostamenti)`},
-      {k:"Fonte", v:"IMQ 2022 - Agenzia della Mobilità Piemontese / MTM"},
+      {k:"Fonte", v:"Indagine sugli spostamenti 2022 - Agenzia della Mobilità Piemontese / MTM"},
       {k:"Nota", v:"Indagine campionaria: residenti 11-84 anni, giorno feriale. Quartieri di Torino: confini 1984."},
     ],
     appTitolo: "Perché si spostano e dove vanno",
@@ -2111,7 +2111,7 @@ function legendaImq(){
   const nome=(IMQ_MET[met]||{}).lab||met;
   const sc=IMQ_PAL.map(c=>`<span style="background:${c}"></span>`).join("");
   const righe=[];
-  righe.push(`<div class="t">${esc(nome)} <span class="tag stimato">IMQ 2022</span></div>`);
+  righe.push(`<div class="t">${esc(nome)} <span class="tag stimato">indagine 2022</span></div>`);
   const pct=x=>Math.round(x*100)+"%";
   if(IMQ_SOGLIE_QUOTA[met]){ const s=IMQ_SOGLIE_QUOTA[met];
     const et=[`&lt;${pct(s[0])}`,`${pct(s[0])}–${pct(s[1])}`,`${pct(s[1])}–${pct(s[2])}`,`${pct(s[2])}–${pct(s[3])}`,`&gt;${pct(s[3])}`];
@@ -2123,10 +2123,10 @@ function legendaImq(){
 
   }
   righe.push(`<div class="puntini"><span><i style="background:#9aa0ad;border-color:rgba(0,0,0,.15)"></i>zona senza valore</span></div>`);
-  righe.push(`<div class="et" style="display:block">Indagine IMQ 2022, giorno feriale${met.startsWith("ora")?`, ore ${pad(S.h)}:00`:""}; 5 gruppi con lo stesso numero di zone.</div>`);
+  righe.push(`<div class="et" style="display:block">Indagine sugli spostamenti 2022, giorno feriale${met.startsWith("ora")?`, ore ${pad(S.h)}:00`:""}; 5 gruppi con lo stesso numero di zone.</div>`);
   return righe.join("");
 }
-function imqNotaOra(){ const n=$("imqNota"); if(!n) return; n.textContent=tema.imq?("Ora considerata dallo slider in alto: "+pad(S.h)+":00 · l'indagine IMQ è del giorno feriale"):""; }
+function imqNotaOra(){ const n=$("imqNota"); if(!n) return; n.textContent=tema.imq?("Ora considerata dallo slider in alto: "+pad(S.h)+":00 · l'indagine è del giorno feriale"):""; }
 
 /* temi: ogni voce ha il gruppo del menu; ora:true = il tema cambia con giorno e ora (compare «Quando») */
 const GRUPPI_TEMI = ["Chi abita e cosa trova","Come ci si muove"];
@@ -2148,7 +2148,7 @@ const THEMES = [
   {id:"servizio", label:"Mezzi pubblici sotto casa", gruppo:1, desc:"",
    area:{tipo:"sez",modo:"rapp"}, over:{...NESSUNA,Llinee:1}, lineeSottili:true, subServizio:true, ora:true, opzioni:["subServizio"],
    legenda:()=>legendaSezioni($("subServizio")?$("subServizio").value:"rapp")},
-  {id:"imq", label:"Spostamenti", gruppo:1, desc:"Quanti spostamenti partono da ogni zona, a che ora e con che mezzo (indagine IMQ 2022, giorno feriale). Tocca una zona per vedere dove vanno.",
+  {id:"imq", label:"Spostamenti", gruppo:1, desc:"Quanti spostamenti partono da ogni zona, a che ora e con che mezzo (indagine sugli spostamenti 2022, giorno feriale). Tocca una zona per vedere dove vanno.",
    area:{tipo:"imq"}, over:{...NESSUNA}, imq:true, ora:true, opzioni:["imqMet"], legenda:legendaImq},
   {id:"misurati", label:"Velocità e traffico", gruppo:1, desc:"Velocità vera dei bus (dal GPS, fermate comprese) e traffico tipico ai sensori, all'ora scelta.",
    area:null, over:{...NESSUNA,Lsensori:1,Llinee:1}, sensoriGrandi:true, velocita:true, ora:true,
