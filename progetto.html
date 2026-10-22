@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Il progetto — Torino Mobilità</title>
+<title data-en="The project — Torino Mobilità">Il progetto — Torino Mobilità</title>
 <meta name="description" content="Un progetto di analisi dei dati su mobilità e servizi a Torino: chi va dove, dove mancano servizi, dove il trasporto pubblico fa fatica. Ogni numero viene da dati veri.">
 <meta name="theme-color" content="#0b2559">
 <link rel="icon" href="assets/icona.svg" type="image/svg+xml">
@@ -27,26 +27,28 @@
 <body>
 <header class="barra-alta"><div class="dentro">
   <a class="marchio" href="index.html"><img src="assets/icona.svg" alt="" width="30" height="30">Torino Mobilità</a>
-  <nav aria-label="Pagine del sito"><a href="index.html" >Home</a><a href="risultati.html">Risultati</a><a href="mappa_torino.html">Mappa</a><a href="progetto.html" aria-current="page">Il progetto</a></nav>
+  <nav aria-label="Pagine del sito" data-en-label="Site pages"><a href="index.html" data-en="Home">Home</a><a href="risultati.html" data-en="Results">Risultati</a><a href="mappa_torino.html" data-en="Map">Mappa</a><a href="progetto.html" aria-current="page" data-en="The project">Il progetto</a></nav>
+  <div class="lingua" role="group" aria-label="Lingua"  data-en-label="Language"><button type="button" data-l="it" aria-pressed="true" title="Italiano">IT</button><button type="button" data-l="en" aria-pressed="false" title="English">EN</button></div>
 </div></header>
 <main>
-<h1>Il progetto</h1>
-<p class="sub">Perché questo progetto, come funziona e quanto ci si può fidare dei dati: la pagina è in preparazione.</p>
-<div class="bottoni"><a class="btn primario" href="risultati.html">Vai ai risultati</a><a class="btn" href="mappa_torino.html">Apri la mappa</a></div>
+<h1 data-en="The project">Il progetto</h1>
+<p class="sub" data-en="Why this project exists, how it works and how far the data can be trusted: this page is being written.">Perché questo progetto, come funziona e quanto ci si può fidare dei dati: la pagina è in preparazione.</p>
+<div class="bottoni"><a class="btn primario" href="risultati.html" data-en="Go to the results">Vai ai risultati</a><a class="btn" href="mappa_torino.html" data-en="Open the map">Apri la mappa</a></div>
 </main>
 <footer class="piede"><div class="dentro">
   <div>
-    <h2>Chi sono</h2>
+    <h2 data-en="About me">Chi sono</h2>
     <p>Leonardo Campese</p>
     <p><a href="https://www.linkedin.com/in/leocampese/">LinkedIn</a> · <a href="mailto:campese.leonardo@gmail.com">campese.leonardo@gmail.com</a> · <a href="https://github.com/campeseleonardo-tech/Turin-mobility">GitHub</a></p>
   </div>
   <div>
-    <p class="piccolo">Progetto personale di studio e di portfolio. Codice con licenza MIT; i dati hanno la licenza della loro fonte.</p>
+    <p class="piccolo" data-en="Personal study and portfolio project. Code under the MIT licence; data keep the licence of their source.">Progetto personale di studio e di portfolio. Codice con licenza MIT; i dati hanno la licenza della loro fonte.</p>
     <p class="piccolo" id="datiAggiornati">Dati aggiornati al …</p>
   </div>
 </div></footer>
 <script src="data/schede_risultati.js"></script>
 <script src="assets/sito.js"></script>
+<script>Sito.avvia();</script>
 <script>Sito.dataAggiornamento();</script>
 </body>
 </html>

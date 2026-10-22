@@ -28,6 +28,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))   # il pacchetto schede/ sta accanto a questo file
 from schede import comune  # noqa: E402
 from schede.comune import NASCOSTE, RADICE, controlla_forma, leggi  # noqa: E402
+from schede.traduci import traduci_forma  # noqa: E402
 from schede.r1 import forma_r1, scheda_r1  # noqa: E402
 from schede.r10 import forma_r10, scheda_r10  # noqa: E402
 from schede.r2 import arricchisci_r2  # noqa: E402
@@ -61,6 +62,10 @@ def main():
         else:
             s = fabbrica()
             s["forma"] = FORME[nome](s)
+            mancanti = []
+            s["forma_en"] = traduci_forma(s["forma"], mancanti)   # inglese completo, dai testi di schede/testi.json
+            for frase in dict.fromkeys(mancanti):
+                print(f"  ATTENZIONE {nome}: frase senza traduzione in schede/testi.json: «{frase[:80]}»")
             s["numero_pubblico"] = NUMERO_PUBBLICO[nome]
             s.pop("_n_su", None)
             print(f"{nome}: forma - «{s['forma']['titolo']}», numero grande {s['forma']['numero']['valore']} {s['forma']['numero']['unita']}")

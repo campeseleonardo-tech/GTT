@@ -72,6 +72,29 @@ def main():
                                       full_page=nome not in ("mappa", "scheda5", "scheda2", "scheda3"))
                         pg.close()
                     ctx.close()
+        # versione inglese (il browser in inglese la sceglie da solo): home, risultati e schede su computer e telefono, chiaro
+        for disp, (w, h) in (("computer", (1440, 900)), ("telefono", (390, 844))):
+            ctx = br.new_context(viewport={"width": w, "height": h}, locale="en-GB", color_scheme="light")
+            for nome, url, attesa in PAGINE:
+                if nome in ("mappa", "progetto"):
+                    continue
+                pg = ctx.new_page()
+                errori = []
+                pg.on("pageerror", lambda e: errori.append(str(e)[:200]))
+                pg.goto(f"http://127.0.0.1:{PORTA}/{url}", wait_until="load")
+                if attesa:
+                    pg.wait_for_selector(attesa, timeout=5000)
+                pg.wait_for_timeout(1600)
+                if pg.evaluate("document.documentElement.lang") != "en":
+                    problemi.append(f"{nome} {disp}: la pagina non e' in inglese")
+                if pg.evaluate("document.documentElement.scrollWidth") > w + 1:
+                    problemi.append(f"{nome} {disp} EN: scorrimento orizzontale")
+                if errori:
+                    problemi.append(f"{nome} {disp} EN: errori JS {errori[:2]}")
+                pg.screenshot(path=str(USCITA / f"{nome}_{disp}_chiaro_EN.jpg"), type="jpeg", quality=80,
+                              full_page=nome not in ("scheda5", "scheda2", "scheda3"))
+                pg.close()
+            ctx.close()
         br.close()
     srv.shutdown()
     for x in problemi:

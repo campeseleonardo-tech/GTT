@@ -237,7 +237,7 @@
     "scripts/21_risultato1_vuoti.py",
     "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-22T13:39:09+00:00",
+  "generato": "2026-10-22T14:07:54+00:00",
   "avviso": [
     "Dati [STIMATO] — solo comune di Torino",
     "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -549,6 +549,198 @@
       "Question: how many Turin residents lack schools, health, shops, stops or green space within 15 minutes on foot?",
       "Answer: 10,919 residents (1.3%) lack at least one of the 5 services; 362 in inhabited areas lack three or more.",
       "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."
+    ],
+    "mappa": {
+      "id": "faseb",
+      "nota": "Nella mappa, tema \"Dove mancano i servizi\": all'apertura quanti servizi mancano in ogni zona (0-5, zone poco abitate in grigio); nel menu un servizio alla volta, con i punti dove aggiungerne uno."
+    }
+  },
+  "forma_en": {
+    "etichetta": "ESTIMATED",
+    "titolo": "Within 15 minutes almost everyone has the services; within 5 minutes far fewer do",
+    "domanda": "How many people in Turin have the services within 5, 10 and 15 minutes on foot, and how many live on a busy road?",
+    "numero": {
+      "valore": 99.2,
+      "unita": "%",
+      "testo": "of residents of inhabited areas have all 5 services within a 15-minute walk"
+    },
+    "principale": {
+      "tipo": "pila100",
+      "titolo": "Residents by services reached on foot",
+      "unita": "%",
+      "nota": "Each bar is a walking time: 100% of residents of inhabited areas (at least 1,000 inhabitants per km²).",
+      "righe": [
+        {
+          "label": "5 minutes",
+          "voci": [
+            {
+              "label": "all 5 services",
+              "valore": 68.3,
+              "tono": "verde"
+            },
+            {
+              "label": "4 services",
+              "valore": 22.2,
+              "tono": "giallo"
+            },
+            {
+              "label": "3 or fewer",
+              "valore": 9.5,
+              "tono": "rosso"
+            }
+          ]
+        },
+        {
+          "label": "10 minutes",
+          "voci": [
+            {
+              "label": "all 5 services",
+              "valore": 96.8,
+              "tono": "verde"
+            },
+            {
+              "label": "4 services",
+              "valore": 2.4,
+              "tono": "giallo"
+            },
+            {
+              "label": "3 or fewer",
+              "valore": 0.8,
+              "tono": "rosso"
+            }
+          ]
+        },
+        {
+          "label": "15 minutes",
+          "voci": [
+            {
+              "label": "all 5 services",
+              "valore": 99.2,
+              "tono": "verde"
+            },
+            {
+              "label": "4 services",
+              "valore": 0.6,
+              "tono": "giallo"
+            },
+            {
+              "label": "3 or fewer",
+              "valore": 0.2,
+              "tono": "rosso"
+            }
+          ]
+        }
+      ]
+    },
+    "punti": [
+      "Within 5 minutes only 68.3% of residents have all 5 services; within 10 minutes 96.8%.",
+      "190,255 residents (22.6%) live less than 100 m from a very busy road.",
+      "The 362 residents without 3 or more services live in 5 hillside sections: where really everything is missing."
+    ],
+    "altri": [
+      {
+        "tipo": "barre",
+        "titolo": "Residents by distance from a very busy road",
+        "unita": "residents",
+        "nota": "Distance from the centre of the census section. Very busy road: at least 11,720 vehicles a day. Weak estimate: the model is off by ±38% in half of the cases.",
+        "voci": [
+          {
+            "label": "exposed (less than 100 m)",
+            "valore": 190255,
+            "tono": "rosso"
+          },
+          {
+            "label": "close (100-250 m)",
+            "valore": 259977,
+            "tono": "giallo"
+          },
+          {
+            "label": "far (over 250 m)",
+            "valore": 391748,
+            "tono": "verde"
+          }
+        ]
+      },
+      {
+        "tipo": "barre",
+        "titolo": "Residents without the service within a 15-minute walk",
+        "unita": "residents",
+        "nota": "Inhabited areas only (at least 1,000 inhabitants per km²).",
+        "voci": [
+          {
+            "label": "health",
+            "valore": 5340,
+            "tono": "rosso"
+          },
+          {
+            "label": "schools",
+            "valore": 2529,
+            "tono": "rosso"
+          },
+          {
+            "label": "shops and commercial activities",
+            "valore": 347,
+            "tono": "rosso"
+          },
+          {
+            "label": "public transport stops",
+            "valore": 100,
+            "tono": "rosso"
+          },
+          {
+            "label": "green space",
+            "valore": 0,
+            "tono": "rosso"
+          }
+        ]
+      }
+    ],
+    "calcolo": [
+      "For each census section we count the services reachable on foot in 5, 10 and 15 minutes.",
+      "There are five types of service, counted separately: schools, health, shops, stops, green space.",
+      "Walking follows the real street network (OpenStreetMap), at 80 m per minute.",
+      "Residents come from the ISTAT 2021 census; areas with fewer than 1,000 inhabitants per km² are shown in grey and counted separately.",
+      "A section is exposed if its centre is less than 100 m from a very busy road."
+    ],
+    "criteri": [
+      [
+        "Walking times",
+        "5, 10 and 15 minutes"
+      ],
+      [
+        "Walking speed",
+        "80 m per minute (4.8 km/h)"
+      ],
+      [
+        "Sparsely inhabited area",
+        "under 1,000 inh/km² (tested with 500 and 2,000)"
+      ],
+      [
+        "Sections in Turin",
+        "4,044"
+      ],
+      [
+        "Residents",
+        "848,748"
+      ],
+      [
+        "New points per group",
+        "up to 5"
+      ],
+      [
+        "Very busy road",
+        "at least 11,720 vehicles a day"
+      ],
+      [
+        "Exposed to traffic",
+        "less than 100 m from the road"
+      ]
+    ],
+    "limiti": [
+      "Turin only: the service catalogue is missing for the surrounding towns, so “zero” often means missing data.",
+      "We count whether a service exists, not how big it is or whether it has room. Stops use the scheduled timetable: no delays and no crowding.",
+      "New points are hypotheses: they ignore costs, free space and permits.",
+      "Traffic is an estimate standing in for noise and smog, which we do not measure."
     ],
     "mappa": {
       "id": "faseb",

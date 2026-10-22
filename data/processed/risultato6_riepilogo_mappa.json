@@ -551,7 +551,7 @@
     "scripts/84_risultato6_parcheggi.py",
     "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-22T13:39:09+00:00",
+  "generato": "2026-10-22T14:07:54+00:00",
   "avviso": [
     "Come leggere i tag. ",
     "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -893,6 +893,309 @@
             "label": "Sofia",
             "valore": 33,
             "testo": "33 contro 13-20 in auto"
+          }
+        ]
+      }
+    }
+  },
+  "forma_en": {
+    "etichetta": "ESTIMATED / MEASURED (little data)",
+    "titolo": "From park-and-ride lots the bus matches the car only if 21–28 minutes are lost parking downtown",
+    "domanda": "Where is there too little room to leave the car, and when is the bus from there to the centre as fast as the car?",
+    "numero": {
+      "valore": "21–28",
+      "unita": "minutes",
+      "testo": "lost downtown looking for parking: below this threshold the car beats the bus (median of the 12 points)"
+    },
+    "principale": {
+      "tipo": "barre",
+      "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
+      "unita": "minutes",
+      "nota": "Towards Piazza Castello at 8 a.m. Dark bar = slow car (Google factor), light bar = fast car (sensor factor). Fewer minutes = more promising point; 0 = the bus is already faster.",
+      "voci": [
+        {
+          "label": "Metro Massaua",
+          "valore": 7,
+          "prima": 15,
+          "testo": "7–15 min"
+        },
+        {
+          "label": "Pasini",
+          "valore": 16,
+          "prima": 21,
+          "testo": "16–21 min"
+        },
+        {
+          "label": "Derna Est",
+          "valore": 19,
+          "prima": 25,
+          "testo": "19–25 min"
+        },
+        {
+          "label": "Regina Margherita",
+          "valore": 19,
+          "prima": 24,
+          "testo": "19–24 min"
+        },
+        {
+          "label": "Stura Lazio",
+          "valore": 21,
+          "prima": 28,
+          "testo": "21–28 min"
+        },
+        {
+          "label": "Santa Rita",
+          "valore": 21,
+          "prima": 27,
+          "testo": "21–27 min"
+        },
+        {
+          "label": "Zara",
+          "valore": 21,
+          "prima": 26,
+          "testo": "21–26 min"
+        },
+        {
+          "label": "Drosso Cap",
+          "valore": 21,
+          "prima": 31,
+          "testo": "21–31 min"
+        },
+        {
+          "label": "Ferrara",
+          "valore": 23,
+          "prima": 34,
+          "testo": "23–34 min"
+        },
+        {
+          "label": "Ponte Cavalieri Templari",
+          "valore": 28,
+          "prima": 38,
+          "testo": "28–38 min"
+        },
+        {
+          "label": "Marsè",
+          "valore": 29,
+          "prima": 43,
+          "testo": "29–43 min"
+        },
+        {
+          "label": "Leonardo Da Vinci",
+          "valore": 33,
+          "prima": 44,
+          "testo": "33–44 min"
+        }
+      ]
+    },
+    "punti": [
+      "Existing park-and-ride lots: full Stura (17–27 minutes); little used Caio Mario (19–27 minutes), Sofia (18–25 minutes).",
+      "179 important stops out of 274 do not have enough parking within 400 metres on foot.",
+      "The most promising point is Metro Massaua: 7–15 minutes are enough for the bus to match the car."
+    ],
+    "altri": [
+      {
+        "tipo": "barre",
+        "titolo": "The 12 entry points, by need for parking",
+        "unita": "spaces",
+        "nota": "Need is high, medium or low by thirds, based on the missing spaces. Lengths are an order of magnitude.",
+        "voci": [
+          {
+            "label": "Santa Rita",
+            "valore": 450,
+            "tono": "rosso",
+            "testo": "high need"
+          },
+          {
+            "label": "Metro Massaua",
+            "valore": 350,
+            "tono": "rosso",
+            "testo": "high need"
+          },
+          {
+            "label": "Ponte Cavalieri Templari",
+            "valore": 350,
+            "tono": "rosso",
+            "testo": "high need"
+          },
+          {
+            "label": "Regina Margherita",
+            "valore": 350,
+            "tono": "rosso",
+            "testo": "high need"
+          },
+          {
+            "label": "Pasini",
+            "valore": 250,
+            "tono": "arancio",
+            "testo": "medium need"
+          },
+          {
+            "label": "Leonardo Da Vinci",
+            "valore": 200,
+            "tono": "arancio",
+            "testo": "medium need"
+          },
+          {
+            "label": "Drosso Cap",
+            "valore": 200,
+            "tono": "arancio",
+            "testo": "medium need"
+          },
+          {
+            "label": "Stura Lazio",
+            "valore": 200,
+            "tono": "arancio",
+            "testo": "medium need"
+          },
+          {
+            "label": "Marsè",
+            "valore": 150,
+            "tono": "giallo",
+            "testo": "low need"
+          },
+          {
+            "label": "Derna Est",
+            "valore": 100,
+            "tono": "giallo",
+            "testo": "low need"
+          },
+          {
+            "label": "Ferrara",
+            "valore": 80,
+            "tono": "giallo",
+            "testo": "low need"
+          },
+          {
+            "label": "Zara",
+            "valore": 60,
+            "tono": "giallo",
+            "testo": "low need"
+          }
+        ]
+      }
+    ],
+    "calcolo": [
+      "Important stops: outside the centre, with a metro, station or terminus, or 10 trips an hour.",
+      "Cars entering come from the 2022 travel survey, assigned to the fastest route.",
+      "Cars to stop: passing cars times the 5.8% who already leave the car today. Spaces: suitable car parks within 400 metres.",
+      "Priority points: stops without enough parking, grouped within 1 km, one per entry axis.",
+      "Break-even minutes: travel time by public transport to Piazza Castello at 8 a.m., minus travel time by car without parking."
+    ],
+    "criteri": [
+      [
+        "Important stops",
+        "10 trips an hour or a metro, and 1,000 passing cars"
+      ],
+      [
+        "Walking distance",
+        "400 metres"
+      ],
+      [
+        "Cars to stop",
+        "passing cars × 5.8%"
+      ],
+      [
+        "Bus versus car",
+        "towards Piazza Castello at 8 a.m., car with factor 1.2 (sensors) and 2.1 (Google)"
+      ]
+    ],
+    "limiti": [
+      "Public transport times are GTT only, without trains. The car is estimated between two peak factors, 1.2 and 2.1.",
+      "The cost of parking downtown is not in the calculation: it counts as extra minutes.",
+      "We look at one point per place and a single destination, Piazza Castello.",
+      "Passing cars come from a traffic model. Spaces are often estimated, with ±30%."
+    ],
+    "mappa": {
+      "id": "interscambio",
+      "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."
+    },
+    "unita": {
+      "tipo": "pallini",
+      "pallini": [
+        {
+          "label": "Santa Rita",
+          "tono": "rosso"
+        },
+        {
+          "label": "Metro Massaua",
+          "tono": "giallo"
+        },
+        {
+          "label": "Ponte Cavalieri Templari",
+          "tono": "rosso"
+        },
+        {
+          "label": "Regina Margherita",
+          "tono": "rosso"
+        },
+        {
+          "label": "Pasini",
+          "tono": "rosso"
+        },
+        {
+          "label": "Leonardo Da Vinci",
+          "tono": "rosso"
+        },
+        {
+          "label": "Drosso Cap",
+          "tono": "rosso"
+        },
+        {
+          "label": "Stura Lazio",
+          "tono": "rosso"
+        },
+        {
+          "label": "Marsè",
+          "tono": "rosso"
+        },
+        {
+          "label": "Derna Est",
+          "tono": "rosso"
+        },
+        {
+          "label": "Ferrara",
+          "tono": "rosso"
+        },
+        {
+          "label": "Zara",
+          "tono": "rosso"
+        }
+      ],
+      "didascalia": "One dot per priority point: green = the bus pays off (0), yellow = it depends (1), red = the bus does not pay off (11)."
+    },
+    "extra": {
+      "titolo": "Existing park-and-ride lots and buses to the centre",
+      "punto": "Existing park-and-ride lots are not very full: in the daytime only 1 of 5 is full.",
+      "grafico": {
+        "tipo": "barre",
+        "titolo": "From existing park-and-ride lots to Piazza Castello, minutes by public transport",
+        "unita": "minutes",
+        "nota": "At 8 a.m. on a weekday. On the right, car time including parking, between the two peak factors (1.2 and 2.1).",
+        "voci": [
+          {
+            "label": "Stura",
+            "valore": 39,
+            "testo": "39 versus 17-27 by car"
+          },
+          {
+            "label": "Venchi Unica",
+            "valore": 28,
+            "testo": "28 versus 16-24 by car"
+          },
+          {
+            "label": "Caio Mario",
+            "valore": 38,
+            "testo": "38 versus 16-24 by car"
+          },
+          {
+            "label": "Fermi",
+            "valore": 31,
+            "testo": "31 versus 19-29 by car"
+          },
+          {
+            "label": "Sofia",
+            "valore": 33,
+            "testo": "33 versus 13-20 by car"
           }
         ]
       }

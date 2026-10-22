@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-22T13:39:09+00:00",
+  "generato": "2026-10-22T14:07:54+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -551,6 +551,198 @@ window.SCHEDE_RISULTATI = [
     "Question: how many Turin residents lack schools, health, shops, stops or green space within 15 minutes on foot?",
     "Answer: 10,919 residents (1.3%) lack at least one of the 5 services; 362 in inhabited areas lack three or more.",
     "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."
+   ],
+   "mappa": {
+    "id": "faseb",
+    "nota": "Nella mappa, tema \"Dove mancano i servizi\": all'apertura quanti servizi mancano in ogni zona (0-5, zone poco abitate in grigio); nel menu un servizio alla volta, con i punti dove aggiungerne uno."
+   }
+  },
+  "forma_en": {
+   "etichetta": "ESTIMATED",
+   "titolo": "Within 15 minutes almost everyone has the services; within 5 minutes far fewer do",
+   "domanda": "How many people in Turin have the services within 5, 10 and 15 minutes on foot, and how many live on a busy road?",
+   "numero": {
+    "valore": 99.2,
+    "unita": "%",
+    "testo": "of residents of inhabited areas have all 5 services within a 15-minute walk"
+   },
+   "principale": {
+    "tipo": "pila100",
+    "titolo": "Residents by services reached on foot",
+    "unita": "%",
+    "nota": "Each bar is a walking time: 100% of residents of inhabited areas (at least 1,000 inhabitants per km²).",
+    "righe": [
+     {
+      "label": "5 minutes",
+      "voci": [
+       {
+        "label": "all 5 services",
+        "valore": 68.3,
+        "tono": "verde"
+       },
+       {
+        "label": "4 services",
+        "valore": 22.2,
+        "tono": "giallo"
+       },
+       {
+        "label": "3 or fewer",
+        "valore": 9.5,
+        "tono": "rosso"
+       }
+      ]
+     },
+     {
+      "label": "10 minutes",
+      "voci": [
+       {
+        "label": "all 5 services",
+        "valore": 96.8,
+        "tono": "verde"
+       },
+       {
+        "label": "4 services",
+        "valore": 2.4,
+        "tono": "giallo"
+       },
+       {
+        "label": "3 or fewer",
+        "valore": 0.8,
+        "tono": "rosso"
+       }
+      ]
+     },
+     {
+      "label": "15 minutes",
+      "voci": [
+       {
+        "label": "all 5 services",
+        "valore": 99.2,
+        "tono": "verde"
+       },
+       {
+        "label": "4 services",
+        "valore": 0.6,
+        "tono": "giallo"
+       },
+       {
+        "label": "3 or fewer",
+        "valore": 0.2,
+        "tono": "rosso"
+       }
+      ]
+     }
+    ]
+   },
+   "punti": [
+    "Within 5 minutes only 68.3% of residents have all 5 services; within 10 minutes 96.8%.",
+    "190,255 residents (22.6%) live less than 100 m from a very busy road.",
+    "The 362 residents without 3 or more services live in 5 hillside sections: where really everything is missing."
+   ],
+   "altri": [
+    {
+     "tipo": "barre",
+     "titolo": "Residents by distance from a very busy road",
+     "unita": "residents",
+     "nota": "Distance from the centre of the census section. Very busy road: at least 11,720 vehicles a day. Weak estimate: the model is off by ±38% in half of the cases.",
+     "voci": [
+      {
+       "label": "exposed (less than 100 m)",
+       "valore": 190255,
+       "tono": "rosso"
+      },
+      {
+       "label": "close (100-250 m)",
+       "valore": 259977,
+       "tono": "giallo"
+      },
+      {
+       "label": "far (over 250 m)",
+       "valore": 391748,
+       "tono": "verde"
+      }
+     ]
+    },
+    {
+     "tipo": "barre",
+     "titolo": "Residents without the service within a 15-minute walk",
+     "unita": "residents",
+     "nota": "Inhabited areas only (at least 1,000 inhabitants per km²).",
+     "voci": [
+      {
+       "label": "health",
+       "valore": 5340,
+       "tono": "rosso"
+      },
+      {
+       "label": "schools",
+       "valore": 2529,
+       "tono": "rosso"
+      },
+      {
+       "label": "shops and commercial activities",
+       "valore": 347,
+       "tono": "rosso"
+      },
+      {
+       "label": "public transport stops",
+       "valore": 100,
+       "tono": "rosso"
+      },
+      {
+       "label": "green space",
+       "valore": 0,
+       "tono": "rosso"
+      }
+     ]
+    }
+   ],
+   "calcolo": [
+    "For each census section we count the services reachable on foot in 5, 10 and 15 minutes.",
+    "There are five types of service, counted separately: schools, health, shops, stops, green space.",
+    "Walking follows the real street network (OpenStreetMap), at 80 m per minute.",
+    "Residents come from the ISTAT 2021 census; areas with fewer than 1,000 inhabitants per km² are shown in grey and counted separately.",
+    "A section is exposed if its centre is less than 100 m from a very busy road."
+   ],
+   "criteri": [
+    [
+     "Walking times",
+     "5, 10 and 15 minutes"
+    ],
+    [
+     "Walking speed",
+     "80 m per minute (4.8 km/h)"
+    ],
+    [
+     "Sparsely inhabited area",
+     "under 1,000 inh/km² (tested with 500 and 2,000)"
+    ],
+    [
+     "Sections in Turin",
+     "4,044"
+    ],
+    [
+     "Residents",
+     "848,748"
+    ],
+    [
+     "New points per group",
+     "up to 5"
+    ],
+    [
+     "Very busy road",
+     "at least 11,720 vehicles a day"
+    ],
+    [
+     "Exposed to traffic",
+     "less than 100 m from the road"
+    ]
+   ],
+   "limiti": [
+    "Turin only: the service catalogue is missing for the surrounding towns, so “zero” often means missing data.",
+    "We count whether a service exists, not how big it is or whether it has room. Stops use the scheduled timetable: no delays and no crowding.",
+    "New points are hypotheses: they ignore costs, free space and permits.",
+    "Traffic is an estimate standing in for noise and smog, which we do not measure."
    ],
    "mappa": {
     "id": "faseb",
@@ -1127,7 +1319,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-22T13:39:09+00:00",
+  "generato": "2026-10-22T14:07:54+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-20: il GPS c'è per il 78% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -1521,6 +1713,242 @@ window.SCHEDE_RISULTATI = [
       },
       {
        "label": "sera (19-24)",
+       "valore": 9.65,
+       "prima": 8.2
+      }
+     ]
+    }
+   }
+  },
+  "forma_en": {
+   "etichetta": "MEASURED",
+   "titolo": "Serious delays are about 5% of stop arrivals",
+   "domanda": "How often are GTT vehicles late or bunched together?",
+   "numero": {
+    "valore": 5.44,
+    "unita": "%",
+    "testo": "of weekday arrivals are more than 10 minutes late"
+   },
+   "principale": {
+    "tipo": "pila100",
+    "titolo": "How vehicles arrive",
+    "unita": "%",
+    "nota": "Each bar is a type of day: 100% of arrivals.",
+    "righe": [
+     {
+      "label": "weekday",
+      "voci": [
+       {
+        "label": "early (more than 1 minute)",
+        "valore": 37.9,
+        "tono": "blu"
+       },
+       {
+        "label": "on time",
+        "valore": 48.0,
+        "tono": "verde"
+       },
+       {
+        "label": "5 to 10 minutes late",
+        "valore": 8.66,
+        "tono": "giallo"
+       },
+       {
+        "label": "more than 10 minutes late",
+        "valore": 5.44,
+        "tono": "rosso"
+       }
+      ]
+     },
+     {
+      "label": "Saturday",
+      "voci": [
+       {
+        "label": "early (more than 1 minute)",
+        "valore": 34.3,
+        "tono": "blu"
+       },
+       {
+        "label": "on time",
+        "valore": 48.9,
+        "tono": "verde"
+       },
+       {
+        "label": "5 to 10 minutes late",
+        "valore": 9.7,
+        "tono": "giallo"
+       },
+       {
+        "label": "more than 10 minutes late",
+        "valore": 7.1,
+        "tono": "rosso"
+       }
+      ]
+     },
+     {
+      "label": "Sunday",
+      "voci": [
+       {
+        "label": "early (more than 1 minute)",
+        "valore": 37.4,
+        "tono": "blu"
+       },
+       {
+        "label": "on time",
+        "valore": 50.6,
+        "tono": "verde"
+       },
+       {
+        "label": "5 to 10 minutes late",
+        "valore": 7.89,
+        "tono": "giallo"
+       },
+       {
+        "label": "more than 10 minutes late",
+        "valore": 4.11,
+        "tono": "rosso"
+       }
+      ]
+     }
+    ]
+   },
+   "punti": [
+    "More than 10 minutes late: 5.4% of arrivals at every stop, 3.9% if we look only at departure.",
+    "The line with the most delays is line 17: 38.1% of weekday arrivals more than 5 minutes late.",
+    "Trams bunch more than buses: 26.7% of vehicle pairs versus 17.1% (weekday)."
+   ],
+   "altri": [
+    {
+     "tipo": "barre",
+     "titolo": "Us and GTT: arrivals more than 10 minutes late",
+     "unita": "%",
+     "nota": "Bars = weekly average (weekday 5 : Saturday 1 : Sunday 1). On weekdays: at every stop 5.44%, at the first stop 3.86%, mid-trip 5.29%, off-peak 5.27%. GTT: year 2025, all lines, method not published.",
+     "voci": [
+      {
+       "label": "GTT (2025, whole year)",
+       "valore": 2.3
+      },
+      {
+       "label": "us, at every stop",
+       "valore": 5.49,
+       "tono": "rosso"
+      },
+      {
+       "label": "us, first stop only",
+       "valore": 3.92,
+       "tono": "rosso"
+      },
+      {
+       "label": "us, mid-trip only",
+       "valore": 5.24,
+       "tono": "rosso"
+      },
+      {
+       "label": "us, outside peak hours",
+       "valore": 5.3,
+       "tono": "rosso"
+      }
+     ]
+    },
+    {
+     "tipo": "linea",
+     "titolo": "Delay over 5 minutes, by time of day (weekday)",
+     "unita": "%",
+     "categorie": [
+      "morning peak (7-9)",
+      "daytime (9-16)",
+      "evening peak (16-19)",
+      "evening (19-24)"
+     ],
+     "serie": [
+      {
+       "label": "late arrivals",
+       "valori": [
+        12.3,
+        15.2,
+        16.8,
+        15.6
+       ]
+      }
+     ]
+    }
+   ],
+   "calcolo": [
+    "A Raspberry Pi records the GPS position of GTT vehicles every minute.",
+    "An arrival is the moment the GPS is less than 60 metres from the stop.",
+    "The delay is that moment minus the official timetable.",
+    "Early: more than 1 minute; late: more than 5 minutes.",
+    "Bunching: two vehicles right behind each other. Gap: an interval twice the planned one. Frequent lines only."
+   ],
+   "criteri": [
+    [
+     "Period",
+     "2026-10-10 - 2026-10-20"
+    ],
+    [
+     "Arrivals with a valid GPS fix",
+     "1,300,434 (78.3% of those scheduled for the trips seen)"
+    ],
+    [
+     "Delay threshold",
+     "5 min"
+    ],
+    [
+     "Earliness threshold",
+     "-1 min"
+    ],
+    [
+     "Distance from the stop",
+     "within 60 m"
+    ]
+   ],
+   "limiti": [
+    "Few days: 6 weekdays, 2 Saturdays and 1 Sunday, not all complete.",
+    "Urban lines seen by the GPS only, from 5 a.m. to midnight.",
+    "The GPS covers about 78% of scheduled arrivals; trips never seen are not counted.",
+    "We count how often there is a delay, not how many people are waiting."
+   ],
+   "mappa": {
+    "id": "puntualita",
+    "nota": "Nella mappa, tema «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."
+   },
+   "unita": {
+    "tipo": "quadratini",
+    "totale": 100,
+    "colorati": 14,
+    "didascalia": "Out of 100 weekday arrivals, about 14 are more than 5 minutes late (14.1%); more than 10 minutes late, about 5."
+   },
+   "confronto": [
+    "GTT reports 2.3% over 10 minutes in 2025: yearly average, all lines, method not published.",
+    "We measure a few days in October on urban lines: 5.5% at every stop, 3.9% at departure.",
+    "Even counting at departure like GTT, we find 3.9%; the rest of the difference is season and method."
+   ],
+   "extra": {
+    "titolo": "How long you wait at the stop",
+    "punto": "On frequent lines you wait 1.6 to 2.4 minutes more than the timetable promises (weekday).",
+    "grafico": {
+     "tipo": "barre",
+     "titolo": "Average wait at the stop, by time of day (weekday)",
+     "unita": "min",
+     "nota": "Light bar = promised wait, dark bar = actual wait (low estimate).",
+     "voci": [
+      {
+       "label": "morning peak (7-9)",
+       "valore": 5.85,
+       "prima": 4.53
+      },
+      {
+       "label": "daytime (9-16)",
+       "valore": 5.26,
+       "prima": 3.75
+      },
+      {
+       "label": "evening peak (16-19)",
+       "valore": 6.54,
+       "prima": 4.44
+      },
+      {
+       "label": "evening (19-24)",
        "valore": 9.65,
        "prima": 8.2
       }
@@ -2084,7 +2512,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-22T13:39:09+00:00",
+  "generato": "2026-10-22T14:07:54+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2426,6 +2854,309 @@ window.SCHEDE_RISULTATI = [
        "label": "Sofia",
        "valore": 33,
        "testo": "33 contro 13-20 in auto"
+      }
+     ]
+    }
+   }
+  },
+  "forma_en": {
+   "etichetta": "ESTIMATED / MEASURED (little data)",
+   "titolo": "From park-and-ride lots the bus matches the car only if 21–28 minutes are lost parking downtown",
+   "domanda": "Where is there too little room to leave the car, and when is the bus from there to the centre as fast as the car?",
+   "numero": {
+    "valore": "21–28",
+    "unita": "minutes",
+    "testo": "lost downtown looking for parking: below this threshold the car beats the bus (median of the 12 points)"
+   },
+   "principale": {
+    "tipo": "barre",
+    "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
+    "unita": "minutes",
+    "nota": "Towards Piazza Castello at 8 a.m. Dark bar = slow car (Google factor), light bar = fast car (sensor factor). Fewer minutes = more promising point; 0 = the bus is already faster.",
+    "voci": [
+     {
+      "label": "Metro Massaua",
+      "valore": 7,
+      "prima": 15,
+      "testo": "7–15 min"
+     },
+     {
+      "label": "Pasini",
+      "valore": 16,
+      "prima": 21,
+      "testo": "16–21 min"
+     },
+     {
+      "label": "Derna Est",
+      "valore": 19,
+      "prima": 25,
+      "testo": "19–25 min"
+     },
+     {
+      "label": "Regina Margherita",
+      "valore": 19,
+      "prima": 24,
+      "testo": "19–24 min"
+     },
+     {
+      "label": "Stura Lazio",
+      "valore": 21,
+      "prima": 28,
+      "testo": "21–28 min"
+     },
+     {
+      "label": "Santa Rita",
+      "valore": 21,
+      "prima": 27,
+      "testo": "21–27 min"
+     },
+     {
+      "label": "Zara",
+      "valore": 21,
+      "prima": 26,
+      "testo": "21–26 min"
+     },
+     {
+      "label": "Drosso Cap",
+      "valore": 21,
+      "prima": 31,
+      "testo": "21–31 min"
+     },
+     {
+      "label": "Ferrara",
+      "valore": 23,
+      "prima": 34,
+      "testo": "23–34 min"
+     },
+     {
+      "label": "Ponte Cavalieri Templari",
+      "valore": 28,
+      "prima": 38,
+      "testo": "28–38 min"
+     },
+     {
+      "label": "Marsè",
+      "valore": 29,
+      "prima": 43,
+      "testo": "29–43 min"
+     },
+     {
+      "label": "Leonardo Da Vinci",
+      "valore": 33,
+      "prima": 44,
+      "testo": "33–44 min"
+     }
+    ]
+   },
+   "punti": [
+    "Existing park-and-ride lots: full Stura (17–27 minutes); little used Caio Mario (19–27 minutes), Sofia (18–25 minutes).",
+    "179 important stops out of 274 do not have enough parking within 400 metres on foot.",
+    "The most promising point is Metro Massaua: 7–15 minutes are enough for the bus to match the car."
+   ],
+   "altri": [
+    {
+     "tipo": "barre",
+     "titolo": "The 12 entry points, by need for parking",
+     "unita": "spaces",
+     "nota": "Need is high, medium or low by thirds, based on the missing spaces. Lengths are an order of magnitude.",
+     "voci": [
+      {
+       "label": "Santa Rita",
+       "valore": 450,
+       "tono": "rosso",
+       "testo": "high need"
+      },
+      {
+       "label": "Metro Massaua",
+       "valore": 350,
+       "tono": "rosso",
+       "testo": "high need"
+      },
+      {
+       "label": "Ponte Cavalieri Templari",
+       "valore": 350,
+       "tono": "rosso",
+       "testo": "high need"
+      },
+      {
+       "label": "Regina Margherita",
+       "valore": 350,
+       "tono": "rosso",
+       "testo": "high need"
+      },
+      {
+       "label": "Pasini",
+       "valore": 250,
+       "tono": "arancio",
+       "testo": "medium need"
+      },
+      {
+       "label": "Leonardo Da Vinci",
+       "valore": 200,
+       "tono": "arancio",
+       "testo": "medium need"
+      },
+      {
+       "label": "Drosso Cap",
+       "valore": 200,
+       "tono": "arancio",
+       "testo": "medium need"
+      },
+      {
+       "label": "Stura Lazio",
+       "valore": 200,
+       "tono": "arancio",
+       "testo": "medium need"
+      },
+      {
+       "label": "Marsè",
+       "valore": 150,
+       "tono": "giallo",
+       "testo": "low need"
+      },
+      {
+       "label": "Derna Est",
+       "valore": 100,
+       "tono": "giallo",
+       "testo": "low need"
+      },
+      {
+       "label": "Ferrara",
+       "valore": 80,
+       "tono": "giallo",
+       "testo": "low need"
+      },
+      {
+       "label": "Zara",
+       "valore": 60,
+       "tono": "giallo",
+       "testo": "low need"
+      }
+     ]
+    }
+   ],
+   "calcolo": [
+    "Important stops: outside the centre, with a metro, station or terminus, or 10 trips an hour.",
+    "Cars entering come from the 2022 travel survey, assigned to the fastest route.",
+    "Cars to stop: passing cars times the 5.8% who already leave the car today. Spaces: suitable car parks within 400 metres.",
+    "Priority points: stops without enough parking, grouped within 1 km, one per entry axis.",
+    "Break-even minutes: travel time by public transport to Piazza Castello at 8 a.m., minus travel time by car without parking."
+   ],
+   "criteri": [
+    [
+     "Important stops",
+     "10 trips an hour or a metro, and 1,000 passing cars"
+    ],
+    [
+     "Walking distance",
+     "400 metres"
+    ],
+    [
+     "Cars to stop",
+     "passing cars × 5.8%"
+    ],
+    [
+     "Bus versus car",
+     "towards Piazza Castello at 8 a.m., car with factor 1.2 (sensors) and 2.1 (Google)"
+    ]
+   ],
+   "limiti": [
+    "Public transport times are GTT only, without trains. The car is estimated between two peak factors, 1.2 and 2.1.",
+    "The cost of parking downtown is not in the calculation: it counts as extra minutes.",
+    "We look at one point per place and a single destination, Piazza Castello.",
+    "Passing cars come from a traffic model. Spaces are often estimated, with ±30%."
+   ],
+   "mappa": {
+    "id": "interscambio",
+    "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."
+   },
+   "unita": {
+    "tipo": "pallini",
+    "pallini": [
+     {
+      "label": "Santa Rita",
+      "tono": "rosso"
+     },
+     {
+      "label": "Metro Massaua",
+      "tono": "giallo"
+     },
+     {
+      "label": "Ponte Cavalieri Templari",
+      "tono": "rosso"
+     },
+     {
+      "label": "Regina Margherita",
+      "tono": "rosso"
+     },
+     {
+      "label": "Pasini",
+      "tono": "rosso"
+     },
+     {
+      "label": "Leonardo Da Vinci",
+      "tono": "rosso"
+     },
+     {
+      "label": "Drosso Cap",
+      "tono": "rosso"
+     },
+     {
+      "label": "Stura Lazio",
+      "tono": "rosso"
+     },
+     {
+      "label": "Marsè",
+      "tono": "rosso"
+     },
+     {
+      "label": "Derna Est",
+      "tono": "rosso"
+     },
+     {
+      "label": "Ferrara",
+      "tono": "rosso"
+     },
+     {
+      "label": "Zara",
+      "tono": "rosso"
+     }
+    ],
+    "didascalia": "One dot per priority point: green = the bus pays off (0), yellow = it depends (1), red = the bus does not pay off (11)."
+   },
+   "extra": {
+    "titolo": "Existing park-and-ride lots and buses to the centre",
+    "punto": "Existing park-and-ride lots are not very full: in the daytime only 1 of 5 is full.",
+    "grafico": {
+     "tipo": "barre",
+     "titolo": "From existing park-and-ride lots to Piazza Castello, minutes by public transport",
+     "unita": "minutes",
+     "nota": "At 8 a.m. on a weekday. On the right, car time including parking, between the two peak factors (1.2 and 2.1).",
+     "voci": [
+      {
+       "label": "Stura",
+       "valore": 39,
+       "testo": "39 versus 17-27 by car"
+      },
+      {
+       "label": "Venchi Unica",
+       "valore": 28,
+       "testo": "28 versus 16-24 by car"
+      },
+      {
+       "label": "Caio Mario",
+       "valore": 38,
+       "testo": "38 versus 16-24 by car"
+      },
+      {
+       "label": "Fermi",
+       "valore": 31,
+       "testo": "31 versus 19-29 by car"
+      },
+      {
+       "label": "Sofia",
+       "valore": 33,
+       "testo": "33 versus 13-20 by car"
       }
      ]
     }
@@ -2789,7 +3520,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-22T13:39:09+00:00",
+  "generato": "2026-10-22T14:07:54+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 20 sensori: errore tipico ±38%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -6104,6 +6835,3273 @@ window.SCHEDE_RISULTATI = [
     }
    }
   },
+  "forma_en": {
+   "etichetta": "ESTIMATED / MEASURED / SCHEDULED",
+   "titolo": "In the morning, public transport takes 2 to 3 times as long as the car",
+   "domanda": "For which trips is the car much faster than public transport, and how many cars make them?",
+   "numero": {
+    "valore": "2–3",
+    "unita": "times",
+    "testo": "the car's travel time: median ratio, weighted by morning cars (220,307 cars)"
+   },
+   "principale": {
+    "tipo": "barre_gruppi",
+    "titolo": "Morning cars by ratio of public transport time to car time",
+    "unita": "%",
+    "max": 100,
+    "nota": "Ratio 2 = public transport takes twice as long as the car. Turin–Turin and Turin–suburb pairs. Low limit: slow car as on Google Maps (factor 2.1); high limit: fast car as the sensors measure (factor 1.2).",
+    "gruppi": [
+     {
+      "label": "under 1.5",
+      "voci": [
+       {
+        "label": "low limit",
+        "valore": 3.9,
+        "tono": "verde",
+        "testo": "3.9% (8,649 cars)"
+       },
+       {
+        "label": "high limit",
+        "valore": 0.0,
+        "tono": "verde",
+        "testo": "0% (0 cars)"
+       }
+      ]
+     },
+     {
+      "label": "1.5-2",
+      "voci": [
+       {
+        "label": "low limit",
+        "valore": 54.6,
+        "tono": "giallo",
+        "testo": "54.6% (120,360 cars)"
+       },
+       {
+        "label": "high limit",
+        "valore": 3.0,
+        "tono": "giallo",
+        "testo": "3% (6,661 cars)"
+       }
+      ]
+     },
+     {
+      "label": "2-3",
+      "voci": [
+       {
+        "label": "low limit",
+        "valore": 41.1,
+        "tono": "arancio",
+        "testo": "41.1% (90,508 cars)"
+       },
+       {
+        "label": "high limit",
+        "valore": 52.2,
+        "tono": "arancio",
+        "testo": "52.2% (115,033 cars)"
+       }
+      ]
+     },
+     {
+      "label": "over 3",
+      "voci": [
+       {
+        "label": "low limit",
+        "valore": 0.4,
+        "tono": "rosso",
+        "testo": "0.4% (791 cars)"
+       },
+       {
+        "label": "high limit",
+        "valore": 44.8,
+        "tono": "rosso",
+        "testo": "44.8% (98,612 cars)"
+       }
+      ]
+     }
+    ]
+   },
+   "punti": [
+    "Cars with a ratio above 2 are 41% with the low factor and 97% with the high factor.",
+    "The 3 worst pairs: Torino, Madonna Del Pilone → Torino, Vanchiglia, Torino, Parella → Torino, San Paolo, Torino, Madonna Del Pilone → Torino, Centro.",
+    "Google confirms the public transport times on the check routes: 31 versus 30-35 and 33 versus 30-35 minutes."
+   ],
+   "altri": [
+    {
+     "tipo": "dispersione",
+     "titolo": "Car time and public transport time, one pair of zones per point",
+     "xlabel": "minutes by car (peak hour, factor 2.1)",
+     "ylabel": "minutes by public transport",
+     "punti": [
+      [
+       12.7,
+       20.6,
+       1355.3
+      ],
+      [
+       16.0,
+       31.3,
+       1341.8
+      ],
+      [
+       10.6,
+       19.2,
+       1324.4
+      ],
+      [
+       18.1,
+       24.7,
+       1277.0
+      ],
+      [
+       12.0,
+       18.7,
+       1269.4
+      ],
+      [
+       13.4,
+       24.0,
+       1208.2
+      ],
+      [
+       23.2,
+       43.0,
+       1149.2
+      ],
+      [
+       18.8,
+       37.5,
+       1107.8
+      ],
+      [
+       47.5,
+       80.1,
+       1081.8
+      ],
+      [
+       10.3,
+       15.2,
+       1038.1
+      ],
+      [
+       16.8,
+       33.2,
+       969.9
+      ],
+      [
+       18.7,
+       30.6,
+       968.1
+      ],
+      [
+       10.6,
+       15.2,
+       957.2
+      ],
+      [
+       27.2,
+       44.5,
+       940.7
+      ],
+      [
+       12.6,
+       20.2,
+       938.8
+      ],
+      [
+       17.0,
+       33.5,
+       928.7
+      ],
+      [
+       19.1,
+       38.2,
+       916.7
+      ],
+      [
+       35.6,
+       63.4,
+       910.0
+      ],
+      [
+       15.7,
+       30.4,
+       900.6
+      ],
+      [
+       15.5,
+       35.2,
+       894.4
+      ],
+      [
+       11.8,
+       22.4,
+       893.3
+      ],
+      [
+       13.0,
+       23.8,
+       889.9
+      ],
+      [
+       22.8,
+       39.3,
+       888.0
+      ],
+      [
+       18.3,
+       27.5,
+       818.9
+      ],
+      [
+       22.1,
+       42.3,
+       796.7
+      ],
+      [
+       18.0,
+       35.2,
+       795.1
+      ],
+      [
+       10.3,
+       18.9,
+       789.0
+      ],
+      [
+       19.7,
+       31.2,
+       779.1
+      ],
+      [
+       15.1,
+       30.4,
+       762.5
+      ],
+      [
+       22.8,
+       50.0,
+       753.4
+      ],
+      [
+       15.8,
+       31.2,
+       751.2
+      ],
+      [
+       14.3,
+       24.3,
+       737.2
+      ],
+      [
+       31.1,
+       81.4,
+       718.7
+      ],
+      [
+       11.4,
+       18.1,
+       714.6
+      ],
+      [
+       16.9,
+       35.2,
+       714.1
+      ],
+      [
+       13.8,
+       24.0,
+       706.6
+      ],
+      [
+       35.5,
+       63.5,
+       702.1
+      ],
+      [
+       11.8,
+       22.6,
+       698.0
+      ],
+      [
+       19.2,
+       29.7,
+       696.9
+      ],
+      [
+       30.9,
+       50.3,
+       690.4
+      ],
+      [
+       38.0,
+       72.7,
+       687.3
+      ],
+      [
+       13.2,
+       23.2,
+       685.0
+      ],
+      [
+       22.2,
+       25.5,
+       672.4
+      ],
+      [
+       15.4,
+       29.2,
+       671.0
+      ],
+      [
+       11.6,
+       22.8,
+       666.8
+      ],
+      [
+       37.3,
+       72.4,
+       659.4
+      ],
+      [
+       25.8,
+       51.0,
+       644.0
+      ],
+      [
+       17.0,
+       32.7,
+       627.3
+      ],
+      [
+       10.1,
+       16.0,
+       622.4
+      ],
+      [
+       11.8,
+       22.2,
+       620.3
+      ],
+      [
+       12.5,
+       27.2,
+       615.4
+      ],
+      [
+       19.7,
+       37.0,
+       614.3
+      ],
+      [
+       14.9,
+       34.5,
+       614.1
+      ],
+      [
+       12.6,
+       23.4,
+       607.7
+      ],
+      [
+       13.7,
+       27.2,
+       606.6
+      ],
+      [
+       16.9,
+       34.0,
+       601.6
+      ],
+      [
+       15.6,
+       30.4,
+       592.7
+      ],
+      [
+       17.2,
+       36.0,
+       589.8
+      ],
+      [
+       17.6,
+       34.1,
+       582.5
+      ],
+      [
+       26.8,
+       50.2,
+       580.1
+      ],
+      [
+       17.1,
+       24.1,
+       574.5
+      ],
+      [
+       15.0,
+       29.9,
+       570.6
+      ],
+      [
+       24.9,
+       55.1,
+       568.2
+      ],
+      [
+       14.5,
+       24.6,
+       562.6
+      ],
+      [
+       34.0,
+       85.7,
+       543.7
+      ],
+      [
+       14.5,
+       24.1,
+       543.0
+      ],
+      [
+       17.1,
+       39.2,
+       540.9
+      ],
+      [
+       10.8,
+       21.6,
+       540.3
+      ],
+      [
+       15.8,
+       30.9,
+       539.8
+      ],
+      [
+       16.4,
+       30.7,
+       527.7
+      ],
+      [
+       33.6,
+       68.8,
+       520.3
+      ],
+      [
+       33.4,
+       71.6,
+       519.9
+      ],
+      [
+       15.0,
+       29.4,
+       519.7
+      ],
+      [
+       12.9,
+       24.9,
+       517.1
+      ],
+      [
+       26.5,
+       56.9,
+       515.6
+      ],
+      [
+       36.0,
+       71.2,
+       514.3
+      ],
+      [
+       18.3,
+       39.6,
+       512.4
+      ],
+      [
+       29.2,
+       62.2,
+       504.1
+      ],
+      [
+       15.2,
+       26.9,
+       503.9
+      ],
+      [
+       16.9,
+       32.7,
+       498.7
+      ],
+      [
+       15.4,
+       28.9,
+       496.3
+      ],
+      [
+       10.3,
+       15.5,
+       494.3
+      ],
+      [
+       21.4,
+       47.1,
+       490.1
+      ],
+      [
+       19.0,
+       38.7,
+       489.2
+      ],
+      [
+       11.3,
+       23.2,
+       488.9
+      ],
+      [
+       40.9,
+       74.0,
+       488.2
+      ],
+      [
+       12.0,
+       22.0,
+       481.0
+      ],
+      [
+       17.9,
+       38.2,
+       478.8
+      ],
+      [
+       27.1,
+       54.9,
+       478.7
+      ],
+      [
+       24.3,
+       47.5,
+       476.8
+      ],
+      [
+       23.4,
+       45.8,
+       467.9
+      ],
+      [
+       12.9,
+       26.2,
+       466.7
+      ],
+      [
+       17.3,
+       27.7,
+       462.0
+      ],
+      [
+       13.0,
+       26.3,
+       459.7
+      ],
+      [
+       47.0,
+       77.7,
+       458.7
+      ],
+      [
+       22.3,
+       26.0,
+       458.5
+      ],
+      [
+       19.2,
+       37.2,
+       456.6
+      ],
+      [
+       14.2,
+       22.8,
+       456.0
+      ],
+      [
+       31.3,
+       57.1,
+       454.7
+      ],
+      [
+       10.7,
+       20.3,
+       452.9
+      ],
+      [
+       29.9,
+       54.0,
+       452.3
+      ],
+      [
+       39.6,
+       85.9,
+       449.8
+      ],
+      [
+       17.4,
+       31.6,
+       448.6
+      ],
+      [
+       46.5,
+       92.7,
+       448.4
+      ],
+      [
+       32.3,
+       71.8,
+       445.5
+      ],
+      [
+       16.5,
+       35.8,
+       443.8
+      ],
+      [
+       25.1,
+       46.5,
+       442.8
+      ],
+      [
+       19.9,
+       40.2,
+       439.9
+      ],
+      [
+       23.0,
+       55.3,
+       438.4
+      ],
+      [
+       11.0,
+       21.4,
+       437.5
+      ],
+      [
+       30.8,
+       61.8,
+       431.9
+      ],
+      [
+       35.6,
+       58.3,
+       431.8
+      ],
+      [
+       14.3,
+       32.3,
+       431.4
+      ],
+      [
+       32.5,
+       68.6,
+       428.4
+      ],
+      [
+       19.6,
+       37.4,
+       428.4
+      ],
+      [
+       42.1,
+       81.3,
+       426.2
+      ],
+      [
+       17.7,
+       35.8,
+       423.2
+      ],
+      [
+       19.5,
+       41.3,
+       422.6
+      ],
+      [
+       11.7,
+       18.2,
+       421.9
+      ],
+      [
+       25.2,
+       47.6,
+       421.1
+      ],
+      [
+       10.7,
+       19.0,
+       419.2
+      ],
+      [
+       22.6,
+       53.4,
+       411.0
+      ],
+      [
+       42.8,
+       73.5,
+       410.3
+      ],
+      [
+       28.5,
+       53.8,
+       410.0
+      ],
+      [
+       25.3,
+       32.7,
+       409.6
+      ],
+      [
+       26.6,
+       53.5,
+       409.5
+      ],
+      [
+       30.2,
+       51.2,
+       404.3
+      ],
+      [
+       27.6,
+       46.1,
+       403.5
+      ],
+      [
+       23.6,
+       54.5,
+       402.7
+      ],
+      [
+       30.5,
+       61.2,
+       399.0
+      ],
+      [
+       11.5,
+       24.9,
+       398.4
+      ],
+      [
+       35.5,
+       64.3,
+       396.9
+      ],
+      [
+       12.9,
+       28.4,
+       396.9
+      ],
+      [
+       29.2,
+       59.6,
+       395.5
+      ],
+      [
+       16.1,
+       32.4,
+       391.8
+      ],
+      [
+       26.8,
+       51.1,
+       389.9
+      ],
+      [
+       24.9,
+       46.5,
+       389.6
+      ],
+      [
+       48.3,
+       103.8,
+       386.9
+      ],
+      [
+       18.2,
+       28.0,
+       386.6
+      ],
+      [
+       13.7,
+       28.2,
+       384.3
+      ],
+      [
+       17.8,
+       27.5,
+       383.2
+      ],
+      [
+       25.6,
+       81.4,
+       383.2
+      ],
+      [
+       31.0,
+       62.3,
+       382.4
+      ],
+      [
+       23.2,
+       56.5,
+       382.0
+      ],
+      [
+       19.7,
+       54.1,
+       379.4
+      ],
+      [
+       18.9,
+       38.4,
+       377.6
+      ],
+      [
+       14.8,
+       31.4,
+       377.4
+      ],
+      [
+       15.4,
+       24.3,
+       376.5
+      ],
+      [
+       15.4,
+       36.7,
+       369.2
+      ],
+      [
+       17.8,
+       30.6,
+       368.7
+      ],
+      [
+       20.0,
+       37.1,
+       367.3
+      ],
+      [
+       24.7,
+       43.4,
+       366.6
+      ],
+      [
+       34.1,
+       79.1,
+       365.7
+      ],
+      [
+       13.1,
+       19.3,
+       365.5
+      ],
+      [
+       33.9,
+       74.5,
+       363.3
+      ],
+      [
+       14.1,
+       28.2,
+       362.7
+      ],
+      [
+       10.5,
+       20.9,
+       356.4
+      ],
+      [
+       13.5,
+       21.4,
+       355.0
+      ],
+      [
+       19.0,
+       39.1,
+       353.0
+      ],
+      [
+       23.3,
+       52.3,
+       352.5
+      ],
+      [
+       15.6,
+       17.1,
+       352.1
+      ],
+      [
+       28.6,
+       50.6,
+       350.1
+      ],
+      [
+       17.6,
+       37.0,
+       348.3
+      ],
+      [
+       20.9,
+       44.8,
+       347.8
+      ],
+      [
+       42.3,
+       71.4,
+       346.3
+      ],
+      [
+       31.7,
+       71.2,
+       346.1
+      ],
+      [
+       29.7,
+       63.5,
+       345.7
+      ],
+      [
+       17.6,
+       32.0,
+       340.6
+      ],
+      [
+       18.5,
+       41.8,
+       340.0
+      ],
+      [
+       26.0,
+       50.6,
+       339.6
+      ],
+      [
+       44.6,
+       83.0,
+       338.3
+      ],
+      [
+       18.7,
+       45.7,
+       336.5
+      ],
+      [
+       25.7,
+       54.3,
+       336.5
+      ],
+      [
+       40.2,
+       79.4,
+       335.5
+      ],
+      [
+       29.5,
+       52.0,
+       335.0
+      ],
+      [
+       31.2,
+       60.6,
+       333.8
+      ],
+      [
+       43.3,
+       87.7,
+       333.6
+      ],
+      [
+       39.0,
+       74.5,
+       333.5
+      ],
+      [
+       18.9,
+       31.4,
+       332.2
+      ],
+      [
+       37.6,
+       82.7,
+       331.5
+      ],
+      [
+       29.4,
+       47.6,
+       331.5
+      ],
+      [
+       28.9,
+       64.4,
+       330.5
+      ],
+      [
+       27.0,
+       52.4,
+       329.9
+      ],
+      [
+       28.6,
+       43.5,
+       329.1
+      ],
+      [
+       34.3,
+       65.5,
+       328.2
+      ],
+      [
+       28.7,
+       54.2,
+       328.0
+      ],
+      [
+       25.4,
+       54.2,
+       326.5
+      ],
+      [
+       42.6,
+       67.1,
+       323.5
+      ],
+      [
+       12.5,
+       24.0,
+       322.3
+      ],
+      [
+       10.2,
+       19.2,
+       322.1
+      ],
+      [
+       31.9,
+       64.3,
+       321.4
+      ],
+      [
+       17.1,
+       34.1,
+       318.2
+      ],
+      [
+       27.6,
+       47.8,
+       317.7
+      ],
+      [
+       34.1,
+       80.6,
+       311.9
+      ],
+      [
+       48.1,
+       94.0,
+       310.7
+      ],
+      [
+       13.5,
+       26.4,
+       309.9
+      ],
+      [
+       32.7,
+       60.2,
+       307.1
+      ],
+      [
+       35.0,
+       69.8,
+       306.3
+      ],
+      [
+       12.8,
+       25.1,
+       305.1
+      ],
+      [
+       19.6,
+       35.8,
+       304.4
+      ],
+      [
+       26.1,
+       53.0,
+       304.2
+      ],
+      [
+       22.6,
+       52.3,
+       303.6
+      ],
+      [
+       33.0,
+       62.6,
+       303.4
+      ],
+      [
+       40.1,
+       77.0,
+       302.8
+      ],
+      [
+       31.1,
+       68.8,
+       302.3
+      ],
+      [
+       39.2,
+       72.2,
+       300.8
+      ],
+      [
+       13.5,
+       19.0,
+       299.5
+      ],
+      [
+       19.7,
+       48.9,
+       299.2
+      ],
+      [
+       24.7,
+       56.4,
+       298.9
+      ],
+      [
+       24.2,
+       47.2,
+       298.6
+      ],
+      [
+       28.9,
+       54.3,
+       297.1
+      ],
+      [
+       23.4,
+       54.1,
+       296.5
+      ],
+      [
+       23.8,
+       57.7,
+       296.0
+      ],
+      [
+       41.6,
+       86.8,
+       295.0
+      ],
+      [
+       36.6,
+       70.0,
+       294.0
+      ],
+      [
+       14.4,
+       33.8,
+       292.7
+      ],
+      [
+       42.5,
+       85.7,
+       291.8
+      ],
+      [
+       24.7,
+       46.0,
+       290.8
+      ],
+      [
+       11.0,
+       21.3,
+       290.5
+      ],
+      [
+       26.7,
+       60.2,
+       289.4
+      ],
+      [
+       29.1,
+       52.7,
+       288.9
+      ],
+      [
+       34.9,
+       74.6,
+       288.6
+      ],
+      [
+       15.3,
+       35.0,
+       284.7
+      ],
+      [
+       18.5,
+       38.6,
+       283.1
+      ],
+      [
+       9.9,
+       18.9,
+       282.6
+      ],
+      [
+       17.8,
+       42.7,
+       282.2
+      ],
+      [
+       20.9,
+       42.2,
+       281.8
+      ],
+      [
+       18.3,
+       38.3,
+       281.7
+      ],
+      [
+       23.6,
+       57.4,
+       280.3
+      ],
+      [
+       27.4,
+       56.7,
+       278.1
+      ],
+      [
+       12.4,
+       24.5,
+       274.9
+      ],
+      [
+       37.5,
+       83.0,
+       274.4
+      ],
+      [
+       32.3,
+       68.0,
+       273.4
+      ],
+      [
+       18.3,
+       34.6,
+       273.2
+      ],
+      [
+       29.0,
+       46.0,
+       272.4
+      ],
+      [
+       46.6,
+       76.5,
+       271.8
+      ],
+      [
+       42.3,
+       79.0,
+       271.3
+      ],
+      [
+       34.9,
+       61.4,
+       271.0
+      ],
+      [
+       16.0,
+       31.8,
+       270.6
+      ],
+      [
+       13.1,
+       24.6,
+       270.2
+      ],
+      [
+       29.9,
+       44.1,
+       270.1
+      ],
+      [
+       46.1,
+       98.2,
+       269.7
+      ],
+      [
+       31.8,
+       62.1,
+       269.7
+      ],
+      [
+       42.2,
+       83.6,
+       268.9
+      ],
+      [
+       15.6,
+       17.1,
+       268.5
+      ],
+      [
+       29.2,
+       55.2,
+       267.8
+      ],
+      [
+       23.9,
+       37.0,
+       264.3
+      ],
+      [
+       25.9,
+       60.4,
+       263.3
+      ],
+      [
+       23.6,
+       51.4,
+       262.3
+      ],
+      [
+       21.1,
+       42.2,
+       261.5
+      ],
+      [
+       27.4,
+       49.4,
+       261.2
+      ],
+      [
+       17.4,
+       34.8,
+       260.2
+      ],
+      [
+       11.5,
+       17.5,
+       259.7
+      ],
+      [
+       13.2,
+       29.1,
+       258.2
+      ],
+      [
+       46.9,
+       79.4,
+       257.3
+      ],
+      [
+       22.2,
+       46.5,
+       256.8
+      ],
+      [
+       36.2,
+       75.8,
+       255.1
+      ],
+      [
+       44.8,
+       78.2,
+       254.4
+      ],
+      [
+       49.9,
+       103.2,
+       253.6
+      ],
+      [
+       49.4,
+       89.0,
+       253.1
+      ],
+      [
+       9.2,
+       15.8,
+       252.2
+      ],
+      [
+       30.1,
+       49.4,
+       251.6
+      ],
+      [
+       14.6,
+       29.9,
+       251.5
+      ],
+      [
+       23.7,
+       56.6,
+       250.1
+      ],
+      [
+       24.4,
+       37.3,
+       248.3
+      ],
+      [
+       31.0,
+       48.8,
+       247.4
+      ],
+      [
+       18.6,
+       34.8,
+       244.8
+      ],
+      [
+       14.4,
+       28.9,
+       243.9
+      ],
+      [
+       23.7,
+       44.1,
+       243.6
+      ],
+      [
+       30.3,
+       55.0,
+       243.6
+      ],
+      [
+       15.0,
+       29.2,
+       243.6
+      ],
+      [
+       21.9,
+       41.8,
+       243.0
+      ],
+      [
+       37.0,
+       77.9,
+       242.3
+      ],
+      [
+       25.3,
+       43.4,
+       242.2
+      ],
+      [
+       30.5,
+       61.5,
+       241.4
+      ],
+      [
+       14.9,
+       30.4,
+       241.0
+      ],
+      [
+       47.3,
+       91.5,
+       240.6
+      ],
+      [
+       17.3,
+       39.4,
+       240.0
+      ],
+      [
+       33.3,
+       65.0,
+       238.3
+      ],
+      [
+       36.4,
+       72.1,
+       236.1
+      ],
+      [
+       17.2,
+       24.2,
+       235.8
+      ],
+      [
+       27.6,
+       46.3,
+       234.9
+      ],
+      [
+       31.0,
+       52.5,
+       234.7
+      ],
+      [
+       25.7,
+       46.3,
+       234.6
+      ],
+      [
+       21.1,
+       46.7,
+       233.6
+      ],
+      [
+       30.9,
+       67.6,
+       233.3
+      ],
+      [
+       19.8,
+       43.3,
+       231.7
+      ],
+      [
+       26.0,
+       61.4,
+       231.5
+      ],
+      [
+       53.4,
+       99.5,
+       230.9
+      ],
+      [
+       23.5,
+       48.0,
+       228.8
+      ],
+      [
+       11.4,
+       25.4,
+       228.3
+      ],
+      [
+       19.9,
+       41.6,
+       228.1
+      ],
+      [
+       25.2,
+       62.8,
+       227.0
+      ],
+      [
+       32.4,
+       79.2,
+       226.3
+      ],
+      [
+       16.8,
+       36.1,
+       225.6
+      ],
+      [
+       31.4,
+       59.0,
+       225.4
+      ],
+      [
+       21.2,
+       52.0,
+       225.1
+      ],
+      [
+       35.0,
+       64.8,
+       224.1
+      ],
+      [
+       12.3,
+       24.1,
+       223.2
+      ],
+      [
+       40.6,
+       94.3,
+       222.3
+      ],
+      [
+       15.4,
+       32.1,
+       222.1
+      ],
+      [
+       37.2,
+       70.7,
+       221.0
+      ],
+      [
+       12.6,
+       25.9,
+       220.4
+      ],
+      [
+       14.8,
+       24.2,
+       219.8
+      ],
+      [
+       14.4,
+       22.4,
+       218.7
+      ],
+      [
+       25.8,
+       52.8,
+       218.3
+      ],
+      [
+       33.1,
+       75.5,
+       217.8
+      ],
+      [
+       40.1,
+       68.5,
+       217.1
+      ],
+      [
+       16.3,
+       30.8,
+       216.9
+      ],
+      [
+       41.4,
+       104.0,
+       216.3
+      ],
+      [
+       39.8,
+       61.0,
+       215.9
+      ],
+      [
+       31.3,
+       71.9,
+       215.8
+      ],
+      [
+       48.9,
+       96.9,
+       215.6
+      ],
+      [
+       29.4,
+       53.9,
+       215.3
+      ],
+      [
+       28.0,
+       67.0,
+       214.1
+      ],
+      [
+       24.2,
+       51.6,
+       214.0
+      ],
+      [
+       12.8,
+       26.0,
+       213.2
+      ],
+      [
+       34.4,
+       72.4,
+       212.7
+      ],
+      [
+       43.2,
+       78.5,
+       212.0
+      ],
+      [
+       34.0,
+       93.1,
+       211.8
+      ],
+      [
+       38.7,
+       63.9,
+       211.3
+      ],
+      [
+       24.0,
+       50.2,
+       211.2
+      ],
+      [
+       29.2,
+       61.1,
+       210.7
+      ],
+      [
+       29.3,
+       57.8,
+       209.8
+      ],
+      [
+       23.6,
+       43.2,
+       209.0
+      ],
+      [
+       21.5,
+       51.2,
+       208.2
+      ],
+      [
+       51.1,
+       102.7,
+       208.1
+      ],
+      [
+       34.2,
+       61.3,
+       207.6
+      ],
+      [
+       50.0,
+       86.5,
+       207.5
+      ],
+      [
+       15.6,
+       30.0,
+       206.7
+      ],
+      [
+       43.4,
+       82.2,
+       206.4
+      ],
+      [
+       25.5,
+       44.2,
+       206.2
+      ],
+      [
+       20.9,
+       50.9,
+       206.2
+      ],
+      [
+       22.3,
+       44.3,
+       206.1
+      ],
+      [
+       38.8,
+       66.5,
+       206.0
+      ],
+      [
+       26.5,
+       55.3,
+       205.9
+      ],
+      [
+       42.7,
+       96.3,
+       205.6
+      ],
+      [
+       30.1,
+       56.6,
+       205.0
+      ],
+      [
+       26.0,
+       41.6,
+       204.7
+      ],
+      [
+       33.9,
+       75.6,
+       204.3
+      ],
+      [
+       33.3,
+       56.6,
+       204.3
+      ],
+      [
+       41.5,
+       78.0,
+       204.0
+      ],
+      [
+       39.9,
+       77.3,
+       203.9
+      ],
+      [
+       24.0,
+       57.1,
+       203.8
+      ],
+      [
+       35.0,
+       91.5,
+       203.7
+      ],
+      [
+       25.5,
+       43.6,
+       203.5
+      ],
+      [
+       20.5,
+       42.6,
+       203.4
+      ],
+      [
+       39.1,
+       74.0,
+       203.4
+      ],
+      [
+       23.6,
+       46.8,
+       203.2
+      ],
+      [
+       47.6,
+       84.4,
+       202.3
+      ],
+      [
+       31.7,
+       67.5,
+       201.9
+      ],
+      [
+       33.9,
+       58.4,
+       201.7
+      ],
+      [
+       26.3,
+       54.3,
+       201.5
+      ],
+      [
+       14.7,
+       26.2,
+       201.5
+      ],
+      [
+       14.7,
+       27.0,
+       201.2
+      ],
+      [
+       21.7,
+       42.8,
+       200.7
+      ],
+      [
+       34.5,
+       61.8,
+       200.5
+      ],
+      [
+       39.1,
+       82.2,
+       200.3
+      ],
+      [
+       34.4,
+       85.6,
+       199.7
+      ],
+      [
+       15.0,
+       27.0,
+       199.4
+      ],
+      [
+       14.3,
+       30.9,
+       199.3
+      ],
+      [
+       31.7,
+       55.4,
+       198.8
+      ],
+      [
+       33.3,
+       56.4,
+       197.7
+      ],
+      [
+       38.3,
+       77.4,
+       197.7
+      ],
+      [
+       25.7,
+       48.8,
+       196.4
+      ],
+      [
+       31.4,
+       69.6,
+       195.7
+      ],
+      [
+       35.9,
+       67.0,
+       195.6
+      ],
+      [
+       14.9,
+       33.0,
+       195.3
+      ],
+      [
+       16.9,
+       42.0,
+       194.7
+      ],
+      [
+       12.1,
+       26.4,
+       194.6
+      ],
+      [
+       39.2,
+       76.1,
+       194.1
+      ],
+      [
+       16.9,
+       34.1,
+       193.8
+      ],
+      [
+       43.2,
+       100.1,
+       193.0
+      ],
+      [
+       25.1,
+       45.7,
+       192.7
+      ],
+      [
+       51.8,
+       98.6,
+       192.4
+      ],
+      [
+       15.8,
+       32.5,
+       192.2
+      ],
+      [
+       40.7,
+       81.0,
+       191.6
+      ],
+      [
+       20.0,
+       41.7,
+       191.5
+      ],
+      [
+       32.5,
+       58.7,
+       190.6
+      ],
+      [
+       41.1,
+       88.2,
+       190.5
+      ],
+      [
+       29.4,
+       61.8,
+       190.5
+      ],
+      [
+       37.2,
+       78.3,
+       190.5
+      ],
+      [
+       36.5,
+       84.6,
+       190.2
+      ],
+      [
+       14.8,
+       33.7,
+       190.2
+      ],
+      [
+       34.1,
+       57.8,
+       189.6
+      ],
+      [
+       19.1,
+       42.1,
+       189.4
+      ],
+      [
+       54.6,
+       108.3,
+       188.8
+      ],
+      [
+       24.1,
+       52.8,
+       188.6
+      ],
+      [
+       22.4,
+       44.8,
+       188.5
+      ],
+      [
+       46.8,
+       84.5,
+       187.6
+      ],
+      [
+       54.8,
+       86.5,
+       187.3
+      ],
+      [
+       32.4,
+       63.9,
+       186.9
+      ],
+      [
+       29.6,
+       57.4,
+       186.9
+      ],
+      [
+       35.2,
+       64.1,
+       186.9
+      ],
+      [
+       16.0,
+       37.8,
+       186.8
+      ],
+      [
+       39.0,
+       74.2,
+       186.4
+      ],
+      [
+       55.7,
+       97.4,
+       186.4
+      ],
+      [
+       36.3,
+       84.8,
+       186.2
+      ],
+      [
+       40.9,
+       81.6,
+       185.9
+      ],
+      [
+       20.7,
+       40.7,
+       185.7
+      ],
+      [
+       25.1,
+       45.0,
+       185.5
+      ],
+      [
+       16.7,
+       39.8,
+       185.4
+      ],
+      [
+       18.1,
+       31.4,
+       185.1
+      ],
+      [
+       28.6,
+       54.9,
+       184.5
+      ],
+      [
+       52.0,
+       92.0,
+       184.1
+      ],
+      [
+       40.5,
+       85.6,
+       183.3
+      ],
+      [
+       49.0,
+       87.8,
+       183.3
+      ],
+      [
+       14.4,
+       29.6,
+       183.2
+      ],
+      [
+       42.7,
+       83.0,
+       183.0
+      ],
+      [
+       27.0,
+       68.7,
+       182.4
+      ],
+      [
+       32.2,
+       66.2,
+       182.4
+      ],
+      [
+       47.3,
+       90.8,
+       181.8
+      ],
+      [
+       39.5,
+       77.4,
+       181.2
+      ],
+      [
+       28.8,
+       64.3,
+       181.2
+      ],
+      [
+       30.7,
+       69.0,
+       181.1
+      ],
+      [
+       27.1,
+       57.4,
+       180.8
+      ],
+      [
+       25.2,
+       65.9,
+       179.9
+      ],
+      [
+       26.7,
+       48.9,
+       179.7
+      ],
+      [
+       21.8,
+       35.5,
+       179.6
+      ],
+      [
+       43.8,
+       92.6,
+       179.5
+      ],
+      [
+       26.8,
+       59.6,
+       179.5
+      ],
+      [
+       20.4,
+       46.4,
+       179.5
+      ],
+      [
+       41.7,
+       91.4,
+       179.2
+      ],
+      [
+       22.1,
+       54.4,
+       178.4
+      ],
+      [
+       35.2,
+       64.8,
+       177.9
+      ],
+      [
+       37.5,
+       61.2,
+       177.9
+      ],
+      [
+       21.4,
+       47.4,
+       177.4
+      ],
+      [
+       34.1,
+       51.0,
+       177.3
+      ],
+      [
+       36.2,
+       112.9,
+       177.0
+      ],
+      [
+       12.8,
+       29.5,
+       176.7
+      ],
+      [
+       52.6,
+       94.5,
+       176.2
+      ],
+      [
+       43.3,
+       88.2,
+       176.0
+      ],
+      [
+       13.2,
+       21.1,
+       175.3
+      ],
+      [
+       21.1,
+       44.9,
+       175.0
+      ],
+      [
+       26.6,
+       57.0,
+       174.5
+      ],
+      [
+       13.0,
+       26.6,
+       173.9
+      ],
+      [
+       13.5,
+       31.4,
+       173.6
+      ],
+      [
+       32.4,
+       69.0,
+       173.5
+      ],
+      [
+       29.8,
+       60.7,
+       173.4
+      ],
+      [
+       26.1,
+       56.0,
+       173.2
+      ],
+      [
+       16.9,
+       26.6,
+       173.1
+      ],
+      [
+       28.3,
+       63.1,
+       173.1
+      ],
+      [
+       28.7,
+       54.3,
+       173.0
+      ],
+      [
+       33.3,
+       67.0,
+       173.0
+      ],
+      [
+       16.9,
+       40.7,
+       173.0
+      ],
+      [
+       49.3,
+       99.5,
+       173.0
+      ],
+      [
+       21.3,
+       42.6,
+       172.3
+      ],
+      [
+       37.2,
+       93.0,
+       172.0
+      ],
+      [
+       34.0,
+       62.5,
+       171.6
+      ],
+      [
+       45.7,
+       113.8,
+       171.3
+      ],
+      [
+       48.7,
+       89.9,
+       171.3
+      ],
+      [
+       41.0,
+       77.7,
+       171.2
+      ],
+      [
+       18.3,
+       24.7,
+       171.0
+      ],
+      [
+       54.5,
+       99.0,
+       170.7
+      ],
+      [
+       20.0,
+       46.9,
+       170.0
+      ],
+      [
+       23.5,
+       50.3,
+       169.8
+      ],
+      [
+       17.6,
+       40.7,
+       169.6
+      ],
+      [
+       31.3,
+       77.5,
+       169.4
+      ],
+      [
+       16.3,
+       33.8,
+       169.2
+      ],
+      [
+       36.1,
+       93.1,
+       168.9
+      ],
+      [
+       16.4,
+       35.8,
+       168.6
+      ],
+      [
+       28.6,
+       68.6,
+       168.1
+      ],
+      [
+       29.1,
+       86.0,
+       168.1
+      ],
+      [
+       10.4,
+       18.2,
+       167.9
+      ],
+      [
+       15.2,
+       33.7,
+       167.5
+      ],
+      [
+       39.8,
+       62.8,
+       167.2
+      ],
+      [
+       40.5,
+       87.9,
+       166.7
+      ],
+      [
+       34.6,
+       73.5,
+       166.7
+      ],
+      [
+       21.2,
+       35.6,
+       166.1
+      ],
+      [
+       45.9,
+       92.3,
+       165.5
+      ],
+      [
+       56.4,
+       112.0,
+       165.4
+      ],
+      [
+       34.0,
+       98.0,
+       165.4
+      ],
+      [
+       15.8,
+       33.8,
+       164.6
+      ],
+      [
+       13.7,
+       33.0,
+       163.9
+      ],
+      [
+       20.8,
+       46.1,
+       163.8
+      ],
+      [
+       12.2,
+       23.3,
+       163.6
+      ],
+      [
+       31.9,
+       72.8,
+       163.5
+      ],
+      [
+       25.6,
+       50.7,
+       163.3
+      ],
+      [
+       32.6,
+       69.8,
+       163.0
+      ],
+      [
+       40.8,
+       78.5,
+       162.2
+      ],
+      [
+       32.0,
+       68.0,
+       161.5
+      ],
+      [
+       33.3,
+       64.2,
+       161.5
+      ],
+      [
+       31.7,
+       71.0,
+       161.5
+      ],
+      [
+       25.0,
+       54.7,
+       161.4
+      ],
+      [
+       46.1,
+       87.0,
+       160.9
+      ],
+      [
+       24.2,
+       55.1,
+       160.0
+      ],
+      [
+       26.1,
+       39.7,
+       159.7
+      ],
+      [
+       27.5,
+       53.4,
+       159.5
+      ],
+      [
+       28.2,
+       51.4,
+       159.4
+      ],
+      [
+       31.3,
+       72.3,
+       159.3
+      ],
+      [
+       33.5,
+       53.0,
+       158.2
+      ],
+      [
+       47.5,
+       82.8,
+       158.2
+      ],
+      [
+       31.2,
+       57.2,
+       157.9
+      ],
+      [
+       17.8,
+       33.0,
+       157.8
+      ],
+      [
+       31.3,
+       70.6,
+       157.5
+      ],
+      [
+       21.2,
+       45.2,
+       157.3
+      ],
+      [
+       15.2,
+       30.2,
+       157.3
+      ],
+      [
+       42.2,
+       95.0,
+       156.5
+      ],
+      [
+       28.5,
+       41.1,
+       155.8
+      ],
+      [
+       34.7,
+       74.4,
+       155.6
+      ],
+      [
+       31.3,
+       50.9,
+       155.4
+      ],
+      [
+       31.5,
+       54.8,
+       155.2
+      ],
+      [
+       40.2,
+       92.7,
+       155.1
+      ],
+      [
+       30.6,
+       83.6,
+       154.9
+      ],
+      [
+       20.9,
+       37.8,
+       154.5
+      ],
+      [
+       49.0,
+       90.2,
+       154.5
+      ],
+      [
+       31.9,
+       64.6,
+       154.1
+      ],
+      [
+       19.1,
+       44.6,
+       153.6
+      ],
+      [
+       28.3,
+       51.8,
+       152.4
+      ],
+      [
+       12.5,
+       26.6,
+       152.3
+      ],
+      [
+       28.7,
+       53.8,
+       152.3
+      ],
+      [
+       44.4,
+       90.8,
+       151.5
+      ],
+      [
+       31.1,
+       59.0,
+       151.3
+      ],
+      [
+       25.1,
+       67.8,
+       151.2
+      ],
+      [
+       22.0,
+       60.4,
+       150.6
+      ],
+      [
+       20.7,
+       46.1,
+       150.2
+      ],
+      [
+       18.0,
+       40.1,
+       149.8
+      ],
+      [
+       23.5,
+       48.5,
+       148.6
+      ],
+      [
+       27.9,
+       66.8,
+       148.5
+      ],
+      [
+       14.4,
+       31.5,
+       148.2
+      ],
+      [
+       34.3,
+       63.6,
+       147.4
+      ],
+      [
+       18.1,
+       34.0,
+       147.2
+      ],
+      [
+       22.4,
+       48.2,
+       146.3
+      ],
+      [
+       20.0,
+       28.6,
+       146.1
+      ],
+      [
+       14.7,
+       30.9,
+       145.2
+      ],
+      [
+       24.0,
+       49.4,
+       145.0
+      ],
+      [
+       46.5,
+       88.6,
+       144.6
+      ],
+      [
+       25.7,
+       50.1,
+       143.8
+      ],
+      [
+       27.9,
+       52.5,
+       143.2
+      ],
+      [
+       54.2,
+       100.8,
+       142.8
+      ],
+      [
+       17.5,
+       34.2,
+       142.2
+      ],
+      [
+       29.5,
+       57.7,
+       142.1
+      ],
+      [
+       24.7,
+       51.0,
+       142.1
+      ],
+      [
+       17.6,
+       37.6,
+       141.5
+      ],
+      [
+       21.7,
+       45.2,
+       141.1
+      ],
+      [
+       22.4,
+       44.0,
+       140.8
+      ],
+      [
+       36.9,
+       71.0,
+       140.6
+      ],
+      [
+       20.9,
+       35.3,
+       140.1
+      ],
+      [
+       40.2,
+       87.5,
+       139.1
+      ],
+      [
+       27.8,
+       63.6,
+       139.1
+      ],
+      [
+       22.8,
+       51.9,
+       136.6
+      ],
+      [
+       21.6,
+       50.3,
+       136.6
+      ],
+      [
+       43.3,
+       99.4,
+       135.8
+      ],
+      [
+       39.9,
+       69.8,
+       135.1
+      ],
+      [
+       42.8,
+       111.8,
+       132.9
+      ],
+      [
+       29.8,
+       86.0,
+       132.9
+      ],
+      [
+       37.4,
+       60.8,
+       131.1
+      ],
+      [
+       28.3,
+       59.3,
+       130.6
+      ],
+      [
+       25.2,
+       56.8,
+       130.3
+      ],
+      [
+       20.2,
+       46.1,
+       129.1
+      ],
+      [
+       35.0,
+       92.4,
+       128.8
+      ],
+      [
+       25.0,
+       62.7,
+       128.8
+      ],
+      [
+       16.9,
+       27.2,
+       125.9
+      ],
+      [
+       33.9,
+       67.2,
+       125.8
+      ],
+      [
+       47.1,
+       81.4,
+       125.8
+      ],
+      [
+       34.9,
+       112.6,
+       124.6
+      ],
+      [
+       30.8,
+       67.6,
+       122.4
+      ],
+      [
+       54.8,
+       104.8,
+       122.4
+      ],
+      [
+       34.5,
+       61.3,
+       122.0
+      ],
+      [
+       36.2,
+       61.1,
+       121.7
+      ],
+      [
+       25.8,
+       54.6,
+       120.0
+      ],
+      [
+       24.5,
+       57.8,
+       119.6
+      ],
+      [
+       45.0,
+       94.6,
+       118.8
+      ],
+      [
+       32.2,
+       52.6,
+       118.8
+      ],
+      [
+       46.9,
+       98.0,
+       118.6
+      ],
+      [
+       15.1,
+       36.6,
+       117.9
+      ],
+      [
+       52.6,
+       99.4,
+       117.8
+      ],
+      [
+       26.0,
+       54.6,
+       115.5
+      ],
+      [
+       38.5,
+       72.6,
+       115.5
+      ],
+      [
+       26.3,
+       61.6,
+       115.5
+      ],
+      [
+       20.0,
+       38.8,
+       115.5
+      ],
+      [
+       18.1,
+       39.2,
+       115.5
+      ],
+      [
+       37.6,
+       58.2,
+       114.2
+      ],
+      [
+       25.5,
+       66.4,
+       113.9
+      ],
+      [
+       20.3,
+       39.5,
+       113.4
+      ],
+      [
+       32.3,
+       69.0,
+       113.4
+      ],
+      [
+       32.5,
+       64.6,
+       113.4
+      ],
+      [
+       29.5,
+       56.5,
+       113.4
+      ],
+      [
+       27.9,
+       64.4,
+       113.4
+      ],
+      [
+       18.9,
+       43.1,
+       113.4
+      ],
+      [
+       20.5,
+       40.0,
+       112.0
+      ],
+      [
+       33.0,
+       75.6,
+       112.0
+      ],
+      [
+       48.2,
+       98.4,
+       112.0
+      ],
+      [
+       46.5,
+       96.2,
+       112.0
+      ],
+      [
+       26.2,
+       39.3,
+       112.0
+      ],
+      [
+       42.8,
+       98.4,
+       112.0
+      ],
+      [
+       19.8,
+       41.0,
+       112.0
+      ],
+      [
+       51.0,
+       101.9,
+       112.0
+      ],
+      [
+       17.4,
+       33.4,
+       112.0
+      ],
+      [
+       17.4,
+       33.8,
+       112.0
+      ],
+      [
+       24.4,
+       62.0,
+       111.0
+      ],
+      [
+       21.3,
+       39.8,
+       111.0
+      ],
+      [
+       31.5,
+       55.8,
+       110.8
+      ],
+      [
+       42.0,
+       78.2,
+       110.3
+      ],
+      [
+       32.8,
+       63.8,
+       110.3
+      ],
+      [
+       40.4,
+       63.4,
+       110.1
+      ],
+      [
+       20.0,
+       46.2,
+       109.2
+      ],
+      [
+       44.2,
+       93.8,
+       109.2
+      ],
+      [
+       14.0,
+       30.2,
+       109.2
+      ],
+      [
+       13.9,
+       31.4,
+       109.2
+      ]
+     ],
+     "linee": [
+      {
+       "k": 1.5,
+       "label": "1.5 times"
+      },
+      {
+       "k": 2.0,
+       "label": "twice as long"
+      }
+     ],
+     "nota": "Each point is a pair of zones, sized by morning cars. These are the 600 pairs with the most cars (83.2% of cars). Above a line, public transport takes more than that multiple of the car's time."
+    },
+    {
+     "tipo": "barre",
+     "titolo": "The 15 pairs with the most cars where public transport takes more than twice as long",
+     "unita": "cars",
+     "nota": "Morning cars on that pair (6 a.m. to 10 a.m., weekday), with the low factor 2.1. On the right, minutes by public transport versus by car.",
+     "voci": [
+      {
+       "label": "Torino, Madonna Del Pilone → Torino, Vanchiglia",
+       "valore": 894,
+       "tono": "rosso",
+       "testo": "894 cars: 35 versus 16 min"
+      },
+      {
+       "label": "Torino, Parella → Torino, San Paolo",
+       "valore": 763,
+       "tono": "rosso",
+       "testo": "763 cars: 30 versus 15 min"
+      },
+      {
+       "label": "Torino, Madonna Del Pilone → Torino, Centro",
+       "valore": 753,
+       "tono": "rosso",
+       "testo": "753 cars: 50 versus 23 min"
+      },
+      {
+       "label": "Torino, Mirafiori Sud → Rivoli",
+       "valore": 719,
+       "tono": "rosso",
+       "testo": "719 cars: 81 versus 31 min"
+      },
+      {
+       "label": "Grugliasco → Torino, Pozzo Strada",
+       "valore": 714,
+       "tono": "rosso",
+       "testo": "714 cars: 35 versus 17 min"
+      },
+      {
+       "label": "Torino, Vanchiglia → Torino, Aurora",
+       "valore": 615,
+       "tono": "rosso",
+       "testo": "615 cars: 27 versus 12 min"
+      },
+      {
+       "label": "Torino, Barriera di Milano → Torino, Vanchiglia",
+       "valore": 614,
+       "tono": "rosso",
+       "testo": "614 cars: 34 versus 15 min"
+      },
+      {
+       "label": "Venaria Reale → Torino, Madonna di Campagna",
+       "valore": 602,
+       "tono": "rosso",
+       "testo": "602 cars: 34 versus 17 min"
+      },
+      {
+       "label": "Torino, Centro → Torino, Borgata Vittoria",
+       "valore": 590,
+       "tono": "rosso",
+       "testo": "590 cars: 36 versus 17 min"
+      },
+      {
+       "label": "Moncalieri → Torino, Mirafiori Sud",
+       "valore": 568,
+       "tono": "rosso",
+       "testo": "568 cars: 55 versus 25 min"
+      },
+      {
+       "label": "Settimo Torinese → Torino, Madonna Del Pilone",
+       "valore": 544,
+       "tono": "rosso",
+       "testo": "544 cars: 86 versus 34 min"
+      },
+      {
+       "label": "Torino, Borgata Vittoria → Torino, Centro",
+       "valore": 541,
+       "tono": "rosso",
+       "testo": "541 cars: 39 versus 17 min"
+      },
+      {
+       "label": "Torino, Madonna di Campagna → Torino, Borgata Vittoria",
+       "valore": 540,
+       "tono": "rosso",
+       "testo": "540 cars: 22 versus 11 min"
+      },
+      {
+       "label": "Beinasco → Torino, Centro",
+       "valore": 520,
+       "tono": "rosso",
+       "testo": "520 cars: 69 versus 34 min"
+      },
+      {
+       "label": "Torino, Mirafiori Nord → Moncalieri",
+       "valore": 520,
+       "tono": "rosso",
+       "testo": "520 cars: 72 versus 33 min"
+      }
+     ]
+    }
+   ],
+   "calcolo": [
+    "Zones are those of the 2022 travel survey, with calculation points; each has up to 5 points.",
+    "Public transport: on foot, bus, tram and metro, departing between 7:45 and 8:15. We take the median.",
+    "Car: free-flow time times a peak factor, plus 5 minutes. There are two factors: 2.1 from Google Maps and 1.2 from the sensors.",
+    "Ratio = public transport time divided by car time. The bands are fixed and chosen before seeing the numbers.",
+    "The cars of a pair are the survey's car trips, departing between 6 and 10 a.m. on a weekday."
+   ],
+   "criteri": [
+    [
+     "Zones",
+     "71 travel-survey zones (23 in Turin), up to 5 points each"
+    ],
+    [
+     "Public transport",
+     "departure 07:45-8:15 on a weekday, median, walking at 4.8 km/h, at most 120 minutes"
+    ],
+    [
+     "Car, high limit",
+     "free-flow time × 1.2 (5T sensors) + 5 minutes"
+    ],
+    [
+     "Car, low limit",
+     "free-flow time × 2.1 (Google Maps, 6 routes) + 5 minutes"
+    ],
+    [
+     "Ratio bands",
+     "under 1.5, 1.5-2, 2-3, over 3 (fixed before the numbers)"
+    ]
+   ],
+   "limiti": [
+    "Outside Turin, trains and other operators are missing: pairs between suburban towns are not in the number.",
+    "Our road network ignores traffic lights and junctions. Car times are estimated between the slowdown measured by sensors and that of Google Maps.",
+    "Without metropolitan trains, where they exist, public transport looks slower than it is. The timetable is the scheduled one.",
+    "The survey is a sample. Trips within a zone and 653 pairs with no connection (5,616 cars) are not in the comparison."
+   ],
+   "extra": {
+    "titolo": "Large roads and nearby stops",
+    "punto": "95.3% of the km of large roads have a frequent stop nearby: the stop is there, but it is not enough.",
+    "grafico": {
+     "tipo": "pila",
+     "titolo": "Km of large roads in Turin: with or without public transport nearby",
+     "unita": "km",
+     "voci": [
+      {
+       "label": "with frequent stops nearby",
+       "valore": 327.3,
+       "tono": "verde"
+      },
+      {
+       "label": "with little public transport",
+       "valore": 16.0,
+       "tono": "rosso"
+      }
+     ]
+    }
+   }
+  },
   "numero_pubblico": 4,
   "_nome": "risultato8_riepilogo_mappa.json"
  },
@@ -6134,7 +10132,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-22T13:39:09+00:00",
+  "generato": "2026-10-22T14:07:54+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -6591,6 +10589,423 @@ window.SCHEDE_RISULTATI = [
     "totale": 10,
     "colorati": 1,
     "didascalia": "Circa 1 torinese su 10 vive in sezioni con fragilità alta e servizi bassi (9,5% dei residenti)."
+   }
+  },
+  "forma_en": {
+   "etichetta": "ESTIMATED / CENSUS",
+   "titolo": "1 Turin resident in 11 lives where fragility is high and services are few",
+   "domanda": "Do people pay for services? And who lives where services are few and fragility is high?",
+   "numero": {
+    "valore": 79598,
+    "unita": "",
+    "testo": "residents in sections with high fragility and low services: 9.5% of Turin residents"
+   },
+   "principale": {
+    "tipo": "dispersione",
+    "titolo": "House prices and services on foot, one OMI zone per point (46 zones)",
+    "xlabel": "“All services” score on foot, 0-100",
+    "ylabel": "house price, euro per m²",
+    "passo_x": 20,
+    "passo_y": 500,
+    "xnome": "servizi",
+    "ynome": "euro al m²",
+    "punti": [
+     [
+      82.2,
+      3650,
+      1093,
+      "Roma"
+     ],
+     [
+      79.2,
+      3425,
+      10989,
+      "Carlo Emanuele Ii"
+     ],
+     [
+      77.4,
+      2500,
+      2584,
+      "Solferino"
+     ],
+     [
+      73.9,
+      2600,
+      4598,
+      "Vinzaglio"
+     ],
+     [
+      80.9,
+      2600,
+      11934,
+      "Garibaldi"
+     ],
+     [
+      87.3,
+      2850,
+      2369,
+      "Castello"
+     ],
+     [
+      79.0,
+      2375,
+      4397,
+      "Rocca"
+     ],
+     [
+      67.7,
+      1950,
+      7157,
+      "San Salvario"
+     ],
+     [
+      59.9,
+      2700,
+      5486,
+      "Valentino"
+     ],
+     [
+      23.5,
+      2175,
+      7729,
+      "Michelotti"
+     ],
+     [
+      35.0,
+      2925,
+      7445,
+      "Crimea"
+     ],
+     [
+      69.0,
+      2675,
+      894,
+      "Duca D Aosta"
+     ],
+     [
+      61.5,
+      1500,
+      13406,
+      "Porta Palazzo - Maria Ausiliatrice"
+     ],
+     [
+      73.7,
+      2225,
+      18276,
+      "Vanchiglia - Borgo Rossini"
+     ],
+     [
+      51.8,
+      1625,
+      20157,
+      "Aurora"
+     ],
+     [
+      62.3,
+      2175,
+      22925,
+      "Dante"
+     ],
+     [
+      29.8,
+      2000,
+      16461,
+      "Vanchiglietta"
+     ],
+     [
+      70.5,
+      1700,
+      10462,
+      "Campidoglio - Martinetto"
+     ],
+     [
+      73.3,
+      2050,
+      11167,
+      "Adriano - Bernini - Rivoli"
+     ],
+     [
+      72.5,
+      2000,
+      18643,
+      "Cenisia"
+     ],
+     [
+      64.1,
+      2250,
+      29291,
+      "San Paolo"
+     ],
+     [
+      66.5,
+      2100,
+      5190,
+      "San Secondo"
+     ],
+     [
+      59.6,
+      2275,
+      7970,
+      "Galileo Ferraris"
+     ],
+     [
+      63.8,
+      2600,
+      15343,
+      "De Gasperi"
+     ],
+     [
+      72.8,
+      2600,
+      1405,
+      "Politecnico"
+     ],
+     [
+      81.0,
+      2350,
+      14491,
+      "Duchessa Jolanda"
+     ],
+     [
+      64.6,
+      2050,
+      22334,
+      "San Donato"
+     ],
+     [
+      46.7,
+      1550,
+      71762,
+      "Madonna Di Campagna"
+     ],
+     [
+      44.5,
+      1375,
+      4322,
+      "Spina 4 - Docks Dora"
+     ],
+     [
+      9.5,
+      1600,
+      10584,
+      "Barca - Bertolla"
+     ],
+     [
+      37.8,
+      1750,
+      26802,
+      "Nizza Millefonti"
+     ],
+     [
+      52.8,
+      1500,
+      46558,
+      "Filadelfia - Traiano"
+     ],
+     [
+      62.4,
+      1800,
+      56890,
+      "Santa Rita"
+     ],
+     [
+      43.9,
+      1425,
+      40047,
+      "Mirafiori Nord"
+     ],
+     [
+      57.6,
+      1050,
+      48588,
+      "Barriera Di Milano"
+     ],
+     [
+      33.4,
+      1045,
+      28202,
+      "Rebaudengo - Regio Parco"
+     ],
+     [
+      15.4,
+      1250,
+      25756,
+      "Corona Nord"
+     ],
+     [
+      21.3,
+      1300,
+      31262,
+      "Lucento - Vallette"
+     ],
+     [
+      55.5,
+      1925,
+      31541,
+      "Parella"
+     ],
+     [
+      39.5,
+      1675,
+      32025,
+      "Aeronautica - Lesna"
+     ],
+     [
+      55.8,
+      1925,
+      36080,
+      "Pozzo Strada"
+     ],
+     [
+      25.6,
+      1300,
+      33481,
+      "Mirafiori Sud"
+     ],
+     [
+      40.2,
+      2025,
+      11318,
+      "Spina 3 - Eurotorino"
+     ],
+     [
+      5.7,
+      2175,
+      9568,
+      "Collinare Villa Della Regina"
+     ],
+     [
+      4.6,
+      1875,
+      3563,
+      "Collinare Superga"
+     ],
+     [
+      6.0,
+      2000,
+      5865,
+      "Collinare Cavoretto"
+     ]
+    ],
+    "retta": {
+     "a": 1369.9,
+     "b": 12.88,
+     "label": "trend"
+    },
+    "nota": "Each point is a zone, sized by its inhabitants. The line is the trend: for every 10 extra service points, 129 euro per m² more."
+   },
+   "punti": [
+    "Price and services go together: Spearman correlation 0.61 over 46 zones (from 0.39 to 0.79).",
+    "5 zones are in double disadvantage: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. 129,285 people live there.",
+    "Near the metro homes cost a little more (+115 euro per m² on average, at the same distance from the centre). A difference between zones, not a causal effect."
+   ],
+   "altri": [
+    {
+     "tipo": "barre",
+     "titolo": "Residents of Turin's census sections by condition",
+     "unita": "residents",
+     "nota": "Inhabited sections of Turin, without the almost uninhabited areas. High fragility = index above 57.7 out of 100 (the highest 20%); low services = score up to 34.4 out of 100 (the lowest 20%).",
+     "voci": [
+      {
+       "label": "high fragility and low services",
+       "valore": 79598,
+       "tono": "rosso",
+       "testo": "79,598 (216 sections)"
+      },
+      {
+       "label": "high fragility only",
+       "valore": 142406,
+       "tono": "arancio",
+       "testo": "142,406 (483 sections)"
+      },
+      {
+       "label": "low services only",
+       "valore": 100600,
+       "tono": "blu",
+       "testo": "100,600 (489 sections)"
+      },
+      {
+       "label": "neither",
+       "valore": 517053,
+       "tono": "verde",
+       "testo": "517,053 (2,332 sections)"
+      }
+     ]
+    },
+    {
+     "tipo": "barre_diff",
+     "titolo": "How much more homes cost near the metro (with metro minus without)",
+     "unita": "€/m²",
+     "nota": "By distance band from Piazza Castello (2 km): average price of zones with an M1 stop within 600 m minus that of zones without, at the same distance from the centre. The number of zones is shown on each bar. A difference between zones, not an effect of the metro.",
+     "voci": [
+      {
+       "label": "0-2 km from the centre",
+       "valore": 73,
+       "testo": "(6 zones with metro, 8 without)"
+      },
+      {
+       "label": "2-4 km from the centre",
+       "valore": 219,
+       "testo": "(3 zones with metro, 16 without)"
+      },
+      {
+       "label": "4-6 km from the centre",
+       "valore": 52,
+       "testo": "(2 zones with metro, 10 without)"
+      },
+      {
+       "label": "6-8 km from the centre",
+       "valore": null,
+       "testo": "(0 zones with metro, 1 without)"
+      }
+     ]
+    }
+   ],
+   "calcolo": [
+    "Unit: the 46 OMI zones of Turin with at least 500 inhabitants. Sections are added up within the zone, weighted by inhabitants.",
+    "Services: “All services” score within a 15-minute walk. Fragility: 2021 census index (work, education, housing, older people).",
+    "Price: middle of the OMI range for residential homes. Trend: least-squares line.",
+    "Double disadvantage = fragility in the highest 20% and services in the lowest 20%. Thresholds fixed before the numbers: 49.8 and 33.4.",
+    "Metro: zones with an M1 stop within 600 m of the centre, compared with the others at the same distance from Piazza Castello."
+   ],
+   "criteri": [
+    [
+     "Zones",
+     "46 OMI zones of Turin, at least 500 inhabitants"
+    ],
+    [
+     "High fragility",
+     "index above 57.7 out of 100 (sections) / 49.8 (zones)"
+    ],
+    [
+     "Low services",
+     "score up to 34.4 out of 100 (sections) / 33.4 (zones)"
+    ],
+    [
+     "Metro nearby",
+     "M1 stop within 600 m of the zone centre"
+    ],
+    [
+     "Bands",
+     "2 km from Piazza Castello"
+    ]
+   ],
+   "limiti": [
+    "Prices are OMI quotations, not actual sales.",
+    "There is only one semester of quotations (2025/2).",
+    "OMI zones are large: prices and services vary a lot within a zone.",
+    "The fragility index is not income: it measures work, education, crowding and older people."
+   ],
+   "mappa": {
+    "id": "vulnerabilita",
+    "nota": "Vista «Doppio svantaggio» nel tema Fragilità sociale.",
+    "vista": "doppio"
+   },
+   "unita": {
+    "tipo": "omini",
+    "totale": 10,
+    "colorati": 1,
+    "didascalia": "About 1 in 10 Turin residents live in sections with high fragility and low services (9.5% of residents)."
    }
   },
   "numero_pubblico": 5,

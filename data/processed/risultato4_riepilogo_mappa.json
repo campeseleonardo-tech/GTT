@@ -565,7 +565,7 @@
     "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
     "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-22T13:39:09+00:00",
+  "generato": "2026-10-22T14:07:54+00:00",
   "avviso": [
     "Dati [MISURATO] — pochi giorni",
     "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-20: il GPS c'è per il 78% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -959,6 +959,242 @@
           },
           {
             "label": "sera (19-24)",
+            "valore": 9.65,
+            "prima": 8.2
+          }
+        ]
+      }
+    }
+  },
+  "forma_en": {
+    "etichetta": "MEASURED",
+    "titolo": "Serious delays are about 5% of stop arrivals",
+    "domanda": "How often are GTT vehicles late or bunched together?",
+    "numero": {
+      "valore": 5.44,
+      "unita": "%",
+      "testo": "of weekday arrivals are more than 10 minutes late"
+    },
+    "principale": {
+      "tipo": "pila100",
+      "titolo": "How vehicles arrive",
+      "unita": "%",
+      "nota": "Each bar is a type of day: 100% of arrivals.",
+      "righe": [
+        {
+          "label": "weekday",
+          "voci": [
+            {
+              "label": "early (more than 1 minute)",
+              "valore": 37.9,
+              "tono": "blu"
+            },
+            {
+              "label": "on time",
+              "valore": 48.0,
+              "tono": "verde"
+            },
+            {
+              "label": "5 to 10 minutes late",
+              "valore": 8.66,
+              "tono": "giallo"
+            },
+            {
+              "label": "more than 10 minutes late",
+              "valore": 5.44,
+              "tono": "rosso"
+            }
+          ]
+        },
+        {
+          "label": "Saturday",
+          "voci": [
+            {
+              "label": "early (more than 1 minute)",
+              "valore": 34.3,
+              "tono": "blu"
+            },
+            {
+              "label": "on time",
+              "valore": 48.9,
+              "tono": "verde"
+            },
+            {
+              "label": "5 to 10 minutes late",
+              "valore": 9.7,
+              "tono": "giallo"
+            },
+            {
+              "label": "more than 10 minutes late",
+              "valore": 7.1,
+              "tono": "rosso"
+            }
+          ]
+        },
+        {
+          "label": "Sunday",
+          "voci": [
+            {
+              "label": "early (more than 1 minute)",
+              "valore": 37.4,
+              "tono": "blu"
+            },
+            {
+              "label": "on time",
+              "valore": 50.6,
+              "tono": "verde"
+            },
+            {
+              "label": "5 to 10 minutes late",
+              "valore": 7.89,
+              "tono": "giallo"
+            },
+            {
+              "label": "more than 10 minutes late",
+              "valore": 4.11,
+              "tono": "rosso"
+            }
+          ]
+        }
+      ]
+    },
+    "punti": [
+      "More than 10 minutes late: 5.4% of arrivals at every stop, 3.9% if we look only at departure.",
+      "The line with the most delays is line 17: 38.1% of weekday arrivals more than 5 minutes late.",
+      "Trams bunch more than buses: 26.7% of vehicle pairs versus 17.1% (weekday)."
+    ],
+    "altri": [
+      {
+        "tipo": "barre",
+        "titolo": "Us and GTT: arrivals more than 10 minutes late",
+        "unita": "%",
+        "nota": "Bars = weekly average (weekday 5 : Saturday 1 : Sunday 1). On weekdays: at every stop 5.44%, at the first stop 3.86%, mid-trip 5.29%, off-peak 5.27%. GTT: year 2025, all lines, method not published.",
+        "voci": [
+          {
+            "label": "GTT (2025, whole year)",
+            "valore": 2.3
+          },
+          {
+            "label": "us, at every stop",
+            "valore": 5.49,
+            "tono": "rosso"
+          },
+          {
+            "label": "us, first stop only",
+            "valore": 3.92,
+            "tono": "rosso"
+          },
+          {
+            "label": "us, mid-trip only",
+            "valore": 5.24,
+            "tono": "rosso"
+          },
+          {
+            "label": "us, outside peak hours",
+            "valore": 5.3,
+            "tono": "rosso"
+          }
+        ]
+      },
+      {
+        "tipo": "linea",
+        "titolo": "Delay over 5 minutes, by time of day (weekday)",
+        "unita": "%",
+        "categorie": [
+          "morning peak (7-9)",
+          "daytime (9-16)",
+          "evening peak (16-19)",
+          "evening (19-24)"
+        ],
+        "serie": [
+          {
+            "label": "late arrivals",
+            "valori": [
+              12.3,
+              15.2,
+              16.8,
+              15.6
+            ]
+          }
+        ]
+      }
+    ],
+    "calcolo": [
+      "A Raspberry Pi records the GPS position of GTT vehicles every minute.",
+      "An arrival is the moment the GPS is less than 60 metres from the stop.",
+      "The delay is that moment minus the official timetable.",
+      "Early: more than 1 minute; late: more than 5 minutes.",
+      "Bunching: two vehicles right behind each other. Gap: an interval twice the planned one. Frequent lines only."
+    ],
+    "criteri": [
+      [
+        "Period",
+        "2026-10-10 - 2026-10-20"
+      ],
+      [
+        "Arrivals with a valid GPS fix",
+        "1,300,434 (78.3% of those scheduled for the trips seen)"
+      ],
+      [
+        "Delay threshold",
+        "5 min"
+      ],
+      [
+        "Earliness threshold",
+        "-1 min"
+      ],
+      [
+        "Distance from the stop",
+        "within 60 m"
+      ]
+    ],
+    "limiti": [
+      "Few days: 6 weekdays, 2 Saturdays and 1 Sunday, not all complete.",
+      "Urban lines seen by the GPS only, from 5 a.m. to midnight.",
+      "The GPS covers about 78% of scheduled arrivals; trips never seen are not counted.",
+      "We count how often there is a delay, not how many people are waiting."
+    ],
+    "mappa": {
+      "id": "puntualita",
+      "nota": "Nella mappa, tema «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."
+    },
+    "unita": {
+      "tipo": "quadratini",
+      "totale": 100,
+      "colorati": 14,
+      "didascalia": "Out of 100 weekday arrivals, about 14 are more than 5 minutes late (14.1%); more than 10 minutes late, about 5."
+    },
+    "confronto": [
+      "GTT reports 2.3% over 10 minutes in 2025: yearly average, all lines, method not published.",
+      "We measure a few days in October on urban lines: 5.5% at every stop, 3.9% at departure.",
+      "Even counting at departure like GTT, we find 3.9%; the rest of the difference is season and method."
+    ],
+    "extra": {
+      "titolo": "How long you wait at the stop",
+      "punto": "On frequent lines you wait 1.6 to 2.4 minutes more than the timetable promises (weekday).",
+      "grafico": {
+        "tipo": "barre",
+        "titolo": "Average wait at the stop, by time of day (weekday)",
+        "unita": "min",
+        "nota": "Light bar = promised wait, dark bar = actual wait (low estimate).",
+        "voci": [
+          {
+            "label": "morning peak (7-9)",
+            "valore": 5.85,
+            "prima": 4.53
+          },
+          {
+            "label": "daytime (9-16)",
+            "valore": 5.26,
+            "prima": 3.75
+          },
+          {
+            "label": "evening peak (16-19)",
+            "valore": 6.54,
+            "prima": 4.44
+          },
+          {
+            "label": "evening (19-24)",
             "valore": 9.65,
             "prima": 8.2
           }

@@ -24,7 +24,7 @@ comune.OUT_JS = out / "data" / "schede_risultati.js"
 
 def finta(n, titolo, tag):
     def scheda():
-        return {"risultato": n, "titolo": titolo, "tag": tag, "domanda": "Domanda finta?", "scenari": [{"nome": "Oggi", "numeri": [m.num("x", 1, "u")], "nota": ""}],
+        return {"risultato": n, "titolo": titolo, "tag": tag, "domanda": "Domanda finta?", "scenari": [{"nome": "Oggi", "numeri": [comune.num("x", 1, "u")], "nota": ""}],
                 "grafici": [], "mappa": None}
     return scheda
 
@@ -32,7 +32,7 @@ def finta(n, titolo, tag):
 def forma_finta(s):
     return {"etichetta": s["tag"], "titolo": f"Titolo finto del risultato {s['risultato']}", "domanda": "Domanda finta?",
             "numero": {"valore": 12, "unita": "%", "testo": "di prova"},
-            "principale": {"tipo": "barre", "titolo": "Grafico finto", "unita": "%", "voci": [m.voce("a", 40), m.voce("b", 20, tono="rosso")]},
+            "principale": {"tipo": "barre", "titolo": "Grafico finto", "unita": "%", "voci": [comune.voce("a", 40), comune.voce("b", 20, tono="rosso")]},
             "punti": ["Uno.", "Due.", "Tre."], "altri": [], "calcolo": ["Calcolo finto."], "criteri": [["a", "b"]], "limiti": ["Limite finto."],
             "english": ["One.", "Two.", "Three."]}
 

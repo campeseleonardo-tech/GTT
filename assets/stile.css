@@ -182,3 +182,12 @@ table.param td:first-child{color:var(--muted);width:40%}
 .unita .didascalia{margin:6px 0 0;font-size:14px;color:var(--muted)}
 .unita .didascalia b{color:var(--ink)}
 .tono-verde{background:var(--vr-verde)}.tono-giallo{background:var(--vr-giallo)}.tono-rosso{background:var(--vr-rosso)}.tono-blu{background:var(--neu-blu)}.tono-arancio{background:var(--neu-arancio)}.tono-grigio{background:var(--pila-3)}
+
+/* bottone IT / EN nella barra */
+.lingua{display:flex;border:1px solid rgba(255,255,255,.45);border-radius:6px;overflow:hidden}
+.lingua button{border:0;background:transparent;color:var(--su-barra);font:600 13px/1 var(--font-testi);padding:7px 10px;cursor:pointer;letter-spacing:.04em}
+.lingua button+button{border-left:1px solid rgba(255,255,255,.45)}
+.lingua button[aria-pressed="true"]{background:var(--oro-su-barra);color:#0b2559}
+.lingua button:hover{background:rgba(255,255,255,.14)}
+.lingua button[aria-pressed="true"]:hover{background:var(--oro-su-barra)}
+@media (max-width:560px){ .barra-alta .dentro{gap:6px 12px} .lingua{margin-left:auto} }
