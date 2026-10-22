@@ -12,6 +12,9 @@ Risultati: **1** servizi · **2** metro di notte (**in pausa**, scheda nascosta)
 **4** puntualità e attese (con l'ex 9) · **6** parcheggi per lasciare l'auto · ~~7 bici~~ (tolto) · **8** traffico. Un documento per risultato: `docs/R1_servizi.md`,
 `R2_metro_notte.md`, `R4_puntualita.md`, `R6_parcheggi.md`, `R8_traffico.md` (domanda, criteri, numeri, limiti, comando per rifarlo). Scenari in `data/scenari/<nome>.json`,
 avviso standard: «SIMULAZIONE SU ORARIO PROGRAMMATO — non tiene conto di traffico, ritardi, capienza, domanda reale.»
+**Racconto per il portfolio** (Leo, 22/10): il progetto mette alla prova sui dati veri di Torino quello che la sua tesi triennale
+(2020, Industry 4.0 e smart city, solo letteratura) prometteva: «la tesi era la promessa, il progetto è la verifica» (limiti dell'IoT e
+della qualità dei dati). Cornici, temi in comune, dati da verificare e frase per il post in `docs/TESI_E_PROGETTO.md`.
 
 ## 2. Regole di lavoro
 

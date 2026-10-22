@@ -12,6 +12,8 @@ solo per pochi garage.
 
 Numeri (calcolo sul PC): mediana dei 12 punti **21-28 minuti**; i più promettenti sono vicini alla metro (Metro Massaua 7-15, e fra gli interscambi Fermi 7-17 e Venchi Unica 9-17); i più lontani 33-44 (Leonardo da Vinci). Stura è pieno anche se servono 17-27 minuti: chi lo usa sceglie per altri motivi (costo, ZTL, stress del traffico), che il calcolo dei tempi non vede.
 
+Confronto con la letteratura (da verificare sulla fonte originale, vedi `docs/TESI_E_PROGETTO.md`): in media servono circa 7,8 minuti per trovare parcheggio, molto meno dei 21-28 minuti di pareggio.
+
 Perché questa misura: con la classe «1,5 volte» il risultato passava da 1 punto su 12 (5 minuti di parcheggio) a 10 su 12 (10 minuti). Il risultato vero è quindi la soglia stessa, ed è la conclusione classica sui parcheggi di scambio: funzionano se parcheggiare in centro è scomodo o caro.
 
 - Interscambi esistenti: pieno e con bus competitivo, Stura; poco usati e senza bus competitivo, Caio Mario e Sofia (Caio Mario ha il contatore fermo).
