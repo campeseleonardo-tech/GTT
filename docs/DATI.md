@@ -10,44 +10,45 @@ Dove deve stare ogni file di `data/`: in git, nella Release di GitHub, come rias
 
 | Posto | File | Peso (MB) | Cosa vuol dire |
 |---|---|---|---|
-| git | 255 | 127,0 | dentro il repository |
-| Release | 539 | 1.006,7 | zip nella Release di GitHub |
+| git | 247 | 121,2 | dentro il repository |
+| Release | 221 | 869,0 | zip nella Release di GitHub |
 | riassunto | 2 | 2.395,4 | dello storico si tengono solo i riassunti (script 97) |
-| fuori | 406 | 315,0 | nessuno lo cita: non si pubblica |
+| fonte | 336 | 147,7 | non si pubblica: si riscarica dalla fonte (IMQ, OMI) |
+| fuori | 396 | 310,8 | nessuno lo cita: non si pubblica |
 | **tutto** | 1202 | 3.844,2 | |
 
 Avvisi: file in «git» sopra 50 MB: 0.
 
 ### Per cartella
 
-| Cartella | File | Peso (MB) | git | Release | riassunto | fuori | Deciso |
+| Cartella | File | Peso (MB) | git | Release | riassunto | fonte | fuori |
 |---|---|---|---|---|---|---|---|
-| `data/(radice di data)` | 29 | 2.487,5 | 4 | 2 | 1 | 22 | |
-| `data/IMQ2013-22_zone_camp_TO` | 6 | 0,1 | 0 | 0 | 0 | 6 | |
-| `data/IMQ2022_opendata_web` | 1 | 59,9 | 0 | 1 | 0 | 0 | |
-| `data/IMQ2022_zone_camp_noTO` | 7 | 5,8 | 0 | 0 | 0 | 7 | |
-| `data/backup` | 2 | 22,6 | 0 | 0 | 0 | 2 | |
-| `data/backup/risultato6_v2_prima_correzioni` | 19 | 18,1 | 0 | 0 | 0 | 19 | |
-| `data/catalogo` | 6 | 4,4 | 5 | 1 | 0 | 0 | |
-| `data/otp/jdk-25.0.4.1+1-jre` | 320 | 179,1 | 0 | 0 | 0 | 320 | |
-| `data/otp/rete` | 2 | 32,4 | 0 | 2 | 0 | 0 | |
-| `data/processed` | 59 | 79,1 | 45 | 5 | 0 | 9 | |
-| `data/processed/accessibilita_parziale` | 17 | 1,1 | 0 | 0 | 0 | 17 | |
-| `data/processed/accessibilita_parziale_test` | 3 | 0,0 | 0 | 0 | 0 | 3 | |
-| `data/processed/catalogo` | 7 | 4,4 | 6 | 1 | 0 | 0 | |
-| `data/processed/imq` | 6 | 11,1 | 5 | 1 | 0 | 0 | |
-| `data/processed/rapporto_gtt` | 105 | 5,4 | 104 | 1 | 0 | 0 | |
-| `data/processed/risultato6_v2` | 24 | 19,6 | 24 | 0 | 0 | 0 | |
-| `data/processed/traffico_c` | 37 | 62,4 | 32 | 4 | 1 | 0 | |
-| `data/processed/traffico_d` | 40 | 166,1 | 28 | 12 | 0 | 0 | |
-| `data/raw` | 45 | 38,9 | 0 | 45 | 0 | 0 | |
-| `data/raw/IMQ2022_opendata_web` | 2 | 59,9 | 0 | 2 | 0 | 0 | |
-| `data/raw/Redditi_e_principali_variabili_IRPEF_su_base_comunale_CSV_2024` | 1 | 0,1 | 0 | 1 | 0 | 0 | |
-| `data/raw/ex_quartieri` | 6 | 0,1 | 0 | 6 | 0 | 0 | |
-| `data/raw/istat` | 139 | 557,3 | 0 | 139 | 0 | 0 | |
-| `data/raw/omi_2025_2` | 314 | 10,9 | 0 | 314 | 0 | 0 | |
-| `data/ref` | 2 | 0,0 | 1 | 0 | 0 | 1 | |
-| `data/scenari` | 3 | 17,8 | 1 | 2 | 0 | 0 | |
+| `data/(radice di data)` | 29 | 2.487,5 | 1 | 2 | 1 | 0 | 25 |
+| `data/IMQ2013-22_zone_camp_TO` | 6 | 0,1 | 0 | 0 | 0 | 6 | 0 |
+| `data/IMQ2022_opendata_web` | 1 | 59,9 | 0 | 0 | 0 | 1 | 0 |
+| `data/IMQ2022_zone_camp_noTO` | 7 | 5,8 | 0 | 0 | 0 | 7 | 0 |
+| `data/backup` | 2 | 22,6 | 0 | 0 | 0 | 0 | 2 |
+| `data/backup/risultato6_v2_prima_correzioni` | 19 | 18,1 | 0 | 0 | 0 | 0 | 19 |
+| `data/catalogo` | 6 | 4,4 | 5 | 1 | 0 | 0 | 0 |
+| `data/otp/jdk-25.0.4.1+1-jre` | 320 | 179,1 | 0 | 0 | 0 | 0 | 320 |
+| `data/otp/rete` | 2 | 32,4 | 0 | 2 | 0 | 0 | 0 |
+| `data/processed` | 59 | 79,1 | 45 | 5 | 0 | 0 | 9 |
+| `data/processed/accessibilita_parziale` | 17 | 1,1 | 0 | 0 | 0 | 0 | 17 |
+| `data/processed/accessibilita_parziale_test` | 3 | 0,0 | 0 | 0 | 0 | 0 | 3 |
+| `data/processed/catalogo` | 7 | 4,4 | 6 | 1 | 0 | 0 | 0 |
+| `data/processed/imq` | 6 | 11,1 | 0 | 0 | 0 | 6 | 0 |
+| `data/processed/rapporto_gtt` | 105 | 5,4 | 104 | 1 | 0 | 0 | 0 |
+| `data/processed/risultato6_v2` | 24 | 19,6 | 24 | 0 | 0 | 0 | 0 |
+| `data/processed/traffico_c` | 37 | 62,4 | 32 | 4 | 1 | 0 | 0 |
+| `data/processed/traffico_d` | 40 | 166,1 | 28 | 12 | 0 | 0 | 0 |
+| `data/raw` | 45 | 38,9 | 0 | 45 | 0 | 0 | 0 |
+| `data/raw/IMQ2022_opendata_web` | 2 | 59,9 | 0 | 0 | 0 | 2 | 0 |
+| `data/raw/Redditi_e_principali_variabili_IRPEF_su_base_comunale_CSV_2024` | 1 | 0,1 | 0 | 1 | 0 | 0 | 0 |
+| `data/raw/ex_quartieri` | 6 | 0,1 | 0 | 6 | 0 | 0 | 0 |
+| `data/raw/istat` | 139 | 557,3 | 0 | 139 | 0 | 0 | 0 |
+| `data/raw/omi_2025_2` | 314 | 10,9 | 0 | 0 | 0 | 314 | 0 |
+| `data/ref` | 2 | 0,0 | 1 | 0 | 0 | 0 | 1 |
+| `data/scenari` | 3 | 17,8 | 1 | 2 | 0 | 0 | 0 |
 
 ### Per file
 
@@ -58,32 +59,32 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 | File | MB | Legge | Scrive | Posto | Nota |
 |---|---|---|---|---|---|
 | `STOP_RACCOLTA.txt` | 0,0 | supervisore.py | supervisore.py | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
-| `agg_cache.json` | 1,5 | RACCOLTA_GIORNALIERA.bat | 06_dati_live.py, RACCOLTA_GIORNALIERA.bat | git | nome |
-| `get_fdt.xml` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `get_pk.xml` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `live.js` | 0,0 | 06_dati_live.py, RACCOLTA_GIORNALIERA.bat, supervisore.py | RACCOLTA_GIORNALIERA.bat | git | nome |
+| `agg_cache.json` | 1,5 | RACCOLTA_GIORNALIERA.bat | 06_dati_live.py, RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
+| `get_fdt.xml` | 0,0 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `get_pk.xml` | 0,0 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `live.js` | 0,0 | 06_dati_live.py, RACCOLTA_GIORNALIERA.bat, supervisore.py | RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
 | `rapporto_di_sostenibilita_2025.pdf` | 3,1 | 31_rapporto_fatti.py | 30_rapporto_estrai.py | Release | archivio o documento grezzo (zip, pdf, pbf...): non va in git; nome |
-| `replay_2026-10-04.js` | 3,6 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-05.js` | 6,7 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-06.js` | 5,2 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-07.js` | 4,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-08.js` | 6,2 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-09.js` | 3,1 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-10.js` | 3,1 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-11.js` | 3,6 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-12.js` | 5,7 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-13.js` | 5,1 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-14.js` | 6,4 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-15.js` | 6,2 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-16.js` | 6,8 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-17.js` | 4,5 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-18.js` | 0,6 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-19.js` | 2,5 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-20.js` | 6,6 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-21.js` | 6,6 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `replay_2026-10-22.js` | 1,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `replay_2026-10-04.js` | 3,6 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-05.js` | 6,7 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-06.js` | 5,2 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-07.js` | 4,0 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-08.js` | 6,2 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-09.js` | 3,1 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-10.js` | 3,1 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-11.js` | 3,6 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-12.js` | 5,7 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-13.js` | 5,1 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-14.js` | 6,4 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-15.js` | 6,2 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-16.js` | 6,8 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-17.js` | 4,5 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-18.js` | 0,6 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-19.js` | 2,5 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-20.js` | 6,6 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-21.js` | 6,6 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
+| `replay_2026-10-22.js` | 1,0 | — | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto |
 | `schede_risultati.js` | 0,1 | RIFAI_MAPPA_E_SCHEDE.bat, index.html, prova_pagine.py, prova_scheda_case.py (+2) | schede_risultati.py | git | nome |
-| `stat.js` | 0,2 | 04_genera_mappa.py, 06_dati_live.py, 26_velocita_5t.py, RACCOLTA_GIORNALIERA.bat (+1) | RACCOLTA_GIORNALIERA.bat | git | nome |
+| `stat.js` | 0,2 | 04_genera_mappa.py, 06_dati_live.py, 26_velocita_5t.py, RACCOLTA_GIORNALIERA.bat (+1) | RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
 | `storico_backup.sqlite` | 2.395,3 | 04_genera_mappa.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py (+6) | — | riassunto | storico della raccolta: si tengono i riassunti (script 97); nome |
 | `supervisore_stato.json` | 0,0 | — | supervisore.py | Release | sopra 5 MB, letto solo dagli script; nome |
 
@@ -91,30 +92,30 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 | File | MB | Legge | Scrive | Posto | Nota |
 |---|---|---|---|---|---|
-| `IMQ2013-22_zone_camp_TO.cpg` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2013-22_zone_camp_TO.dbf` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2013-22_zone_camp_TO.prj` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2013-22_zone_camp_TO.qmd` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2013-22_zone_camp_TO.shp` | 0,1 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2013-22_zone_camp_TO.shx` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `IMQ2013-22_zone_camp_TO.cpg` | 0,0 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2013-22_zone_camp_TO.dbf` | 0,0 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2013-22_zone_camp_TO.prj` | 0,0 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2013-22_zone_camp_TO.qmd` | 0,0 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2013-22_zone_camp_TO.shp` | 0,1 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2013-22_zone_camp_TO.shx` | 0,0 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
 
 #### `data/IMQ2022_opendata_web`
 
 | File | MB | Legge | Scrive | Posto | Nota |
 |---|---|---|---|---|---|
-| `IMQ2022_opendata_web.accdb` | 59,9 | 13_esporta_imq.ps1 | — | Release | archivio o documento grezzo (zip, pdf, pbf...): non va in git; nome |
+| `IMQ2022_opendata_web.accdb` | 59,9 | 13_esporta_imq.ps1 | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
 
 #### `data/IMQ2022_zone_camp_noTO`
 
 | File | MB | Legge | Scrive | Posto | Nota |
 |---|---|---|---|---|---|
-| `IMQ2022_zone_camp_noTO.cpg` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2022_zone_camp_noTO.dbf` | 0,2 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2022_zone_camp_noTO.prj` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2022_zone_camp_noTO.qix` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2022_zone_camp_noTO.qmd` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2022_zone_camp_noTO.shp` | 5,5 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
-| `IMQ2022_zone_camp_noTO.shx` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `IMQ2022_zone_camp_noTO.cpg` | 0,0 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2022_zone_camp_noTO.dbf` | 0,2 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2022_zone_camp_noTO.prj` | 0,0 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2022_zone_camp_noTO.qix` | 0,0 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2022_zone_camp_noTO.qmd` | 0,0 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2022_zone_camp_noTO.shp` | 5,5 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
+| `IMQ2022_zone_camp_noTO.shx` | 0,0 | — | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo) |
 
 #### `data/backup`
 
@@ -219,12 +220,12 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 | File | MB | Legge | Scrive | Posto | Nota |
 |---|---|---|---|---|---|
-| `comuni.csv` | 0,0 | 13_esporta_imq.ps1, 14_prepara_imq.py, 15_prepara_zone_imq.py | — | git | nome |
-| `interviste.csv` | 4,0 | 13_esporta_imq.ps1, 14_prepara_imq.py | — | git | nome |
-| `mezzi.csv` | 0,0 | 13_esporta_imq.ps1, 14_prepara_imq.py, 16_prepara_imq_mappa.py | — | git | nome |
-| `scopi.csv` | 0,0 | 13_esporta_imq.ps1 | — | git | nome |
-| `spostamenti.csv` | 7,1 | 13_esporta_imq.ps1, 14_prepara_imq.py, 16_prepara_imq_mappa.py, 40_domanda_imq.py (+5) | — | Release | sopra 5 MB, letto solo dagli script; nome |
-| `zone_camp.csv` | 0,0 | 13_esporta_imq.ps1, 14_prepara_imq.py | — | git | nome |
+| `comuni.csv` | 0,0 | 13_esporta_imq.ps1, 14_prepara_imq.py, 15_prepara_zone_imq.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
+| `interviste.csv` | 4,0 | 13_esporta_imq.ps1, 14_prepara_imq.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
+| `mezzi.csv` | 0,0 | 13_esporta_imq.ps1, 14_prepara_imq.py, 16_prepara_imq_mappa.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
+| `scopi.csv` | 0,0 | 13_esporta_imq.ps1 | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
+| `spostamenti.csv` | 7,1 | 13_esporta_imq.ps1, 14_prepara_imq.py, 16_prepara_imq_mappa.py, 40_domanda_imq.py (+5) | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
+| `zone_camp.csv` | 0,0 | 13_esporta_imq.ps1, 14_prepara_imq.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
 
 #### `data/processed/rapporto_gtt`
 
@@ -275,8 +276,8 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 | File | MB | Legge | Scrive | Posto | Nota |
 |---|---|---|---|---|---|
-| `IMQ2022_opendata_web.accdb` | 59,9 | 13_esporta_imq.ps1 | — | Release | dato grezzo (controllare la licenza in docs/FONTI_DATI.md); nome |
-| `IMQ2022_opendata_web_metodologia.txt` | 0,0 | 13_esporta_imq.ps1 | — | Release | dato grezzo (controllare la licenza in docs/FONTI_DATI.md); via cartella |
+| `IMQ2022_opendata_web.accdb` | 59,9 | 13_esporta_imq.ps1 | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
+| `IMQ2022_opendata_web_metodologia.txt` | 0,0 | 13_esporta_imq.ps1 | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); via cartella |
 
 #### `data/raw/Redditi_e_principali_variabili_IRPEF_su_base_comunale_CSV_2024`
 
@@ -301,7 +302,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/raw/omi_2025_2`
 
-314 file, 10,9 MB (Release: 314). Letti da: 08_prepara_omi.py. Scritti da: —.
+314 file, 10,9 MB (fonte: 314). Letti da: 08_prepara_omi.py. Scritti da: —.
 
 #### `data/ref`
 
