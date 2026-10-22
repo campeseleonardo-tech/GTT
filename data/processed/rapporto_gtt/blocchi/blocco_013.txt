@@ -1,0 +1,274 @@
+=== PAGINA PDF 44 / STAMPATA 42 ===
+
+Temi rilevanti (IRO)                                  Descrizione tema                                                           Caratteristiche
+[Temi / Sotto temi /                                  [Impatti/Rischi/Opportunità]                                               [Impatti/Rischi/Opportunità]
+Sotto-sotto temi]
+Temi ambientali
+
+E1 Cambiamenti climatici
+Energia                                               Impatti                                                                    Effettivo
+                                                      Consumo di energia (risorse naturali - fonti energetiche)                  Negativo
+                                                      necessaria per l’utilizzo dei mezzi di trasporto pubblico                  Breve-medio-lungo
+                                                      (flotta).                                                                  Da operazioni proprie e lungo la catena del valore
+
+                                                      Impatti da consumo energetico indiretto lungo l’intera
+                                                      catena del valore - es: produzione di carburante, approv-
+                                                      vigionamento dei materiali, gestione e smaltimento dei
+                                                      rifiuti prodotti.
+                                                      Rischi                                                                     Breve-medio termine
+                                                      Rischio di transizione di mercato dovuto al potenziale                     Da operazioni proprie e lungo la catena del valore
+                                                      aumento dei costi delle fonti energetiche (costi operati-
+                                                      vi - OPEX), con specifico riferimento ai carburanti fossili
+                                                      utilizzati per la flotta degli autobus, tenuto conto dell'en-
+                                                      trata in vigore del Regolamento EU ETS 2 e dello scenario
+                                                      internazionale.
+Mitigazione dei cambiamenti                           Impatti                                                                    Effettivo
+climatici                                             Impatti ambientali negativi derivanti dalle emissioni di                   Negativo
+                                                      GHG generate dalle attività dirette di GTT per la gestione                 Breve-medio-lungo termine
+                                                      del trasporto pubblico, e dalle emissioni indirette di GHG,                Da operazioni proprie e lungo la catena del valore
+                                                      lungo l’intera catena del valore - es.  produzione di carbu-
+                                                      rante, approvvigionamento delle materie prime gestione e
+                                                      smaltimento dei rifiuti prodotti.
+                                                      Rischi                                                                     Medio-lungo termine
+                                                      Rischi di transizione normativa causati dai piani di rinnovo
+                                                      del parco mezzi (flotta a minore impatto ambientale), con
+                                                      possibili ricadute su capacità di finanziamento investi-                   Da operazioni proprie e lungo la catena del valore
+                                                      menti (CAPEX) e posizione finanziaria. Rischi anche tec-
+                                                      nologici e di mercato, con potenziali effetti sulla continuità
+                                                      operativa di GTT. [Rischi mitigati da incentivi governativi
+                                                      ed europei per il rinnovo delle flotte a zero emissioni].
+                                                      Opportunità                                                                Medio-lungo termine
+                                                      Opportunità di mercato derivanti da un contesto di transi-                 Da operazioni proprie e lungo la catena del valore
+                                                      zione normativa in cui le pubbliche amministrazioni disin-
+                                                      centivano l’uso dei mezzi privati e promuovono l’utilizzo
+                                                      del trasporto pubblico. Conseguente potenziale incremen-
+                                                      to della domanda dei servizi GTT.
+Adattamento ai cambiamenti                            Rischi                                                                     Breve-medio-lungo termine
+climatici                                             Rischi fisici (acuti e cronici) legati ai cambiamenti clima-               Da operazioni proprie e lungo la catena del valore
+                                                      tici, che possono manifestarsi nell’area di Torino o nelle
+                                                      zone in cui si trovano le fonti di approvvigionamento della
+                                                      supply chain, con un possibile incremento dei costi ope-
+                                                      rativi (OPEX) e degli investimenti CAPEX.
+
+E2 Inquinamento
+Inquinamento dell'aria                                Impatti                                                                    Effettivo
+                                                      Impatto negativo diretto sulla qualità dell’aria causato                   Negativo
+                                                      dall’emissione di agenti inquinanti derivanti dalla combu-                 Breve-medio-lungo termine
+                                                      stione dei carburanti della flotta mezzi e combustibili per                Da operazioni proprie
+                                                      il riscaldamento dei siti aziendali.
+Inquinamento del suolo                                Impatti                                                                    Effettivo
+                                                      Impatto legato alla perdita del distributore di gasolio avve-              Negativo
+                                                      nuta nel 2018 nel sito Venaria.                                            Breve-medio-lungo termine
+                                                                                                                                 Da operazioni proprie
+
+
+
+
+                                                                                            42
+
+=== PAGINA PDF 45 / STAMPATA 43 ===
+
+Temi rilevanti (IRO)                                  Descrizione tema                                                           Caratteristiche
+[Temi / Sotto temi /                                  [Impatti/Rischi/Opportunità]                                               [Impatti/Rischi/Opportunità]
+Sotto-sotto temi]
+Sostanze preoccupanti                                 Impatti                                                                    Effettivo
+                                                      Impatto legato all'utilizzo di prodotti chimici per i lavori di            Negativo
+                                                      manutenzione dei mezzi della flotta.                                       Breve-medio-lungo termine
+                                                                                                                                 Da operazioni proprie
+
+Microplastiche                                        Impatti                                                                    Effettivo
+                                                      Impatto ambientale legato al rilascio di microplastiche                    Negativo
+                                                      generate dall’usura degli pneumatici della flotta GTT e                    Breve-medio-lungo termine
+                                                      dei suoi sub-affidatari, che contribuisce alla diffusione di               Da operazioni proprie e lungo la catena del valore
+                                                      inquinanti nelle aree urbane.
+E3 Acque e Risorse marine
+Acqua                                                 Impatti                                                                    Effettivo
+- Consumo idrico                                      Impatti ambientali negativi legati al consumo di risorse                   Negativo
+- Prelievi idrici                                     idriche necessarie alle attività di lavaggio dei mezzi. L’im-              Breve-medio-lungo termine
+- Scarichi idrici                                     patto è rilevante per la città di Torino, che si colloca in                Da operazioni proprie
+                                                      un’area classificata a rischio idrico medio-alto.
+E5 Uso risorse ed economia circolare
+
+Afflussi di risorse,                                  Impatti                                                                    Effettivo
+compreso l'uso delle risorse                          Impatto ambientale negativo dall’utilizzo di risorse non                   Negativo
+                                                      rinnovabili (acquisto veicoli, prodotti chimici, pneumatici                Breve-medio-lungo termine
+                                                      e pezzi di ricambio) non sempre facilmente riciclabili e/o                 Lungo la catena del valore - a monte
+                                                      riutilizzabili.
+Rifiuti                                               Impatti                                                                    Effettivo
+                                                      Impatti negativi dovuti alla generazione e gestione dei                    Negativo
+                                                      rifiuti pericolosi e non pericolosi sia nelle sedi che nelle               Breve-medio-lungo termine
+                                                      officine di GTT.                                                           Da operazioni proprie
+
+Temi sociali
+
+S1 Forza lavoro propria
+Condizioni di lavoro                                  Impatti                                                                    Effettivo
+- Occupazione sicura                                  Promuovere un ambiente di lavoro sicuro e inclusivo, ba-                   Positivo
+- Orario di lavoro                                    sato su occupazione stabile, retribuzioni eque, equilibrio                 Breve-medio-lungo termine
+- Dialogo sociale                                     tra vita professionale e privata, e sul rispetto dei diritti               Da operazioni proprie
+-   Libertà di associazione, esistenza                fondamentali quali il dialogo sociale e la contrattazione
+  di comitati aziendali e diritti di                  collettiva, contribuisce a valorizzare le persone aumen-
+  informazione, consultazione e                       tandone motivazione e benessere, che favorisce un servi-
+  partecipazione dei lavoratori                       zio efficiente e di qualità per la comunità e territorio.
+-   Equilibrio tra vita professionale e vita          Rischi                                                                     Breve-medio-lungo termine
+  privata                                             Rischi legali, reputazionali e di mercato connessi al dia-                 Da operazioni proprie
+                                                      logo sociale e valutazione delle condizioni di lavoro nel
+                                                      settore del TPL, che possono generare conflittualità sin-
+                                                      dacali e contenziosi. Tali dinamiche potrebbero determi-
+                                                      nare maggiori difficoltà nell’attrarre e trattenere persona-
+                                                      le qualificato, con potenziali ripercussioni sulla continuità
+                                                      operativa, sulla qualità del servizio e, conseguentemente,
+                                                      sulla performance economico-finanziaria di GTT.
+Condizioni di lavoro                                  Rischi                                                                     Breve-medio-lungo termine
+- Salari adeguati                                     Mancanza di stanziamenti del Governo e della Regione                       Da operazioni proprie
+-   Contrattazione collettiva, inclusa la             per la copertura degli incrementi salariali legati al rinnovo
+  percentuale di lavoratori coperti da                del CCNL e impatto economico significativo.
+  contratti collettivi
+
+
+
+
+
+
+
+
+
+                                                                                            43
+
+=== PAGINA PDF 46 / STAMPATA 44 ===
+
+Temi rilevanti (IRO)                                   Descrizione tema                                                             Caratteristiche
+[Temi / Sotto temi /                                   [Impatti/Rischi/Opportunità]                                                 [Impatti/Rischi/Opportunità]
+Sotto-sotto temi]
+Condizioni di lavoro                                   Impatti                                                                      Effettivo
+- Salute e sicurezza                                   Impatti negativi sulla forza lavoro di GTT dovuti alla possi-                Negativo
+                                                       bilità di infortuni sul lavoro, in particolare per i manutento-              Breve-medio-lungo termine
+                                                       ri, gli autisti e i controllori dei mezzi.                                   Da operazioni proprie
+                                                       Rischi                                                                       Breve-medio-lungo termine
+                                                       Rischi legali e reputazionali derivanti da misure non effi-                  Da operazioni proprie
+                                                       caci di prevenzione e monitoraggio in materia di salute e
+                                                       sicurezza, con un conseguente aumento della probabilità
+                                                       di infortuni, malattie professionali e stress lavorativo, che
+                                                       possono compromettere la produttività, la continuità del
+                                                       servizio e generare possibili contenziosi.
+Parità di trattamento e di                             Impatti                                                                      Effettivo
+opportunità per tutti                                  Impatti positivi derivanti dalla creazione di un ambiente di                 Positivo
+-   Parità di genere e parità di                       lavoro improntato al rispetto delle persone, alla pari op-                   Breve-medio-lungo termine
+  retribuzione per un lavoro di pari                   portunità, all’assenza di discriminazioni e alla promozione                  Da operazioni proprie
+  valore                                               della formazione continua.
+-   Formazione e sviluppo delle                        Rischi                                                                       Breve-medio-lungo termine
+  competenze                                           Rischi reputazionali e di mercato legati a condizioni di la-                 Da operazioni proprie
+                                                       voro inadeguati, inclusa l’insufficiente offerta formativa,
+                                                       che possono compromettere la capacità di GTT di attrarre
+                                                       e trattenere personale qualificato e competente.
+Altri diritti connessi al lavoro                       Impatti                                                                      Potenziale
+- Riservatezza                                         Potenziali impatti negativi riguardanti la tutela dei diritti di             Negativo
+                                                       privacy, con particolare riferimento alla gestione di infor-                 Breve-medio-lungo termine
+                                                       mazioni sensibili e alla sicurezza dei sistemi informativi,                  Da operazioni proprie
+                                                       inclusi possibili data breach.
+S2 Lavoratori nella catena del valore
+Condizioni di lavoro                                   Impatti                                                                      Potenziale
+- Occupazione sicura                                   Le condizioni di lavoro lungo la catena del valore, in par-                  Negativo
+- Orario di lavoro                                     ticolare a monte per la realtà di GTT, possono essere ca-                    Breve-medio-lungo termine
+- Salari adeguati                                      ratterizzate da potenziali impatti indiretti negativi sui diritti            Lungo la catena del valore - a monte
+- Dialogo sociale                                      umani e sui diritti fondamentali delle persone (orario di
+-   Libertà di associazione, esistenza                 lavoro - salari inadeguati - dialogo sociale - libertà di as-
+  di comitati aziendali e diritti di                   sociazione - salute e sicurezza).
+  informazione, consultazione e
+  partecipazione dei lavoratori
+-   Contrattazione collettiva, inclusa la
+  percentuale di lavoratori coperti da
+  contratti collettivi
+-   Equilibrio tra vita professionale e vita
+  privata
+- Salute e sicurezza
+Parità di trattamento e di                             Impatti                                                                      Potenziale
+opportunità per tutti                                  Impatti negativi generati da situazioni in cui non sono ga-                  Negativo
+-   Parità di genere e parità di                       rantite la parità di trattamento, con conseguenti impatti                    Breve-medio-lungo termine
+  retribuzione per un lavoro di pari                   negativi indiretti sul clima lavorativo, sulla motivazione del               Lungo la catena del valore - a monte
+  valore                                               personale e sulla qualità del servizio offerto.
+-   Formazione e sviluppo delle
+  competenze
+-   Occupazione e inclusione delle
+  persone con disabilità
+-   Misure contro la violenza e le molestie
+  sul luogo di lavoro
+- Diversità
+
+
+
+
+
+
+
+                                                                                              44
+
+=== PAGINA PDF 47 / STAMPATA 45 ===
+
+Temi rilevanti (IRO)                                  Descrizione tema                                                           Caratteristiche
+[Temi / Sotto temi /                                  [Impatti/Rischi/Opportunità]                                               [Impatti/Rischi/Opportunità]
+Sotto-sotto temi]
+S3 Comunità interessate
+
+Diritti economici, sociali e                          Impatti                                                                    Effettivo
+culturali delle comunità                              Impatto positivo generato dal servizio di TPL che garanti-                 Positivo
+- Impatti legati al territorio                        sce il diritto alla mobilità della persona.                                Breve-medio-lungo termine
+                                                                                                                                 Da operazioni proprie e lungo la catena del valore
+                                                      Impatto positivo - Il trasporto pubblico come alternativa                  Effettivo
+                                                      al mezzo privato genera un impatto positivo sulla ridu-                    Positivo
+                                                      zione del traffico così come delle emissioni inquinanti e                  Breve-medio-lungo termine
+                                                      dell’inquinamento acustico. Gli investimenti in infrastrut-                Da operazioni proprie e lungo la catena del valore
+                                                      ture e mezzi di trasporto più sostenibili contribuiscono al
+                                                      miglioramento della qualità dell’aria e della vita urbana
+                                                      della comunità.
+                                                      Impatto negativo sul territorio derivante dal rumore e dalle               Effettivo
+                                                      vibrazioni dei mezzi di trasporto pesanti.                                 Negativo
+                                                                                                                                 Breve-medio-lungo termine
+                                                                                                                                 Da operazioni proprie e lungo la catena del valore
+
+                                                      Impatto positivo derivante dall'attrazione di nuove im-                    Effettivo
+                                                      prese e opportunità di lavoro per i cittadini della città di               Positivo
+                                                      Torino, grazie a sistemi di mobilità veloce e integrata nel                Breve-medio-lungo termine
+                                                      territorio metropolitano e nazionale.                                      Da operazioni proprie e lungo la catena del valore
+
+                                                      Rischi                                                                     Breve-medio-lungo termine
+                                                      Rischi reputazionali derivanti da potenziali inefficienze                  Da operazioni proprie
+                                                      del servizio offerto ed eventuali disagi dovuti a disservizi
+                                                      legati all'erogazione del servizio sul territorio, come ad
+                                                      esempio costruzione/manutenzione delle infrastrutture
+                                                      necessarie alla circolazione.
+                                                      Opportunità                                                                Breve-medio-lungo termine
+                                                      Opportunità economica legata all’immagine di GTT e al                      Da operazioni proprie
+                                                      ruolo ricoperto nella città di Torino: la qualità del servizio
+                                                      offerto e una rete efficiente migliorano l’immagine della
+                                                      città, rendendola più attrattiva per turisti e visitatori (che
+                                                      si spostano facilmente con mezzi pubblici) e generano
+                                                      introiti per l’economia locale. L’ampliamento e il migliora-
+                                                      mento dei servizi di mobilità possono favorire l’attrazione
+                                                      di nuove imprese e opportunità occupazionali sul territo-
+                                                      rio, grazie a una migliore accessibilità e connessione con
+                                                      i principali poli produttivi e commerciali. Di conseguenza,
+                                                      si rileva anche un’opportunità finanziaria per GTT legata
+                                                      all’incremento della domanda di trasporto e alla valorizza-
+                                                      zione della propria reputazione aziendale.
+S4 Consumatori ed utilizzatori finali
+Impatti legati alle informazioni                      Impatti                                                                    Potenziale
+per i consumatori e/o per gli                         Impatti negativi dovuti a potenziali attacchi informatici o                Negativo
+utilizzatori finali                                   violazioni dei dati (data breach) che potrebbero compro-                   Breve-medio-lungo termine
+- Riservatezza                                        mettere la sicurezza delle informazioni sensibili dei clienti.             Da operazioni proprie
+
+                                                      Rischi                                                                     Breve-medio-lungo termine
+                                                      Rischi regolamentari / legali e reputazionali legati alle mi-              Da operazioni proprie e lungo la catena del valore
+                                                      sure e alle procedure adottate in materia di tutela privacy
+                                                      inadeguate, non conformi e/o non correttamente svilup-
+                                                      pate, che potrebbero comportare costi di risarcimento
+                                                      danni.
+
+
+
+
+
+
+
+
+                                                                                            45

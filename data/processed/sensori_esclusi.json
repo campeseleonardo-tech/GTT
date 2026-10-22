@@ -1,0 +1,87 @@
+[
+ {
+  "lcd1": "11421",
+  "nome": "SS458 Di Casalborgone",
+  "motivo": "pochi dati"
+ },
+ {
+  "lcd1": "11436",
+  "nome": "SS460 Di Ceresole",
+  "motivo": "bloccato"
+ },
+ {
+  "lcd1": "11437",
+  "nome": "SS460 Di Ceresole",
+  "motivo": "bloccato"
+ },
+ {
+  "lcd1": "11787",
+  "nome": "SS494 Vigevanese",
+  "motivo": "morto"
+ },
+ {
+  "lcd1": "11788",
+  "nome": "SS494 Vigevanese",
+  "motivo": "morto"
+ },
+ {
+  "lcd1": "13703",
+  "nome": "SS11 Padana Superiore",
+  "motivo": "bloccato"
+ },
+ {
+  "lcd1": "14789",
+  "nome": "SP155(AL)",
+  "motivo": "morto"
+ },
+ {
+  "lcd1": "14790",
+  "nome": "SP155(AL)",
+  "motivo": "morto"
+ },
+ {
+  "lcd1": "3851",
+  "nome": "SS11 Padana Superiore",
+  "motivo": "bloccato"
+ },
+ {
+  "lcd1": "40071",
+  "nome": "Corso Moncalieri(TO)",
+  "motivo": "morto"
+ },
+ {
+  "lcd1": "40121",
+  "nome": "Corso Regina Margherita(TO)",
+  "motivo": "morto"
+ },
+ {
+  "lcd1": "40123",
+  "nome": "Corso Regina Margherita(TO)",
+  "motivo": "morto"
+ },
+ {
+  "lcd1": "40191",
+  "nome": "Corso Unita' D'italia(TO)",
+  "motivo": "bloccato"
+ },
+ {
+  "lcd1": "5057",
+  "nome": "SS30 Di Val Bormida",
+  "motivo": "morto"
+ },
+ {
+  "lcd1": "5058",
+  "nome": "SS30 Di Val Bormida",
+  "motivo": "morto"
+ },
+ {
+  "lcd1": "7934",
+  "nome": "SS142 Biellese",
+  "motivo": "morto"
+ },
+ {
+  "lcd1": "7935",
+  "nome": "SS142 Biellese",
+  "motivo": "morto"
+ }
+]

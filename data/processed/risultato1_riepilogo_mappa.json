@@ -1,0 +1,559 @@
+{
+  "risultato": "1",
+  "titolo": "Dove mancano i servizi a piedi",
+  "tag": "STIMATO",
+  "stato": "Fatto",
+  "in_breve": "Torino è una città compatta, ma non tutti hanno scuola, medico, negozi, una fermata e un po' di verde a un quarto d'ora a piedi da casa.",
+  "domanda": "Quanti residenti di Torino, nelle zone abitate, non hanno più servizi essenziali (scuole, salute, negozi e attività commerciali, fermate, verde) entro 15 minuti a piedi, e quanti ne recupererebbe qualche servizio nuovo?",
+  "numero_chiave": {
+    "valore": 362,
+    "unita": "residenti",
+    "testo": "di zone abitate di Torino senza 3 o più dei 5 servizi essenziali a 15 minuti a piedi (0% dei torinesi)"
+  },
+  "racconto": "Una delle domande da cui è partito il progetto: dove mancano i servizi? L'idea di riferimento è la \"città dei 15 minuti\", in cui le cose di tutti i giorni si raggiungono a piedi.",
+  "risposta": [
+    "362 residenti su 848.748 (0%) vivono in zone abitate (almeno 1.000 abitanti per km²) e non hanno 3 o più dei 5 servizi entro 15 minuti a piedi. Tutti e 5 mancano a 8 residenti.",
+    "Altri 6.768 residenti vivono in zone poco abitate (parchi, collina): sono contati a parte, fuori dal titolo.",
+    "Altri 389 residenti sono in zone dove il calcolo non raggiunge una fermata che c'è: contati a parte, da verificare.",
+    "Contando anche le zone poco abitate, 10.919 residenti su 848.748 (1,3%) non hanno almeno uno dei 5 servizi entro 15 minuti a piedi.",
+    "Il servizio che manca più spesso è salute: 9.104 residenti senza un servizio di questo tipo vicino.",
+    "Pochi servizi nuovi messi nei punti giusti (al massimo 5 per gruppo) riporterebbero entro i 15 minuti 6.190 di questi casi, contati gruppo per gruppo."
+  ],
+  "grafici": [
+    {
+      "tipo": "barre",
+      "titolo": "Residenti per numero di servizi mancanti (0-5), zone abitate",
+      "unita": "residenti",
+      "nota": "Zone abitate = almeno 1.000 abitanti per km². Le zone poco abitate (6.768 residenti) sono escluse. Servizi mancanti = zero entro 15 minuti a piedi.",
+      "voci": [
+        {
+          "label": "0 mancanti",
+          "valore": 834963
+        },
+        {
+          "label": "1 mancanti",
+          "valore": 5302
+        },
+        {
+          "label": "2 mancanti",
+          "valore": 964
+        },
+        {
+          "label": "3 mancanti",
+          "valore": 362,
+          "tono": "rosso"
+        },
+        {
+          "label": "4 mancanti",
+          "valore": 0,
+          "tono": "rosso"
+        },
+        {
+          "label": "5 mancanti",
+          "valore": 0,
+          "tono": "rosso"
+        }
+      ]
+    },
+    {
+      "tipo": "barre",
+      "titolo": "Residenti di Torino senza il servizio entro 15 minuti a piedi",
+      "unita": "residenti",
+      "voci": [
+        {
+          "label": "salute",
+          "valore": 9104,
+          "tono": "rosso"
+        },
+        {
+          "label": "scuole",
+          "valore": 6060,
+          "tono": "rosso"
+        },
+        {
+          "label": "negozi e attività commerciali",
+          "valore": 1697,
+          "tono": "rosso"
+        },
+        {
+          "label": "fermate",
+          "valore": 1204,
+          "tono": "rosso"
+        },
+        {
+          "label": "verde",
+          "valore": 104,
+          "tono": "rosso"
+        }
+      ]
+    },
+    {
+      "tipo": "barre",
+      "titolo": "Residenti con pochissimi servizi di quel tipo vicini",
+      "unita": "residenti",
+      "nota": "\"Pochissimi\" = sotto il livello che ha il 10% dei residenti meno servito (soglia per gruppo).",
+      "voci": [
+        {
+          "label": "salute",
+          "valore": 86915
+        },
+        {
+          "label": "scuole",
+          "valore": 84147
+        },
+        {
+          "label": "negozi e attività commerciali",
+          "valore": 83353
+        },
+        {
+          "label": "fermate",
+          "valore": 3357
+        },
+        {
+          "label": "verde",
+          "valore": 11330
+        }
+      ]
+    },
+    {
+      "tipo": "barre",
+      "titolo": "Residenti senza il servizio: oggi e con i punti nuovi",
+      "unita": "residenti",
+      "nota": "Barra chiara = oggi, barra scura = con i punti nuovi.",
+      "voci": [
+        {
+          "label": "salute (5 punti nuovi)",
+          "valore": 1494,
+          "prima": 5340,
+          "tono": "rosso"
+        },
+        {
+          "label": "scuole (5 punti nuovi)",
+          "valore": 617,
+          "prima": 2529,
+          "tono": "rosso"
+        },
+        {
+          "label": "negozi e attività commerciali (3 punti nuovi)",
+          "valore": 0,
+          "prima": 347,
+          "tono": "rosso"
+        },
+        {
+          "label": "fermate (1 punto nuovo)",
+          "valore": 15,
+          "prima": 100,
+          "tono": "rosso"
+        },
+        {
+          "label": "verde (0 punti nuovi)",
+          "valore": 0,
+          "prima": 0,
+          "tono": "rosso"
+        }
+      ]
+    }
+  ],
+  "metodo": [
+    "Per ognuna delle 4.044 sezioni di censimento di Torino (centinaia di persone ciascuna) si contano i servizi raggiungibili camminando 15 minuti sulla rete stradale reale (OpenStreetMap), con il motore di percorsi R5.",
+    "Cinque gruppi trattati separatamente, senza un indice unico: scuole, salute, negozi e attività commerciali (catalogo comunale), fermate del trasporto pubblico, verde.",
+    "\"Senza\" = zero servizi di quel gruppo entro 15 minuti. I residenti vengono dal censimento ISTAT 2021.",
+    "Per ogni sezione si contano quanti dei 5 gruppi mancano (0-5). Le sezioni con meno di 1.000 abitanti per km² (superficie e residenti del censimento) sono \"poco abitate\": in grigio e fuori dal titolo, che conta i residenti delle zone abitate con 3 o più servizi mancanti.",
+    "Dove aggiungere un servizio: per ogni gruppo si cercano fino a 5 punti (raggruppando le zone scoperte entro 400 m) che riportano dentro i 15 minuti più residenti possibile, uno dopo l'altro."
+  ],
+  "criteri": [
+    {
+      "nome": "Zona poco abitata",
+      "valore": "sotto 1.000 abitanti per km²",
+      "perche": "parchi, collina e zone poco abitabili sono vuoti per natura: contarli come carenza falserebbe il titolo",
+      "effetto": "500 ab/km²: 2.875 residenti poco abitati, 1.395 abitati con 3 o più servizi mancanti, 9.140 abitati con almeno 1; 1.000 ab/km²: 6.768 residenti poco abitati, 362 abitati con 3 o più servizi mancanti, 6.628 abitati con almeno 1; 2.000 ab/km²: 17.039 residenti poco abitati, 0 abitati con 3 o più servizi mancanti, 1.614 abitati con almeno 1"
+    },
+    {
+      "nome": "Titolo",
+      "valore": "residenti delle zone abitate con 3 o più dei 5 servizi mancanti",
+      "perche": "guardare dove mancano più servizi insieme, non uno solo",
+      "effetto": "\"tutti e 5 mancanti\": 8 residenti (non fa titolo)"
+    },
+    {
+      "nome": "Cintura (a parte)",
+      "valore": "servizio raggiungibile a piedi in 15 minuti o col mezzo pubblico entro 45 minuti alle 08:00 di un feriale (scuole, salute, negozi)",
+      "perche": "fuori Torino si va in paese e non a piedi: la regola della città dei 15 minuti non vale",
+      "effetto": "834 residenti di zone abitate con 3 o più servizi mancanti: non confrontabile con Torino (catalogo diverso)"
+    }
+  ],
+  "parametri": [
+    [
+      "Tempo a piedi",
+      "15 minuti"
+    ],
+    [
+      "Velocità a piedi",
+      "80 m al minuto (4,8 km/h)"
+    ],
+    [
+      "Zona poco abitata",
+      "sotto 1.000 ab/km² (prove con 500 e 2.000)"
+    ],
+    [
+      "Sezioni di Torino",
+      "4.044"
+    ],
+    [
+      "Residenti",
+      "848.748"
+    ],
+    [
+      "Punti nuovi per gruppo",
+      "fino a 5"
+    ]
+  ],
+  "limiti": [
+    "Zona \"da verificare\": nessuna fermata entro 15 minuti a piedi nel calcolo, ma una fermata GTT entro 300 m in linea d'aria (probabile errore del punto di partenza); esclusa dal titolo e dai punti nuovi.",
+    "Solo Torino: in cintura il catalogo dei servizi non c'è, quindi lì \"zero\" vuol dire spesso \"manca il dato\", non \"manca il servizio\".",
+    "Il gruppo \"negozi e attività commerciali\" usa tutte le attività commerciali del catalogo, senza distinguere la categoria.",
+    "Si conta se un servizio c'è, non quanto è grande o se ha posto (una scuola piena conta come una vuota).",
+    "Capienza di ospedali, presidi e scuole non nota: un ospedale grande e un ambulatorio contano uguale.",
+    "Orario programmato: niente ritardi né affollamento. Le sezioni senza superficie contano come abitate.",
+    "I punti nuovi sono posizioni ipotetiche: non tengono conto di costi, spazi liberi o permessi, e non si sommano tra gruppi."
+  ],
+  "in_english": [
+    "Question: how many Turin residents in inhabited areas lack 3 or more essential services (schools, health, shops and commercial activities, stops, green space) within 15 minutes on foot, and how many would gain one with a few new services?",
+    "362 residents out of 848,748 (0.0%) live in inhabited areas (at least 1,000 inhabitants per km²) and lack 3 or more of the 5 services within 15 minutes on foot; all 5 are missing for 8. A further 6,768 residents live in sparsely populated areas (parks, hills), counted separately. Sensitivity of the threshold: at 500 inhabitants/km² the sparsely populated zones hold 2,875 residents and those missing 3+ services 1,395; at 1,000 inhabitants/km² the sparsely populated zones hold 6,768 residents and those missing 3+ services 362; at 2,000 inhabitants/km² the sparsely populated zones hold 17,039 residents and those missing 3+ services 0.",
+    "Counting those areas too, 10,919 residents out of 848,748 (1.3%) lack at least one of the 5 services within 15 minutes on foot. The most often missing one is health, with 9,104 residents without a nearby service of that kind.",
+    "A further 389 residents live in areas where the calculation does not reach a stop that exists (counted separately, to be verified).",
+    "Up to 5 new services per group, placed where they help most, would bring 6,190 of these cases within 15 minutes, counted group by group.",
+    "Areas flagged for verification have no stop within 15 minutes on foot in the calculation but a stop within 300 m as the crow flies; they are excluded from the headline figure and from the new-service points.",
+    "Limits: the map covers Turin and its surrounding belt; in the belt a service counts as missing only if it is out of reach both on foot (15 minutes) and by public transport (45 minutes, 8 am on a weekday), and the service data there (schools, health, shops from OpenStreetMap) is less complete."
+  ],
+  "mappa": {
+    "id": "faseb",
+    "tema": "Dove mancano i servizi",
+    "nota": "Nella mappa, tema \"Dove mancano i servizi\": all'apertura quanti servizi mancano in ogni zona (0-5, zone poco abitate in grigio); nel menu un servizio alla volta, con i punti dove aggiungerne uno."
+  },
+  "fonti": [
+    "docs/R1_servizi.md",
+    "docs/rapporti/RAPPORTO_RISULTATO1.txt",
+    "docs/rapporti/RAPPORTO_RISULTATO1_CANDIDATI.txt",
+    "scripts/21_risultato1_vuoti.py",
+    "scripts/22_risultato1_candidati.py"
+  ],
+  "generato": "2026-10-22T12:29:38+00:00",
+  "avviso": [
+    "Dati [STIMATO] — solo comune di Torino",
+    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
+  ],
+  "scenari": [
+    {
+      "nome": "Oggi",
+      "numeri": [
+        {
+          "label": "Residenti di zone abitate senza 3 o più servizi",
+          "prima": null,
+          "dopo": 362,
+          "unita": "residenti"
+        },
+        {
+          "label": "Quota dei residenti di Torino",
+          "prima": null,
+          "dopo": 0.0,
+          "unita": "%"
+        },
+        {
+          "label": "Tutti e 5 i servizi mancanti",
+          "prima": null,
+          "dopo": 8,
+          "unita": "residenti"
+        },
+        {
+          "label": "Residenti nelle zone poco abitate (a parte)",
+          "prima": null,
+          "dopo": 6768,
+          "unita": "residenti"
+        },
+        {
+          "label": "Residenti in zone da verificare (a parte)",
+          "prima": null,
+          "dopo": 389,
+          "unita": "residenti"
+        },
+        {
+          "label": "Residenti senza almeno un servizio essenziale",
+          "prima": null,
+          "dopo": 10919,
+          "unita": "residenti"
+        },
+        {
+          "label": "Quota dei residenti di Torino senza almeno un servizio",
+          "prima": null,
+          "dopo": 1.3,
+          "unita": "%"
+        },
+        {
+          "label": "Senza salute entro 15 min",
+          "prima": null,
+          "dopo": 9104,
+          "unita": "residenti"
+        },
+        {
+          "label": "Senza scuole entro 15 min",
+          "prima": null,
+          "dopo": 6060,
+          "unita": "residenti"
+        },
+        {
+          "label": "Senza negozi e attività commerciali entro 15 min",
+          "prima": null,
+          "dopo": 1697,
+          "unita": "residenti"
+        },
+        {
+          "label": "Senza fermate entro 15 min",
+          "prima": null,
+          "dopo": 1204,
+          "unita": "residenti"
+        },
+        {
+          "label": "Senza verde entro 15 min",
+          "prima": null,
+          "dopo": 104,
+          "unita": "residenti"
+        }
+      ],
+      "nota": "Il gruppo con più residenti scoperti è salute. Sensibilità della soglia: con 500 ab/km² le zone poco abitate sono 2.875 residenti e quelli con 3 o più servizi mancanti 1.395; con 1.000 ab/km² le zone poco abitate sono 6.768 residenti e quelli con 3 o più servizi mancanti 362; con 2.000 ab/km² le zone poco abitate sono 17.039 residenti e quelli con 3 o più servizi mancanti 0."
+    },
+    {
+      "nome": "Con pochi servizi nuovi nei punti migliori",
+      "numeri": [
+        {
+          "label": "Senza salute (5 punti nuovi)",
+          "prima": 5340,
+          "dopo": 1494,
+          "unita": "residenti"
+        },
+        {
+          "label": "Senza scuole (5 punti nuovi)",
+          "prima": 2529,
+          "dopo": 617,
+          "unita": "residenti"
+        },
+        {
+          "label": "Senza negozi e attività commerciali (3 punti nuovi)",
+          "prima": 347,
+          "dopo": 0,
+          "unita": "residenti"
+        },
+        {
+          "label": "Senza fermate (1 punto nuovo)",
+          "prima": 100,
+          "dopo": 15,
+          "unita": "residenti"
+        },
+        {
+          "label": "Senza verde (0 punti nuovi)",
+          "prima": 0,
+          "dopo": 0,
+          "unita": "residenti"
+        }
+      ],
+      "nota": "Fino a 5 punti per gruppo, scelti dove recuperano più residenti (raggruppamento 400 m)."
+    }
+  ],
+  "forma": {
+    "etichetta": "STIMATO",
+    "titolo": "A 15 minuti quasi tutti hanno i servizi; a 5 minuti molti meno",
+    "domanda": "Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata?",
+    "numero": {
+      "valore": 99.2,
+      "unita": "%",
+      "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi"
+    },
+    "principale": {
+      "tipo": "pila100",
+      "titolo": "Residenti per servizi raggiunti a piedi",
+      "unita": "%",
+      "nota": "Ogni barra è un tempo a piedi: 100% dei residenti delle zone abitate (almeno 1.000 abitanti per km²).",
+      "righe": [
+        {
+          "label": "5 minuti",
+          "voci": [
+            {
+              "label": "tutti e 5 i servizi",
+              "valore": 68.3,
+              "tono": "verde"
+            },
+            {
+              "label": "4 servizi",
+              "valore": 22.2,
+              "tono": "giallo"
+            },
+            {
+              "label": "3 o meno",
+              "valore": 9.5,
+              "tono": "rosso"
+            }
+          ]
+        },
+        {
+          "label": "10 minuti",
+          "voci": [
+            {
+              "label": "tutti e 5 i servizi",
+              "valore": 96.8,
+              "tono": "verde"
+            },
+            {
+              "label": "4 servizi",
+              "valore": 2.4,
+              "tono": "giallo"
+            },
+            {
+              "label": "3 o meno",
+              "valore": 0.8,
+              "tono": "rosso"
+            }
+          ]
+        },
+        {
+          "label": "15 minuti",
+          "voci": [
+            {
+              "label": "tutti e 5 i servizi",
+              "valore": 99.2,
+              "tono": "verde"
+            },
+            {
+              "label": "4 servizi",
+              "valore": 0.6,
+              "tono": "giallo"
+            },
+            {
+              "label": "3 o meno",
+              "valore": 0.2,
+              "tono": "rosso"
+            }
+          ]
+        }
+      ]
+    },
+    "punti": [
+      "A 5 minuti solo il 68,3% dei residenti ha tutti e 5 i servizi; a 10 minuti il 96,8%.",
+      "190.255 residenti (22,6%) vivono a meno di 100 m da una strada molto trafficata.",
+      "I 362 residenti senza 3 o più servizi sono in 5 sezioni di collina: dove manca davvero tutto."
+    ],
+    "altri": [
+      {
+        "tipo": "barre",
+        "titolo": "Residenti per distanza da una strada molto trafficata",
+        "unita": "residenti",
+        "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 11.720 veicoli al giorno. Stima debole: il modello sbaglia del ±38% in metà dei casi.",
+        "voci": [
+          {
+            "label": "esposti (meno di 100 m)",
+            "valore": 190255,
+            "tono": "rosso"
+          },
+          {
+            "label": "vicini (100-250 m)",
+            "valore": 259977,
+            "tono": "giallo"
+          },
+          {
+            "label": "lontani (oltre 250 m)",
+            "valore": 391748,
+            "tono": "verde"
+          }
+        ]
+      },
+      {
+        "tipo": "barre",
+        "titolo": "Residenti senza il servizio a 15 minuti a piedi",
+        "unita": "residenti",
+        "nota": "Solo zone abitate (almeno 1.000 abitanti per km²).",
+        "voci": [
+          {
+            "label": "salute",
+            "valore": 5340,
+            "tono": "rosso"
+          },
+          {
+            "label": "scuole",
+            "valore": 2529,
+            "tono": "rosso"
+          },
+          {
+            "label": "negozi e attività commerciali",
+            "valore": 347,
+            "tono": "rosso"
+          },
+          {
+            "label": "fermate",
+            "valore": 100,
+            "tono": "rosso"
+          },
+          {
+            "label": "verde",
+            "valore": 0,
+            "tono": "rosso"
+          }
+        ]
+      }
+    ],
+    "calcolo": [
+      "Per ogni sezione di censimento si contano i servizi raggiungibili a piedi in 5, 10 e 15 minuti.",
+      "I tipi di servizio sono cinque, contati separatamente: scuole, salute, negozi, fermate, verde.",
+      "Si cammina sulla rete stradale reale (OpenStreetMap), a 80 m al minuto.",
+      "Residenti dal censimento ISTAT 2021; le zone con meno di 1.000 abitanti per km² sono grigie e contate a parte.",
+      "Si è esposti se il centro della sezione è a meno di 100 m da una strada molto trafficata."
+    ],
+    "criteri": [
+      [
+        "Tempi a piedi",
+        "5, 10 e 15 minuti"
+      ],
+      [
+        "Velocità a piedi",
+        "80 m al minuto (4,8 km/h)"
+      ],
+      [
+        "Zona poco abitata",
+        "sotto 1.000 ab/km² (prove con 500 e 2.000)"
+      ],
+      [
+        "Sezioni di Torino",
+        "4.044"
+      ],
+      [
+        "Residenti",
+        "848.748"
+      ],
+      [
+        "Punti nuovi per gruppo",
+        "fino a 5"
+      ],
+      [
+        "Strada molto trafficata",
+        "almeno 11.720 veicoli al giorno"
+      ],
+      [
+        "Esposto al traffico",
+        "a meno di 100 m dalla strada"
+      ]
+    ],
+    "limiti": [
+      "Solo Torino: in cintura il catalogo dei servizi manca, quindi «zero» spesso vuol dire dato mancante.",
+      "Si conta se un servizio c'è, non quanto è grande né se ha posto. Le fermate usano l'orario programmato: niente ritardi né affollamento.",
+      "I punti nuovi sono ipotesi: non tengono conto di costi, spazi liberi o permessi.",
+      "Il traffico è una stima e sostituisce rumore e smog, che non misuriamo."
+    ],
+    "english": [
+      "Question: how many Turin residents lack schools, health, shops, stops or green space within 15 minutes on foot?",
+      "Answer: 10,919 residents (1.3%) lack at least one of the 5 services; 362 in inhabited areas lack three or more.",
+      "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."
+    ],
+    "mappa": {
+      "id": "faseb",
+      "nota": "Nella mappa, tema \"Dove mancano i servizi\": all'apertura quanti servizi mancano in ogni zona (0-5, zone poco abitate in grigio); nel menu un servizio alla volta, con i punti dove aggiungerne uno."
+    }
+  },
+  "numero_pubblico": 1
+}

@@ -1,0 +1,210 @@
+=== PAGINA PDF 122 / STAMPATA 120 ===
+
+Associazioni dei consumatori
+GTT collabora attivamente con le associazioni dei consumatori, riconoscendo il loro ruolo fondamentale nel garantire trasparenza, partecipa-
+zione e qualità del servizio. Queste organizzazioni, iscritte all’Elenco delle Associazioni dei Consumatori della Città di Torino, contribuiscono a
+monitorare e valutare gli standard qualitativi e quantitativi dei servizi offerti, fornendo un canale diretto tra la Società e e la clientela. Attraverso
+confronti periodici e gruppi di lavoro promossi dagli enti titolari del contratto dei servizi, le associazioni come Adiconsum Piemonte, Adoc
+Piemonte, Aducon, Associazione Consumatori Piemonte, Associazione Tutelattiva, Codacons Piemonte, Federconsumatori Piemonte APS, Movi-
+mento Consumatori Torino e U.Di.Con. partecipano alla definizione e revisione della Carta della Mobilità, garantendo che le esigenze dei cittadini
+siano ascoltate e integrate nella pianificazione e nel miglioramento dei servizi di trasporto pubblico.
+Centro Emissione Massiva e Grandi Clienti
+Per aumentare la fidelizzazione della clientela, l’ufficio Grandi Clienti cura e gestisce i rapporti con le società che, per incentivare l’utilizzo dei
+mezzi pubblici negli spostamenti casa - lavoro, hanno aderito all’iniziativa rivolta a Società ed Enti dotate di Mobility Manager. Tale progetto,
+concordato con l’Amministrazione Comunale di Torino, prevede sugli abbonamenti urbani, uno sconto da parte di GTT e un contributo da parte
+delle società interessate.
+Associazioni di persone con disabilità
+GTT riconosce l’importanza di garantire accessibilità e inclusione a tutti i propri utenti, collaborando con le associazioni che rappresentano
+persone con disabilità per assicurare che il trasporto pubblico sia fruibile, sicuro e confortevole. Queste associazioni partecipano attivamente
+ai processi di consultazione e monitoraggio dei servizi, offrendo osservazioni e proposte per migliorare l’accessibilità di mezzi, stazioni e servizi
+correlati. In particolare, GTT coinvolge tali organizzazioni nella definizione degli standard di qualità e nella revisione della Carta della Mobilità,
+così da integrare le esigenze specifiche di persone con mobilità ridotta o con altre disabilità. Questo dialogo continuo consente di programmare
+interventi mirati, come l’adeguamento delle infrastrutture, l’adozione di strumenti informativi accessibili e la formazione del personale, raffor-
+zando l’impegno di GTT per un trasporto pubblico inclusivo e rispettoso dei principi di pari opportunità.
+Canali fisici e digitali
+GTT mantiene un dialogo costante con i propri utenti anche attraverso canali digitali e fisici, dai social media, al sito istituzionale, ai contact
+center e ai display informativi, integrati da strumenti di ascolto come il portale “Dialoga con noi” e le indagini di soddisfazione. Questi strumenti,
+insieme al confronto con associazioni dei consumatori e organizzazioni sindacali, permettono di raccogliere feedback e orientare le azioni per
+rispondere al meglio alle esigenze dei passeggeri.
+Per ulteriori informazioni, si rimanda al capitolo Interessi e opinioni dei portatori d’interesse.
+Processi per porre rimedio agli impatti negativi e canali che consentono
+ai consumatori e agli utilizzatori finali di esprimere preoccupazioni
+
+ESRS Standards   ESRS S4 S4-3
+Reclami e segnalazioni dei clienti
+Gli utenti del servizio possono esprimere preoccupazioni, segnalazioni o reclami contattando gratuitamente il Contact Center GTT chiamando
+da rete fissa il Numero Verde 800-019152 o da rete mobile il Numero 011-0672000, ricevendo così assistenza e supporto dedicato da parte
+degli operatori. In alternativa, è possibile rivolgendosi direttamente agli uffici fisici di GTT, presenti sul territorio e consultabili nella sezione
+Uffici aperti al pubblico del sito web aziendale.
+La gestione dei reclami dei passeggeri avviene attraverso un approccio supportato dall’adozione del sistema CRM (Customer Relationship
+Management), Taylor. Il software consente di monitorare e gestire l’intero ciclo di vita dei reclami, dalla ricezione alla chiusura.
+Ogni segnalazione attiva un processo di analisi che coinvolge il settore aziendale competente, con l’obiettivo di individuare le cause del reclamo
+e fornire al cliente una risposta motivata e tracciata. Ove necessario, vengono attivati interventi correttivi mirati, quali attività di manutenzione
+non programmata, azioni di sensibilizzazione del personale o verifiche dei tempi di percorrenza.
+Progetto AI
+GTT ha avviato, in fase di sperimentazione, un progetto innovativo basato sull’utilizzo dell’intelligenza artificiale, sviluppato in collaborazione con
+Almaviva. Il progetto è finalizzato a rendere il servizio del trasporto pubblico più affidabile, rapido ed efficiente per i clienti.
+L’iniziativa, limitata attualmente ai tram Hitachi serie 8000, introduce una piattaforma web con interfaccia conversazionale a supporto
+degli operatori della Centrale SIS. Questa piattaforma permette la consultazione diretta e rapida della documentazione tecnica, facilitan-
+
+                                                                                    120
+
+=== PAGINA PDF 123 / STAMPATA 121 ===
+
+do e velocizzando l’analisi delle segnalazioni di anomalia e l’individuazione della soluzione più appropriata.
+Grazie a questo supporto, l’esperienza e le competenze dei tecnici vengono valorizzate, favorendo una maggiore uniformità negli interventi e una
+più rapida crescita professionale dei nuovi operatori. Il risultato atteso è una gestione più efficiente delle criticità operative, con benefici concreti
+sulla regolarità del servizio e sulla qualità dell’esperienza di viaggio.
+Azioni svolte nei confronti dei consumatori e degli utenti finali
+
+ESRS Standards   ESRS 2 MDR-A, ESRS S4 S4-4
+Funzione Traveler Experience and Continous Improvement
+A gennaio 2026 è stata istituita la funzione Traveler Experience and Continous Improvement.
+La funzione Traveler Experience presidia e migliora l’esperienza complessiva del viaggiatore, assicurando il monitoraggio della qualità del
+servizio di trasporto, l’analisi del traveler journey lungo tutte le fasi del viaggio e l’individuazione di azioni correttive e di miglioramento, in colla-
+borazione con le funzioni operative. Il fine è garantire elevati livelli di qualità percepita e tempestiva gestione delle criticità.
+La funzione Continous Improvement presidia l’analisi delle performance e della qualità del servizio attraverso l’elaborazione dei dati, il monito-
+raggio degli indicatori e la produzione di report, coordinando iniziative e supportando le funzioni operative nella definizione di azioni data-driven
+volte a incrementare efficienza operativa, standard di servizio e risultati complessivi.
+Digitalizzazione del servizio e Mobility as a Service (MaaS)
+Nel corso dell’anno di rendicontazione sono proseguiti gli investimenti e le iniziative volti a favorire la digitalizzazione dei processi di acquisto e
+validazione dei titoli di viaggio e di sosta, con l’obiettivo di semplificare l’esperienza d’uso e ampliare le modalità di accesso al servizio. Tutti i
+veicoli di nuova acquisizione (bus e tram) sono dotati di sistemi di bigliettazione elettronica, compatibili con pagamenti tramite carte di credito
+e debito, integrati alle altre modalità di acquisto disponibili, rendendo il sistema più efficiente e coerente con le abitudini digitali degli utenti.
+Il progetto MaaS ToMove a Torino promuove la mobilità integrata sul territorio urbano, con il trasporto pubblico come asse principale, e
+consente agli utenti di pianificare, prenotare, acquistare e utilizzare servizi diversi tramite una piattaforma digitale unica, includendo bus, tram,
+metro, treni, taxi, biciclette, monopattini e auto in sharing. La sperimentazione prevede incentivi, quali Welcome Bonus e cashback, per stimo-
+lare l’uso dei servizi, e la vendita dei titoli di viaggio tramite cinque operatori App, a conferma di un ecosistema MaaS sempre più integrato e
+interoperabile.
+E-Commerce TPL
+Nel corso del 2025 il servizio E-Commerce ha gestito transazioni relative a trasporto e sosta per un valore complessivo di 26,6 milioni di euro,
+confermando il ruolo rilevante dei canali digitali nei processi di acquisto dei titoli di viaggio.
+App TO Move
+Nel 2025 il servizio di vendita diretta tramite l’app TO Move ha ulteriormente consolidato e ampliato il volume delle vendite digitali dei biglietti,
+registrando un incremento del 16% degli acquisti rispetto all’anno precedente. A partire da novembre 2025 è stato introdotto un nuovo
+prodotto, il Biglietto 48 ore e 72 ore, rivolto prevalentemente a un’utenza turistica, con tariffe inferiori rispetto alla corrispondente versione
+cartacea. L’ampliamento dell’offerta digitale conferma la capacità dell’applicazione di rispondere a esigenze diversificate, intercettando nuovi
+segmenti di clientela.
+Tap&Go Ticketless
+Il sistema Tap&Go Ticketless, attivo da luglio 2020 e utilizzabile con tutte le carte contactless - incluse le carte
+virtuali su smartphone e smartwatch - rappresenta un ulteriore tassello del processo di digitalizzazione. In ogni
+stazione della metropolitana sono presenti almeno due varchi dedicati al pagamento contactless tramite validatori
+specifici, mentre tutti gli autobus e i tram di nuova generazione consegnati dopo il 2019 sono dotati di dispositivi
+idonei a tale modalità di pagamento.
+Parcheggi e sosta a pagamento
+La gestione dei parcheggi a pagamento integra strumenti digitali e interventi infrastrutturali volti a semplificare l’esperienza degli utenti
+e incentivare modalità di pagamento rapide e sicure. Tra le iniziative principali vi sono la promozione dell’app SostApp, l’ottimizzazione
+dei parcometri per favorire i pagamenti con carta di credito e campagne informative in metropolitana per guidare i cittadini verso i tornelli
+contactless. Sono in corso lavori per il rilascio di una nuova app integrata per la vendita di biglietti e abbonamenti, destinata a rafforzare
+ulteriormente l’accessibilità dei servizi.
+
+                                                                                     121
+
+=== PAGINA PDF 124 / STAMPATA 122 ===
+
+La rete urbana comprende 870 parcometri, affiancati dal pagamento digitale tramite SostApp o app di operatori terzi, che consente di pagare
+“al minuto” e di gestire la sosta direttamente da smartphone. Questa modalità è particolarmente apprezzata dagli utenti: nel 2025 le vendite
+tramite app di terzi sono aumentate del 14%, mentre quelle tramite SostApp sono cresciute del 31% rispetto all’anno precedente, con ricavi
+complessivi pari a 21,3 milioni di euro. Questi interventi confermano l’impegno di GTT nel rendere la sosta più accessibile, moderna e integrata
+con i servizi digitali di mobilità.
+Sperimentazioni per la Mobilità Autonoma
+GTT, in collaborazione con la Città di Torino e altri stakeholder locali, sta sperimentando servizi di navette a guida autonoma, collocando
+Torino tra le prime città italiane ed europee a testare veicoli autonomi in traffico misto. Pur rispettando la normativa italiana, che prevede la
+presenza di un operatore a bordo, i veicoli sono in grado di rilevare ostacoli lungo il percorso e interagire con infrastrutture e altri mezzi dotati
+della stessa tecnologia.
+Nel 2025, il progetto IN2CCAM, finanziato dalla Commissione Europea nell’ambito di Horizon Europe, ha consentito simulazioni di indiriz-
+zamento dinamico e l’acquisizione di esperienza operativa utile per il successivo servizio AuToMove, inserito nel Piano nazionale per gli
+investimenti complementari al PNRR. Dopo le fasi progettuali e i test tecnici, il servizio al pubblico è stato inaugurato il 14 ottobre 2025
+nell’area del Campus Einaudi ed è utilizzabile gratuitamente previa prenotazione tramite l’app WeTaxi, offrendo un esempio concreto di
+mobilità innovativa e sicura.
+Accessibilità e inclusione sociale degli utenti
+L’accessibilità rappresenta uno dei principi fondamentali del servizio offerto da GTT nell’area urbana e metropolitana di Torino. In questo conte-
+sto, la Società mette in atto specifiche azioni per garantire l’accessibilità al servizio sia alle persone con disabilità o mobilità ridotta, sia
+alle fasce sociali economicamente più fragili.
+Accessibilità economica
+GTT contribuisce a garantire l’accessibilità economica alla mobilità urbana nella città di Torino attraverso una politica tariffaria inclusiva e un
+sistema di agevolazioni rivolto alle fasce sociali più vulnerabili.
+La Società applica tariffe differenziate basate sull’ISEE, che consentono di ridurre significativamente il costo degli abbonamenti per studenti
+e giovani con redditi più bassi. A queste si affiancano agevolazioni specifiche per categorie sociali, come anziani, disoccupati, persone con
+disabilità e bambini, per i quali sono previsti abbonamenti gratuiti o fortemente ridotti.
+Agevolazioni ed esenzioni
+GTT prevede tariffe agevolate ed esenzioni per determinate categorie sociali, con finanziamento parziale o totale da parte della Regione Piemon-
+te o del Comune di Torino. I titoli di viaggio e di sosta possono essere richiesti presso i Centri di Servizi al Cliente.
+Trasporto pubblico
+• Abbonamenti dedicati a disoccupati residenti nel Comune di Torino
+• Tessere di viaggio per persone con invalidità civile
+• Abbonamenti agevolati per giovani under 26, over 65 e studenti universitari
+• Libera circolazione per bambini fino a 11 anni
+Sosta
+• Permessi per residenti
+• Permessi Zona a Traffico Limitato (ZTL)
+• Permessi per terapie e visite mediche
+• Permessi specifici per Enti morali, autoriparatori, autoscuole e altre categorie particolari.
+Piemove
+Nel settembre 2025 è stata avviata l’iniziativa “Piemove - Piemonte Viaggia Studia”, promossa dalla Regione Piemonte in collaborazione
+con gli operatori del trasporto pubblico locale, tra cui GTT, con l’obiettivo di promuovere la mobilità sostenibile tra i giovani. Il progetto prevede un
+abbonamento annuale gratuito per gli studenti universitari under 26 iscritti agli atenei piemontesi - tra cui l’Università degli Studi di Torino, il Poli-
+tecnico di Torino e l’Università del Piemonte Orientale - valido sulle reti urbane e suburbane, destinato a studenti con ISEE inferiore a 85.000 euro.
+Gli abbonamenti sono rilasciati tramite la piattaforma di 5T, riducendo così le operazioni dirette tramite i canali GTT. Per gli abbonamenti annuali
+Formula, è stato introdotto uno sconto in fase di acquisto sul sito e-commerce aziendale, rafforzando l’integrazione tra politiche pubbliche di so-
+stegno alla mobilità e strumenti digitali di vendita. L’iniziativa è prevista in forma sperimentale per gli anni accademici 2025/2026, 2026/2027
+e 2027/2028.
+
+                                                                                     122
+
+=== PAGINA PDF 125 / STAMPATA 123 ===
+
+Accessibilità per persone con ridotta mobilità
+L’accessibilità rappresenta un elemento fondamentale per garantire un sistema di trasporto pubblico inclusivo ed efficiente. Un servizio acces-
+sibile consente a tutte le persone, comprese quelle con disabilità, di muoversi autonomamente e in sicurezza, contribuendo a una maggiore
+equità sociale e all’integrazione urbana.
+GTT, da più di 10 anni, ha un proprio referente per la mobilità delle persone con disabilità - il Disability Manager - che coordina i molteplici
+aspetti dell’accessibilità e recepisce le diverse istanze presentate dalle associazioni di persone con disabilità. Questa figura rappresenta un
+facilitatore delle relazioni tra le Associazioni, gli Enti e i settori erogatori di servizi (esercizio, manutenzione, comunicazione, ecc.). Si occupa di
+azioni e progetti finalizzati alla sensibilizzazione ai temi della disabilità.
+Nel 2025 è proseguito il processo di rinnovamento della flotta tranviaria, con la progressiva dismissione delle storiche vetture di colore “aran-
+cione” e l’immissione in servizio di nuovi tram della serie 8000 - Hitachi. I nuovi mezzi sono stati progettati con particolare attenzione
+all’accessibilità e integrano soluzioni migliorative recepite anche grazie al confronto con le associazioni rappresentative delle persone con
+disabilità, con l’obiettivo di incrementare la funzionalità degli spazi, il comfort e l’autonomia di utilizzo.
+Nel medesimo periodo sono proseguiti gli incontri di informazione e sensibilizzazione dedicati ai temi della disabilità nell’ambito della
+formazione del personale di guida neoassunto. Le sessioni hanno visto la partecipazione attiva di associazioni rappresentative di persone con
+disabilità sensoriale (anche con la presenza di cane guida), motoria e intellettiva/relazionale, favorendo un confronto diretto e concreto. Questa
+attività ha rafforzato la consapevolezza del personale rispetto alle diverse esigenze di mobilità e ha contribuito a promuovere un approccio al
+servizio maggiormente attento, empatico e orientato all’assistenza.
+Attraverso il progetto “Agenda della disabilità”, è stato realizzato e avviato alla diffusione nel 2025 l’opuscolo “Partiamo da noi”, che
+raccoglie le principali buone pratiche e le azioni più significative adottate nel trasporto pubblico per migliorare l’esperienza quotidiana delle per-
+sone con disabilità. L’iniziativa rappresenta uno strumento di sensibilizzazione e valorizzazione dell’impegno aziendale in ambito di accessibilità
+e inclusione.
+Prosegue la collaborazione con l’Ufficio Studenti con disabilità dell’Università di Torino, nell’ambito di un’attività formativa rivolta a
+studenti beneficiari di borse di studio per attività di accompagnamento e tutoraggio a favore di altri studenti. Il percorso formativo, finalizzato a
+illustrare le principali caratteristiche del trasporto pubblico urbano in tema di accessibilità, consente ai partecipanti di acquisire competenze utili
+per un utilizzo consapevole ed efficace del servizio, rafforzando al contempo la rete di supporto a favore della comunità studentesca.
+La mobilità delle persone con disabilità viene garantita con interventi complementari su:
+
+Infrastrutture
+Gli investimenti nelle infrastrutture consentono di ampliare progressivamente il livello di accessibilità del servizio ordinario, attraverso
+la rimozione delle barriere architettoniche esistenti - quali, ad esempio, il ribassamento delle banchine - e la realizzazione di nuove strutture
+progettate fin dall’origine secondo criteri di piena accessibilità. In tale ambito si inserisce la metropolitana di Torino, gestita da Infra.To, società
+del Comune responsabile delle principali infrastrutture di trasporto.
+Le stazioni della metropolitana mettono a disposizione diversi strumenti e soluzioni tecnologiche volti a facilitare la fruizione del servizio da parte
+delle persone con disabilità, garantendo condizioni di maggiore autonomia, sicurezza e comfort:
+•  Ascensori accessibili da piano strada, dotati di pulsantiere dedicate e informazioni in tempo reale sul loro funzionamento disponibili su
+  monitor di stazione, sito web e Telegram;
+• Tornelli di accesso e uscita riservati a persone con disabilità motorie e visive;
+•  Percorsi  pedo-tattili        al piano strada e nell’atrio, in corrispondenza di scale, ascensori, tornelli e mappe;
+• Targhette in Braille su pulsantiere degli ascensori e mancorrenti delle scale;
+• Messaggi audio, video e monitor ad alto contrasto per fornire informazioni sul servizio.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                      123

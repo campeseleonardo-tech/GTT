@@ -1,0 +1,216 @@
+=== PAGINA PDF 83 / STAMPATA 81 ===
+
+Uso delle risorse ed economia circolare
+
+  Tema                                         Sottotema                                                           SDGs
+  E5 Uso delle risorse                         Afflussi di risorse, compreso l’uso delle risorse
+  ed economia circolare                        Rifiuti
+
+Gestione impatti - rischi - opportunità
+Il processo di individuazione valutazione degli impatti,
+rischi e opportunità rilevanti
+
+ESRS Standards   ESRS 2 IRO-1
+
+
+ Impatti
+ Afflussi di risorse, compreso l’uso delle              Impatto ambientale negativo sull’utilizzo di risorse, connesso all’approvvigionamento di carburanti e com-
+ risorse                                                bustibili, acquisto veicoli, prodotti chimici, pneumatici e pezzi di ricambio composti da risorse non rinnova-
+                                                        bili e difficilmente riciclabili e/o riutilizzabili.
+
+ Rifiuti                                                Impatti negativi dovuti alla generazione e gestione dei rifiuti pericolosi e non pericolosi sia nelle sedi che
+                                                        nelle officine di GTT.
+
+L’analisi di rilevanza relativa al tema ESRS E5 Uso delle risorse ed economia circolare ha permesso di individuare impatti rilevanti nelle
+fasi operative e lungo la catena del valore a monte. Per ulteriori informazioni sul processo di identificazione degli impatti, dei rischi e delle
+opportunità materiali, si rimanda al capitolo Gestione degli impatti - rischi - opportunità e al capitolo Impatti, rischi e opportunità rilevanti e loro
+interazione con la strategia e il modello di business / paragrafo I temi rilevanti (IRO).
+Impatti
+I sottotemi definiti come rilevanti da un punto di vista d’impatto risultano essere Afflussi di risorse, compreso l’uso delle risorse e Rifiuti.
+Afflussi e utilizzo di risorse - L’approvvigionamento di materie prime e materiali è un aspetto importante per GTT. Gli impatti più significativi
+relativi a tale tematica riguardano l’acquisto dei mezzi ed i materiali utilizzati in fase di manutenzione nelle officine.  Per approfondimenti e
+maggiori dettagli rispetto alle risorse impiegate da GTT si rimanda al paragrafo Flussi di risorse in entrata.
+Rifiuti - GTT genera sia rifiuti pericolosi che non pericolosi, derivanti dalla dismissione dei mezzi e dalle attività manutentive. Gli impatti princi-
+pali derivano dalla gestione dei rifiuti prodotti, pericolosi e non pericolosi.
+Rischi e opportunità
+Si specifica che dalle analisi effettuate non sono emersi rischi ed opportunità rilevanti ai fini della Rendicontazione di sostenibilità relativi al tema
+E5 Uso delle risorse ed economia circolare.
+Politiche relative all’uso delle risorse e all’economia circolare
+
+ESRS Standards   ESRS 2 MDR-P, ESRS E5 E5-1
+Come descritto nel paragrafo Gestione impatti - rischi - opportunità / Politiche relative alla mitigazione dei cambiamenti climatici e all’adatta-
+mento agli stessi, GTT ha adottato politiche e sistemi di gestione volti e mitigare i propri impatti ambientali. Le politiche e certificazioni vengono
+condivise con i lavoratori attraverso canali di comunicazione interni.
+GTT non ha una politica formalizzata relativa all’uso delle risorse e all’economia circolare. Applica criteri di gestione degli appalti e adotta
+pratiche operative che contribuiscono ad un utilizzo responsabile delle materie prime. In particolare, la gestione degli appalti prevede l’appli-
+cazione dei Criteri Ambientali Minimi (CAM), resi obbligatori dal nuovo Codice degli Appalti (D.lgs. 36/2023).
+L’impegno di GTT verso i principi dell’economia circolare a livello di policy si traduce in scelte concrete lungo l’intero ciclo di vita dei mezzi e dei ma                   -
+teriali, dalla fase di progettazione e acquisto fino alla gestione del fine vita. In particolare, GTT integra criteri di circolarità già nelle procedure di gara.
+L’impegno verso l’acquisto responsabile si evince anche dall’adesione volontaria alla Rete provinciale degli Acquisti Pubblici Ecologici (APE), co-
+ordinata dalla Città Metropolitana di Torino. Il protocollo ha creato un network tra associazioni di categoria, ordini professionali e altre organizza-
+
+                                                                                     81
+
+=== PAGINA PDF 84 / STAMPATA 82 ===
+
+zioni rappresentative del “lato dell’offerta”, favorendo la produzione e l’erogazione di beni e servizi più performanti dal punto di vista ambientale.
+La Rete APE si fonda sulla condivisione di conoscenze, competenze e materiali utili, attraverso attività informative e formative, supporti tecnici
+mirati, partecipazione a progetti europei e momenti di confronto nei tavoli nazionali.
+Per quanto riguarda la gestione dei rifiuti, GTT garantisce il recupero di materiali come metalli, oli esausti e batterie tramite fornitori affiliati
+ai consorzi di recupero, che assicurano la corretta raccolta e rigenerazione dei materiali conferiti, come così predisposto dalle procedure del
+Sistema di Gestione Ambientale ISO 14001. Le azioni della Società sono orientate alla riduzione dei consumi, accompagnate dal monitoraggio
+della qualità delle acque di scarico.
+Azioni e risorse relative all’uso delle risorse e all’economia circolare
+
+ESRS Standards   ESRS 2 MDR-A, ESRS E5 E5-2
+Azioni
+Gestione dei rifiuti
+La gestione dei rifiuti avviene nel pieno rispetto della normativa vigente, in conformità a quanto previsto dal D.Lgs. 152/2006. I rifiuti prodotti
+sono classificati secondo i codici CER del Catalogo Europeo dei Rifiuti, suddivisi in rifiuti pericolosi e non pericolosi, così da garantirne una cor-
+retta tracciabilità e gestione. In base alle caratteristiche e alla tipologia, i rifiuti vengono avviati a operazioni di recupero o di smaltimento tramite
+trasportatori presso impianti autorizzati. I flussi di rifiuti sono monitorati con cadenza annuale, consentendo un controllo puntuale delle quantità
+prodotte e delle modalità di gestione adottate.
+Acquisti mezzi
+I capitolati per l’acquisto di nuovi mezzi prevedono criteri di aggiudicazione che incentivano la riciclabilità dei materiali. Nella gara per
+la fornitura dei 70 nuovi tram, aggiudicata a Hitachi, è stata esplicitata la percentuale di riciclabilità dei materiali utilizzati: i nuovi tram risultano
+riciclabili al 90%, con livelli di rumorosità inferiori alla norma e rispetto ai veicoli già in esercizio, e sono dotati di un sistema di monitoraggio
+energetico a bordo, per minimizzare gli impatti lungo l’intero ciclo di vita del prodotto. ll risultato è frutto di una richiesta inserita in fase di gara,
+che prevedeva la dichiarazione da parte dei fornitori della quota di materiali riciclabili impiegati nella costruzione dei veicoli. Ana-
+logamente, anche nelle più recenti procedure di acquisto degli autobus, inclusa la gara del 2024 per i mezzi da 18 metri alimentati a metano,
+GTT ha richiesto l’impiego di plastica riciclata o bio-based per i rivestimenti interni.
+I capitolati di gara per l’acquisto di bus elettrici e a metano sono stati redatti applicando i requisiti previsti dai CAM vigenti, nonché i principi di
+tutela ambientale secondo il criterio Do No Significant Harm (DNSH). I criteri relativi all’impatto su ambiente e persone attribuiscono pun-
+teggi rilevanti nelle procedure di aggiudicazione, contribuendo a orientare le scelte verso soluzioni meno impattanti sull’ambiente.
+Batterie autobus elettrici
+Un ambito centrale delle strategie di economia circolare di GTT riguarda la gestione delle batterie dei nuovi autobus elettrici. In linea
+con quanto previsto dai capitolati di gara, le imprese aggiudicatarie hanno presentato progetti dedicati alla cosiddetta “second life” delle
+batterie, definendo modalità di gestione una volta raggiunto il termine della loro vita tecnica utile, identificato nel momento in cui la capacità
+residua scende all’80% di quella nominale iniziale. Al di sotto di tale soglia, le prestazioni non risultano più adeguate a garantire il corretto
+svolgimento del servizio di trasporto pubblico. Le soluzioni individuate consentono di massimizzare il valore residuo delle batterie attraverso il
+loro riutilizzo in applicazioni stazionarie. In questo scenario, i moduli a fine vita vengono impiegati per realizzare sistemi di accumulo di energia a
+supporto degli impianti di ricarica, contribuendo a ridurre la potenza massima assorbita dalla rete elettrica. Tali sistemi risultano particolarmente
+efficaci se integrati con impianti di produzione da fonte fotovoltaica, progetto che GTT sta sviluppando, permettendo di accumulare l’energia
+prodotta durante le ore diurne e renderla disponibile per la ricarica notturna degli autobus elettrici. Nei casi in cui il riutilizzo in applicazioni
+stazionarie non risulti tecnicamente possibile, le batterie vengono avviate a riciclo attraverso il conferimento a centri specializzati. Qui i materiali
+e gli elementi chimici che le compongono vengono recuperati e reimmessi nei cicli produttivi, contribuendo alla produzione di nuove batterie o
+ad altri impieghi industriali.
+Pneumatici
+La selezione degli pneumatici rientra nei capitolati di acquisto dei nuovi mezzi ed è pertanto demandata ai costruttori, nel rispetto delle norma-
+tive di legge vigenti. Nell’ambito del contratto di affidamento del servizio di manutenzione full service degli pneumatici, GTT ha previsto l’utilizzo
+di pneumatici ricoperti, una scelta che favorisce il recupero di pneumatici usati e contribuisce a ridurre la produzione di nuovi pneumatici, con
+benefici in termini di consumo di risorse e gestione dei rifiuti.
+
+
+
+
+                                                                                        82
+
+=== PAGINA PDF 85 / STAMPATA 83 ===
+
+Servizi di pulizia - mensa e vending machines
+GTT ha stipulato tutti i contratti per i servizi di pulizia nel rispetto dei CAM aggiornati, valutando le offerte sulla base di criteri tecnici quali il
+possesso di certificazioni aziendali, i servizi offerti sia dal punto di vista ambientale che sociale, la scelta di prodotti Ecolabel a ridotto impatto
+ambientale anche in termini di riciclabilità degli imballaggi, l’uso di macchinari e attrezzature efficienti.
+Anche il servizio mensa e vending machines viene offerto nel rispetto dei CAM di riferimento, assicurando la minimizzazione dei rifiuti
+prodotti, l’impiego di alimenti provenienti dalla filiera corta e biologica, l’utilizzo di apparecchiature a basso impatto e ridotti consumi energetici
+e la tutela dei diritti e del benessere dei lavoratori delle aziende appaltatrici.
+Risorse
+Non sono disponibili indicazioni puntuali rispetto alle spese sostenute per l’attuazione delle attività sopra descritte.
+Metriche e obiettivi
+Obiettivi relativi all’uso delle risorse e all’economia circolare
+
+ESRS Standards   ESRS 2 MDR-T, ESRS E5 E5-3
+
+ Sottotema rilevante                               Obiettivo                                                       Azioni                                      Timeline
+ Afflussi di risorse,       Incremento dell’efficienza nell’utilizzo delle              Controllo e gestione dei materiali di consumo e dei                In continuità col
+ compreso l’uso delle       principali materie prime / componenti di                    componenti di ricambio utilizzati per autobus, tram e                  business
+ risorse                    lavorazione e riduzione degli sprechi                       metropolitana.
+ Rifiuti                    Gestione dei rifiuti                                        Incaricare operatori autorizzati della gestione dei rifiuti,       In continuità col
+                                                                                        garantendo che lo smaltimento avvenga nel rispetto                     business
+                                                                                        delle normative vigenti.
+Per un quadro completo degli obiettivi e delle relative tempistiche, si rimanda al paragrafo Piano di Sostenibilità: obiettivi e azioni relative alle
+tematiche di sostenibilità rilevanti del presente documento.
+Flussi di risorse in entrata
+
+ESRS Standards   ESRS 2 MDR-M, ESRS E5 E5-4
+I materiali acquistati
+GTT acquista materiali necessari per garantire la continuità e l’efficienza del servizio di trasporto pubblico. Tra le principali voci di approvvigio-
+namento risultano: rotaie in acciaio, traversine legno, batterie per i mezzi, antigelo, oli, gas refrigeranti. Altri materiali comprendono prodotti
+acquistati necessari sia per le officine che per gli uffici, come detergenti e carta riciclata.
+Nel 2025 il volume complessivo dei materiali utilizzati è pari a 278.509,66 kg, registrando una diminuzione del 62% rispetto al 2024.
+L’andamento è dovuto alle diverse dinamiche annuali di acquisti e stock in magazzino, con particolare rilievo quantitativo sul totale della sabbia
+e delle rotaie.
+Non sono al momento disponibili informazioni puntuali sulla quota di materiali di origine biologica provenienti da filiere sostenibili né sui volumi
+di materiali secondari riutilizzati o riciclati nell’ambito della produzione o della manutenzione dei mezzi e delle infrastrutture.
+
+ Flussi in ingresso (kg)                                                                          2025                          2024                           2023
+ Materiali tecnici
+ Antigelo                                                                                          89.373,00                    116.608,00                    154.076,77
+ Rotaie acciaio                                                                                    88.772,00                    497.247,00                               nd
+ Olio/grasso                                                                                       42.230,81                     41.131,13                      55.585,14
+ Sabbia                                                                                            26.150,00                    649.840,00                       5.778,20
+ Batterie                                                                                          22.535,00                     42.115,00                      41.365,00
+ Carta riciclata                                                                                   18.152,50                     16.397,50                      16.514,18
+ Saponi                                                                                             7.680,00                       9.733,20                      6.300,00
+ Detergente                                                                                         4.933,80                       4.409,40                      1.604,00
+ Acqua distillata                                                                                   2.000,00                       4.000,00                      1.000,00
+
+
+                                                                                      83
+
+=== PAGINA PDF 86 / STAMPATA 84 ===
+
+ Gas refrigerante r134                                                                                1.240,00                        1.840,00                       2.560,00
+ Carta vergine                                                                                           794,77                         405,22                         764,22
+ Adesivo-sigillante                                                                                      376,94                         626,40                         518,78
+ Gas refrigerante r513a                                                                                  190,00                           76,00                                -
+ Gas tecnici                                                                                             223,00                         691,00                         200,76
+ Acetone                                                                                                    7,84                           3,92                                -
+ Traversine legno                                                                                               -                     4.350,00                               nd
+ Alcool etilico                                                                                                 -                       197,25                                 -
+ Totale materiale tecnici                                                                         278.509,66                     739.831,01                     280.488,85
+
+Per la manutenzione dei tram, GTT sub-affida una parte del lavoro a società terze. Di seguito vengono riportati i principali materiali utilizzati per
+tale attività.
+
+ Materiali per la manutenzione - Società terza (kg)                                                                        2025                                 2024
+ Materiali tecnici - Appalti
+ Rotaie acciaio                                                                                                                           -                        66.600,00
+ Traversine calcestruzzo                                                                                                     599.850,00                           107.500,00
+Flussi di risorse in uscita
+
+ESRS Standards   ESRS 2 MDR-M, ESRS E5 E5-5
+I rifiuti
+Nel 2025 sono state generate complessivamente 3.216,42 tonnellate di rifiuti (incremento del 12% rispetto all’anno precedente). Di questi, il
+71% sono rifiuti pericolosi, mentre il restante 29% è costituito da rifiuti non pericolosi.
+
+ Rifiuti generati (t)                                                                               2025                          2024*                           2023*
+ Rifiuti pericolosi                                                                                   2.279,76                        2.188,66                       2.766,45
+ Rifiuti non pericolosi                                                                                  936,66                         677,64                       1.215,45
+ Totale rifiuti generati                                                                              3.216,42                       2.866,30                       3.981,90
+
+*Vengono riesposti i valori per gli anni 2024 e 2023 a seguito di un miglioramento dei processi per la raccolta dei dati
+A seguito del processo di rinnovamento della flotta, nel 2025 sono stati alienati 125 autobus, ivi inclusi 15 donati all’Ucraina, e 20 tram.
+La produzione degli altri rifiuti industriali è legata principalmente all’attività di manutenzione dei mezzi ed è costituita da accumulatori al
+piombo, olio esausto e metalli ferrosi (sottoposti a recupero e valorizzazione), rifiuti provenienti dagli impianti depurazione delle acque di lavaggio
+mezzi o da pulizia scambi tranviari, nonché altri residui quali neon, cartucce, grassi, materiali assorbente, filtri olio e aria, legno e imballaggi vari.
+
+ Rifiuti generati                                    2025                                             2024*                                             2023*
+ per categoria (t)                 Recupero      Smaltimento          Totale        Recupero       Smaltimento          Totale        Recupero       Smaltimento         Totale
+
+ Rifiuti pericolosi
+ Veicoli fuori uso                 1.669,67                   -     1.669,67         1.744,88                  -      1.744,88         2.270,80                  -      2.270,80
+ Rifiuti liquidi acquosi                              478,96           478,96                           300,71          300,71                   -        333,14          333,14
+ Oli minerali                          34,33                  -         34,33            29,23                 -          29,23            45,78                 -          45,78
+ Batterie al piombo e al               36,73                  -         36,73            54,32                 -          54,32            58,62                 -          58,62
+ nichel-cadmio
+ Altri rifiuti**                     23,654           36,424           60,078          24,379            28,60          53,459           24,816           33,110          57,926
+ Totale rifiuti pericolosi        1.764,38           515,38        2.279,76         1.858,39           330,27        2.188,66         2.400,01           366,43        2.766,45
+
+**  Emulsioni, assorbenti, materiali filtranti, stracci e indumenti protettivi contaminati, vetro, plastica e legno, filtri dell'olio, liquidi antigelo, imballaggi, olio combustibile e
+  carburante diesel, apparecchiature fuori uso e componenti, rifiuti organici e inorganici
+
+
+
+
+                                                                                        84

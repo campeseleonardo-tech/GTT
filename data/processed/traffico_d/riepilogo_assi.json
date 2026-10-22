@@ -1,0 +1,12 @@
+{
+ "n_assi": 31639,
+ "n_tratte": 47807,
+ "coppie_incrocio": 63990,
+ "km_rete": 8592.0,
+ "km_rango3_torino": 340.2,
+ "perc_coperta": 100.0,
+ "assi_incoerenti": 5,
+ "perc_incoerenti": 0.02,
+ "tratte_sotto_300m": 38077,
+ "tratte_oltre_1500m": 196
+}

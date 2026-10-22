@@ -1,0 +1,64 @@
+{
+  "risultato": "2",
+  "titolo": "Metro di notte",
+  "domanda": "Quanti residenti guadagnano servizi raggiungibili in piu' nel buco notturno reale (00:50-05:22) se la metro M1 facesse corse finte anche li'?",
+  "generato": "2026-10-19T23:52:03+00:00",
+  "avviso": [
+    "⚠ SIMULAZIONE SU ORARIO PROGRAMMATO",
+    "I risultati mostrano l'offerta potenziale (passaggi/ora, residenti raggiunti, tempi di attesa teorici)",
+    "calcolata applicando le variazioni indicate all'orario ufficiale GTFS.",
+    "Non tengono conto di: traffico reale, ritardi, capienza dei mezzi, domanda effettiva passeggeri, regolarità del servizio.",
+    "Un aumento di corse sulla carta non garantisce che i bus arrivino in orario.",
+    "Dati [PROGRAMMATO] / [STIMATO] — non [MISURATO]."
+  ],
+  "scenari": [
+    {
+      "nome": "Ogni 15 minuti",
+      "numeri": [
+        {
+          "label": "Residenti con accesso migliorato",
+          "prima": 0,
+          "dopo": 773307,
+          "unita": "residenti"
+        },
+        {
+          "label": "Sezioni di censimento migliorate",
+          "prima": 0,
+          "dopo": 3689,
+          "unita": "sezioni"
+        },
+        {
+          "label": "Attesa media teorica",
+          "prima": null,
+          "dopo": 7.5,
+          "unita": "min"
+        }
+      ],
+      "nota": "Delta mediano tra le sezioni migliorate: 9179 servizi in piu' (90-esimo percentile: 33289)."
+    },
+    {
+      "nome": "Ogni 30 minuti",
+      "numeri": [
+        {
+          "label": "Residenti con accesso migliorato",
+          "prima": 0,
+          "dopo": 652891,
+          "unita": "residenti"
+        },
+        {
+          "label": "Sezioni di censimento migliorate",
+          "prima": 0,
+          "dopo": 3155,
+          "unita": "sezioni"
+        },
+        {
+          "label": "Attesa media teorica",
+          "prima": null,
+          "dopo": 15.0,
+          "unita": "min"
+        }
+      ],
+      "nota": "Delta mediano tra le sezioni migliorate: 3436 servizi in piu' (90-esimo percentile: 26088)."
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+{
+ "stimato": true,
+ "unita": "totale diurno 6-21 a due versi, veicoli/giorno",
+ "n": 20,
+ "metodo_A_errore_mediano": 0.369,
+ "rho_modello_grezzo": 0.614,
+ "variante_finale": "V0_globale",
+ "classe_esito": "C-DEBOLE",
+ "intervallo_incerto": true,
+ "varianti": {
+  "V0_globale": {
+   "descrizione": "un solo fattore globale k = somma misurato / somma modello",
+   "errore_mediano": 0.3189,
+   "errore_mediano_ic90": [
+    0.2374,
+    0.4018
+   ],
+   "errore_p90": 0.5925,
+   "errore_peggiore": 1.4694,
+   "distorsione_media": 0.0566,
+   "rho_loo": 0.602,
+   "migliore_di_A": true,
+   "k_totale": 1.7215113375609712
+  },
+  "V1_per_classe": {
+   "descrizione": "un fattore k per classe di strada (autostrada-tangenziale / arteria / locale)",
+   "errore_mediano": 0.3189,
+   "errore_mediano_ic90": [
+    0.1933,
+    0.3765
+   ],
+   "errore_p90": 0.6251,
+   "errore_peggiore": 2.169,
+   "distorsione_media": 0.1149,
+   "rho_loo": 0.516,
+   "migliore_di_A": true,
+   "k_per_classe": {
+    "arteria": 1.6772790160068183,
+    "locale": 2.072489819497564,
+    "autostrada_tangenziale": 1.6962373684541763
+   }
+  },
+  "V2_potenza": {
+   "descrizione": "measured = a * model^b",
+   "errore_mediano": 0.2276,
+   "errore_mediano_ic90": [
+    0.1995,
+    0.3396
+   ],
+   "errore_p90": 0.8238,
+   "errore_peggiore": 1.0921,
+   "distorsione_media": 0.062,
+   "rho_loo": 0.577,
+   "migliore_di_A": true,
+   "a_totale": 148.54445407056116,
+   "b_totale": 0.5435831964628534
+  }
+ },
+ "errore_per_unita": [
+  0.5657,
+  0.2579,
+  0.3272,
+  0.4075,
+  0.3805,
+  0.3107,
+  0.1933,
+  0.1627,
+  0.4018,
+  0.2614,
+  0.1228,
+  0.2816,
+  0.0183,
+  0.8335,
+  0.0653,
+  1.4694,
+  0.0934,
+  0.5141,
+  0.3686,
+  0.5191
+ ],
+ "tabella": [
+  {
+   "lcd1": [
+    "35478",
+    "35479"
+   ],
+   "via": "SP1(TO) delle Valli di Lanzo",
+   "classe": "locale",
+   "misurato": 15886.0,
+   "modello": 4064.4,
+   "previsto_loo": 6898.6,
+   "errore": 0.5657,
+   "punteggio": 3
+  },
+  {
+   "lcd1": [
+    "36066",
+    "36067"
+   ],
+   "via": "SP8(TO) di Druento",
+   "classe": "locale",
+   "misurato": 20889.0,
+   "modello": 9081.4,
+   "previsto_loo": 15502.1,
+   "errore": 0.2579,
+   "punteggio": 2
+  },
+  {
+   "lcd1": [
+    "2375"
+   ],
+   "via": "R24 Raccordo Torino-Aeroporto Caselle",
+   "classe": "autostrada_tangenziale",
+   "misurato": 40092.0,
+   "modello": 15997.4,
+   "previsto_loo": 26975.1,
+   "errore": 0.3272,
+   "punteggio": 5
+  },
+  {
+   "lcd1": [
+    "39977"
+   ],
+   "via": "Corso Agnelli(TO)",
+   "classe": "arteria",
+   "misurato": 21104.0,
+   "modello": 17025.7,
+   "previsto_loo": 29703.9,
+   "errore": 0.4075,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "39983"
+   ],
+   "via": "Corso Allamano(TO)",
+   "classe": "arteria",
+   "misurato": 12636.0,
+   "modello": 10057.7,
+   "previsto_loo": 17444.6,
+   "errore": 0.3805,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40021"
+   ],
+   "via": "Corso Francia(TO)",
+   "classe": "autostrada_tangenziale",
+   "misurato": 28698.0,
+   "modello": 21549.8,
+   "previsto_loo": 37615.3,
+   "errore": 0.3107,
+   "punteggio": 5
+  },
+  {
+   "lcd1": [
+    "40022"
+   ],
+   "via": "Corso Francia(TO)",
+   "classe": "autostrada_tangenziale",
+   "misurato": 30934.0,
+   "modello": 21244.1,
+   "previsto_loo": 36913.8,
+   "errore": 0.1933,
+   "punteggio": 5
+  },
+  {
+   "lcd1": [
+    "40040"
+   ],
+   "via": "Corso Giulio Cesare(TO)",
+   "classe": "arteria",
+   "misurato": 33928.0,
+   "modello": 16645.9,
+   "previsto_loo": 28408.9,
+   "errore": 0.1627,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40041"
+   ],
+   "via": "Corso Giulio Cesare(TO)",
+   "classe": "arteria",
+   "misurato": 28846.0,
+   "modello": 23071.2,
+   "previsto_loo": 40436.9,
+   "errore": 0.4018,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40095"
+   ],
+   "via": "Corso Orbassano(TO)",
+   "classe": "arteria",
+   "misurato": 50204.0,
+   "modello": 21991.9,
+   "previsto_loo": 37082.9,
+   "errore": 0.2614,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40097"
+   ],
+   "via": "Corso Orbassano(TO)",
+   "classe": "arteria",
+   "misurato": 41346.0,
+   "modello": 21237.2,
+   "previsto_loo": 36270.0,
+   "errore": 0.1228,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40098"
+   ],
+   "via": "Corso Orbassano(TO)",
+   "classe": "arteria",
+   "misurato": 27262.0,
+   "modello": 20054.5,
+   "previsto_loo": 34938.3,
+   "errore": 0.2816,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40122"
+   ],
+   "via": "Corso Regina Margherita(TO)",
+   "classe": "arteria",
+   "misurato": 28438.0,
+   "modello": 16230.5,
+   "previsto_loo": 27918.3,
+   "errore": 0.0183,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40149"
+   ],
+   "via": "Corso Sebastopoli(TO)",
+   "classe": "locale",
+   "misurato": 17342.0,
+   "modello": 18062.5,
+   "previsto_loo": 31797.3,
+   "errore": 0.8335,
+   "punteggio": 3
+  },
+  {
+   "lcd1": [
+    "40174"
+   ],
+   "via": "Corso Trieste(TO)",
+   "classe": "arteria",
+   "misurato": 69134.0,
+   "modello": 42482.9,
+   "previsto_loo": 73651.1,
+   "errore": 0.0653,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40182"
+   ],
+   "via": "Corso Unione Sovietica(TO)",
+   "classe": "arteria",
+   "misurato": 19066.0,
+   "modello": 26201.3,
+   "previsto_loo": 47080.9,
+   "errore": 1.4694,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40189"
+   ],
+   "via": "Corso Unita' D'italia(TO)",
+   "classe": "arteria",
+   "misurato": 80946.0,
+   "modello": 43137.2,
+   "previsto_loo": 73383.4,
+   "errore": 0.0934,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40194"
+   ],
+   "via": "Corso Vercelli(TO)",
+   "classe": "locale",
+   "misurato": 26244.0,
+   "modello": 7566.8,
+   "previsto_loo": 12751.6,
+   "errore": 0.5141,
+   "punteggio": 3
+  },
+  {
+   "lcd1": [
+    "40212"
+   ],
+   "via": "Ponte Amedeo VIII(TO)",
+   "classe": "arteria",
+   "misurato": 29916.0,
+   "modello": 11163.9,
+   "previsto_loo": 18887.5,
+   "errore": 0.3686,
+   "punteggio": 4
+  },
+  {
+   "lcd1": [
+    "40253"
+   ],
+   "via": "Strada Di Settimo(TO)",
+   "classe": "arteria",
+   "misurato": 16888.0,
+   "modello": 4783.3,
+   "previsto_loo": 8121.7,
+   "errore": 0.5191,
+   "punteggio": 4
+  }
+ ],
+ "fattore_k_finale": 1.7215113375609712
+}

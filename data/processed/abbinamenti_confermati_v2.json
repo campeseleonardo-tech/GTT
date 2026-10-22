@@ -1,0 +1,320 @@
+{
+ "data": "2026-10-17",
+ "autore": "Claude (revisione tabella DA_VEDERE del Passo 8) + Passo 8b (verifica OSM)",
+ "confermati": [
+  {
+   "lcd1": "40212",
+   "motivo": "1,2 m da Strada di Settimo; il nome del sensore e' quello del ponte, non della strada"
+  },
+  {
+   "lcd1": "39977",
+   "motivo": "3,0 m da Corso Giovanni Agnelli; stesso nome scritto in modo diverso"
+  },
+  {
+   "lcd1": "2375",
+   "motivo": "3,7 m dal Raccordo Autostradale Torino-Caselle; stessa strada (R24)"
+  },
+  {
+   "lcd1": "39983",
+   "motivo": "4,8 m da Corso Canonico Giuseppe Allamano; stesso nome scritto in modo diverso"
+  },
+  {
+   "lcd1": "35478",
+   "motivo": "strada con ref SP1 a 21.5 m ('Via Lanzo') = corridoio proposto 'Via Lanzo (Lanzo Torinese E Limitrofi)'"
+  },
+  {
+   "lcd1": "35479",
+   "motivo": "strada con ref SP1 a 21.5 m ('Via Lanzo') = corridoio proposto 'Via Lanzo (Lanzo Torinese E Limitrofi)'"
+  },
+  {
+   "lcd1": "36066",
+   "motivo": "strada con ref SP8 a 26.2 m ('Via Torino') = corridoio proposto 'Via Torino (Druento)'"
+  },
+  {
+   "lcd1": "36067",
+   "motivo": "strada con ref SP8 a 26.2 m ('Via Torino') = corridoio proposto 'Via Torino (Druento)'"
+  }
+ ],
+ "in_attesa_verifica_osm": [
+  "35824"
+ ],
+ "nota": "Gli in_attesa si decidono con il Passo 8b (ref OSM uguale a SPn entro 60 m e corridoio proposto). Il Passo 8b ha verificato con OSM i 5 in attesa: 4 confermati, 1 no. I 5 sensori '(TO)' erano e restano senza abbinamento.",
+ "senza_abbinamento": [
+  "35518",
+  "35519",
+  "35559",
+  "35560",
+  "35823"
+ ],
+ "verifica_osm": {
+  "35478": {
+   "lcd1": "35478",
+   "nome_sensore": "SP1(TO) delle Valli di Lanzo",
+   "dir": "positive",
+   "lat": 45.1878,
+   "lon": 7.56886,
+   "ref_atteso": "SP1",
+   "corridoio_proposto": {
+    "nome": "Via Lanzo (Lanzo Torinese E Limitrofi)",
+    "punteggio": 3,
+    "lunghezza_km": 8.02,
+    "distanza_m": 21.5,
+    "stesso_nome": false
+   },
+   "vie_entro_60m": [
+    {
+     "distanza_m": 21.5,
+     "highway": "secondary",
+     "name": "Via Lanzo",
+     "ref": "SP1",
+     "ref_norm": "SP1",
+     "nome_norm": "lanzo"
+    },
+    {
+     "distanza_m": 21.5,
+     "highway": "secondary",
+     "name": "Via Lanzo",
+     "ref": "SP1",
+     "ref_norm": "SP1",
+     "nome_norm": "lanzo"
+    }
+   ],
+   "esito": "CONFERMATO",
+   "motivo": "strada con ref SP1 a 21.5 m ('Via Lanzo') = corridoio proposto 'Via Lanzo (Lanzo Torinese E Limitrofi)'"
+  },
+  "35479": {
+   "lcd1": "35479",
+   "nome_sensore": "SP1(TO) delle Valli di Lanzo",
+   "dir": "negative",
+   "lat": 45.1878,
+   "lon": 7.56886,
+   "ref_atteso": "SP1",
+   "corridoio_proposto": {
+    "nome": "Via Lanzo (Lanzo Torinese E Limitrofi)",
+    "punteggio": 3,
+    "lunghezza_km": 8.02,
+    "distanza_m": 21.5,
+    "stesso_nome": false
+   },
+   "vie_entro_60m": [
+    {
+     "distanza_m": 21.5,
+     "highway": "secondary",
+     "name": "Via Lanzo",
+     "ref": "SP1",
+     "ref_norm": "SP1",
+     "nome_norm": "lanzo"
+    },
+    {
+     "distanza_m": 21.5,
+     "highway": "secondary",
+     "name": "Via Lanzo",
+     "ref": "SP1",
+     "ref_norm": "SP1",
+     "nome_norm": "lanzo"
+    }
+   ],
+   "esito": "CONFERMATO",
+   "motivo": "strada con ref SP1 a 21.5 m ('Via Lanzo') = corridoio proposto 'Via Lanzo (Lanzo Torinese E Limitrofi)'"
+  },
+  "36066": {
+   "lcd1": "36066",
+   "nome_sensore": "SP8(TO) di Druento",
+   "dir": "positive",
+   "lat": 45.12433,
+   "lon": 7.59182,
+   "ref_atteso": "SP8",
+   "corridoio_proposto": {
+    "nome": "Via Torino (Druento)",
+    "punteggio": 2,
+    "lunghezza_km": 2.38,
+    "distanza_m": 26.2,
+    "stesso_nome": false
+   },
+   "vie_entro_60m": [
+    {
+     "distanza_m": 6.3,
+     "highway": "cycleway",
+     "name": null,
+     "ref": null,
+     "ref_norm": "",
+     "nome_norm": ""
+    },
+    {
+     "distanza_m": 26.2,
+     "highway": "tertiary",
+     "name": "Via Torino",
+     "ref": "SP8",
+     "ref_norm": "SP8",
+     "nome_norm": "torino"
+    },
+    {
+     "distanza_m": 26.2,
+     "highway": "unclassified",
+     "name": null,
+     "ref": null,
+     "ref_norm": "",
+     "nome_norm": ""
+    }
+   ],
+   "esito": "CONFERMATO",
+   "motivo": "strada con ref SP8 a 26.2 m ('Via Torino') = corridoio proposto 'Via Torino (Druento)'"
+  },
+  "36067": {
+   "lcd1": "36067",
+   "nome_sensore": "SP8(TO) di Druento",
+   "dir": "negative",
+   "lat": 45.12433,
+   "lon": 7.59182,
+   "ref_atteso": "SP8",
+   "corridoio_proposto": {
+    "nome": "Via Torino (Druento)",
+    "punteggio": 2,
+    "lunghezza_km": 2.38,
+    "distanza_m": 26.2,
+    "stesso_nome": false
+   },
+   "vie_entro_60m": [
+    {
+     "distanza_m": 6.3,
+     "highway": "cycleway",
+     "name": null,
+     "ref": null,
+     "ref_norm": "",
+     "nome_norm": ""
+    },
+    {
+     "distanza_m": 26.2,
+     "highway": "tertiary",
+     "name": "Via Torino",
+     "ref": "SP8",
+     "ref_norm": "SP8",
+     "nome_norm": "torino"
+    },
+    {
+     "distanza_m": 26.2,
+     "highway": "unclassified",
+     "name": null,
+     "ref": null,
+     "ref_norm": "",
+     "nome_norm": ""
+    }
+   ],
+   "esito": "CONFERMATO",
+   "motivo": "strada con ref SP8 a 26.2 m ('Via Torino') = corridoio proposto 'Via Torino (Druento)'"
+  },
+  "35824": {
+   "lcd1": "35824",
+   "nome_sensore": "SP2(TO) Di Germagnano",
+   "dir": "negative",
+   "lat": 45.21232,
+   "lon": 7.614418,
+   "ref_atteso": "SP2",
+   "corridoio_proposto": {
+    "nome": "Via Torino (San Maurizio Canavese E Limitrofi)",
+    "punteggio": 4,
+    "lunghezza_km": 4.93,
+    "distanza_m": 26.6,
+    "stesso_nome": false
+   },
+   "vie_entro_60m": [
+    {
+     "distanza_m": 26.6,
+     "highway": "primary",
+     "name": "Via Torino",
+     "ref": "SP2",
+     "ref_norm": "SP2",
+     "nome_norm": "torino"
+    },
+    {
+     "distanza_m": 36.3,
+     "highway": "service",
+     "name": null,
+     "ref": null,
+     "ref_norm": "",
+     "nome_norm": ""
+    }
+   ],
+   "esito": "senza abbinamento",
+   "motivo": "strada con ref SP2 a 26.6 m ('Via Torino') = corridoio proposto 'Via Torino (San Maurizio Canavese E Limitrofi)' | esito allineato al compagno di verso (senza abbinamento)"
+  },
+  "35518": {
+   "lcd1": "35518",
+   "nome_sensore": "SP122(TO) di Chieri",
+   "dir": "positive",
+   "lat": 44.93797,
+   "lon": 7.76791,
+   "ref_atteso": "SP122",
+   "corridoio_proposto": null,
+   "vie_entro_60m": [
+    {
+     "distanza_m": 58.6,
+     "highway": "service",
+     "name": null,
+     "ref": null,
+     "ref_norm": "",
+     "nome_norm": ""
+    }
+   ],
+   "esito": "senza abbinamento",
+   "motivo": "nessuna strada con ref SP122 entro 60 m (la piu' vicina: None 58.6 m, ref None)"
+  },
+  "35519": {
+   "lcd1": "35519",
+   "nome_sensore": "SP122(TO) di Chieri",
+   "dir": "negative",
+   "lat": 44.93797,
+   "lon": 7.76791,
+   "ref_atteso": "SP122",
+   "corridoio_proposto": null,
+   "vie_entro_60m": [
+    {
+     "distanza_m": 58.6,
+     "highway": "service",
+     "name": null,
+     "ref": null,
+     "ref_norm": "",
+     "nome_norm": ""
+    }
+   ],
+   "esito": "senza abbinamento",
+   "motivo": "nessuna strada con ref SP122 entro 60 m (la piu' vicina: None 58.6 m, ref None)"
+  },
+  "35559": {
+   "lcd1": "35559",
+   "nome_sensore": "SP13(TO) di Front",
+   "dir": "positive",
+   "lat": 45.25525,
+   "lon": 7.65615,
+   "ref_atteso": "SP13",
+   "corridoio_proposto": null,
+   "vie_entro_60m": [],
+   "esito": "senza abbinamento",
+   "motivo": "nessuna strada con ref SP13 entro 60 m"
+  },
+  "35560": {
+   "lcd1": "35560",
+   "nome_sensore": "SP13(TO) di Front",
+   "dir": "negative",
+   "lat": 45.25525,
+   "lon": 7.65615,
+   "ref_atteso": "SP13",
+   "corridoio_proposto": null,
+   "vie_entro_60m": [],
+   "esito": "senza abbinamento",
+   "motivo": "nessuna strada con ref SP13 entro 60 m"
+  },
+  "35823": {
+   "lcd1": "35823",
+   "nome_sensore": "SP2(TO) Di Germagnano",
+   "dir": "positive",
+   "lat": 45.20854,
+   "lon": 7.61712,
+   "ref_atteso": "SP2",
+   "corridoio_proposto": null,
+   "vie_entro_60m": [],
+   "esito": "senza abbinamento",
+   "motivo": "nessuna strada con ref SP2 entro 60 m | esito allineato al compagno di verso (senza abbinamento)"
+  }
+ }
+}

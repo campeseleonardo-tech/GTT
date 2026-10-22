@@ -1,0 +1,240 @@
+=== PAGINA PDF 32 / STAMPATA 30 ===
+
+Composizione flotta e chilometri percorsi
+La Flotta
+Nel 2025 GTT ha continuato il percorso di rinnovamento e modernizzazione della flotta, in linea con gli obiettivi di sostenibilità ambientale e
+miglioramento dell’efficienza del servizio di TPL. Nel corso dell’anno la flotta di autobus urbani è aumentata di n.58 unità, con l’introduzione di
+mezzi moderni e performanti. Il numero di autobus extraurbani si è ridotto di n.45 unità e la flotta tranviaria ha registrato una lieve diminuzione
+di n.2 unità rispetto all’anno precedente. L’evoluzione della composizione della flotta riflette il progressivo rinnovamento dei mezzi.
+
+ Composizione flotta                                        Unità di misura                      2025                          2024                          2023
+ Autobus urbani                                                      nr                           819                            761                           781
+ Autobus extraurbani                                                 nr                           212                            257                           315
+ Tram                                                                nr                           180                            182                           168
+ Metro*                                                              nr                             58                            58                            58
+             *La metropolitana di GTT conteggia 58 VAL 208 a doppia cassa (Sistema VAL - Veicolo Automatico leggero, metro leggera su gomma con controllo centralizzato)
+
+Autobus urbani ed extraurbani
+Nel 2025 il numero di autobus urbani ed extraurbani alimentati a gasolio e a metano registra una diminuzione rispettivamente del 7,9% e del
+10,8%. Al contrario, gli autobus elettrici evidenziano una crescita significativa del 55,3%, grazie all’entrata in servizio di nuovi mezzi acquistati.
+L’incremento della flotta elettrica è destinato a proseguire anche nei prossimi anni, in quanto una parte dei veicoli già acquisiti entrerà progres-
+sivamente in esercizio. I mezzi elettrici sono 247 e vengono ricaricati presso i 223 punti di ricarica attivi nei depositi di GTT.
+L’immissione in servizio dei nuovi mezzi ha modificato significativamente la composizione della flotta e sta riducendo considerevolmente l’età
+media, che al 31 dicembre 2025 è di 6,9 anni. Si tratta di un dato positivo poiché secondo gli ultimi dati del Ministero delle Infrastrutture e dei
+Trasporti, l’età media del parco autobus TPL in Italia è pari a 9,4 anni.
+
+ Età media bus urbani circolanti                            Unità di misura                      2025                          2024                          2023
+ Età media                                                          anni                           6,9                           8,5                              9
+
+
+ Autobus per tipologia di alimentazione                     Unità di misura                      2025                          2024                          2023
+ Gasolio                                                             nr                           569                            618                           713
+ Metano                                                              nr                           215                            241                           220
+ Elettrico                                                           nr                           247                            159                           163
+ Totale autobus (urbani + extraurbani)                              nr                          1031                           1018                          1096
+
+Il  2025 è stato caratterizzato da una progressiva riduzione delle motorizzazioni diesel fino alla classe Euro 5: in particolare, i veicoli a gasolio
+delle classi inferiori agli Euro 5 passano dal 4,5% del 2024 allo 0,24% del 2025. Coerentemente i veicoli EEV (tecnologie meno inquinanti)
+sono aumentati del 18,5%, mentre quelli elettrici crescono in modo ancora più marcato, con un aumento del 55,3%.
+
+ Bus urbani circolanti per motorizzazione                   Unità di misura                      2025                          2024                          2023
+ Euro 2 FAP                                                          nr                               -                             1                             4
+ Euro 3                                                              nr                               -                           27                            38
+ Euro 4                                                              nr                               2                             6                           17
+ Metano                                                              nr                           178                            197                           178
+ Euro 5                                                              nr                               6                           30                            32
+ Euro 5 - EEV*                                                       nr                           282                            238                           245
+ Euro 6                                                              nr                           104                            103                           104
+ Elettrico                                                           nr                           247                            159                           163
+ Totale                                                             nr                            819                           761                           781
+
+                                                                                                               * Enhanced Environmentally friendly Vehicle (Euro 5 “avanzato”)
+In base agli standard previsti dal Contratto di servizio e adottati nella Carta della Mobilità, la flotta - sia urbana che extraurbana - deve essere
+composta per il 95% da mezzi a basse emissioni (Euro 2 FAP, metano, Euro 5 EEV, Euro 6 ed elettrico). Tale livello è stato raggiunto grazie
+all’ammodernamento del parco mezzi e alla progressiva dismissione delle motorizzazioni più obsolete.
+
+
+
+                                                                                     30
+
+=== PAGINA PDF 33 / STAMPATA 31 ===
+
+ Bus extraurbani circolanti                                  Unità di misura                      2025                          2024                           2023
+ per motorizzazione
+ Euro 2 FAP                                                          nr                                -                             1                             1
+ Euro 3                                                              nr                               8                            17                             70
+ Euro 4                                                              nr                               2                              3                             3
+ Metano                                                              nr                              47                            44                             42
+ Euro 5 - EEV*                                                       nr                              62                            96                           105
+ Euro 6                                                              nr                              93                            96                             94
+ Elettrico                                                           nr                                -                             -                              -
+ Totale                                                              nr                            212                           257                            315
+                                                                                                                 *Enhanced Environmentally friendly Vehicle (Euro 5 “avanzato”)
+Tram
+Le principali tipologie di tram che operano a Torino sono le serie 2800, 5000, 6000 e 8000. Dalle vetture storiche nate negli anni Cinquanta fino
+ai moderni tram di ultima generazione, le serie rappresentano le diverse fasi di sviluppo tecnologico del trasporto pubblico torinese.
+La serie 2800 è composta da vetture articolate che hanno caratterizzato per decenni il paesaggio urbano cittadino. La serie 5000 è stata
+introdotta negli anni ’80 come parte del processo di modernizzazione, con miglioramenti tecnici e strutturali. Con la serie 6000, entrata in
+servizio negli anni ’90, si è compiuto un primo passo verso una maggiore accessibilità, grazie al pianale parzialmente ribassato. Infine, la serie
+8000 rappresenta la generazione più recente: tram completamente a pianale ribassato, climatizzati e più capienti.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    SERIE 2800                                                                                   SERIE 5000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    SERIE 6000                                                                                   SERIE 8000
+
+La composizione della flotta dei tram è cambiata in modo significativo nel 2025: i mezzi della serie 2800 sono diminuiti del 34%, mentre i tram
+della serie 8000 sono aumentati del 63%, da n.24 a n.39 unità.
+
+ Tram urbani circolanti (per serie)                          Unità di misura                      2025                          2024                           2023
+ 2800                                                                nr                              33                            50                             53
+ 5000                                                                nr                              53                            53                             53
+ 6000                                                                nr                              55                            55                             55
+ 8000                                                                nr                              39                            24                              7
+ Totale                                                              nr                            180                           182                            168
+
+                                                                                      31
+
+=== PAGINA PDF 34 / STAMPATA 32 ===
+
+Metro
+La metropolitana di GTT conteggia 58 VAL 208 a doppia cassa (Sistema VAL - Veicolo Automatico leggero, metro leggera su gomma con con-
+trollo centralizzato)
+La produzione complessiva - I chilometri percorsi
+Dal 2011 ad oggi la produzione complessiva chilometrica ha registrato una riduzione, soprattutto a causa della progressiva contrazione
+delle risorse pubbliche destinate al trasporto pubblico locale. In questo contesto, GTT ha adottato diverse misure di risposta, tra
+cui l’impiego di mezzi a maggiore capacità, lo sviluppo di sistemi di infomobilità per migliorare la programmazione degli spostamenti da parte
+dell’utenza e iniziative volte ad accrescere la qualità e l’attrattività del servizio, con effetti positivi sui ricavi da vendita dei titoli di viaggio. Tali
+interventi, pur rilevanti, non hanno consentito di evitare interventi di razionalizzazione dei costi e una riduzione complessiva delle percorrenze.
+Nel 2025 i chilometri complessivamente prodotti, considerando sia l’area urbana sia quella extraurbana, hanno registrato una diminuzione del
+3% rispetto all’anno precedente, principalmente dovuta alla riduzione dei km percorsi con gli autobus a diesel (-17%). Questo dato non deve
+essere interpretato in chiave negativa: la contrazione dei chilometri percorsi è infatti il risultato di un miglioramento strutturale dell’efficienza del
+servizio: l’introduzione di una flotta più capiente e performante consente di trasportare un numero maggiore di passeggeri per singolo viaggio,
+ottimizzando l’utilizzo dei mezzi. In altre parole, anche a fronte di un incremento della domanda di trasporto, è possibile garantire il servizio con
+un minor numero di chilometri percorsi. Questo si traduce in maggiore efficienza operativa, benefici ambientali e riduzione dei costi.
+I chilometri percorsi dai mezzi elettrici rappresentano oggi il 49% del totale km percorsi. Si nota un crescente contributo degli autobus elettrici,
+le cui percorrenze sono aumentate del 5% nell’ultimo anno.
+
+ Vetture-km prodotti                                                  2025                                      2024                                    2023 14
+
+ Bus - Area urbana
+ Autoprodotti                                                      27.471.226         86%                    28.031.248        87%                    28.466.832         88%
+ di cui diesel                                                       11.488.788       36%                     13.899.781        43%                     17.185.597       53%
+ di cui metano                                                        8.041.505       25%                       7.515.913       23%                      6.732.243       21%
+ di cui elettrici                                                     7.940.933       25%                       6.615.554       20%                      4.548.992       14%
+ Subaffidati15                                                      4.562.303         14%                     4.272.547        13%                      3.758.620        12%
+
+ di cui elettrici                                                       894.925        3%                         633.848       2%                          614.451       2%
+ Totale bus urbani                                                 32.033.529                                32.303.795                               32.225.452
+ di cui totale elettrici                                              8.835.858       28%                       7.249.402       22%                      5.163.443       16%
+ Tram - Area urbana
+ Tram                                                                 4.181.976                                4.614.693                                 4.555.327
+ Metro - Area urbana
+ Metro                                                                9.374.584                                9.431.032                                 9.515.711
+ Totale - Area urbana                                              45.590.089                                46.349.520                                46.296.490
+ di cui elettrici                                                    22.392.418       49%                     21.295.127        46%                     19.234.481       42%
+
+ Bus - Area extraurbana
+ Autoprodotti                                                       7.959.026         84%                      8.841.127       86%                      8.859.841        83%
+ Subaffidati                                                        1.466.986         16%                      1.484.762       14%                      1.761.329        17%
+ Totale bus extraurbani                                             9.426.012                                10.325.889                               10.621.170
+ Totale Vetture-km prodotti                                        55.016.101                                56.675.409                               56.917.660
+  Δ%                                                                    -2,93%                                    -0,43%
+
+
+
+
+
+
+
+
+14 Nel 2023 la produzione complessiva comprendeva l’esercizio ferroviario (e relativi bus sostitutivi), terminato nel giugno 2023 e non incluso nella presente tabella per
+  permettere la comparabilità con il perimetro di attività 2024.
+15  Gli autobus subaffidati non sono gestiti direttamente da GTT con mezzi e personale propri, ma sono svolti da imprese terze alle quali GTT ha affidato parte del servizio
+  pubblico secondo quanto previsto dal contratto di servizio.
+                                                                                      32
+
+=== PAGINA PDF 35 / STAMPATA 33 ===
+
+Le percorrenze chilometriche urbane complessive hanno registrato una lieve contrazione rispetto al 2024 (-1,6%). Nel dettaglio, i chilometri percorsi
+dagli autobus a metano sono aumentati del 7%, così come quelli dei mezzi elettrici (+20%), mentre le percorrenze degli autobus a gasolio hanno
+segnato una riduzione del 17%.
+
+Distribuzione km per motorizzazione                       Unità di misura                    2025                         2024                          2023
+ Bus gasolio                                                      km                        22.619.793                   25.714.291                   28.545.546
+ di cui <= E5                                                     km                            569.617                   2.028.690                    5.338.884
+ di cui EEV                                                       km                        11.689.150                   13.479.556                   13.189.194
+ di cui Euro 6                                                    km                        10.361.026                   10.206.045                   10.017.468
+ Bus metano                                                       km                        11.549.372                   10.167.162                    7.940.368
+ Bus elettrici                                                    km                         7.424.288                    6.733.708                    4.936.024
+Totale                                                           km                        41.593.453                   42.615.161                   41.421.938
+
+
+Domanda del TPL (Passeggeri paganti)
+Nel 2025 i viaggi dei passeggeri paganti del servizio urbano hanno registrato un aumento rispetto al 2024, passando da 257 a 264 milioni,
+con una crescita del 2,7%. Gli abbonamenti annuali rimangono il prodotto più richiesto, favorito anche dalla possibilità di detrazione fiscale, e
+rappresentano il 47% del totale.
+
+Viaggi passeggero per titolo di viaggio -                 Unità di misura                    2025                         2024                          2023
+servizio urbano (mln)
+Biglietti singoli / carnet                                        nr                            58                           56                           54
+Settimanali                                                       nr                              6                            6                            5
+Mensili                                                           nr                            68                           70                           69
+Annuali                                                           nr                           124                          125                          115
+Abbonamenti Piemove                                               nr                              9                            -                            -
+Totale                                                            nr                          264                           257                          243
+
+
+L’evoluzione degli abbonamenti agevolati
+Nel periodo 2024-2025 gli abbonamenti annuali per over 65 sono diminuiti del 30% (da 10.866 nel 2024 a 7.608 nel 2025).
+
+Nr abbonamenti annuali over 65                               ISEE                  Tariffa                2025                    2024                    2023
+per fascia ISEE
+ Fascia A                                                  0-7000                   gratis                  3.486                   6.966                    7.314
+ Fascia B                                               7001-12.000               Euro 118                  1.175                   1.156                    1.055
+ Fascia C                                              12.001-20.000              Euro 155                  1.052                   1.006                      885
+ Fascia D                                              20.001-50.000              Euro 188                  1.895                   1.738                    1.608
+Totale                                                                                                      7.608                 10.866                  10.862
+ di cui a pagamento                                                                                         4.122                    3.900                   3.548
+ Tariffa media                                                                                             Euro 61                 Euro 67                 Euro 52
+
+
+Nel settembre 2025 è stata avviata l’iniziativa “Piemove - Piemonte Viaggia Studia”, promossa dalla Regione Piemonte in collabo-
+razione con gli operatori del trasporto pubblico locale, tra cui GTT, con l’obiettivo di promuovere la mobilità sostenibile tra i giovani. Il progetto
+prevede un abbonamento annuale gratuito per gli studenti universitari under 26 iscritti agli atenei piemontesi destinato a studenti con ISEE
+inferiore a 85.000 euro. Per gli abbonamenti under 26, la diminuzione è stata del 30%, dovuta dall’introduzione degli abbonamenti Piemove.
+
+
+
+
+
+
+
+
+
+                                                                                  33

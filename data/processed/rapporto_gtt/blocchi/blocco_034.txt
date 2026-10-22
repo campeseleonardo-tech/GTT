@@ -1,0 +1,232 @@
+=== PAGINA PDF 107 / STAMPATA 105 ===
+
+Revisioni delle prestazioni
+GTT si avvale delle disposizioni transitorie (“phase-in”) previste dagli European Sustainability Reporting Standards (ESRS). In applicazione di tali
+previsioni, la Società non rendiconta nel presente esercizio, le informazioni relative alle revisioni delle prestazioni, riservandosi di includerle in
+modo progressivo nei futuri periodi di rendicontazione, in linea con le tempistiche e le modalità stabilite dalla normativa di riferimento.
+Metriche di salute e sicurezza
+
+ESRS Standards   ESRS 2 MDR-M, ESRS S1 S1-14
+GTT ritiene che la salute e la sicurezza sul luogo di lavoro rappresentino un diritto fondamentale dei lavoratori e un elemento chiave per la so-
+stenibilità della Società. In coerenza con tali principi, si impegna a garantire ambienti di lavoro sicuri e salubri, nel pieno rispetto della normativa
+italiana vigente in materia di salute, sicurezza e igiene sul lavoro. A supporto di tale impegno, GTT ha adottato un Sistema di Gestione della
+Salute e Sicurezza sul Lavoro certificato secondo lo standard ISO 45001, che consente un approccio sistematico di prevenzione dei rischi
+e di tutela dei lavoratori.
+Infortuni
+Di seguito si riepilogano i principali dati raccolti in materia di Salute e Sicurezza sul luogo di lavoro. Si specifica che le principali tipologie di
+infortuni nel 2025 sono state gli scivolamenti o inciampi e gli infortuni in itinere, seguiti da incidenti alla guida e aggressioni, dovute alla natura
+del business. Rispetto al 2024, il totale degli infortuni è diminuito del 11,18% (da 170 a 151 casi), segnale che i presidi per la sicurezza
+hanno avuto un impatto concreto nel ridurre i rischi operativi e migliorare le condizioni di lavoro complessive. I pericoli sul lavoro sono general-
+mente identificati attraverso le valutazioni del rischio e le consultazioni con i rappresentanti lavoratori.
+La maggior parte degli infortuni ha comportato una prognosi superiore a 3 giorni, di cui solo 1 è risultato grave, con prognosi superiore a 40
+giorni. Non ci sono stati infortuni mortali nell’ultimo triennio. Si segnala che non sono avvenuti infortuni o decessi all’interno dei siti aziendali
+che abbiano interessato lavoratori esterni.
+L’Indice di Frequenza Infortuni misura il numero di infortuni registrati ogni milione di ore lavorate e rappresenta uno degli indicatori princi-
+pali per valutare il livello di sicurezza sul lavoro. Nel 2025 l’indice si attesta a 25,59, indicando che si sono verificati 25 infortuni ogni milione
+di ore lavorate. Il dato evidenzia un miglioramento del 13,53% rispetto al 2024.
+L’Indice di Gravità Infortuni misura il numero di giornate di assenza per infortunio ogni 1.000 ore lavorate e consente di valutare l’impatto
+degli infortuni in termini di severità, oltre che di frequenza. Nel 2025 l’indice si attesta a 0,77, indicando che sono state perse mediamente
+0,77 giornate di lavoro per infortunio ogni 1.000 ore lavorate.
+
+ Infortuni sul lavoro                                                                   2025                               2024                                2023
+ Infortuni mortali                                                                               -                                   -                                  -
+ Infortuni prognosi > 3 giorni                                                                133                                144                                124
+    di cui infortuni gravi prognosi iniziale > 40 giorni                                         1                                  1                                   -
+
+ Infortuni prognosi < 3 giorni                                                                 18                                  26                                 19
+
+ Totale incidenti registrati                                                                 151                                 170                                143
+ di cui: Incidenti alla guida                                                                  38                                  45                                 21
+ Totale ore lavorate (h)                                                              5.900.036                          5.743.844                          7.380.394
+ Giorni assenza per infortuni (nr)                                                         4.530                               3.820                              2.816
+
+ Indice Frequenza Infortuni                                                                25,59                              29,60                              19,38
+ (Nr infortuni/ore lavorate x 1.000.000)
+ Mortali                                                                                         -                                   -                                  -
+ Infortuni gravi                                                                             0,17                               0,17                                    -
+ Altri incidenti                                                                           25,42                               29,42                              19,38
+
+ Indice Gravità Infortuni                                                                    0,77                               0,67                               0,38
+ (giorni assenza infortuni / ore lavorate x 1.000)
+ Infortuni in itinere (spostamenti non organizzati dalla società)                              43                                  52                                 55
+ Giorni di assenza per infortuni in itinere                                                1.006                               1.966                              1.633
+
+
+
+
+                                                                                      105
+
+=== PAGINA PDF 108 / STAMPATA 106 ===
+
+Malattie professionali
+
+Malattie professionali                                  Unità                           2025                           2024                           2023
+Denunce                                                   nr                              8                              7                               1
+
+Nel 2025 l’autorità competente ha accertato 2 casi malattia professionale.
+Metriche dell’equilibrio tra vita professionale e vita privata
+
+ESRS Standards   ESRS 2 MDR-M, ESRS S1 S1-15
+Tutti i dipendenti di GTT hanno diritto al congedo per motivi familiari. Sono stati valutati i congedi di maternità, paternità, congedi parentali,
+assistenza parenti e figli, cura personale, handicap congiunti, straordinari e malattia figli.
+Nella tabella sono riportati i dati dei dipendenti che hanno usufruito del congedo familiare nel corso del triennio.  Nel 2025 il 36,7% dei dipen-
+denti ha fruito di tali congedi, un valore sostanzialmente in linea con quello registrato nel 2024, pari al 38,3%.
+
+Congedo familiare (HC)                Unità                     2025                                     2024                                     2023
+                                                  Donne        Uomini        Totale       Donne        Uomini         Totale       Donne        Uomini        Totale
+Numero dipendenti che hanno             HC         673          3.117        3.790          660          3.074        3.734          672         3.238         3.910
+diritto al congedo familiare
+Numero dipendenti che hanno             HC         295          1.098        1.393          293          1.137        1.430          302         1.138         1.440
+usufruito del congedo familiare
+Percentuale di dipendenti
+che ha usufruito di congedo              %       43,83%        35,23%       36,75%        44,39%       36,99%        38,30%        44,94%       35,15%        36,83%
+familiare su totale dipendenti
+Metriche di remunerazione (divario retributivo e remunerazione totale)
+
+ESRS Standards   ESRS 2 MDR-M, ESRS S1 S1-16
+Rapporto di retribuzione totale annuale
+Nel 2025 il rapporto fra la retribuzione totale annuale della persona che riceve la massima retribuzione e la retribuzione totale annuale mediana
+di tutti i dipendenti (esclusa la suddetta persona) ammonta a 3,8.
+Divario retributivo di genere
+L’indicatore del divario retributivo per genere evidenzia una differenza del 4,2% nella retribuzione media tra dipendenti uomini e donne. Tale
+divario è dovuto ad una serie di fattori, quali il livello di anzianità e alle specifiche mansioni e deleghe di determinate categorie di lavoratori.
+Il divario retributivo di genere è determinato confrontando la retribuzione media oraria lorda di uomini e donne, espressa come percentuale della
+retribuzione media maschile. La retribuzione lorda è calcolata sommando il totale delle retribuzioni erogate nell’anno, comprensive di stipendio
+base, assenze retribuite e componenti aggiuntive quali bonus, benefit e altri compensi accessori. L’importo complessivo è stato quindi diviso per
+il totale delle ore retribuite, al fine di ottenere un confronto equo e rappresentativo delle differenze retributive.
+La retribuzione dei componenti del Consiglio di Amministrazione e del Collegio Sindacale, definita dalla Deliberazione dell’Assemblea soci del
+15/07/2022, è stabilita in misura fissa, ad eccezione del Presidente che ricopre la carica a titolo gratuito e dell’Amministratore Delegato che
+avendo la responsabilità dei risultati aziendali beneficia di un compenso fisso e di una quota variabile correlata ad obiettivi definiti dalla Città di
+Torino.
+Incidenti, denunce e impatti gravi in materia di diritti umani
+
+ESRS Standards   ESRS 2 MDR-M, ESRS S1 S1-17
+Nel periodo di rendicontazione non si sono verificati né sono stati segnalati incidenti, denunce o impatti gravi in materia di diritti umani connessi
+alla forza lavoro propria dell’impresa, inclusi episodi di discriminazione o molestie, lavoro forzato, tratta di esseri umani o lavoro minorile all’in-
+terno della Società. Di conseguenza, non sono state presentate denunce tramite i canali aziendali o altri meccanismi formali, non sono state
+avviate azioni correttive, né sono state irrogate ammende, sanzioni o risarcimenti.
+
+
+
+
+                                                                                 106
+
+=== PAGINA PDF 109 / STAMPATA 107 ===
+
+Lavoratori nella catena del valore
+
+  Tema                                  Sottotema                                      Sotto-sotto tema                                          SDGs
+  S2 Lavoratori                         Condizioni di lavoro                           Occupazione sicura
+  nella catena del valore                                                              Orario di lavoro
+                                                                                       Salari adeguati
+                                                                                       Dialogo sociale
+                                                                                       Libertà di associazione, esistenza di comitati
+                                                                                       aziendali e diritti di informazione, consultazio-
+                                                                                       ne e partecipazione dei lavoratori
+                                                                                       Contrattazione collettiva, inclusa la percentua-
+                                                                                       le di lavoratori coperti da contratti collettivi
+                                                                                       Equilibrio tra vita professionale e vita privata
+                                                                                       Salute e sicurezza
+                                        Parità di trattamento e di opportunità         Parità di genere e parità di retribuzione per un
+                                        per tutti                                      lavoro di pari valore
+                                                                                       Formazione e sviluppo delle competenze
+                                                                                       Occupazione e inclusione delle persone con
+                                                                                       disabilità
+                                                                                       Misure contro la violenza e le molestie sul
+                                                                                       luogo di lavoro
+                                                                                       Diversità
+
+Strategia
+Interessi e opinioni dei portatori d’interesse
+
+ESRS Standards   ESRS 2 SBM-2
+Gli impatti legati ai diritti dei lavoratori lungo la catena del valore costituiscono un fattore di rilievo per il modello di business di GTT. L’adozione
+di criteri di selezione e monitoraggio dei fornitori che tengano conto degli effetti sociali e ambientali dei servizi erogati, insieme alla garanzia
+del rispetto dei diritti fondamentali dei lavoratori e dei clienti, rappresenta un elemento qualificante per consolidare i meccanismi di controllo in
+materia di conformità normativa. L’attenzione a questi aspetti consente di creare valore nel medio-lungo periodo, riducendo i rischi operativi e
+reputazionali e rafforzando rapporti di fiducia con gli stakeholder. A tal fine, la Società ha adottato un Codice Etico e di Comportamento, attra-
+verso il quale stabilisce i principi guida della gestione dei rapporti con i propri fornitori.
+In base al processo di analisi di doppia rilevanza, i lavoratori della catena del valore che possono essere esposti a impatti rilevanti sono i lavo-
+ratori dei fornitori (soggetti a monte della catena del valore di GTT).
+GTT non ha attivato un canale diretto per raccogliere opinioni e interessi generali dei lavoratori lungo la catena del valore, ma rimane anche per
+loro disponibile la possibilità di segnalare preoccupazioni, reclami o non conformità attraverso il canale di segnalazione Whistleblowing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                      107
+
+=== PAGINA PDF 110 / STAMPATA 108 ===
+
+Impatti, rischi e opportunità rilevanti
+e loro interazione con la strategia e il modello aziendale
+
+ESRS Standards   ESRS 2 SBM-3
+
+ Impatti
+ Condizioni di lavoro
+ - Occupazione sicura
+ - Orario di lavoro
+ - Salari adeguati                                                             Le condizioni di lavoro lungo la catena del valore, in particolare a monte per la realtà di
+ - Dialogo sociale                                                             GTT, possono essere caratterizzate da potenziali impatti indiretti negativi sui diritti umani
+ -   Libertà di associazione, esistenza di comitati aziendali e diritti di     e sui diritti fondamentali delle persone (orario di lavoro - salari inadeguati - dialogo
+  informazione, consultazione e partecipazione dei lavoratori                  sociale - libertà di associazione - salute e sicurezza).
+ -   Contrattazione collettiva, inclusa la percentuale di lavoratori
+  coperti da contratti collettivi
+ - Equilibrio tra vita professionale e vita privata
+ - Salute e sicurezza
+ Parità di trattamento e di opportunità per tutti
+ -   Parità di genere e parità di retribuzione per un lavoro di pari
+  valore                                                                       Impatti negativi generati da situazioni in cui non sono garantite la parità di trattamento,
+ - Formazione e sviluppo delle competenze                                      con conseguenze indirette sul clima lavorativo, sulla motivazione del personale e sulla
+ - Occupazione e inclusione delle persone con disabilità                       qualità del servizio offerto.
+ - Misure contro la violenza e le molestie sul luogo di lavoro
+ - Diversità
+GTT ha condotto un’analisi finalizzata all’individuazione e alla valutazione degli impatti, dei rischi e delle opportunità rilevanti connessi al proprio
+modello di business, alle scelte strategiche e alle interazioni con i soggetti che operano lungo la catena del valore. L’analisi e il presente capi-
+tolo tengono in considerazione principalmente le condizioni dei lavoratori impiegati presso i fornitori di GTT (a monte della Catena del Valore).
+Per dettagli riguardanti i soggetti a valle della Value Chain di GTT si rimanda ai capitoli relativi alla Comunità interessata e ai Consumatori e
+utilizzatori finali.
+Per ulteriori informazioni sul processo di identificazione degli impatti, dei rischi e delle opportunità materiali, si rimanda al capitolo Gestione
+degli impatti - rischi - opportunità e al capitolo Impatti, rischi e opportunità rilevanti e loro interazione con la strategia e il modello di business
+/ paragrafo I temi rilevanti (IRO).
+Impatti
+Le condizioni di lavoro dei lavoratori lungo la catena del valore possono essere caratterizzate da violazioni dei diritti umani. Tali violazioni si pos-
+sono manifestare in diverse forme, tra cui insufficiente sicurezza sul luogo di lavoro, orari eccessivi, retribuzioni inadeguate e squilibrio tra vita
+professionale e privata. Un ambiente di lavoro non inclusivo, privo di rispetto della diversità e delle pari opportunità, può favorire discriminazioni
+e comportamenti scorretti, mentre una formazione insufficiente limita le opportunità di crescita personale e professionale. GTT affronta queste
+criticità attraverso procedure di appalto, conformi agli standard delle società pubbliche.
+Rischi e opportunità
+Non sono state identificati rischi e opportunità legati ai lavoratori lungo la catena del valore.
+Gestione impatti - rischi - opportunità
+Politiche connesse ai lavoratori nella catena del valore
+ESRS Standards   ESRS 2 MDR-P, ESRS S2 ESRS S2-1
+GTT presta grande attenzione ai lavoratori nella propria catena del valore, e ha per questo esteso le proprie politiche per sancire i principi a cui
+devono attenersi clienti e fornitori per mantenere attivo il rapporto di collaborazione. In particolare, questi due attori vengono citati all’interno
+del Codice Etico.
+La Società adotta politiche relative ai lavoratori nella catena del valore coerenti con gli strumenti internazionali riconosciuti in materia di diritti
+umani e condizioni di lavoro. In particolare, il Codice Etico trae ispirazione dai principi fondanti delle convezioni e dichiarazioni di diritto interna-
+zionale ed europeo e la Carta Internazionale dei Diritti dell’Uomo delle Nazioni Unite (ONU), la Dichiarazione Universale dei Diritti dell’Uomo e le
+convenzioni fondamentali dell’Organizzazione Internazionale del Lavoro (ILO).
+
+
+                                                                                       108

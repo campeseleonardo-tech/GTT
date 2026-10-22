@@ -1,0 +1,246 @@
+=== PAGINA PDF 86 / STAMPATA 84 ===
+
+ Gas refrigerante r134                                                                                1.240,00                        1.840,00                       2.560,00
+ Carta vergine                                                                                           794,77                         405,22                         764,22
+ Adesivo-sigillante                                                                                      376,94                         626,40                         518,78
+ Gas refrigerante r513a                                                                                  190,00                           76,00                                -
+ Gas tecnici                                                                                             223,00                         691,00                         200,76
+ Acetone                                                                                                    7,84                           3,92                                -
+ Traversine legno                                                                                               -                     4.350,00                               nd
+ Alcool etilico                                                                                                 -                       197,25                                 -
+ Totale materiale tecnici                                                                         278.509,66                     739.831,01                     280.488,85
+
+Per la manutenzione dei tram, GTT sub-affida una parte del lavoro a società terze. Di seguito vengono riportati i principali materiali utilizzati per
+tale attività.
+
+ Materiali per la manutenzione - Società terza (kg)                                                                        2025                                 2024
+ Materiali tecnici - Appalti
+ Rotaie acciaio                                                                                                                           -                        66.600,00
+ Traversine calcestruzzo                                                                                                     599.850,00                           107.500,00
+Flussi di risorse in uscita
+
+ESRS Standards   ESRS 2 MDR-M, ESRS E5 E5-5
+I rifiuti
+Nel 2025 sono state generate complessivamente 3.216,42 tonnellate di rifiuti (incremento del 12% rispetto all’anno precedente). Di questi, il
+71% sono rifiuti pericolosi, mentre il restante 29% è costituito da rifiuti non pericolosi.
+
+ Rifiuti generati (t)                                                                               2025                          2024*                           2023*
+ Rifiuti pericolosi                                                                                   2.279,76                        2.188,66                       2.766,45
+ Rifiuti non pericolosi                                                                                  936,66                         677,64                       1.215,45
+ Totale rifiuti generati                                                                              3.216,42                       2.866,30                       3.981,90
+
+*Vengono riesposti i valori per gli anni 2024 e 2023 a seguito di un miglioramento dei processi per la raccolta dei dati
+A seguito del processo di rinnovamento della flotta, nel 2025 sono stati alienati 125 autobus, ivi inclusi 15 donati all’Ucraina, e 20 tram.
+La produzione degli altri rifiuti industriali è legata principalmente all’attività di manutenzione dei mezzi ed è costituita da accumulatori al
+piombo, olio esausto e metalli ferrosi (sottoposti a recupero e valorizzazione), rifiuti provenienti dagli impianti depurazione delle acque di lavaggio
+mezzi o da pulizia scambi tranviari, nonché altri residui quali neon, cartucce, grassi, materiali assorbente, filtri olio e aria, legno e imballaggi vari.
+
+ Rifiuti generati                                    2025                                             2024*                                             2023*
+ per categoria (t)                 Recupero      Smaltimento          Totale        Recupero       Smaltimento          Totale        Recupero       Smaltimento         Totale
+
+ Rifiuti pericolosi
+ Veicoli fuori uso                 1.669,67                   -     1.669,67         1.744,88                  -      1.744,88         2.270,80                  -      2.270,80
+ Rifiuti liquidi acquosi                              478,96           478,96                           300,71          300,71                   -        333,14          333,14
+ Oli minerali                          34,33                  -         34,33            29,23                 -          29,23            45,78                 -          45,78
+ Batterie al piombo e al               36,73                  -         36,73            54,32                 -          54,32            58,62                 -          58,62
+ nichel-cadmio
+ Altri rifiuti**                     23,654           36,424           60,078          24,379            28,60          53,459           24,816           33,110          57,926
+ Totale rifiuti pericolosi        1.764,38           515,38        2.279,76         1.858,39           330,27        2.188,66         2.400,01           366,43        2.766,45
+
+**  Emulsioni, assorbenti, materiali filtranti, stracci e indumenti protettivi contaminati, vetro, plastica e legno, filtri dell'olio, liquidi antigelo, imballaggi, olio combustibile e
+  carburante diesel, apparecchiature fuori uso e componenti, rifiuti organici e inorganici
+
+
+
+
+                                                                                        84
+
+=== PAGINA PDF 87 / STAMPATA 85 ===
+
+ Rifiuti generati                                     2025                                              2024*                                              2023*
+ per categoria (t)                 Recupero       Smaltimento          Totale         Recupero       Smaltimento         Totale         Recupero       Smaltimento          Totale
+
+ Rifiuti non pericolosi
+ Alluminio, ferro, acciaio e          252,52                   -        252,52           228,74                  -        228,74           305,49                   -        305,49
+ altri metalli ferrosi
+ Cemento e miscugli                   109,46                   -        109,46            36,50                  -          36,50          454,54                   -        454,54
+ Rifiuti misti dell’attività di         89,97                  -         89,97            71,50                  -          71,50            85,97                  -         85,97
+ costruzione e demolizione
+ Imballaggi di carta e
+ cartone, legno e materiali             85,29                  -         85,29            78,74                  -          78,74            76,32                  -         76,32
+ misti
+ Rifiuti liquidi acquosi                      -        104,31           104,31                  -          81,09            81,09            11,38           74,71            86,09
+ Terra e rocce                          48,93           12,66            61,59                  -                -                                 -                -
+ Altri rifiuti**                      212,03            83,08           295,11           146,94            33,68          180,61           177,28            28,27           205,55
+ Totale rifiuti                      749,27           187,39           936,66           562,42           115,23          677,64         1.110,98           104,47        1.215,45
+ non pericolosi
+
+ Totale rifiuti generati           2.513,65           702,77        3.216,43         2.420,81            445,50        2.866,30         3.511,00           470,90        3.981,90
+
+*Vengono riesposti i valori per gli anni 2024 e 2023 a seguito di un miglioramento dei processi per la raccolta dei dati
+**Fanghi, plastica, residui della pulizia stradale, legno, vetro, rame, bronzo, ottone, pastiglie per freni, rifiuti organici e biodegradabili, apparecchiature fuori uso e componenti,
+pneumatici fuori uso, assorbenti, materiali filtranti, stracci e indumenti protettivi, cavi, batterie ed accumulatori
+Le pastiglie dei freni sono aumentate del 29% a causa di interventi straordinari legati all’incremento delle corse. I materiali da smaltire sono
+stati accumulati nel corso dei diversi mesi al fine di ottimizzare le richieste di intervento per lo smaltimento.
+Le soluzioni acquose di scarto pericolose sono aumentate del 59% principalmente per il raddoppio delle operazioni annuali di pulizia delle
+vasche (da 10 a 20 interventi). Gli ascensori esterni e quelli presenti nelle stazioni della metropolitana, a causa delle forti e frequenti piogge,
+hanno richiesto il prelievo di liquidi contaminati da oli e grassi.
+Il gasolio e altri liquidi, come l’antigelo, sono aumentati a seguito dello svuotamento di numerosi mezzi aziendali non più in produzione (compresi
+i mezzi Infra-To/Canova). I fluidi sono stati estratti per il successivo smaltimento.
+GTT nello svolgimento delle proprie attività, non produce rifiuti radioattivi.
+GTT opera esclusivamente nell’ambito della gestione del servizio di Trasporto Pubblico Locale e non svolge attività di progettazione o produzio-
+ne di beni. Pertanto, le informazioni relative alla progettazione dei prodotti secondo i principi dell’economia circolare come durabilità prevista,
+riparabilità, contenuto riciclato o riciclabile dei prodotti, non risultano applicabili al perimetro delle attività aziendali.
+Le tabelle seguenti riportano il totale dei rifiuti generati da GTT, suddivisi per tipologia e per trattamento di fine vita previsto, distinguendo tra
+operazioni di recupero e operazioni di smaltimento.
+
+ Rifiuti inviati                                      2025                                               2024                                              2023
+ a recupero (t)                   Pericolosi           Non            Totale         Pericolosi          Non             Totale        Pericolosi           Non            Totale
+                                                   pericolosi                                         pericolosi                                        pericolosi
+ Preparazione per il                     2,05                  -           2,05             3,38                 -           3,38             3,46                  -           3,46
+ riutilizzo
+ Riciclaggio                                  -        242,53           242,53                  -        161,95           161,95                   -        255,05           255,05
+ Altre operazioni di                1.762,33           506,74        2.269,07         1.855,01           400,47         2.258,86         2.396,55           855,93        3.252,48
+ recupero
+ Totale                            1.764,28           749,27        2.513,65         1.858,39            562,42        2.420,81         2.400,01         1.110,98        3.511,00
+ Incidenza riciclaggio
+ sul totale rifiuti inviati a                                            9,65%                                             6,68%                                              7,27%
+ recupero
+ Percentuale di rifiuti non                                            90,35%                                             93,18%                                            92,64%
+ riciclati e inviati a recupero
+Nel corso del 2025, GTT ha destinato al recupero la maggior parte dei rifiuti prodotti (78% del totale). Tra questi, la modalità
+prevalente è stata rappresentata dalle “altre operazioni di recupero”, applicata al 90% dei rifiuti avviati a recupero. Tali operazioni includono
+principalmente lo scambio di rifiuti tra soggetti autorizzati e la messa in riserva dei rifiuti in attesa di recupero.
+
+                                                                                         85
+
+=== PAGINA PDF 88 / STAMPATA 86 ===
+
+ Rifiuti inviati                                          2025                                        2024                                        2023
+ a smaltimento (t)                      Pericolosi        Non           Totale      Pericolosi         Non          Totale      Pericolosi         Non          Totale
+                                                       pericolosi                                  pericolosi                                  pericolosi
+ Incenerimento                                     -              -              -              -             -              -              -             -              -
+ Smaltimento in discarica                          -          1,14           1,14               -             -              -              -             -              -
+ Altre operazioni di smaltimento            515,38         186,25         701,63        330,27         115,23         445,50        366,43         104,47         470,90
+ Totale                                     515,38        187,39         702,77         330,27        115,23         445,50         366,43        104,47         470,90
+
+ Totale rifiuti recupero +               2.279,66         936,66       3.216,43      2.188,66         677,65       2.860,26      2.766,44       1.215,45       3.980,23
+ smaltimento
+Il 21,85% del totale dei rifiuti è stato avviato, nel 2025, a smaltimento. Anche in questo caso, la modalità prevalente è stata rappresentata
+dalle “altre operazioni di smaltimento”. Tali operazioni comprendono principalmente trattamenti biologici o fisico-chimici e depositi preliminari.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                   86
+
+=== PAGINA PDF 89 / STAMPATA 87 ===
+
+       INFORMATIVA SOCIALE
+Forza lavoro propria
+
+  Tema                                 Sottotema                                      Sotto-sotto tema                                         SDGs
+  S1 Forza lavoro propria              Condizioni di lavoro                           Occupazione sicura
+                                                                                      Orario di lavoro
+                                                                                      Salari adeguati
+                                                                                      Dialogo sociale
+                                                                                      Libertà di associazione, esistenza di comitati
+                                                                                      aziendali e diritti di informazione, consultazio-
+                                                                                      ne e partecipazione dei lavoratori
+                                                                                      Equilibrio tra vita professionale e vita privata
+                                                                                      Salari adeguati
+                                                                                      Contrattazione collettiva, inclusa la percentua-
+                                                                                      le di lavoratori coperti da contratti collettivi
+                                                                                      Salute e sicurezza
+                                       Parità di trattamento e di opportunità         Parità di genere e parità di retribuzione per un
+                                       per tutti                                      lavoro di pari valore
+                                                                                      Formazione e sviluppo delle competenze
+
+                                       Altri diritti connessi al lavoro               Riservatezza
+
+Strategia
+Interessi e opinioni dei portatori d’interesse
+
+ESRS Standards   ESRS 2 SBM-2
+GTT riconosce i propri lavoratori come un gruppo di stakeholder di fondamentale importanza, il cui coinvolgimento è essenziale per il raggiun-
+gimento degli obiettivi aziendali. A tal fine, la società garantisce un dialogo costante con il personale, assicurando che interessi, esigenze ed
+aspettative dei lavoratori siano presi in considerazione nella definizione della strategia aziendale, del modello di governance e delle pratiche di
+gestione delle risorse umane.
+Il confronto con i dipendenti è promosso attraverso canali formali e informali di comunicazione, che includono il coinvolgimento dei rappresen-
+tanti dei lavoratori, il dialogo con le organizzazioni sindacali, il ruolo delle funzioni Risorse Umane, nonché strumenti di comunicazione interna
+quali l’intranet aziendale e lo sportello del personale. Per ulteriori approfondimenti si rimanda al paragrafo Processi di coinvolgimento della forza
+lavoro propria e dei rappresentanti dei lavoratori in merito agli impatti.
+Impatti, rischi e opportunità rilevanti
+e loro interazione con la strategia e il modello aziendale
+
+ESRS Standards   ESRS 2 SBM-3
+
+ Impatti
+                                                         Promuovere un ambiente di lavoro sicuro e inclusivo, basato su occupazione stabile, retribuzioni eque,
+ Condizioni di lavoro                                    equilibrio tra vita professionale e privata, e sul rispetto dei diritti fondamentali quali il dialogo sociale e la
+                                                         contrattazione collettiva, contribuisce a valorizzare le persone aumentandone motivazione e benessere,
+                                                         che favorisce un servizio efficiente e di qualità per la comunità e territorio.
+ Condizioni di lavoro / Salute e                         Impatti negativi sulla forza lavoro di GTT dovuti alla possibilità di infortuni sul lavoro, in particolare per i
+ sicurezza                                               manutentori, gli autisti e i controllori dei mezzi.
+ Parità di trattamento e di opportunità                  Impatti positivi derivanti dalla creazione di un ambiente di lavoro improntato al rispetto delle persone, alla
+ per tutti                                               pari opportunità, all’assenza di discriminazioni e alla promozione della formazione continua.
+ Altri diritti connessi al lavoro                        Potenziali impatti negativi riguardanti la tutela dei diritti di privacy, con particolare riferimento alla gestione
+                                                         di informazioni sensibili e alla sicurezza dei sistemi informativi, inclusi possibili data breach.
+
+
+
+                                                                                       87

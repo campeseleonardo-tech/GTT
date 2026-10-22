@@ -1,0 +1,16 @@
+{
+ "giorno_tipico": "20261014",
+ "giorno_settimana": "wednesday",
+ "servizi_attivi": 126,
+ "corse_attive": 13690,
+ "corse_bus_tram": 13158,
+ "corse_bus_tram_controllo": 13158,
+ "controllo_uguale": true,
+ "stop_gtfs_usati": 6989,
+ "fermate_raggruppate": 5055,
+ "fermate_bus_tram": 5032,
+ "fermate_metro": 23,
+ "partenze_ora_am_totali": 28929.5,
+ "durata_s": 5.1,
+ "fonte": "GTFS GTT 20261003, orario programmato; fermate entro 40 m raggruppate"
+}

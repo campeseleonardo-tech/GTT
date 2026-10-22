@@ -1,0 +1,12 @@
+{
+  "data": "2026-10-17",
+  "autore": "Claude (revisione tabella DA_VEDERE del Passo 8)",
+  "confermati": [
+    {"lcd1": "40212", "motivo": "1,2 m da Strada di Settimo; il nome del sensore e' quello del ponte, non della strada"},
+    {"lcd1": "39977", "motivo": "3,0 m da Corso Giovanni Agnelli; stesso nome scritto in modo diverso"},
+    {"lcd1": "2375",  "motivo": "3,7 m dal Raccordo Autostradale Torino-Caselle; stessa strada (R24)"},
+    {"lcd1": "39983", "motivo": "4,8 m da Corso Canonico Giuseppe Allamano; stesso nome scritto in modo diverso"}
+  ],
+  "in_attesa_verifica_osm": ["35478", "35479", "36066", "36067", "35824"],
+  "nota": "Gli in_attesa si decidono con il Passo 8b (ref OSM uguale a SPn entro 60 m e corridoio proposto)."
+}
