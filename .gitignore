@@ -9,7 +9,7 @@ __pycache__/
 agenti/
 # segreti: mai in git
 chiave_deepseek.txt
-# screenshot di scripts/prova_pagine_r6.py
+# screenshot di scripts/prova_pagine.py
 immagini/
 # dati di accesso al Raspberry Pi di casa (scripts/config_locale.esempio.json)
 config_locale.json

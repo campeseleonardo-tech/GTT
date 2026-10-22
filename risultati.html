@@ -336,8 +336,14 @@ for(const s of (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI
 schede.sort((a, b) => (parseFloat(numeroDi(a)) || 99) - (parseFloat(numeroDi(b)) || 99));
 mostraGalleria();
 // #r4 = numero interno (link di prima, restano validi); #p2 = numero in pagina (1-5)
-const dalLink = /^#([rp])(\d+)$/.exec(location.hash);
-if(dalLink){ const k = schede.findIndex(s => dalLink[1] === "r" ? s.risultato === dalLink[2] : String(numeroDi(s)) === dalLink[2]); if(k >= 0) apri(k); }
+function apriDalIndirizzo(){
+  const dalLink = /^#([rp])(\d+)$/.exec(location.hash);
+  if(!dalLink) return;
+  const k = schede.findIndex(s => dalLink[1] === "r" ? s.risultato === dalLink[2] : String(numeroDi(s)) === dalLink[2]);
+  if(k >= 0) apri(k);
+}
+apriDalIndirizzo();
+window.addEventListener("hashchange", apriDalIndirizzo);   // l'indirizzo cambia senza ricaricare la pagina (#p3, #r6)
 </script>
 
 </body>

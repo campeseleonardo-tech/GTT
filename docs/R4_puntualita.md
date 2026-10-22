@@ -101,7 +101,7 @@ python scripts\27_risultato4_regolarita.py
 python scripts\70_risultato9_attesa.py
 python scripts\04_genera_mappa.py
 python scripts\schede_risultati.py
-python scripts\prova_pagine_r6.py --senza-screenshot
+python scripts\prova_pagine.py --senza-screenshot
 ```
 
 Dati: `data/storico_backup.sqlite` (copia dal Pi, sola lettura), GTFS in `data/raw/`. Fonte del 2,3%:

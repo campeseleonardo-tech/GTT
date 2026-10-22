@@ -41,7 +41,7 @@ si mostra solo con l'indice dedicato, mai per nazionalità.
 
 ## Standard tecnici
 
-- **Prova delle pagine:** `python scripts\prova_pagine_r6.py --senza-screenshot` (errori a runtime su mappa e scheda).
+- **Prova delle pagine:** `python scripts\prova_pagine.py --senza-screenshot` (errori a runtime su mappa e scheda).
   `node --check` trova solo errori di sintassi: colori, legende e dati non disegnati si controllano aprendo la pagina.
 - **Fermate e strade:** mai abbinare per nome, solo per coordinate. Un corso che cambia nome o comune è un solo asse;
   l'unità del traffico è la tratta d'asse.

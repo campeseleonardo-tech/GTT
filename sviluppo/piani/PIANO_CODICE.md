@@ -11,7 +11,7 @@ segnalazioni del controllo automatico, quasi tutte variabili calcolate e mai usa
 
 | # | Passo | Dove | Quanto |
 |---|---|---|---|
-| 1 | **Prova delle pagine su ogni sistema**: `prova_pagine_r6.py` → `prova_pagine.py`, con Playwright o il Chrome trovato sul sistema; controlla anche che ogni file caricato dalle pagine esista (oggi lo fa lo script 86) | CLOUD | piccolo |
+| 1 | **FATTO (C1)**: prova delle pagine su ogni sistema: `prova_pagine_r6.py` → `prova_pagine.py`, con Playwright o il Chrome trovato sul sistema; controlla anche che ogni file caricato dalle pagine esista (oggi lo fa lo script 86) | CLOUD | piccolo |
 | 2 | **Controllo automatico su GitHub** (GitHub Actions), a ogni push: compila gli script, `pyflakes`, prova delle pagine, pesi dei file (piano 2, passo 5), link rotti; badge nel README | CLOUD | piccolo |
 | 3 | **Un comando per rifare tutto**: `scripts/rifai_tutto.py` (dati → accessibilità → risultati → schede → mappa → prova), si ferma e riprende; i `.bat` restano come scorciatoie per Windows. **Prova finale «da zero»**: clone + `scarica_dati.py` (piano 2) + `rifai_tutto.py` = stessi numeri delle schede | CLOUD (scritto) → PC (provato) | medio |
 | 4 | **Divisione di `schede_risultati.py`**: una parte per risultato e i testi IT/EN in un file a parte (prima del passo 5 del piano 4) | CLOUD | medio |
@@ -19,6 +19,6 @@ segnalazioni del controllo automatico, quasi tutte variabili calcolate e mai usa
 | 6 | **Codice morto**: le 93 segnalazioni | CLOUD | piccolo |
 | 7 | **Mappa**: `mappa_template.html` (2.350 righe) diviso in stile, codice e dati; il 04 li rimette insieme nel file unico | CLOUD | medio |
 | 8 | **Prove dei numeri**: per ogni risultato una prova su dati finti con il risultato atteso (molti script hanno già `--prova`), dentro il controllo automatico | CLOUD | medio |
-| 9 | **Piccolo difetto**: in `risultati.html` la scheda si apre anche quando cambia `#p3` senza ricaricare la pagina | CLOUD | piccolo |
+| 9 | **FATTO (C1)**: piccolo difetto: in `risultati.html` la scheda si apre anche quando cambia `#p3` senza ricaricare la pagina | CLOUD | piccolo |
 
 Prova: dopo ogni passo che tocca uno script dei risultati, rilancio sul PC e rapporto uguale a prima (salvo la data).

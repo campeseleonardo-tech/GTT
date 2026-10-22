@@ -133,5 +133,5 @@ Catena completa (circa 4 minuti), da lanciare dopo ogni rifacimento dei dati:
 scripts\RISULTATO6_RIFAI.bat
 ```
 
-Poi `python scripts\schede_risultati.py` e `python scripts\prova_pagine_r6.py --senza-screenshot`. Si rifà con più
+Poi `python scripts\schede_risultati.py` e `python scripts\prova_pagine.py --senza-screenshot`. Si rifà con più
 giorni feriali di parcheggi raccolti (serve almeno una settimana).

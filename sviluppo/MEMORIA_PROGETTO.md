@@ -110,7 +110,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 
 ## 8. Standard tecnici
 
-- **Bug di resa**: `node --check` trova solo errori di sintassi; colori, legende e dati non disegnati si controllano aprendo la pagina e usando l'interfaccia. Prova automatica: `python scripts\prova_pagine_r6.py` (errori a runtime su mappa e schede, tutti i temi).
+- **Bug di resa**: `node --check` trova solo errori di sintassi; colori, legende e dati non disegnati si controllano aprendo la pagina e usando l'interfaccia. Prova automatica: `python scripts\prova_pagine.py` (errori a runtime su mappa e schede, tutti i temi; Edge/Chrome su Windows, altrimenti Playwright; senza `data/` i file mancanti sono «file assente», non errori; screenshot 1440x900 e 390x844 in `immagini/`).
 - **Fermate e strade**: mai abbinare per nome, solo per coordinate. Un corso che cambia nome o comune è un solo asse; l'unità del traffico è la tratta d'asse. Script 24: corridoio = stesso nome + tratti collegati o entro ~100-200 m; togliere «(TO)» dai nomi 5T.
 - **Mappa**: `D.sezioni` è a colonne e in forma compatta (`compatta_sezioni` nel 04; lettori nel blocco DECODIFICA del template: cambiarli insieme). Un campo nuovo di sezione va in `COLONNE_SEZ` (o in una colonna codificata) nel 04 **e** nella proiezione `sez` del template.
   Chi cambia l'ora (`#ora`) richiama `aggiornaLegenda()`. Numeri in italiano (virgola decimale). Il centro delle sezioni si calcola dal riquadro delle forme originali.

@@ -76,7 +76,7 @@ python scripts\21_risultato1_vuoti.py
 python scripts\22_risultato1_candidati.py
 python scripts\04_genera_mappa.py
 python scripts\schede_risultati.py
-python scripts\prova_pagine_r6.py --senza-screenshot
+python scripts\prova_pagine.py --senza-screenshot
 ```
 
 I primi due si lanciano insieme con `scripts\RISULTATO1_VUOTI.bat` e `scripts\RISULTATO1_CANDIDATI.bat`.
