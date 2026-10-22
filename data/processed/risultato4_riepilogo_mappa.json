@@ -565,7 +565,7 @@
     "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
     "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-22T12:29:38+00:00",
+  "generato": "2026-10-22T13:39:09+00:00",
   "avviso": [
     "Dati [MISURATO] — pochi giorni",
     "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-20: il GPS c'è per il 78% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -921,6 +921,12 @@
     "mappa": {
       "id": "puntualita",
       "nota": "Nella mappa, tema «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."
+    },
+    "unita": {
+      "tipo": "quadratini",
+      "totale": 100,
+      "colorati": 14,
+      "didascalia": "Su 100 passaggi feriali, circa 14 arrivano con più di 5 minuti di ritardo (14,1%); con più di 10 minuti circa 5."
     },
     "confronto": [
       "GTT dichiara il 2,3% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",

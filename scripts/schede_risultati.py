@@ -1284,6 +1284,9 @@ def forma_r4(s):
         [f"Question: how often are GTT vehicles late or bunched? Answer: {fer['ritardo10']:.1f}% of weekday departures are more than 10 minutes late.",
          f"GTT reports {GTT_RITARDO10_2025_PCT}% for 2025. Counting only the first stop we get {b_set:.1f}%; the rest is season and method.",
          f"Limit: only {gg['0']} weekdays, {gg['1']} Saturdays and {gg['2']} Sunday of data, urban lines only, no night."],
+        unita={"tipo": "quadratini", "totale": 100, "colorati": round(fer["ritardo"]),
+               "didascalia": f"Su 100 passaggi feriali, circa {round(fer['ritardo'])} arrivano con più di 5 minuti di ritardo ({virgola(fer['ritardo'])}%); "
+                             f"con più di 10 minuti circa {round(fer['ritardo10'])}."},
         confronto=[f"GTT dichiara il {virgola(GTT_RITARDO10_2025_PCT)}% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
                    f"Noi misuriamo pochi giorni di ottobre sulle linee urbane: {virgola(a_set)}% a ogni fermata, {virgola(b_set)}% alla partenza.",
                    f"Anche contando come GTT alla partenza troviamo il {virgola(b_set)}%; il resto della differenza è stagione e metodo."],
@@ -1339,6 +1342,12 @@ def forma_r6(s):
     migliore = pb[0] if pb else None
     kp3 = (f"Il punto più promettente è {nome_pulito(migliore['nome'])}: bastano {mi(migliore)} perché il bus pareggi l'auto."
            if migliore else "Nessun punto ha un collegamento coi mezzi entro 120 minuti.")
+    tono_classe = {"conviene": "verde", "dipende": "giallo", "non_conviene": "rosso"}
+    pallini = [{"label": nome_pulito(l["nome"]), "tono": tono_classe.get(l["classe"], "grigio")} for l in ba["luoghi"][:n_punti_ba]]
+    npc = ba["riepilogo"]["punti"]
+    unita = {"tipo": "pallini", "pallini": pallini,
+             "didascalia": f"Un pallino per punto prioritario: verde = il bus conviene ({npc['conviene']}), giallo = dipende ({npc['dipende']}), "
+                           f"rosso = il bus non conviene ({npc['non_conviene']})."}
     return forma_base(
         s,
         f"Dai parcheggi di scambio il bus vale l'auto solo se in centro si perdono {forbice_m} minuti a parcheggiare",
@@ -1367,7 +1376,7 @@ def forma_r6(s):
          f"Answer: park-and-ride pays off only if parking downtown costs at least {forbice_m} minutes (median of {n_punti_ba} priority points). "
          f"Also, {n_senza} of {n_fermate} important stops lack enough parking.",
          "Limit: bus times use GTT only, without trains; parking cost is not considered."],
-        extra=extra)
+        unita=unita, extra=extra)
 
 
 def forbice_estremi(x, y):
@@ -1538,15 +1547,12 @@ def forma_r10(s):
                            f"servizi bassi = punteggio fino a {virgola(se['soglia_servizi_fino_a'])} su 100 (il 20% più basso).",
                    "voci": [{"label": n, "valore": classi[k]["residenti"], "tono": tn, "testo": f"{migliaia(classi[k]['residenti'])} ({migliaia(classi[k]['sezioni'])} sezioni)"}
                             for k, n, tn in nomi_classi]}
-    graf_metro = {"tipo": "barre_gruppi", "titolo": "Prezzo medio delle case, con e senza una fermata della metro vicina", "unita": "€/m²",
-                  "nota": "Per fascia di distanza da Piazza Castello (2 km). Fermata M1 entro 600 m dal centro della zona. Media semplice fra zone: differenza fra zone, non effetto della metro.",
-                  "gruppi": [{"label": f"{f['fascia_km']} km dal centro",
-                              "voci": [v for v in (
-                                  {"label": f"con metro ({f['con_metro']['zone']} zone)", "valore": f["con_metro"]["prezzo_medio"], "tono": "blu",
-                                   "testo": f"{migliaia(f['con_metro']['prezzo_medio'])}"} if f["con_metro"]["prezzo_medio"] is not None else None,
-                                  {"label": f"senza metro ({f['senza_metro']['zone']} zone)", "valore": f["senza_metro"]["prezzo_medio"], "tono": "arancio",
-                                   "testo": f"{migliaia(f['senza_metro']['prezzo_medio'])}"} if f["senza_metro"]["prezzo_medio"] is not None else None) if v]}
-                             for f in e3["fasce"]]}
+    graf_metro = {"tipo": "barre_diff", "titolo": "Quanto più costano le case vicino alla metro (con metro meno senza metro)", "unita": "€/m²",
+                  "nota": "Per fascia di distanza da Piazza Castello (2 km): prezzo medio delle zone con una fermata M1 entro 600 m meno quello delle zone senza, "
+                          "alla stessa distanza dal centro. Su ogni barra il numero di zone. Differenza fra zone, non effetto della metro.",
+                  "voci": [{"label": f"{f['fascia_km']} km dal centro", "valore": f["differenza"],
+                            "testo": f"({f['con_metro']['zone']} zone con metro, {f['senza_metro']['zone']} senza)"}
+                           for f in e3["fasce"]]}
     nz_usate = cn["zone_usate"]
     return forma_base(
         s,
@@ -1577,6 +1583,9 @@ def forma_r10(s):
          f"Answer: 1 Turin resident in {n_su} ({migliaia(se['residenti_doppio_svantaggio'])} people, {100 * se['quota_residenti_di_riferimento']:.1f}%) lives where fragility is high and services are few. "
          f"Price and services go together (Spearman {e1['spearman']:.2f} over {e1['n_zone']} zones).",
          "Limit: price quotes, not sales; one semester; large zones. The metro price gap is between zones, not a causal effect."],
+        unita={"tipo": "omini", "totale": 10, "colorati": round(10 * se["quota_residenti_di_riferimento"]),
+               "didascalia": f"Circa {round(10 * se['quota_residenti_di_riferimento'])} torinese su 10 vive in sezioni con fragilità alta e servizi bassi "
+                             f"({virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti)."},
         )
 
 

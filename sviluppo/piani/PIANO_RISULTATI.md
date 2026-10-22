@@ -25,7 +25,7 @@ Numerazione in pagina: 1 servizi (R1) · 2 puntualità (R4) · 3 parcheggi di sc
 |---|---|---|---|---|
 | 1 | **R6 rifatto con più giorni di parcheggi** | il riempimento oggi è su 3 feriali [DATI SCARSI]; dal 14/10 i feriali interi sono già 5 (15, 16, 19, 20, 21; il 14 è parziale) e da lunedì 26 saranno di più | PC: `RISULTATO6_RIFAI.bat`, poi `RIFAI_MAPPA_E_SCHEDE.bat` | piccolo (~10 min) |
 | 2 | **Scheda 5: controllo sui dati veri** (riga «DA CONTROLLARE» sopra); titolo «1 su 11» o «1 su 10» secondo il numero vero | il titolo arrotonda da solo | PC: guardare la pagina | piccolo |
-| 3 | **Scheda 5: grafico della metro** | barre quasi uguali (differenze di 60-200 € su 1.300-2.500) e gruppi di 1-3 zone: mostra poco. Proposta: barre delle **differenze** (con metro − senza) per fascia, con il numero di zone scritto, oppure togliere il grafico e lasciare la frase | CLOUD (`schede_risultati.py`) | piccolo |
+| 3 | **FATTO (C5)**: scheda 5, grafico della metro | barre quasi uguali (differenze di 60-200 € su 1.300-2.500) e gruppi di 1-3 zone: mostra poco. Proposta: barre delle **differenze** (con metro − senza) per fascia, con il numero di zone scritto, oppure togliere il grafico e lasciare la frase | CLOUD (`schede_risultati.py`) | piccolo |
 | 4 | **R4 con un mese di dati** (metà novembre) e poi stagione (gennaio, luglio) | più giorni = numeri più stabili | PC | piccolo, ricorrente |
 | 5 | **Rilancio di tutto prima di unire in `main`**: catene dei risultati, schede, mappa, prova delle pagine (0 errori) | i numeri in pagina devono essere quelli dei rapporti | PC | piccolo |
 

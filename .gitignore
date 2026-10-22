@@ -33,7 +33,6 @@ data/processed/imq/
 *.sqlite-shm
 *.part
 # >>> data: esclusioni scritte da scripts/96_inventario_dati.py --gitignore (decisioni in docs/DATI.md)
-data/catalogo/reti.js
 data/processed/5t_flussi_verifica_20261017_030432.xml
 data/processed/accessibilita.json
 data/processed/accessibilita_parziale/

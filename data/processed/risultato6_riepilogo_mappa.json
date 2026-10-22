@@ -551,7 +551,7 @@
     "scripts/84_risultato6_parcheggi.py",
     "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-22T12:29:38+00:00",
+  "generato": "2026-10-22T13:39:09+00:00",
   "avviso": [
     "Come leggere i tag. ",
     "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -805,6 +805,60 @@
     "mappa": {
       "id": "interscambio",
       "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."
+    },
+    "unita": {
+      "tipo": "pallini",
+      "pallini": [
+        {
+          "label": "Santa Rita",
+          "tono": "rosso"
+        },
+        {
+          "label": "Metro Massaua",
+          "tono": "giallo"
+        },
+        {
+          "label": "Ponte Cavalieri Templari",
+          "tono": "rosso"
+        },
+        {
+          "label": "Regina Margherita",
+          "tono": "rosso"
+        },
+        {
+          "label": "Pasini",
+          "tono": "rosso"
+        },
+        {
+          "label": "Leonardo Da Vinci",
+          "tono": "rosso"
+        },
+        {
+          "label": "Drosso Cap",
+          "tono": "rosso"
+        },
+        {
+          "label": "Stura Lazio",
+          "tono": "rosso"
+        },
+        {
+          "label": "Marsè",
+          "tono": "rosso"
+        },
+        {
+          "label": "Derna Est",
+          "tono": "rosso"
+        },
+        {
+          "label": "Ferrara",
+          "tono": "rosso"
+        },
+        {
+          "label": "Zara",
+          "tono": "rosso"
+        }
+      ],
+      "didascalia": "Un pallino per punto prioritario: verde = il bus conviene (0), giallo = dipende (1), rosso = il bus non conviene (11)."
     },
     "extra": {
       "titolo": "Interscambi esistenti e bus verso il centro",

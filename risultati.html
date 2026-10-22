@@ -3,107 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Risultati – Mobilità a Torino</title>
-<style>
-  :root{
-    --bg:#f4f5f7; --card:#ffffff; --ink:#1d2330; --muted:#5d6678; --line:#dfe3ea; --accent:#1b6f73;
-    --traccia:#e7ebf1;
-    /* due sole scale, uguali in tutta la pagina e nella mappa: verde = bene, rosso = male;
-       blu -> arancione smorzati = quantità neutre (poco -> tanto) */
-    --vr-verde:#1a9850; --vr-giallo:#fee08b; --vr-rosso:#d73027;
-    --neu-blu:#6a98c4; --neu-blu-chiaro:#b4cbe0; --neu-arancio:#e08a38;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
-    font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-  body{max-width:1040px;margin:0 auto;padding:20px 16px 40px}
-  h1{font-size:22px;margin:0 0 4px}
-  .sub{color:var(--muted);font-size:13.5px;margin:0 0 16px;max-width:70ch}
-  .btn{display:inline-block;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer;font-weight:600;color:var(--ink);text-decoration:none}
-  .btn:hover{background:#f0f3f7}
-  .btn.primario{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .btn.primario:hover{background:#165e62}
-  .testa{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
-  .back{font-size:13px;color:var(--accent);text-decoration:none;white-space:nowrap}
-  .back:hover{text-decoration:underline}
-  .pill{display:inline-block;white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:1px 8px;font-size:11px;font-weight:600;letter-spacing:.03em;color:var(--muted);background:#f8f9fb}
-  .pill.misurato{color:#1e5e2f;border-color:#b9dcc3;background:#eef8f1}
-
-  /* elenco delle schede */
-  .galleria{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:22px}
-  @media (max-width:720px){ .galleria{grid-template-columns:1fr} }
-  .scheda{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;cursor:pointer;
-    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
-    box-shadow:0 2px 10px rgba(20,30,50,.08);transition:box-shadow .15s,border-color .15s}
-  .scheda:hover,.scheda:focus-visible{border-color:var(--accent);box-shadow:0 4px 18px rgba(27,111,115,.18)}
-  .scheda:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-  .scheda-alto{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
-  .scheda h3{margin:0;font-size:17px}
-  .scheda .cerca{margin:0;color:var(--muted);font-size:12.5px}
-  .chiave{display:flex;align-items:baseline;gap:8px;margin-top:4px;padding-top:10px;border-top:1px solid var(--line)}
-  .chiave .val{font-size:26px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
-  .chiave .txt{font-size:12.5px;color:var(--muted)}
-  .apri{font-size:12.5px;font-weight:600;color:var(--accent);margin-top:auto}
-
-  /* finestra della scheda */
-  dialog{border:none;border-radius:16px;padding:0;width:min(780px,calc(100vw - 24px));max-height:calc(100vh - 24px);
-    box-shadow:0 20px 60px rgba(10,20,40,.35);color:var(--ink);background:var(--card)}
-  dialog::backdrop{background:rgba(20,28,40,.55)}
-  .fin-testa{position:sticky;top:0;z-index:1;background:var(--card);border-bottom:1px solid var(--line);
-    padding:14px 20px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-  .fin-testa h2{font-size:20px;line-height:1.25;margin:4px 0 0}
-  .fin-chiudi{border:none;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--muted);padding:2px 6px;border-radius:6px}
-  .fin-chiudi:hover{background:#f0f3f7;color:var(--ink)}
-  .fin-corpo{padding:14px 20px 22px}
-  .domanda{margin:0 0 14px;color:var(--muted);font-size:15px}
-  .grande{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
-  .grande .val{font-size:38px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1}
-  .grande .txt{font-size:14px;color:var(--ink)}
-  .punti{margin:14px 0 6px;padding-left:20px}
-  .punti li{margin:5px 0}
-  .azioni{margin:12px 0 4px}
-  details.parte{border:1px solid var(--line);border-radius:10px;padding:9px 14px;background:#fbfcfd;margin-top:8px}
-  details.parte summary{cursor:pointer;font-weight:600}
-  details.parte[open] summary{margin-bottom:8px}
-  details.parte ol,details.parte ul{margin:6px 0 6px;padding-left:20px}
-  details.parte li{margin:4px 0}
-  details.parte p{margin:6px 0}
-  .sottotitolo{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:14px 0 4px}
-
-  /* grafici (solo HTML/CSS e un SVG: la pagina funziona offline) */
-  .grafico{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fbfcfd;min-width:0;margin-top:8px}
-  .grafico h5{margin:0 0 10px;font-size:13px}
-  .grafico svg{display:block;width:100%;height:auto}
-  .grafico .nota{font-size:11.5px;color:var(--muted);margin-top:8px}
-  .barra-riga{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;align-items:center;gap:8px;margin:5px 0;font-size:12px}
-  .barra-etichetta{color:var(--muted);line-height:1.25;overflow-wrap:anywhere}
-  .barra-link{color:var(--accent);text-decoration:none}
-  .barra-link:hover,.barra-link:focus-visible{text-decoration:underline}
-  .barra-traccia{position:relative;height:12px;background:var(--traccia);border-radius:6px;overflow:hidden}
-  .barra-traccia span{position:absolute;left:0;top:0;bottom:0;border-radius:6px}
-  .barra-valore{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .pila{display:flex;height:22px;border-radius:7px;overflow:hidden;background:var(--traccia)}
-  .pila span{height:100%}
-  .pila100-riga{display:grid;grid-template-columns:72px 1fr;align-items:center;gap:8px;margin:7px 0;font-size:12px}
-  .pila100-riga .pila{height:28px}
-  .pila100-riga .pila span{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;overflow:hidden}
-  .legenda{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12px;color:var(--muted)}
-  .legenda i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
-  .legenda b{color:var(--ink);font-variant-numeric:tabular-nums}
-  table.param{border-collapse:collapse;font-size:12.5px;margin-top:6px;width:100%}
-  table.param td{padding:5px 12px 5px 0;border-bottom:1px solid var(--line);vertical-align:top}
-  table.param td:first-child{color:var(--muted);width:40%}
-  .vuoto{color:var(--muted);font-size:14px;text-align:center;padding:20px}
-</style>
+<title>Risultati — Torino Mobilità</title>
+<meta name="description" content="Cinque domande sulla mobilità e sui servizi di Torino, ognuna con la sua risposta, un grafico e i limiti dei dati.">
+<meta name="theme-color" content="#0b2559">
+<link rel="icon" href="assets/icona.svg" type="image/svg+xml">
+<link rel="icon" href="assets/icona-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/icona-180.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Torino Mobilità">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Risultati — Torino Mobilità">
+<meta property="og:description" content="Cinque domande sulla mobilità e sui servizi di Torino, ognuna con la sua risposta, un grafico e i limiti dei dati.">
+<meta property="og:url" content="https://campeseleonardo-tech.github.io/Turin-mobility/risultati.html">
+<meta property="og:image" content="https://campeseleonardo-tech.github.io/Turin-mobility/assets/anteprima.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Risultati — Torino Mobilità">
+<meta name="twitter:description" content="Cinque domande sulla mobilità e sui servizi di Torino, ognuna con la sua risposta, un grafico e i limiti dei dati.">
+<meta name="twitter:image" content="https://campeseleonardo-tech.github.io/Turin-mobility/assets/anteprima.png">
+<link rel="stylesheet" href="assets/stile.css">
 </head>
 <body>
-
+<header class="barra-alta"><div class="dentro">
+  <a class="marchio" href="index.html"><img src="assets/icona.svg" alt="" width="30" height="30">Torino Mobilità</a>
+  <nav aria-label="Pagine del sito"><a href="index.html">Home</a><a href="risultati.html" aria-current="page">Risultati</a><a href="mappa_torino.html">Mappa</a><a href="progetto.html">Il progetto</a></nav>
+</div></header>
+<main>
 <div class="testa">
   <div>
     <h1>Risultati</h1>
     <p class="sub">Cinque domande sulla mobilità e sui servizi di Torino, ognuna con la sua risposta, un grafico e i limiti dei dati.</p>
   </div>
-  <span><a href="index.html" class="back">Home</a> · <a href="mappa_torino.html" class="back">Mappa →</a></span>
 </div>
 
 <div id="galleria" class="galleria"></div>
@@ -111,29 +42,35 @@
 <dialog id="finestra" aria-labelledby="finTitolo">
   <div class="fin-testa">
     <div>
-      <div id="finMeta" style="font-size:12px;color:var(--muted)"></div>
+      <div id="finMeta" class="fin-meta"></div>
       <h2 id="finTitolo"></h2>
     </div>
     <button class="fin-chiudi" id="finChiudi" aria-label="Chiudi">×</button>
   </div>
   <div class="fin-corpo" id="finCorpo"></div>
 </dialog>
+</main>
+<footer class="piede"><div class="dentro">
+  <div>
+    <h2>Chi sono</h2>
+    <p>Leonardo Campese</p>
+    <p><a href="https://www.linkedin.com/in/leocampese/">LinkedIn</a> · <a href="mailto:campese.leonardo@gmail.com">campese.leonardo@gmail.com</a> · <a href="https://github.com/campeseleonardo-tech/Turin-mobility">GitHub</a></p>
+  </div>
+  <div>
+    <p class="piccolo">Progetto personale di studio e di portfolio. Codice con licenza MIT; i dati hanno la licenza della loro fonte.</p>
+    <p class="piccolo" id="datiAggiornati">Dati aggiornati al …</p>
+  </div>
+</div></footer>
 
 <!-- le schede dei risultati; se manca, la pagina funziona lo stesso -->
 <script src="data/schede_risultati.js"></script>
+<script src="assets/sito.js"></script>
 <script>
 "use strict";
 const $ = id => document.getElementById(id);
 let schede = [];
 
-function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-
-/* numero in stile italiano: punto delle migliaia anche sotto 10.000, al massimo una cifra decimale */
-function formattaNumero(n){
-  if(typeof n !== "number" || !Number.isFinite(n)) return esc(String(n));
-  if(Number.isInteger(n)) return (n < 0 ? "−" : "") + String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  return n.toLocaleString("it-IT", {maximumFractionDigits:1});
-}
+const esc = Sito.esc, formattaNumero = Sito.formattaNumero;
 function conUnita(n, unita){ return formattaNumero(n) + (unita ? (unita === "%" ? "%" : " " + esc(unita)) : ""); }
 function valoreGrande(n){ return formattaNumero(n.valore) + (n.unita === "%" ? "%" : ""); }
 function dopoGrande(n){ return n.unita && n.unita !== "%" ? esc(n.unita) + " " : ""; }
@@ -174,8 +111,8 @@ function mostraGalleria(){
 /* ---------------- grafici ---------------- */
 // «verde»/«rosso» = bene/male; «giallo», «blu», «arancio» = categorie; senza tono = blu neutro
 const TONO_COL = {verde:"var(--vr-verde)", rosso:"var(--vr-rosso)", giallo:"var(--vr-giallo)", blu:"var(--neu-blu)", arancio:"var(--neu-arancio)"};
-const TONO_TESTO = {verde:"#fff", rosso:"#fff", giallo:"var(--ink)", blu:"var(--ink)", arancio:"var(--ink)"};
-const PALETTE_PILA = ["var(--neu-blu)", "var(--neu-arancio)", "#9aa3b2", "#c9b27a", "#8d7bb0"];
+const TONO_TESTO = {verde:"var(--su-verde)", rosso:"var(--su-rosso)", giallo:"var(--su-giallo)", blu:"var(--su-giallo)", arancio:"var(--su-giallo)"};
+const PALETTE_PILA = ["var(--neu-blu)", "var(--neu-arancio)", "var(--pila-3)", "var(--pila-4)", "var(--pila-5)"];
 
 function graficoBarre(g){
   const voci = g.voci || [];
@@ -191,19 +128,46 @@ function graficoBarre(g){
       <span class="barra-traccia">
         ${haPrima ? `<span style="width:${pct(v.prima)}%;background:var(--neu-blu-chiaro)"></span>` : ""}
         <span style="width:${pct(v.valore)}%;background:${TONO_COL[v.tono] || "var(--neu-blu)"}"></span>
-        ${typeof g.soglia === "number" ? `<span style="left:${g.soglia / max * 100}%;width:2px;border-radius:0;background:var(--ink)" title="${esc(g.soglia_label || "soglia")}"></span>` : ""}
+        ${typeof g.soglia === "number" ? `<span class="soglia" style="left:${g.soglia / max * 100}%" title="${esc(g.soglia_label || "soglia")}"></span>` : ""}
       </span>
       <span class="barra-valore">${val}</span>
     </div>`;
   }).join("");
   const haTesto = voci.some(v => v.testo);
-  const unita = g.unita && g.unita !== "%" && !haTesto ? `<div class="nota" style="margin-top:2px">Valori in ${esc(g.unita)}.</div>` : "";
+  const unita = g.unita && g.unita !== "%" && !haTesto ? `<div class="nota">Valori in ${esc(g.unita)}.</div>` : "";
   return righe + unita;
+}
+
+/* barre delle differenze: una riga per fascia, la barra va a destra (positiva) o a sinistra (negativa) dello zero;
+   sotto la barra il valore e, scritto, il numero di zone che stanno dietro la differenza */
+function graficoBarreDiff(g){
+  const voci = g.voci || [];
+  const max = g.max || Math.max(1, ...voci.map(v => Math.abs(v.valore || 0)));
+  return voci.map(v => {
+    const ok = typeof v.valore === "number";
+    const w = ok ? Math.max(1.5, Math.abs(v.valore) / max * 50) : 0;
+    const barra = ok ? `<span class="${v.valore >= 0 ? "pos" : "neg"}" style="width:${w}%"></span>` : "";
+    const segno = ok && v.valore > 0 ? "+" : "";
+    return `<div class="diff-riga"><span class="barra-etichetta">${esc(v.label)}</span><span class="diff-traccia" role="img" aria-label="${esc(v.label)}">${barra}</span>
+      <span class="diff-testo">${ok ? segno + formattaNumero(v.valore) + (g.unita ? " " + esc(g.unita) : "") : "non confrontabile"} <small>${esc(v.testo || "")}</small></span></div>`;
+  }).join("");
+}
+
+/* il numero grande disegnato: omini, quadratini o pallini (dalla scheda: f.unita) */
+const OMINO = '<svg viewBox="0 0 24 48" class="omino{c}" aria-hidden="true"><circle cx="12" cy="7" r="6"/><path d="M5 17h14a3 3 0 0 1 3 3v14h-4v14h-5V34h-2v14H6V34H2V20a3 3 0 0 1 3-3z"/></svg>';
+function unitaHtml(u){
+  if(!u) return "";
+  const n = Math.max(0, Math.round(u.colorati || 0)), tot = Math.max(1, u.totale || 10);
+  let corpo = "";
+  if(u.tipo === "omini") corpo = `<div class="riga-figure" role="img" aria-label="${esc(u.didascalia || "")}">${Array.from({length: tot}, (_, i) => OMINO.replace("{c}", i < n ? " acceso" : "")).join("")}</div>`;
+  else if(u.tipo === "quadratini") corpo = `<div class="quadri" role="img" aria-label="${esc(u.didascalia || "")}">${Array.from({length: tot}, (_, i) => `<i class="${i < n ? "acceso" : ""}"></i>`).join("")}</div>`;
+  else if(u.tipo === "pallini") corpo = `<div class="pallini" role="img" aria-label="${esc(u.didascalia || "")}">${(u.pallini || []).map(p => `<span><i class="tono-${esc(p.tono || "grigio")}"></i>${esc(p.label)}</span>`).join("")}</div>`;
+  return `<div class="unita">${corpo}${u.didascalia ? `<p class="didascalia">${esc(u.didascalia)}</p>` : ""}</div>`;
 }
 
 /* barre a gruppi: un titolo per gruppo (es. fascia) e sotto le sue barre (es. limite basso e alto), tutte sulla stessa scala */
 function graficoBarreGruppi(g){
-  return (g.gruppi || []).map(gr => `<div style="margin:8px 0 2px;font-size:12px;font-weight:600">${esc(gr.label)}</div>` + graficoBarre({voci: gr.voci, unita: g.unita, max: g.max})).join("");
+  return (g.gruppi || []).map(gr => `<div class="etichetta-gruppo">${esc(gr.label)}</div>` + graficoBarre({voci: gr.voci, unita: g.unita, max: g.max})).join("");
 }
 
 function graficoPila(g){
@@ -287,7 +251,7 @@ function graficoDispersione(g){
 function ymaxGrezzo(pts){ return Math.max(10, ...pts.map(p => p[1])); }
 
 function grafico(g){
-  const corpo = g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "barre_gruppi" ? graficoBarreGruppi(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
+  const corpo = g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "barre_diff" ? graficoBarreDiff(g) : g.tipo === "barre_gruppi" ? graficoBarreGruppi(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
   return `<div class="grafico"><h5>${esc(g.titolo)}</h5>${corpo}${g.nota ? `<div class="nota">${esc(g.nota)}</div>` : ""}</div>`;
 }
 
@@ -309,7 +273,8 @@ function apri(i){
     ? parte(esc(f.extra.titolo), `<p>${esc(f.extra.punto)}</p>${grafico(f.extra.grafico)}`) : "";
   $("finCorpo").innerHTML =
     `<p class="domanda">${esc(f.domanda)}</p>` +
-    `<div class="grande"><span class="val">${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>` +
+    `<div class="grande"><span class="val"${typeof f.numero.valore === "number" ? ` data-valore="${f.numero.valore}" data-suffisso="${f.numero.unita === "%" ? "%" : ""}"` : ""}>${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>` +
+    unitaHtml(f.unita) +
     grafico(f.principale) + mappa +
     elenco(f.punti, "ul").replace("<ul>", '<ul class="punti">') +
     parte("Altri grafici", (f.altri || []).map(grafico).join("")) +
@@ -320,6 +285,7 @@ function apri(i){
   const d = $("finestra");
   if(!d.open) d.showModal();
   d.scrollTop = 0;
+  Sito.osserva($("finCorpo"));
   try { history.replaceState(null, "", "#p" + numeroDi(s)); } catch(e){}
 }
 function chiudi(){
@@ -335,6 +301,7 @@ for(const s of (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI
 }
 schede.sort((a, b) => (parseFloat(numeroDi(a)) || 99) - (parseFloat(numeroDi(b)) || 99));
 mostraGalleria();
+Sito.dataAggiornamento();
 // #r4 = numero interno (link di prima, restano validi); #p2 = numero in pagina (1-5)
 function apriDalIndirizzo(){
   const dalLink = /^#([rp])(\d+)$/.exec(location.hash);
@@ -345,6 +312,5 @@ function apriDalIndirizzo(){
 apriDalIndirizzo();
 window.addEventListener("hashchange", apriDalIndirizzo);   // l'indirizzo cambia senza ricaricare la pagina (#p3, #r6)
 </script>
-
 </body>
 </html>

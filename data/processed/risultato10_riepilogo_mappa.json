@@ -25,7 +25,7 @@
     "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
     "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-22T12:29:38+00:00",
+  "generato": "2026-10-22T13:39:09+00:00",
   "avviso": [
     "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -404,72 +404,30 @@
         ]
       },
       {
-        "tipo": "barre_gruppi",
-        "titolo": "Prezzo medio delle case, con e senza una fermata della metro vicina",
+        "tipo": "barre_diff",
+        "titolo": "Quanto più costano le case vicino alla metro (con metro meno senza metro)",
         "unita": "€/m²",
-        "nota": "Per fascia di distanza da Piazza Castello (2 km). Fermata M1 entro 600 m dal centro della zona. Media semplice fra zone: differenza fra zone, non effetto della metro.",
-        "gruppi": [
+        "nota": "Per fascia di distanza da Piazza Castello (2 km): prezzo medio delle zone con una fermata M1 entro 600 m meno quello delle zone senza, alla stessa distanza dal centro. Su ogni barra il numero di zone. Differenza fra zone, non effetto della metro.",
+        "voci": [
           {
             "label": "0-2 km dal centro",
-            "voci": [
-              {
-                "label": "con metro (6 zone)",
-                "valore": 2542,
-                "tono": "blu",
-                "testo": "2.542"
-              },
-              {
-                "label": "senza metro (8 zone)",
-                "valore": 2469,
-                "tono": "arancio",
-                "testo": "2.469"
-              }
-            ]
+            "valore": 73,
+            "testo": "(6 zone con metro, 8 senza)"
           },
           {
             "label": "2-4 km dal centro",
-            "voci": [
-              {
-                "label": "con metro (3 zone)",
-                "valore": 2192,
-                "tono": "blu",
-                "testo": "2.192"
-              },
-              {
-                "label": "senza metro (16 zone)",
-                "valore": 1973,
-                "tono": "arancio",
-                "testo": "1.973"
-              }
-            ]
+            "valore": 219,
+            "testo": "(3 zone con metro, 16 senza)"
           },
           {
             "label": "4-6 km dal centro",
-            "voci": [
-              {
-                "label": "con metro (2 zone)",
-                "valore": 1712,
-                "tono": "blu",
-                "testo": "1.712"
-              },
-              {
-                "label": "senza metro (10 zone)",
-                "valore": 1660,
-                "tono": "arancio",
-                "testo": "1.660"
-              }
-            ]
+            "valore": 52,
+            "testo": "(2 zone con metro, 10 senza)"
           },
           {
             "label": "6-8 km dal centro",
-            "voci": [
-              {
-                "label": "senza metro (1 zone)",
-                "valore": 1300,
-                "tono": "arancio",
-                "testo": "1.300"
-              }
-            ]
+            "valore": null,
+            "testo": "(0 zone con metro, 1 senza)"
           }
         ]
       }
@@ -518,6 +476,12 @@
       "id": "vulnerabilita",
       "nota": "Vista «Doppio svantaggio» nel tema Fragilità sociale.",
       "vista": "doppio"
+    },
+    "unita": {
+      "tipo": "omini",
+      "totale": 10,
+      "colorati": 1,
+      "didascalia": "Circa 1 torinese su 10 vive in sezioni con fragilità alta e servizi bassi (9,5% dei residenti)."
     }
   },
   "numero_pubblico": 5

@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-22T12:29:38+00:00",
+  "generato": "2026-10-22T13:39:09+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1127,7 +1127,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-22T12:29:38+00:00",
+  "generato": "2026-10-22T13:39:09+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-20: il GPS c'è per il 78% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -1483,6 +1483,12 @@ window.SCHEDE_RISULTATI = [
    "mappa": {
     "id": "puntualita",
     "nota": "Nella mappa, tema «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."
+   },
+   "unita": {
+    "tipo": "quadratini",
+    "totale": 100,
+    "colorati": 14,
+    "didascalia": "Su 100 passaggi feriali, circa 14 arrivano con più di 5 minuti di ritardo (14,1%); con più di 10 minuti circa 5."
    },
    "confronto": [
     "GTT dichiara il 2,3% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
@@ -2078,7 +2084,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-22T12:29:38+00:00",
+  "generato": "2026-10-22T13:39:09+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2332,6 +2338,60 @@ window.SCHEDE_RISULTATI = [
    "mappa": {
     "id": "interscambio",
     "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."
+   },
+   "unita": {
+    "tipo": "pallini",
+    "pallini": [
+     {
+      "label": "Santa Rita",
+      "tono": "rosso"
+     },
+     {
+      "label": "Metro Massaua",
+      "tono": "giallo"
+     },
+     {
+      "label": "Ponte Cavalieri Templari",
+      "tono": "rosso"
+     },
+     {
+      "label": "Regina Margherita",
+      "tono": "rosso"
+     },
+     {
+      "label": "Pasini",
+      "tono": "rosso"
+     },
+     {
+      "label": "Leonardo Da Vinci",
+      "tono": "rosso"
+     },
+     {
+      "label": "Drosso Cap",
+      "tono": "rosso"
+     },
+     {
+      "label": "Stura Lazio",
+      "tono": "rosso"
+     },
+     {
+      "label": "Marsè",
+      "tono": "rosso"
+     },
+     {
+      "label": "Derna Est",
+      "tono": "rosso"
+     },
+     {
+      "label": "Ferrara",
+      "tono": "rosso"
+     },
+     {
+      "label": "Zara",
+      "tono": "rosso"
+     }
+    ],
+    "didascalia": "Un pallino per punto prioritario: verde = il bus conviene (0), giallo = dipende (1), rosso = il bus non conviene (11)."
    },
    "extra": {
     "titolo": "Interscambi esistenti e bus verso il centro",
@@ -2729,7 +2789,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-22T12:29:38+00:00",
+  "generato": "2026-10-22T13:39:09+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 20 sensori: errore tipico ±38%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -6074,7 +6134,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-22T12:29:38+00:00",
+  "generato": "2026-10-22T13:39:09+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -6453,72 +6513,30 @@ window.SCHEDE_RISULTATI = [
      ]
     },
     {
-     "tipo": "barre_gruppi",
-     "titolo": "Prezzo medio delle case, con e senza una fermata della metro vicina",
+     "tipo": "barre_diff",
+     "titolo": "Quanto più costano le case vicino alla metro (con metro meno senza metro)",
      "unita": "€/m²",
-     "nota": "Per fascia di distanza da Piazza Castello (2 km). Fermata M1 entro 600 m dal centro della zona. Media semplice fra zone: differenza fra zone, non effetto della metro.",
-     "gruppi": [
+     "nota": "Per fascia di distanza da Piazza Castello (2 km): prezzo medio delle zone con una fermata M1 entro 600 m meno quello delle zone senza, alla stessa distanza dal centro. Su ogni barra il numero di zone. Differenza fra zone, non effetto della metro.",
+     "voci": [
       {
        "label": "0-2 km dal centro",
-       "voci": [
-        {
-         "label": "con metro (6 zone)",
-         "valore": 2542,
-         "tono": "blu",
-         "testo": "2.542"
-        },
-        {
-         "label": "senza metro (8 zone)",
-         "valore": 2469,
-         "tono": "arancio",
-         "testo": "2.469"
-        }
-       ]
+       "valore": 73,
+       "testo": "(6 zone con metro, 8 senza)"
       },
       {
        "label": "2-4 km dal centro",
-       "voci": [
-        {
-         "label": "con metro (3 zone)",
-         "valore": 2192,
-         "tono": "blu",
-         "testo": "2.192"
-        },
-        {
-         "label": "senza metro (16 zone)",
-         "valore": 1973,
-         "tono": "arancio",
-         "testo": "1.973"
-        }
-       ]
+       "valore": 219,
+       "testo": "(3 zone con metro, 16 senza)"
       },
       {
        "label": "4-6 km dal centro",
-       "voci": [
-        {
-         "label": "con metro (2 zone)",
-         "valore": 1712,
-         "tono": "blu",
-         "testo": "1.712"
-        },
-        {
-         "label": "senza metro (10 zone)",
-         "valore": 1660,
-         "tono": "arancio",
-         "testo": "1.660"
-        }
-       ]
+       "valore": 52,
+       "testo": "(2 zone con metro, 10 senza)"
       },
       {
        "label": "6-8 km dal centro",
-       "voci": [
-        {
-         "label": "senza metro (1 zone)",
-         "valore": 1300,
-         "tono": "arancio",
-         "testo": "1.300"
-        }
-       ]
+       "valore": null,
+       "testo": "(0 zone con metro, 1 senza)"
       }
      ]
     }
@@ -6567,6 +6585,12 @@ window.SCHEDE_RISULTATI = [
     "id": "vulnerabilita",
     "nota": "Vista «Doppio svantaggio» nel tema Fragilità sociale.",
     "vista": "doppio"
+   },
+   "unita": {
+    "tipo": "omini",
+    "totale": 10,
+    "colorati": 1,
+    "didascalia": "Circa 1 torinese su 10 vive in sezioni con fragilità alta e servizi bassi (9,5% dei residenti)."
    }
   },
   "numero_pubblico": 5,

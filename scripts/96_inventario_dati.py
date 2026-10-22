@@ -171,6 +171,8 @@ def posto(rel_data, peso, legge, scrive):
         return "fuori", "strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto"
     if nome.endswith((".sqlite", ".sqlite3", ".db", "-wal", "-shm")):
         return "riassunto", "storico della raccolta: si tengono i riassunti (script 97)"
+    if parti[0] == "catalogo" and nome.endswith(".js"):
+        return "git", "la mappa lo carica quando si apre «Luoghi della città»"
     if parti[0] == "storico_riassunti":
         return "git", "riassunti dello storico (script 97): vanno in git"
     if FONTE_SE.search(rel_data):
