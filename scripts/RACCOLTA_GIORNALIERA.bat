@@ -11,9 +11,19 @@ rem Log: logs\raccolta_giornaliera.log (una riga di esito per giorno) e logs\bac
 cd /d "%~dp0.."
 if not exist logs mkdir logs
 set "LOG=logs\raccolta_giornaliera.log"
-set "PI=leopi@192.168.8.200"
-set "SRC=/home/leopi/GTT/data"
-set "CHIAVE=%USERPROFILE%\.ssh\id_gtt_leopi"
+rem Dati di accesso al Pi: da config_locale.json (vedi scripts\config_locale.esempio.json)
+set "PI="
+for /f "delims=" %%a in ('python scripts\config_locale.py pi') do set "PI=%%a"
+for /f "delims=" %%a in ('python scripts\config_locale.py chiave') do set "CHIAVE=%%a"
+for /f "delims=" %%a in ('python scripts\config_locale.py dir_remota') do set "DIRPI=%%a"
+if not defined PI (
+  echo.
+  echo Manca o non e' valido config_locale.json: copia scripts\config_locale.esempio.json in config_locale.json
+  echo nella cartella del progetto e scrivi i valori veri. Poi rilancia.
+  pause
+  exit /b 1
+)
+set "SRC=%DIRPI%/data"
 set "ESITO=OK"
 
 echo [%date% %time%] inizio >> "%LOG%"

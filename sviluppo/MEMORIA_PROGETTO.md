@@ -23,7 +23,7 @@ della qualità dei dati). Cornici, temi in comune, dati da verificare e frase pe
 - Git: sul PC ramo `prova`; **commit e push sempre automatici** a fine lavoro (Leo, 20/10; dettagli in `AGENTS.md`). Nelle sessioni cloud ramo `claude/...`, che Leo unisce in `prova`
   (merge sempre con `--no-edit`). Repository **pubblico**: niente segreti né dati personali in git. Non modificare `data/raw` né lo storico: solo leggere.
 - Script provati su campione prima del giro vero. Python del PATH (3.14), non Anaconda (json rotto); sul Pi Python 3.13. Orari: il PC è in ora italiana.
-- Accesso: terminale sul PC e SSH **in sola lettura** verso leopi (`leopi@192.168.8.200`, chiave `~/.ssh/id_gtt_leopi`). Scrivere o riavviare sul Pi → `.bat` a doppio clic per Leo
+- Accesso: terminale sul PC e SSH **in sola lettura** verso il Raspberry Pi di casa (leopi; indirizzo, utente e chiave in `config_locale.json`, fuori da git, modello `scripts/config_locale.esempio.json`). Scrivere o riavviare sul Pi → `.bat` a doppio clic per Leo
   (`cd /d "%~dp0.."`, log in `logs/`, stop al primo errore); calcoli lunghi in una finestra `.bat` propria.
 - Tag dati: [MISURATO]/[PROGRAMMATO]/[STIMATO]/[CENSIMENTO]/[DATI SCARSI]. Niente dati personali; vulnerabilità solo con l'indice dedicato, mai nazionalità.
 - Piani aperti in `sviluppo/piani/PIANO_*.md`; a lavoro chiuso il contenuto vivo passa nel documento del risultato e qui, il piano si cancella. Documenti e script superati si **cancellano** (Leo 21/10).

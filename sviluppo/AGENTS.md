@@ -12,7 +12,7 @@ La memoria del progetto è sviluppo/MEMORIA_PROGETTO.md (decisioni, limiti, cose
 Passo passo: un passo alla volta, decisioni importanti chieste prima, piccole scelte con valori predefiniti dichiarati. Spiegazioni semplici, senza gergo.
 
 ## Dati
-Lo storico vero vive sul Raspberry Pi "leopi" (192.168.8.200); sul PC c'è la copia settimanale data/storico_backup.sqlite. Non modificare i dati in data/raw e lo storico: leggili e basta. Per prove lunghe parti da un campione piccolo.
+Lo storico vero vive sul Raspberry Pi di casa ("leopi"; indirizzo, utente e chiave SSH stanno in config_locale.json nella radice, fuori da git: modello in scripts/config_locale.esempio.json); sul PC c'è la copia settimanale data/storico_backup.sqlite. Non modificare i dati in data/raw e lo storico: leggili e basta. Per prove lunghe parti da un campione piccolo.
 
 ## Ramo git
 Sul PC di Leo si lavora sul ramo "prova": se all'inizio non sei su "prova", fermati e dillo a Leo.

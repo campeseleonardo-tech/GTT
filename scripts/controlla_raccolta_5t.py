@@ -6,9 +6,10 @@ Sola lettura: non scrive niente sul Pi.
 Cosa deve uscire: "sensori ultimo istante: 112" e "codici ~2 con dati: 3/3" -> giusto.
 """
 
+import os
 import sqlite3
 
-DB = "/home/leopi/GTT/data/storico.sqlite"
+DB = os.path.expanduser("~/GTT/data/storico.sqlite")
 
 
 def main():

@@ -12,3 +12,5 @@ chiave_deepseek.txt
 pubblica/
 # screenshot di scripts/prova_pagine_r6.py
 immagini/
+# dati di accesso al Raspberry Pi di casa (scripts/config_locale.esempio.json)
+config_locale.json

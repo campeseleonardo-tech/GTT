@@ -4,8 +4,8 @@ controlla_leopi.py  -  la raccolta sul Raspberry Pi (leopi) sta funzionando? (Cl
 
 Cosa fa
 -------
-Si collega a leopi con SSH (chiave %USERPROFILE%\\.ssh\\id_gtt_leopi) SOLO PER LEGGERE: apre il database
-/home/leopi/GTT/data/storico.sqlite in sola lettura e guarda l'ultima riga scritta in ogni tabella raccolta.
+Si collega a leopi con SSH (chiave indicata in config_locale.json) SOLO PER LEGGERE: apre il database
+storico.sqlite del Pi in sola lettura e guarda l'ultima riga scritta in ogni tabella raccolta.
   OK       = ogni tabella ha una lettura recente (vedi LIMITI_MINUTI);
   ALLARME  = almeno una tabella e' ferma (scrive quale e da quando).
 Di notte (00-06 ora italiana) il feed dei ritardi GTT e' spento: per quella tabella non c'e' allarme.
@@ -29,10 +29,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import comuni  # noqa: E402
+import config_locale  # noqa: E402
 
-PI = "leopi@192.168.8.200"
-CHIAVE = Path(os.environ.get("USERPROFILE", str(Path.home()))) / ".ssh" / "id_gtt_leopi"
-DB_PI = "/home/leopi/GTT/data/storico.sqlite"
+CFG = config_locale.carica()  # config_locale.json nella radice (non in git)
+PI = CFG["pi"]
+CHIAVE = Path(CFG["chiave"])
+DB_PI = CFG["dir_remota"] + "/data/storico.sqlite"
 # tabella -> (colonna del tempo, minuti oltre i quali e' ferma)
 LIMITI_MINUTI = {
     "mezzi_gtt": ("letto_utc", 30),
