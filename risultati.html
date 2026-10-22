@@ -65,6 +65,7 @@
 <!-- le schede dei risultati; se manca, la pagina funziona lo stesso -->
 <script src="data/schede_risultati.js"></script>
 <script src="assets/sito.js"></script>
+<script src="assets/gara.js"></script>
 <script>Sito.avvia();</script>
 <script>
 "use strict";
@@ -253,7 +254,7 @@ function graficoDispersione(g){
 function ymaxGrezzo(pts){ return Math.max(10, ...pts.map(p => p[1])); }
 
 function grafico(g){
-  const corpo = g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "barre_diff" ? graficoBarreDiff(g) : g.tipo === "barre_gruppi" ? graficoBarreGruppi(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
+  const corpo = g.tipo === "gara" ? (window.Gara ? Gara.html({luoghi: g.luoghi, scelto: g.scelto}) : "") : g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "barre_diff" ? graficoBarreDiff(g) : g.tipo === "barre_gruppi" ? graficoBarreGruppi(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
   return `<div class="grafico"><h5>${esc(g.titolo)}</h5>${corpo}${g.nota ? `<div class="nota">${esc(g.nota)}</div>` : ""}</div>`;
 }
 

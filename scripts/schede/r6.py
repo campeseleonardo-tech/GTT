@@ -219,6 +219,15 @@ def forma_r6(s):
                           "Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
                   "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["pareggio_basso_min"]), "prima": round(l["pareggio_alto_min"]),
                             "testo": f"{round(l['pareggio_basso_min'])}–{round(l['pareggio_alto_min'])} min"} for l in pb]}
+    # gara: un bus e un'auto da ogni punto prioritario e da ogni interscambio verso Piazza Castello (tempi dallo script 94)
+    luoghi_gara = [{"nome": nome_pulito(l["nome"]), "gruppo": "Punti prioritari" if l["tipo"] == "punto_prioritario" else "Interscambi esistenti",
+                    "bus": l["tp_min"], "auto_min": l["auto_alto_min"], "auto_max": l["auto_basso_min"], "giudizio": l["classe_testo"]}
+                   for l in ba["luoghi"] if l.get("tp_min") is not None]
+    scelto = next((i for i, l in enumerate(luoghi_gara) if l["giudizio"].startswith("dipende")), 0)
+    gara_g = {"tipo": "gara", "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale",
+              "nota": f"Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: "
+                      f"{f_ba_hi} (sensori, auto veloce) e {f_ba_lo} (Google, auto chiara e lenta).",
+              "luoghi": luoghi_gara, "scelto": scelto}
     mi = lambda l: f"{round(l['pareggio_basso_min'])}–{round(l['pareggio_alto_min'])} minuti" if l["pareggio_basso_min"] is not None else "nessun collegamento"
     pieni_i = [l for l in inter if l["stato"] == "pieno"]
     vuoti_i = [l for l in inter if l["stato"] == "libero"]
@@ -239,11 +248,11 @@ def forma_r6(s):
         "Dove mancano posti per lasciare l'auto, e quando il bus da lì verso il centro è veloce quanto l'auto?",
         {"valore": forbice_m, "unita": "minuti",
          "testo": f"persi in centro per parcheggiare: sotto questa soglia l'auto batte il bus (mediana dei {n_punti_ba} punti)"},
-        pareggio_g,
+        gara_g,
         [kp1,
          f"{n_senza} fermate importanti su {n_fermate} non hanno posti bastanti a {raggio} metri a piedi.",
          kp3],
-        [principale],
+        [pareggio_g, principale],
         [f"Fermate importanti: fuori dal centro, con metro, stazione o capolinea, oppure {reg['n_corse']} corse all'ora.",
          "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
          f"Auto da fermare: auto che passano per il {quota}% che già oggi lascia l'auto. Posti: parcheggi adatti entro {raggio} metri.",

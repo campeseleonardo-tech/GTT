@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-22T17:00:50+00:00",
+  "generato": "2026-10-22T17:07:22+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1319,7 +1319,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-22T17:00:50+00:00",
+  "generato": "2026-10-22T17:07:22+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-20: il GPS c'è per il 78% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -2512,7 +2512,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-22T17:00:50+00:00",
+  "generato": "2026-10-22T17:07:22+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2561,84 +2561,148 @@ window.SCHEDE_RISULTATI = [
     "testo": "persi in centro per parcheggiare: sotto questa soglia l'auto batte il bus (mediana dei 12 punti)"
    },
    "principale": {
-    "tipo": "barre",
-    "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto",
-    "unita": "minuti",
-    "nota": "Verso Piazza Castello alle 8. Barra scura = auto lenta (fattore di Google), barra chiara = auto veloce (fattore dei sensori). Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
-    "voci": [
+    "tipo": "gara",
+    "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale",
+    "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (sensori, auto veloce) e 2,1 (Google, auto chiara e lenta).",
+    "luoghi": [
      {
-      "label": "Metro Massaua",
-      "valore": 7,
-      "prima": 15,
-      "testo": "7–15 min"
+      "nome": "Santa Rita",
+      "gruppo": "Punti prioritari",
+      "bus": 36.0,
+      "auto_min": 13.7,
+      "auto_max": 20.2,
+      "giudizio": "il bus non conviene"
      },
      {
-      "label": "Pasini",
-      "valore": 16,
-      "prima": 21,
-      "testo": "16–21 min"
+      "nome": "Metro Massaua",
+      "gruppo": "Punti prioritari",
+      "bus": 25.0,
+      "auto_min": 15.1,
+      "auto_max": 22.7,
+      "giudizio": "dipende dal traffico"
      },
      {
-      "label": "Derna Est",
-      "valore": 19,
-      "prima": 25,
-      "testo": "19–25 min"
+      "nome": "Ponte Cavalieri Templari",
+      "gruppo": "Punti prioritari",
+      "bus": 51.0,
+      "auto_min": 18.2,
+      "auto_max": 28.0,
+      "giudizio": "il bus non conviene"
      },
      {
-      "label": "Regina Margherita",
-      "valore": 19,
-      "prima": 24,
-      "testo": "19–24 min"
+      "nome": "Regina Margherita",
+      "gruppo": "Punti prioritari",
+      "bus": 31.0,
+      "auto_min": 11.6,
+      "auto_max": 16.6,
+      "giudizio": "il bus non conviene"
      },
      {
-      "label": "Stura Lazio",
-      "valore": 21,
-      "prima": 28,
-      "testo": "21–28 min"
+      "nome": "Pasini",
+      "gruppo": "Punti prioritari",
+      "bus": 28.0,
+      "auto_min": 12.1,
+      "auto_max": 17.4,
+      "giudizio": "il bus non conviene"
      },
      {
-      "label": "Santa Rita",
-      "valore": 21,
-      "prima": 27,
-      "testo": "21–27 min"
+      "nome": "Leonardo Da Vinci",
+      "gruppo": "Punti prioritari",
+      "bus": 59.0,
+      "auto_min": 19.9,
+      "auto_max": 31.1,
+      "giudizio": "il bus non conviene"
      },
      {
-      "label": "Zara",
-      "valore": 21,
-      "prima": 26,
-      "testo": "21–26 min"
+      "nome": "Drosso Cap",
+      "gruppo": "Punti prioritari",
+      "bus": 43.0,
+      "auto_min": 17.4,
+      "auto_max": 26.7,
+      "giudizio": "il bus non conviene"
      },
      {
-      "label": "Drosso Cap",
-      "valore": 21,
-      "prima": 31,
-      "testo": "21–31 min"
+      "nome": "Stura Lazio",
+      "gruppo": "Punti prioritari",
+      "bus": 37.0,
+      "auto_min": 14.3,
+      "auto_max": 21.3,
+      "giudizio": "il bus non conviene"
      },
      {
-      "label": "Ferrara",
-      "valore": 23,
-      "prima": 34,
-      "testo": "23–34 min"
+      "nome": "Marsè",
+      "gruppo": "Punti prioritari",
+      "bus": 61.0,
+      "auto_min": 23.2,
+      "auto_max": 36.8,
+      "giudizio": "il bus non conviene"
      },
      {
-      "label": "Ponte Cavalieri Templari",
-      "valore": 28,
-      "prima": 38,
-      "testo": "28–38 min"
+      "nome": "Derna Est",
+      "gruppo": "Punti prioritari",
+      "bus": 34.0,
+      "auto_min": 13.8,
+      "auto_max": 20.4,
+      "giudizio": "il bus non conviene"
      },
      {
-      "label": "Marsè",
-      "valore": 29,
-      "prima": 43,
-      "testo": "29–43 min"
+      "nome": "Ferrara",
+      "gruppo": "Punti prioritari",
+      "bus": 49.0,
+      "auto_min": 19.9,
+      "auto_max": 31.0,
+      "giudizio": "il bus non conviene"
      },
      {
-      "label": "Leonardo Da Vinci",
-      "valore": 33,
-      "prima": 44,
-      "testo": "33–44 min"
+      "nome": "Zara",
+      "gruppo": "Punti prioritari",
+      "bus": 33.0,
+      "auto_min": 11.9,
+      "auto_max": 17.1,
+      "giudizio": "il bus non conviene"
+     },
+     {
+      "nome": "Stura",
+      "gruppo": "Interscambi esistenti",
+      "bus": 39.0,
+      "auto_min": 17.3,
+      "auto_max": 26.6,
+      "giudizio": "dipende dal traffico"
+     },
+     {
+      "nome": "Venchi Unica",
+      "gruppo": "Interscambi esistenti",
+      "bus": 28.0,
+      "auto_min": 16.0,
+      "auto_max": 24.2,
+      "giudizio": "dipende dal traffico"
+     },
+     {
+      "nome": "Caio Mario",
+      "gruppo": "Interscambi esistenti",
+      "bus": 38.0,
+      "auto_min": 16.0,
+      "auto_max": 24.3,
+      "giudizio": "il bus non conviene"
+     },
+     {
+      "nome": "Fermi",
+      "gruppo": "Interscambi esistenti",
+      "bus": 31.0,
+      "auto_min": 18.6,
+      "auto_max": 28.9,
+      "giudizio": "dipende dal traffico"
+     },
+     {
+      "nome": "Sofia",
+      "gruppo": "Interscambi esistenti",
+      "bus": 33.0,
+      "auto_min": 13.3,
+      "auto_max": 19.6,
+      "giudizio": "il bus non conviene"
      }
-    ]
+    ],
+    "scelto": 1
    },
    "punti": [
     "Interscambi esistenti: pieni Stura (17–27 minuti); poco usati Caio Mario (19–27 minuti), Sofia (18–25 minuti).",
@@ -2646,6 +2710,86 @@ window.SCHEDE_RISULTATI = [
     "Il punto più promettente è Metro Massaua: bastano 7–15 minuti perché il bus pareggi l'auto."
    ],
    "altri": [
+    {
+     "tipo": "barre",
+     "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto",
+     "unita": "minuti",
+     "nota": "Verso Piazza Castello alle 8. Barra scura = auto lenta (fattore di Google), barra chiara = auto veloce (fattore dei sensori). Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
+     "voci": [
+      {
+       "label": "Metro Massaua",
+       "valore": 7,
+       "prima": 15,
+       "testo": "7–15 min"
+      },
+      {
+       "label": "Pasini",
+       "valore": 16,
+       "prima": 21,
+       "testo": "16–21 min"
+      },
+      {
+       "label": "Derna Est",
+       "valore": 19,
+       "prima": 25,
+       "testo": "19–25 min"
+      },
+      {
+       "label": "Regina Margherita",
+       "valore": 19,
+       "prima": 24,
+       "testo": "19–24 min"
+      },
+      {
+       "label": "Stura Lazio",
+       "valore": 21,
+       "prima": 28,
+       "testo": "21–28 min"
+      },
+      {
+       "label": "Santa Rita",
+       "valore": 21,
+       "prima": 27,
+       "testo": "21–27 min"
+      },
+      {
+       "label": "Zara",
+       "valore": 21,
+       "prima": 26,
+       "testo": "21–26 min"
+      },
+      {
+       "label": "Drosso Cap",
+       "valore": 21,
+       "prima": 31,
+       "testo": "21–31 min"
+      },
+      {
+       "label": "Ferrara",
+       "valore": 23,
+       "prima": 34,
+       "testo": "23–34 min"
+      },
+      {
+       "label": "Ponte Cavalieri Templari",
+       "valore": 28,
+       "prima": 38,
+       "testo": "28–38 min"
+      },
+      {
+       "label": "Marsè",
+       "valore": 29,
+       "prima": 43,
+       "testo": "29–43 min"
+      },
+      {
+       "label": "Leonardo Da Vinci",
+       "valore": 33,
+       "prima": 44,
+       "testo": "33–44 min"
+      }
+     ]
+    },
     {
      "tipo": "barre",
      "titolo": "I 12 punti d'ingresso, per bisogno di parcheggio",
@@ -2869,84 +3013,148 @@ window.SCHEDE_RISULTATI = [
     "testo": "lost downtown looking for parking: below this threshold the car beats the bus (median of the 12 points)"
    },
    "principale": {
-    "tipo": "barre",
-    "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
-    "unita": "minutes",
-    "nota": "Towards Piazza Castello at 8 a.m. Dark bar = slow car (Google factor), light bar = fast car (sensor factor). Fewer minutes = more promising point; 0 = the bus is already faster.",
-    "voci": [
+    "tipo": "gara",
+    "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m. on a weekday",
+    "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (sensors, fast car) and 2.1 (Google, faded slow car).",
+    "luoghi": [
      {
-      "label": "Metro Massaua",
-      "valore": 7,
-      "prima": 15,
-      "testo": "7–15 min"
+      "nome": "Santa Rita",
+      "gruppo": "Priority points",
+      "bus": 36.0,
+      "auto_min": 13.7,
+      "auto_max": 20.2,
+      "giudizio": "the bus does not pay off"
      },
      {
-      "label": "Pasini",
-      "valore": 16,
-      "prima": 21,
-      "testo": "16–21 min"
+      "nome": "Metro Massaua",
+      "gruppo": "Priority points",
+      "bus": 25.0,
+      "auto_min": 15.1,
+      "auto_max": 22.7,
+      "giudizio": "depends on traffic"
      },
      {
-      "label": "Derna Est",
-      "valore": 19,
-      "prima": 25,
-      "testo": "19–25 min"
+      "nome": "Ponte Cavalieri Templari",
+      "gruppo": "Priority points",
+      "bus": 51.0,
+      "auto_min": 18.2,
+      "auto_max": 28.0,
+      "giudizio": "the bus does not pay off"
      },
      {
-      "label": "Regina Margherita",
-      "valore": 19,
-      "prima": 24,
-      "testo": "19–24 min"
+      "nome": "Regina Margherita",
+      "gruppo": "Priority points",
+      "bus": 31.0,
+      "auto_min": 11.6,
+      "auto_max": 16.6,
+      "giudizio": "the bus does not pay off"
      },
      {
-      "label": "Stura Lazio",
-      "valore": 21,
-      "prima": 28,
-      "testo": "21–28 min"
+      "nome": "Pasini",
+      "gruppo": "Priority points",
+      "bus": 28.0,
+      "auto_min": 12.1,
+      "auto_max": 17.4,
+      "giudizio": "the bus does not pay off"
      },
      {
-      "label": "Santa Rita",
-      "valore": 21,
-      "prima": 27,
-      "testo": "21–27 min"
+      "nome": "Leonardo Da Vinci",
+      "gruppo": "Priority points",
+      "bus": 59.0,
+      "auto_min": 19.9,
+      "auto_max": 31.1,
+      "giudizio": "the bus does not pay off"
      },
      {
-      "label": "Zara",
-      "valore": 21,
-      "prima": 26,
-      "testo": "21–26 min"
+      "nome": "Drosso Cap",
+      "gruppo": "Priority points",
+      "bus": 43.0,
+      "auto_min": 17.4,
+      "auto_max": 26.7,
+      "giudizio": "the bus does not pay off"
      },
      {
-      "label": "Drosso Cap",
-      "valore": 21,
-      "prima": 31,
-      "testo": "21–31 min"
+      "nome": "Stura Lazio",
+      "gruppo": "Priority points",
+      "bus": 37.0,
+      "auto_min": 14.3,
+      "auto_max": 21.3,
+      "giudizio": "the bus does not pay off"
      },
      {
-      "label": "Ferrara",
-      "valore": 23,
-      "prima": 34,
-      "testo": "23–34 min"
+      "nome": "Marsè",
+      "gruppo": "Priority points",
+      "bus": 61.0,
+      "auto_min": 23.2,
+      "auto_max": 36.8,
+      "giudizio": "the bus does not pay off"
      },
      {
-      "label": "Ponte Cavalieri Templari",
-      "valore": 28,
-      "prima": 38,
-      "testo": "28–38 min"
+      "nome": "Derna Est",
+      "gruppo": "Priority points",
+      "bus": 34.0,
+      "auto_min": 13.8,
+      "auto_max": 20.4,
+      "giudizio": "the bus does not pay off"
      },
      {
-      "label": "Marsè",
-      "valore": 29,
-      "prima": 43,
-      "testo": "29–43 min"
+      "nome": "Ferrara",
+      "gruppo": "Priority points",
+      "bus": 49.0,
+      "auto_min": 19.9,
+      "auto_max": 31.0,
+      "giudizio": "the bus does not pay off"
      },
      {
-      "label": "Leonardo Da Vinci",
-      "valore": 33,
-      "prima": 44,
-      "testo": "33–44 min"
+      "nome": "Zara",
+      "gruppo": "Priority points",
+      "bus": 33.0,
+      "auto_min": 11.9,
+      "auto_max": 17.1,
+      "giudizio": "the bus does not pay off"
+     },
+     {
+      "nome": "Stura",
+      "gruppo": "Existing park-and-ride",
+      "bus": 39.0,
+      "auto_min": 17.3,
+      "auto_max": 26.6,
+      "giudizio": "depends on traffic"
+     },
+     {
+      "nome": "Venchi Unica",
+      "gruppo": "Existing park-and-ride",
+      "bus": 28.0,
+      "auto_min": 16.0,
+      "auto_max": 24.2,
+      "giudizio": "depends on traffic"
+     },
+     {
+      "nome": "Caio Mario",
+      "gruppo": "Existing park-and-ride",
+      "bus": 38.0,
+      "auto_min": 16.0,
+      "auto_max": 24.3,
+      "giudizio": "the bus does not pay off"
+     },
+     {
+      "nome": "Fermi",
+      "gruppo": "Existing park-and-ride",
+      "bus": 31.0,
+      "auto_min": 18.6,
+      "auto_max": 28.9,
+      "giudizio": "depends on traffic"
+     },
+     {
+      "nome": "Sofia",
+      "gruppo": "Existing park-and-ride",
+      "bus": 33.0,
+      "auto_min": 13.3,
+      "auto_max": 19.6,
+      "giudizio": "the bus does not pay off"
      }
-    ]
+    ],
+    "scelto": 1
    },
    "punti": [
     "Existing park-and-ride lots: full Stura (17–27 minutes); little used Caio Mario (19–27 minutes), Sofia (18–25 minutes).",
@@ -2954,6 +3162,86 @@ window.SCHEDE_RISULTATI = [
     "The most promising point is Metro Massaua: 7–15 minutes are enough for the bus to match the car."
    ],
    "altri": [
+    {
+     "tipo": "barre",
+     "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
+     "unita": "minutes",
+     "nota": "Towards Piazza Castello at 8 a.m. Dark bar = slow car (Google factor), light bar = fast car (sensor factor). Fewer minutes = more promising point; 0 = the bus is already faster.",
+     "voci": [
+      {
+       "label": "Metro Massaua",
+       "valore": 7,
+       "prima": 15,
+       "testo": "7–15 min"
+      },
+      {
+       "label": "Pasini",
+       "valore": 16,
+       "prima": 21,
+       "testo": "16–21 min"
+      },
+      {
+       "label": "Derna Est",
+       "valore": 19,
+       "prima": 25,
+       "testo": "19–25 min"
+      },
+      {
+       "label": "Regina Margherita",
+       "valore": 19,
+       "prima": 24,
+       "testo": "19–24 min"
+      },
+      {
+       "label": "Stura Lazio",
+       "valore": 21,
+       "prima": 28,
+       "testo": "21–28 min"
+      },
+      {
+       "label": "Santa Rita",
+       "valore": 21,
+       "prima": 27,
+       "testo": "21–27 min"
+      },
+      {
+       "label": "Zara",
+       "valore": 21,
+       "prima": 26,
+       "testo": "21–26 min"
+      },
+      {
+       "label": "Drosso Cap",
+       "valore": 21,
+       "prima": 31,
+       "testo": "21–31 min"
+      },
+      {
+       "label": "Ferrara",
+       "valore": 23,
+       "prima": 34,
+       "testo": "23–34 min"
+      },
+      {
+       "label": "Ponte Cavalieri Templari",
+       "valore": 28,
+       "prima": 38,
+       "testo": "28–38 min"
+      },
+      {
+       "label": "Marsè",
+       "valore": 29,
+       "prima": 43,
+       "testo": "29–43 min"
+      },
+      {
+       "label": "Leonardo Da Vinci",
+       "valore": 33,
+       "prima": 44,
+       "testo": "33–44 min"
+      }
+     ]
+    },
     {
      "tipo": "barre",
      "titolo": "The 12 entry points, by need for parking",
@@ -3520,7 +3808,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-22T17:00:50+00:00",
+  "generato": "2026-10-22T17:07:22+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 20 sensori: errore tipico ±38%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -10132,7 +10420,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-22T17:00:50+00:00",
+  "generato": "2026-10-22T17:07:22+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],

@@ -31,7 +31,7 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | C5 (FATTO 22/10) | CLOUD | stile comune, barra, piè di pagina, anteprima dei link; numeri che contano, omini e quadratini; grafico della metro (scheda 5) | 4 (2, 3), 3 (3) |
 | C6 (FATTO 22/10) | CLOUD | divisione di `schede_risultati.py` e testi IT/EN | 5 (4), 4 (5) |
 | P4 (FATTO 22/10) | PC | rilancio schede: stessi numeri di prima; Leo rilegge l'inglese 🛑 | 5 (4) |
-| C7 | CLOUD | gara bus contro auto (scheda 3) | 4 (4) |
+| C7 (FATTO 22/10) | CLOUD | gara bus contro auto (scheda 3) | 4 (4) |
 | C8 | CLOUD | home: mezzi in movimento, contatore, miniature | 4 (6) |
 | C9 | CLOUD | mappa: ore che scorrono, caricamento, telefono, schede dei temi, link della vista | 4 (7) |
 | P5 | PC | rilancio mappa e schede, controllo a occhio di home, schede e mappa 🛑 → main | — |

@@ -1,6 +1,12 @@
 {
  "descrizione": "Testi delle schede in italiano e inglese. «esatte»: frasi fisse; «modelli»: frasi con numeri o nomi, con segnaposto {nK} = numero (si converte nel formato inglese), {sK} = testo copiato come sta, {tK} = testo tradotto a sua volta. L'inglese si ricava dall'italiano dello script: se una frase italiana cambia, va cambiata anche qui (lo script avvisa delle frasi senza traduzione).",
  "esatte": {
+  "Punti prioritari": "Priority points",
+  "Interscambi esistenti": "Existing park-and-ride",
+  "il bus non conviene": "the bus does not pay off",
+  "dipende dal traffico": "depends on traffic",
+  "il bus conviene": "the bus pays off",
+  "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale": "The race: bus and car from a point to Piazza Castello, at 8 a.m. on a weekday",
   "%": "%",
   "min": "min",
   "km": "km",
@@ -149,6 +155,8 @@
   "Vicino alla metro non si può confrontare il prezzo: mancano zone con e senza metro a pari distanza dal centro.": "Near the metro prices cannot be compared: there are no zones with and without a metro at the same distance from the centre."
  },
  "modelli": [
+  {"it": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: {n0} (sensori, auto veloce) e {n1} (Google, auto chiara e lenta).",
+   "en": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: {n0} (sensors, fast car) and {n1} (Google, faded slow car)."},
   {
    "it": "Ogni barra è un tempo a piedi: 100% dei residenti delle zone abitate (almeno {n0} abitanti per km²).",
    "en": "Each bar is a walking time: 100% of residents of inhabited areas (at least {n0} inhabitants per km²)."
