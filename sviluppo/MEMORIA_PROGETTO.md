@@ -90,7 +90,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 ## 6. PROSSIMI PASSI
 
 1. Piano 1: `main` è il ramo di default e i rami vecchi sono cancellati (Leo, 22/10); passi 4-7 fatti nel cloud (C1). Giro P1 sul PC: creare `config_locale.json`, `CONTROLLA_LEOPI.bat`, `RIFAI_MAPPA_E_SCHEDE.bat`, `prova_pagine.py`.
-2. Piano 2: C3 fatto; giro P3 sul PC (97, `confronta_riassunti.py`, `96 --gitignore`, 98, Release a mano; Leo scrive all'Agenzia per IMQ e controlla la licenza del GTFS); piano 4: prove di stile (cloud), Leo sceglie.
+2. Piano 2: C3 fatto; giro P3 sul PC (97, `confronta_riassunti.py`, `96 --gitignore`, 98, Release a mano; Leo scrive all'Agenzia per IMQ e controlla la licenza del GTFS); piano 4: **C4 fatto 22/10** (`sviluppo/prove_stile.html`, `ESITO_C4.md`): **Leo sceglie lo stile** (Notte, Carta, Torino o un misto) e lo si scrive qui; solo dopo parte C5.
 3. Rilanci con più dati: R4 con un mese (metà novembre), poi stagione. Screenshot di Leo per la scheda R6.
 4. Più avanti: tempi TP contro auto per coppie di zone IMQ e costi (`PIANO_COSTI.md`); R2 ripreso (popolo della notte), treni SFM, scenario fra R3 e R5, effetto ZTL, tram contro bus.
 - Metrica trasversale (Leo, 16/10): «quanti veicoli in meno potrebbero girare»; luoghi «speciali» (stadi, fiere, ospedali…) con parametri fissi. **Congelate** (Leo, 20/10): bici, telefonia, logistica, eventi.

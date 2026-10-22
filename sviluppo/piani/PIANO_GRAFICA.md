@@ -53,7 +53,7 @@ nel sistema; pagine che funzionano anche senza le animazioni.
 
 | # | Passo | Dove | Quanto |
 |---|---|---|---|
-| 1 | **3 prove di stile** su una pagina (`sviluppo/prove_stile.html`: «Notte», «Carta», «Torino»), con lo stesso riquadro, grafico e mappa piccola → Leo sceglie | CLOUD | piccolo |
+| 1 | **FATTO (C4, Leo sceglie)**: 3 prove di stile su una pagina (`sviluppo/prove_stile.html`: «Notte», «Carta», «Torino»), con lo stesso riquadro, grafico e mappa piccola → Leo sceglie | CLOUD | piccolo |
 | 2 | **H + I**: `assets/stile.css`, font, icona, modo scuro, barra e piè di pagina, anteprima dei link; home e risultati nello stile nuovo; colori di mappa e schede ripensati insieme (verde acqua → corallo) | CLOUD | medio |
 | 3 | **B + C + L** (parte schede): numeri grandi che contano, omini e quadratini, dissolvenza della finestra | CLOUD | piccolo |
 | 4 | **D** gara bus contro auto nella scheda 3 | CLOUD | medio |
