@@ -201,6 +201,29 @@ class BrowserPlaywright:
         return dom, errori, sorted(set(assenti))
 
 
+def prova_cambio_indirizzo(br, cartella):
+    """risultati.html: se cambia #p3 / #r6 senza ricaricare la pagina, la scheda giusta si apre. Solo con Playwright
+    e con data/schede_risultati.js presente. Ritorna un elenco di errori."""
+    if not isinstance(br, BrowserPlaywright) or not (cartella / "data" / "schede_risultati.js").exists():
+        print("  cambio di indirizzo (#p3, #r6): non provato (serve Playwright e data/schede_risultati.js)")
+        return []
+    page = br.br.new_page()
+    errori = []
+    try:
+        page.goto(f"http://127.0.0.1:{PORTA}/risultati.html", wait_until="load", timeout=60000)
+        page.wait_for_timeout(500)
+        for h in ("#p3", "#r6", "#p1"):
+            page.evaluate(f"location.hash = '{h}'")
+            page.wait_for_timeout(300)
+            aperta = page.evaluate("document.getElementById('finestra').open")
+            if not aperta:
+                errori.append(f"risultati.html: cambiando l'indirizzo in {h} la scheda non si apre")
+    finally:
+        page.close()
+    print(f"  cambio di indirizzo (#p3, #r6, #p1): {'OK' if not errori else 'ERRORE'}")
+    return errori
+
+
 def sceglie_browser(forza_playwright):
     if not forza_playwright and os.name == "nt":
         for p in BROWSER_WINDOWS:
@@ -265,6 +288,7 @@ def main():
                     if atteso not in dom:
                         errori.append(f"{nome}: nella pagina manca il titolo della legenda «{atteso}»")
             print(f"  {nome}: {len(err)} errori, {len(assenti)} file assenti, DOM {len(dom)} caratteri")
+        errori += prova_cambio_indirizzo(br, cartella)
         if not args.senza_screenshot:
             IMMAGINI.mkdir(exist_ok=True)
             for nome, pagina in pagine_screenshot():
