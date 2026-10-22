@@ -1,14 +1,14 @@
 @echo off
 rem RIFAI_MAPPA_E_SCHEDE.bat - rigenera la mappa e le schede dai dati gia' calcolati, in ordine.
 rem Doppio clic. Si ferma al primo errore. Log in logs\rifai_mappa_e_schede.log
-rem Ordine: 04 mappa (mappa_torino.html), schede_risultati (data\schede_risultati.js), 86 cartella pubblica,
+rem Ordine: 04 mappa (mappa_torino.html), schede_risultati (data\schede_risultati.js), 86 controllo dei file caricati dalle pagine,
 rem prova_pagine_r6 (errori JavaScript nelle pagine: atteso 0).
 rem Non ricalcola nessun risultato: per quello, prima, la catena del risultato (es. RISULTATO6_RIFAI.bat).
 cd /d "%~dp0.."
 if not exist logs mkdir logs
 set "LOG=logs\rifai_mappa_e_schede.log"
 echo === %date% %time% === > "%LOG%"
-for %%S in (04_genera_mappa schede_risultati 86_prepara_pubblicazione prova_pagine_r6) do (
+for %%S in (04_genera_mappa schede_risultati 86_controlla_file_pagine prova_pagine_r6) do (
   echo --- %%S --- >> "%LOG%"
   echo [%time%] %%S
   python scripts\%%S.py >> "%LOG%" 2>&1

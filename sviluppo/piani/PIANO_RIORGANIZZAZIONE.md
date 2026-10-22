@@ -41,7 +41,7 @@ AGENTS.md            corto: rimanda a sviluppo/AGENTS.md
 | 4 | **FATTO (C1)**: `sviluppo/`: spostare `MEMORIA_PROGETTO.md`, `docs/piani/`, `docs/TESI_E_PROGETTO.md`; `AGENTS.md` in radice ridotto a poche righe (`docs/ANALISI_STATO.md` già cancellato il 22/10); aggiornare i percorsi citati (`git grep`) | CLOUD | piccolo |
 | 5 | **Dati di accesso fuori dai testi pubblici**: IP del Pi, utente SSH, percorso della chiave → file locale `config_locale.json` (in `.gitignore`) letto da script e `.bat` | CLOUD (codice) + PC (file) | piccolo |
 | 6 | **Testi puliti**: niente «Leo», «giro», «fase», date di sviluppo nelle pagine e nei commenti (`simulazione.html` già cancellata il 22/10) | CLOUD | medio |
-| 7 | **Script 86**: oggi **riscrive `README.md`** a ogni `RIFAI_MAPPA_E_SCHEDE.bat` (cancellerebbe il README nuovo). Diventa solo un controllo «ogni file caricato dalle pagine esiste ed è in git»; niente più cartella `pubblica/` | CLOUD | piccolo |
+| 7 | **FATTO (C1)**: script 86: oggi **riscrive `README.md`** a ogni `RIFAI_MAPPA_E_SCHEDE.bat` (cancellerebbe il README nuovo). Diventa solo un controllo «ogni file caricato dalle pagine esiste ed è in git»; niente più cartella `pubblica/` | CLOUD | piccolo |
 | 8 | **GitHub Pages da `main`** (cartella radice), con i dati delle pagine in git (piano 2) | GITHUB (Leo) | piccolo |
 | 9 | **README nuovo** (alla fine, dopo piani 2-4): cosa è, link al sito, 5 risultati con una riga e un'immagine, fonti e licenze, come rifare i calcoli in 3 comandi, «Chi sono» | CLOUD | piccolo |
 | 10 | **Descrizione del repository**: una riga, link al sito, argomenti (`torino`, `public-transport`, `open-data`, `gtfs`, `raspberry-pi`, `data-visualization`), immagine di anteprima del repository | GITHUB (Leo) | piccolo |
