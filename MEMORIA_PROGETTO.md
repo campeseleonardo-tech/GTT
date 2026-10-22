@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **21/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
+Ultimo aggiornamento: **22/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
 risultato stanno nel suo documento in `docs/` (`R1_servizi.md` …), i piani aperti in `docs/piani/`, la storia in git. Sezioni fisse (non aggiungerne): 1 Obiettivo · 2 Regole · 3 Cartelle e dati · 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici.
 
 ## 1. Obiettivo
@@ -70,33 +70,30 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
   sensibilità ai minuti di parcheggio in centro 5 → 1, 10 → 10, 15 → 12 punti competitivi (classe ufficiale 5 minuti). `docs/R6_parcheggi.md`; catena `RISULTATO6_RIFAI.bat` (~4 min).
 - **R8 traffico** (33-67, 93): stima C-DEBOLE, errore mediano 38,4% (±38%), rho 0,605, 20 punti di misura; 95,3% dei km di strade grandi di Torino serviti dal TP (vale solo per le strade grandi); «molto traffico e poco TP» quasi solo Corso Regina Margherita ovest.
   **Parte D** (93): tempo coi mezzi contro auto, forbice con due fattori di punta (1,2 sensori 5T; 2,1 Google Maps): rapporto mediano **da 1,96 a 2,94** («da 2 a 3 volte il tempo dell'auto»), auto oltre 2 volte da 41% a 97%; cintura-cintura a parte. `docs/R8_traffico.md`.
-- **Mappa** (giri 1-3 fatti): partenza senza tema su satellite, due gruppi di temi, «Chi abita qui» (8 viste), «Fragilità sociale», «Servizi a portata», «Servizi mancanti», «Prezzo delle case», «Mezzi pubblici sotto casa», «Spostamenti» (IMQ),
-  «Velocità e traffico» (medie per tipo di giorno), «Ritardi delle linee», «Parcheggi di scambio», «Luoghi della città»; niente dati live, corse simulate, pendolari, avvisi. **Giro 4 scritto nel cloud** (peso ~6,1 MB stimato, valori letti identici su tutte le
-  8.317 sezioni; «Luoghi della città» a 6 caselle provato con dati finti): vedi sezione 5.
-- **Schede** (`schede_risultati.py` → `data/schede_risultati.js`): `index.html` (ingresso), `risultati.html` con schede R1, R4, R6, R8 e R10 «Case, servizi e fragilità» (scritta nel cloud, da lanciare: `ESITO_SCHEDA_CASE.md`); numerazione in pagina 1-5 (`numero_pubblico`: R1→1, R4→2, R6→3, R8→4, R10→5; link `#rN` interni validi, nuovi `#pN`) (titolo-risposta, numero grande, grafico, 3 punti chiave, parti chiuse; R2 nascosto). Rieseguire lo script dopo ogni rilancio di un risultato.
+- **Mappa** (giri 1-4 fatti): partenza senza tema su satellite, due gruppi di temi, «Chi abita qui» (8 viste), «Fragilità sociale», «Servizi a portata», «Servizi mancanti», «Prezzo delle case», «Mezzi pubblici sotto casa», «Spostamenti» (IMQ),
+  «Velocità e traffico» (medie per tipo di giorno), «Ritardi delle linee», «Parcheggi di scambio», «Luoghi della città»; niente dati live, corse simulate, pendolari, avvisi. **Giro 4 fatto** (5,9 MB, «Luoghi della città» a 6 caselle).
+- **Schede** (`schede_risultati.py` → `data/schede_risultati.js`): `index.html` (ingresso), `risultati.html` con schede R1, R4, R6, R8 e R10 «Case, servizi e fragilità» (da controllare sui dati veri: piano 3); numerazione in pagina 1-5 (`numero_pubblico`: R1→1, R4→2, R6→3, R8→4, R10→5; link `#rN` interni validi, nuovi `#pN`) (titolo-risposta, numero grande, grafico, 3 punti chiave, parti chiuse; R2 nascosto). Rieseguire lo script dopo ogni rilancio di un risultato.
 - **Rapporto sostenibilità GTT 2025**: 980 fatti verificati (`docs/rapporti/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`). **Ora legale** controllata (conversioni UTC → italiana coincidono con il fuso ufficiale su 35.040 istanti 2026-27).
-- **Pulizia** (21/10): documenti, script e `.bat` superati cancellati, repository presentabile; restano README (passo 11) e `mappa_torino.html` fuori da git (13).
+- **Pulizia** (21/10): documenti, script e `.bat` superati cancellati; il resto (README, `sviluppo/`, `main`) nel piano 1. Giro 4 della mappa, R6 minuti di pareggio, R4 giro 6 e script 95 lanciati sul PC (21-22/10).
 
 ## 5. IN CORSO
 
-- **Mappa giro 4**: sul PC `python scripts\04_genera_mappa.py` (file atteso 5,5-6,8 MB), poi `python scripts\prova_pagine_r6.py` (0 errori) e controllo a occhio delle 6 caselle di «Luoghi della città» (`docs/piani/ESITO_MAPPA_GIRO4.md`).
-  Da decidere: «Mercati» e «Cultura» caricano `commercio.js`, che contiene anche le 31.271 attività (peso non misurato); eventuale file più piccolo scritto dal 04.
-- **R6, minuti di pareggio** (codice scritto nel cloud, da lanciare sul PC: 94, 79, schede, 04, prova pagine): titolo della scheda = minuti per parcheggiare in centro oltre i quali il bus dai punti pareggia l'auto (mediana dei 12 punti, forbice dei due fattori).
-- **R4 Giro 6**: attese svuotate (il 14/10 ha quasi niente GPS) → giorni con poco GPS esclusi, poi pubblicazione. B3 (stagione) per gennaio/luglio.
-- **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il R6 (più feriali di riempimento).
-- **Piani aperti** (`docs/piani/`): `PIANO_DOCUMENTI` (restano 11 README, 13 mappa fuori da git), `PIANO_MAPPA` (restano le schede uniformi dei temi), `PIANO_RISULTATI` (R1, R4, R8 «dove il mezzo pubblico non conviene», capienze; parte E case × fragilità × servizi: script 95 e vista «Doppio svantaggio» scritti nel cloud, da lanciare sul PC: 95, 04, prova pagine, vedi `ESITO_CASE_FRAGILITA.md`), `PIANO_SCHEDE`, `PIANO_COSTI`.
-- Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`. Il vecchio nome della cartella OMI resta nella storia di git (Leo decide se riscriverla). Condizioni d'uso degli sfondi Esri da controllare prima di pubblicare.
+- **Cinque piani** (22/10, dopo l'analisi critica: il progetto non era ancora pubblicabile) in `docs/piani/`: **1** `PIANO_RIORGANIZZAZIONE` (ramo `main` di default, appunti in `sviluppo/`,
+  README, «Chi sono», anteprima dei link, GitHub Pages da `main`) · **2** `PIANO_DATI` (tutto su GitHub: estratti in git + archivi grandi nella Release, script che li scarica) ·
+  **3** `PIANO_RISULTATI` (stato verificato: giro 4, R6 minuti di pareggio, R4 giro 6, script 95 già FATTI sul PC; manca R6 con ≥ 5 feriali di parcheggi, controllo scheda 5, R4 a un mese) ·
+  **4** `PIANO_GRAFICA` (dove va ogni elemento: mezzi in movimento in home, numeri che contano, omini, gara bus/auto in schede e mappa, ore animate in mappa, `racconto.html`, stile nuovo) ·
+  **5** `PIANO_CODICE`. `PIANO_COSTI` resta (dopo). Ordine: 1 → 2 e 3 → 4 (si può iniziare in parallelo) → 5 a pezzi.
+- Da cancellare al passo 1 del piano 1 (Leo conferma): `ESITO_*.md` (lavori verificati come fatti) e i piani assorbiti `PIANO_DOCUMENTI`, `PIANO_SCHEDE`, `PIANO_MAPPA`.
+- **Raccolta parcheggi** su leopi continua (il R6 si rifà appena ci sono ≥ 5 feriali interi: già dal 22/10). `LICENSE` (MIT per il codice, dati con la licenza della fonte) creato il 22/10.
+- Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`. Il vecchio nome della cartella OMI resta nella storia di git.
 
 ## 6. PROSSIMI PASSI
 
-1. Sul PC: giro 4 della mappa e R6 minuti di pareggio (sezione 5); `python scripts\prova_pagine_r6.py` dopo ogni modifica a mappa o schede.
-2. Pubblicare su GitHub Pages (ramo `gh-pages` con solo `pubblica/`, oggi 90 MB, `mappa_torino.html` esce dal ramo principale), sfondi Esri; poi README (passo 11 del piano documenti).
-3. Rilanci con più dati: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 (con R9) con un mese (metà novembre); poi R4 in mappa. Screenshot di Leo per la scheda R6.
-4. R8: errore % per sensore e frase corretta in scheda (il 95,3% vale solo per le strade grandi); D4 (vista in mappa); treni e aziende extraurbane (GTFS mancanti); controllo a mano della copertura TP di corso Moncalieri.
-5. Tempi TP contro auto per coppie di zone IMQ, poi costi del viaggio (`docs/piani/PIANO_COSTI.md`). Al prossimo calcolo completo dell'accessibilità (18): le 2 sezioni di via Chieti sono già in `SEZIONI_FUORI_RETE`, verificare.
-6. Più avanti: R2 ripreso (popolo della notte), treni SFM, uno scenario fra R3 e R5, effetto ZTL, `velocita_5t.json` al posto di `stat.js` nella mappa, tram contro bus (efficienza e costi).
-- Metrica trasversale (Leo, 16/10): «quanti veicoli in meno potrebbero girare» da un miglioramento dell'accessibilità TP, con IMQ per modo come base. Idea (Leo, 19/10): lista di luoghi «speciali» (stadi, palasport, fiere, ospedali, tribunale…)
-  trattati in modo standard con parametri fissi in tutti i risultati. Idee secondarie: picchi orari per strada/linea; garage del centro come segnale delle auto in entrata; IMQ in mappa (7 misure). **Congelate** (Leo, 20/10): bici, dati da telefonia, logistica, eventi.
+1. Piano 1, passi 1-4 (cloud) e creazione di `main` (Leo su GitHub). Sul PC: `RISULTATO6_RIFAI.bat` e `RIFAI_MAPPA_E_SCHEDE.bat`, controllo della scheda 5.
+2. Piano 2: inventario dei dati (script 96 sul PC) e licenze delle fonti; piano 4: prove di stile (cloud), Leo sceglie.
+3. Rilanci con più dati: R4 con un mese (metà novembre), poi stagione. Screenshot di Leo per la scheda R6.
+4. Più avanti: tempi TP contro auto per coppie di zone IMQ e costi (`PIANO_COSTI.md`); R2 ripreso (popolo della notte), treni SFM, scenario fra R3 e R5, effetto ZTL, tram contro bus.
+- Metrica trasversale (Leo, 16/10): «quanti veicoli in meno potrebbero girare»; luoghi «speciali» (stadi, fiere, ospedali…) con parametri fissi. **Congelate** (Leo, 20/10): bici, telefonia, logistica, eventi.
 
 ## 7. MANCA (limiti noti)
 
@@ -109,7 +106,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
   **0,60 per luogo (debole)**, 0,52 senza i sensori fuori rete; il modello sottostima le provinciali (SP1, SP8, SP2) e sopravvaluta C.so Giulio Cesare, Unione Sovietica, Allamano, Sebastopoli. Tempi dei mezzi solo GTT, senza treni; costo del parcheggio non considerato.
   Popolarità delle zone = arrivi IMQ senza ritorni a casa, classifica solo nella Città metropolitana; linea utile = 25% con più zone fra le 20 più popolari; molti parcheggi adatti non hanno linee utili vicine.
 - Script 80 e 77 sembrano superati ma servono (funzioni per 84-85, modulo per 72-73). Le uscite delle fasi 3-4 del traffico sono lette dalla Fase 5. Codice copiato (distanze, radice, ora legale) in molti script: si passa a `comuni.py` quando si tocca uno script.
-- `mappa_torino.html` (~6,1 MB dopo il giro 4) è ancora salvata in git a ogni giro: si decide con la pubblicazione.
+- `mappa_torino.html` (5,9 MB) resta in git: GitHub Pages la pubblica da `main` (piano 1).
 
 ## 8. Standard tecnici
 
@@ -120,4 +117,4 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 - **Script 18**: la firma dei parziali non contiene il percorso del GTFS né l'uscita: cancellare `data/processed/accessibilita_parziale/` prima di ogni lancio con GTFS o opzioni diverse (`--solo-piedi` salta il TP, `--ore` si ignora).
 - **Controlli negli script**: si fermano solo per errori di struttura (file mancante, somme che non tornano, valori negativi); un numero diverso da quello di oggi è un AVVISO. Funzioni comuni (distanze, ora legale, percentili, zona centrale Q001-Q009) in `scripts/comuni.py`. Ogni risultato ha una verifica su fatti noti.
 - **`.bat`**: terminazioni di riga Windows (`.gitattributes`: `*.bat text eol=crlf`); log in `logs/`, stop al primo errore. **Bridge** (chat senza terminale): `device_commit_files` a volte non scrive i file grossi; rileggere dopo.
-- **Colori** (Leo, 19/10), uguali in mappa e schede: «bene/male» = **verde→rosso**; quantità neutre (abitanti, spostamenti, prezzi) = **blu→arancione smorzati**; categorie = un colore per gruppo. Le legende scrivono sempre i numeri (daltonismo). `docs/METODO.md`.
+- **Colori**: verde→rosso (bene/male) e blu→arancione (quantità) erano una **direzione, non una regola** (Leo, 22/10): si ripensano con lo stile nuovo (piano 4). Regola che resta: le legende scrivono sempre i numeri (daltonismo).
