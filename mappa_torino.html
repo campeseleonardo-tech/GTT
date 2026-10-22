@@ -134,6 +134,13 @@
   #legendaBox.chiusa{width:auto}
   /* telefono: il pannello lascia libera la colonna dello zoom, la legenda parte chiusa (vedi avvio) */
   @media (max-width:640px){ #pannello{max-height:46vh;width:calc(100vw - 72px)} #legendaBox{max-height:34vh} }
+  /* campi e tendine leggibili anche nel modo scuro */
+  :root{color-scheme:light dark}
+  select,input,option,textarea{color:var(--ink)}
+  select,option{background-color:var(--card)}
+  .navlink{display:flex;gap:8px;margin:14px 0 0}
+  .navlink a{flex:1;text-align:center;text-decoration:none;font-weight:600;color:var(--accent);background:var(--card);border:2px solid var(--accent);border-radius:8px;padding:8px 6px}
+  .navlink a:hover,.navlink a:focus-visible{background:var(--accent);color:var(--on-accent)}
 </style>
 </head>
 <body>
@@ -193,7 +200,7 @@
       <input type="range" id="intSfondo" min="0" max="100" value="100" style="width:100%"></label>
   </details>
 
-  <p style="margin:12px 0 0"><a id="risultati" href="risultati.html" target="_blank" style="font-weight:600;color:var(--accent)">I risultati →</a> · <a href="index.html" style="font-weight:600;color:var(--accent)">Home</a> · <a href="progetto.html" target="_blank" style="font-weight:600;color:var(--accent)">Il progetto</a></p>
+  <div class="navlink"><a id="risultati" href="risultati.html" target="_blank">Risultati</a><a href="index.html">Home</a><a href="progetto.html" target="_blank">Il progetto</a></div>
 
   <details id="infoDati">
     <summary>Guida e fonti dei dati</summary>

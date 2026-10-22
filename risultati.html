@@ -98,7 +98,7 @@ function mostraGalleria(){
   g.innerHTML = schede.map((s, i) => {
     const f = s.forma;
     return `<button class="scheda" data-i="${i}" aria-haspopup="dialog">
-      <div class="scheda-alto"><span>Risultato ${esc(numeroDi(s))}</span>${etichetta(s)}</div>
+      <div class="scheda-alto"><span>Risultato ${esc(numeroDi(s))}</span></div>
       <h3>${esc(f.titolo)}</h3>
       <p class="cerca">${esc(f.domanda)}</p>
       <div class="chiave"><span class="val">${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>
