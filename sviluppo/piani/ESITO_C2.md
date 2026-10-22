@@ -35,3 +35,8 @@ Piano 2, passi 1 e 2. Ramo della sessione `claude/ecstatic-faraday-nuy8hv` (part
 ## Cosa deve fare Leo (giro P2, sul PC)
 Vedi i comandi nel messaggio di chiusura: unire il ramo, lanciare `python scripts\96_inventario_dati.py`, controllare i totali (storico ~2 GB in «riassunto», `data/raw` in «Release», le pagine in «git» pochi MB),
 poi commit e push di `docs/DATI.md`, e decidere fonte per fonte (soprattutto IMQ, OMI e la conferma della licenza del GTFS statico e della IODL) scrivendo le decisioni nella sezione «Decisioni di Leo».
+
+## Correzione dopo il giro P2 (22/10)
+Guardando `docs/DATI.md` fatto sui dati veri, ho corretto le regole dello script 96: il Java di OTP (`data/otp/jdk*`, 179 MB), le copie `data/backup/`, le cache `_parziale`/`_test` e i file `STOP_RACCOLTA`
+vanno in «fuori»; zip, pdf, pbf e simili letti solo dagli script vanno in «Release» anche se piccoli (il GTFS e il rapporto GTT 2025 erano finiti in «git»);
+la riga `const DATI = …` di `mappa_torino.html` non conta più come «lettura da una pagina» (conteneva il nome del GTFS nei metadati). Va rilanciato lo script 96 sul PC.

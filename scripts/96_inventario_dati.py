@@ -19,6 +19,8 @@ Cosa fa
        git        file sotto 5 MB letti da una pagina o da uno script, o scritti da uno script dei risultati
                   (sopra 5 MB solo se una pagina li carica; sopra 50 MB sempre Release: AVVISO)
        fuori      nessuno script e nessuna pagina lo cita: probabilmente avanzo (non si pubblica)
+     «fuori» anche: strumenti (cartelle jdk/jre), copie di sicurezza (backup, «prima_correzioni»), cache e prove (_parziale, _test).
+     Zip, pdf, pbf e simili letti solo dagli script vanno in Release anche se piccoli.
      «Script dei risultati» = numeri 21-29 e 33-95 piu' schede_risultati.py; «script dei dati» = 01-20 e 30-32.
   4. Scrive docs/DATI.md: totali per posto, tabella per cartella, tabella per file (le cartelle con piu' di 30
      file, come data/raw/, sono raccolte in una riga) e stampa i totali.
@@ -44,6 +46,8 @@ import comuni  # noqa: E402
 RADICE = comuni.RADICE
 SOGLIA_GIT = 5 * 1024 * 1024
 SOGLIA_MAX = 50 * 1024 * 1024
+ESTENSIONI_GREZZE = (".zip", ".pdf", ".pbf", ".gz", ".accdb", ".7z", ".xlsx")
+FUORI_SE = re.compile(r"(^|/)(jdk|jre)[^/]*/|(^|/)backup[^/]*/|_prima_|prima_correzioni|_parziale|_test(/|\.|$)|(^|/)STOP_RACCOLTA", re.I)
 RAGGRUPPA_SOPRA = 30          # cartelle con piu' file di cosi' = una riga sola
 CARTELLE_GENERICHE = {"data", "raw", "processed"}
 INIZIO, FINE = "<!-- INVENTARIO:INIZIO -->", "<!-- INVENTARIO:FINE -->"
@@ -82,8 +86,8 @@ def carica_codice(radice, escludi):
                 corpus[p.relative_to(radice).as_posix()] = p.read_text(encoding="utf-8", errors="replace").splitlines()
     for nome in PAGINE:
         p = radice / nome
-        if p.exists():
-            corpus[nome] = p.read_text(encoding="utf-8", errors="replace").splitlines()
+        if p.exists():   # la riga «const DATI = ...» della mappa e' dato incorporato (nomi di file nei metadati): non conta come lettura
+            corpus[nome] = [x for x in p.read_text(encoding="utf-8", errors="replace").splitlines() if not x.startswith("const DATI = ")]
     return corpus
 
 
@@ -155,6 +159,8 @@ def posto(rel_data, peso, legge, scrive):
     """(posto, nota) secondo le regole in testa al file."""
     nome = rel_data.lower()
     parti = Path(rel_data).parts
+    if FUORI_SE.search(rel_data):
+        return "fuori", "strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto"
     if nome.endswith((".sqlite", ".sqlite3", ".db", "-wal", "-shm")):
         return "riassunto", "storico della raccolta: si tengono i riassunti (script 97)"
     if parti[0] == "raw":
@@ -162,6 +168,8 @@ def posto(rel_data, peso, legge, scrive):
     da_pagine = any(p in PAGINE or p.endswith("mappa_template.html") for p in legge)
     da_script = any(not (p in PAGINE or p.endswith("mappa_template.html")) for p in legge)
     da_risultati = any(tipo_script(Path(p).name) == "risultati" for p in scrive)
+    if nome.endswith(ESTENSIONI_GREZZE) and not da_pagine and (legge or scrive):
+        return "Release", "archivio o documento grezzo (zip, pdf, pbf...): non va in git"
     if peso >= SOGLIA_MAX:
         return "Release", "oltre 50 MB: troppo grande per git" if (legge or scrive) else "oltre 50 MB e nessuno lo cita"
     if not legge and not scrive:
@@ -283,7 +291,8 @@ def crea_dati_finti(cartella):
         ("processed/orari_fermate.js", 3_200_000), ("processed/accessibilita.json", 31_000_000),
         ("processed/risultato6_v2/mappa_r6.json", 1_100_000), ("processed/case_fragilita_servizi.json", 600_000),
         ("processed/avanzo_di_prova.json", 12_000), ("schede_risultati.js", 150_000), ("catalogo/istruzione.js", 800_000),
-        ("catalogo/salute.js", 400_000), ("ref/parcheggi_osservazioni.json", 9_000), ("scenari/metro_notte.json", 70_000),
+        ("catalogo/salute.js", 400_000), ("otp/jdk-25-jre/bin/java", 12_000_000), ("backup/mappa_torino_prima_correzioni.html", 22_000_000),
+        ("otp/rete/gtt_gtfs_20261003_224530.zip", 11_700_000), ("processed/accessibilita_parziale/p1.json", 40_000), ("ref/parcheggi_osservazioni.json", 9_000), ("scenari/metro_notte.json", 70_000),
     ]
     for rel, peso in voci:
         p = cartella / rel
