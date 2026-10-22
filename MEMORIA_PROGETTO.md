@@ -41,8 +41,8 @@ Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza 
 (chiuso, si lanciano a mano) · 33-67 + `rete_osm.py` traffico R8 (35-38b abbinamento sensori, 37 metodi A/B, 49-50b modello V3 e 62-63 V4: le uscite sono lette dal 53, 65-67 e dalla scheda R8: **non cancellarli**) ·
 70 attesa (R4) · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti,
 84 risultato, 85 verifiche, 94 bus contro auto · 86 cartella `pubblica/` e README (riscrive `README.md`) · 87 popolarità zone e linee utili · 88 confronto auto/sensori 5T · 92 esposizione al traffico (R1) ·
-93 tempi TP contro auto (R8) · 95 case × fragilità × servizi (parte E, solo Torino, zone OMI) · `comuni.py` funzioni comuni · `schede_risultati.py` schede · `controlla_leopi.py`, `supervisore.py`, `06_dati_live.py`, `03`, `12` girano/si installano sul Pi. **Prossimo numero libero: 96.**
-Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORNALIERA`, `CONTROLLA_LEOPI`, `AGGIORNA_RACCOLTA_LEOPI` (porta 03 sul Pi), `FETCH_LEOPI_E_VELOCITA_5T`,
+93 tempi TP contro auto (R8) · 95 case × fragilità × servizi (parte E, solo Torino, zone OMI) · `comuni.py` funzioni comuni · `schede_risultati.py` schede · `controlla_leopi.py`, `supervisore.py`, `06_dati_live.py`, `03`, `12` girano/si installano sul Pi · `controlla_rami.py` rami e GitHub. **Prossimo numero libero: 96.**
+Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORNALIERA`, `CONTROLLA_LEOPI`, `CONTROLLA_RAMI`, `AGGIORNA_RACCOLTA_LEOPI` (porta 03 sul Pi), `FETCH_LEOPI_E_VELOCITA_5T`,
 `ACCESSIBILITA_24ORE`, `R1_PIEDI_5_10`, `RISULTATO1_VUOTI`, `RISULTATO1_CANDIDATI`, `RISULTATO6_RIFAI`, `TRAFFICO_RILANCIA_SENSORI`, `TRAFFICO_RICALCOLA_MODELLO`, **`RIFAI_MAPPA_E_SCHEDE`** (04, schede, 86, prova pagine).
 
 | Dato | Note |
@@ -78,18 +78,18 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 
 ## 5. IN CORSO
 
-- **Cinque piani** (22/10, dopo l'analisi critica: il progetto non era ancora pubblicabile) in `docs/piani/`: **1** `PIANO_RIORGANIZZAZIONE` (ramo `main` di default, appunti in `sviluppo/`,
-  README, «Chi sono», anteprima dei link, GitHub Pages da `main`) · **2** `PIANO_DATI` (tutto su GitHub: estratti in git + archivi grandi nella Release, script che li scarica) ·
-  **3** `PIANO_RISULTATI` (stato verificato: giro 4, R6 minuti di pareggio, R4 giro 6, script 95 già FATTI sul PC; manca R6 con ≥ 5 feriali di parcheggi, controllo scheda 5, R4 a un mese) ·
-  **4** `PIANO_GRAFICA` (dove va ogni elemento: mezzi in movimento in home, numeri che contano, omini, gara bus/auto in schede e mappa, ore animate in mappa, `racconto.html`, stile nuovo) ·
-  **5** `PIANO_CODICE`. `PIANO_COSTI` resta (dopo). Ordine: 1 → 2 e 3 → 4 (si può iniziare in parallelo) → 5 a pezzi.
-- Da cancellare al passo 1 del piano 1 (Leo conferma): `ESITO_*.md` (lavori verificati come fatti) e i piani assorbiti `PIANO_DOCUMENTI`, `PIANO_SCHEDE`, `PIANO_MAPPA`.
+- **Cinque piani** (22/10, rivisti dopo l'analisi: ripetizioni tolte, aggiunte) in `docs/piani/`: **1** `PIANO_RIORGANIZZAZIONE` (`main` di default, repository
+  rinominato `torino-mobilita`, appunti in `sviluppo/`, script 86 che non riscrive più il README, Pages da `main`) · **2** `PIANO_DATI` (estratti in git + Release; dello storico
+  solo i **riassunti**, Leo) · **3** `PIANO_RISULTATI` (manca: R6 con ≥ 5 feriali, controllo scheda 5, R4 a un mese; A2, F, C4, E4 **fuori**, Leo) · **4** `PIANO_GRAFICA`
+  (decisioni di Leo: mezzi in movimento in home; numeri che contano **solo** nei numeri grandi; omini, gara bus/auto (scheda 3) e area che si espande (scheda 4) nelle schede;
+  ore che scorrono in mappa; `progetto.html`; un file di stile; verde acqua → corallo) · **5** `PIANO_CODICE`. `PIANO_COSTI` dopo la pubblicazione.
+- **Rami** (22/10): nessun lavoro fuori da `prova` (zen-newton ha solo una memoria superata). Controllo fisso: `scripts\CONTROLLA_RAMI.bat` (`controlla_rami.py`).
 - **Raccolta parcheggi** su leopi continua (il R6 si rifà appena ci sono ≥ 5 feriali interi: già dal 22/10). `LICENSE` (MIT per il codice, dati con la licenza della fonte) creato il 22/10.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`. Il vecchio nome della cartella OMI resta nella storia di git.
 
 ## 6. PROSSIMI PASSI
 
-1. Piano 1, passi 1-4 (cloud) e creazione di `main` (Leo su GitHub). Sul PC: `RISULTATO6_RIFAI.bat` e `RIFAI_MAPPA_E_SCHEDE.bat`, controllo della scheda 5.
+1. Piano 1: `main` e nome `torino-mobilita` (Leo su GitHub), poi passi 3-7 (cloud). Sul PC: `RISULTATO6_RIFAI.bat` e `RIFAI_MAPPA_E_SCHEDE.bat`, controllo della scheda 5.
 2. Piano 2: inventario dei dati (script 96 sul PC) e licenze delle fonti; piano 4: prove di stile (cloud), Leo sceglie.
 3. Rilanci con più dati: R4 con un mese (metà novembre), poi stagione. Screenshot di Leo per la scheda R6.
 4. Più avanti: tempi TP contro auto per coppie di zone IMQ e costi (`PIANO_COSTI.md`); R2 ripreso (popolo della notte), treni SFM, scenario fra R3 e R5, effetto ZTL, tram contro bus.

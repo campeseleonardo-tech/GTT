@@ -1111,7 +1111,7 @@ def scheda_r9():
 NASCOSTE = {"risultato2"}   # in pausa: docs/R2_metro_notte.md
 
 
-# ---------------------------------------------------------------- Forma nuova delle schede (PIANO_SCHEDE.md)
+# ---------------------------------------------------------------- Forma nuova delle schede
 # Ogni scheda ha un campo "forma" con tutto quello che la pagina mostra: etichetta, titolo-risposta, domanda in una riga,
 # numero grande, grafico principale, 3 punti chiave, e le parti chiuse (altri grafici, calcolo, limiti, inglese).
 # I campi vecchi restano nel JSON ma la pagina non li usa. I numeri vengono sempre dai file dei risultati.

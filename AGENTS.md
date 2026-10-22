@@ -19,6 +19,8 @@ Sul PC di Leo si lavora sul ramo "prova": se all'inizio non sei su "prova", ferm
 In una sessione cloud (cartella diversa da `C:\projects\Progetti\GTT`, ramo `claude/...`) resta sul ramo della
 sessione: Leo lo unisce poi in "prova". Nel cloud non ci sono `data/`, il Pi e Windows: fai le modifiche al codice
 e lascia a Leo i passi che girano sui dati.
+All'inizio di ogni lavoro controlla i rami: `python scripts/controlla_rami.py` (sul PC `scripts\CONTROLLA_RAMI.bat`). Se un ramo ha
+commit non presenti in `origin/prova`, dillo a Leo prima di iniziare.
 
 ## Commit (Leo, 20/10/2026)
 Alla fine del lavoro fai **sempre** commit e push da solo, con un messaggio chiaro:

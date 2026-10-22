@@ -29,13 +29,10 @@ Numerazione in pagina: 1 servizi (R1) · 2 puntualità (R4) · 3 parcheggi di sc
 | 4 | **R4 con un mese di dati** (metà novembre) e poi stagione (gennaio, luglio) | più giorni = numeri più stabili | PC | piccolo, ricorrente |
 | 5 | **Rilancio di tutto prima di unire in `main`**: catene dei risultati, schede, mappa, prova delle pagine (0 errori) | i numeri in pagina devono essere quelli dei rapporti | PC | piccolo |
 
-## Lavori del vecchio piano non fatti: da decidere (valore predefinito: **non farli ora**)
+## Lavori del vecchio piano non fatti: **fuori dalla versione pubblicata** (Leo, 22/10)
 - **A2 servizi contesi** (servizi per 1.000 abitanti, bacini a due passi) e **F capienze**: arricchiscono il R1, ma il
   messaggio non cambia. Si fanno solo se il R1 deve diventare il risultato principale.
-- **D4 vista in mappa «Dove i mezzi non convengono»**: nel piano grafica diventa la «gara bus contro auto» (piano 4).
+- **D4 vista in mappa «Dove i mezzi non convengono»**: sostituita dalla gara bus contro auto e dall'area che si espande nelle schede (piano 4).
 - **C4 classifica dei punti del R6 in 3 classi**: superata dai minuti di pareggio.
 - **E4 prezzi nel tempo** (4-6 semestri OMI): facoltativo, richiede i file scaricati a mano da Leo.
 - **R2 metro di notte**: resta in pausa e nascosto.
-
-## Domande aperte per Leo
-- Va bene lasciare A2, F, C4 ed E4 fuori dalla versione pubblicata?

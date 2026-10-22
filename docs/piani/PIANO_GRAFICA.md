@@ -1,68 +1,74 @@
 # Piano 4 — Grafica, animazioni e racconto
 
-Obiettivo: il sito deve colpire nei primi 5 secondi e far capire i risultati anche a chi non legge i testi.
-Assorbe le parti rimaste di `PIANO_MAPPA.md` (schede uniformi dei temi) e di `PIANO_SCHEDE.md` (immagini, README).
+Obiettivo: il sito colpisce nei primi 5 secondi e fa capire i risultati anche a chi non legge i testi.
 
 Decisioni di Leo (22/10):
-- i colori verde→rosso e blu→arancione erano una **direzione**, non una regola: si ripensano;
-- il racconto è una **pagina separata** (`racconto.html`);
-- sito in italiano con un **bottone IT/EN** su home, risultati e racconto (la mappa resta in italiano).
+- i colori verde→rosso e blu→arancione erano una **direzione**, non una regola: si passa a **verde acqua → corallo**
+  (non prioritario);
+- **un file di stile** comune a tutte le pagine;
+- **numeri che contano** solo nei numeri grandi e molto visibili, non in tutti (altrimenti dà fastidio);
+- **omini e quadratini**, **gara bus contro auto** e **area che si espande** dentro le **schede**;
+- **ore che scorrono** nella mappa; **mezzi in movimento** in home;
+- il racconto «perché questo progetto» in una **pagina a sé**: `progetto.html`;
+- sito in italiano con bottone **IT/EN** su home, risultati e progetto (la mappa resta in italiano).
 
-Resta come regola: **i numeri sono sempre scritti** accanto ai colori (chi non distingue i colori legge il numero), e le
-animazioni si spengono per chi le ha disattivate nelle impostazioni del sistema («riduci movimento»).
+Regole che restano: **numeri sempre scritti** accanto ai colori; animazioni spente per chi ha attivato «riduci movimento»
+nel sistema; pagine che funzionano anche senza le animazioni.
 
 ## Dove va ogni elemento
 
-| Elemento | Cos'è | Dove | Perché lì |
-|---|---|---|---|
-| **A. Mezzi in movimento** | sfondo scuro con la forma di Torino; i puntini dei bus e dei tram veri (GPS del Pi) si muovono durante un'ora tipica, accelerata in circa 20 secondi, con l'orologio che scorre | **home** (`index.html`), in alto dietro il titolo | è la prima cosa che si vede e mostra la raccolta dati del Pi |
-| **B. Numeri che contano** | il numero grande di ogni risultato (es. 79.598) parte da 0 e sale fino al valore in circa 1 secondo, quando appare sullo schermo; le barre dei grafici crescono da sinistra | **home** (i 5 riquadri) e **risultati** (riquadri e schede aperte) | effetto piccolo, dà vita alle pagine senza cambiare niente |
-| **C. Omini e quadratini** | il numero grande disegnato: 10 omini con 1 colorato («quasi 1 su 10» in doppio svantaggio); 100 quadratini con 13 rossi (passaggi oltre 5 minuti di ritardo); 12 pallini = i 12 punti dei parcheggi, 1 giallo e 11 grigi | **risultati**, nella scheda aperta subito sotto il numero grande; gli stessi disegni nel **racconto** | rendono il numero «fisico»; costano poco |
-| **D. Gara bus contro auto** | due barre (o un bus e un'auto) che partono insieme da un punto e corrono verso Piazza Castello; l'auto arriva prima, il bus arriva dopo 2-3 volte il tempo; si sceglie il punto da una tendina | **risultati**: grafico principale delle schede 3 (parcheggi) e 4 (traffico). **Mappa**: lo stesso disegno, piccolo, nel pannello che si apre cliccando un punto del tema «Parcheggi di scambio» | nella scheda la vedono tutti; nella mappa serve a chi esplora un punto preciso. Un solo pezzo di codice usato in due posti |
-| **E. La città che si spegne** | nei temi che cambiano con l'ora («Servizi a portata», «Mezzi pubblici sotto casa») un bottone ▶ fa scorrere le ore dalle 6 alle 24 con passaggi morbidi di colore | **mappa** | i dati per ora ci sono già nella mappa: si aggiunge solo il movimento |
-| **F. Area che si espande** | da un luogo (es. Piazza Castello, Mirafiori, Falchera) un'area che si allarga minuto per minuto: dove arrivi coi mezzi in 10, 20, 30, 45 minuti, alle 8 e alle 23 | **racconto** (2-3 luoghi scelti) e poi **mappa** (vista nuova nel tema «Mezzi pubblici sotto casa») | richiede un calcolo nuovo sul PC (tempi da pochi luoghi di partenza, motore dello script 18): si parte dal racconto con pochi luoghi |
-| **G. Racconto a scorrimento** | pagina dove il testo scorre a sinistra e la mappa a destra cambia a ogni paragrafo (come gli articoli del New York Times o di The Pudding) | **`racconto.html`**, con link dalla home (terzo bottone «La storia») e in fondo a `risultati.html` («Leggi la storia») | pagina a sé perché ha bisogno di una mappa leggera e di un layout tutto suo; in `risultati.html` la renderebbe pesante |
-| **H. Stile nuovo** | colori, font, icona, ombre, modo scuro | **ovunque**: un file `assets/stile.css` comune a home, risultati e racconto; il pannello della mappa lo segue | le pagine oggi hanno ognuna il proprio stile, simile ma copiato |
+| Elemento | Cos'è | Dove |
+|---|---|---|
+| **A. Mezzi in movimento** | sfondo scuro con la forma di Torino; i puntini di bus e tram veri (GPS del Pi) si muovono durante un'ora tipica, accelerata in circa 20 secondi, con l'orologio che scorre | **home**, in alto dietro il titolo |
+| **B. Numeri che contano** | il numero sale da 0 al valore in circa 1 secondo quando appare | **solo**: il numero di ognuno dei 5 riquadri della home, il numero grande della scheda aperta, il contatore della raccolta (J). Nessun altro numero |
+| **C. Omini e quadratini** | il numero grande disegnato: 10 omini con 1 colorato (scheda 5, «quasi 1 su 10»); 100 quadratini con 13 corallo (scheda 2, passaggi oltre 5 minuti); 12 pallini, uno per punto (scheda 3) | **scheda aperta**, sotto il numero grande |
+| **D. Gara bus contro auto** | bus e auto partono insieme da uno dei 12 punti verso Piazza Castello; l'auto arriva prima, il bus dopo; tendina per scegliere il punto; i minuti scritti all'arrivo | **scheda 3** (parcheggi di scambio), grafico principale. Dati già pronti (script 94) |
+| **E. Area che si espande** | da 2-3 luoghi, due aree che crescono minuto per minuto: dove arrivi in 10, 20, 30, 45 minuti **coi mezzi** e **in auto**, alle 8 | **scheda 4** (traffico e mezzi). Serve un calcolo nuovo sul PC (tempi da pochi luoghi) |
+| **F. Ore che scorrono** | bottone ▶ che fa scorrere le ore dalle 6 alle 24 con passaggi morbidi di colore | **mappa**, nei temi che cambiano con l'ora |
+| **G. Perché questo progetto** | pagina a scorrimento: testo a sinistra, disegno a destra che cambia a ogni paragrafo; traccia sotto | **`progetto.html`**, link dalla barra in alto e in fondo a `risultati.html` |
+| **H. Stile** | `assets/stile.css` comune; font salvati in `assets/`; verde acqua → corallo; modo scuro; icona del sito; anteprima per i link condivisi (immagine 1200×630, titolo, descrizione) | **tutte le pagine**; il pannello della mappa lo segue |
 
-### Il racconto (G), traccia proposta
-1. **La promessa** (tesi del 2020): «sensori e dati cambieranno le città». Animazione A in piccolo.
-2. **Il sistema**: un Raspberry Pi che legge Torino ogni minuto (numeri: letture, giorni, GB).
-3. **Chi abita dove**: la mappa si colora di fragilità, poi di servizi; le 5 zone in doppio svantaggio si accendono. Omini (C).
-4. **Muoversi**: area che si espande (F) alle 8 e alle 23; gara bus contro auto (D).
+### Aggiunte proposte nell'analisi del 22/10
+
+| Elemento | Cos'è | Dove |
+|---|---|---|
+| **I. Barra e piè di pagina comuni** | in alto: Home · Risultati · Mappa · Il progetto · IT/EN. In basso: «Chi sono» (nome, LinkedIn, email, GitHub), licenza, **«dati aggiornati al …»** | home, risultati, progetto (la mappa ha il suo pannello: lì solo il link «Il progetto») |
+| **J. Contatore della raccolta** | «Il Raspberry Pi legge Torino da N giorni: X milioni di posizioni dei mezzi» (numeri scritti dallo script delle schede) | **home**, sotto il titolo |
+| **K. Miniature nei riquadri** | ogni riquadro della home con una piccola immagine del suo grafico o della mappa | home |
+| **L. Caricamento della mappa** | mentre arrivano i 6 MB: il contorno di Torino che si disegna e una barra; la finestra delle schede si apre con una dissolvenza | mappa, risultati |
+| **M. Mappa più comoda** | su telefono il pannello sale dal basso; schede dei temi uniformi (titolo = nome del posto, 3-5 righe, fonte in piccolo); «◎ Cintura» diventa «Tutta l'area»; ultime date e sigle tolte dal testo; bottone «copia il link di questa vista» | mappa |
+| **N. Come funziona** | schema animato: sensori e GPS → Raspberry Pi → storico → script → pagine (i livelli dell'IoT della tesi) | `progetto.html` |
+| **O. Pagina «non trovata»** | `404.html` nello stile del sito con i link alle pagine | radice |
+| **P. Pagine dei singoli risultati** (facoltativo) | `r/1.html` … `r/5.html`, una per risultato con la sua immagine di anteprima: un post su LinkedIn mostra la scheda giusta | da decidere |
+
+### Traccia di `progetto.html`
+1. **La promessa** (tesi del 2020): «sensori e dati cambieranno le città».
+2. **Il sistema**: un Raspberry Pi che legge Torino ogni minuto (N, schema animato).
+3. **Chi abita dove**: fragilità, poi servizi; le 5 zone in doppio svantaggio si accendono.
+4. **Muoversi**: bus contro auto, in breve, con il link alle schede 3 e 4.
 5. **Quanto ci si può fidare dei dati**: il feed dei ritardi che sbagliava di 2-3 volte, il bus con l'orologio 3 anni avanti.
-6. **Cosa manca**: costi, passeggeri, treni. Link ai risultati e alla mappa.
+6. **Cosa manca** (costi, passeggeri, treni) e **Chi sono**.
 
-## Stile (H): proposta da scegliere
-Si preparano **3 prove di stile** su una pagina sola (`sviluppo/prove_stile.html`), con lo stesso riquadro, lo stesso grafico
-e la stessa mappa in piccolo, e Leo sceglie:
-1. **Notte**: blu notte, verde acqua acceso, corallo per gli allarmi (adatto all'animazione A).
-2. **Carta**: sfondo crema, nero e un solo colore forte (stile giornale).
-3. **Torino**: blu e oro, con il granata come colore di allarme.
-
-Al posto del verde→rosso per bene/male: **verde acqua → corallo** (o blu → arancione), più leggibili anche per chi
-confonde rosso e verde. Font: uno per i titoli con carattere e uno per i testi, salvati in `assets/` (le pagine
-funzionano senza internet tranne gli sfondi della mappa).
-
-## Passi
+## Passi (in ordine)
 
 | # | Passo | Dove | Quanto |
 |---|---|---|---|
-| 1 | Prove di stile (3 varianti) → Leo sceglie | CLOUD | piccolo |
-| 2 | `assets/stile.css` comune, icona, modo scuro; home e risultati con lo stile scelto; colori di mappa e schede ripensati insieme | CLOUD | medio |
-| 3 | B numeri che contano + barre che crescono | CLOUD | piccolo |
-| 4 | C omini e quadratini nelle schede (nuovo tipo di grafico in `schede_risultati.py` e `risultati.html`) | CLOUD | piccolo |
-| 5 | D gara bus contro auto: componente unico, schede 3 e 4, poi pannello della mappa (i tempi ci sono già: script 93 e 94) | CLOUD | medio |
-| 6 | A mezzi in movimento: script che estrae **un'ora tipica** di posizioni dallo storico (≤ 300 KB, piano 2 passo 4) → animazione nella home | CLOUD (codice) → PC (estratto) → CLOUD | medio |
-| 7 | E bottone ▶ delle ore nella mappa | CLOUD | piccolo |
-| 8 | Bottone IT/EN su home, risultati, racconto: testi inglesi completi nelle schede (oggi solo 3 righe) | CLOUD (Leo rilegge l'inglese) | medio |
-| 9 | F tempi da 2-3 luoghi (script nuovo) | CLOUD (script) → PC (calcolo) | medio |
-| 10 | G `racconto.html` | CLOUD | grande |
-| 11 | Mappa: schede dei temi uniformi (resto di `PIANO_MAPPA.md`) | CLOUD | medio |
-| 12 | Immagine di anteprima e screenshot per README (piano 1) | CLOUD | piccolo |
+| 1 | **3 prove di stile** su una pagina (`sviluppo/prove_stile.html`: «Notte», «Carta», «Torino»), con lo stesso riquadro, grafico e mappa piccola → Leo sceglie | CLOUD | piccolo |
+| 2 | **H + I**: `assets/stile.css`, font, icona, modo scuro, barra e piè di pagina, anteprima dei link; home e risultati nello stile nuovo; colori di mappa e schede ripensati insieme (verde acqua → corallo) | CLOUD | medio |
+| 3 | **B + C + L** (parte schede): numeri grandi che contano, omini e quadratini, dissolvenza della finestra | CLOUD | piccolo |
+| 4 | **D** gara bus contro auto nella scheda 3 | CLOUD | medio |
+| 5 | **Testi IT/EN**: dopo la divisione di `schede_risultati.py` (piano 5, passo 4), inglese completo delle schede; Leo rilegge | CLOUD | medio |
+| 6 | **A + J + K** home: animazione dei mezzi (serve l'ora tipica: piano 2, passo 4, sul PC), contatore, miniature | CLOUD → PC → CLOUD | medio |
+| 7 | **F + L + M** mappa: ore che scorrono, caricamento, pannello su telefono, schede dei temi, link della vista | CLOUD | medio |
+| 8 | **E** area che si espande nella scheda 4: script dei tempi da 2-3 luoghi (mezzi e auto) | CLOUD (script) → PC (calcolo) → CLOUD | medio |
+| 9 | **G + N** `progetto.html` | CLOUD | grande |
+| 10 | **O** (+ **P** se Leo lo vuole); screenshot per il README (piano 1) | CLOUD | piccolo |
 
-Prova di ogni passo: le pagine si aprono in un browser senza schermo nel cloud (0 errori, screenshot a misura di computer e
-di telefono); Leo guarda gli screenshot e poi le pagine vere sul PC. Peso: la home sotto 1 MB, la mappa non oltre i 6 MB di oggi.
+Prova di ogni passo: le pagine aperte in un browser senza schermo (0 errori, screenshot a misura di computer e telefono, anche
+con «riduci movimento»); Leo guarda gli screenshot e poi le pagine vere sul PC.
+Peso: home sotto 1 MB con l'animazione; mappa non oltre i 6 MB di oggi.
 
 ## Domande aperte per Leo
-- Racconto: va bene la traccia in 6 parti? Vuoi usare la tesi in apertura o tenerla solo nel README?
-- Area che si espande: quali 2-3 luoghi di partenza (proposta: Piazza Castello, Mirafiori Sud, Falchera)?
+- Area che si espande: quali 2-3 luoghi di partenza (proposta: Mirafiori Sud, Falchera, Rivoli)?
+- Pagine dei singoli risultati per LinkedIn (P): sì o no?
+- Vuoi sapere quante persone visitano il sito? (contatore senza cookie, es. GoatCounter: gratuito; altrimenti niente)
