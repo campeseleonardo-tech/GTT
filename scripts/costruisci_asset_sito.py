@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-costruisci_asset_sito.py  -  immagini del sito nello stile «Torino»: assets/anteprima.png (1200x630, per l'anteprima dei link) e le icone PNG.
+costruisci_asset_sito.py  -  immagini del sito nello stile «Torino»: assets/anteprima.png (1200x630, per l'anteprima dei link). Le icone (logo.png, icona-32.png, icona-180.png) vengono dal logo di Leo e non si rifanno qui.
 
 Usa i numeri veri di data/schede_risultati.js e le sezioni di Torino dentro mappa_torino.html (fragilita' sociale), il font Barlow Condensed
 di assets/font/ e Playwright (Chromium). Uso: python scripts/costruisci_asset_sito.py
-Scrive: assets/anteprima.png, assets/icona-32.png, assets/icona-180.png (da assets/icona.svg).
+Scrive: assets/anteprima.png.
 """
 import glob
 import json
@@ -82,16 +82,10 @@ def main():
             pg.evaluate("document.fonts.ready")
             pg.wait_for_timeout(500)
             pg.screenshot(path=str(RADICE / "assets" / "anteprima.png"))
-            svg = (RADICE / "assets" / "icona.svg").as_uri()
-            for lato in (32, 180):
-                p2 = br.new_page(viewport={"width": lato, "height": lato})
-                p2.set_content(f'<body style="margin:0;background:transparent"><img src="{svg}" width="{lato}" height="{lato}"></body>')
-                p2.goto(svg)
-                p2.screenshot(path=str(RADICE / "assets" / f"icona-{lato}.png"), omit_background=True)
             br.close()
     finally:
         html.unlink(missing_ok=True)
-    for n in ("anteprima.png", "icona-32.png", "icona-180.png"):
+    for n in ("anteprima.png",):
         print(n, (RADICE / "assets" / n).stat().st_size // 1024, "KB")
 
 
