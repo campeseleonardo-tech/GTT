@@ -1,60 +1,65 @@
-# Fonti dati
+# Fonti dei dati e licenze
 
-Legenda: VERIFICATO = l'ho letto io; NON VERIFICATO = indicato da altre pagine, da controllare.
+## Licenze delle fonti (controllate il 22/10/2026)
 
-## Scaricate dallo script 01
+«Ripubblicare» = mettere i file di quella fonte nel repository pubblico o nella Release di GitHub. **sì** = la licenza lo permette; **con condizioni** = si può, ma
+va rispettata la licenza (attribuzione, ecc.); **NON CHIARO** = la pagina ufficiale non lo dice e non ho indovinato (da chiedere alla fonte o da decidere prima di pubblicare).
+«Letto» dice se ho letto io la pagina ufficiale o se il dato viene solo da una ricerca sul web.
 
-| Fonte | Indirizzo | Stato |
-|---|---|---|
-| GTT orari programmati (GTFS) | https://www.gtt.to.it/open_data/gtt_gtfs.zip | indirizzo VERIFICATO su aperTO; contenuto e date NON VERIFICATI |
-| GTT posizioni mezzi (GTFS-RT) | https://percorsieorari.gtt.to.it/das_gtfsrt/vehicle_position.aspx | indirizzo VERIFICATO; contenuto NON VERIFICATO |
-| GTT ritardi corse (GTFS-RT) | https://percorsieorari.gtt.to.it/das_gtfsrt/trip_update.aspx | come sopra |
-| GTT avvisi (GTFS-RT) | https://percorsieorari.gtt.to.it/das_gtfsrt/alerts.aspx | come sopra |
-| 5T flussi di traffico | https://opendata.5t.torino.it/get_fdt | VERIFICATO (91 sensori, 5 minuti) |
-| Zone statistiche Torino | http://geoportale.comune.torino.it/geodati/zip/zone_statistiche_csv.zip e ..._geo.zip | indirizzi VERIFICATI su aperTO; dati del 2011 |
+| Fonte | Licenza dichiarata | Pagina ufficiale | Ripubblicare i file | Citazione da scrivere | Letto |
+|---|---|---|---|---|---|
+| **GTT orari programmati (GTFS)** | Creative Commons Attribution (CC BY): la scheda aperTO è di GTT; la regola generale di aperTO è CC BY 4.0 | [scheda aperTO](https://aperto.comune.torino.it/dataset/feed-gtfs-trasporti-gtt) | con condizioni (attribuzione) | «GTT – Gruppo Torinese Trasporti, GTFS, aperTO (CC BY)» | **solo da ricerca**: la scheda risponde 403, da riaprire a mano |
+| **GTT tempo reale (GTFS-RT: posizioni, ritardi, avvisi)** | Creative Commons Attribution (link opendefinition.org/licenses/cc-by); titolare GTT | [scheda aperTO](https://aperto.comune.torino.it/dataset/feed-gtfs-real-time-trasporti-gtt) | con condizioni (attribuzione). Lo storico grezzo della raccolta non si pubblica: solo riassunti (piano 2) | «GTT – Gruppo Torinese Trasporti, GTFS Realtime, aperTO (CC BY)» | sì |
+| **5T: flussi di traffico, parcheggi, ZTL** (opendata.5t.torino.it) | La pagina di Muoversi a Torino dichiara **IODL 2.0** (Italian Open Data License) per i dati dei suoi dataset, ma non una licenza per ogni singolo dataset; il sito dei dati 5T non ha pagine di note legali | [Muoversi a Torino – Open data](https://www.muoversiatorino.it/it/open-data/) | con condizioni (attribuzione). **La IODL 2.0 non l'ho potuta aprire (403)**: la pagina cita anche «condivisione con le stesse regole», da controllare sul testo | «Città di Torino / 5T, dati aperti di Muoversi a Torino (IODL 2.0)» | pagina di Muoversi a Torino sì; testo della IODL no |
+| **ISTAT: censimento 2021, basi territoriali, pendolarismo, indicatori** | CC BY 4.0, «salvo diversa indicazione» (il piè di pagina del sito rimanda per errore alla versione 3.0) | [note legali ISTAT](https://www.istat.it/note-legali/) | sì (anche uso commerciale), con attribuzione e indicando le modifiche | «Fonte: Istat» + «elaborazione propria» | sì |
+| **IMQ 2022 – indagine sugli spostamenti (Agenzia della mobilità piemontese, MTM)** | **Nessuna licenza indicata**: la pagina dei dati aperti dice solo che l'Agenzia «mette a disposizione di tutti» l'archivio, chiede di tenere conto dei pesi, e il piè di pagina è «© Agenzia della mobilità piemontese»; le matrici origine/destinazione sono «per finalità di studio e ricerca»; per i rapporti vale «diffusione consentita previa citazione della fonte» | [open data IMQ 2022](https://mtm.torino.it/it/dati-statistiche/indagini-old/indagine-imq-2021/open-data-imq-2022/) | **NON CHIARO** (i microdati: meglio non metterli nella Release finché l'Agenzia non risponde; i risultati aggregati con citazione sono più sicuri) | «Agenzia della mobilità piemontese (MTM), Indagine sulla mobilità delle persone e la qualità dei trasporti IMQ 2022» | sì |
+| **OMI – quotazioni immobiliari e perimetri delle zone (Agenzia delle Entrate)** | **Nessuna licenza esplicita** sulla pagina delle quotazioni; chiede solo di citare la fonte; le condizioni delle «Forniture dati OMI» non le ho lette | [quotazioni OMI](https://www.agenziaentrate.gov.it/portale/web/guest/schede/fabbricatiterreni/omi/banche-dati/quotazioni-immobiliari) | **NON CHIARO** (i file grezzi sono stati scaricati a mano da Leo; nella mappa si mostrano solo valori medi per zona) | «Agenzia delle Entrate – OMI» | sì (pagina), forniture no |
+| **aperTO – Comune di Torino** (catalogo dei servizi, parcheggi, zone statistiche, ZTL, fermate metro, …) | CC BY 4.0 «salvo diversa indicazione»; riuso consentito a patto di citare sempre la fonte e, quando possibile, l'indirizzo della pagina originale | [informazioni aperTO](http://aperto.comune.torino.it/about) | con condizioni (attribuzione), **dataset per dataset**: la licenza di ogni singolo dataset non è ancora controllata | «Città di Torino, aperTO, [nome del dataset], CC BY 4.0» + indirizzo della pagina | regola generale sì; singoli dataset no |
+| **OpenStreetMap** (rete stradale, servizi della cintura) | ODbL 1.0 | [copyright OSM](https://www.openstreetmap.org/copyright) | con condizioni: attribuzione e **condivisione alle stesse condizioni** (ODbL) per i dati derivati: un estratto tagliato si può ripubblicare sotto ODbL | «© contributori di OpenStreetMap» con link a openstreetmap.org/copyright e indicazione della licenza ODbL | sì |
+| **Sfondi della mappa (Esri)** | non verificata qui | — | non si ripubblicano (si caricano dal browser) | «Esri, Maxar, Earthstar Geographics» (già nella mappa) | decisione di Leo: consentiti finché il progetto non è commerciale |
+
+Da chiedere o decidere prima della Release: **IMQ 2022** (microdati) e **OMI** (file grezzi) sono NON CHIARO; GTFS statico di GTT e licenza IODL 2.0 da ricontrollare sulla pagina ufficiale.
+Se manca la certezza, il dato resta fuori dalla Release e lo script che lo scarica dà solo l'indirizzo.
+
+## Indirizzi e file
+
+### Scaricate dallo script 01 e dalla raccolta sul Pi (script 03)
+
+| Fonte | Indirizzo |
+|---|---|
+| GTT orari programmati (GTFS) | https://www.gtt.to.it/open_data/gtt_gtfs.zip |
+| GTT posizioni mezzi (GTFS-RT) | https://percorsieorari.gtt.to.it/das_gtfsrt/vehicle_position.aspx |
+| GTT ritardi corse (GTFS-RT) | https://percorsieorari.gtt.to.it/das_gtfsrt/trip_update.aspx |
+| GTT avvisi (GTFS-RT) | https://percorsieorari.gtt.to.it/das_gtfsrt/alerts.aspx |
+| 5T flussi di traffico (91 sensori, 5 minuti) | https://opendata.5t.torino.it/get_fdt |
+| 5T parcheggi | https://opendata.5t.torino.it/get_pk |
+| 5T ZTL | http://opendata.5t.torino.it/get_access_control |
+| Zone statistiche Torino (dati del 2011) | http://geoportale.comune.torino.it/geodati/zip/zone_statistiche_csv.zip e ..._geo.zip |
 
 Pagina di riferimento aperTO per GTT tempo reale: https://aperto.comune.torino.it/dataset/feed-gtfs-real-time-trasporti-gtt
 
-## ISTAT: stato all'8/10/2026
+### ISTAT
 
-Tutto scaricato e verificato: pendolarismo 2021 (lavoro e studio, comune contro comune), matrici 2011 (110 zip
-per provincia + nazionale con mezzo e orario), basi territoriali 2021 Piemonte, indicatori regionali 2021.
-Dove stanno i file e cosa contengono: inventario ISTAT in `sviluppo/MEMORIA_PROGETTO.md`.
+Pendolarismo 2021 (lavoro e studio, comune contro comune), matrici 2011 (110 zip per provincia + nazionale con mezzo e orario), basi territoriali 2021 Piemonte,
+indicatori regionali 2021. Dove stanno i file e cosa contengono: inventario ISTAT in `sviluppo/MEMORIA_PROGETTO.md`; l'elenco dei file è in `docs/DATI.md`.
 
-## OMI (Agenzia delle Entrate): SCARICATO l'8/10/2026
+### OMI (Agenzia delle Entrate)
 
-- Quotazioni immobiliari semestre 2025/2 e perimetri delle zone OMI, provincia di Torino (312 comuni).
-- File in `data/raw/omi_2025_2/` (due CSV + `TO20252/` con i KML, uno per comune). Non toccare.
-- Scaricati a mano da Leo dal servizio Forniture dati OMI / GeoPOI dell'Agenzia. In caso di uso: citare
-  "Agenzia delle Entrate - OMI".
-- Mancante (facoltativo): provincia di Asti, per coprire Moncucco Torinese (unico comune dell'area non coperto).
-- In mappa dal 9/10: sezione 4 di `sviluppo/MEMORIA_PROGETTO.md`.
+Quotazioni del semestre 2025/2 e perimetri delle zone OMI, provincia di Torino (312 comuni), in `data/raw/omi_2025_2/` (due CSV e `TO20252/` con i KML).
+Scaricati a mano da Leo dal servizio Forniture dati OMI / GeoPOI. Non coperto: la provincia di Asti (Moncucco Torinese). Non toccare i file.
 
-## Da scaricare a mano (eventuale, non urgente)
+### IMQ 2022
 
-1. **Facoltativo** - OMI provincia di Asti (per Moncucco Torinese, vedi sopra).
-2. **Facoltativo** - aperTO: incidenti 2011-2017 (ciclabili, zone blu, ZTL e fermate metro sono già nel catalogo).
-   Catalogo: https://aperto.comune.torino.it/dataset/?q=mobilit%C3%A0
+Dati aperti dell'Agenzia in `data/raw/IMQ2022_opendata_web/`. Una richiesta di zone di campionamento e altre elaborazioni è stata inviata da Leo; risposta attesa.
+Le zone di campionamento: «IMQ2013-22_zone_camp_TO» (Torino) e «IMQ2022_zone_camp_noTO» (resto del Piemonte) dalla stessa pagina.
 
-## Non pubbliche (richiedono una richiesta)
+### Rete stradale
 
-- Indagine IMQ 2022 (MTM, Agenzia Mobilità Piemontese): usati i dati aperti (`data/raw/IMQ2022_opendata_web/`).
-  Richiesta di zone di campionamento e altre elaborazioni INVIATA da Leo; risposta attesa.
-- Dati da telefonia mobile (TIM/Wind usati dall'agenzia, Vodafone usati con il Politecnico): non pubblici.
-  Idea congelata: nessuna richiesta inviata.
+OpenStreetMap, estratto Geofabrik Nord-Ovest, tagliato all'area Torino + cintura dallo script 17 in `data/otp/rete/torino_cintura.osm.pbf`.
+L'estratto intero si riscarica da https://download.geofabrik.de/europe/italy/nord-ovest.html
 
-## Rete stradale (per R5)
+## Non pubbliche o non trovate
 
-- OpenStreetMap, estratto Geofabrik Nord-Ovest (8/10/2026), tagliato all'area Torino+cintura dallo script 17
-  in `data/otp/rete/torino_cintura.osm.pbf`. L'estratto intero è stato cancellato: si riscarica da
-  https://download.geofabrik.de/europe/italy/nord-ovest.html
-
-## Non trovati
-
-Bici e sharing (ToBike, monopattini, car sharing), posti liberi nei parcheggi, feed dei treni urbani (SFM),
-dati orari ARPA (su aperTO ci sono solo medie annuali). Non vuol dire che non esistano.
-
-## Dati storici di confronto
-
-PUMS Torino 2008: pagina del geoportale (mappe PDF di flussi alle ore di punta 7:40-8:40 e 17-18, sosta, incidenti,
-sensori 5T, offerta TPL in posti/ora). Non leggibile da programma senza digitalizzazione.
+- Dati da telefonia mobile (TIM/Wind usati dall'Agenzia, Vodafone usati con il Politecnico): non pubblici, nessuna richiesta inviata (idea congelata).
+- Non trovati: bici e sharing (ToBike, monopattini, car sharing), posti liberi nei parcheggi pubblici in tempo reale oltre ai garage 5T, feed dei treni urbani (SFM), dati orari ARPA (su aperTO ci sono solo medie annuali). Non vuol dire che non esistano.
+- Dati storici di confronto: PUMS Torino 2008 (mappe PDF di flussi, sosta, incidenti, offerta TPL): non leggibili da programma senza digitalizzazione.
