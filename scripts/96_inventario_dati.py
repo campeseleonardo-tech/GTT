@@ -14,7 +14,8 @@ Cosa fa
      (euristica sulle righe vicine: write_text, open(...,"w"), to_csv, dump, savefig, scp, copy, >).
      Una cartella citata dallo script (per es. un glob) vale per tutti i file che contiene: «via cartella».
   3. Propone un posto (e' solo una PROPOSTA: decide Leo, piano 2 passo 3):
-       riassunto  lo storico (SQLite della raccolta): si tengono solo i riassunti (script 97)
+       riassunto  lo storico (SQLite della raccolta): si tengono solo i riassunti (script 97); i riassunti stessi
+                  (data/storico_riassunti/) vanno sempre in git
        Release    data/raw/ e, fuori da raw, i file da 5 MB in su che qualcuno legge (zip nella Release di GitHub)
        git        file sotto 5 MB letti da una pagina o da uno script, o scritti da uno script dei risultati
                   (sopra 5 MB solo se una pagina li carica; sopra 50 MB sempre Release: AVVISO)
@@ -170,6 +171,8 @@ def posto(rel_data, peso, legge, scrive):
         return "fuori", "strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto"
     if nome.endswith((".sqlite", ".sqlite3", ".db", "-wal", "-shm")):
         return "riassunto", "storico della raccolta: si tengono i riassunti (script 97)"
+    if parti[0] == "storico_riassunti":
+        return "git", "riassunti dello storico (script 97): vanno in git"
     if FONTE_SE.search(rel_data):
         return "fonte", "IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo)"
     if parti[0] == "raw":

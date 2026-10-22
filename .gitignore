@@ -20,6 +20,7 @@ pubblica/
 data/*
 !data/schede_risultati.js
 !data/storico_riassunti/
+!data/storico_riassunti/*.zip
 !data/catalogo/
 !data/processed/
 !data/ref/
@@ -70,7 +71,4 @@ data/processed/velocita_5t_prima_fetch.json
 data/ref/eventi_luoghi.json
 data/scenari/gtt_gtfs_notte15.zip
 data/scenari/gtt_gtfs_notte30.zip
-data/storico_riassunti/parcheggi_2026-10.json.gz
-data/storico_riassunti/passaggi_2026-10.zip
-data/storico_riassunti/sensori5t_2026-10.json.gz
 # <<< data
