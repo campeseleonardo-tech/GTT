@@ -35,7 +35,7 @@ della qualità dei dati). Cornici, temi in comune, dati da verificare e frase pe
 ## 3. Cartelle e dati
 
 Radice: `README.md`, `mappa_torino.html`, `risultati.html`, `index.html`, `MEMORIA_PROGETTO.md`, `AGENTS.md`. `docs/`: `METODO.md` (dati, area, accessibilità, etichette, colori), `FONTI_DATI.md`,
-un documento per risultato, `ANALISI_STATO.md`, `piani/`, `rapporti/` (`RAPPORTO_*.txt` riscritti dagli script, grafico del traffico, `RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`).
+un documento per risultato, `piani/`, `rapporti/` (`RAPPORTO_*.txt` riscritti dagli script, grafico del traffico, `RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`).
 `data/` (non in git): `raw/` (non toccare), `processed/`, `otp/` (R5), `scenari/`, `catalogo/`. `scripts/prove/`: strumenti di controllo del giro 4 della mappa (estrai/trasforma i dati, controllo dei valori).
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 v1 (le sue uscite le leggono 68, 72, 73) · 26 velocità 5T · 27 R4 · 28-29 R2 · 30-32 rapporto sostenibilità
 (chiuso, si lanciano a mano) · 33-67 + `rete_osm.py` traffico R8 (35-38b abbinamento sensori, 37 metodi A/B, 49-50b modello V3 e 62-63 V4: le uscite sono lette dal 53, 65-67 e dalla scheda R8: **non cancellarli**) ·
@@ -78,18 +78,18 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 
 ## 5. IN CORSO
 
-- **Cinque piani** (22/10, rivisti dopo l'analisi: ripetizioni tolte, aggiunte) in `docs/piani/`: **1** `PIANO_RIORGANIZZAZIONE` (`main` di default, repository
-  rinominato `torino-mobilita`, appunti in `sviluppo/`, script 86 che non riscrive più il README, Pages da `main`) · **2** `PIANO_DATI` (estratti in git + Release; dello storico
+- **Cinque piani** (22/10, rivisti dopo l'analisi: ripetizioni tolte, aggiunte) in `docs/piani/`: **1** `PIANO_RIORGANIZZAZIONE` (`main` creato da Leo il 22/10, da rendere di default; repository
+  rinominato **`Turin-mobility`** (fatto da Leo, sito «Torino Mobilità»), appunti in `sviluppo/`, script 86 che non riscrive più il README, Pages da `main`) · **2** `PIANO_DATI` (estratti in git + Release; dello storico
   solo i **riassunti**, Leo) · **3** `PIANO_RISULTATI` (manca: R6 con ≥ 5 feriali, controllo scheda 5, R4 a un mese; A2, F, C4, E4 **fuori**, Leo) · **4** `PIANO_GRAFICA`
   (decisioni di Leo: mezzi in movimento in home; numeri che contano **solo** nei numeri grandi; omini, gara bus/auto (scheda 3) e area che si espande (scheda 4) nelle schede;
   ore che scorrono in mappa; `progetto.html`; un file di stile; verde acqua → corallo) · **5** `PIANO_CODICE`. `PIANO_COSTI` dopo la pubblicazione.
-- **Rami** (22/10): nessun lavoro fuori da `prova` (zen-newton ha solo una memoria superata). Controllo fisso: `scripts\CONTROLLA_RAMI.bat` (`controlla_rami.py`).
+- **Rami** (22/10): nessun lavoro fuori da `prova`; i rami `claude/...` vecchi si cancellano (Leo). «Chi sono»: LinkedIn leocampese, email campese.leonardo@gmail.com. Visite con GoatCounter (senza cookie). Controllo fisso: `scripts\CONTROLLA_RAMI.bat` (`controlla_rami.py`).
 - **Raccolta parcheggi** su leopi continua (il R6 si rifà appena ci sono ≥ 5 feriali interi: già dal 22/10). `LICENSE` (MIT per il codice, dati con la licenza della fonte) creato il 22/10.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`. Il vecchio nome della cartella OMI resta nella storia di git.
 
 ## 6. PROSSIMI PASSI
 
-1. Piano 1: `main` e nome `torino-mobilita` (Leo su GitHub), poi passi 3-7 (cloud). Sul PC: `RISULTATO6_RIFAI.bat` e `RIFAI_MAPPA_E_SCHEDE.bat`, controllo della scheda 5.
+1. Piano 1: `main` come ramo di default e rami vecchi cancellati (Leo su GitHub: la sessione cloud non ha il permesso), poi passi 4-7 (cloud). Sul PC: `RISULTATO6_RIFAI.bat` e `RIFAI_MAPPA_E_SCHEDE.bat`, controllo della scheda 5.
 2. Piano 2: inventario dei dati (script 96 sul PC) e licenze delle fonti; piano 4: prove di stile (cloud), Leo sceglie.
 3. Rilanci con più dati: R4 con un mese (metà novembre), poi stagione. Screenshot di Leo per la scheda R6.
 4. Più avanti: tempi TP contro auto per coppie di zone IMQ e costi (`PIANO_COSTI.md`); R2 ripreso (popolo della notte), treni SFM, scenario fra R3 e R5, effetto ZTL, tram contro bus.

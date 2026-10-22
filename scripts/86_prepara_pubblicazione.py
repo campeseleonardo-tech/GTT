@@ -5,7 +5,7 @@ NON pubblica niente: crea solo la cartella pubblica/ (esclusa da git) e scrive R
 
 Cosa fa
 -------
-  1. Copia in pubblica/ le pagine (index.html, mappa_torino.html, risultati.html; simulazione.html rimanda a risultati.html) e tutti i file che caricano
+  1. Copia in pubblica/ le pagine (index.html, mappa_torino.html, risultati.html) e tutti i file che caricano
      (data/processed/orari_fermate.js, data/schede_risultati.js, data/catalogo/*.js, immagini/), con gli stessi percorsi relativi. Avvisa se un file manca.
   2. Scrive README.md (italiano, poi English) senza i numeri dei risultati: al loro posto «Risultati in
      aggiornamento: vedi la pagina dei risultati» (i numeri vivono nelle schede di risultati.html).
@@ -28,7 +28,7 @@ RADICE = comuni.RADICE
 DEST = RADICE / "pubblica"
 SCHEDE = RADICE / "data" / "schede_risultati.js"
 README = RADICE / "README.md"
-FILE_FISSI = ["index.html", "mappa_torino.html", "risultati.html", "simulazione.html", "data/processed/orari_fermate.js",
+FILE_FISSI = ["index.html", "mappa_torino.html", "risultati.html", "data/processed/orari_fermate.js",
               "data/schede_risultati.js"]
 
 INTRO_IT = """# Mobilità a Torino — come si muove la città

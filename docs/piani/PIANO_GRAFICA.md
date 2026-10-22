@@ -23,7 +23,7 @@ nel sistema; pagine che funzionano anche senza le animazioni.
 | **B. Numeri che contano** | il numero sale da 0 al valore in circa 1 secondo quando appare | **solo**: il numero di ognuno dei 5 riquadri della home, il numero grande della scheda aperta, il contatore della raccolta (J). Nessun altro numero |
 | **C. Omini e quadratini** | il numero grande disegnato: 10 omini con 1 colorato (scheda 5, «quasi 1 su 10»); 100 quadratini con 13 corallo (scheda 2, passaggi oltre 5 minuti); 12 pallini, uno per punto (scheda 3) | **scheda aperta**, sotto il numero grande |
 | **D. Gara bus contro auto** | bus e auto partono insieme da uno dei 12 punti verso Piazza Castello; l'auto arriva prima, il bus dopo; tendina per scegliere il punto; i minuti scritti all'arrivo | **scheda 3** (parcheggi di scambio), grafico principale. Dati già pronti (script 94) |
-| **E. Area che si espande** | da 2-3 luoghi, due aree che crescono minuto per minuto: dove arrivi in 10, 20, 30, 45 minuti **coi mezzi** e **in auto**, alle 8 | **scheda 4** (traffico e mezzi). Serve un calcolo nuovo sul PC (tempi da pochi luoghi) |
+| **E. Area che si espande** | due aree che crescono minuto per minuto: dove arrivi in 10, 20, 30, 45 minuti **coi mezzi** e **in auto**, alle 8. Si parte da **Piazza Castello**, con una tendina per scegliere **qualsiasi altra zona** (Leo, 22/10) | **scheda 4** (traffico e mezzi). Piazza Castello in dettaglio (per sezione: calcolo nuovo sul PC); le altre zone con i tempi zona-zona già calcolati dallo script 93 (controllare che il JSON abbia tutte le coppie, altrimenti il 93 salva la tabella completa) |
 | **F. Ore che scorrono** | bottone ▶ che fa scorrere le ore dalle 6 alle 24 con passaggi morbidi di colore | **mappa**, nei temi che cambiano con l'ora |
 | **G. Perché questo progetto** | pagina a scorrimento: testo a sinistra, disegno a destra che cambia a ogni paragrafo; traccia sotto | **`progetto.html`**, link dalla barra in alto e in fondo a `risultati.html` |
 | **H. Stile** | `assets/stile.css` comune; font salvati in `assets/`; verde acqua → corallo; modo scuro; icona del sito; anteprima per i link condivisi (immagine 1200×630, titolo, descrizione) | **tutte le pagine**; il pannello della mappa lo segue |
@@ -38,8 +38,9 @@ nel sistema; pagine che funzionano anche senza le animazioni.
 | **L. Caricamento della mappa** | mentre arrivano i 6 MB: il contorno di Torino che si disegna e una barra; la finestra delle schede si apre con una dissolvenza | mappa, risultati |
 | **M. Mappa più comoda** | su telefono il pannello sale dal basso; schede dei temi uniformi (titolo = nome del posto, 3-5 righe, fonte in piccolo); «◎ Cintura» diventa «Tutta l'area»; ultime date e sigle tolte dal testo; bottone «copia il link di questa vista» | mappa |
 | **N. Come funziona** | schema animato: sensori e GPS → Raspberry Pi → storico → script → pagine (i livelli dell'IoT della tesi) | `progetto.html` |
+| **Q. Visite** (Leo, 22/10: sì, «pulito») | GoatCounter: niente cookie, niente dati personali, nessun banner da accettare; un solo script piccolo caricato dopo la pagina; non conta le visite dal PC di Leo né le prove locali; riga nel piè di pagina «Statistiche anonime delle visite, senza cookie». Leo crea l'account gratuito (codice proposto `turin-mobility`) | home, risultati, progetto, mappa, `r/` |
 | **O. Pagina «non trovata»** | `404.html` nello stile del sito con i link alle pagine | radice |
-| **P. Pagine dei singoli risultati** (facoltativo) | `r/1.html` … `r/5.html`, una per risultato con la sua immagine di anteprima: un post su LinkedIn mostra la scheda giusta | da decidere |
+| **P. Pagine dei singoli risultati** | `r/1.html` … `r/5.html`: pagine minime, scritte dallo script delle schede, con titolo, descrizione e immagine del risultato, che portano subito a `risultati.html#pN`. Un post su LinkedIn mostra la scheda giusta. Poco lavoro (Leo: sì, se resta poco) | radice, cartella `r/` |
 
 ### Traccia di `progetto.html`
 1. **La promessa** (tesi del 2020): «sensori e dati cambieranno le città».
@@ -62,13 +63,8 @@ nel sistema; pagine che funzionano anche senza le animazioni.
 | 7 | **F + L + M** mappa: ore che scorrono, caricamento, pannello su telefono, schede dei temi, link della vista | CLOUD | medio |
 | 8 | **E** area che si espande nella scheda 4: script dei tempi da 2-3 luoghi (mezzi e auto) | CLOUD (script) → PC (calcolo) → CLOUD | medio |
 | 9 | **G + N** `progetto.html` | CLOUD | grande |
-| 10 | **O** (+ **P** se Leo lo vuole); screenshot per il README (piano 1) | CLOUD | piccolo |
+| 10 | **O**, **P**, **Q** (Leo crea l'account GoatCounter); screenshot per il README (piano 1) | CLOUD + Leo | piccolo |
 
 Prova di ogni passo: le pagine aperte in un browser senza schermo (0 errori, screenshot a misura di computer e telefono, anche
 con «riduci movimento»); Leo guarda gli screenshot e poi le pagine vere sul PC.
 Peso: home sotto 1 MB con l'animazione; mappa non oltre i 6 MB di oggi.
-
-## Domande aperte per Leo
-- Area che si espande: quali 2-3 luoghi di partenza (proposta: Mirafiori Sud, Falchera, Rivoli)?
-- Pagine dei singoli risultati per LinkedIn (P): sì o no?
-- Vuoi sapere quante persone visitano il sito? (contatore senza cookie, es. GoatCounter: gratuito; altrimenti niente)

@@ -53,6 +53,11 @@ def main():
         da_guardare += 1
         print(f"  ATTENZIONE: il ramo {ramo} non esiste su GitHub")
 
+    if git("ls-remote", "--heads", "origin", "main"):
+        dietro = git("rev-list", "--count", f"origin/main..{RIFERIMENTO}")
+        print(f"\nmain (versione pubblicata): {dietro} commit di prova non ancora in main" if dietro != "0"
+              else "\nmain (versione pubblicata): uguale a prova")
+
     print(f"\nRami con lavoro non presente in {RIFERIMENTO}:")
     rami = [r for r in git("for-each-ref", "--format=%(refname:short)", "refs/heads", "refs/remotes/origin").splitlines()
             if r not in ("origin", "origin/HEAD", RIFERIMENTO)]

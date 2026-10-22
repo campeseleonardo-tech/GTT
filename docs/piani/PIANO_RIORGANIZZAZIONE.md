@@ -6,8 +6,8 @@ Gli appunti di lavoro restano in git, ma fuori dalla vista.
 Decisioni di Leo (22/10):
 - ramo **`main`** = versione pubblicata e ramo di default; `prova` resta per lavorare;
 - appunti di lavoro in **`sviluppo/`**;
-- repository rinominato **`torino-mobilita`** (titolo del sito «Torino Mobilità»; indirizzo `campeseleonardo-tech.github.io/torino-mobilita/`);
-- **«Chi sono»** con nome, LinkedIn ed email;
+- repository rinominato da Leo in **`Turin-mobility`** (22/10); titolo del sito «Torino Mobilità» (in inglese «Turin Mobility»); indirizzo `campeseleonardo-tech.github.io/Turin-mobility/`;
+- **«Chi sono»**: Leonardo Campese, LinkedIn https://www.linkedin.com/in/leocampese/, email campese.leonardo@gmail.com;
 - sfondi Esri consentiti (progetto non commerciale; se diventa commerciale si cambiano);
 - licenza del codice **MIT** (`LICENSE` fatto il 22/10; i dati restano con la licenza della fonte).
 
@@ -36,11 +36,11 @@ AGENTS.md            corto: rimanda a sviluppo/AGENTS.md
 | # | Passo | Dove | Quanto |
 |---|---|---|---|
 | 1 | **FATTO (22/10)**: memoria allineata, `ESITO_*.md` e piani vecchi cancellati, rami controllati (nessun lavoro perso) | CLOUD | — |
-| 2 | **`main`**: crearlo da `prova` e renderlo ramo di default; **rinominare il repository** in `torino-mobilita` (GitHub reindirizza i vecchi indirizzi; sul PC `git remote set-url origin …` consigliato). In `main` si entra solo con un blocco finito e provato | GITHUB (Leo) + CLOUD | piccolo |
-| 3 | **Rami vecchi**: cancellare su GitHub i 7 rami `claude/...` già uniti in `prova` (controllo del 22/10: nessun commit utile fuori da `prova`) | CLOUD dopo ok di Leo | piccolo |
-| 4 | **`sviluppo/`**: spostare `MEMORIA_PROGETTO.md`, `docs/piani/`, `docs/TESI_E_PROGETTO.md`; `AGENTS.md` in radice ridotto a poche righe; `docs/ANALISI_STATO.md` cancellato (superato da questi piani; le risposte sui dati della sezione 3 sono già nei documenti dei risultati); aggiornare i percorsi citati (`git grep`) | CLOUD | piccolo |
+| 2 | **`main`**: creato da `prova` e repository rinominato `Turin-mobility` (**FATTO**, Leo 22/10). Resta: renderlo **ramo di default** (Settings → General → Default branch); sul PC `git remote set-url origin https://github.com/campeseleonardo-tech/Turin-mobility.git` (il vecchio indirizzo funziona lo stesso). In `main` si entra solo con un blocco finito e provato | GITHUB (Leo) | piccolo |
+| 3 | **Rami vecchi** (ok di Leo, 22/10; la sessione cloud non ha il permesso di cancellarli): Leo li cancella da GitHub → Branches: `festive-noether-tjjecr`, `festive-noether-vzy1mo`, `keen-faraday-73k145`, `practical-lamport-5laaug`, `sweet-lovelace-hmqh81`, `zen-newton-brrak9`; `vibrant-planck-cztsh9` e `sharp-maxwell-mpqd8z` dopo l'unione in `prova` | GITHUB (Leo) | piccolo |
+| 4 | **`sviluppo/`**: spostare `MEMORIA_PROGETTO.md`, `docs/piani/`, `docs/TESI_E_PROGETTO.md`; `AGENTS.md` in radice ridotto a poche righe (`docs/ANALISI_STATO.md` già cancellato il 22/10); aggiornare i percorsi citati (`git grep`) | CLOUD | piccolo |
 | 5 | **Dati di accesso fuori dai testi pubblici**: IP del Pi, utente SSH, percorso della chiave → file locale `config_locale.json` (in `.gitignore`) letto da script e `.bat` | CLOUD (codice) + PC (file) | piccolo |
-| 6 | **Testi puliti**: niente «Leo», «giro», «fase», date di sviluppo nelle pagine e nei commenti; `simulazione.html` (vecchio rimando) cancellata | CLOUD | medio |
+| 6 | **Testi puliti**: niente «Leo», «giro», «fase», date di sviluppo nelle pagine e nei commenti (`simulazione.html` già cancellata il 22/10) | CLOUD | medio |
 | 7 | **Script 86**: oggi **riscrive `README.md`** a ogni `RIFAI_MAPPA_E_SCHEDE.bat` (cancellerebbe il README nuovo). Diventa solo un controllo «ogni file caricato dalle pagine esiste ed è in git»; niente più cartella `pubblica/` | CLOUD | piccolo |
 | 8 | **GitHub Pages da `main`** (cartella radice), con i dati delle pagine in git (piano 2) | GITHUB (Leo) | piccolo |
 | 9 | **README nuovo** (alla fine, dopo piani 2-4): cosa è, link al sito, 5 risultati con una riga e un'immagine, fonti e licenze, come rifare i calcoli in 3 comandi, «Chi sono» | CLOUD | piccolo |
@@ -54,6 +54,3 @@ Prima di ogni lavoro: `scripts\CONTROLLA_RAMI.bat` sul PC, o lo stesso controllo
 ramo, commit non presenti in `prova`). Se un ramo ha commit non uniti, si dice a Leo prima di iniziare.
 Attenzione nel cloud: la copia di partenza può avere la storia tagliata; prima del confronto `git fetch --unshallow`
 (il 22/10 senza questo passo sembravano mancare 200 commit, che invece c'erano).
-
-## Domande aperte per Leo
-- Email per «Chi sono»: `campese.leonardo@gmail.com` (quella dei commit) o un'altra? Indirizzo del profilo LinkedIn.
