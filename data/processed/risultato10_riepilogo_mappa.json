@@ -25,7 +25,7 @@
     "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
     "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-22T14:24:12+00:00",
+  "generato": "2026-10-22T17:00:50+00:00",
   "avviso": [
     "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -64,7 +64,7 @@
   ],
   "forma": {
     "etichetta": "STIMATO / CENSIMENTO",
-    "titolo": "1 torinese su 11 vive dove la fragilità è alta e i servizi sono pochi",
+    "titolo": "Circa 1 torinese su 10 vive dove la fragilità è alta e i servizi sono pochi",
     "domanda": "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
     "numero": {
       "valore": 79598,
@@ -469,7 +469,7 @@
     ],
     "english": [
       "Question: do homes cost more where services are plentiful, and who lives where fragility is high and services are few?",
-      "Answer: 1 Turin resident in 11 (79.598 people, 9.5%) lives where fragility is high and services are few. Price and services go together (Spearman 0.61 over 46 zones).",
+      "Answer: 1 Turin resident in 10 (79.598 people, 9.5%) lives where fragility is high and services are few. Price and services go together (Spearman 0.61 over 46 zones).",
       "Limit: price quotes, not sales; one semester; large zones. The metro price gap is between zones, not a causal effect."
     ],
     "mappa": {
@@ -486,7 +486,7 @@
   },
   "forma_en": {
     "etichetta": "ESTIMATED / CENSUS",
-    "titolo": "1 Turin resident in 11 lives where fragility is high and services are few",
+    "titolo": "About 1 Turin resident in 10 lives where fragility is high and services are few",
     "domanda": "Do people pay for services? And who lives where services are few and fragility is high?",
     "numero": {
       "valore": 79598,

@@ -22,7 +22,9 @@ def scheda_r10():
     e1, e2, e3 = j["e1_si_paga_per_i_servizi"], j["e2_doppio_svantaggio"], j["e3_valore_metro"]
     se = e2["sezioni"]
     quota = se["quota_residenti_di_riferimento"]
-    n_su = max(1, round(1 / quota)) if quota else 0
+    # stessa approssimazione degli omini (decimi): 9,5% -> «circa 1 su 10», cosi' titolo e testo coincidono
+    decimi = round(10 * quota)
+    n_su = round(10 / decimi) if decimi else 0
     return {
         "risultato": "10",
         "titolo": "Case, servizi e fragilità",
@@ -100,7 +102,7 @@ def forma_r10(s):
     nz_usate = cn["zone_usate"]
     return forma_base(
         s,
-        f"1 torinese su {n_su} vive dove la fragilità è alta e i servizi sono pochi",
+        f"Circa 1 torinese su {n_su} vive dove la fragilità è alta e i servizi sono pochi",
         "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
         {"valore": se["residenti_doppio_svantaggio"], "unita": "",
          "testo": f"residenti in sezioni con fragilità alta e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei torinesi"},
