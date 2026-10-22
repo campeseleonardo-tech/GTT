@@ -11,13 +11,15 @@ from pathlib import Path
 AQUI = Path(__file__).resolve().parent
 RADICE = AQUI.parent.parent
 case, out = Path(sys.argv[1]), Path(sys.argv[2])
+sys.path.insert(0, str(RADICE / "scripts"))
+from schede import comune  # noqa: E402
 spec = importlib.util.spec_from_file_location("schede", RADICE / "scripts" / "schede_risultati.py")
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
 (out / "data" / "processed").mkdir(parents=True, exist_ok=True)
 shutil.copy(case, out / "data" / "processed" / "case_fragilita_servizi.json")
-m.PROC = out / "data" / "processed"
-m.OUT_JS = out / "data" / "schede_risultati.js"
+comune.PROC = out / "data" / "processed"
+comune.OUT_JS = out / "data" / "schede_risultati.js"
 
 
 def finta(n, titolo, tag):
@@ -39,8 +41,9 @@ m.scheda_r1, m.scheda_r4, m.scheda_r6, m.scheda_r8 = (finta("1", "Servizi", "MIS
                                                        finta("6", "Parcheggi", "STIMATO"), finta("8", "Traffico", "STIMATO"))
 for k in ("risultato1", "risultato4", "risultato6", "risultato8"):
     m.FORME[k] = forma_finta
-m.leggi = lambda nome: __import__("json").loads((m.PROC / nome).read_text(encoding="utf-8"))
+m.leggi = lambda nome: __import__("json").loads((comune.PROC / nome).read_text(encoding="utf-8"))
 m.main()
-for f in ("index.html", "risultati.html"):
+for f in ("index.html", "risultati.html", "progetto.html"):
     shutil.copy(RADICE / f, out / f)
+shutil.copytree(RADICE / "assets", out / "assets", dirs_exist_ok=True)
 print("pronto in", out)
