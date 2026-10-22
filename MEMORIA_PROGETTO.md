@@ -67,7 +67,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 - **R6 parcheggi** (24-25, 68-73, 77, 79-85, 87, 88, 94): fermate importanti con regola fissa (≥ 10 corse/ora o metro/stazione/capolinea, e ≥ 1.000 auto in entrata, scelta di Leo): **274**, **179 senza posti bastanti** entro 400 m a piedi
   (68 senza alcun parcheggio adatto); **12 punti prioritari** (uno per asse, ≥ 3 km dal centro, ≥ 50 posti mancanti; Maroncelli e Chieri escono, Leo: lasciare così); auto in entrata 87.162, chi già lascia l'auto 5,8% (64 interviste), torinesi inclusi 34%;
   in mappa anche 80 parcheggi del centro (viola), 2 viste. **Parte C bus contro auto** (94): 0 conviene, 1 dipende (Metro Massaua), 11 no; interscambi 0/3/2; messaggio della scheda «funzionano solo dove il mezzo pubblico è veloce: oggi 1 punto su 12»;
-  sensibilità ai minuti di parcheggio in centro 5 → 1, 10 → 10, 15 → 12 punti competitivi (classe ufficiale 5 minuti). `docs/R6_parcheggi.md`; catena `RISULTATO6_RIFAI.bat` (~4 min).
+  sensibilità ai minuti di parcheggio in centro 5 → 1, 10 → 10, 15 → 12 punti competitivi (classe ufficiale 5 minuti). `docs/R6_parcheggi.md`; catena `RISULTATO6_RIFAI.bat` (~4 min). **Rifatto 22/10 con 5 feriali** (15, 16, 19, 20, 21/10): numeri sopra invariati (274, 179, 12 punti, 0/1/11, pareggio 20,85–27,5); cambia solo la classe di LANCIA (misto → residenziale). `docs/piani/ESITO_P0.md`.
 - **R8 traffico** (33-67, 93): stima C-DEBOLE, errore mediano 38,4% (±38%), rho 0,605, 20 punti di misura; 95,3% dei km di strade grandi di Torino serviti dal TP (vale solo per le strade grandi); «molto traffico e poco TP» quasi solo Corso Regina Margherita ovest.
   **Parte D** (93): tempo coi mezzi contro auto, forbice con due fattori di punta (1,2 sensori 5T; 2,1 Google Maps): rapporto mediano **da 1,96 a 2,94** («da 2 a 3 volte il tempo dell'auto»), auto oltre 2 volte da 41% a 97%; cintura-cintura a parte. `docs/R8_traffico.md`.
 - **Mappa** (giri 1-4 fatti): partenza senza tema su satellite, due gruppi di temi, «Chi abita qui» (8 viste), «Fragilità sociale», «Servizi a portata», «Servizi mancanti», «Prezzo delle case», «Mezzi pubblici sotto casa», «Spostamenti» (IMQ),
@@ -80,11 +80,11 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 
 - **Cinque piani** (22/10, rivisti dopo l'analisi: ripetizioni tolte, aggiunte) in `docs/piani/`: **1** `PIANO_RIORGANIZZAZIONE` (`main` creato da Leo il 22/10, da rendere di default; repository
   rinominato **`Turin-mobility`** (fatto da Leo, sito «Torino Mobilità»), appunti in `sviluppo/`, script 86 che non riscrive più il README, Pages da `main`) · **2** `PIANO_DATI` (estratti in git + Release; dello storico
-  solo i **riassunti**, Leo) · **3** `PIANO_RISULTATI` (manca: R6 con ≥ 5 feriali, controllo scheda 5, R4 a un mese; A2, F, C4, E4 **fuori**, Leo) · **4** `PIANO_GRAFICA`
+  solo i **riassunti**, Leo) · **3** `PIANO_RISULTATI` (R6 con 5 feriali e scheda 5 fatti 22/10, `ESITO_P0.md`; resta: R4 a un mese; etichetta [DATI SCARSI] dello script 71 da decidere con più settimane; A2, F, C4, E4 **fuori**, Leo) · **4** `PIANO_GRAFICA`
   (decisioni di Leo: mezzi in movimento in home; numeri che contano **solo** nei numeri grandi; omini, gara bus/auto (scheda 3) e area che si espande (scheda 4) nelle schede;
   ore che scorrono in mappa; `progetto.html`; un file di stile; verde acqua → corallo) · **5** `PIANO_CODICE`. `PIANO_COSTI` dopo la pubblicazione. **Prompt** per far fare tutto a un modello, giro per giro (CLOUD C1-C13, PC P0-P8, ordine e fermate per Leo): `docs/piani/PROMPT_LAVORI.md`.
 - **Rami** (22/10): nessun lavoro fuori da `prova`; i rami `claude/...` vecchi si cancellano (Leo). «Chi sono»: LinkedIn leocampese, email campese.leonardo@gmail.com. Niente contatore delle visite (Leo). Controllo fisso: `scripts\CONTROLLA_RAMI.bat` (`controlla_rami.py`).
-- **Raccolta parcheggi** su leopi continua (il R6 si rifà appena ci sono ≥ 5 feriali interi: già dal 22/10). `LICENSE` (MIT per il codice, dati con la licenza della fonte) creato il 22/10.
+- **Raccolta parcheggi** su leopi continua (R6 rifatto con 5 feriali il 22/10). `LICENSE` (MIT per il codice, dati con la licenza della fonte) creato il 22/10.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`. Il vecchio nome della cartella OMI resta nella storia di git.
 
 ## 6. PROSSIMI PASSI

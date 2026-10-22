@@ -1,5 +1,5 @@
 RAPPORTO R6 - PARCHEGGI PER LASCIARE L'AUTO PRIMA DI ENTRARE IN CITTA' (script 84)
-Generato il 20/10/2026 18:21.
+Generato il 22/10/2026 13:54.
 
 == Fermate importanti ==
   274 fermate (fuori da Q001-Q009): nessun parcheggio 68, posti insufficienti 111, posti sufficienti 95, poche auto da fermare 0
@@ -129,9 +129,9 @@ Generato il 20/10/2026 18:21.
   (nel 20% piu' alto dei luoghi, cioe' almeno 1004 auto); uno vuoto, su una strada con poche.
   CAIO MARIO             418 posti  stato libero       il valore non cambia (1%): forse il contatore è fermo; auto sulla strada piu' trafficata entro 300 m ~3900 -> non si può dire: il contatore sembra fermo
   FERMI                  300 posti  stato non_misurato non trasmette; auto sulla strada piu' trafficata entro 300 m ~1000 -> non si può dire: non trasmette il riempimento
-  SOFIA                  272 posti  stato libero       è più pieno di notte che di giorno: 54% di notte, 32% di giorno; auto sulla strada piu' trafficata entro 300 m ~3100 -> da capire: accanto passano molte auto in entrata ma è poco usato (prezzo? posizione? collegamento?)
+  SOFIA                  272 posti  stato libero       è più pieno di notte che di giorno: 52% di notte, 31% di giorno; auto sulla strada piu' trafficata entro 300 m ~3100 -> da capire: accanto passano molte auto in entrata ma è poco usato (prezzo? posizione? collegamento?)
   STURA                  589 posti  stato pieno        sempre quasi pieno: 80% di notte, 91% di giorno; auto sulla strada piu' trafficata entro 300 m ~7600 -> coerente: pieno, su una strada con molte auto in entrata
-  VENCHI UNICA           437 posti  stato a_meta       sempre intorno al 52%; auto sulla strada piu' trafficata entro 300 m ~7100 -> non si può dire: riempimento a metà
+  VENCHI UNICA           437 posti  stato a_meta       sempre intorno al 55%; auto sulla strada piu' trafficata entro 300 m ~7100 -> non si può dire: riempimento a metà
 
 == Controllo a posteriori con le osservazioni di Leo (NON entra nei dati mostrati) ==
   Fermi (capolinea metro, Collegno): sempre pieno; i parcheggi gratuiti intorno si riempiono soprattutto al mattino (Leo, 20/10/2026) | adatti nel raggio 11 (1520 posti), gratuiti 7 (1112 posti) -> non può confermare: nessun parcheggio adatto nel raggio trasmette il riempimento

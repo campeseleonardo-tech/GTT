@@ -1,5 +1,5 @@
 RAPPORTO R6: IL BUS CONTRO L'AUTO VERSO PIAZZA CASTELLO (Risultato 6, parte C, STIMATO)
-generato: 2026-10-21T23:03:56
+generato: 2026-10-22T13:54:27
 
 Mezzi pubblici: r5py, giorno 2026-10-12, partenza 7:45-8:15, mediana, cammino a 4.8 km/h.
 Auto: flusso libero x fattore di punta + 5 minuti. Fattori dello script 93: basso 2.1 (Google Maps), alto 1.2 (sensori 5T).
