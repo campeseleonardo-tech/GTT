@@ -1,0 +1,344 @@
+#!/usr/bin/env python3
+"""
+96_inventario_dati.py  -  inventario dei dati: ogni file di data/, chi lo legge, chi lo scrive, dove dovrebbe stare.
+
+SOLA LETTURA: non modifica, non sposta e non cancella nessun dato. Scrive solo docs/DATI.md (la parte fra i due
+segnaposto <!-- INVENTARIO:INIZIO --> e <!-- INVENTARIO:FINE -->; il resto del file, per esempio le decisioni di Leo, resta com'e').
+
+Cosa fa
+-------
+  1. Elenca ogni file sotto data/ con il peso.
+  2. Cerca il nome del file (e, se non basta, il nome delle cartelle che lo contengono e il nome senza estensione)
+     nel codice: scripts/*.py, .bat, .ps1, .sh, scripts/prove, scripts/mappa_template.html e le pagine
+     (index.html, risultati.html, mappa_torino.html). Dice quali script lo LEGGONO e quali lo SCRIVONO
+     (euristica sulle righe vicine: write_text, open(...,"w"), to_csv, dump, savefig, scp, copy, >).
+     Una cartella citata dallo script (per es. un glob) vale per tutti i file che contiene: «via cartella».
+  3. Propone un posto (e' solo una PROPOSTA: decide Leo, piano 2 passo 3):
+       riassunto  lo storico (SQLite della raccolta): si tengono solo i riassunti (script 97)
+       Release    data/raw/ e, fuori da raw, i file da 5 MB in su che qualcuno legge (zip nella Release di GitHub)
+       git        file sotto 5 MB letti da una pagina o da uno script, o scritti da uno script dei risultati
+                  (sopra 5 MB solo se una pagina li carica; sopra 50 MB sempre Release: AVVISO)
+       fuori      nessuno script e nessuna pagina lo cita: probabilmente avanzo (non si pubblica)
+     «Script dei risultati» = numeri 21-29 e 33-95 piu' schede_risultati.py; «script dei dati» = 01-20 e 30-32.
+  4. Scrive docs/DATI.md: totali per posto, tabella per cartella, tabella per file (le cartelle con piu' di 30
+     file, come data/raw/, sono raccolte in una riga) e stampa i totali.
+
+Come si lancia
+--------------
+  python scripts/96_inventario_dati.py                  sui dati veri (serve data/)
+  python scripts/96_inventario_dati.py --prova          cartella data/ finta (file vuoti con i pesi veri): per provarlo nel cloud;
+                                                        scrive DATI_prova.md nella cartella finta, non docs/DATI.md
+  opzioni: --data CARTELLA  --uscita FILE
+"""
+import argparse
+import os
+import re
+import sys
+import tempfile
+from datetime import datetime
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import comuni  # noqa: E402
+
+RADICE = comuni.RADICE
+SOGLIA_GIT = 5 * 1024 * 1024
+SOGLIA_MAX = 50 * 1024 * 1024
+RAGGRUPPA_SOPRA = 30          # cartelle con piu' file di cosi' = una riga sola
+CARTELLE_GENERICHE = {"data", "raw", "processed"}
+INIZIO, FINE = "<!-- INVENTARIO:INIZIO -->", "<!-- INVENTARIO:FINE -->"
+PAGINE = ["index.html", "risultati.html", "mappa_torino.html"]
+EST_CODICE = {".py", ".bat", ".ps1", ".sh"}
+SCRIVE_PY = re.compile(r"write_text|write_bytes|\.write\(|open\([^)]*[\"'][wax]b?\+?[\"']|to_csv|to_json|to_excel|json\.dump\(|"
+                       r"pickle\.dump|savefig|\.save\(|shutil\.(copy|move)|np\.save|writelines|urlretrieve|extractall|"
+                       r"\.to_parquet|rename\(")
+SCRIVE_BAT = re.compile(r">|\bcopy\b|\bmove\b|\bscp\b|\bxcopy\b|Out-File|Set-Content|curl|Invoke-WebRequest|wget", re.I)
+
+
+def numero_script(nome):
+    m = re.match(r"(\d+)", nome)
+    return int(m.group(1)) if m else None
+
+
+def tipo_script(nome):
+    """'risultati', 'dati' o 'altro' (strumenti, comuni, supervisore, pagine...)."""
+    n = numero_script(nome)
+    if nome == "schede_risultati.py" or (n is not None and (21 <= n <= 29 or 33 <= n <= 95)):
+        return "risultati"
+    if n is not None and (1 <= n <= 20 or 30 <= n <= 32):
+        return "dati"
+    return "altro"
+
+
+def carica_codice(radice, escludi):
+    """{percorso relativo: righe} per scripts/ (anche prove/) e le pagine."""
+    corpus = {}
+    cartelle = [radice / "scripts", radice / "scripts" / "prove"]
+    for c in cartelle:
+        if not c.is_dir():
+            continue
+        for p in sorted(c.iterdir()):
+            if p.is_file() and (p.suffix in EST_CODICE or p.name == "mappa_template.html") and p.name != escludi:
+                corpus[p.relative_to(radice).as_posix()] = p.read_text(encoding="utf-8", errors="replace").splitlines()
+    for nome in PAGINE:
+        p = radice / nome
+        if p.exists():
+            corpus[nome] = p.read_text(encoding="utf-8", errors="replace").splitlines()
+    return corpus
+
+
+def e_scrittura(percorso, righe, indici):
+    """True se nelle righe dove compare il nome (o nella variabile a cui e' assegnato) si scrive."""
+    scrive = SCRIVE_BAT if Path(percorso).suffix in (".bat", ".ps1", ".sh") else SCRIVE_PY
+    for i in indici:
+        riga = righe[i]
+        if scrive.search(riga):
+            return True
+        m = re.match(r"\s*([A-Za-z_]\w*)\s*=", riga)
+        if m and Path(percorso).suffix == ".py":
+            var = re.escape(m.group(1))
+            rx_var = re.compile(rf"\b{var}\b")
+            for j, r in enumerate(righe):
+                if j != i and rx_var.search(r) and scrive.search(r):
+                    return True
+    return False
+
+
+class Indice:
+    """Cerca le chiavi (nomi) nel codice una volta sola, con cache."""
+
+    def __init__(self, corpus):
+        self.corpus = corpus
+        self.testi = {p: "\n".join(r) for p, r in corpus.items()}
+        self.cache = {}
+
+    def cerca(self, chiave):
+        if chiave in self.cache:
+            return self.cache[chiave]
+        legge, scrive = set(), set()
+        for p, testo in self.testi.items():
+            if chiave not in testo:
+                continue
+            righe = self.corpus[p]
+            indici = [i for i, r in enumerate(righe) if chiave in r]
+            if p in PAGINE or p.endswith("mappa_template.html"):
+                legge.add(p)
+            elif e_scrittura(p, righe, indici):
+                scrive.add(p)
+                # uno script che scrive un file puo' anche rileggerlo: lo diciamo solo se ci sono righe senza scrittura
+                if any(not e_scrittura(p, righe, [i]) and not re.match(r"\s*([A-Za-z_]\w*)\s*=", righe[i]) for i in indici):
+                    legge.add(p)
+            else:
+                legge.add(p)
+        self.cache[chiave] = (legge, scrive)
+        return self.cache[chiave]
+
+    def usi_file(self, rel_data):
+        """(legge, scrive, come) per un file con percorso relativo a data/."""
+        parti = Path(rel_data).parts
+        nome = parti[-1]
+        legge, scrive = self.cerca(nome)
+        if legge or scrive:
+            return legge, scrive, "nome"
+        chiavi = [d for d in parti[:-1] if d not in CARTELLE_GENERICHE and len(d) >= 4]
+        stem = Path(nome).stem
+        if len(stem) >= 8:
+            chiavi.append(stem)
+        for k in reversed(chiavi):     # la cartella piu' interna prima
+            legge, scrive = self.cerca(k)
+            if legge or scrive:
+                return legge, scrive, "via " + ("cartella" if k in parti[:-1] else "nome senza estensione")
+        return set(), set(), ""
+
+
+def posto(rel_data, peso, legge, scrive):
+    """(posto, nota) secondo le regole in testa al file."""
+    nome = rel_data.lower()
+    parti = Path(rel_data).parts
+    if nome.endswith((".sqlite", ".sqlite3", ".db", "-wal", "-shm")):
+        return "riassunto", "storico della raccolta: si tengono i riassunti (script 97)"
+    if parti[0] == "raw":
+        return "Release", "dato grezzo (controllare la licenza in docs/FONTI_DATI.md)"
+    da_pagine = any(p in PAGINE or p.endswith("mappa_template.html") for p in legge)
+    da_script = any(not (p in PAGINE or p.endswith("mappa_template.html")) for p in legge)
+    da_risultati = any(tipo_script(Path(p).name) == "risultati" for p in scrive)
+    if peso >= SOGLIA_MAX:
+        return "Release", "oltre 50 MB: troppo grande per git" if (legge or scrive) else "oltre 50 MB e nessuno lo cita"
+    if not legge and not scrive:
+        return "fuori", "nessuno script e nessuna pagina lo cita: avanzo?"
+    if peso < SOGLIA_GIT and (da_pagine or da_script or da_risultati):
+        return "git", ""
+    if da_pagine:
+        return "git", "sopra 5 MB ma caricato da una pagina"
+    if da_risultati and not da_script:
+        return "git", "sopra 5 MB, scritto da uno script dei risultati"
+    return "Release", "sopra 5 MB, letto solo dagli script"
+
+
+def mb(x):
+    return f"{x / 1048576:,.1f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+
+def breve(insieme, n=4):
+    nomi = sorted(Path(p).name for p in insieme)
+    return ", ".join(nomi[:n]) + (f" (+{len(nomi) - n})" if len(nomi) > n else "") if nomi else "—"
+
+
+def scansiona(data):
+    out = []
+    for dirpath, _, files in os.walk(data):
+        for f in files:
+            p = Path(dirpath) / f
+            try:
+                out.append((p.relative_to(data).as_posix(), p.stat().st_size))
+            except OSError:
+                pass
+    return sorted(out)
+
+
+def inventario(data, corpus):
+    idx = Indice(corpus)
+    righe = []
+    for rel, peso in scansiona(data):
+        legge, scrive, come = idx.usi_file(rel)
+        pz, nota = posto(rel, peso, legge, scrive)
+        righe.append({"rel": rel, "peso": peso, "legge": legge, "scrive": scrive, "come": come, "posto": pz, "nota": nota})
+    return righe
+
+
+def cartella_di(rel, profondita=2):
+    parti = Path(rel).parts[:-1]
+    return "/".join(parti[:profondita]) if parti else "(radice di data)"
+
+
+def testo_md(righe, data_txt):
+    tot = {}
+    for r in righe:
+        t = tot.setdefault(r["posto"], [0, 0])
+        t[0] += 1
+        t[1] += r["peso"]
+    ordine = ["git", "Release", "riassunto", "fuori"]
+    L = [INIZIO, "",
+         f"*Inventario scritto da `scripts/96_inventario_dati.py` il {datetime.now():%d/%m/%Y} sulla cartella {data_txt}. Le proposte sono automatiche (regole in testa allo script): "
+         "decide Leo, fonte per fonte (piano 2, passo 3).*", "",
+         "### Totali per posto", "", "| Posto | File | Peso (MB) | Cosa vuol dire |", "|---|---|---|---|"]
+    spiegazione = {"git": "dentro il repository", "Release": "zip nella Release di GitHub", "riassunto": "dello storico si tengono solo i riassunti (script 97)",
+                   "fuori": "nessuno lo cita: non si pubblica"}
+    for p in ordine:
+        n, s = tot.get(p, [0, 0])
+        L.append(f"| {p} | {n} | {mb(s)} | {spiegazione[p]} |")
+    L.append(f"| **tutto** | {len(righe)} | {mb(sum(r['peso'] for r in righe))} | |")
+    grossi = [r for r in righe if r["posto"] == "git" and r["peso"] >= SOGLIA_MAX]
+    L += ["", f"Avvisi: file in «git» sopra 50 MB: {len(grossi)}.", ""]
+
+    gruppi = {}
+    for r in righe:
+        gruppi.setdefault(cartella_di(r["rel"]), []).append(r)
+    L += ["### Per cartella", "", "| Cartella | File | Peso (MB) | git | Release | riassunto | fuori | Deciso |", "|---|---|---|---|---|---|---|---|"]
+    for c, rs in sorted(gruppi.items()):
+        per = {p: sum(1 for r in rs if r["posto"] == p) for p in ordine}
+        L.append(f"| `data/{c}` | {len(rs)} | {mb(sum(r['peso'] for r in rs))} | {per['git']} | {per['Release']} | {per['riassunto']} | {per['fuori']} | |")
+    L += ["", "### Per file", "",
+          f"Le cartelle con più di {RAGGRUPPA_SOPRA} file sono in una riga sola (elenco completo: rilanciare lo script e guardare `--data`).", ""]
+    for c, rs in sorted(gruppi.items()):
+        L += [f"#### `data/{c}`", ""]
+        if len(rs) > RAGGRUPPA_SOPRA:
+            leg = set().union(*[r["legge"] for r in rs])
+            scr = set().union(*[r["scrive"] for r in rs])
+            posti = ", ".join(f"{p}: {sum(1 for r in rs if r['posto'] == p)}" for p in ordine if any(r["posto"] == p for r in rs))
+            L += [f"{len(rs)} file, {mb(sum(r['peso'] for r in rs))} MB ({posti}). Letti da: {breve(leg, 6)}. Scritti da: {breve(scr, 6)}.", ""]
+            continue
+        L += ["| File | MB | Legge | Scrive | Posto | Nota |", "|---|---|---|---|---|---|"]
+        for r in rs:
+            nota = "; ".join(x for x in [r["nota"], r["come"]] if x)
+            L.append(f"| `{Path(r['rel']).name}` | {mb(r['peso'])} | {breve(r['legge'])} | {breve(r['scrive'])} | {r['posto']} | {nota} |")
+        L.append("")
+    L.append(FINE)
+    return "\n".join(L) + "\n", tot
+
+
+def scrivi_doc(percorso, blocco):
+    if percorso.exists():
+        t = percorso.read_text(encoding="utf-8")
+        if INIZIO in t and FINE in t:
+            a, b = t.index(INIZIO), t.index(FINE) + len(FINE)
+            percorso.write_text(t[:a] + blocco.rstrip("\n") + t[b:], encoding="utf-8")
+            return
+        sep = "\n\n"
+        percorso.write_text(t.rstrip("\n") + sep + blocco, encoding="utf-8")
+        return
+    testa = ("# Dati del progetto\n\nDove deve stare ogni file di `data/`: in git, nella Release di GitHub, come riassunto o fuori. "
+             "La parte fra i segnaposto la riscrive `scripts/96_inventario_dati.py`; sotto, nella sezione «Decisioni di Leo», si scrivono le decisioni "
+             "(non viene toccata).\n\n")
+    coda = "\n## Decisioni di Leo\n\n(da compilare: fonte per fonte, git / Release / fonte; piano 2, passo 3)\n"
+    percorso.write_text(testa + blocco + coda, encoding="utf-8")
+
+
+def crea_dati_finti(cartella):
+    """data/ finta: file con il peso vero (sparsi, non occupano disco) e i nomi che le pagine e gli script usano davvero."""
+    voci = [
+        ("storico_backup.sqlite", 2_100_000_000), ("raw/omi_2025_2/OMI_Torino_valori.csv", 18_000_000),
+        ("raw/omi_2025_2/TO20252/Torino.kml", 900_000), ("raw/IMQ2022_opendata_web/spostamenti.csv", 140_000_000),
+        ("raw/gtfs_gtt/gtt_gtfs.zip", 55_000_000), ("otp/rete/torino_cintura.osm.pbf", 120_000_000),
+        ("processed/orari_fermate.js", 3_200_000), ("processed/accessibilita.json", 31_000_000),
+        ("processed/risultato6_v2/mappa_r6.json", 1_100_000), ("processed/case_fragilita_servizi.json", 600_000),
+        ("processed/avanzo_di_prova.json", 12_000), ("schede_risultati.js", 150_000), ("catalogo/istruzione.js", 800_000),
+        ("catalogo/salute.js", 400_000), ("ref/parcheggi_osservazioni.json", 9_000), ("scenari/metro_notte.json", 70_000),
+    ]
+    for rel, peso in voci:
+        p = cartella / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        with open(p, "wb") as f:
+            f.truncate(peso)
+    # una cartella con tanti file (come data/raw/omi): per provare la riga unica
+    for i in range(35):
+        with open(cartella / "raw" / "omi_2025_2" / "TO20252" / f"comune_{i:03d}.kml", "wb") as f:
+            f.truncate(50_000)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--data", default=None, help="cartella dei dati (default: data/ del progetto)")
+    ap.add_argument("--uscita", default=None, help="file da scrivere (default: docs/DATI.md)")
+    ap.add_argument("--prova", action="store_true", help="usa una cartella data/ finta in una cartella temporanea")
+    args = ap.parse_args()
+    sys.stdout.reconfigure(encoding="utf-8")
+    c = comuni.Controlli()
+    if args.prova:
+        tmp = Path(tempfile.mkdtemp(prefix="inventario_prova_"))
+        data = tmp / "data"
+        data.mkdir()
+        crea_dati_finti(data)
+        uscita = Path(args.uscita) if args.uscita else tmp / "DATI_prova.md"
+        data_txt = f"FINTA ({data})"
+    else:
+        data = Path(args.data) if args.data else RADICE / "data"
+        uscita = Path(args.uscita) if args.uscita else RADICE / "docs" / "DATI.md"
+        data_txt = "`data/`"
+    if not data.is_dir():
+        sys.exit(f"ERRORE: non trovo la cartella dei dati {data}. Sul PC lancia lo script dalla cartella del progetto; nel cloud usa --prova.")
+    corpus = carica_codice(RADICE, Path(__file__).name)
+    c(f"codice letto: {len(corpus)} file (script, .bat, pagine)", len(corpus) > 20, bloccante=True)
+    righe = inventario(data, corpus)
+    c("trovato almeno un file in data/", len(righe) > 0, bloccante=True)
+    c("nessun peso negativo", all(r["peso"] >= 0 for r in righe), bloccante=True)
+    md, tot = testo_md(righe, data_txt)
+    c("i posti sommano a tutti i file", sum(v[0] for v in tot.values()) == len(righe), bloccante=True)
+    grossi = [r["rel"] for r in righe if r["posto"] == "git" and r["peso"] >= SOGLIA_MAX]
+    c("nessun file proposto per git sopra 50 MB", not grossi, dettaglio=", ".join(grossi[:3]))
+    sconosciuti = [r["rel"] for r in righe if r["posto"] == "fuori"]
+    c(f"file che nessuno cita: {len(sconosciuti)} (da guardare in «fuori»)", True)
+    uscita.parent.mkdir(parents=True, exist_ok=True)
+    scrivi_doc(uscita, md)
+    print(f"\nScritto: {uscita}")
+    print(f"\n{'posto':10s} {'file':>8s} {'MB':>12s}")
+    for p in ("git", "Release", "riassunto", "fuori"):
+        n, s = tot.get(p, [0, 0])
+        print(f"{p:10s} {n:8d} {mb(s):>12s}")
+    print(f"{'tutto':10s} {len(righe):8d} {mb(sum(r['peso'] for r in righe)):>12s}")
+    print(f"avvisi: {len(c.avvisi())}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
