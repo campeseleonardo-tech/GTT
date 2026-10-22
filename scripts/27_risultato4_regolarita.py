@@ -29,7 +29,9 @@ D9 fasce: punta_mattina 7-9, giorno 9-16, punta_sera 16-19, sera 19-24, notte 0-
 Input (sola lettura)
 --------------------
 data/storico_backup.sqlite  -> tabella trip_update_gtt (letto_utc, trip_id, start_date,
-                               payload JSON con stu[].arr.delay o stu[].arr.time);
+                               payload JSON con stu[].arr.delay o stu[].arr.time) e mezzi_gtt (GPS).
+                               Se lo storico non c'e' (o con --riassunti) si leggono i riassunti
+                               data/storico_riassunti/passaggi_AAAA-MM.zip scritti dallo script 97: stessi numeri;
 data/raw/gtt_gtfs_20261003_224530.zip -> trips.txt, routes.txt, stop_times.txt.
 
 Output
@@ -39,8 +41,9 @@ docs/rapporti/RAPPORTO_RISULTATO4.txt
 
 Uso
 ---
-python scripts/27_risultato4_regolarita.py [--prova] [--fonte gps|feed]
+python scripts/27_risultato4_regolarita.py [--prova] [--fonte gps|feed] [--riassunti]
 --prova = solo start_date 20261013, rapporto a schermo, nessun file scritto.
+--riassunti = legge i riassunti dello storico (script 97) anche se lo storico c'e'.
 --fonte = da dove vengono gli arrivi: gps (predefinita dal 21/10, Giro 5) oppure feed (calcolo di prima, D1-D3).
 Con gps le regole D1-D3 valgono solo per il confronto col feed; D4-D9 restano.
 
@@ -68,6 +71,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import comuni  # noqa: E402  (haversine_m per la lunghezza delle corse)
+import riassunti_storico as rs  # noqa: E402  (sorgente alternativa: i riassunti dello storico, script 97)
 
 RADICE = Path(__file__).resolve().parent.parent
 DB = RADICE / "data" / "storico_backup.sqlite"
@@ -283,21 +287,14 @@ def passaggi_corsa(punti, fermate_corsa, sched_base, fermate):
     return out
 
 
-def giorni_gps_validi(con, giorni, trip_info):
+def giorni_gps_validi(sorg, giorni, trip_info):
     """Giro 6. Tiene i giorni con abbastanza GPS: corse viste (stessa finestra e stessa regola di costruisci_passaggi_gps:
     corsa nel GTFS, almeno 2 posizioni) almeno MIN_QUOTA_GIORNO_GPS volte la mediana dei giorni dello stesso tipo
     (feriale, sabato, domenica). Ritorna (giorni validi in ordine, esclusi = [{"giorno", "corse_viste", "mediana_tipo"}])."""
     viste, tipo = {}, {}
     for giorno in giorni:
         data = datetime.strptime(giorno, "%Y%m%d").date()
-        mezz = datetime(data.year, data.month, data.day, tzinfo=timezone.utc) - timedelta(hours=offset_data_locale(data))
-        n = 0
-        for (corsa,) in con.execute(
-                "SELECT corsa FROM mezzi_gtt WHERE letto_utc BETWEEN ? AND ? AND corsa <> '' AND ts_feed AND lat AND lng "
-                "GROUP BY corsa HAVING COUNT(DISTINCT ts_feed || '|' || lat || '|' || lng) >= 2",
-                ((mezz + timedelta(hours=2)).isoformat(), (mezz + timedelta(hours=26)).isoformat())):
-            n += corsa in trip_info
-        viste[giorno] = n
+        viste[giorno] = sorg.corse_viste(giorno, trip_info)
         tipo[giorno] = tipo_giorno_data(data)
     validi, esclusi = [], []
     for giorno in giorni:
@@ -528,6 +525,83 @@ def regolarita(passaggi, tipo):
     return coppie, per_linea, esempio
 
 
+# ---------- sorgenti dei dati: database dello storico oppure riassunti (script 97) ----------
+
+def mezzanotte_utc(giorno):
+    d = datetime.strptime(giorno, "%Y%m%d").date()
+    return datetime(d.year, d.month, d.day, tzinfo=timezone.utc) - timedelta(hours=offset_data_locale(d))
+
+
+class SorgenteDb:
+    """Legge lo storico SQLite (sola lettura). Metodi comuni con rs.SorgenteRiassunti.
+    ctx = (trip_info, nome_linea, prog) del GTFS."""
+    nome = "storico SQLite"
+
+    def __init__(self, percorso):
+        self.con = sqlite3.connect(f"file:{percorso}?mode=ro", uri=True, timeout=60)
+
+    def giorni(self):
+        return [r[0] for r in self.con.execute("SELECT DISTINCT start_date FROM trip_update_gtt ORDER BY 1")]
+
+    def corse_viste(self, giorno, trip_info):
+        mezz = mezzanotte_utc(giorno)
+        n = 0
+        for (corsa,) in self.con.execute(
+                "SELECT corsa FROM mezzi_gtt WHERE letto_utc BETWEEN ? AND ? AND corsa <> '' AND ts_feed AND lat AND lng "
+                "GROUP BY corsa HAVING COUNT(DISTINCT ts_feed || '|' || lat || '|' || lng) >= 2",
+                ((mezz + timedelta(hours=2)).isoformat(), (mezz + timedelta(hours=26)).isoformat())):
+            n += corsa in trip_info
+        return n
+
+    def passaggi_feed(self, giorno, ctx):
+        """(passaggi, scarti, tipo, esempi, letture usate)"""
+        ultimo = leggi_giorno(self.con, giorno)
+        passaggi, sc, tipo, es = costruisci_passaggi(ultimo, giorno, *ctx)
+        return passaggi, sc, tipo, es, len(ultimo)
+
+    def passaggi_gps(self, giorno, ctx, fermate):
+        return costruisci_passaggi_gps(self.con, giorno, *ctx, fermate)
+
+    def corse_gps(self, giorno):
+        mezz = mezzanotte_utc(giorno)
+        da, a = (mezz + timedelta(hours=2)).isoformat(), (mezz + timedelta(hours=26)).isoformat()
+        return {r[0] for r in self.con.execute("SELECT DISTINCT corsa FROM mezzi_gtt WHERE letto_utc BETWEEN ? AND ?", (da, a))}
+
+    def ore_attive(self, giorno, min_minuti):
+        """Inizio (timestamp UTC) delle ore in cui la raccolta ha letto almeno min_minuti minuti."""
+        return {h for h, n in self.ore_minuti(giorno).items() if n >= min_minuti}
+
+    def ore_minuti(self, giorno):
+        """{inizio dell'ora (timestamp UTC): minuti distinti con almeno una lettura del feed dei ritardi}"""
+        mezz = mezzanotte_utc(giorno)
+        da, a = (mezz + timedelta(hours=2)).isoformat(), (mezz + timedelta(hours=26)).isoformat()
+        per_ora = defaultdict(int)
+        for (minuto,) in self.con.execute("SELECT DISTINCT substr(letto_utc,1,16) FROM trip_update_gtt "
+                                          "WHERE letto_utc BETWEEN ? AND ?", (da, a)):
+            t = datetime.fromisoformat(minuto + ":00+00:00")
+            per_ora[int(t.timestamp()) // 3600 * 3600] += 1
+        return dict(per_ora)
+
+    def chiudi(self):
+        self.con.close()
+
+
+def fascia_da_ts(ts):
+    """Fascia oraria (D9) di un istante programmato dato in secondi UTC."""
+    return fascia_oraria(a_roma(datetime.fromtimestamp(ts, timezone.utc)).hour)
+
+
+def apri_sorgente(forza_riassunti=False):
+    """Lo storico se c'e' (e non si forza), altrimenti i riassunti dello script 97."""
+    if not forza_riassunti and DB.exists():
+        return SorgenteDb(DB)
+    sorg = rs.SorgenteRiassunti(fascia=fascia_da_ts)
+    if not sorg.giorni():
+        raise SystemExit(f"Manca lo storico ({DB}) e non ci sono riassunti in {rs.CARTELLA}: "
+                         f"lancia scripts/97_riassunti_storico.py (o scarica i dati con scripts/scarica_dati.py).")
+    return sorg
+
+
 # ---------- main ----------
 
 def main():
@@ -540,22 +614,24 @@ def main():
         if fonte not in ("gps", "feed"):
             raise SystemExit("--fonte vuole gps oppure feed")
     gps = fonte == "gps"
+    forza_riassunti = "--riassunti" in sys.argv[1:]
 
     print("Carico il GTFS...", file=sys.stderr)
     trip_info, nome_linea, prog, modo_linea, ultima_seq, km_corsa = carica_gtfs()
     fermate = carica_fermate() if gps else {}
     print(f"GTFS: {len(trip_info)} corse, {len(prog)} fermate di corsa", file=sys.stderr)
 
-    con = sqlite3.connect(f"file:{DB}?mode=ro", uri=True, timeout=60)
-    giorni = [r[0] for r in con.execute(
-        "SELECT DISTINCT start_date FROM trip_update_gtt ORDER BY 1")]
+    sorg = apri_sorgente(forza_riassunti)
+    print(f"Sorgente dei dati: {sorg.nome}", file=sys.stderr)
+    ctx = (trip_info, nome_linea, prog)
+    giorni = sorg.giorni()
     if prova:
         giorni = [g for g in giorni if g == GIORNO_PROVA]
         if not giorni:
             raise SystemExit(f"Nessuna riga per {GIORNO_PROVA}")
     esclusi_gps = []
     if gps and not prova:
-        giorni, esclusi_gps = giorni_gps_validi(con, giorni, trip_info)
+        giorni, esclusi_gps = giorni_gps_validi(sorg, giorni, trip_info)
         for e in esclusi_gps:
             print(f"Giorno escluso (poco GPS): {e['giorno']}, {e['corse_viste']} corse viste, mediana del tipo {e['mediana_tipo']}",
                   file=sys.stderr)
@@ -597,10 +673,8 @@ def main():
 
     for n, giorno in enumerate(giorni, 1):
         print(f"[{n}/{len(giorni)}] giorno {giorno}...", file=sys.stderr)
-        ultimo = leggi_giorno(con, giorno)
-        letti_totali += len(ultimo)
-        passaggi, sc, tipo, es = costruisci_passaggi(ultimo, giorno, trip_info, nome_linea, prog)
-        del ultimo
+        passaggi, sc, tipo, es, n_letti = sorg.passaggi_feed(giorno, ctx)
+        letti_totali += n_letti
         l = lontane.setdefault(tipo, [0, 0])
         l[0] += sc[1]
         l[1] += sc[2]
@@ -621,7 +695,7 @@ def main():
                 for i in range(4):
                     r[i] += t[i]
             del passaggi
-            passaggi, cop = costruisci_passaggi_gps(con, giorno, trip_info, nome_linea, prog, fermate)
+            passaggi, cop = sorg.passaggi_gps(giorno, ctx, fermate)
             cop_giorno[giorno] = cop
             for k, v in cop.items():
                 cop_tot[k] += v
@@ -694,7 +768,7 @@ def main():
         if es_grappolo is None and es is not None:
             es_grappolo = es
         del passaggi
-    con.close()
+    sorg.chiudi()
 
     # ---------- output JSON ----------
     per = {"da": da_gttfs(giorni[0]), "a": da_gttfs(giorni[-1])}

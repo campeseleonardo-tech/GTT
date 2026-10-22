@@ -23,7 +23,9 @@ NOVITA' DEL GIRO 2 (19/10/2026)
 
 Cosa legge
 ----------
-  data/storico_backup.sqlite (sola lettura): tabelle parcheggi_5t e occupazione_pk
+  data/storico_backup.sqlite (sola lettura): tabelle parcheggi_5t e occupazione_pk;
+  se lo storico non c'e' (o con --riassunti) i riassunti dello script 97 (data/storico_riassunti/parcheggi_*.json.gz):
+  stessi numeri
 
 Cosa scrive
 -----------
@@ -43,6 +45,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
+sys.path.insert(0, str(AQUI))
+import riassunti_storico as rs  # noqa: E402  (riassunti dello storico, script 97)
 
 
 def trova_radice():
@@ -90,15 +94,21 @@ def ora_locale(dt_utc):
     return dt_utc + timedelta(hours=2 if inizio <= dt_utc < fine else 1)
 
 
-def leggi_database():
-    c = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
-    try:
-        parcheggi = c.execute("select id, nome, lat, lng, totale from parcheggi_5t").fetchall()
-        letture = c.execute(
-            "select generato_utc, id, stato, totale, liberi from occupazione_pk").fetchall()
-    finally:
-        c.close()
-    return parcheggi, letture
+def leggi_riassunti(forza_riassunti):
+    """(parcheggi [[id, nome, lat, lng, totale]], giorni {data: {celle, scartate, righe}}, sorgente).
+    Dallo storico si riassume al volo con la stessa funzione dello script 97; senza storico si leggono i riassunti."""
+    if DB.exists() and not forza_riassunti:
+        c = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
+        try:
+            parcheggi = [list(x) for x in c.execute("select id, nome, lat, lng, totale from parcheggi_5t").fetchall()]
+            giorni = rs.riassumi_parcheggi(c, {x[0]: x[4] for x in parcheggi})
+        finally:
+            c.close()
+        return parcheggi, giorni, "storico SQLite"
+    if not rs.esiste_parcheggi():
+        sys.exit(f"Manca lo storico ({DB}) e non ci sono riassunti dei parcheggi in {rs.CARTELLA}: "
+                 "lancia scripts/97_riassunti_storico.py (o scarica i dati con scripts/scarica_dati.py).")
+    return rs.carica_anagrafica()["parcheggi"], rs.carica_parcheggi(), "riassunti dello storico (script 97)"
 
 
 def firma_da(N, G, M, W, ampiezza, ha_weekend, ha_letture, giorni_feriali_validi,
@@ -148,6 +158,8 @@ def main():
                     help=f"G minimo per 'pieno' (default {SOGLIA_PIENO})")
     ap.add_argument("--soglia-vuoto", type=float, default=SOGLIA_VUOTO,
                     help=f"G massimo per 'vuoto' (default {SOGLIA_VUOTO})")
+    ap.add_argument("--riassunti", action="store_true",
+                    help="legge i riassunti dello storico (script 97) anche se lo storico c'e'")
     args = ap.parse_args()
     SOGLIA_BLOCCATO = args.soglia_bloccato
     SOGLIA_PENDOLARE = args.soglia_pendolare
@@ -156,53 +168,49 @@ def main():
     SOGLIA_PIENO = args.soglia_pieno
     SOGLIA_VUOTO = args.soglia_vuoto
 
-    if not DB.exists():
-        sys.exit(f"Manca: {DB}")
-    parcheggi, letture = leggi_database()
-    print(f"parcheggi 5T nel database: {len(parcheggi)}; righe di occupazione: {len(letture)}")
+    parcheggi, giorni_dati, sorgente = leggi_riassunti(args.riassunti)
+    n_righe = sum(g["righe"] for g in giorni_dati.values())
+    print(f"sorgente: {sorgente}; parcheggi 5T: {len(parcheggi)}; righe di occupazione: {n_righe}")
 
     dati = {}
     for pid, nome, lat, lng, totale in parcheggi:
         dati[pid] = {"id_5t": pid, "nome": nome, "lat": lat, "lon": lng,
-                     "totale_db": totale, "letture": [], "azioni": 0}
-    scartate = 0
-    for generato, pid, stato, totale, liberi in letture:
-        if pid not in dati:
-            continue
-        if stato != 1 or liberi is None:
-            scartate += 1
-            continue
-        tot = totale or dati[pid]["totale_db"]
-        if not tot:
-            scartate += 1
-            continue
-        dt = datetime.strptime(generato[:19], "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
-        loc = ora_locale(dt)
-        occ = max(0.0, min(1.0, 1.0 - liberi / tot))
-        dati[pid]["letture"].append((loc, occ))
+                     "totale_db": totale, "giorni": {}, "n_letture": 0}
+    scartate = sum(g["scartate"] for g in giorni_dati.values())
+    for giorno_txt, g in giorni_dati.items():
+        giorno = datetime.strptime(giorno_txt, "%Y-%m-%d").date()
+        for pid, ore in g["celle"].items():
+            if pid in dati:
+                dati[pid]["giorni"][giorno] = {int(h): c for h, c in ore.items()}   # ora -> [letture, somma occupazione]
+                dati[pid]["n_letture"] += sum(c[0] for c in ore.values())
     print(f"letture scartate (stato 0 o liberi nulli): {scartate}")
 
     risultati = []
     for pid, d in dati.items():
-        letture_pk = d["letture"]
-        per_giorno = {}
-        for loc, occ in letture_pk:
-            per_giorno.setdefault(loc.date(), []).append((loc.hour, occ))
-        giorni_validi = sorted(g for g, v in per_giorno.items() if len(v) >= LETTURE_MINIME_GIORNO)
+        per_giorno = d["giorni"]     # data -> {ora: [letture, somma dell'occupazione]}
+        giorni_validi = sorted(g for g, ore in per_giorno.items()
+                               if sum(c[0] for c in ore.values()) >= LETTURE_MINIME_GIORNO)
 
         def media_ore(ore, weekend):
-            vals = [occ for g in giorni_validi
-                    for h, occ in per_giorno[g]
-                    if h in ore and ((g.weekday() >= 5) == weekend)]
-            return sum(vals) / len(vals) if vals else None
+            n = s = 0
+            for g in giorni_validi:
+                if (g.weekday() >= 5) == weekend:
+                    for h in ore:
+                        if h in per_giorno[g]:
+                            n += per_giorno[g][h][0]
+                            s += per_giorno[g][h][1]
+            return s / n if n else None
 
         def profilo(weekend):
             prof = {}
             for h in range(24):
-                vals = [occ for g in giorni_validi for hh, occ in per_giorno[g]
-                        if hh == h and ((g.weekday() >= 5) == weekend)]
-                if vals:
-                    prof[h] = sum(vals) / len(vals)
+                n = s = 0
+                for g in giorni_validi:
+                    if (g.weekday() >= 5) == weekend and h in per_giorno[g]:
+                        n += per_giorno[g][h][0]
+                        s += per_giorno[g][h][1]
+                if n:
+                    prof[h] = s / n
             return prof
 
         prof_f = profilo(False)
@@ -215,18 +223,18 @@ def main():
         weekend_validi = [g for g in giorni_validi if g.weekday() >= 5]
         ampiezza = (max(prof_f.values()) - min(prof_f.values())) if len(prof_f) >= 2 else 0.0
         firma = firma_da(N, G, M, W, ampiezza, bool(weekend_validi),
-                         bool(letture_pk), len(feriali_validi))
+                         d["n_letture"] > 0, len(feriali_validi))
         stato = stato_da(G)
         griglia = {}
         for sb in GRIGLIA_BLOCCATO:
             for sp in GRIGLIA_PENDOLARE:
                 griglia[f"bloccato{sb:.2f}_pendolare{sp:.2f}"] = firma_da(
-                    N, G, M, W, ampiezza, bool(weekend_validi), bool(letture_pk),
+                    N, G, M, W, ampiezza, bool(weekend_validi), d["n_letture"] > 0,
                     len(feriali_validi), soglia_bloccato=sb, soglia_pendolare=sp)
         risultati.append({
             "id_5t": pid, "nome": d["nome"], "lat": d["lat"], "lon": d["lon"],
             "totale_posti": d["totale_db"],
-            "n_letture": len(letture_pk),
+            "n_letture": d["n_letture"],
             "giorni_validi": [str(g) for g in giorni_validi],
             "profilo_feriale": {str(h): round(v, 4) for h, v in sorted(prof_f.items())},
             "profilo_weekend": {str(h): round(v, 4) for h, v in sorted(prof_w.items())},
