@@ -1,5 +1,4 @@
 # GTT - file che git NON salva (grandi, generati o scritti di continuo dalla raccolta)
-data/
 logs/
 *.zip
 *.pdf
@@ -15,3 +14,22 @@ immagini/
 config_locale.json
 # vecchia copia che scriveva lo script 86 (ora solo controllo): se compare sul PC, non va in git
 pubblica/
+
+# data/: fuori da git tutto, tranne le cartelle scelte in docs/DATI.md (piano 2).
+# Dati grezzi, storico SQLite, Java di OTP e IMQ/OMI (licenza non chiara) restano fuori; i grandi si scaricano dalla Release (scripts/scarica_dati.py).
+data/*
+!data/schede_risultati.js
+!data/storico_riassunti/
+!data/catalogo/
+!data/processed/
+!data/ref/
+!data/scenari/
+# cache e prove dentro le cartelle tenute
+data/processed/accessibilita_parziale*/
+data/processed/imq/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.part
+# >>> data: esclusioni scritte da scripts/96_inventario_dati.py --gitignore (decisioni in docs/DATI.md)
+# <<< data

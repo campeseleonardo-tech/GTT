@@ -31,13 +31,16 @@ Come si lancia
   python scripts/96_inventario_dati.py                  sui dati veri (serve data/)
   python scripts/96_inventario_dati.py --prova          cartella data/ finta (file vuoti con i pesi veri): per provarlo nel cloud;
                                                         scrive DATI_prova.md nella cartella finta, non docs/DATI.md
-  opzioni: --data CARTELLA  --uscita FILE
+  python scripts/96_inventario_dati.py --gitignore      oltre al resto, riscrive le esclusioni di data/ nel .gitignore (fra i segnaposto
+                                                        «# >>> data» e «# <<< data»): tutto cio' che l'inventario non mette in «git»
+  opzioni: --data CARTELLA  --uscita FILE  --gitignore [FILE]
 """
 import argparse
 import os
 import re
 import sys
 import tempfile
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
@@ -271,6 +274,68 @@ def testo_md(righe, data_txt):
     return "\n".join(L) + "\n", tot
 
 
+GI_INIZIO = "# >>> data: esclusioni scritte da scripts/96_inventario_dati.py --gitignore (decisioni in docs/DATI.md)"
+GI_FINE = "# <<< data"
+CARTELLE_IN_GIT = ("catalogo", "processed", "ref", "scenari", "storico_riassunti")    # whitelist del .gitignore (sopra i segnaposto)
+
+
+def _gi(p):
+    """Percorso nel formato del .gitignore (caratteri speciali con la barra)."""
+    for ch in ("\\", "[", "]", "*", "?", "#", "!"):
+        p = p.replace(ch, "\\" + ch)
+    return "/" + p if not p.startswith("/") else p
+
+
+def righe_gitignore(righe):
+    """Esclusioni (solo dentro le cartelle tenute in git) per i file che l'inventario NON mette in «git».
+    Una cartella dove nessun file va in git diventa una riga sola."""
+    fuori = {r["rel"] for r in righe if r["posto"] != "git"}
+    tutti = {r["rel"] for r in righe}
+    figli = defaultdict(set)          # cartella -> {nome: e' una cartella?}
+    for rel in tutti:
+        parti = Path(rel).parts
+        for i in range(len(parti)):
+            figli["/".join(parti[:i])].add((parti[i], i < len(parti) - 1))
+
+    def tutto_fuori(d):
+        pre = d + "/"
+        return all(f in fuori for f in tutti if f.startswith(pre))
+
+    out = []
+
+    def visita(d):
+        for nome, e_dir in sorted(figli[d]):
+            rel = f"{d}/{nome}" if d else nome
+            if e_dir:
+                if tutto_fuori(rel):
+                    out.append(f"data/{_gi(rel)[1:]}/")
+                else:
+                    visita(rel)
+            elif rel in fuori:
+                out.append(f"data/{_gi(rel)[1:]}")
+
+    for top in CARTELLE_IN_GIT:
+        if any(n == top and e for n, e in figli[""]):
+            visita(top)
+    in_git_altrove = sorted({Path(r["rel"]).parts[0] for r in righe if r["posto"] == "git" and len(Path(r["rel"]).parts) > 1
+                             and Path(r["rel"]).parts[0] not in CARTELLE_IN_GIT})
+    return out, in_git_altrove
+
+
+def scrivi_gitignore(percorso, righe):
+    """Riscrive il blocco fra i segnaposto; se non ci sono, lo aggiunge in fondo."""
+    esclusioni, altrove = righe_gitignore(righe)
+    blocco = "\n".join([GI_INIZIO, *esclusioni, GI_FINE]) + "\n"
+    t = percorso.read_text(encoding="utf-8") if percorso.exists() else ""
+    if GI_INIZIO in t and GI_FINE in t:
+        a, b = t.index(GI_INIZIO), t.index(GI_FINE) + len(GI_FINE)
+        t = t[:a] + blocco.rstrip("\n") + t[b:]
+    else:
+        t = t.rstrip("\n") + "\n" + blocco
+    percorso.write_text(t, encoding="utf-8")
+    return len(esclusioni), altrove
+
+
 def scrivi_doc(percorso, blocco):
     if percorso.exists():
         t = percorso.read_text(encoding="utf-8")
@@ -293,7 +358,7 @@ def crea_dati_finti(cartella):
     voci = [
         ("storico_backup.sqlite", 2_100_000_000), ("raw/omi_2025_2/OMI_Torino_valori.csv", 18_000_000),
         ("raw/omi_2025_2/TO20252/Torino.kml", 900_000), ("raw/IMQ2022_opendata_web/spostamenti.csv", 140_000_000),
-        ("raw/gtfs_gtt/gtt_gtfs.zip", 55_000_000), ("otp/rete/torino_cintura.osm.pbf", 120_000_000),
+        ("raw/gtfs_gtt/gtt_gtfs.zip", 55_000_000), ("raw/istat/R01_indicatori.csv", 8_000_000), ("raw/istat/basi_territoriali.zip", 30_000_000), ("otp/rete/torino_cintura.osm.pbf", 120_000_000),
         ("processed/orari_fermate.js", 3_200_000), ("processed/accessibilita.json", 31_000_000),
         ("processed/risultato6_v2/mappa_r6.json", 1_100_000), ("processed/case_fragilita_servizi.json", 600_000),
         ("processed/avanzo_di_prova.json", 12_000), ("schede_risultati.js", 150_000), ("catalogo/istruzione.js", 800_000),
@@ -316,6 +381,8 @@ def main():
     ap.add_argument("--data", default=None, help="cartella dei dati (default: data/ del progetto)")
     ap.add_argument("--uscita", default=None, help="file da scrivere (default: docs/DATI.md)")
     ap.add_argument("--prova", action="store_true", help="usa una cartella data/ finta in una cartella temporanea")
+    ap.add_argument("--gitignore", nargs="?", const="", default=None,
+                    help="riscrive le esclusioni di data/ nel .gitignore (default .gitignore del progetto; con --prova, quello della cartella finta)")
     args = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     c = comuni.Controlli()
@@ -345,6 +412,12 @@ def main():
     c(f"file che nessuno cita: {len(sconosciuti)} (da guardare in «fuori»)", True)
     uscita.parent.mkdir(parents=True, exist_ok=True)
     scrivi_doc(uscita, md)
+    if args.gitignore is not None:
+        gi = Path(args.gitignore) if args.gitignore else (uscita.parent / ".gitignore" if args.prova else RADICE / ".gitignore")
+        n_gi, altrove = scrivi_gitignore(gi, righe)
+        print(f"\n.gitignore: {n_gi} esclusioni scritte in {gi}")
+        c("tutti i file in «git» stanno nelle cartelle tenute dal .gitignore", not altrove,
+          dettaglio=f"fuori dalla whitelist: {', '.join(altrove)}" if altrove else "")
     print(f"\nScritto: {uscita}")
     print(f"\n{'posto':10s} {'file':>8s} {'MB':>12s}")
     for p in ("git", "Release", "riassunto", "fonte", "fuori"):

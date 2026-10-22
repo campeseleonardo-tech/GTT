@@ -39,11 +39,10 @@ import importlib.util
 import io
 import json
 import math
-import sqlite3
 import sys
 import zipfile
 from collections import defaultdict
-from datetime import date, datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 RADICE = Path(__file__).resolve().parent.parent

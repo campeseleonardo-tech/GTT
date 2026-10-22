@@ -49,6 +49,7 @@ from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
 RADICE = AQUI.parent
+sys.path.insert(0, str(AQUI))
 PORTA = 8799
 BROWSER_WINDOWS = [
     r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
@@ -318,6 +319,14 @@ def main():
         print(f"  etichette della vista aree: {len(nomi)} (con nome ripetuto: {ripetuti or 'nessuno'})")
         if ripetuti:
             errori.append(f"etichette ripetute nella vista aree: {ripetuti}")
+    # pesi dei file in git (piano 2, passo 5): nessun file sopra 50 MB, totale sotto 300 MB
+    try:
+        import controlla_pesi_git
+        err_pesi, avv_pesi, tot_pesi, n_pesi = controlla_pesi_git.controlla(RADICE)
+        print(f"  pesi in git: {n_pesi} file, {tot_pesi / 1e6:.1f} MB, {len(avv_pesi)} avvisi, {len(err_pesi)} errori")
+        errori += [f"pesi in git: {e}" for e in err_pesi]
+    except Exception as e:     # git assente o cartella senza git: non e' un errore delle pagine
+        print(f"  pesi in git: non controllati ({str(e)[:80]})")
     if assenti_tot:
         print("\nfile assente (non è un errore del codice; senza data/ è normale):")
         for f, dove in sorted(assenti_tot.items()):

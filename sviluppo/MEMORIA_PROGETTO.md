@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **22/10/2026** (giro C2). File unico di memoria (`sviluppo/MEMORIA_PROGETTO.md`): leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
+Ultimo aggiornamento: **22/10/2026** (giro C3). File unico di memoria (`sviluppo/MEMORIA_PROGETTO.md`): leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
 risultato stanno nel suo documento in `docs/` (`R1_servizi.md` …), i piani aperti in `sviluppo/piani/`, la storia in git. Sezioni fisse (non aggiungerne): 1 Obiettivo · 2 Regole · 3 Cartelle e dati · 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici.
 
 ## 1. Obiettivo
@@ -36,12 +36,12 @@ della qualità dei dati). Cornici, temi in comune, dati da verificare e frase pe
 
 Radice: `README.md`, `mappa_torino.html`, `risultati.html`, `index.html`, `AGENTS.md` (corto, rimanda a `sviluppo/`), `config_locale.json` (solo sul PC, fuori da git: indirizzo, utente e chiave del Pi; modello `scripts/config_locale.esempio.json`, letto da `scripts/config_locale.py`). `sviluppo/`: `AGENTS.md`, `MEMORIA_PROGETTO.md`, `TESI_E_PROGETTO.md`, `piani/`. `docs/`: `METODO.md` (dati, area, accessibilità, etichette, colori), `FONTI_DATI.md`,
 un documento per risultato, `piani/`, `rapporti/` (`RAPPORTO_*.txt` riscritti dagli script, grafico del traffico, `RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`).
-`data/` (non in git): `raw/` (non toccare), `processed/`, `otp/` (R5), `scenari/`, `catalogo/`. `scripts/prove/`: strumenti di controllo del giro 4 della mappa (estrai/trasforma i dati, controllo dei valori).
+`data/` (in git solo le cartelle scelte in `docs/DATI.md`: `catalogo/`, `processed/` senza i file grandi, `ref/`, `scenari/`, `storico_riassunti/`; il resto no, `.gitignore` con blocco scritto dallo script 96): `raw/` (non toccare), `otp/` (R5); i dati grandi si scaricano dalla Release (`scarica_dati.py`); IMQ e OMI a mano. `scripts/prove/`: strumenti di controllo del giro 4 della mappa (estrai/trasforma i dati, controllo dei valori).
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 v1 (le sue uscite le leggono 68, 72, 73) · 26 velocità 5T · 27 R4 · 28-29 R2 · 30-32 rapporto sostenibilità
 (chiuso, si lanciano a mano) · 33-67 + `rete_osm.py` traffico R8 (35-38b abbinamento sensori, 37 metodi A/B, 49-50b modello V3 e 62-63 V4: le uscite sono lette dal 53, 65-67 e dalla scheda R8: **non cancellarli**) ·
 70 attesa (R4) · R6: 68-69 inventari, 71-73 riempimento/nodi/segnali, 77 modulo strade, 79 dati mappa, 80 solo funzioni usate da 84-85, 81 auto che passano, 82 parcheggi adatti, 83 fermate importanti,
 84 risultato, 85 verifiche, 94 bus contro auto · 86 controllo dei file caricati dalle pagine (esistono? sono in git?; non scrive più il README) · 87 popolarità zone e linee utili · 88 confronto auto/sensori 5T · 92 esposizione al traffico (R1) ·
-93 tempi TP contro auto (R8) · 95 case × fragilità × servizi (parte E, solo Torino, zone OMI) · `comuni.py` funzioni comuni · `schede_risultati.py` schede · `controlla_leopi.py`, `supervisore.py`, `06_dati_live.py`, `03`, `12` girano/si installano sul Pi · `controlla_rami.py` rami e GitHub. **Prossimo numero libero: 97.** 96 inventario dei dati (`docs/DATI.md`).
+93 tempi TP contro auto (R8) · 95 case × fragilità × servizi (parte E, solo Torino, zone OMI) · `comuni.py` funzioni comuni · `schede_risultati.py` schede · `controlla_leopi.py`, `supervisore.py`, `06_dati_live.py`, `03`, `12` girano/si installano sul Pi · `controlla_rami.py` rami e GitHub. **Prossimo numero libero: 99.** 96 inventario dei dati (`docs/DATI.md`, `--gitignore`) · 97 riassunti dello storico (27, 70, 26, 71 li leggono se lo storico non c'è, `--riassunti`; `riassunti_storico.py`) · 98 zip per la Release · `scarica_dati.py` · `confronta_riassunti.py` · `controlla_pesi_git.py`.
 Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORNALIERA`, `CONTROLLA_LEOPI`, `CONTROLLA_RAMI`, `AGGIORNA_RACCOLTA_LEOPI` (porta 03 sul Pi), `FETCH_LEOPI_E_VELOCITA_5T`,
 `ACCESSIBILITA_24ORE`, `R1_PIEDI_5_10`, `RISULTATO1_VUOTI`, `RISULTATO1_CANDIDATI`, `RISULTATO6_RIFAI`, `TRAFFICO_RILANCIA_SENSORI`, `TRAFFICO_RICALCOLA_MODELLO`, **`RIFAI_MAPPA_E_SCHEDE`** (04, schede, 86, prova pagine).
 
@@ -79,7 +79,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 ## 5. IN CORSO
 
 - **Cinque piani** (22/10, rivisti dopo l'analisi: ripetizioni tolte, aggiunte) in `sviluppo/piani/`: **1** `PIANO_RIORGANIZZAZIONE` (`main` creato da Leo il 22/10, da rendere di default; repository
-  rinominato **`Turin-mobility`** (fatto da Leo, sito «Torino Mobilità»), **C1 fatto 22/10** (`sviluppo/piani/ESITO_C1.md`): `sviluppo/`, dati del Pi in `config_locale.json`, testi puliti, script 86 solo controllo, `prova_pagine.py`, `hashchange` in `risultati.html`; restano Pages da `main`, README nuovo, descrizione) · **C2 fatto 22/10** (`ESITO_C2.md`): script 96 e licenze in `docs/FONTI_DATI.md`: IMQ 2022 e OMI **NON CHIARO → decisione di Leo 22/10: fuori da git e Release, si riscaricano dalla fonte** (`docs/DATI.md`); GTFS statico e IODL da riconfermare · **2** `PIANO_DATI` (estratti in git + Release; dello storico
+  rinominato **`Turin-mobility`** (fatto da Leo, sito «Torino Mobilità»), **C1 fatto 22/10** (`sviluppo/piani/ESITO_C1.md`): `sviluppo/`, dati del Pi in `config_locale.json`, testi puliti, script 86 solo controllo, `prova_pagine.py`, `hashchange` in `risultati.html`; restano Pages da `main`, README nuovo, descrizione) · **C2 e C3 fatti 22/10** (`ESITO_C2.md`, `ESITO_C3.md`: riassunti dello storico 97, `.gitignore` nuovo, Release 98, `scarica_dati.py`; resta il giro P3 sul PC): script 96 e licenze in `docs/FONTI_DATI.md`: IMQ 2022 e OMI **NON CHIARO → decisione di Leo 22/10: fuori da git e Release, si riscaricano dalla fonte** (`docs/DATI.md`); GTFS statico e IODL da riconfermare · **2** `PIANO_DATI` (estratti in git + Release; dello storico
   solo i **riassunti**, Leo) · **3** `PIANO_RISULTATI` (R6 con 5 feriali e scheda 5 fatti 22/10, `ESITO_P0.md`; resta: R4 a un mese; etichetta [DATI SCARSI] dello script 71 da decidere con più settimane; A2, F, C4, E4 **fuori**, Leo) · **4** `PIANO_GRAFICA`
   (decisioni di Leo: mezzi in movimento in home; numeri che contano **solo** nei numeri grandi; omini, gara bus/auto (scheda 3) e area che si espande (scheda 4) nelle schede;
   ore che scorrono in mappa; `progetto.html`; un file di stile; verde acqua → corallo) · **5** `PIANO_CODICE`. `PIANO_COSTI` dopo la pubblicazione. **Prompt** per far fare tutto a un modello, giro per giro (CLOUD C1-C13, PC P0-P8, ordine e fermate per Leo): `sviluppo/piani/PROMPT_LAVORI.md`.
@@ -90,7 +90,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 ## 6. PROSSIMI PASSI
 
 1. Piano 1: `main` è il ramo di default e i rami vecchi sono cancellati (Leo, 22/10); passi 4-7 fatti nel cloud (C1). Giro P1 sul PC: creare `config_locale.json`, `CONTROLLA_LEOPI.bat`, `RIFAI_MAPPA_E_SCHEDE.bat`, `prova_pagine.py`.
-2. Piano 2: P2 fatto (decisioni in `docs/DATI.md`); Leo scrive all'Agenzia (IMQ) e controlla la licenza del GTFS; poi giro C3; piano 4: prove di stile (cloud), Leo sceglie.
+2. Piano 2: C3 fatto; giro P3 sul PC (97, `confronta_riassunti.py`, `96 --gitignore`, 98, Release a mano; Leo scrive all'Agenzia per IMQ e controlla la licenza del GTFS); piano 4: prove di stile (cloud), Leo sceglie.
 3. Rilanci con più dati: R4 con un mese (metà novembre), poi stagione. Screenshot di Leo per la scheda R6.
 4. Più avanti: tempi TP contro auto per coppie di zone IMQ e costi (`PIANO_COSTI.md`); R2 ripreso (popolo della notte), treni SFM, scenario fra R3 e R5, effetto ZTL, tram contro bus.
 - Metrica trasversale (Leo, 16/10): «quanti veicoli in meno potrebbero girare»; luoghi «speciali» (stadi, fiere, ospedali…) con parametri fissi. **Congelate** (Leo, 20/10): bici, telefonia, logistica, eventi.

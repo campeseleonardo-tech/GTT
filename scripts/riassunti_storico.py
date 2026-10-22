@@ -8,8 +8,9 @@ gli script 27, 70, 26 e 71 leggono quando lo storico non c'e' (o con --riassunti
 Cartella: data/storico_riassunti/
   anagrafica.json                    sensori 5T (nome, direzione, lat, lng) e parcheggi 5T (id, nome, lat, lng, totale)
   passaggi_AAAA-MM.zip               per ogni giorno GTFS (start_date): meta.json + colonne binarie dei passaggi
-                                     (GPS e feed): corsa (indice), fermata (stop_sequence), istante in millisecondi
-                                     dalla mezzanotte locale; il resto (linea, verso, fermata, orario) si ricava dal GTFS
+                                     (GPS e feed): corsa (indice), fermata (stop_sequence) e ritardo in millisecondi
+                                     rispetto all'orario programmato; corsa e fermata sono differenze rispetto alla riga prima
+                                     (si comprime molto meglio); il resto (linea, verso, fermata, orario) si ricava dal GTFS
   sensori5t_AAAA-MM.json.gz          per giorno locale, sensore e ora: [letture, somma flussi, letture con flusso>0,
                                      somma velocita'*flusso, somma flussi>0] + prima/ultima lettura del giorno + conteggi
   parcheggi_AAAA-MM.json.gz          per giorno locale, parcheggio e ora: [letture valide, somma occupazione] + conteggi
@@ -24,7 +25,6 @@ import os
 import sys
 import zipfile
 from array import array
-from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -92,23 +92,26 @@ def leggi_json_gz(percorso):
 
 
 # ---------------------------------------------------------------- passaggi (scripts 27 e 70)
-def colonne_passaggi(passaggi, base, con_fonte, p_trip, p_seq, p_est, p_fonte):
+def colonne_passaggi(passaggi, base, con_fonte, p_trip, p_seq, p_est, p_fonte, p_sched):
     """Da una lista di tuple di passaggi (le stesse dello script 27) a (lista delle corse, colonne binarie).
-    Le corse sono indicate con l'indice nell'ordine della prima comparsa; l'istante e' in millisecondi dalla mezzanotte locale."""
+    Le corse sono indicate con l'indice nell'ordine della prima comparsa. Colonne: differenza dell'indice della corsa e della
+    stop_sequence rispetto al passaggio prima (di solito 0 e +1), ritardo in millisecondi rispetto all'orario programmato."""
     indice, corse = {}, []
-    trip, seq, est, fonte = array("I"), array("H"), array("i"), array("B")
+    trip, seq, rit, fonte = array("i"), array("h"), array("i"), array("B")
+    t_prec = s_prec = 0
     for p in passaggi:
         tid = p[p_trip]
         i = indice.get(tid)
         if i is None:
             i = indice[tid] = len(corse)
             corse.append(tid)
-        trip.append(i)
-        seq.append(p[p_seq])
-        est.append(int(round((p[p_est] - base) * 1000)))
+        trip.append(i - t_prec)
+        seq.append(p[p_seq] - s_prec)
+        t_prec, s_prec = i, p[p_seq]
+        rit.append(int(round((p[p_est] - p[p_sched]) * 1000)))
         if con_fonte:
             fonte.append(0 if p[p_fonte] == "delay" else 1)
-    cols = {"trip": _bytes(trip), "seq": _bytes(seq), "est": _bytes(est)}
+    cols = {"trip": _bytes(trip), "seq": _bytes(seq), "rit": _bytes(rit)}
     if con_fonte:
         cols["fonte"] = _bytes(fonte)
     return corse, cols
@@ -187,7 +190,7 @@ class SorgenteRiassunti:
             fonte = leggi("fonte", "B")
         except KeyError:
             fonte = None
-        return leggi("trip", "I"), leggi("seq", "H"), leggi("est", "i"), fonte
+        return leggi("trip", "i"), leggi("seq", "h"), leggi("rit", "i"), fonte
 
     # --- interfaccia comune
     def corse_viste(self, giorno, trip_info):
@@ -199,17 +202,20 @@ class SorgenteRiassunti:
         m = self.meta(giorno)
         base = m["base"]
         corse = m["corse_gps_passaggi"]
-        trip, seq, est, _ = self._colonne(giorno, "gps")
+        trip, seq, rit_ms, _ = self._colonne(giorno, "gps")
         fascia_cache, out = {}, []
+        i_corsa = s = 0
         for i in range(len(trip)):
-            tid, s = corse[trip[i]], seq[i]
+            i_corsa += trip[i]
+            s += seq[i]
+            tid = corse[i_corsa]
             sec, stop = prog[(tid, s)]
             route, direzione = trip_info[tid]
             sched = base + sec
             h = int(sched) // 3600
             if h not in fascia_cache:
                 fascia_cache[h] = self.fascia(sched)
-            t = base + est[i] / 1000.0
+            t = sched + rit_ms[i] / 1000.0
             out.append((nome_linea.get(route, route), direzione, stop, sched, t, (t - sched) / 60.0, fascia_cache[h], s, "gps", tid))
         return out, dict(m["cop"])
 
@@ -219,17 +225,20 @@ class SorgenteRiassunti:
         m = self.meta(giorno)
         base = m["base"]
         corse = m["corse_feed"]
-        trip, seq, est, fonte = self._colonne(giorno, "feed")
+        trip, seq, rit_ms, fonte = self._colonne(giorno, "feed")
         fascia_cache, out = {}, []
+        i_corsa = s = 0
         for i in range(len(trip)):
-            tid, s = corse[trip[i]], seq[i]
+            i_corsa += trip[i]
+            s += seq[i]
+            tid = corse[i_corsa]
             sec, stop = prog[(tid, s)]
             route, direzione = trip_info[tid]
             sched = base + sec
             h = int(sched) // 3600
             if h not in fascia_cache:
                 fascia_cache[h] = self.fascia(sched)
-            t = base + est[i] / 1000.0
+            t = sched + rit_ms[i] / 1000.0
             out.append((nome_linea.get(route, route), direzione, stop, sched, t, (t - sched) / 60.0, fascia_cache[h], s,
                         "delay" if fonte[i] == 0 else "time", tid))
         return out, list(m["scarti"]), m["tipo"], m["esempi"], m["letti"]

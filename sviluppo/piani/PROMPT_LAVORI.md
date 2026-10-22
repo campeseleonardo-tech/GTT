@@ -25,7 +25,7 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | P1 | PC | `config_locale.json`, rilancio mappa e schede, prova delle pagine | 1 (5) |
 | C2 (FATTO 22/10) | CLOUD | inventario dei dati (script 96) e licenze delle fonti | 2 (1, 2) |
 | P2 (FATTO 22/10) | PC | lancio dello script 96 🛑 Leo e Claude decidono dove va ogni dato | 2 (1, 3) |
-| C3 | CLOUD | riassunti dello storico + ora tipica (97), `.gitignore`, Release (98), `scarica_dati.py` | 2 (4-7) |
+| C3 (FATTO 22/10) | CLOUD | riassunti dello storico + ora tipica (97), `.gitignore`, Release (98), `scarica_dati.py` | 2 (4-7) |
 | P3 | PC | lancio 97 e 98, caricamento della Release, commit dei dati | 2 (4-6) |
 | C4 | CLOUD | 3 prove di stile 🛑 Leo sceglie | 4 (1) |
 | C5 | CLOUD | stile comune, barra, piè di pagina, anteprima dei link; numeri che contano, omini e quadratini; grafico della metro (scheda 5) | 4 (2, 3), 3 (3) |

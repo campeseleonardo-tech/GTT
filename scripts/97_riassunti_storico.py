@@ -29,7 +29,6 @@ Controlli (AVVISO, o ERRORE se la struttura e' rotta): righe lette e scritte che
 """
 import argparse
 import json
-import sqlite3
 import sys
 import tempfile
 from collections import defaultdict
@@ -63,8 +62,8 @@ def riassumi_passaggi(db, r9, c, mese, rifai, giorni_tutti, ctx, fermate, gtfs_n
         base = r4.mezzanotte_utc(giorno).timestamp()
         pf, sc, tipo, es, n_letti = db.passaggi_feed(giorno, ctx)
         pg, cop = db.passaggi_gps(giorno, ctx, fermate)
-        corse_f, cols_f = rs.colonne_passaggi(pf, base, True, r4.P_TRIP, r4.P_SEQ, r4.P_EST, r4.P_FONTE)
-        corse_g, cols_g = rs.colonne_passaggi(pg, base, False, r4.P_TRIP, r4.P_SEQ, r4.P_EST, r4.P_FONTE)
+        corse_f, cols_f = rs.colonne_passaggi(pf, base, True, r4.P_TRIP, r4.P_SEQ, r4.P_EST, r4.P_FONTE, r4.P_SCHED)
+        corse_g, cols_g = rs.colonne_passaggi(pg, base, False, r4.P_TRIP, r4.P_SEQ, r4.P_EST, r4.P_FONTE, r4.P_SCHED)
         corse_gps = sorted(t for t in db.corse_gps(giorno) if t in trip_info)
         meta = {"versione": rs.VERSIONE, "giorno": giorno, "tipo": tipo, "base": base, "gtfs": gtfs_nome,
                 "corse_gps_passaggi": corse_g, "corse_feed": corse_f, "cop": cop, "scarti": sc, "letti": n_letti, "esempi": es,
@@ -73,7 +72,7 @@ def riassumi_passaggi(db, r9, c, mese, rifai, giorni_tutti, ctx, fermate, gtfs_n
         if giorno == r9.GIORNO_PROVA:
             meta["controllo_gps"] = r9.controllo_gps_giorno(db, giorno, ctx, fermate)
         # controlli del giorno: le colonne devono avere tante righe quanti i passaggi, le corse indicate devono esistere
-        c(f"{giorno}: passaggi GPS scritti = letti ({len(pg)})", len(cols_g["trip"]) // 4 == len(pg) and len(cols_g["est"]) // 4 == len(pg))
+        c(f"{giorno}: passaggi GPS scritti = letti ({len(pg)})", len(cols_g["trip"]) // 4 == len(pg) and len(cols_g["rit"]) // 4 == len(pg))
         c(f"{giorno}: passaggi feed scritti = letti ({len(pf)})", len(cols_f["trip"]) // 4 == len(pf))
         c(f"{giorno}: copertura plausibile (validi <= programmati)", cop["validi"] <= max(cop["programmati"], cop["validi"]) and cop["validi"] >= 0)
         rs.salva_giorno_passaggi(giorno, meta, cols_g, cols_f, c.cartella_out)
