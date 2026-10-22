@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **22/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
+Ultimo aggiornamento: **22/10/2026** (giro C1). File unico di memoria (`sviluppo/MEMORIA_PROGETTO.md`): leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
 risultato stanno nel suo documento in `docs/` (`R1_servizi.md` …), i piani aperti in `sviluppo/piani/`, la storia in git. Sezioni fisse (non aggiungerne): 1 Obiettivo · 2 Regole · 3 Cartelle e dati · 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici.
 
 ## 1. Obiettivo
@@ -34,7 +34,7 @@ della qualità dei dati). Cornici, temi in comune, dati da verificare e frase pe
 
 ## 3. Cartelle e dati
 
-Radice: `README.md`, `mappa_torino.html`, `risultati.html`, `index.html`, `MEMORIA_PROGETTO.md`, `AGENTS.md`. `docs/`: `METODO.md` (dati, area, accessibilità, etichette, colori), `FONTI_DATI.md`,
+Radice: `README.md`, `mappa_torino.html`, `risultati.html`, `index.html`, `AGENTS.md` (corto, rimanda a `sviluppo/`), `config_locale.json` (solo sul PC, fuori da git: indirizzo, utente e chiave del Pi; modello `scripts/config_locale.esempio.json`, letto da `scripts/config_locale.py`). `sviluppo/`: `AGENTS.md`, `MEMORIA_PROGETTO.md`, `TESI_E_PROGETTO.md`, `piani/`. `docs/`: `METODO.md` (dati, area, accessibilità, etichette, colori), `FONTI_DATI.md`,
 un documento per risultato, `piani/`, `rapporti/` (`RAPPORTO_*.txt` riscritti dagli script, grafico del traffico, `RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md`).
 `data/` (non in git): `raw/` (non toccare), `processed/`, `otp/` (R5), `scenari/`, `catalogo/`. `scripts/prove/`: strumenti di controllo del giro 4 della mappa (estrai/trasforma i dati, controllo dei valori).
 Script: 01-20 dati · 21-22 R1 · 23 vulnerabilità × servizi · 24 importanza vie · 25 R6 v1 (le sue uscite le leggono 68, 72, 73) · 26 velocità 5T · 27 R4 · 28-29 R2 · 30-32 rapporto sostenibilità
@@ -79,7 +79,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 ## 5. IN CORSO
 
 - **Cinque piani** (22/10, rivisti dopo l'analisi: ripetizioni tolte, aggiunte) in `sviluppo/piani/`: **1** `PIANO_RIORGANIZZAZIONE` (`main` creato da Leo il 22/10, da rendere di default; repository
-  rinominato **`Turin-mobility`** (fatto da Leo, sito «Torino Mobilità»), appunti in `sviluppo/`, script 86 che non riscrive più il README, Pages da `main`) · **2** `PIANO_DATI` (estratti in git + Release; dello storico
+  rinominato **`Turin-mobility`** (fatto da Leo, sito «Torino Mobilità»), **C1 fatto 22/10** (`sviluppo/piani/ESITO_C1.md`): `sviluppo/`, dati del Pi in `config_locale.json`, testi puliti, script 86 solo controllo, `prova_pagine.py`, `hashchange` in `risultati.html`; restano Pages da `main`, README nuovo, descrizione) · **2** `PIANO_DATI` (estratti in git + Release; dello storico
   solo i **riassunti**, Leo) · **3** `PIANO_RISULTATI` (R6 con 5 feriali e scheda 5 fatti 22/10, `ESITO_P0.md`; resta: R4 a un mese; etichetta [DATI SCARSI] dello script 71 da decidere con più settimane; A2, F, C4, E4 **fuori**, Leo) · **4** `PIANO_GRAFICA`
   (decisioni di Leo: mezzi in movimento in home; numeri che contano **solo** nei numeri grandi; omini, gara bus/auto (scheda 3) e area che si espande (scheda 4) nelle schede;
   ore che scorrono in mappa; `progetto.html`; un file di stile; verde acqua → corallo) · **5** `PIANO_CODICE`. `PIANO_COSTI` dopo la pubblicazione. **Prompt** per far fare tutto a un modello, giro per giro (CLOUD C1-C13, PC P0-P8, ordine e fermate per Leo): `sviluppo/piani/PROMPT_LAVORI.md`.
@@ -89,7 +89,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 
 ## 6. PROSSIMI PASSI
 
-1. Piano 1: `main` è il ramo di default e i rami vecchi sono cancellati (Leo, 22/10); restano i passi 4-7 (cloud). Sul PC: `RISULTATO6_RIFAI.bat` e `RIFAI_MAPPA_E_SCHEDE.bat`, controllo della scheda 5.
+1. Piano 1: `main` è il ramo di default e i rami vecchi sono cancellati (Leo, 22/10); passi 4-7 fatti nel cloud (C1). Giro P1 sul PC: creare `config_locale.json`, `CONTROLLA_LEOPI.bat`, `RIFAI_MAPPA_E_SCHEDE.bat`, `prova_pagine.py`.
 2. Piano 2: inventario dei dati (script 96 sul PC) e licenze delle fonti; piano 4: prove di stile (cloud), Leo sceglie.
 3. Rilanci con più dati: R4 con un mese (metà novembre), poi stagione. Screenshot di Leo per la scheda R6.
 4. Più avanti: tempi TP contro auto per coppie di zone IMQ e costi (`PIANO_COSTI.md`); R2 ripreso (popolo della notte), treni SFM, scenario fra R3 e R5, effetto ZTL, tram contro bus.
