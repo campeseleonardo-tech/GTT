@@ -19,7 +19,7 @@ Piano 2, passi 4-7. Ramo della sessione `claude/ecstatic-faraday-nuy8hv`. Prima 
 4. **Script 98 `98_prepara_release.py`**: crea in una cartella fuori da git (default `<progetto>_release` accanto al progetto) gli zip `dati-grezzi-istat-AAAA-MM`, `dati-grezzi-altri-AAAA-MM`, `dati-calcolati-AAAA-MM` (ciascuno sotto 1,9 GB,
    altrimenti diviso) con dentro `ELENCO.txt` e `SHA256SUMS`, più `SHA256SUMS.txt` (hash degli zip) e `LEGGIMI_RELEASE.txt`. Prende i file con posto «Release» dell'inventario: **IMQ e OMI non ci sono** (decisione di Leo).
 5. **`scripts/scarica_dati.py`**: scarica `SHA256SUMS.txt` e gli zip dall'ultima Release (`https://github.com/campeseleonardo-tech/Turin-mobility/releases/latest/download/`), controlla gli hash (zip e singoli file), mette i file in `data/`,
-   salta quelli uguali, non sovrascrive quelli diversi (AVVISO, `--sovrascrive` per forzare), rifiuta percorsi fuori da `data/`; `--fonti` scarica anche le zone statistiche del Comune; alla fine scrive cosa resta a mano (IMQ, OMI). `--prova` non scarica.
+   salta quelli uguali, non sovrascrive quelli diversi (AVVISO, `--sovrascrivi` per forzare), rifiuta percorsi fuori da `data/`; `--fonti` scarica anche le zone statistiche del Comune; alla fine scrive cosa resta a mano (IMQ, OMI). `--prova` non scarica.
 6. Anche: `scripts/confronta_riassunti.py` (sul PC: confronto storico contro riassunti sui dati veri), `scripts/RIASSUNTI_STORICO.bat`, `scripts/prove/storico_finto.py` e `scripts/prove/prova_riassunti.py`.
 
 ## Prove (cloud, con uno storico FINTO: 7 giorni di ritardi e GPS, 6 di 5T e parcheggi, GTFS con 4 linee)
