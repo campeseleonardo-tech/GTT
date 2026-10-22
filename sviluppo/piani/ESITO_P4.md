@@ -15,9 +15,19 @@ Il prompt partiva da uno stato che sul PC non c'era più:
    Limite: la base è l'ultima versione in git prima di C6, non la copia fatta a mano da Leo.
 4. Prova delle pagine — **fatto**: `python scripts\prova_pagine.py` → «OK: nessun errore a runtime sulle 19 pagine». Nulla da cancellare (niente PRIMA, niente stash).
 5. Commit dei rigenerati — **non fatto** (già in `04fd345`).
-6. Inglese — **in corso**: aspetta le risposte di Leo (gruppi di 15-20 frasi da ESITO_C6).
-7. Controllo a occhio — **non fatto** (serve il passo 6 prima).
-8. Chiusura — **non fatto**.
+6. Inglese — **fatto**. Mostrati 3 gruppi da 18 frasi (1-54); Leo: «nessuna» per tutti e ha detto che anche le successive vanno bene. `testi.json` non toccato.
+7. Controllo a occhio — **fatto** (browser interno, `python -m http.server` da `.claude/launch.json`, finestra 800x600). Non corretto nulla.
+8. Chiusura — **fatto**: `PROMPT_LAVORI.md` (P4 FATTO 22/10), `MEMORIA_PROGETTO.md` (ancora 120 righe).
 
 ## Frasi cambiate
-(nessuna ancora)
+Nessuna.
+
+## Controllo a occhio: cosa si vede e difetti (non corretti)
+Visto in inglese: scheda 2, 3 e 5 si aprono e sono leggibili (grafici, omini, pallini, barre); bottone IT sulla home → titolo e `lang` passano all'italiano.
+Difetti:
+1. **Stemma**: nel piè della home («About me», link, licenza) non c'è nessuno stemma; nel progetto non c'è nessun file o riferimento «stemma». Se doveva esserci, manca.
+2. **Scheda 5, incoerenza**: titolo «1 Turin resident in 11» ma sotto «About 1 in 10» (9,5% dei residenti; gli omini sono 10).
+3. Home: il numero della scheda 5 passa da «0» a 79,598 solo dopo qualche secondo (animazione; è normale se parte dallo scorrimento, ma in uno screenshot veloce si vede «0»).
+4. Dopo il cambio lingua l'indirizzo resta `?lang=en` (la pagina è già in italiano): solo estetico.
+5. Su `risultati.html` il clic su IT con la scheda aperta ha cambiato l'indirizzo (tolto `#p5` e `?lang`) ma lo screenshot subito dopo mostrava ancora la pagina in inglese: non verificato se è un ritardo del disegno o un difetto. Da riprovare a mano.
+Non guardato: la mappa (resta in italiano), le altre schede, telefono.
