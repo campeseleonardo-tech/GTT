@@ -172,7 +172,7 @@ def riassumi_parcheggi(db, c, mese, rifai):
 # ---------------------------------------------------------------- ora tipica (animazione della home)
 def costruisci_ora_tipica(db, r4, giorni_tutti, modo_linea, trip_info):
     """Posizioni dei mezzi di un feriale tipico fra le 7:30 e le 8:30, una ogni 30 s. Il giorno e' quello feriale con la
-    mediana delle corse viste in quella finestra. Coordinate in interi (1e-5 gradi): la prima assoluta, poi le differenze."""
+    copertura migliore del GPS in quella finestra. Coordinate in interi (1e-5 gradi): la prima assoluta, poi le differenze."""
     feriali = [g for g in giorni_tutti if r4.tipo_giorno_data(datetime.strptime(g, "%Y%m%d").date()) == 0]
     if not feriali:
         return None, "nessun giorno feriale"
@@ -186,11 +186,20 @@ def costruisci_ora_tipica(db, r4, giorni_tutti, modo_linea, trip_info):
             "SELECT corsa, linea, ts_feed, lat, lng FROM mezzi_gtt WHERE letto_utc BETWEEN ? AND ? AND corsa <> '' AND ts_feed AND lat AND lng",
             (da, a))
 
+    copertura = {}
     for g in feriali:
         base, it = righe_finestra(g)
-        finestra[g] = len({r[0] for r in it})
-    ordinati = sorted(feriali, key=lambda g: (finestra[g], g))
-    giorno = ordinati[(len(ordinati) - 1) // 2]
+        corse, passi_coperti = set(), set()
+        t_ini = base + FINESTRA_ORA_TIPICA[0] * 3600
+        for r in it:
+            corse.add(r[0])
+            passi_coperti.add(int((r[2] - t_ini) // PASSO_S))
+        finestra[g] = len(corse)
+        copertura[g] = len([k for k in passi_coperti if 0 <= k <= int((FINESTRA_ORA_TIPICA[1] - FINESTRA_ORA_TIPICA[0]) * 3600 // PASSO_S)])
+    # il giorno con la copertura migliore (passi da 30 s con almeno una posizione): il GPS arriva a ondate e in alcuni giorni resta fermo per minuti;
+    # a pari copertura, quello con piu' corse viste
+    giorno = max(feriali, key=lambda g: (copertura[g], finestra[g], g))
+    print(f"[ora tipica] copertura dei passi da 30 s nella finestra, per giorno feriale: " + ", ".join(f"{g}: {copertura[g]}" for g in feriali))
     base, it = righe_finestra(giorno)
     punti = defaultdict(set)
     linea_di = {}
@@ -337,7 +346,7 @@ def main():
                 dati, lista, info = ris
                 controlla_ora_tipica(c, dati, lista, info)
                 rs.scrivi_atomico(cart_out / "ora_tipica.json", dati)
-                print(f"\n[ora tipica] giorno {info['giorno']} (mediana: {info['corse_viste_nel_giorno']} corse viste), "
+                print(f"\n[ora tipica] giorno {info['giorno']} ({info['corse_viste_nel_giorno']} corse viste, giorno con la copertura migliore), "
                       f"{info['mezzi_inclusi']} mezzi su {info['mezzi_totali']} (1 ogni {info['passo_campione']}), {info['byte'] / 1000:.0f} KB")
     finally:
         db.chiudi()

@@ -29,10 +29,18 @@
   <nav aria-label="Pagine del sito" data-en-label="Site pages"><a href="index.html" aria-current="page" data-en="Home">Home</a><a href="risultati.html" data-en="Results">Risultati</a><a href="mappa_torino.html" data-en="Map">Mappa</a><a href="progetto.html" data-en="The project">Il progetto</a></nav>
   <div class="lingua" role="group" aria-label="Lingua"  data-en-label="Language"><button type="button" data-l="it" aria-pressed="true" title="Italiano">IT</button><button type="button" data-l="en" aria-pressed="false" title="English">EN</button></div>
 </div></header>
+<section class="eroe" id="eroe" aria-labelledby="titoloHome">
+  <canvas id="cMezzi" aria-hidden="true"></canvas>
+  <div class="dentro">
+    <h1 id="titoloHome">Torino Mobilità</h1>
+    <p class="sotto" data-en="A data-analysis project to understand how the city works.">Un progetto di analisi dei dati per capire come funziona la città.</p>
+    <p class="contatore" id="contatore" hidden></p>
+    <p class="didascalia-eroe"><span class="orologio" id="orologio" aria-hidden="true">07:30</span>
+      <span data-en="A typical weekday morning: every dot is a real bus or tram (GPS).">Un mattino feriale tipico: ogni puntino è un bus o un tram veri (GPS).</span></p>
+  </div>
+</section>
 <main>
-<h1>Torino Mobilità</h1>
 <ul class="intro">
-  <li data-en="A data-analysis project to understand how the city works.">Un progetto di analisi dei dati per capire come funziona la città.</li>
   <li data-en="Who goes where, where services are missing, where public transport has problems.">Chi va dove, dove mancano servizi, dove sono le criticità del trasporto pubblico.</li>
   <li data-en="Every number comes from real data and carries its limits with it.">Ogni numero viene da dati veri e porta con sé i suoi limiti.</li>
 </ul>
@@ -57,8 +65,10 @@
 </div></footer>
 
 <script src="data/schede_risultati.js"></script>
+<script src="data/home_mezzi.js" onerror="window.HOME_MEZZI=null"></script>
 <script src="assets/sito.js"></script>
 <script>Sito.avvia();</script>
+<script src="assets/mezzi.js"></script>
 <script>
 "use strict";
 const esc = Sito.esc, formattaNumero = Sito.formattaNumero, T = Sito.T;
@@ -71,6 +81,7 @@ function disegna(){
         const f = forma(s), n = f.numero, num = typeof n.valore === "number";
         const suff = n.unita === "%" ? "%" : "";
         return `<a class="riquadro" href="risultati.html#p${esc(s.numero_pubblico != null ? s.numero_pubblico : s.risultato)}">
+          <img class="miniatura" src="assets/miniature/p${esc(s.numero_pubblico != null ? s.numero_pubblico : s.risultato)}.webp" alt="" width="480" height="270" loading="lazy" onerror="this.remove()">
           <div class="num">${T("Risultato", "Result")} ${esc(s.numero_pubblico != null ? s.numero_pubblico : s.risultato)}</div>
           <h3>${esc(f.titolo)}</h3>
           <div class="grande"><span class="val"${num ? ` data-valore="${n.valore}" data-suffisso="${suff}"` : ""}>${formattaNumero(n.valore)}${suff}</span>
