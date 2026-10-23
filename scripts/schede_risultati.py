@@ -29,6 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))   # il pacchetto schede
 from schede import comune  # noqa: E402
 from schede.comune import NASCOSTE, RADICE, controlla_forma, leggi  # noqa: E402
 from schede.traduci import traduci_forma  # noqa: E402
+from schede.home import scrivi_home  # noqa: E402
 from schede.r1 import forma_r1, scheda_r1  # noqa: E402
 from schede.r10 import forma_r10, scheda_r10  # noqa: E402
 from schede.r2 import arricchisci_r2  # noqa: E402
@@ -83,6 +84,10 @@ def main():
     except ValueError:   # solo nelle prove, con un'altra cartella
         mostra = comune.OUT_JS
     print(f"scritto {mostra} con {len(schede)} schede")
+    try:
+        scrivi_home()   # data/home_mezzi.js: mezzi in movimento e contatore della home
+    except FileNotFoundError as e:
+        print(f"AVVISO: data/home_mezzi.js non scritto, manca un file: {e.filename}")
 
 
 
