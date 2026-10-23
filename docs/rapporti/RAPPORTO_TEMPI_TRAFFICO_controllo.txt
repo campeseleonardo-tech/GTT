@@ -1,0 +1,32 @@
+RAPPORTO TEMPI TRAFFICO (TomTom Routing API) - SOLO CONTROLLO
+generato: 2026-10-23T21:49:30
+
+Giorni di partenza: 2026-11-10; ore: 08:00, 13:00, 17:30, 21:00 (ora italiana); richieste: 64.
+Fattore = tempo col traffico tipico / tempo senza traffico, media dei giorni. Le risposte grezze non sono salvate.
+
+FATTORE PER GRUPPO E ORA: mediana (25° - 75° percentile), numero di percorsi
+  controllo_uscita: 08:00 1.26 (1.22-1.32), n 6 | 13:00 1.21 (1.18-1.23), n 6 | 17:30 1.41 (1.33-1.56), n 6 | 21:00 1.07 (1.06-1.07), n 6
+  controllo_altri: 08:00 1.38 (1.31-1.43), n 10 | 13:00 1.17 (1.13-1.20), n 10 | 17:30 1.39 (1.31-1.43), n 10 | 21:00 1.07 (1.05-1.07), n 10
+
+PERCORSI DI CONTROLLO (fattore a una cifra)
+  Piazza Castello → Collegno [controllo_uscita]: 08:00 1.3 | 13:00 1.2 | 17:30 1.6 | 21:00 1.1
+  Collegno → Piazza Castello [controllo_altri]: 08:00 1.5 | 13:00 1.2 | 17:30 1.5 | 21:00 1.1
+  Piazza Castello → Venaria Reale [controllo_uscita]: 08:00 1.3 | 13:00 1.2 | 17:30 1.4 | 21:00 1.1
+  Venaria Reale → Piazza Castello [controllo_altri]: 08:00 1.3 | 13:00 1.2 | 17:30 1.4 | 21:00 1.1
+  Piazza Castello → Settimo Torinese [controllo_uscita]: 08:00 1.3 | 13:00 1.2 | 17:30 1.3 | 21:00 1.1
+  Settimo Torinese → Piazza Castello [controllo_altri]: 08:00 1.4 | 13:00 1.2 | 17:30 1.4 | 21:00 1.1
+  Piazza Castello → Moncalieri [controllo_uscita]: 08:00 1.2 | 13:00 1.2 | 17:30 1.4 | 21:00 1.1
+  Moncalieri → Piazza Castello [controllo_altri]: 08:00 1.4 | 13:00 1.2 | 17:30 1.4 | 21:00 1.1
+  Piazza Castello → Orbassano [controllo_uscita]: 08:00 1.2 | 13:00 1.2 | 17:30 1.3 | 21:00 1.1
+  Orbassano → Piazza Castello [controllo_altri]: 08:00 1.3 | 13:00 1.1 | 17:30 1.3 | 21:00 1.1
+  Piazza Castello → Rivoli [controllo_uscita]: 08:00 1.5 | 13:00 1.2 | 17:30 1.6 | 21:00 1.1
+  Rivoli → Piazza Castello [controllo_altri]: 08:00 1.4 | 13:00 1.2 | 17:30 1.3 | 21:00 1
+  Corso Racconigi → Piazza Castello [controllo_altri]: 08:00 1.3 | 13:00 1.3 | 17:30 1.4 | 21:00 1.1
+  Piazza Castello → Corso Racconigi [controllo_altri]: 08:00 1.4 | 13:00 1.2 | 17:30 1.5 | 21:00 1.1
+  Moncalieri → Lingotto [controllo_altri]: 08:00 1.7 | 13:00 1.1 | 17:30 1.4 | 21:00 1
+  Lingotto → Moncalieri [controllo_altri]: 08:00 1.2 | 13:00 1.1 | 17:30 1.3 | 21:00 1
+
+CONTROLLI
+  OK     percorsi per gruppo — entrata 0, uscita 0, controllo_uscita 6, controllo_altri 10, coppie 0
+  OK     fattori fra 1 e 5 — da 1.04 a 1.68; fuori: 0 su 64
+  AVVISO 6 percorsi in uscita alle 8: fattore del servizio vicino al 2,1 di Google (entro 0.5) — mediana 1.26 contro 2.1 -> STOP: decide Leo
