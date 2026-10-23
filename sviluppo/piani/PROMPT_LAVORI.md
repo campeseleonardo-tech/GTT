@@ -45,10 +45,11 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | **L2 (FATTO 23/10, Leo guarda)** | PC | revisione grafica di Leo del 23/10 (ex C14): home, numeri che salgono, schede con una sola parte chiusa, titoli nuovi, animazioni anche in home; prima Leo sceglie se rifare R4, R6, R8 con lo storico di oggi 🛑 | 4 (revisione 23/10) |
 | **L3 (FATTO 23/10, Leo guarda)** | PC | bus contro auto a 4 ore del giorno (ex C15 + P10), script 100, schede 3 e 4 🛑 | 4 (revisione 23/10) |
 | **L4 (FATTO 23/10)** | PC | raccolta del Pi: copia che non perde dati, archivio del GTFS, controllo con spazio e scadenze (PIANO_RACCOLTA passi 1, 2a, 3) 🛑 | raccolta FATTO |
-| **L4b** (urgente: entro fine ottobre) | PC | snapshot della copia sul disco del Pi invece di /tmp (PIANO_RACCOLTA passo 4) | raccolta |
-| **L5** | PC | scheda 1 (testo che esce), gara della scheda 4 sempre alle 8, testi onesti su «forbice» e «fasce fissate prima» (ANALISI_CRITICA 1.2, 1.3) | 3, 4 |
-| **L6** | PC | tempi in auto col traffico da un servizio di percorsi (TomTom), in entrata e in uscita, a 4 ore; fattore al posto del 2,1 di Google (ANALISI_CRITICA 1.1, 1.14) 🛑 Leo: chiave e condizioni d'uso | 3 |
-| L7 (da scrivere dopo L6) | PC | calcoli rifacibili da un estraneo (ANALISI_CRITICA 6.1) e PIANO_RACCOLTA passo 2b | 5 |
+| **L4b** (FATTO 23/10, ESITO_L4b) | PC | snapshot della copia sul disco del Pi invece di /tmp (PIANO_RACCOLTA passo 4) | raccolta |
+| **L5** (FATTO 23/10, ESITO_L5) | PC | scheda 1 (testo che esce), gara della scheda 4 sempre alle 8, testi onesti su «forbice» e «fasce fissate prima» (ANALISI_CRITICA 1.2, 1.3) | 3, 4 |
+| **L6** (FERMO allo STOP 23/10: regola sbagliata, vedi L6bis) | PC | tempi in auto col traffico da un servizio di percorsi (TomTom), in entrata e in uscita, a 4 ore; fattore al posto del 2,1 di Google (ANALISI_CRITICA 1.1, 1.14) 🛑 Leo: chiave e condizioni d'uso | 3 |
+| **L6bis** | PC | L6 ripreso col fattore giusto (tempo TomTom / nostro flusso libero, la stessa grandezza del 2,1 di Google) 🛑 | 3 |
+| **L7** | PC | calcoli rifacibili da un estraneo (requirements, Java, prova da zero), testi del 93, immagini del README, PIANO_RACCOLTA passo 2b | 5 |
 | main | Leo | unire prova in main, accendere GitHub Pages (la pubblicazione per ultima) | 1 (8, 10) |
 | P8 | PC | metà novembre: R4 con un mese di dati, rilancio | 3 (4) |
 
@@ -531,4 +532,53 @@ ALLA FINE un solo messaggio a Leo, breve:
 - i doppi clic da fare, in ordine: quelli di ESITO_L4 se mancano (AGGIORNA_RACCOLTA_LEOPI.bat, CONTROLLA_LEOPI.bat, RACCOLTA_GIORNALIERA.bat), poi RACCOLTA_GIORNALIERA.bat per L4b, con cosa deve vedere nel log;
 - cosa guardare (schede 1, 3, 4 e home, computer e telefono);
 - il promemoria: leggere le condizioni d'uso di TomTom prima di unire in main.
+```
+
+## L6bis — PC: L6 ripreso con la definizione giusta del fattore 🛑
+
+Perché lo STOP di L6 (TomTom 1,26 contro Google 2,1) **non è un disaccordo fra le fonti** ma un errore nella regola di L6 (di Claude): i due numeri misurano cose diverse.
+- Il nostro «tempo a flusso libero» viene dalla rete OSM ai limiti di velocità, **senza semafori e incroci** (`scripts/rete_osm.py`): è troppo veloce. Esempio: Corso Racconigi → Piazza Castello 6,4 minuti, Google alle 8 ne dava 29.
+- Il fattore di Google (2,1) = (tempo Google − 5) / **nostro** flusso libero: corregge insieme la rete troppo veloce **e** il traffico.
+- Il fattore di L6 = tempo TomTom col traffico / tempo TomTom **senza** traffico: è solo il traffico (TomTom i semafori li conta già). Anche il fattore dei sensori 5T (1,2) è solo il traffico.
+Correzione decisa il 24/10, **dopo** aver visto lo STOP (va scritto così nei documenti): si confronta con Google la stessa grandezza. Le soglie restano quelle di L6.
+**Regole fissate ora, prima dei numeri nuovi:**
+- per ogni percorso e ora, dalla risposta di TomTom (solo in memoria): fattore_rete = tempo TomTom col traffico / nostro flusso libero dello stesso percorso; congestione = tempo col traffico / tempo senza traffico. Si salvano solo i due rapporti (2 decimali), mai i minuti (finché Leo non ha letto le condizioni d'uso).
+- nostro flusso libero: percorsi A in entrata da `r6_bus_contro_auto.json` (`libero_min`); B da `tp_contro_auto.json` (`noti`, `auto_libero_min`, nel senso in cui è calcolato; il senso inverso solo come congestione); C dalle coppie dello script 93 (se `libero_min` non è salvato per coppia, il 93 lo aggiunge al JSON senza cambiare altro). I percorsi A in uscita servono solo per la congestione.
+- controllo: mediana di fattore_rete alle 8 sui 6 percorsi B in uscita contro 2,1: entro 0,5 → si prosegue; oltre → STOP di nuovo (decide Leo).
+- nei risultati: la stima «Google» diventa la stima «TomTom» = nostro flusso libero × fattore_rete mediano del gruppo giusto (A in entrata per i punti del R6 e lo script 100; C per le coppie del R8) e dell'ora giusta, + 5 minuti di parcheggio. Sostituisce il 2,1 e la formula riscalata di L3. La stima dei sensori resta com'è, con un limite nuovo: «La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.» Classi del R6 (≤ 1,5) e regola del titolo della scheda 4 (±0,3) invariate.
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, sviluppo/piani/ESITO_L6.md, il blocco L6 e il blocco L6bis di sviluppo/piani/PROMPT_LAVORI.md (le regole di L6bis sostituiscono quelle di L6 dove sono diverse; non cambiarle dopo aver visto i numeri).
+Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py. La chiave TomTom solo da config_locale.json, mai stampata. Niente controlli grafici.
+1. scripts/101_tempi_traffico.py: calcola e salva per ogni percorso e ora fattore_rete e congestione come nel blocco L6bis (minuti solo in memoria); per i percorsi A in uscita solo congestione. Se serve, il 93 salva libero_min per coppia (nessun altro cambiamento: rilancialo e controlla che RAPPORTO_TP_CONTRO_AUTO.txt abbia gli stessi numeri, salvo la data). Il parziale di L6 (solo congestione) non basta: rifai le richieste del controllo.
+2. --solo-controllo: tabella dei 6 percorsi in uscita (fattore_rete TomTom, Google, congestione TomTom, sensori) e del percorso in entrata Racconigi → Castello. Se scatta lo STOP, fermati e scrivi la tabella a Leo.
+3. Se il controllo passa: giro completo (riprende dal parziale) e poi i passi 3-7 del blocco L6, con la stima «TomTom» del blocco L6bis al posto di quella di Google. Nei documenti R6 e R8 e in docs/FONTI_DATI.md: cosa misura ognuna delle due stime, la correzione del 24/10 fatta dopo lo STOP, attribuzione a TomTom come chiedono le condizioni.
+4. Esito sviluppo/piani/ESITO_L6.md (aggiungi in fondo «L6bis»), con le tabelle prima/dopo (classi dei 12 punti e dei 5 interscambi, minuti di pareggio, rapporto mediano della scheda 4 a ogni ora, titolo della scheda 4); memoria; commit; git pull --no-rebase origin prova; git push origin prova.
+```
+
+## L7 — PC: calcoli rifacibili da un estraneo (ANALISI_CRITICA 6.1) e piccole code
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, sviluppo/piani/ANALISI_CRITICA.md (6.1) e sviluppo/piani/PIANO_RACCOLTA.md (passo 2b).
+Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py. Niente controlli grafici. Un passo per volta, un commit per passo.
+1. requirements.txt: aggiungi r5py e geopandas con la versione installata sul PC (python -m pip show), e le altre librerie importate dagli script che mancano (cercale: git grep -h "^import\|^from" scripts | ordinate e uniche, contro requirements.txt; escludi la libreria standard). Nel README, «Come rifare i calcoli»: serve Java 21 o più per r5py.
+2. scripts/18_accessibilita.py (e ogni altro script che imposta JAVA_HOME): la cartella data/otp/jdk-… solo se esiste; altrimenti il Java del sistema (os.environ.setdefault, nessuna sovrascrittura). Messaggio chiaro se Java non c'è.
+3. Prova da zero: in una cartella temporanea fuori dal progetto, git clone, ambiente Python nuovo (python -m venv), pip install -r requirements.txt, python scripts\scarica_dati.py, poi python scripts\rifai_tutto.py --solo r1,r8,r10 (o le fasi equivalenti). I rapporti devono avere gli stessi numeri del progetto (salvo la data). Scrivi cosa manca a un estraneo nell'esito.
+4. Testi dei rapporti dello script 93 (docs/rapporti/RAPPORTO_TP_CONTRO_AUTO.txt li scrive lui): «limite basso / alto», «forbice», «decise prima di vedere i numeri» → come nelle schede dopo L5 (due stime; fasce scelte dopo le prime prove). Rilancia il 93: numeri uguali.
+5. Immagini del README e anteprime r/N.html: installa Playwright sul PC (pip install playwright, python -m playwright install chromium) e rilancia python scripts\prova_pagine.py, che le rifà; non guardarle (le guarda Leo).
+6. PIANO_RACCOLTA passo 2b: scripts 27, 70 e 97 usano per ogni giorno il GTFS valido quel giorno (data\gtfs_archivio\, il più recente scaricato prima del giorno; per i giorni prima del primo archivio, il GTFS di oggi in data\raw). Regola di prova: con un solo GTFS i numeri restano identici (rilancia e confronta i rapporti). Prova con un secondo GTFS finto in una cartella temporanea (copia rinominata con data diversa): i giorni dopo quella data lo usano.
+7. Esito sviluppo/piani/ESITO_L7.md, memoria (sezione 7: togli il punto 4 dei problemi gravi se risolto), commit, git pull --no-rebase origin prova, git push origin prova.
+```
+
+## SEQUENZA 24/10 (2) — PC: L6bis e L7 di seguito
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md e sviluppo/MEMORIA_PROGETTO.md.
+Prima: git pull --no-rebase origin prova; git fetch origin; git merge --no-edit origin/claude/vigilant-volta-l13do5 (contiene i prompt di L6bis e L7); python scripts\controlla_rami.py.
+Esegui UNO DOPO L'ALTRO i giri L6bis e L7 di sviluppo/piani/PROMPT_LAVORI.md, alla lettera (regole fissate: non cambiarle dopo aver visto i numeri). Ogni giro: esito, memoria, commit, git push origin prova. Non fermarti fra un giro e l'altro, tranne:
+1. STOP del controllo di L6bis (fattore_rete TomTom lontano più di 0,5 da 2,1): scrivi la tabella a Leo, poi passa comunque a L7 (non dipende da L6bis) e alla fine ricordagli che L6bis aspetta lui;
+2. TomTom rifiuta la chiave o il limite di richieste: salva il parziale, passa a L7, alla fine di' quando si può riprendere;
+3. un errore che non sai risolvere senza cambiare una regola fissata.
+La chiave TomTom non si stampa mai e non va in log, esiti, rapporti o commit. Niente scritture sul Pi, niente controlli grafici, niente unione in main.
+ALLA FINE un solo messaggio a Leo, breve: per ogni giro fatto / non fatto e perché; per L6bis la tabella prima/dopo (classi dei 12 punti, minuti di pareggio, rapporto mediano della scheda 4 a ogni ora, titolo della scheda 4) e in 3 righe se il messaggio delle schede 3 e 4 è cambiato e perché; cosa guardare (schede 3 e 4, README e anteprime nuove); il promemoria: condizioni d'uso di TomTom prima di unire in main.
 ```
