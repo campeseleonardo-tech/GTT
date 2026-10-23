@@ -25,7 +25,7 @@
     "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
     "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T22:30:20+00:00",
+  "generato": "2026-10-23T22:45:21+00:00",
   "avviso": [
     "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -73,297 +73,297 @@
     },
     "principale": {
       "tipo": "dispersione",
-      "titolo": "Prezzo delle case e servizi a piedi, una zona OMI per punto (46 zone)",
-      "xlabel": "punteggio «Tutti i servizi» a piedi, 0-100",
-      "ylabel": "prezzo delle case, euro al m²",
-      "passo_x": 20,
-      "passo_y": 500,
-      "xnome": "servizi",
-      "ynome": "euro al m²",
+      "titolo": "Fragilità sociale e servizi a piedi, una zona OMI per punto (46 zone)",
+      "xlabel": "indice di fragilità sociale, 0-100",
+      "ylabel": "punteggio «Tutti i servizi» a piedi, 0-100",
+      "passo_x": 10,
+      "passo_y": 20,
+      "xnome": "fragilità",
+      "ynome": "servizi",
       "punti": [
         [
+          31.7,
           82.2,
-          3650,
           1093,
           "Roma"
         ],
         [
+          24.6,
           79.2,
-          3425,
           10989,
           "Carlo Emanuele Ii"
         ],
         [
+          31.5,
           77.4,
-          2500,
           2584,
           "Solferino"
         ],
         [
+          29.0,
           73.9,
-          2600,
           4598,
           "Vinzaglio"
         ],
         [
+          27.6,
           80.9,
-          2600,
           11934,
           "Garibaldi"
         ],
         [
+          36.9,
           87.3,
-          2850,
           2369,
           "Castello"
         ],
         [
+          32.0,
           79.0,
-          2375,
           4397,
           "Rocca"
         ],
         [
+          33.3,
           67.7,
-          1950,
           7157,
           "San Salvario"
         ],
         [
+          31.7,
           59.9,
-          2700,
           5486,
           "Valentino"
         ],
         [
+          34.2,
           23.5,
-          2175,
           7729,
           "Michelotti"
         ],
         [
+          35.5,
           35.0,
-          2925,
           7445,
           "Crimea"
         ],
         [
+          39.1,
           69.0,
-          2675,
           894,
           "Duca D Aosta"
         ],
         [
+          44.3,
           61.5,
-          1500,
           13406,
           "Porta Palazzo - Maria Ausiliatrice"
         ],
         [
+          34.0,
           73.7,
-          2225,
           18276,
           "Vanchiglia - Borgo Rossini"
         ],
         [
+          54.3,
           51.8,
-          1625,
           20157,
           "Aurora"
         ],
         [
+          31.7,
           62.3,
-          2175,
           22925,
           "Dante"
         ],
         [
+          42.8,
           29.8,
-          2000,
           16461,
           "Vanchiglietta"
         ],
         [
+          37.3,
           70.5,
-          1700,
           10462,
           "Campidoglio - Martinetto"
         ],
         [
+          27.4,
           73.3,
-          2050,
           11167,
           "Adriano - Bernini - Rivoli"
         ],
         [
+          36.1,
           72.5,
-          2000,
           18643,
           "Cenisia"
         ],
         [
+          38.7,
           64.1,
-          2250,
           29291,
           "San Paolo"
         ],
         [
+          28.9,
           66.5,
-          2100,
           5190,
           "San Secondo"
         ],
         [
+          35.3,
           59.6,
-          2275,
           7970,
           "Galileo Ferraris"
         ],
         [
+          28.9,
           63.8,
-          2600,
           15343,
           "De Gasperi"
         ],
         [
+          34.1,
           72.8,
-          2600,
           1405,
           "Politecnico"
         ],
         [
+          30.2,
           81.0,
-          2350,
           14491,
           "Duchessa Jolanda"
         ],
         [
+          41.3,
           64.6,
-          2050,
           22334,
           "San Donato"
         ],
         [
+          56.5,
           46.7,
-          1550,
           71762,
           "Madonna Di Campagna"
         ],
         [
+          47.8,
           44.5,
-          1375,
           4322,
           "Spina 4 - Docks Dora"
         ],
         [
+          58.5,
           9.5,
-          1600,
           10584,
           "Barca - Bertolla"
         ],
         [
+          44.3,
           37.8,
-          1750,
           26802,
           "Nizza Millefonti"
         ],
         [
+          49.8,
           52.8,
-          1500,
           46558,
           "Filadelfia - Traiano"
         ],
         [
+          40.9,
           62.4,
-          1800,
           56890,
           "Santa Rita"
         ],
         [
+          54.5,
           43.9,
-          1425,
           40047,
           "Mirafiori Nord"
         ],
         [
+          62.1,
           57.6,
-          1050,
           48588,
           "Barriera Di Milano"
         ],
         [
+          64.9,
           33.4,
-          1045,
           28202,
           "Rebaudengo - Regio Parco"
         ],
         [
+          63.1,
           15.4,
-          1250,
           25756,
           "Corona Nord"
         ],
         [
+          65.9,
           21.3,
-          1300,
           31262,
           "Lucento - Vallette"
         ],
         [
+          40.2,
           55.5,
-          1925,
           31541,
           "Parella"
         ],
         [
+          47.6,
           39.5,
-          1675,
           32025,
           "Aeronautica - Lesna"
         ],
         [
+          40.3,
           55.8,
-          1925,
           36080,
           "Pozzo Strada"
         ],
         [
+          63.0,
           25.6,
-          1300,
           33481,
           "Mirafiori Sud"
         ],
         [
+          36.9,
           40.2,
-          2025,
           11318,
           "Spina 3 - Eurotorino"
         ],
         [
+          48.1,
           5.7,
-          2175,
           9568,
           "Collinare Villa Della Regina"
         ],
         [
+          45.3,
           4.6,
-          1875,
           3563,
           "Collinare Superga"
         ],
         [
+          40.7,
           6.0,
-          2000,
           5865,
           "Collinare Cavoretto"
         ]
       ],
       "retta": {
-        "a": 1369.9,
-        "b": 12.88,
+        "a": 107.82,
+        "b": -1.323,
         "label": "tendenza"
       },
-      "nota": "Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: ogni 10 punti di servizi in più, 129 euro al m² in più, ma in parte è l'effetto della distanza dal centro."
+      "nota": "Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: più la fragilità è alta, meno servizi. Il legame regge anche a parità di distanza dal centro: correlazione −0,48 (da −0,66 a −0,23)."
     },
     "punti": [
       "A parità di distanza dal centro il legame prezzo-servizi quasi sparisce: correlazione 0,21 su 46 zone (da −0,12 a 0,52).",
@@ -371,6 +371,300 @@
       "A parità di distanza dal centro reggono fragilità-servizi (−0,48) e prezzo-fragilità (−0,69)."
     ],
     "altri": [
+      {
+        "tipo": "dispersione",
+        "titolo": "Prezzo delle case e servizi a piedi, una zona OMI per punto (46 zone)",
+        "xlabel": "punteggio «Tutti i servizi» a piedi, 0-100",
+        "ylabel": "prezzo delle case, euro al m²",
+        "passo_x": 20,
+        "passo_y": 500,
+        "xnome": "servizi",
+        "ynome": "euro al m²",
+        "punti": [
+          [
+            82.2,
+            3650,
+            1093,
+            "Roma"
+          ],
+          [
+            79.2,
+            3425,
+            10989,
+            "Carlo Emanuele Ii"
+          ],
+          [
+            77.4,
+            2500,
+            2584,
+            "Solferino"
+          ],
+          [
+            73.9,
+            2600,
+            4598,
+            "Vinzaglio"
+          ],
+          [
+            80.9,
+            2600,
+            11934,
+            "Garibaldi"
+          ],
+          [
+            87.3,
+            2850,
+            2369,
+            "Castello"
+          ],
+          [
+            79.0,
+            2375,
+            4397,
+            "Rocca"
+          ],
+          [
+            67.7,
+            1950,
+            7157,
+            "San Salvario"
+          ],
+          [
+            59.9,
+            2700,
+            5486,
+            "Valentino"
+          ],
+          [
+            23.5,
+            2175,
+            7729,
+            "Michelotti"
+          ],
+          [
+            35.0,
+            2925,
+            7445,
+            "Crimea"
+          ],
+          [
+            69.0,
+            2675,
+            894,
+            "Duca D Aosta"
+          ],
+          [
+            61.5,
+            1500,
+            13406,
+            "Porta Palazzo - Maria Ausiliatrice"
+          ],
+          [
+            73.7,
+            2225,
+            18276,
+            "Vanchiglia - Borgo Rossini"
+          ],
+          [
+            51.8,
+            1625,
+            20157,
+            "Aurora"
+          ],
+          [
+            62.3,
+            2175,
+            22925,
+            "Dante"
+          ],
+          [
+            29.8,
+            2000,
+            16461,
+            "Vanchiglietta"
+          ],
+          [
+            70.5,
+            1700,
+            10462,
+            "Campidoglio - Martinetto"
+          ],
+          [
+            73.3,
+            2050,
+            11167,
+            "Adriano - Bernini - Rivoli"
+          ],
+          [
+            72.5,
+            2000,
+            18643,
+            "Cenisia"
+          ],
+          [
+            64.1,
+            2250,
+            29291,
+            "San Paolo"
+          ],
+          [
+            66.5,
+            2100,
+            5190,
+            "San Secondo"
+          ],
+          [
+            59.6,
+            2275,
+            7970,
+            "Galileo Ferraris"
+          ],
+          [
+            63.8,
+            2600,
+            15343,
+            "De Gasperi"
+          ],
+          [
+            72.8,
+            2600,
+            1405,
+            "Politecnico"
+          ],
+          [
+            81.0,
+            2350,
+            14491,
+            "Duchessa Jolanda"
+          ],
+          [
+            64.6,
+            2050,
+            22334,
+            "San Donato"
+          ],
+          [
+            46.7,
+            1550,
+            71762,
+            "Madonna Di Campagna"
+          ],
+          [
+            44.5,
+            1375,
+            4322,
+            "Spina 4 - Docks Dora"
+          ],
+          [
+            9.5,
+            1600,
+            10584,
+            "Barca - Bertolla"
+          ],
+          [
+            37.8,
+            1750,
+            26802,
+            "Nizza Millefonti"
+          ],
+          [
+            52.8,
+            1500,
+            46558,
+            "Filadelfia - Traiano"
+          ],
+          [
+            62.4,
+            1800,
+            56890,
+            "Santa Rita"
+          ],
+          [
+            43.9,
+            1425,
+            40047,
+            "Mirafiori Nord"
+          ],
+          [
+            57.6,
+            1050,
+            48588,
+            "Barriera Di Milano"
+          ],
+          [
+            33.4,
+            1045,
+            28202,
+            "Rebaudengo - Regio Parco"
+          ],
+          [
+            15.4,
+            1250,
+            25756,
+            "Corona Nord"
+          ],
+          [
+            21.3,
+            1300,
+            31262,
+            "Lucento - Vallette"
+          ],
+          [
+            55.5,
+            1925,
+            31541,
+            "Parella"
+          ],
+          [
+            39.5,
+            1675,
+            32025,
+            "Aeronautica - Lesna"
+          ],
+          [
+            55.8,
+            1925,
+            36080,
+            "Pozzo Strada"
+          ],
+          [
+            25.6,
+            1300,
+            33481,
+            "Mirafiori Sud"
+          ],
+          [
+            40.2,
+            2025,
+            11318,
+            "Spina 3 - Eurotorino"
+          ],
+          [
+            5.7,
+            2175,
+            9568,
+            "Collinare Villa Della Regina"
+          ],
+          [
+            4.6,
+            1875,
+            3563,
+            "Collinare Superga"
+          ],
+          [
+            6.0,
+            2000,
+            5865,
+            "Collinare Cavoretto"
+          ]
+        ],
+        "retta": {
+          "a": 1369.9,
+          "b": 12.88,
+          "label": "tendenza"
+        },
+        "nota": "Ogni punto è una zona, grande quanto i suoi abitanti. A parità di distanza dal centro il legame quasi sparisce (0,21): la linea mostra soprattutto l'effetto della distanza dal centro."
+      },
       {
         "tipo": "barre",
         "titolo": "Residenti delle sezioni di Torino per condizione",
@@ -458,297 +752,297 @@
     },
     "principale": {
       "tipo": "dispersione",
-      "titolo": "House prices and services on foot, one OMI zone per point (46 zones)",
-      "xlabel": "“All services” score on foot, 0-100",
-      "ylabel": "house price, euro per m²",
-      "passo_x": 20,
-      "passo_y": 500,
-      "xnome": "servizi",
-      "ynome": "euro al m²",
+      "titolo": "Social fragility and services on foot, one OMI zone per dot (46 zones)",
+      "xlabel": "social fragility index, 0-100",
+      "ylabel": "“All services” score on foot, 0-100",
+      "passo_x": 10,
+      "passo_y": 20,
+      "xnome": "fragilità",
+      "ynome": "servizi",
       "punti": [
         [
+          31.7,
           82.2,
-          3650,
           1093,
           "Roma"
         ],
         [
+          24.6,
           79.2,
-          3425,
           10989,
           "Carlo Emanuele Ii"
         ],
         [
+          31.5,
           77.4,
-          2500,
           2584,
           "Solferino"
         ],
         [
+          29.0,
           73.9,
-          2600,
           4598,
           "Vinzaglio"
         ],
         [
+          27.6,
           80.9,
-          2600,
           11934,
           "Garibaldi"
         ],
         [
+          36.9,
           87.3,
-          2850,
           2369,
           "Castello"
         ],
         [
+          32.0,
           79.0,
-          2375,
           4397,
           "Rocca"
         ],
         [
+          33.3,
           67.7,
-          1950,
           7157,
           "San Salvario"
         ],
         [
+          31.7,
           59.9,
-          2700,
           5486,
           "Valentino"
         ],
         [
+          34.2,
           23.5,
-          2175,
           7729,
           "Michelotti"
         ],
         [
+          35.5,
           35.0,
-          2925,
           7445,
           "Crimea"
         ],
         [
+          39.1,
           69.0,
-          2675,
           894,
           "Duca D Aosta"
         ],
         [
+          44.3,
           61.5,
-          1500,
           13406,
           "Porta Palazzo - Maria Ausiliatrice"
         ],
         [
+          34.0,
           73.7,
-          2225,
           18276,
           "Vanchiglia - Borgo Rossini"
         ],
         [
+          54.3,
           51.8,
-          1625,
           20157,
           "Aurora"
         ],
         [
+          31.7,
           62.3,
-          2175,
           22925,
           "Dante"
         ],
         [
+          42.8,
           29.8,
-          2000,
           16461,
           "Vanchiglietta"
         ],
         [
+          37.3,
           70.5,
-          1700,
           10462,
           "Campidoglio - Martinetto"
         ],
         [
+          27.4,
           73.3,
-          2050,
           11167,
           "Adriano - Bernini - Rivoli"
         ],
         [
+          36.1,
           72.5,
-          2000,
           18643,
           "Cenisia"
         ],
         [
+          38.7,
           64.1,
-          2250,
           29291,
           "San Paolo"
         ],
         [
+          28.9,
           66.5,
-          2100,
           5190,
           "San Secondo"
         ],
         [
+          35.3,
           59.6,
-          2275,
           7970,
           "Galileo Ferraris"
         ],
         [
+          28.9,
           63.8,
-          2600,
           15343,
           "De Gasperi"
         ],
         [
+          34.1,
           72.8,
-          2600,
           1405,
           "Politecnico"
         ],
         [
+          30.2,
           81.0,
-          2350,
           14491,
           "Duchessa Jolanda"
         ],
         [
+          41.3,
           64.6,
-          2050,
           22334,
           "San Donato"
         ],
         [
+          56.5,
           46.7,
-          1550,
           71762,
           "Madonna Di Campagna"
         ],
         [
+          47.8,
           44.5,
-          1375,
           4322,
           "Spina 4 - Docks Dora"
         ],
         [
+          58.5,
           9.5,
-          1600,
           10584,
           "Barca - Bertolla"
         ],
         [
+          44.3,
           37.8,
-          1750,
           26802,
           "Nizza Millefonti"
         ],
         [
+          49.8,
           52.8,
-          1500,
           46558,
           "Filadelfia - Traiano"
         ],
         [
+          40.9,
           62.4,
-          1800,
           56890,
           "Santa Rita"
         ],
         [
+          54.5,
           43.9,
-          1425,
           40047,
           "Mirafiori Nord"
         ],
         [
+          62.1,
           57.6,
-          1050,
           48588,
           "Barriera Di Milano"
         ],
         [
+          64.9,
           33.4,
-          1045,
           28202,
           "Rebaudengo - Regio Parco"
         ],
         [
+          63.1,
           15.4,
-          1250,
           25756,
           "Corona Nord"
         ],
         [
+          65.9,
           21.3,
-          1300,
           31262,
           "Lucento - Vallette"
         ],
         [
+          40.2,
           55.5,
-          1925,
           31541,
           "Parella"
         ],
         [
+          47.6,
           39.5,
-          1675,
           32025,
           "Aeronautica - Lesna"
         ],
         [
+          40.3,
           55.8,
-          1925,
           36080,
           "Pozzo Strada"
         ],
         [
+          63.0,
           25.6,
-          1300,
           33481,
           "Mirafiori Sud"
         ],
         [
+          36.9,
           40.2,
-          2025,
           11318,
           "Spina 3 - Eurotorino"
         ],
         [
+          48.1,
           5.7,
-          2175,
           9568,
           "Collinare Villa Della Regina"
         ],
         [
+          45.3,
           4.6,
-          1875,
           3563,
           "Collinare Superga"
         ],
         [
+          40.7,
           6.0,
-          2000,
           5865,
           "Collinare Cavoretto"
         ]
       ],
       "retta": {
-        "a": 1369.9,
-        "b": 12.88,
+        "a": 107.82,
+        "b": -1.323,
         "label": "trend"
       },
-      "nota": "Each point is a zone, as large as its inhabitants. The line is the trend: every 10 more service points, 129 euros per m² more, but partly this is the effect of distance from the centre."
+      "nota": "Each dot is a zone, sized by its residents. The line is the trend: the higher the fragility, the fewer the services. The link holds even at equal distance from the centre: correlation −0.48 (from −0.66 to −0.23)."
     },
     "punti": [
       "At equal distance from the centre the price-services link nearly disappears: correlation 0.21 over 46 zones (from −0.12 to 0.52).",
@@ -756,6 +1050,300 @@
       "At equal distance from the centre, fragility-services (−0.48) and price-fragility (−0.69) hold."
     ],
     "altri": [
+      {
+        "tipo": "dispersione",
+        "titolo": "House prices and services on foot, one OMI zone per point (46 zones)",
+        "xlabel": "“All services” score on foot, 0-100",
+        "ylabel": "house price, euro per m²",
+        "passo_x": 20,
+        "passo_y": 500,
+        "xnome": "servizi",
+        "ynome": "euro al m²",
+        "punti": [
+          [
+            82.2,
+            3650,
+            1093,
+            "Roma"
+          ],
+          [
+            79.2,
+            3425,
+            10989,
+            "Carlo Emanuele Ii"
+          ],
+          [
+            77.4,
+            2500,
+            2584,
+            "Solferino"
+          ],
+          [
+            73.9,
+            2600,
+            4598,
+            "Vinzaglio"
+          ],
+          [
+            80.9,
+            2600,
+            11934,
+            "Garibaldi"
+          ],
+          [
+            87.3,
+            2850,
+            2369,
+            "Castello"
+          ],
+          [
+            79.0,
+            2375,
+            4397,
+            "Rocca"
+          ],
+          [
+            67.7,
+            1950,
+            7157,
+            "San Salvario"
+          ],
+          [
+            59.9,
+            2700,
+            5486,
+            "Valentino"
+          ],
+          [
+            23.5,
+            2175,
+            7729,
+            "Michelotti"
+          ],
+          [
+            35.0,
+            2925,
+            7445,
+            "Crimea"
+          ],
+          [
+            69.0,
+            2675,
+            894,
+            "Duca D Aosta"
+          ],
+          [
+            61.5,
+            1500,
+            13406,
+            "Porta Palazzo - Maria Ausiliatrice"
+          ],
+          [
+            73.7,
+            2225,
+            18276,
+            "Vanchiglia - Borgo Rossini"
+          ],
+          [
+            51.8,
+            1625,
+            20157,
+            "Aurora"
+          ],
+          [
+            62.3,
+            2175,
+            22925,
+            "Dante"
+          ],
+          [
+            29.8,
+            2000,
+            16461,
+            "Vanchiglietta"
+          ],
+          [
+            70.5,
+            1700,
+            10462,
+            "Campidoglio - Martinetto"
+          ],
+          [
+            73.3,
+            2050,
+            11167,
+            "Adriano - Bernini - Rivoli"
+          ],
+          [
+            72.5,
+            2000,
+            18643,
+            "Cenisia"
+          ],
+          [
+            64.1,
+            2250,
+            29291,
+            "San Paolo"
+          ],
+          [
+            66.5,
+            2100,
+            5190,
+            "San Secondo"
+          ],
+          [
+            59.6,
+            2275,
+            7970,
+            "Galileo Ferraris"
+          ],
+          [
+            63.8,
+            2600,
+            15343,
+            "De Gasperi"
+          ],
+          [
+            72.8,
+            2600,
+            1405,
+            "Politecnico"
+          ],
+          [
+            81.0,
+            2350,
+            14491,
+            "Duchessa Jolanda"
+          ],
+          [
+            64.6,
+            2050,
+            22334,
+            "San Donato"
+          ],
+          [
+            46.7,
+            1550,
+            71762,
+            "Madonna Di Campagna"
+          ],
+          [
+            44.5,
+            1375,
+            4322,
+            "Spina 4 - Docks Dora"
+          ],
+          [
+            9.5,
+            1600,
+            10584,
+            "Barca - Bertolla"
+          ],
+          [
+            37.8,
+            1750,
+            26802,
+            "Nizza Millefonti"
+          ],
+          [
+            52.8,
+            1500,
+            46558,
+            "Filadelfia - Traiano"
+          ],
+          [
+            62.4,
+            1800,
+            56890,
+            "Santa Rita"
+          ],
+          [
+            43.9,
+            1425,
+            40047,
+            "Mirafiori Nord"
+          ],
+          [
+            57.6,
+            1050,
+            48588,
+            "Barriera Di Milano"
+          ],
+          [
+            33.4,
+            1045,
+            28202,
+            "Rebaudengo - Regio Parco"
+          ],
+          [
+            15.4,
+            1250,
+            25756,
+            "Corona Nord"
+          ],
+          [
+            21.3,
+            1300,
+            31262,
+            "Lucento - Vallette"
+          ],
+          [
+            55.5,
+            1925,
+            31541,
+            "Parella"
+          ],
+          [
+            39.5,
+            1675,
+            32025,
+            "Aeronautica - Lesna"
+          ],
+          [
+            55.8,
+            1925,
+            36080,
+            "Pozzo Strada"
+          ],
+          [
+            25.6,
+            1300,
+            33481,
+            "Mirafiori Sud"
+          ],
+          [
+            40.2,
+            2025,
+            11318,
+            "Spina 3 - Eurotorino"
+          ],
+          [
+            5.7,
+            2175,
+            9568,
+            "Collinare Villa Della Regina"
+          ],
+          [
+            4.6,
+            1875,
+            3563,
+            "Collinare Superga"
+          ],
+          [
+            6.0,
+            2000,
+            5865,
+            "Collinare Cavoretto"
+          ]
+        ],
+        "retta": {
+          "a": 1369.9,
+          "b": 12.88,
+          "label": "trend"
+        },
+        "nota": "Each dot is a zone, sized by its residents. At equal distance from the centre the link nearly disappears (0.21): the line mostly shows the effect of distance from the centre."
+      },
       {
         "tipo": "barre",
         "titolo": "Residents of Turin's census sections by condition",
