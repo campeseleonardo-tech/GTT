@@ -31,6 +31,6 @@ VERIFICHE INDIPENDENTI - FASE 5 (sezione 11 del piano)
     Francia    <-> Rivoli    : punti OSM 1729/2147  distanza minima 0 m
 
 (5) git status (nessun commit; file vietati non toccati):
-    righe modificate/nuove: 49
+    righe modificate/nuove: 28
     file vietati toccati: NESSUNO
     (sviluppo/MEMORIA_PROGETTO.md e mappa_template.html erano gia' modificati prima della sessione; 04_genera_mappa.py non compare -> intatto)

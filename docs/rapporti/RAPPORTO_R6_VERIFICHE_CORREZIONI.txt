@@ -1,5 +1,5 @@
 RAPPORTO R6 - VERIFICHE INDIPENDENTI DELLE CORREZIONI (script 85)
-Generato il 23/10/2026 20:02; seme 20261020.
+Generato il 24/10/2026 01:24; seme 20261020.
 
 OK     1. M_cint rifatto con pandas — 87161.9 contro 87161.9
 OK     1. M_tor rifatto con pandas — 29987.8 contro 29987.8

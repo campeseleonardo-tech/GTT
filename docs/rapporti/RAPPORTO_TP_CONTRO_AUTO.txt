@@ -1,5 +1,5 @@
 RAPPORTO TP CONTRO AUTO (Risultato 8, parte D, STIMATO)
-generato: 2026-10-24T00:17:01
+generato: 2026-10-24T01:19:21
 
 Zone IMQ con punti: 71 (zone solo «porta» escluse; 23 di Torino); fino a 5 punti per zona, i piu' pesanti.
 Tempi coi mezzi: r5py, giorno 2026-10-12, mediana delle partenze 7:45-8:15, mezzi pubblici + cammino a 4.8 km/h, massimo 120 minuti.

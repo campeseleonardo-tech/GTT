@@ -20,7 +20,7 @@ Un Raspberry Pi di casa raccoglie ogni minuto la posizione di bus e tram e i sen
 1. **Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi**  
    Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata? → **99,2%** dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/1.html)
 2. **Circa il 6% dei passaggi arriva con più di 10 minuti di ritardo**  
-   Quanto spesso i mezzi GTT arrivano in ritardo o a coppie? → **6,19%** dei passaggi feriali arriva con oltre 10 minuti di ritardo. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
+   Quanto spesso i mezzi GTT arrivano in ritardo o a coppie? → **6,41%** dei passaggi feriali arriva con oltre 10 minuti di ritardo. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
 3. **2 fermate importanti su 3 non hanno abbastanza posti per lasciare l'auto (stima)**  
    Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi? → **179** fermate importanti su 274 non hanno posti bastanti a 400 metri a piedi. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/3.html)
 4. **Al mattino, coi mezzi pubblici si impiega 1,9 volte il tempo dell'auto**  
@@ -84,7 +84,7 @@ The site is in Italian and English (button IT/EN); the map is in Italian.
 1. **Turin, a 15-minute city: almost everyone has the services within a 15-minute walk**  
    How many people in Turin have the services within 5, 10 and 15 minutes on foot, and how many live on a busy road? → **99.2%** of residents of inhabited areas have all 5 services within a 15-minute walk. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/1.html)
 2. **About 6% of stop passages are more than 10 minutes late**  
-   How often are GTT vehicles late or bunched together? → **6.19%** of weekday arrivals are more than 10 minutes late. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
+   How often are GTT vehicles late or bunched together? → **6.41%** of weekday arrivals are more than 10 minutes late. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
 3. **2 important stops out of 3 do not have enough spaces to leave the car (estimate)**  
    Can people driving in from outside find a place to leave the car near an important stop, and continue by public transport? → **179** important stops out of 274 lack enough parking within 400 metres on foot. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/3.html)
 4. **In the morning, public transport takes 1.9 times as long as the car**  

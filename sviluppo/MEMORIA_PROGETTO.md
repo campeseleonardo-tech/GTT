@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **23/10/2026** (giri L1: P1-P7, C13). File unico di memoria (`sviluppo/MEMORIA_PROGETTO.md`): leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
+Ultimo aggiornamento: **24/10/2026** (L9b) (giri L1: P1-P7, C13). File unico di memoria (`sviluppo/MEMORIA_PROGETTO.md`): leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
 risultato stanno nel suo documento in `docs/` (`R1_servizi.md` …), i piani aperti in `sviluppo/piani/`, la storia in git. Sezioni fisse (non aggiungerne): 1 Obiettivo · 2 Regole · 3 Cartelle e dati · 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici.
 
 ## 1. Obiettivo
@@ -62,8 +62,8 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 - **R1 servizi** (21-22, 92): a piedi copertura a 15 minuti 99,2%, a 10 96,8%, a 5 68,3%; **362 torinesi in zone abitate con 3+ servizi mancanti** (5 sezioni in collina, confermate), 6.768 in zone poco abitate
   (sotto 1.000 ab/km², grigio), 389 «da verificare»; esposti al traffico 26,4% (222.179; 204 tratte molto trafficate come nel R8, soglia letta dal R8); cintura con piedi o TP 45' alle 8; candidati per gruppo (scuole 5, salute 5, cibo 3, fermate 1, verde 0). Manca il per circoscrizione (campo assente). `docs/R1_servizi.md`.
 - **R2 metro di notte** (28-29, **in pausa**, Leo 20/10: non risponde a «tornare a casa la sera»; ripresa con il «popolo della notte» IMQ 00-05): ogni 15' → **334.085 residenti con almeno +25% di servizi** (ogni 30': 153.062); con qualsiasi miglioramento 773.307 (652.891). `docs/R2_metro_notte.md`.
-- **R4 puntualità e attese** (27, 70), **tutto sul GPS dei mezzi** (il feed sottostimava i ritardi di 2-3 volte), 8 feriali (rifatto 23/10), copertura GPS 80%: **15,6% oltre 5 minuti** (feed 6,0%), 6,19% oltre 10 (GTT dichiara 2,3% per il 2025, metodo non
-  pubblicato), grappolo+buco 21,6%; tram 15,0%, bus 15,8%; peggiori 17, 6, 19, 66, 68. «Oltre 10 minuti» in 4 definizioni: a ogni fermata 5,49%, prima fermata 3,92%, metà corsa 5,24%, fuori punta 5,30% (la definizione spiega solo parte della differenza).
+- **R4 puntualità e attese** (27, 70), **tutto sul GPS dei mezzi** (il feed sottostimava i ritardi di 2-3 volte), 7 feriali (periodo fisso 10-22/10 a giorni interi, `comuni.PERIODO`, rifatto 24/10 in L9b: un rilancio dà gli stessi numeri; mai il giorno della copia dello storico), copertura GPS 80%: **16,0% oltre 5 minuti** (feed 6,2%), 6,41% oltre 10 (GTT dichiara 2,3% per il 2025, metodo non
+  pubblicato), grappolo+buco 21,6%; tram 15,4%, bus 16,2%; peggiori 17, 6, 19, 68, 66. «Oltre 10 minuti» (settimana) in 4 definizioni: a ogni fermata 6,18%, prima fermata 5,28%, metà corsa 5,86%, fuori punta 5,79%; partenza al capolinea corretta (ultimo istante vicino alla fermata, solo prima fermata): anticipo alla prima fermata 29,0% (era 56,1%).
   Tema «Puntualità delle linee» in mappa. `docs/R4_puntualita.md`.
 - **R6 parcheggi** (24-25, 68-73, 77, 79-85, 87, 88, 94): fermate importanti con regola fissa (≥ 10 corse/ora o metro/stazione/capolinea, e ≥ 1.000 auto in entrata, scelta di Leo): **274**, **179 senza posti bastanti** entro 400 m a piedi
   (68 senza alcun parcheggio adatto); **12 punti prioritari** (uno per asse, ≥ 3 km dal centro, ≥ 50 posti mancanti; Maroncelli e Chieri escono, Leo: lasciare così); auto in entrata 87.162, chi già lascia l'auto 5,8% (64 interviste), torinesi inclusi 34%;

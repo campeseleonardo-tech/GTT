@@ -78,7 +78,7 @@ def forma_r10(s):
                   "passo_x": 10, "passo_y": 20, "xnome": "fragilità", "ynome": "servizi",
                   "punti": [[z["fragilita"], z["servizi"], z["abitanti"], nome_zona(z["zona"])] for z in zone],
                   "retta": {"a": rfs["intercetta_servizi"], "b": rfs["pendenza_servizi_per_punto_fragilita"], "label": "tendenza"},
-                  "nota": (f"Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: più la fragilità è alta, meno servizi. "
+                  "nota": ("Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: più la fragilità è alta, meno servizi. "
                            + (f"Il legame regge anche a parità di distanza dal centro: correlazione {meno(gf['parziale'])} ({ic_f})." if gf["regge"]
                               else f"A parità di distanza dal centro il legame non regge: correlazione {meno(gf['parziale'])} ({ic_f})."))}
     # il vecchio grafico principale va fra gli altri: prezzo e servizi, con la nota sul legame che sparisce a parita' di distanza

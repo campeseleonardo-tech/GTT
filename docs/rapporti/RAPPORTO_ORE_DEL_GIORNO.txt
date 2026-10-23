@@ -1,5 +1,5 @@
 RAPPORTO ORE DEL GIORNO: BUS CONTRO AUTO A 4 ORE (STIMATO)
-generato: 2026-10-23T23:50:16
+generato: 2026-10-24T01:24:06
 
 Giorno 2026-10-12 (feriale), finestra di 30 minuti attorno all'ora, mediana; cammino a 4.8 km/h; auto = flusso libero x fattore + 5 minuti.
 Stima dei sensori = rallentamento dei sensori 5T alle varie ore (solo traffico: la piu' favorevole all'auto). Stima TomTom (principale) = fattore_rete del servizio di percorsi TomTom (script 101: tempo col traffico / nostro flusso libero), per percorso e ora.
