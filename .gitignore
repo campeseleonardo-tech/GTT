@@ -72,3 +72,8 @@ data/ref/eventi_luoghi.json
 data/scenari/gtt_gtfs_notte15.zip
 data/scenari/gtt_gtfs_notte30.zip
 # <<< data
+
+# prove dello script 99 (tempi finti o su campione): mai in git
+data/processed/area_tempi_finto.json
+data/processed/area_tempi_prova.json
+!data/area_tempi.js
