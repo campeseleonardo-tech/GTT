@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
-"""Copia settimanalmente lo storico SQLite dal Pi al PC in modo consistente."""
+"""Copia ogni giorno lo storico SQLite dal Pi al PC in modo consistente.
+
+Regola (L4, 23/10/2026): la copia nuova sostituisce quella vecchia solo se non ha perso dati. Il solo
+controllo di integrita' non basta: se sul Pi il file si azzera, la copia e' vuota ma "integra" e il PC
+butterebbe l'unica copia buona. Quindi, per ogni tabella gia' presente nella copia vecchia: righe nuove >=
+righe vecchie; per mezzi_gtt e flussi_5t anche primo istante uguale e ultimo istante >= quello vecchio.
+Se la regola non e' rispettata la vecchia resta, la nuova va in data/storico_backup_SOSPETTO.sqlite e
+l'uscita e' il codice 3 (ALLARME nel .bat). Se e' rispettata, la vecchia diventa storico_backup_ieri.sqlite.
+Prova senza Pi: python scripts/backup_da_leopi.py --prova
+"""
 import base64
 import json
 import os
@@ -7,6 +16,7 @@ import shutil
 import sqlite3
 import subprocess
 import sys
+import tempfile
 import uuid
 from pathlib import Path
 
@@ -28,7 +38,11 @@ SSH_KEY = Path(CFG["chiave"])
 DEST = DATA / "storico_backup.sqlite"
 TABELLE = ("sensori_5t", "flussi_5t", "accuratezza_5t", "mezzi_gtt", "errori",
            "trip_update_gtt", "avvisi_gtt",
-           "parcheggi_5t", "occupazione_pk", "ztl_5t")  # ultime 3: parcheggi/ZTL, raccolti dal 14/10
+           "parcheggi_5t", "occupazione_pk", "ztl_5t",
+           "gtfs_versioni")  # parcheggi/ZTL raccolti dal 14/10; gtfs_versioni dall'archivio GTFS (L4)
+TABELLE_CON_ISTANTI = ("mezzi_gtt", "flussi_5t")  # qui anche il primo istante deve restare uguale
+CODICE_SOSPETTO = 3
+SPAZIO_PER_IERI = 1.2  # copia "ieri" solo se il disco del PC ha almeno 1,2 volte la copia nuova
 
 
 def esegui(comando):
@@ -46,11 +60,13 @@ def comando_ssh(testo):
             "-o", "ConnectTimeout=30", PI, remoto]
 
 
-def riepilogo_locale(percorso):
+def riepilogo_locale(percorso, controlla=True):
     uri = percorso.resolve().as_uri() + "?mode=ro"
     con = sqlite3.connect(uri, uri=True, timeout=30)
-    integro = con.execute("PRAGMA integrity_check").fetchone()[0]
-    if integro != "ok":
+    integro = "non controllato"
+    if controlla:
+        integro = con.execute("PRAGMA integrity_check").fetchone()[0]
+    if controlla and integro != "ok":
         con.close()
         raise RuntimeError(f"integrity_check locale: {integro}")
     presenti = {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
@@ -65,6 +81,92 @@ def riepilogo_locale(percorso):
                 f'SELECT MIN("{colonna}"),MAX("{colonna}") FROM "{tabella}"').fetchone()
     con.close()
     return {"integrity_check": integro, "conteggi": conteggi, "intervalli": ultimi}
+
+
+def decidi(riepilogo_vecchio, riepilogo_nuovo):
+    """Funzione pura: (accetta, motivi). Riepiloghi come quelli di riepilogo_locale()."""
+    motivi = []
+    nuovi = riepilogo_nuovo["conteggi"]
+    for tabella, vecchie in riepilogo_vecchio["conteggi"].items():
+        if tabella not in nuovi:
+            motivi.append(f"{tabella}: nella copia nuova manca (vecchia {vecchie:,} righe)")
+        elif nuovi[tabella] < vecchie:
+            motivi.append(f"{tabella}: {nuovi[tabella]:,} righe nuove contro {vecchie:,} vecchie")
+    for tabella in TABELLE_CON_ISTANTI:
+        v = riepilogo_vecchio["intervalli"].get(tabella)
+        n = riepilogo_nuovo["intervalli"].get(tabella)
+        if not v or v[0] is None:
+            continue
+        if not n or n[0] is None:
+            motivi.append(f"{tabella}: nessun istante nella copia nuova (vecchia {v[0]} - {v[1]})")
+        elif n[0] != v[0]:
+            motivi.append(f"{tabella}: primo istante {n[0]} contro {v[0]}")
+        elif n[1] < v[1]:
+            motivi.append(f"{tabella}: ultimo istante {n[1]} prima di {v[1]}")
+    return not motivi, motivi
+
+
+def sostituisci(nuova, dest, avviso=print):
+    """Applica la regola: ritorna 0 se la copia nuova e' stata accettata, CODICE_SOSPETTO se no."""
+    sospetto = dest.with_name(dest.stem + "_SOSPETTO.sqlite")
+    ieri = dest.with_name(dest.stem + "_ieri.sqlite")
+    if dest.exists():
+        accetta, motivi = decidi(riepilogo_locale(dest, controlla=False),
+                                 riepilogo_locale(nuova, controlla=False))
+        if not accetta:
+            os.replace(nuova, sospetto)
+            print("ALLARME: la copia nuova ha meno dati di quella di prima, tenuta la vecchia.")
+            for m in motivi:
+                print(f"  - {m}")
+            print(f"La nuova e' in {sospetto}")
+            return CODICE_SOSPETTO
+        libero = shutil.disk_usage(dest.parent).free
+        if libero < SPAZIO_PER_IERI * nuova.stat().st_size:
+            avviso(f"AVVISO: poco spazio sul PC ({libero / 1e9:.1f} GB liberi): non tengo la copia 'ieri'")
+        else:
+            os.replace(dest, ieri)
+    os.replace(nuova, dest)
+    return 0
+
+
+def prova():
+    """Cinque casi su due SQLite finti, in una cartella temporanea."""
+    def crea(percorso, mezzi, flussi, primo="2026-10-01", ultimo="2026-10-02"):
+        con = sqlite3.connect(percorso)
+        con.execute("CREATE TABLE mezzi_gtt (letto_utc TEXT)")
+        con.execute("CREATE TABLE flussi_5t (generato_utc TEXT)")
+        con.executemany("INSERT INTO mezzi_gtt VALUES (?)",
+                        [(primo if i == 0 else ultimo,) for i in range(mezzi)])
+        con.executemany("INSERT INTO flussi_5t VALUES (?)",
+                        [(primo if i == 0 else ultimo,) for i in range(flussi)])
+        con.commit()
+        con.close()
+
+    casi = [
+        ("nuova piu' grande: sostituita, c'e' 'ieri'", True, dict(m=20, f=20), 0, True, False),
+        ("nuova con meno righe: tenuta la vecchia, SOSPETTO", True, dict(m=5, f=20), 3, False, True),
+        ("nuova vuota: come sopra", True, dict(m=0, f=0), 3, False, True),
+        ("primo istante diverso: come sopra", True, dict(m=20, f=20, primo="2026-10-05"), 3, False, True),
+        ("nessuna copia vecchia: sostituita", False, dict(m=20, f=20), 0, True, False),
+    ]
+    errori = 0
+    for nome, con_vecchia, k, codice_atteso, nuova_vince, sospetto_atteso in casi:
+        with tempfile.TemporaryDirectory() as cartella:
+            cartella = Path(cartella)
+            dest = cartella / "storico_backup.sqlite"
+            nuova = cartella / "nuova.part"
+            if con_vecchia:
+                crea(dest, 10, 10)
+            crea(nuova, k["m"], k["f"], k.get("primo", "2026-10-01"))
+            codice = sostituisci(nuova, dest, avviso=lambda t: None)
+            righe_dest = riepilogo_locale(dest, controlla=False)["conteggi"]["mezzi_gtt"]
+            ok = (codice == codice_atteso
+                  and righe_dest == (k["m"] if nuova_vince else 10)
+                  and (cartella / "storico_backup_SOSPETTO.sqlite").exists() == sospetto_atteso
+                  and (cartella / "storico_backup_ieri.sqlite").exists() == (con_vecchia and nuova_vince))
+        print(("OK     " if ok else "ERRORE ") + nome)
+        errori += 0 if ok else 1
+    return 1 if errori else 0
 
 
 def main():
@@ -107,7 +209,8 @@ print(json.dumps({{"integrity_check":check,"conteggi":counts,"intervalli":ranges
             raise RuntimeError(f"conteggi diversi: Pi={remoto['conteggi']} PC={locale['conteggi']}")
         if locale["intervalli"] != {k: tuple(v) for k, v in remoto["intervalli"].items()}:
             raise RuntimeError("intervalli temporali diversi tra snapshot del Pi e copia PC")
-        os.replace(local_tmp, DEST)
+        if sostituisci(local_tmp, DEST):
+            return CODICE_SOSPETTO
         print(f"Backup verificato: {DEST}")
         print(f"Dimensione: {DEST.stat().st_size:,} byte")
         print(f"Tabelle: {remoto['conteggi']}")
@@ -121,11 +224,14 @@ print(json.dumps({{"integrity_check":check,"conteggi":counts,"intervalli":ranges
             esegui(comando_ssh(pulisci))
         except Exception as e:
             print(f"Avviso: non ho potuto rimuovere lo snapshot temporaneo sul Pi: {e}", file=sys.stderr)
+    return 0
 
 
 if __name__ == "__main__":
+    if "--prova" in sys.argv:
+        sys.exit(prova())
     try:
-        main()
+        sys.exit(main())
     except Exception as e:
         print(f"ERRORE backup: {e}", file=sys.stderr)
         sys.exit(1)

@@ -38,6 +38,8 @@ jobs:
           python scripts/prove/prova_funzioni_comuni.py
           python scripts/comuni.py
           python scripts/prove/prova_riassunti.py
+          python scripts/prove/prova_gtfs_archivio.py
+          python scripts/backup_da_leopi.py --prova
           python scripts/99_area_tempi.py --finto
           python scripts/rifai_tutto.py --prova-secca
           python scripts/schede_risultati.py

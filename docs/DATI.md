@@ -298,5 +298,13 @@ Prese il 22/10/2026, dopo l'inventario sui dati veri. Lo script 96 le applica da
 | Dati delle pagine, risultati e riferimenti piccoli | **git** | come proposto dall'inventario |
 | Storico SQLite | **riassunti** (script 97) | piano 2, passo 4 |
 
+Copie della raccolta, **solo sul PC** (L4, 23/10/2026; tutte fuori da git, coperte da `data/*` e `*.sqlite`):
+
+| File | Cosa è |
+|---|---|
+| `data/storico_backup_ieri.sqlite` | la copia di prima: la tiene `backup_da_leopi.py` quando la nuova viene accettata |
+| `data/storico_backup_SOSPETTO.sqlite` | la copia nuova rifiutata perché aveva meno dati: la vecchia resta in `storico_backup.sqlite` (ALLARME) |
+| `data/gtfs_archivio/` | gli zip del GTFS di GTT archiviati dal Pi (uno per versione); li copia `RACCOLTA_GIORNALIERA.bat` |
+
 Ancora aperti: il PDF del rapporto di sostenibilità GTT 2025 (`rapporto_di_sostenibilita_2025.pdf`, 3 MB: oggi in Release, ma è un documento di GTT di cui la licenza non è stata controllata);
 i numeri aggregati dell'IMQ dentro `mappa_torino.html` (restano con la citazione, da confermare con l'Agenzia); `IMQ2022_opendata_web.accdb` esiste due volte (`data/` e `data/raw/`, 60 MB l'una): se non serve la copia, cancellare a mano quella fuori da `raw`.

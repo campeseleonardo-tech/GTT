@@ -6,6 +6,8 @@ Ogni 5 minuti salva i flussi di traffico 5T (91 sensori) e i posti liberi nei
 parcheggi in struttura 5T (~41 parcheggi, compresi gli interscambi Stura/Caio Mario/
 Sofia/Venchi Unica/Fermi).
 Una volta al giorno salva perimetro/varchi/orari ZTL 5T, solo se diversi dall'ultima copia.
+Una volta al giorno scarica il GTFS di GTT: se e' cambiato, lo tiene in data/gtfs/gtt_gtfs_AAAAMMGG.zip
+e scrive una riga nella tabella gtfs_versioni (il file non va dentro SQLite: lo storico crescerebbe).
 Ogni N secondi (default 60) salva le posizioni dei mezzi GTT.
 Tutto finisce in un unico file locale: data/storico.sqlite  (nessun cloud).
 
@@ -24,12 +26,16 @@ Se un feed risponde con errore, lo script scrive l'errore e riprova al giro dopo
 senza fermarsi.
 """
 import argparse
+import csv
+import hashlib
+import io
 import sqlite3
 import struct
 import sys
 import time
 import urllib.request
 import xml.etree.ElementTree as ET
+import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -53,6 +59,10 @@ URL_5T = "https://opendata.5t.torino.it/get_fdt"
 URL_PK = "https://opendata.5t.torino.it/get_pk"
 URL_ZTL = "https://opendata.5t.torino.it/get_access_control"
 SECONDI_ZTL = 86400  # dato quasi fisso: basta un controllo al giorno
+URL_GTFS = "https://www.gtt.to.it/open_data/gtt_gtfs.zip"  # stesso indirizzo dello script 01
+SECONDI_GTFS = 86400  # GTT lo cambia poche volte l'anno: basta un controllo al giorno
+CARTELLA_GTFS = RADICE / "data" / "gtfs"
+FILE_GTFS_OBBLIGATORI = ("stops.txt", "trips.txt", "stop_times.txt")
 URL_VP = "https://percorsieorari.gtt.to.it/das_gtfsrt/vehicle_position.aspx"
 SECONDI_5T = 300  # il feed 5T e' aggiornato ogni 5 minuti: non ha senso chiedere piu' spesso
 
@@ -96,6 +106,8 @@ def apri_db():
         generato_utc TEXT, id TEXT, stato INTEGER, totale INTEGER, liberi INTEGER,
         tendenza INTEGER, PRIMARY KEY (generato_utc, id));
     CREATE TABLE IF NOT EXISTS ztl_5t (scaricato_utc TEXT, generato TEXT, xml BLOB);
+    CREATE TABLE IF NOT EXISTS gtfs_versioni (
+        scaricato_utc TEXT, file TEXT, sha256 TEXT, byte INTEGER, valido_da TEXT, valido_a TEXT);
     CREATE TABLE IF NOT EXISTS errori (quando_utc TEXT, fonte TEXT, messaggio TEXT);
     """)
     return con
@@ -322,6 +334,78 @@ def giro_ztl(con):
         registra_errore(con, "ZTL", e)
 
 
+def _csv_righe(zf, nome):
+    with zf.open(nome) as f:
+        yield from csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig"))
+
+
+def _data_iso(testo):
+    t = (testo or "").strip()
+    return f"{t[:4]}-{t[4:6]}-{t[6:8]}" if len(t) == 8 and t.isdigit() else None
+
+
+def controlla_gtfs(dati):
+    """Zip valido con i file che servono? Ritorna (valido_da, valido_a) in AAAA-MM-GG; eccezione se no."""
+    zf = zipfile.ZipFile(io.BytesIO(dati))
+    nomi = set(zf.namelist())
+    mancanti = [n for n in FILE_GTFS_OBBLIGATORI if n not in nomi]
+    if mancanti or not ({"calendar.txt", "calendar_dates.txt"} & nomi):
+        raise ValueError(f"GTFS incompleto: mancano {mancanti or 'calendar.txt e calendar_dates.txt'}")
+    if zf.testzip() is not None:
+        raise ValueError("GTFS: zip danneggiato")
+    da = a = None
+    if "feed_info.txt" in nomi:
+        for r in _csv_righe(zf, "feed_info.txt"):
+            da, a = _data_iso(r.get("feed_start_date")), _data_iso(r.get("feed_end_date"))
+            break
+    if not (da and a):
+        date = []
+        if "calendar.txt" in nomi:
+            for r in _csv_righe(zf, "calendar.txt"):
+                date += [_data_iso(r.get("start_date")), _data_iso(r.get("end_date"))]
+        if "calendar_dates.txt" in nomi:
+            date += [_data_iso(r.get("date")) for r in _csv_righe(zf, "calendar_dates.txt")]
+        date = [d for d in date if d]
+        if not date:
+            raise ValueError("GTFS: nessuna data di validita'")
+        da, a = min(date), max(date)
+    return da, a
+
+
+def data_italiana():
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.now(ZoneInfo("Europe/Rome")).strftime("%Y%m%d")
+    except Exception:
+        return datetime.now(timezone.utc).strftime("%Y%m%d")
+
+
+def salva_gtfs_da_bytes(con, dati, cartella=None):
+    """Salva lo zip se l'hash e' nuovo. Ritorna il nome del file salvato, o None se uguale all'ultimo."""
+    cartella = Path(cartella or CARTELLA_GTFS)
+    da, a = controlla_gtfs(dati)
+    sha = hashlib.sha256(dati).hexdigest()
+    ultimo = con.execute("SELECT sha256 FROM gtfs_versioni ORDER BY scaricato_utc DESC, rowid DESC LIMIT 1").fetchone()
+    if ultimo and ultimo[0] == sha:
+        return None
+    cartella.mkdir(parents=True, exist_ok=True)
+    nome = f"gtt_gtfs_{data_italiana()}.zip"
+    if (cartella / nome).exists():
+        nome = nome[:-4] + "_2.zip"
+    (cartella / nome).write_bytes(dati)
+    con.execute("INSERT INTO gtfs_versioni VALUES (?,?,?,?,?,?)", (adesso(), nome, sha, len(dati), da, a))
+    con.commit()
+    return nome
+
+
+def giro_gtfs(con):
+    try:
+        nome = salva_gtfs_da_bytes(con, scarica(URL_GTFS))
+        log("GTFS: " + ("invariato" if nome is None else f"versione nuova salvata ({nome})"))
+    except Exception as e:
+        registra_errore(con, "GTFS", e)
+
+
 def giro_gtt(con):
     try:
         n = salva_vp_da_bytes(con, scarica(URL_VP))
@@ -340,7 +424,7 @@ def main():
 
     con = apri_db()
     log(f"Archivio: {DB}")
-    prossimo_5t = prossimo_gtt = prossimo_ztl = 0.0
+    prossimo_5t = prossimo_gtt = prossimo_ztl = prossimo_gtfs = 0.0
     try:
         while True:
             t = time.time()
@@ -351,6 +435,9 @@ def main():
             if t >= prossimo_ztl:
                 giro_ztl(con)
                 prossimo_ztl = t + SECONDI_ZTL
+            if t >= prossimo_gtfs:
+                giro_gtfs(con)
+                prossimo_gtfs = t + SECONDI_GTFS
             if not args.no_gtt and t >= prossimo_gtt:
                 giro_gtt(con)
                 prossimo_gtt = t + gtt_sec
