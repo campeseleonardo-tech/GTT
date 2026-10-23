@@ -11,6 +11,6 @@
  "fermate_bus_tram": 5032,
  "fermate_metro": 23,
  "partenze_ora_am_totali": 28929.5,
- "durata_s": 5.1,
+ "durata_s": 4.9,
  "fonte": "GTFS GTT 20261003, orario programmato; fermate entro 40 m raggruppate"
 }

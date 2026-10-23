@@ -1,97 +1,100 @@
 RAPPORTO R6 - CONFRONTO AUTO IN ENTRATA (MODELLO) E SENSORI 5T
-Sensori: velocita_5t.json, feriale, ore 6-9, veicoli/ora, periodo 2026-10-09 - 2026-10-18.
+Sensori: velocita_5t.json, feriale, ore 6-9, veicoli/ora, periodo 2026-10-09 - 2026-10-22.
 Modello: auto_passaggio.npz (script 81), tratto piu' trafficato entro 50 m, due versi.
-Tenuti 33 sensori su 112 (flusso > 0, entro 25 km da Torino).
+Tenuti 35 sensori su 112 (flusso > 0, entro 25 km da Torino).
 Si confronta l'ordine, non il valore (il modello conta le auto in entrata del mattino, il sensore tutte).
 
-(a) sensore per sensore: rho = 0.833 (p = 0.000), 33 sensori
-(b) per luogo (sensori a meno di 30 m sommati): rho = 0.596 (p = 0.001), 27 luoghi
-    variante (b) senza i 8 sensori fuori rete o con modello 0: rho = 0.517, 23 luoghi
+(a) sensore per sensore: rho = 0.827 (p = 0.000), 35 sensori
+(b) per luogo (sensori a meno di 30 m sommati): rho = 0.548 (p = 0.003), 28 luoghi
+    variante (b) senza i 8 sensori fuori rete o con modello 0: rho = 0.461, 24 luoghi
 
 Le 10 strade dove le due classifiche sono piu' diverse (confronto b, posizione 1 = piu' trafficata):
-  SP1 delle Valli di Lanzo (2 sensori) @45.188,7.569 misurato   4346 (pos. 8.0)   modello     521 (pos. 23.0)   diff 15.0
-  Corso Allamano @45.051,7.622                 misurato   1296 (pos. 27.0)   modello    3545 (pos. 15.0)   diff 12.0
-  SP8 di Druento (2 sensori) @45.124,7.592     misurato   4972 (pos. 7.0)   modello    1074 (pos. 19.0)   diff 12.0
-  Corso Sebastopoli @45.049,7.632              misurato   1961 (pos. 25.0)   modello    4248 (pos. 14.0)   diff 11.0
-  Corso Giulio Cesare @45.104,7.701            misurato   2898 (pos. 18.0)   modello    7094 (pos. 8.0)   diff 10.0
-  Corso Unione Sovietica @45.022,7.635         misurato   2410 (pos. 22.0)   modello    5999 (pos. 12.0)   diff 10.0
-  SS460 Di Ceresole (2 sensori) @45.244,7.743  misurato   3424 (pos. 16.0)   modello       0 (pos. 25.5)   diff 9.5
-  SP2 Di Germagnano @45.212,7.614              misurato   3846 (pos. 12.0)   modello     726 (pos. 20.5)   diff 8.5
-  R24 Raccordo Torino-Aeroporto Caselle @45.108,7.695 misurato   5924 (pos. 5.0)   modello    5927 (pos. 13.0)   diff 8.0
-  Corso Francia @45.074,7.613                  misurato   3587 (pos. 14.0)   modello    7108 (pos. 7.0)   diff 7.0
+  Corso Regina Margherita @45.087,7.653        misurato   2669 (pos. 22.0)   modello   10110 (pos. 4.0)   diff 18.0
+  SP1 delle Valli di Lanzo (2 sensori) @45.188,7.569 misurato   4206 (pos. 9.0)   modello     521 (pos. 24.0)   diff 15.0
+  SP8 di Druento (2 sensori) @45.124,7.592     misurato   4957 (pos. 7.0)   modello    1074 (pos. 20.0)   diff 13.0
+  Corso Allamano @45.051,7.622                 misurato   1343 (pos. 28.0)   modello    3545 (pos. 16.0)   diff 12.0
+  Corso Sebastopoli @45.049,7.632              misurato   2049 (pos. 26.0)   modello    4248 (pos. 15.0)   diff 11.0
+  SS460 Di Ceresole (2 sensori) @45.244,7.743  misurato   3355 (pos. 16.0)   modello       0 (pos. 26.5)   diff 10.5
+  Corso Unione Sovietica @45.022,7.635         misurato   2408 (pos. 23.0)   modello    5999 (pos. 13.0)   diff 10.0
+  SP2 Di Germagnano @45.212,7.614              misurato   3740 (pos. 12.0)   modello     726 (pos. 21.5)   diff 9.5
+  R24 Raccordo Torino-Aeroporto Caselle @45.108,7.695 misurato   5869 (pos. 5.0)   modello    5927 (pos. 14.0)   diff 9.0
+  Corso Giulio Cesare @45.104,7.701            misurato   3234 (pos. 17.0)   modello    7094 (pos. 9.0)   diff 8.0
 
-Corso Francia (a): Corso Francia (pos) [40022] - misurato pos. 11.0/33, modello pos. 10.0/33 (misurato 3715, modello 7025)
-Corso Francia (a): Corso Francia (pos) [40021] - misurato pos. 12.0/33, modello pos. 7.0/33 (misurato 3587, modello 7108)
-Corso Francia (b): Corso Francia @45.074,7.616 - misurato pos. 13.0/27, modello pos. 10.0/27 (misurato 3715, modello 7025)
-Corso Francia (b): Corso Francia @45.074,7.613 - misurato pos. 14.0/27, modello pos. 7.0/27 (misurato 3587, modello 7108)
-Strada/Corso Trieste (a): Corso Trieste (pos) [40174] - misurato pos. 2.0/33, modello pos. 2.0/33 (misurato 8539, modello 11731)
-Strada/Corso Trieste (b): Corso Trieste @45.014,7.669 - misurato pos. 2.0/27, modello pos. 2.0/27 (misurato 8539, modello 11731)
+Corso Francia (a): Corso Francia (pos) [40022] - misurato pos. 12.0/35, modello pos. 12.0/35 (misurato 3711, modello 7025)
+Corso Francia (a): Corso Francia (pos) [40021] - misurato pos. 13.0/35, modello pos. 9.0/35 (misurato 3629, modello 7108)
+Corso Francia (b): Corso Francia @45.074,7.616 - misurato pos. 13.0/28, modello pos. 11.0/28 (misurato 3711, modello 7025)
+Corso Francia (b): Corso Francia @45.074,7.613 - misurato pos. 14.0/28, modello pos. 8.0/28 (misurato 3629, modello 7108)
+Strada/Corso Trieste (a): Corso Trieste (pos) [40174] - misurato pos. 2.0/35, modello pos. 2.0/35 (misurato 8103, modello 11731)
+Strada/Corso Trieste (b): Corso Trieste @45.014,7.669 - misurato pos. 3.0/28, modello pos. 2.0/28 (misurato 8103, modello 11731)
 
-Lettura (b): rho = 0.596: debole: il modello segue solo in parte l'ordine delle strade d'ingresso.
+Lettura (b): rho = 0.548: debole: il modello segue solo in parte l'ordine delle strade d'ingresso.
 Attenzione: sensori senza strada della rete o con modello 0: SS10 Padana Inferiore [3717], SS10 Padana Inferiore [3718], SP13 di Front [35559], SP13 di Front [35560], SS460 Di Ceresole [11432], SS460 Di Ceresole [11433], SP122 di Chieri [35518], SP122 di Chieri [35519]
 
 --- (a) sensore per sensore ---
   N sensore / strada                              misurato   modello  pos.mis  pos.mod   diff
-  1 Corso Unita' D'italia (pos) [40189]               9791     11972      1.0      1.0    0.0
-  2 Corso Trieste (pos) [40174]                       8539     11731      2.0      2.0    0.0
-  3 Corso Orbassano (pos) [40095]                     7014      8385      3.0      4.0    1.0
-  4 Corso Unita' D'italia (neg) [40191]               6288     10880      4.0      3.0    1.0
-  5 R24 Raccordo Torino-Aeroporto Caselle (neg)       5924      5927      5.0     13.0    8.0
-  6 Corso Orbassano (pos) [40097]                     5033      7044      6.0      9.0    3.0
-  7 Corso Giulio Cesare (pos) [40040]                 4341      7275      7.0      6.0    1.0
-  8 Corso Regina Margherita (pos) [40122]             3953      7332      8.0      5.0    3.0
-  9 Ponte Amedeo VIII (pos) [40212]                   3851      3145      9.0     16.0    7.0
- 10 SP2 Di Germagnano (neg) [35824]                   3846       726     10.0     21.5   11.5
- 11 Corso Francia (pos) [40022]                       3715      7025     11.0     10.0    1.0
- 12 Corso Francia (pos) [40021]                       3587      7108     12.0      7.0    5.0
- 13 Corso Orbassano (pos) [40098]                     3490      6383     13.0     11.0    2.0
- 14 Corso Vercelli (pos) [40194]                      3295       623     14.0     23.0    9.0
- 15 SP8 di Druento (neg) [36067]                      2965      1074     15.0     19.5    4.5
- 16 Corso Giulio Cesare (pos) [40041]                 2898      7094     16.0      8.0    8.0
- 17 SP1 delle Valli di Lanzo (neg) [35479]            2848       521     17.0     24.5    7.5
- 18 SP2 Di Germagnano (pos) [35823]                   2783       726     18.0     21.5    3.5
- 19 Corso Agnelli (pos) [39977]                       2738      2647     19.0     17.0    2.0
- 20 Corso Unione Sovietica (pos) [40182]              2410      5999     20.0     12.0    8.0
- 21 Strada Di Settimo (pos) [40253]                   2112      1604     21.0     18.0    3.0
- 22 SS460 Di Ceresole (neg) [11433]                   2012         0     22.0     29.5    7.5
- 23 SP8 di Druento (pos) [36066]                      2007      1074     23.0     19.5    3.5
- 24 Corso Sebastopoli (pos) [40149]                   1961      4248     24.0     14.0   10.0
- 25 SS10 Padana Inferiore (neg) [3718]                1651         0     25.0     29.5    4.5
- 26 SP1 delle Valli di Lanzo (pos) [35478]            1498       521     26.0     24.5    1.5
- 27 SS460 Di Ceresole (pos) [11432]                   1412         0     27.0     29.5    2.5
- 28 Corso Allamano (pos) [39983]                      1296      3545     28.0     15.0   13.0
- 29 SP13 di Front (neg) [35560]                       1225         0     29.0     29.5    0.5
- 30 SS10 Padana Inferiore (pos) [3717]                1122         0     30.0     29.5    0.5
- 31 SP122 di Chieri (neg) [35519]                      996         0     31.0     29.5    1.5
- 32 SP122 di Chieri (pos) [35518]                      957         0     32.0     29.5    2.5
- 33 SP13 di Front (pos) [35559]                        900         0     33.0     29.5    3.5
+  1 Corso Unita' D'italia (pos) [40189]               9916     11972      1.0      1.0    0.0
+  2 Corso Trieste (pos) [40174]                       8103     11731      2.0      2.0    0.0
+  3 Corso Orbassano (pos) [40095]                     7073      8385      3.0      6.0    3.0
+  4 Corso Unita' D'italia (neg) [40191]               6288     10880      4.0      3.5    0.5
+  5 Corso Unita' D'italia (pos) [40189~2]             5952     10880      5.0      3.5    1.5
+  6 R24 Raccordo Torino-Aeroporto Caselle (neg)       5869      5927      6.0     15.0    9.0
+  7 Corso Orbassano (pos) [40097]                     5013      7044      7.0     11.0    4.0
+  8 Corso Giulio Cesare (pos) [40040]                 4523      7275      8.0      8.0    0.0
+  9 Corso Regina Margherita (pos) [40122]             3918      7332      9.0      7.0    2.0
+ 10 Ponte Amedeo VIII (pos) [40212]                   3814      3145     10.0     18.0    8.0
+ 11 SP2 Di Germagnano (neg) [35824]                   3740       726     11.0     23.5   12.5
+ 12 Corso Francia (pos) [40022]                       3711      7025     12.0     12.0    0.0
+ 13 Corso Francia (pos) [40021]                       3629      7108     13.0      9.0    4.0
+ 14 Corso Orbassano (pos) [40098]                     3438      6383     14.0     13.0    1.0
+ 15 Corso Giulio Cesare (pos) [40041]                 3234      7094     15.0     10.0    5.0
+ 16 Corso Vercelli (pos) [40194]                      3205       623     16.0     25.0    9.0
+ 17 SP8 di Druento (neg) [36067]                      2963      1074     17.0     21.5    4.5
+ 18 SP1 delle Valli di Lanzo (neg) [35479]            2831       521     18.0     26.5    8.5
+ 19 Corso Agnelli (pos) [39977]                       2781      2647     19.0     19.0    0.0
+ 20 SP2 Di Germagnano (pos) [35823]                   2671       726     20.0     23.5    3.5
+ 21 Corso Regina Margherita (pos) [40123~2]           2669     10110     21.0      5.0   16.0
+ 22 Corso Unione Sovietica (pos) [40182]              2408      5999     22.0     14.0    8.0
+ 23 Strada Di Settimo (pos) [40253]                   2138      1604     23.0     20.0    3.0
+ 24 Corso Sebastopoli (pos) [40149]                   2049      4248     24.0     16.0    8.0
+ 25 SP8 di Druento (pos) [36066]                      1994      1074     25.0     21.5    3.5
+ 26 SS460 Di Ceresole (neg) [11433]                   1972         0     26.0     31.5    5.5
+ 27 SS10 Padana Inferiore (neg) [3718]                1635         0     27.0     31.5    4.5
+ 28 SS460 Di Ceresole (pos) [11432]                   1383         0     28.0     31.5    3.5
+ 29 SP1 delle Valli di Lanzo (pos) [35478]            1375       521     29.0     26.5    2.5
+ 30 Corso Allamano (pos) [39983]                      1343      3545     30.0     17.0   13.0
+ 31 SP13 di Front (neg) [35560]                       1190         0     31.0     31.5    0.5
+ 32 SS10 Padana Inferiore (pos) [3717]                1120         0     32.0     31.5    0.5
+ 33 SP122 di Chieri (neg) [35519]                     1004         0     33.0     31.5    1.5
+ 34 SP122 di Chieri (pos) [35518]                      954         0     34.0     31.5    2.5
+ 35 SP13 di Front (pos) [35559]                        879         0     35.0     31.5    3.5
 
 --- (b) per luogo ---
   N luogo / strada                                misurato   modello  pos.mis  pos.mod   diff
-  1 Corso Unita' D'italia @45.019,7.669               9791     11972      1.0      1.0    0.0
-  2 Corso Trieste @45.014,7.669                       8539     11731      2.0      2.0    0.0
-  3 Corso Orbassano @45.031,7.612                     7014      8385      3.0      4.0    1.0
-  4 Corso Unita' D'italia @45.026,7.671               6288     10880      4.0      3.0    1.0
-  5 R24 Raccordo Torino-Aeroporto Caselle @45.10      5924      5927      5.0     13.0    8.0
-  6 Corso Orbassano @45.036,7.627                     5033      7044      6.0      9.0    3.0
-  7 SP8 di Druento (2 sensori) @45.124,7.592          4972      1074      7.0     19.0   12.0
-  8 SP1 delle Valli di Lanzo (2 sensori) @45.188      4346       521      8.0     23.0   15.0
-  9 Corso Giulio Cesare @45.114,7.708                 4341      7275      9.0      6.0    3.0
- 10 Corso Regina Margherita @45.089,7.647             3953      7332     10.0      5.0    5.0
- 11 Ponte Amedeo VIII @45.097,7.719                   3851      3145     11.0     16.0    5.0
- 12 SP2 Di Germagnano @45.212,7.614                   3846       726     12.0     20.5    8.5
- 13 Corso Francia @45.074,7.616                       3715      7025     13.0     10.0    3.0
- 14 Corso Francia @45.074,7.613                       3587      7108     14.0      7.0    7.0
- 15 Corso Orbassano @45.039,7.631                     3490      6383     15.0     11.0    4.0
- 16 SS460 Di Ceresole (2 sensori) @45.244,7.743       3424         0     16.0     25.5    9.5
- 17 Corso Vercelli @45.105,7.696                      3295       623     17.0     22.0    5.0
- 18 Corso Giulio Cesare @45.104,7.701                 2898      7094     18.0      8.0   10.0
- 19 SP2 Di Germagnano @45.209,7.617                   2783       726     19.0     20.5    1.5
- 20 SS10 Padana Inferiore (2 sensori) @44.940,7.      2773         0     20.0     25.5    5.5
- 21 Corso Agnelli @45.034,7.642                       2738      2647     21.0     17.0    4.0
- 22 Corso Unione Sovietica @45.022,7.635              2410      5999     22.0     12.0   10.0
- 23 SP13 di Front (2 sensori) @45.255,7.656           2125         0     23.0     25.5    2.5
- 24 Strada Di Settimo @45.104,7.726                   2112      1604     24.0     18.0    6.0
- 25 Corso Sebastopoli @45.049,7.632                   1961      4248     25.0     14.0   11.0
- 26 SP122 di Chieri (2 sensori) @44.938,7.768         1953         0     26.0     25.5    0.5
- 27 Corso Allamano @45.051,7.622                      1296      3545     27.0     15.0   12.0
+  1 Corso Unita' D'italia (2 sensori) @45.026,7.     12240     10880      1.0      3.0    2.0
+  2 Corso Unita' D'italia @45.019,7.669               9916     11972      2.0      1.0    1.0
+  3 Corso Trieste @45.014,7.669                       8103     11731      3.0      2.0    1.0
+  4 Corso Orbassano @45.031,7.612                     7073      8385      4.0      5.0    1.0
+  5 R24 Raccordo Torino-Aeroporto Caselle @45.10      5869      5927      5.0     14.0    9.0
+  6 Corso Orbassano @45.036,7.627                     5013      7044      6.0     10.0    4.0
+  7 SP8 di Druento (2 sensori) @45.124,7.592          4957      1074      7.0     20.0   13.0
+  8 Corso Giulio Cesare @45.114,7.708                 4523      7275      8.0      7.0    1.0
+  9 SP1 delle Valli di Lanzo (2 sensori) @45.188      4206       521      9.0     24.0   15.0
+ 10 Corso Regina Margherita @45.089,7.647             3918      7332     10.0      6.0    4.0
+ 11 Ponte Amedeo VIII @45.097,7.719                   3814      3145     11.0     17.0    6.0
+ 12 SP2 Di Germagnano @45.212,7.614                   3740       726     12.0     21.5    9.5
+ 13 Corso Francia @45.074,7.616                       3711      7025     13.0     11.0    2.0
+ 14 Corso Francia @45.074,7.613                       3629      7108     14.0      8.0    6.0
+ 15 Corso Orbassano @45.039,7.631                     3438      6383     15.0     12.0    3.0
+ 16 SS460 Di Ceresole (2 sensori) @45.244,7.743       3355         0     16.0     26.5   10.5
+ 17 Corso Giulio Cesare @45.104,7.701                 3234      7094     17.0      9.0    8.0
+ 18 Corso Vercelli @45.105,7.696                      3205       623     18.0     23.0    5.0
+ 19 Corso Agnelli @45.034,7.642                       2781      2647     19.0     18.0    1.0
+ 20 SS10 Padana Inferiore (2 sensori) @44.940,7.      2755         0     20.0     26.5    6.5
+ 21 SP2 Di Germagnano @45.209,7.617                   2671       726     21.0     21.5    0.5
+ 22 Corso Regina Margherita @45.087,7.653             2669     10110     22.0      4.0   18.0
+ 23 Corso Unione Sovietica @45.022,7.635              2408      5999     23.0     13.0   10.0
+ 24 Strada Di Settimo @45.104,7.726                   2138      1604     24.0     19.0    5.0
+ 25 SP13 di Front (2 sensori) @45.255,7.656           2069         0     25.0     26.5    1.5
+ 26 Corso Sebastopoli @45.049,7.632                   2049      4248     26.0     15.0   11.0
+ 27 SP122 di Chieri (2 sensori) @44.938,7.768         1958         0     27.0     26.5    0.5
+ 28 Corso Allamano @45.051,7.622                      1343      3545     28.0     16.0   12.0

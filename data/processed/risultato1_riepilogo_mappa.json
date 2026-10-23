@@ -237,7 +237,7 @@
     "scripts/21_risultato1_vuoti.py",
     "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:08:45+00:00",
   "avviso": [
     "Dati [STIMATO] — solo comune di Torino",
     "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -437,7 +437,7 @@
     },
     "punti": [
       "A 5 minuti solo il 68,3% dei residenti ha tutti e 5 i servizi; a 10 minuti il 96,8%.",
-      "190.255 residenti (22,6%) vivono a meno di 100 m da una strada molto trafficata.",
+      "222.179 residenti (26,4%) vivono a meno di 100 m da una strada molto trafficata.",
       "I 362 residenti senza 3 o più servizi sono in 5 sezioni di collina: dove manca davvero tutto."
     ],
     "altri": [
@@ -445,21 +445,21 @@
         "tipo": "barre",
         "titolo": "Residenti per distanza da una strada molto trafficata",
         "unita": "residenti",
-        "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 11.720 veicoli al giorno. Stima debole: il modello sbaglia del ±38% in metà dei casi.",
+        "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 10.677 veicoli al giorno. Stima debole: il modello sbaglia del ±28% in metà dei casi.",
         "voci": [
           {
             "label": "esposti (meno di 100 m)",
-            "valore": 190255,
+            "valore": 222179,
             "tono": "rosso"
           },
           {
             "label": "vicini (100-250 m)",
-            "valore": 259977,
+            "valore": 265471,
             "tono": "giallo"
           },
           {
             "label": "lontani (oltre 250 m)",
-            "valore": 391748,
+            "valore": 354330,
             "tono": "verde"
           }
         ]
@@ -532,7 +532,7 @@
       ],
       [
         "Strada molto trafficata",
-        "almeno 11.720 veicoli al giorno"
+        "almeno 10.677 veicoli al giorno"
       ],
       [
         "Esposto al traffico",
@@ -634,7 +634,7 @@
     },
     "punti": [
       "Within 5 minutes only 68.3% of residents have all 5 services; within 10 minutes 96.8%.",
-      "190,255 residents (22.6%) live less than 100 m from a very busy road.",
+      "222,179 residents (26.4%) live less than 100 m from a very busy road.",
       "The 362 residents without 3 or more services live in 5 hillside sections: where really everything is missing."
     ],
     "altri": [
@@ -642,21 +642,21 @@
         "tipo": "barre",
         "titolo": "Residents by distance from a very busy road",
         "unita": "residents",
-        "nota": "Distance from the centre of the census section. Very busy road: at least 11,720 vehicles a day. Weak estimate: the model is off by ±38% in half of the cases.",
+        "nota": "Distance from the centre of the census section. Very busy road: at least 10,677 vehicles a day. Weak estimate: the model is off by ±28% in half of the cases.",
         "voci": [
           {
             "label": "exposed (less than 100 m)",
-            "valore": 190255,
+            "valore": 222179,
             "tono": "rosso"
           },
           {
             "label": "close (100-250 m)",
-            "valore": 259977,
+            "valore": 265471,
             "tono": "giallo"
           },
           {
             "label": "far (over 250 m)",
-            "valore": 391748,
+            "valore": 354330,
             "tono": "verde"
           }
         ]
@@ -729,7 +729,7 @@
       ],
       [
         "Very busy road",
-        "at least 11,720 vehicles a day"
+        "at least 10,677 vehicles a day"
       ],
       [
         "Exposed to traffic",

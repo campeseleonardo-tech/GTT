@@ -25,10 +25,11 @@ def nome_strada(n):
 def scheda_r8():
     r = leggi("risultato8_traffico_tp_v2.json")
     v = leggi("traffico_d/valutazione_fase5.json")
-    sens = leggi("traffico_d/v0/sensori.json")["sensori"]
+    var = r.get("variante_traffico", "v0")   # il modello scelto dalla regola fissata prima (script 63)
+    sens = leggi(f"traffico_d/{var}/sensori.json")["sensori"]
     u, c, tar = r["universo_torino"], r["conteggi"], r["taratura"]
     km_poco = round(u["km"] - u["km_coperti_tp"], 1)
-    err = v["varianti"]["v0"]
+    err = v["varianti"][var]
     # strade con piu' traffico: per nome solo per mostrarle (il calcolo e' per asse e tratta)
     per_nome = {}
     for t in r["tratte"]:
@@ -45,6 +46,9 @@ def scheda_r8():
     dg = {a["nome_principale"]: a for a in r["assi_da_guardare"]}
     rm = dg.get("regina margherita", {})
     acc = r["accordo_leo"]
+    altri_assi = [a for a in r["assi_da_guardare"] if a["nome_principale"] != "regina margherita"]
+    altro_tratto = (f" In più un tratto di {nome_strada(altri_assi[0]['nome_principale'])}, coperto solo per "
+                    f"{round(100 * altri_assi[0]['copertura_tp_max'])}% della lunghezza.") if altri_assi else ""
     fascia50, fascia90 = round(tar["fascia_50"] * 100), round(tar["fascia_90"] * 100)
     return {
         "risultato": "8",
@@ -69,7 +73,7 @@ def scheda_r8():
             f"{c['molto_traffico']}; quelle che hanno anche poco trasporto pubblico sono {c['da_guardare']}.",
             f"In pratica è un solo caso: Corso Regina Margherita verso ovest, il tratto a scorrimento veloce "
             f"(circa {migliaia(int(round(rm.get('veic_max', 0), -3)))} veicoli al giorno, nessuna fermata frequente "
-            "entro 300 m). In più un tratto di Corso Moncalieri, coperto solo per un quarto della lunghezza.",
+            "entro 300 m)." + altro_tratto,
             f"I numeri di traffico sono stime: in metà dei casi l'errore è entro ±{fascia50}%. Servono a ordinare "
             "le strade, non a contare i veicoli.",
         ],
@@ -85,7 +89,7 @@ def scheda_r8():
                      "probabilmente sovrastimato: dove c'è il sensore il modello dava quasi il triplo del misurato.",
              "voci": [voce(nome_strada(t["nome"]) + (" (misurato)" if t["misurato"] else ""), round(t["veic_giorno"]))
                       for t in top]},
-            {"tipo": "barre", "titolo": "Prova del modello sui 20 sensori: misurato e stimato",
+            {"tipo": "barre", "titolo": f"Prova del modello sui {len(sens)} sensori: misurato e stimato",
              "unita": "veicoli/giorno",
              "nota": "Barra chiara = misurato dal sensore, barra scura = stima del modello senza usare quel sensore.",
              "voci": [voce(s["via"].replace("(TO)", "").replace("Unita' D'italia", "Unità d'Italia").strip(), round(st), prima=s["misurato"]) for s, st in loo]},
@@ -106,8 +110,11 @@ def scheda_r8():
             "Trasporto pubblico per posizione delle fermate, mai per nome: una tratta è servita dove c'è una "
             "fermata con almeno 4 passaggi all'ora entro 300 m (orario ufficiale, mercoledì 14/10), o la metro "
             "entro 600 m. Poco trasporto pubblico = servita per metà della lunghezza o meno.",
-            "Molto traffico = il terzo più alto delle tratte. Un modello più ricco (attrazioni, code, ZTL) è stato "
-            "provato una volta e non ha migliorato l'ordine delle strade: si tiene quello semplice.",
+            "Molto traffico = il terzo più alto delle tratte. " + (
+                "Un modello più ricco (attrazioni, code, ZTL) è stato provato una volta e non ha migliorato l'ordine delle strade: si tiene quello semplice."
+                if var == "v0" else
+                f"Il modello è quello più ricco (attrazioni, code, ZTL): con i sensori di ottobre sbaglia meno di quello semplice "
+                f"(errore tipico {round(100 * err['errore_mediano'])}% contro {round(100 * v['varianti']['v0']['errore_mediano'])}%), secondo una regola fissata prima."),
         ],
         "parametri": [["Strade grandi di Torino", f"{migliaia(u['n_tratte'])} tratte, {virgola(u['km'])} km"],
                       ["Errore tipico (metà dei casi)", f"±{fascia50}% (9 volte su 10 entro ±{fascia90}%)"],

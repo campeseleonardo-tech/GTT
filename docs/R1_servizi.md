@@ -68,7 +68,7 @@ vicina (100-250 m) / lontana. Il traffico è una stima e sostituisce rumore e sm
 | `18_accessibilita.py` | accessibilità per sezione (input; si rifà solo se cambia il GTFS: `scripts\ACCESSIBILITA_24ORE.bat`) |
 | `21_risultato1_vuoti.py` | conteggio 0-5, zone poco abitate e da verificare, sezioni critiche |
 | `22_risultato1_candidati.py` | dove aggiungere un servizio (tutti e 5 i gruppi) |
-| `92_esposizione_traffico.py` | residenti a meno di 100 m da una strada molto trafficata (≥ 11.720 veicoli/giorno, come il R8): stima debole |
+| `92_esposizione_traffico.py` | residenti a meno di 100 m da una strada molto trafficata (soglia del R8 = terzo più alto delle tratte, oggi ≥ 10.677 veicoli/giorno; letta da `risultato8_traffico_tp_v2.json`): stima debole |
 | `schede_risultati.py` | scheda (`data/schede_risultati.js`) |
 
 ```

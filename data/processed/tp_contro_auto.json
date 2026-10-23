@@ -27,17 +27,17 @@
   },
   "fattore_sensori": {
    "sensori_totali": 112,
-   "sensori_usati": 97,
-   "minimo": 0.3537735849056604,
-   "q1": 1.080875781948168,
-   "mediana": 1.1592326139088729,
-   "q3": 1.2610882487425694,
-   "massimo": 5.019444444444444,
+   "sensori_usati": 102,
+   "minimo": 0.7808471454880296,
+   "q1": 1.0988648118046904,
+   "mediana": 1.188160591421461,
+   "q3": 1.276347786041387,
+   "massimo": 2.9822485207100593,
    "periodo": {
     "da": "2026-10-09",
-    "a": "2026-10-18"
+    "a": "2026-10-22"
    },
-   "giorni_feriali": 6
+   "giorni_feriali": 10
   },
   "fattori_google_per_percorso": {
    "Piazza Castello → Collegno": 1.0680004432904608,

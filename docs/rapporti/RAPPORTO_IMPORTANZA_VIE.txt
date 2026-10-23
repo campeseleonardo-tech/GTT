@@ -1,7 +1,7 @@
 RAPPORTO IMPORTANZA VIE (A: tag OSM, D: elenco a mano, B: sensori 5T reali)
 modalita': completa Torino+cintura
 vie OSM con nome lette: 42169  ->  corridoi (per nome + collegamento fisico) risultanti: 10743
-sensori 5T con almeno una lettura valida: 98
+sensori 5T con almeno una lettura valida: 103
 
 == Controllo elenco a mano (D): voci NON trovate in OSM (da verificare il nome) ==
   (tutte le voci dell'elenco sono state trovate)
@@ -9,7 +9,7 @@ sensori 5T con almeno una lettura valida: 98
 == Primi 20 corridoi per punteggio (controllo a vista) ==
   [5] Tangenziale Sud (Nichelino)         km= 52.40  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
   [5] Autostrada Serenissima (Torino)     km= 46.39  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
-  [5] Corso Francia (Collegno)            km= 42.46  osm_base=5  pavimento_D=francia  5T_sensori=2  5T_flusso=600.0
+  [5] Corso Francia (Collegno)            km= 42.46  osm_base=5  pavimento_D=francia  5T_sensori=2  5T_flusso=636.0
   [5] Autostrada del Pinerolese (Volvera E Limitrofi) km= 38.31  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
   [5] Tangenziale Nord (Venaria Reale)    km= 32.75  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None
   [5] Autostrada dei Vini (Riva Presso Chieri E Limitrofi) km= 27.08  osm_base=5  pavimento_D=-  5T_sensori=0  5T_flusso=None

@@ -7,12 +7,12 @@ regole: morto = nel periodo ha letture ma tutte con accuratezza 0;
         pochi dati = ha letture con accuratezza > 0 ma nessuna cella ok in velocita_5t.json.
 
 (1) Conteggi
-  sensori in tutto: 109
+  sensori in tutto: 112
   morto      :  11  (di cui urbani 3)   [attesi: 11 (3)]
   bloccato   :   5  (di cui urbani 1)   [attesi: 5]
-  pochi dati :   1  (di cui urbani 0)   [attesi: 1 (11421)]
-  esclusi in tutto: 17   [attesi 17]
-  sensori usabili: 92   [attesi 109 - 17 = 92]
+  pochi dati :   0  (di cui urbani 0)   [attesi: 1 (11421)]
+  esclusi in tutto: 16   [attesi 17]
+  sensori usabili: 96   [attesi 109 - 17 = 92]
 
 (2) Elenco degli esclusi
     lcd1  nome                               dir        urb motivo      letture   acc>0  coppie
@@ -27,9 +27,8 @@ regole: morto = nel periodo ha letture ma tutte con accuratezza 0;
    14790  SP155(AL)                          negative    no morto          2217       0       0
    40071  Corso Moncalieri(TO)               positive    si morto          2217       0       0
    40121  Corso Regina Margherita(TO)        positive    si morto          2217       0       0
-   40123  Corso Regina Margherita(TO)        positive    si morto          2217       0       0
+   40123  Corso Regina Margherita(TO)        negative    si morto          2217       0       0
     5057  SS30 Di Val Bormida                positive    no morto          2217       0       0
     5058  SS30 Di Val Bormida                negative    no morto          2217       0       0
     7934  SS142 Biellese                     positive    no morto          2217       0       0
     7935  SS142 Biellese                     negative    no morto          2217       0       0
-   11421  SS458 Di Casalborgone              negative    no pochi dati     2217       8       7

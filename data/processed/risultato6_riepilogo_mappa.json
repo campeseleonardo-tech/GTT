@@ -21,7 +21,7 @@
       "tipo": "profilo",
       "titolo": "Stura (589 posti): sempre quasi pieno: 80% di notte, 91% di giorno",
       "unita": "",
-      "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+      "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
       "serie": [
         {
           "label": "giorno feriale",
@@ -32,24 +32,24 @@
             0.797,
             0.797,
             0.799,
-            0.803,
-            0.827,
-            0.872,
-            0.897,
-            0.917,
-            0.918,
-            0.918,
-            0.914,
-            0.908,
-            0.902,
-            0.893,
-            0.875,
-            0.844,
-            0.812,
+            0.804,
+            0.829,
+            0.877,
+            0.903,
+            0.919,
+            0.921,
+            0.921,
+            0.916,
+            0.91,
+            0.904,
+            0.894,
+            0.877,
+            0.846,
+            0.813,
             0.802,
-            0.8,
-            0.8,
-            0.798
+            0.801,
+            0.801,
+            0.8
           ]
         },
         {
@@ -88,35 +88,35 @@
       "tipo": "profilo",
       "titolo": "Venchi Unica (437 posti): sempre intorno al 55%",
       "unita": "",
-      "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+      "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
       "serie": [
         {
           "label": "giorno feriale",
           "valori": [
-            0.532,
-            0.533,
-            0.533,
-            0.533,
-            0.532,
-            0.53,
-            0.531,
-            0.524,
-            0.528,
-            0.55,
-            0.552,
-            0.548,
-            0.549,
-            0.547,
-            0.546,
-            0.543,
+            0.537,
             0.538,
-            0.529,
-            0.517,
-            0.505,
-            0.512,
-            0.516,
+            0.538,
+            0.538,
+            0.537,
+            0.535,
+            0.537,
+            0.53,
+            0.535,
+            0.555,
+            0.556,
+            0.552,
+            0.553,
+            0.552,
+            0.551,
+            0.548,
+            0.542,
+            0.533,
             0.52,
-            0.529
+            0.507,
+            0.515,
+            0.521,
+            0.525,
+            0.532
           ]
         },
         {
@@ -155,23 +155,23 @@
       "tipo": "profilo",
       "titolo": "Caio Mario (418 posti): il valore non cambia (1%): forse il contatore è fermo",
       "unita": "",
-      "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+      "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
       "serie": [
         {
           "label": "giorno feriale",
           "valori": [
-            0.017,
+            0.016,
+            0.011,
+            0.01,
+            0.011,
+            0.011,
             0.01,
             0.01,
+            0.009,
+            0.009,
+            0.009,
             0.01,
             0.01,
-            0.01,
-            0.009,
-            0.009,
-            0.009,
-            0.009,
-            0.009,
-            0.009,
             0.009,
             0.009,
             0.01,
@@ -179,7 +179,7 @@
             0.011,
             0.011,
             0.01,
-            0.011,
+            0.012,
             0.012,
             0.012,
             0.013,
@@ -222,35 +222,35 @@
       "tipo": "profilo",
       "titolo": "Sofia (272 posti): è più pieno di notte che di giorno: 52% di notte, 31% di giorno",
       "unita": "",
-      "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+      "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
       "serie": [
         {
           "label": "giorno feriale",
           "valori": [
-            0.521,
-            0.522,
-            0.522,
-            0.523,
-            0.524,
-            0.515,
-            0.494,
-            0.447,
-            0.406,
-            0.365,
-            0.311,
-            0.295,
-            0.302,
+            0.516,
+            0.517,
+            0.519,
+            0.519,
+            0.519,
+            0.51,
+            0.488,
+            0.44,
+            0.4,
+            0.36,
             0.31,
-            0.311,
-            0.313,
+            0.292,
+            0.3,
+            0.308,
+            0.309,
             0.31,
-            0.342,
-            0.379,
+            0.31,
+            0.338,
+            0.378,
             0.42,
-            0.453,
-            0.47,
-            0.493,
-            0.505
+            0.449,
+            0.465,
+            0.487,
+            0.5
           ]
         },
         {
@@ -429,7 +429,7 @@
     },
     {
       "voce": "Giorni feriali di riempimento",
-      "valore": "15/10, 16/10, 19/10, 20/10, 21/10"
+      "valore": "15/10, 16/10, 19/10, 20/10, 21/10, 22/10"
     },
     {
       "voce": "Non sappiamo",
@@ -467,14 +467,14 @@
     ],
     [
       "Giorni feriali di riempimento",
-      "15/10, 16/10, 19/10, 20/10 e 21/10"
+      "15/10, 16/10, 19/10, 20/10, 21/10 e 22/10"
     ]
   ],
   "limiti": [
     "Auto che passano: modello del traffico (percorso più veloce, senza code), stima debole: solo ordine di grandezza. Le stesse auto passano davanti a più fermate dello stesso corso.",
-    "Riempimento misurato su soli 5 giorni feriali e solo dove il 5T lo trasmette [DATI SCARSI]: Fermi e i parcheggi gratuiti non sono misurati.",
+    "Riempimento misurato su soli 6 giorni feriali e solo dove il 5T lo trasmette [DATI SCARSI]: Fermi e i parcheggi gratuiti non sono misurati.",
     "Quota di chi lascia l'auto: indagine sugli spostamenti 2022, poche interviste.",
-    "Controllo con i sensori 5T del mattino: il modello mette le strade d'ingresso in un ordine simile solo in parte (ρ = 0,52 su 23 luoghi); sottostima gli ingressi da nord-ovest.",
+    "Controllo con i sensori 5T del mattino: il modello mette le strade d'ingresso in un ordine simile solo in parte (ρ = 0,46 su 24 luoghi); sottostima gli ingressi da nord-ovest.",
     "Parcheggi da OpenStreetMap incompleti; posti spesso stimati dalla superficie (±30%).",
     "Distanza a piedi stimata (linea d'aria × 1,3). Treni non considerati."
   ],
@@ -529,7 +529,7 @@
     },
     {
       "nome": "Riempimento",
-      "valore": "misurato dal 5T dove c'è (5 giorni feriali, ore 10-16); pieno ≥ 85%",
+      "valore": "misurato dal 5T dove c'è (6 giorni feriali, ore 10-16); pieno ≥ 85%",
       "perche": "un parcheggio pieno non serve",
       "effetto": "colora i parcheggi e mostra i profili; non cambia le classi delle fermate"
     }
@@ -551,7 +551,7 @@
     "scripts/84_risultato6_parcheggi.py",
     "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:08:45+00:00",
   "avviso": [
     "Come leggere i tag. ",
     "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -562,7 +562,7 @@
     "About 87,200 cars enter Turin every morning (2022 travel survey) and 5.8% of these drivers already continue by public transport. 179 of 274 important stops outside the centre lack enough suitable parking within 400 m on foot for the cars passing by.",
     "Important stops: outside the centre, with a metro, train station or terminus or at least 10 departures per hour at commuting times, and at least 1,000 cars entering the city passing by.",
     "Limits: car flows come from a simple traffic model (order of magnitude only); occupancy is measured on few days and only where the city's 5T system reports it; trains are not included.",
-    "Check against the 5T morning sensors: the model ranks the entry roads in a similar order only in part (rho = 0.52 over 23 places); it underestimates the entries from the north-west."
+    "Check against the 5T morning sensors: the model ranks the entry roads in a similar order only in part (rho = 0.46 over 24 places); it underestimates the entries from the north-west."
   ],
   "scenari": [
     {

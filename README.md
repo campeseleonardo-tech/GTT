@@ -19,8 +19,8 @@ Un Raspberry Pi di casa raccoglie ogni minuto la posizione di bus e tram e i sen
 <!-- RISULTATI-IT:INIZIO -->
 1. **A 15 minuti quasi tutti hanno i servizi; a 5 minuti molti meno**  
    Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata? → **99,2%** dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/1.html)
-2. **I ritardi gravi sono circa il 5% dei passaggi**  
-   Quanto spesso i mezzi GTT arrivano in ritardo o a coppie? → **5,44%** dei passaggi feriali arriva con oltre 10 minuti di ritardo. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
+2. **I ritardi gravi sono circa il 6% dei passaggi**  
+   Quanto spesso i mezzi GTT arrivano in ritardo o a coppie? → **6,19%** dei passaggi feriali arriva con oltre 10 minuti di ritardo. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
 3. **Dai parcheggi di scambio il bus vale l'auto solo se in centro si perdono 21–28 minuti a parcheggiare**  
    Dove mancano posti per lasciare l'auto, e quando il bus da lì verso il centro è veloce quanto l'auto? → **21–28 minuti** persi in centro per parcheggiare: sotto questa soglia l'auto batte il bus (mediana dei 12 punti). [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/3.html)
 4. **Al mattino, coi mezzi pubblici si impiega da 2 a 3 volte il tempo dell'auto**  
@@ -83,8 +83,8 @@ The site is in Italian and English (button IT/EN); the map is in Italian.
 <!-- RISULTATI-EN:INIZIO -->
 1. **Within 15 minutes almost everyone has the services; within 5 minutes far fewer do**  
    How many people in Turin have the services within 5, 10 and 15 minutes on foot, and how many live on a busy road? → **99.2%** of residents of inhabited areas have all 5 services within a 15-minute walk. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/1.html)
-2. **Serious delays are about 5% of stop arrivals**  
-   How often are GTT vehicles late or bunched together? → **5.44%** of weekday arrivals are more than 10 minutes late. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
+2. **Serious delays are about 6% of stop arrivals**  
+   How often are GTT vehicles late or bunched together? → **6.19%** of weekday arrivals are more than 10 minutes late. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
 3. **From park-and-ride lots the bus matches the car only if 21–28 minutes are lost parking downtown**  
    Where is there too little room to leave the car, and when is the bus from there to the centre as fast as the car? → **21–28 minutes** lost downtown looking for parking: below this threshold the car beats the bus (median of the 12 points). [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/3.html)
 4. **In the morning, public transport takes 2 to 3 times as long as the car**  

@@ -1,13 +1,13 @@
 ABBINAMENTO SENSORI 5T -> CORRIDOI, PER POSIZIONE
 ========================================================================================
-sensori usabili (non esclusi): 92   [atteso 92]
+sensori usabili (non esclusi): 95   [atteso 92]
 funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanza)
 
 (1) Classi
-  SICURO    (stesso nome, <= 60 m): 14   [atteso circa 14-15]
+  SICURO    (stesso nome, <= 60 m): 16   [atteso circa 14-15]
   DA_VEDERE (nome diverso, <= 40 m): 9
-  NESSUNO: 69
-  totale: 92   [deve essere 92: OK]
+  NESSUNO: 70
+  totale: 95   [deve essere 92: NON TORNA]
 
 (2) SICURO - abbinamento confermato dalla regola di prima
     lcd1  via                            dir       corridoio                       p     km  dist_m
@@ -19,9 +19,11 @@ funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanz
    40097  Corso Orbassano(TO)            positive  Corso Orbassano                 4   13.2    23.2
    40098  Corso Orbassano(TO)            positive  Corso Orbassano                 4   13.2     9.3
    40122  Corso Regina Margherita(TO)    positive  Corso Regina Margherita (Torin  4   21.1     3.9
+  40123~2  Corso Regina Margherita(TO)    positive  Corso Regina Margherita (Torin  4   21.1     4.4
    40174  Corso Trieste(TO)              positive  Corso Trieste (Moncalieri)      4    4.6    27.0
    40182  Corso Unione Sovietica(TO)     positive  Corso Unione Sovietica (Torino  4   18.6     0.8
-   40189  Corso Unita' D'italia(TO)      positive  Corso Unità d'Italia (Torino)   4    5.5     1.2
+   40189  Corso Unita' D'italia(TO)      positive  Corso Unità d'Italia (Torino)   4    5.5    41.6
+  40189~2  Corso Unita' D'italia(TO)      positive  Corso Unità d'Italia (Torino)   4    5.5     1.2
    40253  Strada Di Settimo(TO)          positive  Strada di Settimo (Torino)      4    6.5    11.3
    40149  Corso Sebastopoli(TO)          positive  Corso Sebastopoli (Torino)      3    4.5    11.3
    40194  Corso Vercelli(TO)             positive  Corso Vercelli (Torino)         3    9.0     8.7
@@ -40,7 +42,7 @@ funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanz
    36067  SP8(TO) di Druento               negative  Via Torino (Druento)              2    26.2  Via Torino (Druento) 26
    35824  SP2(TO) Di Germagnano            negative  Via Torino (San Maurizio Canaves  4    26.6  Via Torino (San Maurizio C 27
 
-(4) NESSUNO - sensori senza corridoio entro le soglie: 69
+(4) NESSUNO - sensori senza corridoio entro le soglie: 70
        11361  SS455 Di Pontestura              positive  fuori citta nessun corridoio entro 60 m
        11362  SS455 Di Pontestura              negative  fuori citta nessun corridoio entro 60 m
        11369  SS456 Del Turchino               positive  fuori citta nessun corridoio entro 60 m
@@ -63,7 +65,8 @@ funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanz
        13065  SS661 Delle Langhe               positive  fuori citta nessun corridoio entro 60 m
        13066  SS661 Delle Langhe               negative  fuori citta nessun corridoio entro 60 m
        13076  SS662 Di Savigliano              positive  fuori citta nessun corridoio entro 60 m
-       13077  SS662 Di Savigliano              negative  fuori citta nessun corridoio entro 60 m
+       13077  SS662 Di Savigliano              positive  fuori citta nessun corridoio entro 60 m
+      13077~2  SS662 Di Savigliano              negative  fuori citta nessun corridoio entro 60 m
        13078  SS662 Di Savigliano              negative  fuori citta nessun corridoio entro 60 m
        27774  SP4(NO) Ovest Ticino             positive  fuori citta nessun corridoio entro 60 m
        27775  SP4(NO) Ovest Ticino             negative  fuori citta nessun corridoio entro 60 m
@@ -111,7 +114,7 @@ funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanz
         9752  SS299 Di Alagna                  positive  fuori citta nessun corridoio entro 60 m
         9753  SS299 Di Alagna                  negative  fuori citta nessun corridoio entro 60 m
 
-(5) Coppie di versi (stesso nome, segno opposto, <= 200 m): 35
+(5) Coppie di versi (stesso nome, segno opposto, <= 200 m): 36
       SP1(TO) delle Valli di Lanzo          35478 +  35479     0.0 m
       SP122(TO) di Chieri                   35518 +  35519     0.0 m
       SP13(TO) di Front                     35559 +  35560     0.0 m
@@ -146,8 +149,9 @@ funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanz
       SS589 Dei Laghi Di Avigliana          12473 +  12474     0.0 m
       SS594 Destra Sesia                    12527 +  12528     0.0 m
       SS661 Delle Langhe                    13065 +  13066     0.0 m
-      SS662 Di Savigliano                   13076 +  13077     0.0 m
+      SS662 Di Savigliano                   13076 + 13077~2     0.0 m
+      SS662 Di Savigliano                   13077 +  13078     0.0 m
 
-(6) Sensori usabili senza compagno di verso (22 su 92):
-      11420 13078 2375 35823 35824 39977 39983 40021 40022 40040 40041 40095
-      40097 40098 40122 40149 40174 40182 40189 40194 40212 40253
+(6) Sensori usabili senza compagno di verso (23 su 95):
+      11420 2375 35823 35824 39977 39983 40021 40022 40040 40041 40095 40097
+      40098 40122 40123~2 40149 40174 40182 40189 40189~2 40194 40212 40253

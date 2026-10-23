@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:08:45+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -439,7 +439,7 @@ window.SCHEDE_RISULTATI = [
    },
    "punti": [
     "A 5 minuti solo il 68,3% dei residenti ha tutti e 5 i servizi; a 10 minuti il 96,8%.",
-    "190.255 residenti (22,6%) vivono a meno di 100 m da una strada molto trafficata.",
+    "222.179 residenti (26,4%) vivono a meno di 100 m da una strada molto trafficata.",
     "I 362 residenti senza 3 o più servizi sono in 5 sezioni di collina: dove manca davvero tutto."
    ],
    "altri": [
@@ -447,21 +447,21 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Residenti per distanza da una strada molto trafficata",
      "unita": "residenti",
-     "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 11.720 veicoli al giorno. Stima debole: il modello sbaglia del ±38% in metà dei casi.",
+     "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 10.677 veicoli al giorno. Stima debole: il modello sbaglia del ±28% in metà dei casi.",
      "voci": [
       {
        "label": "esposti (meno di 100 m)",
-       "valore": 190255,
+       "valore": 222179,
        "tono": "rosso"
       },
       {
        "label": "vicini (100-250 m)",
-       "valore": 259977,
+       "valore": 265471,
        "tono": "giallo"
       },
       {
        "label": "lontani (oltre 250 m)",
-       "valore": 391748,
+       "valore": 354330,
        "tono": "verde"
       }
      ]
@@ -534,7 +534,7 @@ window.SCHEDE_RISULTATI = [
     ],
     [
      "Strada molto trafficata",
-     "almeno 11.720 veicoli al giorno"
+     "almeno 10.677 veicoli al giorno"
     ],
     [
      "Esposto al traffico",
@@ -636,7 +636,7 @@ window.SCHEDE_RISULTATI = [
    },
    "punti": [
     "Within 5 minutes only 68.3% of residents have all 5 services; within 10 minutes 96.8%.",
-    "190,255 residents (22.6%) live less than 100 m from a very busy road.",
+    "222,179 residents (26.4%) live less than 100 m from a very busy road.",
     "The 362 residents without 3 or more services live in 5 hillside sections: where really everything is missing."
    ],
    "altri": [
@@ -644,21 +644,21 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Residents by distance from a very busy road",
      "unita": "residents",
-     "nota": "Distance from the centre of the census section. Very busy road: at least 11,720 vehicles a day. Weak estimate: the model is off by ±38% in half of the cases.",
+     "nota": "Distance from the centre of the census section. Very busy road: at least 10,677 vehicles a day. Weak estimate: the model is off by ±28% in half of the cases.",
      "voci": [
       {
        "label": "exposed (less than 100 m)",
-       "valore": 190255,
+       "valore": 222179,
        "tono": "rosso"
       },
       {
        "label": "close (100-250 m)",
-       "valore": 259977,
+       "valore": 265471,
        "tono": "giallo"
       },
       {
        "label": "far (over 250 m)",
-       "valore": 391748,
+       "valore": 354330,
        "tono": "verde"
       }
      ]
@@ -731,7 +731,7 @@ window.SCHEDE_RISULTATI = [
     ],
     [
      "Very busy road",
-     "at least 11,720 vehicles a day"
+     "at least 10,677 vehicles a day"
     ],
     [
      "Exposed to traffic",
@@ -760,26 +760,26 @@ window.SCHEDE_RISULTATI = [
   "in_breve": "L'orario alla fermata promette un passaggio ogni tot minuti. Quanto spesso i mezzi GTT arrivano davvero in ritardo, o a coppie lasciando un buco?",
   "domanda": "Quanto spesso i mezzi GTT arrivano in ritardo, e quanto spesso sulle linee frequenti arrivano a grappolo o lasciano buchi? E quanto si aspetta davvero alla fermata, rispetto a quello che promette l'orario?",
   "numero_chiave": {
-   "valore": 14.1,
+   "valore": 15.6,
    "unita": "%",
    "testo": "dei passaggi nei giorni feriali arriva con più di 5 minuti di ritardo"
   },
   "racconto": "Una delle direzioni del progetto: confrontare l'orario promesso con quello reale, usando le posizioni e i ritardi dei mezzi che il Raspberry Pi del progetto raccoglie ogni minuto.",
   "risposta": [
-   "Nei giorni feriali il 14,1% dei passaggi arriva con più di 5 minuti di ritardo; il sabato il 16,8%.",
-   "Sulle linee frequenti il 20,9% delle coppie di mezzi consecutivi arriva a grappolo o lascia un buco.",
-   "Il problema più comune è l'anticipo: il 37,9% dei passaggi feriali arriva più di un minuto prima dell'orario.",
-   "Il feed in tempo reale di GTT, che usavamo prima, dava il 5,4% in ritardo invece del 14,1%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.",
-   "Oltre 10 minuti: 5,44% nei feriali. GTT dichiara il 2,3% per il 2025: il suo metodo non è pubblicato; noi misuriamo a ogni fermata con il GPS, su pochi giorni.",
+   "Nei giorni feriali il 15,6% dei passaggi arriva con più di 5 minuti di ritardo; il sabato il 16,8%.",
+   "Sulle linee frequenti il 21,6% delle coppie di mezzi consecutivi arriva a grappolo o lascia un buco.",
+   "Il problema più comune è l'anticipo: il 36,2% dei passaggi feriali arriva più di un minuto prima dell'orario.",
+   "Il feed in tempo reale di GTT, che usavamo prima, dava il 6% in ritardo invece del 15,6%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.",
+   "Oltre 10 minuti: 6,19% nei feriali. GTT dichiara il 2,3% per il 2025: il suo metodo non è pubblicato; noi misuriamo a ogni fermata con il GPS, su pochi giorni.",
    "Non è la stessa misura: GTT fa la media dell'anno intero, estate e sere comprese, su tutte le linee, con un metodo che non pubblica; noi misuriamo pochi giorni di ottobre, solo le linee urbane, dalle 5 a mezzanotte.",
-   "Il ritardo cresce lungo la corsa: alla prima fermata è 3,92%, a metà corsa 5,24%, a ogni fermata 5,49%, fuori dalle ore di punta 5,30% (media della settimana).",
-   "Tutte e due le misure dicono che i ritardi gravi sono una piccola parte dei passaggi: tra 2,3% e 5,5%.",
-   "Tram e bus: in ritardo oltre 5 minuti il 14,4% dei passaggi dei tram e il 14% dei bus (feriale).",
-   "Linee utili (quelle che toccano più zone affollate): in ritardo oltre 5 minuti il 15,5% dei passaggi, contro l'11,4% delle altre linee (feriale).",
-   "Attesa: Nei giorni feriali, sulle linee frequenti, l'orario promette un'attesa media di 4,7 minuti; quella reale è tra 6,3 e 7,1 minuti.",
-   "Sono da 1,6 a 2,4 minuti in più a ogni attesa: almeno il 34% oltre la promessa.",
+   "Il ritardo cresce lungo la corsa: alla prima fermata è 4,29%, a metà corsa 5,72%, a ogni fermata 6,02%, fuori dalle ore di punta 5,63% (media della settimana).",
+   "Tutte e due le misure dicono che i ritardi gravi sono una piccola parte dei passaggi: tra 2,3% e 6%.",
+   "Tram e bus: in ritardo oltre 5 minuti il 15% dei passaggi dei tram e il 15,8% dei bus (feriale).",
+   "Linee utili (quelle che toccano più zone affollate): in ritardo oltre 5 minuti il 17,1% dei passaggi, contro il 12,9% delle altre linee (feriale).",
+   "Attesa: Nei giorni feriali, sulle linee frequenti, l'orario promette un'attesa media di 4,7 minuti; quella reale è tra 6,3 e 6,5 minuti.",
+   "Sono da 1,5 a 1,7 minuti in più a ogni attesa: almeno il 32% oltre la promessa.",
    "La linea con più attesa in più è la 61 (3,2 minuti in più, stima bassa).",
-   "Attesa alla fermata sulle linee frequenti (feriale): tram, promessa 4,5 min, in più 1,8-2,4 min; bus, promessa 5,6 min, in più 1,1-2,4 min."
+   "Attesa alla fermata sulle linee frequenti (feriale): tram, promessa 4,5 min, in più 1,6-1,7 min; bus, promessa 5,8 min, in più 1,1-1,9 min."
   ],
   "grafici": [
    {
@@ -789,16 +789,16 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "in anticipo (oltre 1 min)",
-      "valore": 37.9
+      "valore": 36.2
      },
      {
       "label": "puntuali (da -1 a +5 min)",
-      "valore": 48.0,
+      "valore": 48.2,
       "tono": "verde"
      },
      {
       "label": "in ritardo (oltre 5 min)",
-      "valore": 14.1,
+      "valore": 15.6,
       "tono": "rosso"
      }
     ]
@@ -810,27 +810,27 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "punta del mattino (7-9)",
-      "valore": 12.3,
+      "valore": 15.1,
       "tono": "rosso"
      },
      {
       "label": "giorno (9-16)",
-      "valore": 15.2,
+      "valore": 15.9,
       "tono": "rosso"
      },
      {
       "label": "punta della sera (16-19)",
-      "valore": 16.8,
+      "valore": 20.4,
       "tono": "rosso"
      },
      {
       "label": "sera (19-24)",
-      "valore": 15.6,
+      "valore": 18.1,
       "tono": "rosso"
      },
      {
       "label": "notte e primo mattino (fino alle 7, dati parziali)",
-      "valore": 5.7,
+      "valore": 6.0,
       "tono": "rosso"
      }
     ]
@@ -842,7 +842,7 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "feriale",
-      "valore": 14.1,
+      "valore": 15.6,
       "tono": "rosso"
      },
      {
@@ -865,61 +865,61 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "linea 17",
-      "valore": 38.1,
+      "valore": 41.2,
       "link": "mappa_torino.html#tema=puntualita&linea=17&ora=8",
       "tono": "rosso"
      },
      {
       "label": "linea 6",
-      "valore": 36.7,
+      "valore": 37.1,
       "link": "mappa_torino.html#tema=puntualita&linea=6&ora=8",
       "tono": "rosso"
      },
      {
       "label": "linea 19",
-      "valore": 30.1,
+      "valore": 34.9,
       "link": "mappa_torino.html#tema=puntualita&linea=19&ora=8",
       "tono": "rosso"
      },
      {
       "label": "linea 68",
-      "valore": 26.9,
+      "valore": 29.3,
       "link": "mappa_torino.html#tema=puntualita&linea=68&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 33",
-      "valore": 26.2,
-      "link": "mappa_torino.html#tema=puntualita&linea=33&ora=8",
-      "tono": "rosso"
-     },
-     {
       "label": "linea 66",
-      "valore": 25.9,
+      "valore": 28.7,
       "link": "mappa_torino.html#tema=puntualita&linea=66&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 61",
-      "valore": 23.1,
-      "link": "mappa_torino.html#tema=puntualita&linea=61&ora=8",
-      "tono": "rosso"
-     },
-     {
-      "label": "linea 4",
-      "valore": 22.7,
-      "link": "mappa_torino.html#tema=puntualita&linea=4&ora=8",
+      "label": "linea 33",
+      "valore": 25.8,
+      "link": "mappa_torino.html#tema=puntualita&linea=33&ora=8",
       "tono": "rosso"
      },
      {
       "label": "linea 72",
-      "valore": 22.2,
+      "valore": 24.3,
       "link": "mappa_torino.html#tema=puntualita&linea=72&ora=8",
       "tono": "rosso"
      },
      {
+      "label": "linea 4",
+      "valore": 23.5,
+      "link": "mappa_torino.html#tema=puntualita&linea=4&ora=8",
+      "tono": "rosso"
+     },
+     {
+      "label": "linea 61",
+      "valore": 22.6,
+      "link": "mappa_torino.html#tema=puntualita&linea=61&ora=8",
+      "tono": "rosso"
+     },
+     {
       "label": "linea 52",
-      "valore": 19.7,
+      "valore": 22.3,
       "link": "mappa_torino.html#tema=puntualita&linea=52&ora=8",
       "tono": "rosso"
      }
@@ -933,13 +933,8 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "linea 14",
-      "valore": 42.4,
+      "valore": 46.6,
       "link": "mappa_torino.html#tema=puntualita&linea=14&ora=8"
-     },
-     {
-      "label": "linea 30",
-      "valore": 41.7,
-      "link": "mappa_torino.html#tema=puntualita&linea=30&ora=8"
      },
      {
       "label": "linea 4",
@@ -948,8 +943,23 @@ window.SCHEDE_RISULTATI = [
      },
      {
       "label": "linea 45",
-      "valore": 31.5,
+      "valore": 37.0,
       "link": "mappa_torino.html#tema=puntualita&linea=45&ora=8"
+     },
+     {
+      "label": "linea 43",
+      "valore": 33.7,
+      "link": "mappa_torino.html#tema=puntualita&linea=43&ora=8"
+     },
+     {
+      "label": "linea 12",
+      "valore": 33.3,
+      "link": "mappa_torino.html#tema=puntualita&linea=12&ora=8"
+     },
+     {
+      "label": "linea 30",
+      "valore": 31.2,
+      "link": "mappa_torino.html#tema=puntualita&linea=30&ora=8"
      },
      {
       "label": "linea 17",
@@ -957,29 +967,19 @@ window.SCHEDE_RISULTATI = [
       "link": "mappa_torino.html#tema=puntualita&linea=17&ora=8"
      },
      {
-      "label": "linea 29",
-      "valore": 28.8,
-      "link": "mappa_torino.html#tema=puntualita&linea=29&ora=8"
-     },
-     {
-      "label": "linea 61",
-      "valore": 27.2,
-      "link": "mappa_torino.html#tema=puntualita&linea=61&ora=8"
-     },
-     {
-      "label": "linea 43",
-      "valore": 27.0,
-      "link": "mappa_torino.html#tema=puntualita&linea=43&ora=8"
-     },
-     {
       "label": "linea 68",
-      "valore": 23.4,
+      "valore": 25.2,
       "link": "mappa_torino.html#tema=puntualita&linea=68&ora=8"
      },
      {
-      "label": "linea 13",
-      "valore": 23.1,
-      "link": "mappa_torino.html#tema=puntualita&linea=13&ora=8"
+      "label": "linea 29",
+      "valore": 25.0,
+      "link": "mappa_torino.html#tema=puntualita&linea=29&ora=8"
+     },
+     {
+      "label": "linea 18",
+      "valore": 24.4,
+      "link": "mappa_torino.html#tema=puntualita&linea=18&ora=8"
      }
     ]
    },
@@ -987,7 +987,7 @@ window.SCHEDE_RISULTATI = [
     "tipo": "barre",
     "titolo": "Noi e GTT: passaggi in ritardo oltre 10 minuti",
     "unita": "%",
-    "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 5,44%, alla prima fermata 3,86%, a metà corsa 5,29%, fuori punta 5,27%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
+    "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 6,19%, alla prima fermata 4,37%, a metà corsa 5,95%, fuori punta 5,74%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
     "voci": [
      {
       "label": "GTT (2025, anno intero)",
@@ -995,22 +995,22 @@ window.SCHEDE_RISULTATI = [
      },
      {
       "label": "noi, a ogni fermata",
-      "valore": 5.49,
+      "valore": 6.02,
       "tono": "rosso"
      },
      {
       "label": "noi, solo alla prima fermata",
-      "valore": 3.92,
+      "valore": 4.29,
       "tono": "rosso"
      },
      {
       "label": "noi, solo a metà corsa",
-      "valore": 5.24,
+      "valore": 5.72,
       "tono": "rosso"
      },
      {
       "label": "noi, fuori dalle ore di punta",
-      "valore": 5.3,
+      "valore": 5.63,
       "tono": "rosso"
      }
     ]
@@ -1019,35 +1019,35 @@ window.SCHEDE_RISULTATI = [
     "tipo": "barre",
     "titolo": "Tram contro bus (feriale)",
     "unita": "%",
-    "nota": "Tram: 195.848 passaggi; bus: 748.428.",
+    "nota": "Tram: 284.278 passaggi; bus: 1.059.887.",
     "voci": [
      {
       "label": "tram: in ritardo oltre 5 min",
-      "valore": 14.4,
+      "valore": 15.0,
       "tono": "rosso"
      },
      {
       "label": "bus: in ritardo oltre 5 min",
-      "valore": 14.0,
+      "valore": 15.8,
       "tono": "rosso"
      },
      {
       "label": "tram: in ritardo oltre 10 min",
-      "valore": 5.66,
+      "valore": 5.98,
       "tono": "rosso"
      },
      {
       "label": "bus: in ritardo oltre 10 min",
-      "valore": 5.38,
+      "valore": 6.24,
       "tono": "rosso"
      },
      {
       "label": "tram: a grappolo o con un buco",
-      "valore": 26.7
+      "valore": 26.6
      },
      {
       "label": "bus: a grappolo o con un buco",
-      "valore": 17.1
+      "valore": 18.3
      }
     ]
    },
@@ -1058,63 +1058,63 @@ window.SCHEDE_RISULTATI = [
     "nota": "Ritardo mediano alle ultime 3 fermate della corsa, in minuti. Solo linee ordinarie con almeno 100 passaggi di fine corsa. I minuti ogni 10 km (ritardo diviso la lunghezza della corsa) sono nel rapporto: per km le linee corte vengono premiate. Clicca una linea per vederla nella mappa: la mappa si apre alle 8 di un feriale.",
     "voci": [
      {
-      "label": "linea 19 (5,4 min ogni 10 km)",
-      "valore": 3.2,
+      "label": "linea 19 (6,5 min ogni 10 km)",
+      "valore": 3.8,
       "link": "mappa_torino.html#tema=puntualita&linea=19&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 4 (2,2 min ogni 10 km)",
-      "valore": 3.2,
-      "link": "mappa_torino.html#tema=puntualita&linea=4&ora=8",
-      "tono": "rosso"
-     },
-     {
-      "label": "linea 17 (1,7 min ogni 10 km)",
-      "valore": 2.9,
+      "label": "linea 17 (2,2 min ogni 10 km)",
+      "valore": 3.8,
       "link": "mappa_torino.html#tema=puntualita&linea=17&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 6 (6,2 min ogni 10 km)",
-      "valore": 2.6,
+      "label": "linea 4 (2,3 min ogni 10 km)",
+      "valore": 3.3,
+      "link": "mappa_torino.html#tema=puntualita&linea=4&ora=8",
+      "tono": "rosso"
+     },
+     {
+      "label": "linea 6 (6,6 min ogni 10 km)",
+      "valore": 3.0,
       "link": "mappa_torino.html#tema=puntualita&linea=6&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 33 (2 min ogni 10 km)",
+      "label": "linea 68 (2,1 min ogni 10 km)",
       "valore": 2.3,
-      "link": "mappa_torino.html#tema=puntualita&linea=33&ora=8",
-      "tono": "rosso"
-     },
-     {
-      "label": "linea 68 (1,6 min ogni 10 km)",
-      "valore": 1.8,
       "link": "mappa_torino.html#tema=puntualita&linea=68&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 44 (1,2 min ogni 10 km)",
-      "valore": 1.6,
-      "link": "mappa_torino.html#tema=puntualita&linea=44&ora=8",
+      "label": "linea 72 (1,9 min ogni 10 km)",
+      "valore": 2.1,
+      "link": "mappa_torino.html#tema=puntualita&linea=72&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 60 (2,2 min ogni 10 km)",
-      "valore": 1.5,
+      "label": "linea 33 (1,8 min ogni 10 km)",
+      "valore": 2.1,
+      "link": "mappa_torino.html#tema=puntualita&linea=33&ora=8",
+      "tono": "rosso"
+     },
+     {
+      "label": "linea 60 (2,6 min ogni 10 km)",
+      "valore": 1.7,
       "link": "mappa_torino.html#tema=puntualita&linea=60&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 132 (1,8 min ogni 10 km)",
-      "valore": 1.5,
+      "label": "linea 132 (2,1 min ogni 10 km)",
+      "valore": 1.7,
       "link": "mappa_torino.html#tema=puntualita&linea=132&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 61 (1,3 min ogni 10 km)",
-      "valore": 1.4,
-      "link": "mappa_torino.html#tema=puntualita&linea=61&ora=8",
+      "label": "linea 42 (2 min ogni 10 km)",
+      "valore": 1.6,
+      "link": "mappa_torino.html#tema=puntualita&linea=42&ora=8",
       "tono": "rosso"
      }
     ]
@@ -1123,25 +1123,25 @@ window.SCHEDE_RISULTATI = [
     "tipo": "barre",
     "titolo": "Linee utili contro altre (feriale)",
     "unita": "%",
-    "nota": "Linee utili = le 54 che toccano più delle zone dove arriva più gente per km² (Risultato 3). Passaggi: 623.308 sulle utili, 320.968 sulle altre.",
+    "nota": "Linee utili = le 54 che toccano più delle zone dove arriva più gente per km² (Risultato 3). Passaggi: 882.649 sulle utili, 461.516 sulle altre.",
     "voci": [
      {
       "label": "linee utili: in ritardo oltre 5 min",
-      "valore": 15.5,
+      "valore": 17.1,
       "tono": "rosso"
      },
      {
       "label": "altre linee: in ritardo oltre 5 min",
-      "valore": 11.4,
+      "valore": 12.9,
       "tono": "rosso"
      },
      {
       "label": "linee utili: a grappolo o con un buco",
-      "valore": 21.9
+      "valore": 22.8
      },
      {
       "label": "altre linee: a grappolo o con un buco",
-      "valore": 17.2
+      "valore": 17.5
      }
     ]
    },
@@ -1158,18 +1158,18 @@ window.SCHEDE_RISULTATI = [
      },
      {
       "label": "giorno (9-16)",
-      "valore": 5.26,
-      "prima": 3.75
+      "valore": 5.28,
+      "prima": 3.88
      },
      {
       "label": "punta della sera (16-19)",
-      "valore": 6.54,
-      "prima": 4.44
+      "valore": 6.56,
+      "prima": 4.41
      },
      {
       "label": "sera (19-24)",
-      "valore": 9.65,
-      "prima": 8.2
+      "valore": 9.95,
+      "prima": 8.21
      }
     ]
    },
@@ -1187,18 +1187,18 @@ window.SCHEDE_RISULTATI = [
      },
      {
       "label": "giorno (9-16)",
-      "valore": 2.96,
-      "prima": 1.51
+      "valore": 1.67,
+      "prima": 1.4
      },
      {
       "label": "punta della sera (16-19)",
-      "valore": 2.42,
-      "prima": 2.1
+      "valore": 1.99,
+      "prima": 2.15
      },
      {
       "label": "sera (19-24)",
-      "valore": 1.58,
-      "prima": 1.45
+      "valore": 1.71,
+      "prima": 1.74
      }
     ]
    },
@@ -1218,35 +1218,35 @@ window.SCHEDE_RISULTATI = [
      },
      {
       "label": "linea 4",
-      "valore": 2.2
+      "valore": 2.1
      },
      {
       "label": "linea 46",
       "valore": 1.9
      },
      {
-      "label": "linea 15",
+      "label": "linea 16 CD",
       "valore": 1.6
      },
      {
-      "label": "linea 16 CD",
-      "valore": 1.6
+      "label": "linea 56",
+      "valore": 1.5
      },
      {
       "label": "linea 2",
       "valore": 1.4
      },
      {
-      "label": "linea 62",
-      "valore": 1.2
+      "label": "linea 15",
+      "valore": 1.3
      },
      {
       "label": "linea 3",
       "valore": 1.2
      },
      {
-      "label": "linea 56",
-      "valore": 1.0
+      "label": "linea 55",
+      "valore": 1.2
      }
     ]
    }
@@ -1260,11 +1260,11 @@ window.SCHEDE_RISULTATI = [
   "parametri": [
    [
     "Periodo",
-    "2026-10-10 - 2026-10-20"
+    "2026-10-10 - 2026-10-23"
    ],
    [
     "Passaggi con GPS valido",
-    "1.300.434 (78,3% di quelli programmati dalle corse viste)"
+    "1.700.323 (79,5% di quelli programmati dalle corse viste)"
    ],
    [
     "Soglia ritardo",
@@ -1280,10 +1280,10 @@ window.SCHEDE_RISULTATI = [
    ]
   ],
   "limiti": [
-   "Pochi giorni (6 feriali, 2 sabati, 1 domeniche), e non tutti interi: sabato 10 dalle 15, lunedì 12 dalle 12, martedì 13 con buchi il pomeriggio e la sera, domenica 18 fino alle 9:30 (poi guasto del feed GTT). Ogni giorno conta con le ore che hanno dati.",
+   "Pochi giorni (8 feriali, 2 sabati, 1 domeniche), e non tutti interi: sabato 10 dalle 15, lunedì 12 dalle 12, martedì 13 con buchi il pomeriggio e la sera, domenica 18 fino alle 9:30 (poi guasto del feed GTT). Ogni giorno conta con le ore che hanno dati.",
    "La raccolta si ferma a mezzanotte e riparte verso le 5: la notte non è misurata.",
    "Il GPS copre solo le linee urbane (circa 90): le extraurbane non ci sono mai. Anche sulle linee coperte alcune corse non sono mai viste dal GPS: se erano saltate davvero, la puntualità reale è peggiore e i buchi sono più di quelli contati.",
-   "Il GPS c'è per circa il 78% dei passaggi delle corse viste; le corse mai viste dal GPS non si contano.",
+   "Il GPS c'è per circa il 80% dei passaggi delle corse viste; le corse mai viste dal GPS non si contano.",
    "Distanza di 60 metri dalla fermata: un mezzo fermo poco prima conta come arrivato poco dopo.",
    "Dice quanto spesso c'è ritardo, non quante persone aspettano né quanto erano pieni i mezzi.",
    "Arrivi misurati con il GPS dei mezzi (a meno di 60 metri dalla fermata); il vecchio feed GTT, controllato col GPS, dava una differenza tipica di 0,5 minuti.",
@@ -1294,18 +1294,18 @@ window.SCHEDE_RISULTATI = [
   ],
   "in_english": [
    "Question: how often do GTT vehicles arrive late, and how often do frequent lines bunch together or leave gaps?",
-   "On weekdays 14.1% of departures arrive more than 5 minutes late; on Saturdays 16.8%. On frequent lines 20.9% of consecutive pairs of vehicles bunch together or leave a gap.",
-   "The most common problem is early arrival: 37.9% of weekday departures arrive more than one minute before the timetable.",
-   "Limits: only 6 weekdays, 2 Saturdays and 1 Sundays of data, some of them partial; the night is not measured.",
-   "Arrivals are now measured with the vehicles' GPS; the GTT real-time feed we used before gave 5.4% late instead of 14.1% because it stops updating a stop at its scheduled time, so it underestimates delays.",
-   "More than 10 minutes late: 5.44% of weekday departures. GTT reports 2.3% for 2025: its method is not published; we measure at every stop with GPS, over a few days.",
-   "Why our number differs from GTT's 2.3% (more than 10 minutes late, 2025): GTT averages the whole year on all lines with an unpublished method; we measure a few October days on urban lines. At the first stop of the trip we get 3.92%, at every stop 5.49% (weekly average).",
-   "Trams vs buses (weekdays): 14.4% of tram departures and 14.0% of bus departures are more than 5 minutes late.",
-   "Delay at the end of the trip (median, last stops): highest on line 19 (3.2 minutes).",
-   "Useful lines (touching the busiest zones per km2): 15.5% of departures more than 5 minutes late, other lines 11.4% (weekdays).",
-   "On weekdays the timetable promises an average wait of 4.7 minutes; the real one is between 6.3 and 7.1 minutes. That is 1.6 to 2.4 minutes more per wait, at least 34% above the promise.",
-   "Limits: only 6 weekdays of data so far; real arrivals are measured with the vehicles' GPS (within 60 metres of the stop); the night is not included.",
-   "Waiting time on frequent lines (weekdays): trams promise 4.5 min, 1.8-2.4 min more in reality; buses 5.6 min, 1.1-2.4 min more."
+   "On weekdays 15.6% of departures arrive more than 5 minutes late; on Saturdays 16.8%. On frequent lines 21.6% of consecutive pairs of vehicles bunch together or leave a gap.",
+   "The most common problem is early arrival: 36.2% of weekday departures arrive more than one minute before the timetable.",
+   "Limits: only 8 weekdays, 2 Saturdays and 1 Sundays of data, some of them partial; the night is not measured.",
+   "Arrivals are now measured with the vehicles' GPS; the GTT real-time feed we used before gave 6.0% late instead of 15.6% because it stops updating a stop at its scheduled time, so it underestimates delays.",
+   "More than 10 minutes late: 6.19% of weekday departures. GTT reports 2.3% for 2025: its method is not published; we measure at every stop with GPS, over a few days.",
+   "Why our number differs from GTT's 2.3% (more than 10 minutes late, 2025): GTT averages the whole year on all lines with an unpublished method; we measure a few October days on urban lines. At the first stop of the trip we get 4.29%, at every stop 6.02% (weekly average).",
+   "Trams vs buses (weekdays): 15.0% of tram departures and 15.8% of bus departures are more than 5 minutes late.",
+   "Delay at the end of the trip (median, last stops): highest on line 19 (3.8 minutes).",
+   "Useful lines (touching the busiest zones per km2): 17.1% of departures more than 5 minutes late, other lines 12.9% (weekdays).",
+   "On weekdays the timetable promises an average wait of 4.7 minutes; the real one is between 6.3 and 6.5 minutes. That is 1.5 to 1.7 minutes more per wait, at least 32% above the promise.",
+   "Limits: only 8 weekdays of data so far; real arrivals are measured with the vehicles' GPS (within 60 metres of the stop); the night is not included.",
+   "Waiting time on frequent lines (weekdays): trams promise 4.5 min, 1.6-1.7 min more in reality; buses 5.8 min, 1.1-1.9 min more."
   ],
   "mappa": {
    "id": "puntualita",
@@ -1319,43 +1319,43 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:08:45+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
-   "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-20: il GPS c'è per il 78% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
+   "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-23: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
   ],
   "scenari": [
    {
-    "nome": "Feriale (6 giorni, 944.276 passaggi)",
+    "nome": "Feriale (8 giorni, 1.344.165 passaggi)",
     "numeri": [
      {
       "label": "Passaggi in ritardo oltre 5 min",
       "prima": null,
-      "dopo": 14.1,
+      "dopo": 15.6,
       "unita": "%"
      },
      {
       "label": "Coppie di bus a grappolo o con un buco (linee frequenti)",
       "prima": null,
-      "dopo": 20.9,
+      "dopo": 21.6,
       "unita": "%"
      },
      {
       "label": "Ritardo mediano",
       "prima": null,
-      "dopo": -0.1,
+      "dopo": 0.1,
       "unita": "min"
      },
      {
       "label": "Passaggi in anticipo oltre 1 min",
       "prima": null,
-      "dopo": 37.9,
+      "dopo": 36.2,
       "unita": "%"
      },
      {
       "label": "Passaggi in ritardo oltre 10 min",
       "prima": null,
-      "dopo": 5.44,
+      "dopo": 6.19,
       "unita": "%"
      }
     ],
@@ -1432,24 +1432,24 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    {
-    "nome": "Feriale (6 giorni)",
+    "nome": "Feriale (8 giorni)",
     "numeri": [
      {
       "label": "Attesa media alla fermata, stima bassa",
-      "prima": 4.73,
-      "dopo": 6.35,
+      "prima": 4.74,
+      "dopo": 6.28,
       "unita": "min"
      },
      {
       "label": "Attesa media alla fermata, stima alta",
-      "prima": 4.73,
-      "dopo": 7.14,
+      "prima": 4.74,
+      "dopo": 6.45,
       "unita": "min"
      },
      {
       "label": "Corse programmate assenti dal GPS",
       "prima": null,
-      "dopo": 13.3,
+      "dopo": 7.6,
       "unita": "%"
      }
     ],
@@ -1481,10 +1481,10 @@ window.SCHEDE_RISULTATI = [
   ],
   "forma": {
    "etichetta": "MISURATO",
-   "titolo": "I ritardi gravi sono circa il 5% dei passaggi",
+   "titolo": "I ritardi gravi sono circa il 6% dei passaggi",
    "domanda": "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
    "numero": {
-    "valore": 5.44,
+    "valore": 6.19,
     "unita": "%",
     "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo"
    },
@@ -1499,22 +1499,22 @@ window.SCHEDE_RISULTATI = [
       "voci": [
        {
         "label": "in anticipo (oltre 1 minuto)",
-        "valore": 37.9,
+        "valore": 36.2,
         "tono": "blu"
        },
        {
         "label": "puntuali",
-        "valore": 48.0,
+        "valore": 48.2,
         "tono": "verde"
        },
        {
         "label": "ritardo da 5 a 10 minuti",
-        "valore": 8.66,
+        "valore": 9.41,
         "tono": "giallo"
        },
        {
         "label": "ritardo oltre 10 minuti",
-        "valore": 5.44,
+        "valore": 6.19,
         "tono": "rosso"
        }
       ]
@@ -1572,16 +1572,16 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "Oltre 10 minuti di ritardo: 5,4% dei passaggi a ogni fermata, 3,9% se si guarda solo la partenza.",
-    "La linea più in ritardo è la 17: 38,1% dei passaggi feriali oltre 5 minuti.",
-    "I tram arrivano più a grappolo dei bus: 26,7% delle coppie di mezzi contro 17,1% (feriale)."
+    "Oltre 10 minuti di ritardo: 6,2% dei passaggi a ogni fermata, 4,4% se si guarda solo la partenza.",
+    "La linea più in ritardo è la 17: 41,2% dei passaggi feriali oltre 5 minuti.",
+    "I tram arrivano più a grappolo dei bus: 26,6% delle coppie di mezzi contro 18,3% (feriale)."
    ],
    "altri": [
     {
      "tipo": "barre",
      "titolo": "Noi e GTT: passaggi in ritardo oltre 10 minuti",
      "unita": "%",
-     "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 5,44%, alla prima fermata 3,86%, a metà corsa 5,29%, fuori punta 5,27%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
+     "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 6,19%, alla prima fermata 4,37%, a metà corsa 5,95%, fuori punta 5,74%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
      "voci": [
       {
        "label": "GTT (2025, anno intero)",
@@ -1589,22 +1589,22 @@ window.SCHEDE_RISULTATI = [
       },
       {
        "label": "noi, a ogni fermata",
-       "valore": 5.49,
+       "valore": 6.02,
        "tono": "rosso"
       },
       {
        "label": "noi, solo alla prima fermata",
-       "valore": 3.92,
+       "valore": 4.29,
        "tono": "rosso"
       },
       {
        "label": "noi, solo a metà corsa",
-       "valore": 5.24,
+       "valore": 5.72,
        "tono": "rosso"
       },
       {
        "label": "noi, fuori dalle ore di punta",
-       "valore": 5.3,
+       "valore": 5.63,
        "tono": "rosso"
       }
      ]
@@ -1623,10 +1623,10 @@ window.SCHEDE_RISULTATI = [
       {
        "label": "passaggi in ritardo",
        "valori": [
-        12.3,
-        15.2,
-        16.8,
-        15.6
+        15.1,
+        15.9,
+        20.4,
+        18.1
        ]
       }
      ]
@@ -1642,11 +1642,11 @@ window.SCHEDE_RISULTATI = [
    "criteri": [
     [
      "Periodo",
-     "2026-10-10 - 2026-10-20"
+     "2026-10-10 - 2026-10-23"
     ],
     [
      "Passaggi con GPS valido",
-     "1.300.434 (78,3% di quelli programmati dalle corse viste)"
+     "1.700.323 (79,5% di quelli programmati dalle corse viste)"
     ],
     [
      "Soglia ritardo",
@@ -1662,15 +1662,15 @@ window.SCHEDE_RISULTATI = [
     ]
    ],
    "limiti": [
-    "Pochi giorni: 6 feriali, 2 sabati e 1 domenica, non tutti interi.",
+    "Pochi giorni: 8 feriali, 2 sabati e 1 domenica, non tutti interi.",
     "Solo le linee urbane viste dal GPS, dalle 5 a mezzanotte.",
-    "Il GPS copre circa il 78% dei passaggi programmati; le corse mai viste non si contano.",
+    "Il GPS copre circa il 80% dei passaggi programmati; le corse mai viste non si contano.",
     "Contiamo quanto spesso c'è ritardo, non quante persone aspettano."
    ],
    "english": [
-    "Question: how often are GTT vehicles late or bunched? Answer: 5.4% of weekday departures are more than 10 minutes late.",
-    "GTT reports 2.3% for 2025. Counting only the first stop we get 3.9%; the rest is season and method.",
-    "Limit: only 6 weekdays, 2 Saturdays and 1 Sunday of data, urban lines only, no night."
+    "Question: how often are GTT vehicles late or bunched? Answer: 6.2% of weekday departures are more than 10 minutes late.",
+    "GTT reports 2.3% for 2025. Counting only the first stop we get 4.3%; the rest is season and method.",
+    "Limit: only 8 weekdays, 2 Saturdays and 1 Sunday of data, urban lines only, no night."
    ],
    "mappa": {
     "id": "puntualita",
@@ -1679,17 +1679,17 @@ window.SCHEDE_RISULTATI = [
    "unita": {
     "tipo": "quadratini",
     "totale": 100,
-    "colorati": 14,
-    "didascalia": "Su 100 passaggi feriali, circa 14 arrivano con più di 5 minuti di ritardo (14,1%); con più di 10 minuti circa 5."
+    "colorati": 16,
+    "didascalia": "Su 100 passaggi feriali, circa 16 arrivano con più di 5 minuti di ritardo (15,6%); con più di 10 minuti circa 6."
    },
    "confronto": [
     "GTT dichiara il 2,3% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
-    "Noi misuriamo pochi giorni di ottobre sulle linee urbane: 5,5% a ogni fermata, 3,9% alla partenza.",
-    "Anche contando come GTT alla partenza troviamo il 3,9%; il resto della differenza è stagione e metodo."
+    "Noi misuriamo pochi giorni di ottobre sulle linee urbane: 6% a ogni fermata, 4,3% alla partenza.",
+    "Anche contando come GTT alla partenza troviamo il 4,3%; il resto della differenza è stagione e metodo."
    ],
    "extra": {
     "titolo": "Quanto si aspetta alla fermata",
-    "punto": "Sulle linee frequenti si aspettano da 1,6 a 2,4 minuti in più di quanto promette l'orario (feriale).",
+    "punto": "Sulle linee frequenti si aspettano da 1,5 a 1,7 minuti in più di quanto promette l'orario (feriale).",
     "grafico": {
      "tipo": "barre",
      "titolo": "Attesa media alla fermata, per fascia oraria (feriale)",
@@ -1703,18 +1703,18 @@ window.SCHEDE_RISULTATI = [
       },
       {
        "label": "giorno (9-16)",
-       "valore": 5.26,
-       "prima": 3.75
+       "valore": 5.28,
+       "prima": 3.88
       },
       {
        "label": "punta della sera (16-19)",
-       "valore": 6.54,
-       "prima": 4.44
+       "valore": 6.56,
+       "prima": 4.41
       },
       {
        "label": "sera (19-24)",
-       "valore": 9.65,
-       "prima": 8.2
+       "valore": 9.95,
+       "prima": 8.21
       }
      ]
     }
@@ -1722,10 +1722,10 @@ window.SCHEDE_RISULTATI = [
   },
   "forma_en": {
    "etichetta": "MEASURED",
-   "titolo": "Serious delays are about 5% of stop arrivals",
+   "titolo": "Serious delays are about 6% of stop arrivals",
    "domanda": "How often are GTT vehicles late or bunched together?",
    "numero": {
-    "valore": 5.44,
+    "valore": 6.19,
     "unita": "%",
     "testo": "of weekday arrivals are more than 10 minutes late"
    },
@@ -1740,22 +1740,22 @@ window.SCHEDE_RISULTATI = [
       "voci": [
        {
         "label": "early (more than 1 minute)",
-        "valore": 37.9,
+        "valore": 36.2,
         "tono": "blu"
        },
        {
         "label": "on time",
-        "valore": 48.0,
+        "valore": 48.2,
         "tono": "verde"
        },
        {
         "label": "5 to 10 minutes late",
-        "valore": 8.66,
+        "valore": 9.41,
         "tono": "giallo"
        },
        {
         "label": "more than 10 minutes late",
-        "valore": 5.44,
+        "valore": 6.19,
         "tono": "rosso"
        }
       ]
@@ -1813,16 +1813,16 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "More than 10 minutes late: 5.4% of arrivals at every stop, 3.9% if we look only at departure.",
-    "The line with the most delays is line 17: 38.1% of weekday arrivals more than 5 minutes late.",
-    "Trams bunch more than buses: 26.7% of vehicle pairs versus 17.1% (weekday)."
+    "More than 10 minutes late: 6.2% of arrivals at every stop, 4.4% if we look only at departure.",
+    "The line with the most delays is line 17: 41.2% of weekday arrivals more than 5 minutes late.",
+    "Trams bunch more than buses: 26.6% of vehicle pairs versus 18.3% (weekday)."
    ],
    "altri": [
     {
      "tipo": "barre",
      "titolo": "Us and GTT: arrivals more than 10 minutes late",
      "unita": "%",
-     "nota": "Bars = weekly average (weekday 5 : Saturday 1 : Sunday 1). On weekdays: at every stop 5.44%, at the first stop 3.86%, mid-trip 5.29%, off-peak 5.27%. GTT: year 2025, all lines, method not published.",
+     "nota": "Bars = weekly average (weekday 5 : Saturday 1 : Sunday 1). On weekdays: at every stop 6.19%, at the first stop 4.37%, mid-trip 5.95%, off-peak 5.74%. GTT: year 2025, all lines, method not published.",
      "voci": [
       {
        "label": "GTT (2025, whole year)",
@@ -1830,22 +1830,22 @@ window.SCHEDE_RISULTATI = [
       },
       {
        "label": "us, at every stop",
-       "valore": 5.49,
+       "valore": 6.02,
        "tono": "rosso"
       },
       {
        "label": "us, first stop only",
-       "valore": 3.92,
+       "valore": 4.29,
        "tono": "rosso"
       },
       {
        "label": "us, mid-trip only",
-       "valore": 5.24,
+       "valore": 5.72,
        "tono": "rosso"
       },
       {
        "label": "us, outside peak hours",
-       "valore": 5.3,
+       "valore": 5.63,
        "tono": "rosso"
       }
      ]
@@ -1864,10 +1864,10 @@ window.SCHEDE_RISULTATI = [
       {
        "label": "late arrivals",
        "valori": [
-        12.3,
-        15.2,
-        16.8,
-        15.6
+        15.1,
+        15.9,
+        20.4,
+        18.1
        ]
       }
      ]
@@ -1883,11 +1883,11 @@ window.SCHEDE_RISULTATI = [
    "criteri": [
     [
      "Period",
-     "2026-10-10 - 2026-10-20"
+     "2026-10-10 - 2026-10-23"
     ],
     [
      "Arrivals with a valid GPS fix",
-     "1,300,434 (78.3% of those scheduled for the trips seen)"
+     "1,700,323 (79.5% of those scheduled for the trips seen)"
     ],
     [
      "Delay threshold",
@@ -1903,9 +1903,9 @@ window.SCHEDE_RISULTATI = [
     ]
    ],
    "limiti": [
-    "Few days: 6 weekdays, 2 Saturdays and 1 Sunday, not all complete.",
+    "Few days: 8 weekdays, 2 Saturdays and 1 Sunday, not all complete.",
     "Urban lines seen by the GPS only, from 5 a.m. to midnight.",
-    "The GPS covers about 78% of scheduled arrivals; trips never seen are not counted.",
+    "The GPS covers about 80% of scheduled arrivals; trips never seen are not counted.",
     "We count how often there is a delay, not how many people are waiting."
    ],
    "mappa": {
@@ -1915,17 +1915,17 @@ window.SCHEDE_RISULTATI = [
    "unita": {
     "tipo": "quadratini",
     "totale": 100,
-    "colorati": 14,
-    "didascalia": "Out of 100 weekday arrivals, about 14 are more than 5 minutes late (14.1%); more than 10 minutes late, about 5."
+    "colorati": 16,
+    "didascalia": "Out of 100 weekday arrivals, about 16 are more than 5 minutes late (15.6%); more than 10 minutes late, about 6."
    },
    "confronto": [
     "GTT reports 2.3% over 10 minutes in 2025: yearly average, all lines, method not published.",
-    "We measure a few days in October on urban lines: 5.5% at every stop, 3.9% at departure.",
-    "Even counting at departure like GTT, we find 3.9%; the rest of the difference is season and method."
+    "We measure a few days in October on urban lines: 6% at every stop, 4.3% at departure.",
+    "Even counting at departure like GTT, we find 4.3%; the rest of the difference is season and method."
    ],
    "extra": {
     "titolo": "How long you wait at the stop",
-    "punto": "On frequent lines you wait 1.6 to 2.4 minutes more than the timetable promises (weekday).",
+    "punto": "On frequent lines you wait 1.5 to 1.7 minutes more than the timetable promises (weekday).",
     "grafico": {
      "tipo": "barre",
      "titolo": "Average wait at the stop, by time of day (weekday)",
@@ -1939,18 +1939,18 @@ window.SCHEDE_RISULTATI = [
       },
       {
        "label": "daytime (9-16)",
-       "valore": 5.26,
-       "prima": 3.75
+       "valore": 5.28,
+       "prima": 3.88
       },
       {
        "label": "evening peak (16-19)",
-       "valore": 6.54,
-       "prima": 4.44
+       "valore": 6.56,
+       "prima": 4.41
       },
       {
        "label": "evening (19-24)",
-       "valore": 9.65,
-       "prima": 8.2
+       "valore": 9.95,
+       "prima": 8.21
       }
      ]
     }
@@ -1982,7 +1982,7 @@ window.SCHEDE_RISULTATI = [
     "tipo": "profilo",
     "titolo": "Stura (589 posti): sempre quasi pieno: 80% di notte, 91% di giorno",
     "unita": "",
-    "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+    "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
     "serie": [
      {
       "label": "giorno feriale",
@@ -1993,24 +1993,24 @@ window.SCHEDE_RISULTATI = [
        0.797,
        0.797,
        0.799,
-       0.803,
-       0.827,
-       0.872,
-       0.897,
-       0.917,
-       0.918,
-       0.918,
-       0.914,
-       0.908,
-       0.902,
-       0.893,
-       0.875,
-       0.844,
-       0.812,
+       0.804,
+       0.829,
+       0.877,
+       0.903,
+       0.919,
+       0.921,
+       0.921,
+       0.916,
+       0.91,
+       0.904,
+       0.894,
+       0.877,
+       0.846,
+       0.813,
        0.802,
-       0.8,
-       0.8,
-       0.798
+       0.801,
+       0.801,
+       0.8
       ]
      },
      {
@@ -2049,35 +2049,35 @@ window.SCHEDE_RISULTATI = [
     "tipo": "profilo",
     "titolo": "Venchi Unica (437 posti): sempre intorno al 55%",
     "unita": "",
-    "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+    "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
     "serie": [
      {
       "label": "giorno feriale",
       "valori": [
-       0.532,
-       0.533,
-       0.533,
-       0.533,
-       0.532,
-       0.53,
-       0.531,
-       0.524,
-       0.528,
-       0.55,
-       0.552,
-       0.548,
-       0.549,
-       0.547,
-       0.546,
-       0.543,
+       0.537,
        0.538,
-       0.529,
-       0.517,
-       0.505,
-       0.512,
-       0.516,
+       0.538,
+       0.538,
+       0.537,
+       0.535,
+       0.537,
+       0.53,
+       0.535,
+       0.555,
+       0.556,
+       0.552,
+       0.553,
+       0.552,
+       0.551,
+       0.548,
+       0.542,
+       0.533,
        0.52,
-       0.529
+       0.507,
+       0.515,
+       0.521,
+       0.525,
+       0.532
       ]
      },
      {
@@ -2116,23 +2116,23 @@ window.SCHEDE_RISULTATI = [
     "tipo": "profilo",
     "titolo": "Caio Mario (418 posti): il valore non cambia (1%): forse il contatore è fermo",
     "unita": "",
-    "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+    "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
     "serie": [
      {
       "label": "giorno feriale",
       "valori": [
-       0.017,
+       0.016,
+       0.011,
+       0.01,
+       0.011,
+       0.011,
        0.01,
        0.01,
+       0.009,
+       0.009,
+       0.009,
        0.01,
        0.01,
-       0.01,
-       0.009,
-       0.009,
-       0.009,
-       0.009,
-       0.009,
-       0.009,
        0.009,
        0.009,
        0.01,
@@ -2140,7 +2140,7 @@ window.SCHEDE_RISULTATI = [
        0.011,
        0.011,
        0.01,
-       0.011,
+       0.012,
        0.012,
        0.012,
        0.013,
@@ -2183,35 +2183,35 @@ window.SCHEDE_RISULTATI = [
     "tipo": "profilo",
     "titolo": "Sofia (272 posti): è più pieno di notte che di giorno: 52% di notte, 31% di giorno",
     "unita": "",
-    "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+    "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
     "serie": [
      {
       "label": "giorno feriale",
       "valori": [
-       0.521,
-       0.522,
-       0.522,
-       0.523,
-       0.524,
-       0.515,
-       0.494,
-       0.447,
-       0.406,
-       0.365,
-       0.311,
-       0.295,
-       0.302,
+       0.516,
+       0.517,
+       0.519,
+       0.519,
+       0.519,
+       0.51,
+       0.488,
+       0.44,
+       0.4,
+       0.36,
        0.31,
-       0.311,
-       0.313,
+       0.292,
+       0.3,
+       0.308,
+       0.309,
        0.31,
-       0.342,
-       0.379,
+       0.31,
+       0.338,
+       0.378,
        0.42,
-       0.453,
-       0.47,
-       0.493,
-       0.505
+       0.449,
+       0.465,
+       0.487,
+       0.5
       ]
      },
      {
@@ -2390,7 +2390,7 @@ window.SCHEDE_RISULTATI = [
    },
    {
     "voce": "Giorni feriali di riempimento",
-    "valore": "15/10, 16/10, 19/10, 20/10, 21/10"
+    "valore": "15/10, 16/10, 19/10, 20/10, 21/10, 22/10"
    },
    {
     "voce": "Non sappiamo",
@@ -2428,14 +2428,14 @@ window.SCHEDE_RISULTATI = [
    ],
    [
     "Giorni feriali di riempimento",
-    "15/10, 16/10, 19/10, 20/10 e 21/10"
+    "15/10, 16/10, 19/10, 20/10, 21/10 e 22/10"
    ]
   ],
   "limiti": [
    "Auto che passano: modello del traffico (percorso più veloce, senza code), stima debole: solo ordine di grandezza. Le stesse auto passano davanti a più fermate dello stesso corso.",
-   "Riempimento misurato su soli 5 giorni feriali e solo dove il 5T lo trasmette [DATI SCARSI]: Fermi e i parcheggi gratuiti non sono misurati.",
+   "Riempimento misurato su soli 6 giorni feriali e solo dove il 5T lo trasmette [DATI SCARSI]: Fermi e i parcheggi gratuiti non sono misurati.",
    "Quota di chi lascia l'auto: indagine sugli spostamenti 2022, poche interviste.",
-   "Controllo con i sensori 5T del mattino: il modello mette le strade d'ingresso in un ordine simile solo in parte (ρ = 0,52 su 23 luoghi); sottostima gli ingressi da nord-ovest.",
+   "Controllo con i sensori 5T del mattino: il modello mette le strade d'ingresso in un ordine simile solo in parte (ρ = 0,46 su 24 luoghi); sottostima gli ingressi da nord-ovest.",
    "Parcheggi da OpenStreetMap incompleti; posti spesso stimati dalla superficie (±30%).",
    "Distanza a piedi stimata (linea d'aria × 1,3). Treni non considerati."
   ],
@@ -2490,7 +2490,7 @@ window.SCHEDE_RISULTATI = [
    },
    {
     "nome": "Riempimento",
-    "valore": "misurato dal 5T dove c'è (5 giorni feriali, ore 10-16); pieno ≥ 85%",
+    "valore": "misurato dal 5T dove c'è (6 giorni feriali, ore 10-16); pieno ≥ 85%",
     "perche": "un parcheggio pieno non serve",
     "effetto": "colora i parcheggi e mostra i profili; non cambia le classi delle fermate"
    }
@@ -2512,7 +2512,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:08:45+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2523,7 +2523,7 @@ window.SCHEDE_RISULTATI = [
    "About 87,200 cars enter Turin every morning (2022 travel survey) and 5.8% of these drivers already continue by public transport. 179 of 274 important stops outside the centre lack enough suitable parking within 400 m on foot for the cars passing by.",
    "Important stops: outside the centre, with a metro, train station or terminus or at least 10 departures per hour at commuting times, and at least 1,000 cars entering the city passing by.",
    "Limits: car flows come from a simple traffic model (order of magnitude only); occupancy is measured on few days and only where the city's 5T system reports it; trains are not included.",
-   "Check against the 5T morning sensors: the model ranks the entry roads in a similar order only in part (rho = 0.52 over 23 places); it underestimates the entries from the north-west."
+   "Check against the 5T morning sensors: the model ranks the entry roads in a similar order only in part (rho = 0.46 over 24 places); it underestimates the entries from the north-west."
   ],
   "scenari": [
    {
@@ -3461,16 +3461,16 @@ window.SCHEDE_RISULTATI = [
   "in_breve": "Quante auto passano sulle strade grandi di Torino? E dove c'è tanto traffico ma nessun bus, tram o metro comodo, così che l'auto resta l'unica scelta?",
   "domanda": "Sulle strade grandi di Torino, dove c'è molto traffico e poco trasporto pubblico vicino?",
   "numero_chiave": {
-   "valore": 95.3,
+   "valore": 95.6,
    "unita": "%",
-   "testo": "dei km di strade grandi di Torino hanno fermate frequenti a pochi passi (327,3 km su 343,3)"
+   "testo": "dei km di strade grandi di Torino hanno fermate frequenti a pochi passi (356,3 km su 372,7)"
   },
   "racconto": "Un primo calcolo trovava 23 strade \"con molto traffico e poco trasporto pubblico\". Ricontrollando, quasi tutte erano un errore di misura: i bus si cercavano lungo la strada per nome invece che per posizione delle fermate (Corso Cairoli risultava senza passaggi). Rifatto il calcolo, la lista si è quasi svuotata: è questa la risposta.",
   "risposta": [
-   "Sulle 540 tratte di strade grandi di Torino (343,3 km), il 95,3% della lunghezza ha una fermata con almeno 4 passaggi all'ora entro 300 m, o la metro entro 600 m.",
-   "Le tratte con molto traffico (oltre 11.720 veicoli al giorno) sono 180; quelle che hanno anche poco trasporto pubblico sono 5.",
-   "In pratica è un solo caso: Corso Regina Margherita verso ovest, il tratto a scorrimento veloce (circa 34.000 veicoli al giorno, nessuna fermata frequente entro 300 m). In più un tratto di Corso Moncalieri, coperto solo per un quarto della lunghezza.",
-   "I numeri di traffico sono stime: in metà dei casi l'errore è entro ±38%. Servono a ordinare le strade, non a contare i veicoli."
+   "Sulle 611 tratte di strade grandi di Torino (372,7 km), il 95,6% della lunghezza ha una fermata con almeno 4 passaggi all'ora entro 300 m, o la metro entro 600 m.",
+   "Le tratte con molto traffico (oltre 10.677 veicoli al giorno) sono 204; quelle che hanno anche poco trasporto pubblico sono 5.",
+   "In pratica è un solo caso: Corso Regina Margherita verso ovest, il tratto a scorrimento veloce (circa 32.000 veicoli al giorno, nessuna fermata frequente entro 300 m). In più un tratto di Casale, coperto solo per 25% della lunghezza.",
+   "I numeri di traffico sono stime: in metà dei casi l'errore è entro ±28%. Servono a ordinare le strade, non a contare i veicoli."
   ],
   "grafici": [
    {
@@ -3480,12 +3480,12 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "con fermate frequenti vicine",
-      "valore": 327.3,
+      "valore": 356.3,
       "tono": "verde"
      },
      {
       "label": "con poco trasporto pubblico",
-      "valore": 16.0,
+      "valore": 16.4,
       "tono": "rosso"
      }
     ]
@@ -3497,152 +3497,162 @@ window.SCHEDE_RISULTATI = [
     "nota": "Solo strade con almeno un sensore sullo stesso asse: senza, il modello mette in cima anche strade poco credibili. \"misurato\" = sensore sulla tratta; le altre sono stime. Corso Unione Sovietica è probabilmente sovrastimato: dove c'è il sensore il modello dava quasi il triplo del misurato.",
     "voci": [
      {
-      "label": "Unità d'Italia (misurato)",
-      "valore": 80946
-     },
-     {
-      "label": "Regina Margherita",
-      "valore": 56136
+      "label": "Unità d'Italia",
+      "valore": 52296
      },
      {
       "label": "Orbassano (misurato)",
-      "valore": 50204
+      "valore": 50322
+     },
+     {
+      "label": "Regina Margherita",
+      "valore": 48739
      },
      {
       "label": "Unione Sovietica",
-      "valore": 47774
+      "valore": 48567
      },
      {
       "label": "Francia",
-      "valore": 47616
+      "valore": 39243
      },
      {
-      "label": "Giulio Cesare (misurato)",
-      "valore": 33928
-     },
-     {
-      "label": "Asse di Penetrazione Urbana di Corso Regina Margherita",
-      "valore": 33529
+      "label": "Giulio Cesare",
+      "valore": 37396
      },
      {
       "label": "Giovanni Agnelli",
-      "valore": 31640
+      "valore": 34034
+     },
+     {
+      "label": "Asse di Penetrazione Urbana di Corso Regina Margherita",
+      "valore": 31205
      },
      {
       "label": "Strada di Settimo (misurato)",
-      "valore": 29916
+      "valore": 29926
      },
      {
-      "label": "Vercelli (misurato)",
-      "valore": 26244
+      "label": "Quattro Novembre",
+      "valore": 25977
      }
     ]
    },
    {
     "tipo": "barre",
-    "titolo": "Prova del modello sui 20 sensori: misurato e stimato",
+    "titolo": "Prova del modello sui 22 sensori: misurato e stimato",
     "unita": "veicoli/giorno",
     "nota": "Barra chiara = misurato dal sensore, barra scura = stima del modello senza usare quel sensore.",
     "voci": [
      {
       "label": "Corso Unità d'Italia",
-      "valore": 60268,
-      "prima": 80946
+      "valore": 54449,
+      "prima": 81956
      },
      {
       "label": "Corso Trieste",
-      "valore": 58375,
-      "prima": 69134
+      "valore": 49617,
+      "prima": 65424
      },
      {
       "label": "Corso Orbassano",
-      "valore": 42058,
-      "prima": 50204
+      "valore": 49916,
+      "prima": 50322
+     },
+     {
+      "label": "Corso Unità d'Italia",
+      "valore": 48344,
+      "prima": 47616
      },
      {
       "label": "Corso Orbassano",
-      "valore": 41245,
-      "prima": 41346
+      "valore": 46751,
+      "prima": 41326
      },
      {
       "label": "R24 Raccordo Torino-Aeroporto Caselle",
-      "valore": 30159,
-      "prima": 40092
+      "valore": 27103,
+      "prima": 39810
      },
      {
       "label": "Corso Giulio Cesare",
-      "valore": 24228,
-      "prima": 33928
+      "valore": 24579,
+      "prima": 34548
      },
      {
       "label": "Corso Francia",
-      "valore": 40789,
-      "prima": 30934
+      "valore": 38311,
+      "prima": 30938
      },
      {
       "label": "Ponte Amedeo VIII",
-      "valore": 20918,
-      "prima": 29916
+      "valore": 26625,
+      "prima": 29926
      },
      {
       "label": "Corso Giulio Cesare",
-      "valore": 32592,
-      "prima": 28846
+      "valore": 36474,
+      "prima": 29270
      },
      {
       "label": "Corso Francia",
-      "valore": 41574,
-      "prima": 28698
+      "valore": 39197,
+      "prima": 28414
      },
      {
       "label": "Corso Regina Margherita",
-      "valore": 31008,
-      "prima": 28438
+      "valore": 30585,
+      "prima": 28412
      },
      {
       "label": "Corso Orbassano",
-      "valore": 40010,
-      "prima": 27262
+      "valore": 44057,
+      "prima": 27024
      },
      {
       "label": "Corso Vercelli",
-      "valore": 14077,
-      "prima": 26244
+      "valore": 9941,
+      "prima": 25470
      },
      {
       "label": "Corso Agnelli",
-      "valore": 32947,
-      "prima": 21104
+      "valore": 31592,
+      "prima": 22014
      },
      {
       "label": "SP8 di Druento",
-      "valore": 8236,
-      "prima": 20889
+      "valore": 10514,
+      "prima": 20611
+     },
+     {
+      "label": "Corso Regina Margherita",
+      "valore": 25497,
+      "prima": 19954
      },
      {
       "label": "Corso Unione Sovietica",
-      "valore": 52860,
-      "prima": 19066
+      "valore": 53830,
+      "prima": 19202
      },
      {
       "label": "Corso Sebastopoli",
-      "valore": 34568,
-      "prima": 17342
+      "valore": 28273,
+      "prima": 17424
      },
      {
       "label": "Strada Di Settimo",
-      "valore": 8267,
-      "prima": 16888
+      "valore": 12280,
+      "prima": 16856
      },
      {
       "label": "SP1 delle Valli di Lanzo",
-      "valore": 7968,
-      "prima": 15886
+      "valore": 6438,
+      "prima": 15097
      },
      {
       "label": "Corso Allamano",
-      "valore": 19177,
-      "prima": 12636
+      "valore": 11620,
+      "prima": 12820
      }
     ]
    },
@@ -3654,37 +3664,57 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "Corso Orbassano",
-      "valore": 0,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Regina Margherita",
-      "valore": 9,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Giulio Cesare",
-      "valore": 13,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Trieste",
-      "valore": 16,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Orbassano",
-      "valore": 16,
-      "tono": "rosso"
-     },
-     {
-      "label": "R24 Raccordo Torino-Aeroporto Caselle",
-      "valore": 25,
+      "valore": 1,
       "tono": "rosso"
      },
      {
       "label": "Corso Unità d'Italia",
-      "valore": 26,
+      "valore": 2,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Regina Margherita",
+      "valore": 8,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Allamano",
+      "valore": 9,
+      "tono": "rosso"
+     },
+     {
+      "label": "Ponte Amedeo VIII",
+      "valore": 11,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Orbassano",
+      "valore": 13,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Francia",
+      "valore": 24,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Trieste",
+      "valore": 24,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Giulio Cesare",
+      "valore": 25,
+      "tono": "rosso"
+     },
+     {
+      "label": "Strada Di Settimo",
+      "valore": 27,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Regina Margherita",
+      "valore": 28,
       "tono": "rosso"
      },
      {
@@ -3693,63 +3723,53 @@ window.SCHEDE_RISULTATI = [
       "tono": "rosso"
      },
      {
-      "label": "Ponte Amedeo VIII",
-      "valore": 30,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Francia",
+      "label": "R24 Raccordo Torino-Aeroporto Caselle",
       "valore": 32,
       "tono": "rosso"
      },
      {
+      "label": "Corso Unità d'Italia",
+      "valore": 34,
+      "tono": "rosso"
+     },
+     {
       "label": "Corso Francia",
-      "valore": 45,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Vercelli",
-      "valore": 46,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Orbassano",
-      "valore": 47,
-      "tono": "rosso"
-     },
-     {
-      "label": "SP1 delle Valli di Lanzo",
-      "valore": 50,
-      "tono": "rosso"
-     },
-     {
-      "label": "Strada Di Settimo",
-      "valore": 51,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Allamano",
-      "valore": 52,
+      "valore": 38,
       "tono": "rosso"
      },
      {
       "label": "Corso Agnelli",
-      "valore": 56,
+      "valore": 44,
       "tono": "rosso"
      },
      {
       "label": "SP8 di Druento",
+      "valore": 49,
+      "tono": "rosso"
+     },
+     {
+      "label": "SP1 delle Valli di Lanzo",
+      "valore": 57,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Vercelli",
       "valore": 61,
       "tono": "rosso"
      },
      {
       "label": "Corso Sebastopoli",
-      "valore": 99,
+      "valore": 62,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Orbassano",
+      "valore": 63,
       "tono": "rosso"
      },
      {
       "label": "Corso Unione Sovietica",
-      "valore": 177,
+      "valore": 180,
       "tono": "rosso"
      }
     ]
@@ -3757,40 +3777,40 @@ window.SCHEDE_RISULTATI = [
   ],
   "metodo": [
    "Domanda: gli spostamenti in auto dell'indagine sugli spostamenti 2022 (residenti, giorno feriale), assegnati alla strada più veloce sulla rete di OpenStreetMap.",
-   "Taratura su 20 punti di misura dei sensori 5T: un solo fattore per tutta la città, provato togliendo un sensore alla volta e stimandolo con gli altri.",
+   "Taratura su 22 punti di misura dei sensori 5T: un solo fattore per tutta la città, provato togliendo un sensore alla volta e stimandolo con gli altri.",
    "Strade come assi: un corso che cambia nome o comune resta la stessa strada, tagliata in tratte da 300 m a 1,5 km. Strade grandi = Torino, importanza alta o strade principali, almeno 300 m, senza tangenziale e raccordi.",
    "Trasporto pubblico per posizione delle fermate, mai per nome: una tratta è servita dove c'è una fermata con almeno 4 passaggi all'ora entro 300 m (orario ufficiale, mercoledì 14/10), o la metro entro 600 m. Poco trasporto pubblico = servita per metà della lunghezza o meno.",
-   "Molto traffico = il terzo più alto delle tratte. Un modello più ricco (attrazioni, code, ZTL) è stato provato una volta e non ha migliorato l'ordine delle strade: si tiene quello semplice."
+   "Molto traffico = il terzo più alto delle tratte. Il modello è quello più ricco (attrazioni, code, ZTL): con i sensori di ottobre sbaglia meno di quello semplice (errore tipico 28% contro 38%), secondo una regola fissata prima."
   ],
   "parametri": [
    [
     "Strade grandi di Torino",
-    "540 tratte, 343,3 km"
+    "611 tratte, 372,7 km"
    ],
    [
     "Errore tipico (metà dei casi)",
-    "±38% (9 volte su 10 entro ±64%)"
+    "±28% (9 volte su 10 entro ±62%)"
    ],
    [
     "Ordine giusto delle strade (Spearman)",
-    "0,60"
+    "0,64"
    ],
    [
     "Validato tra",
-    "8.800 e 105.000 veicoli/giorno"
+    "9.000 e 107.000 veicoli/giorno"
    ],
    [
     "Soglia 'molto traffico'",
-    "11.720 veicoli/giorno"
+    "10.677 veicoli/giorno"
    ],
    [
     "Confronto con chi conosce la città",
-    "10 strade su 18 nella fascia giusta, 4 confronti su 7 (solo controllo)"
+    "11 strade su 18 nella fascia giusta, 5 confronti su 7 (solo controllo)"
    ]
   ],
   "limiti": [
-   "Stima debole: errore tipico ±38% e intervallo d'incertezza largo (da 26% a 50%). Alcune strade sono molto sbagliate (Corso Unione Sovietica, Corso Sebastopoli): buona per ordinare, non per contare.",
-   "Solo 20 punti di misura, quasi tutti su corsi trafficati: sotto circa 9.000 veicoli al giorno la stima non è verificata.",
+   "Stima debole: errore tipico ±28% e intervallo d'incertezza largo (da 24% a 38%). Alcune strade sono molto sbagliate (Corso Unione Sovietica, Corso Sebastopoli): buona per ordinare, non per contare.",
+   "Solo 22 punti di misura, quasi tutti su corsi trafficati: sotto circa 9.000 veicoli al giorno la stima non è verificata.",
    "Solo i residenti tra 11 e 84 anni (indagine sugli spostamenti): mancano merci, turisti e chi viene da fuori. Il modello non sa fare le code: l'ora di punta non è verificata.",
    "Trasporto pubblico programmato: niente ritardi né affollamento. Il centro (ZTL, aree pedonali) non è stimato bene.",
    "Il valore è per i due versi: sulle poche vie a senso unico vero potrebbe essere il doppio del reale.",
@@ -3798,9 +3818,9 @@ window.SCHEDE_RISULTATI = [
   ],
   "in_english": [
    "Question: on Turin's major roads, where is there a lot of traffic and little public transport nearby?",
-   "Of 540 road sections on Turin's major roads (343.3 km), 95.3% of the length has a frequent stop (at least 4 departures an hour) within 300 m, or the metro within 600 m. Heavy-traffic sections (over 11,720 vehicles a day): 180; of these, 5 also have little public transport.",
+   "Of 611 road sections on Turin's major roads (372.7 km), 95.6% of the length has a frequent stop (at least 4 departures an hour) within 300 m, or the metro within 600 m. Heavy-traffic sections (over 10,677 vehicles a day): 204; of these, 5 also have little public transport.",
    "In practice this is one main case: Corso Regina Margherita westbound, a fast road with no frequent stop within 300 m, plus one stretch of Corso Moncalieri covered for only a quarter of its length.",
-   "Limits: traffic figures are estimates with a typical error of ±38%; use them to rank the roads, not to count vehicles."
+   "Limits: traffic figures are estimates with a typical error of ±28%; use them to rank the roads, not to count vehicles."
   ],
   "mappa": null,
   "fonti": [
@@ -3808,10 +3828,10 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:08:45+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
-   "Traffico stimato con un modello tarato su 20 sensori: errore tipico ±38%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
+   "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
   ],
   "scenari": [
    {
@@ -3820,19 +3840,19 @@ window.SCHEDE_RISULTATI = [
      {
       "label": "Km di strade grandi di Torino",
       "prima": null,
-      "dopo": 343.3,
+      "dopo": 372.7,
       "unita": "km"
      },
      {
       "label": "Con fermate frequenti vicine",
       "prima": null,
-      "dopo": 95.3,
+      "dopo": 95.6,
       "unita": "%"
      },
      {
       "label": "Tratte con molto traffico",
       "prima": null,
-      "dopo": 180,
+      "dopo": 204,
       "unita": "tratte"
      },
      {
@@ -3844,7 +3864,7 @@ window.SCHEDE_RISULTATI = [
      {
       "label": "Errore tipico della stima",
       "prima": null,
-      "dopo": 38,
+      "dopo": 28,
       "unita": "%"
      }
     ],
@@ -7103,7 +7123,7 @@ window.SCHEDE_RISULTATI = [
    ],
    "extra": {
     "titolo": "Strade grandi e fermate vicine",
-    "punto": "Il 95,3% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
+    "punto": "Il 95,6% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
     "grafico": {
      "tipo": "pila",
      "titolo": "Km di strade grandi di Torino: con o senza trasporto pubblico vicino",
@@ -7111,12 +7131,12 @@ window.SCHEDE_RISULTATI = [
      "voci": [
       {
        "label": "con fermate frequenti vicine",
-       "valore": 327.3,
+       "valore": 356.3,
        "tono": "verde"
       },
       {
        "label": "con poco trasporto pubblico",
-       "valore": 16.0,
+       "valore": 16.4,
        "tono": "rosso"
       }
      ]
@@ -10375,7 +10395,7 @@ window.SCHEDE_RISULTATI = [
    ],
    "extra": {
     "titolo": "Large roads and nearby stops",
-    "punto": "95.3% of the km of large roads have a frequent stop nearby: the stop is there, but it is not enough.",
+    "punto": "95.6% of the km of large roads have a frequent stop nearby: the stop is there, but it is not enough.",
     "grafico": {
      "tipo": "pila",
      "titolo": "Km of large roads in Turin: with or without public transport nearby",
@@ -10383,12 +10403,12 @@ window.SCHEDE_RISULTATI = [
      "voci": [
       {
        "label": "with frequent stops nearby",
-       "valore": 327.3,
+       "valore": 356.3,
        "tono": "verde"
       },
       {
        "label": "with little public transport",
-       "valore": 16.0,
+       "valore": 16.4,
        "tono": "rosso"
       }
      ]
@@ -10430,7 +10450,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:08:46+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],

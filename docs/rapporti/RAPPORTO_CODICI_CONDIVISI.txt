@@ -17,12 +17,12 @@ file: 5t_flussi_20261003_224539.xml
        verso positive offset    970 lat 45.02586 lng 7.671667 accuratezza   80  (Corso Unita' D'italia(TO))
 
 (ii) Cosa c'e' nel database per quegli stessi codici
-  -- 13077: sensori_5t -> nome 'SS662 Di Savigliano' offset_m 5150.0 verso negative lat 44.65592 lng 7.71134
-       flussi_5t: 3353 righe su 3353 istanti, massimo righe per istante = 1   [atteso 1]
-  -- 40123: sensori_5t -> nome 'Corso Regina Margherita(TO)' offset_m 125.0 verso positive lat 45.086797 lng 7.653109
-       flussi_5t: 3353 righe su 3353 istanti, massimo righe per istante = 1   [atteso 1]
-  -- 40189: sensori_5t -> nome "Corso Unita' D'italia(TO)" offset_m 970.0 verso positive lat 45.02586 lng 7.671667
-       flussi_5t: 3353 righe su 3353 istanti, massimo righe per istante = 1   [atteso 1]
+  -- 13077: sensori_5t -> nome 'SS662 Di Savigliano' offset_m 4960.0 verso positive lat 44.64808 lng 7.59853
+       flussi_5t: 5201 righe su 5201 istanti, massimo righe per istante = 1   [atteso 1]
+  -- 40123: sensori_5t -> nome 'Corso Regina Margherita(TO)' offset_m 1555.0 verso negative lat 45.093256 lng 7.63375
+       flussi_5t: 5201 righe su 5201 istanti, massimo righe per istante = 1   [atteso 1]
+  -- 40189: sensori_5t -> nome "Corso Unita' D'italia(TO)" offset_m 160.0 verso positive lat 45.01876 lng 7.66932
+       flussi_5t: 5201 righe su 5201 istanti, massimo righe per istante = 1   [atteso 1]
 
 (iii) Marcatura
   codici marcati 'codice_condiviso: true' in sensori_corridoi_v2.json: ['13077', '40123', '40189']

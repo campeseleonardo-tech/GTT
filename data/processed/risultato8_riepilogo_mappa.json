@@ -6,16 +6,16 @@
   "in_breve": "Quante auto passano sulle strade grandi di Torino? E dove c'è tanto traffico ma nessun bus, tram o metro comodo, così che l'auto resta l'unica scelta?",
   "domanda": "Sulle strade grandi di Torino, dove c'è molto traffico e poco trasporto pubblico vicino?",
   "numero_chiave": {
-    "valore": 95.3,
+    "valore": 95.6,
     "unita": "%",
-    "testo": "dei km di strade grandi di Torino hanno fermate frequenti a pochi passi (327,3 km su 343,3)"
+    "testo": "dei km di strade grandi di Torino hanno fermate frequenti a pochi passi (356,3 km su 372,7)"
   },
   "racconto": "Un primo calcolo trovava 23 strade \"con molto traffico e poco trasporto pubblico\". Ricontrollando, quasi tutte erano un errore di misura: i bus si cercavano lungo la strada per nome invece che per posizione delle fermate (Corso Cairoli risultava senza passaggi). Rifatto il calcolo, la lista si è quasi svuotata: è questa la risposta.",
   "risposta": [
-    "Sulle 540 tratte di strade grandi di Torino (343,3 km), il 95,3% della lunghezza ha una fermata con almeno 4 passaggi all'ora entro 300 m, o la metro entro 600 m.",
-    "Le tratte con molto traffico (oltre 11.720 veicoli al giorno) sono 180; quelle che hanno anche poco trasporto pubblico sono 5.",
-    "In pratica è un solo caso: Corso Regina Margherita verso ovest, il tratto a scorrimento veloce (circa 34.000 veicoli al giorno, nessuna fermata frequente entro 300 m). In più un tratto di Corso Moncalieri, coperto solo per un quarto della lunghezza.",
-    "I numeri di traffico sono stime: in metà dei casi l'errore è entro ±38%. Servono a ordinare le strade, non a contare i veicoli."
+    "Sulle 611 tratte di strade grandi di Torino (372,7 km), il 95,6% della lunghezza ha una fermata con almeno 4 passaggi all'ora entro 300 m, o la metro entro 600 m.",
+    "Le tratte con molto traffico (oltre 10.677 veicoli al giorno) sono 204; quelle che hanno anche poco trasporto pubblico sono 5.",
+    "In pratica è un solo caso: Corso Regina Margherita verso ovest, il tratto a scorrimento veloce (circa 32.000 veicoli al giorno, nessuna fermata frequente entro 300 m). In più un tratto di Casale, coperto solo per 25% della lunghezza.",
+    "I numeri di traffico sono stime: in metà dei casi l'errore è entro ±28%. Servono a ordinare le strade, non a contare i veicoli."
   ],
   "grafici": [
     {
@@ -25,12 +25,12 @@
       "voci": [
         {
           "label": "con fermate frequenti vicine",
-          "valore": 327.3,
+          "valore": 356.3,
           "tono": "verde"
         },
         {
           "label": "con poco trasporto pubblico",
-          "valore": 16.0,
+          "valore": 16.4,
           "tono": "rosso"
         }
       ]
@@ -42,152 +42,162 @@
       "nota": "Solo strade con almeno un sensore sullo stesso asse: senza, il modello mette in cima anche strade poco credibili. \"misurato\" = sensore sulla tratta; le altre sono stime. Corso Unione Sovietica è probabilmente sovrastimato: dove c'è il sensore il modello dava quasi il triplo del misurato.",
       "voci": [
         {
-          "label": "Unità d'Italia (misurato)",
-          "valore": 80946
-        },
-        {
-          "label": "Regina Margherita",
-          "valore": 56136
+          "label": "Unità d'Italia",
+          "valore": 52296
         },
         {
           "label": "Orbassano (misurato)",
-          "valore": 50204
+          "valore": 50322
+        },
+        {
+          "label": "Regina Margherita",
+          "valore": 48739
         },
         {
           "label": "Unione Sovietica",
-          "valore": 47774
+          "valore": 48567
         },
         {
           "label": "Francia",
-          "valore": 47616
+          "valore": 39243
         },
         {
-          "label": "Giulio Cesare (misurato)",
-          "valore": 33928
-        },
-        {
-          "label": "Asse di Penetrazione Urbana di Corso Regina Margherita",
-          "valore": 33529
+          "label": "Giulio Cesare",
+          "valore": 37396
         },
         {
           "label": "Giovanni Agnelli",
-          "valore": 31640
+          "valore": 34034
+        },
+        {
+          "label": "Asse di Penetrazione Urbana di Corso Regina Margherita",
+          "valore": 31205
         },
         {
           "label": "Strada di Settimo (misurato)",
-          "valore": 29916
+          "valore": 29926
         },
         {
-          "label": "Vercelli (misurato)",
-          "valore": 26244
+          "label": "Quattro Novembre",
+          "valore": 25977
         }
       ]
     },
     {
       "tipo": "barre",
-      "titolo": "Prova del modello sui 20 sensori: misurato e stimato",
+      "titolo": "Prova del modello sui 22 sensori: misurato e stimato",
       "unita": "veicoli/giorno",
       "nota": "Barra chiara = misurato dal sensore, barra scura = stima del modello senza usare quel sensore.",
       "voci": [
         {
           "label": "Corso Unità d'Italia",
-          "valore": 60268,
-          "prima": 80946
+          "valore": 54449,
+          "prima": 81956
         },
         {
           "label": "Corso Trieste",
-          "valore": 58375,
-          "prima": 69134
+          "valore": 49617,
+          "prima": 65424
         },
         {
           "label": "Corso Orbassano",
-          "valore": 42058,
-          "prima": 50204
+          "valore": 49916,
+          "prima": 50322
+        },
+        {
+          "label": "Corso Unità d'Italia",
+          "valore": 48344,
+          "prima": 47616
         },
         {
           "label": "Corso Orbassano",
-          "valore": 41245,
-          "prima": 41346
+          "valore": 46751,
+          "prima": 41326
         },
         {
           "label": "R24 Raccordo Torino-Aeroporto Caselle",
-          "valore": 30159,
-          "prima": 40092
+          "valore": 27103,
+          "prima": 39810
         },
         {
           "label": "Corso Giulio Cesare",
-          "valore": 24228,
-          "prima": 33928
+          "valore": 24579,
+          "prima": 34548
         },
         {
           "label": "Corso Francia",
-          "valore": 40789,
-          "prima": 30934
+          "valore": 38311,
+          "prima": 30938
         },
         {
           "label": "Ponte Amedeo VIII",
-          "valore": 20918,
-          "prima": 29916
+          "valore": 26625,
+          "prima": 29926
         },
         {
           "label": "Corso Giulio Cesare",
-          "valore": 32592,
-          "prima": 28846
+          "valore": 36474,
+          "prima": 29270
         },
         {
           "label": "Corso Francia",
-          "valore": 41574,
-          "prima": 28698
+          "valore": 39197,
+          "prima": 28414
         },
         {
           "label": "Corso Regina Margherita",
-          "valore": 31008,
-          "prima": 28438
+          "valore": 30585,
+          "prima": 28412
         },
         {
           "label": "Corso Orbassano",
-          "valore": 40010,
-          "prima": 27262
+          "valore": 44057,
+          "prima": 27024
         },
         {
           "label": "Corso Vercelli",
-          "valore": 14077,
-          "prima": 26244
+          "valore": 9941,
+          "prima": 25470
         },
         {
           "label": "Corso Agnelli",
-          "valore": 32947,
-          "prima": 21104
+          "valore": 31592,
+          "prima": 22014
         },
         {
           "label": "SP8 di Druento",
-          "valore": 8236,
-          "prima": 20889
+          "valore": 10514,
+          "prima": 20611
+        },
+        {
+          "label": "Corso Regina Margherita",
+          "valore": 25497,
+          "prima": 19954
         },
         {
           "label": "Corso Unione Sovietica",
-          "valore": 52860,
-          "prima": 19066
+          "valore": 53830,
+          "prima": 19202
         },
         {
           "label": "Corso Sebastopoli",
-          "valore": 34568,
-          "prima": 17342
+          "valore": 28273,
+          "prima": 17424
         },
         {
           "label": "Strada Di Settimo",
-          "valore": 8267,
-          "prima": 16888
+          "valore": 12280,
+          "prima": 16856
         },
         {
           "label": "SP1 delle Valli di Lanzo",
-          "valore": 7968,
-          "prima": 15886
+          "valore": 6438,
+          "prima": 15097
         },
         {
           "label": "Corso Allamano",
-          "valore": 19177,
-          "prima": 12636
+          "valore": 11620,
+          "prima": 12820
         }
       ]
     },
@@ -199,37 +209,57 @@
       "voci": [
         {
           "label": "Corso Orbassano",
-          "valore": 0,
-          "tono": "rosso"
-        },
-        {
-          "label": "Corso Regina Margherita",
-          "valore": 9,
-          "tono": "rosso"
-        },
-        {
-          "label": "Corso Giulio Cesare",
-          "valore": 13,
-          "tono": "rosso"
-        },
-        {
-          "label": "Corso Trieste",
-          "valore": 16,
-          "tono": "rosso"
-        },
-        {
-          "label": "Corso Orbassano",
-          "valore": 16,
-          "tono": "rosso"
-        },
-        {
-          "label": "R24 Raccordo Torino-Aeroporto Caselle",
-          "valore": 25,
+          "valore": 1,
           "tono": "rosso"
         },
         {
           "label": "Corso Unità d'Italia",
-          "valore": 26,
+          "valore": 2,
+          "tono": "rosso"
+        },
+        {
+          "label": "Corso Regina Margherita",
+          "valore": 8,
+          "tono": "rosso"
+        },
+        {
+          "label": "Corso Allamano",
+          "valore": 9,
+          "tono": "rosso"
+        },
+        {
+          "label": "Ponte Amedeo VIII",
+          "valore": 11,
+          "tono": "rosso"
+        },
+        {
+          "label": "Corso Orbassano",
+          "valore": 13,
+          "tono": "rosso"
+        },
+        {
+          "label": "Corso Francia",
+          "valore": 24,
+          "tono": "rosso"
+        },
+        {
+          "label": "Corso Trieste",
+          "valore": 24,
+          "tono": "rosso"
+        },
+        {
+          "label": "Corso Giulio Cesare",
+          "valore": 25,
+          "tono": "rosso"
+        },
+        {
+          "label": "Strada Di Settimo",
+          "valore": 27,
+          "tono": "rosso"
+        },
+        {
+          "label": "Corso Regina Margherita",
+          "valore": 28,
           "tono": "rosso"
         },
         {
@@ -238,63 +268,53 @@
           "tono": "rosso"
         },
         {
-          "label": "Ponte Amedeo VIII",
-          "valore": 30,
-          "tono": "rosso"
-        },
-        {
-          "label": "Corso Francia",
+          "label": "R24 Raccordo Torino-Aeroporto Caselle",
           "valore": 32,
           "tono": "rosso"
         },
         {
+          "label": "Corso Unità d'Italia",
+          "valore": 34,
+          "tono": "rosso"
+        },
+        {
           "label": "Corso Francia",
-          "valore": 45,
-          "tono": "rosso"
-        },
-        {
-          "label": "Corso Vercelli",
-          "valore": 46,
-          "tono": "rosso"
-        },
-        {
-          "label": "Corso Orbassano",
-          "valore": 47,
-          "tono": "rosso"
-        },
-        {
-          "label": "SP1 delle Valli di Lanzo",
-          "valore": 50,
-          "tono": "rosso"
-        },
-        {
-          "label": "Strada Di Settimo",
-          "valore": 51,
-          "tono": "rosso"
-        },
-        {
-          "label": "Corso Allamano",
-          "valore": 52,
+          "valore": 38,
           "tono": "rosso"
         },
         {
           "label": "Corso Agnelli",
-          "valore": 56,
+          "valore": 44,
           "tono": "rosso"
         },
         {
           "label": "SP8 di Druento",
+          "valore": 49,
+          "tono": "rosso"
+        },
+        {
+          "label": "SP1 delle Valli di Lanzo",
+          "valore": 57,
+          "tono": "rosso"
+        },
+        {
+          "label": "Corso Vercelli",
           "valore": 61,
           "tono": "rosso"
         },
         {
           "label": "Corso Sebastopoli",
-          "valore": 99,
+          "valore": 62,
+          "tono": "rosso"
+        },
+        {
+          "label": "Corso Orbassano",
+          "valore": 63,
           "tono": "rosso"
         },
         {
           "label": "Corso Unione Sovietica",
-          "valore": 177,
+          "valore": 180,
           "tono": "rosso"
         }
       ]
@@ -302,40 +322,40 @@
   ],
   "metodo": [
     "Domanda: gli spostamenti in auto dell'indagine sugli spostamenti 2022 (residenti, giorno feriale), assegnati alla strada più veloce sulla rete di OpenStreetMap.",
-    "Taratura su 20 punti di misura dei sensori 5T: un solo fattore per tutta la città, provato togliendo un sensore alla volta e stimandolo con gli altri.",
+    "Taratura su 22 punti di misura dei sensori 5T: un solo fattore per tutta la città, provato togliendo un sensore alla volta e stimandolo con gli altri.",
     "Strade come assi: un corso che cambia nome o comune resta la stessa strada, tagliata in tratte da 300 m a 1,5 km. Strade grandi = Torino, importanza alta o strade principali, almeno 300 m, senza tangenziale e raccordi.",
     "Trasporto pubblico per posizione delle fermate, mai per nome: una tratta è servita dove c'è una fermata con almeno 4 passaggi all'ora entro 300 m (orario ufficiale, mercoledì 14/10), o la metro entro 600 m. Poco trasporto pubblico = servita per metà della lunghezza o meno.",
-    "Molto traffico = il terzo più alto delle tratte. Un modello più ricco (attrazioni, code, ZTL) è stato provato una volta e non ha migliorato l'ordine delle strade: si tiene quello semplice."
+    "Molto traffico = il terzo più alto delle tratte. Il modello è quello più ricco (attrazioni, code, ZTL): con i sensori di ottobre sbaglia meno di quello semplice (errore tipico 28% contro 38%), secondo una regola fissata prima."
   ],
   "parametri": [
     [
       "Strade grandi di Torino",
-      "540 tratte, 343,3 km"
+      "611 tratte, 372,7 km"
     ],
     [
       "Errore tipico (metà dei casi)",
-      "±38% (9 volte su 10 entro ±64%)"
+      "±28% (9 volte su 10 entro ±62%)"
     ],
     [
       "Ordine giusto delle strade (Spearman)",
-      "0,60"
+      "0,64"
     ],
     [
       "Validato tra",
-      "8.800 e 105.000 veicoli/giorno"
+      "9.000 e 107.000 veicoli/giorno"
     ],
     [
       "Soglia 'molto traffico'",
-      "11.720 veicoli/giorno"
+      "10.677 veicoli/giorno"
     ],
     [
       "Confronto con chi conosce la città",
-      "10 strade su 18 nella fascia giusta, 4 confronti su 7 (solo controllo)"
+      "11 strade su 18 nella fascia giusta, 5 confronti su 7 (solo controllo)"
     ]
   ],
   "limiti": [
-    "Stima debole: errore tipico ±38% e intervallo d'incertezza largo (da 26% a 50%). Alcune strade sono molto sbagliate (Corso Unione Sovietica, Corso Sebastopoli): buona per ordinare, non per contare.",
-    "Solo 20 punti di misura, quasi tutti su corsi trafficati: sotto circa 9.000 veicoli al giorno la stima non è verificata.",
+    "Stima debole: errore tipico ±28% e intervallo d'incertezza largo (da 24% a 38%). Alcune strade sono molto sbagliate (Corso Unione Sovietica, Corso Sebastopoli): buona per ordinare, non per contare.",
+    "Solo 22 punti di misura, quasi tutti su corsi trafficati: sotto circa 9.000 veicoli al giorno la stima non è verificata.",
     "Solo i residenti tra 11 e 84 anni (indagine sugli spostamenti): mancano merci, turisti e chi viene da fuori. Il modello non sa fare le code: l'ora di punta non è verificata.",
     "Trasporto pubblico programmato: niente ritardi né affollamento. Il centro (ZTL, aree pedonali) non è stimato bene.",
     "Il valore è per i due versi: sulle poche vie a senso unico vero potrebbe essere il doppio del reale.",
@@ -343,9 +363,9 @@
   ],
   "in_english": [
     "Question: on Turin's major roads, where is there a lot of traffic and little public transport nearby?",
-    "Of 540 road sections on Turin's major roads (343.3 km), 95.3% of the length has a frequent stop (at least 4 departures an hour) within 300 m, or the metro within 600 m. Heavy-traffic sections (over 11,720 vehicles a day): 180; of these, 5 also have little public transport.",
+    "Of 611 road sections on Turin's major roads (372.7 km), 95.6% of the length has a frequent stop (at least 4 departures an hour) within 300 m, or the metro within 600 m. Heavy-traffic sections (over 10,677 vehicles a day): 204; of these, 5 also have little public transport.",
     "In practice this is one main case: Corso Regina Margherita westbound, a fast road with no frequent stop within 300 m, plus one stretch of Corso Moncalieri covered for only a quarter of its length.",
-    "Limits: traffic figures are estimates with a typical error of ±38%; use them to rank the roads, not to count vehicles."
+    "Limits: traffic figures are estimates with a typical error of ±28%; use them to rank the roads, not to count vehicles."
   ],
   "mappa": null,
   "fonti": [
@@ -353,10 +373,10 @@
     "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
     "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:08:45+00:00",
   "avviso": [
     "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
-    "Traffico stimato con un modello tarato su 20 sensori: errore tipico ±38%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
+    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
   ],
   "scenari": [
     {
@@ -365,19 +385,19 @@
         {
           "label": "Km di strade grandi di Torino",
           "prima": null,
-          "dopo": 343.3,
+          "dopo": 372.7,
           "unita": "km"
         },
         {
           "label": "Con fermate frequenti vicine",
           "prima": null,
-          "dopo": 95.3,
+          "dopo": 95.6,
           "unita": "%"
         },
         {
           "label": "Tratte con molto traffico",
           "prima": null,
-          "dopo": 180,
+          "dopo": 204,
           "unita": "tratte"
         },
         {
@@ -389,7 +409,7 @@
         {
           "label": "Errore tipico della stima",
           "prima": null,
-          "dopo": 38,
+          "dopo": 28,
           "unita": "%"
         }
       ],
@@ -3648,7 +3668,7 @@
     ],
     "extra": {
       "titolo": "Strade grandi e fermate vicine",
-      "punto": "Il 95,3% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
+      "punto": "Il 95,6% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
       "grafico": {
         "tipo": "pila",
         "titolo": "Km di strade grandi di Torino: con o senza trasporto pubblico vicino",
@@ -3656,12 +3676,12 @@
         "voci": [
           {
             "label": "con fermate frequenti vicine",
-            "valore": 327.3,
+            "valore": 356.3,
             "tono": "verde"
           },
           {
             "label": "con poco trasporto pubblico",
-            "valore": 16.0,
+            "valore": 16.4,
             "tono": "rosso"
           }
         ]
@@ -6920,7 +6940,7 @@
     ],
     "extra": {
       "titolo": "Large roads and nearby stops",
-      "punto": "95.3% of the km of large roads have a frequent stop nearby: the stop is there, but it is not enough.",
+      "punto": "95.6% of the km of large roads have a frequent stop nearby: the stop is there, but it is not enough.",
       "grafico": {
         "tipo": "pila",
         "titolo": "Km of large roads in Turin: with or without public transport nearby",
@@ -6928,12 +6948,12 @@
         "voci": [
           {
             "label": "with frequent stops nearby",
-            "valore": 327.3,
+            "valore": 356.3,
             "tono": "verde"
           },
           {
             "label": "with little public transport",
-            "valore": 16.0,
+            "valore": 16.4,
             "tono": "rosso"
           }
         ]
