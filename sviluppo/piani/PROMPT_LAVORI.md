@@ -51,7 +51,8 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | **L6bis** (FATTO 23/10, ESITO_L6) | PC | L6 ripreso col fattore giusto (tempo TomTom / nostro flusso libero, la stessa grandezza del 2,1 di Google) 🛑 | 3 |
 | **L7** (FATTO 23/10, ESITO_L7) | PC | calcoli rifacibili da un estraneo (requirements, Java, prova da zero), testi del 93, immagini del README, PIANO_RACCOLTA passo 2b | 5 |
 | **L8** (FATTO 24/10, ESITO_L8) | PC | TomTom stima principale (Leo 24/10), più percorsi TomTom (~1.200 richieste, tetto 2.000), Release nuova dati-2026-11 🛑 | 3 |
-| **L9** | PC | chiudere le schede 2-5 (analisi critica), periodo fisso, controllo `git diff` su GitHub | piano generale A |
+| **L9** (FATTO 24/10, ESITO_L9) | PC | chiudere le schede 2-5 (analisi critica), periodo fisso, controllo `git diff` su GitHub | piano generale A |
+| **L9b** | PC | numeri stabili: periodo a giorni interi e rilancio completo, partenza al capolinea misurata giusta, grafico principale della scheda 5, Release rifatta 🛑 | piano generale A |
 | L10 | PC | home e schede: limiti visibili, date dei dati, gara col distacco, ritocchi, via «Condividi» (Leo guarda) | piano generale A |
 | L11 | PC | mappa pulita: 3 viste consigliate, «Chi abita qui» a 3 viste, via «Copia il link» | piano generale A |
 | L12 | PC | vetrina: IMQ e OMI derivati fuori da git, testo GTT e screenshot fuori, README (uso di Claude), licenze, prova da zero | piano generale B |
@@ -165,6 +166,30 @@ ALLA FINE un messaggio breve a Leo: cosa è cambiato in ogni scheda e cosa guard
 ```
 
 ---
+
+## L9b — PC: numeri stabili prima della grafica (periodo a giorni interi, partenza al capolinea, grafico della scheda 5, Release) 🛑
+
+Perché (ESITO_L9 e ricontrollo di Claude, 24/10):
+1. **Il periodo fisso non riproduce i numeri pubblicati**: sono stati calcolati su una copia dello storico del 23/10 mattina, con il 23/10 a metà; lo storico di oggi ha più dati negli stessi giorni (R4 oltre 10 minuti 6,19% → 6,29%). Nessun periodo «per date» li può riprodurre: si rifanno una volta, con **solo giorni interi**, e da lì in poi restano fermi fino a P8.
+2. **La partenza al capolinea è misurata male.** Lo script 27 prende come passaggio il punto GPS più vicino alla fermata nel primo gruppo di segmenti vicini (`cerca_vincolata`). Al capolinea il bus aspetta fermo vicino alla fermata: il punto più vicino cade spesso durante l'attesa, prima della partenza vera. Per questo alla prima fermata risulta in anticipo il 56,1% dei passaggi (36,0% a ogni fermata). Ne soffre anche il «ritardo alla partenza» (3,9%) usato nel confronto con GTT (2,3%).
+3. **Scheda 5: il grafico principale contraddice il testo.** È la dispersione prezzo-servizi con la retta, ma il punto chiave ora dice che a parità di distanza dal centro quel legame quasi sparisce (0,21, non regge). I legami che reggono sono fragilità-servizi (−0,48) e prezzo-fragilità (−0,69).
+**Regole fissate ora, prima dei numeri nuovi** (valori predefiniti di Claude; Leo conferma in cima al prompt):
+- PERIODO a giorni interi: GPS e ritardi 10/10-22/10, sensori 5T 09/10-22/10, parcheggi 15/10-22/10; regola fissa: il PERIODO non contiene mai il giorno della copia dello storico. Lo usano anche `04_genera_mappa.py` (strati dallo storico: velocità, ritardi, parcheggi) e gli script che leggono lo storico vivo.
+- Partenza al capolinea: per la **prima fermata** di una corsa il passaggio è l'**ultimo** istante del gruppo di segmenti vicini alla fermata (quando il bus se ne va), non il più vicino; per le altre fermate niente cambia. Se dopo la correzione l'anticipo alla prima fermata resta oltre il 30%, AVVISO nell'esito (non si ferma).
+- Scheda 5: grafico principale = dispersione delle zone con fragilità (x) e servizi (y), grandezza = abitanti, retta di tendenza; nella nota la correlazione a parità di distanza (−0,48, regge). La dispersione prezzo-servizi va negli «Altri grafici», con la nota «a parità di distanza dal centro il legame quasi sparisce (0,21)».
+- Rilancio completo una volta: `rifai_tutto.py --da traffico` (circa 50 minuti) e `04_genera_mappa.py`; tutti i testi si aggiornano da soli (regole delle schede invariate). Poi un secondo rilancio delle schede deve dare numeri identici (è la prova che ora sono riproducibili).
+- Release: dopo il rilancio si rifà la Release `dati-2026-11` (script 98, stessa cartella `GTT_release`, sostituisce gli zip di L8). Leo la carica dopo L9b, non prima.
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, sviluppo/piani/ESITO_L9.md e il blocco L9b di sviluppo/piani/PROMPT_LAVORI.md (regole: non cambiarle dopo i numeri; usa le risposte di Leo scritte in cima al prompt dove le regole dicono «Leo conferma»).
+Prima: git pull --no-rebase origin prova; python scripts\controlla_rami.py. Niente scritture sul Pi, niente controlli grafici, niente unione in main. Un commit per passo.
+1. comuni.PERIODO a giorni interi (blocco L9b) e lettura del PERIODO anche in 04_genera_mappa.py e in ogni altro script che legge data\storico_backup.sqlite (git grep storico_backup). Controllo: nessuno script dei risultati legge giorni fuori dal PERIODO.
+2. Script 27: partenza al capolinea come nel blocco L9b (solo la prima fermata di ogni corsa). Prova piccola con una corsa finta (bus fermo 4 minuti accanto al capolinea, poi parte): il passaggio è l'istante in cui riparte. Lo script 70 (attese) usa la stessa funzione? Se sì vale anche lì; scrivilo nell'esito.
+3. Scheda 5 (scripts/schede/r10.py): grafici come nel blocco L9b; traduzioni in testi.json.
+4. Rilancio completo: python scripts\rifai_tutto.py --da traffico, poi python scripts\04_genera_mappa.py. Tabella prima/dopo nell'esito: R4 (oltre 5, oltre 10, anticipo nelle 3 definizioni, ritardo alla partenza, confronto con GTT), R6 (fermate senza posti, classi dei 12 punti, pareggio), R8 (rapporto mediano, quota delle auto, modello del traffico), R1 (esposti), R10 (invariato?). Poi python scripts\schede_risultati.py una seconda volta: git diff -I generato su data\schede_risultati.js vuoto. Aggiorna docs\R4_puntualita.md (definizione della partenza), docs\R1, R6, R8 coi numeri nuovi.
+5. Release: python scripts\98_prepara_release.py (tag dati-2026-11, cartella C:\projects\Progetti\GTT_release, sostituisce gli zip di L8); scrivi a Leo nomi, pesi e i passi per caricarla.
+6. pyflakes zero; prova_pagine.py --playwright (0 errori); esito sviluppo/piani/ESITO_L9b.md; memoria (numeri nuovi dei risultati, PERIODO); commit; git pull --no-rebase origin prova; git push origin prova.
+```
 
 ## L10 — PC: home e schede, ritocchi (analisi critica 3.3-3.5, 3.8-3.11, 1.13) — Leo guarda
 
