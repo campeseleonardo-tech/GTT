@@ -271,8 +271,8 @@ function apri(i){
   const s = schede[i], f = forma(s);
   $("finMeta").innerHTML = `${T("Risultato", "Result")} ${esc(numeroDi(s))} ${etichetta(s)}`;
   $("finTitolo").textContent = f.titolo;
-  const mappa = f.mappa
-    ? `<div class="azioni"><a class="btn primario" href="mappa_torino.html#tema=${encodeURIComponent(f.mappa.id)}${f.mappa.vista ? "&vista=" + encodeURIComponent(f.mappa.vista) : ""}">${T("Vedi sulla mappa", "See on the map")}</a></div>` : "";
+  const mappa = `<div class="azioni">${f.mappa
+    ? `<a class="btn primario" href="mappa_torino.html#tema=${encodeURIComponent(f.mappa.id)}${f.mappa.vista ? "&vista=" + encodeURIComponent(f.mappa.vista) : ""}">${T("Vedi sulla mappa", "See on the map")}</a>` : ""}<button type="button" class="btn" id="finCondividi">${T("Condividi", "Share")}</button></div>`;
   const criteri = Array.isArray(f.criteri) && f.criteri.length
     ? `<div class="sottotitolo">${T("I criteri", "The criteria")}</div><table class="param">${f.criteri.map(c => `<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td></tr>`).join("")}</table>` : "";
   const confronto = Array.isArray(f.confronto) && f.confronto.length
@@ -290,6 +290,12 @@ function apri(i){
     parte(T("Come l'abbiamo calcolato", "How we calculated it"), elenco(f.calcolo, "ol") + confronto + criteri) +
     parte(T("Limiti", "Limits"), elenco(f.limiti, "ul")) +
     (Sito.lingua() === "en" ? "" : parte("In English", (f.english || []).map(x => `<p>${esc(x)}</p>`).join(""), "en"));
+  // «Condividi»: copia l'indirizzo della pagina del risultato (r/N.html), quella con l'anteprima per i social
+  $("finCondividi").addEventListener("click", async () => {
+    const b = $("finCondividi"), url = new URL("r/" + numeroDi(s) + ".html", location.href).href;
+    try { await navigator.clipboard.writeText(url); b.textContent = T("Link copiato", "Link copied"); setTimeout(() => { b.textContent = T("Condividi", "Share"); }, 2200); }
+    catch(e){ window.prompt(T("Copia questo link", "Copy this link"), url); }
+  });
   const d = $("finestra");
   if(!d.open) d.showModal();
   d.scrollTop = 0;
