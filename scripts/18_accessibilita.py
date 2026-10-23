@@ -311,7 +311,6 @@ def avvia_rete():
 
 def gdf_da_punti(gpd, punti, id_prefisso):
     import pandas as pd
-    from shapely.geometry import Point
     df = pd.DataFrame({"id": [f"{id_prefisso}{i}" for i in range(len(punti))],
                        "lat": [p[0] for p in punti], "lon": [p[1] for p in punti]})
     return gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df["lon"], df["lat"]), crs="EPSG:4326")

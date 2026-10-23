@@ -85,6 +85,16 @@ def main():
             if copia in testo:
                 errori.append(f"{nome}: ha ancora una copia ({copia})")
     print("  script 24, 25, 29: importano da comuni.py, nessuna copia rimasta" if not any("copia" in e or "importa" in e for e in errori) else "  script 24, 25, 29: PROBLEMA")
+    # gruppi 33-95: distanze (37, 72, 73) e ora legale (71 non la usava piu': copia morta tolta)
+    for nome, cerca in (("37_traffico_AB.py", "from comuni import haversine_m"), ("72_nodi_tp.py", "from comuni import haversine_m"), ("73_segnali_criticita.py", "from comuni import haversine_m")):
+        testo = (AQUI / nome).read_text(encoding="utf-8")
+        if cerca not in testo:
+            errori.append(f"{nome}: non importa piu' da comuni.py")
+        if "def haversine_m(" in testo or "def hav(" in testo or "R = 6371000" in testo:
+            errori.append(f"{nome}: ha ancora una copia della distanza")
+    if "def ora_locale(" in (AQUI / "71_parcheggi_riempimento.py").read_text(encoding="utf-8"):
+        errori.append("71: ha ancora una copia di ora_locale")
+    print("  script 37, 71, 72, 73: nessuna copia rimasta" if not any("copia" in e for e in errori) else "  script 37, 71, 72, 73: PROBLEMA")
     if errori:
         print("ERRORI:\n  " + "\n  ".join(errori))
         return 1

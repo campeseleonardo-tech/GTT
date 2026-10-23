@@ -325,7 +325,7 @@ def fai_immagini_condivisione(br, cartella):
         print("  immagini di anteprima e README: non fatte (serve Playwright e data/schede_risultati.js)")
         return []
     try:
-        import PIL  # noqa: F401
+        __import__("PIL")  # solo per sapere se Pillow c'è
     except ImportError:
         print("  immagini di anteprima e README: non fatte (manca Pillow: pip install pillow)")
         return []

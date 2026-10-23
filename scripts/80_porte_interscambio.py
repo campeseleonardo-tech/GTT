@@ -479,7 +479,6 @@ def main():
     for a in aree:
         a["mostra_etichetta"] = migliore.get(a["etichetta"]) is a if a["etichetta"] else False
     print(f"  celle: {len(aree)}")
-    cella_di_fermata = {i: cella_f[i] for i in range(len(fermate))}
 
     # ---- 20 punti prioritari ----
     print("20 punti prioritari (raggruppamento a 1 km)...")
@@ -694,7 +693,6 @@ def main():
     n_stim = sum(1 for p in parcheggi if not p.get("posti_dichiarati") and p.get("posti_stimati"))
     grandi = [i for i in range(len(parcheggi)) if posti[i] >= POSTI_COPERTA]
     posti_50 = float(sum(posti[i] for i in grandi))
-    vicino_f_50 = [i for i in grandi if D_f[i].min() <= RAGGIO_MOSTRATO_M]
     f200 = [i for i in grandi if (D_f[i] <= RAGGIO_M).any()]
     fn200 = [i for i in grandi if (D_f[i] <= RAGGIO_M).any() or (D_n[i] <= RAGGIO_M).any()]
     # validazione dei 25 m2 (OSM con posti dichiarati, >= 20)
@@ -702,8 +700,6 @@ def main():
                if p.get("posti_dichiarati") and p["posti_dichiarati"] >= 20 and p.get("superficie_m2")]
     mediana_m2 = float(np.median(m2_list)) if m2_list else None
     q25, q75 = (float(np.percentile(m2_list, 25)), float(np.percentile(m2_list, 75))) if m2_list else (None, None)
-    pal_rec = next((p for p in parcheggi_out if palavela and p["id"] == palavela["id"]), None)
-    misurati = [p for p in parcheggi_out if p["stato"] != "non_misurato"]
     # quota misurata sui parcheggi mostrati (quello che il lettore vede)
     posti_tot_cons = float(sum(p["posti"] for p in parcheggi_out))
     posti_misurati = float(sum(p["posti"] for p in parcheggi_out if p["stato"] != "non_misurato"))
@@ -917,7 +913,7 @@ def _rapporto(dati, ctrl, verifiche, somma_auto, somma_dom, parcheggi_all, parch
         zp = ", ".join(a["zone_principali"])
         r.append(f"{a['id']:10s} {a['n_fermate']:>8d} {a['nessun']:>7d} {a['pochi']:>6d} {a['ok']:>5d} "
                  f"{pct(a['quota_senza']):>12s} {a['categoria'] + nota:>10s}  {zp}")
-    r.append(f"  aree per categoria: " + ", ".join(f"{k} {rm['aree_per_categoria'][k]}" for k in CAT_AREA))
+    r.append("  aree per categoria: " + ", ".join(f"{k} {rm['aree_per_categoria'][k]}" for k in CAT_AREA))
     r.append("")
     r.append("== 20 punti prioritari ==")
     for p in dati["punti_prioritari"]:

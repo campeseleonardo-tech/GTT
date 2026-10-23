@@ -194,7 +194,6 @@ def main():
         tp = tempi_tp(sezioni)
         log("auto: cammini minimi sulla rete del modello ...")
         libero, libero_pn = tempi_auto_liberi(sezioni, controlli_punti)
-        tp_pn = None
     auto_alto = libero * f_alto + MIN_PARCHEGGIO
     auto_basso = libero * f_basso + MIN_PARCHEGGIO
 

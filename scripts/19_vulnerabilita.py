@@ -31,7 +31,6 @@ Usage:
 import argparse
 import datetime as dt
 import json
-import sys
 from pathlib import Path
 
 RADICE = Path(__file__).resolve().parent.parent
@@ -202,7 +201,7 @@ def main():
     righe = [
         "RAPPORTO VULNERABILITA' PER SEZIONE",
         f"generato: {esito['generato']}  origine: {origine}",
-        f"componenti e pesi: " + ", ".join(f"{k}={pesi.get(k,0)}" for k in attivi),
+        "componenti e pesi: " + ", ".join(f"{k}={pesi.get(k,0)}" for k in attivi),
         f"sezioni: {len(risultati)}  indice mediano: {med}",
         "",
         "Top 10 sezioni per indice (id, comune, residenti, indice, percentili):",

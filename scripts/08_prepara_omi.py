@@ -225,7 +225,6 @@ def main():
                 v_by_key[key][tip] = [cmin, cmax, lmin, lmax]
                 scelto[kk] = st or ""
 
-    keys = sorted(v_by_key.keys())
     comuni_con_omi = sorted({pro_by_com[k[0]] for k in v_by_key.keys()})
     mancanti_comuni = sorted(c for c in comuni_area if c not in set(comuni_con_omi))
     miss_ratio = len(mancanti_comuni) / len(comuni_area) if comuni_area else 0

@@ -240,7 +240,6 @@ def forma_r8(s):
              "punto": f"Il {virgola(quota_strade)}% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
              "grafico": strade}
     senza_ab = ab["senza_collegamento"]
-    gg = t["google"]
     par_crit = [["Zone", f"{par['n_zone']} zone dell'indagine sugli spostamenti ({par['n_zone_torino']} di Torino), fino a {par['punti_per_zona']} punti ciascuna"],
                 ["Mezzi pubblici", f"partenza {par['partenza']}-8:15 di un feriale, mediana, cammino a {virgola(par['velocita_piedi_kmh'])} km/h, al massimo {par['tempo_max_min']} minuti"],
                 ["Auto, limite alto", f"tempo a flusso libero × {f_hi} (sensori 5T) + {virgola(par['minuti_parcheggio'])} minuti"],

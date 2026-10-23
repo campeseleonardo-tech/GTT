@@ -7,7 +7,7 @@ e scrive  GTT/data/processed/sezioni_torino.json  (poligoni semplificati, famigl
 Solo libreria standard di Python. Non scarica niente.
 Uso:  python 05_prepara_sezioni.py            (cintura = default, vedi RAGGIO_KM)
 """
-import json, math, struct, sys, zipfile, io
+import json, math, struct, sys, zipfile
 import xml.etree.ElementTree as ET
 from pathlib import Path
 

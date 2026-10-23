@@ -199,7 +199,7 @@ def costruisci_ora_tipica(db, r4, giorni_tutti, modo_linea, trip_info):
     # il giorno con la copertura migliore (passi da 30 s con almeno una posizione): il GPS arriva a ondate e in alcuni giorni resta fermo per minuti;
     # a pari copertura, quello con piu' corse viste
     giorno = max(feriali, key=lambda g: (copertura[g], finestra[g], g))
-    print(f"[ora tipica] copertura dei passi da 30 s nella finestra, per giorno feriale: " + ", ".join(f"{g}: {copertura[g]}" for g in feriali))
+    print("[ora tipica] copertura dei passi da 30 s nella finestra, per giorno feriale: " + ", ".join(f"{g}: {copertura[g]}" for g in feriali))
     base, it = righe_finestra(giorno)
     punti = defaultdict(set)
     linea_di = {}

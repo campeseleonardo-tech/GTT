@@ -458,7 +458,7 @@ def main():
         if c:
             R.append(f"{f:<13} | {c['promessa_min']:8.1f} | {c['in_piu_min_bassa']:13.1f} | {c['in_piu_min_alta']:12.1f} | {c['intervalli_osservati']:>10}")
     R.append("")
-    R.append(f"SENSIBILITA' alla soglia 'frequente' (feriale): ")
+    R.append("SENSIBILITA' alla soglia 'frequente' (feriale): ")
     for f, c in sens.items():
         if c:
             R.append(f"  <= {f} min: promessa {c['promessa_min']:.1f}, in piu' {c['in_piu_min_bassa']:.1f} - "

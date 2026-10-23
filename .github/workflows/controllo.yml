@@ -1,4 +1,4 @@
-# Controllo automatico a ogni push su prova e main: gli script si compilano, nessun errore vero di pyflakes, le prove su dati finti, i pesi dei file,
+# Controllo automatico a ogni push su prova e main: gli script si compilano, nessuna segnalazione di pyflakes, le prove su dati finti, i pesi dei file,
 # i file e i link delle pagine, la prova delle pagine in un browser (0 errori JavaScript). Non ricalcola i risultati: non ci sono i dati grezzi.
 name: Controllo
 
@@ -29,12 +29,8 @@ jobs:
       - name: Gli script si compilano
         run: python -m compileall -q scripts
 
-      - name: pyflakes (solo errori veri, non variabili o import inutilizzati)
-        run: |
-          python -m pyflakes scripts > pyflakes.txt || true
-          grep -v -E "imported but unused|assigned to but never used|f-string is missing placeholders|redefinition of unused" pyflakes.txt > errori.txt || true
-          cat errori.txt
-          test ! -s errori.txt
+      - name: pyflakes (nessuna segnalazione)
+        run: python -m pyflakes scripts
 
       - name: Prove su dati finti
         run: |

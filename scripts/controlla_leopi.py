@@ -21,7 +21,6 @@ Come si lancia
   Codice di uscita: 0 = OK, 1 = ALLARME, 2 = Pi non raggiungibile.
 """
 import json
-import os
 import subprocess
 import sys
 from datetime import datetime, timezone
