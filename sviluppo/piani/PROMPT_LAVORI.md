@@ -483,7 +483,7 @@ Alle altre ore (L3) il fattore di Google è solo quello dei sensori riscalato. L
 **Scelta proposta da Claude: TomTom Routing API** (piano gratuito senza carta di credito, oggi circa 2.500 richieste al giorno: da verificare al momento dell'iscrizione). Per ogni percorso e ora di partenza
 (`departAt` in un giorno futuro) dà il tempo previsto col traffico tipico (`travelTimeInSeconds`) e quello senza traffico (`noTrafficTravelTimeInSeconds`): il rapporto è un fattore di punta misurato, per direzione e per ora.
 Alternative: HERE Routing (simile, condizioni da verificare); Google Routes API (la stessa fonte del 2,1, ma serve un conto con carta di credito). Raccogliere da Google Maps con programmi automatici è vietato dalle sue condizioni: non si fa.
-**Prima del giro (Leo):** crea l'account e la chiave, legge le condizioni d'uso (in particolare se si possono salvare i tempi e pubblicare valori ricavati) e scrive la chiave in config_locale.json (`"tomtom_chiave"`, fuori da git).
+**Prima del giro (Leo):** account e chiave fatti (24/10). Leo legge le condizioni d'uso prima di unire in `main`: finché non lo fa, si pubblicano solo fattori aggregati. La chiave sta in config_locale.json (`"tomtom_chiave"`, fuori da git).
 Se le condizioni vietano di salvare i tempi: si salvano solo i fattori aggregati (mediane e quartili per gruppo e ora), mai le risposte.
 
 **Regole fissate ora, prima di vedere i numeri:**
@@ -496,8 +496,8 @@ Se le condizioni vietano di salvare i tempi: si salvano solo i fattori aggregati
 ```
 Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, docs/R6_parcheggi.md, docs/R8_traffico.md, sviluppo/piani/ANALISI_CRITICA.md (1.1, 1.2, 1.14), sviluppo/piani/ESITO_L3.md, sviluppo/piani/ESITO_L5.md e il blocco L6 di sviluppo/piani/PROMPT_LAVORI.md (regole: non cambiarle dopo aver visto i numeri).
 Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py. Se config_locale.json non ha "tomtom_chiave", fermati e chiedila a Leo. Niente controlli grafici. Un passo per volta.
-1. Script nuovo scripts/101_tempi_traffico.py (101 è il prossimo numero libero: controllalo nella memoria e aggiornalo). Legge i punti di partenza e arrivo dagli stessi file di 93, 94 e 100 (non copiarne le coordinate a mano). Chiama il servizio (libreria standard: urllib), con pausa fra le richieste, ripresa se si interrompe (parziale salvato), nessuna chiave stampata né scritta nei log o nei file. Risposte grezze solo in data\tempi_traffico_grezzi\ (fuori da git: git check-ignore) e solo se le condizioni lo permettono (Leo lo scrive in cima al prompt: SALVA_GREZZI = sì/no).
-   Uscite in git: data/processed/tempi_traffico.json (per gruppo e ora: mediana, 25° e 75° percentile del fattore, numero di percorsi; per i percorsi B anche i minuti, da confrontare con Google) e docs/rapporti/RAPPORTO_TEMPI_TRAFFICO.txt. Opzioni: --prova (risposte finte, nessuna chiamata), --solo-controllo (solo i percorsi B: circa 64 richieste).
+1. Script nuovo scripts/101_tempi_traffico.py (101 è il prossimo numero libero: controllalo nella memoria e aggiornalo). Legge i punti di partenza e arrivo dagli stessi file di 93, 94 e 100 (non copiarne le coordinate a mano). Chiama il servizio (libreria standard: urllib), con pausa fra le richieste, ripresa se si interrompe (parziale salvato), nessuna chiave stampata né scritta nei log o nei file. Risposte grezze: NON si salvano (SALVA_GREZZI = no, valore predefinito finché Leo non ha letto le condizioni d'uso di TomTom); in git e nei rapporti solo statistiche aggregate per gruppo e ora (mediana, 25° e 75° percentile, numero di percorsi) e, per i percorsi B, solo il fattore arrotondato a una cifra, mai i tempi della risposta.
+   Uscite in git: data/processed/tempi_traffico.json (per gruppo e ora: mediana, 25° e 75° percentile del fattore, numero di percorsi; per i percorsi B il fattore a una cifra, da confrontare con quello di Google) e docs/rapporti/RAPPORTO_TEMPI_TRAFFICO.txt. Opzioni: --prova (risposte finte, nessuna chiamata), --solo-controllo (solo i percorsi B: circa 64 richieste).
    Controlli: tutte le risposte con tempo > 0 (bloccante); fattore fra 1 e 5 (AVVISO fuori); il controllo dei 6 percorsi in uscita contro il 2,1 del blocco L6 (AVVISO e STOP oltre 0,5).
 2. Lancia prima --prova, poi --solo-controllo e scrivi la tabella dei percorsi B (servizio contro Google contro i nostri sensori) a Leo. Se scatta lo STOP, fermati qui e aspetta Leo.
 3. Lancio intero. Poi gli script 93, 94 e 100 leggono il fattore del servizio (se tempi_traffico.json c'è) al posto del 2,1 e della formula riscalata, per direzione e ora come nel blocco L6; se il file manca restano come oggi. Il 93 per le coppie usa il fattore del gruppo coppie; il 94 e il 100 per i punti del R6 quello in entrata.
@@ -505,4 +505,30 @@ Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py. Se 
 5. Testi delle schede 3 e 4: «stima con il rallentamento del servizio di percorsi (TomTom)» e il limite di L5 sull'uscita dal centro tolto. Attribuzione della fonte come chiedono le condizioni d'uso (nelle schede e in docs/FONTI_DATI.md). Traduzioni in testi.json.
 6. Prove: pyflakes zero; python scripts\schede_risultati.py (nessuna ATTENZIONE); scripts\RIFAI_MAPPA_E_SCHEDE.bat; python scripts\prova_pagine.py (0 errori); git grep della chiave: zero risultati.
 7. Esito sviluppo/piani/ESITO_L6.md (tabelle dei passi 2 e 4), memoria (sezione 7: punti 1 dei problemi gravi e la critica a L3), commit, git pull --no-rebase origin prova, git push origin prova. Di' a Leo in 5 righe se il messaggio della scheda 3 è cambiato e perché.
+```
+
+## SEQUENZA 24/10 — PC: L4b, L5, L6 di seguito (un prompt solo)
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md e sviluppo/MEMORIA_PROGETTO.md.
+Esegui UNO DOPO L'ALTRO i giri L4b, L5 e L6 di sviluppo/piani/PROMPT_LAVORI.md, seguendo ognuno alla lettera (regole e soglie fissate: non cambiarle dopo aver visto i numeri). Ogni giro: il suo esito ESITO_<giro>.md, la memoria, un commit e git push origin prova prima di passare al successivo. Non fermarti fra un giro e l'altro, tranne nei 3 casi sotto.
+
+PASSO 0, PRIMA DI TUTTO (sicurezza: il repository è pubblico).
+a. git pull --no-rebase origin prova; git fetch origin; git merge --no-edit origin/claude/vigilant-volta-l13do5 (contiene i prompt di L4b, L5, L6); python scripts\controlla_rami.py (fermati se segnala altro lavoro non unito).
+b. Nella radice c'è un file di testo con la chiave di TomTom scritto da Leo. Trovalo (git status, file .txt non tracciati nella radice) SENZA stamparne il contenuto. Copia la chiave in config_locale.json come "tomtom_chiave" (aggiungi il campo anche, vuoto, in scripts/config_locale.esempio.json), poi CANCELLA il file di testo. Aggiungi a .gitignore le righe *chiave*.txt e *tomtom*.txt. Controlla: git status non mostra né il file né config_locale.json; git grep della chiave (passala a git grep da una variabile, senza scriverla nel terminale) dà zero risultati; git log --all -p non la contiene. Se la chiave risulta già in un commit, FERMATI e dillo a Leo (va revocata e rifatta su TomTom).
+c. In tutti i giri la chiave non si stampa mai, non va in log, esiti, rapporti, messaggi di commit o screenshot.
+
+QUANDO FERMARTI (solo questi casi, poi aspetta Leo):
+1. la chiave è già finita in un commit (passo 0b);
+2. in L6 scatta lo STOP del controllo (fattore TomTom sui 6 percorsi in uscita alle 8 lontano più di 0,5 dal 2,1 di Google): scrivi la tabella e aspetta;
+3. un errore che non sai risolvere senza cambiare una regola fissata, o TomTom rifiuta la chiave o il limite di richieste (in quel caso salva il parziale e scrivi a Leo quando si può riprendere).
+Tutto il resto lo decidi tu col valore predefinito, e lo scrivi nell'esito.
+
+COSE CHE NON FAI TU (vanno nella lista finale per Leo, non bloccano i giri): scrivere o riavviare sul Pi (i doppi clic sui .bat), lanciare backup_da_leopi.py o RACCOLTA_GIORNALIERA.bat, i controlli grafici, la lettura delle condizioni d'uso di TomTom, l'unione in main.
+
+ALLA FINE un solo messaggio a Leo, breve:
+- per ogni giro: fatto / non fatto e perché, con i numeri principali (L6: tabella prima/dopo delle classi dei 12 punti, minuti di pareggio, rapporto mediano della scheda 4 a ogni ora, titolo della scheda 4);
+- i doppi clic da fare, in ordine: quelli di ESITO_L4 se mancano (AGGIORNA_RACCOLTA_LEOPI.bat, CONTROLLA_LEOPI.bat, RACCOLTA_GIORNALIERA.bat), poi RACCOLTA_GIORNALIERA.bat per L4b, con cosa deve vedere nel log;
+- cosa guardare (schede 1, 3, 4 e home, computer e telefono);
+- il promemoria: leggere le condizioni d'uso di TomTom prima di unire in main.
 ```
