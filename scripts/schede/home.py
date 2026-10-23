@@ -25,6 +25,9 @@ def modi_per_linea():
     return {nome_base(n): m for n, m in j["modo_linea"].items()}
 
 
+INIZIO_RACCOLTA = "2026-10-03"   # primo giorno della raccolta sul Raspberry Pi (mezzi GTT); la home conta i giorni da qui a oggi
+
+
 def contatore():
     """Giorni con dati dei mezzi (dal primo all'ultimo) e passaggi alle fermate misurati con il GPS (uno ogni 4 byte di gps_trip.bin)."""
     giorni, passaggi = set(), 0
@@ -38,7 +41,8 @@ def contatore():
         return None
     d = sorted(giorni)
     d0, d1 = date(int(d[0][:4]), int(d[0][4:6]), int(d[0][6:])), date(int(d[-1][:4]), int(d[-1][4:6]), int(d[-1][6:]))
-    return {"giorni": (d1 - d0).days + 1, "giorni_con_dati": len(d), "passaggi": passaggi, "dal": d0.isoformat(), "al": d1.isoformat()}
+    return {"giorni": (d1 - d0).days + 1, "giorni_con_dati": len(d), "passaggi": passaggi, "dal": d0.isoformat(), "al": d1.isoformat(),
+            "inizio_raccolta": INIZIO_RACCOLTA}
 
 
 GAP_PASSI = 12          # buchi fino a 12 passi (6 minuti) si uniscono con una linea retta

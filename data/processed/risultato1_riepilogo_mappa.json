@@ -237,7 +237,7 @@
     "scripts/21_risultato1_vuoti.py",
     "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T18:08:45+00:00",
+  "generato": "2026-10-23T18:15:31+00:00",
   "avviso": [
     "Dati [STIMATO] — solo comune di Torino",
     "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -360,7 +360,7 @@
   ],
   "forma": {
     "etichetta": "STIMATO",
-    "titolo": "A 15 minuti quasi tutti hanno i servizi; a 5 minuti molti meno",
+    "titolo": "Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi",
     "domanda": "Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata?",
     "numero": {
       "valore": 99.2,
@@ -545,19 +545,35 @@
       "I punti nuovi sono ipotesi: non tengono conto di costi, spazi liberi o permessi.",
       "Il traffico è una stima e sostituisce rumore e smog, che non misuriamo."
     ],
-    "english": [
-      "Question: how many Turin residents lack schools, health, shops, stops or green space within 15 minutes on foot?",
-      "Answer: 10,919 residents (1.3%) lack at least one of the 5 services; 362 in inhabited areas lack three or more.",
-      "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."
-    ],
     "mappa": {
       "id": "faseb",
       "nota": "Nella mappa, tema \"Dove mancano i servizi\": all'apertura quanti servizi mancano in ogni zona (0-5, zone poco abitate in grigio); nel menu un servizio alla volta, con i punti dove aggiungerne uno."
+    },
+    "anima": {
+      "tipo": "cerchi",
+      "voci": [
+        {
+          "min": 5,
+          "pct": 68.3,
+          "testo": "tutti e 5 i servizi a 5 minuti a piedi"
+        },
+        {
+          "min": 10,
+          "pct": 96.8,
+          "testo": "tutti e 5 i servizi a 10 minuti a piedi"
+        },
+        {
+          "min": 15,
+          "pct": 99.2,
+          "testo": "tutti e 5 i servizi a 15 minuti a piedi"
+        }
+      ],
+      "didascalia": "Residenti delle zone abitate che hanno scuole, salute, negozi, fermate e verde a 5, 10 e 15 minuti da casa a piedi."
     }
   },
   "forma_en": {
     "etichetta": "ESTIMATED",
-    "titolo": "Within 15 minutes almost everyone has the services; within 5 minutes far fewer do",
+    "titolo": "Turin, a 15-minute city: almost everyone has the services within a 15-minute walk",
     "domanda": "How many people in Turin have the services within 5, 10 and 15 minutes on foot, and how many live on a busy road?",
     "numero": {
       "valore": 99.2,
@@ -745,6 +761,27 @@
     "mappa": {
       "id": "faseb",
       "nota": "Nella mappa, tema \"Dove mancano i servizi\": all'apertura quanti servizi mancano in ogni zona (0-5, zone poco abitate in grigio); nel menu un servizio alla volta, con i punti dove aggiungerne uno."
+    },
+    "anima": {
+      "tipo": "cerchi",
+      "voci": [
+        {
+          "min": 5,
+          "pct": 68.3,
+          "testo": "all 5 services within 5 minutes on foot"
+        },
+        {
+          "min": 10,
+          "pct": 96.8,
+          "testo": "all 5 services within 10 minutes on foot"
+        },
+        {
+          "min": 15,
+          "pct": 99.2,
+          "testo": "all 5 services within 15 minutes on foot"
+        }
+      ],
+      "didascalia": "Residents of inhabited areas with schools, health care, shops, stops and green space within 5, 10 and 15 minutes' walk from home."
     }
   },
   "numero_pubblico": 1

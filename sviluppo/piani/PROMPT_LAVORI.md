@@ -42,7 +42,7 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | P7 (FATTO 23/10, tranne le 19 ore di accessibilità; ESITO_P7) | PC | prova «da zero» e rilancio completo 🛑 → main; Leo accende GitHub Pages e scrive la descrizione del repository | 1 (8, 10), 5 (3) |
 | C13 (FATTO 23/10: tutti i gruppi, pyflakes a zero) | CLOUD | pulizia del codice (funzioni comuni, codice morto, prove dei numeri), a pezzi | 5 (5-8) |
 | L1 (FATTO 23/10, esito ESITO_P7 e ESITO_C13_*) | PC | P1, P3, P5, P6, P7 e C13 sui dati veri | — |
-| **L2** | PC | revisione grafica di Leo del 23/10 (ex C14): home, numeri che salgono, schede con una sola parte chiusa, titoli nuovi, animazioni anche in home; prima Leo sceglie se rifare R4, R6, R8 con lo storico di oggi 🛑 | 4 (revisione 23/10) |
+| **L2 (FATTO 23/10, Leo guarda)** | PC | revisione grafica di Leo del 23/10 (ex C14): home, numeri che salgono, schede con una sola parte chiusa, titoli nuovi, animazioni anche in home; prima Leo sceglie se rifare R4, R6, R8 con lo storico di oggi 🛑 | 4 (revisione 23/10) |
 | **L3** | PC | bus contro auto a 4 ore del giorno (ex C15 + P10), script 100, schede 3 e 4 🛑 | 4 (revisione 23/10) |
 | main | Leo | unire prova in main, accendere GitHub Pages (la pubblicazione per ultima) | 1 (8, 10) |
 | P8 | PC | metà novembre: R4 con un mese di dati, rilancio | 3 (4) |

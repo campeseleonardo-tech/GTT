@@ -565,7 +565,7 @@
     "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
     "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T18:08:45+00:00",
+  "generato": "2026-10-23T18:15:31+00:00",
   "avviso": [
     "Dati [MISURATO] — pochi giorni",
     "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-23: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -727,7 +727,7 @@
   ],
   "forma": {
     "etichetta": "MISURATO",
-    "titolo": "I ritardi gravi sono circa il 6% dei passaggi",
+    "titolo": "Circa il 6% dei passaggi arriva con più di 10 minuti di ritardo",
     "domanda": "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
     "numero": {
       "valore": 6.19,
@@ -913,20 +913,37 @@
       "Il GPS copre circa il 80% dei passaggi programmati; le corse mai viste non si contano.",
       "Contiamo quanto spesso c'è ritardo, non quante persone aspettano."
     ],
-    "english": [
-      "Question: how often are GTT vehicles late or bunched? Answer: 6.2% of weekday departures are more than 10 minutes late.",
-      "GTT reports 2.3% for 2025. Counting only the first stop we get 4.3%; the rest is season and method.",
-      "Limit: only 8 weekdays, 2 Saturdays and 1 Sunday of data, urban lines only, no night."
-    ],
     "mappa": {
       "id": "puntualita",
       "nota": "Nella mappa, tema «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."
     },
-    "unita": {
+    "anima": {
       "tipo": "quadratini",
       "totale": 100,
-      "colorati": 16,
-      "didascalia": "Su 100 passaggi feriali, circa 16 arrivano con più di 5 minuti di ritardo (15,6%); con più di 10 minuti circa 6."
+      "oltre5": 15.6,
+      "oltre10": 6.19,
+      "testo_tutto": "su 100 passaggi in un feriale arrivano con oltre 5 minuti di ritardo",
+      "fasi": [
+        {
+          "label": "su 100 nella punta del mattino (7-9)",
+          "valore": 15.1
+        },
+        {
+          "label": "su 100 di giorno (9-16)",
+          "valore": 15.9
+        },
+        {
+          "label": "su 100 nella punta della sera (16-19)",
+          "valore": 20.4
+        },
+        {
+          "label": "su 100 la sera (19-24)",
+          "valore": 18.1
+        }
+      ],
+      "legenda5": "oltre 5 minuti",
+      "legenda10": "oltre 10 minuti",
+      "didascalia": "Su 100 passaggi feriali, circa 16 arrivano con più di 5 minuti di ritardo (15,6%); con più di 10 minuti circa 6. Poi il giorno, fascia per fascia."
     },
     "confronto": [
       "GTT dichiara il 2,3% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
@@ -968,7 +985,7 @@
   },
   "forma_en": {
     "etichetta": "MEASURED",
-    "titolo": "Serious delays are about 6% of stop arrivals",
+    "titolo": "About 6% of stop passages are more than 10 minutes late",
     "domanda": "How often are GTT vehicles late or bunched together?",
     "numero": {
       "valore": 6.19,
@@ -1158,11 +1175,33 @@
       "id": "puntualita",
       "nota": "Nella mappa, tema «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."
     },
-    "unita": {
+    "anima": {
       "tipo": "quadratini",
       "totale": 100,
-      "colorati": 16,
-      "didascalia": "Out of 100 weekday arrivals, about 16 are more than 5 minutes late (15.6%); more than 10 minutes late, about 6."
+      "oltre5": 15.6,
+      "oltre10": 6.19,
+      "testo_tutto": "in 100 weekday stop passages are more than 5 minutes late",
+      "fasi": [
+        {
+          "label": "in 100 in the morning rush (7-9)",
+          "valore": 15.1
+        },
+        {
+          "label": "in 100 during the day (9-16)",
+          "valore": 15.9
+        },
+        {
+          "label": "in 100 in the evening rush (16-19)",
+          "valore": 20.4
+        },
+        {
+          "label": "in 100 in the evening (19-24)",
+          "valore": 18.1
+        }
+      ],
+      "legenda5": "over 5 minutes",
+      "legenda10": "over 10 minutes",
+      "didascalia": "Out of 100 weekday stop passages, about 16 are more than 5 minutes late (15.6%); about 6 more than 10 minutes. Then the day, time band by time band."
     },
     "confronto": [
       "GTT reports 2.3% over 10 minutes in 2025: yearly average, all lines, method not published.",

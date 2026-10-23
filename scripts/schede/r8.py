@@ -2,7 +2,7 @@
 import json
 import re
 from schede import comune
-from schede.comune import forbice_estremi, forma_base, grafico_per_titolo, leggi, migliaia, num, ora, virgola, voce
+from schede.comune import forbice_estremi, forma_base, grafico_per_titolo, leggi, migliaia, nome_pulito, num, ora, virgola, voce
 
 
 
@@ -246,6 +246,25 @@ def forma_r8(s):
     extra = {"titolo": "Strade grandi e fermate vicine",
              "punto": f"Il {virgola(quota_strade)}% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
              "grafico": strade}
+    # gara (Leo, 23/10): viaggi tipici del mattino fra zone, le coppie con più auto, una partenza diversa per corsa
+    nomi_z = {z["zona"]: z["nome"] for z in t["per_zona"]}
+    for p in t["peggiori"]:
+        nomi_z.setdefault(p["da"], p["da_nome"]); nomi_z.setdefault(p["a"], p["a_nome"])
+    corto = lambda c: nome_pulito(nomi_z.get(c, c).replace("Torino, ", ""))
+    viste, viaggi = set(), []
+    for p in sorted(coppie_ab, key=lambda p: -p["auto"]):
+        if p["da"] in viste or p["da"] == p["a"] or p["da"] not in nomi_z or p["a"] not in nomi_z:
+            continue
+        viste.add(p["da"])
+        viaggi.append({"nome": corto(p["da"]), "arrivo": corto(p["a"]), "bus": p["tp_min"],
+                       "auto_min": p["auto_punta_min"], "auto_max": p["auto_punta_basso_min"],
+                       "giudizio": f"coi mezzi da {virgola(round(p['rapporto_basso'], 1))} a {virgola(round(p['rapporto'], 1))} volte il tempo dell'auto"})
+        if len(viaggi) == 6:
+            break
+    gara = {"tipo": "gara", "titolo": "I viaggi in auto più frequenti del mattino: bus contro auto", "luoghi": viaggi, "scelto": 0,
+            "nota": f"I {len(viaggi)} viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme."}
+    area = area_tempi_js()
+    anima = {"tipo": "area", "didascalia": area["nota"]} if area else None   # l'animazione principale della scheda (e della home): l'area che si espande
     senza_ab = ab["senza_collegamento"]
     par_crit = [["Zone", f"{par['n_zone']} zone dell'indagine sugli spostamenti ({par['n_zone_torino']} di Torino), fino a {par['punti_per_zona']} punti ciascuna"],
                 ["Mezzi pubblici", f"partenza {par['partenza']}-8:15 di un feriale, mediana, cammino a {virgola(par['velocita_piedi_kmh'])} km/h, al massimo {par['tempo_max_min']} minuti"],
@@ -262,7 +281,7 @@ def forma_r8(s):
         [f"Le auto con rapporto oltre 2 sono il {q_lo}% con il fattore basso e il {q_hi}% con il fattore alto.",
          "Le 3 coppie peggiori: " + ", ".join(f"{p['da_nome']} → {p['a_nome']}" for p in p3) + ".",
          f"Google conferma i tempi coi mezzi pubblici sui percorsi di controllo: {txt_conf} minuti."],
-        [disp, pare],
+        [gara, disp, pare],
         ["Le zone sono quelle dell'indagine sugli spostamenti 2022 con punti di calcolo; ognuna ha fino a 5 punti.",
          "Mezzi pubblici: a piedi, bus, tram e metro, con partenza fra le 7:45 e le 8:15. Si prende la mediana.",
          f"Auto: tempo a flusso libero per un fattore di punta, più 5 minuti. I fattori sono due: {f_lo} da Google Maps e {f_hi} dai sensori.",
@@ -278,4 +297,4 @@ def forma_r8(s):
          f"For {100 * ti['quota_oltre_2_basso']:.0f}% to {100 * ti['quota_oltre_2_alto']:.0f}% of cars it takes more than twice as long.",
          f"Limit: car times lie between the slowdown measured by sensors ({hi['fattore']:g}) and by Google Maps ({lo['fattore']:g}). "
          "Without metropolitan trains, public transport looks slower than it is."],
-        mappa=False, extra=extra, **({"area": a} if (a := area_tempi_js()) else {}))
+        mappa=False, extra=extra, **({"anima": anima} if anima else {}))

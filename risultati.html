@@ -69,6 +69,7 @@
 <script src="assets/sito.js"></script>
 <script src="assets/gara.js"></script>
 <script src="assets/area.js"></script>
+<script src="assets/animazioni.js"></script>
 <script>Sito.avvia();</script>
 <script>
 "use strict";
@@ -79,6 +80,12 @@ const esc = Sito.esc, formattaNumero = Sito.formattaNumero, T = Sito.T;
 const forma = s => (Sito.lingua() === "en" && s.forma_en) ? s.forma_en : s.forma;   // la forma nella lingua scelta
 function conUnita(n, unita){ return formattaNumero(n) + (unita ? (unita === "%" ? "%" : " " + esc(unita)) : ""); }
 function valoreGrande(n){ return formattaNumero(n.valore) + (n.unita === "%" ? "%" : ""); }
+/* attributi per i numeri che salgono (assets/sito.js): un numero, oppure una forbice «21–28» */
+function attrConta(n){
+  if(typeof n.valore === "number") return ` data-valore="${n.valore}"`;
+  const m = /^(\d+)\s*[–-]\s*(\d+)$/.exec(String(n.valore));
+  return m ? ` data-forbice="${m[1]},${m[2]}"` : "";
+}
 function dopoGrande(n){ return n.unita && n.unita !== "%" ? esc(n.unita) + " " : ""; }
 
 /* una scheda valida ha la «forma» (scripts/schede_risultati.py) */
@@ -107,11 +114,12 @@ function mostraGalleria(){
       <div class="scheda-alto"><span>${T("Risultato", "Result")} ${esc(numeroDi(s))}</span></div>
       <h3>${esc(f.titolo)}</h3>
       <p class="cerca">${esc(f.domanda)}</p>
-      <div class="chiave"><span class="val">${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>
+      <div class="chiave"><span class="val"${attrConta(f.numero)}>${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>
       <span class="apri">${T("Apri →", "Open →")}</span>
     </button>`;
   }).join("");
   g.querySelectorAll(".scheda").forEach(b => b.addEventListener("click", () => apri(+b.dataset.i)));
+  Sito.osserva(g);
 }
 
 /* ---------------- grafici ---------------- */
@@ -257,13 +265,13 @@ function graficoDispersione(g){
 function ymaxGrezzo(pts){ return Math.max(10, ...pts.map(p => p[1])); }
 
 function grafico(g){
-  const corpo = g.tipo === "gara" ? (window.Gara ? Gara.html({luoghi: g.luoghi, scelto: g.scelto}) : "") : g.tipo === "area" ? (window.Area ? Area.html() : "") : g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "barre_diff" ? graficoBarreDiff(g) : g.tipo === "barre_gruppi" ? graficoBarreGruppi(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
+  const corpo = g.tipo === "gara" ? (window.Gara ? Gara.html({luoghi: g.luoghi, scelto: g.scelto, giro: true}) : "") : g.tipo === "area" ? (window.Area ? Area.html() : "") : g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "barre_diff" ? graficoBarreDiff(g) : g.tipo === "barre_gruppi" ? graficoBarreGruppi(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
   return `<div class="grafico"><h5>${esc(g.titolo)}</h5>${corpo}${g.nota ? `<div class="nota">${esc(g.nota)}</div>` : ""}</div>`;
 }
 
 /* ---------------- scheda ---------------- */
 function elenco(arr, tag){ return Array.isArray(arr) && arr.length ? `<${tag}>${arr.map(x => `<li>${esc(x)}</li>`).join("")}</${tag}>` : ""; }
-function parte(titolo, html, lang){ return html ? `<details class="parte"${lang ? ` lang="${lang}"` : ""}><summary>${titolo}</summary>${html}</details>` : ""; }
+function parte(titolo, html){ return html ? `<details class="parte"><summary>${titolo}</summary>${html}</details>` : ""; }
 
 let corrente = -1;
 function apri(i){
@@ -277,19 +285,20 @@ function apri(i){
     ? `<div class="sottotitolo">${T("I criteri", "The criteria")}</div><table class="param">${f.criteri.map(c => `<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td></tr>`).join("")}</table>` : "";
   const confronto = Array.isArray(f.confronto) && f.confronto.length
     ? `<div class="sottotitolo">${T("Confronto con GTT", "Comparison with GTT")}</div>${elenco(f.confronto, "ul")}` : "";
+  // tutti gli altri grafici sono aperti (Leo, 23/10); resta chiusa solo la parte «come l'abbiamo calcolato e limiti»
   const extra = f.extra
-    ? parte(esc(f.extra.titolo), `<p>${esc(f.extra.punto)}</p>${grafico(f.extra.grafico)}`) : "";
+    ? `<div class="sottotitolo">${esc(f.extra.titolo)}</div><p>${esc(f.extra.punto)}</p>${grafico(f.extra.grafico)}` : "";
+  const altri = (f.altri || []).length || f.area ? `<div class="sottotitolo">${T("Altri grafici", "More charts")}</div>${(f.area ? [f.area] : []).concat(f.altri || []).map(grafico).join("")}` : "";
+  const figura = f.anima && window.Anima ? Anima.html(f.anima) : unitaHtml(f.unita);
   $("finCorpo").innerHTML =
     `<p class="domanda">${esc(f.domanda)}</p>` +
-    `<div class="grande"><span class="val"${typeof f.numero.valore === "number" ? ` data-valore="${f.numero.valore}" data-suffisso="${f.numero.unita === "%" ? "%" : ""}"` : ""}>${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>` +
-    unitaHtml(f.unita) +
-    grafico(f.principale) + (f.area ? grafico(f.area) : "") + mappa +
+    `<div class="grande"><span class="val"${attrConta(f.numero)}>${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>` +
+    figura +
     elenco(f.punti, "ul").replace("<ul>", '<ul class="punti">') +
-    parte(T("Altri grafici", "More charts"), (f.altri || []).map(grafico).join("")) +
-    extra +
-    parte(T("Come l'abbiamo calcolato", "How we calculated it"), elenco(f.calcolo, "ol") + confronto + criteri) +
-    parte(T("Limiti", "Limits"), elenco(f.limiti, "ul")) +
-    (Sito.lingua() === "en" ? "" : parte("In English", (f.english || []).map(x => `<p>${esc(x)}</p>`).join(""), "en"));
+    grafico(f.principale) + mappa +
+    altri + extra +
+    parte(T("Come l'abbiamo calcolato e limiti", "How we calculated it, and limits"),
+          elenco(f.calcolo, "ol") + confronto + criteri + `<div class="sottotitolo">${T("Limiti", "Limits")}</div>` + elenco(f.limiti, "ul"));
   // «Condividi»: copia l'indirizzo della pagina del risultato (r/N.html), quella con l'anteprima per i social
   $("finCondividi").addEventListener("click", async () => {
     const b = $("finCondividi"), url = new URL("r/" + numeroDi(s) + ".html", location.href).href;

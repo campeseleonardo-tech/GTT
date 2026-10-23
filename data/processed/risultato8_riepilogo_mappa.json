@@ -373,7 +373,7 @@
     "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
     "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T18:08:45+00:00",
+  "generato": "2026-10-23T18:15:31+00:00",
   "avviso": [
     "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
     "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -508,6 +508,62 @@
       "Google conferma i tempi coi mezzi pubblici sui percorsi di controllo: 31 contro 30-35 e 33 contro 30-35 minuti."
     ],
     "altri": [
+      {
+        "tipo": "gara",
+        "titolo": "I viaggi in auto più frequenti del mattino: bus contro auto",
+        "luoghi": [
+          {
+            "nome": "Crocetta",
+            "arrivo": "Centro",
+            "bus": 20.6,
+            "auto_min": 9.4,
+            "auto_max": 12.7,
+            "giudizio": "coi mezzi da 1,6 a 2,2 volte il tempo dell'auto"
+          },
+          {
+            "nome": "San Paolo",
+            "arrivo": "Centro",
+            "bus": 31.3,
+            "auto_min": 11.3,
+            "auto_max": 16.0,
+            "giudizio": "coi mezzi da 2 a 2,8 volte il tempo dell'auto"
+          },
+          {
+            "nome": "Mirafiori Nord",
+            "arrivo": "Santa Rita",
+            "bus": 19.2,
+            "auto_min": 8.2,
+            "auto_max": 10.6,
+            "giudizio": "coi mezzi da 1,8 a 2,3 volte il tempo dell'auto"
+          },
+          {
+            "nome": "Parella",
+            "arrivo": "Centro",
+            "bus": 24.7,
+            "auto_min": 12.5,
+            "auto_max": 18.1,
+            "giudizio": "coi mezzi da 1,4 a 2 volte il tempo dell'auto"
+          },
+          {
+            "nome": "San Donato",
+            "arrivo": "Centro",
+            "bus": 18.7,
+            "auto_min": 9.0,
+            "auto_max": 12.0,
+            "giudizio": "coi mezzi da 1,6 a 2,1 volte il tempo dell'auto"
+          },
+          {
+            "nome": "Barriera di Milano",
+            "arrivo": "Falchera",
+            "bus": 24.0,
+            "auto_min": 9.8,
+            "auto_max": 13.4,
+            "giudizio": "coi mezzi da 1,8 a 2,5 volte il tempo dell'auto"
+          }
+        ],
+        "scelto": 0,
+        "nota": "I 6 viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme."
+      },
       {
         "tipo": "dispersione",
         "titolo": "Tempo in auto e tempo coi mezzi pubblici, una coppia di zone per punto",
@@ -3661,11 +3717,6 @@
       "Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.",
       "L'indagine è un campione. I viaggi dentro una zona e 653 coppie senza collegamento (5.616 auto) non sono nel confronto."
     ],
-    "english": [
-      "Question: for which trips is the car much faster than public transport, and how many cars make them?",
-      "Answer: in the morning public transport takes 2.0 to 2.9 times as long as the car (weighted median). For 41% to 97% of cars it takes more than twice as long.",
-      "Limit: car times lie between the slowdown measured by sensors (1.2) and by Google Maps (2.1). Without metropolitan trains, public transport looks slower than it is."
-    ],
     "extra": {
       "titolo": "Strade grandi e fermate vicine",
       "punto": "Il 95,6% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
@@ -3687,10 +3738,9 @@
         ]
       }
     },
-    "area": {
+    "anima": {
       "tipo": "area",
-      "titolo": "L'area che si espande: dove si arriva in 10, 20, 30 e 45 minuti",
-      "nota": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il 42,2% dei torinesi coi mezzi pubblici e dal 98,8% al 100% in auto (due fattori di punta, parcheggio compreso)."
+      "didascalia": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il 42,2% dei torinesi coi mezzi pubblici e dal 98,8% al 100% in auto (due fattori di punta, parcheggio compreso)."
     }
   },
   "forma_en": {
@@ -3785,6 +3835,62 @@
       "Google confirms the public transport times on the check routes: 31 versus 30-35 and 33 versus 30-35 minutes."
     ],
     "altri": [
+      {
+        "tipo": "gara",
+        "titolo": "The most frequent morning car trips: bus versus car",
+        "luoghi": [
+          {
+            "nome": "Crocetta",
+            "arrivo": "Centro",
+            "bus": 20.6,
+            "auto_min": 9.4,
+            "auto_max": 12.7,
+            "giudizio": "by public transport 1.6 to 2.2 times the car time"
+          },
+          {
+            "nome": "San Paolo",
+            "arrivo": "Centro",
+            "bus": 31.3,
+            "auto_min": 11.3,
+            "auto_max": 16.0,
+            "giudizio": "by public transport 2 to 2.8 times the car time"
+          },
+          {
+            "nome": "Mirafiori Nord",
+            "arrivo": "Santa Rita",
+            "bus": 19.2,
+            "auto_min": 8.2,
+            "auto_max": 10.6,
+            "giudizio": "by public transport 1.8 to 2.3 times the car time"
+          },
+          {
+            "nome": "Parella",
+            "arrivo": "Centro",
+            "bus": 24.7,
+            "auto_min": 12.5,
+            "auto_max": 18.1,
+            "giudizio": "by public transport 1.4 to 2 times the car time"
+          },
+          {
+            "nome": "San Donato",
+            "arrivo": "Centro",
+            "bus": 18.7,
+            "auto_min": 9.0,
+            "auto_max": 12.0,
+            "giudizio": "by public transport 1.6 to 2.1 times the car time"
+          },
+          {
+            "nome": "Barriera di Milano",
+            "arrivo": "Falchera",
+            "bus": 24.0,
+            "auto_min": 9.8,
+            "auto_max": 13.4,
+            "giudizio": "by public transport 1.8 to 2.5 times the car time"
+          }
+        ],
+        "scelto": 0,
+        "nota": "The 6 most frequent morning car trips, each from a different area: bus and car start together."
+      },
       {
         "tipo": "dispersione",
         "titolo": "Car time and public transport time, one pair of zones per point",
@@ -6959,10 +7065,9 @@
         ]
       }
     },
-    "area": {
+    "anima": {
       "tipo": "area",
-      "titolo": "The expanding area: where you can get in 10, 20, 30 and 45 minutes",
-      "nota": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach 42.2% of residents by public transport and 98.8% to 100% by car (two rush-hour factors, parking included)."
+      "didascalia": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach 42.2% of residents by public transport and 98.8% to 100% by car (two rush-hour factors, parking included)."
     }
   },
   "numero_pubblico": 4

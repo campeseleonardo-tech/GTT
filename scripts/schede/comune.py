@@ -131,22 +131,23 @@ PAROLE_VIETATE = re.compile(r"\bLeo\b|\bgiro\b|\bfase\b|\bversione\b|\.py\b|\.js
 def controlla_forma(nome, f):
     """Avvisi sui testi della forma: frasi di oltre 20 parole e parole che non vanno nelle pagine."""
     testi = [f["titolo"], f["domanda"], f["numero"]["testo"], *f["punti"], *f["calcolo"], *f.get("confronto", []),
-             *f["limiti"], *f["english"], *(a for a in [f.get("extra", {}).get("punto")] if a)]
+             *f["limiti"], *(a for a in [f.get("extra", {}).get("punto")] if a)]
     for t in testi:
         if PAROLE_VIETATE.search(t):
             print(f"  ATTENZIONE {nome}: parola da togliere in «{t[:60]}»")
         for frase in re.split(r"(?<=[a-zA-ZàèéìòùÀ%)\]»])[.;:] +(?=[A-ZÈÀ])", t):
             if len(frase.split()) > 20:
                 print(f"  ATTENZIONE {nome}: frase di {len(frase.split())} parole: «{frase[:70]}…»")
-    if len(f["punti"]) != 3 or len(f["limiti"]) > 4 or len(f["altri"]) > 2 or len(f["english"]) != 3 or len(f["calcolo"]) > 5:
+    if len(f["punti"]) != 3 or len(f["limiti"]) > 4 or len(f["altri"]) > 3 or len(f["calcolo"]) > 5:
         print(f"  ATTENZIONE {nome}: numero di righe fuori misura")
 
 
 
 
-def forma_base(s, titolo, domanda, numero, principale, punti, altri, calcolo, criteri, limiti, english, mappa=True, **extra):
+def forma_base(s, titolo, domanda, numero, principale, punti, altri, calcolo, criteri, limiti, english=None, mappa=True, **extra):
+    """La forma di una scheda. «english» non si usa più (l'inglese viene da traduci.py): resta come argomento per non cambiare le chiamate."""
     f = {"etichetta": s["tag"], "titolo": titolo, "domanda": domanda, "numero": numero, "principale": principale,
-         "punti": punti, "altri": altri, "calcolo": calcolo, "criteri": criteri, "limiti": limiti, "english": english}
+         "punti": punti, "altri": altri, "calcolo": calcolo, "criteri": criteri, "limiti": limiti}
     if mappa and s.get("mappa"):
         f["mappa"] = {"id": s["mappa"]["id"], "nota": s["mappa"]["nota"]}
         if s["mappa"].get("vista"):   # es. #tema=vulnerabilita&vista=doppio

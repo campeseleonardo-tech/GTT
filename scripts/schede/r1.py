@@ -269,9 +269,12 @@ def forma_r1(s):
     parametri = [["Tempi a piedi", "5, 10 e 15 minuti"] if p[0] == "Tempo a piedi" else list(p) for p in s["parametri"]]
     parametri += [["Strada molto trafficata", f"almeno {migliaia(pr['soglia_molto_traffico_veic_giorno'])} veicoli al giorno"],
                   ["Esposto al traffico", f"a meno di {raggio} m dalla strada"]]
+    anima = {"tipo": "cerchi",
+             "voci": [{"min": m, "pct": round(quota(m, 5), 1), "testo": f"tutti e 5 i servizi a {m} minuti a piedi"} for m in (5, 10, 15)],
+             "didascalia": "Residenti delle zone abitate che hanno scuole, salute, negozi, fermate e verde a 5, 10 e 15 minuti da casa a piedi."}
     return forma_base(
         s,
-        "A 15 minuti quasi tutti hanno i servizi; a 5 minuti molti meno",
+        "Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi",
         "Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata?",
         {"valore": round(quota(15, 5), 1), "unita": "%",
          "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi"},
@@ -289,4 +292,5 @@ def forma_r1(s):
          "Il traffico è una stima e sostituisce rumore e smog, che non misuriamo."],
         ["Question: how many Turin residents lack schools, health, shops, stops or green space within 15 minutes on foot?",
          f"Answer: {senza:,} residents ({quota_senza:.1f}%) lack at least one of the 5 services; {tre_o_piu:,} in inhabited areas lack three or more.",
-         "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."])
+         "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."],
+        anima=anima)

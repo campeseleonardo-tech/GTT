@@ -197,7 +197,7 @@ table.param td:first-child{color:var(--muted);width:40%}
 .eroe canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .eroe .dentro{position:relative;width:100%;max-width:1040px;margin:0 auto;padding:28px 16px 30px;pointer-events:none}
 .eroe .dentro > *{max-width:30ch}
-.eroe h1{font-size:clamp(44px,8vw,84px);line-height:.95;text-transform:uppercase;color:#fff;margin:0 0 12px}
+.eroe h1{font-size:clamp(44px,8vw,84px);line-height:.95;text-transform:uppercase;color:#e3bf55;margin:0 0 12px}
 .eroe .sotto{font-size:clamp(17px,2.2vw,21px);margin:0 0 12px;color:#dbe3f5}
 .eroe .contatore{font-size:15.5px;margin:0 0 14px;color:#c8d2ea}
 .eroe .contatore b{color:#e3bf55;font-variant-numeric:tabular-nums}
@@ -206,5 +206,6 @@ table.param td:first-child{color:var(--muted);width:40%}
 .eroe.senza-mezzi{min-height:0}
 @media (max-width:760px){ .eroe .dentro > *{max-width:none;text-shadow:0 1px 8px #08142e} .eroe canvas{opacity:.75} }
 
-/* miniatura del grafico nei riquadri della home (assets/miniature/, rifatte da scripts/prova_pagine.py) */
-.riquadro .miniatura{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:top left;border-radius:8px;border:1px solid var(--line);background:#fff}
+/* anteprima animata nei riquadri della home: la stessa animazione della scheda, in piccolo (assets/animazioni.js) */
+.riquadro .anteprima{border:1px solid var(--line);border-radius:8px;background:var(--sunk);padding:10px 12px;min-height:150px;display:flex;flex-direction:column;justify-content:center}
+.riquadro .anteprima .anima{margin:0}
