@@ -32,7 +32,8 @@ def trova_radice():
 
 RAD = trova_radice()
 DATA = RAD / "data"
-CFG = config_locale.carica()  # config_locale.json nella radice (non in git)
+# config_locale.json nella radice (non in git); con --prova (anche sul controllo automatico di GitHub) non serve
+CFG = config_locale.carica() if "--prova" not in sys.argv else {"pi": "prova@prova", "dir_remota": "/prova", "chiave": "prova"}
 PI = CFG["pi"]
 REMOTE_DB = CFG["dir_remota"] + "/data/storico.sqlite"
 # L4b (23/10/2026): lo snapshot sul Pi sta su disco, non in /tmp (sul Pi /tmp e' in memoria: 3,9 GB, non bastano piu')
