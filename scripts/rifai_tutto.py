@@ -42,7 +42,7 @@ ACC24 = ["18_accessibilita.py", "--giorno", "2026-10-12", "--ore", ",".join(str(
 FASI = [
     ("riassunti", "10-20 minuti", [(["97_riassunti_storico.py"], "solo se c'e' data/storico_backup.sqlite")]),
     ("dati", "10-30 minuti", [(["05_prepara_sezioni.py"], None), (["08_prepara_omi.py"], None), (["11_prepara_catalogo.py"], None),
-                              (["17_taglia_osm.py"], "serve l'OSM grezzo di data/raw"), (["19_vulnerabilita.py"], None), (["20_servizi_osm.py"], None)]),
+                              (["17_taglia_osm.py"], "serve l'OSM grezzo di data/raw (se manca si salta: il risultato data/otp/rete/torino_cintura.osm.pbf c'e' gia'); salta_se_manca=data/raw/nord-ovest-261008.osm.pbf"), (["19_vulnerabilita.py"], None), (["20_servizi_osm.py"], None)]),
     ("accessibilita", "molte ore", [(ACC24, "riprova"), (["18_accessibilita.py", "--solo-piedi", "--cutoff-piedi", "10", "--out", "data/processed/accessibilita_piedi10.json", "--salva-tappe"], "riprova,pulisci"),
                                     (["18_accessibilita.py", "--solo-piedi", "--cutoff-piedi", "5", "--out", "data/processed/accessibilita_piedi5.json", "--salva-tappe"], "riprova,pulisci")]),
     ("traffico", "alcune ore", [(["26_velocita_5t.py"], None), (["33_flusso_sensori.py"], None), (["24_importanza_vie.py"], None), (["39_fattibilita_rete.py"], None),
@@ -122,6 +122,14 @@ def pulisci_parziali():
 def lancia(cid, argv, note, log):
     """Lancia un comando; ritorna il codice di uscita. L'uscita va nel log e a schermo (ultime righe)."""
     script = AQUI / argv[0]
+    if "salta_se_manca=" in note:
+        richiesto = RADICE / note.split("salta_se_manca=")[1].split(",")[0].split()[0]
+        if not richiesto.exists():
+            log.write(f"
+=== {time.strftime('%Y-%m-%d %H:%M:%S')}  {cid}: saltato, manca {mostra(richiesto)} ===
+")
+            print(f"    saltato: manca {mostra(richiesto)}", flush=True)
+            return 0
     tentativi = 3 if "riprova" in note else 1
     if "pulisci" in note:
         pulisci_parziali()
