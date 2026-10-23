@@ -191,3 +191,20 @@ table.param td:first-child{color:var(--muted);width:40%}
 .lingua button:hover{background:rgba(255,255,255,.14)}
 .lingua button[aria-pressed="true"]:hover{background:var(--oro-su-barra)}
 @media (max-width:560px){ .barra-alta .dentro{gap:6px 12px} .lingua{margin-left:auto} }
+
+/* home: riquadro scuro con i mezzi in movimento (assets/mezzi.js); scuro anche nel modo chiaro */
+.eroe{position:relative;overflow:hidden;background:linear-gradient(135deg,#08142e 0%,#0b2559 100%);color:#f1f4fb;border-bottom:3px solid var(--oro);min-height:clamp(300px,34vw,430px);display:flex;align-items:center}
+.eroe canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.eroe .dentro{position:relative;width:100%;max-width:1040px;margin:0 auto;padding:28px 16px 30px;pointer-events:none}
+.eroe .dentro > *{max-width:30ch}
+.eroe h1{font-size:clamp(44px,8vw,84px);line-height:.95;text-transform:uppercase;color:#fff;margin:0 0 12px}
+.eroe .sotto{font-size:clamp(17px,2.2vw,21px);margin:0 0 12px;color:#dbe3f5}
+.eroe .contatore{font-size:15.5px;margin:0 0 14px;color:#c8d2ea}
+.eroe .contatore b{color:#e3bf55;font-variant-numeric:tabular-nums}
+.eroe .didascalia-eroe{font-size:13.5px;color:#a8b5d1;margin:0;display:flex;align-items:baseline;gap:10px}
+.eroe .orologio{font:700 28px/1 var(--font-titoli);color:#e3bf55;font-variant-numeric:tabular-nums;flex:none}
+.eroe.senza-mezzi{min-height:0}
+@media (max-width:760px){ .eroe .dentro > *{max-width:none;text-shadow:0 1px 8px #08142e} .eroe canvas{opacity:.75} }
+
+/* miniatura del grafico nei riquadri della home (assets/miniature/, rifatte da scripts/prova_pagine.py) */
+.riquadro .miniatura{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:top left;border-radius:8px;border:1px solid var(--line);background:#fff}

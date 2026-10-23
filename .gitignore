@@ -19,6 +19,7 @@ pubblica/
 # Dati grezzi, storico SQLite, Java di OTP e IMQ/OMI (licenza non chiara) restano fuori; i grandi si scaricano dalla Release (scripts/scarica_dati.py).
 data/*
 !data/schede_risultati.js
+!data/home_mezzi.js
 !data/storico_riassunti/
 !data/storico_riassunti/*.zip
 !data/catalogo/

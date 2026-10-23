@@ -141,10 +141,53 @@
   .navlink{display:flex;gap:8px;margin:14px 0 0}
   .navlink a{flex:1;text-align:center;text-decoration:none;font-weight:600;color:var(--accent);background:var(--card);border:2px solid var(--accent);border-radius:8px;padding:8px 6px}
   .navlink a:hover,.navlink a:focus-visible{background:var(--accent);color:var(--on-accent)}
+
+  /* ore che scorrono (▶), dissolvenza fra un'ora e l'altra */
+  #dissolvenza{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;display:block}
+  #gioca{flex:none;width:34px;height:30px;padding:0;font-size:14px;line-height:1}
+  #copiaLink{width:100%;margin-top:10px;font-weight:600}
+  /* caricamento: il contorno di Torino che si disegna e una barra; sparisce quando la mappa e' pronta */
+  #caricamento{position:fixed;inset:0;z-index:25;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+    background:linear-gradient(135deg,#08142e 0%,#0b2559 100%);color:#f1f4fb;transition:opacity .5s}
+  #caricamento.fine{opacity:0;pointer-events:none}
+  #caricamento svg{width:min(300px,62vw);height:auto;overflow:visible}
+  #caricamento path{fill:rgba(143,176,234,.10);stroke:#e3bf55;stroke-width:5;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:car-disegna 2.4s ease-in-out infinite alternate}
+  #caricamento .car-testo{font:700 22px/1 var(--font-titoli);text-transform:uppercase;letter-spacing:.04em}
+  #caricamento .car-barra{width:min(260px,62vw);height:5px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden}
+  #caricamento .car-barra i{display:block;height:100%;background:#e3bf55;transform-origin:left;transform:scaleX(.08);animation:car-barra 7s cubic-bezier(.1,.7,.3,1) forwards}
+  #caricamento .car-barra i.pronta{animation:none;transform:scaleX(1);transition:transform .25s}
+  @keyframes car-disegna{to{stroke-dashoffset:0}}
+  @keyframes car-barra{to{transform:scaleX(.92)}}
+  @media (prefers-reduced-motion:reduce){ #caricamento path{animation:none;stroke-dashoffset:0} #caricamento .car-barra i{animation:none} #caricamento{transition:none} }
+  /* telefono: il pannello e' un foglio che sale dal basso (chiuso: solo la maniglia e il tema scelto); le schede si aprono in alto */
+  .maniglia{display:none}
+  @media (max-width:640px){
+    #pannello.foglio{top:auto;bottom:0;left:0;right:0;width:auto;max-height:76vh;border-radius:16px 16px 0 0;border-top:4px solid var(--oro);z-index:8;padding:6px 14px 14px;
+      box-shadow:0 -4px 18px var(--ombra)}
+    #pannello.foglio #chiudi{display:none}
+    #pannello.foglio .maniglia{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;background:none;color:var(--muted);font:600 12.5px var(--font-testi);padding:4px 0 8px;cursor:pointer}
+    .maniglia .barretta{width:40px;height:4px;border-radius:2px;background:var(--line)}
+    #pannello.foglio.chiuso{overflow:hidden}
+    #pannello.foglio.chiuso > :not(.maniglia):not(#temi){display:none}
+    #pannello.foglio h1{font-size:22px}
+    #legendaBox{bottom:128px;max-height:30vh;z-index:4}
+    #scala{bottom:128px}
+    #scheda{left:12px;right:12px;top:12px;width:auto;max-height:44vh}
+    #apri{display:none !important}
+  }
+  .sc-fonte{margin-top:8px;padding-top:6px;border-top:1px solid var(--line);font-size:10.5px;line-height:1.35;color:var(--muted)}
+  .sc-fonte a{color:var(--muted);text-decoration:underline}
 </style>
 </head>
 <body>
+<noscript><style>#caricamento{display:none}</style></noscript>
+<div id="caricamento" role="status" aria-live="polite">
+  <svg viewBox="0 0 1000 963" aria-hidden="true"><path pathLength="1" d="M879 130l-33 35l-2 -35l22 -12l13 12zM452 11l123 41l18 -10l2 11l11 14l35 -6l42 -20l3 -17l6 -5l25 -3l34 9l-9 37l9 34l48 23l13 3l-8 28l46 93l43 29l-7 39l-27 21l-21 13l28 44l18 20l30 12l64 3l-8 11l3 8l10 6l12 -1l5 4l-90 145l-79 95l-39 49l-51 48l-40 17l-37 36l-129 15l-120 41l-18 59l-73 6l-70 -8l-19 1l-59 -16l-11 5l-87 -31l-14 -16l8 -25l8 -1l36 8l35 -80l-30 11l-67 -45l-44 -39l-10 -14l13 -18l32 -4l128 80l25 -39l45 -134l-1 -15l-33 5l-57 -11l9 -32l9 -4l6 -11l-20 -24l-25 -6l61 -129l13 -59l-19 -21l-12 -51l13 -8l30 2l12 -4l1 -39l122 13l40 -5l0 -15l-7 -11l-3 -50l9 -10l12 -31l-6 -29l2 -15l38 -36l7 -2l8 11z"/></svg>
+  <div class="car-testo">Carico la mappa…</div>
+  <div class="car-barra"><i id="carBarra"></i></div>
+</div>
 <canvas id="mappa"></canvas>
+<canvas id="dissolvenza" aria-hidden="true"></canvas>
 <div id="jsoff" role="alert" style="position:fixed;left:12px;right:12px;bottom:34px;z-index:20;padding:12px 14px;border-radius:10px;background:var(--card)3cd;border:1px solid #e0b84a;color:#4a3b00;font-size:14px">
   La mappa non è partita: il programma della pagina (JavaScript) è bloccato o non gira in questo browser.
   Se hai aperto il file da un'anteprima o da un programma diverso dal browser, chiudila e apri <b>mappa_torino.html</b> con
@@ -152,6 +195,7 @@
 </div>
 
 <div id="pannello" class="card">
+  <button class="maniglia" id="maniglia" type="button" aria-expanded="false" aria-controls="temi"><span class="barretta"></span><span>Opzioni e legenda</span></button>
   <button class="btn" id="chiudi" style="float:right;padding:2px 9px" aria-label="Nascondi pannello" title="Nascondi pannello">–</button>
   <h1>Torino Mobilità</h1>
   <p class="sub">Come si muove Torino: dove vive la gente, dove passa il trasporto pubblico, dove mancano i servizi.</p>
@@ -170,11 +214,14 @@
       <button data-k="2" aria-pressed="false">Domenica</button>
     </div>
     <div class="quando" style="margin-top:6px">
+      <button id="gioca" class="btn" type="button" aria-pressed="false" aria-label="Fai scorrere le ore dalle 6 alle 24" title="Fai scorrere le ore (dalle 6 alle 24)">▶</button>
       <input id="ora" type="range" min="0" max="23" step="1" value="8" aria-label="Ora del giorno" style="flex:1;min-width:60px;accent-color:var(--accent)">
       <output id="oraTxt" style="min-width:42px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600">08:00</output>
     </div>
     <div id="fraseQuando" style="font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.35"></div>
   </div>
+
+  <button id="copiaLink" class="btn" type="button" aria-live="polite" title="Copia l'indirizzo di questa vista: tema, scelte, ora, zoom e centro">Copia il link di questa vista</button>
 
   <!-- stato interno dell'area colorata e dei sensori: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
   <div style="display:none"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi"><input type="checkbox" id="LImq"><input type="checkbox" id="Lsensori">
@@ -229,6 +276,7 @@
 
 <script>
 window.addEventListener("error", function(e){
+  var c=document.getElementById("caricamento"); if(c) c.style.display="none";
   var b=document.getElementById("jsoff"); if(!b) return;
   b.style.display="block"; b.textContent="Errore nella pagina: "+(e.message||"sconosciuto")+(e.lineno?" (riga "+e.lineno+")":"")+". Copia questo messaggio e mandalo a Claude.";
 });
@@ -1443,23 +1491,25 @@ function dentroZona(z,ux,uy){
 function creaScheda({ titolo, badge, sub, val, stato, dettagli, appTitolo, approfondimento, appAperto, avviso, extra }){
   const tagKey = badge ? ({"programmato":"prog","misurato":"mis","censimento":"cens","stimato":"sim"}[badge.toLowerCase()] || badge) : null;
   const bHtml = tagKey ? (TAG[tagKey] || (tagKey.startsWith("<") ? tagKey : `<span class="tag ${tagKey}">${tagKey.toUpperCase()}</span>`)) : "";
-  const detHtml = (dettagli||[]).map(d => {
-    if(typeof d === "string") return `<div class="sc-det-row">• ${d}</div>`;
-    return `<div class="sc-det-row"><span class="sc-det-k">${d.k}:</span> <strong class="sc-det-v">${d.v}</strong></div>`;
-  }).join("");
+  // scheda uniforme (tutti i temi): titolo = nome del posto, un numero principale, al massimo 5 righe di dettaglio (le altre in «Altri dati»), fonte in piccolo
+  const riga = d => typeof d === "string" ? `<div class="sc-det-row">• ${d}</div>`
+    : `<div class="sc-det-row"><span class="sc-det-k">${d.k}:</span> <strong class="sc-det-v">${d.v}</strong></div>`;
+  const tutteRighe = dettagli || [], MAX_RIGHE = 5;
+  const detHtml = tutteRighe.slice(0, MAX_RIGHE).map(riga).join("");
+  const altreHtml = tutteRighe.length > MAX_RIGHE
+    ? `<details class="sc-app"><summary>Altri dati (${tutteRighe.length - MAX_RIGHE})</summary><div class="sc-det">${tutteRighe.slice(MAX_RIGHE).map(riga).join("")}</div></details>` : "";
   const appHtml = approfondimento ? `
     <details class="sc-app"${appAperto ? " open" : ""}>
       <summary>${appTitolo || "Approfondimento"}</summary>
       <div class="sc-app-body">${approfondimento}</div>
     </details>` : "";
-  const avvisoHtml = avviso ? `<div class="sc-avviso">${avviso}</div>` : "";
+  const fonteHtml = avviso ? `<div class="sc-fonte">${avviso}</div>` : "";
   return `
     <div class="sc-card">
       <div class="sc-head">
         <div class="sc-title-row"><strong class="sc-title">${titolo}</strong> ${bHtml}</div>
         ${sub ? `<div class="sc-sub">${sub}</div>` : ""}
       </div>
-      ${avvisoHtml}
       ${val ? `
       <div class="sc-main">
         <div class="sc-val">${val}</div>
@@ -1467,7 +1517,9 @@ function creaScheda({ titolo, badge, sub, val, stato, dettagli, appTitolo, appro
       </div>` : ""}
       ${extra || ""}
       ${detHtml ? `<div class="sc-det">${detHtml}</div>` : ""}
+      ${altreHtml}
       ${appHtml}
+      ${fonteHtml}
     </div>`;
 }
 
@@ -1769,6 +1821,7 @@ function schedaZona(z){
 let schedaSel=null;   // sezione evidenziata mentre la scheda e' aperta
 function chiudiScheda(){ $("scheda").style.display="none"; if(schedaSel){ schedaSel=null; chiede(); } }
 function apriScheda(html,sel){
+  if(typeof chiudiFoglio==="function") chiudiFoglio();   // telefono: il foglio dei temi si chiude, la scheda si apre in alto
   $("schedaCorpo").innerHTML=html; $("scheda").style.display="block"; $("scheda").scrollTop=0;
   schedaSel=sel||null; chiede();
 }
@@ -1976,8 +2029,36 @@ function fraseQuando(){
   if($("fraseQuando").textContent!==t) $("fraseQuando").textContent=t;
 }
 function aggiornaOra(){ $("oraTxt").textContent=`${pad(S.h)}:00`; $("ora").value=S.h; fraseQuando(); chiede(); imqNotaOra(); }
-document.querySelectorAll("#giorno button").forEach(b=>b.onclick=()=>{ S.dt=+b.dataset.k; document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",x===b)); aggiornaOra(); aggiornaLegenda(); });
-$("ora").oninput=e=>{S.m=+e.target.value*60; aggiornaOra(); aggiornaLegenda();};
+document.querySelectorAll("#giorno button").forEach(b=>b.onclick=()=>{ fermaGioco(); S.dt=+b.dataset.k; document.querySelectorAll("#giorno button").forEach(x=>x.setAttribute("aria-pressed",x===b)); aggiornaOra(); aggiornaLegenda(); });
+$("ora").oninput=e=>{ fermaGioco(); S.m=+e.target.value*60; aggiornaOra(); aggiornaLegenda(); };
+/* ▶ / ❚❚: le ore scorrono dalle 6 alle 24 (un'ora al secondo) con una dissolvenza fra un'ora e l'altra; si ferma se si tocca il cursore, il giorno o si cambia tema */
+const RIDOTTO = matchMedia("(prefers-reduced-motion: reduce)");
+const diss = $("dissolvenza"), dcx = diss.getContext("2d");
+function dissolvi(cambia){
+  if(RIDOTTO.matches){ cambia(); return; }
+  if(diss.width!==cv.width || diss.height!==cv.height){ diss.width=cv.width; diss.height=cv.height; }
+  dcx.clearRect(0,0,diss.width,diss.height); dcx.drawImage(cv,0,0);   // l'ora di prima, ancora sopra
+  diss.style.transition="none"; diss.style.opacity="1";
+  cambia();                                                          // l'ora nuova si disegna sotto
+  void diss.offsetWidth; diss.style.transition="opacity .85s linear"; diss.style.opacity="0";
+}
+let giocaT=null;
+function fermaGioco(){
+  if(giocaT){ clearInterval(giocaT); giocaT=null; }
+  diss.style.transition="none"; diss.style.opacity="0";
+  const b=$("gioca"); if(b){ b.textContent="▶"; b.setAttribute("aria-pressed","false"); b.title="Fai scorrere le ore (dalle 6 alle 24)"; }
+}
+function passoGioco(){
+  if(S.h>=23){ fermaGioco(); return; }
+  dissolvi(()=>{ S.m=(S.h+1)*60; aggiornaOra(); aggiornaLegenda(); disegna(); });
+}
+$("gioca").onclick=()=>{
+  if(giocaT){ fermaGioco(); return; }
+  if(S.h>=23 || S.h<6){ S.m=6*60; aggiornaOra(); aggiornaLegenda(); }   // si parte dalle 6 se si e' alla fine o di notte
+  const b=$("gioca"); b.textContent="❚❚"; b.setAttribute("aria-pressed","true"); b.title="Ferma lo scorrere delle ore";
+  giocaT=setInterval(passoGioco,1000);
+};
+cv.addEventListener("pointerdown",()=>{ diss.style.transition="none"; diss.style.opacity="0"; });   // se si muove la mappa, niente immagine vecchia sopra
 function adesso(){
   let dt=0,h=new Date().getHours(),mi=new Date().getMinutes();
   try{
@@ -2277,7 +2358,7 @@ function renderOpzioni(){
 
 /* cambia tema: imposta area colorata e sovrapposizioni; non ricostruisce dati, cambia solo cosa si disegna */
 // «Quando» compare solo nei temi che cambiano con il giorno e l'ora
-function mostraQuando(){ $("boxQuando").style.display = (tema.ora || (tema.oraSe && tema.oraSe())) ? "block" : "none"; }
+function mostraQuando(){ const si=!!(tema.ora || (tema.oraSe && tema.oraSe())); $("boxQuando").style.display = si ? "block" : "none"; if(!si) fermaGioco(); }
 function applicaTema(id){
   chiudiScheda(); nascondiTip();   // niente pannello/tooltip del tema precedente
   // vecchi id tema: restano validi negli indirizzi
@@ -2353,28 +2434,83 @@ function applicaVistaDaUrl(){
 function applicaLineaDaUrl(){
   const m=/[#&?]linea=([^&]+)/i.exec(location.hash||"");
   const mo=/[#&?]ora=(\d{1,2})(?!\d)/i.exec(location.hash||"");
-  if(!m && !mo) return;
+  const md=/[#&?]dt=([012])(?!\d)/i.exec(location.hash||"");   // giorno: 0 feriale, 1 sabato, 2 domenica (dal link copiato)
+  if(!m && !mo && !md) return;
   if(m){
     let v=""; try{ v=decodeURIComponent(m[1]).trim(); }catch(e){ return; }
     $("filtroLinea").value=v;
     if(tema.over && tema.over.Llinee) $("Llinee").checked=true;
   }
   // ora=<0-23> (es. #tema=puntualita&linea=17&ora=8): giorno feriale a quell'ora (la scheda manda qui con ora=8); vale anche senza linea=
-  if(mo && +mo[1]>=0 && +mo[1]<=23){
-    const bf=document.querySelector('#giorno button[data-k="0"]'); if(bf) bf.click();   // feriale (S.dt=0, aggiorna i pulsanti)
-    S.m=+mo[1]*60; aggiornaOra();
+  if((mo && +mo[1]>=0 && +mo[1]<=23) || md){
+    const bf=document.querySelector(`#giorno button[data-k="${md?md[1]:0}"]`); if(bf) bf.click();   // feriale se non e' scritto altro (S.dt, aggiorna i pulsanti)
+    if(mo && +mo[1]>=0 && +mo[1]<=23){ S.m=+mo[1]*60; aggiornaOra(); }
   }
   baseVer++; chiede(); aggiornaLegenda();
 }
 
+/* ---------- link di questa vista: tema, scelte del tema, giorno e ora, zoom e centro ---------- */
+// scelte del tema: #...&o_subServizio=serv (una per tendina del tema); zoom e centro: &z=13.2&c=45.0703,7.6869
+function applicaOpzioniDaUrl(){
+  const re=/[#&?]o_([A-Za-z0-9]+)=([A-Za-z0-9_]+)/g; let m;
+  const h=location.hash||"";
+  while((m=re.exec(h))){
+    const el=$(m[1]);
+    if(el && el.tagName==="SELECT" && [...el.options].some(o=>o.value===m[2]) && el.value!==m[2]){ el.value=m[2]; if(el.onchange) el.onchange(); }
+  }
+}
+function applicaVistaMappaDaUrl(){
+  const h=location.hash||"", z=/[#&?]z=(\d{1,2}(?:\.\d+)?)/.exec(h), c=/[#&?]c=(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/.exec(h);
+  if(!z && !c) return;
+  if(z) view.zoom=Math.max(MINZ,Math.min(MAXZ,+z[1]));
+  if(c && +c[1]>=44 && +c[1]<=46 && +c[2]>=6 && +c[2]<=9){ view.cx=px(+c[2]); view.cy=py(+c[1]); }
+  mostraZoom(); chiede();
+}
+function costruisciLink(){
+  const q=[];
+  if(tema.id) q.push("tema="+tema.id);
+  document.querySelectorAll("#boxOpzioni select.opt-sel").forEach(sel=>{ if(sel.id && sel.value) q.push("o_"+sel.id+"="+encodeURIComponent(sel.value)); });
+  if($("boxQuando").style.display!=="none"){ q.push("dt="+S.dt, "ora="+S.h); }
+  const fl=($("filtroLinea").value||"").trim(); if(fl) q.push("linea="+encodeURIComponent(fl));
+  q.push("z="+view.zoom.toFixed(2), "c="+latDaY(view.cy).toFixed(5)+","+(view.cx*360-180).toFixed(5));
+  return location.origin==="null"||location.protocol==="file:" ? location.href.split("#")[0]+"#"+q.join("&") : location.origin+location.pathname+"#"+q.join("&");
+}
+$("copiaLink").onclick=async ()=>{
+  const b=$("copiaLink"), link=costruisciLink(), prima=b.textContent;
+  let ok=false;
+  try{ await navigator.clipboard.writeText(link); ok=true; }
+  catch(e){ try{ const t=document.createElement("textarea"); t.value=link; t.style.position="fixed"; t.style.opacity="0"; document.body.appendChild(t); t.select(); ok=document.execCommand("copy"); t.remove(); }catch(e2){} }
+  if(!ok){ window.prompt("Copia questo indirizzo:", link); return; }
+  b.textContent="Link copiato"; setTimeout(()=>{ b.textContent=prima; },2000);
+};
+
+/* ---------- telefono: il pannello e' un foglio che sale dal basso ---------- */
+const TEL=matchMedia("(max-width:640px)");
+function chiudiFoglio(){
+  const p=$("pannello"); if(!TEL.matches || !p.classList.contains("foglio")) return;
+  p.classList.add("chiuso"); $("maniglia").setAttribute("aria-expanded","false");
+}
+function impostaFoglio(){
+  const p=$("pannello");
+  if(TEL.matches){ p.classList.add("foglio"); if(!p.dataset.pronto){ p.classList.add("chiuso"); p.dataset.pronto="1"; } p.style.display="block"; $("apri").style.display="none"; }
+  else p.classList.remove("foglio","chiuso");
+  $("maniglia").setAttribute("aria-expanded", String(!p.classList.contains("chiuso")));
+}
+$("maniglia").onclick=()=>{ const chiuso=$("pannello").classList.toggle("chiuso"); $("maniglia").setAttribute("aria-expanded",String(!chiuso)); };
+cv.addEventListener("pointerdown",chiudiFoglio);   // si tocca la mappa: il foglio si richiude
+TEL.addEventListener("change",impostaFoglio);
+
 /* ---------- avvio ---------- */
 // niente piu' dati "live": la pagina mostra orari, storico registrato e dati fissi, con le date scritte
-if(innerWidth<600){ $("pannello").style.display="none"; $("apri").style.display="block"; $("apri").textContent="Temi"; }   // telefono: pannello chiuso, bottone «Temi»
+impostaFoglio();   // telefono: il pannello e' un foglio dal basso, chiuso (solo il tema scelto)
 if(innerWidth<=640){ $("legendaBox").classList.add("chiusa"); $("legendaToggle").setAttribute("aria-expanded","false"); }   // telefono: legenda chiusa
-creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(calcolaTorino); sicuro(adesso); sicuro(()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); applicaLineaDaUrl(); });
-addEventListener("hashchange",()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); applicaLineaDaUrl(); });   // #tema=interscambio&vista=mancano apre direttamente tema e vista
+creditiSfondo(); mostraZoom(); ridimensiona(); sicuro(preparaSezioni); sicuro(calcolaSoglieSez); sicuro(calcolaTorino); sicuro(adesso); sicuro(()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); applicaOpzioniDaUrl(); applicaLineaDaUrl(); applicaVistaMappaDaUrl(); });
+addEventListener("hashchange",()=>{ applicaTema(temaDaUrl()); applicaVistaDaUrl(); applicaOpzioniDaUrl(); applicaLineaDaUrl(); applicaVistaMappaDaUrl(); });   // #tema=interscambio&vista=mancano apre direttamente tema e vista
 sicuro(stato);
 sicuro(disegna);
+// mappa pronta: la barra va al 100% e il caricamento sparisce con una dissolvenza
+(()=>{ const c=$("caricamento"), b=$("carBarra"); if(!c) return; if(b) b.classList.add("pronta");
+  requestAnimationFrame(()=>setTimeout(()=>{ c.classList.add("fine"); setTimeout(()=>c.remove(),600); },RIDOTTO.matches?0:250)); })();
 (()=>{ const dl=$("listaLinee"); const nomi=[...new Set(Object.values(D.rotte).map(r=>r.s))].sort((a,b)=>a.localeCompare(b,"it",{numeric:true})); dl.innerHTML=nomi.map(n=>`<option value="${esc(n)}">`).join(""); })();
 })();
 </script>
