@@ -20,6 +20,7 @@ Come si prova
   python scripts\\comuni.py      (stampa 4 controlli: devono essere tutti OK)
 """
 import importlib.util
+import json
 import math
 import sys
 from datetime import date, datetime, timedelta, timezone
@@ -104,6 +105,38 @@ def soglia_quantile(valori, percentile):
         return None
     idx = max(0, min(len(v) - 1, round(percentile / 100 * (len(v) - 1))))
     return v[idx]
+
+
+TEMPI_TRAFFICO = RADICE / "data" / "processed" / "tempi_traffico.json"
+
+
+def fattore_servizio(gruppo, ora="08:00"):
+    """Fattore_rete mediano del servizio di percorsi (TomTom, script 101) per gruppo («entrata», «coppie») e ora, o None se il file
+    manca o e' di prova. fattore_rete = tempo col traffico / nostro flusso libero: la stessa grandezza del 2,1 di Google (L6bis)."""
+    if not TEMPI_TRAFFICO.exists():
+        return None
+    d = json.loads(TEMPI_TRAFFICO.read_text(encoding="utf-8"))
+    if d.get("prova") or d.get("solo_controllo") or d.get("stop"):
+        return None
+    try:
+        return d["gruppi"][gruppo][ora]["fattore_rete"]["mediana"]
+    except KeyError:
+        return None
+
+
+def imposta_java(jdk=None):
+    """Java per r5py (serve 21 o piu'): JAVA_HOME gia' impostato non si tocca; altrimenti la cartella data/otp/jdk-... se esiste
+    (setdefault), altrimenti il Java del sistema (PATH). Se non c'e' nessuno dei due, si ferma con un messaggio chiaro."""
+    import os
+    import shutil
+    if jdk is not None:
+        cartelle = [Path(jdk), *sorted(Path(jdk).parent.glob("jdk-*"))]
+        trovata = next((c for c in cartelle if c.is_dir()), None)
+        if trovata:
+            os.environ.setdefault("JAVA_HOME", str(trovata))
+    if not os.environ.get("JAVA_HOME") and not shutil.which("java"):
+        sys.exit("ERRORE: Java non trovato. r5py ha bisogno di Java 21 o piu': installalo (es. Temurin 21) oppure metti un JRE in data/otp/ "
+                 "e imposta JAVA_HOME.")
 
 
 def carica_script(nome_file):

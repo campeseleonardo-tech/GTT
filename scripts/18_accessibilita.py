@@ -29,6 +29,9 @@ import time
 import zipfile
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import comuni  # noqa: E402
+
 RADICE = Path(__file__).resolve().parent.parent
 SEZIONI = RADICE / "data/processed/sezioni_torino.json"
 CATALOGO = RADICE / "data/processed/catalogo"
@@ -297,7 +300,7 @@ def correggi_centroidi(sezioni):
 
 
 def avvia_rete():
-    os.environ["JAVA_HOME"] = str(JAVA_HOME)
+    comuni.imposta_java(JAVA_HOME)   # la cartella data/otp/jdk-... se c'e', altrimenti il Java del sistema
     # heap fisso: la macchina ha 8 GB, Python e R5 devono convivere
     os.environ.setdefault("_JAVA_OPTIONS", "-Xmx3g")
     import geopandas as gpd

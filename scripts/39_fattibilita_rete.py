@@ -40,6 +40,9 @@ def trova_radice():
     return AQUI.parent
 
 
+sys.path.insert(0, str(AQUI))
+import comuni  # noqa: E402
+
 RADICE = trova_radice()
 PBF = RADICE / "data" / "otp" / "rete" / "torino_cintura.osm.pbf"
 OUT_DIR = RADICE / "data" / "processed" / "traffico_c"
@@ -71,7 +74,7 @@ def main():
     # --- 1. ambiente ---
     a("== 1. Ambiente ==")
     a(f"  Python: {sys.version.split()[0]}  ({sys.executable})")
-    a(f"  Java (per r5py): {'trovato' if (JAVA_HOME / 'bin' / 'java.exe').is_file() else 'MANCANTE'} in {JAVA_HOME.name}")
+    a(f"  Java (per r5py): {'cartella del progetto' if JAVA_HOME.is_dir() else ('di sistema' if __import__("shutil").which('java') else 'MANCANTE')}")
     pacchetti = {}
     for m in ("numpy", "scipy", "pandas", "geopandas", "shapely", "networkx", "osmium", "psutil", "matplotlib"):
         try:
@@ -81,7 +84,7 @@ def main():
             pacchetti[m] = "ASSENTE"
     a("  pacchetti: " + ", ".join(f"{k}={v}" for k, v in pacchetti.items()))
     try:
-        os.environ["JAVA_HOME"] = str(JAVA_HOME)
+        comuni.imposta_java(JAVA_HOME)
         os.environ.setdefault("_JAVA_OPTIONS", "-Xmx3g")
         import r5py
         a(f"  r5py: {r5py.__version__} (import ok, Java raggiungibile)")
