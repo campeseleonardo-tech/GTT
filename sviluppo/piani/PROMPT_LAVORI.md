@@ -50,9 +50,105 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | **L6** (FERMO allo STOP 23/10: regola sbagliata, vedi L6bis) | PC | tempi in auto col traffico da un servizio di percorsi (TomTom), in entrata e in uscita, a 4 ore; fattore al posto del 2,1 di Google (ANALISI_CRITICA 1.1, 1.14) 🛑 Leo: chiave e condizioni d'uso | 3 |
 | **L6bis** (FATTO 23/10, ESITO_L6) | PC | L6 ripreso col fattore giusto (tempo TomTom / nostro flusso libero, la stessa grandezza del 2,1 di Google) 🛑 | 3 |
 | **L7** (FATTO 23/10, ESITO_L7) | PC | calcoli rifacibili da un estraneo (requirements, Java, prova da zero), testi del 93, immagini del README, PIANO_RACCOLTA passo 2b | 5 |
-| **L8** | PC | TomTom stima principale (Leo 24/10), più percorsi TomTom (~1.200 richieste, tetto 2.000), Release nuova dati-2026-11 🛑 | 3 |
+| **L8** (FATTO 24/10, ESITO_L8) | PC | TomTom stima principale (Leo 24/10), più percorsi TomTom (~1.200 richieste, tetto 2.000), Release nuova dati-2026-11 🛑 | 3 |
+| **L9** | PC | chiudere le schede 2-5 (analisi critica), periodo fisso, controllo `git diff` su GitHub | piano generale A |
+| L10 | PC | home e schede: limiti visibili, date dei dati, gara col distacco, ritocchi (Leo guarda) | piano generale A |
+| L11 | PC | mappa: viste consigliate, «Chi abita qui» ridotto, «Vedi sulla mappa» della scheda 4 🛑 Leo sceglie le viste | piano generale A |
+| L12 | PC | vetrina: README (uso di Claude, licenze), file da togliere da git, prova da zero con la Release nuova 🛑 | piano generale B |
 | main | Leo | unire prova in main, accendere GitHub Pages (la pubblicazione per ultima) | 1 (8, 10) |
 | P8 | PC | metà novembre: R4 con un mese di dati, rilancio | 3 (4) |
+
+---
+
+---
+
+## Piano generale (24/10, dopo L8): tutto quello che resta
+
+Fonti: `ANALISI_CRITICA.md` (§ = paragrafo), `PIANO_RACCOLTA.md`, `PIANO_AMPLIAMENTO.md`, memoria. Ordine: prima si **chiudono** i 5 risultati di oggi, poi la **vetrina** e la pubblicazione, poi i lavori **periodici**;
+i **risultati nuovi** sono solo un elenco da cui Leo sceglie (niente è pianificato finché non lo dice lui).
+
+### Controllo a mano di Leo (24/10), da scrivere nei documenti R6 e R8 (giro L9)
+Google Maps, martedì, partenza alle 8, tempi «tipici»; TomTom senza i 5 minuti di parcheggio:
+| Percorso | TomTom | Google |
+|---|---|---|
+| Regina Margherita → Piazza Castello | 22,7 min | 12-26 |
+| Collegno (Fermi) → Piazza Castello | 31,6 | 18-40 (corso Francia) |
+| Piazza Castello → Collegno | 31,4 | 22-50 |
+TomTom sta dentro la forchetta di Google in tutti e 3. Le forchette sono larghe (fino a 22-50): l'incertezza sul tempo in auto è grande. Il 19 minuti preso a mano per Castello → Collegno (fattore Google 1,05) era l'estremo basso.
+
+### A. Chiudere i 5 risultati (prima della pubblicazione)
+| Giro | Cosa | § | Chi decide |
+|---|---|---|---|
+| **L9** | scheda 3: punti vicini alla soglia, «(stima)», sensibilità 135-212; scheda 4: «47% delle auto», coppie nominate solo con ≥ 30 interviste, nomi senza virgole confuse, via il 95,3%; scheda 5: legami a parità di distanza dal centro e «1,7 volte il caso», via il grafico metro/prezzi; scheda 2: controllo degli anticipi; periodo fisso nei risultati e controllo `git diff` su GitHub; controllo a mano di Leo nei documenti | 1.4-1.8, 1.11-1.13, 6.2, 6.3, 7 | regole qui sotto (valori predefiniti di Claude) |
+| **L10** | home e schede: una riga di limite visibile sotto ogni numero grande; «dati dal … al …» al posto di «aggiornati al»; contatori coerenti fra home, progetto e schede; gara col distacco scritto all'arrivo; barre della scheda 4 tutte sulla stessa scala; cursore nello stile; 5 riquadri 3 + 2; colori di `METODO.md` | 3.3-3.5, 3.8-3.11, 1.13 | Leo guarda |
+| **L11** | mappa: 3 «viste consigliate» in cima (una per risultato forte), «Chi abita qui» da 8 a 3 viste, «Vedi sulla mappa» anche per la scheda 4 (area che si espande) | 3.12, 4 | 🛑 Leo sceglie le viste (sotto, domanda 2) |
+
+### B. Vetrina e pubblicazione
+| Giro | Cosa | § |
+|---|---|---|
+| **L12** | README: una riga onesta sull'uso di Claude e su cos'è `sviluppo/`; frase sulle licenze coerente coi file IMQ/OMI in git (o file tolti, decide Leo); testo del rapporto GTT (104 file) fuori da git, restano i 980 fatti; screenshot di lavoro fuori da `sviluppo/`; licenze GTFS statico e IODL riconfermate; prova da zero con la Release `dati-2026-11` | 5.7, 5.8, 5.8b, 7 |
+| Leo | caricare la Release `dati-2026-11` (cartella `GTT_release`); guardare L9-L12; poi `main`, GitHub Pages, descrizione e argomenti del repository, Post Inspector di LinkedIn sui link `r/N.html` | — |
+
+### C. Raccolta del Pi (decisioni di Leo, `PIANO_RACCOLTA.md` passi 5-8)
+Situazione 24/10: 87 GB liberi sul Pi, storico 2,9 GB, ~190 MB al giorno (spazio per più di un anno), ma la copia intera ogni giorno si allunga (oggi ~10 minuti, ~1 ora a 10 GB, a dicembre).
+5 crescita: (a) feed dei ritardi ogni 5 minuti, (b) storico per mese (i mesi chiusi si copiano una volta), (c) tutte e due — **consiglio (b) entro dicembre**; 6 avviso al telefono se il Pi si ferma (healthchecks.io, gratis); 7 copia dei mesi chiusi fuori casa (Release o disco); 8 SSD al posto della scheda SD. Il feed degli avvisi GTT dà errore 500 dal 21/10: lasciarlo (non costa) o toglierlo.
+
+### D. Lavori periodici
+- **P8, metà novembre**: R4 e R6 con un mese di dati (periodo fisso nuovo), rilancio, Release del mese.
+- **GTFS nuovo** (di solito a dicembre, prima del 31/01/2027): il Pi lo archivia da solo (L4) e gli script 27, 70, 97 lo usano per giorno (L7); quando arriva: accessibilità 24 ore (~19 ore, di notte), 93, 94, 99, 100, schede, mappa.
+- **TomTom**: i fattori sono fissi in git; si rifanno solo se cambia la rete o la stagione (es. una volta a febbraio, ~2.400 richieste in 2 giorni).
+- **Ogni mese**: Release coi dati del mese; il controllo automatico su GitHub deve restare verde.
+
+### E. Risultati nuovi — solo elenco, sceglie Leo
+Dati già pronti salvo dove scritto. Valore = per chi legge il portfolio. Consiglio di Claude: i primi tre.
+| # | Risultato | Lavoro | Valore | Perché |
+|---|---|---|---|---|
+| E1 | **Quanto ci si può fidare dei dati aperti** (feed GTT 6,0% contro GPS 15,6%, sensori esclusi, contatori fermi, orologio sbagliato, feed avvisi in errore) | piccolo | molto alto | è la competenza che un datore di lavoro cerca; oggi è solo un paragrafo |
+| E2 | **Dove i mezzi sono lenti, si prende l'auto** (IMQ per modo contro rapporto dei tempi; Torino-cintura Spearman −0,79 nella prova grezza) | piccolo | alto | trasforma la scheda 4 da descrizione a comportamento; base per «quanti veicoli in meno» |
+| E3 | **Dove si fermano i bus** (tempo fra due fermate alle 8 contro la notte, dal GPS; minuti persi per tratto) | medio | molto alto | solo questo progetto ha questi dati; dice dove servono corsie o semafori; anche un tema in mappa |
+| E4 | Velocità vera dei bus ora per ora (12,7 km/h alle 8) | piccolo | alto | un numero che tutti capiscono; può stare nella scheda 2 |
+| E5 | La linea 17: un passaggio su 5 oltre 10 minuti | piccolo | medio | caso concreto e riconoscibile |
+| E6 | Tram, bus, metro: passeggeri per chilometro (rapporto GTT + GTFS) | piccolo | medio | «tram contro bus» della memoria; ponte verso i costi |
+| E7 | Offerta e fragilità: le zone fragili hanno meno corse? | piccolo-medio | alto | rafforza la scheda 5 |
+| E8 | La sera Torino si spegne? (frequenze e attese misurate di sera) | piccolo | medio | la domanda giusta del R2 senza calcoli lunghi |
+| E9 | Pioggia, scioperi, ora legale (esperimenti naturali; meteo Open-Meteo) | piccolo ciascuno | medio | **serve un mese di dati**: con P8 |
+| E10 | Costo del viaggio: bus contro auto (tariffe GTT; auto: distanza TomTom × costo al km ACI + parcheggio) | piccolo-medio | alto | `PIANO_COSTI.md`; TomTom dà già le distanze, nessun dato nuovo |
+| E11 | Per circoscrizione (confini aperTO) | piccolo-medio | medio | tabelle buone per un post |
+| E12 | Pendolari ISTAT comune per comune (2011 col mezzo, 2021 volumi) | medio | medio | rinforza R6 con migliaia di persone invece di 64 interviste |
+| E13 | Tornare a casa di notte (R2 ripreso, scenari già costruiti) | medio | medio | — |
+| E14 | Aria e traffico (NO2 orario ARPA) | medio | medio | dà sostanza all'esposizione della scheda 1 |
+| E15 | Carico stimato per linea (IMQ sulla rete GTT) | grande | alto | il dato dei passeggeri che manca; [STIMATO] |
+Già congelati da Leo (20/10): bici, telefonia, logistica, eventi.
+
+### Domande per Leo (servono prima di L10-L12)
+1. Scheda 1, titolo: tenere «Torino, città dei 15 minuti…» o «A 15 minuti a piedi quasi tutti hanno i servizi essenziali; a 5 minuti solo 2 su 3» (§1.9: l'espressione «città dei 15 minuti» promette più di quello che si misura)?
+2. Mappa: quali 3 viste consigliate (proposta: «Doppio svantaggio», «Ritardi delle linee» alle 8, «Parcheggi di scambio») e quali 3 viste di «Chi abita qui» (proposta: densità, anziani, persone sole)?
+3. Licenze IMQ e OMI: togliere da git i file derivati, o scrivere nel README che sono derivati e restano?
+4. Raccolta: crescita (a, b o c), avviso al telefono sì/no, copia fuori casa sì/no?
+5. Risultati nuovi: quali dell'elenco E (consiglio E1, E2, E3)?
+
+## L9 — PC: chiudere le schede 2-5 (analisi critica 1.4-1.8, 1.11-1.13, 6.2-6.3) 🛑
+
+**Regole fissate ora, prima dei numeri** (valori predefiniti di Claude):
+- Scheda 3: «vicino alla soglia» = rapporto TomTom fra 1,35 e 1,65 (±10% attorno a 1,5). Punto chiave: «N degli M punti dove il bus conviene sono vicini alla soglia: basta un'auto più veloce del 10% per cambiare classe» (N, M dai dati). Titolo: «… per lasciare l'auto (stima)». Nei limiti la sensibilità già nel rapporto R6: con la quota di chi lascia l'auto dimezzata o raddoppiata le fermate senza posti bastanti vanno da 135 a 212 su 274. Nei punti chiave resta «68 non ne hanno nessuno» (il numero più solido).
+- Scheda 4: nel testo del numero grande la quota delle auto del mattino dentro il calcolo (oggi 47%: Torino-Torino e Torino-cintura), con il motivo (viaggi dentro una zona e fra comuni della cintura esclusi). Una coppia si nomina in pagina solo se ha almeno 30 interviste (SOGLIA_N dello script 14), altrimenti la successiva; nomi senza «Torino, », separati da « · ». Via la parte «Strade grandi e fermate vicine» (il 95,3%) dalla scheda; resta nel documento R8.
+- Scheda 5: correlazione parziale sui ranghi a parità di distanza da Piazza Castello per prezzo-servizi, fragilità-servizi, prezzo-fragilità, con intervallo al 95% (ricampionamento, seme fisso); «regge» solo se l'intervallo non contiene lo 0. Punto chiave sul prezzo riscritto con questo («a parità di distanza dal centro il legame prezzo-servizi quasi sparisce» se non regge). «Doppio svantaggio» confrontato col caso (fragilità alta × servizi bassi se indipendenti): «X volte quanto ci si aspetterebbe per caso» nel testo del numero grande. Via il grafico «metro/prezzi» dalla scheda (resta nel rapporto).
+- Scheda 2: anticipo (oggi ~36%) calcolato anche alla sola prima fermata e a metà corsa (le definizioni b e c già nello script 27). Se alla prima fermata è sotto il 10%, un limite: «Gran parte degli anticipi avviene lungo la corsa, non alla partenza.» Nessun numero della scheda cambia.
+- Periodo fisso: costante PERIODO in scripts/comuni.py con le date dei dati usati OGGI dai risultati pubblicati (lette dai JSON: deve dare numeri identici); gli script 26, 27, 33, 70, 71, 88 la leggono; i JSON e le schede la scrivono («dati dal … al …»). Si cambia a mano solo con P8.
+- Controllo su GitHub: dopo schede_risultati.py, git diff --exit-code su data/schede_risultati.js, r/ e README.md ignorando il campo «generato».
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, sviluppo/piani/ANALISI_CRITICA.md (1.4-1.8, 1.11-1.13, 6.2, 6.3) e, in sviluppo/piani/PROMPT_LAVORI.md, il «Piano generale (24/10)» e il blocco L9 (regole: non cambiarle dopo aver visto i numeri).
+Prima: git pull --no-rebase origin prova; git fetch origin; git merge --no-edit origin/claude/vigilant-volta-l13do5; python scripts\controlla_rami.py. Niente scritture sul Pi, niente controlli grafici, niente unione in main. Un commit per scheda.
+1. Scheda 3 (scripts/schede/r6.py, docs/R6_parcheggi.md): regole del blocco L9; nel documento la tabella «Controllo a mano di Leo (24/10)» del Piano generale.
+2. Scheda 4 (scripts/schede/r8.py, docs/R8_traffico.md): regole del blocco L9; nel documento anche la tabella del controllo a mano.
+3. Scheda 5 (scripts/95_case_fragilita_servizi.py, scripts/schede/r10.py, docs): correlazioni parziali con intervallo e confronto col caso nello script 95 (rapporto e JSON), poi la scheda. Rilancia il 95: gli altri numeri del rapporto uguali.
+4. Scheda 2 (scripts/27_risultato4_regolarita.py se serve, scripts/schede/r4.py): controllo degli anticipi; scrivi i tre valori nell'esito.
+5. Periodo fisso e controllo su GitHub (regole del blocco L9). Rilancia gli script che leggono PERIODO: i rapporti devono avere gli stessi numeri (salvo la data); se no, ripristina e dillo a Leo.
+6. Traduzioni in scripts/schede/testi.json; python -m pyflakes scripts (zero); python scripts\schede_risultati.py (nessuna ATTENZIONE); scripts\RIFAI_MAPPA_E_SCHEDE.bat; python scripts\prova_pagine.py --playwright (0 errori).
+7. Esito sviluppo/piani/ESITO_L9.md (prima/dopo di ogni testo cambiato, i valori delle correlazioni, degli anticipi e del confronto col caso), memoria, commit, git pull --no-rebase origin prova, git push origin prova.
+ALLA FINE un messaggio breve a Leo: cosa è cambiato in ogni scheda e cosa guardare.
+```
 
 ---
 
