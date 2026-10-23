@@ -13,17 +13,17 @@
 
   var TESTI = {
     it: {partenza: "Partenza", castello: "Piazza Castello (una sezione di censimento per quadratino)", zone: "Zone di Torino (una zona per colore)",
-         traffico: "Traffico in auto", scorrevole: "scorrevole (fattore ", pesante: "pesante (fattore ", minuti: "minuti", min: "min",
+         traffico: "Traffico in auto", scorrevole: "stima dei sensori 5T, la più favorevole all'auto (fattore ", pesante: "stima TomTom (fattore mediano ", sensoriBreve: "sensori", minuti: "minuti", min: "min",
          mezzi: "Coi mezzi pubblici", auto: "In auto", mezziBreve: "mezzi", autoBreve: "auto", parti: "Parti", ferma: "Ferma", cursore: "Minuti di viaggio",
          soglie: "Quanti torinesi raggiungi", dentro: "entro ", ab: "dei torinesi",
-         non: "senza collegamento entro 120 minuti: ", fonteCastello: "Partenza alle 7:45 di un feriale; auto di punta = tempo a flusso libero per il fattore, più 5 minuti per parcheggiare.",
+         non: "senza collegamento entro 120 minuti: ", fonteCastello: "Partenza alle 7:45 di un feriale; auto = tempo a flusso libero per il fattore, più 5 minuti per parcheggiare. Fattore TomTom: quello della zona, previsto su traffico tipico di un feriale di novembre, non misurato in un giorno preciso.",
          caricamentoKo: "Dati non disponibili.", puntoOrigine: "partenza",
          parlato: function(o, m, pm, pa){ return "Da " + o + ", entro " + m + " minuti: coi mezzi pubblici " + pm + "% dei torinesi, in auto " + pa + "%."; }},
     en: {partenza: "Start", castello: "Piazza Castello (one census section per square)", zone: "Zones of Turin (one zone per colour)",
-         traffico: "Car traffic", scorrevole: "flowing (factor ", pesante: "heavy (factor ", minuti: "minutes", min: "min",
+         traffico: "Car traffic", scorrevole: "sensor estimate, the most favourable to the car (factor ", pesante: "TomTom estimate (median factor ", sensoriBreve: "sensors", minuti: "minutes", min: "min",
          mezzi: "By public transport", auto: "By car", mezziBreve: "transit", autoBreve: "car", parti: "Play", ferma: "Pause", cursore: "Travel minutes",
          soglie: "How many residents you reach", dentro: "within ", ab: "of residents",
-         non: "no connection within 120 minutes: ", fonteCastello: "Departure at 7:45 on a weekday; rush-hour car = free-flow time times the factor, plus 5 minutes to park.",
+         non: "no connection within 120 minutes: ", fonteCastello: "Departure at 7:45 on a weekday; car = free-flow time times the factor, plus 5 minutes to park. TomTom factor: that of the zone, forecast for typical traffic on a November weekday, not measured on a specific day.",
          caricamentoKo: "Data not available.", puntoOrigine: "start",
          parlato: function(o, m, pm, pa){ return "From " + o + ", within " + m + " minutes: by public transport " + pm + "% of residents, by car " + pa + "%."; }}
   };
@@ -141,12 +141,12 @@
 
   function costruisci(el, D){
     var t = T(), uid = "area" + (++contatore);
-    var stato = el._stato || (el._stato = {origine: 0, traffico: "a", minuto: 30});
+    var stato = el._stato || (el._stato = {origine: 0, traffico: "b", minuto: 30});
     var opz0 = '<optgroup label="' + esc(t.castello) + '"><option value="0"' + (stato.origine === 0 ? " selected" : "") + '>Piazza Castello</option></optgroup>';
     var opz1 = '<optgroup label="' + esc(t.zone) + '">' + D.zn.map(function(nome, i){ return '<option value="' + (i + 1) + '"' + (stato.origine === i + 1 ? " selected" : "") + '>' + esc(nome) + '</option>'; }).join("") + '</optgroup>';
     var fa = D.f[0], fb = D.f[1];
-    var traf = '<label for="' + uid + 't">' + esc(t.traffico) + '</label><select id="' + uid + 't"><option value="a"' + (stato.traffico === "a" ? " selected" : "") + '>' + esc(t.scorrevole) + String(fa).replace(".", lingua() === "en" ? "." : ",") + ')</option>'
-      + '<option value="b"' + (stato.traffico === "b" ? " selected" : "") + '>' + esc(t.pesante) + String(fb).replace(".", lingua() === "en" ? "." : ",") + ')</option></select>';
+    var traf = '<label for="' + uid + 't">' + esc(t.traffico) + '</label><select id="' + uid + 't"><option value="b"' + (stato.traffico === "b" ? " selected" : "") + '>' + esc(t.pesante) + String(fb).replace(".", lingua() === "en" ? "." : ",") + ')</option>'
+      + '<option value="a"' + (stato.traffico === "a" ? " selected" : "") + '>' + esc(t.scorrevole) + String(fa).replace(".", lingua() === "en" ? "." : ",") + ')</option></select>';
     var comandi = '<div class="area-comandi"><label for="' + uid + 'o">' + esc(t.partenza) + '</label><select id="' + uid + 'o">' + opz0 + opz1 + '</select>' + traf + '</div>';
     var giro = ridotto ? "" : '<div class="area-giro"><button type="button" class="area-play">' + esc(t.parti) + '</button>'
       + '<input type="range" min="0" max="' + MAX_MIN + '" step="1" value="' + stato.minuto + '" aria-label="' + esc(t.cursore) + '"><span class="area-minuti" aria-hidden="true"></span></div>';
@@ -182,12 +182,10 @@
         el.querySelector("[data-q=a]").innerHTML = pct(pa) + '% <small>' + esc(t.ab) + ' ' + esc(t.dentro) + n(m) + ' ' + esc(t.min) + '</small>';
         el.querySelector(".area-minuti").textContent = n(m) + " " + t.min;
       }
-      var cb = stato.traffico === "a" ? "b" : "a";           // l'altro fattore: la tabella mostra la forbice
-      var altro = tempi(D, {origine: stato.origine, traffico: cb})[1];
+      var qTom = tempi(D, {origine: stato.origine, traffico: "b"})[1], qSen = tempi(D, {origine: stato.origine, traffico: "a"})[1];   // la tabella mostra TomTom (principale) e sensori
       el.querySelector("tbody").innerHTML = D.soglie.map(function(mm){
-        var qq = quota(D, T_[0], mm), q1 = quota(D, T_[1], mm), q2 = quota(D, altro, mm);
-        var lo = Math.min(q1, q2), hi = Math.max(q1, q2);
-        var auto = Math.round(lo) === Math.round(hi) ? n(Math.round(lo)) + "%" : n(Math.round(lo)) + "–" + n(Math.round(hi)) + "%";
+        var qq = quota(D, T_[0], mm), q1 = quota(D, qTom, mm), q2 = quota(D, qSen, mm);
+        var auto = n(Math.round(q1)) + "% (" + n(Math.round(q2)) + "% " + esc(t.sensoriBreve) + ")";
         return '<tr' + (ridotto ? "" : (mm === m ? ' class="attiva"' : "")) + '><td>' + esc(t.dentro) + n(mm) + ' ' + esc(t.min) + '</td><td>' + n(Math.round(qq)) + '%</td><td>' + auto + '</td></tr>';
       }).join("");
       el.querySelector(".area-parlato").textContent = t.parlato(nomeOrigine(D, stato), m, n(Math.round(pm)), n(Math.round(pa)));
@@ -228,7 +226,7 @@
      (solo mentre si vedono). Con «riduci movimento» si vede ferma la situazione a 30 minuti. */
   function costruisciMini(el, D){
     var t = T(), cMezzi = css("--neu-blu", "#6f8fc7"), cAuto = css("--neu-arancio", "#c9a227");
-    var stato = {origine: 0, traffico: "a", minuto: 30};
+    var stato = {origine: 0, traffico: "b", minuto: 30};
     el.innerHTML = '<div class="area-mappe"><div class="area-mappa"><h6>' + esc(t.mezzi) + '</h6><canvas data-k="m" aria-hidden="true"></canvas><div class="area-quota" data-q="m"></div></div>'
       + '<div class="area-mappa"><h6>' + esc(t.auto) + '</h6><canvas data-k="a" aria-hidden="true"></canvas><div class="area-quota" data-q="a"></div></div></div>'
       + '<span class="area-minuti" aria-hidden="true"></span>';

@@ -16,12 +16,12 @@
   var contatore = 0;
 
   var TESTI = {
-    it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto", autoLenta: "Auto, stima TomTom", autoVeloce: "Auto, stima sensori", autoLentaOra: "Auto, stima TomTom", autoVeloceOra: "Auto, stima sensori",
+    it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto, stima TomTom", autoLenta: "Auto, stima TomTom", autoVeloce: "Auto, stima sensori", autoLentaOra: "Auto, stima TomTom", autoVeloceOra: "Auto, stima sensori",
          min: "min", riparti: "Riparti", scegli: "Punto di partenza", prioritari: "Punti prioritari", interscambi: "Interscambi esistenti",
-         da: "Da", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + (l.ora ? " alle " + l.ora : "") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? n(l.auto_min) + " o " + n(l.auto_max) + " (due stime)" : n(l.auto_min)) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
-    en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car", autoLenta: "Car, TomTom estimate", autoVeloce: "Car, sensor estimate", autoLentaOra: "Car, TomTom estimate", autoVeloceOra: "Car, sensor estimate",
+         da: "Da", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + (l.ora ? " alle " + l.ora : "") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? n(l.auto_min) + " o " + n(l.auto_max) + " (due stime)" : n(l.auto_min) + " (stima TomTom)") + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
+    en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car, TomTom estimate", autoLenta: "Car, TomTom estimate", autoVeloce: "Car, sensor estimate", autoLentaOra: "Car, TomTom estimate", autoVeloceOra: "Car, sensor estimate",
          min: "min", riparti: "Replay", scegli: "Starting point", prioritari: "Priority points", interscambi: "Existing park-and-ride",
-         da: "From", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + (l.ora ? " at " + l.ora : "") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " or " + n(l.auto_max) + " (two estimates)" : n(l.auto_min)) + " minutes, parking included."; }}
+         da: "From", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + (l.ora ? " at " + l.ora : "") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " or " + n(l.auto_max) + " (two estimates)" : n(l.auto_min) + " (TomTom estimate)") + " minutes, parking included."; }}
   };
   function lingua(){ return (document.documentElement.lang || "it").slice(0, 2) === "en" ? "en" : "it"; }
   function T(){ return TESTI[lingua()]; }

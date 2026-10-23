@@ -124,6 +124,57 @@ def fattore_servizio(gruppo, ora="08:00"):
         return None
 
 
+class FattoriTomTom:
+    """Fattore_rete di TomTom (script 101) per percorso, come stima principale dell'auto dal giro L8 (24/10/2026).
+    Auto = nostro flusso libero x fattore_rete del percorso stesso + 5 minuti. Quando il percorso non e' stato chiesto a TomTom:
+      - coppie di zone: la mediana delle coppie TomTom della stessa ora e della stessa fascia di flusso libero (terzili, calcolati dallo script 101);
+      - luoghi del R6 e zone (area): la mediana dei percorsi dello stesso gruppo alla stessa ora."""
+
+    def __init__(self, d):
+        self.d = d
+        pp = d["per_percorso"]
+        self.entrata, self.coppie_t, self.zone_t = pp["entrata"], pp["coppie"], pp["zone_castello"]
+        self.regola = d["regola_coppie"]
+        self.controllo = {b["percorso"]: b["fattore_rete"] for b in d.get("controllo_B", [])}
+        self.mediane = d["mediane_gruppo"]       # {"entrata": {ora: x}, "zone_castello": {ora: x}}
+
+    @staticmethod
+    def _fr(voce, ora):
+        x = voce.get(ora) if voce else None
+        return None if not x else x[0]
+
+    def luogo(self, nome, ora="08:00"):
+        """(fattore, vero): vero = chiesto a TomTom per quel luogo."""
+        x = self._fr(self.entrata.get(nome), ora)
+        return (x, True) if x else (self.mediane["entrata"][ora], False)
+
+    def zona(self, cod, ora="08:00"):
+        x = self._fr(self.zone_t.get(cod), ora)
+        return (x, True) if x else (self.mediane["zone_castello"][ora], False)
+
+    def coppia(self, da, a, libero_min, ora="08:00"):
+        x = self._fr(self.coppie_t.get(f"{da}|{a}"), ora)
+        if x:
+            return x, True
+        t1, t2 = self.regola["terzili"][ora]
+        f = 0 if libero_min <= t1 else (1 if libero_min <= t2 else 2)
+        return self.regola["mediana_fascia"][ora][f], False
+
+    def percorso_controllo(self, nome, ora="08:00"):
+        x = self.controllo.get(nome, {}).get(ora)
+        return x if x else None
+
+
+def fattori_tomtom():
+    """FattoriTomTom, o None se il file dello script 101 manca, e' di prova, di solo controllo o fermato."""
+    if not TEMPI_TRAFFICO.exists():
+        return None
+    d = json.loads(TEMPI_TRAFFICO.read_text(encoding="utf-8"))
+    if d.get("prova") or d.get("solo_controllo") or d.get("stop") or "per_percorso" not in d:
+        return None
+    return FattoriTomTom(d)
+
+
 def imposta_java(jdk=None):
     """Java per r5py (serve 21 o piu'): JAVA_HOME gia' impostato non si tocca; altrimenti la cartella data/otp/jdk-... se esiste
     (setdefault), altrimenti il Java del sistema (PATH). Se non c'e' nessuno dei due, si ferma con un messaggio chiaro."""

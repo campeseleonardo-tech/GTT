@@ -7,13 +7,15 @@ Comune si confronta il viaggio verso Piazza Castello:
   - mezzi pubblici: r5py come lo script 93 (funzioni importate da li'), giorno 2026-10-12, partenza 7:45 con
     finestra di 30 minuti, mediana, cammino a 4,8 km/h;
   - auto: tempo a flusso libero sulla rete del modello del traffico x fattore di punta + 5 minuti per parcheggiare.
-    I due fattori della forbice del R8 si leggono da data/processed/tp_contro_auto.json (basso = Google Maps, alto = sensori 5T).
+    Fattore TomTom = fattore_rete del percorso «luogo -> Piazza Castello» alle 8 (script 101); fattore dei sensori 5T da tp_contro_auto.json.
 
-Regola di classe, fissata prima di vedere i numeri. Rapporto = tempo coi mezzi / tempo in auto:
-  - «il bus conviene»:      rapporto <= 1,5 con entrambi i fattori;
-  - «dipende dal traffico»: rapporto <= 1,5 solo col fattore basso (l'auto lenta);
-  - «il bus non conviene»:  rapporto oltre 1,5 con entrambi (anche se i mezzi non arrivano entro 120 minuti).
-I punti non si tolgono dall'elenco del R6: si aggiunge solo la classe.
+Regola di classe. Rapporto = tempo coi mezzi / tempo in auto. Fino a L7 le classi erano tre (conviene / dipende dal traffico / non conviene)
+con due stime dell'auto. Dal giro L8 (24/10/2026, decisione di Leo dopo L6bis) la stima dell'auto e' UNA, quella di TomTom, col fattore del percorso
+stesso (script 101); la regola (rapporto massimo 1,5, 5 minuti di parcheggio) e' quella di prima, ma le classi sono due:
+  - «il bus conviene»:      rapporto <= 1,5 con la stima TomTom;
+  - «il bus non conviene»:  rapporto oltre 1,5 (anche se i mezzi non arrivano entro 120 minuti).
+«dipende dal traffico» sparisce. La stima dei sensori 5T (fattore unico, la piu' favorevole all'auto) resta nel JSON come sensibilita'
+(rapporto_alto, pareggio_alto_min). I punti non si tolgono dall'elenco del R6: si aggiunge solo la classe.
 
 Minuti di pareggio (misura principale della scheda, senza soglie scelte da noi): quanti minuti si devono perdere in
 centro per parcheggiare perche' il tempo in auto sia uguale al tempo coi mezzi, cioe'
@@ -51,16 +53,13 @@ PARZIALE = PROC / "r6_bus_contro_auto_parziale.npz"      # diverso da quello del
 MINUTI_SENSIBILITA = (5, 10, 15)                          # minuti per parcheggiare in centro; la classe ufficiale e' quella con 5
 PAREGGIO_MAX = 120                                        # controllo: minuti di pareggio oltre questo valore = errore
 SOGLIA = 1.5                                              # rapporto massimo perche' il bus «convenga»
-CLASSI = {"conviene": "il bus conviene", "dipende": "dipende dal traffico", "non_conviene": "il bus non conviene"}
+CLASSI = {"conviene": "il bus conviene", "non_conviene": "il bus non conviene"}
 INTERSCAMBI_POCO_PIENI = ("SOFIA", "VENCHI UNICA")
 
 
-def classe_di(r_basso, r_alto):
-    if r_alto is not None and r_alto <= SOGLIA:
-        return "conviene"
-    if r_basso is not None and r_basso <= SOGLIA:
-        return "dipende"
-    return "non_conviene"
+def classe_di(r_tomtom):
+    """Classe con la sola stima TomTom (L8): conviene se il rapporto non supera 1,5."""
+    return "conviene" if r_tomtom is not None and r_tomtom <= SOGLIA else "non_conviene"
 
 
 def main():
@@ -75,13 +74,12 @@ def main():
     c(f"esistono {PORTE.name} e {TP_AUTO.name} (lancia prima gli script 84 e 93)", PORTE.exists() and TP_AUTO.exists(), bloccante=True)
     t93 = json.loads(TP_AUTO.read_text(encoding="utf-8"))
     f_alto, f_basso = t93["parametri"]["fattore_punta"], t93["parametri"]["fattore_basso_google"]
-    # L6bis (24/10/2026): per i punti verso Piazza Castello la seconda stima usa il fattore del servizio di percorsi in ENTRATA (script 101), se c'e'
-    f_ent = comuni.fattore_servizio("entrata", "08:00")
-    fonte_basso = "TomTom (script 101), mediana di fattore_rete dei punti in entrata alle 8" if f_ent else t93["parametri"].get("forbice", {}).get("limite_basso", {}).get("fonte", "Google Maps")
-    if f_ent:
-        f_basso = round(float(f_ent), 2)
+    # L8 (24/10/2026): per i punti verso Piazza Castello la stima principale e' TomTom col fattore del percorso stesso (script 101, in ENTRATA alle 8);
+    # se manca (o in prova) si usa il fattore di prima. f_basso: numero riassuntivo (mediana dei fattori dei luoghi).
+    modello = comuni.fattori_tomtom()
+    fonte_basso = "TomTom (script 101), fattore_rete di ogni percorso in entrata alle 8" if modello else t93["parametri"].get("forbice", {}).get("limite_basso", {}).get("fonte", "Google Maps")
     c("fattori letti dal JSON dello script 93 (calcolo completo, non prova)", not t93["parametri"].get("prova"),
-      dettaglio=f"alto {f_alto:g} (sensori), basso {f_basso:g} (Google)", bloccante=True)
+      dettaglio=f"sensori {f_alto:g}; TomTom {'per percorso' if modello else format(f_basso, 'g') + ' (Google)'}", bloccante=True)
     porte = json.loads(PORTE.read_text(encoding="utf-8"))
 
     luoghi = [{"nome": p["nome"], "tipo": "punto_prioritario", "lat": p["centro"][0], "lon": p["centro"][1], "mancano": p["mancano"],
@@ -107,8 +105,10 @@ def main():
         libero = t_auto[nodi_extra[k]] / 60.0
         tp = T[pos[f"NOTO{k}_A"], pos[f"NOTO{k}_B"]]
         l["libero_min"] = round(libero, 1)
+        f_l, l["fattore_proprio"] = modello.luogo(l["nome"], "08:00") if modello else (f_basso, False)
+        l["fattore_basso"] = round(f_l, 2)
         l["auto_alto_min"] = round(m93.punta(libero, f_alto), 1)
-        l["auto_basso_min"] = round(m93.punta(libero, f_basso), 1)
+        l["auto_basso_min"] = round(m93.punta(libero, f_l), 1)
         l["tp_min"] = round(float(tp), 1) if tp == tp else None
         if l["tp_min"] is None:
             l["rapporto_alto"] = l["rapporto_basso"] = None
@@ -117,13 +117,13 @@ def main():
         else:
             l["rapporto_alto"] = round(l["tp_min"] / l["auto_alto_min"], 2)
             l["rapporto_basso"] = round(l["tp_min"] / l["auto_basso_min"], 2)
-            l["classe"] = classe_di(l["rapporto_basso"], l["rapporto_alto"])
+            l["classe"] = classe_di(l["rapporto_basso"])
         l["classe_testo"] = CLASSI[l["classe"]]
         # minuti di pareggio: parcheggio in centro che rende l'auto lenta quanto il bus (forbice dei due fattori)
         if l["tp_min"] is None:
             l["pareggio_basso_min"] = l["pareggio_alto_min"] = None
         else:
-            l["pareggio_basso_min"] = round(max(0.0, l["tp_min"] - libero * f_basso), 1)
+            l["pareggio_basso_min"] = round(max(0.0, l["tp_min"] - libero * f_l), 1)
             l["pareggio_alto_min"] = round(max(0.0, l["tp_min"] - libero * f_alto), 1)
         # sensibilita': stessa regola con 5, 10 e 15 minuti di parcheggio al posto dei 5 predefiniti
         l["classi_sensibilita"] = {}
@@ -131,9 +131,12 @@ def main():
             if l["tp_min"] is None:
                 l["classi_sensibilita"][str(m)] = "non_conviene"
             else:
-                l["classi_sensibilita"][str(m)] = classe_di(l["tp_min"] / (libero * f_basso + m), l["tp_min"] / (libero * f_alto + m))
+                l["classi_sensibilita"][str(m)] = classe_di(l["tp_min"] / (libero * f_l + m))
 
     punti, inter = luoghi[:n_punti], luoghi[n_punti:]
+    if modello:
+        f_basso = round(float(np.median([l["fattore_basso"] for l in luoghi])), 2)     # numero riassuntivo: mediana dei fattori dei 17 luoghi
+    n_propri = sum(1 for l in luoghi if l["fattore_proprio"])
     conta = {k: sum(1 for l in punti if l["classe"] == k) for k in CLASSI}
     conta_i = {k: sum(1 for l in inter if l["classe"] == k) for k in CLASSI}
 
@@ -151,7 +154,7 @@ def main():
     pv = [x for l in luoghi for x in (l["pareggio_basso_min"], l["pareggio_alto_min"]) if x is not None]
     c(f"minuti di pareggio fra 0 e {PAREGGIO_MAX}", all(0 <= x <= PAREGGIO_MAX for x in pv),
       dettaglio=f"da {min(pv):g} a {max(pv):g}" if pv else "nessun valore", bloccante=True)
-    c("mediana dei punti: col fattore alto >= col fattore basso",
+    c("mediana dei punti: con la stima dei sensori >= con quella di TomTom",
       pareggio["punti"]["mediana_alto_min"] is not None and pareggio["punti"]["mediana_alto_min"] >= pareggio["punti"]["mediana_basso_min"],
       dettaglio=f"basso {pareggio['punti']['mediana_basso_min']}, alto {pareggio['punti']['mediana_alto_min']}", bloccante=True)
 
@@ -164,8 +167,9 @@ def main():
     c("nessun tempo nullo, negativo o infinito", all(np.isfinite(l["libero_min"]) and l["libero_min"] > 0 and l["auto_basso_min"] > 0
                                                        and (l["tp_min"] is None or l["tp_min"] > 0) for l in luoghi), bloccante=True)
     c("tutti i punti del R6 hanno una classe", all(l["classe"] in CLASSI for l in punti) and len(punti) == len(porte["punti_prioritari"]), bloccante=True)
-    c("il rapporto basso non supera quello alto", all(l["rapporto_basso"] <= l["rapporto_alto"] for l in luoghi if l["tp_min"] is not None),
-      dettaglio="l'auto piu' lenta (fattore Google) rende il rapporto piu' basso")
+    c("il rapporto con TomTom non supera quello con i sensori", all(l["rapporto_basso"] <= l["rapporto_alto"] for l in luoghi if l["tp_min"] is not None),
+      dettaglio="l'auto piu' lenta (TomTom) rende il rapporto piu' basso")
+    c("tutti i luoghi hanno il fattore del proprio percorso (chiesto a TomTom)", n_propri == len(luoghi), dettaglio=f"{n_propri} su {len(luoghi)}")
     c("senza collegamento coi mezzi", True, dettaglio=f"{sum(1 for l in luoghi if l['tp_min'] is None)} luoghi")
 
     # ---- paragrafo sugli interscambi esistenti
@@ -175,8 +179,8 @@ def main():
     def riga_i(l):
         if l["tp_min"] is None:
             return f"{l['nome']}: i mezzi non arrivano a Piazza Castello entro 120 minuti; {l['classe_testo']}."
-        return (f"{l['nome']} ({l['stato'].replace('_', ' ')}): {l['tp_min']:.0f} minuti coi mezzi contro {l['auto_alto_min']:.0f}-{l['auto_basso_min']:.0f} in auto "
-                f"(rapporto {virgola(l['rapporto_basso'])}-{virgola(l['rapporto_alto'])}); {l['classe_testo']}.")
+        return (f"{l['nome']} ({l['stato'].replace('_', ' ')}): {l['tp_min']:.0f} minuti coi mezzi contro {l['auto_basso_min']:.0f} in auto con la stima TomTom "
+                f"({l['auto_alto_min']:.0f} con quella dei sensori; rapporto {virgola(l['rapporto_basso'])}); {l['classe_testo']}.")
     par_inter = "Interscambi esistenti del Comune, stesso test. " + " ".join(riga_i(l) for l in inter)
     poco_pieni = [l for l in inter if l["nome"] in INTERSCAMBI_POCO_PIENI]
     if poco_pieni:
@@ -185,9 +189,9 @@ def main():
     out = {"stimato": True,
            "parametri": {"destinazione": "Piazza Castello", "giorno": str(m93.GIORNO), "partenza": f"{m93.PARTENZA:%H:%M}", "finestra_min": m93.FINESTRA_MIN,
                          "velocita_piedi_kmh": m93.VEL_PIEDI_KMH, "minuti_parcheggio": m93.MIN_PARCHEGGIO, "fattore_alto": f_alto,
-                         "fattore_basso": f_basso, "fonte_basso": fonte_basso, "soglia_rapporto": SOGLIA, "punti_spostati": spostati},
-           "regola": {"conviene": "rapporto <= 1,5 con entrambi i fattori", "dipende": "rapporto <= 1,5 solo col fattore basso",
-                      "non_conviene": "rapporto oltre 1,5 con entrambi"},
+                         "fattore_basso": f_basso, "fonte_basso": fonte_basso, "luoghi_con_fattore_proprio": n_propri, "soglia_rapporto": SOGLIA, "punti_spostati": spostati},
+           "regola": {"conviene": "rapporto <= 1,5 con la stima TomTom", "non_conviene": "rapporto oltre 1,5 con la stima TomTom",
+                      "nota": "dal giro L8 le classi sono due (era: conviene / dipende / non conviene con due stime); la stima dei sensori resta come sensibilita'"},
            "pareggio": pareggio,
            "sensibilita_parcheggio": sens,
            "riepilogo": {"punti": conta, "interscambi": conta_i, "n_punti": len(punti), "n_interscambi": len(inter)},
@@ -197,37 +201,37 @@ def main():
     r = ["RAPPORTO R6: IL BUS CONTRO L'AUTO VERSO PIAZZA CASTELLO (Risultato 6, parte C, STIMATO)",
          f"generato: {dt.datetime.now().isoformat(timespec='seconds')}", "",
          f"Mezzi pubblici: r5py, giorno {m93.GIORNO}, partenza 7:45-8:15, mediana, cammino a {m93.VEL_PIEDI_KMH:g} km/h.",
-         f"Auto: flusso libero x fattore di punta + {m93.MIN_PARCHEGGIO:.0f} minuti. Due stime: {f_basso:g} ({fonte_basso}) e {f_alto:g} (sensori 5T, solo traffico: la piu' favorevole all'auto).",
-         "Rapporto = tempo coi mezzi / tempo in auto. Regola della classe (blocco R6 originale, invariata):",
-         "  il bus conviene: rapporto <= 1,5 con entrambe le stime; dipende dal traffico: <= 1,5 solo con la seconda stima; il bus non conviene: oltre 1,5 con entrambe.", "",
-         f"PUNTI PRIORITARI DEL R6: {conta['conviene']} il bus conviene, {conta['dipende']} dipende dal traffico, {conta['non_conviene']} il bus non conviene (su {len(punti)})",
-         "  luogo | mancano | mezzi min | auto min (fattore alto-basso) | rapporto (basso-alto) | classe"]
+         f"Auto: flusso libero x fattore di punta + {m93.MIN_PARCHEGGIO:.0f} minuti. Stima principale: TomTom, {fonte_basso} (fattore mediano {f_basso:g}). Sensibilita': sensori 5T, fattore {f_alto:g} (solo traffico: la piu' favorevole all'auto).",
+         "Rapporto = tempo coi mezzi / tempo in auto. Regola della classe (rapporto massimo 1,5; dal giro L8 due classi, con la sola stima TomTom):",
+         "  il bus conviene: rapporto <= 1,5; il bus non conviene: oltre 1,5.", "",
+         f"PUNTI PRIORITARI DEL R6: {conta['conviene']} il bus conviene, {conta['non_conviene']} il bus non conviene (su {len(punti)})",
+         "  luogo | mancano | mezzi min | auto min (sensori - TomTom) | rapporto (TomTom - sensori) | classe"]
     for l in punti:
         rap = f"{l['rapporto_basso']:.2f}-{l['rapporto_alto']:.2f}" if l["tp_min"] is not None else "nessun collegamento"
         r.append(f"  {l['nome']} | {l['mancano']} | {l['tp_min'] if l['tp_min'] is not None else '-'} | {l['auto_alto_min']:.1f}-{l['auto_basso_min']:.1f} | {rap} | {l['classe_testo']}")
-    r += ["", f"INTERSCAMBI ESISTENTI: {conta_i['conviene']} il bus conviene, {conta_i['dipende']} dipende, {conta_i['non_conviene']} non conviene (su {len(inter)})",
-          "  luogo | stato | mezzi min | auto min (fattore alto-basso) | rapporto (basso-alto) | classe"]
+    r += ["", f"INTERSCAMBI ESISTENTI: {conta_i['conviene']} il bus conviene, {conta_i['non_conviene']} non conviene (su {len(inter)})",
+          "  luogo | stato | mezzi min | auto min (sensori - TomTom) | rapporto (TomTom - sensori) | classe"]
     for l in inter:
         rap = f"{l['rapporto_basso']:.2f}-{l['rapporto_alto']:.2f}" if l["tp_min"] is not None else "nessun collegamento"
         r.append(f"  {l['nome']} | {l['stato']} | {l['tp_min'] if l['tp_min'] is not None else '-'} | {l['auto_alto_min']:.1f}-{l['auto_basso_min']:.1f} | {rap} | {l['classe_testo']}")
-    r += ["", "MINUTI DI PAREGGIO: minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (fattore basso - alto; 0 = il bus e' gia' piu' veloce)",
+    r += ["", "MINUTI DI PAREGGIO: minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (stima TomTom - sensori; 0 = il bus e' gia' piu' veloce)",
           f"  mediana dei punti prioritari: {pareggio['punti']['mediana_basso_min']} - {pareggio['punti']['mediana_alto_min']} minuti",
           f"  mediana degli interscambi:    {pareggio['interscambi']['mediana_basso_min']} - {pareggio['interscambi']['mediana_alto_min']} minuti",
-          "  luogo | tipo | stato | minuti di pareggio (basso - alto)"]
+          "  luogo | tipo | stato | minuti di pareggio (TomTom - sensori)"]
     for l in sorted(luoghi, key=lambda l: (l["tipo"], l["pareggio_basso_min"] if l["pareggio_basso_min"] is not None else 999)):
         mp = f"{l['pareggio_basso_min']:g} - {l['pareggio_alto_min']:g}" if l["pareggio_basso_min"] is not None else "nessun collegamento"
         r.append(f"  {l['nome']} | {l['tipo']} | {l.get('stato', '-')} | {mp}")
-    r += ["", "SENSIBILITA': MINUTI PER PARCHEGGIARE IN CENTRO (la classe ufficiale e' quella con 5)",
-          "  minuti | punti: conviene / dipende / non conviene | interscambi: conviene / dipende / non conviene"]
+    r += ["", "SENSIBILITA': MINUTI PER PARCHEGGIARE IN CENTRO (la classe ufficiale e' quella con 5; stima TomTom)",
+          "  minuti | punti: conviene / non conviene | interscambi: conviene / non conviene"]
     for m in MINUTI_SENSIBILITA:
         sp, si = sens[str(m)]["punti"], sens[str(m)]["interscambi"]
-        r.append(f"  {m} | {sp['conviene']} / {sp['dipende']} / {sp['non_conviene']} | {si['conviene']} / {si['dipende']} / {si['non_conviene']}")
+        r.append(f"  {m} | {sp['conviene']} / {sp['non_conviene']} | {si['conviene']} / {si['non_conviene']}")
     r.append("  luogo: classe con 5 | 10 | 15 minuti")
     for l in luoghi:
         r.append(f"  {l['nome']}: " + " | ".join(CLASSI[l['classi_sensibilita'][str(m)]] for m in MINUTI_SENSIBILITA))
     r += ["", par_inter, "", "CONTROLLI"] + [f"  {x}" for x in c.righe]
     r += ["", "LIMITI: tempi coi mezzi da orario programmato, solo GTT (niente treni: i luoghi fuori Torino possono risultare peggiori del vero); "
-              "la rete stradale non conta semafori e incroci; un solo punto per luogo (centro delle fermate importanti per i punti prioritari); "
+              "il fattore dell'auto e' di TomTom (tempo previsto su traffico tipico, non misurato; un solo servizio), la rete nostra non conta semafori e incroci; un solo punto per luogo (centro delle fermate importanti per i punti prioritari); "
               "la destinazione e' sempre Piazza Castello."]
     RAPPORTO.write_text("\n".join(r) + "\n", encoding="utf-8")
     log(f"scritto {OUT_JSON.relative_to(RADICE)} e {RAPPORTO.relative_to(RADICE)} ({time.time() - t0:.0f} s)")

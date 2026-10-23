@@ -144,7 +144,7 @@ html:not(.js) .colfig{grid-column:1;grid-row:2}
     <section data-fig="f4" id="muoversi" aria-labelledby="h4p">
       <p class="num-parte" data-en="4 · Getting around">4 · Muoversi</p>
       <h2 id="h4p" data-en="Public transport takes <span data-n='muoversi.volte'></span> times as long as the car">Coi mezzi pubblici ci vuole <span data-n="muoversi.volte"></span> volte il tempo dell'auto</h2>
-      <p data-en="In the morning, going from one zone of the metropolitan area to another takes <b><span data-n='muoversi.volte'></span> times</b> as long by public transport as by car (a range, because rush-hour traffic is uncertain).">Al mattino, andare da una zona all'altra dell'area metropolitana coi mezzi pubblici richiede <b><span data-n="muoversi.volte"></span> volte</b> il tempo dell'auto (è una forbice, perché il traffico dell'ora di punta è incerto).</p>
+      <p data-en="In the morning, going from one zone of the metropolitan area to another takes <b><span data-n='muoversi.volte'></span> times</b> as long by public transport as by car (median, with the car time forecast by TomTom for typical weekday traffic).">Al mattino, andare da una zona all'altra dell'area metropolitana coi mezzi pubblici richiede <b><span data-n="muoversi.volte"></span> volte</b> il tempo dell'auto (mediana, con il tempo dell'auto previsto da TomTom per il traffico tipico di un feriale).</p>
       <p data-en="Park-and-ride lots work only where the bus is fast: for the bus to match the car you must lose <b><span data-n='muoversi.pareggio'></span> minutes</b> parking downtown.">Anche i parcheggi di scambio funzionano solo dove il bus è veloce: perché il bus pareggi l'auto bisogna perdere <b><span data-n="muoversi.pareggio"></span> minuti</b> a parcheggiare in centro.</p>
       <div class="link-riga"><a class="btn" href="risultati.html#p3" data-en="Result 3">Risultato 3</a><a class="btn" href="risultati.html#p4" data-en="Result 4">Risultato 4</a></div>
     </section>
@@ -192,6 +192,7 @@ html:not(.js) .colfig{grid-column:1;grid-row:2}
   function scheda(n){ return S.filter(function(s){ return s && s.numero_pubblico === n && s.forma; })[0]; }
   function forma(s){ return (Sito.lingua() === "en" && s.forma_en) ? s.forma_en : s.forma; }
   function valoreScheda(n){ var s = scheda(n); return s ? String(forma(s).numero.valore) : null; }
+  function pareggioScheda(){ var s = scheda(3), f = s && forma(s); return f && f.pareggio ? String(f.pareggio.tomtom) : null; }
   function elenco(v){ return v.length < 2 ? v.join("") : v.slice(0, -1).join(", ") + T(" e ", " and ") + v[v.length - 1]; }
 
   /* ---- numeri del testo: tutto arriva dai dati (data/progetto.js e le schede), niente scritto a mano ---- */
@@ -205,7 +206,7 @@ html:not(.js) .colfig{grid-column:1;grid-row:2}
       "doppio.residenti": d && num(d.residenti), "doppio.n_su": d && num(d.n_su),
       "doppio.n_zone": d && (T(["", "una", "due", "tre", "quattro", "cinque", "sei"][d.n_zone] || String(d.n_zone), ["", "one", "two", "three", "four", "five", "six"][d.n_zone] || String(d.n_zone))),
       "doppio.nomi": P && elenco(P.zone.filter(function(z){ return z.doppio; }).map(function(z){ return z.nome; })),
-      "muoversi.volte": valoreScheda(4), "muoversi.pareggio": valoreScheda(3),
+      "muoversi.volte": valoreScheda(4), "muoversi.pareggio": pareggioScheda(),
       "ritardi.feed": r && num(r.feed_pct), "ritardi.gps": r && num(r.gps_pct), "ritardi.rapporto": r && num(r.rapporto)
     };
     document.querySelectorAll("[data-n]").forEach(function(e){ var x = v[e.getAttribute("data-n")]; e.textContent = (x == null || x === "") ? "…" : x; });
@@ -274,20 +275,17 @@ html:not(.js) .colfig{grid-column:1;grid-row:2}
 
   function f4(){
     var s = svg("f4"); s.innerHTML = "";
-    var v = valoreScheda(4), m = v && /^(\d+(?:[.,]\d+)?)\s*[–-]\s*(\d+(?:[.,]\d+)?)$/.exec(v);
+    var v = valoreScheda(4), m = v && /^(\d+(?:[.,]\d+)?)$/.exec(v);
     if(!m){ s.appendChild(el("text", {x: 200, y: 150, "text-anchor": "middle", "class": "d-testo"}, v || "")); return; }
-    var lo = parseFloat(m[1].replace(",", ".")), hi = parseFloat(m[2].replace(",", ".")), W = 300, u = W / Math.max(hi, 1) * 0.92;
+    var x = parseFloat(m[1].replace(",", ".")), W = 300, u = W / Math.max(x, 1) * 0.92;
     s.appendChild(el("text", {x: 30, y: 36, "class": "d-titolo"}, T("In auto", "By car")));
     s.appendChild(el("rect", {x: 30, y: 46, width: u, height: 30, rx: 5, "class": "d-oro a-cresci d-barra"}));
     s.appendChild(el("text", {x: 30 + u + 8, y: 67, "class": "d-grande"}, "1"));
     s.appendChild(el("text", {x: 30, y: 134, "class": "d-titolo"}, T("Coi mezzi pubblici", "By public transport")));
-    var a = el("rect", {x: 30, y: 144, width: u * lo, height: 30, rx: 5, "class": "d-blu a-cresci d-barra"});
-    s.appendChild(a);
-    var b = el("rect", {x: 30 + u * lo, y: 144, width: u * (hi - lo), height: 30, rx: 5, "class": "d-blu a-cresci d-barra", opacity: .45}); b.style.animationDelay = ".5s";
-    s.appendChild(b);
+    s.appendChild(el("rect", {x: 30, y: 144, width: u * x, height: 30, rx: 5, "class": "d-blu a-cresci d-barra"}));
     s.appendChild(el("text", {x: 30, y: 214, "class": "d-grande"}, v + " " + T("volte", "times")));
-    s.appendChild(el("text", {x: 30, y: 236, "class": "d-piccolo"}, T("il tempo dell'auto (forbice fra traffico scorrevole e pesante)", "the car's time (range between flowing and heavy traffic)")));
-    var q = valoreScheda(3);
+    s.appendChild(el("text", {x: 30, y: 236, "class": "d-piccolo"}, T("il tempo dell'auto (previsto da TomTom, mediana)", "the car's time (forecast by TomTom, median)")));
+    var q = pareggioScheda();
     if(q){ s.appendChild(el("text", {x: 30, y: 274, "class": "d-testo"}, T("Il bus pareggia l'auto se in centro si perdono ", "The bus matches the car if you lose ") + q + T(" minuti", " minutes downtown"))); }
   }
 

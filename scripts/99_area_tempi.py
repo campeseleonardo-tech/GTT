@@ -9,7 +9,9 @@ Sola lettura sui dati. Due parti:
    - mezzi pubblici: r5py come lo script 18 e il 93 (stesso GTFS, stessa rete OSM, cammino a 4,8 km/h), giorno 2026-10-12, partenza 7:45,
      finestra di 30 minuti, mediana, al massimo 120 minuti; chi non e' raggiunto resta null;
    - auto: rete del modello del traffico (rete_osm), cammino minimo a flusso libero come nel 93; di punta = tempo x fattore + 5 minuti
-     di parcheggio, con i DUE fattori del 93 (forbice: «alto» = sensori 5T, «basso» = Google Maps), letti da tp_contro_auto.json.
+     di parcheggio. Dal giro L8 (24/10/2026) la stima principale e' quella di TomTom: tempo a flusso libero x fattore_rete TomTom della ZONA della sezione
+     (percorso Piazza Castello -> punto di maggior peso della zona, alle 8, script 101; una zona senza percorso prende la mediana delle zone) + 5 minuti.
+     La stima dei sensori 5T (fattore unico di tp_contro_auto.json) resta come «stima piu' favorevole all'auto».
 2. Zona di Torino -> zona di Torino: tabella gia' calcolata dal 93 (data/processed/tp_contro_auto.json, gruppo «a»: contiene TUTTE le
    coppie, 23 x 22); lo script la ricopia in minuti interi e assegna ogni sezione alla sua zona (punto nel poligono, imq_zone_geo.json).
 
@@ -179,11 +181,12 @@ def main():
 
     t93 = json.loads(TP_AUTO.read_text(encoding="utf-8"))
     par = t93["parametri"]
-    f_alto, f_basso = par["fattore_punta"], par["fattore_basso_google"]
+    f_alto, f_basso = par["fattore_punta"], par["fattore_basso_google"]     # f_basso: usato solo se manca il file dello script 101 (o con --finto)
+    modello = None if args.finto else comuni.fattori_tomtom()
     cop = [p for p in t93["coppie"] if p["gruppo"] == "a"]
     nomi = {z["zona"]: z["nome"] for z in t93["per_zona"]}
     codici = sorted({p["da"] for p in cop} | {p["a"] for p in cop})
-    log(f"fattori di punta: alto {f_alto:g} (sensori 5T), basso {f_basso:g} (Google Maps); {len(codici)} zone di Torino")
+    log(f"sensori 5T: fattore {f_alto:g}; stima principale: " + ("TomTom, fattore per zona (script 101)" if modello else f"fattore {f_basso:g} (Google Maps)") + f"; {len(codici)} zone di Torino")
 
     controlli_punti = [PORTA_NUOVA]
     if args.finto:
@@ -195,7 +198,6 @@ def main():
         log("auto: cammini minimi sulla rete del modello ...")
         libero, libero_pn = tempi_auto_liberi(sezioni, controlli_punti)
     auto_alto = libero * f_alto + MIN_PARCHEGGIO
-    auto_basso = libero * f_basso + MIN_PARCHEGGIO
 
     # ---- zona -> zona (dal 93) e zona di ogni sezione
     k_zona = {z: i for i, z in enumerate(codici)}
@@ -208,6 +210,16 @@ def main():
         z_tp[i][j], z_a1[i][j], z_a2[i][j] = intero(p["tp_min"]), intero(p["auto_punta_min"]), intero(p["auto_punta_basso_min"])
     zona, fuori = zona_di_ogni_sezione(sezioni, codici)
     log(f"sezioni assegnate alle zone: {len(sezioni) - fuori} dentro un poligono, {fuori} alla zona piu' vicina")
+    # stima principale: fattore TomTom della zona della sezione (o f_basso se manca il modello)
+    f_zone = [modello.zona(z)[0] if modello else f_basso for z in codici]
+    n_zone_proprie = sum(1 for z in codici if modello and modello.zona(z)[1])
+    f_sez = np.array([f_zone[i] for i in zona])
+    auto_basso = libero * f_sez + MIN_PARCHEGGIO
+    if modello:
+        f_basso = round(float(np.median(f_zone)), 2)         # numero riassuntivo: mediana dei fattori delle zone
+        log(f"fattore TomTom per zona: da {min(f_zone):.2f} a {max(f_zone):.2f} (mediana {f_basso:g}); zone col fattore proprio {n_zone_proprie} su {len(codici)}")
+        c("tutte le zone di Torino hanno il fattore del proprio percorso (chiesto a TomTom)", n_zone_proprie == len(codici),
+          dettaglio=f"{n_zone_proprie} su {len(codici)}")
 
     # ---- controlli
     c("nessun tempo negativo", bool(np.all(tp[~np.isnan(tp)] >= 0) and np.all(libero >= 0)), bloccante=True)
@@ -239,6 +251,7 @@ def main():
         "stimato": True,
         "parametri": {"giorno": str(GIORNO), "partenza": f"{PARTENZA:%H:%M}", "finestra_min": FINESTRA_MIN, "tempo_max_min": TEMPO_MAX_MIN,
                       "velocita_piedi_kmh": VEL_PIEDI_KMH, "minuti_parcheggio": MIN_PARCHEGGIO, "fattore_alto": f_alto, "fattore_basso": f_basso,
+                      "fonte_basso": ("TomTom (script 101): fattore_rete della zona, alle 8; fattore_basso = mediana delle zone" if modello else "Google Maps (2,1)"),
                       "punto": "Piazza Castello", "punto_coord": list(CASTELLO), "scala_coordinate": SCALA, "origine": [la0, lo0], "soglie": list(soglie),
                       "prova": bool(args.prova), "n_sezioni": len(sezioni)},
         "quote_residenti": quote,
@@ -255,9 +268,10 @@ def main():
 
     righe = ["RAPPORTO - Area che si espande (script 99)", f"generato {out['generato']}" + ("  *** TEMPI FINTI ***" if args.finto else ""), "",
              f"Sezioni di Torino: {len(sezioni)}; senza collegamento coi mezzi entro {TEMPO_MAX_MIN} minuti: {senza_tp}",
-             f"Fattori di punta: {f_alto:g} (sensori 5T) e {f_basso:g} (Google Maps), + {MIN_PARCHEGGIO:g} minuti di parcheggio", "",
+             f"Auto: flusso libero x fattore + {MIN_PARCHEGGIO:g} minuti di parcheggio. Stima TomTom (principale): fattore della zona della sezione, mediana {f_basso:g}; "
+             f"stima dei sensori 5T (la piu' favorevole all'auto): fattore {f_alto:g}.", "",
              "Residenti di Torino raggiunti da Piazza Castello (%):", "  minuti      " + "".join(f"{t:>8}" for t in soglie)]
-    for nome, et in (("mezzi", "coi mezzi"), ("auto_alto", f"auto x{f_alto:g}"), ("auto_basso", f"auto x{f_basso:g}")):
+    for nome, et in (("mezzi", "coi mezzi"), ("auto_alto", f"auto sensori x{f_alto:g}"), ("auto_basso", "auto TomTom")):
         righe.append(f"  {et:<12}" + "".join(f"{quote[nome][str(t)]:>8.1f}" for t in soglie))
     righe += ["", "Controlli:"] + [f"  {r}" for r in c.righe]
     if not args.finto and not args.prova:
