@@ -47,6 +47,7 @@ from pathlib import Path
 AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 import riassunti_storico as rs  # noqa: E402  (riassunti dello storico, script 97)
+import comuni  # noqa: E402  (PERIODO fisso dei dati)
 
 
 def trova_radice():
@@ -154,6 +155,7 @@ def main():
     SOGLIA_VUOTO = args.soglia_vuoto
 
     parcheggi, giorni_dati, sorgente = leggi_riassunti(args.riassunti)
+    giorni_dati = {d: g for d, g in giorni_dati.items() if comuni.nel_periodo(d, "parcheggi")}   # periodo fisso (L9): comuni.PERIODO
     n_righe = sum(g["righe"] for g in giorni_dati.values())
     print(f"sorgente: {sorgente}; parcheggi 5T: {len(parcheggi)}; righe di occupazione: {n_righe}")
 
@@ -236,6 +238,7 @@ def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps({
         "anteprima": True,
+        "periodo": {"da": comuni.PERIODO["parcheggi"][0], "a": comuni.PERIODO["parcheggi"][1]},
         "etichetta": "ANTEPRIMA [DATI SCARSI]",
         "letture_minime_giorno": LETTURE_MINIME_GIORNO,
         "soglie": {"bloccato": SOGLIA_BLOCCATO, "pendolare": SOGLIA_PENDOLARE,

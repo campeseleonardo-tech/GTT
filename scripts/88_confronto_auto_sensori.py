@@ -106,6 +106,7 @@ def main():
     dati = json.loads(SENSORI.read_text(encoding="utf-8"))
     flusso_archi = np.load(NPZ)["flusso_archi"]
     print(f"sensori 5T: {len(dati['sensori'])}, periodo {dati['periodo']['da']} - {dati['periodo']['a']}")
+    comuni.controlla_periodo(dati.get("periodo"), "sensori")      # periodo fisso (L9)
 
     m81 = comuni.carica_script("81_auto_di_passaggio.py")
     import rete_osm

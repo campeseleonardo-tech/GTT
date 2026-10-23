@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T22:19:28+00:00",
+  "generato": "2026-10-23T22:28:28+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1356,7 +1356,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T22:19:29+00:00",
+  "generato": "2026-10-23T22:28:28+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-23: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -1696,6 +1696,10 @@ window.SCHEDE_RISULTATI = [
     [
      "Distanza dalla fermata",
      "entro 60 m"
+    ],
+    [
+     "Periodo dei dati",
+     "dal 10/10/2026 al 23/10/2026"
     ]
    ],
    "limiti": [
@@ -1954,6 +1958,10 @@ window.SCHEDE_RISULTATI = [
     [
      "Distance from the stop",
      "within 60 m"
+    ],
+    [
+     "Data period",
+     "from 10/10/2,026 to 23/10/2,026"
     ]
    ],
    "limiti": [
@@ -2588,7 +2596,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T22:19:29+00:00",
+  "generato": "2026-10-23T22:28:28+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -3509,6 +3517,10 @@ window.SCHEDE_RISULTATI = [
     [
      "Auto da fermare",
      "auto che passano × 5,8%"
+    ],
+    [
+     "Periodo del riempimento dei parcheggi",
+     "dal 15/10/2026 al 22/10/2026"
     ],
     [
      "Bus contro auto",
@@ -6140,6 +6152,10 @@ window.SCHEDE_RISULTATI = [
      "passing cars × 5.8%"
     ],
     [
+     "Car park occupancy period",
+     "from 15/10/2,026 to 22/10/2,026"
+    ],
+    [
      "Bus versus car",
      "to Piazza Castello at 8; car: TomTom factor of the route (median 2.6) + 5 minutes; estimate most favourable to the car: 5T sensors, factor 1.2"
     ]
@@ -8263,7 +8279,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T22:19:29+00:00",
+  "generato": "2026-10-23T22:28:28+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -11611,6 +11627,10 @@ window.SCHEDE_RISULTATI = [
      "tempo a flusso libero × 1,2 (sensori 5T, non contano semafori e incroci) + 5 minuti"
     ],
     [
+     "Periodo dei sensori",
+     "dal 09/10/2026 al 22/10/2026"
+    ],
+    [
      "Fasce del rapporto",
      "sotto 1,5, 1,5-2, 2-3, oltre 3"
     ]
@@ -14931,6 +14951,10 @@ window.SCHEDE_RISULTATI = [
      "free-flow time × 1.2 (5T sensors, they do not count traffic lights and junctions) + 5 minutes"
     ],
     [
+     "Sensor period",
+     "from 09/10/2,026 to 22/10/2,026"
+    ],
+    [
      "Ratio bands",
      "under 1.5, 1.5-2, 2-3, over 3"
     ]
@@ -14976,7 +15000,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T22:19:29+00:00",
+  "generato": "2026-10-23T22:28:28+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],

@@ -373,7 +373,7 @@
     "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
     "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T22:19:29+00:00",
+  "generato": "2026-10-23T22:28:28+00:00",
   "avviso": [
     "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
     "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -3721,6 +3721,10 @@
         "tempo a flusso libero × 1,2 (sensori 5T, non contano semafori e incroci) + 5 minuti"
       ],
       [
+        "Periodo dei sensori",
+        "dal 09/10/2026 al 22/10/2026"
+      ],
+      [
         "Fasce del rapporto",
         "sotto 1,5, 1,5-2, 2-3, oltre 3"
       ]
@@ -7039,6 +7043,10 @@
       [
         "Car, estimate most favourable to the car",
         "free-flow time × 1.2 (5T sensors, they do not count traffic lights and junctions) + 5 minutes"
+      ],
+      [
+        "Sensor period",
+        "from 09/10/2,026 to 22/10/2,026"
       ],
       [
         "Ratio bands",

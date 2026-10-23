@@ -204,7 +204,10 @@
   "Solo coppie con almeno 30 interviste. Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.": "Only pairs with at least 30 interviews. Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car.",
   "Legami a parità di distanza dal centro: correlazione parziale sui ranghi, con intervallo al 95% per ricampionamento. Regge solo se l'intervallo non contiene lo zero.": "Links at equal distance from the centre: partial rank correlation, with a 95% interval by resampling. It holds only if the interval does not contain zero.",
   "Legami a parità di distanza": "Links at equal distance",
-  "correlazione parziale sui ranghi, intervallo al 95%; distanza dal centro della zona a Piazza Castello": "partial rank correlation, 95% interval; distance from the centre of the zone to Piazza Castello"
+  "correlazione parziale sui ranghi, intervallo al 95%; distanza dal centro della zona a Piazza Castello": "partial rank correlation, 95% interval; distance from the centre of the zone to Piazza Castello",
+  "Periodo dei dati": "Data period",
+  "Periodo del riempimento dei parcheggi": "Car park occupancy period",
+  "Periodo dei sensori": "Sensor period"
  },
  "modelli": [
   {
@@ -810,6 +813,10 @@
   {
    "it": "A parità di distanza dal centro reggono fragilità-servizi ({p0}) e prezzo-fragilità ({p1}).",
    "en": "At equal distance from the centre, fragility-services ({p0}) and price-fragility ({p1}) hold."
+  },
+  {
+   "it": "dal {n0}/{n1}/{n2} al {n3}/{n4}/{n5}",
+   "en": "from {n0}/{n1}/{n2} to {n3}/{n4}/{n5}"
   }
  ]
 }

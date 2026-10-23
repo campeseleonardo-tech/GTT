@@ -551,7 +551,7 @@
     "scripts/84_risultato6_parcheggi.py",
     "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T22:19:29+00:00",
+  "generato": "2026-10-23T22:28:28+00:00",
   "avviso": [
     "Come leggere i tag. ",
     "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -1472,6 +1472,10 @@
       [
         "Auto da fermare",
         "auto che passano × 5,8%"
+      ],
+      [
+        "Periodo del riempimento dei parcheggi",
+        "dal 15/10/2026 al 22/10/2026"
       ],
       [
         "Bus contro auto",
@@ -4101,6 +4105,10 @@
       [
         "Cars to stop",
         "passing cars × 5.8%"
+      ],
+      [
+        "Car park occupancy period",
+        "from 15/10/2,026 to 22/10/2,026"
       ],
       [
         "Bus versus car",

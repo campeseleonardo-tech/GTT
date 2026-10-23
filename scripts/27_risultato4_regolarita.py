@@ -684,7 +684,7 @@ def main():
 
     sorg = apri_sorgente(forza_riassunti)
     print(f"Sorgente dei dati: {sorg.nome}", file=sys.stderr)
-    giorni = sorg.giorni()
+    giorni = [g for g in sorg.giorni() if comuni.nel_periodo(g, "gps")]   # periodo fisso (L9): comuni.PERIODO
     if prova:
         giorni = [g for g in giorni if g == GIORNO_PROVA]
         if not giorni:
@@ -710,8 +710,8 @@ def main():
     conf_citta, conf_modo, conf_reg_citta, conf_reg_linea = {}, {}, {}, {}   # confronto col feed (solo con fonte gps)
     conf_scarti = {"fuori_gtfs": 0, "lettura_lontana": 0, "usati": 0}
     letti_totali = 0
-    # B1/B2: contatori [passaggi, oltre 5, oltre 10]
-    def_cnt = defaultdict(lambda: [0, 0, 0])      # (definizione, tipo)
+    # B1/B2: contatori [passaggi, oltre 5, oltre 10, in anticipo (L9)]
+    def_cnt = defaultdict(lambda: [0, 0, 0, 0])   # (definizione, tipo)
     punta_n = defaultdict(int)                    # tipo: passaggi nelle ore di punta (per il controllo della somma)
     sh_cnt = defaultdict(lambda: [0, 0, 0])       # (tipo, spostamento)
     giorno_cnt = defaultdict(lambda: [0, 0, 0])   # (tipo, giorno): definizione (a)
@@ -778,6 +778,7 @@ def main():
                     c_[0] += 1
                     c_[1] += rit_ > SOGLIA_RITARDO
                     c_[2] += rit_ > SOGLIA_RITARDO_10
+                    c_[3] += rit_ < SOGLIA_ANTICIPO
             if pg[P_FASCIA] in ("punta_mattina", "punta_sera"):
                 punta_n[tipo] += 1
             for sp_ in SPOSTAMENTI_MIN:
@@ -911,8 +912,9 @@ def main():
     for d_, nome_ in DEFINIZIONI:
         per_t = {}
         for t in tipi_ok:
-            n_, o5_, o10_ = def_cnt[(d_, t)]
-            per_t[t] = {"passaggi": n_, "ritardo5": o5_, "ritardo10": o10_, "ritardo5_pct": q2(o5_, n_), "ritardo10_pct": q2(o10_, n_)}
+            n_, o5_, o10_, an_ = def_cnt[(d_, t)]
+            per_t[t] = {"passaggi": n_, "ritardo5": o5_, "ritardo10": o10_, "ritardo5_pct": q2(o5_, n_), "ritardo10_pct": q2(o10_, n_),
+                        "anticipo_pct": q2(an_, n_)}
         j_def[d_] = {"nome": nome_, "per_tipo": per_t,
                      "settimana": {"ritardo5_pct": settimana({t: v["ritardo5_pct"] for t, v in per_t.items()}),
                                    "ritardo10_pct": settimana({t: v["ritardo10_pct"] for t, v in per_t.items()})}}
@@ -924,7 +926,7 @@ def main():
     if gps:
         j_forbice = {}
         for t in tipi_ok:
-            n_, o5_, o10_ = def_cnt[("a", t)]
+            n_, o5_, o10_, _an = def_cnt[("a", t)]
             m_ = mancanti[t]
             giorni_t = sorted(((g_, c_) for (tt_, g_), c_ in giorno_cnt.items() if tt_ == t),
                               key=lambda x: -(x[1][2] / x[1][0] if x[1][0] else 0))
@@ -1216,7 +1218,7 @@ def main():
                 C.append(f"  {esito(-5 <= j_citta[t]['mediana'] <= 10)} {nomi[t]}: mediana {j_citta[t]['mediana']} min fra -5 e +10")
     for t in tipi_ok:
         for d_, _n in DEFINIZIONI:
-            n_, o5_, o10_ = def_cnt[(d_, t)]
+            n_, o5_, o10_, _an = def_cnt[(d_, t)]
             C.append(f"  {esito(o10_ <= o5_)} {nomi[t]} ({d_}): oltre 10 minuti ({o10_}) <= oltre 5 minuti ({o5_}), su {n_} passaggi")
         a_n = def_cnt[("a", t)][0]
         C.append(f"  {esito(a_n == j_citta[t]['passaggi'])} {nomi[t]} (a): passaggi = totale della citta' ({a_n} contro {j_citta[t]['passaggi']})")

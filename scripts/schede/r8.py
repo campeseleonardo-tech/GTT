@@ -2,7 +2,7 @@
 import json
 import re
 from schede import comune
-from schede.comune import forma_base, leggi, migliaia, nome_pulito, num, ora, virgola, voce
+from schede.comune import forma_base, leggi, migliaia, nome_pulito, num, ora, periodo_it, virgola, voce
 
 
 
@@ -209,6 +209,7 @@ SOGLIA_INTERVISTE = 30   # L9: una coppia si nomina in pagina solo con almeno 30
 def forma_r8(s):
     """Scheda R8: tempo coi mezzi pubblici contro tempo in auto (script 93), come forbice fra due fattori di punta; in coda la copertura delle strade."""
     t = json.loads((comune.PROC / "tp_contro_auto.json").read_text(encoding="utf-8"))
+    sens5t = leggi("velocita_5t.json")
     par, ti = t["parametri"], t["titolo"]
     ab = t["gruppi"]["ab"]
     lo, hi = ab["limite_basso"], ab["limite_alto"]            # lo = stima TomTom (principale, rapporto piu' basso), hi = sensori 5T (la piu' favorevole all'auto)
@@ -283,6 +284,7 @@ def forma_r8(s):
                 ["Mezzi pubblici", f"partenza {par['partenza']}-8:15 di un feriale, mediana, cammino a {virgola(par['velocita_piedi_kmh'])} km/h, al massimo {par['tempo_max_min']} minuti"],
                 ["Auto, stima TomTom", f"tempo a flusso libero × fattore TomTom della coppia (mediana {f_lo}) + {virgola(par['minuti_parcheggio'])} minuti"],
                 ["Auto, stima più favorevole all'auto", f"tempo a flusso libero × {f_hi} (sensori 5T, non contano semafori e incroci) + {virgola(par['minuti_parcheggio'])} minuti"],
+                ["Periodo dei sensori", periodo_it(sens5t["periodo"]["da"], sens5t["periodo"]["a"])],
                 ["Fasce del rapporto", f"sotto {virgola(f1)}, {virgola(f1)}-{virgola(f2)}, {virgola(f2)}-{virgola(f3)}, oltre {virgola(f3)}"]]
     return forma_base(
         s,

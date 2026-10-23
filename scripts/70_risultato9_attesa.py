@@ -386,7 +386,7 @@ def main():
     fermate = {}                    # unione delle fermate delle versioni usate
     sorg = r4.apri_sorgente("--riassunti" in args)
     print(f"Sorgente dei dati: {sorg.nome}", file=sys.stderr)
-    giorni = sorg.giorni()
+    giorni = [g for g in sorg.giorni() if r4.comuni.nel_periodo(g, "gps")]   # periodo fisso (L9): comuni.PERIODO
     esclusi_gps = []
     if prova:
         giorni = [GIORNO_PROVA]

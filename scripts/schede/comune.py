@@ -69,6 +69,14 @@ def virgola(x):
 
 
 
+def periodo_it(da, a):
+    """«dal 10/10/2026 al 23/10/2026» da due date AAAA-MM-GG (le date dei dati usati, scritte nei JSON)."""
+    it = lambda t: f"{t[8:10]}/{t[5:7]}/{t[:4]}"
+    return f"dal {it(str(da))} al {it(str(a))}"
+
+
+
+
 def pct2(x):
     """percentuale con due decimali e virgola (per valori piccoli, es. 'oltre 10 minuti')."""
     return f"{x:.2f}".replace(".", ",")

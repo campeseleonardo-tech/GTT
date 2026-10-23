@@ -3,7 +3,7 @@ from datetime import datetime
 import json
 from collections import Counter
 from schede import comune
-from schede.comune import date_it, forma_base, migliaia, nome_pulito, num, ora, virgola, voce
+from schede.comune import date_it, forma_base, migliaia, nome_pulito, num, ora, periodo_it, virgola, voce
 
 
 
@@ -316,6 +316,7 @@ def forma_r6(s):
         [["Fermate importanti", f"{reg['n_corse']} corse all'ora o metro, e {migliaia(reg['m_auto'])} auto che passano"],
          ["Distanza a piedi", f"{raggio} metri"],
          ["Auto da fermare", f"auto che passano × {quota}%"],
+         ["Periodo del riempimento dei parcheggi", periodo_it(min(rie["giorni_feriali_validi"]), max(rie["giorni_feriali_validi"]))],
          ["Bus contro auto", f"verso Piazza Castello alle 8; auto: fattore TomTom del percorso (mediana {f_ba_lo}) + 5 minuti; stima più favorevole all'auto: sensori 5T, fattore {f_ba_hi}"]],
         ["Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza. "
          f"Con metà o doppio di chi lascia l'auto, le fermate senza posti bastanti vanno da {min(senza_q)} a {max(senza_q)} su {n_fermate}.",
