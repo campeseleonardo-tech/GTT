@@ -36,8 +36,6 @@ AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 import rete_osm  # noqa: E402
 
-import re  # noqa: E402
-
 
 def trova_radice():
     for cartella in [AQUI, *AQUI.parents]:
@@ -85,7 +83,7 @@ def main():
     rete = rete_osm.carica(RETE_DIR)
     xy = rete["nodi_xy"]
     meta = rete["meta"]
-    edge_a, edge_b = rete["edge_a"], rete["edge_b"]
+    edge_a = rete["edge_a"]
     edge_len = rete["edge_len"]
     archi = rete["archi"]
     n_edge = len(edge_a)
@@ -109,8 +107,6 @@ def main():
     usc = np.bincount(src, weights=flusso_dir, minlength=n_nodi)
     bilancio = entr - usc
     uscita_tot = float(flusso_dir.sum())
-    err_rel = np.abs(bilancio) / max(uscita_tot / n_nodi, 1e-9)
-    n_interni = int((np.abs(bilancio) <= 1e-6).sum())
     # nodi con |bilancio| > 1% del flusso medio uscente
     soglia = 0.01 * (uscita_tot / max(n_nodi, 1))
     nodi_sbilanciati = int((np.abs(bilancio) > max(soglia, 1e-3)).sum())

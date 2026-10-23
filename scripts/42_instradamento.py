@@ -135,10 +135,9 @@ def main():
     t_inizio = time.time()
     rete = rete_osm.carica(RETE_DIR)
     xy = rete["nodi_xy"]
-    meta = rete["meta"]
     N = len(xy)
     archi = rete["archi"]
-    edge_a, edge_b = rete["edge_a"], rete["edge_b"]
+    edge_a = rete["edge_a"]
     n_archi = len(archi)
     n_edge = len(edge_a)
 
@@ -196,7 +195,6 @@ def main():
     chiave = src * N + dst
     order = np.argsort(chiave, kind="stable")
     chiave_s = chiave[order]
-    w_s = w[order]
     primo = np.concatenate(([True], chiave_s[1:] != chiave_s[:-1]))
     pos_primo = np.nonzero(primo)[0]
     idx_arco_unico = order[pos_primo].copy()     # indice dell'arco per ogni coppia unica
@@ -348,7 +346,6 @@ def verifica_networkx(rete, M, lista_origini, n_prove=20):
     sullo stesso grafo e confronta lunghezza e tempo con scipy (tolleranza 2%)."""
     import networkx as nx
     from scipy.sparse.csgraph import dijkstra
-    nodi_xy = rete["nodi_xy"]
     a = rete["archi"]
     rng = np.random.default_rng(777)
     orig = rng.choice(lista_origini, size=min(n_prove, len(lista_origini)), replace=False)
@@ -376,7 +373,7 @@ def verifica_networkx(rete, M, lista_origini, n_prove=20):
         out.append((int(o), dmax, round(t_scipy, 2), round(float(lung), 2), round(err * 100, 3)))
     np.savez_compressed(OUT_DIR / "verifica_networkx.npz",
                         tab=np.array(out, dtype=np.float64))
-    print(f"\nVERIFICA INDIPENDENTE (networkx su 20 coppie): errori % tempo")
+    print("\nVERIFICA INDIPENDENTE (networkx su 20 coppie): errori % tempo")
     for riga in out:
         print("   da", riga[0], "a", riga[1], "scipy", riga[2], "networkx", riga[3], f"err {riga[4]}%")
     if out:

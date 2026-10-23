@@ -199,7 +199,6 @@ def main():
         if not np.isfinite(dist[k, dn]):
             continue
         alla = rete_osm.haversine_m(*xy[o], *xy[dn])
-        rete_km = float(dist[k, dn])  # placeholder
         # lunghezza di rete vera
         v, lung = dn, 0.0
         guardia = 0
@@ -232,12 +231,12 @@ def main():
     a(f"  costo unitario stimato per origine: {t_orig*1000:.0f} ms (Dijkstra + somma dei flussi)")
     a("")
     a("== Esito ==")
-    a(f"  MOTORE SCELTO: grafo proprio (pyosmium + scipy.sparse.csgraph.dijkstra).")
-    a(f"  Motivo: r5py (r5) importa e funziona ma serve a percorsi puntuali, non")
-    a(f"  all'assegnazione di flusso su tutta la rete per centinaia di origini.")
+    a("  MOTORE SCELTO: grafo proprio (pyosmium + scipy.sparse.csgraph.dijkstra).")
+    a("  Motivo: r5py (r5) importa e funziona ma serve a percorsi puntuali, non")
+    a("  all'assegnazione di flusso su tutta la rete per centinaia di origini.")
     a(f"  La rete si costruisce in {t_build:.0f} s e sta in {memoria_mb():.0f} MB: la prova passa.")
-    a(f"  La geometria dei percorsi e' disponibile (usata per la ricostruzione).")
-    a(f"  Giro completo stimato ben sotto le 8 ore anche con 1200 punti.")
+    a("  La geometria dei percorsi e' disponibile (usata per la ricostruzione).")
+    a("  Giro completo stimato ben sotto le 8 ore anche con 1200 punti.")
 
     RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
     RAPPORTO.write_text("\n".join(righe) + "\n", encoding="utf-8")
