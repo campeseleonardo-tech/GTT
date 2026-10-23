@@ -82,3 +82,8 @@ data/processed/area_tempi_finto.json
 data/processed/area_tempi_prova.json
 !data/area_tempi.js
 !data/progetto.js
+
+# chiavi di servizi esterni (TomTom ecc.): mai in git
+key_tomtom.txt
+*chiave*.txt
+*tomtom*.txt
