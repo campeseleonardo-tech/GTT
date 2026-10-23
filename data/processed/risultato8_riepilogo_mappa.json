@@ -373,7 +373,7 @@
     "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
     "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T22:15:16+00:00",
+  "generato": "2026-10-23T22:17:40+00:00",
   "avviso": [
     "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
     "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -423,7 +423,7 @@
     "numero": {
       "valore": "1,9",
       "unita": "volte",
-      "testo": "il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino (220.307 auto). Con i sensori, la stima più favorevole all'auto, 2,9"
+      "testo": "il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino. Sono il 47% delle auto del mattino (220.307): mancano i viaggi dentro una zona e fra comuni della cintura. Con i sensori, la stima più favorevole all'auto, 2,9."
     },
     "principale": {
       "tipo": "barre_gruppi",
@@ -3617,99 +3617,81 @@
       },
       {
         "tipo": "barre",
-        "titolo": "Le 15 coppie con più auto dove i mezzi pubblici impiegano più del doppio",
+        "titolo": "Le 12 coppie con più auto dove i mezzi pubblici impiegano più del doppio",
         "unita": "auto",
-        "nota": "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.",
+        "nota": "Solo coppie con almeno 30 interviste. Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.",
         "voci": [
           {
-            "label": "Torino, Barriera di Milano → Torino, Falchera",
+            "label": "Barriera di Milano → Falchera",
             "valore": 1208,
             "tono": "rosso",
             "testo": "1.208 auto: 24 contro 12 min"
           },
           {
-            "label": "Torino, Pozzo Strada → Grugliasco",
+            "label": "Pozzo Strada → Grugliasco",
             "valore": 929,
             "tono": "rosso",
             "testo": "929 auto: 34 contro 13 min"
           },
           {
-            "label": "Torino, Falchera → Torino, Barriera di Milano",
+            "label": "Falchera → Barriera di Milano",
             "valore": 890,
             "tono": "rosso",
             "testo": "890 auto: 24 contro 10 min"
           },
           {
-            "label": "Torino, Parella → Torino, San Paolo",
+            "label": "Parella → San Paolo",
             "valore": 763,
             "tono": "rosso",
             "testo": "763 auto: 30 contro 15 min"
           },
           {
-            "label": "Torino, Mirafiori Sud → Rivoli",
-            "valore": 719,
-            "tono": "rosso",
-            "testo": "719 auto: 81 contro 24 min"
-          },
-          {
-            "label": "Torino, Parella → Torino, Cenisia",
+            "label": "Parella → Cenisia",
             "valore": 715,
             "tono": "rosso",
             "testo": "715 auto: 18 contro 8 min"
           },
           {
-            "label": "Grugliasco → Torino, Pozzo Strada",
+            "label": "Grugliasco → Pozzo Strada",
             "valore": 714,
             "tono": "rosso",
             "testo": "714 auto: 35 contro 14 min"
           },
           {
-            "label": "Rivoli → Torino, Nizza Millefonti",
-            "valore": 687,
-            "tono": "rosso",
-            "testo": "687 auto: 73 contro 34 min"
-          },
-          {
-            "label": "Torino, Mercati Generali → Moncalieri",
-            "valore": 644,
-            "tono": "rosso",
-            "testo": "644 auto: 51 contro 24 min"
-          },
-          {
-            "label": "Grugliasco → Torino, Parella",
-            "valore": 614,
-            "tono": "rosso",
-            "testo": "614 auto: 37 contro 16 min"
-          },
-          {
-            "label": "Torino, Mirafiori Nord → Grugliasco",
+            "label": "Mirafiori Nord → Grugliasco",
             "valore": 583,
             "tono": "rosso",
             "testo": "583 auto: 34 contro 16 min"
           },
           {
-            "label": "Settimo Torinese → Torino, Falchera",
-            "valore": 580,
-            "tono": "rosso",
-            "testo": "580 auto: 50 contro 25 min"
-          },
-          {
-            "label": "Moncalieri → Torino, Mirafiori Sud",
-            "valore": 568,
-            "tono": "rosso",
-            "testo": "568 auto: 55 contro 25 min"
-          },
-          {
-            "label": "Settimo Torinese → Torino, Madonna Del Pilone",
-            "valore": 544,
-            "tono": "rosso",
-            "testo": "544 auto: 86 contro 32 min"
-          },
-          {
-            "label": "Torino, Parella → Torino, Madonna di Campagna",
+            "label": "Parella → Madonna di Campagna",
             "valore": 540,
             "tono": "rosso",
             "testo": "540 auto: 31 contro 15 min"
+          },
+          {
+            "label": "Vanchiglia → Madonna Del Pilone",
+            "valore": 369,
+            "tono": "rosso",
+            "testo": "369 auto: 37 contro 18 min"
+          },
+          {
+            "label": "Grugliasco → Mirafiori Nord",
+            "valore": 348,
+            "tono": "rosso",
+            "testo": "348 auto: 37 contro 15 min"
+          },
+          {
+            "label": "Cenisia → Parella",
+            "valore": 260,
+            "tono": "rosso",
+            "testo": "260 auto: 18 contro 9 min"
+          },
+          {
+            "label": "Borgata Vittoria → Aurora",
+            "valore": 177,
+            "tono": "rosso",
+            "testo": "177 auto: 30 contro 14 min"
           }
         ]
       }
@@ -3749,27 +3731,6 @@
       "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Usiamo un solo servizio.",
       "L'indagine è un campione. I viaggi dentro una zona e 653 coppie senza collegamento (5.616 auto) non sono nel confronto."
     ],
-    "extra": {
-      "titolo": "Strade grandi e fermate vicine",
-      "punto": "Il 95,6% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
-      "grafico": {
-        "tipo": "pila",
-        "titolo": "Km di strade grandi di Torino: con o senza trasporto pubblico vicino",
-        "unita": "km",
-        "voci": [
-          {
-            "label": "con fermate frequenti vicine",
-            "valore": 356.3,
-            "tono": "verde"
-          },
-          {
-            "label": "con poco trasporto pubblico",
-            "valore": 16.4,
-            "tono": "rosso"
-          }
-        ]
-      }
-    },
     "anima": {
       "tipo": "area",
       "didascalia": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il 42,2% dei torinesi coi mezzi pubblici e il 90,1% in auto con la stima di TomTom, parcheggio compreso (100% con la stima più favorevole all'auto, dei sensori 5T)."
@@ -3782,7 +3743,7 @@
     "numero": {
       "valore": "1.9",
       "unita": "times",
-      "testo": "the car's time: TomTom median ratio, weighted by morning cars (220,307 cars). With the sensors, the estimate most favourable to the car, 2.9"
+      "testo": "the car's time: TomTom median ratio, weighted by morning cars. They are 47% of morning cars (220,307): trips within a zone and between belt towns are missing. With the sensors, the estimate most favourable to the car, 2.9."
     },
     "principale": {
       "tipo": "barre_gruppi",
@@ -6976,99 +6937,81 @@
       },
       {
         "tipo": "barre",
-        "titolo": "The 15 pairs with the most cars where public transport takes more than twice as long",
+        "titolo": "The 12 pairs with the most cars where public transport takes more than twice as long",
         "unita": "cars",
-        "nota": "Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car.",
+        "nota": "Only pairs with at least 30 interviews. Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car.",
         "voci": [
           {
-            "label": "Torino, Barriera di Milano → Torino, Falchera",
+            "label": "Barriera di Milano → Falchera",
             "valore": 1208,
             "tono": "rosso",
             "testo": "1,208 cars: 24 versus 12 min"
           },
           {
-            "label": "Torino, Pozzo Strada → Grugliasco",
+            "label": "Pozzo Strada → Grugliasco",
             "valore": 929,
             "tono": "rosso",
             "testo": "929 cars: 34 versus 13 min"
           },
           {
-            "label": "Torino, Falchera → Torino, Barriera di Milano",
+            "label": "Falchera → Barriera di Milano",
             "valore": 890,
             "tono": "rosso",
             "testo": "890 cars: 24 versus 10 min"
           },
           {
-            "label": "Torino, Parella → Torino, San Paolo",
+            "label": "Parella → San Paolo",
             "valore": 763,
             "tono": "rosso",
             "testo": "763 cars: 30 versus 15 min"
           },
           {
-            "label": "Torino, Mirafiori Sud → Rivoli",
-            "valore": 719,
-            "tono": "rosso",
-            "testo": "719 cars: 81 versus 24 min"
-          },
-          {
-            "label": "Torino, Parella → Torino, Cenisia",
+            "label": "Parella → Cenisia",
             "valore": 715,
             "tono": "rosso",
             "testo": "715 cars: 18 versus 8 min"
           },
           {
-            "label": "Grugliasco → Torino, Pozzo Strada",
+            "label": "Grugliasco → Pozzo Strada",
             "valore": 714,
             "tono": "rosso",
             "testo": "714 cars: 35 versus 14 min"
           },
           {
-            "label": "Rivoli → Torino, Nizza Millefonti",
-            "valore": 687,
-            "tono": "rosso",
-            "testo": "687 cars: 73 versus 34 min"
-          },
-          {
-            "label": "Torino, Mercati Generali → Moncalieri",
-            "valore": 644,
-            "tono": "rosso",
-            "testo": "644 cars: 51 versus 24 min"
-          },
-          {
-            "label": "Grugliasco → Torino, Parella",
-            "valore": 614,
-            "tono": "rosso",
-            "testo": "614 cars: 37 versus 16 min"
-          },
-          {
-            "label": "Torino, Mirafiori Nord → Grugliasco",
+            "label": "Mirafiori Nord → Grugliasco",
             "valore": 583,
             "tono": "rosso",
             "testo": "583 cars: 34 versus 16 min"
           },
           {
-            "label": "Settimo Torinese → Torino, Falchera",
-            "valore": 580,
-            "tono": "rosso",
-            "testo": "580 cars: 50 versus 25 min"
-          },
-          {
-            "label": "Moncalieri → Torino, Mirafiori Sud",
-            "valore": 568,
-            "tono": "rosso",
-            "testo": "568 cars: 55 versus 25 min"
-          },
-          {
-            "label": "Settimo Torinese → Torino, Madonna Del Pilone",
-            "valore": 544,
-            "tono": "rosso",
-            "testo": "544 cars: 86 versus 32 min"
-          },
-          {
-            "label": "Torino, Parella → Torino, Madonna di Campagna",
+            "label": "Parella → Madonna di Campagna",
             "valore": 540,
             "tono": "rosso",
             "testo": "540 cars: 31 versus 15 min"
+          },
+          {
+            "label": "Vanchiglia → Madonna Del Pilone",
+            "valore": 369,
+            "tono": "rosso",
+            "testo": "369 cars: 37 versus 18 min"
+          },
+          {
+            "label": "Grugliasco → Mirafiori Nord",
+            "valore": 348,
+            "tono": "rosso",
+            "testo": "348 cars: 37 versus 15 min"
+          },
+          {
+            "label": "Cenisia → Parella",
+            "valore": 260,
+            "tono": "rosso",
+            "testo": "260 cars: 18 versus 9 min"
+          },
+          {
+            "label": "Borgata Vittoria → Aurora",
+            "valore": 177,
+            "tono": "rosso",
+            "testo": "177 cars: 30 versus 14 min"
           }
         ]
       }
@@ -7108,27 +7051,6 @@
       "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. We use a single service.",
       "The survey is a sample. Trips within a zone and 653 pairs with no connection (5,616 cars) are not in the comparison."
     ],
-    "extra": {
-      "titolo": "Large roads and nearby stops",
-      "punto": "95.6% of the km of large roads have a frequent stop nearby: the stop is there, but it is not enough.",
-      "grafico": {
-        "tipo": "pila",
-        "titolo": "Km of large roads in Turin: with or without public transport nearby",
-        "unita": "km",
-        "voci": [
-          {
-            "label": "with frequent stops nearby",
-            "valore": 356.3,
-            "tono": "verde"
-          },
-          {
-            "label": "with little public transport",
-            "valore": 16.4,
-            "tono": "rosso"
-          }
-        ]
-      }
-    },
     "anima": {
       "tipo": "area",
       "didascalia": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach 42.2% of residents by public transport and 90.1% by car with the TomTom estimate, parking included (100% with the estimate most favourable to the car, from the 5T sensors)."

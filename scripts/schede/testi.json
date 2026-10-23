@@ -200,7 +200,8 @@
   "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.": "Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car.",
   "Auto: tempo a flusso libero per il fattore TomTom della coppia, più 5 minuti. Le coppie non chieste a TomTom prendono la mediana della loro fascia. Dati di traffico: TomTom.": "Car: free-flow time times the TomTom factor of the pair, plus 5 minutes. Pairs not asked to TomTom take the median of their band. Traffic data: TomTom.",
   "Auto, stima TomTom": "Car, TomTom estimate",
-  "Auto, stima più favorevole all'auto": "Car, estimate most favourable to the car"
+  "Auto, stima più favorevole all'auto": "Car, estimate most favourable to the car",
+  "Solo coppie con almeno 30 interviste. Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.": "Only pairs with at least 30 interviews. Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car."
  },
  "modelli": [
   {
@@ -786,6 +787,10 @@
   {
    "it": "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza. Con metà o doppio di chi lascia l'auto, le fermate senza posti bastanti vanno da {n0} a {n1} su {n2}.",
    "en": "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude. With half or double the drivers who leave the car, stops without enough spaces go from {n0} to {n1} out of {n2}."
+  },
+  {
+   "it": "il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino. Sono il {n0}% delle auto del mattino ({n1}): mancano i viaggi dentro una zona e fra comuni della cintura. Con i sensori, la stima più favorevole all'auto, {n2}.",
+   "en": "the car's time: TomTom median ratio, weighted by morning cars. They are {n0}% of morning cars ({n1}): trips within a zone and between belt towns are missing. With the sensors, the estimate most favourable to the car, {n2}."
   }
  ]
 }

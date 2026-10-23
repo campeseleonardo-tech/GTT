@@ -2,7 +2,7 @@
 import json
 import re
 from schede import comune
-from schede.comune import forma_base, grafico_per_titolo, leggi, migliaia, nome_pulito, num, ora, virgola, voce
+from schede.comune import forma_base, leggi, migliaia, nome_pulito, num, ora, virgola, voce
 
 
 
@@ -203,12 +203,12 @@ def area_tempi_js():
                     f"in auto con la stima di TomTom, parcheggio compreso ({virgola(q['auto_alto']['30'])}% con la stima più favorevole all'auto, dei sensori 5T)."}
 
 
+SOGLIA_INTERVISTE = 30   # L9: una coppia si nomina in pagina solo con almeno 30 interviste (SOGLIA_N dello script 14; l'elenco filtrato lo scrive lo script 93)
+
+
 def forma_r8(s):
     """Scheda R8: tempo coi mezzi pubblici contro tempo in auto (script 93), come forbice fra due fattori di punta; in coda la copertura delle strade."""
     t = json.loads((comune.PROC / "tp_contro_auto.json").read_text(encoding="utf-8"))
-    r = leggi("risultato8_traffico_tp_v2.json")
-    u = r["universo_torino"]
-    quota_strade = round(u["quota_km_coperta_tp"] * 100, 1)
     par, ti = t["parametri"], t["titolo"]
     ab = t["gruppi"]["ab"]
     lo, hi = ab["limite_basso"], ab["limite_alto"]            # lo = stima TomTom (principale, rapporto piu' basso), hi = sensori 5T (la piu' favorevole all'auto)
@@ -235,17 +235,13 @@ def forma_r8(s):
             "nota": f"Ogni punto è una coppia di zone, grande quanto le auto del mattino. Sono le {len(ordinate)} coppie con più auto "
                     f"({virgola(quota_punti)}% delle auto). Sopra una linea il mezzo pubblico impiega più di quel multiplo dell'auto."}
     peggiori = t["peggiori"]
-    pare = {"tipo": "barre", "titolo": "Le 15 coppie con più auto dove i mezzi pubblici impiegano più del doppio", "unita": "auto",
-            "nota": "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.",
-            "voci": [{"label": f"{p['da_nome']} → {p['a_nome']}", "valore": p["auto"], "tono": "rosso",
+    pare = {"tipo": "barre", "titolo": f"Le {len(t['peggiori'])} coppie con più auto dove i mezzi pubblici impiegano più del doppio", "unita": "auto",
+            "nota": "Solo coppie con almeno 30 interviste. Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.",
+            "voci": [{"label": f"{p['da_nome'].replace('Torino, ', '')} → {p['a_nome'].replace('Torino, ', '')}", "valore": p["auto"], "tono": "rosso",
                       "testo": f"{migliaia(p['auto'])} auto: {round(p['tp_min'])} contro {round(p['auto_punta_basso_min'])} min"} for p in peggiori]}
     p3 = peggiori[:3]
     conferme = [n for n in t["noti"] if n["google_mezzi_min"]]
     txt_conf = " e ".join(f"{round(n['tp_min'])} contro {n['google_mezzi_min'][0]}-{n['google_mezzi_min'][1]}" for n in conferme)
-    strade = grafico_per_titolo(s, "Km di strade grandi")
-    extra = {"titolo": "Strade grandi e fermate vicine",
-             "punto": f"Il {virgola(quota_strade)}% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
-             "grafico": strade}
     # gara (Leo, 23/10; 24/10: sempre alle 8, cambia solo il luogo): viaggi tipici del mattino fra zone, le coppie con più auto, una partenza diversa per corsa
     od = comune.ore_del_giorno()
     nomi_z = {z["zona"]: z["nome"] for z in t["per_zona"]}
@@ -254,7 +250,7 @@ def forma_r8(s):
     corto = lambda c: nome_pulito(nomi_z.get(c, c).replace("Torino, ", ""))
     viste, viaggi = set(), []
     for p in sorted(coppie_ab, key=lambda p: -p["auto"]):
-        if p["da"] in viste or p["da"] == p["a"] or p["da"] not in nomi_z or p["a"] not in nomi_z:
+        if p["da"] in viste or p["da"] == p["a"] or p["da"] not in nomi_z or p["a"] not in nomi_z or p["interviste"] < SOGLIA_INTERVISTE:
             continue
         viste.add(p["da"])
         v = {"nome": corto(p["da"]), "arrivo": corto(p["a"]), "bus": p["tp_min"],
@@ -294,11 +290,11 @@ def forma_r8(s):
          else f"Al mattino, coi mezzi pubblici si impiega {x} volte il tempo dell'auto"),
         "Per quali spostamenti l'auto è molto più veloce dei mezzi pubblici, e quante auto li fanno?",
         {"valore": x, "unita": "volte",
-         "testo": f"il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino ({migliaia(ti['auto_collegate'])} auto). Con i sensori, la stima più favorevole all'auto, {virgola(round(ti['mediano_alto'], 1))}"},
+         "testo": f"il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino. Sono il {round(100 * ti['auto_collegate'] / t['totale_auto_zone'])}% delle auto del mattino ({migliaia(ti['auto_collegate'])}): mancano i viaggi dentro una zona e fra comuni della cintura. Con i sensori, la stima più favorevole all'auto, {virgola(round(ti['mediano_alto'], 1))}."},
         principale,
         [f"Con TomTom il {q_lo}% delle auto ha rapporto oltre 2; con i sensori il {q_hi}%.",
          (punto_giorno if (punto_giorno and not tutto_il_giorno)
-          else "Le 3 coppie peggiori: " + ", ".join(f"{p['da_nome']} → {p['a_nome']}" for p in p3) + "."),
+          else "Le 3 coppie peggiori: " + " · ".join(f"{p['da_nome'].replace('Torino, ', '')} → {p['a_nome'].replace('Torino, ', '')}" for p in p3) + "."),
          f"Google conferma i tempi coi mezzi pubblici sui percorsi di controllo: {txt_conf} minuti."],
         ([ore_linea] if ore_linea else []) + [gara, disp, pare],
         ["Le zone sono quelle dell'indagine sugli spostamenti 2022 con punti di calcolo; ognuna ha fino a 5 punti.",
@@ -316,4 +312,4 @@ def forma_r8(s):
          f"For {100 * ti['quota_oltre_2_basso']:.0f}% of cars it takes more than twice as long ({100 * ti['quota_oltre_2_alto']:.0f}% with the sensors).",
          "Limit: car times are forecast by TomTom for typical traffic on a November weekday, not measured on a specific day; we use a single service. "
          "Without metropolitan trains, public transport looks slower than it is."],
-        mappa=False, extra=extra, **({"anima": anima} if anima else {}))
+        mappa=False, **({"anima": anima} if anima else {}))

@@ -25,7 +25,7 @@
     "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
     "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T22:15:16+00:00",
+  "generato": "2026-10-23T22:17:40+00:00",
   "avviso": [
     "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
