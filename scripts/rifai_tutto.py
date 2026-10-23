@@ -125,9 +125,7 @@ def lancia(cid, argv, note, log):
     if "salta_se_manca=" in note:
         richiesto = RADICE / note.split("salta_se_manca=")[1].split(",")[0].split()[0]
         if not richiesto.exists():
-            log.write(f"
-=== {time.strftime('%Y-%m-%d %H:%M:%S')}  {cid}: saltato, manca {mostra(richiesto)} ===
-")
+            log.write(f"\n=== {time.strftime('%Y-%m-%d %H:%M:%S')}  {cid}: saltato, manca {mostra(richiesto)} ===\n")
             print(f"    saltato: manca {mostra(richiesto)}", flush=True)
             return 0
     tentativi = 3 if "riprova" in note else 1
