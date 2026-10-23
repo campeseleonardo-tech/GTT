@@ -17,6 +17,7 @@ import sqlite3
 import subprocess
 import sys
 import tempfile
+import time
 import uuid
 from pathlib import Path
 
@@ -34,6 +35,10 @@ DATA = RAD / "data"
 CFG = config_locale.carica()  # config_locale.json nella radice (non in git)
 PI = CFG["pi"]
 REMOTE_DB = CFG["dir_remota"] + "/data/storico.sqlite"
+# L4b (23/10/2026): lo snapshot sul Pi sta su disco, non in /tmp (sul Pi /tmp e' in memoria: 3,9 GB, non bastano piu')
+REMOTE_TMP_DIR = CFG["dir_remota"] + "/data/tmp_copia"
+SPAZIO_SNAPSHOT_VOLTE = 1.5  # spazio libero richiesto sul Pi: 1,5 volte lo storico, prima di fare lo snapshot
+RESTI_ORE = 24  # si cancellano solo gtt_storico_*.sqlite di quella cartella piu' vecchi di cosi' (copie interrotte)
 SSH_KEY = Path(CFG["chiave"])
 DEST = DATA / "storico_backup.sqlite"
 TABELLE = ("sensori_5t", "flussi_5t", "accuratezza_5t", "mezzi_gtt", "errori",
@@ -58,6 +63,35 @@ def comando_ssh(testo):
     remoto = f"python3 -c \"import base64;exec(base64.b64decode('{codice}').decode())\""
     return [shutil.which("ssh") or "ssh", "-i", str(SSH_KEY), "-o", "BatchMode=yes",
             "-o", "ConnectTimeout=30", PI, remoto]
+
+
+def codice_remoto(db, cartella, snapshot, volte=SPAZIO_SNAPSHOT_VOLTE, resti_ore=RESTI_ORE):
+    """Codice Python eseguito sul Pi (e provato in locale da --prova): spazio, resti vecchi, snapshot, riepilogo."""
+    return f'''import json, sqlite3, os, time, glob, shutil
+db={db!r}; cartella={cartella!r}; snap={snapshot!r}
+os.makedirs(cartella, exist_ok=True)
+peso=os.path.getsize(db)
+libero=shutil.disk_usage(cartella).free
+serve=int({volte}*peso)
+if libero<serve:
+    print(json.dumps({{"spazio_insufficiente":{{"libero":libero,"serve":serve}}}}))
+    raise SystemExit(0)
+for f in glob.glob(os.path.join(cartella,"gtt_storico_*.sqlite")):
+    if f!=snap and time.time()-os.path.getmtime(f)>{resti_ore}*3600:
+        os.unlink(f)
+src=sqlite3.connect("file:"+db+"?mode=ro", uri=True, timeout=60)
+dst=sqlite3.connect(snap, timeout=60)
+src.backup(dst, pages=256, sleep=0.1)
+check=dst.execute("PRAGMA integrity_check").fetchone()[0]
+tables={{r[0] for r in dst.execute("SELECT name FROM sqlite_master WHERE type='table'")}}
+names={TABELLE!r}
+counts={{t: dst.execute('SELECT COUNT(*) FROM "'+t+'"').fetchone()[0] for t in names if t in tables}}
+ranges={{}}
+for t,col in (("mezzi_gtt","letto_utc"),("flussi_5t","generato_utc"),("trip_update_gtt","letto_utc"),("occupazione_pk","generato_utc")):
+    if t in tables: ranges[t]=dst.execute('SELECT MIN("'+col+'"),MAX("'+col+'") FROM "'+t+'"').fetchone()
+dst.close(); src.close()
+print(json.dumps({{"integrity_check":check,"conteggi":counts,"intervalli":ranges}}))
+'''
 
 
 def riepilogo_locale(percorso, controlla=True):
@@ -169,6 +203,50 @@ def prova():
     return 1 if errori else 0
 
 
+def prova_remoto():
+    """Parte remota su un SQLite finto in una cartella temporanea: copia, spazio insufficiente, pulizia dei soli resti vecchi."""
+    errori = 0
+
+    def esito(nome, ok):
+        nonlocal errori
+        print(("OK     " if ok else "ERRORE ") + nome)
+        errori += 0 if ok else 1
+
+    with tempfile.TemporaryDirectory() as t:
+        t = Path(t)
+        db = t / "storico.sqlite"
+        con = sqlite3.connect(db)
+        con.execute("CREATE TABLE mezzi_gtt (letto_utc TEXT)")
+        con.executemany("INSERT INTO mezzi_gtt VALUES (?)", [("2026-10-01",), ("2026-10-02",)])
+        con.commit()
+        con.close()
+        cartella = t / "tmp_copia"
+        snap = cartella / "gtt_storico_nuovo.sqlite"
+        cartella.mkdir()
+        vecchio = cartella / "gtt_storico_vecchio.sqlite"
+        recente = cartella / "gtt_storico_recente.sqlite"
+        altro = cartella / "altro.sqlite"
+        for f in (vecchio, recente, altro):
+            f.write_bytes(b"x")
+        passato = time.time() - (RESTI_ORE + 1) * 3600
+        os.utime(vecchio, (passato, passato))
+        os.utime(altro, (passato, passato))
+
+        def lancia(volte):
+            r = subprocess.run([sys.executable, "-I", "-c", codice_remoto(str(db), str(cartella), str(snap), volte)],
+                               capture_output=True, text=True)
+            return json.loads(r.stdout.strip().splitlines()[-1]) if r.returncode == 0 and r.stdout.strip() else None
+
+        r = lancia(1e12)  # soglia finta enorme: spazio insufficiente, niente snapshot, niente pulizia
+        esito("spazio insufficiente: riportato, nessuno snapshot, nessuna pulizia",
+              bool(r) and "spazio_insufficiente" in r and not snap.exists() and vecchio.exists())
+        r = lancia(SPAZIO_SNAPSHOT_VOLTE)
+        esito("snapshot fatto, integro, 2 righe", bool(r) and r.get("integrity_check") == "ok"
+              and r["conteggi"].get("mezzi_gtt") == 2 and snap.exists())
+        esito("cancellato solo il resto vecchio gtt_storico_*", not vecchio.exists() and recente.exists() and altro.exists() and snap.exists())
+    return 1 if errori else 0
+
+
 def main():
     if not SSH_KEY.is_file():
         raise RuntimeError(f"Chiave SSH non trovata: {SSH_KEY}")
@@ -180,25 +258,17 @@ def main():
         raise RuntimeError("ssh e scp devono essere disponibili nel PATH di Windows")
 
     identificatore = uuid.uuid4().hex
-    remoto_tmp = f"/tmp/gtt_storico_{identificatore}.sqlite"
-    py_remoto = f'''import json, sqlite3
-src=sqlite3.connect("file:{REMOTE_DB}?mode=ro", uri=True, timeout=60)
-dst=sqlite3.connect("{remoto_tmp}", timeout=60)
-src.backup(dst, pages=256, sleep=0.1)
-check=dst.execute("PRAGMA integrity_check").fetchone()[0]
-tables={{r[0] for r in dst.execute("SELECT name FROM sqlite_master WHERE type='table'")}}
-names={TABELLE!r}
-counts={{t: dst.execute('SELECT COUNT(*) FROM "'+t+'"').fetchone()[0] for t in names if t in tables}}
-ranges={{}}
-for t,col in (("mezzi_gtt","letto_utc"),("flussi_5t","generato_utc"),("trip_update_gtt","letto_utc"),("occupazione_pk","generato_utc")):
-    if t in tables: ranges[t]=dst.execute('SELECT MIN("'+col+'"),MAX("'+col+'") FROM "'+t+'"').fetchone()
-dst.close(); src.close()
-print(json.dumps({{"integrity_check":check,"conteggi":counts,"intervalli":ranges}}))
-'''
+    remoto_tmp = f"{REMOTE_TMP_DIR}/gtt_storico_{identificatore}.sqlite"
+    py_remoto = codice_remoto(REMOTE_DB, REMOTE_TMP_DIR, remoto_tmp)
     local_tmp = DATA / f"storico_backup_{identificatore}.part"
     try:
         print("Creo uno snapshot SQLite consistente sul Pi...")
         remoto = json.loads(esegui(comando_ssh(py_remoto)))
+        if "spazio_insufficiente" in remoto:
+            sp = remoto["spazio_insufficiente"]
+            raise RuntimeError(f"poco spazio sul Pi in {REMOTE_TMP_DIR}: liberi {sp['libero'] / 1e9:.1f} GB, "
+                               f"ne servono {sp['serve'] / 1e9:.1f} GB ({SPAZIO_SNAPSHOT_VOLTE} volte lo storico): "
+                               "la copia di prima resta")
         if remoto.get("integrity_check") != "ok":
             raise RuntimeError(f"integrity_check remoto: {remoto.get('integrity_check')}")
         print("Copio lo snapshot sul PC...")
@@ -229,7 +299,7 @@ print(json.dumps({{"integrity_check":check,"conteggi":counts,"intervalli":ranges
 
 if __name__ == "__main__":
     if "--prova" in sys.argv:
-        sys.exit(prova())
+        sys.exit(max(prova(), prova_remoto()))
     try:
         sys.exit(main())
     except Exception as e:

@@ -52,7 +52,7 @@ GB = 1024 ** 3
 SPAZIO_ALLARME_GB = 5     # spazio libero sul Pi sotto questo: ALLARME
 SPAZIO_AVVISO_GB = 10     # sotto questo: AVVISO
 STORICO_AVVISO_GB = 8     # storico piu' grande di questo: AVVISO
-TMP_VOLTE_STORICO = 1.5   # /tmp con meno di 1,5 volte il peso dello storico: AVVISO (lo snapshot sta li')
+TMP_VOLTE_STORICO = 1.5   # cartella data/tmp_copia (lo snapshot sta li', L4b) con meno di 1,5 volte lo storico: ALLARME
 GTFS_ALLARME_GIORNI = 14  # GTFS a 14 giorni o meno dalla scadenza: ALLARME
 GTFS_AVVISO_GIORNI = 45   # a 45 giorni o meno: AVVISO
 GTFS_TENTATIVI_FALLITI_GIORNI = 3  # un errore GTFS in ognuno degli ultimi 3 giorni: AVVISO
@@ -80,6 +80,8 @@ CODICE_PI = (
     f"d=os.path.dirname('{DB_PI}')\n"
     "v=os.statvfs(d);r['_libero']=v.f_bavail*v.f_frsize\n"
     "v=os.statvfs('/tmp');r['_tmp_libero']=v.f_bavail*v.f_frsize\n"
+    "k=d+'/tmp_copia'\n"
+    "v=os.statvfs(k if os.path.isdir(k) else d);r['_copia_libero']=v.f_bavail*v.f_frsize\n"
     "r['_tmp_tipo']=''\n"
     "for l in open('/proc/mounts'):\n"
     "  q=l.split()\n"
@@ -142,9 +144,12 @@ def controlli_risorse(u, ora, ora_it, righe, avvisi):
     elif libero < SPAZIO_AVVISO_GB * GB:
         avvisi.append(f"spazio libero sul Pi {gb(libero)} (meno di {SPAZIO_AVVISO_GB} GB)")
     tipo = u.get("_tmp_tipo") or "disco (non e' un punto di mount a parte)"
-    righe.append(f"  /tmp del Pi: {gb(u['_tmp_libero'])} liberi, tipo {tipo}")
-    if u["_tmp_libero"] < TMP_VOLTE_STORICO * peso:
-        avvisi.append(f"/tmp ha {gb(u['_tmp_libero'])}, meno di {TMP_VOLTE_STORICO} volte lo storico ({gb(peso)}): lo snapshot della copia puo' fallire")
+    righe.append(f"  /tmp del Pi (solo informativo, dal 23/10 lo snapshot non sta piu' li'): {gb(u['_tmp_libero'])} liberi, tipo {tipo}")
+    copia = u.get("_copia_libero")
+    if copia is not None:
+        righe.append(f"  spazio per lo snapshot (data/tmp_copia): {gb(copia)} liberi, ne servono {gb(TMP_VOLTE_STORICO * peso)}")
+        if copia < TMP_VOLTE_STORICO * peso:
+            allarmi.append(f"spazio per lo snapshot {gb(copia)}, meno di {TMP_VOLTE_STORICO} volte lo storico ({gb(peso)}): la copia fallira'")
     crescita = ""
     try:
         prima = json.loads(STATO.read_text(encoding="utf-8"))

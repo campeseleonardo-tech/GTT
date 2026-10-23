@@ -41,9 +41,10 @@ echo [2/4] Copio i file della mappa...
 scp -q -i "%CHIAVE%" -o BatchMode=yes -o ConnectTimeout=20 "%PI%:%SRC%/live.js" "%PI%:%SRC%/stat.js" "%PI%:%SRC%/agg_cache.json" "%PI%:%SRC%/replay_*.js" data\ >> "%LOG%" 2>&1
 if errorlevel 1 if "%ESITO%"=="OK" set "ESITO=ERRORE nella copia dei file della mappa"
 
+rem (le virgolette attorno a -o ...=... servono: dentro for /f le "=" non quotate spezzano il comando)
 echo [3/4] Copio i GTFS archiviati sul Pi (solo i nuovi)...
 if not exist data\gtfs_archivio mkdir data\gtfs_archivio
-for /f "delims=" %%f in ('ssh -i "%CHIAVE%" -o BatchMode=yes -o ConnectTimeout=20 %PI% "ls %SRC%/gtfs" 2^>nul') do if not exist "data\gtfs_archivio\%%f" (
+for /f "delims=" %%f in ('ssh -i "%CHIAVE%" -o "BatchMode=yes" -o "ConnectTimeout=20" %PI% "ls %SRC%/gtfs" 2^>nul') do if not exist "data\gtfs_archivio\%%f" (
   scp -q -i "%CHIAVE%" -o BatchMode=yes -o ConnectTimeout=20 "%PI%:%SRC%/gtfs/%%f" "data\gtfs_archivio\%%f" >> "%LOG%" 2>&1
   if errorlevel 1 if "%ESITO%"=="OK" set "ESITO=ERRORE nella copia del GTFS archiviato"
 )
