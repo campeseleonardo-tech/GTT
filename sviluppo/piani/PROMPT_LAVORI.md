@@ -22,11 +22,11 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 |---|---|---|---|
 | P0 | PC | R6 rifatto con più giorni di parcheggi; scheda 5 controllata | 3 (1, 2) |
 | C1 (FATTO 22/10) | CLOUD | riorganizzazione: `sviluppo/`, dati di accesso fuori dai testi, testi puliti, script 86, prova delle pagine su ogni sistema, difetto `#p3` | 1 (4-7), 5 (1, 9) |
-| P1 | PC | `config_locale.json`, rilancio mappa e schede, prova delle pagine | 1 (5) |
+| P1 (FATTO 23/10) | PC | `config_locale.json`, rilancio mappa e schede, prova delle pagine | 1 (5) |
 | C2 (FATTO 22/10) | CLOUD | inventario dei dati (script 96) e licenze delle fonti | 2 (1, 2) |
 | P2 (FATTO 22/10) | PC | lancio dello script 96 🛑 Leo e Claude decidono dove va ogni dato | 2 (1, 3) |
 | C3 (FATTO 22/10) | CLOUD | riassunti dello storico + ora tipica (97), `.gitignore`, Release (98), `scarica_dati.py` | 2 (4-7) |
-| P3 | PC | lancio 97 e 98, caricamento della Release, commit dei dati | 2 (4-6) |
+| P3 (FATTO 22/10, Release dati-2026-10) | PC | lancio 97 e 98, caricamento della Release, commit dei dati | 2 (4-6) |
 | C4 (FATTO 22/10, aspetta la scelta di Leo) | CLOUD | 3 prove di stile 🛑 Leo sceglie | 4 (1) |
 | C5 (FATTO 22/10) | CLOUD | stile comune, barra, piè di pagina, anteprima dei link; numeri che contano, omini e quadratini; grafico della metro (scheda 5) | 4 (2, 3), 3 (3) |
 | C6 (FATTO 22/10) | CLOUD | divisione di `schede_risultati.py` e testi IT/EN | 5 (4), 4 (5) |
@@ -34,13 +34,13 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | C7 (FATTO 22/10) | CLOUD | gara bus contro auto (scheda 3) | 4 (4) |
 | C8 (FATTO 22/10) | CLOUD | home: mezzi in movimento, contatore, miniature | 4 (6) |
 | C9 (FATTO 22/10) | CLOUD | mappa: ore che scorrono, caricamento, telefono, schede dei temi, link della vista | 4 (7) |
-| P5 | PC | prima `97 --solo ora --rifai` (ESITO_C8), poi rilancio mappa e schede, controllo a occhio di home, schede e mappa 🛑 → main | — |
+| P5 (FATTO 23/10, Leo guarda a occhio) | PC | prima `97 --solo ora --rifai` (ESITO_C8), poi rilancio mappa e schede, controllo a occhio di home, schede e mappa 🛑 → main | — |
 | C10 (FATTO 23/10) | CLOUD | area che si espande: script dei tempi e grafico (scheda 4) | 4 (8) |
-| P6 | PC | `AREA_TEMPI.bat` (ESITO_C10): calcolo dei tempi da Piazza Castello, rilancio schede | 4 (8) |
+| P6 (FATTO 23/10) | PC | `AREA_TEMPI.bat` (ESITO_C10): calcolo dei tempi da Piazza Castello, rilancio schede | 4 (8) |
 | C11 (FATTO 23/10, Leo rilegge i testi) | CLOUD | `progetto.html` | 4 (9) |
 | C12 (FATTO 23/10) | CLOUD | 404, pagine dei singoli risultati, README, controllo automatico su GitHub, `rifai_tutto.py` | 4 (10), 1 (9), 5 (2, 3) |
-| P7 | PC | prova «da zero» e rilancio completo 🛑 → main; Leo accende GitHub Pages e scrive la descrizione del repository | 1 (8, 10), 5 (3) |
-| C13 (gruppo 21-29 FATTO 23/10; restano 33-50, 51-67, 68-95) | CLOUD | pulizia del codice (funzioni comuni, codice morto, prove dei numeri), a pezzi | 5 (5-8) |
+| P7 (FATTO 23/10, tranne le 19 ore di accessibilità; ESITO_P7) | PC | prova «da zero» e rilancio completo 🛑 → main; Leo accende GitHub Pages e scrive la descrizione del repository | 1 (8, 10), 5 (3) |
+| C13 (FATTO 23/10: tutti i gruppi, pyflakes a zero) | CLOUD | pulizia del codice (funzioni comuni, codice morto, prove dei numeri), a pezzi | 5 (5-8) |
 | P8 | PC | metà novembre: R4 con un mese di dati, rilancio | 3 (4) |
 
 ---
