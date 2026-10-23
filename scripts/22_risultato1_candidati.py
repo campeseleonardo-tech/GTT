@@ -40,7 +40,6 @@ import argparse
 import datetime as dt
 import importlib.util
 import json
-import math
 import time
 from pathlib import Path
 

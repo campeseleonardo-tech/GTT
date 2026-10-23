@@ -98,7 +98,7 @@ def anelli_di(g):
 
 def poligoni_zone():
     zone = json.loads((PROC / "imq_zone_geo.json").read_text(encoding="utf-8"))
-    from shapely.geometry import Polygon, MultiPolygon, Point  # noqa: F401
+    from shapely.geometry import Polygon, MultiPolygon  # noqa: F401
     from shapely.strtree import STRtree
     polys, cods = [], []
     for z in zone:
@@ -258,7 +258,6 @@ def main():
 
     # --- domanda V3 (catene di spostamenti) ---
     zone_ok = {z["cod"] for z in json.loads((PROC / "imq_zone.json").read_text(encoding="utf-8"))}
-    quartieri_torino = {c for c in zone_ok if c.startswith("Q")}
     celle = defaultdict(lambda: [0.0, 0])
     quote_ora = defaultdict(float)
     tot = 0.0
@@ -267,7 +266,6 @@ def main():
     tot_viaggi = 0
     chiave_prev = None
     gruppo_prev = None
-    uscita_prev = None
     with SPOSTAMENTI.open(encoding="utf-8-sig", newline="") as fh:
         for r in csv.DictReader(fh, delimiter=";"):
             chiave = (r.get("LOTTO"), r.get("SESSO"), r.get("ATTIVITA"),

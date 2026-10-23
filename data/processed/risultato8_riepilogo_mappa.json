@@ -353,7 +353,7 @@
     "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
     "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T13:30:39+00:00",
+  "generato": "2026-10-23T14:30:46+00:00",
   "avviso": [
     "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
     "Traffico stimato con un modello tarato su 20 sensori: errore tipico ±38%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -3666,6 +3666,11 @@
           }
         ]
       }
+    },
+    "area": {
+      "tipo": "area",
+      "titolo": "L'area che si espande: dove si arriva in 10, 20, 30 e 45 minuti",
+      "nota": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il 42,2% dei torinesi coi mezzi pubblici e dal 98,8% al 100% in auto (due fattori di punta, parcheggio compreso)."
     }
   },
   "forma_en": {
@@ -6933,6 +6938,11 @@
           }
         ]
       }
+    },
+    "area": {
+      "tipo": "area",
+      "titolo": "The expanding area: where you can get in 10, 20, 30 and 45 minutes",
+      "nota": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach 42.2% of residents by public transport and 98.8% to 100% by car (two rush-hour factors, parking included)."
     }
   },
   "numero_pubblico": 4

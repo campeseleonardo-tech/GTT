@@ -1,5 +1,5 @@
 """Applica a DATI (estratto dalla mappa di oggi) le trasformazioni del 04 e scrive i DATI nuovi."""
-import importlib.util, json, sys, time, copy
+import importlib.util, json, sys, time
 spec = importlib.util.spec_from_file_location("g04", "scripts/04_genera_mappa.py")
 g04 = importlib.util.module_from_spec(spec); spec.loader.exec_module(g04)
 J = lambda v: len(json.dumps(v, separators=(",", ":"), ensure_ascii=False).replace("</", "<\\/"))

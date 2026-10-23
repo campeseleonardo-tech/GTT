@@ -25,10 +25,9 @@ def scheda_r6():
     """Risultato 6 corretto: legge mappa_r6.json (script 79 <- 84). Prima la scoperta misurata
     sugli interscambi del Comune, poi dove mancano posti prima di entrare in città, poi la verifica."""
     r = json.loads(r6_file().read_text(encoding="utf-8"))
-    rie, aree, punti, profili = r["riepilogo"], r["aree"], r["punti_prioritari"], r.get("profili", [])
+    rie, punti, profili = r["riepilogo"], r["punti_prioritari"], r.get("profili", [])
     par = r.get("parametri", {})
     giorni = date_it(rie["giorni_feriali_validi"])
-    apc = rie["aree_per_categoria"]
     n_fermate = rie["fermate_importanti"]
     n_senza = rie["fermate_senza_posti_bastanti"]
     val = rie.get("validazione", [])
@@ -42,9 +41,6 @@ def scheda_r6():
     sens_file = r6_file().parent / "confronto_sensori.json"
     sens5t = json.loads(sens_file.read_text(encoding="utf-8")) if sens_file.exists() else None
     tre_punti = ", ".join(f"{p['ordine']}. {nome_pulito(p['nome'])} ({p['zona_nome']})" for p in punti[:3])
-    con_cat = [a for a in aree if not a.get("pochi_dati")]
-    critiche = sorted([a for a in con_cat if a["categoria"] == "Critica"], key=lambda a: -(a["nessun"] + a["insufficienti"]))
-    tre_critiche = "; ".join(" - ".join(a["zone_principali"]) or "area senza nome" for a in critiche[:3]) or "nessuna"
 
     def frase_uff(nome):
         v = uff.get(nome)
@@ -186,7 +182,6 @@ def forma_r6(s):
     quota = virgola(100 * rie["quota_mattino"])
     reg = rie["regola_fermate"]
     val = rie.get("validazione", [])
-    misurati = [v for v in val if v["stato"] != "non_misurato" and not v["esito"].startswith("non si può dire")]
     pieni = sum(1 for v in val if v["stato"] == "pieno")
     ordinati = sorted(punti, key=lambda p: -p["mancano"])
     terzo = max(1, round(len(ordinati) / 3))

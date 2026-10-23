@@ -168,6 +168,34 @@ def scheda_r8():
 
 
 
+def area_tempi_js():
+    """Scrive data/area_tempi.js (dati dell'«area che si espande», letti da assets/area.js) dal file dello script 99 e ritorna il grafico della scheda;
+    None se il file dello script 99 non c'e' ancora (la scheda esce senza il grafico)."""
+    f = comune.PROC / "area_tempi.json"
+    if not f.is_file():
+        print("AVVISO: data/processed/area_tempi.json non c'e' (script 99): la scheda 4 esce senza l'area che si espande")
+        return None
+    a = json.loads(f.read_text(encoding="utf-8"))
+    if a.get("finto") or a["parametri"].get("prova"):
+        print("AVVISO: area_tempi.json e' una prova o ha tempi finti: la scheda 4 esce senza l'area che si espande")
+        return None
+    p, s, z = a["parametri"], a["sezioni"], a["zone"]
+    la0, lo0 = p["origine"]
+    dati = {"f": [p["fattore_alto"], p["fattore_basso"]], "soglie": p["soglie"],
+            "ox": round((p["punto_coord"][1] - lo0) * p["scala_coordinate"]), "oy": round((p["punto_coord"][0] - la0) * p["scala_coordinate"]),
+            "x": s["x"], "y": s["y"], "r": s["res"], "z": s["zona"],
+            "c": {"m": a["castello"]["mezzi"], "a": a["castello"]["auto_alto"], "b": a["castello"]["auto_basso"]},
+            "zn": [n.replace("Torino, ", "") for n in z["nomi"]], "zm": z["mezzi"], "za": z["auto_alto"], "zb": z["auto_basso"]}
+    (comune.RADICE / "data" / "area_tempi.js").write_text(
+        "// generato da scripts/schede_risultati.py (dati: scripts/99_area_tempi.py) - non modificare a mano\nwindow.AREA_TEMPI = "
+        + json.dumps(dati, separators=(",", ":")) + ";\n", encoding="utf-8")
+    q = a["quote_residenti"]
+    return {"tipo": "area", "titolo": "L'area che si espande: dove si arriva in 10, 20, 30 e 45 minuti",
+            "nota": f"Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. "
+                    f"Da Piazza Castello in 30 minuti si raggiunge il {virgola(q['mezzi']['30'])}% dei torinesi coi mezzi pubblici e dal {virgola(min(q['auto_alto']['30'], q['auto_basso']['30']))}% "
+                    f"al {virgola(max(q['auto_alto']['30'], q['auto_basso']['30']))}% in auto (due fattori di punta, parcheggio compreso)."}
+
+
 def forma_r8(s):
     """Scheda R8: tempo coi mezzi pubblici contro tempo in auto (script 93), come forbice fra due fattori di punta; in coda la copertura delle strade."""
     t = json.loads((comune.PROC / "tp_contro_auto.json").read_text(encoding="utf-8"))
@@ -212,7 +240,6 @@ def forma_r8(s):
              "punto": f"Il {virgola(quota_strade)}% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
              "grafico": strade}
     senza_ab = ab["senza_collegamento"]
-    gg = t["google"]
     par_crit = [["Zone", f"{par['n_zone']} zone dell'indagine sugli spostamenti ({par['n_zone_torino']} di Torino), fino a {par['punti_per_zona']} punti ciascuna"],
                 ["Mezzi pubblici", f"partenza {par['partenza']}-8:15 di un feriale, mediana, cammino a {virgola(par['velocita_piedi_kmh'])} km/h, al massimo {par['tempo_max_min']} minuti"],
                 ["Auto, limite alto", f"tempo a flusso libero × {f_hi} (sensori 5T) + {virgola(par['minuti_parcheggio'])} minuti"],
@@ -244,4 +271,4 @@ def forma_r8(s):
          f"For {100 * ti['quota_oltre_2_basso']:.0f}% to {100 * ti['quota_oltre_2_alto']:.0f}% of cars it takes more than twice as long.",
          f"Limit: car times lie between the slowdown measured by sensors ({hi['fattore']:g}) and by Google Maps ({lo['fattore']:g}). "
          "Without metropolitan trains, public transport looks slower than it is."],
-        mappa=False, extra=extra)
+        mappa=False, extra=extra, **({"area": a} if (a := area_tempi_js()) else {}))

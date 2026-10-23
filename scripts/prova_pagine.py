@@ -10,7 +10,8 @@ Cosa fa
      le viste dei parcheggi, l'ingresso, le schede dei risultati.
   3. Controlla nel DOM che il pannello di errore (#jsoff) non sia visibile e che la legenda della vista mostri
      il titolo atteso.
-  4. (Con Playwright e Pillow) rifà le miniature dei riquadri della home in assets/miniature/ (WebP, sotto 40 KB).
+  4. (Con Playwright e Pillow) rifà le miniature dei riquadri della home in assets/miniature/ (WebP, sotto 40 KB), le anteprime 1200x630 dei risultati
+     in assets/anteprime/rN.jpg (per le pagine r/N.html, link condivisi sui social) e le 3 immagini del README in assets/readme/.
      Fa gli screenshot di ingresso, risultati e mappa (e delle viste dei parcheggi) a 1440x900 e 390x844
      in immagini/ (cartella fuori da git).
   5. Controllo statico: cerca identificatori r6... / R6... usati nel template ma non definiti.
@@ -72,6 +73,7 @@ def pagine_da_provare():
     out = [(f"mappa {v}", f"mappa_torino.html#tema=interscambio&vista={v}") for v in TITOLI_VISTA]
     out += [(f"mappa tema {t}", f"mappa_torino.html#tema={t}") for t in dict.fromkeys(temi) if t != "interscambio"]
     out.append(("ingresso", "index.html"))
+    out.append(("progetto", "progetto.html"))
     out += [(f"scheda R{n}", f"risultati.html#r{n}") for n in (1, 4, 6, 8, 10)]
     out.append(("elenco schede", "risultati.html"))
     return out
@@ -79,7 +81,7 @@ def pagine_da_provare():
 
 def pagine_screenshot():
     """(nome del file, pagina): ingresso, risultati, mappa e le due viste dei parcheggi."""
-    return [("ingresso", "index.html"), ("risultati", "risultati.html"), ("mappa", "mappa_torino.html"),
+    return [("ingresso", "index.html"), ("risultati", "risultati.html"), ("progetto", "progetto.html"), ("mappa", "mappa_torino.html"),
             ("mappa_parcheggi", "mappa_torino.html#tema=interscambio&vista=parcheggi"),
             ("mappa_mancano", "mappa_torino.html#tema=interscambio&vista=mancano")]
 
@@ -162,7 +164,7 @@ class BrowserPlaywright:
         except Exception:
             # il browser puo' stare in una cartella che Playwright non indovina (es. /opt/pw-browsers)
             base = os.environ.get("PLAYWRIGHT_BROWSERS_PATH", "/opt/pw-browsers")
-            cand = sorted(glob.glob(os.path.join(base, "chromium-*", "chrome-linux", "chrome")))
+            cand = sorted(glob.glob(os.path.join(base, "chromium-*", "chrome-linux", "chrome")) + glob.glob(os.path.join(base, "chromium-*", "chrome-linux64", "chrome")))
             if not cand:
                 self.pw.stop()
                 raise
@@ -282,6 +284,91 @@ def fai_miniature(br, cartella):
     return errori
 
 
+ANTEPRIME = RADICE / "assets" / "anteprime"
+IMMAGINI_README = RADICE / "assets" / "readme"
+
+# immagine di anteprima 1200x630 di un risultato (per r/N.html: i link condivisi sui social): numero grande e titolo sullo stile del sito
+JS_ANTEPRIMA = """(n) => {
+  const s = window.SCHEDE_RISULTATI.find(x => x.numero_pubblico === n), f = s.forma, g = f.numero;
+  const val = typeof g.valore === "number" ? Sito.formattaNumero(g.valore) : g.valore;
+  const unita = g.unita === "%" ? "%" : (g.unita || "");
+  const st = document.createElement("style");
+  st.textContent = "html,body{margin:0;padding:0;background:var(--barra)}.og{width:1200px;height:630px;box-sizing:border-box;background:var(--barra);color:var(--su-barra);"
+    + "border-bottom:14px solid var(--oro);padding:52px 72px 44px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}"
+    + ".og .k{font:700 30px/1 var(--font-titoli);letter-spacing:.08em;text-transform:uppercase;color:var(--oro-su-barra)}"
+    + ".og .n{font:700 170px/1 var(--font-titoli)}.og .n small{font-size:56px;margin-left:16px;font-weight:600;opacity:.9}"
+    + ".og .t{font:600 44px/1.18 var(--font-testi);max-width:1040px}.og .f{font:400 24px/1 var(--font-testi);opacity:.8}";
+  document.head.appendChild(st);
+  document.body.className = "";
+  document.body.innerHTML = '<div class="og"><div class="k">Torino Mobilità · ' + 'Risultato ' + n + '</div><div class="n">' + val + (unita === "%" ? "%" : "<small>" + unita + "</small>")
+    + '</div><div class="t">' + Sito.esc(f.titolo) + '</div><div class="f">campeseleonardo-tech.github.io/Turin-mobility</div></div>';
+}"""
+
+
+def _jpg(png_bytes, percorso, larghezza=None, qualita=82, ritaglia_alt=None):
+    from PIL import Image
+    import io
+    img = Image.open(io.BytesIO(png_bytes)).convert("RGB")
+    if ritaglia_alt:
+        img = img.crop((0, 0, img.width, min(img.height, ritaglia_alt)))
+    if larghezza and img.width > larghezza:
+        img = img.resize((larghezza, round(img.height * larghezza / img.width)), Image.LANCZOS)
+    percorso.parent.mkdir(parents=True, exist_ok=True)
+    img.save(percorso, "JPEG", quality=qualita, optimize=True)
+    return percorso.stat().st_size
+
+
+def fai_immagini_condivisione(br, cartella):
+    """Anteprime 1200x630 dei risultati (assets/anteprime/rN.jpg, per le pagine r/N.html) e le 3 immagini del README (assets/readme/: home, un risultato, mappa).
+    Serve Playwright, Pillow e i dati delle schede; altrimenti salta senza errore. Ritorna un elenco di errori."""
+    if not isinstance(br, BrowserPlaywright) or not (cartella / "data" / "schede_risultati.js").exists():
+        print("  immagini di anteprima e README: non fatte (serve Playwright e data/schede_risultati.js)")
+        return []
+    try:
+        __import__("PIL")  # solo per sapere se Pillow c'è
+    except ImportError:
+        print("  immagini di anteprima e README: non fatte (manca Pillow: pip install pillow)")
+        return []
+    errori = []
+    base = f"http://127.0.0.1:{PORTA}/"
+    ctx = br.br.new_context(viewport={"width": 1200, "height": 630}, reduced_motion="reduce", color_scheme="light", locale="it-IT")
+    page = ctx.new_page()
+    try:
+        page.goto(base + "risultati.html", wait_until="load", timeout=60000)
+        numeri = page.evaluate("(window.SCHEDE_RISULTATI || []).filter(s => s.forma && s.numero_pubblico != null).map(s => s.numero_pubblico)")
+        for n in sorted(numeri):
+            page.goto(base + "risultati.html", wait_until="load", timeout=60000)
+            page.evaluate(JS_ANTEPRIMA, n)
+            page.wait_for_timeout(400)
+            dim = _jpg(page.screenshot(clip={"x": 0, "y": 0, "width": 1200, "height": 630}), ANTEPRIME / f"r{n}.jpg", qualita=85)
+            print(f"  anteprima r{n}.jpg: 1200x630, {dim // 1024} KB")
+            if dim > 300_000:
+                errori.append(f"anteprima r{n}.jpg pesa {dim} byte (limite 300000)")
+    except Exception as e:
+        errori.append(f"anteprime: {str(e)[:200]}")
+    finally:
+        ctx.close()
+    ctx = br.br.new_context(viewport={"width": 1440, "height": 900}, reduced_motion="reduce", color_scheme="light", locale="it-IT")
+    page = ctx.new_page()
+    try:
+        for nome, indirizzo, attesa in (("home", "index.html", 1500), ("mappa", "mappa_torino.html#tema=vulnerabilita&vista=doppio", 4000)):
+            page.goto(base + indirizzo, wait_until="load", timeout=60000)
+            page.wait_for_timeout(attesa)
+            dim = _jpg(page.screenshot(), IMMAGINI_README / f"{nome}.jpg", larghezza=900, qualita=80)
+            print(f"  README {nome}.jpg: {dim // 1024} KB")
+            if dim > 250_000:
+                errori.append(f"assets/readme/{nome}.jpg pesa {dim} byte (limite 250000)")
+        page.goto(base + "risultati.html#p3", wait_until="load", timeout=60000)
+        page.wait_for_timeout(1200)
+        dim = _jpg(page.locator("#finestra").screenshot(), IMMAGINI_README / "scheda.jpg", larghezza=900, qualita=80, ritaglia_alt=1000)
+        print(f"  README scheda.jpg: {dim // 1024} KB")
+    except Exception as e:
+        errori.append(f"immagini README: {str(e)[:200]}")
+    finally:
+        ctx.close()
+    return errori
+
+
 def sceglie_browser(forza_playwright):
     if not forza_playwright and os.name == "nt":
         for p in BROWSER_WINDOWS:
@@ -360,6 +447,7 @@ def main():
                     if dim < 5000:
                         errori.append(f"screenshot {png.name}: file piccolo ({dim} byte): probabile pagina vuota")
             errori += fai_miniature(br, cartella)
+            errori += fai_immagini_condivisione(br, cartella)
     finally:
         srv.shutdown()
         srv.server_close()

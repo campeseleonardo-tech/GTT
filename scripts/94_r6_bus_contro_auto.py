@@ -177,7 +177,6 @@ def main():
     if poco_pieni:
         par_inter += " Quelli poco pieni: " + "; ".join(f"da {l['nome']} {l['classe_testo']}" for l in poco_pieni) + "."
 
-    prova = {l["nome"]: l for l in luoghi}
     out = {"stimato": True,
            "parametri": {"destinazione": "Piazza Castello", "giorno": str(m93.GIORNO), "partenza": f"{m93.PARTENZA:%H:%M}", "finestra_min": m93.FINESTRA_MIN,
                          "velocita_piedi_kmh": m93.VEL_PIEDI_KMH, "minuti_parcheggio": m93.MIN_PARCHEGGIO, "fattore_alto": f_alto,

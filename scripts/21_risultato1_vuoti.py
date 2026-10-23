@@ -606,8 +606,8 @@ def main():
         f"  1) Residenti a Torino SENZA ALMENO UN servizio essenziale entro {taglio} min a piedi: "
         f"{almeno_uno_zero_torino:,} su {res_torino_tot:,} ({esito['numeri_di_testa']['quota_residenti_torino']}%)",
         f"  2) Gruppo piu' carente a Torino (piu' residenti a zero, a Torino): {gruppo_peggiore}",
-        f"  3) Vedi dettaglio: la cintura ha percentuali di 'zero' molto piu' alte, ma per "
-        f"scuole/salute/cibo NON sono comparabili con Torino (manca il catalogo, non il servizio)",
+        "  3) Vedi dettaglio: la cintura ha percentuali di 'zero' molto piu' alte, ma per "
+        "scuole/salute/cibo NON sono comparabili con Torino (manca il catalogo, non il servizio)",
         "",
         "DETTAGLIO PER GRUPPO (Torino e cintura sempre separate):",
     ]

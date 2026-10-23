@@ -39,6 +39,8 @@
 
 <div id="galleria" class="galleria"></div>
 
+<p class="sub perche" style="margin-top:22px"><a class="btn" href="progetto.html" data-en="Why this project">Perché questo progetto</a></p>
+
 <dialog id="finestra" aria-labelledby="finTitolo">
   <div class="fin-testa">
     <div>
@@ -66,6 +68,7 @@
 <script src="data/schede_risultati.js"></script>
 <script src="assets/sito.js"></script>
 <script src="assets/gara.js"></script>
+<script src="assets/area.js"></script>
 <script>Sito.avvia();</script>
 <script>
 "use strict";
@@ -254,7 +257,7 @@ function graficoDispersione(g){
 function ymaxGrezzo(pts){ return Math.max(10, ...pts.map(p => p[1])); }
 
 function grafico(g){
-  const corpo = g.tipo === "gara" ? (window.Gara ? Gara.html({luoghi: g.luoghi, scelto: g.scelto}) : "") : g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "barre_diff" ? graficoBarreDiff(g) : g.tipo === "barre_gruppi" ? graficoBarreGruppi(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
+  const corpo = g.tipo === "gara" ? (window.Gara ? Gara.html({luoghi: g.luoghi, scelto: g.scelto}) : "") : g.tipo === "area" ? (window.Area ? Area.html() : "") : g.tipo === "pila100" ? graficoPila100(g) : g.tipo === "linea" ? graficoLinea(g) : g.tipo === "dispersione" ? graficoDispersione(g) : g.tipo === "barre_diff" ? graficoBarreDiff(g) : g.tipo === "barre_gruppi" ? graficoBarreGruppi(g) : g.tipo === "pila" ? graficoPila(g) : graficoBarre(g);
   return `<div class="grafico"><h5>${esc(g.titolo)}</h5>${corpo}${g.nota ? `<div class="nota">${esc(g.nota)}</div>` : ""}</div>`;
 }
 
@@ -268,8 +271,8 @@ function apri(i){
   const s = schede[i], f = forma(s);
   $("finMeta").innerHTML = `${T("Risultato", "Result")} ${esc(numeroDi(s))} ${etichetta(s)}`;
   $("finTitolo").textContent = f.titolo;
-  const mappa = f.mappa
-    ? `<div class="azioni"><a class="btn primario" href="mappa_torino.html#tema=${encodeURIComponent(f.mappa.id)}${f.mappa.vista ? "&vista=" + encodeURIComponent(f.mappa.vista) : ""}">${T("Vedi sulla mappa", "See on the map")}</a></div>` : "";
+  const mappa = `<div class="azioni">${f.mappa
+    ? `<a class="btn primario" href="mappa_torino.html#tema=${encodeURIComponent(f.mappa.id)}${f.mappa.vista ? "&vista=" + encodeURIComponent(f.mappa.vista) : ""}">${T("Vedi sulla mappa", "See on the map")}</a>` : ""}<button type="button" class="btn" id="finCondividi">${T("Condividi", "Share")}</button></div>`;
   const criteri = Array.isArray(f.criteri) && f.criteri.length
     ? `<div class="sottotitolo">${T("I criteri", "The criteria")}</div><table class="param">${f.criteri.map(c => `<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td></tr>`).join("")}</table>` : "";
   const confronto = Array.isArray(f.confronto) && f.confronto.length
@@ -280,13 +283,19 @@ function apri(i){
     `<p class="domanda">${esc(f.domanda)}</p>` +
     `<div class="grande"><span class="val"${typeof f.numero.valore === "number" ? ` data-valore="${f.numero.valore}" data-suffisso="${f.numero.unita === "%" ? "%" : ""}"` : ""}>${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>` +
     unitaHtml(f.unita) +
-    grafico(f.principale) + mappa +
+    grafico(f.principale) + (f.area ? grafico(f.area) : "") + mappa +
     elenco(f.punti, "ul").replace("<ul>", '<ul class="punti">') +
     parte(T("Altri grafici", "More charts"), (f.altri || []).map(grafico).join("")) +
     extra +
     parte(T("Come l'abbiamo calcolato", "How we calculated it"), elenco(f.calcolo, "ol") + confronto + criteri) +
     parte(T("Limiti", "Limits"), elenco(f.limiti, "ul")) +
     (Sito.lingua() === "en" ? "" : parte("In English", (f.english || []).map(x => `<p>${esc(x)}</p>`).join(""), "en"));
+  // «Condividi»: copia l'indirizzo della pagina del risultato (r/N.html), quella con l'anteprima per i social
+  $("finCondividi").addEventListener("click", async () => {
+    const b = $("finCondividi"), url = new URL("r/" + numeroDi(s) + ".html", location.href).href;
+    try { await navigator.clipboard.writeText(url); b.textContent = T("Link copiato", "Link copied"); setTimeout(() => { b.textContent = T("Condividi", "Share"); }, 2200); }
+    catch(e){ window.prompt(T("Copia questo link", "Copy this link"), url); }
+  });
   const d = $("finestra");
   if(!d.open) d.showModal();
   d.scrollTop = 0;

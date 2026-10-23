@@ -123,7 +123,6 @@ def unisci(padre, radice, i, j):
 def main():
     rete = rete_osm.carica(RETE_DIR)
     meta = rete["meta"]
-    N = len(rete["nodi_xy"])
     n_edge = len(rete["edge_a"])
     edge_a = rete["edge_a"]; edge_b = rete["edge_b"]
     edge_len = rete["edge_len"]

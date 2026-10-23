@@ -2,12 +2,12 @@
 """
 86_controlla_file_pagine.py  -  ogni file caricato dalle pagine esiste ed è in git?
 
-Legge index.html, risultati.html e mappa_torino.html e elenca tutti i file che caricano (script src, fetch,
+Legge index.html, risultati.html, mappa_torino.html e progetto.html e elenca tutti i file che caricano (script src, fetch,
 caricamenti dinamici della mappa, gruppi di data/catalogo/, immagini, pagine collegate). Per ognuno dice se esiste sul
 disco e se è salvato in git (se no, GitHub Pages non lo pubblica e la pagina funziona male). Manca o non è in git = AVVISO.
 Non scrive niente e non crea cartelle: è solo un controllo.
 
-Come si lancia:  python scripts/86_controlla_file_pagine.py
+Come si lancia:  python scripts/86_controlla_file_pagine.py          (con --ci esce con 1 se manca un file: lo usa il controllo automatico su GitHub)
 """
 import json
 import re
@@ -19,7 +19,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import comuni  # noqa: E402
 
 RADICE = comuni.RADICE
-PAGINE = ["index.html", "risultati.html", "mappa_torino.html"]
+PAGINE = ["index.html", "risultati.html", "mappa_torino.html", "progetto.html"]
+# file che una pagina carica da JavaScript con un indirizzo costruito (non si trovano leggendo la pagina)
+CARICATI_DA_SCRIPT = {"risultati.html": ["data/area_tempi.js"]}   # assets/area.js, scheda 4; manca finche' non gira lo script 99
 URL = re.compile(r"^(https?:)?//|^data:|^mailto:|^#|^javascript:", re.I)
 
 RE_SRC = re.compile(r"""<(?:script|img|link)\b[^>]*?\b(?:src|href)\s*=\s*["']([^"']+)["']""", re.I)
@@ -38,7 +40,7 @@ def file_citati(pagina, testo):
 
     def aggiungi(rif, prefisso=""):
         rif = pulito(prefisso + rif)
-        if rif and not URL.match(rif) and rif not in trovati:
+        if rif and "${" not in rif and not URL.match(rif) and rif not in trovati:   # «${...}» = indirizzo costruito dal JavaScript: non si controlla
             trovati.append(rif)
 
     for rx in (RE_SRC, RE_A, RE_FETCH):
@@ -59,6 +61,8 @@ def file_citati(pagina, testo):
                 gruppi = []
         for g in gruppi:
             aggiungi(f"catalogo/{g}.js", "data/")
+    for rel in CARICATI_DA_SCRIPT.get(pagina, []):
+        aggiungi(rel)
     return trovati
 
 
@@ -70,9 +74,14 @@ def in_git(rel):
     return bool(out.strip())
 
 
+OPZIONALI = {"data/area_tempi.js"}     # con --ci non e' un errore se manca (compare dopo lo script 99)
+
+
 def main():
+    ci = "--ci" in sys.argv     # per il controllo automatico su GitHub: esce con 1 se manca un file o un link interno (salvo gli opzionali)
     c = comuni.Controlli()
     mancanti = 0
+    gravi = []
     for pagina in PAGINE:
         p = RADICE / pagina
         c(f"esiste {pagina}", p.exists(), bloccante=True)
@@ -85,8 +94,13 @@ def main():
                 continue
             ok = esiste and git
             mancanti += 0 if ok else 1
+            if not ok and rel not in OPZIONALI:
+                gravi.append(f"{pagina} -> {rel}: {'manca' if not esiste else 'non e\' in git'}")
             c(f"{pagina} -> {rel}: {'esiste' if esiste else 'MANCA'}, {'in git' if git else 'NON in git'}", ok)
     print(f"\nFile da guardare: {mancanti}; avvisi: {len(c.avvisi())}")
+    if ci and gravi:
+        print("ERRORI (--ci):\n  " + "\n  ".join(gravi))
+        return 1
     return 0
 
 

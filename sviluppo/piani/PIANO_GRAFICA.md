@@ -60,9 +60,9 @@ nel sistema; pagine che funzionano anche senza le animazioni.
 | 5 | **FATTO (C6, Leo rilegge)**: testi IT/EN: dopo la divisione di `schede_risultati.py` (piano 5, passo 4), inglese completo delle schede; Leo rilegge | CLOUD | medio |
 | 6 | **A + J + K** home: animazione dei mezzi (serve l'ora tipica: piano 2, passo 4, sul PC), contatore, miniature | CLOUD → PC → CLOUD | medio |
 | 7 | **F + L + M** mappa: ore che scorrono, caricamento, pannello su telefono, schede dei temi, link della vista | CLOUD | medio |
-| 8 | **E** area che si espande nella scheda 4: script dei tempi da 2-3 luoghi (mezzi e auto) | CLOUD (script) → PC (calcolo) → CLOUD | medio |
-| 9 | **G + N** `progetto.html` | CLOUD | grande |
-| 10 | **O**, **P**; screenshot per il README (piano 1) | CLOUD | piccolo |
+| 8 | **FATTO nel cloud (C10), da calcolare sul PC (P6: `AREA_TEMPI.bat`)**: **E** area che si espande nella scheda 4: script 99, da Piazza Castello e da ogni zona di Torino | CLOUD (script) → PC (calcolo) → CLOUD | medio |
+| 9 | **FATTO (C11, Leo rilegge i testi)**: **G + N** `progetto.html` | CLOUD | grande |
+| 10 | **FATTO (C12)**: **O**, **P**; screenshot per il README (piano 1) | CLOUD | piccolo |
 
 Prova di ogni passo: le pagine aperte in un browser senza schermo (0 errori, screenshot a misura di computer e telefono, anche
 con «riduci movimento»); Leo guarda gli screenshot e poi le pagine vere sul PC.

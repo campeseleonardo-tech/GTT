@@ -97,7 +97,6 @@ def diff_ang(a, b):
 
 
 def main():
-    prova = "--prova" in sys.argv
     rete = rete_osm.carica(RETE_DIR)
     xy = rete["nodi_xy"]
     meta = rete["meta"]

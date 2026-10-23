@@ -1,0 +1,21 @@
+RAPPORTO - Area che si espande (script 99)
+generato 2026-10-23T14:23:02+00:00
+
+Sezioni di Torino: 4044; senza collegamento coi mezzi entro 120 minuti: 2
+Fattori di punta: 1.2 (sensori 5T) e 2.1 (Google Maps), + 5 minuti di parcheggio
+
+Residenti di Torino raggiunti da Piazza Castello (%):
+  minuti            10      20      30      45
+  coi mezzi        1.6    11.5    42.2    90.6
+  auto x1.2       16.5    99.2   100.0   100.0
+  auto x2.1        2.3    60.0    98.8   100.0
+
+Controlli:
+  OK     nessun tempo negativo
+  OK     tutte le sezioni hanno una zona
+  OK     tabella zona-zona completa (nessuna coppia vuota) — 23 x 22 coppie
+  OK     sezioni senza collegamento coi mezzi entro 120 minuti (contate a parte) — 2 su 4044
+  OK     la sezione piu' vicina a Piazza Castello e' a meno di 10 minuti in auto a flusso libero — 0.3 minuti
+  OK     Piazza Castello -> Porta Nuova: auto a flusso libero sotto 10 minuti — 3.2 minuti
+  AVVISO Piazza Castello -> sezione di Porta Nuova coi mezzi sotto 15 minuti — 16.0 minuti
+  OK     con piu' minuti si raggiunge sempre di piu' (tutte le soglie)

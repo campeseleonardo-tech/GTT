@@ -18,7 +18,6 @@ import csv
 import json
 import math
 import sys
-from collections import defaultdict
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent

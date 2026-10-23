@@ -41,7 +41,7 @@ import argparse
 import json
 import sqlite3
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
@@ -77,21 +77,6 @@ SOGLIA_VUOTO = 0.15             # G massimo per il contrassegno "vuoto"
 # griglia della tabella di sensibilita'
 GRIGLIA_BLOCCATO = (0.04, 0.06, 0.08)
 GRIGLIA_PENDOLARE = (0.15, 0.20, 0.25)
-
-
-# ora legale italiana, stessa regola di scripts/04_genera_mappa.py (_locale)
-def _ultima_domenica(anno, mese):
-    d = datetime(anno, mese, 31).date()
-    while d.weekday() != 6:
-        d -= timedelta(days=1)
-    return d
-
-
-def ora_locale(dt_utc):
-    a = dt_utc.year
-    inizio = datetime(a, 3, _ultima_domenica(a, 3).day, 1, tzinfo=timezone.utc)
-    fine = datetime(a, 10, _ultima_domenica(a, 10).day, 1, tzinfo=timezone.utc)
-    return dt_utc + timedelta(hours=2 if inizio <= dt_utc < fine else 1)
 
 
 def leggi_riassunti(forza_riassunti):
@@ -261,7 +246,6 @@ def main():
     }, ensure_ascii=False), encoding="utf-8")
 
     # --- rapporto ---
-    usati = [r for r in risultati if r["giorni_validi"]]
     giorni_tutti = sorted({g for r in risultati for g in r["giorni_validi"]})
     feriali = [g for g in giorni_tutti if datetime.strptime(g, "%Y-%m-%d").weekday() < 5]
     weekend = [g for g in giorni_tutti if datetime.strptime(g, "%Y-%m-%d").weekday() >= 5]

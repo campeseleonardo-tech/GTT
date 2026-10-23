@@ -124,15 +124,12 @@ def main():
     ab = json.loads((PROC / "traffico_stimato_AB.json").read_text(encoding="utf-8"))
     punt = {u["corridoio"]["nome"]: u["corridoio"]["punteggio"] for u in ab["unita"]}
 
-    sensori_v0 = carica_sensori(OUT_DIR / "corridoi_modello.json")
     varianti = {"V0": OUT_DIR / "corridoi_modello.json",
                 "V3": OUT_DIR / "v3" / "corridoi_v3.json",
                 "V3_senza_attrattori": OUT_DIR / "v3_abl1" / "corridoi_v3.json",
                 "V3_senza_congestione": OUT_DIR / "v3_abl2" / "corridoi_v3.json",
                 "V3_senza_porte_ristrette": OUT_DIR / "v3_abl3" / "corridoi_v3.json"}
     risultati = {}
-    tabella = []
-    unita_ref = None
     for nome, percorso in varianti.items():
         sens = carica_sensori(percorso)
         if sens is None:
@@ -143,8 +140,6 @@ def main():
         risultati[nome] = {"unita": unita, "mis": mis.tolist(), "mod": mod.tolist(),
                            "esito": {k: v for k, v in esito.items() if k != "err"},
                            "rho_grezzo": rho_grezzo}
-        if nome == "V0":
-            unita_ref = unita
 
     righe = []
     a = righe.append
@@ -181,9 +176,9 @@ def main():
 
     # --- classe di esito della variante finale ---
     if variante_finale == "V3":
-        ef = risultati["V3"]["esito"]; sens_corr = carica_sensori(OUT_DIR / "v3" / "corridoi_v3.json")
+        ef = risultati["V3"]["esito"]
     else:
-        ef = risultati["V0"]["esito"]; sens_corr = sensori_v0
+        ef = risultati["V0"]["esito"]
     rho = ef["rho_loo"]; err = ef["errore_mediano"]; ic = ef["ic90"]
     incerto = ic[0] < 0.35 < ic[1]
     if rho < 0.5:
@@ -247,7 +242,7 @@ def main():
         tv0 = float(d0[nd]) / 60.0; tv3 = float(d3[nd]) / 60.0
         tempi.append((nome, tv0, tv3))
         a(f"  {nome:42s} flusso libero {tv0:5.1f} min   congestione V3 {tv3:5.1f} min")
-    a(f"  (atteso per Castello->Collegno: 20-35 min in punta)")
+    a("  (atteso per Castello->Collegno: 20-35 min in punta)")
     a("")
 
     # velocita' modello sui tratti dei sensori in punta vs misurate

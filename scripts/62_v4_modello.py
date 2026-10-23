@@ -24,7 +24,6 @@ Output in data/processed/traffico_d/<outdir>/:
 
 import argparse
 import json
-import math
 import sys
 import time
 from collections import defaultdict
@@ -100,8 +99,6 @@ def main():
     hw = meta["highway"]
     cap_per_corsia = np.array([rete_osm.CAPACITA_CORSIA.get(hw[e], 500) for e in range(n_edge)],
                               dtype=np.float64)
-    cap_edge = np.where(corsie_av + corsie_in > 0,
-                        np.maximum(corsie_av, 1) * cap_per_corsia, cap_per_corsia)
     cap_arc = np.where(dir_arc == 0, np.maximum(corsie_av[ind_edge], 1) * cap_per_corsia[ind_edge],
                        np.maximum(corsie_in[ind_edge], 1) * cap_per_corsia[ind_edge])
 

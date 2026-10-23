@@ -119,6 +119,7 @@ Per gruppo (basso | alto). Cintura-cintura è a parte: mancano treni e altre azi
 | 56-67 | assi e tratte, corsie, ZTL, TP per posizione, valutazione finale |
 | `schede_risultati.py` (`scheda_r8`) | scheda con errore % per sensore |
 | 93 | tempo coi mezzi contro auto fra zone IMQ: forbice con due fattori di punta → `tp_contro_auto.json` (si rifà in circa 1 minuto) |
+| 99 | «area che si espande» (scheda 4): da Piazza Castello a ogni sezione di Torino, coi mezzi (r5py) e in auto (rete del modello, gli stessi due fattori del 93); zona-zona di Torino ricopiata dal 93 → `area_tempi.json` → `data/area_tempi.js` (`scripts\AREA_TEMPI.bat`; `--finto` per provare la pagina senza dati) |
 
 Risultato: `data/processed/risultato8_traffico_tp_v2.json` (universo, assi da guardare, tratte); dettaglio per tratta in
 `data/processed/traffico_d/tratte_traffico.json`; valutazione in `traffico_d/valutazione_fase5.json`.

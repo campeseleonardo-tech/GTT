@@ -19,7 +19,7 @@ def nome_zona(n):
 
 def scheda_r10():
     j = leggi("case_fragilita_servizi.json")
-    e1, e2, e3 = j["e1_si_paga_per_i_servizi"], j["e2_doppio_svantaggio"], j["e3_valore_metro"]
+    e1, e2 = j["e1_si_paga_per_i_servizi"], j["e2_doppio_svantaggio"]
     se = e2["sezioni"]
     quota = se["quota_residenti_di_riferimento"]
     # stessa approssimazione degli omini (decimi): 9,5% -> «circa 1 su 10», cosi' titolo e testo coincidono

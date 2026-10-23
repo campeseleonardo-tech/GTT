@@ -169,7 +169,7 @@ def main():
     a("RAPPORTO FINALE - TRAFFICO VEICOLARE STIMATO (metodo C, Risultato 8)")
     a("=" * 74)
     a(f"Classe di esito (pacchetto F): {classe}   variante finale: {finale}")
-    a(f"Taratura: " + (f"misurato = {a_tot:.2f} x modello^{b_tot:.3f}" if a_tot else f"k = {k_tot:.3f}"))
+    a("Taratura: " + (f"misurato = {a_tot:.2f} x modello^{b_tot:.3f}" if a_tot else f"k = {k_tot:.3f}"))
     a(f"Corridoi totali: {len(out):,}  con stima: {sum(1 for c in out if c.get('n_tratti')):,}  "
       f"senza stima: {sum(1 for c in out if not c.get('n_tratti')):,}")
     a(f"Fiducia: alta {fiducia_conta['alta']} (sensore sul corridoio), "

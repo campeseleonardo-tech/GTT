@@ -53,7 +53,6 @@ TOTALE_RIFERIMENTO = 8217863.0
 
 
 def main():
-    prova = "--prova" in sys.argv
     if not SPOSTAMENTI.is_file():
         sys.exit(f"Non trovo {SPOSTAMENTI}")
 
@@ -126,8 +125,6 @@ def main():
             celle_sotto30["peso"] += peso
 
     quote = {str(h): (quote_ora.get(h, 0.0) / tot["peso"] if tot["peso"] else 0.0) for h in range(24)}
-    punta_am = sum(quote_ora.get(h, 0.0) for h in (7, 8)) / tot["peso"] if tot["peso"] else 0
-    punta_pm = sum(quote_ora.get(h, 0.0) for h in (16, 17, 18)) / tot["peso"] if tot["peso"] else 0
 
     celle_out = [[par, arr, ora, round(peso, 4), n]
                  for (par, arr, ora), (peso, n) in sorted(celle.items())]

@@ -25,7 +25,6 @@ Output (in v3/): archi_flusso_v3.npz, corridoi_v3.json, riepilogo.json
 """
 
 import argparse
-import csv
 import json
 import math
 import sys
@@ -180,7 +179,7 @@ def matrice(M_src, M_dst, M_w, N):
     import scipy.sparse as sp
     chiave = M_src * N + M_dst
     order = np.argsort(chiave, kind="stable")
-    chiave_s = chiave[order]; w_s = M_w[order]
+    chiave_s = chiave[order]
     primo = np.concatenate(([True], chiave_s[1:] != chiave_s[:-1]))
     pos = np.nonzero(primo)[0]
     idx = order[pos].copy()
@@ -390,7 +389,6 @@ def main():
     # sensori
     sensori_v2 = json.loads((PROC / "sensori_corridoi_v2.json").read_text(encoding="utf-8"))["sensori"]
     ab = json.loads((PROC / "traffico_stimato_AB.json").read_text(encoding="utf-8"))
-    idx_nome = {o["nome"]: k for k, o in enumerate(out)}
     info = []
     for u in ab["unita"]:
         lcd = u["lcd1"][0]

@@ -69,11 +69,11 @@ import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
-import numpy as np
 import osmium
-from scipy.spatial import cKDTree
 
 AQUI = Path(__file__).resolve().parent
+sys.path.insert(0, str(AQUI))
+from comuni import haversine_m  # noqa: E402  (stessa formula della copia che stava qui)
 
 
 def trova_radice():
@@ -113,15 +113,6 @@ RAGGIO_NODO_PARCHEGGIO_M = 400.0
 LAT_RIF = 45.07
 FATTORE_GRADI_M = 111000.0
 TIPI_ESCLUSI = ("privato", "clienti", "lungo_strada")
-
-
-def haversine_m(lat1, lon1, lat2, lon2):
-    R = 6371000.0
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dl = math.radians(lon2 - lon1)
-    a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    return 2 * R * math.asin(math.sqrt(a))
 
 
 def proietta(lon, lat):

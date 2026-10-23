@@ -216,7 +216,6 @@ def matrice_tp(zone, extra, lotto, log):
     """Tempi TP (minuti, mediana nella finestra 7:45-8:15) fra tutti i punti. Ripartibile.
     Ritorna (ids, T) con T[i, j] in minuti, nan = nessun collegamento entro 120 minuti."""
     import pandas as pd
-    from shapely.geometry import Point
     elenco = []                                       # (id, lat, lon)
     for cod, z in zone.items():
         for k, p in enumerate(z["punti"]):
@@ -535,7 +534,7 @@ def main():
          f"({', '.join(format(x, '.2f') for x in fattori_google.values())}); usato solo per il limite basso della forbice.",
          f"Punti agganciati alla parte principale della rete: {spostati['n']} su {spostati['su']} spostati (distanza massima {spostati['max_m']:.0f} m).",
          f"Auto: viaggi IMQ in auto conducente, partenza 6-10, feriale. Totale fra le zone incluse: {totale_zone:,.0f}.",
-         f"Gruppi: (a) Torino-Torino, (b) Torino-cintura e cintura-Torino, (c) cintura-cintura. Il risultato principale usa (a)+(b).",
+         "Gruppi: (a) Torino-Torino, (b) Torino-cintura e cintura-Torino, (c) cintura-cintura. Il risultato principale usa (a)+(b).",
          f"Fasce fisse del rapporto (tempo coi mezzi / tempo in auto), decise prima di vedere i numeri: sotto {FASCE[0]:g}, {FASCE[0]:g}-{FASCE[1]:g}, {FASCE[1]:g}-{FASCE[2]:g}, oltre {FASCE[2]:g}.",
          "", "TITOLO (gruppi a+b): FORBICE",
          f"  al mattino, coi mezzi pubblici si impiega da {titolo['mediano_basso']:.2f} a {titolo['mediano_alto']:.2f} volte il tempo dell'auto (rapporto mediano pesato per le auto; fattore {f_basso:g} - {f_alto:g})",

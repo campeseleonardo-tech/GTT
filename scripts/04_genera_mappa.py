@@ -24,7 +24,6 @@ import csv
 import io
 import json
 import math
-import re
 import struct
 import sys
 import zipfile

@@ -66,6 +66,8 @@ import argparse
 from shapely.geometry import Polygon
 
 AQUI = Path(__file__).resolve().parent
+sys.path.insert(0, str(AQUI))
+from comuni import haversine_m  # noqa: E402  (stessa formula della copia che stava qui)
 
 
 def trova_radice():
@@ -103,15 +105,6 @@ FATTORE_GRADI_M = 111000.0
 MIN_INTERVISTE = 30
 TOTALE_ATTESO_C2 = 95300.0
 TOTALE_ATTESO_F = 24500.0
-
-
-def haversine_m(lat1, lon1, lat2, lon2):
-    R = 6371000.0
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dl = math.radians(lon2 - lon1)
-    a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    return 2 * R * math.asin(math.sqrt(a))
 
 
 def proietta(lon, lat):
@@ -555,7 +548,7 @@ def main():
                      "vicino entro 150 m; se non c'e' nemmeno, la stradina piu' vicina entro 50 m.")
     n_a2 = sum(1 for s in segnali if s["a2"] is not None)
     righe_rep.append(f"  luoghi con a2: {n_a2} (giro 1: 3.261); senza a2: {len(segnali) - n_a2}")
-    righe_rep.append(f"  per esito della ricerca: " +
+    righe_rep.append("  per esito della ricerca: " +
                      ", ".join(f"{k} {v}" for k, v in sorted(esiti_a2.items())))
     righe_rep.append(f"  luoghi con a2 incerto (solo stradina trovata): "
                      f"{sum(1 for s in segnali if s.get('a2_incerto'))}")

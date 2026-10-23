@@ -36,7 +36,6 @@ Output: data/processed/traffico_c/tp_conteggi.npz  (conteggi per tratto)
 import argparse
 import csv
 import io
-import json
 import math
 import sys
 import time

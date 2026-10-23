@@ -23,7 +23,6 @@ Output: data/processed/risultato8_traffico_tp.json
 
 import json
 import re
-import sys
 from collections import defaultdict
 from pathlib import Path
 

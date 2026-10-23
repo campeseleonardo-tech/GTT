@@ -21,6 +21,10 @@ Output:
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from comuni import soglia_quantile as percentile  # noqa: E402  (stessa regola della copia che stava qui)
 
 RADICE = Path(__file__).resolve().parent.parent
 BASE = RADICE / "data/processed/accessibilita.json"
@@ -83,14 +87,6 @@ def mediana(valori_ordinati):
     if n % 2 == 1:
         return valori_ordinati[meta]
     return (valori_ordinati[meta - 1] + valori_ordinati[meta]) / 2
-
-
-def percentile(valori_ordinati, p):
-    n = len(valori_ordinati)
-    if n == 0:
-        return None
-    idx = max(0, min(n - 1, round(p / 100 * (n - 1))))
-    return valori_ordinati[idx]
 
 
 def calcola(baseline, scenario, intervallo):

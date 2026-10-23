@@ -25,7 +25,6 @@ Solo libreria standard. Uso: python scripts/14_prepara_imq.py
 
 import csv
 import json
-import math
 import sys
 from collections import defaultdict
 from pathlib import Path

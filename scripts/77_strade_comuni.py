@@ -77,15 +77,6 @@ RAGGIO_STRETTO_M = 50.0
 RAGGIO_LARGO_M = 150.0
 
 
-def haversine_m(lat1, lon1, lat2, lon2):
-    R = 6371000.0
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dl = math.radians(lon2 - lon1)
-    a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    return 2 * R * math.asin(math.sqrt(a))
-
-
 def proietta(lon, lat):
     return (lon * FATTORE_GRADI_M * math.cos(math.radians(LAT_RIF)), lat * FATTORE_GRADI_M)
 
@@ -262,7 +253,6 @@ def prova():
     print("carico le strade e correggo i punteggi...")
     strade = carica_strade(verbose=True)
     tratte = strade["tratte"]
-    per_id = strade["per_id"]
 
     cambiate = [t for t in tratte if t["punteggio_corr"] != t["punteggio_orig"]]
     km = sum(t.get("lunghezza_m") or 0.0 for t in cambiate) / 1000.0
