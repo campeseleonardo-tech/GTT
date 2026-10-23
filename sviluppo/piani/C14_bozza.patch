@@ -1,0 +1,1003 @@
+diff --git a/assets/animazioni.js b/assets/animazioni.js
+new file mode 100644
+index 0000000..f833ebf
+--- /dev/null
++++ b/assets/animazioni.js
+@@ -0,0 +1,199 @@
++/* Animazioni delle schede dei risultati, le stesse in grande (scheda aperta) e in piccolo (riquadri della home).
++   Ogni scheda porta in f.anima la sua descrizione (scritta da scripts/schede/*.py: tutti i numeri e i testi arrivano dai dati).
++   Uso: contenitore.innerHTML = Anima.html(f.anima, {compatto: true|false}); l'animazione parte da sola quando compare nella pagina.
++   Tipi: «cerchi» (servizi a piedi), «quadratini» (ritardi, anche per fascia oraria), «fermate» (forma di Torino con le fermate),
++   «omini» (1 su N) e «gara» (assets/gara.js, che qui gira da sola da un luogo all'altro).
++   Con «riduci movimento» si vede subito la figura finale, con i numeri scritti. */
++(function(){
++  "use strict";
++  var ridotto = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
++  var NS = "http://www.w3.org/2000/svg";
++  function esc(s){ return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
++  function num(v, dec){ return window.Sito ? Sito.formattaNumero(dec ? Math.round(v * 10) / 10 : Math.round(v)) : String(Math.round(v)); }
++  function morbido(x){ return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }   // parte e arriva piano
++  function dopo(ms, el, fn){ var id = setTimeout(function(){ if(document.body.contains(el)) fn(); }, ms); (el._timer = el._timer || []).push(id); }
++  function ferma(el){ (el._timer || []).forEach(clearTimeout); el._timer = []; el._giro = (el._giro || 0) + 1; }
++  /* un valore che cambia piano da a a b in ms millisecondi; fn(v) a ogni passo, fine() alla fine */
++  function scorri(el, a, b, ms, fn, fine){
++    var id = el._giro, t0 = null;
++    function passo(t){
++      if(id !== el._giro || !document.body.contains(el)) return;
++      if(t0 === null) t0 = t;
++      var x = Math.min(1, (t - t0) / ms);
++      fn(a + (b - a) * morbido(x));
++      if(x < 1) requestAnimationFrame(passo); else if(fine) fine();
++    }
++    requestAnimationFrame(passo);
++  }
++
++  function stile(){
++    if(document.getElementById("anima-stile")) return;
++    var s = document.createElement("style"); s.id = "anima-stile";
++    s.textContent = ".anima{margin:4px 0 14px}.anima svg{display:block;width:100%;height:auto;overflow:visible}"
++      + ".anima .an-testo{fill:var(--ink);font-family:var(--font-testi);font-size:15px}.anima .an-piccolo{fill:var(--muted);font-family:var(--font-testi);font-size:13px}"
++      + ".anima .an-num{fill:var(--accent);font-family:var(--font-titoli);font-weight:700;font-size:30px;font-variant-numeric:tabular-nums}"
++      + ".anima .didascalia{margin:6px 0 0;font-size:14px;color:var(--muted);min-height:2.6em}"
++      + ".anima .an-cerchio{fill:var(--vr-verde);stroke:var(--vr-verde);stroke-width:2}.anima .an-casa{fill:var(--ink)}"
++      + ".anima .an-quadri{display:grid;grid-template-columns:repeat(20,1fr);gap:3px;max-width:520px}"
++      + ".anima .an-quadri i{display:block;aspect-ratio:1;border-radius:2px;background:var(--traccia);transition:background-color .35s ease}"
++      + ".anima .an-quadri i.r5{background:var(--vr-giallo)}.anima .an-quadri i.r10{background:var(--vr-rosso)}"
++      + ".anima .an-fascia{display:flex;align-items:baseline;gap:10px;margin:0 0 6px;min-height:1.6em;font-size:15px}"
++      + ".anima .an-fascia b{font:700 22px/1 var(--font-titoli);color:var(--accent);font-variant-numeric:tabular-nums;min-width:3.2ch}"
++      + ".anima .an-legenda{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:13.5px;color:var(--muted)}"
++      + ".anima .an-legenda i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}"
++      + ".anima .an-legenda b{color:var(--ink);font-variant-numeric:tabular-nums}"
++      + ".anima .an-contorno{fill:var(--sunk);stroke:var(--line);stroke-width:3}"
++      + ".anima .f0{fill:var(--vr-verde)}.anima .f1{fill:var(--vr-giallo)}.anima .f2{fill:var(--vr-rosso)}"
++      + ".anima .an-prio{fill:none;stroke:var(--ink);stroke-width:4}"
++      + ".anima .an-omini{display:flex;flex-wrap:wrap;gap:4px;align-items:flex-end}"
++      + ".anima .an-omini svg{width:26px;height:52px;fill:var(--omino);transition:fill .5s ease,opacity .45s ease,transform .45s ease}"
++      + ".anima .an-omini svg.nascosto{opacity:0;transform:translateY(6px)}.anima .an-omini svg.acceso{fill:var(--vr-rosso)}"
++      + ".anima.compatto .didascalia{font-size:13px;min-height:0}.anima.compatto .an-omini svg{width:20px;height:40px}"
++      + ".anima.compatto .an-fascia{font-size:13.5px}.anima.compatto .an-fascia b{font-size:19px}";
++    document.head.appendChild(s);
++  }
++
++  /* ---------------- servizi: tre cerchi intorno a una casa, 5 -> 10 -> 15 minuti a piedi ---------------- */
++  function cerchi(el, a){
++    var v = a.voci || [], R = [42, 84, 126], cx = 135, cy = 135;
++    var rings = v.map(function(x, i){ return '<circle class="an-cerchio" cx="' + cx + '" cy="' + cy + '" r="' + R[i] + '" style="fill-opacity:' + (.08 + .06 * (2 - i)) + ';stroke-opacity:.8" data-r="' + R[i] + '"/>'; }).reverse().join("");
++    var righe = v.map(function(x, i){
++      var y = 62 + i * 70;
++      return '<g class="an-riga" data-i="' + i + '"><text class="an-num" x="300" y="' + y + '" data-pct="' + x.pct + '">' + num(x.pct, 1) + '%</text>'
++        + '<text class="an-testo" x="300" y="' + (y + 22) + '">' + esc(x.testo) + '</text></g>';
++    }).join("");
++    var casa = '<path class="an-casa" d="M' + (cx - 11) + ' ' + (cy + 10) + 'v-12l11-9 11 9v12h-7v-7h-8v7z"/>';
++    el.innerHTML = '<svg viewBox="0 0 480 270" role="img" aria-label="' + esc(a.didascalia) + '">' + rings + casa + righe + '</svg>'
++      + (a.didascalia ? '<p class="didascalia">' + esc(a.didascalia) + '</p>' : "");
++    if(ridotto) return;
++    var cs = Array.prototype.slice.call(el.querySelectorAll(".an-cerchio")).reverse(), rs = el.querySelectorAll(".an-riga");
++    cs.forEach(function(c){ c.setAttribute("r", 0); });
++    Array.prototype.forEach.call(rs, function(g){ g.style.opacity = 0; });
++    function anello(i){
++      if(i >= cs.length) return;
++      var c = cs[i], r = parseFloat(c.getAttribute("data-r")), t = rs[i].querySelector(".an-num"), p = parseFloat(t.getAttribute("data-pct"));
++      rs[i].style.transition = "opacity .5s"; rs[i].style.opacity = 1;
++      scorri(el, 0, 1, 1500, function(x){ c.setAttribute("r", (r * x).toFixed(1)); t.textContent = num(p * x) ; },
++        function(){ t.textContent = num(p, 1) + "%"; dopo(350, el, function(){ anello(i + 1); }); });
++    }
++    anello(0);
++  }
++
++  /* ---------------- ritardi: 100 quadratini; poi il giorno che scorre, fascia per fascia ---------------- */
++  function quadratini(el, a){
++    var tot = a.totale || 100;
++    el.innerHTML = '<div class="an-fascia" aria-live="polite"><b></b><span></span></div>'
++      + '<div class="an-quadri" role="img" aria-label="' + esc(a.didascalia) + '">' + new Array(tot + 1).join("<i></i>") + '</div>'
++      + '<div class="an-legenda"><span><i style="background:var(--vr-giallo)"></i>' + esc(a.legenda5) + '</span><span><i style="background:var(--vr-rosso)"></i>' + esc(a.legenda10) + '</span></div>'
++      + (a.didascalia ? '<p class="didascalia">' + esc(a.didascalia) + '</p>' : "");
++    var q = el.querySelectorAll(".an-quadri i"), b = el.querySelector(".an-fascia b"), sp = el.querySelector(".an-fascia span");
++    function colora(n5, n10){ for(var i = 0; i < q.length; i++) q[i].className = i < n10 ? "r10" : i < n5 ? "r5" : ""; }
++    var n5 = Math.round(a.oltre5), n10 = Math.round(a.oltre10);
++    function scrivi(fase, n){ b.textContent = num(n); sp.textContent = fase; }
++    if(ridotto){ colora(n5, n10); scrivi(a.testo_tutto, n5); return; }
++    scrivi(a.testo_tutto, 0);
++    var k = 0;
++    // 1) si accendono uno alla volta i passaggi oltre 5 minuti, poi i più gravi diventano scuri
++    (function accendi(){
++      if(k > n5){ dopo(500, el, function(){ var j = 0; (function scuri(){ if(j > n10){ dopo(2200, el, function(){ giorno(0); }); return; } colora(n5, j); j++; dopo(160, el, scuri); })(); }); return; }
++      colora(k, 0); scrivi(a.testo_tutto, k); k++; dopo(110, el, accendi);
++    })();
++    // 2) il giorno: ogni fascia oraria col suo numero (solo oltre 5 minuti), poi di nuovo tutto il giorno
++    function giorno(i){
++      var f = a.fasi || [];
++      if(!f.length) return;
++      if(i >= f.length){ colora(n5, n10); scrivi(a.testo_tutto, n5); dopo(3500, el, function(){ giorno(0); }); return; }
++      var n = Math.round(f[i].valore);
++      colora(n, 0); scrivi(f[i].label, n);
++      dopo(2300, el, function(){ giorno(i + 1); });
++    }
++  }
++
++  /* ---------------- parcheggi: Torino con le fermate importanti che si colorano, poi i punti prioritari ---------------- */
++  function fermate(el, a){
++    var c = a.contorno, pts = a.punti || [], prio = a.prioritari || [], vb = c.vb, u = vb[2] / 1000;   // u = unità di disegno
++    var punti = pts.map(function(p, i){ return '<circle class="f' + p[2] + '" cx="' + p[0] + '" cy="' + p[1] + '" r="' + (13 * u).toFixed(1) + '" data-i="' + i + '"/>'; }).join("");
++    var anelli = prio.map(function(p){ return '<circle class="an-prio" cx="' + p[0] + '" cy="' + p[1] + '" r="' + (34 * u).toFixed(1) + '" style="stroke-width:' + (5 * u).toFixed(1) + '"/>'; }).join("");
++    var leg = (a.legenda || []).map(function(l, i){ return '<span><i class="tono-' + esc(l.tono) + '"></i>' + esc(l.label) + ': <b data-n="' + l.n + '">' + num(l.n) + '</b></span>'; }).join("");
++    el.innerHTML = '<svg viewBox="' + vb.join(" ") + '" role="img" aria-label="' + esc(a.didascalia) + '" style="max-width:' + (el.classList.contains("compatto") ? 230 : 420) + 'px;margin:0 auto">'
++      + '<path class="an-contorno" d="' + esc(c.d) + '" style="stroke-width:' + (4 * u).toFixed(1) + '"/>' + '<g class="an-punti">' + punti + '</g><g class="an-anelli">' + anelli + '</g></svg>'
++      + '<div class="an-legenda">' + leg + '</div>' + (a.didascalia ? '<p class="didascalia">' + esc(a.didascalia) + '</p>' : "");
++    if(ridotto) return;
++    var cc = el.querySelectorAll(".an-punti circle"), aa = el.querySelectorAll(".an-anelli circle"), bb = el.querySelectorAll(".an-legenda b");
++    // le fermate compaiono dal centro verso fuori (ordine dato dai dati), i conteggi della legenda salgono insieme
++    var ordine = Array.prototype.slice.call(cc).sort(function(x, y){ return pts[+x.getAttribute("data-i")][3] - pts[+y.getAttribute("data-i")][3]; });
++    Array.prototype.forEach.call(cc, function(x){ x.style.opacity = 0; });
++    Array.prototype.forEach.call(aa, function(x){ x.style.opacity = 0; });
++    var cont = [0, 0, 0];
++    function giro(){
++      cont = [0, 0, 0]; Array.prototype.forEach.call(bb, function(b){ b.textContent = num(0); });
++      Array.prototype.forEach.call(cc, function(x){ x.style.transition = "none"; x.style.opacity = 0; });
++      Array.prototype.forEach.call(aa, function(x){ x.style.transition = "none"; x.style.opacity = 0; });
++      var shown = 0;
++      scorri(el, 0, ordine.length, 3200, function(v){
++        var fino = Math.floor(v);
++        for(; shown < fino; shown++){
++          var x = ordine[shown]; x.style.transition = "opacity .3s"; x.style.opacity = 1;
++          var k = pts[+x.getAttribute("data-i")][2]; cont[k]++; if(bb[k]) bb[k].textContent = num(cont[k]);
++        }
++      }, function(){
++        Array.prototype.forEach.call(bb, function(b){ b.textContent = num(+b.getAttribute("data-n")); });
++        Array.prototype.forEach.call(aa, function(x, i){ dopo(500 + i * 120, el, function(){ x.style.transition = "opacity .6s"; x.style.opacity = 1; }); });
++        dopo(9000, el, giro);
++      });
++    }
++    giro();
++  }
++
++  /* ---------------- 1 su N: gli omini compaiono uno alla volta, poi si accendono ---------------- */
++  var OMINO = '<svg viewBox="0 0 24 48" aria-hidden="true"><circle cx="12" cy="7" r="6"/><path d="M5 17h14a3 3 0 0 1 3 3v14h-4v14h-5V34h-2v14H6V34H2V20a3 3 0 0 1 3-3z"/></svg>';
++  function omini(el, a){
++    var tot = Math.max(1, a.totale || 10), n = Math.max(0, Math.round(a.colorati || 0));
++    el.innerHTML = '<div class="an-omini" role="img" aria-label="' + esc(a.didascalia) + '">' + new Array(tot + 1).join(OMINO) + '</div>'
++      + (a.didascalia ? '<p class="didascalia">' + esc(a.didascalia) + '</p>' : "");
++    var os = el.querySelectorAll(".an-omini svg");
++    if(ridotto){ for(var i = 0; i < n; i++) os[i].classList.add("acceso"); return; }
++    Array.prototype.forEach.call(os, function(o){ o.classList.add("nascosto"); });
++    Array.prototype.forEach.call(os, function(o, i){ dopo(200 + i * 160, el, function(){ o.classList.remove("nascosto"); }); });
++    dopo(200 + tot * 160 + 600, el, function(){ for(var i = 0; i < n; i++) os[i].classList.add("acceso"); });
++  }
++
++  function gara(el, a, compatto){
++    el.innerHTML = window.Gara ? Gara.html({luoghi: a.luoghi, scelto: a.scelto || 0, compatto: compatto, mini: compatto, giro: true}) : "";
++    if(a.didascalia && !compatto) el.insertAdjacentHTML("beforeend", '<p class="didascalia">' + esc(a.didascalia) + '</p>');
++  }
++
++  var TIPI = {cerchi: cerchi, quadratini: quadratini, fermate: fermate, omini: omini};
++
++  function html(a, opz){
++    if(!a || !a.tipo) return "";
++    var compatto = !!(opz && opz.compatto);
++    return '<div class="anima' + (compatto ? " compatto" : "") + '" data-anima="' + esc(JSON.stringify(a)) + '"></div>';
++  }
++  function avvia(el){
++    if(el._pronto) return; el._pronto = true;
++    var a; try { a = JSON.parse(el.getAttribute("data-anima")); } catch(e){ return; }
++    stile();
++    if(a.tipo === "gara"){ gara(el, a, el.classList.contains("compatto")); return; }
++    var fn = TIPI[a.tipo]; if(!fn) return;
++    // si disegna subito (figura ferma) e l'animazione parte quando la figura si vede
++    if(ridotto || !("IntersectionObserver" in window)){ fn(el, a); return; }
++    var io = new IntersectionObserver(function(voci){
++      voci.forEach(function(v){ if(v.isIntersecting){ io.disconnect(); ferma(el); fn(el, a); } });
++    }, {threshold: .35});
++    el.style.minHeight = "40px";
++    io.observe(el);
++  }
++  function scansiona(r){
++    if(!r.querySelectorAll) return;
++    if(r.matches && r.matches("[data-anima]")) avvia(r);
++    r.querySelectorAll("[data-anima]").forEach(avvia);
++  }
++  function avviaTutto(){
++    scansiona(document);
++    new MutationObserver(function(m){ m.forEach(function(x){ x.addedNodes.forEach(function(nd){ if(nd.nodeType === 1) scansiona(nd); }); }); })
++      .observe(document.body, {childList: true, subtree: true});
++  }
++  if(document.body) avviaTutto(); else document.addEventListener("DOMContentLoaded", avviaTutto);
++  window.Anima = {html: html};
++})();
+diff --git a/assets/gara.js b/assets/gara.js
+index 1b64f8e..da559fb 100644
+--- a/assets/gara.js
++++ b/assets/gara.js
+@@ -15,10 +15,10 @@
+   var TESTI = {
+     it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto", autoLenta: "Auto, ora di punta lenta", autoVeloce: "Auto, ora di punta veloce",
+          min: "min", riparti: "Riparti", scegli: "Punto di partenza", prioritari: "Punti prioritari", interscambi: "Interscambi esistenti",
+-         parlato: function(l){ return "Da " + l.nome + " a Piazza Castello: bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? "da " + n(l.auto_min) + " a " + n(l.auto_max) : n(l.auto_min)) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
++         da: "Da", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? "da " + n(l.auto_min) + " a " + n(l.auto_max) : n(l.auto_min)) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
+     en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car", autoLenta: "Car, slow rush hour", autoVeloce: "Car, fast rush hour",
+          min: "min", riparti: "Replay", scegli: "Starting point", prioritari: "Priority points", interscambi: "Existing park-and-ride",
+-         parlato: function(l){ return "From " + l.nome + " to Piazza Castello: bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " to " + n(l.auto_max) : n(l.auto_min)) + " minutes, parking included."; }}
++         da: "From", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " to " + n(l.auto_max) : n(l.auto_min)) + " minutes, parking included."; }}
+   };
+   function lingua(){ return (document.documentElement.lang || "it").slice(0, 2) === "en" ? "en" : "it"; }
+   function T(){ return TESTI[lingua()]; }
+@@ -42,7 +42,9 @@
+       + ".gara button:focus-visible,.gara select:focus-visible{outline:3px solid var(--oro,#e3bf55);outline-offset:2px}"
+       + ".gara .gv{fill:var(--neu-blu,#6f8fc7)}.gara .gv.auto{fill:var(--neu-arancio,#c9a227)}.gara .gv.chiara{opacity:.5}.gara .gv-vetro{fill:var(--card,#fff);opacity:.85}"
+       + ".gara .gara-strada{stroke:var(--line,#c9d1e3);stroke-width:1.5;stroke-dasharray:5 5}.gara .gara-arrivo{stroke:var(--vr-rosso,#a61e33);stroke-width:2}"
+-      + ".gara text{font-family:inherit;fill:var(--muted,#5b6578);font-size:13px}.gara text.gara-min{fill:var(--ink,#1b2433);font-size:15px;font-weight:700;opacity:0}"
++      + ".gara text{font-family:inherit;fill:var(--muted,#5b6578);font-size:13px}.gara text.gara-da{fill:var(--ink,#1b2433);font-weight:700;font-size:14px}"
++      + ".gara-mini .gara-comandi,.gara-mini .gara-testo{display:none}"
++      + ".gara text.gara-min{fill:var(--ink,#1b2433);font-size:15px;font-weight:700;opacity:0}"
+       + ".gara .gara-compatto select{max-width:100%}.gara .barra-ferma{fill:var(--neu-blu,#6f8fc7)}.gara .barra-ferma.auto{fill:var(--neu-arancio,#c9a227)}";
+     document.head.appendChild(s);
+   }
+@@ -57,7 +59,7 @@
+     return v;
+   }
+ 
+-  function disegna(el, dati, i){
++  function disegna(el, dati, i, fine){
+     var l = dati.luoghi[i], t = T(), cs = corsie(l), H = 20 + cs.length * 36;
+     var maxMin = Math.max.apply(null, cs.map(function(c){ return c.min; }));
+     var righe = cs.map(function(c, j){
+@@ -73,13 +75,14 @@
+     }).join("");
+     var svg = '<svg viewBox="0 0 480 ' + H + '" role="img" aria-label="' + esc(t.parlato(l)) + '">'
+       + '<line class="gara-arrivo" x1="' + (FINE + 2) + '" x2="' + (FINE + 2) + '" y1="8" y2="' + (H - 6) + '"/>'
+-      + '<text x="' + (FINE + 2) + '" y="' + 8 + '" text-anchor="end" dx="-4" style="font-size:12px">' + esc(t.centro) + '</text>' + righe + '</svg>';
++      + '<text x="' + (FINE + 2) + '" y="' + 8 + '" text-anchor="end" dx="-4" style="font-size:12px">' + esc(l.arrivo || t.centro) + '</text>'
++      + '<text x="' + VIA + '" y="8" class="gara-da">' + esc(t.da + " " + l.nome) + '</text>' + righe + '</svg>';
+     el.querySelector(".gara-svg").innerHTML = svg;
+     el.querySelector(".gara-testo").textContent = t.parlato(l);
+-    if(!ridotto) corri(el);
++    if(!ridotto) corri(el, fine); else if(fine) fine();
+   }
+ 
+-  function corri(el){
++  function corri(el, fine){
+     var carri = Array.prototype.slice.call(el.querySelectorAll(".gara-svg g.gv"));
+     var etich = Array.prototype.slice.call(el.querySelectorAll(".gara-svg text.gara-min"));
+     var id = ++contatore; el._corsa = id;
+@@ -95,7 +98,7 @@
+         etich[j].style.opacity = f >= 1 ? 1 : 0;
+         if(f < 1) finito = false;
+       });
+-      if(!finito) requestAnimationFrame(passo);
++      if(!finito) requestAnimationFrame(passo); else if(fine) fine();
+     }
+     requestAnimationFrame(passo);
+   }
+@@ -103,8 +106,8 @@
+   function html(dati){
+     var base = (dati.luoghi || []).filter(function(l){ return typeof l.bus === "number" && typeof l.auto_min === "number"; });
+     if(!base.length) return "";
+-    var d = {luoghi: base, scelto: Math.min(dati.scelto || 0, base.length - 1), compatto: !!dati.compatto};
+-    return '<div class="gara' + (d.compatto ? " gara-compatto" : "") + '" data-gara="' + esc(JSON.stringify(d)) + '"></div>';
++    var d = {luoghi: base, scelto: Math.min(dati.scelto || 0, base.length - 1), compatto: !!dati.compatto, mini: !!dati.mini, giro: !!dati.giro && base.length > 1};
++    return '<div class="gara' + (d.compatto ? " gara-compatto" : "") + (d.mini ? " gara-mini" : "") + '" data-gara="' + esc(JSON.stringify(d)) + '"></div>';
+   }
+ 
+   function avvia(el){
+@@ -119,12 +122,28 @@
+         + gruppi.map(function(o){ var op = o.voci.map(function(v){ return '<option value="' + v[0] + '"' + (v[0] === dati.scelto ? " selected" : "") + '>' + esc(v[1]) + '</option>'; }).join("");
+             return o.g ? '<optgroup label="' + esc(o.g) + '">' + op + '</optgroup>' : op; }).join("") + '</select>';
+     }
+-    el.innerHTML = '<div class="gara-svg"></div><p class="gara-testo" aria-live="polite"></p><div class="gara-comandi">' + sel + '<button type="button">' + esc(t.riparti) + '</button></div>';
+-    var corrente = dati.scelto;
+-    disegna(el, dati, corrente);
+-    var s = el.querySelector("select");
+-    if(s) s.addEventListener("change", function(){ corrente = parseInt(s.value, 10); disegna(el, dati, corrente); });
+-    el.querySelector("button").addEventListener("click", function(){ disegna(el, dati, corrente); });
++    el.innerHTML = '<div class="gara-svg"></div><p class="gara-testo" aria-live="polite"></p>'
++      + (dati.mini ? "" : '<div class="gara-comandi">' + sel + '<button type="button">' + esc(t.riparti) + '</button></div>');
++    var corrente = dati.scelto, s = el.querySelector("select"), giro = dati.giro && !ridotto, visibile = true;
++    // giro: finita una corsa, dopo una pausa parte quella del luogo dopo (solo mentre la gara si vede); scegliere un luogo ferma il giro
++    function prossima(){
++      if(!giro) return;
++      setTimeout(function(){
++        if(!giro || !document.body.contains(el)) return;
++        if(!visibile){ el._attesa = true; return; }
++        corrente = (corrente + 1) % dati.luoghi.length;
++        if(s) s.value = String(corrente);
++        disegna(el, dati, corrente, prossima);
++      }, 2200);
++    }
++    if("IntersectionObserver" in window) new IntersectionObserver(function(v){
++      visibile = v[0].isIntersecting;
++      if(visibile && el._attesa){ el._attesa = false; prossima(); }
++    }).observe(el);
++    disegna(el, dati, corrente, prossima);
++    if(s) s.addEventListener("change", function(){ giro = false; corrente = parseInt(s.value, 10); disegna(el, dati, corrente); });
++    var bt = el.querySelector("button");
++    if(bt) bt.addEventListener("click", function(){ disegna(el, dati, corrente, giro ? prossima : null); });
+   }
+ 
+   function scansiona(radice){
+diff --git a/assets/mezzi.js b/assets/mezzi.js
+index c8c2727..4e21e73 100644
+--- a/assets/mezzi.js
++++ b/assets/mezzi.js
+@@ -14,11 +14,15 @@
+     var el = document.getElementById("contatore"); if(!el) return;
+     var c = H && H.contatore; if(!c){ el.hidden = true; return; }
+     var en = window.Sito && Sito.lingua() === "en";
+-    var milioni = c.passaggi >= 1e6, v = milioni ? Math.round(c.passaggi / 1e5) / 10 : c.passaggi;
+-    var num = function(x, suff){ return '<b class="val" data-valore="' + x + '" data-suffisso="">' + Sito.formattaNumero(x) + '</b>' + (suff || ""); };
++    // giorni dal primo giorno della raccolta a oggi: la raccolta continua («e continuiamo»)
++    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(c.inizio_raccolta || c.dal || "");
++    if(!m){ el.hidden = true; return; }
++    var oggi = new Date(), d0 = new Date(+m[1], +m[2] - 1, +m[3]);
++    var giorni = Math.max(1, Math.floor((new Date(oggi.getFullYear(), oggi.getMonth(), oggi.getDate()) - d0) / 864e5) + 1);
++    var n = '<b class="val" data-valore="' + giorni + '">' + Sito.formattaNumero(giorni) + '</b>';
+     el.innerHTML = en
+-      ? "The Raspberry Pi has been reading Turin for " + num(c.giorni) + " days: " + num(v) + (milioni ? " million" : "") + " bus and tram stop passages measured by GPS"
+-      : "Il Raspberry Pi legge Torino da " + num(c.giorni) + " giorni: " + num(v) + (milioni ? " milioni" : "") + " di passaggi di bus e tram alle fermate misurati col GPS";
++      ? "For " + n + " days we have been collecting, minute by minute, data on Turin's buses, trams and traffic, and we keep going: to understand who goes where, and how."
++      : "Da " + n + " giorni raccogliamo, minuto per minuto, i dati di bus, tram e traffico di Torino, e continuiamo: per capire chi va dove, e come ci va.";
+     el.hidden = false;
+     if(window.Sito && Sito.osserva) Sito.osserva(el);
+   }
+diff --git a/assets/sito.js b/assets/sito.js
+index 8d401e5..b78871a 100644
+--- a/assets/sito.js
++++ b/assets/sito.js
+@@ -48,26 +48,32 @@
+ 
+   var ridotto = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+ 
+-  /* il numero sale da 0 al valore in circa 1,5 secondi, piano piano verso la fine, UNA volta sola, quando l'elemento appare.
+-     L'elemento ha già il testo finale (data-valore = il numero, data-suffisso = "%" o vuoto): senza animazione resta quello. */
++  /* il numero sale da 0 al valore in circa 2,6 secondi, partendo e arrivando piano, UNA volta sola, quando l'elemento appare.
++     Durante la corsa solo numeri interi, senza virgola né %: il testo finale (decimali, %) compare solo all'arrivo.
++     L'elemento ha già il testo finale: data-valore = il numero, oppure data-forbice = "21,28" (due numeri che salgono insieme).
++     La larghezza resta quella del testo finale, così niente intorno si sposta. Senza animazione resta il testo finale. */
+   function contaSu(el){
+     if(!el || el.dataset.fatto) return;
+-    var fine = parseFloat(el.dataset.valore);
+-    if(!Number.isFinite(fine) || ridotto || !window.requestAnimationFrame){ el.dataset.fatto = "1"; return; }
+-    var suff = el.dataset.suffisso || "", testoFinale = el.textContent, t0 = null, DUR = 1500;
+-    var intero = Number.isInteger(fine);
++    var fb = (el.dataset.forbice || "").split(",").map(parseFloat).filter(Number.isFinite);
++    var fine = fb.length === 2 ? fb : [parseFloat(el.dataset.valore)];
+     el.dataset.fatto = "1";
++    if(!Number.isFinite(fine[0]) || ridotto || !window.requestAnimationFrame) return;
++    var testoFinale = el.textContent, t0 = null, DUR = 2600, ultimo = "";
++    el.style.display = "inline-block";
++    el.style.minWidth = el.getBoundingClientRect().width + "px";
++    function morbido(x){ return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
++    function testo(f){ return fine.map(function(v){ return formattaNumero(Math.floor(v * f)); }).join("–"); }
+     function passo(t){
+       if(t0 === null) t0 = t;
+-      var x = Math.min(1, (t - t0) / DUR), v = fine * (1 - Math.pow(1 - x, 5));   // rallenta molto verso la fine
+-      el.textContent = (x >= 1 ? testoFinale : formattaNumero(intero ? Math.round(v) : Math.round(v * 10) / 10) + suff);
++      var x = Math.min(1, (t - t0) / DUR), s = x >= 1 ? testoFinale : testo(morbido(x));
++      if(s !== ultimo){ el.textContent = s; ultimo = s; }
+       if(x < 1) requestAnimationFrame(passo);
+     }
+-    el.textContent = formattaNumero(0) + suff;
++    el.textContent = testo(0);
+     requestAnimationFrame(passo);
+   }
+   function osserva(radice){
+-    var els = (radice || document).querySelectorAll("[data-valore]");
++    var els = (radice || document).querySelectorAll("[data-valore],[data-forbice]");
+     if(!("IntersectionObserver" in window)){ return; }
+     var io = new IntersectionObserver(function(voci){
+       voci.forEach(function(v){ if(v.isIntersecting){ io.unobserve(v.target); contaSu(v.target); } });
+diff --git a/assets/stile.css b/assets/stile.css
+index d516724..02f3c74 100644
+--- a/assets/stile.css
++++ b/assets/stile.css
+@@ -197,7 +197,7 @@ table.param td:first-child{color:var(--muted);width:40%}
+ .eroe canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+ .eroe .dentro{position:relative;width:100%;max-width:1040px;margin:0 auto;padding:28px 16px 30px;pointer-events:none}
+ .eroe .dentro > *{max-width:30ch}
+-.eroe h1{font-size:clamp(44px,8vw,84px);line-height:.95;text-transform:uppercase;color:#fff;margin:0 0 12px}
++.eroe h1{font-size:clamp(44px,8vw,84px);line-height:.95;text-transform:uppercase;color:#e3bf55;margin:0 0 12px}
+ .eroe .sotto{font-size:clamp(17px,2.2vw,21px);margin:0 0 12px;color:#dbe3f5}
+ .eroe .contatore{font-size:15.5px;margin:0 0 14px;color:#c8d2ea}
+ .eroe .contatore b{color:#e3bf55;font-variant-numeric:tabular-nums}
+@@ -206,5 +206,6 @@ table.param td:first-child{color:var(--muted);width:40%}
+ .eroe.senza-mezzi{min-height:0}
+ @media (max-width:760px){ .eroe .dentro > *{max-width:none;text-shadow:0 1px 8px #08142e} .eroe canvas{opacity:.75} }
+ 
+-/* miniatura del grafico nei riquadri della home (assets/miniature/, rifatte da scripts/prova_pagine.py) */
+-.riquadro .miniatura{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:top left;border-radius:8px;border:1px solid var(--line);background:#fff}
++/* anteprima animata nei riquadri della home: la stessa animazione della scheda, in piccolo (assets/animazioni.js) */
++.riquadro .anteprima{border:1px solid var(--line);border-radius:8px;background:var(--sunk);padding:10px 12px;min-height:150px;display:flex;flex-direction:column;justify-content:center}
++.riquadro .anteprima .anima{margin:0}
+diff --git a/index.html b/index.html
+index efeea88..1bf9245 100644
+--- a/index.html
++++ b/index.html
+@@ -33,7 +33,7 @@
+   <canvas id="cMezzi" aria-hidden="true"></canvas>
+   <div class="dentro">
+     <h1 id="titoloHome">Torino Mobilità</h1>
+-    <p class="sotto" data-en="A data-analysis project to understand how the city works.">Un progetto di analisi dei dati per capire come funziona la città.</p>
++    <p class="sotto" data-en="A project to understand how the city moves.">Un progetto per capire come si muove la città.</p>
+     <p class="contatore" id="contatore" hidden></p>
+     <p class="didascalia-eroe"><span class="orologio" id="orologio" aria-hidden="true">07:30</span>
+       <span data-en="A typical weekday morning: every dot is a real bus or tram (GPS).">Un mattino feriale tipico: ogni puntino è un bus o un tram veri (GPS).</span></p>
+@@ -69,22 +69,25 @@
+ <script src="assets/sito.js"></script>
+ <script>Sito.avvia();</script>
+ <script src="assets/mezzi.js"></script>
++<script src="assets/gara.js"></script>
++<script src="assets/animazioni.js"></script>
+ <script>
+ "use strict";
+ const esc = Sito.esc, formattaNumero = Sito.formattaNumero, T = Sito.T;
+ const schede = (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI : []).filter(s => s && s.forma && s.forma.numero)
+   .sort((a, b) => (parseFloat(a.numero_pubblico != null ? a.numero_pubblico : a.risultato) || 99) - (parseFloat(b.numero_pubblico != null ? b.numero_pubblico : b.risultato) || 99));
+ const forma = s => (Sito.lingua() === "en" && s.forma_en) ? s.forma_en : s.forma;
++const forbice = v => { const m = /^(\d+)\s*[–-]\s*(\d+)$/.exec(String(v)); return m ? ` data-forbice="${m[1]},${m[2]}"` : ""; };
+ function disegna(){
+   document.getElementById("riquadri").innerHTML = schede.length
+     ? schede.map(s => {
+         const f = forma(s), n = f.numero, num = typeof n.valore === "number";
+         const suff = n.unita === "%" ? "%" : "";
+         return `<a class="riquadro" href="risultati.html#p${esc(s.numero_pubblico != null ? s.numero_pubblico : s.risultato)}">
+-          <img class="miniatura" src="assets/miniature/p${esc(s.numero_pubblico != null ? s.numero_pubblico : s.risultato)}.webp" alt="" width="480" height="270" loading="lazy" onerror="this.remove()">
++          ${f.anima && window.Anima ? `<div class="anteprima">${Anima.html(f.anima, {compatto: true})}</div>` : ""}
+           <div class="num">${T("Risultato", "Result")} ${esc(s.numero_pubblico != null ? s.numero_pubblico : s.risultato)}</div>
+           <h3>${esc(f.titolo)}</h3>
+-          <div class="grande"><span class="val"${num ? ` data-valore="${n.valore}" data-suffisso="${suff}"` : ""}>${formattaNumero(n.valore)}${suff}</span>
++          <div class="grande"><span class="val"${num ? ` data-valore="${n.valore}"` : forbice(n.valore)}>${formattaNumero(n.valore)}${suff}</span>
+             <span class="txt">${n.unita && n.unita !== "%" ? esc(n.unita) + " " : ""}${esc(f.numero.testo)}</span></div>
+         </a>`;
+       }).join("")
+diff --git a/risultati.html b/risultati.html
+index d5ac712..e9ead20 100644
+--- a/risultati.html
++++ b/risultati.html
+@@ -66,6 +66,7 @@
+ <script src="data/schede_risultati.js"></script>
+ <script src="assets/sito.js"></script>
+ <script src="assets/gara.js"></script>
++<script src="assets/animazioni.js"></script>
+ <script>Sito.avvia();</script>
+ <script>
+ "use strict";
+@@ -76,6 +77,12 @@ const esc = Sito.esc, formattaNumero = Sito.formattaNumero, T = Sito.T;
+ const forma = s => (Sito.lingua() === "en" && s.forma_en) ? s.forma_en : s.forma;   // la forma nella lingua scelta
+ function conUnita(n, unita){ return formattaNumero(n) + (unita ? (unita === "%" ? "%" : " " + esc(unita)) : ""); }
+ function valoreGrande(n){ return formattaNumero(n.valore) + (n.unita === "%" ? "%" : ""); }
++/* attributi per i numeri che salgono (assets/sito.js): un numero, oppure una forbice «21–28» */
++function attrConta(n){
++  if(typeof n.valore === "number") return ` data-valore="${n.valore}"`;
++  const m = /^(\d+)\s*[–-]\s*(\d+)$/.exec(String(n.valore));
++  return m ? ` data-forbice="${m[1]},${m[2]}"` : "";
++}
+ function dopoGrande(n){ return n.unita && n.unita !== "%" ? esc(n.unita) + " " : ""; }
+ 
+ /* una scheda valida ha la «forma» (scripts/schede_risultati.py) */
+@@ -104,11 +111,12 @@ function mostraGalleria(){
+       <div class="scheda-alto"><span>${T("Risultato", "Result")} ${esc(numeroDi(s))}</span></div>
+       <h3>${esc(f.titolo)}</h3>
+       <p class="cerca">${esc(f.domanda)}</p>
+-      <div class="chiave"><span class="val">${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>
++      <div class="chiave"><span class="val"${attrConta(f.numero)}>${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>
+       <span class="apri">${T("Apri →", "Open →")}</span>
+     </button>`;
+   }).join("");
+   g.querySelectorAll(".scheda").forEach(b => b.addEventListener("click", () => apri(+b.dataset.i)));
++  Sito.osserva(g);
+ }
+ 
+ /* ---------------- grafici ---------------- */
+@@ -260,7 +268,7 @@ function grafico(g){
+ 
+ /* ---------------- scheda ---------------- */
+ function elenco(arr, tag){ return Array.isArray(arr) && arr.length ? `<${tag}>${arr.map(x => `<li>${esc(x)}</li>`).join("")}</${tag}>` : ""; }
+-function parte(titolo, html, lang){ return html ? `<details class="parte"${lang ? ` lang="${lang}"` : ""}><summary>${titolo}</summary>${html}</details>` : ""; }
++function parte(titolo, html){ return html ? `<details class="parte"><summary>${titolo}</summary>${html}</details>` : ""; }
+ 
+ let corrente = -1;
+ function apri(i){
+@@ -274,19 +282,20 @@ function apri(i){
+     ? `<div class="sottotitolo">${T("I criteri", "The criteria")}</div><table class="param">${f.criteri.map(c => `<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td></tr>`).join("")}</table>` : "";
+   const confronto = Array.isArray(f.confronto) && f.confronto.length
+     ? `<div class="sottotitolo">${T("Confronto con GTT", "Comparison with GTT")}</div>${elenco(f.confronto, "ul")}` : "";
++  // tutti gli altri grafici sono aperti (Leo, 23/10); resta chiusa solo la parte «come l'abbiamo calcolato e limiti»
+   const extra = f.extra
+-    ? parte(esc(f.extra.titolo), `<p>${esc(f.extra.punto)}</p>${grafico(f.extra.grafico)}`) : "";
++    ? `<div class="sottotitolo">${esc(f.extra.titolo)}</div><p>${esc(f.extra.punto)}</p>${grafico(f.extra.grafico)}` : "";
++  const altri = (f.altri || []).length ? `<div class="sottotitolo">${T("Altri grafici", "More charts")}</div>${f.altri.map(grafico).join("")}` : "";
++  const figura = f.anima && window.Anima ? Anima.html(f.anima) : unitaHtml(f.unita);
+   $("finCorpo").innerHTML =
+     `<p class="domanda">${esc(f.domanda)}</p>` +
+-    `<div class="grande"><span class="val"${typeof f.numero.valore === "number" ? ` data-valore="${f.numero.valore}" data-suffisso="${f.numero.unita === "%" ? "%" : ""}"` : ""}>${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>` +
+-    unitaHtml(f.unita) +
+-    grafico(f.principale) + mappa +
++    `<div class="grande"><span class="val"${attrConta(f.numero)}>${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>` +
++    figura +
+     elenco(f.punti, "ul").replace("<ul>", '<ul class="punti">') +
+-    parte(T("Altri grafici", "More charts"), (f.altri || []).map(grafico).join("")) +
+-    extra +
+-    parte(T("Come l'abbiamo calcolato", "How we calculated it"), elenco(f.calcolo, "ol") + confronto + criteri) +
+-    parte(T("Limiti", "Limits"), elenco(f.limiti, "ul")) +
+-    (Sito.lingua() === "en" ? "" : parte("In English", (f.english || []).map(x => `<p>${esc(x)}</p>`).join(""), "en"));
++    grafico(f.principale) + mappa +
++    altri + extra +
++    parte(T("Come l'abbiamo calcolato e limiti", "How we calculated it, and limits"),
++          elenco(f.calcolo, "ol") + confronto + criteri + `<div class="sottotitolo">${T("Limiti", "Limits")}</div>` + elenco(f.limiti, "ul"));
+   const d = $("finestra");
+   if(!d.open) d.showModal();
+   d.scrollTop = 0;
+diff --git a/scripts/schede/comune.py b/scripts/schede/comune.py
+index cb3fba3..097ec7b 100644
+--- a/scripts/schede/comune.py
++++ b/scripts/schede/comune.py
+@@ -131,22 +131,23 @@ PAROLE_VIETATE = re.compile(r"\bLeo\b|\bgiro\b|\bfase\b|\bversione\b|\.py\b|\.js
+ def controlla_forma(nome, f):
+     """Avvisi sui testi della forma: frasi di oltre 20 parole e parole che non vanno nelle pagine."""
+     testi = [f["titolo"], f["domanda"], f["numero"]["testo"], *f["punti"], *f["calcolo"], *f.get("confronto", []),
+-             *f["limiti"], *f["english"], *(a for a in [f.get("extra", {}).get("punto")] if a)]
++             *f["limiti"], *(a for a in [f.get("extra", {}).get("punto")] if a)]
+     for t in testi:
+         if PAROLE_VIETATE.search(t):
+             print(f"  ATTENZIONE {nome}: parola da togliere in «{t[:60]}»")
+         for frase in re.split(r"(?<=[a-zA-ZàèéìòùÀ%)\]»])[.;:] +(?=[A-ZÈÀ])", t):
+             if len(frase.split()) > 20:
+                 print(f"  ATTENZIONE {nome}: frase di {len(frase.split())} parole: «{frase[:70]}…»")
+-    if len(f["punti"]) != 3 or len(f["limiti"]) > 4 or len(f["altri"]) > 2 or len(f["english"]) != 3 or len(f["calcolo"]) > 5:
++    if len(f["punti"]) != 3 or len(f["limiti"]) > 4 or len(f["altri"]) > 3 or len(f["calcolo"]) > 5:
+         print(f"  ATTENZIONE {nome}: numero di righe fuori misura")
+ 
+ 
+ 
+ 
+-def forma_base(s, titolo, domanda, numero, principale, punti, altri, calcolo, criteri, limiti, english, mappa=True, **extra):
++def forma_base(s, titolo, domanda, numero, principale, punti, altri, calcolo, criteri, limiti, english=None, mappa=True, **extra):
++    """La forma di una scheda. «english» non si usa più (l'inglese viene da traduci.py): resta come argomento per non cambiare le chiamate."""
+     f = {"etichetta": s["tag"], "titolo": titolo, "domanda": domanda, "numero": numero, "principale": principale,
+-         "punti": punti, "altri": altri, "calcolo": calcolo, "criteri": criteri, "limiti": limiti, "english": english}
++         "punti": punti, "altri": altri, "calcolo": calcolo, "criteri": criteri, "limiti": limiti}
+     if mappa and s.get("mappa"):
+         f["mappa"] = {"id": s["mappa"]["id"], "nota": s["mappa"]["nota"]}
+         if s["mappa"].get("vista"):   # es. #tema=vulnerabilita&vista=doppio
+diff --git a/scripts/schede/home.py b/scripts/schede/home.py
+index e030f3b..732c173 100644
+--- a/scripts/schede/home.py
++++ b/scripts/schede/home.py
+@@ -25,6 +25,9 @@ def modi_per_linea():
+     return {nome_base(n): m for n, m in j["modo_linea"].items()}
+ 
+ 
++INIZIO_RACCOLTA = "2026-10-03"   # primo giorno della raccolta sul Raspberry Pi (mezzi GTT); la home conta i giorni da qui a oggi
++
++
+ def contatore():
+     """Giorni con dati dei mezzi (dal primo all'ultimo) e passaggi alle fermate misurati con il GPS (uno ogni 4 byte di gps_trip.bin)."""
+     giorni, passaggi = set(), 0
+@@ -38,7 +41,8 @@ def contatore():
+         return None
+     d = sorted(giorni)
+     d0, d1 = date(int(d[0][:4]), int(d[0][4:6]), int(d[0][6:])), date(int(d[-1][:4]), int(d[-1][4:6]), int(d[-1][6:]))
+-    return {"giorni": (d1 - d0).days + 1, "giorni_con_dati": len(d), "passaggi": passaggi, "dal": d0.isoformat(), "al": d1.isoformat()}
++    return {"giorni": (d1 - d0).days + 1, "giorni_con_dati": len(d), "passaggi": passaggi, "dal": d0.isoformat(), "al": d1.isoformat(),
++            "inizio_raccolta": INIZIO_RACCOLTA}
+ 
+ 
+ GAP_PASSI = 12          # buchi fino a 12 passi (6 minuti) si uniscono con una linea retta
+diff --git a/scripts/schede/r1.py b/scripts/schede/r1.py
+index 590c423..87d702f 100644
+--- a/scripts/schede/r1.py
++++ b/scripts/schede/r1.py
+@@ -269,9 +269,12 @@ def forma_r1(s):
+     parametri = [["Tempi a piedi", "5, 10 e 15 minuti"] if p[0] == "Tempo a piedi" else list(p) for p in s["parametri"]]
+     parametri += [["Strada molto trafficata", f"almeno {migliaia(pr['soglia_molto_traffico_veic_giorno'])} veicoli al giorno"],
+                   ["Esposto al traffico", f"a meno di {raggio} m dalla strada"]]
++    anima = {"tipo": "cerchi",
++             "voci": [{"min": m, "pct": round(quota(m, 5), 1), "testo": f"tutti e 5 i servizi a {m} minuti a piedi"} for m in (5, 10, 15)],
++             "didascalia": "Residenti delle zone abitate che hanno scuole, salute, negozi, fermate e verde a 5, 10 e 15 minuti da casa a piedi."}
+     return forma_base(
+         s,
+-        "A 15 minuti quasi tutti hanno i servizi; a 5 minuti molti meno",
++        "Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi",
+         "Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata?",
+         {"valore": round(quota(15, 5), 1), "unita": "%",
+          "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi"},
+@@ -289,4 +292,5 @@ def forma_r1(s):
+          "Il traffico è una stima e sostituisce rumore e smog, che non misuriamo."],
+         ["Question: how many Turin residents lack schools, health, shops, stops or green space within 15 minutes on foot?",
+          f"Answer: {senza:,} residents ({quota_senza:.1f}%) lack at least one of the 5 services; {tre_o_piu:,} in inhabited areas lack three or more.",
+-         "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."])
++         "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."],
++        anima=anima)
+diff --git a/scripts/schede/r10.py b/scripts/schede/r10.py
+index 10525ea..7174131 100644
+--- a/scripts/schede/r10.py
++++ b/scripts/schede/r10.py
+@@ -102,10 +102,10 @@ def forma_r10(s):
+     nz_usate = cn["zone_usate"]
+     return forma_base(
+         s,
+-        f"Circa 1 torinese su {n_su} vive dove la fragilità è alta e i servizi sono pochi",
++        f"Circa 1 torinese su {n_su} vive in una zona con più difficoltà sociali e pochi servizi",
+         "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
+         {"valore": se["residenti_doppio_svantaggio"], "unita": "",
+-         "testo": f"residenti in sezioni con fragilità alta e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei torinesi"},
++         "testo": f"residenti in zone con più difficoltà sociali e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate"},
+         principale,
+         [f"Prezzo e servizi vanno insieme: correlazione di Spearman {pct2(e1['spearman'])} su {e1['n_zone']} zone (da {pct2(ic[0])} a {pct2(ic[1])}).",
+          f"{len(zd)} zone sono in doppio svantaggio: {nomi_zd}. Ci abitano {migliaia(e2['residenti_zone_doppio_svantaggio'])} persone.",
+@@ -129,7 +129,7 @@ def forma_r10(s):
+          f"Answer: 1 Turin resident in {n_su} ({migliaia(se['residenti_doppio_svantaggio'])} people, {100 * se['quota_residenti_di_riferimento']:.1f}%) lives where fragility is high and services are few. "
+          f"Price and services go together (Spearman {e1['spearman']:.2f} over {e1['n_zone']} zones).",
+          "Limit: price quotes, not sales; one semester; large zones. The metro price gap is between zones, not a causal effect."],
+-        unita={"tipo": "omini", "totale": 10, "colorati": round(10 * se["quota_residenti_di_riferimento"]),
+-               "didascalia": f"Circa {round(10 * se['quota_residenti_di_riferimento'])} torinese su 10 vive in sezioni con fragilità alta e servizi bassi "
+-                             f"({virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti)."},
++        anima={"tipo": "omini", "totale": 10, "colorati": round(10 * se["quota_residenti_di_riferimento"]),
++               "didascalia": f"Circa {round(10 * se['quota_residenti_di_riferimento'])} torinese su 10 vive dove l'indice di fragilità sociale è alto e i servizi sono pochi "
++                             f"({virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate)."},
+         )
+diff --git a/scripts/schede/r4.py b/scripts/schede/r4.py
+index 9840114..85c416e 100644
+--- a/scripts/schede/r4.py
++++ b/scripts/schede/r4.py
+@@ -416,6 +416,8 @@ def forma_r4(s):
+                 voce("ritardo oltre 10 minuti", c[k]["ritardo10"], tono="rosso")]} for k in ("0", "1", "2")]}
+     fasce = [(f, v) for f, _, v in fasce_r4() if f != "notte"]
+     nomi_f = {"punta_mattina": "punta mattino (7-9)", "giorno": "giorno (9-16)", "punta_sera": "punta sera (16-19)", "sera": "sera (19-24)"}
++    nomi_anima = {"punta_mattina": "su 100 nella punta del mattino (7-9)", "giorno": "su 100 di giorno (9-16)",
++                  "punta_sera": "su 100 nella punta della sera (16-19)", "sera": "su 100 la sera (19-24)"}
+     linea = {"tipo": "linea", "titolo": "Ritardo oltre 5 minuti, per fascia oraria (feriale)", "unita": "%",
+              "categorie": [nomi_f[f] for f, _ in fasce], "serie": [{"label": "passaggi in ritardo", "valori": [v for _, v in fasce]}]}
+     noi_gtt = next(g for g in s["grafici"] if g["titolo"].startswith("Noi e GTT"))
+@@ -435,7 +437,7 @@ def forma_r4(s):
+              "grafico": dict(r9["grafici"][0], titolo="Attesa media alla fermata, per fascia oraria (feriale)")}
+     return forma_base(
+         s,
+-        f"I ritardi gravi sono circa il {round(fer['ritardo10'])}% dei passaggi",
++        f"Circa il {round(fer['ritardo10'])}% dei passaggi arriva con più di 10 minuti di ritardo",
+         "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
+         {"valore": a_fer, "unita": "%", "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo"},
+         pila,
+@@ -456,9 +458,12 @@ def forma_r4(s):
+         [f"Question: how often are GTT vehicles late or bunched? Answer: {fer['ritardo10']:.1f}% of weekday departures are more than 10 minutes late.",
+          f"GTT reports {GTT_RITARDO10_2025_PCT}% for 2025. Counting only the first stop we get {b_set:.1f}%; the rest is season and method.",
+          f"Limit: only {gg['0']} weekdays, {gg['1']} Saturdays and {gg['2']} Sunday of data, urban lines only, no night."],
+-        unita={"tipo": "quadratini", "totale": 100, "colorati": round(fer["ritardo"]),
++        anima={"tipo": "quadratini", "totale": 100, "oltre5": fer["ritardo"], "oltre10": fer["ritardo10"],
++               "testo_tutto": "su 100 passaggi in un feriale arrivano con oltre 5 minuti di ritardo",
++               "fasi": [{"label": nomi_anima[f], "valore": v} for f, v in fasce],
++               "legenda5": "oltre 5 minuti", "legenda10": "oltre 10 minuti",
+                "didascalia": f"Su 100 passaggi feriali, circa {round(fer['ritardo'])} arrivano con più di 5 minuti di ritardo ({virgola(fer['ritardo'])}%); "
+-                             f"con più di 10 minuti circa {round(fer['ritardo10'])}."},
++                             f"con più di 10 minuti circa {round(fer['ritardo10'])}. Poi il giorno, fascia per fascia."},
+         confronto=[f"GTT dichiara il {virgola(GTT_RITARDO10_2025_PCT)}% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
+                    f"Noi misuriamo pochi giorni di ottobre sulle linee urbane: {virgola(a_set)}% a ogni fermata, {virgola(b_set)}% alla partenza.",
+                    f"Anche contando come GTT alla partenza troviamo il {virgola(b_set)}%; il resto della differenza è stagione e metodo."],
+diff --git a/scripts/schede/r6.py b/scripts/schede/r6.py
+index 7f09efd..38c1d05 100644
+--- a/scripts/schede/r6.py
++++ b/scripts/schede/r6.py
+@@ -1,6 +1,7 @@
+ """Risultato 6 (pubblico 3): parcheggi per lasciare l'auto e bus contro auto."""
+ from datetime import datetime
+ import json
++from collections import Counter
+ from schede import comune
+ from schede.comune import date_it, forma_base, migliaia, nome_pulito, num, ora, virgola, voce
+ 
+@@ -178,6 +179,37 @@ def scheda_r6():
+ 
+ 
+ 
++PIAZZA_CASTELLO = (45.0712, 7.6853)
++
++
++def frazione(q, max_den=5):
++    """La frazione semplice più vicina a q (es. 0,65 -> 2 su 3), con denominatore fino a max_den."""
++    return min(((round(q * d), d) for d in range(2, max_den + 1) if round(q * d) > 0), key=lambda x: (abs(x[0] / x[1] - q), x[1]))
++
++
++def anima_fermate(fermate, punti, n_ok, n_pochi, n_nessun):
++    """Animazione della scheda 3: la forma di Torino (assets/torino_contorno.json, stessa proiezione della home) e le fermate importanti
++    che compaiono dal centro verso fuori, colorate per posti (0 bastanti, 1 pochi, 2 nessuno); poi i punti prioritari."""
++    c = json.loads((comune.RADICE / "assets" / "torino_contorno.json").read_text(encoding="utf-8"))
++    xy = lambda lat, lon: (round((lon - c["lon_min"]) * c["k"] * c["scala"]), round((c["lat_max"] - lat) * c["scala"]))
++    cx, cy = xy(*PIAZZA_CASTELLO)
++    classe = {"Posti sufficienti": 0, "Posti insufficienti": 1, "Nessun parcheggio": 2}
++    pts = []
++    for f in fermate:
++        x, y = xy(f["lat"], f["lon"])
++        pts.append([x, y, classe[f["classe"]], round(((x - cx) ** 2 + (y - cy) ** 2) ** .5)])
++    prio = [list(xy(*p["centro"])) for p in punti]
++    tutti_x = [p[0] for p in pts] + [0, c["larghezza"]]
++    tutti_y = [p[1] for p in pts] + [0, c["altezza"]]
++    x0, y0 = min(tutti_x) - 40, min(tutti_y) - 40
++    return {"tipo": "fermate", "contorno": {"d": c["d"], "vb": [x0, y0, max(tutti_x) + 40 - x0, max(tutti_y) + 40 - y0]},
++            "punti": pts, "prioritari": prio,
++            "legenda": [{"label": "posti bastanti", "n": n_ok, "tono": "verde"}, {"label": "pochi posti", "n": n_pochi, "tono": "giallo"},
++                        {"label": "nessun parcheggio", "n": n_nessun, "tono": "rosso"}],
++            "didascalia": "Ogni punto è una fermata importante, in Torino e in cintura; la linea è il confine di Torino. "
++                          f"I cerchi neri sono i {len(prio)} punti dove servirebbero di più nuovi posti."}
++
++
+ def forma_r6(s):
+     r = json.loads(r6_file().read_text(encoding="utf-8"))
+     rie, punti, par = r["riepilogo"], r["punti_prioritari"], r.get("parametri", {})
+@@ -185,9 +217,6 @@ def forma_r6(s):
+     raggio = int(par.get("raggio_piedi_m", 400))
+     quota = virgola(100 * rie["quota_mattino"])
+     reg = rie["regola_fermate"]
+-    val = rie.get("validazione", [])
+-    misurati = [v for v in val if v["stato"] != "non_misurato" and not v["esito"].startswith("non si può dire")]
+-    pieni = sum(1 for v in val if v["stato"] == "pieno")
+     ordinati = sorted(punti, key=lambda p: -p["mancano"])
+     terzo = max(1, round(len(ordinati) / 3))
+     classi = [("alto", "rosso"), ("medio", "arancio"), ("basso", "giallo")]
+@@ -202,13 +231,13 @@ def forma_r6(s):
+     n_punti_ba = ba["riepilogo"]["n_punti"]
+     inter = [l for l in ba["luoghi"] if l["tipo"] == "interscambio"]
+     f_ba_lo, f_ba_hi = virgola(ba["parametri"]["fattore_basso"]), virgola(ba["parametri"]["fattore_alto"])
+-    graf_inter = {"tipo": "barre", "titolo": "Dagli interscambi esistenti a Piazza Castello, minuti coi mezzi pubblici", "unita": "minuti",
+-                  "nota": f"Alle 8 di un feriale. A destra il tempo in auto, parcheggio compreso, fra i due fattori di punta ({f_ba_hi} e {f_ba_lo}).",
+-                  "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["tp_min"]), "testo": f"{round(l['tp_min'])} contro {round(l['auto_alto_min'])}-{round(l['auto_basso_min'])} in auto"}
++    stati = {"pieno": "pieno di giorno", "a_meta": "a metà", "libero": "con posti liberi", "non_misurato": "non misurato"}
++    graf_inter = {"tipo": "barre", "titolo": "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro", "unita": "minuti",
++                  "nota": f"Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, "
++                          f"parcheggio compreso, fra i due fattori di punta ({f_ba_hi} e {f_ba_lo}).",
++                  "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["tp_min"]),
++                            "testo": f"{stati.get(l.get('stato'), 'non misurato')}; {round(l['tp_min'])} contro {round(l['auto_alto_min'])}-{round(l['auto_basso_min'])} in auto"}
+                            for l in inter]}
+-    extra = {"titolo": "Interscambi esistenti e bus verso il centro",
+-             "punto": f"Gli interscambi esistenti sono poco pieni: di giorno solo {pieni} su {len(val)} è pieno.",
+-             "grafico": graf_inter}
+     # messaggio: minuti di pareggio = minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (script 94, senza soglie scelte da noi)
+     pm = ba["pareggio"]["punti"]
+     lo_m, hi_m = round(pm["mediana_basso_min"]), round(pm["mediana_alto_min"])
+@@ -229,45 +258,38 @@ def forma_r6(s):
+                       f"{f_ba_hi} (sensori, auto veloce) e {f_ba_lo} (Google, auto chiara e lenta).",
+               "luoghi": luoghi_gara, "scelto": scelto}
+     mi = lambda l: f"{round(l['pareggio_basso_min'])}–{round(l['pareggio_alto_min'])} minuti" if l["pareggio_basso_min"] is not None else "nessun collegamento"
+-    pieni_i = [l for l in inter if l["stato"] == "pieno"]
+-    vuoti_i = [l for l in inter if l["stato"] == "libero"]
+-    kp1 = ("Interscambi esistenti: pieni " + (", ".join(f"{nome_pulito(l['nome'])} ({mi(l)})" for l in pieni_i) or "nessuno")
+-           + "; poco usati " + (", ".join(f"{nome_pulito(l['nome'])} ({mi(l)})" for l in vuoti_i) or "nessuno") + ".")
+     migliore = pb[0] if pb else None
+-    kp3 = (f"Il punto più promettente è {nome_pulito(migliore['nome'])}: bastano {mi(migliore)} perché il bus pareggi l'auto."
+-           if migliore else "Nessun punto ha un collegamento coi mezzi entro 120 minuti.")
+-    tono_classe = {"conviene": "verde", "dipende": "giallo", "non_conviene": "rosso"}
+-    pallini = [{"label": nome_pulito(l["nome"]), "tono": tono_classe.get(l["classe"], "grigio")} for l in ba["luoghi"][:n_punti_ba]]
+-    npc = ba["riepilogo"]["punti"]
+-    unita = {"tipo": "pallini", "pallini": pallini,
+-             "didascalia": f"Un pallino per punto prioritario: verde = il bus conviene ({npc['conviene']}), giallo = dipende ({npc['dipende']}), "
+-                           f"rosso = il bus non conviene ({npc['non_conviene']})."}
++    if migliore:
++        gara_g["nota"] += f" Il punto più promettente è {nome_pulito(migliore['nome'])}: lì bastano {mi(migliore)} persi a parcheggiare in centro."
++    # il messaggio (Leo, 23/10): quanto è facile lasciare l'auto vicino a una fermata importante e proseguire coi mezzi
++    fermate = r["fermate"]
++    conta = Counter(f["classe"] for f in fermate)
++    n_nessun, n_pochi, n_ok = conta["Nessun parcheggio"], conta["Posti insufficienti"], conta["Posti sufficienti"]
++    a, b = frazione(n_senza / n_fermate)
++    primo = ordinati[0]
+     return forma_base(
+         s,
+-        f"Dai parcheggi di scambio il bus vale l'auto solo se in centro si perdono {forbice_m} minuti a parcheggiare",
+-        "Dove mancano posti per lasciare l'auto, e quando il bus da lì verso il centro è veloce quanto l'auto?",
+-        {"valore": forbice_m, "unita": "minuti",
+-         "testo": f"persi in centro per parcheggiare: sotto questa soglia l'auto batte il bus (mediana dei {n_punti_ba} punti)"},
+-        gara_g,
+-        [kp1,
+-         f"{n_senza} fermate importanti su {n_fermate} non hanno posti bastanti a {raggio} metri a piedi.",
+-         kp3],
+-        [pareggio_g, principale],
++        f"{a} fermate importanti su {b} non hanno abbastanza posti per lasciare l'auto",
++        "Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi?",
++        {"valore": n_senza, "unita": "",
++         "testo": f"fermate importanti su {n_fermate} non hanno posti bastanti a {raggio} metri a piedi"},
++        principale,
++        [f"{n_nessun} fermate importanti non hanno nessun parcheggio adatto vicino; {n_pochi} ne hanno troppo pochi.",
++         f"Servirebbero posti soprattutto in {n_assi} punti d'ingresso: il primo è {nome_pulito(primo['nome'])}, dove ne mancano circa {migliaia(primo['mancano'])}.",
++         f"Dal parcheggio, il bus batte l'auto solo se in centro si perdono più di {forbice_m} minuti a parcheggiare."],
++        [gara_g, pareggio_g, graf_inter],
+         [f"Fermate importanti: fuori dal centro, con metro, stazione o capolinea, oppure {reg['n_corse']} corse all'ora.",
+          "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
+          f"Auto da fermare: auto che passano per il {quota}% che già oggi lascia l'auto. Posti: parcheggi adatti entro {raggio} metri.",
+          "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.",
+-         "Minuti di pareggio: tempo coi mezzi verso Piazza Castello alle 8, meno il tempo in auto senza parcheggio."],
++         f"Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei {n_punti_ba} punti."],
+         [["Fermate importanti", f"{reg['n_corse']} corse all'ora o metro, e {migliaia(reg['m_auto'])} auto che passano"],
+          ["Distanza a piedi", f"{raggio} metri"],
+          ["Auto da fermare", f"auto che passano × {quota}%"],
+          ["Bus contro auto", f"verso Piazza Castello alle 8, auto con fattore {f_ba_hi} (sensori) e {f_ba_lo} (Google)"]],
+-        [f"I tempi coi mezzi sono solo GTT, senza treni. L'auto è stimata fra due fattori di punta, {f_ba_hi} e {f_ba_lo}.",
++        ["Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
++         f"I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto sta fra due fattori di punta, {f_ba_hi} e {f_ba_lo}.",
+          "Il costo del parcheggio in centro non è nel calcolo: pesa come minuti in più.",
+-         "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello.",
+-         "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati, con ±30%."],
+-        ["Question: when is the bus from a park-and-ride as fast as the car to the centre?",
+-         f"Answer: park-and-ride pays off only if parking downtown costs at least {forbice_m} minutes (median of {n_punti_ba} priority points). "
+-         f"Also, {n_senza} of {n_fermate} important stops lack enough parking.",
+-         "Limit: bus times use GTT only, without trains; parking cost is not considered."],
+-        unita=unita, extra=extra)
++         "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello."],
++        anima=anima_fermate(fermate, punti, n_ok, n_pochi, n_nessun))
++
+diff --git a/scripts/schede/r8.py b/scripts/schede/r8.py
+index c066da2..34c70fe 100644
+--- a/scripts/schede/r8.py
++++ b/scripts/schede/r8.py
+@@ -2,7 +2,7 @@
+ import json
+ import re
+ from schede import comune
+-from schede.comune import forbice_estremi, forma_base, grafico_per_titolo, leggi, migliaia, num, ora, virgola, voce
++from schede.comune import forbice_estremi, forma_base, grafico_per_titolo, leggi, migliaia, nome_pulito, num, ora, virgola, voce
+ 
+ 
+ 
+@@ -211,6 +211,23 @@ def forma_r8(s):
+     extra = {"titolo": "Strade grandi e fermate vicine",
+              "punto": f"Il {virgola(quota_strade)}% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
+              "grafico": strade}
++    # gara (Leo, 23/10): viaggi tipici del mattino fra zone, le coppie con più auto, una partenza diversa per corsa
++    nomi_z = {z["zona"]: z["nome"] for z in t["per_zona"]}
++    for p in t["peggiori"]:
++        nomi_z.setdefault(p["da"], p["da_nome"]); nomi_z.setdefault(p["a"], p["a_nome"])
++    corto = lambda c: nome_pulito(nomi_z.get(c, c).replace("Torino, ", ""))
++    viste, viaggi = set(), []
++    for p in sorted(coppie_ab, key=lambda p: -p["auto"]):
++        if p["da"] in viste or p["da"] == p["a"] or p["da"] not in nomi_z or p["a"] not in nomi_z:
++            continue
++        viste.add(p["da"])
++        viaggi.append({"nome": corto(p["da"]), "arrivo": corto(p["a"]), "bus": p["tp_min"],
++                       "auto_min": p["auto_punta_min"], "auto_max": p["auto_punta_basso_min"],
++                       "giudizio": f"coi mezzi da {virgola(round(p['rapporto_basso'], 1))} a {virgola(round(p['rapporto'], 1))} volte il tempo dell'auto"})
++        if len(viaggi) == 6:
++            break
++    anima = {"tipo": "gara", "luoghi": viaggi, "scelto": 0,
++             "didascalia": f"I {len(viaggi)} viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme."}
+     senza_ab = ab["senza_collegamento"]
+     gg = t["google"]
+     par_crit = [["Zone", f"{par['n_zone']} zone dell'indagine sugli spostamenti ({par['n_zone_torino']} di Torino), fino a {par['punti_per_zona']} punti ciascuna"],
+@@ -244,4 +261,4 @@ def forma_r8(s):
+          f"For {100 * ti['quota_oltre_2_basso']:.0f}% to {100 * ti['quota_oltre_2_alto']:.0f}% of cars it takes more than twice as long.",
+          f"Limit: car times lie between the slowdown measured by sensors ({hi['fattore']:g}) and by Google Maps ({lo['fattore']:g}). "
+          "Without metropolitan trains, public transport looks slower than it is."],
+-        mappa=False, extra=extra)
++        mappa=False, extra=extra, anima=anima)
+diff --git a/scripts/schede/testi.json b/scripts/schede/testi.json
+index f801207..97c0efd 100644
+--- a/scripts/schede/testi.json
++++ b/scripts/schede/testi.json
+@@ -152,11 +152,32 @@
+   "poco di più": "a little more",
+   "di più": "more",
+   "non di più": "no more",
+-  "Vicino alla metro non si può confrontare il prezzo: mancano zone con e senza metro a pari distanza dal centro.": "Near the metro prices cannot be compared: there are no zones with and without a metro at the same distance from the centre."
++  "Vicino alla metro non si può confrontare il prezzo: mancano zone con e senza metro a pari distanza dal centro.": "Near the metro prices cannot be compared: there are no zones with and without a metro at the same distance from the centre.",
++  "Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi?": "Can people driving in from outside find a place to leave the car near an important stop, and continue by public transport?",
++  "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro": "Existing park-and-ride sites: how full they are and how long the bus takes to the centre",
++  "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.": "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude.",
++  "Residenti delle zone abitate che hanno scuole, salute, negozi, fermate e verde a 5, 10 e 15 minuti da casa a piedi.": "Residents of inhabited areas with schools, health care, shops, stops and green space within 5, 10 and 15 minutes' walk from home.",
++  "Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi": "Turin, a 15-minute city: almost everyone has the services within a 15-minute walk",
++  "nessun parcheggio": "no car park",
++  "pochi posti": "few spaces",
++  "posti bastanti": "enough spaces",
++  "oltre 10 minuti": "over 10 minutes",
++  "oltre 5 minuti": "over 5 minutes",
++  "a metà": "half full",
++  "con posti liberi": "with free spaces",
++  "pieno di giorno": "full during the day",
++  "non misurato": "not measured",
++  "su 100 di giorno (9-16)": "in 100 during the day (9-16)",
++  "su 100 la sera (19-24)": "in 100 in the evening (19-24)",
++  "su 100 nella punta del mattino (7-9)": "in 100 in the morning rush (7-9)",
++  "su 100 nella punta della sera (16-19)": "in 100 in the evening rush (16-19)",
++  "su 100 passaggi in un feriale arrivano con oltre 5 minuti di ritardo": "in 100 weekday stop passages are more than 5 minutes late"
+  },
+  "modelli": [
+-  {"it": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: {n0} (sensori, auto veloce) e {n1} (Google, auto chiara e lenta).",
+-   "en": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: {n0} (sensors, fast car) and {n1} (Google, faded slow car)."},
++  {
++   "it": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: {n0} (sensori, auto veloce) e {n1} (Google, auto chiara e lenta).",
++   "en": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: {n0} (sensors, fast car) and {n1} (Google, faded slow car)."
++  },
+   {
+    "it": "Ogni barra è un tempo a piedi: 100% dei residenti delle zone abitate (almeno {n0} abitanti per km²).",
+    "en": "Each bar is a walking time: 100% of residents of inhabited areas (at least {n0} inhabitants per km²)."
+@@ -556,6 +577,82 @@
+   {
+    "it": "Vicino alla metro le case costano {t0} ({p1} euro al m² in media, a pari distanza dal centro). Differenza fra zone, non effetto causale.",
+    "en": "Near the metro homes cost {t0} ({p1} euro per m² on average, at the same distance from the centre). A difference between zones, not a causal effect."
++  },
++  {
++   "it": "{n0} fermate importanti su {n1} non hanno abbastanza posti per lasciare l'auto",
++   "en": "{n0} in {n1} important stops lack enough spaces to leave the car"
++  },
++  {
++   "it": "{n0} fermate importanti non hanno nessun parcheggio adatto vicino; {n1} ne hanno troppo pochi.",
++   "en": "{n0} important stops have no suitable car park nearby; {n1} have too few spaces."
++  },
++  {
++   "it": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, fra i due fattori di punta ({n0} e {n1}).",
++   "en": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, between the two rush-hour factors ({n0} and {n1})."
++  },
++  {
++   "it": "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei {n0} punti.",
++   "en": "Bus versus car: minutes by public transport to Piazza Castello at 8 am, versus the car including parking. Median of the {n0} points."
++  },
++  {
++   "it": "Circa {n0} torinese su {n1} vive dove l'indice di fragilità sociale è alto e i servizi sono pochi ({n2}% dei residenti delle zone abitate).",
++   "en": "About {n0} Turin resident in {n1} lives where the social fragility index is high and services are few ({n2}% of residents of inhabited areas)."
++  },
++  {
++   "it": "Circa {n0} torinese su {n1} vive in una zona con più difficoltà sociali e pochi servizi",
++   "en": "About {n0} Turin resident in {n1} lives in an area with more social difficulties and few services"
++  },
++  {
++   "it": "Circa il {n0}% dei passaggi arriva con più di 10 minuti di ritardo",
++   "en": "About {n0}% of stop passages are more than 10 minutes late"
++  },
++  {
++   "it": "Dal parcheggio, il bus batte l'auto solo se in centro si perdono più di {s0} minuti a parcheggiare.",
++   "en": "From the car park, the bus beats the car only if parking downtown takes more than {s0} minutes."
++  },
++  {
++   "it": "I {n0} viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme.",
++   "en": "The {n0} most frequent morning car trips, each from a different area: bus and car start together."
++  },
++  {
++   "it": "I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto sta fra due fattori di punta, {n0} e {n1}.",
++   "en": "Public transport times are GTT only, without trains, and only in the morning. The car lies between two rush-hour factors, {n0} and {n1}."
++  },
++  {
++   "it": "Ogni punto è una fermata importante, in Torino e in cintura; la linea è il confine di Torino. I cerchi neri sono i {n0} punti dove servirebbero di più nuovi posti.",
++   "en": "Each dot is an important stop, in Turin and the surrounding towns; the line is the city boundary. The black circles are the {n0} points where new spaces are most needed."
++  },
++  {
++   "it": "Servirebbero posti soprattutto in {n0} punti d'ingresso: il primo è {s0}, dove ne mancano circa {n1}.",
++   "en": "Spaces are needed above all at {n0} entry points: the first is {s0}, where about {n1} are missing."
++  },
++  {
++   "it": "Su 100 passaggi feriali, circa {n0} arrivano con più di 5 minuti di ritardo ({n1}%); con più di 10 minuti circa {n2}. Poi il giorno, fascia per fascia.",
++   "en": "Out of 100 weekday stop passages, about {n0} are more than 5 minutes late ({n1}%); about {n2} more than 10 minutes. Then the day, time band by time band."
++  },
++  {
++   "it": "{t0} Il punto più promettente è {s0}: lì bastano {s1} minuti persi a parcheggiare in centro.",
++   "en": "{t0} The most promising point is {s0}: there, {s1} minutes lost parking downtown are enough."
++  },
++  {
++   "it": "{t0}; {n0} contro {n1}-{n2} in auto",
++   "en": "{t0}; {n0} versus {n1}-{n2} by car"
++  },
++  {
++   "it": "coi mezzi da {n0} a {n1} volte il tempo dell'auto",
++   "en": "by public transport {n0} to {n1} times the car time"
++  },
++  {
++   "it": "fermate importanti su {n0} non hanno posti bastanti a {n1} metri a piedi",
++   "en": "important stops out of {n0} lack enough parking within {n1} metres on foot"
++  },
++  {
++   "it": "residenti in zone con più difficoltà sociali e servizi bassi: il {n0}% dei residenti delle zone abitate",
++   "en": "residents of areas with more social difficulties and few services: {n0}% of residents of inhabited areas"
++  },
++  {
++   "it": "tutti e {n0} i servizi a {n1} minuti a piedi",
++   "en": "all {n0} services within {n1} minutes on foot"
+   }
+  ]
+-}
+\ No newline at end of file
++}
+diff --git a/scripts/schede/traduci.py b/scripts/schede/traduci.py
+index da5c083..ec32ded 100644
+--- a/scripts/schede/traduci.py
++++ b/scripts/schede/traduci.py
+@@ -93,7 +93,7 @@ def traduci(testo, mancanti=None):
+ 
+ 
+ ETICHETTE = {"STIMATO": "ESTIMATED", "MISURATO": "MEASURED", "PROGRAMMATO": "SCHEDULED", "CENSIMENTO": "CENSUS", "dati scarsi": "little data"}
+-SALTA = {"tipo", "tono", "link", "id", "vista", "xnome", "ynome", "mappa"}
++SALTA = {"tipo", "tono", "link", "id", "vista", "xnome", "ynome", "mappa", "contorno"}
+ 
+ 
+ def _grafico_o_valore(o, mancanti):

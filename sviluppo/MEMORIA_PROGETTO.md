@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **22/10/2026** (giro C3). File unico di memoria (`sviluppo/MEMORIA_PROGETTO.md`): leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
+Ultimo aggiornamento: **23/10/2026** (piani C14, C15, P10). File unico di memoria (`sviluppo/MEMORIA_PROGETTO.md`): leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
 risultato stanno nel suo documento in `docs/` (`R1_servizi.md` …), i piani aperti in `sviluppo/piani/`, la storia in git. Sezioni fisse (non aggiungerne): 1 Obiettivo · 2 Regole · 3 Cartelle e dati · 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici.
 
 ## 1. Obiettivo
@@ -18,7 +18,7 @@ della qualità dei dati). Cornici, temi in comune, dati da verificare e frase pe
 
 ## 2. Regole di lavoro
 
-- Con Leo: passo passo; decisioni importanti chieste prima, piccole scelte con default dichiarati; spiegazioni semplici, senza gergo.
+- Con Leo: passo passo; decisioni importanti chieste prima, piccole scelte con default dichiarati; spiegazioni semplici, senza gergo. **Chat di pianificazione** (Leo, 23/10): Claude scrive piani e prompt dettagliati per un modello più semplice (`sviluppo/piani/PROMPT_LAVORI.md`) e non esegue; **i controlli grafici li fa solo Leo**.
 - **Verifica indipendente** di ogni fatto importante sui file veri prima di darlo a Leo; Claude ricontrolla i numeri degli agenti esterni.
 - Git: sul PC ramo `prova`; **commit e push sempre automatici** a fine lavoro (Leo, 20/10; dettagli in `AGENTS.md`). Nelle sessioni cloud ramo `claude/...`, che Leo unisce in `prova`
   (merge sempre con `--no-edit`). Repository **pubblico**: niente segreti né dati personali in git. Non modificare `data/raw` né lo storico: solo leggere.
@@ -61,8 +61,8 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 - **R1 servizi** (21-22, 92): a piedi copertura a 15 minuti 99,2%, a 10 96,8%, a 5 68,3%; **362 torinesi in zone abitate con 3+ servizi mancanti** (5 sezioni in collina, confermate), 6.768 in zone poco abitate
   (sotto 1.000 ab/km², grigio), 389 «da verificare»; esposti al traffico 22,6% (180 tratte molto trafficate come nel R8); cintura con piedi o TP 45' alle 8; candidati per gruppo (scuole 5, salute 5, cibo 3, fermate 1, verde 0). Manca il per circoscrizione (campo assente). `docs/R1_servizi.md`.
 - **R2 metro di notte** (28-29, **in pausa**, Leo 20/10: non risponde a «tornare a casa la sera»; ripresa con il «popolo della notte» IMQ 00-05): ogni 15' → **334.085 residenti con almeno +25% di servizi** (ogni 30': 153.062); con qualsiasi miglioramento 773.307 (652.891). `docs/R2_metro_notte.md`.
-- **R4 puntualità e attese** (27, 70), **tutto sul GPS dei mezzi** (il feed sottostimava i ritardi di 2-3 volte), 7 feriali, copertura GPS 77%: **13,3% oltre 5 minuti** (feed 5,2%), 5,05% oltre 10 (GTT dichiara 2,3% per il 2025, metodo non
-  pubblicato), grappolo+buco 20,4%; tram 13,0%, bus 13,4%; peggiori 17, 6, 19, 66, 68. «Oltre 10 minuti» in 4 definizioni: a ogni fermata 5,49%, prima fermata 3,92%, metà corsa 5,24%, fuori punta 5,30% (la definizione spiega solo parte della differenza).
+- **R4 puntualità e attese** (27, 70), **tutto sul GPS dei mezzi** (il feed sottostimava i ritardi di 2-3 volte), dopo il giro 6 (esclusi 14, 18, 21/10 per poco GPS): **14,1% oltre 5 minuti** (feed 5,4%), **5,44% oltre 10** (GTT dichiara 2,3% per il 2025, metodo non
+  pubblicato); peggiore la 17. «Oltre 10 minuti» in 4 definizioni (feriale): a ogni fermata 5,44%, prima fermata 3,86%, metà corsa 5,29%, fuori punta 5,27% (la definizione spiega solo parte della differenza).
   Tema «Puntualità delle linee» in mappa. `docs/R4_puntualita.md`.
 - **R6 parcheggi** (24-25, 68-73, 77, 79-85, 87, 88, 94): fermate importanti con regola fissa (≥ 10 corse/ora o metro/stazione/capolinea, e ≥ 1.000 auto in entrata, scelta di Leo): **274**, **179 senza posti bastanti** entro 400 m a piedi
   (68 senza alcun parcheggio adatto); **12 punti prioritari** (uno per asse, ≥ 3 km dal centro, ≥ 50 posti mancanti; Maroncelli e Chieri escono, Leo: lasciare così); auto in entrata 87.162, chi già lascia l'auto 5,8% (64 interviste), torinesi inclusi 34%;
@@ -83,13 +83,13 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
   solo i **riassunti**, Leo) · **3** `PIANO_RISULTATI` (R6 con 5 feriali e scheda 5 fatti 22/10, `ESITO_P0.md`; resta: R4 a un mese; etichetta [DATI SCARSI] dello script 71 da decidere con più settimane; A2, F, C4, E4 **fuori**, Leo) · **4** `PIANO_GRAFICA`
   (decisioni di Leo: mezzi in movimento in home; numeri che contano **solo** nei numeri grandi; omini, gara bus/auto (scheda 3) e area che si espande (scheda 4) nelle schede;
   ore che scorrono in mappa; `progetto.html`; un file di stile; verde acqua → corallo) · **5** `PIANO_CODICE`. `PIANO_COSTI` dopo la pubblicazione. **Prompt** per far fare tutto a un modello, giro per giro (CLOUD C1-C13, PC P0-P8, ordine e fermate per Leo): `sviluppo/piani/PROMPT_LAVORI.md`.
-- **Rami** (22/10): nessun lavoro fuori da `prova`; i rami `claude/...` vecchi si cancellano (Leo). «Chi sono»: LinkedIn leocampese, email campese.leonardo@gmail.com. Niente contatore delle visite (Leo). Controllo fisso: `scripts\CONTROLLA_RAMI.bat` (`controlla_rami.py`).
+- **Rami** (22/10): nessun lavoro fuori da `prova` (23/10: C8/C9 di `claude/kind-brown-drqyhf` uniti nel ramo `claude/vigilant-volta-l13do5`, da unire in `prova`; poi cancellare i due rami); i rami `claude/...` vecchi si cancellano (Leo). «Chi sono»: LinkedIn leocampese, email campese.leonardo@gmail.com. Niente contatore delle visite (Leo). Controllo fisso: `scripts\CONTROLLA_RAMI.bat` (`controlla_rami.py`).
 - **Raccolta parcheggi** su leopi continua (R6 rifatto con 5 feriali il 22/10). `LICENSE` (MIT per il codice, dati con la licenza della fonte) creato il 22/10.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`. Il vecchio nome della cartella OMI resta nella storia di git.
 
 ## 6. PROSSIMI PASSI
 
-1. Piano 1: `main` è il ramo di default e i rami vecchi sono cancellati (Leo, 22/10); passi 4-7 fatti nel cloud (C1). Giro P1 sul PC: creare `config_locale.json`, `CONTROLLA_LEOPI.bat`, `RIFAI_MAPPA_E_SCHEDE.bat`, `prova_pagine.py`.
+1. **Ordine dei giri** (23/10, `PROMPT_LAVORI.md`): unire `claude/vigilant-volta-l13do5` in `prova` → **C14** (revisione grafica di Leo, bozza `C14_bozza.patch`) → P5 (→ main) → **C15** + **P10** (bus/auto a 4 ore del giorno) → C10/P6 → C11 → C12 → P7 (pubblicazione per ultima) → C13 → P8. P1 e P3 fatti (Release `dati-2026-10` caricata, 3 zip con codici di controllo giusti).
 2. Piano 2: C3 fatto; giro P3 sul PC (97, `confronta_riassunti.py`, `96 --gitignore`, 98, Release a mano; Leo scrive all'Agenzia per IMQ e controlla la licenza del GTFS); piano 4: **C4 fatto 22/10** (`sviluppo/prove_stile.html`, `ESITO_C4.md`): **stile scelto da Leo (22/10): «Torino»**; **C5 fatto 22/10** (`ESITO_C5.md`): `assets/stile.css`, barra e piè di pagina, anteprima dei link, numeri che salgono (solo home e numero grande della scheda), omini/quadratini/pallini, grafico della metro a differenze; da fare sul PC: `RIFAI_MAPPA_E_SCHEDE.bat`. **C6 fatto 22/10** (`ESITO_C6.md`): schede divise in `scripts/schede/` (italiano identico a prima), inglese completo da `scripts/schede/testi.json` (`traduci.py`), bottone IT/EN; **P4 fatto 22/10** (`ESITO_P4.md`): schede identiche a prima di C6, 19 pagine senza errori, Leo ha riletto tutto l'inglese (nessuna correzione). Scheda 5 titolo corretto (22/10): «Circa 1 su 10». **Logo di Leo** (toro con portiera, 22/10): `assets/logo.png` + `icona-32/180.png`, icona del browser e barra in alto, non altrove (niente spam). **C7, C8, C9 fatti 22/10** (`ESITO_C7/C8/C9.md`): gara bus contro auto (`assets/gara.js`); home con mezzi in movimento (`assets/mezzi.js`, `data/home_mezzi.js` scritto da `scripts/schede/home.py`, contatore, miniature fatte da `prova_pagine.py`); mappa con ▶ delle ore, caricamento, foglio su telefono, schede uniformi, «Copia il link». **Prima di P5**: `python scripts\97_riassunti_storico.py --solo ora --rifai` (l'ora tipica del 15/10 ha il GPS solo per 21 minuti: il 97 ora sceglie il giorno con più copertura), poi `RIFAI_MAPPA_E_SCHEDE.bat`.
 3. Rilanci con più dati: R4 con un mese (metà novembre), poi stagione. Screenshot di Leo per la scheda R6.
 4. Più avanti: tempi TP contro auto per coppie di zone IMQ e costi (`PIANO_COSTI.md`); R2 ripreso (popolo della notte), treni SFM, scenario fra R3 e R5, effetto ZTL, tram contro bus.
