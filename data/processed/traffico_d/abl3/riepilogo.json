@@ -1,0 +1,16 @@
+{
+ "stimato": true,
+ "variante": "abl3",
+ "iterazioni": 5,
+ "origini": 2429,
+ "peso_totale": 4153663.0,
+ "peso_flusso": 1749819.6,
+ "share_diurno": 0.96312,
+ "peak_share": 0.09616,
+ "vc_medio": 0.55,
+ "tratti_ztl_punta": 966,
+ "tratti_pedonali": 18,
+ "veicoli_km_day": 15947977.0,
+ "durata_s": 943.1,
+ "data": "2026-10-18 15:21:11"
+}

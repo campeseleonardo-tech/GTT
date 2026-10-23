@@ -1,0 +1,220 @@
+=== PAGINA PDF 77 / STAMPATA 75 ===
+
+cuni sforamenti dei limiti normativi per idrocarburi pesanti, cobalto, cromo e nichel. La contaminazione relativa agli idrocarburi è limitata sia in
+estensione sia in profondità (nel primo metro all’interno del capannone un tempo usato per il ricovero degli autobus e in un solo punto nell’area
+degli ex serbatoi interrati).
+Su tali basi, a fine 2024 è stata presentata una nuova Analisi di rischio, aggiornata nel 2025 recependo le osservazioni di ARPA Piemonte.
+Evidenziando l’assenza di rischio, nel 2025 è stata pertanto avanzata richiesta di chiusura del procedimento ambientale. La richiesta è stata
+discussa con il Comune di Orbassano e a seguito di tale riunione è stata convocata una nuova Conferenza dei Servizi. A seguito dell’incontro
+con ARPA Piemonte e il Comune di Orbassano è stato disposto l’aggiornamento dell’Analisi di Rischio, la quale è in fase di elaborazione.
+Serbatoi - Al fine di prevenire episodi di inquinamento vengono periodicamente eseguite le prove di tenuta sui serbatoi interrati monoparete
+e su tutte le tubazioni di collegamento. I serbatoi a doppia parete, strutturalmente più affidabili e dotati di centraline di controllo delle perdite,
+vengono regolarmente sottoposti a manutenzione periodica. I serbatoi aerei sono sottoposti a prove spessimetriche. Gli impianti di stoccaggio
+dei combustibili a servizio del rifornimento mezzi presenti nei siti aziendali sono dotati di sistemi di monitoraggio da remoto che permettono di
+rilevare in continuo le giacenze dei serbatoi.
+Amianto - L’eliminazione dei manufatti contenenti amianto (MCA) ancora presenti nei siti aziendali è oggetto di un piano di rimozione, periodi-
+camente aggiornato e discusso dal Comitato Rischi Ambiente, Sicurezza e Salute. Annualmente vengono effettuati i monitoraggi:
+• dello stato dei MCA ancora presenti, confinati o incapsulati (come da censimento periodicamente aggiornato sulla base dei nuovi ritrovamenti
+  e delle bonifiche eseguite), per riscontrare eventuali danneggiamenti dei materiali che potrebbero comportare il rilascio di fibre;
+•  degli inquinanti aerodispersi (fibre di asbesto) nei siti interessati. I rilievi non hanno mai evidenziato alcun superamento dei limiti normativi.
+Risorse
+Non sono disponibili indicazioni puntuali rispetto alle spese sostenute per l’attuazione delle attività sopra descritte.
+Metriche e obiettivi
+Obiettivi connessi all’inquinamento
+ESRS Standards   ESRS 2 MDR-T, ESRS E2 E2-3
+
+ Sottotema rilevante                               Obiettivo                                                       Azioni                                      Timeline
+ Inquinamento dell’aria     Riduzione delle sostanze inquinanti generate                Progressivo rinnovo della flotta con nuovi autobus a
+ e del suolo                                                                            metano dotati di tecnologia avanzata e a basso impatto                2026-2027
+                                                                                        ambientale, finalizzato alla riduzione degli inquinanti
+                                                                                        atmosferici
+                                                                                        Sorveglianza e interventi correttivi volti a prevenire la
+                                                                                        contaminazione del suolo da sostanze inquinanti, con                  In continuità
+                                                                                        particolare riferimento alla gestione di eventuali perdite          con il business
+                                                                                        di carburante provenienti dai serbatoi interrati
+ Sostanze                                                                               Riduzione del consumo di oli lubrificanti per le opera-               2026-2027
+ preoccupanti                                                                           zioni di manutenzione dei mezzi, grazie al rinnovo flotta
+
+Per un quadro completo degli obiettivi e delle relative tempistiche, si rimanda al paragrafo Piano di Sostenibilità: obiettivi e azioni relative alle
+tematiche di sostenibilità rilevanti del presente documento.
+
+Inquinamento di aria e suolo
+ESRS Standards   ESRS 2 MDR-M, ESRS E2 E2-4
+Inquinamento dell’aria
+Il tema dell’inquinamento atmosferico è intrinsecamente rilevante per GTT, in quanto Società che eroga e gestisce il servizio di Trasporto Pub-
+blico Locale (TPL). Il TPL opera quotidianamente all’interno del tessuto urbano, in un contesto in cui la qualità dell’aria rappresenta una delle
+principali sfide ambientali e sanitarie. GTT gestisce una flotta di autobus, tram e metro, che incidono direttamente, sia in termini di inquinanti
+atmosferici sia di gas climalteranti. La gestione di tale aspetto richiede attenzione sia sotto il profilo normativo che reputazionale e GTT ha
+ritenuto il tema rilevante, anche se, dalle analisi effettuate le emissioni in atmosfera non superano i limiti previsti dall’Autorizzazione Unica Am-
+bientale (AUA) dei siti, tantomeno i limiti previsti dal Regolamento (CE) n. 166/2006 del Parlamento europeo e del Consiglio (registro europeo
+delle emissioni e dei trasferimenti di sostanze inquinanti, E-PRTR).
+
+
+
+                                                                                       75
+
+=== PAGINA PDF 78 / STAMPATA 76 ===
+
+Siti operativi
+Le officine di GTT sono dotate di Autorizzazione Unica Ambientale (AUA) in quanto ospitano attività di manutenzione che generano emissioni in
+aria. L’AUA permette di controllare e gestire queste emissioni secondo la normativa ambientale, garantendo la sicurezza e la tutela dell’ambiente
+circostante. I siti di GTT dotati di AUA sono Metro e le sue stazioni, Tortona, Manin e Novara, Gerbido, Venaria, San Paolo e Trapani, Nizza e Ivrea.
+L’inquinamento del servizio TPL
+Per GTT, la mappatura degli inquinanti atmosferici generati dal trasporto pubblico locale rappresenta un’attività importante per valutare e gestire
+gli impatti del servizio sulla qualità dell’aria e sulla salute della popolazione. Il monitoraggio delle emissioni della flotta, in particolare di idrocar-
+buri (NMHC), ossidi di azoto (NOx) e particolato (PM), è rilevante poiché tali sostanze sono associate a patologie respiratorie e cardiovascolari,
+contribuiscono all’irritazione delle vie respiratorie e al peggioramento delle condizioni di salute nelle fasce più vulnerabili della popolazione
+Le sostanze inquinanti rilasciate in atmosfera possono derivare sia dalla tipologia di alimentazione dei mezzi sia dal modello di veicoli impiegati.
+L’eterogeneità in termini di età dei mezzi e tipologia di combustibile utilizzato incide sulle emissioni di inquinanti atmosferici diversi dalla CO2
+per via delle specifiche tecniche più datate al momento della loro omologazione, nonché per una minore efficienza dei sistemi di combustione
+e trattamento dei gas di scarico.
+Le emissioni dirette in atmosfera dei gas di scarico dei mezzi utilizzati per l’erogazione del servizio di trasporto pubblico vengono calcolate sulla
+base dei chilometri percorsi durante l’anno (come registrati da contachilometri), sia per il servizio in linea sia per le altre attività accessorie
+(uscita e rientro negli stabilimenti ecc.), esclusi i subaffidamenti.
+A partire dai consumi unitari per ciascuna famiglia di veicoli e in funzione dei chilometri percorsi, vengono calcolate in continuità con le prece-
+denti rendicontazioni le emissioni dei principali inquinanti urbani:
+
+
+ Inquinamento atmosferico (t)                                                                                      2025                     2024                     2023
+ Idrocarburi non metanici incombusti (NMHC)                                                                             14,13                   21,20                    31,50
+ Ossidi di azoto (NOx)                                                                                                124,50                   170,50                  244,40
+ Particolato                                                                                                             1,52                     2,00                     3,10
+
+NB: Le emissioni vengono calcolate per famiglie di veicoli, moltiplicando i dati emessivi indicati dal produttore per i chilometri effettivi percorsi (comprese percorrenze non
+commerciali da/per gli stabilimenti).
+Grazie alla progressiva sostituzione delle motorizzazioni a gasolio e all’aumentata incidenza dei veicoli elettrici, si è già registrata una diminuzio-
+ne significativa delle emissioni inquinanti prodotte dal parco mezzi. In particolare, gli idrocarburi non metanici incombusti (NMHC) si sono
+ridotti del 32,7% tra il 2023 e il 2024 e di un ulteriore 33,3% tra il 2024 e il 2025, con una contrazione complessiva del 55,1% nell’arco
+del triennio.
+Analoga la dinamica degli ossidi di azoto (NOx), che evidenzia una diminuzione del 30,2% dal 2023 al 2024 e del 27,0% dal 2024 al 2025,
+raggiungendo una riduzione complessiva del 49,1% negli ultimi tre anni.
+Anche il particolato mostra una riduzione significativa: -35,5% nel 2024 e -24,1% nel 2025 (-51,1% rispetto ai livelli del 2023).
+Inquinamento del suolo
+Gli impatti di GTT sull’inquinamento del suolo sono connessi agli episodi di sversamento verificatisi negli anni presso i siti aziendali di Rivarolo,
+Venaria, Gerbido e Orbassano, che hanno determinato casi di contaminazione del terreno e, in taluni casi, della falda. GTT mantiene
+monitorate le zone interessate, attua le misure di messa in sicurezza e prosegue gli interventi di bonifica previsti, operando in coordinamento
+con gli Enti competenti. Le attività svolte, lo stato dei procedimenti e le azioni di risanamento in corso sono descritte nel dettaglio nel paragrafo
+precedente Azioni e risorse connesse all’inquinamento / Azioni a cui si rimanda per maggiori dettagli.
+Microplastiche
+Nel contesto del trasporto pubblico locale, uno degli impatti ambientali diretti associati all’esercizio della flotta degli autobus è rappresentato dal
+rilascio di microplastiche derivanti dall’usura degli pneumatici, note a livello tecnico come Tire and Road Wear Particles (TRWP).
+Le particelle sono generate dall’attrito tra pneumatico e superficie stradale, un fenomeno fisico indispensabile per garantire la sicurezza della
+circolazione - consentendo accelerazione, frenata e stabilità del veicolo - che comporta al contempo la progressiva abrasione del battistrada.
+Le TRWP sono considerate un sottogruppo delle microplastiche secondarie: risultano composte da una combinazione di materiale polimerico
+proveniente dagli pneumatici, frammenti minerali e polveri derivanti dalla pavimentazione stradale.
+Dal punto di vista dimensionale, queste particelle presentano caratteristiche differenti rispetto alle microplastiche comunemente intese: hanno
+
+                                                                                        76
+
+=== PAGINA PDF 79 / STAMPATA 77 ===
+
+dimensioni mediamente comprese tra 80 e 100 micron (circa l’ampiezza di un capello umano), quindi significativamente superiori rispetto al
+diametro medio delle microplastiche più fini. Anche la composizione e il comportamento ambientale risultano peculiari. Sebbene la letteratura
+scientifica sia ancora in evoluzione, dai primi studi si evince che la degradazione delle particelle da usura degli pneumatici possa avvenire in
+tempi relativamente più rapidi rispetto ad altre tipologie di microplastiche, con una riduzione significativa osservabile nell’arco di alcuni mesi.
+In uno studio pubblicato sulla rivista Science of The Total Environment  24, i ricercatori hanno approfondito la biodegradazione a lungo termine delle par-
+ticelle di usura degli pneumatici e delle sostanze chimiche associate in acqua e suolo in condizioni sperimentali con microorganismi. I risultati indicano
+che la quantità totale di composti estraibili associati alle particelle può ridursi dell’85% nell’arco di alcuni mesi fino a due anni, con la maggior parte
+della diminuzione che avviene nei primi mesi di esposizione microbiologica. Alcune sostanze correlate agli pneumatici possono persistere nell’am-
+biente per tempi più lunghi, fungendo da serbatoio a lungo termine di sostanze correlate agli pneumatici anche dopo la fase iniziale di degradazione.
+La quantificazione delle microplastiche rappresenta tuttora una sfida significativa sotto il profilo metodologico. La misurazione può basarsi su
+modelli teorici oppure su test sperimentali in condizioni reali d’uso, ma non esiste ancora uno standard univoco. Anche i produttori di pneumatici
+riconoscono la complessità del fenomeno, legata alla molteplicità di variabili che influenzano la generazione delle particelle - tra cui stile di
+guida, carico del veicolo, tipologia di pavimentazione stradale e condizioni climatiche - e sottolineano la necessità di sviluppare metodologie
+armonizzate per garantire confrontabilità e trasparenza dei dati.
+GTT, in linea con le best practice e con l’evoluzione normativa, quando possibile ricorrerà al calcolo delle microplastiche per valutare l’impatto effettivo.
+
+Sostanze preoccupanti
+ESRS Standards   ESRS 2 MDR-M, ESRS E2 E2-5
+Le “sostanze preoccupanti” sono sostanze chimiche che, secondo la normativa europea (REACH), possono avere impatti rilevanti sulla salute
+umana e sull’ambiente, ad esempio perché tossiche, persistenti o bioaccumulabili, e richiedono quindi una gestione controllata.
+Vengono di seguito riportate le sostanze preoccupanti utilizzate da GTT nello svolgimento delle proprie attività di manutenzione dei mezzi. L’appro-
+fondimento è stato condotto attraverso l’identificazione e la catalogazione delle sostanze presenti, con specifico riferimento ai relativi numeri CAS.
+Nel 2025 l’utilizzo complessivo è pari a 55.480,95 kg ed è quasi interamente costituito da oli lubrificanti e distillati di origine petrolifera. In
+particolare, le quantità maggiori riguardano i distillati paraffinici pesanti (18.996,10 kg), seguiti da altre categorie di oli e distillati e altre sostanze
+che rappresentano una quota marginale.
+Tali sostanze sono utilizzate nelle officine per la manutenzione dei mezzi e risultano funzionali alla sicurezza e all’efficienza della flotta, più che
+al servizio di trasporto in senso stretto.
+
+ Sostanze preoccupanti (kg)                                                                                                             N° CAS                         2025
+ Distillati (petrolio) paraffinici pesanti                                                                                           64742-54-7                     18.996,10
+ Distillati (petrolio) paraffinici decerati con solvente                                                                             64742-65-0                      6.543,79
+ Olii lubrificanti (petrolio)                                                                                                        72623-87-1                      6.349,56
+ Oli paraffinici minerali e sintetici                                                                                                64741-89-5                      5.502,35
+ Olii lubrificanti (petrolio), estratti con solvente, decerati, idrogenati                                                          101316-72-7                      5.030,26
+ Distillati (petrolio), paraffinici pesanti idrotrattati                                                                             64742-54-7                      4.838,20
+ Oli paraffinici minerali e sintetici severamente raffinati                                                                          64742-55-8                      4.803,16
+ Olii lubrificanti (petrolio), a base di olio neutro, idrotrattati                                                                   72623-86-0                      1.396,40
+ Distillati (petrolio) paraffinici leggeri decerati con solvente                                                                     64742-56-9                         556,06
+ Olii di paraffina (petrolio), pesanti, decerati cataliticamente                                                                     64742-70-7                         503,70
+ Olii residui (petrolio), decerati con solvente                                                                                      64742-62-7                         300,60
+ Altre sostanze preoccupanti                                                                                                                                            660.78
+ Totale                                                                                                                                                            55.480,95
+
+Le sostanze analizzate vengono acquistate e utilizzate in modo diretto nelle attività della Società; non sono presenti sostanze prodotte e/o com-
+mercializzate. Non sono presenti i dati comparativi relativi agli anni passati.
+
+
+
+
+
+
+
+
+
+
+24Weyrauch, S., Seiwert, B., Voll, M., & Reemtsma, T. (2025). Long term biodegradation study on tire and road wear particles and chemicals thereof. Science of the Total
+  Environment, 975, 179240.
+                                                                                          77
+
+=== PAGINA PDF 80 / STAMPATA 78 ===
+
+Acque e risorse marine
+
+ Tema                                        Sottotema                                     Sotto-sotto tema                              SDGs
+ E3 Acque e risorse marine                   Acqua                                         Consumo idrico
+                                                                                           Prelievi idrici
+                                                                                           Scarichi idrici
+Gestione impatti - rischi - opportunità
+Il processo di individuazione valutazione degli impatti,
+rischi e opportunità rilevanti
+ESRS Standards   ESRS 2 IRO-1
+
+
+Impatti
+Acqua
+- Consumo idrico                                      Impatti ambientali negativi legati al consumo di risorse idriche necessarie alle attività di lavaggio dei mezzi.
+- Prelievi idrici                                     L’impatto è rilevante per la città di Torino che si colloca in un’area classificata a rischio idrico medio-alto.
+- Scarichi idrici
+L’analisi di rilevanza del tema ESRS E3 Acque e risorse marine ha considerato gli asset di GTT e le relative attività al fine di individuare gli impatti
+connessi ai prelievi, scarichi e consumi della risorsa idrica. Per ulteriori informazioni sul processo di identificazione degli impatti, dei rischi e
+delle opportunità materiali, si rimanda al capitolo Gestione degli impatti - rischi - opportunità e al capitolo Impatti, rischi e opportunità rilevanti
+e loro interazione con la strategia e il modello di business / paragrafo I temi rilevanti (IRO).
+Impatti
+Le attività operative di GTT comprendono operazioni di lavaggio e sanificazione della flotta autobus, tram e metropolitana, funzionali a garantire
+standard adeguati di igiene, sicurezza e qualità del servizio. Tali attività, pur essendo accessorie rispetto al trasporto in sè, comportano impatti
+ambientali diretti sulla risorsa idrica. Il tema è risultato rilevnate poichè GTT opera in un’area caratterizzata da un livello di stress idrico
+medio-alto. Lo stress idrico si riferisce alla capacità, o alla difficoltà, di soddisfare la domanda di acqua, sia per uso umano sia per il mante-
+nimento degli ecosistemi. Questo concetto comprende aspetti legati alla disponibilità, alla qualità e all’accessibilità dell’acqua. Per valutare le
+aree soggette a stress idrico, è stato utilizzato lo strumento Aqueduct Water Risk Atlas del World Resources Institute (wri.org/aqueduct).
+Rischi e opportunità
+Si specifica che dalle analisi effettuate non sono emersi rischi ed opportunità rilevanti ai fini della Rendicontazione di sostenibilità relativi al tema
+E3 Acque e risorse marine.
+Politiche relative alle acque e alle risorse marine
+
+ESRS Standards   ESRS 2 MDR-P, ESRS E3 E3-1
+Pur non disponendo di una politica formalizzata specificamente dedicata alle acque e alle risorse marine, GTT adotta un approccio responsabile
+nella gestione della risorsa idrica, seguendo le linee guida della norma internazionale ISO 14001 - Sistema di Gestione Ambientale.
+Le azioni della Società sono orientate alla riduzione dei consumi, accompagnate dal monitoraggio della qualità delle acque di scarico. In questo
+contesto, GTT attribuisce priorità all’impiego di acqua da pozzo per il lavaggio dei mezzi, limitando il ricorso all’acqua potabile (acquedotto
+pubblico).
+Azioni e risorse relative alle acque e alle risorse marine
+
+ESRS Standards   ESRS 2 MDR-A, ESRS E3 E3-2
+Impianti di lavaggio
+GTT ha progettato e sviluppato misure dedicate al monitoraggio dei consumi idrici e alla gestione delle criticità rilevate. In particolare, è stato
+realizzato un cruscotto specifico per individuare e mappare le perdite occulte, così da programmare in modo tempestivo gli interventi di ma-
+nutenzione o di sostituzione delle tubature interrate e contrastare eventuali consumi anomali d’acqua. Per gestire rapidamente le situazioni
+critiche, sono state attivate Smart Card assicurative che consentono di richiedere assistenza e pronto intervento tecnico ogni volta che GTT
+
+                                                                                   78

@@ -1,5 +1,5 @@
 RAPPORTO R6 - FERMATE IMPORTANTI CON IL PUNTEGGIO CORRETTO (script 83)
-Generato il 20/10/2026 18:21.
+Generato il 22/10/2026 13:54.
 Segnali a2 (peso 1), b2 (peso 1), c4 (peso 1), e (peso 1); c4 col metodo «instradamento»; torinesi nella domanda: si.
 Luoghi 5087; eleggibili (Citta' metropolitana fuori da Q001-Q009) 3898.
 regola fissa: (metro, stazione o capolinea, oppure almeno 10 corse/ora) e almeno 1.000 auto che passano; fermate importanti 274.
@@ -86,5 +86,4 @@ Segnali mancanti fra gli eleggibili (messi al minimo): {'a2': 1183, 'b2': 0, 'c4
   OK     eleggibili > 1000 — 3898
   OK     c4 presente per tutti gli eleggibili — mancante in 0
   OK     nodi.json copre tutti gli eleggibili — 0 mancanti
-  OK     il numero di fermate importanti e' quello della riga N 10, M 1.000 della proposta (script 89) — 274 contro 274
   OK     nessuna fermata importante in zona centrale

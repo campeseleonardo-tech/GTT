@@ -1,5 +1,4 @@
 # GTT - file che git NON salva (grandi, generati o scritti di continuo dalla raccolta)
-data/
 logs/
 *.zip
 *.pdf
@@ -9,6 +8,66 @@ __pycache__/
 agenti/
 # segreti: mai in git
 chiave_deepseek.txt
-pubblica/
-# screenshot di scripts/prova_pagine_r6.py
+# screenshot di scripts/prova_pagine.py
 immagini/
+# dati di accesso al Raspberry Pi di casa (scripts/config_locale.esempio.json)
+config_locale.json
+# vecchia copia che scriveva lo script 86 (ora solo controllo): se compare sul PC, non va in git
+pubblica/
+
+# data/: fuori da git tutto, tranne le cartelle scelte in docs/DATI.md (piano 2).
+# Dati grezzi, storico SQLite, Java di OTP e IMQ/OMI (licenza non chiara) restano fuori; i grandi si scaricano dalla Release (scripts/scarica_dati.py).
+data/*
+!data/schede_risultati.js
+!data/storico_riassunti/
+!data/storico_riassunti/*.zip
+!data/catalogo/
+!data/processed/
+!data/ref/
+!data/scenari/
+# cache e prove dentro le cartelle tenute
+data/processed/accessibilita_parziale*/
+data/processed/imq/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.part
+# >>> data: esclusioni scritte da scripts/96_inventario_dati.py --gitignore (decisioni in docs/DATI.md)
+data/processed/5t_flussi_verifica_20261017_030432.xml
+data/processed/accessibilita.json
+data/processed/accessibilita_parziale/
+data/processed/accessibilita_parziale_test/
+data/processed/accessibilita_prova200.json
+data/processed/analisi_5t.json
+data/processed/avvisi_20261009.json
+data/processed/catalogo/reti.json
+data/processed/importanza_vie.json
+data/processed/imq/
+data/processed/r6_bus_contro_auto_parziale.npz
+data/processed/rapporto_gtt/rapporto_gtt_2025.pdf
+data/processed/risultato4_gps_prova.json
+data/processed/risultato4_regolarita_v1.json
+data/processed/risultato9_riepilogo_mappa.json
+data/processed/sezioni_torino.json
+data/processed/tp_contro_auto_parziale.npz
+data/processed/tp_corridoi.json
+data/processed/traffico_c/prova_5t_codici.sqlite
+data/processed/traffico_c/rete/
+data/processed/traffico_c/segmenti.csv
+data/processed/traffico_c/tp_tratti.csv
+data/processed/traffico_d/abl1/tratte_flusso.json
+data/processed/traffico_d/abl2/tratte_flusso.json
+data/processed/traffico_d/abl3/tratte_flusso.json
+data/processed/traffico_d/assi.json
+data/processed/traffico_d/rete/
+data/processed/traffico_d/tratte.csv
+data/processed/traffico_d/tratte.json
+data/processed/traffico_d/tratte_corsie.json
+data/processed/traffico_d/tratte_traffico.json
+data/processed/traffico_d/v0/tratte_flusso.json
+data/processed/traffico_d/v4/tratte_flusso.json
+data/processed/velocita_5t_prima_fetch.json
+data/ref/eventi_luoghi.json
+data/scenari/gtt_gtfs_notte15.zip
+data/scenari/gtt_gtfs_notte30.zip
+# <<< data

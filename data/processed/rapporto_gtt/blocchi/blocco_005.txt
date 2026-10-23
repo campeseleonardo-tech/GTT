@@ -1,0 +1,247 @@
+=== PAGINA PDF 20 / STAMPATA 18 ===
+
+Il processo di due diligence delle tematiche di sostenibilità
+
+ESRS Standards   ESRS 2 GOV-4
+Il processo di due diligence relativo alle tematiche di sostenibilità è finalizzato all’identificazione, all’analisi e alla gestione dei rischi e delle
+opportunità connessi ai fattori ambientali, sociali e di governance (ESG). Tale processo si applica alle attività aziendali, alla catena di fornitura e
+alle relazioni con gli stakeholder, con l’obiettivo di garantire l’allineamento delle operazioni agli standard e ai principi di sostenibilità adottati. La
+due diligence consente di ridurre l’esposizione a rischi di natura legale, reputazionale e finanziaria, contribuendo al rafforzamento del modello
+operativo e al miglioramento complessivo delle performance ESG.
+In coerenza con il processo di due diligence, le politiche, gli obiettivi e i piani operativi aziendali tengono conto delle Linee Guida OCSE per le
+imprese multinazionali, che rappresentano il principale riferimento internazionale per la condotta responsabile delle imprese. Le Linee Guida,
+adottate dai governi dei Paesi aderenti - tra cui l’Italia - forniscono un quadro di raccomandazioni volto a garantire che le attività d’impresa siano
+coerenti con le politiche governative e contribuiscano allo sviluppo sostenibile, favorendo al contempo relazioni di fiducia con gli stakeholder
+e condizioni favorevoli agli investimenti. In tale contesto, le Linee Guida individuano specifici ambiti di responsabilità, declinati da GTT come
+riferimento per l’attuazione delle proprie politiche e per la gestione dei rischi e delle opportunità ESG.
+GTT effettua una valutazione delle aree di rischio, compresi quelli inerenti agli ambiti di sostenibilità. La tabella di seguito riportata fornisce
+una mappatura dell’applicazione del processo di Dovere di Diligenza, mettendo in evidenza in modo sistematico in quali sezioni del documento
+vengono affrontate le principali fasi di questo processo.
+
+
+ Elementi fondamentali del dovere                           Paragrafi Rendicontazione di sostenibilità
+ di diligenza
+ Integrare il dovere di diligenza                           GOV-1 - Il ruolo degli organi di amministrazione, direzione e controllo - ruolo
+ nella governance, nella strategia                          GOV-2 - Il processo di informazione e gestione delle tematiche di sostenibilità
+ e nel modello aziendale                                    GOV-3 -        Integrazione delle tematiche / performance di sostenibilità nei sistemi di incentivazione
+                                                            SBM-3 -               Impatti, rischi e opportunità rilevanti e loro interazione con la strategia e il modello di business
+
+ Coinvolgere i portatori di interessi
+ in tutte le fasi fondamentali                              SBM-2 - Gli stakeholder: interessi e aspettative
+ del dovere di diligenza
+
+ Individuare e valutare                                     SBM-3 -               Impatti, rischi e opportunità rilevanti e loro interazione con la strategia e il modello di business
+ gli impatti negativi                                       IRO-1 -             Il processo di individuazione valutazione degli impatti, rischi e opportunità rilevanti
+                                                            E1-3  -  Azioni e risorse relative alle politiche in materia di cambiamenti climatici
+                                                            E2-2  - Azioni e risorse connesse all'inquinamento
+                                                            E3-2  - Azioni e risorse connesse alle acque e alle risorse marine
+                                                            E5-2           - Azioni e risorse relative all'uso delle risorse e all'economia circolare
+                                                            S1-4 -  Interventi su impatti rilevanti per la forza lavoro propria e approcci per la gestione dei rischi rilevanti
+                                                                     e il perseguimento di opportunità rilevanti in relazione alla forza lavoro propria, nonché efficacia di
+ Intervenire per far fronte                                          tali azioni
+ agli impatti negativi                                      S2-4 -  Interventi su impatti rilevanti per i lavoratori nella catena del valore e approcci per la gestione dei
+                                                                     rischi rilevanti e il conseguimento di opportunità rilevanti per i lavoratori nella catena del valore,
+                                                                     nonché efficacia di tali azioni
+                                                            S3-4 -  Interventi su impatti rilevanti sulle comunità interessate e approcci per gestire i rischi rilevanti e
+                                                                     conseguire opportunità rilevanti per le comunità interessate, nonché efficacia di tali azioni
+                                                            S4-4 -  Interventi su impatti rilevanti sui consumatori e gli utilizzatori finali e approcci per gestire rischi ri-
+                                                                     levanti e conseguire opportunità rilevanti in relazione ai consumatori e agli utilizzatori finali, nonché
+                                                                     efficacia di tali azioni
+
+ Monitorare l'efficacia                                     SBM-3 -               Impatti, rischi e opportunità rilevanti e loro interazione con la strategia e il modello di business
+ degli interventi e comunicare
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                            18
+
+=== PAGINA PDF 21 / STAMPATA 19 ===
+
+Misure di dovuta diligenza adottate
+
+ Tema                          Linea Guida                                                        Misure adottate
+                               Divulgare regolarmente informazioni tempestive, af-                Tutte le informazioni su obiettivi, risultati e governance sono pubblicate sul
+ Divulgazione                  fidabili e trasparenti sull’impresa, comprese attività,            sito istituzionale nella sezione “Trasparenza”, in coerenza con gli obblighi
+ di informazioni               struttura, situazione finanziaria, risultati, assetto pro-         previsti dal D.Lgs. n. 33/2013 e s.m.i. Le principali informazioni sono dif-
+                               prietario e di governance, fattori di rischio e temati-            fuse annualmente tramite il Bilancio d’esercizio e il presente Rapporto di
+                               che rilevanti per lavoratori e stakeholder.                        sostenibilità.
+ Diritti umani                 Rispettare i diritti umani lungo l’intero perimetro delle          Conformità alla normativa vigente, nel contesto italiano caratterizzato da
+                               attività aziendali.                                                un elevato livello di tutela formale dei lavoratori e degli altri stakeholder.
+                                                                                                  Oltre alla conformità normativa, GTT promuove la conciliazione vita-lavoro,
+                                                                                                  la sicurezza e l’inclusività, anche a favore delle persone con disabilità o
+                               Rispettare la libertà sindacale e la contrattazione col-           fragilità.
+ Occupazione e                 lettiva; garantire pari opportunità e assenza di discri-           Sistema di Gestione della Sicurezza sul Lavoro certificato ISO 45001:2018.
+ relazioni industriali         minazioni; assicurare adeguate condizioni di salute e
+                               sicurezza sul lavoro.                                              Conseguimento della Certificazione per la Parità di genere (UNI/PdR
+                                                                                                  125:2022) e costituzione della Commissione Pari Opportunità, organismo
+                                                                                                  consultivo bilaterale azienda-organizzazioni sindacali.
+                               Monitorare e migliorare le prestazioni ambientali e
+                               l’uso delle risorse; valutare gli impatti ambientali, sa-          Sistema di Gestione Ambientale certificato ISO 14001:2015. Promozione
+ Ambiente                      nitari e di sicurezza lungo il ciclo di vita di processi,          del trasporto pubblico locale quale leva di sostenibilità per la riduzione
+                               prodotti e servizi; contribuire allo sviluppo di politiche         delle emissioni inquinanti.
+                               ambientali efficaci.
+                               Adottare sistemi di controllo interno e programmi di               Adozione del Modello di Organizzazione, Gestione e Controllo ex D.L-
+ Lotta                         prevenzione della corruzione basati sulla valutazione              gs. 231/2001. Sistema di Prevenzione della Corruzione certificato ISO
+ alla corruzione               del rischio.                                                       37001:2016. Rigoroso rispetto del Codice dei contratti pubblici in tutte le
+                                                                                                  fasi di affidamento ed esecuzione di lavori, servizi e forniture.
+ Interessi                     Garantire standard di salute e sicurezza, informazioni             I servizi sono erogati secondo gli standard definiti nei Contratti di servizio
+ del consumatore               chiare e corrette e accesso a meccanismi extragiudi-               con gli Enti concedenti e descritti nelle Carte dei Servizi (Carte della Mobi-
+                               ziali di risoluzione delle controversie.                           lità), comprensive delle procedure di indennizzo e conciliazione.
+                                                                                                  Sviluppo del know-how aziendale tramite programmi di formazione (es.
+                               Contribuire allo sviluppo dell’innovazione e al trasferi-          manutenzione). Adozione di tecnologie avanzate a basso impatto ambien-
+ Scienza                       mento tecnologico; promuovere la collaborazione con                tale nei bandi di gara, con criteri CAM e protocolli premianti. Partecipazio-
+ e tecnologia                  università, centri di ricerca e associazioni di catego-            ne ai tavoli tecnici di ASSTRA. Costituzione di un Centro di innovazione per
+                               ria.                                                               la transizione green del trasporto pubblico. Il Piano industriale è coerente
+                                                                                                  con gli indirizzi nazionali ed europei del PNRR, in particolare per l’elettri-
+                                                                                                  ficazione della flotta.
+                                Rispettare le leggi e i regolamenti in materia di                 L’attività di trasporto pubblico locale è svolta nel rispetto della normativa
+ Concorrenza                    concorrenza.                                                      nazionale; i servizi sono gestiti sulla base delle procedure di gara e degli
+                                                                                                  affidamenti effettuati dagli Enti pubblici competenti.
+                                                                                                  Il servizio di trasporto pubblico locale, in quanto servizio di interesse ge-
+                               Contribuire alle finanze pubbliche attraverso il cor-              nerale, beneficia di contributi pubblici in conto esercizio e in conto in-
+ Fiscalità                     retto versamento delle imposte e degli oneri dovuti.               vestimento, in misura superiore ai ricavi tariffari. Rigoroso rispetto delle
+                                                                                                  normative fiscali e di tutti i versamenti dovuti agli Enti pubblici (es. canoni
+                                                                                                  per la gestione di parcheggi e infrastrutture metro-tranviarie).
+
+Il sistema di controllo interno della rendicontazione di sostenibilità
+ESRS Standards   ESRS 2 GOV-5
+Ad integrazione dell’insieme di procedure, politiche e strumenti ed al fine di garantire che le informazioni relative alle performance di so-
+stenibilità siano accurate, trasparenti e conformi alle normative vigenti, riflettendo in modo fedele e verificabile gli impegni assunti dalla Società,
+GTT ha deciso di istituire un Comitato di Sostenibilità e si impegna ad adottare nel corso dei futuri esercizi un sistema di controllo interno sulla
+rendicontazione di sostenibilità conforme alle richieste della CSRD..
+
+Governance del processo di reporting - soggetti e ruoli
+Il Consiglio di Amministrazione e il Comitato di Sostenibilità esercitano un ruolo di supervisione sull’intero processo di rendicontazione.
+La funzione Amministrazione, Finanza e Controllo (AFC) e la funzione Quality System & HSE, sotto la supervisione del Chief Financial Officer
+(CFO), coordinano il processo di raccolta e aggregazione dei dati e delle informazioni necessarie per la redazione della Rendicontazione di So-
+
+                                                                                            19
+
+=== PAGINA PDF 22 / STAMPATA 20 ===
+
+stenibilità. I responsabili delle funzioni coinvolte (membri del Comitato di Sostenibilità) garantiscono l’accuratezza e la validità delle informazioni
+raccolte e inserite nella Rendicontazione di Sostenibilità, coordinandosi con i referenti operativi, forniscono la documentazione di supporto e le
+evidenze necessarie per le attività di revisione.
+Nell’ambito delle proprie competenze, il Comitato di Sostenibilità esercita un’azione di vigilanza sulla conformità della Rendicontazione di
+Sostenibilità, valutando l’adeguatezza dell’assetto organizzativo, amministrativo, di reporting e di controllo sviluppato per assicurare una rendi-
+contazione completa e accurata.
+Con l’obiettivo di garantire informazioni accurate e complete, GTT sta valutando lo sviluppo di procedure e programmi di formazione volti a
+supportare i responsabili di funzione nella raccolta e nell’analisi dei dati, con un’attenzione particolare alle informazioni relative alla catena del
+valore. .
+
+
+La funzione di controllo
+GTT integra le risultanze della valutazione del rischio e dei controlli interni relativi alla rendicontazione di sostenibilità all’interno delle proprie
+funzioni e processi aziendali, garantendo un approccio coerente con il proprio sistema di gestione del rischio e controllo interno.
+Le informazioni derivanti dall’analisi dei rischi vengono incorporate nei processi decisionali e nei meccanismi di governance aziendale, al fine di
+assicurare un monitoraggio efficace e un adeguato presidio delle criticità legate alla sostenibilità. La gestione del rischio in ambito ESG coinvolge
+le principali funzioni aziendali, con un coordinamento volto a garantire la coerenza, l’integrità e l’affidabilità delle informazioni rendicontate.
+In tale contesto, il processo di rendicontazione della sostenibilità è soggetto a verifiche e controlli periodici, con l’obiettivo di migliorare la qualità
+e la tempestività dei dati raccolti, nonché di rafforzare l’integrazione delle tematiche di sostenibilità nei sistemi di controllo e gestione aziendale.
+Il Sistema dei Controlli interni inteso come l'insieme delle regole, delle procedure e delle strutture organizzative volte a consentire, attraverso un
+adeguato processo di identificazione, misurazione, gestione e monitoraggio dei principali rischi, una conduzione dell'impresa corretta e coerente
+con gli obiettivi strategici prefissati costituisce elemento cruciale della governance della Società e concorre ad assicurare la conformità a leggi,
+regolamenti e normative applicabili.
+Per un maggior approfondimento sui rischi individuati, le strategie di mitigazione sviluppate e la metodologia applicata nella valutazione, si
+rimanda ai capitoli Impatti, rischi e opportunità rilevanti e loro interazione con la strategia e il modello di business e Gestione degli impatti -
+rischi - opportunità.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                         20
+
+=== PAGINA PDF 23 / STAMPATA 21 ===
+
+Strategia e modello di business
+Strategia, modello aziendale e catena del valore
+
+ESRS Standards   ESRS 2 SBM-1
+Gruppo Torinese Trasporti (GTT)
+Il Gruppo Torinese Trasporti S.p.A. (GTT) è la società per azioni del Comune di Torino - controllata attraverso FCT Holding S.p.A. - che
+gestisce il trasporto pubblico locale sul territorio cittadino, nell’area metropolitana torinese e nell’area extraurbana. Oltre ai servizi di mobilità
+collettiva, GTT cura anche la gestione dei parcheggi di interscambio, della sosta tariffata, della pubblicità e offre consulenze specialistiche ad
+altre aziende del settore.
+
+
+
+                                                             SERVIZI OFFERTI
+
+
+
+
+
+
+
+
+   Trasporto di superficie                  Gestione della                  Gestione parcheggi e                    Servizi turistici
+         (bus e tram)                       metropolitana                    sosta a pagamento                         e culturali
+
+
+
+La storia
+
+            1871                               1907                                1928                               1950
+
+             TORINO                            NASCE ATM                          PRIMA LINEA                    LA RETE TRANVIARIA
+     PRIMA SOCIETÀ PRIVATA                  AZIENDA TRANVIE                 AUTOMOBILISTICA CON                RAGGIUNGE LA MASSIMA
+    DI TRASPORTO PUBBLICO                      MUNICIPALI                   6 AUTOBUS PER 2,4 KM                     ESPANSIONE
+            1994                               2000                                2001                               2002
+
+   SI AVVIA LO SVILUPPO DELLA           ATM DIVENTA SPA E SATTI              AMPLIAMENTO DELLA                     ACQUISTO PRIMI
+    GESTIONE PARCHEGGI, IN               AVVIA LA COSTRUZIONE                 FLOTTA CON I PRIMI                    BUS ELETTRICI
+    STRUTTURA  E SUPERFICIE              DELLA METROPOLITANA                  AUTOBUS A METANO                          “ELFO”
+            2003                               2005                                2006                               2007
+
+     DALLA FUSIONE DI ATM                  PROLUNGAMENTO               INAUGURAZIONE METROPOLITANA                APERTURA TRATTA
+    E SATTI NASCE GTT PRIMA                       LINEA                       AUTOMATICA TRATTA                         METRO
+    LINEA CON BUS ELETTRICI                   TRANVIARIA 4                  FERMI - XVIII DICEMBRE          XVIII DICEMBRE - PORTA NUOVA
+            2011                               2017                                2021                               2024
+
+    APERTURA TRATTA METRO                        NUOVA                             APERTURA                              AVVIO
+    PORTA NUOVA - LINGOTTO                 FLOTTA DI AUTOBUS                     TRATTA METRO                    TRANSIZIONE GREEN
+     E STAZIONE PORTA SUSA                      ELETTRICI                     LINGOTTO - BENGASI                   RINNOVO FLOTTA
+
+
+
+
+                                                                     21

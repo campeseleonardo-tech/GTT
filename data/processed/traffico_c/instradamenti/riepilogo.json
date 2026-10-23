@@ -1,0 +1,21 @@
+{
+ "stimato": true,
+ "variante": "V0 (tutto o niente, popolazione per tutti gli estremi, schema unico per tutte le ore, percorso piu' veloce)",
+ "origini_usate": 827,
+ "paia_nodi_con_domanda": 826,
+ "peso_totale_viaggi_giorno": 4153663.0,
+ "peso_perso_stesso_nodo": 1905559.5,
+ "peso_perso_non_raggiungibile": 0.0,
+ "peso_perso_zona_senza_punti": 0.0,
+ "origini_con_perdita_non_raggiungibile": [],
+ "n_origini_con_perdita": 0,
+ "quota_peso_perso": 0.45877,
+ "veicoli_km_modello": 25833240.0,
+ "veicoli_ora_totali": 441592.0,
+ "lunghezza_media_viaggio_km": 11.49,
+ "share_diurno_6_21": 0.96312,
+ "durata_s": 44.6,
+ "duplicati_archi_risolti": 2142,
+ "self_loop_tolti": 583,
+ "data": "2026-10-17 02:54:26"
+}

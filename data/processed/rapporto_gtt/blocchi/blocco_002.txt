@@ -1,0 +1,233 @@
+=== PAGINA PDF 11 / STAMPATA 9 ===
+
+      INFORMATIVA GENERALE
+Criteri di redazione
+
+
+ESRS Standards   ESRS 2 BP-1, BP-2
+La Rendicontazione di sostenibilità 2025 di Gruppo Torinese Trasporti S.p.A. (di seguito anche GTT) relativa all'esercizio chiuso al 31
+dicembre 2025, è stata redatta in conformità agli European Sustainability Reporting Standards (ESRS), criteri di rendicontazione di
+sostenibilità europei.
+La Rendicontazione di sostenibilità è stata redatta da GTT a titolo volontario ed è presentata quale documento separato rispetto al Bilancio
+di esercizio.
+GTT, diversamente da quanto inizialmente previsto per le grandi imprese non quotate in mercati regolamentati, così come definite dall’Art.3 della
+Direttiva EU 2013/34, non è tenuta all’applicazione del Decreto Legislativo 6 settembre 2024, n.125 (D.Lgs 125/2024), di recepimento della
+Direttiva EU 2022/2464 Corporate Sustainability Reporting Directive (CSRD)22. La Direttiva EU 2025/1794 (Stop the clock) recepita nell’ordi-
+namento italiano con DL 95/2025, convertito in L 118/2025 dell’08 agosto 2025, ha rinviato di due anni l’entrata in vigore della CSRD per le
+grandi imprese non quotate (dal 2025 al 2027).
+L’adozione volontaria degli ESRS Standard quali criteri di redazione è una scelta di coerenza rispetto a quanto previsto dalla CSRD, che prescrive,
+per i soggetti obbligati, l’adozione di tali standard. Tale scelta, in continuità rispetto all’approccio al reporting di sostenibilità di GTT, intende
+anche ribadire non soltanto l’impegno e l’attenzione di GTT alle tematiche ambientali, sociali e di governance, ma anche ad una loro rendicon-
+tazione che rispecchi le migliori prassi europee.
+GTT pubblica la Rendicontazione di Sostenibilità con l’obiettivo di condividere in modo trasparente gli impegni assunti e i risultati conseguiti
+nell’integrazione dei principi ESG (Environmental Social Governance) nella propria strategia, nel modello di business e nei processi aziendali. Il
+documento rappresenta un importante strumento per rendere conto (accountability) agli stakeholder del proprio operato, allo scopo di rafforzare
+le relazioni e la fiducia.
+
+Il quadro normativo
+Il quadro normativo in materia di rendicontazione delle tematiche ambientali, sociali e di governance (ESG) si basa su quanto inizialmente
+definito dalla sopramenzionata Direttiva EU 2022/2464 Corporate Sustainability Reporting Directive (CSRD), recepita in Italia con Decreto
+Legislativo 6 settembre 2024, n.125 (D Lgs 125/2024). La CSRD richiede la pubblicazione del Report di sostenibilità, Sustainability Statement
+(Rendicontazione di sostenibilità) come sezione dedicata e parte integrante della Relazione sulla gestione al Bilancio annuale (di esercizio o
+consolidato in caso di gruppi societari). La Rendicontazione di sostenibilità deve essere redatta adottando gli European Sustainability Reporting
+Standards (ESRS) quali criteri di rendicontazione.
+Successivamente alla presentazione delle proposte da parte della Commissione Europea (26 febbraio 2025 - Omnibus), il quadro normativo è
+stato modificato come segue:
+
+ Ambiti                                                 Riferimenti
+
+ Decorrenza obblighi di rendicontazione                 La Direttiva EU 2025/1794 (Stop the clock) recepita nell’ordinamento italiano con DL 95/2025, convertito
+ grandi imprese non quotate in mercati                  in L 118/2025 dell’08 agosto 2025, prevede il rinvio di due anni dell’entrata in vigore della CSRD per le grandi
+ regolamentati EU                                       imprese non quotate (dal 2025 al 2027).
+
+ Soggetti obbligati                                     La Direttiva EU 2026/470 del 24 febbraio 2026, in corso di recepimento nell’ordinamento italiano, ha
+ Perimetro società rientranti obblighi modificato i parametri originariamente previsti dalla CSRD, stabilendo che gli obblighi di redazione della Ren-
+ CSRD (parametri dimensionali)                          dicontazione di sostenibilità riguardano le imprese con Ricavi superiori a Euro 450 milioni e un numero
+                                                        medio di 1.000 dipendenti occupati durante l’esercizio.
+
+                                                        Il processo di riesame degli ESRS si è concluso nel mese di novembre 2025. EFRAG ha pubblicato il
+ Standard di rendicontazione ESRS                       documento aggiornato il 04 dicembre 2025 (Parere tecnico), per il successivo esame da parte della Com-
+                                                        missione Europea, al termine del quale verrà pubblicato il Regolamento EU di modifica degli standard (entro
+                                                        il mese di luglio 2026).
+
+
+
+
+
+2 Secondo l’Art 3 della Direttiva EU 2013/34 sono grandi imprese le imprese che alla data di chiusura del bilancio, su base consolidata, superano i limiti numerici di almeno
+ due dei tre criteri seguenti: a) totale attivo Euro 25 milioni; b) ricavi netti Euro 50 milioni; c) Dipendenti:250.
+                                                                                       9
+
+=== PAGINA PDF 12 / STAMPATA 10 ===
+
+Criteri generali di redazione
+Gli ESRS stabiliscono le informazioni che un’impresa deve comunicare riguardo ai propri impatti, rischi e opportunità in relazione alle questioni
+di sostenibilità ambientale, sociale e di governance (ESG) rilevanti. La rilevanza delle tematiche di sostenibilità, derivante sia dai rapporti com-
+merciali diretti sia da quelli indiretti lungo la catena del valore a monte e a valle, viene determinata applicando il principio della “doppia rilevanza”
+(Double Materiality Assessment - DMA).
+Gli ESRS e i relativi indicatori rendicontati riguardano le tematiche di sostenibilità valutate come rilevanti e coerenti con l’attività del GTT, non-
+ché con i relativi impatti, rischi e opportunità. Il processo di analisi, identificazione, valutazione e prioritizzazione dei temi rilevanti, descritto nel
+capitolo Temi rilevanti (IRO), è stato condotto secondo quanto richiesto dagli ESRS e viene aggiornato e sviluppato nel tempo. Le informazioni
+prospettiche sono state formulate basandosi su ipotesi di eventi che potranno accadere in futuro e a possibili future azioni di GTT. Il presente
+documento, sulla base dei risultati delle analisi di doppia rilevanza (DMA), copre l'intera catena del valore, a monte e a valle.
+L’indice di riepilogo delle informazioni relative ai diversi ambiti trattati - Indice dei contenuti ESRS - pubblicato in appendice alla Rendicontazione
+di Sostenibilità e parte integrante del documento, consente la tracciabilità dei dati, indicatori e delle altre informazioni quantitative e qualitative
+presentati.
+GTT non si è avvalsa dell’opzione di omettere una specifica informazione corrispondente a proprietà intellettuale, know-how o a risultati dell'in-
+novazione o di eventuali negoziazioni in corso.
+Al fine di consentire il confronto dei dati nel tempo e valutare l’andamento delle attività di GTT, vengono presentati i dati comparativi relativi ai
+due esercizi precedenti e, in alcuni casi, anche di anni antecedenti, quando ciò risulta significativo per evidenziare determinati risultati.
+I temi trattati hanno coinvolto tutte le Direzioni Aziendali, che hanno collaborato in modo coordinato alla redazione del documento, sotto il pre-
+sidio della funzione AFC (Amministrazione, Finanza e Controllo) per i dati sociali e di governance, e della funzione Quality System & HSE
+per i dati relativi alle sezioni ambientali.
+
+Perimetro di rendicontazione - Il perimetro di rendicontazione dei dati e delle informazioni qualitative e quantitative è rappresentato dalle
+performance di Gruppo Torinese Trasporti S.p.A.
+Informativa Tassonomia EU - La Rendicontazione di sostenibilità, in quanto redatta a titolo volontario, non comprende l’informativa prevista
+dall’art.8 del Regolamento EU 2020/852, relativo alla Tassonomia dell’Unione Europea in materia di attività sostenibili. La Tassonomia EU sta-
+bilisce le condizioni che un'attività economica deve soddisfare per essere considerata sostenibile.
+Linguaggio inclusivo - Nella prospettiva della parità di genere, in questo documento è stato utilizzato dove possibile un linguaggio neutro.
+L’uso simmetrico della forma maschile e femminile (gli impiegati e le impiegate) avrebbe appesantito molti periodi, né è sempre disponibile una
+perifrasi efficace o un sinonimo impersonale adeguato (es. persone, forze lavoro). Si è dunque adottato il genere femminile o forme simmetriche
+(i/le conducenti) solo nelle occasioni in cui la distinzione fosse particolarmente significativa”. A fondamento di questa scelta, autorevoli analisi
+sul corretto uso del linguaggio di genere consigliano un approccio elastico, che non sia di ostacolo alla scorrevolezza e alla qualità complessiva
+del testo.
+
+Informativa relativa ad aspetti specifici
+Orizzonti temporali - GTT definisce gli orizzonti temporali di medio periodo in linea con i propri obiettivi strategici di sostenibilità, coerentemen-
+te con quanto previsto dall’ESRS 1. In particolare, per breve periodo si intende il periodo di riferimento del bilancio, medio periodo fino a cinque
+anni e lungo periodo oltre i cinque anni.
+Stime riguardanti la catena del valore - Le metriche oggetto di rendicontazione comprendono anche alcuni dati relativi alla catena del
+valore, riferite essenzialmente alle emissioni GHG (Greenhouse gas - gas a effetto serra). Tali dati, secondo quanto previsto dalla metodologia
+adottata (GHG Protocol), sono determinati sulla base di stime, utilizzando anche fonti indirette, laddove i dati diretti non siano disponibili.
+Cause di incertezza nelle stime e nei risultati - Il processo di rendicontazione dei dati sulle performance ESG di alcune tematiche
+richiede il ricorso a stime da parte degli Amministratori. Le stime sono formulate sulla base dell'esperienza storica, di primarie ed autorevoli
+fonti esterne e mediante il ricorso a specialisti e consulenti esterni, nonché sulla base di altre informazioni ritenute ragionevoli nelle circostanze.
+
+
+
+
+
+                                                                                       10
+
+=== PAGINA PDF 13 / STAMPATA 11 ===
+
+L’eventuale ricorso a stime e le relative metodologie adottate sono direttamente richiamati nei diversi paragrafi relativi alla rendicontazione delle
+tematiche rilevanti, ai quali si rinvia per il relativo approfondimento.
+Le metriche quantitative oggetto di incertezza nelle stime e nei risultati si riferiscono in particolare alle seguenti tematiche e ambiti di rendi-
+contazione:
+
+ Principali tematiche / ambiti di rendicontazione                  Descrizione e impatto
+ soggetti a stime (dati quantitativi)
+
+                                                                    Emissioni GHG - Scope 3 lungo la catena del valore (a monte e a valle)
+ ESRS E1 - Emissioni GHG Scope 3                                    Incertezze connaturate alla natura e qualità dei dati ed alle conseguenti tecniche di misurazione
+                                                                    adottate, così come previste dal GHG Protocol.
+                                                                    Impatto potenziale: medio
+
+ ESRS E2 - Sostanze preoccupanti                                   Sostanze utilizzate nelle officine, principalmente per la manutenzione dei mezzi di trasporto - Stima
+                                                                   delle quantità di sostanze preoccupanti utilizzate dalla Società
+
+
+ Standard di rendicontazione ESRS                                   Stima delle ore lavorate relative alla categoria dei Dirigenti
+
+
+Allo scopo di mitigare i rischi di errori in relazione ai dati stimati delle performance ESG, e con specifico riferimento a quelle caratterizzate da
+incertezza, sono previsti controlli interni e processi di convalida dei dati e informazioni rendicontate.
+Modifiche nella redazione e nella presentazione delle informazioni - Per assicurare la coerenza e la comparabilità delle informazioni,
+ove ritenuto necessario per la correzione di eventuali errori o per tener conto della modifica nella metodologia di misurazione degli indicatori o
+nella natura dell’attività, i dati quantitativi presentati e relativi ai precedenti periodi possono essere ricalcolati e riesposti (restatement) rispetto a
+quanto pubblicato nel precedente esercizio. Le indicazioni, criteri di ricalcolo ed effetti vengono evidenziati nei corrispondenti capitoli e paragrafi.
+Inclusione mediante riferimento - Nella presente Rendicontazione di Sostenibilità sono inclusi, ove rilevanti, richiami informativi al Bilancio
+d’esercizio della Società, al fine di garantire coerenza, trasparenza e completezza dei dati riportati. In particolare, i dati relativi ai ricavi per settore
+sono desunti dal Bilancio d’esercizio, redatto secondo i principi contabili applicabili, e vengono richiamati nella presente informativa per fornire
+un inquadramento economico delle attività svolte nei diversi ambiti operativi.
+Uso di disposizioni transitorie in conformità dell'appendice C dell'ESRS 1 (come modificata dal Regolamento Delegato EU
+2025/1416) - GTT, ancorché  il presente documento venga redatto a titolo volontario, si è avvalsa delle disposizioni transitorie per la quanti-
+ficazione degli effetti finanziari attesi derivanti da rischi e opportunità legati al clima (obbligo di informativa E1-9), all'inquinamento (obbligo di
+informativa E2-6), alla risorsa idrica (obbligo di informativa E3-5), all'uso delle risorse e all'economia circolare (obbligo di informativa E5-6).
+Informative richieste da altre normative o da disposizioni in materia di rendicontazione di sostenibilità
+Le informative integrative rispetto a quanto prescritto dagli ESRS, richieste da altre normative contenenti obblighi di comunicazione di informa-
+zioni sulla sostenibilità o da disposizioni in materia di sostenibilità, vengono riportate nei capitoli e paragrafi inerenti alle specifiche tematiche.
+L'elenco delle informazioni prescritte da un elemento d'informazione derivante da altre normative dell'UE, contenute nell'appendice B dell'ESRS
+2, è riportato nell'Allegato 2 - Indice atti legislativi dell’Unione Europea.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                         11
+
+=== PAGINA PDF 14 / STAMPATA 12 ===
+
+Governance della sostenibilità
+Il sistema di Governance
+
+
+ESRS Standards   ESRS 2 GOV-1
+La struttura di corporate governance adottata da GTT è fondata sul modello tradizionale.
+
+ Organi sociali                                             Ruolo
+
+
+ Assemblea dei Soci                                         Delibera sulle materie ad essa riservate dalla legge e dallo Statuto.
+
+
+
+ Consiglio di Amministrazione                               Gestione d’impresa.
+
+
+                                                            Chiamato a vigilare sull’osservanza della legge e dello Statuto e sul rispetto dei principi di corretta ammini-
+ Collegio Sindacale                                         strazione, oltre che a controllare l’adeguatezza della struttura organizzativa, del sistema di controllo interno
+                                                            e del sistema amministrativo contabile della Società.
+
+La revisione legale per il triennio 2023-2025 è affidata a PricewaterhouseCoopers S.p.A. È altresì stato nominato un Organismo di Vigilanza
+231, che vigila sul corretto funzionamento del “Modello 231” e ne cura l’aggiornamento. L’attestazione della conformità della Rendicontazione
+di sostenibilità 2025 è affidata ad Audirevi S.p.A.
+Non sono presenti all'interno degli organi di amministrazione, direzione e controllo comitati di rappresentanza dei lavoratori. Esistono comunque
+diverse forme di coinvolgimento e dialogo che mirano a garantire che gli interessi dei dipendenti siano considerati nelle decisioni aziendali.
+
+Il Consiglio di Amministrazione
+
+ Consiglio di Amministrazione                               Ruolo
+ Antonio Fenoglio                                            Presidente                                                                                                              Non esecutivo e indipendente
+ Guido Mulè                                                  Amministratore Delegato                                                                             Esecutivo e non indipendente
+ Costanza Mottino                                            Consigliera                                                                                                              Non esecutivo e indipendente
+F.C.T. Holding S.p.A. La struttura di governance è definita dallo Statuto, nella versione più recente approvata dall’Assemblea dei Soci, disponibile sul
+sito aziendale nella sezione Trasparenza.
+La gestione dell’impresa è affidata al Consiglio di Amministrazione (CdA), composto da n.3 membri, nominati dal Comune di Torino. Gli amministra-
+tori, salvo revoca, restano in carica per il periodo determinato al momento della loro nomina, comunque non superiore a tre esercizi. Il loro mandato
+termina alla data dell’assemblea convocata per l’approvazione del bilancio relativo all’ultimo esercizio di competenza. Il Consiglio di Amministrazione,
+nominato a maggio 2025, resterà in carica fino all’Assemblea dei Soci che si terrà per l’approvazione del bilancio di esercizio al 31 dicembre 2027.
+Gli impegni e le politiche di GTT vengono periodicamente riesaminati dal Consiglio di Amministrazione, al fine di rafforzare il presidio delle
+competenze e responsabilità relativamente alle tematiche di sostenibilità, parti integranti della gestione del business.
+Il Consiglio può delegare le proprie attribuzioni ad un Comitato Esecutivo composto da alcuni dei suoi componenti, nell’ambito del quale dovran-
+no in ogni caso essere in maggioranza gli amministratori espressi dai soci pubblici, determinandone i poteri.
+Conformemente a quanto previsto dal D.P.R. 30 novembre 2012, n. 251, Regolamento di attuazione della Legge 120/2011 per le società
+controllate da pubbliche amministrazioni non quotate, nel CdA sono garantiti gli equilibri di genere: il genere meno rappresentato conta almeno
+un terzo dei componenti di ciascun organo.
+
+ Consiglio di Amministrazione - Diversità (genere - classi di età)
+ Donne                                                          Uomini                                                          Totale
+    Nr 1                                                          33%Nr 2                                                          67%Nr 3                                                        100%
+ Minori di 30 anni                                              Tra 30 e 50 anni                                                Maggiori di 50 anni
+    Nr -                                                                -Nr 1                                                          33%Nr 2                                                          67%
+
+                                                                                            12

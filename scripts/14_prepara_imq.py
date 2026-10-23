@@ -11,7 +11,7 @@ Legge data/processed/imq/*.csv (prodotti da scripts/13_esporta_imq.ps1) e scrive
 Ogni valore e' PESATO (somma di PESO); ogni cella porta anche n (righe intervistate)
 e "affidabile" (n >= SOGLIA_N). Non entrano mai dati personali.
 
-Costanti (da MEMORIA_PROGETTO.md / piano del 9/10/2026):
+Costanti (da sviluppo/MEMORIA_PROGETTO.md / piano del 9/10/2026):
 - SOGLIA_N = 30; classi di eta' 1=11-19, 2=20-49, 3=50-64, 4=65-84;
 - scopi 12-16 -> "altro" (accorpati nella categoria 10 "Altro");
 - ora = ora (0-23) di ORA_PAR;

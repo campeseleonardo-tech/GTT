@@ -1,0 +1,905 @@
+{
+  "risultato": "10",
+  "titolo": "Case, servizi e fragilità",
+  "tag": "STIMATO / CENSIMENTO",
+  "stato": "Fatto",
+  "in_breve": "Le case costano di più dove ci sono più servizi? E dove la fragilità sociale è alta e i servizi sono pochi?",
+  "domanda": "Si paga per i servizi? E chi vive dove la fragilità è alta e i servizi sono pochi?",
+  "numero_chiave": {
+    "valore": 79598,
+    "unita": "",
+    "testo": "residenti in sezioni con fragilità alta e pochi servizi (9,5% dei residenti)"
+  },
+  "racconto": "",
+  "risposta": [],
+  "grafici": [],
+  "metodo": [],
+  "limiti": [],
+  "parametri": [],
+  "mappa": {
+    "id": "vulnerabilita",
+    "vista": "doppio",
+    "nota": "Vista «Doppio svantaggio» nel tema Fragilità sociale."
+  },
+  "fonti": [
+    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
+    "data/processed/case_fragilita_servizi.json"
+  ],
+  "generato": "2026-10-23T12:49:23+00:00",
+  "avviso": [
+    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
+  ],
+  "in_english": [],
+  "scenari": [
+    {
+      "nome": "Oggi",
+      "numeri": [
+        {
+          "label": "Residenti in sezioni con fragilità alta e pochi servizi",
+          "prima": null,
+          "dopo": 79598,
+          "unita": "residenti"
+        },
+        {
+          "label": "Quota dei residenti di Torino",
+          "prima": null,
+          "dopo": 9.5,
+          "unita": "%"
+        },
+        {
+          "label": "Zone in doppio svantaggio",
+          "prima": null,
+          "dopo": 5,
+          "unita": "zone"
+        },
+        {
+          "label": "Correlazione prezzo-servizi (Spearman)",
+          "prima": null,
+          "dopo": 0.614,
+          "unita": ""
+        }
+      ],
+      "nota": "Zone OMI di Torino; le sezioni si sommano nella zona, pesate per abitanti."
+    }
+  ],
+  "forma": {
+    "etichetta": "STIMATO / CENSIMENTO",
+    "titolo": "Circa 1 torinese su 10 vive dove la fragilità è alta e i servizi sono pochi",
+    "domanda": "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
+    "numero": {
+      "valore": 79598,
+      "unita": "",
+      "testo": "residenti in sezioni con fragilità alta e servizi bassi: il 9,5% dei torinesi"
+    },
+    "principale": {
+      "tipo": "dispersione",
+      "titolo": "Prezzo delle case e servizi a piedi, una zona OMI per punto (46 zone)",
+      "xlabel": "punteggio «Tutti i servizi» a piedi, 0-100",
+      "ylabel": "prezzo delle case, euro al m²",
+      "passo_x": 20,
+      "passo_y": 500,
+      "xnome": "servizi",
+      "ynome": "euro al m²",
+      "punti": [
+        [
+          82.2,
+          3650,
+          1093,
+          "Roma"
+        ],
+        [
+          79.2,
+          3425,
+          10989,
+          "Carlo Emanuele Ii"
+        ],
+        [
+          77.4,
+          2500,
+          2584,
+          "Solferino"
+        ],
+        [
+          73.9,
+          2600,
+          4598,
+          "Vinzaglio"
+        ],
+        [
+          80.9,
+          2600,
+          11934,
+          "Garibaldi"
+        ],
+        [
+          87.3,
+          2850,
+          2369,
+          "Castello"
+        ],
+        [
+          79.0,
+          2375,
+          4397,
+          "Rocca"
+        ],
+        [
+          67.7,
+          1950,
+          7157,
+          "San Salvario"
+        ],
+        [
+          59.9,
+          2700,
+          5486,
+          "Valentino"
+        ],
+        [
+          23.5,
+          2175,
+          7729,
+          "Michelotti"
+        ],
+        [
+          35.0,
+          2925,
+          7445,
+          "Crimea"
+        ],
+        [
+          69.0,
+          2675,
+          894,
+          "Duca D Aosta"
+        ],
+        [
+          61.5,
+          1500,
+          13406,
+          "Porta Palazzo - Maria Ausiliatrice"
+        ],
+        [
+          73.7,
+          2225,
+          18276,
+          "Vanchiglia - Borgo Rossini"
+        ],
+        [
+          51.8,
+          1625,
+          20157,
+          "Aurora"
+        ],
+        [
+          62.3,
+          2175,
+          22925,
+          "Dante"
+        ],
+        [
+          29.8,
+          2000,
+          16461,
+          "Vanchiglietta"
+        ],
+        [
+          70.5,
+          1700,
+          10462,
+          "Campidoglio - Martinetto"
+        ],
+        [
+          73.3,
+          2050,
+          11167,
+          "Adriano - Bernini - Rivoli"
+        ],
+        [
+          72.5,
+          2000,
+          18643,
+          "Cenisia"
+        ],
+        [
+          64.1,
+          2250,
+          29291,
+          "San Paolo"
+        ],
+        [
+          66.5,
+          2100,
+          5190,
+          "San Secondo"
+        ],
+        [
+          59.6,
+          2275,
+          7970,
+          "Galileo Ferraris"
+        ],
+        [
+          63.8,
+          2600,
+          15343,
+          "De Gasperi"
+        ],
+        [
+          72.8,
+          2600,
+          1405,
+          "Politecnico"
+        ],
+        [
+          81.0,
+          2350,
+          14491,
+          "Duchessa Jolanda"
+        ],
+        [
+          64.6,
+          2050,
+          22334,
+          "San Donato"
+        ],
+        [
+          46.7,
+          1550,
+          71762,
+          "Madonna Di Campagna"
+        ],
+        [
+          44.5,
+          1375,
+          4322,
+          "Spina 4 - Docks Dora"
+        ],
+        [
+          9.5,
+          1600,
+          10584,
+          "Barca - Bertolla"
+        ],
+        [
+          37.8,
+          1750,
+          26802,
+          "Nizza Millefonti"
+        ],
+        [
+          52.8,
+          1500,
+          46558,
+          "Filadelfia - Traiano"
+        ],
+        [
+          62.4,
+          1800,
+          56890,
+          "Santa Rita"
+        ],
+        [
+          43.9,
+          1425,
+          40047,
+          "Mirafiori Nord"
+        ],
+        [
+          57.6,
+          1050,
+          48588,
+          "Barriera Di Milano"
+        ],
+        [
+          33.4,
+          1045,
+          28202,
+          "Rebaudengo - Regio Parco"
+        ],
+        [
+          15.4,
+          1250,
+          25756,
+          "Corona Nord"
+        ],
+        [
+          21.3,
+          1300,
+          31262,
+          "Lucento - Vallette"
+        ],
+        [
+          55.5,
+          1925,
+          31541,
+          "Parella"
+        ],
+        [
+          39.5,
+          1675,
+          32025,
+          "Aeronautica - Lesna"
+        ],
+        [
+          55.8,
+          1925,
+          36080,
+          "Pozzo Strada"
+        ],
+        [
+          25.6,
+          1300,
+          33481,
+          "Mirafiori Sud"
+        ],
+        [
+          40.2,
+          2025,
+          11318,
+          "Spina 3 - Eurotorino"
+        ],
+        [
+          5.7,
+          2175,
+          9568,
+          "Collinare Villa Della Regina"
+        ],
+        [
+          4.6,
+          1875,
+          3563,
+          "Collinare Superga"
+        ],
+        [
+          6.0,
+          2000,
+          5865,
+          "Collinare Cavoretto"
+        ]
+      ],
+      "retta": {
+        "a": 1369.9,
+        "b": 12.88,
+        "label": "tendenza"
+      },
+      "nota": "Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: ogni 10 punti di servizi in più, 129 euro al m² in più."
+    },
+    "punti": [
+      "Prezzo e servizi vanno insieme: correlazione di Spearman 0,61 su 46 zone (da 0,39 a 0,79).",
+      "5 zone sono in doppio svantaggio: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. Ci abitano 129.285 persone.",
+      "Vicino alla metro le case costano poco di più (+115 euro al m² in media, a pari distanza dal centro). Differenza fra zone, non effetto causale."
+    ],
+    "altri": [
+      {
+        "tipo": "barre",
+        "titolo": "Residenti delle sezioni di Torino per condizione",
+        "unita": "residenti",
+        "nota": "Sezioni abitate di Torino, senza le zone quasi disabitate. Fragilità alta = indice sopra 57,7 su 100 (il 20% più alto); servizi bassi = punteggio fino a 34,4 su 100 (il 20% più basso).",
+        "voci": [
+          {
+            "label": "fragilità alta e servizi bassi",
+            "valore": 79598,
+            "tono": "rosso",
+            "testo": "79.598 (216 sezioni)"
+          },
+          {
+            "label": "solo fragilità alta",
+            "valore": 142406,
+            "tono": "arancio",
+            "testo": "142.406 (483 sezioni)"
+          },
+          {
+            "label": "solo servizi bassi",
+            "valore": 100600,
+            "tono": "blu",
+            "testo": "100.600 (489 sezioni)"
+          },
+          {
+            "label": "nessuna delle due",
+            "valore": 517053,
+            "tono": "verde",
+            "testo": "517.053 (2.332 sezioni)"
+          }
+        ]
+      },
+      {
+        "tipo": "barre_diff",
+        "titolo": "Quanto più costano le case vicino alla metro (con metro meno senza metro)",
+        "unita": "€/m²",
+        "nota": "Per fascia di distanza da Piazza Castello (2 km): prezzo medio delle zone con una fermata M1 entro 600 m meno quello delle zone senza, alla stessa distanza dal centro. Su ogni barra il numero di zone. Differenza fra zone, non effetto della metro.",
+        "voci": [
+          {
+            "label": "0-2 km dal centro",
+            "valore": 73,
+            "testo": "(6 zone con metro, 8 senza)"
+          },
+          {
+            "label": "2-4 km dal centro",
+            "valore": 219,
+            "testo": "(3 zone con metro, 16 senza)"
+          },
+          {
+            "label": "4-6 km dal centro",
+            "valore": 52,
+            "testo": "(2 zone con metro, 10 senza)"
+          },
+          {
+            "label": "6-8 km dal centro",
+            "valore": null,
+            "testo": "(0 zone con metro, 1 senza)"
+          }
+        ]
+      }
+    ],
+    "calcolo": [
+      "Unità: le 46 zone OMI di Torino con almeno 500 abitanti. Le sezioni si sommano nella zona, pesate per abitanti.",
+      "Servizi: punteggio «Tutti i servizi» a piedi in 15 minuti. Fragilità: indice del censimento 2021 (lavoro, istruzione, case, anziani).",
+      "Prezzo: centro della forbice OMI per le abitazioni civili. Tendenza: retta dei minimi quadrati.",
+      "Doppio svantaggio = fragilità nel 20% più alto e servizi nel 20% più basso. Soglie fissate prima dei numeri: 49,8 e 33,4.",
+      "Metro: zone con una fermata M1 entro 600 m dal centro, contro le altre alla stessa distanza da Piazza Castello."
+    ],
+    "criteri": [
+      [
+        "Zone",
+        "46 zone OMI di Torino, almeno 500 abitanti"
+      ],
+      [
+        "Fragilità alta",
+        "indice sopra 57,7 su 100 (sezioni) / 49,8 (zone)"
+      ],
+      [
+        "Servizi bassi",
+        "punteggio fino a 34,4 su 100 (sezioni) / 33,4 (zone)"
+      ],
+      [
+        "Metro vicina",
+        "fermata M1 entro 600 m dal centro della zona"
+      ],
+      [
+        "Fasce",
+        "2 km da Piazza Castello"
+      ]
+    ],
+    "limiti": [
+      "I prezzi sono quotazioni OMI, non compravendite.",
+      "C'è un solo semestre di quotazioni (2025/2).",
+      "Le zone OMI sono grandi: dentro una zona i prezzi e i servizi cambiano molto.",
+      "L'indice di fragilità non è il reddito: misura lavoro, istruzione, affollamento e anziani."
+    ],
+    "english": [
+      "Question: do homes cost more where services are plentiful, and who lives where fragility is high and services are few?",
+      "Answer: 1 Turin resident in 10 (79.598 people, 9.5%) lives where fragility is high and services are few. Price and services go together (Spearman 0.61 over 46 zones).",
+      "Limit: price quotes, not sales; one semester; large zones. The metro price gap is between zones, not a causal effect."
+    ],
+    "mappa": {
+      "id": "vulnerabilita",
+      "nota": "Vista «Doppio svantaggio» nel tema Fragilità sociale.",
+      "vista": "doppio"
+    },
+    "unita": {
+      "tipo": "omini",
+      "totale": 10,
+      "colorati": 1,
+      "didascalia": "Circa 1 torinese su 10 vive in sezioni con fragilità alta e servizi bassi (9,5% dei residenti)."
+    }
+  },
+  "forma_en": {
+    "etichetta": "ESTIMATED / CENSUS",
+    "titolo": "About 1 Turin resident in 10 lives where fragility is high and services are few",
+    "domanda": "Do people pay for services? And who lives where services are few and fragility is high?",
+    "numero": {
+      "valore": 79598,
+      "unita": "",
+      "testo": "residents in sections with high fragility and low services: 9.5% of Turin residents"
+    },
+    "principale": {
+      "tipo": "dispersione",
+      "titolo": "House prices and services on foot, one OMI zone per point (46 zones)",
+      "xlabel": "“All services” score on foot, 0-100",
+      "ylabel": "house price, euro per m²",
+      "passo_x": 20,
+      "passo_y": 500,
+      "xnome": "servizi",
+      "ynome": "euro al m²",
+      "punti": [
+        [
+          82.2,
+          3650,
+          1093,
+          "Roma"
+        ],
+        [
+          79.2,
+          3425,
+          10989,
+          "Carlo Emanuele Ii"
+        ],
+        [
+          77.4,
+          2500,
+          2584,
+          "Solferino"
+        ],
+        [
+          73.9,
+          2600,
+          4598,
+          "Vinzaglio"
+        ],
+        [
+          80.9,
+          2600,
+          11934,
+          "Garibaldi"
+        ],
+        [
+          87.3,
+          2850,
+          2369,
+          "Castello"
+        ],
+        [
+          79.0,
+          2375,
+          4397,
+          "Rocca"
+        ],
+        [
+          67.7,
+          1950,
+          7157,
+          "San Salvario"
+        ],
+        [
+          59.9,
+          2700,
+          5486,
+          "Valentino"
+        ],
+        [
+          23.5,
+          2175,
+          7729,
+          "Michelotti"
+        ],
+        [
+          35.0,
+          2925,
+          7445,
+          "Crimea"
+        ],
+        [
+          69.0,
+          2675,
+          894,
+          "Duca D Aosta"
+        ],
+        [
+          61.5,
+          1500,
+          13406,
+          "Porta Palazzo - Maria Ausiliatrice"
+        ],
+        [
+          73.7,
+          2225,
+          18276,
+          "Vanchiglia - Borgo Rossini"
+        ],
+        [
+          51.8,
+          1625,
+          20157,
+          "Aurora"
+        ],
+        [
+          62.3,
+          2175,
+          22925,
+          "Dante"
+        ],
+        [
+          29.8,
+          2000,
+          16461,
+          "Vanchiglietta"
+        ],
+        [
+          70.5,
+          1700,
+          10462,
+          "Campidoglio - Martinetto"
+        ],
+        [
+          73.3,
+          2050,
+          11167,
+          "Adriano - Bernini - Rivoli"
+        ],
+        [
+          72.5,
+          2000,
+          18643,
+          "Cenisia"
+        ],
+        [
+          64.1,
+          2250,
+          29291,
+          "San Paolo"
+        ],
+        [
+          66.5,
+          2100,
+          5190,
+          "San Secondo"
+        ],
+        [
+          59.6,
+          2275,
+          7970,
+          "Galileo Ferraris"
+        ],
+        [
+          63.8,
+          2600,
+          15343,
+          "De Gasperi"
+        ],
+        [
+          72.8,
+          2600,
+          1405,
+          "Politecnico"
+        ],
+        [
+          81.0,
+          2350,
+          14491,
+          "Duchessa Jolanda"
+        ],
+        [
+          64.6,
+          2050,
+          22334,
+          "San Donato"
+        ],
+        [
+          46.7,
+          1550,
+          71762,
+          "Madonna Di Campagna"
+        ],
+        [
+          44.5,
+          1375,
+          4322,
+          "Spina 4 - Docks Dora"
+        ],
+        [
+          9.5,
+          1600,
+          10584,
+          "Barca - Bertolla"
+        ],
+        [
+          37.8,
+          1750,
+          26802,
+          "Nizza Millefonti"
+        ],
+        [
+          52.8,
+          1500,
+          46558,
+          "Filadelfia - Traiano"
+        ],
+        [
+          62.4,
+          1800,
+          56890,
+          "Santa Rita"
+        ],
+        [
+          43.9,
+          1425,
+          40047,
+          "Mirafiori Nord"
+        ],
+        [
+          57.6,
+          1050,
+          48588,
+          "Barriera Di Milano"
+        ],
+        [
+          33.4,
+          1045,
+          28202,
+          "Rebaudengo - Regio Parco"
+        ],
+        [
+          15.4,
+          1250,
+          25756,
+          "Corona Nord"
+        ],
+        [
+          21.3,
+          1300,
+          31262,
+          "Lucento - Vallette"
+        ],
+        [
+          55.5,
+          1925,
+          31541,
+          "Parella"
+        ],
+        [
+          39.5,
+          1675,
+          32025,
+          "Aeronautica - Lesna"
+        ],
+        [
+          55.8,
+          1925,
+          36080,
+          "Pozzo Strada"
+        ],
+        [
+          25.6,
+          1300,
+          33481,
+          "Mirafiori Sud"
+        ],
+        [
+          40.2,
+          2025,
+          11318,
+          "Spina 3 - Eurotorino"
+        ],
+        [
+          5.7,
+          2175,
+          9568,
+          "Collinare Villa Della Regina"
+        ],
+        [
+          4.6,
+          1875,
+          3563,
+          "Collinare Superga"
+        ],
+        [
+          6.0,
+          2000,
+          5865,
+          "Collinare Cavoretto"
+        ]
+      ],
+      "retta": {
+        "a": 1369.9,
+        "b": 12.88,
+        "label": "trend"
+      },
+      "nota": "Each point is a zone, sized by its inhabitants. The line is the trend: for every 10 extra service points, 129 euro per m² more."
+    },
+    "punti": [
+      "Price and services go together: Spearman correlation 0.61 over 46 zones (from 0.39 to 0.79).",
+      "5 zones are in double disadvantage: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. 129,285 people live there.",
+      "Near the metro homes cost a little more (+115 euro per m² on average, at the same distance from the centre). A difference between zones, not a causal effect."
+    ],
+    "altri": [
+      {
+        "tipo": "barre",
+        "titolo": "Residents of Turin's census sections by condition",
+        "unita": "residents",
+        "nota": "Inhabited sections of Turin, without the almost uninhabited areas. High fragility = index above 57.7 out of 100 (the highest 20%); low services = score up to 34.4 out of 100 (the lowest 20%).",
+        "voci": [
+          {
+            "label": "high fragility and low services",
+            "valore": 79598,
+            "tono": "rosso",
+            "testo": "79,598 (216 sections)"
+          },
+          {
+            "label": "high fragility only",
+            "valore": 142406,
+            "tono": "arancio",
+            "testo": "142,406 (483 sections)"
+          },
+          {
+            "label": "low services only",
+            "valore": 100600,
+            "tono": "blu",
+            "testo": "100,600 (489 sections)"
+          },
+          {
+            "label": "neither",
+            "valore": 517053,
+            "tono": "verde",
+            "testo": "517,053 (2,332 sections)"
+          }
+        ]
+      },
+      {
+        "tipo": "barre_diff",
+        "titolo": "How much more homes cost near the metro (with metro minus without)",
+        "unita": "€/m²",
+        "nota": "By distance band from Piazza Castello (2 km): average price of zones with an M1 stop within 600 m minus that of zones without, at the same distance from the centre. The number of zones is shown on each bar. A difference between zones, not an effect of the metro.",
+        "voci": [
+          {
+            "label": "0-2 km from the centre",
+            "valore": 73,
+            "testo": "(6 zones with metro, 8 without)"
+          },
+          {
+            "label": "2-4 km from the centre",
+            "valore": 219,
+            "testo": "(3 zones with metro, 16 without)"
+          },
+          {
+            "label": "4-6 km from the centre",
+            "valore": 52,
+            "testo": "(2 zones with metro, 10 without)"
+          },
+          {
+            "label": "6-8 km from the centre",
+            "valore": null,
+            "testo": "(0 zones with metro, 1 without)"
+          }
+        ]
+      }
+    ],
+    "calcolo": [
+      "Unit: the 46 OMI zones of Turin with at least 500 inhabitants. Sections are added up within the zone, weighted by inhabitants.",
+      "Services: “All services” score within a 15-minute walk. Fragility: 2021 census index (work, education, housing, older people).",
+      "Price: middle of the OMI range for residential homes. Trend: least-squares line.",
+      "Double disadvantage = fragility in the highest 20% and services in the lowest 20%. Thresholds fixed before the numbers: 49.8 and 33.4.",
+      "Metro: zones with an M1 stop within 600 m of the centre, compared with the others at the same distance from Piazza Castello."
+    ],
+    "criteri": [
+      [
+        "Zones",
+        "46 OMI zones of Turin, at least 500 inhabitants"
+      ],
+      [
+        "High fragility",
+        "index above 57.7 out of 100 (sections) / 49.8 (zones)"
+      ],
+      [
+        "Low services",
+        "score up to 34.4 out of 100 (sections) / 33.4 (zones)"
+      ],
+      [
+        "Metro nearby",
+        "M1 stop within 600 m of the zone centre"
+      ],
+      [
+        "Bands",
+        "2 km from Piazza Castello"
+      ]
+    ],
+    "limiti": [
+      "Prices are OMI quotations, not actual sales.",
+      "There is only one semester of quotations (2025/2).",
+      "OMI zones are large: prices and services vary a lot within a zone.",
+      "The fragility index is not income: it measures work, education, crowding and older people."
+    ],
+    "mappa": {
+      "id": "vulnerabilita",
+      "nota": "Vista «Doppio svantaggio» nel tema Fragilità sociale.",
+      "vista": "doppio"
+    },
+    "unita": {
+      "tipo": "omini",
+      "totale": 10,
+      "colorati": 1,
+      "didascalia": "About 1 in 10 Turin residents live in sections with high fragility and low services (9.5% of residents)."
+    }
+  },
+  "numero_pubblico": 5
+}

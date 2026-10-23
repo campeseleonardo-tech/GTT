@@ -2,7 +2,7 @@
 """95_case_fragilita_servizi.py - Risultato E: prezzo delle case x fragilita' x servizi, solo Torino. SOLA LETTURA.
 
 Unita' = zona OMI di Torino. Le sezioni di censimento si aggregano nella zona con media pesata per abitanti.
-Domande (docs/piani/PIANO_RISULTATI.md, parte E):
+Domande (sviluppo/piani/PIANO_RISULTATI.md, parte E):
   E1  Si paga per i servizi? Spearman fra prezzo e servizi (una zona = un punto), retta di tendenza, residui:
       le 5 zone piu' care e le 5 piu' convenienti rispetto ai servizi.
   E2  Doppio svantaggio: zone con fragilita' nel 20% piu' alto E servizi nel 20% piu' basso. Lo stesso conto per

@@ -1,0 +1,216 @@
+=== PAGINA PDF 119 / STAMPATA 117 ===
+
+ Impatti
+ Impatti legati alle informazioni per i                       Impatti negativi dovuti a potenziali attacchi informatici o violazioni dei dati (data breach) che potrebbero
+ consumatori e/o per gli utilizzatori finali                  compromettere la sicurezza delle informazioni sensibili dei clienti.
+ - Riservatezza
+ Impatti legati alle informazioni per i                       Impatto potenzialmente negativo legato alla non adeguata comunicazione delle informazioni ai clienti,
+ consumatori e/o per gli utilizzatori finali                  gestito e mitigato attraverso strumenti digitali quali app e sito web, nonché tramite i canali informativi
+ - Accesso a informazioni (di qualità)                        fisici, come pannelli delle fermate, display a bordo, ecc.
+                                                              Impatto negativo sulla sicurezza dei passeggeri dovuto al rischio di incidenti stradali che coinvolgono
+                                                              mezzi in servizio, con potenziali conseguenze per l’incolumità delle persone e danni materiali. Tali eventi,
+ Sicurezza personale dei consumatori e/o                      anche se statisticamente meno frequenti rispetto alla mobilità privata, possono comunque incidere sulla
+ degli utilizzatori finali                                    percezione di sicurezza da parte dell’utenza e generare costi legati alla gestione dell’emergenza, al
+ - Salute e sicurezza                                         ripristino dei mezzi e ad eventuali responsabilità legali o assicurative.
+ - Sicurezza della persona                                    La possibilità di diffusione di virus o batteri su mezzi di trasporto pubblici: impatto negativo sulla salute del
+                                                              passeggero, la cui tutela richiede adeguate pratiche di pulizia e sanificazione dei mezzi.
+                                                              Impatto negativo sulla sicurezza del passeggero dovuto ad eventi di scippo e molestie che potrebbero
+                                                              verificarsi sia sulle banchine che sui mezzi di trasporto.
+ Inclusione sociale dei consumatori e/o
+ degli utilizzatori finali                                    Impatto positivo sugli utilizzatori che possono usufruire di un servizio di TPL accessibile, inclusivo e privo
+ - Non discriminazione                                        di alcuna barriera sia sociale che architettonica, su quasi la totalità dei mezzi.
+ - Accesso a prodotti e servizi
+ Inclusione sociale dei consumatori e/o                       Impatto positivo sugli utilizzatori che possono usufruire di un servizio a prezzi calmierati grazie anche
+ degli utilizzatori finali                                    all’integrazione delle risorse pubbliche a copertura del costo di esercizio.
+ - Pratiche commerciali responsabili
+
+ Rischi/Opportunità
+ Impatti legati alle informazioni per i                       Rischi regolamentari / legali e reputazionali legati alle misure e alle procedure adottate in materia di tutela
+ consumatori e/o per gli utilizzatori finali                  privacy inadeguate, non conformi e/o non correttamente sviluppate, che potrebbero comportare costi di
+ - Riservatezza                                               risarcimento danni.
+ Impatti legati alle informazioni per i                       Rischio reputazionale e di mercato legato ad una comunicazione del servizio TPL né efficiente né efficace,
+ consumatori e/o per gli utilizzatori finali                  che può disincentivare l’utilizzo dei mezzi pubblici, diminuendo la vendita di biglietti e di conseguenza i
+ - Accesso a informazioni (di qualità)                        ricavi.
+ Sicurezza personale dei consumatori e/o
+ degli utilizzatori finali                                    Rischi regolamentari / legali, reputazionali e di mercato derivanti dalla non conformità ai requisiti normativi
+ - Salute e sicurezza                                         in materia di sicurezza a bordo e sicurezza del mezzo con conseguenti costi di spese legali.
+ - Sicurezza della persona
+                                                              Rischi legali causati da sinistri su strada che comportano costi per indennizzi alle persone coinvolte sul
+                                                              mezzo pubblico.
+ Inclusione sociale dei consumatori e/o
+ degli utilizzatori finali                                    Rischio reputazionale e di mercato legato al mancato rispetto del diritto fondamentale alla mobilità,
+ - Non discriminazione                                        causato da una gestione inefficiente del servizio.
+ - Accesso a prodotti e servizi
+                                                              L’introduzione di pratiche agevolate a favore dei consumatori comporta per l’azienda la necessità di
+ Inclusione sociale dei consumatori e/o                       stimare i mancati ricavi e di basare su tali previsioni le compensazioni economiche. Questo meccanismo
+ degli utilizzatori finali                                    genera un rischio di disallineamento tra stime e andamento effettivo dei titoli di viaggio, con possibili
+ - Pratiche commerciali responsabili                          scostamenti rispetto alle entrate previste. Tali variabilità possono incidere sulla pianificazione economico-
+                                                              finanziaria, richiedendo un attento monitoraggio.
+Nell’ambito dell’analisi e della valutazione dei temi rilevanti per GTT, con riferimento a consumatori e utilizzatori finali, sono stati individuati come
+prioritari i sottotemi indicati nello ESRS 1 - Prescrizioni generali, in particolare: impatti legati alle informazioni, sicurezza personale e inclusione
+sociale dei consumatori e/o degli utilizzatori finali.
+I temi centrali per GTT riguardano la protezione delle informazioni, l’accesso trasparente alle informazioni sul servizio, la salute e la sicurezza
+dei passeggeri, nonché l’inclusione sociale, favorendo un accesso equo e inclusivo alla mobilità urbana.
+Gli impatti, rischi e opportunità identificati interessano tutti i clienti e utilizzatori finali di GTT.
+Per ulteriori informazioni sul processo di identificazione degli impatti, dei rischi e delle opportunità materiali, si rimanda al capitolo Gestione
+degli impatti - rischi - opportunità e al capitolo Impatti, rischi e opportunità rilevanti e loro interazione con la strategia e il modello di business
+/ paragrafo I temi rilevanti (IRO).
+Impatti
+La Società ha valutato gli impatti, i rischi e le opportunità che incidono sui consumatori e sugli utilizzatori finali, evidenziandone la relazione con
+la strategia complessiva e il modello di business dell’impresa.
+
+
+                                                                                            117
+
+=== PAGINA PDF 120 / STAMPATA 118 ===
+
+GTT è il fornitore del trasporto pubblico locale per la città di Torino, il cui ruolo è quello di garantire spostamenti sicuri, efficienti e accessibili.
+Nel caso in cui il servizio non venga erogato correttamente, possono verificarsi disagi che influenzano l’esperienza degli utenti e la qualità
+complessiva del servizio. Gli impatti più rilevanti sui passeggeri riguardano la sicurezza e la salute durante gli spostamenti, la protezione dei dati
+personali, l’accesso a informazioni chiare e aggiornate sul servizio, l’inclusione sociale e l’accessibilità per tutti, nonché l’offerta di tariffe eque
+e pratiche commerciali responsabili. Gli impatti identificati non solo derivano dalla strategia aziendale, ma orientano anche le decisioni future,
+contribuendo a migliorare le misure di sicurezza e a rafforzare la fiducia dei clienti in GTT.
+Rischi e opportunità
+GTT è esposta a rischi derivanti da possibili interruzioni o inefficienze del servizio, dalla gestione non adeguata delle informazioni e dei dati dei
+passeggeri, dalla sicurezza e salute durante gli spostamenti, e dalla mancata accessibilità o inclusione per utenti con esigenze specifiche. Questi
+fattori possono influenzare la soddisfazione dei clienti, la reputazione aziendale e la continuità del servizio offerto. I rischi individuati non sono
+collegati a gruppi specifici di consumatori e/o utilizzatori finali.
+Gestione impatti - rischi - opportunità
+Politiche connesse ai consumatori e agli utilizzatori finali
+
+ESRS Standards   ESRS 2 MDR-P, ESRS S4 S4-1
+Carta della mobilità
+Pur non configurandosi come una politica aziendale in senso stretto, l’offerta dei servizi di GTT è regolata dalle condizioni e dagli standard di
+qualità del servizio definiti nei Contratti di Servizio con gli enti pubblici concedenti e, soprattutto, nelle Carte della Mobilità (o Carte dei Ser-
+vizi). I principali servizi aziendali fanno riferimento alla Carta della Mobilità dei servizi urbani e alle Carte della Mobilità dei servizi extraurbani
+adottate dai Consorzi cui GTT partecipa. La Carta della Mobilità dei servizi urbani, in particolare, viene elaborata anche attraverso un confronto
+con le associazioni dei consumatori iscritte all’elenco ufficiale della Città di Torino.
+La Carta della Mobilità definisce diversi fattori per il monitoraggio della qualità del servizio, tra cui l’affidabilità e i tempi di viaggio, con
+riferimento a puntualità e regolarità, la sicurezza, l’accessibilità, l’assistenza e l’informazione alla clientela, i servizi di
+vendita, la pulizia, il comfort e il rispetto dell’ambiente. Per molti di questi indicatori, gli obiettivi fissati da GTT risultano più ambiziosi
+rispetto alle prescrizioni minime previste dal contratto di servizio.
+La nuova Carta della mobilità dei servizi urbani, pubblicata nell’aprile 2025, è stata rinnovata in seguito ad approfondito confronto con il Comune
+di Torino, l’Agenzia della Mobilità Piemontese e le associazioni dei consumatori, soggetti con i quali è ancora in corso un tavolo di lavoro per
+rinnovare le condizioni dell’indennizzo compensativo in caso di disservizi imputabili a cause aziendali e delle procedure di conciliazione paritetica
+tra GTT e i suoi clienti, un’opportunità di risoluzione di eventuali controversie senza oneri a loro carico. La Carta è valida per tutti i passeggeri nel
+loro complesso e sono previste misure specifiche dedicate alle persone con disabilità, volte a garantire accessibilità, assistenza personalizzata
+e pari condizioni di fruizione dei servizi.
+GTT mette a disposizione la Carta della Mobilità a tutti i passeggeri stakeholder interessati. Il documento è consultabile pubblicamente sul sito
+web aziendale, all’indirizzo https://www.gtt.to.it/cms/risorse/cdm.pdf.
+Codice etico e di comportamento
+Nel Codice etico e di comportamento di GTT, il paragrafo Relazioni con la clientela definisce in modo esplicito i criteri a cui ogni dipendente
+e la Società deve attenersi nei rapporti con i passeggeri. In particolare, in coerenza con tale impegno, i contratti e le comunicazioni rivolti alla
+clientela devono essere:
+• chiari e di immediata comprensione, per facilitare scelte informate e consapevoli;
+• pienamente conformi alle normative vigenti, escludendo qualsiasi pratica scorretta;
+• allineati alle politiche commerciali della società, nel rispetto dei parametri stabiliti;
+• completi e trasparenti, includendo ogni elemento rilevante per valutare il servizio;
+• basati su informazioni precise, affidabili e accessibili, senza omissioni su aspetti essenziali.
+GTT conferma il proprio impegno a garantire l’accessibilità del servizio, attraverso dotazioni tecniche e iniziative dedicate, per assicurare il diritto
+alla mobilità anche alle persone con disabilità, permanenti o temporanee.
+Regolamenti per l’uso del trasporto pubblico
+GTT adotta regolamenti dedicati all’uso del trasporto pubblico, ciascuno riferito a una specifica modalità di servizio: il Regolamento per il traspor-
+
+                                                                                      118
+
+=== PAGINA PDF 121 / STAMPATA 119 ===
+
+to urbano e suburbano di superficie, quello per l’utilizzo della metropolitana automatica di Torino e il Regolamento per il trasporto extraurbano.
+Questi documenti definiscono in modo chiaro le norme relative ai titoli di viaggio e alle modalità di utilizzo dei mezzi, alle condizioni di accesso
+e comportamento a bordo, nonché alle disposizioni per clienti con disabilità, passeggini, carrozzine e al trasporto di bagagli o animali. Sono
+disciplinati aspetti quali videosorveglianza, procedure di segnalazione dei reati, tipologie di infrazioni, sanzioni, modalità di pagamento e ulteriori
+interventi previsti in caso di comportamenti illeciti diversi dal mancato possesso del titolo di viaggio. Per approfondimenti e maggiori dettagli è
+possibile consultare il sito web: Regolamenti per l'uso del trasporto pubblico.
+Politiche connesse alla privacy dei consumatori e utilizzatori finali
+
+ESRS Standards   ESRS 2 MDR-P, ESRS S4 S4-1
+GTT assicura la piena conformità al Regolamento (UE) 2016/679 - General Data Protection Regulation (GDPR) - in materia di protezione dei dati
+personali, adottando un sistema di gestione e controllo dei trattamenti effettuati.
+Il GDPR ha lo scopo di garantire che il trattamento dei dati personali effettuato dalla Società risponda ai principi di liceità, correttezza, traspa-
+renza, non eccedenza e tutela della riservatezza. In qualità di Società che eroga un servizio pubblico essenziale per la città di Torino, GTT è
+consapevole della rilevanza e della delicatezza delle informazioni trattate, che riguardano quotidianamente utenti, abbonati, lavoratori e altri
+stakeholder. Per tale ragione, la Società è impegnata a garantire la massima trasparenza in relazione alle modalità di raccolta, utilizzo, comuni-
+cazione, eventuale trasferimento e conservazione dei dati personali.
+A seguito dell’introduzione del GDPR, GTT ha avviato un processo organico di riesame e adeguamento dei propri processi interni, procedendo a
+una mappatura completa dei trattamenti di dati personali effettuati nell’ambito delle attività aziendali, inclusi quelli connessi alla gestione degli
+abbonamenti, dei sistemi di bigliettazione elettronica, dei canali digitali di assistenza e delle segnalazioni dell’utenza.
+Nel corso del periodo oggetto di rendicontazione, non sono state registrate denunce comprovate relative a violazioni della privacy o a perdite di
+dati personali riferibili ai clienti.
+
+Processi di coinvolgimento dei consumatori
+e degli utilizzatori finali in merito agli impatti
+
+ESRS Standards   ESRS S4 S4-2
+Indagini di soddisfazione dei clienti (Customer Satisfaction Survey)
+Monitorare l’opinione dei passeggeri è essenziale per almeno due motivi fondamentali: verificare se l’impegno destinato alla gestione e al
+potenziamento del servizio vengono effettivamente percepiti da chi lo utilizza; e comprendere in modo approfondito i fattori determinanti del
+livello di soddisfazione, individuando le leve su cui agire per aumentarla e attrarre nuovi utenti, oppure, al contrario, le criticità che rendono il
+servizio insoddisfacente.
+Nel 2024, GTT ha realizzato un’indagine di Customer Satisfaction nell’ambito del progetto di ricerca sviluppato congiuntamente alle Associa-
+zioni dei consumatori e all’Agenzia della Mobilità Piemontese, e approvato dal Comitato di Bioetica dell’Università di Torino.
+I risultati dell’indagine sono stati messi a confronto con quelli rilevati nel 2011, utilizzando lo stesso questionario e una metodologia analoga,
+così da consentire un’analisi dell’evoluzione delle percezioni dei passeggeri.
+Customer Satisfaction degli utenti dei canali online e offline
+Tra agosto e settembre 2025, GTT ha realizzato un’indagine di Customer Satisfaction rivolta agli utenti dei canali online (sito e-commer-
+ce) e offline (Centri Servizi al Cliente - CSC), con l’obiettivo di misurare e confrontare i livelli di soddisfazione, analizzare i comportamenti
+di acquisto, le motivazioni e le esperienze di utilizzo, nonché individuare le principali criticità percepite lungo il percorso di fruizione dei servizi.
+L’indagine ha consentito di identificare le leve strategiche su cui intervenire per incentivare una maggiore propensione verso l’acquisto digitale.
+I risultati evidenziano un elemento di particolare rilievo: le principali resistenze all’utilizzo dei canali online non risultano di natura strettamente tec-
+nologica - la piattaforma presenta infatti performance adeguate e livelli di soddisfazione complessivamente positivi - bensì riconducibili a fattori di
+carattere umano e relazionale. Il 78% degli utenti che attualmente si rivolge agli sportelli fisici si dichiara potenzialmente disponibile a migrare verso
+il digitale; tuttavia, tale transizione è rallentata dal timore di non saper gestire correttamente le procedure e dalla preoccupazione di non ricevere un
+adeguato supporto in caso di errore. Emergono pertanto l’esigenza di un’ulteriore semplificazione dei processi, di strumenti informativi e tutorial chiari
+e accessibili, nonché di un servizio di Customer Care tempestivo ed efficace, in grado di garantire un adeguato livello di rassicurazione e assistenza.
+
+                                                                                     119
+
+=== PAGINA PDF 122 / STAMPATA 120 ===
+
+Associazioni dei consumatori
+GTT collabora attivamente con le associazioni dei consumatori, riconoscendo il loro ruolo fondamentale nel garantire trasparenza, partecipa-
+zione e qualità del servizio. Queste organizzazioni, iscritte all’Elenco delle Associazioni dei Consumatori della Città di Torino, contribuiscono a
+monitorare e valutare gli standard qualitativi e quantitativi dei servizi offerti, fornendo un canale diretto tra la Società e e la clientela. Attraverso
+confronti periodici e gruppi di lavoro promossi dagli enti titolari del contratto dei servizi, le associazioni come Adiconsum Piemonte, Adoc
+Piemonte, Aducon, Associazione Consumatori Piemonte, Associazione Tutelattiva, Codacons Piemonte, Federconsumatori Piemonte APS, Movi-
+mento Consumatori Torino e U.Di.Con. partecipano alla definizione e revisione della Carta della Mobilità, garantendo che le esigenze dei cittadini
+siano ascoltate e integrate nella pianificazione e nel miglioramento dei servizi di trasporto pubblico.
+Centro Emissione Massiva e Grandi Clienti
+Per aumentare la fidelizzazione della clientela, l’ufficio Grandi Clienti cura e gestisce i rapporti con le società che, per incentivare l’utilizzo dei
+mezzi pubblici negli spostamenti casa - lavoro, hanno aderito all’iniziativa rivolta a Società ed Enti dotate di Mobility Manager. Tale progetto,
+concordato con l’Amministrazione Comunale di Torino, prevede sugli abbonamenti urbani, uno sconto da parte di GTT e un contributo da parte
+delle società interessate.
+Associazioni di persone con disabilità
+GTT riconosce l’importanza di garantire accessibilità e inclusione a tutti i propri utenti, collaborando con le associazioni che rappresentano
+persone con disabilità per assicurare che il trasporto pubblico sia fruibile, sicuro e confortevole. Queste associazioni partecipano attivamente
+ai processi di consultazione e monitoraggio dei servizi, offrendo osservazioni e proposte per migliorare l’accessibilità di mezzi, stazioni e servizi
+correlati. In particolare, GTT coinvolge tali organizzazioni nella definizione degli standard di qualità e nella revisione della Carta della Mobilità,
+così da integrare le esigenze specifiche di persone con mobilità ridotta o con altre disabilità. Questo dialogo continuo consente di programmare
+interventi mirati, come l’adeguamento delle infrastrutture, l’adozione di strumenti informativi accessibili e la formazione del personale, raffor-
+zando l’impegno di GTT per un trasporto pubblico inclusivo e rispettoso dei principi di pari opportunità.
+Canali fisici e digitali
+GTT mantiene un dialogo costante con i propri utenti anche attraverso canali digitali e fisici, dai social media, al sito istituzionale, ai contact
+center e ai display informativi, integrati da strumenti di ascolto come il portale “Dialoga con noi” e le indagini di soddisfazione. Questi strumenti,
+insieme al confronto con associazioni dei consumatori e organizzazioni sindacali, permettono di raccogliere feedback e orientare le azioni per
+rispondere al meglio alle esigenze dei passeggeri.
+Per ulteriori informazioni, si rimanda al capitolo Interessi e opinioni dei portatori d’interesse.
+Processi per porre rimedio agli impatti negativi e canali che consentono
+ai consumatori e agli utilizzatori finali di esprimere preoccupazioni
+
+ESRS Standards   ESRS S4 S4-3
+Reclami e segnalazioni dei clienti
+Gli utenti del servizio possono esprimere preoccupazioni, segnalazioni o reclami contattando gratuitamente il Contact Center GTT chiamando
+da rete fissa il Numero Verde 800-019152 o da rete mobile il Numero 011-0672000, ricevendo così assistenza e supporto dedicato da parte
+degli operatori. In alternativa, è possibile rivolgendosi direttamente agli uffici fisici di GTT, presenti sul territorio e consultabili nella sezione
+Uffici aperti al pubblico del sito web aziendale.
+La gestione dei reclami dei passeggeri avviene attraverso un approccio supportato dall’adozione del sistema CRM (Customer Relationship
+Management), Taylor. Il software consente di monitorare e gestire l’intero ciclo di vita dei reclami, dalla ricezione alla chiusura.
+Ogni segnalazione attiva un processo di analisi che coinvolge il settore aziendale competente, con l’obiettivo di individuare le cause del reclamo
+e fornire al cliente una risposta motivata e tracciata. Ove necessario, vengono attivati interventi correttivi mirati, quali attività di manutenzione
+non programmata, azioni di sensibilizzazione del personale o verifiche dei tempi di percorrenza.
+Progetto AI
+GTT ha avviato, in fase di sperimentazione, un progetto innovativo basato sull’utilizzo dell’intelligenza artificiale, sviluppato in collaborazione con
+Almaviva. Il progetto è finalizzato a rendere il servizio del trasporto pubblico più affidabile, rapido ed efficiente per i clienti.
+L’iniziativa, limitata attualmente ai tram Hitachi serie 8000, introduce una piattaforma web con interfaccia conversazionale a supporto
+degli operatori della Centrale SIS. Questa piattaforma permette la consultazione diretta e rapida della documentazione tecnica, facilitan-
+
+                                                                                    120

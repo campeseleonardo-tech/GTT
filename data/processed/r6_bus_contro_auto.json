@@ -1,0 +1,507 @@
+{
+ "stimato": true,
+ "parametri": {
+  "destinazione": "Piazza Castello",
+  "giorno": "2026-10-12",
+  "partenza": "07:45",
+  "finestra_min": 30,
+  "velocita_piedi_kmh": 4.8,
+  "minuti_parcheggio": 5.0,
+  "fattore_alto": 1.2,
+  "fattore_basso": 2.1,
+  "soglia_rapporto": 1.5,
+  "punti_spostati": {
+   "n": 1,
+   "su": 34,
+   "max_m": 12.432907423584584
+  }
+ },
+ "regola": {
+  "conviene": "rapporto <= 1,5 con entrambi i fattori",
+  "dipende": "rapporto <= 1,5 solo col fattore basso",
+  "non_conviene": "rapporto oltre 1,5 con entrambi"
+ },
+ "pareggio": {
+  "punti": {
+   "mediana_basso_min": 20.85,
+   "mediana_alto_min": 27.5
+  },
+  "interscambi": {
+   "mediana_basso_min": 17.4,
+   "mediana_alto_min": 24.7
+  }
+ },
+ "sensibilita_parcheggio": {
+  "5": {
+   "punti": {
+    "conviene": 0,
+    "dipende": 1,
+    "non_conviene": 11
+   },
+   "interscambi": {
+    "conviene": 0,
+    "dipende": 3,
+    "non_conviene": 2
+   }
+  },
+  "10": {
+   "punti": {
+    "conviene": 1,
+    "dipende": 9,
+    "non_conviene": 2
+   },
+   "interscambi": {
+    "conviene": 2,
+    "dipende": 3,
+    "non_conviene": 0
+   }
+  },
+  "15": {
+   "punti": {
+    "conviene": 4,
+    "dipende": 8,
+    "non_conviene": 0
+   },
+   "interscambi": {
+    "conviene": 5,
+    "dipende": 0,
+    "non_conviene": 0
+   }
+  }
+ },
+ "riepilogo": {
+  "punti": {
+   "conviene": 0,
+   "dipende": 1,
+   "non_conviene": 11
+  },
+  "interscambi": {
+   "conviene": 0,
+   "dipende": 3,
+   "non_conviene": 2
+  },
+  "n_punti": 12,
+  "n_interscambi": 5
+ },
+ "luoghi": [
+  {
+   "nome": "SANTA RITA",
+   "tipo": "punto_prioritario",
+   "lat": 45.04595,
+   "lon": 7.64249,
+   "mancano": 450,
+   "dist_centro_km": 4.4,
+   "libero_min": 7.2,
+   "auto_alto_min": 13.7,
+   "auto_basso_min": 20.2,
+   "tp_min": 36.0,
+   "rapporto_alto": 2.63,
+   "rapporto_basso": 1.78,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 20.8,
+   "pareggio_alto_min": 27.3,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "dipende"
+   }
+  },
+  {
+   "nome": "METRO MASSAUA",
+   "tipo": "punto_prioritario",
+   "lat": 45.07458,
+   "lon": 7.62063,
+   "mancano": 350,
+   "dist_centro_km": 5.1,
+   "libero_min": 8.4,
+   "auto_alto_min": 15.1,
+   "auto_basso_min": 22.7,
+   "tp_min": 25.0,
+   "rapporto_alto": 1.66,
+   "rapporto_basso": 1.1,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 7.3,
+   "pareggio_alto_min": 14.9,
+   "classi_sensibilita": {
+    "5": "dipende",
+    "10": "conviene",
+    "15": "conviene"
+   }
+  },
+  {
+   "nome": "PONTE CAVALIERI TEMPLARI",
+   "tipo": "punto_prioritario",
+   "lat": 45.00053,
+   "lon": 7.67394,
+   "mancano": 350,
+   "dist_centro_km": 7.9,
+   "libero_min": 11.0,
+   "auto_alto_min": 18.2,
+   "auto_basso_min": 28.0,
+   "tp_min": 51.0,
+   "rapporto_alto": 2.8,
+   "rapporto_basso": 1.82,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 28.0,
+   "pareggio_alto_min": 37.8,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "non_conviene",
+    "15": "dipende"
+   }
+  },
+  {
+   "nome": "REGINA MARGHERITA",
+   "tipo": "punto_prioritario",
+   "lat": 45.08861,
+   "lon": 7.65237,
+   "mancano": 350,
+   "dist_centro_km": 3.3,
+   "libero_min": 5.5,
+   "auto_alto_min": 11.6,
+   "auto_basso_min": 16.6,
+   "tp_min": 31.0,
+   "rapporto_alto": 2.67,
+   "rapporto_basso": 1.87,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 19.4,
+   "pareggio_alto_min": 24.4,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "conviene"
+   }
+  },
+  {
+   "nome": "PASINI",
+   "tipo": "punto_prioritario",
+   "lat": 45.07543,
+   "lon": 7.72985,
+   "mancano": 250,
+   "dist_centro_km": 3.5,
+   "libero_min": 5.9,
+   "auto_alto_min": 12.1,
+   "auto_basso_min": 17.4,
+   "tp_min": 28.0,
+   "rapporto_alto": 2.31,
+   "rapporto_basso": 1.61,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 15.6,
+   "pareggio_alto_min": 20.9,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "conviene"
+   }
+  },
+  {
+   "nome": "LEONARDO DA VINCI",
+   "tipo": "punto_prioritario",
+   "lat": 45.05219,
+   "lon": 7.58706,
+   "mancano": 200,
+   "dist_centro_km": 8.0,
+   "libero_min": 12.4,
+   "auto_alto_min": 19.9,
+   "auto_basso_min": 31.1,
+   "tp_min": 59.0,
+   "rapporto_alto": 2.96,
+   "rapporto_basso": 1.9,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 32.9,
+   "pareggio_alto_min": 44.1,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "non_conviene",
+    "15": "dipende"
+   }
+  },
+  {
+   "nome": "DROSSO CAP",
+   "tipo": "punto_prioritario",
+   "lat": 45.01715,
+   "lon": 7.62913,
+   "mancano": 200,
+   "dist_centro_km": 7.5,
+   "libero_min": 10.3,
+   "auto_alto_min": 17.4,
+   "auto_basso_min": 26.7,
+   "tp_min": 43.0,
+   "rapporto_alto": 2.47,
+   "rapporto_basso": 1.61,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 21.3,
+   "pareggio_alto_min": 30.6,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "dipende"
+   }
+  },
+  {
+   "nome": "STURA LAZIO",
+   "tipo": "punto_prioritario",
+   "lat": 45.10009,
+   "lon": 7.72541,
+   "mancano": 200,
+   "dist_centro_km": 4.5,
+   "libero_min": 7.8,
+   "auto_alto_min": 14.3,
+   "auto_basso_min": 21.3,
+   "tp_min": 37.0,
+   "rapporto_alto": 2.59,
+   "rapporto_basso": 1.74,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 20.7,
+   "pareggio_alto_min": 27.7,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "dipende"
+   }
+  },
+  {
+   "nome": "MARSÈ",
+   "tipo": "punto_prioritario",
+   "lat": 44.99058,
+   "lon": 7.71955,
+   "mancano": 150,
+   "dist_centro_km": 9.3,
+   "libero_min": 15.1,
+   "auto_alto_min": 23.2,
+   "auto_basso_min": 36.8,
+   "tp_min": 61.0,
+   "rapporto_alto": 2.63,
+   "rapporto_basso": 1.66,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 29.2,
+   "pareggio_alto_min": 42.8,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "dipende"
+   }
+  },
+  {
+   "nome": "DERNA EST",
+   "tipo": "punto_prioritario",
+   "lat": 45.10253,
+   "lon": 7.69808,
+   "mancano": 100,
+   "dist_centro_km": 3.6,
+   "libero_min": 7.3,
+   "auto_alto_min": 13.8,
+   "auto_basso_min": 20.4,
+   "tp_min": 34.0,
+   "rapporto_alto": 2.46,
+   "rapporto_basso": 1.67,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 18.6,
+   "pareggio_alto_min": 25.2,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "conviene"
+   }
+  },
+  {
+   "nome": "FERRARA",
+   "tipo": "punto_prioritario",
+   "lat": 45.02825,
+   "lon": 7.60173,
+   "mancano": 80,
+   "dist_centro_km": 8.1,
+   "libero_min": 12.4,
+   "auto_alto_min": 19.9,
+   "auto_basso_min": 31.0,
+   "tp_min": 49.0,
+   "rapporto_alto": 2.46,
+   "rapporto_basso": 1.58,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 23.0,
+   "pareggio_alto_min": 34.1,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "dipende"
+   }
+  },
+  {
+   "nome": "ZARA",
+   "tipo": "punto_prioritario",
+   "lat": 45.03956,
+   "lon": 7.68183,
+   "mancano": 60,
+   "dist_centro_km": 3.5,
+   "libero_min": 5.8,
+   "auto_alto_min": 11.9,
+   "auto_basso_min": 17.1,
+   "tp_min": 33.0,
+   "rapporto_alto": 2.77,
+   "rapporto_basso": 1.93,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 20.9,
+   "pareggio_alto_min": 26.1,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "dipende"
+   }
+  },
+  {
+   "nome": "STURA",
+   "tipo": "interscambio",
+   "lat": 45.12058,
+   "lon": 7.71156,
+   "posti": 589,
+   "stato": "pieno",
+   "riempimento_giorno": 0.9131,
+   "descrizione": "sempre quasi pieno: 80% di notte, 91% di giorno",
+   "auto_passaggio_txt": 7600,
+   "libero_min": 10.3,
+   "auto_alto_min": 17.3,
+   "auto_basso_min": 26.6,
+   "tp_min": 39.0,
+   "rapporto_alto": 2.25,
+   "rapporto_basso": 1.47,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 17.4,
+   "pareggio_alto_min": 26.7,
+   "classi_sensibilita": {
+    "5": "dipende",
+    "10": "dipende",
+    "15": "conviene"
+   }
+  },
+  {
+   "nome": "VENCHI UNICA",
+   "tipo": "interscambio",
+   "lat": 45.0741,
+   "lon": 7.61576,
+   "posti": 437,
+   "stato": "a_meta",
+   "riempimento_giorno": 0.5475,
+   "descrizione": "sempre intorno al 55%",
+   "auto_passaggio_txt": 7100,
+   "libero_min": 9.2,
+   "auto_alto_min": 16.0,
+   "auto_basso_min": 24.2,
+   "tp_min": 28.0,
+   "rapporto_alto": 1.75,
+   "rapporto_basso": 1.16,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 8.8,
+   "pareggio_alto_min": 17.0,
+   "classi_sensibilita": {
+    "5": "dipende",
+    "10": "conviene",
+    "15": "conviene"
+   }
+  },
+  {
+   "nome": "CAIO MARIO",
+   "tipo": "interscambio",
+   "lat": 45.02863,
+   "lon": 7.64029,
+   "posti": 418,
+   "stato": "libero",
+   "riempimento_giorno": 0.0097,
+   "descrizione": "il valore non cambia (1%): forse il contatore è fermo",
+   "auto_passaggio_txt": 3900,
+   "libero_min": 9.2,
+   "auto_alto_min": 16.0,
+   "auto_basso_min": 24.3,
+   "tp_min": 38.0,
+   "rapporto_alto": 2.38,
+   "rapporto_basso": 1.56,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 18.7,
+   "pareggio_alto_min": 27.0,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "conviene"
+   }
+  },
+  {
+   "nome": "FERMI",
+   "tipo": "interscambio",
+   "lat": 45.07646,
+   "lon": 7.59106,
+   "posti": 300,
+   "stato": "non_misurato",
+   "riempimento_giorno": null,
+   "descrizione": null,
+   "auto_passaggio_txt": 1000,
+   "libero_min": 11.4,
+   "auto_alto_min": 18.6,
+   "auto_basso_min": 28.9,
+   "tp_min": 31.0,
+   "rapporto_alto": 1.67,
+   "rapporto_basso": 1.07,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 7.1,
+   "pareggio_alto_min": 17.4,
+   "classi_sensibilita": {
+    "5": "dipende",
+    "10": "conviene",
+    "15": "conviene"
+   }
+  },
+  {
+   "nome": "SOFIA",
+   "tipo": "interscambio",
+   "lat": 45.09557,
+   "lon": 7.71692,
+   "posti": 272,
+   "stato": "libero",
+   "riempimento_giorno": 0.307,
+   "descrizione": "è più pieno di notte che di giorno: 52% di notte, 31% di giorno",
+   "auto_passaggio_txt": 3100,
+   "libero_min": 7.0,
+   "auto_alto_min": 13.3,
+   "auto_basso_min": 19.6,
+   "tp_min": 33.0,
+   "rapporto_alto": 2.48,
+   "rapporto_basso": 1.68,
+   "classe": "non_conviene",
+   "classe_testo": "il bus non conviene",
+   "pareggio_basso_min": 18.4,
+   "pareggio_alto_min": 24.7,
+   "classi_sensibilita": {
+    "5": "non_conviene",
+    "10": "dipende",
+    "15": "conviene"
+   }
+  }
+ ],
+ "paragrafo_interscambi": "Interscambi esistenti del Comune, stesso test. STURA (pieno): 39 minuti coi mezzi contro 17-27 in auto (rapporto 1,5-2,2); dipende dal traffico. VENCHI UNICA (a meta): 28 minuti coi mezzi contro 16-24 in auto (rapporto 1,2-1,8); dipende dal traffico. CAIO MARIO (libero): 38 minuti coi mezzi contro 16-24 in auto (rapporto 1,6-2,4); il bus non conviene. FERMI (non misurato): 31 minuti coi mezzi contro 19-29 in auto (rapporto 1,1-1,7); dipende dal traffico. SOFIA (libero): 33 minuti coi mezzi contro 13-20 in auto (rapporto 1,7-2,5); il bus non conviene. Quelli poco pieni: da VENCHI UNICA dipende dal traffico; da SOFIA il bus non conviene.",
+ "controlli": [
+  "OK     esistono porte.json e tp_contro_auto.json (lancia prima gli script 84 e 93)",
+  "OK     fattori letti dal JSON dello script 93 (calcolo completo, non prova) — alto 1.2 (sensori), basso 2.1 (Google)",
+  "OK     tutti i 12 punti prioritari del R6 e i 5 interscambi presenti — 12 punti + 5 interscambi",
+  "OK     minuti di pareggio fra 0 e 120 — da 7.1 a 44.1",
+  "OK     mediana dei punti: col fattore alto >= col fattore basso — basso 20.85, alto 27.5",
+  "OK     la sensibilita' con 5 minuti coincide con la classe ufficiale",
+  "OK     nessun tempo nullo, negativo o infinito",
+  "OK     tutti i punti del R6 hanno una classe",
+  "OK     il rapporto basso non supera quello alto — l'auto piu' lenta (fattore Google) rende il rapporto piu' basso",
+  "OK     senza collegamento coi mezzi — 0 luoghi"
+ ]
+}

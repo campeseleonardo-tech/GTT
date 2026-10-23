@@ -1,6 +1,6 @@
 RAPPORTO R6 v2 — RIEMPIMENTO DEI PARCHEGGI 5T (Passo 3 / G4, giro 2)
-ANTEPRIMA [DATI SCARSI]: 3 giorni feriali validi (2026-10-15, 2026-10-16, 2026-10-19), 2 giorni di fine settimana (2026-10-17, 2026-10-18)
-giorni validi in tutto (feriali + fine settimana): 2026-10-15, 2026-10-16, 2026-10-17, 2026-10-18, 2026-10-19
+ANTEPRIMA [DATI SCARSI]: 5 giorni feriali validi (2026-10-15, 2026-10-16, 2026-10-19, 2026-10-20, 2026-10-21), 2 giorni di fine settimana (2026-10-17, 2026-10-18)
+giorni validi in tutto (feriali + fine settimana): 2026-10-15, 2026-10-16, 2026-10-17, 2026-10-18, 2026-10-19, 2026-10-20, 2026-10-21
 il 14/10/2026 la raccolta e' iniziata a meta' pomeriggio, quindi quel giorno non raggiunge le letture minime e non conta
 ogni parcheggio ha letture ogni ~5 minuti; un giorno conta se ha almeno 230 letture
 SOGLIE DI QUESTO GIRO (fissate il 19/10 con i dati che ci sono, da rifare con almeno 5 giorni feriali):
@@ -12,43 +12,43 @@ SOGLIE DI QUESTO GIRO (fissate il 19/10 con i dati che ci sono, da rifare con al
 
 == Firma per parcheggio ==
   formato: occupazione % ogni 2 ore (feriale), poi la firma
-  ANCONA                  17  17  17  17  42  78  80  67  54  22  13  10  -> pendolare
-  BACIGALUPO               5   3   3  13  69 100  91  61  25  13  12  11  -> pendolare
-  BIXIO                   27  27  26  26  33  52  48  45  39  27  24  25  -> pendolare
-  BOLZANO                 47  46  47  56  75  81  80  79  74  64  53  48  -> pendolare
-  CERNAIA                  6   6   6   7  31  63  78  78  66  36  35  31  -> pendolare
-  CTO                      7   7   7  10  46  94  80  49  28  18  10   7  -> pendolare
-  D'AZEGLIO GALILEI       35  35  35  39  72  97  95  89  71  43  35  34  -> pendolare [pieno]
-  FONTANESI               36  36  36  41  59  77  75  66  51  39  33  33  -> pendolare
-  GALILEO FERRARIS        24  23  23  25  62  95  90  83  73  42  27  26  -> pendolare [pieno]
-  MOLINETTE                2   2   2   7  46  64  66  74  40  20  11   9  -> pendolare
-  MONTI                   21  21  21  24  57  76  77  66  43  42  46  35  -> pendolare
-  NIZZA                   14  13  13  16  34  59  53  44  32  20  15  15  -> pendolare
-  PALAGIUSTIZIA           15  15  14  15  28  55  48  40  30  15  11  11  -> pendolare
-  PALESTRO                48  48  48  48  73  91  84  78  69  53  53  53  -> pendolare
-  PORTA SUSA FS           35  34  34  54  82  85  83  84  83  72  52  41  -> pendolare
-  RE UMBERTO               2   2   2   4  49  89  87  85  71  35  48  42  -> pendolare [pieno]
-  ROMA S.CARLO CASTELLO   20  19  19  20  39  86  93  88  78  58  51  39  -> pendolare [pieno]
-  SANTO STEFANO           48  48  48  48  63  92  98  94  80  63  66  66  -> pendolare [pieno]
-  STATI UNITI              8   8   8   9  29  47  47  48  45  24  14  14  -> pendolare
-  VALDO FUSI              44  43  43  44  54  68  85  84  75  62  63  56  -> pendolare
-  VENTIMIGLIA              7   6   6  13  65  90  96  80  39  28  14   9  -> pendolare [pieno]
-  CAIO MARIO CAMPER       42  41  41  42  38  19  16  17  15  16  19  20  -> residenziale
-  SOFIA                   54  54  54  49  42  32  32  32  33  41  47  51  -> residenziale
-  BODONI                  19  19  19  19  29  48  58  59  59  46  42  35  -> destinazione
-  MADAMA CRISTINA         32  31  30  30  38  53  53  49  42  40  63  57  -> destinazione
-  MERCATO CENTRALE        13  13  13  14  33  60  50  27  19  17  20  21  -> destinazione
-  PORTA NUOVA FS          75  75  76  81  90  97  97  96  89  82  79  73  -> destinazione [pieno]
-  PORTA PALAZZO           16  16  16  18  30  41  38  32  24  17  15  16  -> destinazione
-  VITTORIO                39  36  35  35  40  61  68  64  59  57  82  73  -> destinazione
-  EMANUELE FILIBERTO      39  35  35  34  41  53  58  50  44  53  78  68  -> misto
-  LANCIA                  78  79  79  76  69  68  70  70  68  72  76  77  -> misto
-  RICHELMY                41  41  41  42  48  52  52  49  42  39  35  37  -> misto
-  STURA                   79  79  80  81  86  91  91  90  88  83  80  80  -> misto [pieno]
-  CAIO MARIO               2   1   1   1   1   1   1   1   1   1   1   1  -> dato_bloccato [vuoto]
-  LINGOTTO                 4   4   4   4   6   9   9   8   7   6   8   8  -> dato_bloccato [vuoto]
-  PALAZZO NUOTO            6   6   6   6   8   9   8   8   7   6   6   6  -> dato_bloccato [vuoto]
-  VENCHI UNICA            52  52  51  51  52  53  52  52  51  50  50  51  -> dato_bloccato
+  ANCONA                  11  10  10  10  42  79  81  71  61  25  11   8  -> pendolare
+  BACIGALUPO               4   3   3  14  78 100  91  63  27  14  10   8  -> pendolare
+  BIXIO                   30  30  30  30  39  58  56  56  52  39  35  37  -> pendolare
+  BOLZANO                 47  46  47  56  77  86  86  85  79  68  55  49  -> pendolare [pieno]
+  CERNAIA                  6   5   5   6  30  72  83  82  67  34  27  21  -> pendolare
+  CTO                      7   7   6   9  51  96  81  50  27  17   9   6  -> pendolare
+  D'AZEGLIO GALILEI       34  34  35  39  79  98  96  92  72  42  34  34  -> pendolare [pieno]
+  FONTANESI               34  35  34  40  62  77  74  67  53  40  33  33  -> pendolare
+  GALILEO FERRARIS        25  25  25  26  63  96  91  86  76  44  27  26  -> pendolare [pieno]
+  MOLINETTE                6   6   6  11  59  79  79  79  41  18   9   7  -> pendolare
+  MONTI                   19  19  19  20  41  53  53  47  33  32  34  28  -> pendolare
+  NIZZA                   14  13  13  17  40  64  58  49  35  21  15  15  -> pendolare
+  PALAGIUSTIZIA           10  10  10  10  29  56  48  41  31  14   8   7  -> pendolare
+  PALESTRO                50  50  50  50  76  94  89  82  72  54  53  54  -> pendolare [pieno]
+  PORTA SUSA FS           39  39  40  62  90  91  90  90  90  81  61  48  -> pendolare [pieno]
+  RE UMBERTO               7   6   6   8  59  93  92  91  78  40  41  34  -> pendolare [pieno]
+  ROMA S.CARLO CASTELLO   20  19  19  20  42  89  95  91  81  60  52  38  -> pendolare [pieno]
+  SANTO STEFANO           48  48  48  48  66  92  98  95  81  63  67  63  -> pendolare [pieno]
+  STATI UNITI             14  15  15  16  37  55  54  54  49  29  19  19  -> pendolare
+  VALDO FUSI              37  36  36  40  56  72  88  84  76  61  63  54  -> pendolare
+  VENTIMIGLIA              7   6   6  15  76  94  97  82  41  27  14   9  -> pendolare [pieno]
+  CAIO MARIO CAMPER       31  30  31  32  32  19  18  18  18  18  21  23  -> residenziale
+  LANCIA                  78  79  79  77  69  67  69  69  68  73  77  78  -> residenziale
+  SOFIA                   52  52  52  47  39  30  31  31  33  40  46  50  -> residenziale
+  BODONI                  19  19  19  19  30  51  61  62  60  46  51  39  -> destinazione
+  MADAMA CRISTINA         32  31  31  31  39  56  54  49  42  41  64  56  -> destinazione
+  MERCATO CENTRALE        11  12  12  12  28  58  50  29  21  19  21  20  -> destinazione
+  PORTA NUOVA FS          73  72  73  82  91  97  97  97  91  83  80  75  -> destinazione [pieno]
+  PORTA PALAZZO           16  16  16  18  32  41  39  34  26  17  16  16  -> destinazione
+  VITTORIO                40  38  37  37  42  63  69  65  61  60  80  67  -> destinazione
+  EMANUELE FILIBERTO      29  26  26  25  30  40  44  34  30  35  60  48  -> misto
+  LINGOTTO                 4   4   4   4   6  10  10   9   8   7   8   7  -> misto [vuoto]
+  PALAZZO NUOTO            6   6   6   6  10  13  12  11  10   7   6   6  -> misto [vuoto]
+  RICHELMY                40  40  40  41  49  54  56  53  45  42  37  38  -> misto
+  STURA                   80  80  80  82  88  92  92  91  88  83  80  80  -> misto [pieno]
+  CAIO MARIO               1   1   1   1   1   1   1   1   1   1   1   1  -> dato_bloccato [vuoto]
+  VENCHI UNICA            53  53  53  53  54  55  55  54  53  51  51  52  -> dato_bloccato
   FERMI                    -   -   -   -   -   -   -   -   -   -   -   -  -> nessun_dato
   RACCONIGI                -   -   -   -   -   -   -   -   -   -   -   -  -> nessun_dato
   UNIONE SOVIETICA         -   -   -   -   -   -   -   -   -   -   -   -  -> nessun_dato
@@ -56,47 +56,47 @@ SOGLIE DI QUESTO GIRO (fissate il 19/10 con i dati che ci sono, da rifare con al
 
 == Valori chiave per parcheggio ==
   N = notte feriale 02-05, G = giorno feriale 10-16, M = mattina feriale 07-09, W = giorno weekend, amp = ampiezza della giornata feriale
-  ANCONA                 N= 16.8 G= 75.1 M= 21.9 W= 17.8 amp=0.72 giorni=5 -> pendolare
-  BACIGALUPO             N=  3.1 G= 83.9 M= 37.2 W=  7.1 amp=0.97 giorni=5 -> pendolare
-  BIXIO                  N= 26.5 G= 48.2 M= 26.1 W= 24.7 amp=0.30 giorni=5 -> pendolare
-  BODONI                 N= 18.5 G= 55.3 M= 20.8 W= 64.5 amp=0.41 giorni=5 -> destinazione
-  BOLZANO                N= 46.5 G= 80.3 M= 65.1 W= 57.3 amp=0.35 giorni=5 -> pendolare
-  CAIO MARIO             N=  1.1 G=  1.0 M=  0.9 W=  2.1 amp=0.01 giorni=5 -> dato_bloccato
-  CAIO MARIO CAMPER      N= 40.8 G= 17.4 M= 42.2 W= 35.6 amp=0.28 giorni=5 -> residenziale
-  CERNAIA                N=  6.1 G= 73.4 M= 14.6 W= 30.8 amp=0.76 giorni=5 -> pendolare
-  CTO                    N=  7.0 G= 74.5 M= 20.5 W= 11.3 amp=0.88 giorni=5 -> pendolare
-  D'AZEGLIO GALILEI      N= 34.7 G= 93.7 M= 54.1 W= 33.0 amp=0.66 giorni=5 -> pendolare
-  EMANUELE FILIBERTO     N= 35.1 G= 53.9 M= 35.1 W= 78.3 amp=0.45 giorni=5 -> misto
+  ANCONA                 N= 10.2 G= 77.2 M= 17.1 W= 17.8 amp=0.76 giorni=7 -> pendolare
+  BACIGALUPO             N=  3.1 G= 84.7 M= 44.9 W=  7.1 amp=0.97 giorni=7 -> pendolare
+  BIXIO                  N= 30.4 G= 56.7 M= 30.2 W= 24.7 amp=0.30 giorni=7 -> pendolare
+  BODONI                 N= 19.1 G= 57.8 M= 21.8 W= 64.5 amp=0.43 giorni=7 -> destinazione
+  BOLZANO                N= 46.3 G= 85.5 M= 66.8 W= 57.3 amp=0.40 giorni=7 -> pendolare
+  CAIO MARIO             N=  1.0 G=  1.0 M=  0.9 W=  2.1 amp=0.01 giorni=7 -> dato_bloccato
+  CAIO MARIO CAMPER      N= 30.5 G= 18.3 M= 34.4 W= 35.6 amp=0.18 giorni=7 -> residenziale
+  CERNAIA                N=  5.1 G= 79.1 M= 13.4 W= 30.8 amp=0.82 giorni=7 -> pendolare
+  CTO                    N=  6.5 G= 75.9 M= 21.0 W= 11.3 amp=0.90 giorni=7 -> pendolare
+  D'AZEGLIO GALILEI      N= 34.4 G= 95.5 M= 57.4 W= 33.0 amp=0.65 giorni=7 -> pendolare
+  EMANUELE FILIBERTO     N= 26.1 G= 39.2 M= 25.7 W= 78.3 amp=0.37 giorni=7 -> misto
   FERMI                  N=  n.d. G=  n.d. M=  n.d. W=  n.d. amp=0.00 giorni=0 -> nessun_dato
-  FONTANESI              N= 36.0 G= 72.6 M= 48.4 W= 32.1 amp=0.45 giorni=5 -> pendolare
-  GALILEO FERRARIS       N= 23.3 G= 89.6 M= 34.7 W= 31.4 amp=0.73 giorni=5 -> pendolare
-  LANCIA                 N= 78.8 G= 69.1 M= 72.8 W= 69.7 amp=0.11 giorni=5 -> misto
-  LINGOTTO               N=  3.6 G=  8.6 M=  4.2 W= 11.2 amp=0.06 giorni=5 -> dato_bloccato
-  MADAMA CRISTINA        N= 30.5 G= 51.7 M= 32.3 W= 49.7 amp=0.38 giorni=5 -> destinazione
-  MERCATO CENTRALE       N= 13.2 G= 45.8 M= 19.8 W= 48.1 amp=0.50 giorni=5 -> destinazione
-  MOLINETTE              N=  2.0 G= 67.9 M= 24.2 W=  3.8 amp=0.78 giorni=5 -> pendolare
-  MONTI                  N= 21.2 G= 73.1 M= 34.4 W= 34.1 amp=0.57 giorni=5 -> pendolare
-  NIZZA                  N= 13.2 G= 52.1 M= 21.7 W= 13.0 amp=0.46 giorni=5 -> pendolare
-  PALAGIUSTIZIA          N= 14.6 G= 47.8 M= 18.6 W= 14.5 amp=0.46 giorni=5 -> pendolare
-  PALAZZO NUOTO          N=  6.0 G=  8.2 M=  6.7 W=  6.5 amp=0.04 giorni=5 -> dato_bloccato
-  PALESTRO               N= 48.1 G= 84.3 M= 56.2 W= 53.3 amp=0.44 giorni=5 -> pendolare
-  PORTA NUOVA FS         N= 74.8 G= 96.8 M= 85.8 W= 93.2 amp=0.27 giorni=5 -> destinazione
-  PORTA PALAZZO          N= 15.5 G= 37.0 M= 22.1 W= 43.8 amp=0.26 giorni=5 -> destinazione
-  PORTA SUSA FS          N= 33.7 G= 83.8 M= 72.6 W= 71.5 amp=0.51 giorni=5 -> pendolare
+  FONTANESI              N= 34.5 G= 73.0 M= 49.9 W= 32.1 amp=0.45 giorni=7 -> pendolare
+  GALILEO FERRARIS       N= 24.6 G= 90.8 M= 35.4 W= 31.4 amp=0.72 giorni=7 -> pendolare
+  LANCIA                 N= 78.6 G= 68.5 M= 72.8 W= 69.7 amp=0.11 giorni=7 -> residenziale
+  LINGOTTO               N=  3.8 G=  9.9 M=  4.5 W= 11.2 amp=0.07 giorni=7 -> misto
+  MADAMA CRISTINA        N= 31.1 G= 53.3 M= 32.9 W= 49.7 amp=0.39 giorni=7 -> destinazione
+  MERCATO CENTRALE       N= 11.6 G= 46.0 M= 16.7 W= 48.1 amp=0.49 giorni=7 -> destinazione
+  MOLINETTE              N=  6.3 G= 78.8 M= 30.7 W=  3.8 amp=0.79 giorni=7 -> pendolare
+  MONTI                  N= 18.6 G= 50.9 M= 26.8 W= 34.1 amp=0.35 giorni=7 -> pendolare
+  NIZZA                  N= 13.3 G= 56.9 M= 24.7 W= 13.0 amp=0.51 giorni=7 -> pendolare
+  PALAGIUSTIZIA          N=  9.5 G= 48.0 M= 15.3 W= 14.5 amp=0.49 giorni=7 -> pendolare
+  PALAZZO NUOTO          N=  6.0 G= 12.0 M=  7.1 W=  6.5 amp=0.08 giorni=7 -> misto
+  PALESTRO               N= 49.9 G= 88.2 M= 58.8 W= 53.3 amp=0.45 giorni=7 -> pendolare
+  PORTA NUOVA FS         N= 72.1 G= 96.8 M= 86.5 W= 93.2 amp=0.26 giorni=7 -> destinazione
+  PORTA PALAZZO          N= 15.7 G= 38.0 M= 23.1 W= 43.8 amp=0.26 giorni=7 -> destinazione
+  PORTA SUSA FS          N= 38.9 G= 90.3 M= 80.8 W= 71.5 amp=0.52 giorni=7 -> pendolare
   RACCONIGI              N=  n.d. G=  n.d. M=  n.d. W=  n.d. amp=0.00 giorni=0 -> nessun_dato
-  RE UMBERTO             N=  2.0 G= 87.0 M= 17.7 W= 45.5 amp=0.87 giorni=5 -> pendolare
-  RICHELMY               N= 41.2 G= 51.2 M= 44.1 W= 37.1 amp=0.18 giorni=5 -> misto
-  ROMA S.CARLO CASTELLO  N= 19.4 G= 89.0 M= 23.4 W= 64.2 amp=0.75 giorni=5 -> pendolare
-  SANTO STEFANO          N= 47.8 G= 94.8 M= 51.8 W= 71.4 amp=0.51 giorni=5 -> pendolare
-  SOFIA                  N= 54.0 G= 32.1 M= 45.7 W= 39.5 amp=0.23 giorni=5 -> residenziale
-  STATI UNITI            N=  8.0 G= 47.3 M= 15.0 W=  9.3 amp=0.42 giorni=5 -> pendolare
-  STURA                  N= 79.5 G= 90.8 M= 83.4 W= 80.0 amp=0.12 giorni=5 -> misto
+  RE UMBERTO             N=  6.0 G= 91.8 M= 24.2 W= 45.5 amp=0.87 giorni=7 -> pendolare
+  RICHELMY               N= 39.8 G= 54.4 M= 44.4 W= 37.1 amp=0.20 giorni=7 -> misto
+  ROMA S.CARLO CASTELLO  N= 19.5 G= 91.6 M= 24.8 W= 64.2 amp=0.76 giorni=7 -> pendolare
+  SANTO STEFANO          N= 48.1 G= 95.1 M= 53.5 W= 71.4 amp=0.50 giorni=7 -> pendolare
+  SOFIA                  N= 52.3 G= 30.7 M= 42.7 W= 39.5 amp=0.23 giorni=7 -> residenziale
+  STATI UNITI            N= 15.2 G= 54.2 M= 22.7 W=  9.3 amp=0.43 giorni=7 -> pendolare
+  STURA                  N= 79.7 G= 91.3 M= 84.9 W= 80.0 amp=0.12 giorni=7 -> misto
   UNIONE SOVIETICA       N=  n.d. G=  n.d. M=  n.d. W=  n.d. amp=0.00 giorni=0 -> nessun_dato
   V PADIGLIONE           N=  n.d. G=  n.d. M=  n.d. W=  n.d. amp=0.00 giorni=0 -> nessun_dato
-  VALDO FUSI             N= 42.7 G= 79.3 M= 46.8 W= 65.3 amp=0.43 giorni=5 -> pendolare
-  VENCHI UNICA           N= 51.5 G= 52.4 M= 51.0 W= 45.2 amp=0.04 giorni=5 -> dato_bloccato
-  VENTIMIGLIA            N=  6.3 G= 88.9 M= 36.4 W= 12.3 amp=0.91 giorni=5 -> pendolare
-  VITTORIO               N= 35.5 G= 64.5 M= 35.1 W= 90.3 amp=0.51 giorni=5 -> destinazione
+  VALDO FUSI             N= 36.3 G= 81.2 M= 46.7 W= 65.3 amp=0.52 giorni=7 -> pendolare
+  VENCHI UNICA           N= 53.3 G= 54.8 M= 52.6 W= 45.2 amp=0.05 giorni=7 -> dato_bloccato
+  VENTIMIGLIA            N=  6.5 G= 91.2 M= 44.1 W= 12.3 amp=0.92 giorni=7 -> pendolare
+  VITTORIO               N= 37.5 G= 65.6 M= 37.2 W= 90.3 amp=0.45 giorni=7 -> destinazione
 
 == TABELLA DI SENSIBILITA': la firma con nove combinazioni di soglie ==
   righe = parcheggio con dati; colonne = bloccato 0,04 / 0,06 / 0,08 x pendolare 0,15 / 0,20 / 0,25
@@ -105,7 +105,7 @@ SOGLIE DI QUESTO GIRO (fissate il 19/10 con i dati che ci sono, da rifare con al
                             p.15 .20 .25  p.15 .20 .25  p.15 .20 .25
   ANCONA                  P P P  P P P  P P P
   BACIGALUPO              P P P  P P P  P P P
-  BIXIO                   P P M  P P M  P P M
+  BIXIO                   P P P  P P P  P P P
   BODONI                  D D D  D D D  D D D
   BOLZANO                 P P P  P P P  P P P
   CAIO MARIO              B B B  B B B  B B B
@@ -113,18 +113,18 @@ SOGLIE DI QUESTO GIRO (fissate il 19/10 con i dati che ci sono, da rifare con al
   CERNAIA                 P P P  P P P  P P P
   CTO                     P P P  P P P  P P P
   D'AZEGLIO GALILEI       P P P  P P P  P P P
-  EMANUELE FILIBERTO      D M M  D M M  D M M
+  EMANUELE FILIBERTO      M M M  M M M  M M M
   FONTANESI               P P P  P P P  P P P
   GALILEO FERRARIS        P P P  P P P  P P P
-  LANCIA                  M M M  M M M  M M M
-  LINGOTTO                M M M  B B B  B B B
+  LANCIA                  R R R  R R R  R R R
+  LINGOTTO                M M M  M M M  B B B
   MADAMA CRISTINA         D D M  D D M  D D M
   MERCATO CENTRALE        D D D  D D D  D D D
   MOLINETTE               P P P  P P P  P P P
   MONTI                   P P P  P P P  P P P
   NIZZA                   P P P  P P P  P P P
   PALAGIUSTIZIA           P P P  P P P  P P P
-  PALAZZO NUOTO           B B B  B B B  B B B
+  PALAZZO NUOTO           M M M  M M M  B B B
   PALESTRO                P P P  P P P  P P P
   PORTA NUOVA FS          D D M  D D M  D D M
   PORTA PALAZZO           D D M  D D M  D D M
@@ -137,14 +137,14 @@ SOGLIE DI QUESTO GIRO (fissate il 19/10 con i dati che ci sono, da rifare con al
   STATI UNITI             P P P  P P P  P P P
   STURA                   M M M  M M M  M M M
   VALDO FUSI              P P P  P P P  P P P
-  VENCHI UNICA            B B B  B B B  B B B
+  VENCHI UNICA            M M M  B B B  B B B
   VENTIMIGLIA             P P P  P P P  P P P
   VITTORIO                D D D  D D D  D D D
 
 == Parcheggi 'fragili' (la firma cambia al variare delle soglie): 6 ==
-  BIXIO                  firme possibili: misto, pendolare
-  EMANUELE FILIBERTO     firme possibili: destinazione, misto
   LINGOTTO               firme possibili: dato_bloccato, misto
   MADAMA CRISTINA        firme possibili: destinazione, misto
+  PALAZZO NUOTO          firme possibili: dato_bloccato, misto
   PORTA NUOVA FS         firme possibili: destinazione, misto
   PORTA PALAZZO          firme possibili: destinazione, misto
+  VENCHI UNICA           firme possibili: dato_bloccato, misto

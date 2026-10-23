@@ -1,0 +1,32 @@
+{
+ "stimato": true,
+ "abl": 3,
+ "iterazioni_msa": 6,
+ "origini": 2429,
+ "peso_totale": 4153663.0,
+ "perso_stesso_nodo": 45069.0,
+ "share_diurno": 0.96312,
+ "peak_share": 0.09616,
+ "veicoli_km_giorno": 15798844.0,
+ "durata_s": 1135.8,
+ "data": "2026-10-17 13:18:35",
+ "capacita": {
+  "motorway": 8000,
+  "motorway_link": 4000,
+  "trunk": 6000,
+  "trunk_link": 3000,
+  "primary": 3600,
+  "primary_link": 2400,
+  "secondary": 2600,
+  "secondary_link": 1600,
+  "tertiary": 1800,
+  "tertiary_link": 1200,
+  "unclassified": 1200,
+  "residential": 900,
+  "living_street": 400,
+  "service": 600,
+  "road": 1000
+ },
+ "alpha": 0.15,
+ "beta": 4.0
+}

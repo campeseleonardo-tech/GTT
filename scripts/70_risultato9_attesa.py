@@ -24,8 +24,11 @@ Solo ore con la raccolta attiva (almeno 50 minuti letti nell'ora) e solo linee p
 
 Riusa, senza modificarlo, scripts/27_risultato4_regolarita.py (dal Giro 5: passaggi dal GPS, costruisci_passaggi_gps).
 
+Se lo storico SQLite non c'e' (o con --riassunti) legge i riassunti dello script 97 (data/storico_riassunti/): stessi numeri.
+
 Uso:
   python scripts/70_risultato9_attesa.py            giro completo, scrive JSON e rapporto
+  python scripts/70_risultato9_attesa.py --riassunti   come sopra, dai riassunti anche se lo storico c'e'
   python scripts/70_risultato9_attesa.py --prova    solo 15/10, rapporto a schermo, nessun file
   python scripts/70_risultato9_attesa.py --freq 10  sensibilita' (soglia diversa), nessun file
 Uscite: data/processed/risultato9_attesa.json, docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt
@@ -36,11 +39,10 @@ import importlib.util
 import io
 import json
 import math
-import sqlite3
 import sys
 import zipfile
 from collections import defaultdict
-from datetime import date, datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 RADICE = Path(__file__).resolve().parent.parent
@@ -117,34 +119,17 @@ def mezzanotte_utc(giorno):
     return datetime(d.year, d.month, d.day, tzinfo=timezone.utc) - timedelta(hours=r4.offset_data_locale(d))
 
 
-def ore_attive(con, mezz):
-    """Inizio (timestamp UTC) delle ore in cui la raccolta ha letto almeno MIN_MINUTI_ORA minuti."""
-    da, a = (mezz + timedelta(hours=2)).isoformat(), (mezz + timedelta(hours=26)).isoformat()
-    per_ora = defaultdict(int)
-    for (minuto,) in con.execute("SELECT DISTINCT substr(letto_utc,1,16) FROM trip_update_gtt "
-                                 "WHERE letto_utc BETWEEN ? AND ?", (da, a)):
-        t = datetime.fromisoformat(minuto + ":00+00:00")
-        per_ora[int(t.timestamp()) // 3600 * 3600] += 1
-    return {h for h, n in per_ora.items() if n >= MIN_MINUTI_ORA}
-
-
-def corse_gps(con, mezz):
-    da, a = (mezz + timedelta(hours=2)).isoformat(), (mezz + timedelta(hours=26)).isoformat()
-    return {r[0] for r in con.execute("SELECT DISTINCT corsa FROM mezzi_gtt WHERE letto_utc BETWEEN ? AND ?",
-                                      (da, a))}
-
-
-def elabora_giorno(con, giorno, trip_info, nome_linea, prog, servizio, cal, eccezioni, acc, esempi, fermate):
+def elabora_giorno(sorg, giorno, trip_info, nome_linea, prog, servizio, cal, eccezioni, acc, esempi, fermate):
     mezz = mezzanotte_utc(giorno)
     d = datetime.strptime(giorno, "%Y%m%d").date()
     tipo = str(r4.tipo_giorno_data(d))
     # Giro 5: gli arrivi vengono dal GPS (r4.costruisci_passaggi_gps); "nel_feed" ora sono le corse viste nel GPS
-    passaggi, _cop = r4.costruisci_passaggi_gps(con, giorno, trip_info, nome_linea, prog, fermate)
-    gps = corse_gps(con, mezz)
+    passaggi, _cop = sorg.passaggi_gps(giorno, (trip_info, nome_linea, prog), fermate)
+    gps = sorg.corse_gps(giorno)
     nel_feed = set(gps)
     stimato = {(p[P_TRIP], p[P_SEQ]): p[P_EST] for p in passaggi}
     linee_coperte = {nome_linea.get(trip_info[t][0]) for t in nel_feed if t in trip_info}
-    attive = ore_attive(con, mezz)
+    attive = sorg.ore_attive(giorno, MIN_MINUTI_ORA)
     attivi = servizi_attivi(giorno, cal, eccezioni)
 
     gruppi = defaultdict(list)
@@ -278,6 +263,15 @@ def controllo_gps(con, giorno, passaggi, fermate, nome_linea_set=LINEE_GPS, max_
             "entro_1_min_pct": entro1}
 
 
+def controllo_gps_giorno(sorg, giorno, ctx, fermate):
+    """Controllo del feed (non della fonte usata): servono i passaggi stimati dal feed e le posizioni GPS grezze.
+    Dai riassunti non si puo' rifare: si legge il risultato calcolato dallo script 97 sullo storico."""
+    if hasattr(sorg, "con"):
+        passaggi_feed = sorg.passaggi_feed(giorno, ctx)[0]
+        return controllo_gps(sorg.con, giorno, passaggi_feed, fermate)
+    return sorg.controllo_gps(giorno)
+
+
 # ---------- aggregazione ----------
 
 def valori(a):
@@ -391,14 +385,15 @@ def main():
     if not modo_linea:
         print(f"AVVISO: manca modo_linea in {IN_R4.name} (lancia prima scripts/27): niente attesa per modo", file=sys.stderr)
     servizio, cal, eccezioni, fermate = carica_calendario()
-    con = sqlite3.connect(f"file:{r4.DB}?mode=ro", uri=True, timeout=60)
-    giorni = [r[0] for r in con.execute("SELECT DISTINCT start_date FROM trip_update_gtt ORDER BY 1")]
+    sorg = r4.apri_sorgente("--riassunti" in args)
+    print(f"Sorgente dei dati: {sorg.nome}", file=sys.stderr)
+    giorni = sorg.giorni()
     esclusi_gps = []
     if prova:
         giorni = [GIORNO_PROVA]
     else:
         # Giro 6: stessi giorni dello script 27 (via quelli con poco GPS)
-        giorni, esclusi_gps = r4.giorni_gps_validi(con, giorni, trip_info)
+        giorni, esclusi_gps = r4.giorni_gps_validi(sorg, giorni, trip_info)
         for e in esclusi_gps:
             print(f"Giorno escluso (poco GPS): {e['giorno']}, {e['corse_viste']} corse viste, mediana del tipo {e['mediana_tipo']}",
                   file=sys.stderr)
@@ -406,20 +401,15 @@ def main():
     tipi_giorno = {t: 0 for t in r4.TIPI}
     for n, giorno in enumerate(giorni, 1):
         print(f"[{n}/{len(giorni)}] {giorno}...", file=sys.stderr)
-        tipo, conteggi, passaggi = elabora_giorno(con, giorno, trip_info, nome_linea, prog, servizio, cal,
+        tipo, conteggi, passaggi = elabora_giorno(sorg, giorno, trip_info, nome_linea, prog, servizio, cal,
                                                   eccezioni, acc, esempi, fermate)
         tipi_giorno[tipo] += 1
         per_giorno[giorno] = {"tipo": tipo, **conteggi}
         if giorno == GIORNO_PROVA:
             print("  controllo GPS...", file=sys.stderr)
-            # controllo del feed (non della fonte usata): servono i passaggi stimati dal feed, non quelli del GPS
-            ultimo = r4.leggi_giorno(con, giorno)
-            passaggi_feed, _, _, _ = r4.costruisci_passaggi(ultimo, giorno, trip_info, nome_linea, prog)
-            del ultimo
-            gps = controllo_gps(con, giorno, passaggi_feed, fermate)
-            del passaggi_feed
+            gps = controllo_gps_giorno(sorg, giorno, (trip_info, nome_linea, prog), fermate)
         del passaggi
-    con.close()
+    sorg.chiudi()
 
     ris = aggrega(acc, freq, fermate, modo_linea)
     # sensibilita' D2 (solo citta', feriale)

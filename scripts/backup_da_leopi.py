@@ -10,6 +10,9 @@ import sys
 import uuid
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import config_locale  # noqa: E402
+
 
 def trova_radice():
     qui = Path(__file__).resolve().parent
@@ -18,9 +21,10 @@ def trova_radice():
 
 RAD = trova_radice()
 DATA = RAD / "data"
-PI = "leopi@192.168.8.200"
-REMOTE_DB = "/home/leopi/GTT/data/storico.sqlite"
-SSH_KEY = Path.home() / ".ssh" / "id_gtt_leopi"
+CFG = config_locale.carica()  # config_locale.json nella radice (non in git)
+PI = CFG["pi"]
+REMOTE_DB = CFG["dir_remota"] + "/data/storico.sqlite"
+SSH_KEY = Path(CFG["chiave"])
 DEST = DATA / "storico_backup.sqlite"
 TABELLE = ("sensori_5t", "flussi_5t", "accuratezza_5t", "mezzi_gtt", "errori",
            "trip_update_gtt", "avvisi_gtt",

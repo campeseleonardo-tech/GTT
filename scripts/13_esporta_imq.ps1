@@ -7,7 +7,7 @@
 #
 # Formato: UTF-8 senza BOM, separatore ";", punto decimale, ORA_* come testo HH:mm.
 # Privacy: NON vengono MAI selezionati ID_INT, PHONE, MOBILE_FISSO, CONSENSO,
-# FISSO_MOBILE, IN_ELENCO (regola in MEMORIA_PROGETTO.md).
+# FISSO_MOBILE, IN_ELENCO (regola in sviluppo/MEMORIA_PROGETTO.md).
 #
 # L'export e' in C# compilato al volo (Add-Type): le 95.608 righe di spostamenti
 # scritte cella per cella in PowerShell puro impiegavano minuti.

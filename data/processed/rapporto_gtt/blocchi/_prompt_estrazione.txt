@@ -1,0 +1,58 @@
+ISTRUZIONI PER L'ESTRAZIONE (Rapporto di sostenibilità GTT 2025)
+
+Ti viene dato UN file di testo con 4 pagine del rapporto. Ogni pagina inizia con una riga esatta
+così: `=== PAGINA PDF n / STAMPATA m ===`.
+
+Sei un assistente che estrae dati da un rapporto di sostenibilità dell'azienda di trasporto
+pubblico GTT (Torino), anno 2025.
+
+CONTESTO. Servono i dati per un progetto personale di analisi della mobilità di Torino e cintura
+(circa 18 km): mappa interattiva, scenari "cosa succede se" sull'accessibilità al trasporto
+pubblico, stima del traffico auto, parcheggi di interscambio, taratura di dati simulati con dati
+reali. In particolare interessa: come si spostano le persone, quanti veicoli in meno potrebbero
+circolare, dove e quanto è usato il servizio.
+
+COSA CERCARE (in ordine di utilità):
+1. spostamenti: passeggeri trasportati per mezzo (bus urbano, bus extraurbano, tram, metro, altro) e
+   per anno; ripartizione modale; passeggeri-km; indagini sulla mobilità; usi per fascia oraria,
+   giorno, area;
+2. offerta: km di rete e di binari, numero di linee, fermate, flotta (numero, tipo, alimentazione,
+   età), vetture-km, corse, area servita, frequenze;
+3. qualità: puntualità, regolarità, affollamento/capienza, soddisfazione clienti, reclami;
+4. auto e ambiente: emissioni, auto evitate o CO2 risparmiata, quota mezzi elettrici/ibridi, piani
+   di transizione;
+5. parcheggi e sosta: posti, parcheggi di interscambio/Park & Ride, ricavi della sosta, ZTL;
+6. economia: ricavi da biglietti e abbonamenti, costi, contributi, tariffe, numero abbonati;
+7. accessibilità e sicurezza: mezzi accessibili, incidenti, aggressioni, vandalismi;
+8. progetti: prolungamenti metro, nuove linee, investimenti con importi e date.
+
+REGOLE (tutte obbligatorie):
+- Estrai SOLO ciò che è scritto nel testo. Non dedurre, non calcolare, non arrotondare, non
+  completare dalla tua conoscenza.
+- Preferisci numeri e dati misurabili. Ignora frasi generiche, impegni, slogan, descrizioni senza
+  numeri.
+- TABELLE: se una tabella ha le colonne 2025 / 2024 / 2023, crea UN FATTO PER OGNI ANNO (2025, 2024,
+  2023), copiando il numero della colonna giusta. Se una cella è vuota o "-", salta quell'anno.
+  Controlla con cura a quale colonna appartiene il numero. Se non sei sicuro dell'anno, non estrarre.
+- "valore" deve essere copiato IDENTICO dal testo, come scritto (es. "183.675.867", "15,1", "4,2%").
+  L'unità sta nel campo "unita".
+- "frase_originale" è un pezzo letterale del testo, al massimo 15 parole, che contiene il valore.
+- Ignora ciò che è visibile solo come immagine o grafico: se non c'è nel testo, non esiste.
+- Se nel blocco non c'è nulla di utile, restituisci {"fatti": []}.
+
+ATTENZIONE ALLA PAGINA (errore da evitare assolutamente): "pagina_pdf" è il numero n del marker
+`=== PAGINA PDF n ===` che sta IMMEDIATAMENTE SOPRA il testo da cui hai copiato il valore;
+"pagina_stampata" è il numero m dello stesso marker. NON confondere i due e NON ripetere la stessa
+pagina per tutti i fatti. Esempio: se il marker è `=== PAGINA PDF 32 / STAMPATA 30 ===`, allora
+pagina_pdf = 32 e pagina_stampata = 30.
+
+FORMATO (JSON, nient'altro):
+{"fatti":[{"tema":"spostamenti|offerta|qualita|ambiente|parcheggi|economia|accessibilita_sicurezza|progetti","dato":"descrizione breve di cosa misura (es. 'Passeggeri trasportati - tram, area urbana')","valore":"...","unita":"...","anno":"2025","pagina_pdf":30,"pagina_stampata":28,"frase_originale":"...","utilita":"alta|media"}]}
+
+"utilita" = alta se serve direttamente a: passeggeri per mezzo, ripartizione modale,
+rete/flotta/offerta, qualità misurata, auto evitate/emissioni, parcheggi/Park&Ride; media per il
+resto.
+
+COMPITO OPERATIVO: scrivi il JSON `{"fatti":[ ... ]}` (solo l'oggetto, valido) nel file di output
+con lo stesso nome del file di input ma estensione .json, nella stessa cartella, codifica UTF-8,
+senza altro testo nel file. Poi rispondi SOLO con una riga: "N fatti".

@@ -1,0 +1,238 @@
+=== PAGINA PDF 56 / STAMPATA 54 ===
+
+Procedura pianificazione, valutazione e miglioramento (ISO 9001) - Istruzione operativa - analisi e valutazione dei rischi operativi e delle opportunità
+(ISO 9001)
+Procedura identificazione e valutazione degli aspetti ambientali - Istruzione operativa - identificazione e valutazione degli aspetti ambientali
+Procedura Sicurezza
+CCNL Autoferrotranvieri - internavigatori (2022) - CCNL Dirigenti delle imprese di pubblica utilità (2025) - Accordi integrativi e sistemi premianti - Regolamento
+reclutamento e selezione (per apprendisti, dirigenti, conducenti di linea, e personale GTT)
+Calcolo carbon footprint 2025
+Modello organizzativo e di Gestione Mod231
+Codice etico e di comportamento
+Regolamento Whistleblowing
+Informativa Privacy
+Elenco contenziosi
+ Stakeholder engagement specifiche su temi materiali
+Risultato Indagine Customer Satisfaction 2025 degli utenti dei canali online (sito e-commerce) e offline (Centri Servizi al Cliente)
+
+
+Valutazione e determinazioni IRO rilevanti
+La valutazione dei temi rilevanti (IRO rilevanti) è stata realizzata, in sintesi, come segue:
+
+ Fasi di valutazione                                         Sintesi processo e contenuti
+ Analisi qualitativa                                         Identificazione e approfondimento dei possibili IRO Impatti, Rischi e Opportunità rilevanti rispetto alle
+                                                             tematiche emerse dalla fase di identificazione dei potenziali temi rilevanti.
+
+
+ Caratteristiche IRO Impatti,                                Caratterizzazione di Impatti, Rischi e Opportunità
+ Rischi e Opportunità                                        Caratteristiche Impatti Effettivo / Potenziale - Positivo / Negativo - Breve / medio / lungo termine -
+                                                             Da operazioni proprie / Lungo la catena del valore
+                                                             Caratteristiche Rischi/Opportunità
+
+                                                             Breve / medio / lungo termine - Da operazioni proprie / Lungo la catena del valore
+ Valutazione rilevanza degli impatti                         Rilevanza secondo criteri di gravità e probabilità di accadimento. La gravità si basa sulla scala, ambito e
+                                                             il carattere irrimediabile degli impatti negativi. Sono state a tale scopo fissate delle soglie quantitative e/o
+                                                             qualitative.
+ Rilevanza finanziaria -                                     Rilevanza rispetto a probabilità di accadimento e magnitudo potenziale. In tale ambito, ed in modo
+ Valutazione rischi e opportunità                            coerente rispetto alla valutazione degli impatti, sono state fissate soglie quantitative e/o qualitative per la
+                                                             valutazione degli effetti finanziari relativi alle tematiche di sostenibilità (performance economica, situazione
+                                                             finanziaria, flussi di cassa e accesso ai finanziamenti).
+
+                                                             Le tematiche di sostenibilità preliminarmente identificate (impatti, rischi e opportunità - IRO) sono state
+                                                             valutate, assegnando una priorità (prioritizzazione), in relazione alla loro importanza e sulla base di una
+                                                             soglia (treshold), definita a tale scopo. Gli impatti che sono stati identificati come maggiormente rilevanti
+                                                             sono oggetto di rendicontazione all’interno del presente documento.
+Il processo di Materiality Assessment sviluppato ai fini della Rendicontazione di sostenibiltà 2025 ha visto il coinvolgimento di diverse funzioni
+aziendali, ciascuna delle quali ha contribuito in modo distintivo alla valutazione degli impatti, dei rischi e delle opportunità. I risultati dell’analisi
+sono stati presentati e condivisi con il Consiglio di Amministrazione.
+GTT aggiornerà periodicamente l’analisi svolta, per riflettere le evoluzioni del business e per incorporare le migliori pratiche del mercato, tenen-
+do conto dell’evoluzione del contesto normativo e legislativo, della strategia e di qualsiasi elemento in grado di influire in modo rilevante sulle
+tematiche analizzate.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                             54
+
+=== PAGINA PDF 57 / STAMPATA 55 ===
+
+Il sistema di gestione dei rischi e delle opportunità
+In termini generali, il rischio è definito come l’effetto dell’incertezza sul conseguimento degli obiettivi aziendali. GTT ha adottato i Sistemi di
+Gestione come leve per contribuire in modo concreto al raggiungimento degli obiettivi strategici. Tali sistemi si basano su un approccio integrato
+e sistemico, orientato all’armonizzazione delle metodologie operative e al rafforzamento di una cultura aziendale consapevole del rischio. In
+questo contesto, la conoscenza dei rischi, la loro misurazione e l’individuazione di azioni efficaci per la loro mitigazione costituiscono attività
+prioritarie per l’organizzazione.
+Le misure gestionali e organizzative di prevenzione e di intervento sono individuate attraverso specifici strumenti di natura organizzativa, di
+pianificazione e regolamentare, strettamente connessi al rispetto dei requisiti normativi vigenti.
+
+  LE CATEGORIE DI RISCHI AZIENDALI
+
+  REPUTAZIONALI                        STRATEGICI                          COMPLIANCE                           FINANZIARI                           OPERATIVI
+  Rischio che si verifichi             Rischio di assumere                 Rischio di mancata                   Rischi correlati al valore           Rischio di incorrere
+  un evento in grado di                decisioni aziendali non             conformità alle                      monetario di un qualsiasi            in inadeguatezze o
+  influenzare negativamente            adeguate al contesto                regole, quali norme                  investimento aziendale               inefficienze all’interno dei
+  la percezione degli                  operativo interno e di non          cogenti applicabili,                 inteso come attività e               processi aziendali.
+  stakeholder circa la                 cogliere tempestivamente            norme volontarie e                   strumenti finanziari.
+  capacità dell’impresa                l’evoluzione del contesto           regolamentazioni                                                          Ambiti:
+  di soddisfare le loro                esterno.                            aziendali.                           Ambiti:                              -  MANODOPERA ruoli e
+  aspettative.                                                                                                  - Mercato;                             responsabilità, turnover/
+                                       I rischi strategici, in             Ambiti:                              - Credito;                             assenze;
+                                       particolare, sono riferibili        - D.Lgs. 231/2001;                   - Liquidità;                         -  MACCHINARI gestione
+                                       all’interazione tra il              - L. 190/2012;                       - Contesto normativo.                  di impianti, attrezzature,
+                                       contesto interno ed                 -   Amministrazione  e                                                      hardware/softfware;
+                                       esterno dell’impresa.                 finanza;                                                                -  MATERIALI (pezzi
+                                                                           - Contratti e appalti;                                                      di ricambio, materiali
+                                                                           -   Rispetto delle norme                                                    di produzione, quali
+                                                                             (ISO, di settore)                                                         sostanze chimiche;
+                                                                                                                                                     -  METODI DI LAVORO
+                                                                                                                                                       procedure/regolamenti
+                                                                                                                                                       interni, condivisione
+                                                                                                                                                       prassi, tempi di lavoro,
+                                                                                                                                                       etc.
+
+
+Strumenti di gestione economico-finanziari
+GTT pianifica, gestisce e tutela le attività economico-finanziarie attraverso programmi di valutazione e pianificazione fondati sulla previsione
+dei flussi di cassa. La presenza di un unico azionista, che coincide con il principale cliente, determina un vincolo finanziario particolarmente
+stringente nelle scelte gestionali e nell’allocazione delle risorse.
+Assicurazioni
+GTT, al fine di attuare quanto previsto dalla normativa vigente e tutelare la stabilità aziendale da eventi che possono causare effetti negativi sul
+patrimonio, sul personale e sui terzi, trasferisce/condivide i rischi sottoscrivendo polizze assicurative afferenti alle seguenti categorie di danni:
+diretti (tutela del patrimonio aziendale, del personale Aziendale), indiretti da veicoli (per la responsabilità verso terzi), indiretti dal personale (per
+la responsabilità verso terzi).
+
+I temi rilevanti e la rendicontazione ESRS
+ESRS Standards   ESRS 2 IRO-2
+In Allegato 1 alla Rendicontazione di sostenibilità viene presentato un Indice, al quale si rinvia, nel quale viene riepilogata l’informativa pre-
+sentata nel documento (Obblighi di informativa) in base ai risultati dell’analisi di materialità.
+Viene pubblicata (quale Allegato 2) una tabella degli ambiti d’informazione derivanti da altri atti legislativi dell’Unione Europea, indicando i
+riferimenti presenti nella Rendicontazione di sostenibilità, ivi inclusi quelli valutati come non rilevanti, con relativa corrispondente indicazione.
+Le informazioni rilevanti presentate nei successivi capitoli sono state definite rispetto agli impatti, rischi e opportunità identificati con il processo
+di doppia materialità. Non si segnalano omissioni rispetto alle tematiche descritte.
+
+                                                                                         55
+
+=== PAGINA PDF 58 / STAMPATA 56 ===
+
+Requisiti minimi d’informativa
+ESRS Standards   ESRS 2 MDR-P, ESRS 2 MDR-A, ESRS 2 MDR-M, ESRS 2 MDR-T
+Le politiche, azioni, metriche e obiettivi volti a prevenire, mitigare e correggere gli impatti rilevanti effettivi e potenziali, ad affrontare i rischi
+rilevanti e/o a perseguire opportunità rilevanti (gestione temi rilevanti) sono approfonditi nei paragrafi relativi alla rendicontazione dei singoli temi
+rilevanti ambientali, sociali e di governance.
+
+Politiche e sistemi di gestione
+Viene di seguito riportata una sintesi delle politiche e dei sistemi di gestione applicati da GTT. I contenuti delle diverse politiche e sistemi di
+gestione vengono ripresi ed approfonditi nei capitoli e paragrafi di rendicontazione dei corrispondenti temi rilevanti (ESRS tematici).
+
+
+ Politiche / Sistemi di gestione                                          ESRS tematico
+ Modello di organizzazione gestione e controllo ex D.Lgs.                 S1 Forza lavoro propria
+ 231/2001 (il “Modello 231”)                                              S2 Lavoratori nella catena del valore
+                                                                          G1 Condotta delle imprese
+                                                                          E1 Cambiamenti climatici
+                                                                          S1 Forza lavoro propria
+ Codice Etico                                                             S2 Lavoratori nella catena del valore
+                                                                          S3 Comunità interessate
+                                                                          S4 Consumatori e/o utilizzatori finali
+                                                                          G1 Condotta delle imprese
+                                                                          S1 Forza lavoro propria
+                                                                          S2 Lavoratori nella catena del valore
+ Whistleblowing                                                           S3 Comunità interessate
+                                                                          S4 Consumatori e/o utilizzatori finali
+                                                                          G1 Condotta delle imprese
+                                                                          E1 Cambiamenti climatici
+                                                                          E2 Inquinamento
+                                                                          S1 Forza lavoro propria
+ La politica di GTT                                                       S2 Lavoratori nella catena del valore
+                                                                          S3 Comunità interessate
+                                                                          S4 Consumatori e/o utilizzatori finali
+                                                                          G1 Condotta delle imprese
+ Politica per la parità di genere                                         S1 Forza lavoro propria
+ Politica per la prevenzione della corruzione                             G1 Condotta delle imprese
+ Piano Triennale di Prevenzione della Corruzione e della                  G1 Condotta delle imprese
+ Trasparenza (2025-2027)
+
+ Regolamenti reclutamento e selezione del personale                       S1 Forza lavoro propria
+
+ Regolamenti per l’uso del trasporto pubblico                             S4 Consumatori e/o utilizzatori finali
+                                                                          E1 Cambiamenti climatici
+ Sistema di Gestione ISO 14001:2015                                       E3 Acque e risorse marine
+                                                                          E5 Uso delle ricorse ed economia circolare
+ Sistemi di Gestione ISO 45001:2018                                       S1 Forza lavoro propria
+ Sistema di gestione ISO 9001:2015                                        S4 Consumatori e/o utilizzatori finali
+                                                                          S1 Forza lavoro propria
+ Sistema di gestione ISO/IEC 27001:2017                                   S4 Consumatori e/o utilizzatori finali
+                                                                          G1 Condotta delle imprese
+ Sistema di gestione ISO 37001:2016                                       G1 Condotta delle imprese
+ Sistema di gestione UNI/PdR 125:2022                                     S1 Forza lavoro propria
+                                                                          G1 Condotta delle imprese
+
+Codice Etico e di comportamento
+Il Codice Etico e di Comportamento di GTT definisce i valori, i principi e le regole di condotta che ispirano l’attività della Società e orientano i
+comportamenti di tutti i destinatari, interni ed esterni, nel rispetto della normativa vigente e degli impegni assunti nell’ambito del Modello 231.
+
+                                                                                         56
+
+=== PAGINA PDF 59 / STAMPATA 57 ===
+
+Il documento enuncia i principi generali di legalità, correttezza, diligenza, trasparenza, riservatezza, sostenibilità e prevenzione dei conflitti di
+interesse, con specifiche responsabilità attribuite ai responsabili delle unità e funzioni aziendali. Regola i rapporti con i principali stakeholder,
+disciplinando le relazioni con il personale, i fornitori, i consulenti, la clientela, i partner commerciali, i soggetti pubblici e privati e la comunità di
+riferimento.
+Una parte rilevante è dedicata alla prevenzione della corruzione attiva e passiva, con indicazioni puntuali in materia di regali, benefici, attività di
+stazione appaltante e partecipazione a gare, nonché ai criteri di condotta nelle attività societarie, amministrative e finanziarie, inclusa la gestione
+della contabilità, dei flussi finanziari e dei controlli interni.
+Il Codice disciplina anche l’uso corretto del patrimonio aziendale e dei sistemi informatici, la tutela della salute e sicurezza sul lavoro e dell’am-
+biente, le modalità di diffusione e aggiornamento del documento, gli obblighi di osservanza, il sistema di segnalazione delle violazioni e le misure
+di tutela del segnalante, a presidio dell’integrità, dell’affidabilità e della reputazione di GTT.
+Per approfondimenti e maggiori dettagli si rimanda ai capitoli tematici, dove sono riportati i relativi argomenti trattati dal Codice Etico.
+Modello di organizzazione, gestione e controllo D.Lgs. 231
+Il Modello di Organizzazione, Gestione e Controllo ai sensi del D.Lgs. 231/2001 rappresenta un elemento centrale della cultura d’impresa di GTT.
+Esso definisce un insieme di principi, regole, procedure e strumenti di controllo finalizzati a prevenire la commissione di reati e di comportamenti
+illeciti all’interno dell’organizzazione. Il Modello costituisce un presidio fondamentale di legalità e trasparenza, assicurando che tutte le attività e
+i processi aziendali siano svolti nel pieno rispetto della normativa vigente, dei principi etici della Società e delle migliori pratiche di governance,
+a tutela della corretta gestione, della reputazione aziendale e della fiducia degli stakeholder.
+Per approfondimenti e maggiori dettagli si rimanda al capitolo Politiche in materia di cultura d’impresa e condotta delle imprese.
+Regolamento Whistleblowing
+GTT, in conformità al D.Lgs. 24/2023 sul Whistleblowing, ha adottato un regolamento interno che disciplina le segnalazioni di comportamenti
+illeciti o irregolari conosciuti in ambito lavorativo, tutelando l’interesse pubblico e l’integrità aziendale e rafforzando i principi di legalità, traspa-
+renza e responsabilità. Il sistema garantisce la riservatezza e la protezione dei segnalanti e dei soggetti coinvolti, estendendo le tutele anche a
+facilitatori e a diverse tipologie di lavoratori, e consente l’invio delle segnalazioni attraverso canali interni sicuri e dedicati, inclusa una piattafor-
+ma informatica e il contatto diretto con il RPCT, nel pieno rispetto della normativa sulla protezione dei dati personali.
+Per approfondimenti e maggiori dettagli si rimanda al capitolo Politiche in materia di cultura d’impresa e condotta delle imprese.
+Politica integrata qualità, ambiente, salute e sicurezza, sicurezza delle informazioni
+La politica integrata di GTT si fonda sull’erogazione di servizi di mobilità pubblica urbana ed extraurbana efficienti, sicuri e sostenibili, favorendo
+l’intermodalità e la multimodalità sul territorio torinese e piemontese e integrando anche la gestione della sosta e i servizi turistici. La Società
+opera secondo standard definiti dagli enti committenti, puntando su affidabilità, puntualità, accessibilità, comfort e sul rispetto dell’ambiente.
+L’azione quotidiana della Società è guidata da principi cardine come la sicurezza del trasporto, sostenuta da innovazione tecnologica e compe-
+tenze, e l’importanza dell’ascolto, del dialogo e dell’inclusione sia verso i clienti sia verso i dipendenti, che operano con senso di appartenenza,
+professionalità, etica e trasparenza. L’obiettivo di GTT è sia l’efficacia del servizio che l’efficienza economica, promuovendo una mobilità a ridotto
+impatto ambientale e tutelando la salute e la sicurezza dei lavoratori attraverso la prevenzione e la protezione dai rischi. GTT Garantisce la
+sicurezza delle informazioni, la cybersecurity e la protezione dei dati personali, assicurando trasparenza, correttezza e pieno rispetto delle regole.
+In coerenza con il nuovo quadro prospettico e valoriale, la Politica è stata aggiornata nel marzo 2024, introducendone nuovi temi di sostenibilità,
+come la riduzione dei gas serra e la salvaguardia del clima, ed esplicitando di perseguire “lo sviluppo sostenibile del trasporto pubblico e il
+miglioramento della qualità sociale, ambientale ed economica della comunità in cui (GTT) opera”.
+Per approfondimenti e maggiori dettagli si rimanda ai capitoli tematici, dove sono riportati i relativi argomenti trattati.
+Politica per la parità di genere
+GTT ha adottato una Politica per la parità di genere, parte integrante del proprio sistema di gestione certificato UNI/PdR 125:2022, attraverso
+la quale afferma i valori di equità e trasparenza, impegnandosi a prevenire ogni forma di discriminazione e a garantire pari opportunità a tutti i
+portatori di interesse. La politica sostiene la valorizzazione delle diversità e l’empowerment femminile mediante una strategia di gestione delle
+risorse umane orientata a una cultura inclusiva, all’accesso equo al lavoro, ai percorsi di carriera e allo sviluppo professionale, nonché all’equità
+retributiva. Essa interviene sulla governance e sui processi organizzativi, con particolare attenzione alla tutela della genitorialità e alla concilia-
+zione tra vita lavorativa e privata, supportata anche dal piano strategico per la parità di genere.
+Le politiche, gli obiettivi e i piani operativi traggono spunto dalle Linee guida OCSE per le imprese multinazionali, le prime norme internazionali
+
+
+                                                                                         57

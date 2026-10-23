@@ -1,0 +1,1493 @@
+{
+  "risultato": "6",
+  "titolo": "Parcheggi per lasciare l'auto",
+  "tag": "STIMATO / MISURATO (dati scarsi)",
+  "stato": "Aggiornato al 23/10/2026",
+  "in_breve": "Dove lasciare l'auto prima di entrare in città e proseguire con i mezzi pubblici: come funzionano gli interscambi che ci sono, e dove mancano posti per le auto che entrano ogni mattina.",
+  "domanda": "Dove mancano posti per lasciare l'auto prima di entrare in città, vicino a una fermata importante, per le auto che ogni mattina entrano a Torino?",
+  "numero_chiave": {
+    "valore": 179,
+    "unita": "fermate",
+    "testo": "su 274 fermate importanti fuori dal centro non hanno abbastanza posti adatti entro 400 m a piedi per le auto in entrata che passano accanto"
+  },
+  "risposta": [
+    "Gli interscambi che ci sono: nei giorni misurati Stura: sempre quasi pieno: 80% di notte, 91% di giorno; Caio Mario: il valore non cambia (1%): forse il contatore è fermo; Sofia: è più pieno di notte che di giorno: 52% di notte, 31% di giorno; Venchi Unica: sempre intorno al 55%; Fermi non trasmette il riempimento [MISURATO, DATI SCARSI]. Pieni di giorno: 1 su 5.",
+    "Ogni mattina entrano a Torino circa 87.200 auto [STIMATO, indagine sugli spostamenti 2022]; oggi il 5,8% di chi arriva in auto prosegue con un mezzo pubblico.",
+    "Delle 274 fermate importanti fuori dal centro, 179 non hanno abbastanza posti adatti entro 400 m a piedi per le auto da fermare (68 non ne hanno nessuno).",
+    "I punti dove servirebbe di più un parcheggio (posti che mancano, ordine di grandezza): 1. Santa Rita (Santa Rita), 2. Metro Massaua (Parella), 3. Ponte Cavalieri Templari (Moncalieri)."
+  ],
+  "grafici": [
+    {
+      "tipo": "profilo",
+      "titolo": "Stura (589 posti): sempre quasi pieno: 80% di notte, 91% di giorno",
+      "unita": "",
+      "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+      "serie": [
+        {
+          "label": "giorno feriale",
+          "valori": [
+            0.797,
+            0.797,
+            0.797,
+            0.797,
+            0.797,
+            0.799,
+            0.803,
+            0.827,
+            0.872,
+            0.897,
+            0.917,
+            0.918,
+            0.918,
+            0.914,
+            0.908,
+            0.902,
+            0.893,
+            0.875,
+            0.844,
+            0.812,
+            0.802,
+            0.8,
+            0.8,
+            0.798
+          ]
+        },
+        {
+          "label": "weekend",
+          "valori": [
+            0.795,
+            0.795,
+            0.795,
+            0.795,
+            0.795,
+            0.796,
+            0.796,
+            0.798,
+            0.799,
+            0.799,
+            0.799,
+            0.8,
+            0.798,
+            0.8,
+            0.801,
+            0.801,
+            0.8,
+            0.799,
+            0.799,
+            0.799,
+            0.797,
+            0.796,
+            0.795,
+            0.795
+          ],
+          "tratteggio": true
+        }
+      ]
+    },
+    {
+      "tipo": "profilo",
+      "titolo": "Venchi Unica (437 posti): sempre intorno al 55%",
+      "unita": "",
+      "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+      "serie": [
+        {
+          "label": "giorno feriale",
+          "valori": [
+            0.532,
+            0.533,
+            0.533,
+            0.533,
+            0.532,
+            0.53,
+            0.531,
+            0.524,
+            0.528,
+            0.55,
+            0.552,
+            0.548,
+            0.549,
+            0.547,
+            0.546,
+            0.543,
+            0.538,
+            0.529,
+            0.517,
+            0.505,
+            0.512,
+            0.516,
+            0.52,
+            0.529
+          ]
+        },
+        {
+          "label": "weekend",
+          "valori": [
+            0.47,
+            0.478,
+            0.485,
+            0.488,
+            0.489,
+            0.489,
+            0.49,
+            0.489,
+            0.481,
+            0.469,
+            0.456,
+            0.449,
+            0.451,
+            0.452,
+            0.453,
+            0.45,
+            0.45,
+            0.447,
+            0.45,
+            0.45,
+            0.452,
+            0.453,
+            0.458,
+            0.48
+          ],
+          "tratteggio": true
+        }
+      ]
+    },
+    {
+      "tipo": "profilo",
+      "titolo": "Caio Mario (418 posti): il valore non cambia (1%): forse il contatore è fermo",
+      "unita": "",
+      "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+      "serie": [
+        {
+          "label": "giorno feriale",
+          "valori": [
+            0.017,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.009,
+            0.009,
+            0.009,
+            0.009,
+            0.009,
+            0.009,
+            0.009,
+            0.009,
+            0.01,
+            0.011,
+            0.011,
+            0.011,
+            0.01,
+            0.011,
+            0.012,
+            0.012,
+            0.013,
+            0.013
+          ]
+        },
+        {
+          "label": "weekend",
+          "valori": [
+            0.025,
+            0.017,
+            0.017,
+            0.017,
+            0.017,
+            0.017,
+            0.017,
+            0.016,
+            0.018,
+            0.019,
+            0.019,
+            0.021,
+            0.021,
+            0.022,
+            0.021,
+            0.024,
+            0.024,
+            0.027,
+            0.029,
+            0.03,
+            0.034,
+            0.033,
+            0.033,
+            0.035
+          ],
+          "tratteggio": true
+        }
+      ]
+    },
+    {
+      "tipo": "profilo",
+      "titolo": "Sofia (272 posti): è più pieno di notte che di giorno: 52% di notte, 31% di giorno",
+      "unita": "",
+      "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+      "serie": [
+        {
+          "label": "giorno feriale",
+          "valori": [
+            0.521,
+            0.522,
+            0.522,
+            0.523,
+            0.524,
+            0.515,
+            0.494,
+            0.447,
+            0.406,
+            0.365,
+            0.311,
+            0.295,
+            0.302,
+            0.31,
+            0.311,
+            0.313,
+            0.31,
+            0.342,
+            0.379,
+            0.42,
+            0.453,
+            0.47,
+            0.493,
+            0.505
+          ]
+        },
+        {
+          "label": "weekend",
+          "valori": [
+            0.507,
+            0.51,
+            0.512,
+            0.514,
+            0.516,
+            0.513,
+            0.504,
+            0.489,
+            0.471,
+            0.44,
+            0.403,
+            0.385,
+            0.394,
+            0.396,
+            0.396,
+            0.393,
+            0.394,
+            0.395,
+            0.407,
+            0.416,
+            0.43,
+            0.436,
+            0.446,
+            0.495
+          ],
+          "tratteggio": true
+        }
+      ]
+    },
+    {
+      "tipo": "pila",
+      "titolo": "Fermate importanti e posti adatti",
+      "unita": "fermate",
+      "nota": "Posti adatti entro 400 m a piedi confrontati con le auto da fermare (auto che passano × 5,8%).",
+      "voci": [
+        {
+          "label": "nessun parcheggio",
+          "valore": 68,
+          "tono": "rosso"
+        },
+        {
+          "label": "posti insufficienti",
+          "valore": 111,
+          "tono": "arancio"
+        },
+        {
+          "label": "posti sufficienti",
+          "valore": 95,
+          "tono": "verde"
+        },
+        {
+          "label": "poche auto da fermare",
+          "valore": 0
+        }
+      ]
+    },
+    {
+      "tipo": "barre",
+      "titolo": "I punti dove mancano più posti",
+      "unita": "posti",
+      "nota": "Posti che mancano = auto da fermare − posti adatti vicini [STIMATO, ordine di grandezza].",
+      "voci": [
+        {
+          "label": "1. Santa Rita",
+          "valore": 450,
+          "tono": "rosso"
+        },
+        {
+          "label": "2. Metro Massaua",
+          "valore": 350,
+          "tono": "rosso"
+        },
+        {
+          "label": "3. Ponte Cavalieri Templari",
+          "valore": 350,
+          "tono": "rosso"
+        },
+        {
+          "label": "4. Regina Margherita",
+          "valore": 350,
+          "tono": "rosso"
+        },
+        {
+          "label": "5. Pasini",
+          "valore": 250,
+          "tono": "rosso"
+        },
+        {
+          "label": "6. Leonardo Da Vinci",
+          "valore": 200,
+          "tono": "rosso"
+        },
+        {
+          "label": "7. Drosso Cap",
+          "valore": 200,
+          "tono": "rosso"
+        },
+        {
+          "label": "8. Stura Lazio",
+          "valore": 200,
+          "tono": "rosso"
+        },
+        {
+          "label": "9. Marsè",
+          "valore": 150,
+          "tono": "rosso"
+        },
+        {
+          "label": "10. Derna Est",
+          "valore": 100,
+          "tono": "rosso"
+        }
+      ]
+    }
+  ],
+  "verifica": [
+    {
+      "nome": "Caio Mario",
+      "fatto": "il valore non cambia (1%): forse il contatore è fermo [MISURATO]; auto in entrata sulla strada accanto: circa 3.900 [STIMATO]",
+      "esito": "non si può dire: il contatore sembra fermo"
+    },
+    {
+      "nome": "Fermi",
+      "fatto": "non trasmette il riempimento; auto in entrata sulla strada accanto: circa 1.000 [STIMATO]",
+      "esito": "non si può dire: non trasmette il riempimento"
+    },
+    {
+      "nome": "Sofia",
+      "fatto": "è più pieno di notte che di giorno: 52% di notte, 31% di giorno [MISURATO]; auto in entrata sulla strada accanto: circa 3.100 [STIMATO]",
+      "esito": "da capire: accanto passano molte auto in entrata ma è poco usato (prezzo? posizione? collegamento?)"
+    },
+    {
+      "nome": "Stura",
+      "fatto": "sempre quasi pieno: 80% di notte, 91% di giorno [MISURATO]; auto in entrata sulla strada accanto: circa 7.600 [STIMATO]",
+      "esito": "coerente: pieno, su una strada con molte auto in entrata"
+    },
+    {
+      "nome": "Venchi Unica",
+      "fatto": "sempre intorno al 55% [MISURATO]; auto in entrata sulla strada accanto: circa 7.100 [STIMATO]",
+      "esito": "non si può dire: riempimento a metà"
+    }
+  ],
+  "affidabilita": [
+    {
+      "voce": "Parcheggi trovati nei dati aperti",
+      "valore": "5.205"
+    },
+    {
+      "voce": "Aperti → fuori dal centro → con almeno 20 posti → adatti (non di destinazione)",
+      "valore": "3.431 → 3.208 → 2.006 → 1.874"
+    },
+    {
+      "voce": "Posti nei parcheggi adatti (dichiarati o stimati a 25 m² a posto)",
+      "valore": "157.103"
+    },
+    {
+      "voce": "Auto che entrano a Torino al mattino (solo conducenti)",
+      "valore": "87.162 [STIMATO, IMQ 2022, 1039 interviste]"
+    },
+    {
+      "voce": "Quota di chi già oggi lascia l'auto per un mezzo pubblico",
+      "valore": "5,8% (64 interviste)"
+    },
+    {
+      "voce": "Auto che passano accanto alle fermate",
+      "valore": "modello del traffico (percorso più veloce, senza code): solo ordine di grandezza"
+    },
+    {
+      "voce": "Quota di posti in mappa con riempimento misurato",
+      "valore": "26,9%"
+    },
+    {
+      "voce": "Giorni feriali di riempimento",
+      "valore": "15/10, 16/10, 19/10, 20/10, 21/10"
+    },
+    {
+      "voce": "Non sappiamo",
+      "valore": "se i parcheggi senza misura (es. Fermi e i gratuiti) sono pieni; i parcheggi che non sono in OpenStreetMap; i treni"
+    }
+  ],
+  "immagini": [],
+  "metodo": [
+    "Fermate importanti: fra i luoghi di fermata della Città metropolitana, quelle fuori dal centro, con metro, stazione o capolinea oppure almeno 10 corse all'ora nelle ore dei pendolari, e con almeno 1.000 auto in entrata che passano accanto (centro = i quartieri centrali). Regola fissa; il punteggio (importanza della strada, corse, auto, metro o stazione, pesi uguali) serve solo per l'ordine.",
+    "Auto in entrata che passano accanto: le auto che entrano a Torino al mattino (indagine sugli spostamenti 2022) fatte «guidare» sul percorso più veloce della rete stradale; si legge la strada più trafficata entro 100 m.",
+    "Auto da fermare = auto che passano × 5,8% (chi già oggi lascia l'auto per un mezzo pubblico).",
+    "Posti adatti: parcheggi aperti fuori dal centro, con almeno 20 posti, non di ospedali, università o centri commerciali, entro 400 m a piedi (linea d'aria × 1,3); posti dichiarati o stimati con 25 m² a posto.",
+    "Punti prioritari (fino a 20, almeno 50 posti mancanti, uno per asse d'ingresso, oltre 3 km dal centro): fermate senza posti bastanti raggruppate entro 1 km, in ordine di posti che mancano."
+  ],
+  "parametri": [
+    [
+      "Centro escluso",
+      "i quartieri centrali (fermate e parcheggi)"
+    ],
+    [
+      "Fermate importanti",
+      "metro, stazione o capolinea o almeno 10 corse all'ora, e almeno 1.000 auto che passano (274 su 3.898)"
+    ],
+    [
+      "Distanza",
+      "400 m a piedi (linea d'aria × 1,3)"
+    ],
+    [
+      "Auto da fermare",
+      "auto che passano × 5,8%"
+    ],
+    [
+      "Posti stimati",
+      "25 m² a posto (±30%)"
+    ],
+    [
+      "Giorni feriali di riempimento",
+      "15/10, 16/10, 19/10, 20/10 e 21/10"
+    ]
+  ],
+  "limiti": [
+    "Auto che passano: modello del traffico (percorso più veloce, senza code), stima debole: solo ordine di grandezza. Le stesse auto passano davanti a più fermate dello stesso corso.",
+    "Riempimento misurato su soli 5 giorni feriali e solo dove il 5T lo trasmette [DATI SCARSI]: Fermi e i parcheggi gratuiti non sono misurati.",
+    "Quota di chi lascia l'auto: indagine sugli spostamenti 2022, poche interviste.",
+    "Controllo con i sensori 5T del mattino: il modello mette le strade d'ingresso in un ordine simile solo in parte (ρ = 0,52 su 23 luoghi); sottostima gli ingressi da nord-ovest.",
+    "Parcheggi da OpenStreetMap incompleti; posti spesso stimati dalla superficie (±30%).",
+    "Distanza a piedi stimata (linea d'aria × 1,3). Treni non considerati."
+  ],
+  "criteri": [
+    {
+      "nome": "Fermate importanti",
+      "valore": "fuori dal centro, con metro, stazione o capolinea oppure almeno 10 corse all'ora nelle ore dei pendolari, e almeno 1.000 auto in entrata che passano accanto (274 fermate)",
+      "perche": "un parcheggio per lasciare l'auto serve dove passa un mezzo frequente e passano molte auto in entrata",
+      "effetto": "con N 10, M 500: 347 fermate; con N 10, M 2.000: 201 fermate; con N 15, M 1.000: 136 fermate"
+    },
+    {
+      "nome": "Centro escluso",
+      "valore": "quartieri Q001-Q009 (Centro, San Salvario, Crocetta, San Paolo, Cenisia, San Donato, Aurora, Vanchiglia, Nizza Millefonti)",
+      "perche": "un parcheggio per lasciare l'auto serve prima di entrare nella città densa, non a due passi dalla destinazione",
+      "effetto": "vale sia per le fermate sia per i parcheggi"
+    },
+    {
+      "nome": "Parcheggi contati",
+      "valore": "solo quelli adatti: aperti, fuori dal centro, almeno 20 posti, non di ospedali, università o centri commerciali (1.874)",
+      "perche": "i posti di chi arriva a destinazione non servono a chi vuole lasciare l'auto prima",
+      "effetto": "contando anche i parcheggi di destinazione: 174 fermate senza posti bastanti (invece di 179)"
+    },
+    {
+      "nome": "Distanza",
+      "valore": "400 m a piedi (linea d'aria × 1.3)",
+      "perche": "chi lascia l'auto accetta di solito una camminata di qualche minuto",
+      "effetto": "a 300 m: 209 fermate senza posti bastanti; a 500 m: 147 (a 400 m: 179)"
+    },
+    {
+      "nome": "Auto da fermare",
+      "valore": "auto in entrata che passano accanto × 5,8% (chi già oggi lascia l'auto per un mezzo pubblico)",
+      "perche": "i posti servono se ci sono auto da fermare: niente soglia fissa di posti",
+      "effetto": "con metà quota: 135 fermate senza posti bastanti; con quota doppia: 212"
+    },
+    {
+      "nome": "Poche auto da fermare",
+      "valore": "meno di 20 auto da fermare al mattino",
+      "perche": "lì un parcheggio per lasciare l'auto non serve",
+      "effetto": "0 fermate importanti in questa classe"
+    },
+    {
+      "nome": "Aree",
+      "valore": "celle di circa 2 km²; Critica ≥ 60%, Scarsa 30-59%, Buona < 30%; almeno 5 fermate, se no «Pochi dati»",
+      "perche": "con una o due fermate la percentuale è 0% o 100% per caso",
+      "effetto": "soglie 50/25: Critica 14, Scarsa 4, Buona 2, Pochi dati 42; soglie 66/33: Critica 10, Scarsa 7, Buona 3, Pochi dati 42"
+    },
+    {
+      "nome": "Punti prioritari",
+      "valore": "fino a 20: fermate senza posti bastanti raggruppate entro 1 km, in ordine di posti che mancano (almeno 50); uno per asse d'ingresso (niente punti a meno di 2 km, né sulla stessa strada a meno di 5 km); almeno 3 km da Piazza Castello",
+      "perche": "risponde a «dove metterne uno o ingrandirlo»; due punti sullo stesso asse contano le stesse auto; vicino al centro si risparmia poca strada",
+      "effetto": "candidati: parcheggi adatti con almeno 100 posti entro 600 m a piedi; scartati 38 gruppi su 53"
+    },
+    {
+      "nome": "Riempimento",
+      "valore": "misurato dal 5T dove c'è (5 giorni feriali, ore 10-16); pieno ≥ 85%",
+      "perche": "un parcheggio pieno non serve",
+      "effetto": "colora i parcheggi e mostra i profili; non cambia le classi delle fermate"
+    }
+  ],
+  "mappa": {
+    "id": "interscambio",
+    "tema": "Parcheggi per lasciare l'auto",
+    "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."
+  },
+  "fonti": [
+    "docs/R6_parcheggi.md",
+    "docs/rapporti/RAPPORTO_R6_PARCHEGGI.txt",
+    "docs/rapporti/RAPPORTO_R6_AUTO_PASSAGGIO.txt",
+    "docs/rapporti/RAPPORTO_R6_FERMATE_IMPORTANTI.txt",
+    "docs/rapporti/RAPPORTO_R6_PARCHEGGI_ADATTI.txt",
+    "scripts/81_auto_di_passaggio.py",
+    "scripts/82_parcheggi_adatti.py",
+    "scripts/83_fermate_importanti.py",
+    "scripts/84_risultato6_parcheggi.py",
+    "data/processed/risultato6_v2/mappa_r6.json"
+  ],
+  "generato": "2026-10-23T12:49:23+00:00",
+  "avviso": [
+    "Come leggere i tag. ",
+    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
+  ],
+  "in_english": [
+    "Question: where are park-and-ride spaces missing for the cars that enter Turin every morning, next to an important public transport stop outside the city centre?",
+    "Existing park-and-ride car parks of the City: 4 of 5 report their occupancy; full during the day: 1 (measured, only a few days of data).",
+    "About 87,200 cars enter Turin every morning (2022 travel survey) and 5.8% of these drivers already continue by public transport. 179 of 274 important stops outside the centre lack enough suitable parking within 400 m on foot for the cars passing by.",
+    "Important stops: outside the centre, with a metro, train station or terminus or at least 10 departures per hour at commuting times, and at least 1,000 cars entering the city passing by.",
+    "Limits: car flows come from a simple traffic model (order of magnitude only); occupancy is measured on few days and only where the city's 5T system reports it; trains are not included.",
+    "Check against the 5T morning sensors: the model ranks the entry roads in a similar order only in part (rho = 0.52 over 23 places); it underestimates the entries from the north-west."
+  ],
+  "scenari": [
+    {
+      "nome": "Oggi",
+      "numeri": [
+        {
+          "label": "Fermate importanti fuori dal centro",
+          "prima": null,
+          "dopo": 274,
+          "unita": "fermate"
+        },
+        {
+          "label": "Senza posti bastanti",
+          "prima": null,
+          "dopo": 179,
+          "unita": "fermate"
+        },
+        {
+          "label": "Senza nessun parcheggio adatto",
+          "prima": null,
+          "dopo": 68,
+          "unita": "fermate"
+        }
+      ],
+      "nota": "Stime [STIMATO]: auto dal modello del traffico, posti da OpenStreetMap, Comune e 5T; riempimento da 5T [DATI SCARSI]."
+    }
+  ],
+  "forma": {
+    "etichetta": "STIMATO / MISURATO (dati scarsi)",
+    "titolo": "Dai parcheggi di scambio il bus vale l'auto solo se in centro si perdono 21–28 minuti a parcheggiare",
+    "domanda": "Dove mancano posti per lasciare l'auto, e quando il bus da lì verso il centro è veloce quanto l'auto?",
+    "numero": {
+      "valore": "21–28",
+      "unita": "minuti",
+      "testo": "persi in centro per parcheggiare: sotto questa soglia l'auto batte il bus (mediana dei 12 punti)"
+    },
+    "principale": {
+      "tipo": "gara",
+      "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale",
+      "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (sensori, auto veloce) e 2,1 (Google, auto chiara e lenta).",
+      "luoghi": [
+        {
+          "nome": "Santa Rita",
+          "gruppo": "Punti prioritari",
+          "bus": 36.0,
+          "auto_min": 13.7,
+          "auto_max": 20.2,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Metro Massaua",
+          "gruppo": "Punti prioritari",
+          "bus": 25.0,
+          "auto_min": 15.1,
+          "auto_max": 22.7,
+          "giudizio": "dipende dal traffico"
+        },
+        {
+          "nome": "Ponte Cavalieri Templari",
+          "gruppo": "Punti prioritari",
+          "bus": 51.0,
+          "auto_min": 18.2,
+          "auto_max": 28.0,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Regina Margherita",
+          "gruppo": "Punti prioritari",
+          "bus": 31.0,
+          "auto_min": 11.6,
+          "auto_max": 16.6,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Pasini",
+          "gruppo": "Punti prioritari",
+          "bus": 28.0,
+          "auto_min": 12.1,
+          "auto_max": 17.4,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Leonardo Da Vinci",
+          "gruppo": "Punti prioritari",
+          "bus": 59.0,
+          "auto_min": 19.9,
+          "auto_max": 31.1,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Drosso Cap",
+          "gruppo": "Punti prioritari",
+          "bus": 43.0,
+          "auto_min": 17.4,
+          "auto_max": 26.7,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Stura Lazio",
+          "gruppo": "Punti prioritari",
+          "bus": 37.0,
+          "auto_min": 14.3,
+          "auto_max": 21.3,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Marsè",
+          "gruppo": "Punti prioritari",
+          "bus": 61.0,
+          "auto_min": 23.2,
+          "auto_max": 36.8,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Derna Est",
+          "gruppo": "Punti prioritari",
+          "bus": 34.0,
+          "auto_min": 13.8,
+          "auto_max": 20.4,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Ferrara",
+          "gruppo": "Punti prioritari",
+          "bus": 49.0,
+          "auto_min": 19.9,
+          "auto_max": 31.0,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Zara",
+          "gruppo": "Punti prioritari",
+          "bus": 33.0,
+          "auto_min": 11.9,
+          "auto_max": 17.1,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Stura",
+          "gruppo": "Interscambi esistenti",
+          "bus": 39.0,
+          "auto_min": 17.3,
+          "auto_max": 26.6,
+          "giudizio": "dipende dal traffico"
+        },
+        {
+          "nome": "Venchi Unica",
+          "gruppo": "Interscambi esistenti",
+          "bus": 28.0,
+          "auto_min": 16.0,
+          "auto_max": 24.2,
+          "giudizio": "dipende dal traffico"
+        },
+        {
+          "nome": "Caio Mario",
+          "gruppo": "Interscambi esistenti",
+          "bus": 38.0,
+          "auto_min": 16.0,
+          "auto_max": 24.3,
+          "giudizio": "il bus non conviene"
+        },
+        {
+          "nome": "Fermi",
+          "gruppo": "Interscambi esistenti",
+          "bus": 31.0,
+          "auto_min": 18.6,
+          "auto_max": 28.9,
+          "giudizio": "dipende dal traffico"
+        },
+        {
+          "nome": "Sofia",
+          "gruppo": "Interscambi esistenti",
+          "bus": 33.0,
+          "auto_min": 13.3,
+          "auto_max": 19.6,
+          "giudizio": "il bus non conviene"
+        }
+      ],
+      "scelto": 1
+    },
+    "punti": [
+      "Interscambi esistenti: pieni Stura (17–27 minuti); poco usati Caio Mario (19–27 minuti), Sofia (18–25 minuti).",
+      "179 fermate importanti su 274 non hanno posti bastanti a 400 metri a piedi.",
+      "Il punto più promettente è Metro Massaua: bastano 7–15 minuti perché il bus pareggi l'auto."
+    ],
+    "altri": [
+      {
+        "tipo": "barre",
+        "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto",
+        "unita": "minuti",
+        "nota": "Verso Piazza Castello alle 8. Barra scura = auto lenta (fattore di Google), barra chiara = auto veloce (fattore dei sensori). Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
+        "voci": [
+          {
+            "label": "Metro Massaua",
+            "valore": 7,
+            "prima": 15,
+            "testo": "7–15 min"
+          },
+          {
+            "label": "Pasini",
+            "valore": 16,
+            "prima": 21,
+            "testo": "16–21 min"
+          },
+          {
+            "label": "Derna Est",
+            "valore": 19,
+            "prima": 25,
+            "testo": "19–25 min"
+          },
+          {
+            "label": "Regina Margherita",
+            "valore": 19,
+            "prima": 24,
+            "testo": "19–24 min"
+          },
+          {
+            "label": "Stura Lazio",
+            "valore": 21,
+            "prima": 28,
+            "testo": "21–28 min"
+          },
+          {
+            "label": "Santa Rita",
+            "valore": 21,
+            "prima": 27,
+            "testo": "21–27 min"
+          },
+          {
+            "label": "Zara",
+            "valore": 21,
+            "prima": 26,
+            "testo": "21–26 min"
+          },
+          {
+            "label": "Drosso Cap",
+            "valore": 21,
+            "prima": 31,
+            "testo": "21–31 min"
+          },
+          {
+            "label": "Ferrara",
+            "valore": 23,
+            "prima": 34,
+            "testo": "23–34 min"
+          },
+          {
+            "label": "Ponte Cavalieri Templari",
+            "valore": 28,
+            "prima": 38,
+            "testo": "28–38 min"
+          },
+          {
+            "label": "Marsè",
+            "valore": 29,
+            "prima": 43,
+            "testo": "29–43 min"
+          },
+          {
+            "label": "Leonardo Da Vinci",
+            "valore": 33,
+            "prima": 44,
+            "testo": "33–44 min"
+          }
+        ]
+      },
+      {
+        "tipo": "barre",
+        "titolo": "I 12 punti d'ingresso, per bisogno di parcheggio",
+        "unita": "posti",
+        "nota": "Il bisogno è alto, medio o basso a terzi, in base ai posti che mancano. Le lunghezze sono un ordine di grandezza.",
+        "voci": [
+          {
+            "label": "Santa Rita",
+            "valore": 450,
+            "tono": "rosso",
+            "testo": "bisogno alto"
+          },
+          {
+            "label": "Metro Massaua",
+            "valore": 350,
+            "tono": "rosso",
+            "testo": "bisogno alto"
+          },
+          {
+            "label": "Ponte Cavalieri Templari",
+            "valore": 350,
+            "tono": "rosso",
+            "testo": "bisogno alto"
+          },
+          {
+            "label": "Regina Margherita",
+            "valore": 350,
+            "tono": "rosso",
+            "testo": "bisogno alto"
+          },
+          {
+            "label": "Pasini",
+            "valore": 250,
+            "tono": "arancio",
+            "testo": "bisogno medio"
+          },
+          {
+            "label": "Leonardo Da Vinci",
+            "valore": 200,
+            "tono": "arancio",
+            "testo": "bisogno medio"
+          },
+          {
+            "label": "Drosso Cap",
+            "valore": 200,
+            "tono": "arancio",
+            "testo": "bisogno medio"
+          },
+          {
+            "label": "Stura Lazio",
+            "valore": 200,
+            "tono": "arancio",
+            "testo": "bisogno medio"
+          },
+          {
+            "label": "Marsè",
+            "valore": 150,
+            "tono": "giallo",
+            "testo": "bisogno basso"
+          },
+          {
+            "label": "Derna Est",
+            "valore": 100,
+            "tono": "giallo",
+            "testo": "bisogno basso"
+          },
+          {
+            "label": "Ferrara",
+            "valore": 80,
+            "tono": "giallo",
+            "testo": "bisogno basso"
+          },
+          {
+            "label": "Zara",
+            "valore": 60,
+            "tono": "giallo",
+            "testo": "bisogno basso"
+          }
+        ]
+      }
+    ],
+    "calcolo": [
+      "Fermate importanti: fuori dal centro, con metro, stazione o capolinea, oppure 10 corse all'ora.",
+      "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
+      "Auto da fermare: auto che passano per il 5,8% che già oggi lascia l'auto. Posti: parcheggi adatti entro 400 metri.",
+      "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.",
+      "Minuti di pareggio: tempo coi mezzi verso Piazza Castello alle 8, meno il tempo in auto senza parcheggio."
+    ],
+    "criteri": [
+      [
+        "Fermate importanti",
+        "10 corse all'ora o metro, e 1.000 auto che passano"
+      ],
+      [
+        "Distanza a piedi",
+        "400 metri"
+      ],
+      [
+        "Auto da fermare",
+        "auto che passano × 5,8%"
+      ],
+      [
+        "Bus contro auto",
+        "verso Piazza Castello alle 8, auto con fattore 1,2 (sensori) e 2,1 (Google)"
+      ]
+    ],
+    "limiti": [
+      "I tempi coi mezzi sono solo GTT, senza treni. L'auto è stimata fra due fattori di punta, 1,2 e 2,1.",
+      "Il costo del parcheggio in centro non è nel calcolo: pesa come minuti in più.",
+      "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello.",
+      "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati, con ±30%."
+    ],
+    "english": [
+      "Question: when is the bus from a park-and-ride as fast as the car to the centre?",
+      "Answer: park-and-ride pays off only if parking downtown costs at least 21–28 minutes (median of 12 priority points). Also, 179 of 274 important stops lack enough parking.",
+      "Limit: bus times use GTT only, without trains; parking cost is not considered."
+    ],
+    "mappa": {
+      "id": "interscambio",
+      "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."
+    },
+    "unita": {
+      "tipo": "pallini",
+      "pallini": [
+        {
+          "label": "Santa Rita",
+          "tono": "rosso"
+        },
+        {
+          "label": "Metro Massaua",
+          "tono": "giallo"
+        },
+        {
+          "label": "Ponte Cavalieri Templari",
+          "tono": "rosso"
+        },
+        {
+          "label": "Regina Margherita",
+          "tono": "rosso"
+        },
+        {
+          "label": "Pasini",
+          "tono": "rosso"
+        },
+        {
+          "label": "Leonardo Da Vinci",
+          "tono": "rosso"
+        },
+        {
+          "label": "Drosso Cap",
+          "tono": "rosso"
+        },
+        {
+          "label": "Stura Lazio",
+          "tono": "rosso"
+        },
+        {
+          "label": "Marsè",
+          "tono": "rosso"
+        },
+        {
+          "label": "Derna Est",
+          "tono": "rosso"
+        },
+        {
+          "label": "Ferrara",
+          "tono": "rosso"
+        },
+        {
+          "label": "Zara",
+          "tono": "rosso"
+        }
+      ],
+      "didascalia": "Un pallino per punto prioritario: verde = il bus conviene (0), giallo = dipende (1), rosso = il bus non conviene (11)."
+    },
+    "extra": {
+      "titolo": "Interscambi esistenti e bus verso il centro",
+      "punto": "Gli interscambi esistenti sono poco pieni: di giorno solo 1 su 5 è pieno.",
+      "grafico": {
+        "tipo": "barre",
+        "titolo": "Dagli interscambi esistenti a Piazza Castello, minuti coi mezzi pubblici",
+        "unita": "minuti",
+        "nota": "Alle 8 di un feriale. A destra il tempo in auto, parcheggio compreso, fra i due fattori di punta (1,2 e 2,1).",
+        "voci": [
+          {
+            "label": "Stura",
+            "valore": 39,
+            "testo": "39 contro 17-27 in auto"
+          },
+          {
+            "label": "Venchi Unica",
+            "valore": 28,
+            "testo": "28 contro 16-24 in auto"
+          },
+          {
+            "label": "Caio Mario",
+            "valore": 38,
+            "testo": "38 contro 16-24 in auto"
+          },
+          {
+            "label": "Fermi",
+            "valore": 31,
+            "testo": "31 contro 19-29 in auto"
+          },
+          {
+            "label": "Sofia",
+            "valore": 33,
+            "testo": "33 contro 13-20 in auto"
+          }
+        ]
+      }
+    }
+  },
+  "forma_en": {
+    "etichetta": "ESTIMATED / MEASURED (little data)",
+    "titolo": "From park-and-ride lots the bus matches the car only if 21–28 minutes are lost parking downtown",
+    "domanda": "Where is there too little room to leave the car, and when is the bus from there to the centre as fast as the car?",
+    "numero": {
+      "valore": "21–28",
+      "unita": "minutes",
+      "testo": "lost downtown looking for parking: below this threshold the car beats the bus (median of the 12 points)"
+    },
+    "principale": {
+      "tipo": "gara",
+      "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m. on a weekday",
+      "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (sensors, fast car) and 2.1 (Google, faded slow car).",
+      "luoghi": [
+        {
+          "nome": "Santa Rita",
+          "gruppo": "Priority points",
+          "bus": 36.0,
+          "auto_min": 13.7,
+          "auto_max": 20.2,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Metro Massaua",
+          "gruppo": "Priority points",
+          "bus": 25.0,
+          "auto_min": 15.1,
+          "auto_max": 22.7,
+          "giudizio": "depends on traffic"
+        },
+        {
+          "nome": "Ponte Cavalieri Templari",
+          "gruppo": "Priority points",
+          "bus": 51.0,
+          "auto_min": 18.2,
+          "auto_max": 28.0,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Regina Margherita",
+          "gruppo": "Priority points",
+          "bus": 31.0,
+          "auto_min": 11.6,
+          "auto_max": 16.6,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Pasini",
+          "gruppo": "Priority points",
+          "bus": 28.0,
+          "auto_min": 12.1,
+          "auto_max": 17.4,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Leonardo Da Vinci",
+          "gruppo": "Priority points",
+          "bus": 59.0,
+          "auto_min": 19.9,
+          "auto_max": 31.1,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Drosso Cap",
+          "gruppo": "Priority points",
+          "bus": 43.0,
+          "auto_min": 17.4,
+          "auto_max": 26.7,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Stura Lazio",
+          "gruppo": "Priority points",
+          "bus": 37.0,
+          "auto_min": 14.3,
+          "auto_max": 21.3,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Marsè",
+          "gruppo": "Priority points",
+          "bus": 61.0,
+          "auto_min": 23.2,
+          "auto_max": 36.8,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Derna Est",
+          "gruppo": "Priority points",
+          "bus": 34.0,
+          "auto_min": 13.8,
+          "auto_max": 20.4,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Ferrara",
+          "gruppo": "Priority points",
+          "bus": 49.0,
+          "auto_min": 19.9,
+          "auto_max": 31.0,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Zara",
+          "gruppo": "Priority points",
+          "bus": 33.0,
+          "auto_min": 11.9,
+          "auto_max": 17.1,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Stura",
+          "gruppo": "Existing park-and-ride",
+          "bus": 39.0,
+          "auto_min": 17.3,
+          "auto_max": 26.6,
+          "giudizio": "depends on traffic"
+        },
+        {
+          "nome": "Venchi Unica",
+          "gruppo": "Existing park-and-ride",
+          "bus": 28.0,
+          "auto_min": 16.0,
+          "auto_max": 24.2,
+          "giudizio": "depends on traffic"
+        },
+        {
+          "nome": "Caio Mario",
+          "gruppo": "Existing park-and-ride",
+          "bus": 38.0,
+          "auto_min": 16.0,
+          "auto_max": 24.3,
+          "giudizio": "the bus does not pay off"
+        },
+        {
+          "nome": "Fermi",
+          "gruppo": "Existing park-and-ride",
+          "bus": 31.0,
+          "auto_min": 18.6,
+          "auto_max": 28.9,
+          "giudizio": "depends on traffic"
+        },
+        {
+          "nome": "Sofia",
+          "gruppo": "Existing park-and-ride",
+          "bus": 33.0,
+          "auto_min": 13.3,
+          "auto_max": 19.6,
+          "giudizio": "the bus does not pay off"
+        }
+      ],
+      "scelto": 1
+    },
+    "punti": [
+      "Existing park-and-ride lots: full Stura (17–27 minutes); little used Caio Mario (19–27 minutes), Sofia (18–25 minutes).",
+      "179 important stops out of 274 do not have enough parking within 400 metres on foot.",
+      "The most promising point is Metro Massaua: 7–15 minutes are enough for the bus to match the car."
+    ],
+    "altri": [
+      {
+        "tipo": "barre",
+        "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
+        "unita": "minutes",
+        "nota": "Towards Piazza Castello at 8 a.m. Dark bar = slow car (Google factor), light bar = fast car (sensor factor). Fewer minutes = more promising point; 0 = the bus is already faster.",
+        "voci": [
+          {
+            "label": "Metro Massaua",
+            "valore": 7,
+            "prima": 15,
+            "testo": "7–15 min"
+          },
+          {
+            "label": "Pasini",
+            "valore": 16,
+            "prima": 21,
+            "testo": "16–21 min"
+          },
+          {
+            "label": "Derna Est",
+            "valore": 19,
+            "prima": 25,
+            "testo": "19–25 min"
+          },
+          {
+            "label": "Regina Margherita",
+            "valore": 19,
+            "prima": 24,
+            "testo": "19–24 min"
+          },
+          {
+            "label": "Stura Lazio",
+            "valore": 21,
+            "prima": 28,
+            "testo": "21–28 min"
+          },
+          {
+            "label": "Santa Rita",
+            "valore": 21,
+            "prima": 27,
+            "testo": "21–27 min"
+          },
+          {
+            "label": "Zara",
+            "valore": 21,
+            "prima": 26,
+            "testo": "21–26 min"
+          },
+          {
+            "label": "Drosso Cap",
+            "valore": 21,
+            "prima": 31,
+            "testo": "21–31 min"
+          },
+          {
+            "label": "Ferrara",
+            "valore": 23,
+            "prima": 34,
+            "testo": "23–34 min"
+          },
+          {
+            "label": "Ponte Cavalieri Templari",
+            "valore": 28,
+            "prima": 38,
+            "testo": "28–38 min"
+          },
+          {
+            "label": "Marsè",
+            "valore": 29,
+            "prima": 43,
+            "testo": "29–43 min"
+          },
+          {
+            "label": "Leonardo Da Vinci",
+            "valore": 33,
+            "prima": 44,
+            "testo": "33–44 min"
+          }
+        ]
+      },
+      {
+        "tipo": "barre",
+        "titolo": "The 12 entry points, by need for parking",
+        "unita": "spaces",
+        "nota": "Need is high, medium or low by thirds, based on the missing spaces. Lengths are an order of magnitude.",
+        "voci": [
+          {
+            "label": "Santa Rita",
+            "valore": 450,
+            "tono": "rosso",
+            "testo": "high need"
+          },
+          {
+            "label": "Metro Massaua",
+            "valore": 350,
+            "tono": "rosso",
+            "testo": "high need"
+          },
+          {
+            "label": "Ponte Cavalieri Templari",
+            "valore": 350,
+            "tono": "rosso",
+            "testo": "high need"
+          },
+          {
+            "label": "Regina Margherita",
+            "valore": 350,
+            "tono": "rosso",
+            "testo": "high need"
+          },
+          {
+            "label": "Pasini",
+            "valore": 250,
+            "tono": "arancio",
+            "testo": "medium need"
+          },
+          {
+            "label": "Leonardo Da Vinci",
+            "valore": 200,
+            "tono": "arancio",
+            "testo": "medium need"
+          },
+          {
+            "label": "Drosso Cap",
+            "valore": 200,
+            "tono": "arancio",
+            "testo": "medium need"
+          },
+          {
+            "label": "Stura Lazio",
+            "valore": 200,
+            "tono": "arancio",
+            "testo": "medium need"
+          },
+          {
+            "label": "Marsè",
+            "valore": 150,
+            "tono": "giallo",
+            "testo": "low need"
+          },
+          {
+            "label": "Derna Est",
+            "valore": 100,
+            "tono": "giallo",
+            "testo": "low need"
+          },
+          {
+            "label": "Ferrara",
+            "valore": 80,
+            "tono": "giallo",
+            "testo": "low need"
+          },
+          {
+            "label": "Zara",
+            "valore": 60,
+            "tono": "giallo",
+            "testo": "low need"
+          }
+        ]
+      }
+    ],
+    "calcolo": [
+      "Important stops: outside the centre, with a metro, station or terminus, or 10 trips an hour.",
+      "Cars entering come from the 2022 travel survey, assigned to the fastest route.",
+      "Cars to stop: passing cars times the 5.8% who already leave the car today. Spaces: suitable car parks within 400 metres.",
+      "Priority points: stops without enough parking, grouped within 1 km, one per entry axis.",
+      "Break-even minutes: travel time by public transport to Piazza Castello at 8 a.m., minus travel time by car without parking."
+    ],
+    "criteri": [
+      [
+        "Important stops",
+        "10 trips an hour or a metro, and 1,000 passing cars"
+      ],
+      [
+        "Walking distance",
+        "400 metres"
+      ],
+      [
+        "Cars to stop",
+        "passing cars × 5.8%"
+      ],
+      [
+        "Bus versus car",
+        "towards Piazza Castello at 8 a.m., car with factor 1.2 (sensors) and 2.1 (Google)"
+      ]
+    ],
+    "limiti": [
+      "Public transport times are GTT only, without trains. The car is estimated between two peak factors, 1.2 and 2.1.",
+      "The cost of parking downtown is not in the calculation: it counts as extra minutes.",
+      "We look at one point per place and a single destination, Piazza Castello.",
+      "Passing cars come from a traffic model. Spaces are often estimated, with ±30%."
+    ],
+    "mappa": {
+      "id": "interscambio",
+      "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."
+    },
+    "unita": {
+      "tipo": "pallini",
+      "pallini": [
+        {
+          "label": "Santa Rita",
+          "tono": "rosso"
+        },
+        {
+          "label": "Metro Massaua",
+          "tono": "giallo"
+        },
+        {
+          "label": "Ponte Cavalieri Templari",
+          "tono": "rosso"
+        },
+        {
+          "label": "Regina Margherita",
+          "tono": "rosso"
+        },
+        {
+          "label": "Pasini",
+          "tono": "rosso"
+        },
+        {
+          "label": "Leonardo Da Vinci",
+          "tono": "rosso"
+        },
+        {
+          "label": "Drosso Cap",
+          "tono": "rosso"
+        },
+        {
+          "label": "Stura Lazio",
+          "tono": "rosso"
+        },
+        {
+          "label": "Marsè",
+          "tono": "rosso"
+        },
+        {
+          "label": "Derna Est",
+          "tono": "rosso"
+        },
+        {
+          "label": "Ferrara",
+          "tono": "rosso"
+        },
+        {
+          "label": "Zara",
+          "tono": "rosso"
+        }
+      ],
+      "didascalia": "One dot per priority point: green = the bus pays off (0), yellow = it depends (1), red = the bus does not pay off (11)."
+    },
+    "extra": {
+      "titolo": "Existing park-and-ride lots and buses to the centre",
+      "punto": "Existing park-and-ride lots are not very full: in the daytime only 1 of 5 is full.",
+      "grafico": {
+        "tipo": "barre",
+        "titolo": "From existing park-and-ride lots to Piazza Castello, minutes by public transport",
+        "unita": "minutes",
+        "nota": "At 8 a.m. on a weekday. On the right, car time including parking, between the two peak factors (1.2 and 2.1).",
+        "voci": [
+          {
+            "label": "Stura",
+            "valore": 39,
+            "testo": "39 versus 17-27 by car"
+          },
+          {
+            "label": "Venchi Unica",
+            "valore": 28,
+            "testo": "28 versus 16-24 by car"
+          },
+          {
+            "label": "Caio Mario",
+            "valore": 38,
+            "testo": "38 versus 16-24 by car"
+          },
+          {
+            "label": "Fermi",
+            "valore": 31,
+            "testo": "31 versus 19-29 by car"
+          },
+          {
+            "label": "Sofia",
+            "valore": 33,
+            "testo": "33 versus 13-20 by car"
+          }
+        ]
+      }
+    }
+  },
+  "numero_pubblico": 3
+}

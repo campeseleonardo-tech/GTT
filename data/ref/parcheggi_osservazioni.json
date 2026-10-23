@@ -1,0 +1,8 @@
+{
+  "nota": "Osservazioni a mano su parcheggi che si sa essere sempre pieni (dove il 5T non trasmette). Si applicano a TUTTI i parcheggi aperti entro raggio_m dal punto. Etichetta nei dati: [OSSERVAZIONE di Leo]. Lista da allungare quando Leo ne conosce altri.",
+  "osservazioni": [
+    {"id": "fermi", "nome_per_leggere": "Fermi (capolinea metro, Collegno)", "lat": 45.0766, "lon": 7.5903, "raggio_m": 500,
+     "stato": "pieno", "fonte": "osservazione di Leo, 19/10/2026",
+     "nota": "sempre pieno; i parcheggi gratuiti intorno si riempiono soprattutto al mattino (Leo, 20/10/2026)"}
+  ]
+}

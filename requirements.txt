@@ -9,3 +9,4 @@ osmium==4.3.1
 pypdf==6.20.0        # solo per il rapporto di sostenibilita' (script 30)
 networkx==3.7        # facoltativo: verifiche dei percorsi (script 42 --verifica, 85)
 matplotlib==3.11.2   # facoltativo: grafico dello script 44
+playwright==1.64.0     # solo per scripts/prova_pagine.py dove non ci sono Edge/Chrome (es. cloud, Linux)

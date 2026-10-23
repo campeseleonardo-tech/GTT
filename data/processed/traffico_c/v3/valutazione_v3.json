@@ -1,0 +1,123 @@
+{
+ "variante_finale": "V0",
+ "classe_esito": "C-DEBole",
+ "errore_mediano": 0.3189,
+ "ic90": [
+  0.2374,
+  0.4018
+ ],
+ "rho_loo": 0.602,
+ "n": 20,
+ "migliore_di_A": true,
+ "tempi_percorsi": [
+  {
+   "percorso": "Piazza Castello -> Collegno (piazza)",
+   "flusso_libero_min": 13.1,
+   "congestione_min": 13.3
+  },
+  {
+   "percorso": "Piazza Castello -> Venaria Reale",
+   "flusso_libero_min": 12.8,
+   "congestione_min": 13.4
+  },
+  {
+   "percorso": "Piazza Castello -> Settimo Torinese",
+   "flusso_libero_min": 14.7,
+   "congestione_min": 15.1
+  },
+  {
+   "percorso": "Piazza Castello -> Moncalieri",
+   "flusso_libero_min": 11.4,
+   "congestione_min": 11.7
+  },
+  {
+   "percorso": "Piazza Castello -> Orbassano",
+   "flusso_libero_min": 18.0,
+   "congestione_min": 19.3
+  },
+  {
+   "percorso": "Piazza Castello -> Rivoli",
+   "flusso_libero_min": Infinity,
+   "congestione_min": Infinity
+  }
+ ],
+ "varianti": {
+  "V0": {
+   "n": 20,
+   "errore_mediano": 0.3189492885644848,
+   "ic90": [
+    0.23744065087791213,
+    0.40181891082473675
+   ],
+   "errore_p90": 0.5925222535296528,
+   "errore_peggiore": 1.4693635065268158,
+   "distorsione": 0.056629200185854045,
+   "rho_loo": 0.6015037593984962,
+   "k_totale": 1.7215113375609712,
+   "migliore_di_A": true
+  },
+  "V3": {
+   "n": 20,
+   "errore_mediano": 0.28958048831517624,
+   "ic90": [
+    0.214049626871435,
+    0.37715964673606833
+   ],
+   "errore_p90": 0.650201407244895,
+   "errore_peggiore": 1.7541741221055962,
+   "distorsione": 0.09916142533096028,
+   "rho_loo": 0.5729323308270676,
+   "k_totale": 1.9099520958906109,
+   "migliore_di_A": true
+  },
+  "V3_senza_attrattori": {
+   "n": 20,
+   "errore_mediano": 0.3520982983894094,
+   "ic90": [
+    0.24638755032881404,
+    0.47230500917121454
+   ],
+   "errore_p90": 0.8330449170850429,
+   "errore_peggiore": 1.7456006557940962,
+   "distorsione": 0.11967181272275171,
+   "rho_loo": 0.5593984962406015,
+   "k_totale": 1.8913593005920928,
+   "migliore_di_A": true
+  },
+  "V3_senza_congestione": {
+   "n": 20,
+   "errore_mediano": 0.2664311259316654,
+   "ic90": [
+    0.1936167915067005,
+    0.3165915149794505
+   ],
+   "errore_p90": 0.661955920053978,
+   "errore_peggiore": 1.6313465511436793,
+   "distorsione": 0.08832349450385432,
+   "rho_loo": 0.6165413533834586,
+   "k_totale": 1.8457884338873207,
+   "migliore_di_A": true
+  },
+  "V3_senza_porte_ristrette": {
+   "n": 20,
+   "errore_mediano": 0.27422297142561625,
+   "ic90": [
+    0.20591271848923576,
+    0.38084217947652893
+   ],
+   "errore_p90": 0.6650906528537505,
+   "errore_peggiore": 1.8042111593973376,
+   "distorsione": 0.10509980193805839,
+   "rho_loo": 0.5714285714285714,
+   "k_totale": 1.9138811943977456,
+   "migliore_di_A": true
+  }
+ },
+ "rho_grezzo": {
+  "V0": 0.6135338345864662,
+  "V3": 0.6255639097744361,
+  "V3_senza_attrattori": 0.6075187969924812,
+  "V3_senza_congestione": 0.6390977443609023,
+  "V3_senza_porte_ristrette": 0.6526315789473685
+ }
+}

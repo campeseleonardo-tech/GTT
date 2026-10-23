@@ -1,0 +1,233 @@
+=== PAGINA PDF 80 / STAMPATA 78 ===
+
+Acque e risorse marine
+
+ Tema                                        Sottotema                                     Sotto-sotto tema                              SDGs
+ E3 Acque e risorse marine                   Acqua                                         Consumo idrico
+                                                                                           Prelievi idrici
+                                                                                           Scarichi idrici
+Gestione impatti - rischi - opportunità
+Il processo di individuazione valutazione degli impatti,
+rischi e opportunità rilevanti
+ESRS Standards   ESRS 2 IRO-1
+
+
+Impatti
+Acqua
+- Consumo idrico                                      Impatti ambientali negativi legati al consumo di risorse idriche necessarie alle attività di lavaggio dei mezzi.
+- Prelievi idrici                                     L’impatto è rilevante per la città di Torino che si colloca in un’area classificata a rischio idrico medio-alto.
+- Scarichi idrici
+L’analisi di rilevanza del tema ESRS E3 Acque e risorse marine ha considerato gli asset di GTT e le relative attività al fine di individuare gli impatti
+connessi ai prelievi, scarichi e consumi della risorsa idrica. Per ulteriori informazioni sul processo di identificazione degli impatti, dei rischi e
+delle opportunità materiali, si rimanda al capitolo Gestione degli impatti - rischi - opportunità e al capitolo Impatti, rischi e opportunità rilevanti
+e loro interazione con la strategia e il modello di business / paragrafo I temi rilevanti (IRO).
+Impatti
+Le attività operative di GTT comprendono operazioni di lavaggio e sanificazione della flotta autobus, tram e metropolitana, funzionali a garantire
+standard adeguati di igiene, sicurezza e qualità del servizio. Tali attività, pur essendo accessorie rispetto al trasporto in sè, comportano impatti
+ambientali diretti sulla risorsa idrica. Il tema è risultato rilevnate poichè GTT opera in un’area caratterizzata da un livello di stress idrico
+medio-alto. Lo stress idrico si riferisce alla capacità, o alla difficoltà, di soddisfare la domanda di acqua, sia per uso umano sia per il mante-
+nimento degli ecosistemi. Questo concetto comprende aspetti legati alla disponibilità, alla qualità e all’accessibilità dell’acqua. Per valutare le
+aree soggette a stress idrico, è stato utilizzato lo strumento Aqueduct Water Risk Atlas del World Resources Institute (wri.org/aqueduct).
+Rischi e opportunità
+Si specifica che dalle analisi effettuate non sono emersi rischi ed opportunità rilevanti ai fini della Rendicontazione di sostenibilità relativi al tema
+E3 Acque e risorse marine.
+Politiche relative alle acque e alle risorse marine
+
+ESRS Standards   ESRS 2 MDR-P, ESRS E3 E3-1
+Pur non disponendo di una politica formalizzata specificamente dedicata alle acque e alle risorse marine, GTT adotta un approccio responsabile
+nella gestione della risorsa idrica, seguendo le linee guida della norma internazionale ISO 14001 - Sistema di Gestione Ambientale.
+Le azioni della Società sono orientate alla riduzione dei consumi, accompagnate dal monitoraggio della qualità delle acque di scarico. In questo
+contesto, GTT attribuisce priorità all’impiego di acqua da pozzo per il lavaggio dei mezzi, limitando il ricorso all’acqua potabile (acquedotto
+pubblico).
+Azioni e risorse relative alle acque e alle risorse marine
+
+ESRS Standards   ESRS 2 MDR-A, ESRS E3 E3-2
+Impianti di lavaggio
+GTT ha progettato e sviluppato misure dedicate al monitoraggio dei consumi idrici e alla gestione delle criticità rilevate. In particolare, è stato
+realizzato un cruscotto specifico per individuare e mappare le perdite occulte, così da programmare in modo tempestivo gli interventi di ma-
+nutenzione o di sostituzione delle tubature interrate e contrastare eventuali consumi anomali d’acqua. Per gestire rapidamente le situazioni
+critiche, sono state attivate Smart Card assicurative che consentono di richiedere assistenza e pronto intervento tecnico ogni volta che GTT
+
+                                                                                   78
+
+=== PAGINA PDF 81 / STAMPATA 79 ===
+
+rileva anomalie o problematiche nella rete. L’utilizzo di queste Smart Card ha permesso a GTT di ridurre i consumi idrici e di ottenere il rimborso
+dei costi aggiuntivi legati a consumi d’acqua anomali.
+In merito alla qualità dell’acqua di scarico, vengono effettuate le analisi previste dall’ AUA vigente ed è attivo un piano di monitoraggio degli
+impianti di depurazione delle acque di scarico a cura della ditta incaricata della manutenzione. Il monitoraggio viene effettuato su base mensile,
+per correlare i consumi agli effettivi usi e verificare l’utilizzo razionale della risorsa.
+Le azioni programmate da GTT si riferiscono esclusivamente alle attività operative dirette e non coinvolgono la catena del valore a monte
+o a valle.
+Metriche e obiettivi
+Obiettivi relativi alle acque e alle risorse marine
+
+ESRS Standards   ESRS 2 MDR-T, ESRS E3 E3-3
+
+ Sottotema rilevante                               Obiettivo                                                      Azioni                                     Timeline
+ Acqua                      Monitoraggio e gestione efficiente dei consumi             Azioni di monitoraggio volte a garantire una gestione
+                            idrici                                                     efficiente dei consumi idrici e a prevenire eventuali             In continuità con il
+                                                                                       criticità nella rete, attraverso l’utilizzo di un cruscotto            business
+                                                                                       dedicato per mappare le perdite occulte e l’attivazione
+                                                                                       di Smart Card assicurative
+Per un quadro completo degli obiettivi e delle relative tempistiche, si rimanda al paragrafo Piano di Sostenibilità: obiettivi e azioni relative alle
+tematiche di sostenibilità rilevanti del presente documento.
+Consumo idrico
+ESRS Standards   ESRS 2 MDR-M, ESRS E3 E3-4
+Presso i siti aziendali sono presenti:
+• N.123 punti di prelievo di acqua potabile;
+• N.9 pozzi per l’approvvigionamento di acqua a uso industriale;
+• N.72 prese antincendio, attivate esclusivamente in situazioni di emergenza.
+
+GTT dispone di vasche di raccolta dell’acqua alimentate da un pozzo, utilizzate sia per i lavaggi sia come riserva antincendio. Le vasche
+mantengono costantemente lo stesso livello grazie a due galleggianti. Grazie a questo sistema, la vasca è sempre piena, con una quota d’acqua
+riservata esclusivamente all’antincendio.
+•  Galleggiante inferiore (riserva antincendio): definisce il livello minimo della vasca, che non può mai abbassarsi, così da garantire in ogni
+  momento la disponibilità d’acqua per l’antincendio.
+•  Galleggiante superiore (uso lavaggi): gestisce il livello destinato alle attività di lavaggio.
+
+ Consumo idrico                                                    Unità                         2025                           2024                          2023
+ Totale consumo idrico                                              m3                              240.302                       188.000                       158.000
+
+ Δ%                                                                                                    +28%                           +19%
+Nel 2025 è stato deciso di aumentare il numero dei lavaggi dei mezzi ed è stato messo in funzione un nuovo pozzo in sostituzione di uno esi-
+stente in quanto obsoleto. L’aumento del numero dei lavaggi ha comportato un aumento dei prelievi e dei consumi idrici, in quanto le acque di
+scarto dei processi dl lavaggio vengono smaltite come rifiuto (soluzioni acquose di scarto). Si rimanda al capitolo I rifiuti per i relativi quantitativi.
+I prelievi e gli scarichi di acqua
+I prelievi da acquedotto equivalgono agli scarichi civili, a cui si aggiunge una quota limitata di scarichi classificati come industriali. Si evidenzia
+l’aumento progressivo dell’incidenza dell’acqua da pozzo (+14,2% rispetto al 2024), utilizzata in particolare per alimentare gli impianti di
+lavaggio dei mezzi e le vasche antincendio. L’intensificazione dell’utilizzo per il lavaggio dei mezzi concorre all’azione di miglioramento
+della loro pulizia, finalizzata a garantire la qualità del servizio erogato.
+Nei siti in cui non sono disponibili i pozzi per il lavaggio mezzi (Fiochetto e Ivrea) gli impianti di lavaggio sono a circuito chiuso con il recupero
+di acqua.
+
+                                                                                      79
+
+=== PAGINA PDF 82 / STAMPATA 80 ===
+
+Nel corso dell’anno è entrato in funzione il nuovo pozzo ubicato presso lo stabilimento Venaria, con il duplice scopo di fornire acqua per l’attività
+di lavaggio mezzi e di rifornire il sistema delle vasche antincendio.
+
+ Prelievi idrici                                                    Unità                          2025                          2024                           2023
+ Acque sotterranee (pozzi)                                            m3                              246.626                       207.000                        168.000
+
+ Risorse idriche di terze parti (acquedotto)                                                           83.313                         82.000                       100.000
+ Totale prelievi idrici                                                                              329.939                        289.000                       268.000
+
+
+
+ Scarichi idrici                                                    Unità                          2025                          2024                           2023
+ Scarico idrico civile - in fognatura                                 m3                               83.313                         82.000                       100.000
+
+ Scarico idrico industriale - in fognatura                                                               6.324                        19.000                         19.000
+ Totale scarico idrico                                                                                 89.637                       101.000                       110.000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                       80
+
+=== PAGINA PDF 83 / STAMPATA 81 ===
+
+Uso delle risorse ed economia circolare
+
+  Tema                                         Sottotema                                                           SDGs
+  E5 Uso delle risorse                         Afflussi di risorse, compreso l’uso delle risorse
+  ed economia circolare                        Rifiuti
+
+Gestione impatti - rischi - opportunità
+Il processo di individuazione valutazione degli impatti,
+rischi e opportunità rilevanti
+
+ESRS Standards   ESRS 2 IRO-1
+
+
+ Impatti
+ Afflussi di risorse, compreso l’uso delle              Impatto ambientale negativo sull’utilizzo di risorse, connesso all’approvvigionamento di carburanti e com-
+ risorse                                                bustibili, acquisto veicoli, prodotti chimici, pneumatici e pezzi di ricambio composti da risorse non rinnova-
+                                                        bili e difficilmente riciclabili e/o riutilizzabili.
+
+ Rifiuti                                                Impatti negativi dovuti alla generazione e gestione dei rifiuti pericolosi e non pericolosi sia nelle sedi che
+                                                        nelle officine di GTT.
+
+L’analisi di rilevanza relativa al tema ESRS E5 Uso delle risorse ed economia circolare ha permesso di individuare impatti rilevanti nelle
+fasi operative e lungo la catena del valore a monte. Per ulteriori informazioni sul processo di identificazione degli impatti, dei rischi e delle
+opportunità materiali, si rimanda al capitolo Gestione degli impatti - rischi - opportunità e al capitolo Impatti, rischi e opportunità rilevanti e loro
+interazione con la strategia e il modello di business / paragrafo I temi rilevanti (IRO).
+Impatti
+I sottotemi definiti come rilevanti da un punto di vista d’impatto risultano essere Afflussi di risorse, compreso l’uso delle risorse e Rifiuti.
+Afflussi e utilizzo di risorse - L’approvvigionamento di materie prime e materiali è un aspetto importante per GTT. Gli impatti più significativi
+relativi a tale tematica riguardano l’acquisto dei mezzi ed i materiali utilizzati in fase di manutenzione nelle officine.  Per approfondimenti e
+maggiori dettagli rispetto alle risorse impiegate da GTT si rimanda al paragrafo Flussi di risorse in entrata.
+Rifiuti - GTT genera sia rifiuti pericolosi che non pericolosi, derivanti dalla dismissione dei mezzi e dalle attività manutentive. Gli impatti princi-
+pali derivano dalla gestione dei rifiuti prodotti, pericolosi e non pericolosi.
+Rischi e opportunità
+Si specifica che dalle analisi effettuate non sono emersi rischi ed opportunità rilevanti ai fini della Rendicontazione di sostenibilità relativi al tema
+E5 Uso delle risorse ed economia circolare.
+Politiche relative all’uso delle risorse e all’economia circolare
+
+ESRS Standards   ESRS 2 MDR-P, ESRS E5 E5-1
+Come descritto nel paragrafo Gestione impatti - rischi - opportunità / Politiche relative alla mitigazione dei cambiamenti climatici e all’adatta-
+mento agli stessi, GTT ha adottato politiche e sistemi di gestione volti e mitigare i propri impatti ambientali. Le politiche e certificazioni vengono
+condivise con i lavoratori attraverso canali di comunicazione interni.
+GTT non ha una politica formalizzata relativa all’uso delle risorse e all’economia circolare. Applica criteri di gestione degli appalti e adotta
+pratiche operative che contribuiscono ad un utilizzo responsabile delle materie prime. In particolare, la gestione degli appalti prevede l’appli-
+cazione dei Criteri Ambientali Minimi (CAM), resi obbligatori dal nuovo Codice degli Appalti (D.lgs. 36/2023).
+L’impegno di GTT verso i principi dell’economia circolare a livello di policy si traduce in scelte concrete lungo l’intero ciclo di vita dei mezzi e dei ma                   -
+teriali, dalla fase di progettazione e acquisto fino alla gestione del fine vita. In particolare, GTT integra criteri di circolarità già nelle procedure di gara.
+L’impegno verso l’acquisto responsabile si evince anche dall’adesione volontaria alla Rete provinciale degli Acquisti Pubblici Ecologici (APE), co-
+ordinata dalla Città Metropolitana di Torino. Il protocollo ha creato un network tra associazioni di categoria, ordini professionali e altre organizza-
+
+                                                                                     81

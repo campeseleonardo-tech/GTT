@@ -1,0 +1,238 @@
+=== PAGINA PDF 131 / STAMPATA 129 ===
+
+ Numero reclami                                             2025                     2024                      2023                      Δ%                Media reclami
+                                                                                                                                    2025-2024              al giorno 2025
+ Superficie (bus e tram)                                      2.229                    2.400                    3.804                       -7%                      6,11
+ di cui: Urbano-suburbano                                     1.818                    2.023                     3.052                    -10%                       4,98
+ di cui: Extraurbano                                            411                      377                       752                       9%                      1,13
+ Area commerciale                                               156                      143                       261                       9%                      0,43
+ Metro                                                          184                      122                       223                     51%                       0,50
+ Parcheggi                                                      180                      162                       112                     11%                       0,49
+ Persone con disabilità                                            7                        4                         -                    75%                       0,02
+ Servizi turistici                                                 6                        2                       10                    200%                       0,02
+ Ambiente                                                          4                        3                         6                    33%                       0,01
+ Totale                                                       2766                    2.836                     4.416                      -2%
+Nota: in virtù della specifica attenzione richiesta, dal 2024 è stata introdotta la categoria “Persone con disabilità”. Poiché con la cessione dei servizi ferroviari dal 2024 essi non
+sono più oggetto di reclami, è stata eliminata la relativa categoria anche per gli anni precedenti.
+
+ Ripartizione tempi di risposta a comunicazioni clienti
+ Reclami e segnalazioni                                                 2025                                     2024                                     2023
+ <15 giorni                                                                     55%                                      45%                                      35%
+ 15-20 giorni                                                                   40%                                      45%                                      40%
+ >20 giorni                                                                      5%                                      10%                                      25%
+
+ Rimborsi                                                               2025                                     2024                                     2023
+ <10 giorni                                                                     90%                                      90%                                      80%
+ 10-15 giorni                                                                   10%                                      10%                                      20%
+ 15-20 giorni                                                                       -                                        -                                        -
+
+ Richieste informazioni                                                 2025                                     2024                                     2023
+ <24 ore                                                                        22%                                      20%                                      15%
+ 24-48 ore                                                                      45%                                      45%                                      45%
+ 48-72 ore                                                                      30%                                      32%                                      35%
+ >72 ore                                                                         3%                                       3%                                       5%
+Nel periodo oggetto di rendicontazione non sono pervenuti reclami per violazioni della privacy e/o perdita dei dati dei consumatori.
+Accessibilità
+Al 2025, il 100% degli autobus di GTT è dotato di soluzioni per l’accessibilità: pavimento ribassato per facilitare la salita e la discesa delle per-
+sone con mobilità ridotta, sistema di annuncio vocale interno della prossima fermata, annuncio esterno della linea in arrivo e indicatore di linea
+laterale posizionato in basso, per garantire la massima visibilità anche agli utenti in carrozzina o con disabilità visive.
+
+ Allestimento accessibilità veicoli
+ Bus                                                         Unità di misura                      2025                          2024                           2023
+ Pavimento ribassato                                                 %                              100%                           100%                          100%
+ Annuncio interno di prossima fermata                                                                100%                           99%                            98%
+ Annuncio esterno di linea                                                                           100%                          100%                            99%
+ Indicatore di linea laterale basso                                                                  100%                          100%                          100%
+ Tram                                                                                             2025                          2024                           2023
+ Pavimento ribassato                                                                                  81%                           74%                            65%
+ Annuncio interno di prossima fermata                                                                 81%                           74%                            65%
+Nota: percentuali calcolate sui mezzi in effettivo servizio (non accantonati o sospesi)
+Per quanto riguarda i tram, nel 2025 la dotazione di soluzioni per l’accessibilità ha registrato un incremento del 7% rispetto al 2024.
+Di seguito vengono riportati i dati relativi alle postazioni per sedie a rotelle a bordo dei mezzi: nell’ultimo anno si registra un incremento com-
+plessivo della dotazione.
+
+ Postazioni per sedie a rotelle a bordo mezzi                         Unità di misura                               2025                                   2024
+
+                                                                                     129
+
+=== PAGINA PDF 132 / STAMPATA 130 ===
+
+ Bus 12m con 1 postazione                                                      %                                            100%                                   100%
+ Bus 12m con 2 postazioni                                                                                                    10%                                      0%
+ Bus 18m con (almeno) 1 postazione                                                                                          100%                                   100%
+ Bus 18m con 2 postazioni                                                                                                      6%                                     6%
+ Tram con (almeno) 1 postazione                                                                                              81%                                    74%
+ Tram con 2 postazioni                                                                                                       52%                                    44%
+Tutti gli obiettivi di accessibilità fissati dai contratti di servizio risultano essere stati raggiunti.
+
+Sinistri e reati
+Sinistri
+Nel 2025, i flussi di mobilità sono rimasti sostanzialmente stabili rispetto all’anno precedente. La quota di sinistri attribuibili alla responsabilità dei
+conducenti aziendali (sinistri passivi) ha registrato un aumento del 4,9%, principalmente a causa di un maggior numero di incidenti che hanno
+coinvolto gli autobus urbani. Tra questi rientrano anche sinistri di lieve entità, spesso conseguenza di manovre preventive compiute per evitare danni
+più gravi - come, ad esempio, brusche frenate necessarie a evitare collisioni, che possono provocare urti o cadute dei passeggeri a bordo.
+
+ Numero sinistri per tipologia di servizio                        Unità di misura                     2025                          2024                         2023
+ Tram                                                                      nr                               450                           455                          483
+ di cui passivi                                                                                             116                           112                          105
+ Bus urbani                                                                                               1.267                        1.237                         1.168
+ di cui passivi                                                                                             650                           618                          611
+ Bus extraurbani                                                                                            157                           160                          135
+ di cui passivi                                                                                               77                           74                            58
+ Totale                                                                                                  1.874                         1.852                        1.786
+ di cui passivi                                                                                             843                           804                          774
+Il rapporto tra chilometri percorsi e numero di sinistri rappresenta un indicatore della sicurezza del trasporto pubblico. Questo para-
+metro è previsto dal Contratto dei servizi urbani e dalla relativa Carta della mobilità, e viene monitorato mensilmente dalla Centrale operativa
+aziendale.
+
+ Km percorsi tra due incidenti                       Unità di misura                 2025                     2024                     2023                    Obiettivo
+                                                                                                                                                        Contratti di Servizio
+ Servizio urbano                                             km                      14.738                   14.851                  15.530                       12.000
+ di cui bus                                                                          17.129                   16.466                  17.697                       12.000
+ di cui tram                                                                          8.668                    9.435                    8.800                      12.000
+Nel 2025, l’indice ha registrato un lieve calo (-0,8%), pur restando comunque al di sopra dello standard di qualità previsto dai contratti di ser-
+vizio (12.000km) e dei valori osservati nel periodo precedente alla crisi Covid. Il rinnovo della flotta con mezzi più sicuri potrà generare ulteriori
+benefici e contribuire a migliorare ulteriormente l’indice di sicurezza.
+Reati
+Nel 2025 le aggressioni - intese come qualsiasi rischio o lesione all’incolumità fisica - hanno registrato una significativa diminuzione del 20,9%.
+In particolare, i borseggi denunciati sono calati del 30%, mentre altri tipi di aggressioni e atti di vandalismo presentano riduzioni più contenute.
+
+ Numero reati denunciati                                          Unità di misura                     2025                          2024                         2023
+ Aggressioni                                                               nr                              87                           87                          115
+ di cui a passeggeri                                                                                       67                           60                            70
+ di cui a conducenti                                                                                       20                           27                            42
+ Borseggi                                                                                                200                          287                           398
+ Atti di vandalismo                                                                                        54                           57                          114
+ Totale episodi                                                                                          341                          431                           627
+Il quadro complessivo di miglioramento è incoraggiante, pur restando una priorità quella di consolidare le attività di prevenzione e contrasto della
+microcriminalità. Tali attività vengono realizzate in collaborazione con le Forze dell’Ordine e con la Prefettura di Torino, attraverso uno scambio
+continuo di informazioni e l’attivazione di interventi mirati, talvolta congiunti con gli Assistenti alla Clientela aziendali.
+Il progressivo rinnovo della flotta ha permesso di estendere il numero di telecamere a bordo dei mezzi, con effetti sia dissuasivi nella com-
+missione di reati sia di supporto all’identificazione dei responsabili. La percentuale di veicoli dotati di videosorveglianza è aumentata in modo
+                                                                                      130
+
+=== PAGINA PDF 133 / STAMPATA 131 ===
+
+significativo nel 2025, e oggi tutti gli autobus urbani sono completamente equipaggiati con sistemi di sicurezza avanzati.
+
+% veicoli con telecamere su totale flotta                              2025                                    2024                                    2023
+Bus urbani                                                             100%                                    97%                                      92%
+Bus extraurbani                                                         97%                                    71%                                      71%
+Tram                                                                    81%                                    74%                                      65%
+
+Sanzioni
+Nel 2025 le principali sanzioni applicate ai passeggeri riguardano il mancato possesso o l’uso irregolare del titolo di viaggio, con sanzioni am-
+ministrative fisse e riduzioni in base ai tempi di pagamento. Altre infrazioni includono titoli contraffatti, mancata validazione, e comportamenti
+contrari alla sicurezza dei passeggeri.
+Nel 2025 le sanzioni per evasione sugli autobus e tram sono aumentate del 2,5%, mentre sulla metro si nota una significativa diminuzione del
+27,5%.
+
+Sanzioni amministrative registrate
+Evasione                                                               2025                                    2024                                    2023
+Autobus + tram                                                       188.651                                 184.130                                 169.301
+Metro                                                                   7.489                                  10.323                                   9.994
+
+Metriche relative a centro Emissione Massiva e Grandi Clienti
+Nel 2025 le società che hanno usufruito degli incentivi legali alla figura del Mobility Manager sono state 38, per un totale di 5.893 abbonamenti
+urbani e di 1.976 abbonamenti Formula, che consentono l’utilizzo delle linee delle società di trasporto aderenti al sistema integrato. Ulteriori
+41 società, pur non aderendo all’iniziativa sopra descritta, hanno utilizzato il canale Grandi Clienti per il rinnovo degli abbonamenti ai propri
+dipendenti. per un totale di 1.571 abbonamenti. Nel 2025 si è registrato un incremento di fatturato del 4% per il rilascio di abbonamenti annuali
+rispetto all’anno precedente.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                    131
+
+=== PAGINA PDF 134 / STAMPATA 132 ===
+
+      INFORMATIVA DI GOVERNANCE
+Condotta delle imprese
+
+ Tema                                 Sottotema                                    Sotto-sotto tema                                      SDGs
+ G1 Condotta delle                    Cultura d’impresa
+ imprese
+
+
+                                      Gestione dei rapporti con i fornitori,
+                                      comprese le prassi di pagamento
+                                      Corruzione attiva e passiva                  Prevenzione e individuazione compresa la
+                                                                                   formazione Incidenti
+
+Governance
+Ruolo degli organi di amministrazione, direzione e controllo
+ESRS Standards   ESRS 2 GOV- 1
+GTT adotta un modello di amministrazione e controllo di tipo tradizionale. All’Assemblea dei Soci spettano le deliberazioni inerenti agli atti
+fondamentali di governo della Società, nel rispetto della normativa vigente e delle disposizioni statutarie. Il Consiglio di Amministrazione ha la
+responsabilità della gestione aziendale e provvede ad attribuire specifiche deleghe operative agli organi e ai soggetti incaricati. Il Collegio Sin-
+dacale svolge funzioni di vigilanza sull’osservanza della legge e dello Statuto, nonché sul rispetto dei principi di corretta amministrazione. Esso
+vigila sull’adeguatezza dell’assetto organizzativo, del sistema di controllo interno e del sistema amministrativo-contabile della Società.
+ Tra i Comitati (non endoconsiliari) istituiti da GTT ci sono Comitato per i rischi, l’ambiente, la salute e sicurezza e il Comitato di sostenibilità.
+Si rimanda al capitolo Governance / paragrafo Il ruolo degli organi di amministrazione, direzione e controllo dove viene riportato il ruolo degli
+organi di amministrazione, direzione e controllo e le loro competenze.
+Gestione impatti - rischi - opportunità
+Descrizione dei processi per individuare
+e valutare gli impatti, i rischi e le opportunità rilevanti
+ESRS Standards   ESRS 2 IRO-1
+
+Impatti
+                                                      Promuovere e consolidare una cultura d’impresa basata su comportamenti etici del business, produce
+Cultura d’impresa                                     impatti positivi sugli stakeholder interni ed esterni, contribuendo a rafforzare il senso di appartenenza e di
+                                                      responsabilità nei rapporti con i dipendenti, fornitori, clienti e altri portatori di interesse.
+Gestione dei rapporti con i fornitori,                La gestione inadeguata della catena di fornitura e la mancata integrazione di criteri e parametri ESG nei
+comprese le prassi di pagamento                       processi di procurement (selezione, qualifica, gestione e monitoraggio dei fornitori) può generare impatti
+                                                      negativi ambientali e sociali.
+Corruzione attiva e passiva
+-   Prevenzione e individuazione compresa la          La possibilità di episodi di corruzione attiva e passiva nei rapporti con gli stakeholder, possono causare
+  formazione                                          distorsioni nelle condizioni di libera concorrenza e nella conduzione del business.
+- Incidenti
+
+Rischi/Opportunità
+                                                      Una cultura d’impresa fondata su codici, principi e valori unita alla coerenza nella condotta del business,
+Cultura d’impresa                                     rappresenta un’opportunità per rafforzare il senso di appartenenza e la reputazione aziendale e sviluppare
+                                                      relazioni solide e durature con gli stakeholder.
+Gestione dei rapporti con i fornitori,                Rischi reputazionali e di mercato derivanti dalla potenziale perdita di fornitori strategici per mancata
+comprese le prassi di pagamento                       compliance ESG, con possibili effetti sulla continuità operativa di GTT.
+
+
+
+
+
+                                                                                  132

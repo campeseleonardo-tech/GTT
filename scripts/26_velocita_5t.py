@@ -19,7 +19,8 @@ Regole (vedi docs/R8_traffico.md):
 - tipo di giorno: 0 = feriale (lun-ven), 1 = sabato, 2 = domenica;
 - ore locali Europe/Rome calcolate a mano (niente zoneinfo).
 
-Letture in SOLA LETTURA su data/storico_backup.sqlite.
+Letture in SOLA LETTURA su data/storico_backup.sqlite; se lo storico non c'e' (o con --riassunti) si leggono
+i riassunti scritti dallo script 97 (data/storico_riassunti/sensori5t_*.json.gz): stessi numeri.
 Output:
 - data/processed/velocita_5t.json
 - docs/rapporti/RAPPORTO_VELOCITA_5T.txt
@@ -37,6 +38,9 @@ import sys
 from calendar import monthrange
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import riassunti_storico as rs  # noqa: E402  (riassunti dello storico, script 97)
 
 RADICE = Path(__file__).resolve().parents[1]
 DB = RADICE / "data" / "storico_backup.sqlite"
@@ -107,98 +111,85 @@ def main():
     ap.add_argument("--prova", action="store_true",
                     help=f"solo i primi {PROVA_GIORNI} giorni locali dopo "
                          "l'8/10 21:30 UTC; rapporto solo su console")
+    ap.add_argument("--riassunti", action="store_true",
+                    help="legge i riassunti dello storico (script 97) anche se lo storico c'e'")
     args = ap.parse_args()
 
-    con = apri_db(DB)
-    cur = con.cursor()
+    # sorgente: lo storico SQLite (riassunto al volo con la stessa funzione dello script 97) oppure i riassunti gia' scritti
+    if DB.is_file() and not args.riassunti:
+        sorgente = "storico SQLite"
+        con = apri_db(DB)
+        cur = con.cursor()
+        anag_grezza = {lcd1: [nome, direzione, lat, lng] for lcd1, nome, direzione, lat, lng in cur.execute(
+            "SELECT lcd1, nome_strada, direzione, lat, lng FROM sensori_5t")}
+        giorni_dati = rs.riassumi_5t(con)
+        con.close()
+    else:
+        if not rs.esiste_5t():
+            raise SystemExit(f"Manca lo storico ({DB}) e non ci sono riassunti 5T in {rs.CARTELLA}: "
+                             "lancia scripts/97_riassunti_storico.py (o scarica i dati con scripts/scarica_dati.py).")
+        sorgente = "riassunti dello storico (script 97)"
+        anag_grezza = rs.carica_anagrafica()["sensori"]
+        giorni_dati = rs.carica_5t()
 
     anagrafica = {}
-    for lcd1, nome, direzione, lat, lng in cur.execute(
-            "SELECT lcd1, nome_strada, direzione, lat, lng FROM sensori_5t"):
+    for lcd1, (nome, direzione, lat, lng) in anag_grezza.items():
         anagrafica[lcd1] = dict(via=nome or "", dir=direzione or "?",
                                 lat=lat, lon=lng,
                                 urbano="(TO)" in (nome or ""))
 
-    letture = cur.execute("""
-        SELECT f.generato_utc, f.lcd1, f.flusso, f.velocita
-        FROM flussi_5t f
-        JOIN accuratezza_5t a ON a.generato_utc = f.generato_utc AND a.lcd1 = f.lcd1
-        WHERE a.accuratezza > 0 AND f.flusso IS NOT NULL
-    """).fetchall()
+    # letture scartate: accuratezza = 0 / senza riga / totale (servono al rapporto)
+    n_scartate = sum(r["scartate"] for r in giorni_dati.values())
+    n_senza_riga = sum(r["senza_riga"] for r in giorni_dati.values())
+    n_tot_flussi = sum(r["totale"] for r in giorni_dati.values())
 
-    # letture scartate: accuratezza = 0 (serve al rapporto, query a parte)
-    n_scartate = cur.execute("""
-        SELECT COUNT(*) FROM flussi_5t f
-        JOIN accuratezza_5t a ON a.generato_utc = f.generato_utc AND a.lcd1 = f.lcd1
-        WHERE a.accuratezza = 0
-    """).fetchone()[0]
-    n_senza_riga = cur.execute("""
-        SELECT COUNT(*) FROM flussi_5t f
-        LEFT JOIN accuratezza_5t a ON a.generato_utc = f.generato_utc AND a.lcd1 = f.lcd1
-        WHERE a.generato_utc IS NULL
-    """).fetchone()[0]
-    n_tot_flussi = cur.execute("SELECT COUNT(*) FROM flussi_5t").fetchone()[0]
-    con.close()
+    # giorni con letture affidabili, in ordine; ogni giorno: n letture, prima/ultima lettura (minuti), celle
+    giorni_loc = {date.fromisoformat(d): r for d, r in giorni_dati.items() if r["celle"]}
+    n_letture_giorno = {d: sum(c[0] for ore in r["celle"].values() for c in ore.values()) for d, r in giorni_loc.items()}
 
     # --- eventuale filtro per la prova: primi N giorni locali dopo INIZIO_ACCURATEZZA ---
     if args.prova:
         # giorni locali SUCCESSIVI a quello dell'inizio accuratezza
         # (l'8/10 l'accuratezza copre solo le ultime mezz'ora: si salta)
         limite = a_roma(INIZIO_ACCURATEZZA).date()
-        posti = [r for r in letture if a_roma(parsa_utc(r[0])).date() > limite]
-        giorni_ok = []
-        for g, *_ in posti:
-            d = a_roma(parsa_utc(g)).date()
-            if d not in giorni_ok:
-                giorni_ok.append(d)
-            if len(giorni_ok) >= PROVA_GIORNI:
-                break
-        giorni_ok = set(giorni_ok)
-        letture = [r for r in posti if a_roma(parsa_utc(r[0])).date() in giorni_ok]
+        giorni_ok = sorted(d for d in giorni_loc if d > limite)[:PROVA_GIORNI]
+        giorni_loc = {d: r for d, r in giorni_loc.items() if d in set(giorni_ok)}
         print(f"--prova: {len(giorni_ok)} giorni locali "
               f"({', '.join(str(d) for d in sorted(giorni_ok))}), "
-              f"letture {len(letture)}")
+              f"letture {sum(n_letture_giorno[d] for d in giorni_loc)}")
 
     # --- giorni parziali ai bordi del periodo: si escludono (regola 17/10) ---
     # Il primo e l'ultimo giorno locale dei dati contano solo se coprono tutta la
     # giornata (primo giorno: prima lettura entro le 00:30; ultimo: ultima dopo le 23:30).
-    copertura = {}      # giorno locale -> (minuti della prima lettura, minuti dell'ultima)
-    for g, *_ in letture:
-        loc = a_roma(parsa_utc(g))
-        m = loc.hour * 60 + loc.minute
-        lo, hi = copertura.get(loc.date(), (m, m))
-        copertura[loc.date()] = (min(lo, m), max(hi, m))
     giorni_esclusi = set()
-    if copertura:
-        primo_g, ultimo_g = min(copertura), max(copertura)
-        if copertura[primo_g][0] > 30:
+    if giorni_loc:
+        primo_g, ultimo_g = min(giorni_loc), max(giorni_loc)
+        if giorni_loc[primo_g]["prima"] > 30:
             giorni_esclusi.add(primo_g)
-        if copertura[ultimo_g][1] < 23 * 60 + 30:
+        if giorni_loc[ultimo_g]["ultima"] < 23 * 60 + 30:
             giorni_esclusi.add(ultimo_g)
-        letture = [r for r in letture
-                   if a_roma(parsa_utc(r[0])).date() not in giorni_esclusi]
+        giorni_loc = {d: r for d, r in giorni_loc.items() if d not in giorni_esclusi}
+    n_letture = sum(n_letture_giorno[d] for d in giorni_loc)
 
     # --- accumulo per (sensore, tipo, ora) ---
     celle = {}      # (lcd1, tipo, ora) -> dict
     giorni_tipo = set()
     primo = ultimo = None
-    for g, lcd1, flusso, vel in letture:
-        utc = parsa_utc(g)
-        loc = a_roma(utc)
-        d = loc.date()
+    for d in sorted(giorni_loc):
         giorni_tipo.add((tipo_giorno(d), d))
         primo = d if primo is None or d < primo else primo
         ultimo = d if ultimo is None or d > ultimo else ultimo
-        k = (lcd1, tipo_giorno(d), loc.hour)
-        c = celle.setdefault(k, dict(sf=0.0, n=0, svf=0.0, sf_pos=0.0,
-                                     n_pos=0, giorni=set()))
-        c["sf"] += flusso
-        c["n"] += 1
-        c["giorni"].add(d)
-        if flusso > 0 and vel is not None:
-            c["svf"] += vel * flusso
-            c["sf_pos"] += flusso
-            c["n_pos"] += 1
+        for lcd1, ore in giorni_loc[d]["celle"].items():
+            for ora, (n, sf, n_pos, svf, sf_pos) in ore.items():
+                k = (lcd1, tipo_giorno(d), int(ora))
+                c = celle.setdefault(k, dict(sf=0.0, n=0, svf=0.0, sf_pos=0.0,
+                                             n_pos=0, giorni=set()))
+                c["sf"] += sf
+                c["n"] += n
+                c["giorni"].add(d)
+                c["svf"] += svf
+                c["sf_pos"] += sf_pos
+                c["n_pos"] += n_pos
 
     # --- costruzione output ---
     sensori = {lcd1: dict(**info, celle={}) for lcd1, info in anagrafica.items()}
@@ -223,7 +214,7 @@ def main():
     if not args.prova:
         payload = {
             "generato": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-            "fonte": "storico_backup.sqlite, solo letture con accuratezza>0",
+            "fonte": "storico_backup.sqlite (o i suoi riassunti), solo letture con accuratezza>0",
             "tag": "MISURATO",
             "periodo": {"da": primo.isoformat(), "a": ultimo.isoformat()},
             "giorni": giorni,
@@ -237,12 +228,12 @@ def main():
     # --- rapporto ---
     scrivi("VELOCITA' 5T TIPICA (solo letture affidabili)  [MISURATO]")
     scrivi("=" * 72)
-    scrivi(f"DB (sola lettura): {DB}")
+    scrivi(f"sorgente (sola lettura): {sorgente}" + (f", {DB}" if sorgente == "storico SQLite" else ""))
     if args.prova:
         scrivi("MODALITA' PROVA: i file di output NON sono stati scritti.")
     scrivi(f"periodo (giorni locali): {primo} -> {ultimo}")
     if giorni_esclusi: scrivi("giorni parziali esclusi (bordo del periodo): " + ", ".join(str(d) for d in sorted(giorni_esclusi)))
-    scrivi(f"letture affidabili usate: {len(letture)}")
+    scrivi(f"letture affidabili usate: {n_letture}")
     scrivi(f"letture scartate (accuratezza = 0): {n_scartate} "
            f"({n_scartate / n_tot_flussi:.1%} di {n_tot_flussi} flussi)")
     scrivi(f"letture senza riga in accuratezza_5t (prima del 08/10 21:30 UTC): "

@@ -21,7 +21,7 @@ Struttura output:
    ]}
 ]
 
-Regole (da MEMORIA_PROGETTO.md):
+Regole (da sviluppo/MEMORIA_PROGETTO.md):
 - comuni: quelli dell'area mappa (= i "c" in sezioni_torino.json); Moncucco (5070) resta fuori;
 - poligoni: lon,lat -> [lat,lon], 5 decimali; semplifica Douglas-Peucker 20 m (come 05_prepara_sezioni.py);
 - MultiGeometry: tutti i Polygon diventano anelli; innerBoundaryIs tenuti come anelli (verranno disegnati pieni);

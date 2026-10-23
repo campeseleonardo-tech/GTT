@@ -1,0 +1,103 @@
+{
+  "fatti": [
+    {
+      "tema": "offerta",
+      "dato": "Infrastrutture di ricarica per flotta autobus elettrica",
+      "valore": "211",
+      "unita": "infrastrutture",
+      "anno": "2025",
+      "pagina_pdf": "52",
+      "pagina_stampata": "50",
+      "frase_originale": "Messa in funzione di 211 infrastrutture di ricarica presso i depositi Venaria (91), Nizza (70) e San Paolo (50)",
+      "utilita": "alta"
+    },
+    {
+      "tema": "ambiente",
+      "dato": "Quota del consumo energetico da fonti rinnovabili",
+      "valore": "30%",
+      "unita": "",
+      "anno": "2025",
+      "pagina_pdf": "52",
+      "pagina_stampata": "50",
+      "frase_originale": "Raggiungimento di una quota 30% del consumo energetico da fonti rinnovabili",
+      "utilita": "alta"
+    },
+    {
+      "tema": "qualita",
+      "dato": "Servizio Info Bus sugli autobus",
+      "valore": "100%",
+      "unita": "",
+      "anno": "2025",
+      "pagina_pdf": "53",
+      "pagina_stampata": "51",
+      "frase_originale": "Raggiungimento del 100% del servizio Info Bus sugli autobus",
+      "utilita": "alta"
+    },
+    {
+      "tema": "economia",
+      "dato": "Funzionari in uscita",
+      "valore": "12",
+      "unita": "funzionari",
+      "anno": "2025",
+      "pagina_pdf": "53",
+      "pagina_stampata": "51",
+      "frase_originale": "n.12 funzionari - n.12 impiegati - n. 145 conducenti urbani",
+      "utilita": "media"
+    },
+    {
+      "tema": "economia",
+      "dato": "Impiegati in uscita",
+      "valore": "12",
+      "unita": "impiegati",
+      "anno": "2025",
+      "pagina_pdf": "53",
+      "pagina_stampata": "51",
+      "frase_originale": "n.12 funzionari - n.12 impiegati - n. 145 conducenti urbani",
+      "utilita": "media"
+    },
+    {
+      "tema": "economia",
+      "dato": "Conducenti urbani in uscita",
+      "valore": "145",
+      "unita": "conducenti",
+      "anno": "2025",
+      "pagina_pdf": "53",
+      "pagina_stampata": "51",
+      "frase_originale": "n.12 funzionari - n.12 impiegati - n. 145 conducenti urbani",
+      "utilita": "media"
+    },
+    {
+      "tema": "economia",
+      "dato": "Operai e mov. Metro in uscita",
+      "valore": "30",
+      "unita": "operai",
+      "anno": "2025",
+      "pagina_pdf": "53",
+      "pagina_stampata": "51",
+      "frase_originale": "n. 30 operai e mov. Metro",
+      "utilita": "media"
+    },
+    {
+      "tema": "qualita",
+      "dato": "Incremento delle vendite ai Grandi Clienti",
+      "valore": "15%",
+      "unita": "",
+      "anno": "2025",
+      "pagina_pdf": "53",
+      "pagina_stampata": "51",
+      "frase_originale": "Incremento delle vendite verso i cosiddetti \"Grandi Clienti\" del 15 % rispetto al 2025",
+      "utilita": "alta"
+    },
+    {
+      "tema": "qualita",
+      "dato": "Accessibilità tram con pianale ribassato",
+      "valore": "85%",
+      "unita": "",
+      "anno": "2025",
+      "pagina_pdf": "53",
+      "pagina_stampata": "51",
+      "frase_originale": "Accessibilità dei tram con pianale ribassato per persone con mobilità ridotta superiore al 85%",
+      "utilita": "alta"
+    }
+  ]
+}
