@@ -67,3 +67,43 @@ nel sistema; pagine che funzionano anche senza le animazioni.
 Prova di ogni passo: le pagine aperte in un browser senza schermo (0 errori, screenshot a misura di computer e telefono, anche
 con «riduci movimento»); Leo guarda gli screenshot e poi le pagine vere sul PC.
 Peso: home sotto 1 MB con l'animazione; mappa non oltre i 6 MB di oggi.
+
+## Revisione di Leo (23/10) e come la applichiamo
+
+Leo ha guardato home, schede e mappa dopo C7-C9. Gli piacciono il caricamento della mappa (la città che si disegna) e i mezzi in movimento in home.
+Le sue modifiche, con le scelte di Claude dove Leo ha lasciato decidere (valori predefiniti, si cambiano con una riga):
+
+**Home**
+- «Torino Mobilità» in **oro**; sotto: «Un progetto per capire come si muove la città».
+- Frase della raccolta, più generale: «Da **N** giorni raccogliamo, minuto per minuto, dove sono bus e tram e quanto traffico c'è sulle strade. E continuiamo.» + «Per capire chi va dove, e come ci va.»
+  N = giorni dal primo giorno della raccolta (3/10/2026) a **oggi**, contati nella pagina: «e continuiamo» resta vero finché il Raspberry Pi raccoglie (la raccolta è sempre attiva).
+- I 5 riquadri mostrano **la stessa animazione della loro scheda**, in piccolo, al posto delle miniature fisse (componente unico `assets/animazioni.js`, usato da home e schede).
+
+**Numeri che salgono** (home e schede): più lenti (circa 2,5 secondi), partenza e arrivo morbidi; durante la corsa solo numeri interi, **senza virgola né %**:
+la parte decimale e il % compaiono solo alla fine. Cifre a larghezza fissa e spazio riservato, così il testo intorno non si muove. Anche le forbici («21–28», «2–3») salgono.
+
+**Schede**
+- Via la parte «In English» (l'inglese resta col bottone IT/EN).
+- Meno parti chiuse: domanda → numero grande con la sua animazione → grafico principale → 3 punti chiave → «Vedi sulla mappa» → **tutti gli altri grafici aperti**
+  (anche quelli che prima stavano in una parte chiusa: attese, interscambi, strade grandi) → **una sola** parte chiusa «Come l'abbiamo calcolato e limiti» (calcolo, criteri, confronto, limiti).
+- Titoli nuovi (Leo ha proposto, Claude ha ritoccato):
+
+| Scheda | Titolo | Perché il ritocco |
+|---|---|---|
+| 1 servizi | «Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi» | l'idea dei 15 minuti si chiama «città dei 15 minuti»; «smart city» è un'altra cosa (sensori e dati: è il racconto della pagina «Il progetto») |
+| 2 puntualità | «Circa il 5% dei passaggi arriva con più di 10 minuti di ritardo» | «in ritardo» da solo è ambiguo: oltre 5 minuti sono il 14% |
+| 3 parcheggi | «2 fermate importanti su 3 non hanno dove lasciare l'auto» | il risultato vero è quanto è facile lasciare l'auto e proseguire coi mezzi (Leo); i minuti di parcheggio diventano un punto chiave |
+| 4 traffico | resta «Al mattino, coi mezzi pubblici si impiega da 2 a 3 volte il tempo dell'auto» finché non c'è il giorno intero (C15) | |
+| 5 case | «Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi» | «fragile» detto di persone suona male; «difficoltà sociali» descrive l'indice senza etichettare chi ci vive |
+
+- **Animazioni** (tutte con «riduci movimento»: figura ferma e numeri scritti):
+  1. **Servizi**: tre cerchi intorno a una casa, 5 → 10 → 15 minuti a piedi; ogni cerchio si apre col suo % (68 → 97 → 99).
+  2. **Puntualità**: 100 quadratini che si accendono (ritardo oltre 5 minuti chiaro, oltre 10 scuro), poi **il giorno che scorre**: le 4 fasce orarie (punta del mattino, giorno, punta della sera, sera) cambiano i quadratini, con l'orologio. I dati per fascia ci sono già.
+  3. **Parcheggi**: la forma di Torino, le 274 fermate importanti che compaiono e si colorano (posti bastanti / pochi / nessuno), poi i 12 punti prioritari che si accendono.
+     La **gara bus contro auto** resta come secondo grafico e **gira da sola** da un punto all'altro (finita una corsa parte la successiva, col nome del punto); la tendina resta, piccola, per chi vuole scegliere.
+  4. **Traffico**: la gara, da sola, su viaggi tipici fra zone (le coppie con più auto del mattino); poi l'area che si espande (C10).
+  5. **Case**: 10 omini che compaiono uno alla volta, poi uno si accende.
+
+**Non solo all'ora di punta** (schede 3 e 4, richiesta di Leo): oggi i tempi coi mezzi sono calcolati solo alle 8. Per l'auto abbiamo già il tempo a strada libera e le velocità
+dei sensori 5T per ora; per i mezzi serve il calcolo a più ore (stesso motore degli script 93 e 94) → giro **C15** (script, cloud) + **P10** (calcolo sul PC). Poi la gara
+sceglie l'ora da sola (8, 13, 18, 21) e la scheda 4 ha la linea «quante volte il tempo dell'auto, ora per ora». L'ora di punta resta il numero principale.

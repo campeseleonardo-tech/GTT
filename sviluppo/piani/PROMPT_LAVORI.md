@@ -32,9 +32,12 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | C6 (FATTO 22/10) | CLOUD | divisione di `schede_risultati.py` e testi IT/EN | 5 (4), 4 (5) |
 | P4 (FATTO 22/10) | PC | rilancio schede: stessi numeri di prima; Leo rilegge l'inglese 🛑 | 5 (4) |
 | C7 (FATTO 22/10) | CLOUD | gara bus contro auto (scheda 3) | 4 (4) |
-| C8 (FATTO 22/10) | CLOUD | home: mezzi in movimento, contatore, miniature | 4 (6) |
-| C9 (FATTO 22/10) | CLOUD | mappa: ore che scorrono, caricamento, telefono, schede dei temi, link della vista | 4 (7) |
+| C8 (FATTO 22/10, unito in prova il 23/10) | CLOUD | home: mezzi in movimento, contatore, miniature | 4 (6) |
+| C9 (FATTO 22/10, unito in prova il 23/10) | CLOUD | mappa: ore che scorrono, caricamento, telefono, schede dei temi, link della vista | 4 (7) |
+| C14 | CLOUD | revisione di Leo (23/10): home, numeri che salgono, schede con meno parti chiuse, titoli nuovi, animazioni delle 5 schede anche in home | 4 (revisione 23/10) |
 | P5 | PC | prima `97 --solo ora --rifai` (ESITO_C8), poi rilancio mappa e schede, controllo a occhio di home, schede e mappa 🛑 → main | — |
+| C15 | CLOUD | script 99: tempi coi mezzi e in auto a più ore del giorno (punti del R6, coppie di zone del R8); gara e scheda 4 con le ore | 4 (revisione 23/10) |
+| P10 | PC | calcolo dello script 99 (lungo), rilancio schede 🛑 | — |
 | C10 | CLOUD | area che si espande: script dei tempi e grafico (scheda 4) | 4 (8) |
 | P6 | PC | calcolo dei tempi da Piazza Castello, rilancio schede | 4 (8) |
 | C11 | CLOUD | `progetto.html` | 4 (9) |
