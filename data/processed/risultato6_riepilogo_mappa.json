@@ -2,7 +2,7 @@
   "risultato": "6",
   "titolo": "Parcheggi per lasciare l'auto",
   "tag": "STIMATO / MISURATO (dati scarsi)",
-  "stato": "Aggiornato al 22/10/2026",
+  "stato": "Aggiornato al 23/10/2026",
   "in_breve": "Dove lasciare l'auto prima di entrare in città e proseguire con i mezzi pubblici: come funzionano gli interscambi che ci sono, e dove mancano posti per le auto che entrano ogni mattina.",
   "domanda": "Dove mancano posti per lasciare l'auto prima di entrare in città, vicino a una fermata importante, per le auto che ogni mattina entrano a Torino?",
   "numero_chiave": {
@@ -551,7 +551,7 @@
     "scripts/84_risultato6_parcheggi.py",
     "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-22T17:07:22+00:00",
+  "generato": "2026-10-23T12:13:37+00:00",
   "avviso": [
     "Come leggere i tag. ",
     "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
