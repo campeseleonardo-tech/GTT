@@ -46,6 +46,9 @@ jobs:
           python scripts/rifai_tutto.py --prova-secca
           python scripts/schede_risultati.py
 
+      - name: Le schede in git sono quelle che escono dai dati (L9)
+        run: git diff --exit-code -I'generato' -I'Aggiornato al' -- data/schede_risultati.js r README.md
+
       - name: Pesi dei file in git
         run: python scripts/controlla_pesi_git.py
 
