@@ -124,13 +124,13 @@ def fattore_servizio(gruppo, ora="08:00"):
         return None
 
 
-# Periodo fisso dei dati (giro L9, 24/10/2026): le date dei dati usati OGGI dai risultati pubblicati, lette dai loro JSON (stessi numeri di prima).
-# Gli script 26, 27, 33, 70, 71, 88 la leggono: i dati arrivati dopo non entrano nei risultati finche' non si cambia qui a mano (lavoro P8).
-# Estremi inclusi, giorni locali.
+# Periodo fisso dei dati (giri L9 e L9b, 24/10/2026): SOLO GIORNI INTERI. Regola: il PERIODO non contiene mai il giorno della copia dello storico
+# (quel giorno e' a meta': i numeri non si riprodurrebbero). Gli script 24, 26, 27, 33, 69, 70, 71, 88 e 04_genera_mappa.py lo leggono: i dati
+# arrivati dopo non entrano nei risultati finche' non si cambia qui a mano (lavoro P8). Estremi inclusi, giorni locali.
 PERIODO = {
-    "sensori": ("2026-10-09", "2026-10-22"),     # sensori 5T (velocita_5t.json): script 26, e da li' 33 e 88
-    "gps": ("2026-10-10", "2026-10-23"),         # passaggi dei mezzi (start_date dello storico): script 27 e 70
-    "parcheggi": ("2026-10-15", "2026-10-22"),   # riempimento dei parcheggi 5T: script 71
+    "sensori": ("2026-10-09", "2026-10-22"),     # sensori 5T (velocita_5t.json): script 24, 26, e da li' 33 e 88
+    "gps": ("2026-10-10", "2026-10-22"),         # passaggi dei mezzi (start_date dello storico): script 27, 70 e velocita' della mappa
+    "parcheggi": ("2026-10-15", "2026-10-22"),   # riempimento dei parcheggi 5T: script 69 e 71
 }
 
 
@@ -144,6 +144,15 @@ def nel_periodo(giorno, chiave):
     """True se il giorno sta nel periodo fisso PERIODO[chiave]."""
     da, a = PERIODO[chiave]
     return da <= _iso(giorno)[:10] <= a
+
+
+def controlla_copia_storico(db):
+    """AVVISO se il giorno (locale) dell'ultimo cambio della copia dello storico e' dentro un PERIODO: sarebbe un giorno a meta'."""
+    import datetime as _dt
+    giorno = _dt.datetime.fromtimestamp(Path(db).stat().st_mtime).date().isoformat()
+    for k, (da, a) in PERIODO.items():
+        if da <= giorno <= a:
+            print(f"AVVISO: il giorno della copia dello storico ({giorno}) e' dentro il periodo fisso '{k}' ({da} - {a}): giorno a meta', ritira l'estremo")
 
 
 def testo_periodo(chiave):

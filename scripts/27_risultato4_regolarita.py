@@ -316,15 +316,17 @@ def _segmento(punti, i, flat, flon, kx):
     return (math.hypot(x0 + f * dx, y0 + f * dy), t0 + f * (t1 - t0))
 
 
-def cerca_vincolata(punti, flat, flon, kx, t_prec, i0):
+def cerca_vincolata(punti, flat, flon, kx, t_prec, i0, partenza=False):
     """Primo gruppo di segmenti vicini alla fermata con istante >= t_prec, dal segmento i0.
-    Ritorna (istante, indice del segmento) del piu' vicino del gruppo, oppure None."""
+    Ritorna (istante, indice del segmento) del piu' vicino del gruppo, oppure None.
+    partenza=True (giro L9b, solo prima fermata della corsa): al capolinea il bus aspetta fermo vicino alla fermata e il punto piu' vicino
+    cade durante l'attesa; il passaggio e' invece l'ultimo istante del gruppo, quando il bus se ne va."""
     migliore = None
     for i in range(i0, len(punti) - 1):
         s = _segmento(punti, i, flat, flon, kx)
         vicino = s is not None and s[0] <= DIST_GPS_M and s[1] >= t_prec
         if vicino:
-            if migliore is None or s[0] < migliore[0]:
+            if partenza or migliore is None or s[0] < migliore[0]:
                 migliore = (s[0], s[1], i)
         elif migliore is not None and s is not None:
             break
@@ -336,13 +338,13 @@ def passaggi_corsa(punti, fermate_corsa, sched_base, fermate):
     {seq: istante}. Il passaggio di una fermata viene solo dopo quello della fermata prima."""
     out = {}
     t_prec, i0 = -1e18, 0
-    for seq, sec, stop in fermate_corsa:
+    for n, (seq, sec, stop) in enumerate(fermate_corsa):
         info = fermate.get(stop)
         if not info:
             continue
         flat, flon = info[1], info[2]
         kx = 111320.0 * math.cos(math.radians(flat))
-        r = cerca_vincolata(punti, flat, flon, kx, t_prec, i0)
+        r = cerca_vincolata(punti, flat, flon, kx, t_prec, i0, partenza=(n == 0))
         if r is None or abs(r[0] - (sched_base + sec)) / 60.0 > MAX_RITARDO_VERO_MIN:
             continue
         out[seq] = r[0]
@@ -685,6 +687,8 @@ def main():
     sorg = apri_sorgente(forza_riassunti)
     print(f"Sorgente dei dati: {sorg.nome}", file=sys.stderr)
     giorni = [g for g in sorg.giorni() if comuni.nel_periodo(g, "gps")]   # periodo fisso (L9): comuni.PERIODO
+    if DB.exists():
+        comuni.controlla_copia_storico(DB)
     if prova:
         giorni = [g for g in giorni if g == GIORNO_PROVA]
         if not giorni:

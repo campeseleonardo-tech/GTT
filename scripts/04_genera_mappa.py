@@ -49,6 +49,11 @@ RAW = RADICE / "data" / "raw"
 TEMPLATE = next((c for c in (AQUI / "mappa_template.html", RADICE / "scripts" / "mappa_template.html") if c.is_file()),
                 RADICE / "scripts" / "mappa_template.html")
 USCITA = RADICE / "mappa_torino.html"
+for _c in (AQUI, RADICE / "scripts"):
+    if (_c / "comuni.py").is_file():
+        sys.path.insert(0, str(_c))
+        break
+import comuni  # noqa: E402  (PERIODO fisso dei dati)
 TIPI_GIORNO = ["fer", "sab", "dom"]
 csv.field_size_limit(10**8)
 
@@ -807,6 +812,10 @@ def calcola_velocita():
                     base = (ts, la, lo)
                     continue
                 loc = _locale(datetime.fromtimestamp(base[0], timezone.utc))
+                if not comuni.nel_periodo(loc.date(), "gps"):      # periodo fisso (L9b): solo giorni interi di comuni.PERIODO
+                    chiudi_sosta()
+                    base = (ts, la, lo)
+                    continue
                 tipo = 1 if loc.weekday() == 5 else 2 if loc.weekday() == 6 else 0
                 chiave = (ln, tipo, loc.hour, loc.toordinal())
                 if primo is None or base[0] < primo: primo = base[0]

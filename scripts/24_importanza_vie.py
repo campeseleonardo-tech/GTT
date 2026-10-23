@@ -50,7 +50,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from comuni import haversine_m  # noqa: E402  (distanza in metri, uguale alla copia che stava qui)
+from comuni import PERIODO, haversine_m  # noqa: E402  (distanza in metri, uguale alla copia che stava qui; PERIODO fisso dei dati)
 
 AQUI = Path(__file__).resolve().parent
 
@@ -179,8 +179,9 @@ def leggi_5t():
             letture = con.execute(
                 """SELECT f.flusso FROM flussi_5t f
                    JOIN accuratezza_5t a ON a.generato_utc=f.generato_utc AND a.lcd1=f.lcd1
-                   WHERE f.lcd1=? AND a.accuratezza>0 AND f.flusso IS NOT NULL""",
-                (lcd1,),
+                   WHERE f.lcd1=? AND a.accuratezza>0 AND f.flusso IS NOT NULL
+                     AND date(datetime(substr(f.generato_utc,1,19), '+2 hours')) BETWEEN ? AND ?""",
+                (lcd1, *PERIODO["sensori"]),      # periodo fisso (L9b): solo giorni interi
             ).fetchall()
             valori = [v for (v,) in letture if v is not None]
             if not valori:

@@ -46,6 +46,8 @@ import osmium
 from pyproj import Transformer
 
 AQUI = Path(__file__).resolve().parent
+sys.path.insert(0, str(AQUI))
+import comuni  # noqa: E402  (PERIODO fisso dei dati)
 
 
 def trova_radice():
@@ -246,7 +248,9 @@ def id_con_riempimento():
     """ID 5T che hanno trasmesso almeno una lettura di occupazione con 'liberi' non nullo."""
     c = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
     try:
-        righe = c.execute("select distinct id from occupazione_pk where liberi is not null").fetchall()
+        righe = c.execute("select distinct id from occupazione_pk where liberi is not null "
+                          "and date(datetime(substr(generato_utc,1,19), '+2 hours')) between ? and ?",
+                          comuni.PERIODO["parcheggi"]).fetchall()      # periodo fisso (L9b)
     finally:
         c.close()
     return {r[0] for r in righe}
