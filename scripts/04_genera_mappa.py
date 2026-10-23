@@ -409,7 +409,7 @@ def compatta_fermate(stops):
     return stops
 
 
-COLONNE_SEZ = ["p", "a", "c", "f", "occ", "p1564", "sen", "p014", "em", "ist9", "it", "pf1", "pf3", "v", "r1"]
+COLONNE_SEZ = ["p", "a", "c", "sen", "pf1", "pf3", "v", "r1"]      # L11: «Chi abita qui» ha 3 viste (densita', anziani, persone sole)
 
 
 def compatta_sezioni(sez):

@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **24/10/2026** (L9b, L10: limite visibile sotto il numero grande = primo limite della scheda; piè «Dati dal…al…» da `comuni.PERIODO` via `SCHEDE_PERIODO`; giorni della raccolta in `Sito.giorniRaccolta`; niente «Condividi») (giri L1: P1-P7, C13). File unico di memoria (`sviluppo/MEMORIA_PROGETTO.md`): leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
+Ultimo aggiornamento: **24/10/2026** (L9b, L10, L11: mappa con 3 viste consigliate, «Chi abita qui» a 3 viste, niente «copia il link», «Vedi sulla mappa» anche nella scheda 4 (tema Spostamenti); L10: limite visibile sotto il numero grande = primo limite della scheda; piè «Dati dal…al…» da `comuni.PERIODO` via `SCHEDE_PERIODO`; giorni della raccolta in `Sito.giorniRaccolta`; niente «Condividi») (giri L1: P1-P7, C13). File unico di memoria (`sviluppo/MEMORIA_PROGETTO.md`): leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
 risultato stanno nel suo documento in `docs/` (`R1_servizi.md` …), i piani aperti in `sviluppo/piani/`, la storia in git. Sezioni fisse (non aggiungerne): 1 Obiettivo · 2 Regole · 3 Cartelle e dati · 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici.
 
 ## 1. Obiettivo

@@ -145,7 +145,9 @@
   /* ore che scorrono (▶), dissolvenza fra un'ora e l'altra */
   #dissolvenza{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;display:block}
   #gioca{flex:none;width:34px;height:30px;padding:0;font-size:14px;line-height:1}
-  #copiaLink{width:100%;margin-top:10px;font-weight:600}
+  #consigliate{margin:8px 0 10px}
+  #consigliate .cons-t{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+  #consigliate button{display:block;width:100%;text-align:left;font-weight:600;margin:0 0 5px}
   /* caricamento: il contorno di Torino che si disegna e una barra; sparisce quando la mappa e' pronta */
   #caricamento{position:fixed;inset:0;z-index:25;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
     background:linear-gradient(135deg,#08142e 0%,#0b2559 100%);color:#f1f4fb;transition:opacity .5s}
@@ -200,6 +202,14 @@
   <h1>Torino Mobilità</h1>
   <p class="sub">Come si muove Torino: dove vive la gente, dove passa il trasporto pubblico, dove mancano i servizi.</p>
 
+  <!-- tre viste consigliate, un clic ciascuna (stessi indirizzi dei «Vedi sulla mappa» delle schede) -->
+  <div id="consigliate">
+    <div class="cons-t">Viste consigliate</div>
+    <button class="btn" type="button" data-h="tema=vulnerabilita&amp;vista=doppio">Fragili e con pochi servizi</button>
+    <button class="btn" type="button" data-h="tema=puntualita&amp;ora=8">Ritardi delle linee alle 8</button>
+    <button class="btn" type="button" data-h="tema=interscambio&amp;vista=parcheggi">Dove lasciare l'auto</button>
+  </div>
+
   <select id="temi" aria-label="Tema della mappa" style="width:100%;font:inherit;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--card);font-weight:600"></select>
   <div id="temaDesc" style="font-size:12px;color:var(--muted);margin:6px 0 0"></div>
   <!-- opzioni del tema: una sola area, costruita dal codice in modo uniforme -->
@@ -221,11 +231,9 @@
     <div id="fraseQuando" style="font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.35"></div>
   </div>
 
-  <button id="copiaLink" class="btn" type="button" aria-live="polite" title="Copia l'indirizzo di questa vista: tema, scelte, ora, zoom e centro">Copia il link di questa vista</button>
-
   <!-- stato interno dell'area colorata e dei sensori: lo decide il tema, non si tocca a mano (mai due colorazioni insieme) -->
   <div style="display:none"><input type="checkbox" id="Lsez"><input type="checkbox" id="Lomi"><input type="checkbox" id="LImq"><input type="checkbox" id="Lsensori">
-    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="g014"></option><option value="a65"></option><option value="emed"></option><option value="lau"></option><option value="occ"></option><option value="fam"></option><option value="sole"></option><option value="vuln"></option><option value="vuln_sole"></option><option value="vuln_occ"></option><option value="vuln_ist"></option><option value="vuln_aff"></option><option value="vuln_anz"></option><option value="vuln_doppio"></option><option value="acc"></option><option value="fb"></option></select></div>
+    <select id="modoSez"><option value="rapp"></option><option value="serv"></option><option value="dens"></option><option value="a65"></option><option value="sole"></option><option value="vuln"></option><option value="vuln_sole"></option><option value="vuln_occ"></option><option value="vuln_ist"></option><option value="vuln_aff"></option><option value="vuln_anz"></option><option value="vuln_doppio"></option><option value="acc"></option><option value="fb"></option></select></div>
 
   <h2>Sfondo</h2>
   <select id="basemap" aria-label="Sfondo della mappa">
@@ -371,7 +379,7 @@ const sez = (()=>{
   for(let i=0;i<(C.n||0);i++){
     const polys=espandiForma(C.g[i]), bb=espandiRiquadro(C.bb[i]);
     const cxn=(bb[0]+bb[2])/2, cyn=(bb[1]+bb[3])/2;
-    out.push({p:C.p[i], c:C.c[i], km2:C.a[i], occ:C.occ[i], p1564:C.p1564[i], sen:C.sen[i], f:C.f[i], p014:C.p014[i], em:C.em[i], ist9:C.ist9[i], it:C.it[i], pf1:C.pf1[i], pf3:C.pf3[i], v:C.v[i], vcomp:espandiVcomp(C.vc[i]), gruppi:{}, acc:espandiAcc(C.acc[i]), fb:espandiFb(C.fb[i]), r1:C.r1[i]||null,
+    out.push({p:C.p[i], c:C.c[i], km2:C.a[i], sen:C.sen[i], pf1:C.pf1[i], pf3:C.pf3[i], v:C.v[i], vcomp:espandiVcomp(C.vc[i]), gruppi:{}, acc:espandiAcc(C.acc[i]), fb:espandiFb(C.fb[i]), r1:C.r1[i]||null,
       polys,bb,x:cxn,y:cyn,dens:C.p[i]/Math.max(C.a[i],0.0005), st:[], np:C.p[i]});
   }
   return out;
@@ -677,31 +685,24 @@ const sez = (()=>{
 const sezServ=(z,i)=>{ let s=0; for(const k of z.st) s+=D.fermate[k].d[i]; return s; };
 const sezRapp=(z,i)=>sezServ(z,i)/Math.max(z.pop400,1)*1000;
 let sezSoglie={};
-/* viste di «Chi abita qui» (e «Persone sole» in Fragilità): percentuali, età media, persone per famiglia. Sotto 50 abitanti niente percentuali. */
-const NUOVI=new Set(["g014","a65","emed","lau","occ","fam","sole","vuln_sole"]);
+/* viste di «Chi abita qui» (e «Persone sole» in Fragilità): percentuali di anziani e di famiglie di una persona. Sotto 50 abitanti niente percentuali. */
+const NUOVI=new Set(["a65","sole","vuln_sole"]);
 const DENS_MIN=1000;   // sotto questi abitanti per km² la zona è grigia in tutti i temi per sezioni (tranne «Abitanti per km²»)
 const AB_MIN=50;
 function valNuovo(z,modo){
   switch(modo){
-    case "g014": return z.p>=AB_MIN && z.p014!=null ? z.p014/z.p*100 : null;
     case "a65": return z.p>=AB_MIN && z.sen!=null ? z.sen/z.p*100 : null;
-    case "emed": return z.p>=AB_MIN && z.em!=null ? z.em : null;
-    case "lau": return z.ist9>=AB_MIN && z.it!=null ? z.it/z.ist9*100 : null;
-    case "occ": return z.p>=AB_MIN && z.p1564>0 && z.occ!=null ? z.occ/z.p1564*100 : null;
-    case "fam": return z.f>0 ? z.p/z.f : null;
     case "sole": case "vuln_sole": return z.pf1>=20 && z.pf3!=null ? z.pf3/z.pf1*100 : null;
   }
   return null;
 }
 const nf1=x=>x.toLocaleString("it-IT",{maximumFractionDigits:1});
 function testoNuovo(z,modo){
-  if(z.p<AB_MIN && modo!=="fam" && modo!=="sole" && modo!=="vuln_sole") return "troppo pochi abitanti per le percentuali";
+  if(z.p<AB_MIN && modo!=="sole" && modo!=="vuln_sole") return "troppo pochi abitanti per le percentuali";
   const v=valNuovo(z,modo); if(v==null) return "dato non disponibile";
-  return {g014:`${nf1(v)}% bambini e ragazzi 0–14`, a65:`${nf1(v)}% anziani 65+`, emed:`età media ${nf1(v)} anni (stima)`, lau:`${nf1(v)}% laureati`,
-    occ:`${nf1(v)}% occupati 15–64`, fam:`${nf1(v)} persone per famiglia`, sole:`${nf1(v)}% famiglie di una persona`, vuln_sole:`${nf1(v)}% famiglie di una persona`}[modo];
+  return {a65:`${nf1(v)}% anziani 65+`, sole:`${nf1(v)}% famiglie di una persona`, vuln_sole:`${nf1(v)}% famiglie di una persona`}[modo];
 }
-const NOME_NUOVO={g014:"Bambini e ragazzi 0–14 anni (% dei residenti)", a65:"Anziani 65+ (% dei residenti)", emed:"Età media stimata (anni)",
-  lau:"Laureati (% dei residenti di 9 anni e più)", occ:"Occupati (% dei residenti di 15–64 anni)", fam:"Persone per famiglia",
+const NOME_NUOVO={a65:"Anziani 65+ (% dei residenti)",
   sole:"Persone sole (% di famiglie di una persona)", vuln_sole:"Persone sole (% di famiglie di una persona)"};
 function calcolaSoglieSez(){
   if(!sezOk) return;
@@ -727,8 +728,7 @@ function calcolaSoglieSez(){
 const TOR={};
 function calcolaTorino(){
   const t=sez.filter(z=>z.c===TORINO_PC), sm=(f)=>t.reduce((a,z)=>a+(f(z)||0),0);
-  TOR.g014=100*sm(z=>z.p014)/sm(z=>z.p); TOR.a65=100*sm(z=>z.sen)/sm(z=>z.p); TOR.lau=100*sm(z=>z.it)/sm(z=>z.ist9);
-  TOR.occ=100*sm(z=>z.occ)/sm(z=>z.p1564); TOR.fam=sm(z=>z.p)/sm(z=>z.f);
+  TOR.a65=100*sm(z=>z.sen)/sm(z=>z.p); TOR.sole=100*sm(z=>z.pf3)/sm(z=>z.pf1);
 }
 // le scale di colore (PAL_VR, PAL_RV, PAL_NEU) sono definite prima, vicino a OMI_PAL
 const PAL_POCO_MALE=PAL_RV;   // valore basso = peggio (offerta, accessibilità): indice 0 = rosso
@@ -736,7 +736,7 @@ const PAL_ALTO_MALE=PAL_VR;   // valore alto = peggio (vulnerabilità): indice 0
 const PAL_RAPP=PAL_RV;
 const PAL_BASE=PAL_NEU;
 const PAL_DOPPIO=["#e6f2ef","#6f8fc7","#eacb6f","#a61e33"];   // 0 nessuna · 1 solo servizi bassi · 2 solo fragilità alta · 3 tutte e due
-const PAL_SEZ={dens:PAL_NEU, serv:PAL_RV, rapp:PAL_RAPP, g014:PAL_NEU, a65:PAL_NEU, emed:PAL_NEU, lau:PAL_NEU, occ:PAL_NEU, fam:PAL_NEU, sole:PAL_NEU, vuln_sole:PAL_ALTO_MALE,
+const PAL_SEZ={dens:PAL_NEU, serv:PAL_RV, rapp:PAL_RAPP, a65:PAL_NEU, sole:PAL_NEU, vuln_sole:PAL_ALTO_MALE,
   vuln:PAL_ALTO_MALE, vuln_occ:PAL_ALTO_MALE, vuln_ist:PAL_ALTO_MALE, vuln_aff:PAL_ALTO_MALE, vuln_anz:PAL_ALTO_MALE, vuln_doppio:PAL_DOPPIO,
 };
 PAL_SEZ.acc = PAL_RV;   // rosso = pochi servizi raggiungibili, verde = molti
@@ -1682,7 +1682,7 @@ function schedaSezione(z){
     stato = `${z.p} residenti nella sezione`;
   } else if(NUOVI.has(modo)){
     val = testoNuovo(z, modo);
-    stato = NOME_NUOVO[modo] + (z.p<AB_MIN && modo!=="fam" ? "" : "; censimento 2021");
+    stato = NOME_NUOVO[modo] + (z.p<AB_MIN && modo!=="sole" ? "" : "; censimento 2021");
   } else if(modo === "vuln_doppio"){
     const cl = doppioClasse(z), d = doppioSoglie(), pz = accOrdinati("piedi").punt.get(z);
     val = cl==null ? "Fuori Torino: non valutato" : DOPPIO_TESTI[cl];
@@ -1783,10 +1783,10 @@ function schedaSezione(z){
   });
 }
 
-/* profilo della zona: 5 barre (giovani, anziani, laureati, occupati, persone per famiglia) con la tacca del valore di Torino */
+/* profilo della zona: 2 barre (anziani, persone sole) con la tacca del valore di Torino */
 function profiloZona(z){
   if(z.p<AB_MIN) return `<div class="pf"><div class="pf-n">Troppo pochi abitanti per le percentuali (${z.p} residenti).</div></div>`;
-  const righe=[["Giovani (0–14 anni)","g014",30,"%"],["Anziani (65+)","a65",50,"%"],["Laureati","lau",60,"%"],["Occupati (15–64 anni)","occ",100,"%"],["Persone per famiglia","fam",4,""]];
+  const righe=[["Anziani (65+)","a65",50,"%"],["Persone sole (famiglie di una persona)","sole",60,"%"]];
   const h=righe.map(([nome,m,max,u])=>{
     const v=valNuovo(z,m), t=TOR[m];
     if(v==null) return `<div class="pf-r"><span>${nome}</span><b>n/d</b></div>`;
@@ -2241,7 +2241,7 @@ function imqNotaOra(){ const n=$("imqNota"); if(!n) return; n.textContent=tema.i
 /* temi: ogni voce ha il gruppo del menu; ora:true = il tema cambia con giorno e ora (compare «Quando») */
 const GRUPPI_TEMI = ["Chi abita e cosa trova","Come ci si muove"];
 const THEMES = [
-  {id:"residenti", label:"Chi abita qui", gruppo:0, desc:"Dove abitano le persone e chi sono: densità, giovani, anziani, età media, laureati, occupati, famiglie (censimento 2021).",
+  {id:"residenti", label:"Chi abita qui", gruppo:0, desc:"Dove abitano le persone e chi sono: densità, anziani, persone sole (censimento 2021).",
    area:{tipo:"sez",modo:"dens"}, over:{...NESSUNA}, resid:true, opzioni:["subResidenti"],
    legenda:()=>legendaSezioni($("subResidenti")?$("subResidenti").value:"dens")},
   {id:"vulnerabilita", label:"Fragilità sociale", gruppo:0, desc:"Dove vivono più persone in difficoltà: senza lavoro, poca istruzione, case affollate, anziani, persone sole. Censimento 2021.",
@@ -2287,12 +2287,7 @@ const OPZIONI = {
     ["serv","Passaggi all'ora"]]},
   subResidenti:{etichetta:"Cosa vedere", voci:[
     ["dens","Abitanti per km²"],
-    ["g014","Bambini e ragazzi (0–14 anni)"],
     ["a65","Anziani (65 anni e oltre)"],
-    ["emed","Età media (stima)"],
-    ["lau","Laureati"],
-    ["occ","Occupati (15–64 anni)"],
-    ["fam","Persone per famiglia"],
     ["sole","Persone sole"]]},
   omiTipo:{etichetta:"Tipo di immobile", voci:[
     ["ab","Abitazioni"],["ne","Negozi"],["uf","Uffici"]]},
@@ -2449,7 +2444,7 @@ function applicaLineaDaUrl(){
   baseVer++; chiede(); aggiornaLegenda();
 }
 
-/* ---------- link di questa vista: tema, scelte del tema, giorno e ora, zoom e centro ---------- */
+/* ---------- indirizzi con tema, scelte del tema, giorno e ora, zoom e centro (si leggono, non si costruiscono piu') ---------- */
 // scelte del tema: #...&o_subServizio=serv (una per tendina del tema); zoom e centro: &z=13.2&c=45.0703,7.6869
 function applicaOpzioniDaUrl(){
   const re=/[#&?]o_([A-Za-z0-9]+)=([A-Za-z0-9_]+)/g; let m;
@@ -2466,23 +2461,11 @@ function applicaVistaMappaDaUrl(){
   if(c && +c[1]>=44 && +c[1]<=46 && +c[2]>=6 && +c[2]<=9){ view.cx=px(+c[2]); view.cy=py(+c[1]); }
   mostraZoom(); chiede();
 }
-function costruisciLink(){
-  const q=[];
-  if(tema.id) q.push("tema="+tema.id);
-  document.querySelectorAll("#boxOpzioni select.opt-sel").forEach(sel=>{ if(sel.id && sel.value) q.push("o_"+sel.id+"="+encodeURIComponent(sel.value)); });
-  if($("boxQuando").style.display!=="none"){ q.push("dt="+S.dt, "ora="+S.h); }
-  const fl=($("filtroLinea").value||"").trim(); if(fl) q.push("linea="+encodeURIComponent(fl));
-  q.push("z="+view.zoom.toFixed(2), "c="+latDaY(view.cy).toFixed(5)+","+(view.cx*360-180).toFixed(5));
-  return location.origin==="null"||location.protocol==="file:" ? location.href.split("#")[0]+"#"+q.join("&") : location.origin+location.pathname+"#"+q.join("&");
-}
-$("copiaLink").onclick=async ()=>{
-  const b=$("copiaLink"), link=costruisciLink(), prima=b.textContent;
-  let ok=false;
-  try{ await navigator.clipboard.writeText(link); ok=true; }
-  catch(e){ try{ const t=document.createElement("textarea"); t.value=link; t.style.position="fixed"; t.style.opacity="0"; document.body.appendChild(t); t.select(); ok=document.execCommand("copy"); t.remove(); }catch(e2){} }
-  if(!ok){ window.prompt("Copia questo indirizzo:", link); return; }
-  b.textContent="Link copiato"; setTimeout(()=>{ b.textContent=prima; },2000);
-};
+// viste consigliate: un clic = un indirizzo #tema=… (lo stesso delle schede); se e' gia' quello nella barra, si riapplica senza cambiarlo
+document.querySelectorAll("#consigliate button").forEach(b=>{ b.onclick=()=>{
+  const h="#"+b.dataset.h; chiudiFoglio();
+  if(location.hash===h) dispatchEvent(new HashChangeEvent("hashchange")); else location.hash=h;
+}; });
 
 /* ---------- telefono: il pannello e' un foglio che sale dal basso ---------- */
 const TEL=matchMedia("(max-width:640px)");

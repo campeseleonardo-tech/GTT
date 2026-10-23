@@ -228,6 +228,68 @@ def prova_cambio_indirizzo(br, cartella):
     return errori
 
 
+def prova_link_mappa(br, cartella):
+    """Giro L11: ogni «Vedi sulla mappa» delle schede (data/schede_risultati.js) e le 3 viste consigliate della mappa aprono il tema e la vista scelti.
+    Si apre l'indirizzo e si legge nel DOM: menu dei temi, vista scelta, ora. Solo con Playwright. Ritorna un elenco di errori."""
+    js = cartella / "data" / "schede_risultati.js"
+    if not isinstance(br, BrowserPlaywright) or not js.exists():
+        print("  link «Vedi sulla mappa»: non provati (serve Playwright e data/schede_risultati.js)")
+        return []
+    testo = js.read_text(encoding="utf-8")
+    schede = json.loads(testo[testo.index("["):].split(chr(10) + "window.SCHEDE_PERIODO")[0].rstrip().rstrip(";"))
+    link = []
+    for s in schede:
+        m = (s.get("forma") or {}).get("mappa")
+        if m:
+            h = f"tema={m['id']}" + (f"&vista={m['vista']}" if m.get("vista") else "")
+            link.append((f"scheda {s.get('numero_pubblico', s['risultato'])}", h))
+    modello = (cartella / "mappa_torino.html").read_text(encoding="utf-8")
+    cons = re.findall(r'<button[^>]*data-h="([^"]+)"', modello[modello.index('id="consigliate"'):])[:3]
+    link += [("vista consigliata", h.replace("&amp;", "&")) for h in cons]
+    errori = []
+    for nome, h in link:
+        tema = re.search(r"tema=(\w+)", h).group(1)
+        vista = re.search(r"vista=(\w+)", h)
+        ora = re.search(r"ora=(\d+)", h)
+        page = br.br.new_page(viewport={"width": DESKTOP[0], "height": DESKTOP[1]})
+        try:
+            page.goto(f"http://127.0.0.1:{PORTA}/mappa_torino.html#{h}", wait_until="load", timeout=60000)
+            page.wait_for_timeout(2500)
+            letto = page.evaluate("""() => ({tema: document.getElementById('temi').value,
+                subVuln: (document.getElementById('subVuln') || {}).value, r6: (document.getElementById('r6Vista') || {}).value,
+                ora: (document.getElementById('oraTxt') || {}).textContent})""")
+            if letto["tema"] != tema:
+                errori.append(f"{nome} (#{h}): il menu dei temi mostra «{letto['tema']}», atteso «{tema}»")
+            if vista and tema == "vulnerabilita" and letto["subVuln"] != "vuln_doppio":
+                errori.append(f"{nome} (#{h}): la vista del tema Fragilità è «{letto['subVuln']}», attesa «vuln_doppio»")
+            if vista and tema == "interscambio" and letto["r6"] != vista.group(1):
+                errori.append(f"{nome} (#{h}): la vista dei parcheggi è «{letto['r6']}», attesa «{vista.group(1)}»")
+            if ora and not (letto["ora"] or "").startswith(f"{int(ora.group(1)):02d}:"):
+                errori.append(f"{nome} (#{h}): l'ora mostrata è «{letto['ora']}», attesa le {int(ora.group(1)):02d}")
+        finally:
+            page.close()
+    # le viste consigliate si possono cliccare anche quando l'indirizzo e' gia' quello (hash uguale): si riapplicano
+    page = br.br.new_page(viewport={"width": DESKTOP[0], "height": DESKTOP[1]})
+    try:
+        page.goto(f"http://127.0.0.1:{PORTA}/mappa_torino.html", wait_until="load", timeout=60000)
+        page.wait_for_timeout(2000)
+        for i, atteso in enumerate(("vulnerabilita", "puntualita", "interscambio", "vulnerabilita")):
+            page.locator("#consigliate button").nth(min(i, 2) if i < 3 else 0).click()
+            page.wait_for_timeout(1200)
+            if i == 3:   # secondo clic sullo stesso pulsante dopo aver cambiato tema col menu: l'indirizzo non cambia, il tema deve tornare
+                page.select_option("#temi", "omi")
+                page.wait_for_timeout(500)
+                page.locator("#consigliate button").nth(0).click()
+                page.wait_for_timeout(1200)
+            tema = page.evaluate("document.getElementById('temi').value")
+            if tema != atteso:
+                errori.append(f"vista consigliata {i + 1}: il tema è «{tema}», atteso «{atteso}»")
+    finally:
+        page.close()
+    print(f"  link «Vedi sulla mappa» e viste consigliate ({len(link)} indirizzi): {'OK' if not errori else 'ERRORE'}")
+    return errori
+
+
 ANTEPRIME = RADICE / "assets" / "anteprime"
 IMMAGINI_README = RADICE / "assets" / "readme"
 
@@ -378,6 +440,7 @@ def main():
                         errori.append(f"{nome}: nella pagina manca il titolo della legenda «{atteso}»")
             print(f"  {nome}: {len(err)} errori, {len(assenti)} file assenti, DOM {len(dom)} caratteri")
         errori += prova_cambio_indirizzo(br, cartella)
+        errori += prova_link_mappa(br, cartella)
         if not args.senza_screenshot:
             IMMAGINI.mkdir(exist_ok=True)
             for nome, pagina in pagine_screenshot():
