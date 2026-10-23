@@ -774,6 +774,18 @@
   {
    "it": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il {n0}% dei torinesi coi mezzi pubblici e il {n1}% in auto con la stima di TomTom, parcheggio compreso ({n2}% con la stima più favorevole all'auto, dei sensori 5T).",
    "en": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach {n0}% of residents by public transport and {n1}% by car with the TomTom estimate, parking included ({n2}% with the estimate most favourable to the car, from the 5T sensors)."
+  },
+  {
+   "it": "{n0} fermate importanti su {n1} non hanno abbastanza posti per lasciare l'auto (stima)",
+   "en": "{n0} important stops out of {n1} do not have enough spaces to leave the car (estimate)"
+  },
+  {
+   "it": "Dal parcheggio il bus batte l'auto solo se in centro si perdono più di {n0} minuti (TomTom). Con i sensori, la stima più favorevole all'auto, più di {n1} minuti. Con TomTom il bus conviene (fino a 1,5 volte l'auto) in {n2} punti su {n3} e {n4} dei {n5} interscambi. Dei punti dove il bus conviene, {n6} su {n7} sono vicini alla soglia: un'auto il 10% più veloce cambia classe.",
+   "en": "From the car park, the bus beats the car only if you lose more than {n0} minutes parking downtown (TomTom). With the sensors, the estimate most favourable to the car, more than {n1} minutes. With TomTom the bus is worthwhile (up to 1.5 times the car) in {n2} points out of {n3} and {n4} of the {n5} park-and-ride lots. Of the points where the bus is worthwhile, {n6} out of {n7} are close to the threshold: a car 10% faster changes the class."
+  },
+  {
+   "it": "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza. Con metà o doppio di chi lascia l'auto, le fermate senza posti bastanti vanno da {n0} a {n1} su {n2}.",
+   "en": "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude. With half or double the drivers who leave the car, stops without enough spaces go from {n0} to {n1} out of {n2}."
   }
  ]
 }

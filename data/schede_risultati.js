@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T21:51:53+00:00",
+  "generato": "2026-10-23T22:15:15+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1356,7 +1356,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T21:51:53+00:00",
+  "generato": "2026-10-23T22:15:16+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-23: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -2039,7 +2039,7 @@ window.SCHEDE_RISULTATI = [
   "risultato": "6",
   "titolo": "Parcheggi per lasciare l'auto",
   "tag": "STIMATO / MISURATO (dati scarsi)",
-  "stato": "Aggiornato al 23/10/2026",
+  "stato": "Aggiornato al 24/10/2026",
   "in_breve": "Dove lasciare l'auto prima di entrare in città e proseguire con i mezzi pubblici: come funzionano gli interscambi che ci sono, e dove mancano posti per le auto che entrano ogni mattina.",
   "domanda": "Dove mancano posti per lasciare l'auto prima di entrare in città, vicino a una fermata importante, per le auto che ogni mattina entrano a Torino?",
   "numero_chiave": {
@@ -2588,7 +2588,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T21:51:53+00:00",
+  "generato": "2026-10-23T22:15:16+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2629,7 +2629,7 @@ window.SCHEDE_RISULTATI = [
   ],
   "forma": {
    "etichetta": "STIMATO / MISURATO (dati scarsi)",
-   "titolo": "2 fermate importanti su 3 non hanno abbastanza posti per lasciare l'auto",
+   "titolo": "2 fermate importanti su 3 non hanno abbastanza posti per lasciare l'auto (stima)",
    "domanda": "Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi?",
    "numero": {
     "valore": 179,
@@ -2719,7 +2719,7 @@ window.SCHEDE_RISULTATI = [
    "punti": [
     "68 fermate importanti non hanno nessun parcheggio adatto vicino; 111 ne hanno troppo pochi.",
     "Servirebbero posti soprattutto in 12 punti d'ingresso: il primo è Santa Rita, dove ne mancano circa 450.",
-    "Dal parcheggio il bus batte l'auto solo se in centro si perdono più di 16 minuti (TomTom). Con i sensori, la stima più favorevole all'auto, più di 28 minuti. Con TomTom il bus conviene (al massimo 1,5 volte l'auto) da 8 punti su 12 e 4 interscambi su 5."
+    "Dal parcheggio il bus batte l'auto solo se in centro si perdono più di 16 minuti (TomTom). Con i sensori, la stima più favorevole all'auto, più di 28 minuti. Con TomTom il bus conviene (fino a 1,5 volte l'auto) in 8 punti su 12 e 4 dei 5 interscambi. Dei punti dove il bus conviene, 5 su 8 sono vicini alla soglia: un'auto il 10% più veloce cambia classe."
    ],
    "altri": [
     {
@@ -3516,7 +3516,7 @@ window.SCHEDE_RISULTATI = [
     ]
    ],
    "limiti": [
-    "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
+    "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza. Con metà o doppio di chi lascia l'auto, le fermate senza posti bastanti vanno da 135 a 212 su 274.",
     "I tempi coi mezzi sono solo GTT, senza treni. La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
     "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Usiamo un solo servizio.",
     "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."
@@ -5258,7 +5258,7 @@ window.SCHEDE_RISULTATI = [
   },
   "forma_en": {
    "etichetta": "ESTIMATED / MEASURED (little data)",
-   "titolo": "2 in 3 important stops lack enough spaces to leave the car",
+   "titolo": "2 important stops out of 3 do not have enough spaces to leave the car (estimate)",
    "domanda": "Can people driving in from outside find a place to leave the car near an important stop, and continue by public transport?",
    "numero": {
     "valore": 179,
@@ -5348,7 +5348,7 @@ window.SCHEDE_RISULTATI = [
    "punti": [
     "68 important stops have no suitable car park nearby; 111 have too few spaces.",
     "Spaces are needed above all at 12 entry points: the first is Santa Rita, where about 450 are missing.",
-    "From the car park, the bus beats the car only if you lose more than 16 minutes parking downtown (TomTom). With the sensors, the estimate most favourable to the car, more than 28 minutes. With TomTom the bus is worthwhile (at most 1.5 times the car) from 8 points out of 12 and 4 park-and-ride lots out of 5."
+    "From the car park, the bus beats the car only if you lose more than 16 minutes parking downtown (TomTom). With the sensors, the estimate most favourable to the car, more than 28 minutes. With TomTom the bus is worthwhile (up to 1.5 times the car) in 8 points out of 12 and 4 of the 5 park-and-ride lots. Of the points where the bus is worthwhile, 5 out of 8 are close to the threshold: a car 10% faster changes the class."
    ],
    "altri": [
     {
@@ -6145,7 +6145,7 @@ window.SCHEDE_RISULTATI = [
     ]
    ],
    "limiti": [
-    "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude.",
+    "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude. With half or double the drivers who leave the car, stops without enough spaces go from 135 to 212 out of 274.",
     "Public transport times are GTT only, without trains. The sensor estimate ignores traffic lights and junctions: it is the most favourable to the car.",
     "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. We use a single service.",
     "The cost of parking is not in the calculation: it weighs as extra minutes. One point per place and one destination only."
@@ -8263,7 +8263,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T21:51:53+00:00",
+  "generato": "2026-10-23T22:15:16+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -15054,7 +15054,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T21:51:53+00:00",
+  "generato": "2026-10-23T22:15:16+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
