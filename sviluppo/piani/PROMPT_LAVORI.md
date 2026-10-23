@@ -44,6 +44,9 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | L1 (FATTO 23/10, esito ESITO_P7 e ESITO_C13_*) | PC | P1, P3, P5, P6, P7 e C13 sui dati veri | — |
 | **L2 (FATTO 23/10, Leo guarda)** | PC | revisione grafica di Leo del 23/10 (ex C14): home, numeri che salgono, schede con una sola parte chiusa, titoli nuovi, animazioni anche in home; prima Leo sceglie se rifare R4, R6, R8 con lo storico di oggi 🛑 | 4 (revisione 23/10) |
 | **L3 (FATTO 23/10, Leo guarda)** | PC | bus contro auto a 4 ore del giorno (ex C15 + P10), script 100, schede 3 e 4 🛑 | 4 (revisione 23/10) |
+| **L4** | PC | raccolta del Pi: copia che non perde dati, archivio del GTFS, controllo con spazio e scadenze (PIANO_RACCOLTA passi 1, 2a, 3) 🛑 | raccolta |
+| L5 (da scrivere dopo L4) | PC | problemi gravi delle schede 3 e 4: tempi Google in entrata (G1, Leo a mano), forbice, «fasce fissate prima» (ANALISI_CRITICA 1.1-1.3) | 3 |
+| L6 (da scrivere dopo L5) | PC | calcoli rifacibili da un estraneo (ANALISI_CRITICA 6.1) e PIANO_RACCOLTA passo 2b | 5 |
 | main | Leo | unire prova in main, accendere GitHub Pages (la pubblicazione per ultima) | 1 (8, 10) |
 | P8 | PC | metà novembre: R4 con un mese di dati, rilancio | 3 (4) |
 
@@ -385,3 +388,47 @@ REGOLA DI LEO: niente controlli grafici, li fa lui.
 ## Dopo L3 (Leo, a mano)
 Leo guarda tutto; se va bene: `git checkout main`, `git pull origin main`, `git merge --no-edit prova`, `git push origin main`, `git checkout prova`; Settings > Pages (ramo `main`, cartella `/`), descrizione e argomenti del repository,
 anteprima social, Post Inspector di LinkedIn sui link `r/N.html`. P8 (R4 con un mese di dati) a metà novembre.
+
+## L4 — PC: raccolta del Pi più sicura (PIANO_RACCOLTA.md, passi 1, 2a e 3) 🛑
+
+Perché (prove in `PIANO_RACCOLTA.md` e `ANALISI_CRITICA.md`, sezione 5): la copia giornaliera può sostituire lo storico buono con uno vuoto ma «integro»; il GTFS non si archivia
+(quando GTT pubblica l'orario nuovo, al più tardi entro il 31/01/2027, le corse dei giorni nuovi non si abbinano più); spazio e scadenze sul Pi non arrivano mai a Leo.
+Non tocca i file di L3. Il passo 2b (script 27 e 70 col GTFS di ogni giorno) è un giro a parte, dopo.
+**Regole fissate ora, prima di vedere i numeri** (in testa agli script, come costanti):
+- copia accettata solo se, per ogni tabella di `TABELLE` già presente nella copia vecchia: righe nuove ≥ righe vecchie; e per `mezzi_gtt` e `flussi_5t`: primo istante uguale e ultimo istante ≥ quello vecchio. Altrimenti la copia vecchia resta, la nuova diventa `storico_backup_SOSPETTO.sqlite` e il `.bat` dà ALLARME;
+- spazio libero sul Pi: ALLARME sotto 5 GB, AVVISO sotto 10 GB; storico: AVVISO oltre 8 GB; `/tmp` del Pi: AVVISO se ha meno di 1,5 volte il peso dello storico (lì si fa lo snapshot); GTFS: ALLARME a 14 giorni o meno dalla scadenza, AVVISO a 45; archivio GTFS senza versioni o ultimo scaricamento riuscito più vecchio di 3 giorni: AVVISO; feed degli avvisi GTT in errore per tutte le ultime 24 ore: AVVISO;
+- ALLARME = codice di uscita diverso da 0 e finestra di Windows (come oggi); AVVISO = riga nel registro e nel testo stampato, senza finestra.
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, sviluppo/MEMORIA_PROGETTO.md, sviluppo/piani/PIANO_RACCOLTA.md e il blocco L4 di sviluppo/piani/PROMPT_LAVORI.md (regole e soglie: non cambiarle).
+Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py (fermati se segnala lavoro non unito). Un passo per volta; se un passo fallisce, fermati e dillo a Leo.
+REGOLE: verso il Pi solo SSH in sola lettura; tutto quello che scrive o riavvia sul Pi lo fa Leo con un .bat a doppio clic. NON lanciare tu backup_da_leopi.py né RACCOLTA_GIORNALIERA.bat (scrivono data\storico_backup.sqlite): li lancia Leo. Non toccare data\raw né lo storico. Niente controlli grafici.
+
+1. COPIA CHE NON PERDE DATI (scripts/backup_da_leopi.py, scripts/RACCOLTA_GIORNALIERA.bat).
+   a. Separa la decisione in una funzione pura, provabile senza Pi: decidi(riepilogo_vecchio, riepilogo_nuovo) -> (accetta: bool, motivi: list[str]), con la regola del blocco L4. I riepiloghi sono quelli di riepilogo_locale() (conteggi e intervalli). Per la copia vecchia basta leggere conteggi e intervalli (niente integrity_check: è lento su file grandi).
+   b. Prima di os.replace: se c'è già data\storico_backup.sqlite e decidi() dice no → la nuova va in data\storico_backup_SOSPETTO.sqlite (sostituisce una SOSPETTO precedente), stampa i motivi, esci con codice 3. Se dice sì → la vecchia diventa data\storico_backup_ieri.sqlite (os.replace), poi la nuova prende il suo posto. Se sul disco del PC lo spazio libero è meno di 1,2 volte la copia nuova, salta la copia «ieri» con un AVVISO (mai fermare la copia per questo).
+   c. Correggi la descrizione in testa al file («settimanalmente» → ogni giorno) e aggiungi il motivo delle regole.
+   d. RACCOLTA_GIORNALIERA.bat: codice 3 = «ALLARME: la copia nuova dello storico è più piccola o diversa: tenuta quella di prima; la nuova è in data\storico_backup_SOSPETTO.sqlite». Fine riga Windows.
+   e. Opzione --prova (cartella temporanea, due SQLite finti con le stesse tabelle): casi (1) nuova più grande → sostituita, c'è «ieri»; (2) nuova con meno righe → tenuta la vecchia, SOSPETTO, codice 3; (3) nuova vuota → come 2; (4) primo istante diverso → come 2; (5) nessuna copia vecchia → sostituita. Ogni caso stampa OK o ERRORE.
+   f. Controlla che storico_backup_ieri.sqlite e _SOSPETTO non finiscano in git (git check-ignore) e aggiungili a docs/DATI.md (una riga ciascuno: solo sul PC).
+
+2. ARCHIVIO DEL GTFS SUL PI (scripts/03_raccolta_continua.py, sul modello di giro_ztl).
+   a. giro_gtfs(con): una volta al giorno (SECONDI_GTFS = 86400, anche all'avvio) scarica https://www.gtt.to.it/open_data/gtt_gtfs.zip (indirizzo già nello script 01), con timeout. Controlla che sia uno zip valido con stops.txt, trips.txt, stop_times.txt e calendar.txt o calendar_dates.txt; se no, registra_errore(con, "GTFS", …) e basta.
+   b. Calcola sha256; se è diverso dall'ultimo in una tabella nuova gtfs_versioni (scaricato_utc, file, sha256, byte, valido_da, valido_a), salva il file nella cartella del Pi data/gtfs/gtt_gtfs_<AAAAMMGG>.zip (data italiana del giorno; se esiste già, aggiungi _2) e inserisci la riga. Validità: da feed_info.txt (feed_start_date, feed_end_date) se c'è, altrimenti minimo start_date e massimo end_date di calendar.txt, allargati con le date di calendar_dates.txt. Il file NON va dentro SQLite (lo storico crescerebbe a ogni versione).
+   c. Ogni giorno, anche se invariato, scrivi nel log del raccoglitore «GTFS: invariato» o «GTFS: versione nuova …», come per la ZTL. Un errore non deve mai fermare la raccolta (try/except come gli altri giri).
+   d. scripts/backup_da_leopi.py: aggiungi gtfs_versioni a TABELLE (così la copia la verifica). RACCOLTA_GIORNALIERA.bat: un passo che copia sul PC, in data\gtfs_archivio\, solo i file di data/gtfs/ del Pi che sul PC mancano (scp, sola lettura sul Pi); cartella fuori da git (git check-ignore) e in docs/DATI.md.
+   e. Prova senza Pi: scripts/prove/prova_gtfs_archivio.py con un database temporaneo e due zip finti (prima versione salvata, stessa versione ignorata, versione nuova salvata, zip rotto → errore registrato, nessuna eccezione). Importa le funzioni del 03 senza far partire la raccolta (se il 03 non lo permette, sposta solo le funzioni del GTFS in testa al file senza cambiare il resto).
+
+3. CONTROLLO GIORNALIERO PIÙ COMPLETO (scripts/controlla_leopi.py), soglie del blocco L4 come costanti in testa.
+   a. Nel codice mandato al Pi (CODICE_PI, sempre sola lettura) aggiungi: spazio libero del disco dello storico (os.statvfs sulla cartella di dir_remota), spazio libero di /tmp e se /tmp è in memoria (tipo del file system da /proc/mounts), peso di storico.sqlite, ultima riga di gtfs_versioni (se la tabella c'è), ultimo errore e numero di errori del GTFS e del feed degli avvisi nelle ultime 24 ore (il nome della fonte degli avvisi è quello usato in scripts/12_ritardi_gtt.py: cercalo).
+   b. Stampa una riga per ognuno (spazio in GB, peso, crescita in MB al giorno rispetto al lancio precedente salvato in logs\controlla_leopi_stato.json, GTFS «versione del …, valido fino al …, mancano N giorni»). ALLARME e AVVISO con le soglie del blocco L4; il codice di uscita cambia solo con ALLARME.
+   c. Il feed degli avvisi «in errore per tutte le ultime 24 ore»: c'è almeno un errore in ognuna delle ultime 24 ore e nessuna riga nuova in avvisi_gtt nelle ultime 24 ore. Se la regola non si può applicare coi dati che ci sono, scrivi perché nell'esito invece di inventarne un'altra.
+   d. Lancialo davvero (è sola lettura): python scripts\controlla_leopi.py. Scrivi nell'esito tutte le righe stampate (spazio, /tmp, peso, GTFS). Prima di 2 il GTFS darà AVVISO «archivio non attivo»: è giusto.
+
+4. PROVE (solo funzionamento): python -m pyflakes scripts (zero); python scripts\backup_da_leopi.py --prova (5 casi OK); python scripts\prove\prova_gtfs_archivio.py (OK); python -m py_compile scripts\03_raccolta_continua.py; python scripts\controlla_leopi.py (righe nuove stampate, nessuna eccezione). Il controllo automatico di GitHub deve restare verde.
+5. Esito in sviluppo/piani/ESITO_L4.md: cosa è cambiato, le righe del controllo, e i passi per Leo in quest'ordine:
+   (1) doppio clic su scripts\AGGIORNA_RACCOLTA_LEOPI.bat (porta il 03 nuovo sul Pi e riavvia; nel log deve comparire «script ok» e «active»);
+   (2) dopo 5 minuti, doppio clic su scripts\CONTROLLA_LEOPI.bat: la riga GTFS deve dire «versione del <oggi>»;
+   (3) doppio clic su scripts\RACCOLTA_GIORNALIERA.bat: esito OK, in data\ c'è storico_backup_ieri.sqlite, in data\gtfs_archivio\ c'è uno zip.
+   Memoria: una riga in sezione 4 (raccolta: copia protetta, GTFS archiviato, controllo con spazio e scadenza) e togli dal punto (5) di sezione 7 le parti risolte. Commit, git pull --no-rebase origin prova, git push origin prova.
+```
