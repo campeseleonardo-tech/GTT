@@ -58,6 +58,16 @@ Le zone di campionamento: «IMQ2013-22_zone_camp_TO» (Torino) e «IMQ2022_zone_
 OpenStreetMap, estratto Geofabrik Nord-Ovest, tagliato all'area Torino + cintura dallo script 17 in `data/otp/rete/torino_cintura.osm.pbf`.
 L'estratto intero si riscarica da https://download.geofabrik.de/europe/italy/nord-ovest.html
 
+### Tempi in auto col traffico (TomTom)
+
+Servizio **TomTom Routing API** (piano gratuito, chiave personale in `config_locale.json`, fuori da git), usato dallo script 101 (L6, 24/10/2026):
+per un insieme di percorsi di Torino, in due giorni feriali futuri (10 e 11/11/2026) a 4 ore del giorno, il tempo previsto col traffico tipico.
+Si usano solo **rapporti** (tempo col traffico / nostro tempo a flusso libero; tempo col traffico / tempo senza traffico), per gruppo e ora.
+**Attribuzione: dati di traffico TomTom** (scritta nelle schede 3 e 4). Le risposte grezze e i minuti **non si salvano né si pubblicano**
+(`SALVA_GREZZI = False` nello script 101): in git ci sono solo statistiche per gruppo e ora e il fattore a due decimali dei percorsi di controllo.
+**Da fare prima di unire in `main`: Leo legge le condizioni d'uso di TomTom** (cosa si può salvare e pubblicare, come citare).
+Google Maps NON si usa da programma (le sue condizioni vietano la raccolta automatica): il 2,1 di Google viene da 6 percorsi controllati a mano il 20/10 e resta come confronto.
+
 ## Non pubbliche o non trovate
 
 - Dati da telefonia mobile (TIM/Wind usati dall'Agenzia, Vodafone usati con il Politecnico): non pubblici, nessuna richiesta inviata (idea congelata).

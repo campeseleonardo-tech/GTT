@@ -61,13 +61,32 @@ ai sensori corso Unione Sovietica è +177% e corso Sebastopoli +99%.
 
 **Due stime, non un minimo e un massimo.** Il tempo in auto non conta semafori e incroci, quindi il fattore di punta è incerto. Il risultato è **dato con due stime**:
 la **stima con il rallentamento dei sensori** usa il fattore dei sensori 5T (1,2: mediana di velocità 2-5 / velocità alle 8 su 97 sensori);
-la **stima con il rallentamento di Google** usa il fattore di Google Maps (2,1: mediana di (tempo Google − 5) / flusso libero sui 6 percorsi da Piazza Castello). I due percorsi di controllo non entrano nel fattore.
-Il 2,1 è una mediana: Google è fuori dalle due stime in 5 percorsi su 8, quindi **il valore vero può stare anche fuori dalle due stime**.
-Il rallentamento di Google è stato misurato su 6 percorsi **in uscita** dal centro; in entrata l'auto può essere più lenta (l'unico percorso in entrata, Racconigi → Castello, dà 3,6).
+la **stima con il rallentamento di TomTom** (dal 24/10; prima era quella di Google) usa il fattore del servizio di percorsi TomTom (2,45: mediana dei 100 viaggi con più auto del mattino, alle 8; script 101):
+tempo previsto da TomTom col traffico tipico / **nostro** tempo a flusso libero dello stesso percorso. Stessa grandezza del 2,1 di Google (che era (tempo Google − 5) / nostro flusso libero, mediana di 6 percorsi controllati a mano il 20/10).
+**Cosa misura ognuna.** Il nostro flusso libero viene dalla rete OSM ai limiti di velocità, **senza semafori e incroci**: è troppo veloce (Corso Racconigi → Piazza Castello: 6,4 minuti; Google alle 8: 29). Il fattore di TomTom e quello di Google correggono insieme la rete troppo veloce **e** il traffico. Il fattore dei sensori 5T (1,2) è solo il traffico: non conta semafori e incroci ed è la stima più favorevole all'auto.
+TomTom è un tempo previsto su traffico tipico (partenze del 10 e 11/11/2026, media dei due giorni), **non misurato**; un solo servizio. Dati di traffico: TomTom. I minuti e le risposte grezze non sono salvati: solo i rapporti per gruppo e ora (`data/processed/tempi_traffico.json`).
+Le due stime non sono un minimo e un massimo: **il valore vero può stare anche fuori**.
+
+**Correzione del 24/10, decisa dopo aver visto lo STOP del primo controllo.** La regola di L6 diceva: fattore di TomTom = tempo col traffico / tempo TomTom senza traffico (la «congestione»). Sui 6 percorsi in uscita alle 8 dava **1,26** contro il 2,1 di Google e il controllo si è fermato (soglia 0,5). Non era un disaccordo fra le fonti ma un errore della regola: la congestione è solo traffico, il 2,1 comprende anche la rete troppo veloce. Si è confrontata la stessa grandezza (tempo TomTom / nostro flusso libero): **1,98** contro 2,1 (entro la soglia di 0,5, regole e soglie invariate). La congestione di TomTom resta nel file, da confrontare coi sensori 5T (1,26 alle 8 contro 1,2).
+
+Controllo con TomTom, alle 8:00 (media del 10 e 11/11/2026), contro il 2,1 di Google (per percorso: (tempo Google − 5) / nostro flusso libero):
+
+| Percorso | TomTom, tempo / nostro flusso libero | TomTom, congestione (con / senza traffico) | Google (a mano, 20/10) |
+|---|---|---|---|
+| Piazza Castello → Collegno | 2,40 | 1,37 | 1,1 |
+| Piazza Castello → Venaria Reale | 2,07 | 1,26 | 2,0 |
+| Piazza Castello → Settimo Torinese | 1,95 | 1,27 | 2,3 |
+| Piazza Castello → Moncalieri | 1,87 | 1,21 | 2,5 |
+| Piazza Castello → Orbassano | 1,97 | 1,17 | 2,2 |
+| Piazza Castello → Rivoli | 1,98 | 1,51 | 1,8 |
+| Corso Racconigi → Piazza Castello | 3,00 | 1,28 | (29 minuti: 3,6 con la stessa formula) |
+| **mediana dei 6 in uscita** | **1,98** | 1,26 (sensori: 1,2) | **2,1** |
+
+TomTom è più uniforme di Google fra i percorsi (1,87-2,40 contro 1,1-2,5): Google a mano è un solo giorno e un solo tentativo per percorso. In entrata (17 percorsi dai punti del R6) la mediana è **2,59** (25°-75° percentile 2,42-2,73), più alta che in uscita (1,26 di congestione in uscita contro 1,39 in entrata).
 
 Controllo a mano, **martedì 20/10/2026 alle 8:00**. I primi 6 percorsi partono da Piazza Castello; gli ultimi 2 sono di controllo. Tempi in minuti.
 
-| Percorso | Mezzi pubblici, nostri | Mezzi pubblici, Google | Auto, nostra (fattore alto 1,2) | Auto, nostra (fattore basso 2,1) | Auto, Google |
+| Percorso | Mezzi pubblici, nostri | Mezzi pubblici, Google | Auto, nostra (stima sensori, fattore 1,2) | Auto, nostra (fattore Google 2,1) | Auto, Google |
 |---|---|---|---|---|---|
 | Piazza Castello → Collegno | 47 | non controllato | 21 | 33 | 19 |
 | Piazza Castello → Venaria Reale | 64 | non controllato | 20 | 32 | 31 |
@@ -79,8 +98,8 @@ Controllo a mano, **martedì 20/10/2026 alle 8:00**. I primi 6 percorsi partono 
 | Moncalieri → Lingotto (controllo) | 33 | 30-35 (solo GTT; col treno 19-23) | 13 | 19 | 14 |
 
 - **Mezzi pubblici**: i nostri tempi sono in linea con Google sui due percorsi di controllo (31 contro 30-35, 33 contro 30-35 solo GTT). Col treno Google scende a 19-23 sul Moncalieri → Lingotto: i treni nei nostri dati non ci sono.
-- **Auto**: con la stima dei sensori (fattore 1,2) siamo sotto Google di 11,4 minuti in media (sui 6 percorsi); con la stima di Google (fattore 2,1) di 1,7 (differenza media, nostro meno Google). Sono due stime: il valore vero può stare anche fuori.
-- Rapporto mediano coi mezzi pubblici (Torino-Torino e Torino-cintura): **da 1,96 a 2,94**.
+- **Auto**: con la stima dei sensori (fattore 1,2) siamo sotto Google di 11,4 minuti in media (sui 6 percorsi); con il fattore di Google (2,1) di 1,7 (differenza media, nostro meno Google); con quello di TomTom (2,45) l'auto è più lenta ancora. Sono due stime: il valore vero può stare anche fuori.
+- Rapporto mediano coi mezzi pubblici (Torino-Torino e Torino-cintura): **da 1,75 a 2,94** (prima della correzione, con Google: da 1,96 a 2,94).
 
 ### Due stime: rapporto mediano e fasce (Torino-Torino e Torino-cintura, 220.307 auto)
 
@@ -88,30 +107,29 @@ Fasce fisse del rapporto (tempo coi mezzi / tempo in auto). Il metodo è cambiat
 
 | Stima | Fattore | Rapporto mediano | Oltre 2 | sotto 1,5 | 1,5-2 | 2-3 | oltre 3 |
 |---|---|---|---|---|---|---|---|
-| **Con il rallentamento di Google** | 2,1 | **1,96** | 41,4% | 8.649 (3,9%) | 120.360 (54,6%) | 90.508 (41,1%) | 791 (0,4%) |
-| **Con il rallentamento dei sensori 5T** | 1,2 | **2,94** | 97,0% | 0 (0,0%) | 6.661 (3,0%) | 115.033 (52,2%) | 98.612 (44,8%) |
+| **Con il rallentamento di TomTom** | 2,45 | **1,75** | 13,8% | 37.207 (16,9%) | 152.644 (69,3%) | 30.350 (13,8%) | 106 (0,0%) |
+| **Con il rallentamento dei sensori 5T** | 1,20 | **2,94** | 97,0% | 0 (0,0%) | 6.661 (3,0%) | 115.033 (52,2%) | 98.612 (44,8%) |
 
-Per gruppo (basso | alto). Cintura-cintura è a parte: mancano treni e altre aziende.
+Per gruppo (stima TomTom | stima sensori). Cintura-cintura è a parte: mancano treni e altre aziende.
 
 | Gruppo | Mediano basso | Mediano alto | Oltre 2 basso | Oltre 2 alto |
 |---|---|---|---|---|
-| (a) Torino-Torino | 1,96 | 2,78 | 39,2% | 93,5% |
-| (b) Torino-cintura (e cintura-Torino) | 1,97 | 3,07 | 43,4% | 100,0% |
-| (ab) principale: Torino-Torino e Torino-cintura | 1,96 | 2,94 | 41,4% | 97,0% |
-| (c) cintura-cintura | 2,23 | 3,49 | 78,8% | 100,0% |
+| (a) Torino-Torino | 1,76 | 2,78 | 16,4% | 93,5% |
+| (b) Torino-cintura (e cintura-Torino) | 1,73 | 3,07 | 11,5% | 100,0% |
+| (ab) principale: Torino-Torino e Torino-cintura | 1,75 | 2,94 | 13,8% | 97,0% |
+| (c) cintura-cintura | 1,98 | 3,49 | 46,8% | 100,0% |
 
 ### Non solo all'ora di punta: 4 ore del giorno (script 100, 23/10)
 
 Stesso confronto alle 8:00, 13:00, 17:30 e 21:00 di un feriale (partenza 7:45, 12:45, 17:15, 20:45, finestra di 30 minuti, mediana). Auto = flusso libero × fattore dell'ora + 5 minuti.
-Stima dei sensori = rallentamento misurato dai sensori 5T (mediana di velocità 2-5 / velocità all'ora); stima di Google = quello di Google (2,1, noto solo alle 8) **scalato nello stesso rapporto**
-(`1 + 1,1 × (f(h) − 1) / 0,2`, mai sotto 1): **è un'ipotesi**. Regola del titolo fissata prima (blocco L3): «a ogni ora» solo se il rapporto mediano resta entro ±0,3 da quello delle 8 con tutte e due le stime (non è il caso: alle 13:00 con la stima di Google è +0,41).
+Stima dei sensori = rallentamento misurato dai sensori 5T (mediana di velocità 2-5 / velocità all'ora); stima di TomTom = fattore_rete mediano di TomTom per ogni ora (gruppo «coppie» per le coppie di zone del R8, «entrata» per i punti del R6): non c'è più nessuna ipotesi di scala. (Fino al 23/10 la stima era quella di Google, noto solo alle 8 e **scalato** nello stesso rapporto dei sensori con `1 + 1,1 × (f(h) − 1) / 0,2`, mai sotto 1: un'ipotesi, ora sostituita.) Regola del titolo fissata prima (blocco L3): «a ogni ora» solo se il rapporto mediano resta entro ±0,3 da quello delle 8 con tutte e due le stime (non è il caso: alle 13:00 con la stima di Google (fino al 23/10) era +0,41).
 
-| Ora | Fattore sensori | Fattore Google scalato | Rapporto mediano (stima Google - stima sensori) | Auto con rapporto oltre 2 | Auto senza collegamento |
+| Ora | Fattore sensori | Fattore TomTom, rete (punti del R6) | Rapporto mediano (stima TomTom - stima sensori) | Auto con rapporto oltre 2 | Auto senza collegamento |
 |---|---|---|---|---|---|
-| 8:00 | 1,2 | 2,1 | 1,96 - 2,94 | 41% - 97% | 5.616 |
-| 13:00 | 1,1 | 1,6 | 2,37 - 3,10 | 89% - 98% | 4.810 |
-| 17:30 | 1,2 | 2,1 | 2,01 - 3,02 | 52% - 97% | 6.095 |
-| 21:00 | 1,0 | 1,0 | 3,32 - 3,32 | 100% - 100% | 9.511 |
+| 8:00 | 1,2 | 2,45 (punti: 2,59) | 1,75 - 2,94 | 14% - 97% | 5.616 |
+| 13:00 | 1,1 | 2,06 (punti: 2,27) | 1,96 - 3,10 | 44% - 98% | 4.810 |
+| 17:30 | 1,2 | 2,43 (punti: 2,66) | 1,79 - 3,02 | 19% - 97% | 6.095 |
+| 21:00 | 1,0 | 1,87 (punti: 1,88) | 2,14 - 3,32 | 72% - 100% | 9.511 |
 
 Di giorno e di sera l'auto è più veloce (meno traffico) e i mezzi restano lenti: il rapporto sale. Alle 8 i numeri coincidono con quelli degli script 93 e 94 (controllo dello script 100).
 Rifare: `python scripts/100_ore_del_giorno.py` (circa 3-4 minuti dopo 93 e 94; `--campione 10` e `--prova` per provare); è nella fase «r6» di `rifai_tutto.py`.
@@ -124,7 +142,7 @@ Rifare: `python scripts/100_ore_del_giorno.py` (circa 3-4 minuti dopo 93 e 94; `
   versi); la notte è inaffidabile e l'ora di punta non è validata.
 - Domanda IMQ 2022: solo residenti 11-84 anni, feriale medio; mancano merci, turisti, pendolari da fuori.
 - TP programmato: niente ritardi né affollamento. Il centro (ZTL, pedonali) non è stimato bene.
-- Alle ore diverse dalle 8 il rallentamento dell'auto dei sensori è misurato, quello di Google è scalato (ipotesi); un solo giorno di GTFS (12/10).
+- Il rallentamento dei sensori è misurato; quello di TomTom è un tempo previsto su traffico tipico (due giorni feriali di novembre, un solo servizio), non misurato. La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto. Un solo giorno di GTFS (12/10).
 - Convenzione a due versi: ogni tratto OSM a senso unico vale ×2, quindi il doppio del reale sulle vie a senso unico
   vere (al massimo 47 tratte, 24 km).
 - `tratte_traffico.json` dice 539 tratte / 342,8 km, `risultato8_traffico_tp_v2.json` 540 / 343,3 (giri diversi dello
@@ -138,6 +156,7 @@ Rifare: `python scripts/100_ore_del_giorno.py` (circa 3-4 minuti dopo 93 e 94; `
 | 33-48, `rete_osm.py` | flusso per sensore, esclusioni, abbinamento, modello della domanda sulla rete |
 | 56-67 | assi e tratte, corsie, ZTL, TP per posizione, valutazione finale |
 | `schede_risultati.py` (`scheda_r8`) | scheda con errore % per sensore |
+| 101 | fattori di rallentamento dell'auto da TomTom (rete e congestione, per gruppo e ora) → `tempi_traffico.json`; **non è in `rifai_tutto.py`**: usa la chiave in `config_locale.json`, ~1.200 richieste, e il file è in git; si rilancia a mano (`python scripts\101_tempi_traffico.py`) |
 | 100 | lo stesso confronto a 4 ore del giorno (8, 13, 17:30, 21) → `ore_del_giorno.json` |
 | 93 | tempo coi mezzi contro auto fra zone IMQ: due stime con due fattori di punta → `tp_contro_auto.json` (si rifà in circa 1 minuto) |
 | 99 | «area che si espande» (scheda 4): da Piazza Castello a ogni sezione di Torino, coi mezzi (r5py) e in auto (rete del modello, gli stessi due fattori del 93); zona-zona di Torino ricopiata dal 93 → `area_tempi.json` → `data/area_tempi.js` (`scripts\AREA_TEMPI.bat`; `--finto` per provare la pagina senza dati) |

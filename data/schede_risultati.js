@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T19:50:46+00:00",
+  "generato": "2026-10-23T20:38:52+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1356,7 +1356,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T19:50:46+00:00",
+  "generato": "2026-10-23T20:38:52+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-23: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -2588,7 +2588,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T19:50:46+00:00",
+  "generato": "2026-10-23T20:38:52+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2719,48 +2719,48 @@ window.SCHEDE_RISULTATI = [
    "punti": [
     "68 fermate importanti non hanno nessun parcheggio adatto vicino; 111 ne hanno troppo pochi.",
     "Servirebbero posti soprattutto in 12 punti d'ingresso: il primo è Santa Rita, dove ne mancano circa 450.",
-    "Dal parcheggio il bus batte l'auto solo se in centro si perdono minuti a parcheggiare. Servono più di 21 minuti (stima Google) o 28 (stima sensori)."
+    "Dal parcheggio il bus batte l'auto solo se in centro si perdono minuti a parcheggiare. Servono più di 17 minuti (stima TomTom) o 28 (stima sensori)."
    ],
    "altri": [
     {
      "tipo": "gara",
      "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale",
-     "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (stima con il rallentamento dei sensori) e 2,1 (stima con quello di Google, auto chiara). Il punto più promettente è Metro Massaua: lì bastano 7 minuti (stima Google) o 15 (stima sensori) persi a parcheggiare in centro.",
+     "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (stima con il rallentamento dei sensori) e 2,6 (stima con quello di TomTom, auto chiara). Il punto più promettente è Metro Massaua: lì bastano 3 minuti (stima TomTom) o 15 (stima sensori) persi a parcheggiare in centro.",
      "luoghi": [
       {
        "nome": "Santa Rita",
        "gruppo": "Punti prioritari",
        "bus": 36.0,
        "auto_min": 13.7,
-       "auto_max": 20.2,
+       "auto_max": 23.7,
        "giudizio": "il bus non conviene",
        "ore": [
         {
          "ora": "8:00",
          "bus": 36.0,
          "auto_min": 13.7,
-         "auto_max": 20.2,
+         "auto_max": 23.7,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "13:00",
          "bus": 35.0,
          "auto_min": 12.9,
-         "auto_max": 16.6,
+         "auto_max": 21.4,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "17:30",
          "bus": 37.0,
          "auto_min": 13.7,
-         "auto_max": 20.2,
+         "auto_max": 24.2,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "21:00",
          "bus": 36.0,
          "auto_min": 12.2,
-         "auto_max": 12.2,
+         "auto_max": 18.6,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -2770,36 +2770,36 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 25.0,
        "auto_min": 15.1,
-       "auto_max": 22.7,
+       "auto_max": 26.9,
        "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 25.0,
          "auto_min": 15.1,
-         "auto_max": 22.7,
+         "auto_max": 26.9,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 25.0,
          "auto_min": 14.3,
-         "auto_max": 18.5,
+         "auto_max": 24.2,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "17:30",
          "bus": 25.0,
          "auto_min": 15.1,
-         "auto_max": 22.7,
+         "auto_max": 27.4,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 27.0,
          "auto_min": 13.4,
-         "auto_max": 13.4,
-         "giudizio": "il bus non conviene"
+         "auto_max": 20.9,
+         "giudizio": "dipende dal traffico"
         }
        ]
       },
@@ -2808,35 +2808,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 51.0,
        "auto_min": 18.2,
-       "auto_max": 28.0,
+       "auto_max": 33.4,
        "giudizio": "il bus non conviene",
        "ore": [
         {
          "ora": "8:00",
          "bus": 51.0,
          "auto_min": 18.2,
-         "auto_max": 28.0,
+         "auto_max": 33.4,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "13:00",
          "bus": 49.0,
          "auto_min": 17.1,
-         "auto_max": 22.5,
+         "auto_max": 29.9,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "17:30",
          "bus": 49.0,
          "auto_min": 18.2,
-         "auto_max": 28.0,
-         "giudizio": "il bus non conviene"
+         "auto_max": 34.2,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 47.0,
          "auto_min": 16.0,
-         "auto_max": 16.0,
+         "auto_max": 25.6,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -2846,35 +2846,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 31.0,
        "auto_min": 11.6,
-       "auto_max": 16.6,
+       "auto_max": 19.3,
        "giudizio": "il bus non conviene",
        "ore": [
         {
          "ora": "8:00",
          "bus": 31.0,
          "auto_min": 11.6,
-         "auto_max": 16.6,
+         "auto_max": 19.3,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "13:00",
          "bus": 31.0,
          "auto_min": 11.1,
-         "auto_max": 13.8,
+         "auto_max": 17.5,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "17:30",
          "bus": 30.0,
          "auto_min": 11.6,
-         "auto_max": 16.6,
+         "auto_max": 19.7,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "21:00",
          "bus": 31.0,
          "auto_min": 10.5,
-         "auto_max": 10.5,
+         "auto_max": 15.4,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -2884,36 +2884,36 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 28.0,
        "auto_min": 12.1,
-       "auto_max": 17.4,
-       "giudizio": "il bus non conviene",
+       "auto_max": 20.3,
+       "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 28.0,
          "auto_min": 12.1,
-         "auto_max": 17.4,
-         "giudizio": "il bus non conviene"
+         "auto_max": 20.3,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 26.0,
          "auto_min": 11.5,
-         "auto_max": 14.4,
-         "giudizio": "il bus non conviene"
+         "auto_max": 18.4,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "17:30",
          "bus": 28.0,
          "auto_min": 12.1,
-         "auto_max": 17.4,
-         "giudizio": "il bus non conviene"
+         "auto_max": 20.7,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 24.0,
          "auto_min": 10.9,
-         "auto_max": 10.9,
-         "giudizio": "il bus non conviene"
+         "auto_max": 16.1,
+         "giudizio": "dipende dal traffico"
         }
        ]
       },
@@ -2922,35 +2922,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 59.0,
        "auto_min": 19.9,
-       "auto_max": 31.1,
+       "auto_max": 37.2,
        "giudizio": "il bus non conviene",
        "ore": [
         {
          "ora": "8:00",
          "bus": 59.0,
          "auto_min": 19.9,
-         "auto_max": 31.1,
+         "auto_max": 37.2,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "13:00",
          "bus": 58.0,
          "auto_min": 18.7,
-         "auto_max": 24.9,
+         "auto_max": 33.2,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "17:30",
          "bus": 60.0,
          "auto_min": 19.9,
-         "auto_max": 31.1,
+         "auto_max": 38.1,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "21:00",
          "bus": 61.0,
          "auto_min": 17.4,
-         "auto_max": 17.4,
+         "auto_max": 28.4,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -2960,35 +2960,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 43.0,
        "auto_min": 17.4,
-       "auto_max": 26.7,
-       "giudizio": "il bus non conviene",
+       "auto_max": 31.8,
+       "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 43.0,
          "auto_min": 17.4,
-         "auto_max": 26.7,
-         "giudizio": "il bus non conviene"
+         "auto_max": 31.8,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 43.0,
          "auto_min": 16.4,
-         "auto_max": 21.6,
+         "auto_max": 28.5,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "17:30",
          "bus": 44.0,
          "auto_min": 17.4,
-         "auto_max": 26.7,
-         "giudizio": "il bus non conviene"
+         "auto_max": 32.5,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 49.0,
          "auto_min": 15.3,
-         "auto_max": 15.3,
+         "auto_max": 24.5,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -2998,35 +2998,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 37.0,
        "auto_min": 14.3,
-       "auto_max": 21.3,
-       "giudizio": "il bus non conviene",
+       "auto_max": 25.2,
+       "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 37.0,
          "auto_min": 14.3,
-         "auto_max": 21.3,
-         "giudizio": "il bus non conviene"
+         "auto_max": 25.2,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 35.0,
          "auto_min": 13.6,
-         "auto_max": 17.5,
+         "auto_max": 22.7,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "17:30",
          "bus": 38.0,
          "auto_min": 14.3,
-         "auto_max": 21.3,
-         "giudizio": "il bus non conviene"
+         "auto_max": 25.7,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 33.0,
          "auto_min": 12.8,
-         "auto_max": 12.8,
+         "auto_max": 19.6,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -3036,35 +3036,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 61.0,
        "auto_min": 23.2,
-       "auto_max": 36.8,
-       "giudizio": "il bus non conviene",
+       "auto_max": 44.2,
+       "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 61.0,
          "auto_min": 23.2,
-         "auto_max": 36.8,
-         "giudizio": "il bus non conviene"
+         "auto_max": 44.2,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 55.0,
          "auto_min": 21.7,
-         "auto_max": 29.2,
-         "giudizio": "il bus non conviene"
+         "auto_max": 39.4,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "17:30",
          "bus": 59.0,
          "auto_min": 23.2,
-         "auto_max": 36.8,
-         "giudizio": "il bus non conviene"
+         "auto_max": 45.3,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 54.0,
          "auto_min": 20.1,
-         "auto_max": 20.1,
+         "auto_max": 33.5,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -3074,35 +3074,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 34.0,
        "auto_min": 13.8,
-       "auto_max": 20.4,
-       "giudizio": "il bus non conviene",
+       "auto_max": 24.0,
+       "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 34.0,
          "auto_min": 13.8,
-         "auto_max": 20.4,
-         "giudizio": "il bus non conviene"
+         "auto_max": 24.0,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 31.0,
          "auto_min": 13.0,
-         "auto_max": 16.7,
-         "giudizio": "il bus non conviene"
+         "auto_max": 21.6,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "17:30",
          "bus": 32.0,
          "auto_min": 13.8,
-         "auto_max": 20.4,
-         "giudizio": "il bus non conviene"
+         "auto_max": 24.5,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 31.0,
          "auto_min": 12.3,
-         "auto_max": 12.3,
+         "auto_max": 18.8,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -3112,35 +3112,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 49.0,
        "auto_min": 19.9,
-       "auto_max": 31.0,
-       "giudizio": "il bus non conviene",
+       "auto_max": 37.1,
+       "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 49.0,
          "auto_min": 19.9,
-         "auto_max": 31.0,
-         "giudizio": "il bus non conviene"
+         "auto_max": 37.1,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 46.0,
          "auto_min": 18.6,
-         "auto_max": 24.8,
-         "giudizio": "il bus non conviene"
+         "auto_max": 33.1,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "17:30",
          "bus": 49.0,
          "auto_min": 19.9,
-         "auto_max": 31.0,
-         "giudizio": "il bus non conviene"
+         "auto_max": 37.9,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 49.0,
          "auto_min": 17.4,
-         "auto_max": 17.4,
+         "auto_max": 28.3,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -3150,35 +3150,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Punti prioritari",
        "bus": 33.0,
        "auto_min": 11.9,
-       "auto_max": 17.1,
+       "auto_max": 19.9,
        "giudizio": "il bus non conviene",
        "ore": [
         {
          "ora": "8:00",
          "bus": 33.0,
          "auto_min": 11.9,
-         "auto_max": 17.1,
+         "auto_max": 19.9,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "13:00",
          "bus": 32.0,
          "auto_min": 11.3,
-         "auto_max": 14.2,
+         "auto_max": 18.1,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "17:30",
          "bus": 34.0,
          "auto_min": 11.9,
-         "auto_max": 17.1,
+         "auto_max": 20.3,
          "giudizio": "il bus non conviene"
         },
         {
          "ora": "21:00",
          "bus": 33.0,
          "auto_min": 10.8,
-         "auto_max": 10.8,
+         "auto_max": 15.8,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -3188,36 +3188,36 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Interscambi esistenti",
        "bus": 39.0,
        "auto_min": 17.3,
-       "auto_max": 26.6,
+       "auto_max": 31.6,
        "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 39.0,
          "auto_min": 17.3,
-         "auto_max": 26.6,
+         "auto_max": 31.6,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 36.0,
          "auto_min": 16.3,
-         "auto_max": 21.4,
-         "giudizio": "il bus non conviene"
+         "auto_max": 28.3,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "17:30",
          "bus": 36.0,
          "auto_min": 17.3,
-         "auto_max": 26.6,
+         "auto_max": 32.3,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 36.0,
          "auto_min": 15.3,
-         "auto_max": 15.3,
-         "giudizio": "il bus non conviene"
+         "auto_max": 24.3,
+         "giudizio": "dipende dal traffico"
         }
        ]
       },
@@ -3226,36 +3226,36 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Interscambi esistenti",
        "bus": 28.0,
        "auto_min": 16.0,
-       "auto_max": 24.2,
+       "auto_max": 28.7,
        "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 28.0,
          "auto_min": 16.0,
-         "auto_max": 24.2,
+         "auto_max": 28.7,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 28.0,
          "auto_min": 15.1,
-         "auto_max": 19.7,
+         "auto_max": 25.8,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "17:30",
          "bus": 28.0,
          "auto_min": 16.0,
-         "auto_max": 24.2,
+         "auto_max": 29.4,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 30.0,
          "auto_min": 14.2,
-         "auto_max": 14.2,
-         "giudizio": "il bus non conviene"
+         "auto_max": 22.2,
+         "giudizio": "dipende dal traffico"
         }
        ]
       },
@@ -3264,35 +3264,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Interscambi esistenti",
        "bus": 38.0,
        "auto_min": 16.0,
-       "auto_max": 24.3,
-       "giudizio": "il bus non conviene",
+       "auto_max": 28.8,
+       "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 38.0,
          "auto_min": 16.0,
-         "auto_max": 24.3,
-         "giudizio": "il bus non conviene"
+         "auto_max": 28.8,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 38.0,
          "auto_min": 15.1,
-         "auto_max": 19.7,
-         "giudizio": "il bus non conviene"
+         "auto_max": 25.9,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "17:30",
          "bus": 39.0,
          "auto_min": 16.0,
-         "auto_max": 24.3,
-         "giudizio": "il bus non conviene"
+         "auto_max": 29.4,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 45.0,
          "auto_min": 14.2,
-         "auto_max": 14.2,
+         "auto_max": 22.3,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -3302,36 +3302,36 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Interscambi esistenti",
        "bus": 31.0,
        "auto_min": 18.6,
-       "auto_max": 28.9,
+       "auto_max": 34.4,
        "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 31.0,
          "auto_min": 18.6,
-         "auto_max": 28.9,
+         "auto_max": 34.4,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 31.0,
          "auto_min": 17.5,
-         "auto_max": 23.2,
+         "auto_max": 30.8,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "17:30",
          "bus": 31.0,
          "auto_min": 18.6,
-         "auto_max": 28.9,
+         "auto_max": 35.2,
          "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 33.0,
          "auto_min": 16.4,
-         "auto_max": 16.4,
-         "giudizio": "il bus non conviene"
+         "auto_max": 26.4,
+         "giudizio": "dipende dal traffico"
         }
        ]
       },
@@ -3340,35 +3340,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Interscambi esistenti",
        "bus": 33.0,
        "auto_min": 13.3,
-       "auto_max": 19.6,
-       "giudizio": "il bus non conviene",
+       "auto_max": 23.0,
+       "giudizio": "dipende dal traffico",
        "ore": [
         {
          "ora": "8:00",
          "bus": 33.0,
          "auto_min": 13.3,
-         "auto_max": 19.6,
-         "giudizio": "il bus non conviene"
+         "auto_max": 23.0,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "13:00",
          "bus": 31.0,
          "auto_min": 12.6,
-         "auto_max": 16.1,
-         "giudizio": "il bus non conviene"
+         "auto_max": 20.8,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "17:30",
          "bus": 33.0,
          "auto_min": 13.3,
-         "auto_max": 19.6,
-         "giudizio": "il bus non conviene"
+         "auto_max": 23.5,
+         "giudizio": "dipende dal traffico"
         },
         {
          "ora": "21:00",
          "bus": 28.0,
          "auto_min": 12.0,
-         "auto_max": 12.0,
+         "auto_max": 18.1,
          "giudizio": "il bus non conviene"
         }
        ]
@@ -3380,79 +3380,79 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto",
      "unita": "minuti",
-     "nota": "Verso Piazza Castello alle 8. Barra scura = stima con il rallentamento di Google, barra chiara = stima con il rallentamento dei sensori. Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
+     "nota": "Verso Piazza Castello alle 8. Barra scura = stima con il rallentamento di TomTom, barra chiara = stima con il rallentamento dei sensori. Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
      "voci": [
       {
        "label": "Metro Massaua",
-       "valore": 7,
+       "valore": 3,
        "prima": 15,
-       "testo": "7–15 min"
+       "testo": "3–15 min"
       },
       {
        "label": "Pasini",
-       "valore": 16,
+       "valore": 13,
        "prima": 21,
-       "testo": "16–21 min"
+       "testo": "13–21 min"
       },
       {
        "label": "Derna Est",
-       "valore": 19,
+       "valore": 15,
        "prima": 25,
-       "testo": "19–25 min"
-      },
-      {
-       "label": "Regina Margherita",
-       "valore": 19,
-       "prima": 24,
-       "testo": "19–24 min"
-      },
-      {
-       "label": "Stura Lazio",
-       "valore": 21,
-       "prima": 28,
-       "testo": "21–28 min"
-      },
-      {
-       "label": "Santa Rita",
-       "valore": 21,
-       "prima": 27,
-       "testo": "21–27 min"
-      },
-      {
-       "label": "Zara",
-       "valore": 21,
-       "prima": 26,
-       "testo": "21–26 min"
+       "testo": "15–25 min"
       },
       {
        "label": "Drosso Cap",
-       "valore": 21,
+       "valore": 16,
        "prima": 31,
-       "testo": "21–31 min"
+       "testo": "16–31 min"
+      },
+      {
+       "label": "Regina Margherita",
+       "valore": 17,
+       "prima": 24,
+       "testo": "17–24 min"
+      },
+      {
+       "label": "Stura Lazio",
+       "valore": 17,
+       "prima": 28,
+       "testo": "17–28 min"
       },
       {
        "label": "Ferrara",
-       "valore": 23,
+       "valore": 17,
        "prima": 34,
-       "testo": "23–34 min"
+       "testo": "17–34 min"
       },
       {
-       "label": "Ponte Cavalieri Templari",
-       "valore": 28,
-       "prima": 38,
-       "testo": "28–38 min"
+       "label": "Santa Rita",
+       "valore": 17,
+       "prima": 27,
+       "testo": "17–27 min"
+      },
+      {
+       "label": "Zara",
+       "valore": 18,
+       "prima": 26,
+       "testo": "18–26 min"
       },
       {
        "label": "Marsè",
-       "valore": 29,
+       "valore": 22,
        "prima": 43,
-       "testo": "29–43 min"
+       "testo": "22–43 min"
+      },
+      {
+       "label": "Ponte Cavalieri Templari",
+       "valore": 23,
+       "prima": 38,
+       "testo": "23–38 min"
       },
       {
        "label": "Leonardo Da Vinci",
-       "valore": 33,
+       "valore": 27,
        "prima": 44,
-       "testo": "33–44 min"
+       "testo": "27–44 min"
       }
      ]
     },
@@ -3460,32 +3460,32 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro",
      "unita": "minuti",
-     "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, con due stime del rallentamento (1,2 e 2,1): il valore vero può stare anche fuori.",
+     "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, con due stime del rallentamento (1,2 e 2,6): il valore vero può stare anche fuori.",
      "voci": [
       {
        "label": "Stura",
        "valore": 39,
-       "testo": "pieno di giorno; 39 contro 17 o 27 in auto"
+       "testo": "pieno di giorno; 39 contro 17 o 32 in auto"
       },
       {
        "label": "Venchi Unica",
        "valore": 28,
-       "testo": "a metà; 28 contro 16 o 24 in auto"
+       "testo": "a metà; 28 contro 16 o 29 in auto"
       },
       {
        "label": "Caio Mario",
        "valore": 38,
-       "testo": "con posti liberi; 38 contro 16 o 24 in auto"
+       "testo": "con posti liberi; 38 contro 16 o 29 in auto"
       },
       {
        "label": "Fermi",
        "valore": 31,
-       "testo": "non misurato; 31 contro 19 o 29 in auto"
+       "testo": "non misurato; 31 contro 19 o 34 in auto"
       },
       {
        "label": "Sofia",
        "valore": 33,
-       "testo": "con posti liberi; 33 contro 13 o 20 in auto"
+       "testo": "con posti liberi; 33 contro 13 o 23 in auto"
       }
      ]
     }
@@ -3495,7 +3495,7 @@ window.SCHEDE_RISULTATI = [
     "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
     "Auto da fermare: auto che passano per il 5,8% che già oggi lascia l'auto. Posti: parcheggi adatti entro 400 metri.",
     "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.",
-    "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei 12 punti."
+    "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei 12 punti. Dati di traffico: TomTom."
    ],
    "criteri": [
     [
@@ -3512,13 +3512,13 @@ window.SCHEDE_RISULTATI = [
     ],
     [
      "Bus contro auto",
-     "verso Piazza Castello alle 8, auto con fattore 1,2 (sensori) e 2,1 (Google)"
+     "verso Piazza Castello alle 8, auto con fattore 1,2 (sensori) e 2,6 (TomTom)"
     ]
    ],
    "limiti": [
     "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
-    "I tempi coi mezzi sono solo GTT, senza treni. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato.",
-    "Il rallentamento di Google è stato misurato su 6 percorsi in uscita dal centro. In entrata l'auto può essere più lenta.",
+    "I tempi coi mezzi sono solo GTT, senza treni. La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
+    "La stima di TomTom è un tempo previsto su traffico tipico, non misurato. Usiamo un solo servizio.",
     "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."
    ],
    "mappa": {
@@ -5344,48 +5344,48 @@ window.SCHEDE_RISULTATI = [
    "punti": [
     "68 important stops have no suitable car park nearby; 111 have too few spaces.",
     "Spaces are needed above all at 12 entry points: the first is Santa Rita, where about 450 are missing.",
-    "From the car park the bus beats the car only if you lose minutes parking downtown. You need more than 21 minutes (Google estimate) or 28 (sensor estimate)."
+    "From the car park the bus beats the car only if you lose minutes parking downtown. You need more than 17 minutes (TomTom estimate) or 28 (sensor estimate)."
    ],
    "altri": [
     {
      "tipo": "gara",
      "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m., 1 p.m., 5:30 p.m. and 9 p.m. on a weekday",
-     "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (estimate with the sensors' slowdown) and 2.1 (estimate with Google's slowdown, faded car). The most promising point is Metro Massaua: there, 7 minutes (Google estimate) or 15 (sensor estimate) lost parking downtown are enough.",
+     "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (estimate with the sensors' slowdown) and 2.6 (estimate with TomTom's slowdown, faded car). The most promising point is Metro Massaua: there, 3 minutes (stima TomTom) or 15 (sensor estimate) lost parking downtown are enough.",
      "luoghi": [
       {
        "nome": "Santa Rita",
        "gruppo": "Priority points",
        "bus": 36.0,
        "auto_min": 13.7,
-       "auto_max": 20.2,
+       "auto_max": 23.7,
        "giudizio": "the bus does not pay off",
        "ore": [
         {
          "ora": "8:00",
          "bus": 36.0,
          "auto_min": 13.7,
-         "auto_max": 20.2,
+         "auto_max": 23.7,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "13:00",
          "bus": 35.0,
          "auto_min": 12.9,
-         "auto_max": 16.6,
+         "auto_max": 21.4,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "17:30",
          "bus": 37.0,
          "auto_min": 13.7,
-         "auto_max": 20.2,
+         "auto_max": 24.2,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "21:00",
          "bus": 36.0,
          "auto_min": 12.2,
-         "auto_max": 12.2,
+         "auto_max": 18.6,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5395,36 +5395,36 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 25.0,
        "auto_min": 15.1,
-       "auto_max": 22.7,
+       "auto_max": 26.9,
        "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 25.0,
          "auto_min": 15.1,
-         "auto_max": 22.7,
+         "auto_max": 26.9,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 25.0,
          "auto_min": 14.3,
-         "auto_max": 18.5,
+         "auto_max": 24.2,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "17:30",
          "bus": 25.0,
          "auto_min": 15.1,
-         "auto_max": 22.7,
+         "auto_max": 27.4,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 27.0,
          "auto_min": 13.4,
-         "auto_max": 13.4,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 20.9,
+         "giudizio": "depends on traffic"
         }
        ]
       },
@@ -5433,35 +5433,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 51.0,
        "auto_min": 18.2,
-       "auto_max": 28.0,
+       "auto_max": 33.4,
        "giudizio": "the bus does not pay off",
        "ore": [
         {
          "ora": "8:00",
          "bus": 51.0,
          "auto_min": 18.2,
-         "auto_max": 28.0,
+         "auto_max": 33.4,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "13:00",
          "bus": 49.0,
          "auto_min": 17.1,
-         "auto_max": 22.5,
+         "auto_max": 29.9,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "17:30",
          "bus": 49.0,
          "auto_min": 18.2,
-         "auto_max": 28.0,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 34.2,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 47.0,
          "auto_min": 16.0,
-         "auto_max": 16.0,
+         "auto_max": 25.6,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5471,35 +5471,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 31.0,
        "auto_min": 11.6,
-       "auto_max": 16.6,
+       "auto_max": 19.3,
        "giudizio": "the bus does not pay off",
        "ore": [
         {
          "ora": "8:00",
          "bus": 31.0,
          "auto_min": 11.6,
-         "auto_max": 16.6,
+         "auto_max": 19.3,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "13:00",
          "bus": 31.0,
          "auto_min": 11.1,
-         "auto_max": 13.8,
+         "auto_max": 17.5,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "17:30",
          "bus": 30.0,
          "auto_min": 11.6,
-         "auto_max": 16.6,
+         "auto_max": 19.7,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "21:00",
          "bus": 31.0,
          "auto_min": 10.5,
-         "auto_max": 10.5,
+         "auto_max": 15.4,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5509,36 +5509,36 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 28.0,
        "auto_min": 12.1,
-       "auto_max": 17.4,
-       "giudizio": "the bus does not pay off",
+       "auto_max": 20.3,
+       "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 28.0,
          "auto_min": 12.1,
-         "auto_max": 17.4,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 20.3,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 26.0,
          "auto_min": 11.5,
-         "auto_max": 14.4,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 18.4,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "17:30",
          "bus": 28.0,
          "auto_min": 12.1,
-         "auto_max": 17.4,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 20.7,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 24.0,
          "auto_min": 10.9,
-         "auto_max": 10.9,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 16.1,
+         "giudizio": "depends on traffic"
         }
        ]
       },
@@ -5547,35 +5547,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 59.0,
        "auto_min": 19.9,
-       "auto_max": 31.1,
+       "auto_max": 37.2,
        "giudizio": "the bus does not pay off",
        "ore": [
         {
          "ora": "8:00",
          "bus": 59.0,
          "auto_min": 19.9,
-         "auto_max": 31.1,
+         "auto_max": 37.2,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "13:00",
          "bus": 58.0,
          "auto_min": 18.7,
-         "auto_max": 24.9,
+         "auto_max": 33.2,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "17:30",
          "bus": 60.0,
          "auto_min": 19.9,
-         "auto_max": 31.1,
+         "auto_max": 38.1,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "21:00",
          "bus": 61.0,
          "auto_min": 17.4,
-         "auto_max": 17.4,
+         "auto_max": 28.4,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5585,35 +5585,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 43.0,
        "auto_min": 17.4,
-       "auto_max": 26.7,
-       "giudizio": "the bus does not pay off",
+       "auto_max": 31.8,
+       "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 43.0,
          "auto_min": 17.4,
-         "auto_max": 26.7,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 31.8,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 43.0,
          "auto_min": 16.4,
-         "auto_max": 21.6,
+         "auto_max": 28.5,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "17:30",
          "bus": 44.0,
          "auto_min": 17.4,
-         "auto_max": 26.7,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 32.5,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 49.0,
          "auto_min": 15.3,
-         "auto_max": 15.3,
+         "auto_max": 24.5,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5623,35 +5623,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 37.0,
        "auto_min": 14.3,
-       "auto_max": 21.3,
-       "giudizio": "the bus does not pay off",
+       "auto_max": 25.2,
+       "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 37.0,
          "auto_min": 14.3,
-         "auto_max": 21.3,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 25.2,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 35.0,
          "auto_min": 13.6,
-         "auto_max": 17.5,
+         "auto_max": 22.7,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "17:30",
          "bus": 38.0,
          "auto_min": 14.3,
-         "auto_max": 21.3,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 25.7,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 33.0,
          "auto_min": 12.8,
-         "auto_max": 12.8,
+         "auto_max": 19.6,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5661,35 +5661,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 61.0,
        "auto_min": 23.2,
-       "auto_max": 36.8,
-       "giudizio": "the bus does not pay off",
+       "auto_max": 44.2,
+       "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 61.0,
          "auto_min": 23.2,
-         "auto_max": 36.8,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 44.2,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 55.0,
          "auto_min": 21.7,
-         "auto_max": 29.2,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 39.4,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "17:30",
          "bus": 59.0,
          "auto_min": 23.2,
-         "auto_max": 36.8,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 45.3,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 54.0,
          "auto_min": 20.1,
-         "auto_max": 20.1,
+         "auto_max": 33.5,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5699,35 +5699,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 34.0,
        "auto_min": 13.8,
-       "auto_max": 20.4,
-       "giudizio": "the bus does not pay off",
+       "auto_max": 24.0,
+       "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 34.0,
          "auto_min": 13.8,
-         "auto_max": 20.4,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 24.0,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 31.0,
          "auto_min": 13.0,
-         "auto_max": 16.7,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 21.6,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "17:30",
          "bus": 32.0,
          "auto_min": 13.8,
-         "auto_max": 20.4,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 24.5,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 31.0,
          "auto_min": 12.3,
-         "auto_max": 12.3,
+         "auto_max": 18.8,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5737,35 +5737,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 49.0,
        "auto_min": 19.9,
-       "auto_max": 31.0,
-       "giudizio": "the bus does not pay off",
+       "auto_max": 37.1,
+       "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 49.0,
          "auto_min": 19.9,
-         "auto_max": 31.0,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 37.1,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 46.0,
          "auto_min": 18.6,
-         "auto_max": 24.8,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 33.1,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "17:30",
          "bus": 49.0,
          "auto_min": 19.9,
-         "auto_max": 31.0,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 37.9,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 49.0,
          "auto_min": 17.4,
-         "auto_max": 17.4,
+         "auto_max": 28.3,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5775,35 +5775,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Priority points",
        "bus": 33.0,
        "auto_min": 11.9,
-       "auto_max": 17.1,
+       "auto_max": 19.9,
        "giudizio": "the bus does not pay off",
        "ore": [
         {
          "ora": "8:00",
          "bus": 33.0,
          "auto_min": 11.9,
-         "auto_max": 17.1,
+         "auto_max": 19.9,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "13:00",
          "bus": 32.0,
          "auto_min": 11.3,
-         "auto_max": 14.2,
+         "auto_max": 18.1,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "17:30",
          "bus": 34.0,
          "auto_min": 11.9,
-         "auto_max": 17.1,
+         "auto_max": 20.3,
          "giudizio": "the bus does not pay off"
         },
         {
          "ora": "21:00",
          "bus": 33.0,
          "auto_min": 10.8,
-         "auto_max": 10.8,
+         "auto_max": 15.8,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5813,36 +5813,36 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Existing park-and-ride",
        "bus": 39.0,
        "auto_min": 17.3,
-       "auto_max": 26.6,
+       "auto_max": 31.6,
        "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 39.0,
          "auto_min": 17.3,
-         "auto_max": 26.6,
+         "auto_max": 31.6,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 36.0,
          "auto_min": 16.3,
-         "auto_max": 21.4,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 28.3,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "17:30",
          "bus": 36.0,
          "auto_min": 17.3,
-         "auto_max": 26.6,
+         "auto_max": 32.3,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 36.0,
          "auto_min": 15.3,
-         "auto_max": 15.3,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 24.3,
+         "giudizio": "depends on traffic"
         }
        ]
       },
@@ -5851,36 +5851,36 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Existing park-and-ride",
        "bus": 28.0,
        "auto_min": 16.0,
-       "auto_max": 24.2,
+       "auto_max": 28.7,
        "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 28.0,
          "auto_min": 16.0,
-         "auto_max": 24.2,
+         "auto_max": 28.7,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 28.0,
          "auto_min": 15.1,
-         "auto_max": 19.7,
+         "auto_max": 25.8,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "17:30",
          "bus": 28.0,
          "auto_min": 16.0,
-         "auto_max": 24.2,
+         "auto_max": 29.4,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 30.0,
          "auto_min": 14.2,
-         "auto_max": 14.2,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 22.2,
+         "giudizio": "depends on traffic"
         }
        ]
       },
@@ -5889,35 +5889,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Existing park-and-ride",
        "bus": 38.0,
        "auto_min": 16.0,
-       "auto_max": 24.3,
-       "giudizio": "the bus does not pay off",
+       "auto_max": 28.8,
+       "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 38.0,
          "auto_min": 16.0,
-         "auto_max": 24.3,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 28.8,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 38.0,
          "auto_min": 15.1,
-         "auto_max": 19.7,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 25.9,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "17:30",
          "bus": 39.0,
          "auto_min": 16.0,
-         "auto_max": 24.3,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 29.4,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 45.0,
          "auto_min": 14.2,
-         "auto_max": 14.2,
+         "auto_max": 22.3,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -5927,36 +5927,36 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Existing park-and-ride",
        "bus": 31.0,
        "auto_min": 18.6,
-       "auto_max": 28.9,
+       "auto_max": 34.4,
        "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 31.0,
          "auto_min": 18.6,
-         "auto_max": 28.9,
+         "auto_max": 34.4,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 31.0,
          "auto_min": 17.5,
-         "auto_max": 23.2,
+         "auto_max": 30.8,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "17:30",
          "bus": 31.0,
          "auto_min": 18.6,
-         "auto_max": 28.9,
+         "auto_max": 35.2,
          "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 33.0,
          "auto_min": 16.4,
-         "auto_max": 16.4,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 26.4,
+         "giudizio": "depends on traffic"
         }
        ]
       },
@@ -5965,35 +5965,35 @@ window.SCHEDE_RISULTATI = [
        "gruppo": "Existing park-and-ride",
        "bus": 33.0,
        "auto_min": 13.3,
-       "auto_max": 19.6,
-       "giudizio": "the bus does not pay off",
+       "auto_max": 23.0,
+       "giudizio": "depends on traffic",
        "ore": [
         {
          "ora": "8:00",
          "bus": 33.0,
          "auto_min": 13.3,
-         "auto_max": 19.6,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 23.0,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "13:00",
          "bus": 31.0,
          "auto_min": 12.6,
-         "auto_max": 16.1,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 20.8,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "17:30",
          "bus": 33.0,
          "auto_min": 13.3,
-         "auto_max": 19.6,
-         "giudizio": "the bus does not pay off"
+         "auto_max": 23.5,
+         "giudizio": "depends on traffic"
         },
         {
          "ora": "21:00",
          "bus": 28.0,
          "auto_min": 12.0,
-         "auto_max": 12.0,
+         "auto_max": 18.1,
          "giudizio": "the bus does not pay off"
         }
        ]
@@ -6005,79 +6005,79 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
      "unita": "minutes",
-     "nota": "Towards Piazza Castello at 8 a.m. Dark bar = estimate with Google's slowdown, light bar = estimate with the sensors' slowdown. Fewer minutes = more promising point; 0 = the bus is already faster.",
+     "nota": "Towards Piazza Castello at 8 a.m. Dark bar = estimate with TomTom's slowdown, light bar = estimate with the sensors' slowdown. Fewer minutes = more promising point; 0 = the bus is already faster.",
      "voci": [
       {
        "label": "Metro Massaua",
-       "valore": 7,
+       "valore": 3,
        "prima": 15,
-       "testo": "7–15 min"
+       "testo": "3–15 min"
       },
       {
        "label": "Pasini",
-       "valore": 16,
+       "valore": 13,
        "prima": 21,
-       "testo": "16–21 min"
+       "testo": "13–21 min"
       },
       {
        "label": "Derna Est",
-       "valore": 19,
+       "valore": 15,
        "prima": 25,
-       "testo": "19–25 min"
-      },
-      {
-       "label": "Regina Margherita",
-       "valore": 19,
-       "prima": 24,
-       "testo": "19–24 min"
-      },
-      {
-       "label": "Stura Lazio",
-       "valore": 21,
-       "prima": 28,
-       "testo": "21–28 min"
-      },
-      {
-       "label": "Santa Rita",
-       "valore": 21,
-       "prima": 27,
-       "testo": "21–27 min"
-      },
-      {
-       "label": "Zara",
-       "valore": 21,
-       "prima": 26,
-       "testo": "21–26 min"
+       "testo": "15–25 min"
       },
       {
        "label": "Drosso Cap",
-       "valore": 21,
+       "valore": 16,
        "prima": 31,
-       "testo": "21–31 min"
+       "testo": "16–31 min"
+      },
+      {
+       "label": "Regina Margherita",
+       "valore": 17,
+       "prima": 24,
+       "testo": "17–24 min"
+      },
+      {
+       "label": "Stura Lazio",
+       "valore": 17,
+       "prima": 28,
+       "testo": "17–28 min"
       },
       {
        "label": "Ferrara",
-       "valore": 23,
+       "valore": 17,
        "prima": 34,
-       "testo": "23–34 min"
+       "testo": "17–34 min"
       },
       {
-       "label": "Ponte Cavalieri Templari",
-       "valore": 28,
-       "prima": 38,
-       "testo": "28–38 min"
+       "label": "Santa Rita",
+       "valore": 17,
+       "prima": 27,
+       "testo": "17–27 min"
+      },
+      {
+       "label": "Zara",
+       "valore": 18,
+       "prima": 26,
+       "testo": "18–26 min"
       },
       {
        "label": "Marsè",
-       "valore": 29,
+       "valore": 22,
        "prima": 43,
-       "testo": "29–43 min"
+       "testo": "22–43 min"
+      },
+      {
+       "label": "Ponte Cavalieri Templari",
+       "valore": 23,
+       "prima": 38,
+       "testo": "23–38 min"
       },
       {
        "label": "Leonardo Da Vinci",
-       "valore": 33,
+       "valore": 27,
        "prima": 44,
-       "testo": "33–44 min"
+       "testo": "27–44 min"
       }
      ]
     },
@@ -6085,32 +6085,32 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Existing park-and-ride sites: how full they are and how long the bus takes to the centre",
      "unita": "minutes",
-     "nota": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, with two estimates of the slowdown (1.2 and 2.1): the true value may lie outside.",
+     "nota": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, with two estimates of the slowdown (1.2 and 2.6): the true value may lie outside.",
      "voci": [
       {
        "label": "Stura",
        "valore": 39,
-       "testo": "full during the day; 39 versus 17 or 27 by car"
+       "testo": "full during the day; 39 versus 17 or 32 by car"
       },
       {
        "label": "Venchi Unica",
        "valore": 28,
-       "testo": "half full; 28 versus 16 or 24 by car"
+       "testo": "half full; 28 versus 16 or 29 by car"
       },
       {
        "label": "Caio Mario",
        "valore": 38,
-       "testo": "with free spaces; 38 versus 16 or 24 by car"
+       "testo": "with free spaces; 38 versus 16 or 29 by car"
       },
       {
        "label": "Fermi",
        "valore": 31,
-       "testo": "not measured; 31 versus 19 or 29 by car"
+       "testo": "not measured; 31 versus 19 or 34 by car"
       },
       {
        "label": "Sofia",
        "valore": 33,
-       "testo": "with free spaces; 33 versus 13 or 20 by car"
+       "testo": "with free spaces; 33 versus 13 or 23 by car"
       }
      ]
     }
@@ -6120,7 +6120,7 @@ window.SCHEDE_RISULTATI = [
     "Cars entering come from the 2022 travel survey, assigned to the fastest route.",
     "Cars to stop: passing cars times the 5.8% who already leave the car today. Spaces: suitable car parks within 400 metres.",
     "Priority points: stops without enough parking, grouped within 1 km, one per entry axis.",
-    "Bus versus car: minutes by public transport to Piazza Castello at 8 am, versus the car including parking. Median of the 12 points."
+    "Bus versus car: minutes by public transport to Piazza Castello at 8 am, versus the car including parking. Median of the 12 points. Traffic data: TomTom."
    ],
    "criteri": [
     [
@@ -6137,13 +6137,13 @@ window.SCHEDE_RISULTATI = [
     ],
     [
      "Bus versus car",
-     "towards Piazza Castello at 8 a.m., car with factor 1.2 (sensors) and 2.1 (Google)"
+     "towards Piazza Castello at 8 a.m., car with factor 1.2 (sensors) and 2.6 (TomTom)"
     ]
    ],
    "limiti": [
     "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude.",
-    "Public transport times are GTT only, without trains. The car slowdown at the other hours comes from the sensors. Google's is known only at 8 a.m. and has been scaled.",
-    "Google's slowdown was measured on 6 routes leaving the centre. Inbound, the car may be slower.",
+    "Public transport times are GTT only, without trains. The sensor estimate ignores traffic lights and junctions: it is the most favourable to the car.",
+    "The TomTom estimate is a forecast time on typical traffic, not measured. We use a single service.",
     "The cost of parking is not in the calculation: it weighs as extra minutes. One point per place and one destination only."
    ],
    "mappa": {
@@ -8255,7 +8255,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T19:50:46+00:00",
+  "generato": "2026-10-23T20:38:52+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -8312,16 +8312,16 @@ window.SCHEDE_RISULTATI = [
     "titolo": "Auto del mattino per rapporto fra tempo coi mezzi pubblici e tempo in auto",
     "unita": "%",
     "max": 100,
-    "nota": "Rapporto 2 = coi mezzi pubblici si impiega il doppio che in auto. Coppie Torino-Torino e Torino-cintura. Due stime: con il rallentamento di Google Maps (fattore 2,1) e con quello dei sensori (fattore 1,2); il valore vero può stare anche fuori.",
+    "nota": "Rapporto 2 = coi mezzi pubblici si impiega il doppio che in auto. Coppie Torino-Torino e Torino-cintura. Due stime: con il rallentamento di TomTom (fattore 2,5) e con quello dei sensori (fattore 1,2); il valore vero può stare anche fuori.",
     "gruppi": [
      {
       "label": "sotto 1,5",
       "voci": [
        {
-        "label": "stima con il rallentamento di Google",
-        "valore": 3.9,
+        "label": "stima con il rallentamento di TomTom",
+        "valore": 16.9,
         "tono": "verde",
-        "testo": "3,9% (8.649 auto)"
+        "testo": "16,9% (37.207 auto)"
        },
        {
         "label": "stima con il rallentamento dei sensori",
@@ -8335,10 +8335,10 @@ window.SCHEDE_RISULTATI = [
       "label": "1,5-2",
       "voci": [
        {
-        "label": "stima con il rallentamento di Google",
-        "valore": 54.6,
+        "label": "stima con il rallentamento di TomTom",
+        "valore": 69.3,
         "tono": "giallo",
-        "testo": "54,6% (120.360 auto)"
+        "testo": "69,3% (152.644 auto)"
        },
        {
         "label": "stima con il rallentamento dei sensori",
@@ -8352,10 +8352,10 @@ window.SCHEDE_RISULTATI = [
       "label": "2-3",
       "voci": [
        {
-        "label": "stima con il rallentamento di Google",
-        "valore": 41.1,
+        "label": "stima con il rallentamento di TomTom",
+        "valore": 13.8,
         "tono": "arancio",
-        "testo": "41,1% (90.508 auto)"
+        "testo": "13,8% (30.350 auto)"
        },
        {
         "label": "stima con il rallentamento dei sensori",
@@ -8369,10 +8369,10 @@ window.SCHEDE_RISULTATI = [
       "label": "oltre 3",
       "voci": [
        {
-        "label": "stima con il rallentamento di Google",
-        "valore": 0.4,
+        "label": "stima con il rallentamento di TomTom",
+        "valore": 0.0,
         "tono": "rosso",
-        "testo": "0,4% (791 auto)"
+        "testo": "0% (106 auto)"
        },
        {
         "label": "stima con il rallentamento dei sensori",
@@ -8385,8 +8385,8 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "Con la stima di Google il 41% delle auto ha rapporto oltre 2; con quella dei sensori il 97%.",
-    "Nel giorno il rapporto mediano va da 2 a 3,3 (stima Google) e da 2,9 a 3,3 (stima sensori).",
+    "Con la stima di TomTom il 14% delle auto ha rapporto oltre 2; con quella dei sensori il 97%.",
+    "Nel giorno il rapporto mediano va da 1,7 a 2,1 (stima TomTom) e da 2,9 a 3,3 (stima sensori).",
     "Google conferma i tempi coi mezzi pubblici sui percorsi di controllo: 31 contro 30-35 e 33 contro 30-35 minuti."
    ],
    "altri": [
@@ -8394,7 +8394,7 @@ window.SCHEDE_RISULTATI = [
      "tipo": "linea",
      "titolo": "Quante volte il tempo dell'auto, ora per ora",
      "unita": "volte",
-     "nota": "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. Due linee: stima con il rallentamento di Google (scalato alle altre ore) e stima con quello dei sensori.",
+     "nota": "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. Due linee: stima con il rallentamento di TomTom (a ogni ora) e stima con quello dei sensori.",
      "categorie": [
       "8:00",
       "13:00",
@@ -8403,12 +8403,12 @@ window.SCHEDE_RISULTATI = [
      ],
      "serie": [
       {
-       "label": "stima Google",
+       "label": "stima TomTom",
        "valori": [
+        1.75,
         1.96,
-        2.37,
-        2.01,
-        3.32
+        1.79,
+        2.14
        ]
       },
       {
@@ -8431,48 +8431,48 @@ window.SCHEDE_RISULTATI = [
        "arrivo": "Centro",
        "bus": 20.6,
        "auto_min": 9.4,
-       "auto_max": 12.7,
-       "giudizio": "coi mezzi 1,6 o 2,2 volte il tempo dell'auto, secondo le due stime"
+       "auto_max": 14.0,
+       "giudizio": "coi mezzi 1,5 o 2,2 volte il tempo dell'auto, secondo le due stime"
       },
       {
        "nome": "San Paolo",
        "arrivo": "Centro",
        "bus": 31.3,
        "auto_min": 11.3,
-       "auto_max": 16.0,
-       "giudizio": "coi mezzi 2 o 2,8 volte il tempo dell'auto, secondo le due stime"
+       "auto_max": 17.8,
+       "giudizio": "coi mezzi 1,8 o 2,8 volte il tempo dell'auto, secondo le due stime"
       },
       {
        "nome": "Mirafiori Nord",
        "arrivo": "Santa Rita",
        "bus": 19.2,
        "auto_min": 8.2,
-       "auto_max": 10.6,
-       "giudizio": "coi mezzi 1,8 o 2,3 volte il tempo dell'auto, secondo le due stime"
+       "auto_max": 11.6,
+       "giudizio": "coi mezzi 1,7 o 2,3 volte il tempo dell'auto, secondo le due stime"
       },
       {
        "nome": "Parella",
        "arrivo": "Centro",
        "bus": 24.7,
        "auto_min": 12.5,
-       "auto_max": 18.1,
-       "giudizio": "coi mezzi 1,4 o 2 volte il tempo dell'auto, secondo le due stime"
+       "auto_max": 20.3,
+       "giudizio": "coi mezzi 1,2 o 2 volte il tempo dell'auto, secondo le due stime"
       },
       {
        "nome": "San Donato",
        "arrivo": "Centro",
        "bus": 18.7,
        "auto_min": 9.0,
-       "auto_max": 12.0,
-       "giudizio": "coi mezzi 1,6 o 2,1 volte il tempo dell'auto, secondo le due stime"
+       "auto_max": 13.1,
+       "giudizio": "coi mezzi 1,4 o 2,1 volte il tempo dell'auto, secondo le due stime"
       },
       {
        "nome": "Barriera di Milano",
        "arrivo": "Falchera",
        "bus": 24.0,
        "auto_min": 9.8,
-       "auto_max": 13.4,
-       "giudizio": "coi mezzi 1,8 o 2,5 volte il tempo dell'auto, secondo le due stime"
+       "auto_max": 14.8,
+       "giudizio": "coi mezzi 1,6 o 2,5 volte il tempo dell'auto, secondo le due stime"
       }
      ],
      "scelto": 0,
@@ -8481,3006 +8481,3006 @@ window.SCHEDE_RISULTATI = [
     {
      "tipo": "dispersione",
      "titolo": "Tempo in auto e tempo coi mezzi pubblici, una coppia di zone per punto",
-     "xlabel": "minuti in auto (ora di punta, fattore 2,1)",
+     "xlabel": "minuti in auto (ora di punta, fattore 2,5)",
      "ylabel": "minuti coi mezzi pubblici",
      "punti": [
       [
-       12.7,
+       14.0,
        20.6,
        1355.3
       ],
       [
-       16.0,
+       17.8,
        31.3,
        1341.8
       ],
       [
-       10.6,
+       11.6,
        19.2,
        1324.4
       ],
       [
-       18.1,
+       20.3,
        24.7,
        1277.0
       ],
       [
-       12.0,
+       13.1,
        18.7,
        1269.4
       ],
       [
-       13.4,
+       14.8,
        24.0,
        1208.2
       ],
       [
-       23.2,
+       26.2,
        43.0,
        1149.2
       ],
       [
-       18.8,
+       21.1,
        37.5,
        1107.8
       ],
       [
-       47.5,
+       54.6,
        80.1,
        1081.8
       ],
       [
-       10.3,
+       11.2,
        15.2,
        1038.1
       ],
       [
-       16.8,
+       18.8,
        33.2,
        969.9
       ],
       [
-       18.7,
+       21.0,
        30.6,
        968.1
       ],
       [
-       10.6,
+       11.6,
        15.2,
        957.2
       ],
       [
-       27.2,
+       30.9,
        44.5,
        940.7
       ],
       [
-       12.6,
+       13.9,
        20.2,
        938.8
       ],
       [
-       17.0,
+       18.9,
        33.5,
        928.7
       ],
       [
-       19.1,
+       21.5,
        38.2,
        916.7
       ],
       [
-       35.6,
+       40.7,
        63.4,
        910.0
       ],
       [
-       15.7,
+       17.5,
        30.4,
        900.6
       ],
       [
-       15.5,
+       17.2,
        35.2,
        894.4
       ],
       [
-       11.8,
+       12.9,
        22.4,
        893.3
       ],
       [
-       13.0,
+       14.3,
        23.8,
        889.9
       ],
       [
-       22.8,
+       25.8,
        39.3,
        888.0
       ],
       [
-       18.3,
+       20.5,
        27.5,
        818.9
       ],
       [
-       22.1,
+       24.9,
        42.3,
        796.7
       ],
       [
-       18.0,
+       20.2,
        35.2,
        795.1
       ],
       [
-       10.3,
+       11.2,
        18.9,
        789.0
       ],
       [
-       19.7,
+       22.1,
        31.2,
        779.1
       ],
       [
-       15.1,
+       16.7,
        30.4,
        762.5
       ],
       [
-       22.8,
+       25.7,
        50.0,
        753.4
       ],
       [
-       15.8,
+       17.7,
        31.2,
        751.2
       ],
       [
-       14.3,
+       15.9,
        24.3,
        737.2
       ],
       [
-       31.1,
+       35.5,
        81.4,
        718.7
       ],
       [
-       11.4,
+       12.4,
        18.1,
        714.6
       ],
       [
-       16.9,
+       18.9,
        35.2,
        714.1
       ],
       [
-       13.8,
+       15.3,
        24.0,
        706.6
       ],
       [
-       35.5,
+       40.6,
        63.5,
        702.1
       ],
       [
-       11.8,
+       12.9,
        22.6,
        698.0
       ],
       [
-       19.2,
+       21.6,
        29.7,
        696.9
       ],
       [
-       30.9,
+       35.3,
        50.3,
        690.4
       ],
       [
-       38.0,
+       43.5,
        72.7,
        687.3
       ],
       [
-       13.2,
+       14.6,
        23.2,
        685.0
       ],
       [
-       22.2,
+       25.1,
        25.5,
        672.4
       ],
       [
-       15.4,
+       17.1,
        29.2,
        671.0
       ],
       [
-       11.6,
+       12.8,
        22.8,
        666.8
       ],
       [
-       37.3,
+       42.6,
        72.4,
        659.4
       ],
       [
-       25.8,
+       29.3,
        51.0,
        644.0
       ],
       [
-       17.0,
+       19.0,
        32.7,
        627.3
       ],
       [
-       10.1,
+       11.0,
        16.0,
        622.4
       ],
       [
-       11.8,
+       12.9,
        22.2,
        620.3
       ],
       [
-       12.5,
+       13.7,
        27.2,
        615.4
       ],
       [
-       19.7,
+       22.2,
        37.0,
        614.3
       ],
       [
-       14.9,
+       16.6,
        34.5,
        614.1
       ],
       [
-       12.6,
+       13.9,
        23.4,
        607.7
       ],
       [
-       13.7,
+       15.1,
        27.2,
        606.6
       ],
       [
-       16.9,
+       18.8,
        34.0,
        601.6
       ],
       [
-       15.6,
+       17.3,
        30.4,
        592.7
       ],
       [
-       17.2,
+       19.2,
        36.0,
        589.8
       ],
       [
-       17.6,
+       19.6,
        34.1,
        582.5
       ],
       [
-       26.8,
+       30.4,
        50.2,
        580.1
       ],
       [
-       17.1,
+       19.1,
        24.1,
        574.5
       ],
       [
-       15.0,
+       16.6,
        29.9,
        570.6
       ],
       [
-       24.9,
+       28.2,
        55.1,
        568.2
       ],
       [
-       14.5,
+       16.1,
        24.6,
        562.6
       ],
       [
-       34.0,
+       38.9,
        85.7,
        543.7
       ],
       [
-       14.5,
+       16.1,
        24.1,
        543.0
       ],
       [
-       17.1,
+       19.1,
        39.2,
        540.9
       ],
       [
-       10.8,
+       11.7,
        21.6,
        540.3
       ],
       [
-       15.8,
+       17.6,
        30.9,
        539.8
       ],
       [
-       16.4,
+       18.3,
        30.7,
        527.7
       ],
       [
-       33.6,
+       38.4,
        68.8,
        520.3
       ],
       [
-       33.4,
+       38.1,
        71.6,
        519.9
       ],
       [
-       15.0,
+       16.7,
        29.4,
        519.7
       ],
       [
-       12.9,
+       14.2,
        24.9,
        517.1
       ],
       [
-       26.5,
+       30.1,
        56.9,
        515.6
       ],
       [
-       36.0,
+       41.1,
        71.2,
        514.3
       ],
       [
-       18.3,
+       20.5,
        39.6,
        512.4
       ],
       [
-       29.2,
+       33.3,
        62.2,
        504.1
       ],
       [
-       15.2,
+       16.9,
        26.9,
        503.9
       ],
       [
-       16.9,
+       18.9,
        32.7,
        498.7
       ],
       [
-       15.4,
+       17.1,
        28.9,
        496.3
       ],
       [
-       10.3,
+       11.1,
        15.5,
        494.3
       ],
       [
-       21.4,
+       24.1,
        47.1,
        490.1
       ],
       [
-       19.0,
+       21.3,
        38.7,
        489.2
       ],
       [
-       11.3,
+       12.3,
        23.2,
        488.9
       ],
       [
-       40.9,
+       46.9,
        74.0,
        488.2
       ],
       [
-       12.0,
+       13.1,
        22.0,
        481.0
       ],
       [
-       17.9,
+       20.1,
        38.2,
        478.8
       ],
       [
-       27.1,
+       30.8,
        54.9,
        478.7
       ],
       [
-       24.3,
+       27.5,
        47.5,
        476.8
       ],
       [
-       23.4,
+       26.5,
        45.8,
        467.9
       ],
       [
-       12.9,
+       14.3,
        26.2,
        466.7
       ],
       [
-       17.3,
+       19.4,
        27.7,
        462.0
       ],
       [
-       13.0,
+       14.3,
        26.3,
        459.7
       ],
       [
-       47.0,
+       54.0,
        77.7,
        458.7
       ],
       [
-       22.3,
+       25.2,
        26.0,
        458.5
       ],
       [
-       19.2,
+       21.6,
        37.2,
        456.6
       ],
       [
-       14.2,
+       15.8,
        22.8,
        456.0
       ],
       [
-       31.3,
+       35.7,
        57.1,
        454.7
       ],
       [
-       10.7,
+       11.6,
        20.3,
        452.9
       ],
       [
-       29.9,
+       34.0,
        54.0,
        452.3
       ],
       [
-       39.6,
+       45.4,
        85.9,
        449.8
       ],
       [
-       17.4,
+       19.5,
        31.6,
        448.6
       ],
       [
-       46.5,
+       53.4,
        92.7,
        448.4
       ],
       [
-       32.3,
+       36.9,
        71.8,
        445.5
       ],
       [
-       16.5,
+       18.4,
        35.8,
        443.8
       ],
       [
-       25.1,
+       28.5,
        46.5,
        442.8
       ],
       [
-       19.9,
+       22.4,
        40.2,
        439.9
       ],
       [
-       23.0,
+       25.9,
        55.3,
        438.4
       ],
       [
-       11.0,
+       12.0,
        21.4,
        437.5
       ],
       [
-       30.8,
+       35.1,
        61.8,
        431.9
       ],
       [
-       35.6,
+       40.7,
        58.3,
        431.8
       ],
       [
-       14.3,
+       15.9,
        32.3,
        431.4
       ],
       [
-       32.5,
+       37.0,
        68.6,
        428.4
       ],
       [
-       19.6,
+       22.1,
        37.4,
        428.4
       ],
       [
-       42.1,
+       48.3,
        81.3,
        426.2
       ],
       [
-       17.7,
+       19.9,
        35.8,
        423.2
       ],
       [
-       19.5,
+       21.9,
        41.3,
        422.6
       ],
       [
-       11.7,
+       12.8,
        18.2,
        421.9
       ],
       [
-       25.2,
+       28.5,
        47.6,
        421.1
       ],
       [
-       10.7,
+       11.7,
        19.0,
        419.2
       ],
       [
-       22.6,
+       25.5,
        53.4,
        411.0
       ],
       [
-       42.8,
+       49.2,
        73.5,
        410.3
       ],
       [
-       28.5,
+       32.4,
        53.8,
        410.0
       ],
       [
-       25.3,
+       28.7,
        32.7,
        409.6
       ],
       [
-       26.6,
+       30.2,
        53.5,
        409.5
       ],
       [
-       30.2,
+       34.4,
        51.2,
        404.3
       ],
       [
-       27.6,
+       31.4,
        46.1,
        403.5
       ],
       [
-       23.6,
+       26.7,
        54.5,
        402.7
       ],
       [
-       30.5,
+       34.8,
        61.2,
        399.0
       ],
       [
-       11.5,
+       12.6,
        24.9,
        398.4
       ],
       [
-       35.5,
+       40.6,
        64.3,
        396.9
       ],
       [
-       12.9,
+       14.2,
        28.4,
        396.9
       ],
       [
-       29.2,
+       33.2,
        59.6,
        395.5
       ],
       [
-       16.1,
+       18.0,
        32.4,
        391.8
       ],
       [
-       26.8,
+       30.5,
        51.1,
        389.9
       ],
       [
-       24.9,
+       28.2,
        46.5,
        389.6
       ],
       [
-       48.3,
+       55.6,
        103.8,
        386.9
       ],
       [
-       18.2,
+       20.4,
        28.0,
        386.6
       ],
       [
-       13.7,
+       15.1,
        28.2,
        384.3
       ],
       [
-       17.8,
+       19.9,
        27.5,
        383.2
       ],
       [
-       25.6,
+       29.0,
        81.4,
        383.2
       ],
       [
-       31.0,
+       35.3,
        62.3,
        382.4
       ],
       [
-       23.2,
+       26.3,
        56.5,
        382.0
       ],
       [
-       19.7,
+       22.2,
        54.1,
        379.4
       ],
       [
-       18.9,
+       21.2,
        38.4,
        377.6
       ],
       [
-       14.8,
+       16.5,
        31.4,
        377.4
       ],
       [
-       15.4,
+       17.1,
        24.3,
        376.5
       ],
       [
-       15.4,
+       17.1,
        36.7,
        369.2
       ],
       [
-       17.8,
+       19.9,
        30.6,
        368.7
       ],
       [
-       20.0,
+       22.6,
        37.1,
        367.3
       ],
       [
-       24.7,
+       27.9,
        43.4,
        366.6
       ],
       [
-       34.1,
+       39.0,
        79.1,
        365.7
       ],
       [
-       13.1,
+       14.5,
        19.3,
        365.5
       ],
       [
-       33.9,
+       38.7,
        74.5,
        363.3
       ],
       [
-       14.1,
+       15.6,
        28.2,
        362.7
       ],
       [
-       10.5,
+       11.4,
        20.9,
        356.4
       ],
       [
-       13.5,
+       14.9,
        21.4,
        355.0
       ],
       [
-       19.0,
+       21.3,
        39.1,
        353.0
       ],
       [
-       23.3,
+       26.4,
        52.3,
        352.5
       ],
       [
-       15.6,
+       17.4,
        17.1,
        352.1
       ],
       [
-       28.6,
+       32.6,
        50.6,
        350.1
       ],
       [
-       17.6,
+       19.7,
        37.0,
        348.3
       ],
       [
-       20.9,
+       23.5,
        44.8,
        347.8
       ],
       [
-       42.3,
+       48.5,
        71.4,
        346.3
       ],
       [
-       31.7,
+       36.1,
        71.2,
        346.1
       ],
       [
-       29.7,
+       33.8,
        63.5,
        345.7
       ],
       [
-       17.6,
+       19.8,
        32.0,
        340.6
       ],
       [
-       18.5,
+       20.7,
        41.8,
        340.0
       ],
       [
-       26.0,
+       29.5,
        50.6,
        339.6
       ],
       [
-       44.6,
+       51.2,
        83.0,
        338.3
       ],
       [
-       18.7,
+       21.0,
        45.7,
        336.5
       ],
       [
-       25.7,
+       29.1,
        54.3,
        336.5
       ],
       [
-       40.2,
+       46.1,
        79.4,
        335.5
       ],
       [
-       29.5,
+       33.5,
        52.0,
        335.0
       ],
       [
-       31.2,
+       35.6,
        60.6,
        333.8
       ],
       [
-       43.3,
+       49.7,
        87.7,
        333.6
       ],
       [
-       39.0,
+       44.6,
        74.5,
        333.5
       ],
       [
-       18.9,
+       21.2,
        31.4,
        332.2
       ],
       [
-       37.6,
+       43.0,
        82.7,
        331.5
       ],
       [
-       29.4,
+       33.5,
        47.6,
        331.5
       ],
       [
-       28.9,
+       32.8,
        64.4,
        330.5
       ],
       [
-       27.0,
+       30.6,
        52.4,
        329.9
       ],
       [
-       28.6,
+       32.5,
        43.5,
        329.1
       ],
       [
-       34.3,
+       39.2,
        65.5,
        328.2
       ],
       [
-       28.7,
+       32.6,
        54.2,
        328.0
       ],
       [
-       25.4,
+       28.8,
        54.2,
        326.5
       ],
       [
-       42.6,
+       48.9,
        67.1,
        323.5
       ],
       [
-       12.5,
+       13.7,
        24.0,
        322.3
       ],
       [
-       10.2,
+       11.1,
        19.2,
        322.1
       ],
       [
-       31.9,
+       36.4,
        64.3,
        321.4
       ],
       [
-       17.1,
+       19.1,
        34.1,
        318.2
       ],
       [
-       27.6,
+       31.3,
        47.8,
        317.7
       ],
       [
-       34.1,
+       38.9,
        80.6,
        311.9
       ],
       [
-       48.1,
+       55.2,
        94.0,
        310.7
       ],
       [
-       13.5,
+       14.9,
        26.4,
        309.9
       ],
       [
-       32.7,
+       37.3,
        60.2,
        307.1
       ],
       [
-       35.0,
+       40.0,
        69.8,
        306.3
       ],
       [
-       12.8,
+       14.1,
        25.1,
        305.1
       ],
       [
-       19.6,
+       22.0,
        35.8,
        304.4
       ],
       [
-       26.1,
+       29.7,
        53.0,
        304.2
       ],
       [
-       22.6,
+       25.5,
        52.3,
        303.6
       ],
       [
-       33.0,
+       37.7,
        62.6,
        303.4
       ],
       [
-       40.1,
+       46.0,
        77.0,
        302.8
       ],
       [
-       31.1,
+       35.5,
        68.8,
        302.3
       ],
       [
-       39.2,
+       44.9,
        72.2,
        300.8
       ],
       [
-       13.5,
+       14.9,
        19.0,
        299.5
       ],
       [
-       19.7,
+       22.1,
        48.9,
        299.2
       ],
       [
-       24.7,
+       28.0,
        56.4,
        298.9
       ],
       [
-       24.2,
+       27.4,
        47.2,
        298.6
       ],
       [
-       28.9,
+       32.8,
        54.3,
        297.1
       ],
       [
-       23.4,
+       26.5,
        54.1,
        296.5
       ],
       [
-       23.8,
+       26.9,
        57.7,
        296.0
       ],
       [
-       41.6,
+       47.7,
        86.8,
        295.0
       ],
       [
-       36.6,
+       41.9,
        70.0,
        294.0
       ],
       [
-       14.4,
+       16.0,
        33.8,
        292.7
       ],
       [
-       42.5,
+       48.7,
        85.7,
        291.8
       ],
       [
-       24.7,
+       27.9,
        46.0,
        290.8
       ],
       [
-       11.0,
+       12.0,
        21.3,
        290.5
       ],
       [
-       26.7,
+       30.3,
        60.2,
        289.4
       ],
       [
-       29.1,
+       33.1,
        52.7,
        288.9
       ],
       [
-       34.9,
+       39.9,
        74.6,
        288.6
       ],
       [
-       15.3,
+       17.1,
        35.0,
        284.7
       ],
       [
-       18.5,
+       20.8,
        38.6,
        283.1
       ],
       [
-       9.9,
+       10.7,
        18.9,
        282.6
       ],
       [
-       17.8,
+       20.0,
        42.7,
        282.2
       ],
       [
-       20.9,
+       23.6,
        42.2,
        281.8
       ],
       [
-       18.3,
+       20.5,
        38.3,
        281.7
       ],
       [
-       23.6,
+       26.7,
        57.4,
        280.3
       ],
       [
-       27.4,
+       31.1,
        56.7,
        278.1
       ],
       [
-       12.4,
+       13.6,
        24.5,
        274.9
       ],
       [
-       37.5,
+       42.9,
        83.0,
        274.4
       ],
       [
-       32.3,
+       36.8,
        68.0,
        273.4
       ],
       [
-       18.3,
+       20.5,
        34.6,
        273.2
       ],
       [
-       29.0,
+       33.0,
        46.0,
        272.4
       ],
       [
-       46.6,
+       53.5,
        76.5,
        271.8
       ],
       [
-       42.3,
+       48.5,
        79.0,
        271.3
       ],
       [
-       34.9,
+       39.9,
        61.4,
        271.0
       ],
       [
-       16.0,
+       17.8,
        31.8,
        270.6
       ],
       [
-       13.1,
+       14.4,
        24.6,
        270.2
       ],
       [
-       29.9,
+       34.0,
        44.1,
        270.1
       ],
       [
-       46.1,
+       53.0,
        98.2,
        269.7
       ],
       [
-       31.8,
+       36.2,
        62.1,
        269.7
       ],
       [
-       42.2,
+       48.3,
        83.6,
        268.9
       ],
       [
-       15.6,
+       17.4,
        17.1,
        268.5
       ],
       [
-       29.2,
+       33.2,
        55.2,
        267.8
       ],
       [
-       23.9,
+       27.0,
        37.0,
        264.3
       ],
       [
-       25.9,
+       29.4,
        60.4,
        263.3
       ],
       [
-       23.6,
+       26.7,
        51.4,
        262.3
       ],
       [
-       21.1,
+       23.8,
        42.2,
        261.5
       ],
       [
-       27.4,
+       31.1,
        49.4,
        261.2
       ],
       [
-       17.4,
+       19.5,
        34.8,
        260.2
       ],
       [
-       11.5,
+       12.5,
        17.5,
        259.7
       ],
       [
-       13.2,
+       14.6,
        29.1,
        258.2
       ],
       [
-       46.9,
+       53.9,
        79.4,
        257.3
       ],
       [
-       22.2,
+       25.0,
        46.5,
        256.8
       ],
       [
-       36.2,
+       41.4,
        75.8,
        255.1
       ],
       [
-       44.8,
+       51.4,
        78.2,
        254.4
       ],
       [
-       49.9,
+       57.4,
        103.2,
        253.6
       ],
       [
-       49.4,
+       56.8,
        89.0,
        253.1
       ],
       [
-       9.2,
+       9.9,
        15.8,
        252.2
       ],
       [
-       30.1,
+       34.2,
        49.4,
        251.6
       ],
       [
-       14.6,
+       16.2,
        29.9,
        251.5
       ],
       [
-       23.7,
+       26.9,
        56.6,
        250.1
       ],
       [
-       24.4,
+       27.7,
        37.3,
        248.3
       ],
       [
-       31.0,
+       35.4,
        48.8,
        247.4
       ],
       [
-       18.6,
+       20.9,
        34.8,
        244.8
       ],
       [
-       14.4,
+       16.0,
        28.9,
        243.9
       ],
       [
-       23.7,
+       26.8,
        44.1,
        243.6
       ],
       [
-       30.3,
+       34.5,
        55.0,
        243.6
       ],
       [
-       15.0,
+       16.6,
        29.2,
        243.6
       ],
       [
-       21.9,
+       24.7,
        41.8,
        243.0
       ],
       [
-       37.0,
+       42.3,
        77.9,
        242.3
       ],
       [
-       25.3,
+       28.7,
        43.4,
        242.2
       ],
       [
-       30.5,
+       34.7,
        61.5,
        241.4
       ],
       [
-       14.9,
+       16.6,
        30.4,
        241.0
       ],
       [
-       47.3,
+       54.3,
        91.5,
        240.6
       ],
       [
-       17.3,
+       19.3,
        39.4,
        240.0
       ],
       [
-       33.3,
+       38.0,
        65.0,
        238.3
       ],
       [
-       36.4,
+       41.6,
        72.1,
        236.1
       ],
       [
-       17.2,
+       19.2,
        24.2,
        235.8
       ],
       [
-       27.6,
+       31.4,
        46.3,
        234.9
       ],
       [
-       31.0,
+       35.4,
        52.5,
        234.7
       ],
       [
-       25.7,
+       29.1,
        46.3,
        234.6
       ],
       [
-       21.1,
+       23.8,
        46.7,
        233.6
       ],
       [
-       30.9,
+       35.2,
        67.6,
        233.3
       ],
       [
-       19.8,
+       22.3,
        43.3,
        231.7
       ],
       [
-       26.0,
+       29.5,
        61.4,
        231.5
       ],
       [
-       53.4,
+       61.4,
        99.5,
        230.9
       ],
       [
-       23.5,
+       26.6,
        48.0,
        228.8
       ],
       [
-       11.4,
+       12.5,
        25.4,
        228.3
       ],
       [
-       19.9,
+       22.4,
        41.6,
        228.1
       ],
       [
-       25.2,
+       28.6,
        62.8,
        227.0
       ],
       [
-       32.4,
+       36.9,
        79.2,
        226.3
       ],
       [
-       16.8,
+       18.7,
        36.1,
        225.6
       ],
       [
-       31.4,
+       35.8,
        59.0,
        225.4
       ],
       [
-       21.2,
+       23.9,
        52.0,
        225.1
       ],
       [
-       35.0,
+       40.0,
        64.8,
        224.1
       ],
       [
-       12.3,
+       13.5,
        24.1,
        223.2
       ],
       [
-       40.6,
+       46.5,
        94.3,
        222.3
       ],
       [
-       15.4,
+       17.2,
        32.1,
        222.1
       ],
       [
-       37.2,
+       42.6,
        70.7,
        221.0
       ],
       [
-       12.6,
+       13.9,
        25.9,
        220.4
       ],
       [
-       14.8,
+       16.4,
        24.2,
        219.8
       ],
       [
-       14.4,
+       15.9,
        22.4,
        218.7
       ],
       [
-       25.8,
+       29.2,
        52.8,
        218.3
       ],
       [
-       33.1,
+       37.8,
        75.5,
        217.8
       ],
       [
-       40.1,
+       46.0,
        68.5,
        217.1
       ],
       [
-       16.3,
+       18.2,
        30.8,
        216.9
       ],
       [
-       41.4,
+       47.5,
        104.0,
        216.3
       ],
       [
-       39.8,
+       45.6,
        61.0,
        215.9
       ],
       [
-       31.3,
+       35.6,
        71.9,
        215.8
       ],
       [
-       48.9,
+       56.2,
        96.9,
        215.6
       ],
       [
-       29.4,
+       33.5,
        53.9,
        215.3
       ],
       [
-       28.0,
+       31.8,
        67.0,
        214.1
       ],
       [
-       24.2,
+       27.4,
        51.6,
        214.0
       ],
       [
-       12.8,
+       14.1,
        26.0,
        213.2
       ],
       [
-       34.4,
+       39.3,
        72.4,
        212.7
       ],
       [
-       43.2,
+       49.5,
        78.5,
        212.0
       ],
       [
-       34.0,
+       38.8,
        93.1,
        211.8
       ],
       [
-       38.7,
+       44.4,
        63.9,
        211.3
       ],
       [
-       24.0,
+       27.2,
        50.2,
        211.2
       ],
       [
-       29.2,
+       33.2,
        61.1,
        210.7
       ],
       [
-       29.3,
+       33.3,
        57.8,
        209.8
       ],
       [
-       23.6,
+       26.7,
        43.2,
        209.0
       ],
       [
-       21.5,
+       24.2,
        51.2,
        208.2
       ],
       [
-       51.1,
+       58.8,
        102.7,
        208.1
       ],
       [
-       34.2,
+       39.1,
        61.3,
        207.6
       ],
       [
-       50.0,
+       57.5,
        86.5,
        207.5
       ],
       [
-       15.6,
+       17.4,
        30.0,
        206.7
       ],
       [
-       43.4,
+       49.7,
        82.2,
        206.4
       ],
       [
-       25.5,
+       28.9,
        44.2,
        206.2
       ],
       [
-       20.9,
+       23.5,
        50.9,
        206.2
       ],
       [
-       22.3,
+       25.2,
        44.3,
        206.1
       ],
       [
-       38.8,
+       44.4,
        66.5,
        206.0
       ],
       [
-       26.5,
+       30.1,
        55.3,
        205.9
       ],
       [
-       42.7,
+       49.0,
        96.3,
        205.6
       ],
       [
-       30.1,
+       34.3,
        56.6,
        205.0
       ],
       [
-       26.0,
+       29.4,
        41.6,
        204.7
       ],
       [
-       33.9,
+       38.8,
        75.6,
        204.3
       ],
       [
-       33.3,
+       38.0,
        56.6,
        204.3
       ],
       [
-       41.5,
+       47.6,
        78.0,
        204.0
       ],
       [
-       39.9,
+       45.7,
        77.3,
        203.9
       ],
       [
-       24.0,
+       27.2,
        57.1,
        203.8
       ],
       [
-       35.0,
+       40.0,
        91.5,
        203.7
       ],
       [
-       25.5,
+       29.0,
        43.6,
        203.5
       ],
       [
-       20.5,
+       23.1,
        42.6,
        203.4
       ],
       [
-       39.1,
+       44.7,
        74.0,
        203.4
       ],
       [
-       23.6,
+       26.7,
        46.8,
        203.2
       ],
       [
-       47.6,
+       54.7,
        84.4,
        202.3
       ],
       [
-       31.7,
+       36.2,
        67.5,
        201.9
       ],
       [
-       33.9,
+       38.7,
        58.4,
        201.7
       ],
       [
-       26.3,
+       29.8,
        54.3,
        201.5
       ],
       [
-       14.7,
+       16.3,
        26.2,
        201.5
       ],
       [
-       14.7,
+       16.3,
        27.0,
        201.2
       ],
       [
-       21.7,
+       24.4,
        42.8,
        200.7
       ],
       [
-       34.5,
+       39.4,
        61.8,
        200.5
       ],
       [
-       39.1,
+       44.8,
        82.2,
        200.3
       ],
       [
-       34.4,
+       39.3,
        85.6,
        199.7
       ],
       [
-       15.0,
+       16.7,
        27.0,
        199.4
       ],
       [
-       14.3,
+       15.9,
        30.9,
        199.3
       ],
       [
-       31.7,
+       36.1,
        55.4,
        198.8
       ],
       [
-       33.3,
+       38.0,
        56.4,
        197.7
       ],
       [
-       38.3,
+       43.8,
        77.4,
        197.7
       ],
       [
-       25.7,
+       29.2,
        48.8,
        196.4
       ],
       [
-       31.4,
+       35.8,
        69.6,
        195.7
       ],
       [
-       35.9,
+       41.1,
        67.0,
        195.6
       ],
       [
-       14.9,
+       16.5,
        33.0,
        195.3
       ],
       [
-       16.9,
+       18.9,
        42.0,
        194.7
       ],
       [
-       12.1,
+       13.3,
        26.4,
        194.6
       ],
       [
-       39.2,
+       44.9,
        76.1,
        194.1
       ],
       [
-       16.9,
+       18.8,
        34.1,
        193.8
       ],
       [
-       43.2,
+       49.5,
        100.1,
        193.0
       ],
       [
-       25.1,
+       28.4,
        45.7,
        192.7
       ],
       [
-       51.8,
+       59.6,
        98.6,
        192.4
       ],
       [
-       15.8,
+       17.6,
        32.5,
        192.2
       ],
       [
-       40.7,
+       46.6,
        81.0,
        191.6
       ],
       [
-       20.0,
+       22.4,
        41.7,
        191.5
       ],
       [
-       32.5,
+       37.1,
        58.7,
        190.6
       ],
       [
-       41.1,
+       47.1,
        88.2,
        190.5
       ],
       [
-       29.4,
+       33.5,
        61.8,
        190.5
       ],
       [
-       37.2,
+       42.6,
        78.3,
        190.5
       ],
       [
-       36.5,
+       41.7,
        84.6,
        190.2
       ],
       [
-       14.8,
+       16.5,
        33.7,
        190.2
       ],
       [
-       34.1,
+       38.9,
        57.8,
        189.6
       ],
       [
-       19.1,
+       21.5,
        42.1,
        189.4
       ],
       [
-       54.6,
+       62.9,
        108.3,
        188.8
       ],
       [
-       24.1,
+       27.3,
        52.8,
        188.6
       ],
       [
-       22.4,
+       25.3,
        44.8,
        188.5
       ],
       [
-       46.8,
+       53.8,
        84.5,
        187.6
       ],
       [
-       54.8,
+       63.1,
        86.5,
        187.3
       ],
       [
-       32.4,
+       37.0,
        63.9,
        186.9
       ],
       [
-       29.6,
+       33.7,
        57.4,
        186.9
       ],
       [
-       35.2,
+       40.2,
        64.1,
        186.9
       ],
       [
-       16.0,
+       17.8,
        37.8,
        186.8
       ],
       [
-       39.0,
+       44.6,
        74.2,
        186.4
       ],
       [
-       55.7,
+       64.1,
        97.4,
        186.4
       ],
       [
-       36.3,
+       41.5,
        84.8,
        186.2
       ],
       [
-       40.9,
+       46.8,
        81.6,
        185.9
       ],
       [
-       20.7,
+       23.3,
        40.7,
        185.7
       ],
       [
-       25.1,
+       28.5,
        45.0,
        185.5
       ],
       [
-       16.7,
+       18.6,
        39.8,
        185.4
       ],
       [
-       18.1,
+       20.3,
        31.4,
        185.1
       ],
       [
-       28.6,
+       32.5,
        54.9,
        184.5
       ],
       [
-       52.0,
+       59.8,
        92.0,
        184.1
       ],
       [
-       40.5,
+       46.4,
        85.6,
        183.3
       ],
       [
-       49.0,
+       56.3,
        87.8,
        183.3
       ],
       [
-       14.4,
+       16.0,
        29.6,
        183.2
       ],
       [
-       42.7,
+       48.9,
        83.0,
        183.0
       ],
       [
-       27.0,
+       30.6,
        68.7,
        182.4
       ],
       [
-       32.2,
+       36.7,
        66.2,
        182.4
       ],
       [
-       47.3,
+       54.4,
        90.8,
        181.8
       ],
       [
-       39.5,
+       45.3,
        77.4,
        181.2
       ],
       [
-       28.8,
+       32.8,
        64.3,
        181.2
       ],
       [
-       30.7,
+       35.0,
        69.0,
        181.1
       ],
       [
-       27.1,
+       30.8,
        57.4,
        180.8
       ],
       [
-       25.2,
+       28.6,
        65.9,
        179.9
       ],
       [
-       26.7,
+       30.3,
        48.9,
        179.7
       ],
       [
-       21.8,
+       24.6,
        35.5,
        179.6
       ],
       [
-       43.8,
+       50.2,
        92.6,
        179.5
       ],
       [
-       26.8,
+       30.4,
        59.6,
        179.5
       ],
       [
-       20.4,
+       23.0,
        46.4,
        179.5
       ],
       [
-       41.7,
+       47.8,
        91.4,
        179.2
       ],
       [
-       22.1,
+       24.9,
        54.4,
        178.4
       ],
       [
-       35.2,
+       40.2,
        64.8,
        177.9
       ],
       [
-       37.5,
+       42.9,
        61.2,
        177.9
       ],
       [
-       21.4,
+       24.2,
        47.4,
        177.4
       ],
       [
-       34.1,
+       38.9,
        51.0,
        177.3
       ],
       [
-       36.2,
+       41.4,
        112.9,
        177.0
       ],
       [
-       12.8,
+       14.1,
        29.5,
        176.7
       ],
       [
-       52.6,
+       60.5,
        94.5,
        176.2
       ],
       [
-       43.3,
+       49.7,
        88.2,
        176.0
       ],
       [
-       13.2,
+       14.6,
        21.1,
        175.3
       ],
       [
-       21.1,
+       23.8,
        44.9,
        175.0
       ],
       [
-       26.6,
+       30.2,
        57.0,
        174.5
       ],
       [
-       13.0,
+       14.3,
        26.6,
        173.9
       ],
       [
-       13.5,
+       14.9,
        31.4,
        173.6
       ],
       [
-       32.4,
+       37.0,
        69.0,
        173.5
       ],
       [
-       29.8,
+       33.9,
        60.7,
        173.4
       ],
       [
-       26.1,
+       29.7,
        56.0,
        173.2
       ],
       [
-       16.9,
+       18.9,
        26.6,
        173.1
       ],
       [
-       28.3,
+       32.1,
        63.1,
        173.1
       ],
       [
-       28.7,
+       32.6,
        54.3,
        173.0
       ],
       [
-       33.3,
+       38.0,
        67.0,
        173.0
       ],
       [
-       16.9,
+       18.9,
        40.7,
        173.0
       ],
       [
-       49.3,
+       56.7,
        99.5,
        173.0
       ],
       [
-       21.3,
+       24.0,
        42.6,
        172.3
       ],
       [
-       37.2,
+       42.6,
        93.0,
        172.0
       ],
       [
-       34.0,
+       38.8,
        62.5,
        171.6
       ],
       [
-       45.7,
+       52.5,
        113.8,
        171.3
       ],
       [
-       48.7,
+       56.0,
        89.9,
        171.3
       ],
       [
-       41.0,
+       47.0,
        77.7,
        171.2
       ],
       [
-       18.3,
+       20.5,
        24.7,
        171.0
       ],
       [
-       54.5,
+       62.7,
        99.0,
        170.7
       ],
       [
-       20.0,
+       22.5,
        46.9,
        170.0
       ],
       [
-       23.5,
+       26.6,
        50.3,
        169.8
       ],
       [
-       17.6,
+       19.7,
        40.7,
        169.6
       ],
       [
-       31.3,
+       35.6,
        77.5,
        169.4
       ],
       [
-       16.3,
+       18.2,
        33.8,
        169.2
       ],
       [
-       36.1,
+       41.3,
        93.1,
        168.9
       ],
       [
-       16.4,
+       18.3,
        35.8,
        168.6
       ],
       [
-       28.6,
+       32.5,
        68.6,
        168.1
       ],
       [
-       29.1,
+       33.1,
        86.0,
        168.1
       ],
       [
-       10.4,
+       11.3,
        18.2,
        167.9
       ],
       [
-       15.2,
+       16.9,
        33.7,
        167.5
       ],
       [
-       39.8,
+       45.6,
        62.8,
        167.2
       ],
       [
-       40.5,
+       46.5,
        87.9,
        166.7
       ],
       [
-       34.6,
+       39.5,
        73.5,
        166.7
       ],
       [
-       21.2,
+       23.9,
        35.6,
        166.1
       ],
       [
-       45.9,
+       52.7,
        92.3,
        165.5
       ],
       [
-       56.4,
+       64.9,
        112.0,
        165.4
       ],
       [
-       34.0,
+       38.8,
        98.0,
        165.4
       ],
       [
-       15.8,
+       17.6,
        33.8,
        164.6
       ],
       [
-       13.7,
+       15.1,
        33.0,
        163.9
       ],
       [
-       20.8,
+       23.4,
        46.1,
        163.8
       ],
       [
-       12.2,
+       13.4,
        23.3,
        163.6
       ],
       [
-       31.9,
+       36.4,
        72.8,
        163.5
       ],
       [
-       25.6,
+       29.1,
        50.7,
        163.3
       ],
       [
-       32.6,
+       37.1,
        69.8,
        163.0
       ],
       [
-       40.8,
+       46.8,
        78.5,
        162.2
       ],
       [
-       32.0,
+       36.6,
        68.0,
        161.5
       ],
       [
-       33.3,
+       38.0,
        64.2,
        161.5
       ],
       [
-       31.7,
+       36.1,
        71.0,
        161.5
       ],
       [
-       25.0,
+       28.3,
        54.7,
        161.4
       ],
       [
-       46.1,
+       53.0,
        87.0,
        160.9
       ],
       [
-       24.2,
+       27.4,
        55.1,
        160.0
       ],
       [
-       26.1,
+       29.7,
        39.7,
        159.7
       ],
       [
-       27.5,
+       31.3,
        53.4,
        159.5
       ],
       [
-       28.2,
+       32.1,
        51.4,
        159.4
       ],
       [
-       31.3,
+       35.7,
        72.3,
        159.3
       ],
       [
-       33.5,
+       38.2,
        53.0,
        158.2
       ],
       [
-       47.5,
+       54.6,
        82.8,
        158.2
       ],
       [
-       31.2,
+       35.6,
        57.2,
        157.9
       ],
       [
-       17.8,
+       19.9,
        33.0,
        157.8
       ],
       [
-       31.3,
+       35.7,
        70.6,
        157.5
       ],
       [
-       21.2,
+       23.8,
        45.2,
        157.3
       ],
       [
-       15.2,
+       16.9,
        30.2,
        157.3
       ],
       [
-       42.2,
+       48.3,
        95.0,
        156.5
       ],
       [
-       28.5,
+       32.4,
        41.1,
        155.8
       ],
       [
-       34.7,
+       39.7,
        74.4,
        155.6
       ],
       [
-       31.3,
+       35.6,
        50.9,
        155.4
       ],
       [
-       31.5,
+       35.9,
        54.8,
        155.2
       ],
       [
-       40.2,
+       46.1,
        92.7,
        155.1
       ],
       [
-       30.6,
+       34.9,
        83.6,
        154.9
       ],
       [
-       20.9,
+       23.6,
        37.8,
        154.5
       ],
       [
-       49.0,
+       56.3,
        90.2,
        154.5
       ],
       [
-       31.9,
+       36.4,
        64.6,
        154.1
       ],
       [
-       19.1,
+       21.4,
        44.6,
        153.6
       ],
       [
-       28.3,
+       32.1,
        51.8,
        152.4
       ],
       [
-       12.5,
+       13.8,
        26.6,
        152.3
       ],
       [
-       28.7,
+       32.7,
        53.8,
        152.3
       ],
       [
-       44.4,
+       51.0,
        90.8,
        151.5
       ],
       [
-       31.1,
+       35.5,
        59.0,
        151.3
       ],
       [
-       25.1,
+       28.4,
        67.8,
        151.2
       ],
       [
-       22.0,
+       24.9,
        60.4,
        150.6
       ],
       [
-       20.7,
+       23.3,
        46.1,
        150.2
       ],
       [
-       18.0,
+       20.1,
        40.1,
        149.8
       ],
       [
-       23.5,
+       26.6,
        48.5,
        148.6
       ],
       [
-       27.9,
+       31.7,
        66.8,
        148.5
       ],
       [
-       14.4,
+       15.9,
        31.5,
        148.2
       ],
       [
-       34.3,
+       39.1,
        63.6,
        147.4
       ],
       [
-       18.1,
+       20.2,
        34.0,
        147.2
       ],
       [
-       22.4,
+       25.2,
        48.2,
        146.3
       ],
       [
-       20.0,
+       22.5,
        28.6,
        146.1
       ],
       [
-       14.7,
+       16.3,
        30.9,
        145.2
       ],
       [
-       24.0,
+       27.2,
        49.4,
        145.0
       ],
       [
-       46.5,
+       53.5,
        88.6,
        144.6
       ],
       [
-       25.7,
+       29.2,
        50.1,
        143.8
       ],
       [
-       27.9,
+       31.7,
        52.5,
        143.2
       ],
       [
-       54.2,
+       62.4,
        100.8,
        142.8
       ],
       [
-       17.5,
+       19.6,
        34.2,
        142.2
       ],
       [
-       29.5,
+       33.5,
        57.7,
        142.1
       ],
       [
-       24.7,
+       28.0,
        51.0,
        142.1
       ],
       [
-       17.6,
+       19.7,
        37.6,
        141.5
       ],
       [
-       21.7,
+       24.4,
        45.2,
        141.1
       ],
       [
-       22.4,
+       25.3,
        44.0,
        140.8
       ],
       [
-       36.9,
+       42.2,
        71.0,
        140.6
       ],
       [
-       20.9,
+       23.5,
        35.3,
        140.1
       ],
       [
-       40.2,
+       46.1,
        87.5,
        139.1
       ],
       [
-       27.8,
+       31.6,
        63.6,
        139.1
       ],
       [
-       22.8,
+       25.7,
        51.9,
        136.6
       ],
       [
-       21.6,
+       24.4,
        50.3,
        136.6
       ],
       [
-       43.3,
+       49.7,
        99.4,
        135.8
       ],
       [
-       39.9,
+       45.7,
        69.8,
        135.1
       ],
       [
-       42.8,
+       49.1,
        111.8,
        132.9
       ],
       [
-       29.8,
+       33.9,
        86.0,
        132.9
       ],
       [
-       37.4,
+       42.8,
        60.8,
        131.1
       ],
       [
-       28.3,
+       32.2,
        59.3,
        130.6
       ],
       [
-       25.2,
+       28.5,
        56.8,
        130.3
       ],
       [
-       20.2,
+       22.8,
        46.1,
        129.1
       ],
       [
-       35.0,
+       40.0,
        92.4,
        128.8
       ],
       [
-       25.0,
+       28.4,
        62.7,
        128.8
       ],
       [
-       16.9,
+       18.9,
        27.2,
        125.9
       ],
       [
-       33.9,
+       38.7,
        67.2,
        125.8
       ],
       [
-       47.1,
+       54.2,
        81.4,
        125.8
       ],
       [
-       34.9,
+       39.9,
        112.6,
        124.6
       ],
       [
-       30.8,
+       35.1,
        67.6,
        122.4
       ],
       [
-       54.8,
+       63.1,
        104.8,
        122.4
       ],
       [
-       34.5,
+       39.4,
        61.3,
        122.0
       ],
       [
-       36.2,
+       41.4,
        61.1,
        121.7
       ],
       [
-       25.8,
+       29.3,
        54.6,
        120.0
       ],
       [
-       24.5,
+       27.7,
        57.8,
        119.6
       ],
       [
-       45.0,
+       51.7,
        94.6,
        118.8
       ],
       [
-       32.2,
+       36.7,
        52.6,
        118.8
       ],
       [
-       46.9,
+       53.9,
        98.0,
        118.6
       ],
       [
-       15.1,
+       16.8,
        36.6,
        117.9
       ],
       [
-       52.6,
+       60.5,
        99.4,
        117.8
       ],
       [
-       26.0,
+       29.6,
        54.6,
        115.5
       ],
       [
-       38.5,
+       44.1,
        72.6,
        115.5
       ],
       [
-       26.3,
+       29.8,
        61.6,
        115.5
       ],
       [
-       20.0,
+       22.5,
        38.8,
        115.5
       ],
       [
-       18.1,
+       20.3,
        39.2,
        115.5
       ],
       [
-       37.6,
+       43.0,
        58.2,
        114.2
       ],
       [
-       25.5,
+       28.9,
        66.4,
        113.9
       ],
       [
-       20.3,
+       22.9,
        39.5,
        113.4
       ],
       [
-       32.3,
+       36.9,
        69.0,
        113.4
       ],
       [
-       32.5,
+       37.1,
        64.6,
        113.4
       ],
       [
-       29.5,
+       33.6,
        56.5,
        113.4
       ],
       [
-       27.9,
+       31.7,
        64.4,
        113.4
       ],
       [
-       18.9,
+       21.2,
        43.1,
        113.4
       ],
       [
-       20.5,
+       23.1,
        40.0,
        112.0
       ],
       [
-       33.0,
+       37.6,
        75.6,
        112.0
       ],
       [
-       48.2,
+       55.4,
        98.4,
        112.0
       ],
       [
-       46.5,
+       53.4,
        96.2,
        112.0
       ],
       [
-       26.2,
+       29.7,
        39.3,
        112.0
       ],
       [
-       42.8,
+       49.1,
        98.4,
        112.0
       ],
       [
-       19.8,
+       22.2,
        41.0,
        112.0
       ],
       [
-       51.0,
+       58.7,
        101.9,
        112.0
       ],
       [
-       17.4,
+       19.5,
        33.4,
        112.0
       ],
       [
-       17.4,
+       19.5,
        33.8,
        112.0
       ],
       [
-       24.4,
+       27.7,
        62.0,
        111.0
       ],
       [
-       21.3,
+       24.0,
        39.8,
        111.0
       ],
       [
-       31.5,
+       35.9,
        55.8,
        110.8
       ],
       [
-       42.0,
+       48.2,
        78.2,
        110.3
       ],
       [
-       32.8,
+       37.4,
        63.8,
        110.3
       ],
       [
-       40.4,
+       46.3,
        63.4,
        110.1
       ],
       [
-       20.0,
+       22.5,
        46.2,
        109.2
       ],
       [
-       44.2,
+       50.7,
        93.8,
        109.2
       ],
       [
-       14.0,
+       15.5,
        30.2,
        109.2
       ],
       [
-       13.9,
+       15.4,
        31.4,
        109.2
       ]
@@ -11501,97 +11501,97 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Le 15 coppie con più auto dove i mezzi pubblici impiegano più del doppio",
      "unita": "auto",
-     "nota": "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di Google (fattore 2,1). A destra i minuti coi mezzi contro quelli in auto.",
+     "nota": "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom (fattore 2,5). A destra i minuti coi mezzi contro quelli in auto.",
      "voci": [
       {
        "label": "Torino, Madonna Del Pilone → Torino, Vanchiglia",
        "valore": 894,
        "tono": "rosso",
-       "testo": "894 auto: 35 contro 16 min"
-      },
-      {
-       "label": "Torino, Parella → Torino, San Paolo",
-       "valore": 763,
-       "tono": "rosso",
-       "testo": "763 auto: 30 contro 15 min"
-      },
-      {
-       "label": "Torino, Madonna Del Pilone → Torino, Centro",
-       "valore": 753,
-       "tono": "rosso",
-       "testo": "753 auto: 50 contro 23 min"
+       "testo": "894 auto: 35 contro 17 min"
       },
       {
        "label": "Torino, Mirafiori Sud → Rivoli",
        "valore": 719,
        "tono": "rosso",
-       "testo": "719 auto: 81 contro 31 min"
-      },
-      {
-       "label": "Grugliasco → Torino, Pozzo Strada",
-       "valore": 714,
-       "tono": "rosso",
-       "testo": "714 auto: 35 contro 17 min"
-      },
-      {
-       "label": "Torino, Vanchiglia → Torino, Aurora",
-       "valore": 615,
-       "tono": "rosso",
-       "testo": "615 auto: 27 contro 12 min"
+       "testo": "719 auto: 81 contro 36 min"
       },
       {
        "label": "Torino, Barriera di Milano → Torino, Vanchiglia",
        "valore": 614,
        "tono": "rosso",
-       "testo": "614 auto: 34 contro 15 min"
-      },
-      {
-       "label": "Venaria Reale → Torino, Madonna di Campagna",
-       "valore": 602,
-       "tono": "rosso",
-       "testo": "602 auto: 34 contro 17 min"
-      },
-      {
-       "label": "Torino, Centro → Torino, Borgata Vittoria",
-       "valore": 590,
-       "tono": "rosso",
-       "testo": "590 auto: 36 contro 17 min"
-      },
-      {
-       "label": "Moncalieri → Torino, Mirafiori Sud",
-       "valore": 568,
-       "tono": "rosso",
-       "testo": "568 auto: 55 contro 25 min"
+       "testo": "614 auto: 34 contro 17 min"
       },
       {
        "label": "Settimo Torinese → Torino, Madonna Del Pilone",
        "valore": 544,
        "tono": "rosso",
-       "testo": "544 auto: 86 contro 34 min"
+       "testo": "544 auto: 86 contro 39 min"
       },
       {
        "label": "Torino, Borgata Vittoria → Torino, Centro",
        "valore": 541,
        "tono": "rosso",
-       "testo": "541 auto: 39 contro 17 min"
+       "testo": "541 auto: 39 contro 19 min"
       },
       {
-       "label": "Torino, Madonna di Campagna → Torino, Borgata Vittoria",
-       "valore": 540,
+       "label": "Torino, Madonna Del Pilone → Torino, Borgo Po E Cavoretto",
+       "valore": 438,
        "tono": "rosso",
-       "testo": "540 auto: 22 contro 11 min"
+       "testo": "438 auto: 55 contro 26 min"
       },
       {
-       "label": "Beinasco → Torino, Centro",
-       "valore": 520,
+       "label": "Torino, San Paolo → Torino, San Donato",
+       "valore": 431,
        "tono": "rosso",
-       "testo": "520 auto: 69 contro 34 min"
+       "testo": "431 auto: 32 contro 16 min"
       },
       {
-       "label": "Torino, Mirafiori Nord → Moncalieri",
-       "valore": 520,
+       "label": "Torino, Centro → Torino, Madonna Del Pilone",
+       "valore": 411,
        "tono": "rosso",
-       "testo": "520 auto: 72 contro 33 min"
+       "testo": "411 auto: 53 contro 26 min"
+      },
+      {
+       "label": "Torino, Madonna Del Pilone → Torino, San Salvario",
+       "valore": 403,
+       "tono": "rosso",
+       "testo": "403 auto: 54 contro 27 min"
+      },
+      {
+       "label": "Vinovo → Torino, Mirafiori Sud",
+       "valore": 383,
+       "tono": "rosso",
+       "testo": "383 auto: 81 contro 29 min"
+      },
+      {
+       "label": "Torino, Borgo Po E Cavoretto → Torino, Madonna Del Pilone",
+       "valore": 382,
+       "tono": "rosso",
+       "testo": "382 auto: 56 contro 26 min"
+      },
+      {
+       "label": "Torino, Aurora → Torino, Madonna Del Pilone",
+       "valore": 379,
+       "tono": "rosso",
+       "testo": "379 auto: 54 contro 22 min"
+      },
+      {
+       "label": "Torino, Vanchiglia → Torino, Madonna Del Pilone",
+       "valore": 369,
+       "tono": "rosso",
+       "testo": "369 auto: 37 contro 17 min"
+      },
+      {
+       "label": "Torino, Borgata Vittoria → Pianezza",
+       "valore": 366,
+       "tono": "rosso",
+       "testo": "366 auto: 79 contro 39 min"
+      },
+      {
+       "label": "Beinasco → Torino, Mirafiori Sud",
+       "valore": 340,
+       "tono": "rosso",
+       "testo": "340 auto: 42 contro 21 min"
       }
      ]
     }
@@ -11599,7 +11599,7 @@ window.SCHEDE_RISULTATI = [
    "calcolo": [
     "Le zone sono quelle dell'indagine sugli spostamenti 2022 con punti di calcolo; ognuna ha fino a 5 punti.",
     "Mezzi pubblici: a piedi, bus, tram e metro, con partenza fra le 7:45 e le 8:15. Si prende la mediana.",
-    "Auto: tempo a flusso libero per un fattore di punta, più 5 minuti. I fattori sono due: 2,1 da Google Maps e 1,2 dai sensori.",
+    "Auto: tempo a flusso libero per un fattore di punta, più 5 minuti. I fattori sono due: 2,5 da TomTom e 1,2 dai sensori. Dati di traffico: TomTom.",
     "Rapporto = tempo coi mezzi diviso tempo in auto. Le fasce sono fisse.",
     "Le auto di una coppia sono i viaggi in auto dell'indagine, in partenza dalle 6 alle 10 di un feriale."
    ],
@@ -11617,8 +11617,8 @@ window.SCHEDE_RISULTATI = [
      "tempo a flusso libero × 1,2 (sensori 5T) + 5 minuti"
     ],
     [
-     "Auto, stima con il rallentamento di Google",
-     "tempo a flusso libero × 2,1 (Google Maps, 6 percorsi) + 5 minuti"
+     "Auto, stima con il rallentamento di TomTom",
+     "tempo a flusso libero × 2,5 (TomTom, mediana delle coppie) + 5 minuti"
     ],
     [
      "Fasce del rapporto",
@@ -11627,8 +11627,8 @@ window.SCHEDE_RISULTATI = [
    ],
    "limiti": [
     "Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero. Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.",
-    "La nostra rete stradale non conta semafori e incroci. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato.",
-    "Il rallentamento di Google è stato misurato su 6 percorsi in uscita dal centro. In entrata l'auto può essere più lenta.",
+    "La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
+    "La stima di TomTom è un tempo previsto su traffico tipico, non misurato. Usiamo un solo servizio.",
     "L'indagine è un campione. I viaggi dentro una zona e 653 coppie senza collegamento (5.616 auto) non sono nel confronto."
    ],
    "extra": {
@@ -11654,7 +11654,7 @@ window.SCHEDE_RISULTATI = [
    },
    "anima": {
     "tipo": "area",
-    "didascalia": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il 42,2% dei torinesi coi mezzi pubblici e dal 98,8% al 100% in auto (due fattori di punta, parcheggio compreso)."
+    "didascalia": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il 42,2% dei torinesi coi mezzi pubblici e dal 93,9% al 100% in auto (due fattori di punta, parcheggio compreso)."
    }
   },
   "forma_en": {
@@ -11671,16 +11671,16 @@ window.SCHEDE_RISULTATI = [
     "titolo": "Morning cars by ratio of public transport time to car time",
     "unita": "%",
     "max": 100,
-    "nota": "Ratio 2 = public transport takes twice as long as the car. Turin–Turin and Turin–suburb pairs. Two estimates: with Google Maps' slowdown (factor 2.1) and with the sensors' (factor 1.2); the true value may lie outside.",
+    "nota": "Ratio 2 = public transport takes twice as long as the car. Turin–Turin and Turin–suburb pairs. Two estimates: with TomTom's slowdown (factor 2.5) and with the sensors' (factor 1.2); the true value may lie outside.",
     "gruppi": [
      {
       "label": "under 1.5",
       "voci": [
        {
-        "label": "estimate with Google's slowdown",
-        "valore": 3.9,
+        "label": "estimate with TomTom's slowdown",
+        "valore": 16.9,
         "tono": "verde",
-        "testo": "3.9% (8,649 cars)"
+        "testo": "16.9% (37,207 cars)"
        },
        {
         "label": "estimate with the sensors' slowdown",
@@ -11694,10 +11694,10 @@ window.SCHEDE_RISULTATI = [
       "label": "1.5-2",
       "voci": [
        {
-        "label": "estimate with Google's slowdown",
-        "valore": 54.6,
+        "label": "estimate with TomTom's slowdown",
+        "valore": 69.3,
         "tono": "giallo",
-        "testo": "54.6% (120,360 cars)"
+        "testo": "69.3% (152,644 cars)"
        },
        {
         "label": "estimate with the sensors' slowdown",
@@ -11711,10 +11711,10 @@ window.SCHEDE_RISULTATI = [
       "label": "2-3",
       "voci": [
        {
-        "label": "estimate with Google's slowdown",
-        "valore": 41.1,
+        "label": "estimate with TomTom's slowdown",
+        "valore": 13.8,
         "tono": "arancio",
-        "testo": "41.1% (90,508 cars)"
+        "testo": "13.8% (30,350 cars)"
        },
        {
         "label": "estimate with the sensors' slowdown",
@@ -11728,10 +11728,10 @@ window.SCHEDE_RISULTATI = [
       "label": "over 3",
       "voci": [
        {
-        "label": "estimate with Google's slowdown",
-        "valore": 0.4,
+        "label": "estimate with TomTom's slowdown",
+        "valore": 0.0,
         "tono": "rosso",
-        "testo": "0.4% (791 cars)"
+        "testo": "0% (106 cars)"
        },
        {
         "label": "estimate with the sensors' slowdown",
@@ -11744,8 +11744,8 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "With Google's estimate 41% of cars have a ratio above 2; with the sensors' estimate 97%.",
-    "During the day the median ratio goes from 2 to 3.3 (Google estimate) and from 2.9 to 3.3 (sensor estimate).",
+    "With TomTom's estimate 14% of cars have a ratio above 2; with the sensors' estimate 97%.",
+    "During the day the median ratio goes from 1.7 to 2.1 (TomTom estimate) and from 2.9 to 3.3 (sensor estimate).",
     "Google confirms the public transport times on the check routes: 31 versus 30-35 and 33 versus 30-35 minutes."
    ],
    "altri": [
@@ -11753,7 +11753,7 @@ window.SCHEDE_RISULTATI = [
      "tipo": "linea",
      "titolo": "How many times the car time, hour by hour",
      "unita": "times",
-     "nota": "Median ratio of public transport time to car time, weighted by morning cars, at 4 times of day. Two lines: estimate with Google's slowdown (scaled to the other hours) and estimate with the sensors' slowdown.",
+     "nota": "Median ratio of public transport time to car time, weighted by morning cars, at 4 times of day. Two lines: estimate with TomTom's slowdown (scaled to the other hours) and estimate with the sensors' slowdown.",
      "categorie": [
       "8:00",
       "13:00",
@@ -11762,12 +11762,12 @@ window.SCHEDE_RISULTATI = [
      ],
      "serie": [
       {
-       "label": "Google estimate",
+       "label": "TomTom estimate",
        "valori": [
+        1.75,
         1.96,
-        2.37,
-        2.01,
-        3.32
+        1.79,
+        2.14
        ]
       },
       {
@@ -11790,48 +11790,48 @@ window.SCHEDE_RISULTATI = [
        "arrivo": "Centro",
        "bus": 20.6,
        "auto_min": 9.4,
-       "auto_max": 12.7,
-       "giudizio": "by public transport 1.6 or 2.2 times the car time, by the two estimates"
+       "auto_max": 14.0,
+       "giudizio": "by public transport 1.5 or 2.2 times the car time, by the two estimates"
       },
       {
        "nome": "San Paolo",
        "arrivo": "Centro",
        "bus": 31.3,
        "auto_min": 11.3,
-       "auto_max": 16.0,
-       "giudizio": "by public transport 2 or 2.8 times the car time, by the two estimates"
+       "auto_max": 17.8,
+       "giudizio": "by public transport 1.8 or 2.8 times the car time, by the two estimates"
       },
       {
        "nome": "Mirafiori Nord",
        "arrivo": "Santa Rita",
        "bus": 19.2,
        "auto_min": 8.2,
-       "auto_max": 10.6,
-       "giudizio": "by public transport 1.8 or 2.3 times the car time, by the two estimates"
+       "auto_max": 11.6,
+       "giudizio": "by public transport 1.7 or 2.3 times the car time, by the two estimates"
       },
       {
        "nome": "Parella",
        "arrivo": "Centro",
        "bus": 24.7,
        "auto_min": 12.5,
-       "auto_max": 18.1,
-       "giudizio": "by public transport 1.4 or 2 times the car time, by the two estimates"
+       "auto_max": 20.3,
+       "giudizio": "by public transport 1.2 or 2 times the car time, by the two estimates"
       },
       {
        "nome": "San Donato",
        "arrivo": "Centro",
        "bus": 18.7,
        "auto_min": 9.0,
-       "auto_max": 12.0,
-       "giudizio": "by public transport 1.6 or 2.1 times the car time, by the two estimates"
+       "auto_max": 13.1,
+       "giudizio": "by public transport 1.4 or 2.1 times the car time, by the two estimates"
       },
       {
        "nome": "Barriera di Milano",
        "arrivo": "Falchera",
        "bus": 24.0,
        "auto_min": 9.8,
-       "auto_max": 13.4,
-       "giudizio": "by public transport 1.8 or 2.5 times the car time, by the two estimates"
+       "auto_max": 14.8,
+       "giudizio": "by public transport 1.6 or 2.5 times the car time, by the two estimates"
       }
      ],
      "scelto": 0,
@@ -11840,3006 +11840,3006 @@ window.SCHEDE_RISULTATI = [
     {
      "tipo": "dispersione",
      "titolo": "Car time and public transport time, one pair of zones per point",
-     "xlabel": "minutes by car (peak hour, factor 2.1)",
+     "xlabel": "minutes by car (peak hour, factor 2.5)",
      "ylabel": "minutes by public transport",
      "punti": [
       [
-       12.7,
+       14.0,
        20.6,
        1355.3
       ],
       [
-       16.0,
+       17.8,
        31.3,
        1341.8
       ],
       [
-       10.6,
+       11.6,
        19.2,
        1324.4
       ],
       [
-       18.1,
+       20.3,
        24.7,
        1277.0
       ],
       [
-       12.0,
+       13.1,
        18.7,
        1269.4
       ],
       [
-       13.4,
+       14.8,
        24.0,
        1208.2
       ],
       [
-       23.2,
+       26.2,
        43.0,
        1149.2
       ],
       [
-       18.8,
+       21.1,
        37.5,
        1107.8
       ],
       [
-       47.5,
+       54.6,
        80.1,
        1081.8
       ],
       [
-       10.3,
+       11.2,
        15.2,
        1038.1
       ],
       [
-       16.8,
+       18.8,
        33.2,
        969.9
       ],
       [
-       18.7,
+       21.0,
        30.6,
        968.1
       ],
       [
-       10.6,
+       11.6,
        15.2,
        957.2
       ],
       [
-       27.2,
+       30.9,
        44.5,
        940.7
       ],
       [
-       12.6,
+       13.9,
        20.2,
        938.8
       ],
       [
-       17.0,
+       18.9,
        33.5,
        928.7
       ],
       [
-       19.1,
+       21.5,
        38.2,
        916.7
       ],
       [
-       35.6,
+       40.7,
        63.4,
        910.0
       ],
       [
-       15.7,
+       17.5,
        30.4,
        900.6
       ],
       [
-       15.5,
+       17.2,
        35.2,
        894.4
       ],
       [
-       11.8,
+       12.9,
        22.4,
        893.3
       ],
       [
-       13.0,
+       14.3,
        23.8,
        889.9
       ],
       [
-       22.8,
+       25.8,
        39.3,
        888.0
       ],
       [
-       18.3,
+       20.5,
        27.5,
        818.9
       ],
       [
-       22.1,
+       24.9,
        42.3,
        796.7
       ],
       [
-       18.0,
+       20.2,
        35.2,
        795.1
       ],
       [
-       10.3,
+       11.2,
        18.9,
        789.0
       ],
       [
-       19.7,
+       22.1,
        31.2,
        779.1
       ],
       [
-       15.1,
+       16.7,
        30.4,
        762.5
       ],
       [
-       22.8,
+       25.7,
        50.0,
        753.4
       ],
       [
-       15.8,
+       17.7,
        31.2,
        751.2
       ],
       [
-       14.3,
+       15.9,
        24.3,
        737.2
       ],
       [
-       31.1,
+       35.5,
        81.4,
        718.7
       ],
       [
-       11.4,
+       12.4,
        18.1,
        714.6
       ],
       [
-       16.9,
+       18.9,
        35.2,
        714.1
       ],
       [
-       13.8,
+       15.3,
        24.0,
        706.6
       ],
       [
-       35.5,
+       40.6,
        63.5,
        702.1
       ],
       [
-       11.8,
+       12.9,
        22.6,
        698.0
       ],
       [
-       19.2,
+       21.6,
        29.7,
        696.9
       ],
       [
-       30.9,
+       35.3,
        50.3,
        690.4
       ],
       [
-       38.0,
+       43.5,
        72.7,
        687.3
       ],
       [
-       13.2,
+       14.6,
        23.2,
        685.0
       ],
       [
-       22.2,
+       25.1,
        25.5,
        672.4
       ],
       [
-       15.4,
+       17.1,
        29.2,
        671.0
       ],
       [
-       11.6,
+       12.8,
        22.8,
        666.8
       ],
       [
-       37.3,
+       42.6,
        72.4,
        659.4
       ],
       [
-       25.8,
+       29.3,
        51.0,
        644.0
       ],
       [
-       17.0,
+       19.0,
        32.7,
        627.3
       ],
       [
-       10.1,
+       11.0,
        16.0,
        622.4
       ],
       [
-       11.8,
+       12.9,
        22.2,
        620.3
       ],
       [
-       12.5,
+       13.7,
        27.2,
        615.4
       ],
       [
-       19.7,
+       22.2,
        37.0,
        614.3
       ],
       [
-       14.9,
+       16.6,
        34.5,
        614.1
       ],
       [
-       12.6,
+       13.9,
        23.4,
        607.7
       ],
       [
-       13.7,
+       15.1,
        27.2,
        606.6
       ],
       [
-       16.9,
+       18.8,
        34.0,
        601.6
       ],
       [
-       15.6,
+       17.3,
        30.4,
        592.7
       ],
       [
-       17.2,
+       19.2,
        36.0,
        589.8
       ],
       [
-       17.6,
+       19.6,
        34.1,
        582.5
       ],
       [
-       26.8,
+       30.4,
        50.2,
        580.1
       ],
       [
-       17.1,
+       19.1,
        24.1,
        574.5
       ],
       [
-       15.0,
+       16.6,
        29.9,
        570.6
       ],
       [
-       24.9,
+       28.2,
        55.1,
        568.2
       ],
       [
-       14.5,
+       16.1,
        24.6,
        562.6
       ],
       [
-       34.0,
+       38.9,
        85.7,
        543.7
       ],
       [
-       14.5,
+       16.1,
        24.1,
        543.0
       ],
       [
-       17.1,
+       19.1,
        39.2,
        540.9
       ],
       [
-       10.8,
+       11.7,
        21.6,
        540.3
       ],
       [
-       15.8,
+       17.6,
        30.9,
        539.8
       ],
       [
-       16.4,
+       18.3,
        30.7,
        527.7
       ],
       [
-       33.6,
+       38.4,
        68.8,
        520.3
       ],
       [
-       33.4,
+       38.1,
        71.6,
        519.9
       ],
       [
-       15.0,
+       16.7,
        29.4,
        519.7
       ],
       [
-       12.9,
+       14.2,
        24.9,
        517.1
       ],
       [
-       26.5,
+       30.1,
        56.9,
        515.6
       ],
       [
-       36.0,
+       41.1,
        71.2,
        514.3
       ],
       [
-       18.3,
+       20.5,
        39.6,
        512.4
       ],
       [
-       29.2,
+       33.3,
        62.2,
        504.1
       ],
       [
-       15.2,
+       16.9,
        26.9,
        503.9
       ],
       [
-       16.9,
+       18.9,
        32.7,
        498.7
       ],
       [
-       15.4,
+       17.1,
        28.9,
        496.3
       ],
       [
-       10.3,
+       11.1,
        15.5,
        494.3
       ],
       [
-       21.4,
+       24.1,
        47.1,
        490.1
       ],
       [
-       19.0,
+       21.3,
        38.7,
        489.2
       ],
       [
-       11.3,
+       12.3,
        23.2,
        488.9
       ],
       [
-       40.9,
+       46.9,
        74.0,
        488.2
       ],
       [
-       12.0,
+       13.1,
        22.0,
        481.0
       ],
       [
-       17.9,
+       20.1,
        38.2,
        478.8
       ],
       [
-       27.1,
+       30.8,
        54.9,
        478.7
       ],
       [
-       24.3,
+       27.5,
        47.5,
        476.8
       ],
       [
-       23.4,
+       26.5,
        45.8,
        467.9
       ],
       [
-       12.9,
+       14.3,
        26.2,
        466.7
       ],
       [
-       17.3,
+       19.4,
        27.7,
        462.0
       ],
       [
-       13.0,
+       14.3,
        26.3,
        459.7
       ],
       [
-       47.0,
+       54.0,
        77.7,
        458.7
       ],
       [
-       22.3,
+       25.2,
        26.0,
        458.5
       ],
       [
-       19.2,
+       21.6,
        37.2,
        456.6
       ],
       [
-       14.2,
+       15.8,
        22.8,
        456.0
       ],
       [
-       31.3,
+       35.7,
        57.1,
        454.7
       ],
       [
-       10.7,
+       11.6,
        20.3,
        452.9
       ],
       [
-       29.9,
+       34.0,
        54.0,
        452.3
       ],
       [
-       39.6,
+       45.4,
        85.9,
        449.8
       ],
       [
-       17.4,
+       19.5,
        31.6,
        448.6
       ],
       [
-       46.5,
+       53.4,
        92.7,
        448.4
       ],
       [
-       32.3,
+       36.9,
        71.8,
        445.5
       ],
       [
-       16.5,
+       18.4,
        35.8,
        443.8
       ],
       [
-       25.1,
+       28.5,
        46.5,
        442.8
       ],
       [
-       19.9,
+       22.4,
        40.2,
        439.9
       ],
       [
-       23.0,
+       25.9,
        55.3,
        438.4
       ],
       [
-       11.0,
+       12.0,
        21.4,
        437.5
       ],
       [
-       30.8,
+       35.1,
        61.8,
        431.9
       ],
       [
-       35.6,
+       40.7,
        58.3,
        431.8
       ],
       [
-       14.3,
+       15.9,
        32.3,
        431.4
       ],
       [
-       32.5,
+       37.0,
        68.6,
        428.4
       ],
       [
-       19.6,
+       22.1,
        37.4,
        428.4
       ],
       [
-       42.1,
+       48.3,
        81.3,
        426.2
       ],
       [
-       17.7,
+       19.9,
        35.8,
        423.2
       ],
       [
-       19.5,
+       21.9,
        41.3,
        422.6
       ],
       [
-       11.7,
+       12.8,
        18.2,
        421.9
       ],
       [
-       25.2,
+       28.5,
        47.6,
        421.1
       ],
       [
-       10.7,
+       11.7,
        19.0,
        419.2
       ],
       [
-       22.6,
+       25.5,
        53.4,
        411.0
       ],
       [
-       42.8,
+       49.2,
        73.5,
        410.3
       ],
       [
-       28.5,
+       32.4,
        53.8,
        410.0
       ],
       [
-       25.3,
+       28.7,
        32.7,
        409.6
       ],
       [
-       26.6,
+       30.2,
        53.5,
        409.5
       ],
       [
-       30.2,
+       34.4,
        51.2,
        404.3
       ],
       [
-       27.6,
+       31.4,
        46.1,
        403.5
       ],
       [
-       23.6,
+       26.7,
        54.5,
        402.7
       ],
       [
-       30.5,
+       34.8,
        61.2,
        399.0
       ],
       [
-       11.5,
+       12.6,
        24.9,
        398.4
       ],
       [
-       35.5,
+       40.6,
        64.3,
        396.9
       ],
       [
-       12.9,
+       14.2,
        28.4,
        396.9
       ],
       [
-       29.2,
+       33.2,
        59.6,
        395.5
       ],
       [
-       16.1,
+       18.0,
        32.4,
        391.8
       ],
       [
-       26.8,
+       30.5,
        51.1,
        389.9
       ],
       [
-       24.9,
+       28.2,
        46.5,
        389.6
       ],
       [
-       48.3,
+       55.6,
        103.8,
        386.9
       ],
       [
-       18.2,
+       20.4,
        28.0,
        386.6
       ],
       [
-       13.7,
+       15.1,
        28.2,
        384.3
       ],
       [
-       17.8,
+       19.9,
        27.5,
        383.2
       ],
       [
-       25.6,
+       29.0,
        81.4,
        383.2
       ],
       [
-       31.0,
+       35.3,
        62.3,
        382.4
       ],
       [
-       23.2,
+       26.3,
        56.5,
        382.0
       ],
       [
-       19.7,
+       22.2,
        54.1,
        379.4
       ],
       [
-       18.9,
+       21.2,
        38.4,
        377.6
       ],
       [
-       14.8,
+       16.5,
        31.4,
        377.4
       ],
       [
-       15.4,
+       17.1,
        24.3,
        376.5
       ],
       [
-       15.4,
+       17.1,
        36.7,
        369.2
       ],
       [
-       17.8,
+       19.9,
        30.6,
        368.7
       ],
       [
-       20.0,
+       22.6,
        37.1,
        367.3
       ],
       [
-       24.7,
+       27.9,
        43.4,
        366.6
       ],
       [
-       34.1,
+       39.0,
        79.1,
        365.7
       ],
       [
-       13.1,
+       14.5,
        19.3,
        365.5
       ],
       [
-       33.9,
+       38.7,
        74.5,
        363.3
       ],
       [
-       14.1,
+       15.6,
        28.2,
        362.7
       ],
       [
-       10.5,
+       11.4,
        20.9,
        356.4
       ],
       [
-       13.5,
+       14.9,
        21.4,
        355.0
       ],
       [
-       19.0,
+       21.3,
        39.1,
        353.0
       ],
       [
-       23.3,
+       26.4,
        52.3,
        352.5
       ],
       [
-       15.6,
+       17.4,
        17.1,
        352.1
       ],
       [
-       28.6,
+       32.6,
        50.6,
        350.1
       ],
       [
-       17.6,
+       19.7,
        37.0,
        348.3
       ],
       [
-       20.9,
+       23.5,
        44.8,
        347.8
       ],
       [
-       42.3,
+       48.5,
        71.4,
        346.3
       ],
       [
-       31.7,
+       36.1,
        71.2,
        346.1
       ],
       [
-       29.7,
+       33.8,
        63.5,
        345.7
       ],
       [
-       17.6,
+       19.8,
        32.0,
        340.6
       ],
       [
-       18.5,
+       20.7,
        41.8,
        340.0
       ],
       [
-       26.0,
+       29.5,
        50.6,
        339.6
       ],
       [
-       44.6,
+       51.2,
        83.0,
        338.3
       ],
       [
-       18.7,
+       21.0,
        45.7,
        336.5
       ],
       [
-       25.7,
+       29.1,
        54.3,
        336.5
       ],
       [
-       40.2,
+       46.1,
        79.4,
        335.5
       ],
       [
-       29.5,
+       33.5,
        52.0,
        335.0
       ],
       [
-       31.2,
+       35.6,
        60.6,
        333.8
       ],
       [
-       43.3,
+       49.7,
        87.7,
        333.6
       ],
       [
-       39.0,
+       44.6,
        74.5,
        333.5
       ],
       [
-       18.9,
+       21.2,
        31.4,
        332.2
       ],
       [
-       37.6,
+       43.0,
        82.7,
        331.5
       ],
       [
-       29.4,
+       33.5,
        47.6,
        331.5
       ],
       [
-       28.9,
+       32.8,
        64.4,
        330.5
       ],
       [
-       27.0,
+       30.6,
        52.4,
        329.9
       ],
       [
-       28.6,
+       32.5,
        43.5,
        329.1
       ],
       [
-       34.3,
+       39.2,
        65.5,
        328.2
       ],
       [
-       28.7,
+       32.6,
        54.2,
        328.0
       ],
       [
-       25.4,
+       28.8,
        54.2,
        326.5
       ],
       [
-       42.6,
+       48.9,
        67.1,
        323.5
       ],
       [
-       12.5,
+       13.7,
        24.0,
        322.3
       ],
       [
-       10.2,
+       11.1,
        19.2,
        322.1
       ],
       [
-       31.9,
+       36.4,
        64.3,
        321.4
       ],
       [
-       17.1,
+       19.1,
        34.1,
        318.2
       ],
       [
-       27.6,
+       31.3,
        47.8,
        317.7
       ],
       [
-       34.1,
+       38.9,
        80.6,
        311.9
       ],
       [
-       48.1,
+       55.2,
        94.0,
        310.7
       ],
       [
-       13.5,
+       14.9,
        26.4,
        309.9
       ],
       [
-       32.7,
+       37.3,
        60.2,
        307.1
       ],
       [
-       35.0,
+       40.0,
        69.8,
        306.3
       ],
       [
-       12.8,
+       14.1,
        25.1,
        305.1
       ],
       [
-       19.6,
+       22.0,
        35.8,
        304.4
       ],
       [
-       26.1,
+       29.7,
        53.0,
        304.2
       ],
       [
-       22.6,
+       25.5,
        52.3,
        303.6
       ],
       [
-       33.0,
+       37.7,
        62.6,
        303.4
       ],
       [
-       40.1,
+       46.0,
        77.0,
        302.8
       ],
       [
-       31.1,
+       35.5,
        68.8,
        302.3
       ],
       [
-       39.2,
+       44.9,
        72.2,
        300.8
       ],
       [
-       13.5,
+       14.9,
        19.0,
        299.5
       ],
       [
-       19.7,
+       22.1,
        48.9,
        299.2
       ],
       [
-       24.7,
+       28.0,
        56.4,
        298.9
       ],
       [
-       24.2,
+       27.4,
        47.2,
        298.6
       ],
       [
-       28.9,
+       32.8,
        54.3,
        297.1
       ],
       [
-       23.4,
+       26.5,
        54.1,
        296.5
       ],
       [
-       23.8,
+       26.9,
        57.7,
        296.0
       ],
       [
-       41.6,
+       47.7,
        86.8,
        295.0
       ],
       [
-       36.6,
+       41.9,
        70.0,
        294.0
       ],
       [
-       14.4,
+       16.0,
        33.8,
        292.7
       ],
       [
-       42.5,
+       48.7,
        85.7,
        291.8
       ],
       [
-       24.7,
+       27.9,
        46.0,
        290.8
       ],
       [
-       11.0,
+       12.0,
        21.3,
        290.5
       ],
       [
-       26.7,
+       30.3,
        60.2,
        289.4
       ],
       [
-       29.1,
+       33.1,
        52.7,
        288.9
       ],
       [
-       34.9,
+       39.9,
        74.6,
        288.6
       ],
       [
-       15.3,
+       17.1,
        35.0,
        284.7
       ],
       [
-       18.5,
+       20.8,
        38.6,
        283.1
       ],
       [
-       9.9,
+       10.7,
        18.9,
        282.6
       ],
       [
-       17.8,
+       20.0,
        42.7,
        282.2
       ],
       [
-       20.9,
+       23.6,
        42.2,
        281.8
       ],
       [
-       18.3,
+       20.5,
        38.3,
        281.7
       ],
       [
-       23.6,
+       26.7,
        57.4,
        280.3
       ],
       [
-       27.4,
+       31.1,
        56.7,
        278.1
       ],
       [
-       12.4,
+       13.6,
        24.5,
        274.9
       ],
       [
-       37.5,
+       42.9,
        83.0,
        274.4
       ],
       [
-       32.3,
+       36.8,
        68.0,
        273.4
       ],
       [
-       18.3,
+       20.5,
        34.6,
        273.2
       ],
       [
-       29.0,
+       33.0,
        46.0,
        272.4
       ],
       [
-       46.6,
+       53.5,
        76.5,
        271.8
       ],
       [
-       42.3,
+       48.5,
        79.0,
        271.3
       ],
       [
-       34.9,
+       39.9,
        61.4,
        271.0
       ],
       [
-       16.0,
+       17.8,
        31.8,
        270.6
       ],
       [
-       13.1,
+       14.4,
        24.6,
        270.2
       ],
       [
-       29.9,
+       34.0,
        44.1,
        270.1
       ],
       [
-       46.1,
+       53.0,
        98.2,
        269.7
       ],
       [
-       31.8,
+       36.2,
        62.1,
        269.7
       ],
       [
-       42.2,
+       48.3,
        83.6,
        268.9
       ],
       [
-       15.6,
+       17.4,
        17.1,
        268.5
       ],
       [
-       29.2,
+       33.2,
        55.2,
        267.8
       ],
       [
-       23.9,
+       27.0,
        37.0,
        264.3
       ],
       [
-       25.9,
+       29.4,
        60.4,
        263.3
       ],
       [
-       23.6,
+       26.7,
        51.4,
        262.3
       ],
       [
-       21.1,
+       23.8,
        42.2,
        261.5
       ],
       [
-       27.4,
+       31.1,
        49.4,
        261.2
       ],
       [
-       17.4,
+       19.5,
        34.8,
        260.2
       ],
       [
-       11.5,
+       12.5,
        17.5,
        259.7
       ],
       [
-       13.2,
+       14.6,
        29.1,
        258.2
       ],
       [
-       46.9,
+       53.9,
        79.4,
        257.3
       ],
       [
-       22.2,
+       25.0,
        46.5,
        256.8
       ],
       [
-       36.2,
+       41.4,
        75.8,
        255.1
       ],
       [
-       44.8,
+       51.4,
        78.2,
        254.4
       ],
       [
-       49.9,
+       57.4,
        103.2,
        253.6
       ],
       [
-       49.4,
+       56.8,
        89.0,
        253.1
       ],
       [
-       9.2,
+       9.9,
        15.8,
        252.2
       ],
       [
-       30.1,
+       34.2,
        49.4,
        251.6
       ],
       [
-       14.6,
+       16.2,
        29.9,
        251.5
       ],
       [
-       23.7,
+       26.9,
        56.6,
        250.1
       ],
       [
-       24.4,
+       27.7,
        37.3,
        248.3
       ],
       [
-       31.0,
+       35.4,
        48.8,
        247.4
       ],
       [
-       18.6,
+       20.9,
        34.8,
        244.8
       ],
       [
-       14.4,
+       16.0,
        28.9,
        243.9
       ],
       [
-       23.7,
+       26.8,
        44.1,
        243.6
       ],
       [
-       30.3,
+       34.5,
        55.0,
        243.6
       ],
       [
-       15.0,
+       16.6,
        29.2,
        243.6
       ],
       [
-       21.9,
+       24.7,
        41.8,
        243.0
       ],
       [
-       37.0,
+       42.3,
        77.9,
        242.3
       ],
       [
-       25.3,
+       28.7,
        43.4,
        242.2
       ],
       [
-       30.5,
+       34.7,
        61.5,
        241.4
       ],
       [
-       14.9,
+       16.6,
        30.4,
        241.0
       ],
       [
-       47.3,
+       54.3,
        91.5,
        240.6
       ],
       [
-       17.3,
+       19.3,
        39.4,
        240.0
       ],
       [
-       33.3,
+       38.0,
        65.0,
        238.3
       ],
       [
-       36.4,
+       41.6,
        72.1,
        236.1
       ],
       [
-       17.2,
+       19.2,
        24.2,
        235.8
       ],
       [
-       27.6,
+       31.4,
        46.3,
        234.9
       ],
       [
-       31.0,
+       35.4,
        52.5,
        234.7
       ],
       [
-       25.7,
+       29.1,
        46.3,
        234.6
       ],
       [
-       21.1,
+       23.8,
        46.7,
        233.6
       ],
       [
-       30.9,
+       35.2,
        67.6,
        233.3
       ],
       [
-       19.8,
+       22.3,
        43.3,
        231.7
       ],
       [
-       26.0,
+       29.5,
        61.4,
        231.5
       ],
       [
-       53.4,
+       61.4,
        99.5,
        230.9
       ],
       [
-       23.5,
+       26.6,
        48.0,
        228.8
       ],
       [
-       11.4,
+       12.5,
        25.4,
        228.3
       ],
       [
-       19.9,
+       22.4,
        41.6,
        228.1
       ],
       [
-       25.2,
+       28.6,
        62.8,
        227.0
       ],
       [
-       32.4,
+       36.9,
        79.2,
        226.3
       ],
       [
-       16.8,
+       18.7,
        36.1,
        225.6
       ],
       [
-       31.4,
+       35.8,
        59.0,
        225.4
       ],
       [
-       21.2,
+       23.9,
        52.0,
        225.1
       ],
       [
-       35.0,
+       40.0,
        64.8,
        224.1
       ],
       [
-       12.3,
+       13.5,
        24.1,
        223.2
       ],
       [
-       40.6,
+       46.5,
        94.3,
        222.3
       ],
       [
-       15.4,
+       17.2,
        32.1,
        222.1
       ],
       [
-       37.2,
+       42.6,
        70.7,
        221.0
       ],
       [
-       12.6,
+       13.9,
        25.9,
        220.4
       ],
       [
-       14.8,
+       16.4,
        24.2,
        219.8
       ],
       [
-       14.4,
+       15.9,
        22.4,
        218.7
       ],
       [
-       25.8,
+       29.2,
        52.8,
        218.3
       ],
       [
-       33.1,
+       37.8,
        75.5,
        217.8
       ],
       [
-       40.1,
+       46.0,
        68.5,
        217.1
       ],
       [
-       16.3,
+       18.2,
        30.8,
        216.9
       ],
       [
-       41.4,
+       47.5,
        104.0,
        216.3
       ],
       [
-       39.8,
+       45.6,
        61.0,
        215.9
       ],
       [
-       31.3,
+       35.6,
        71.9,
        215.8
       ],
       [
-       48.9,
+       56.2,
        96.9,
        215.6
       ],
       [
-       29.4,
+       33.5,
        53.9,
        215.3
       ],
       [
-       28.0,
+       31.8,
        67.0,
        214.1
       ],
       [
-       24.2,
+       27.4,
        51.6,
        214.0
       ],
       [
-       12.8,
+       14.1,
        26.0,
        213.2
       ],
       [
-       34.4,
+       39.3,
        72.4,
        212.7
       ],
       [
-       43.2,
+       49.5,
        78.5,
        212.0
       ],
       [
-       34.0,
+       38.8,
        93.1,
        211.8
       ],
       [
-       38.7,
+       44.4,
        63.9,
        211.3
       ],
       [
-       24.0,
+       27.2,
        50.2,
        211.2
       ],
       [
-       29.2,
+       33.2,
        61.1,
        210.7
       ],
       [
-       29.3,
+       33.3,
        57.8,
        209.8
       ],
       [
-       23.6,
+       26.7,
        43.2,
        209.0
       ],
       [
-       21.5,
+       24.2,
        51.2,
        208.2
       ],
       [
-       51.1,
+       58.8,
        102.7,
        208.1
       ],
       [
-       34.2,
+       39.1,
        61.3,
        207.6
       ],
       [
-       50.0,
+       57.5,
        86.5,
        207.5
       ],
       [
-       15.6,
+       17.4,
        30.0,
        206.7
       ],
       [
-       43.4,
+       49.7,
        82.2,
        206.4
       ],
       [
-       25.5,
+       28.9,
        44.2,
        206.2
       ],
       [
-       20.9,
+       23.5,
        50.9,
        206.2
       ],
       [
-       22.3,
+       25.2,
        44.3,
        206.1
       ],
       [
-       38.8,
+       44.4,
        66.5,
        206.0
       ],
       [
-       26.5,
+       30.1,
        55.3,
        205.9
       ],
       [
-       42.7,
+       49.0,
        96.3,
        205.6
       ],
       [
-       30.1,
+       34.3,
        56.6,
        205.0
       ],
       [
-       26.0,
+       29.4,
        41.6,
        204.7
       ],
       [
-       33.9,
+       38.8,
        75.6,
        204.3
       ],
       [
-       33.3,
+       38.0,
        56.6,
        204.3
       ],
       [
-       41.5,
+       47.6,
        78.0,
        204.0
       ],
       [
-       39.9,
+       45.7,
        77.3,
        203.9
       ],
       [
-       24.0,
+       27.2,
        57.1,
        203.8
       ],
       [
-       35.0,
+       40.0,
        91.5,
        203.7
       ],
       [
-       25.5,
+       29.0,
        43.6,
        203.5
       ],
       [
-       20.5,
+       23.1,
        42.6,
        203.4
       ],
       [
-       39.1,
+       44.7,
        74.0,
        203.4
       ],
       [
-       23.6,
+       26.7,
        46.8,
        203.2
       ],
       [
-       47.6,
+       54.7,
        84.4,
        202.3
       ],
       [
-       31.7,
+       36.2,
        67.5,
        201.9
       ],
       [
-       33.9,
+       38.7,
        58.4,
        201.7
       ],
       [
-       26.3,
+       29.8,
        54.3,
        201.5
       ],
       [
-       14.7,
+       16.3,
        26.2,
        201.5
       ],
       [
-       14.7,
+       16.3,
        27.0,
        201.2
       ],
       [
-       21.7,
+       24.4,
        42.8,
        200.7
       ],
       [
-       34.5,
+       39.4,
        61.8,
        200.5
       ],
       [
-       39.1,
+       44.8,
        82.2,
        200.3
       ],
       [
-       34.4,
+       39.3,
        85.6,
        199.7
       ],
       [
-       15.0,
+       16.7,
        27.0,
        199.4
       ],
       [
-       14.3,
+       15.9,
        30.9,
        199.3
       ],
       [
-       31.7,
+       36.1,
        55.4,
        198.8
       ],
       [
-       33.3,
+       38.0,
        56.4,
        197.7
       ],
       [
-       38.3,
+       43.8,
        77.4,
        197.7
       ],
       [
-       25.7,
+       29.2,
        48.8,
        196.4
       ],
       [
-       31.4,
+       35.8,
        69.6,
        195.7
       ],
       [
-       35.9,
+       41.1,
        67.0,
        195.6
       ],
       [
-       14.9,
+       16.5,
        33.0,
        195.3
       ],
       [
-       16.9,
+       18.9,
        42.0,
        194.7
       ],
       [
-       12.1,
+       13.3,
        26.4,
        194.6
       ],
       [
-       39.2,
+       44.9,
        76.1,
        194.1
       ],
       [
-       16.9,
+       18.8,
        34.1,
        193.8
       ],
       [
-       43.2,
+       49.5,
        100.1,
        193.0
       ],
       [
-       25.1,
+       28.4,
        45.7,
        192.7
       ],
       [
-       51.8,
+       59.6,
        98.6,
        192.4
       ],
       [
-       15.8,
+       17.6,
        32.5,
        192.2
       ],
       [
-       40.7,
+       46.6,
        81.0,
        191.6
       ],
       [
-       20.0,
+       22.4,
        41.7,
        191.5
       ],
       [
-       32.5,
+       37.1,
        58.7,
        190.6
       ],
       [
-       41.1,
+       47.1,
        88.2,
        190.5
       ],
       [
-       29.4,
+       33.5,
        61.8,
        190.5
       ],
       [
-       37.2,
+       42.6,
        78.3,
        190.5
       ],
       [
-       36.5,
+       41.7,
        84.6,
        190.2
       ],
       [
-       14.8,
+       16.5,
        33.7,
        190.2
       ],
       [
-       34.1,
+       38.9,
        57.8,
        189.6
       ],
       [
-       19.1,
+       21.5,
        42.1,
        189.4
       ],
       [
-       54.6,
+       62.9,
        108.3,
        188.8
       ],
       [
-       24.1,
+       27.3,
        52.8,
        188.6
       ],
       [
-       22.4,
+       25.3,
        44.8,
        188.5
       ],
       [
-       46.8,
+       53.8,
        84.5,
        187.6
       ],
       [
-       54.8,
+       63.1,
        86.5,
        187.3
       ],
       [
-       32.4,
+       37.0,
        63.9,
        186.9
       ],
       [
-       29.6,
+       33.7,
        57.4,
        186.9
       ],
       [
-       35.2,
+       40.2,
        64.1,
        186.9
       ],
       [
-       16.0,
+       17.8,
        37.8,
        186.8
       ],
       [
-       39.0,
+       44.6,
        74.2,
        186.4
       ],
       [
-       55.7,
+       64.1,
        97.4,
        186.4
       ],
       [
-       36.3,
+       41.5,
        84.8,
        186.2
       ],
       [
-       40.9,
+       46.8,
        81.6,
        185.9
       ],
       [
-       20.7,
+       23.3,
        40.7,
        185.7
       ],
       [
-       25.1,
+       28.5,
        45.0,
        185.5
       ],
       [
-       16.7,
+       18.6,
        39.8,
        185.4
       ],
       [
-       18.1,
+       20.3,
        31.4,
        185.1
       ],
       [
-       28.6,
+       32.5,
        54.9,
        184.5
       ],
       [
-       52.0,
+       59.8,
        92.0,
        184.1
       ],
       [
-       40.5,
+       46.4,
        85.6,
        183.3
       ],
       [
-       49.0,
+       56.3,
        87.8,
        183.3
       ],
       [
-       14.4,
+       16.0,
        29.6,
        183.2
       ],
       [
-       42.7,
+       48.9,
        83.0,
        183.0
       ],
       [
-       27.0,
+       30.6,
        68.7,
        182.4
       ],
       [
-       32.2,
+       36.7,
        66.2,
        182.4
       ],
       [
-       47.3,
+       54.4,
        90.8,
        181.8
       ],
       [
-       39.5,
+       45.3,
        77.4,
        181.2
       ],
       [
-       28.8,
+       32.8,
        64.3,
        181.2
       ],
       [
-       30.7,
+       35.0,
        69.0,
        181.1
       ],
       [
-       27.1,
+       30.8,
        57.4,
        180.8
       ],
       [
-       25.2,
+       28.6,
        65.9,
        179.9
       ],
       [
-       26.7,
+       30.3,
        48.9,
        179.7
       ],
       [
-       21.8,
+       24.6,
        35.5,
        179.6
       ],
       [
-       43.8,
+       50.2,
        92.6,
        179.5
       ],
       [
-       26.8,
+       30.4,
        59.6,
        179.5
       ],
       [
-       20.4,
+       23.0,
        46.4,
        179.5
       ],
       [
-       41.7,
+       47.8,
        91.4,
        179.2
       ],
       [
-       22.1,
+       24.9,
        54.4,
        178.4
       ],
       [
-       35.2,
+       40.2,
        64.8,
        177.9
       ],
       [
-       37.5,
+       42.9,
        61.2,
        177.9
       ],
       [
-       21.4,
+       24.2,
        47.4,
        177.4
       ],
       [
-       34.1,
+       38.9,
        51.0,
        177.3
       ],
       [
-       36.2,
+       41.4,
        112.9,
        177.0
       ],
       [
-       12.8,
+       14.1,
        29.5,
        176.7
       ],
       [
-       52.6,
+       60.5,
        94.5,
        176.2
       ],
       [
-       43.3,
+       49.7,
        88.2,
        176.0
       ],
       [
-       13.2,
+       14.6,
        21.1,
        175.3
       ],
       [
-       21.1,
+       23.8,
        44.9,
        175.0
       ],
       [
-       26.6,
+       30.2,
        57.0,
        174.5
       ],
       [
-       13.0,
+       14.3,
        26.6,
        173.9
       ],
       [
-       13.5,
+       14.9,
        31.4,
        173.6
       ],
       [
-       32.4,
+       37.0,
        69.0,
        173.5
       ],
       [
-       29.8,
+       33.9,
        60.7,
        173.4
       ],
       [
-       26.1,
+       29.7,
        56.0,
        173.2
       ],
       [
-       16.9,
+       18.9,
        26.6,
        173.1
       ],
       [
-       28.3,
+       32.1,
        63.1,
        173.1
       ],
       [
-       28.7,
+       32.6,
        54.3,
        173.0
       ],
       [
-       33.3,
+       38.0,
        67.0,
        173.0
       ],
       [
-       16.9,
+       18.9,
        40.7,
        173.0
       ],
       [
-       49.3,
+       56.7,
        99.5,
        173.0
       ],
       [
-       21.3,
+       24.0,
        42.6,
        172.3
       ],
       [
-       37.2,
+       42.6,
        93.0,
        172.0
       ],
       [
-       34.0,
+       38.8,
        62.5,
        171.6
       ],
       [
-       45.7,
+       52.5,
        113.8,
        171.3
       ],
       [
-       48.7,
+       56.0,
        89.9,
        171.3
       ],
       [
-       41.0,
+       47.0,
        77.7,
        171.2
       ],
       [
-       18.3,
+       20.5,
        24.7,
        171.0
       ],
       [
-       54.5,
+       62.7,
        99.0,
        170.7
       ],
       [
-       20.0,
+       22.5,
        46.9,
        170.0
       ],
       [
-       23.5,
+       26.6,
        50.3,
        169.8
       ],
       [
-       17.6,
+       19.7,
        40.7,
        169.6
       ],
       [
-       31.3,
+       35.6,
        77.5,
        169.4
       ],
       [
-       16.3,
+       18.2,
        33.8,
        169.2
       ],
       [
-       36.1,
+       41.3,
        93.1,
        168.9
       ],
       [
-       16.4,
+       18.3,
        35.8,
        168.6
       ],
       [
-       28.6,
+       32.5,
        68.6,
        168.1
       ],
       [
-       29.1,
+       33.1,
        86.0,
        168.1
       ],
       [
-       10.4,
+       11.3,
        18.2,
        167.9
       ],
       [
-       15.2,
+       16.9,
        33.7,
        167.5
       ],
       [
-       39.8,
+       45.6,
        62.8,
        167.2
       ],
       [
-       40.5,
+       46.5,
        87.9,
        166.7
       ],
       [
-       34.6,
+       39.5,
        73.5,
        166.7
       ],
       [
-       21.2,
+       23.9,
        35.6,
        166.1
       ],
       [
-       45.9,
+       52.7,
        92.3,
        165.5
       ],
       [
-       56.4,
+       64.9,
        112.0,
        165.4
       ],
       [
-       34.0,
+       38.8,
        98.0,
        165.4
       ],
       [
-       15.8,
+       17.6,
        33.8,
        164.6
       ],
       [
-       13.7,
+       15.1,
        33.0,
        163.9
       ],
       [
-       20.8,
+       23.4,
        46.1,
        163.8
       ],
       [
-       12.2,
+       13.4,
        23.3,
        163.6
       ],
       [
-       31.9,
+       36.4,
        72.8,
        163.5
       ],
       [
-       25.6,
+       29.1,
        50.7,
        163.3
       ],
       [
-       32.6,
+       37.1,
        69.8,
        163.0
       ],
       [
-       40.8,
+       46.8,
        78.5,
        162.2
       ],
       [
-       32.0,
+       36.6,
        68.0,
        161.5
       ],
       [
-       33.3,
+       38.0,
        64.2,
        161.5
       ],
       [
-       31.7,
+       36.1,
        71.0,
        161.5
       ],
       [
-       25.0,
+       28.3,
        54.7,
        161.4
       ],
       [
-       46.1,
+       53.0,
        87.0,
        160.9
       ],
       [
-       24.2,
+       27.4,
        55.1,
        160.0
       ],
       [
-       26.1,
+       29.7,
        39.7,
        159.7
       ],
       [
-       27.5,
+       31.3,
        53.4,
        159.5
       ],
       [
-       28.2,
+       32.1,
        51.4,
        159.4
       ],
       [
-       31.3,
+       35.7,
        72.3,
        159.3
       ],
       [
-       33.5,
+       38.2,
        53.0,
        158.2
       ],
       [
-       47.5,
+       54.6,
        82.8,
        158.2
       ],
       [
-       31.2,
+       35.6,
        57.2,
        157.9
       ],
       [
-       17.8,
+       19.9,
        33.0,
        157.8
       ],
       [
-       31.3,
+       35.7,
        70.6,
        157.5
       ],
       [
-       21.2,
+       23.8,
        45.2,
        157.3
       ],
       [
-       15.2,
+       16.9,
        30.2,
        157.3
       ],
       [
-       42.2,
+       48.3,
        95.0,
        156.5
       ],
       [
-       28.5,
+       32.4,
        41.1,
        155.8
       ],
       [
-       34.7,
+       39.7,
        74.4,
        155.6
       ],
       [
-       31.3,
+       35.6,
        50.9,
        155.4
       ],
       [
-       31.5,
+       35.9,
        54.8,
        155.2
       ],
       [
-       40.2,
+       46.1,
        92.7,
        155.1
       ],
       [
-       30.6,
+       34.9,
        83.6,
        154.9
       ],
       [
-       20.9,
+       23.6,
        37.8,
        154.5
       ],
       [
-       49.0,
+       56.3,
        90.2,
        154.5
       ],
       [
-       31.9,
+       36.4,
        64.6,
        154.1
       ],
       [
-       19.1,
+       21.4,
        44.6,
        153.6
       ],
       [
-       28.3,
+       32.1,
        51.8,
        152.4
       ],
       [
-       12.5,
+       13.8,
        26.6,
        152.3
       ],
       [
-       28.7,
+       32.7,
        53.8,
        152.3
       ],
       [
-       44.4,
+       51.0,
        90.8,
        151.5
       ],
       [
-       31.1,
+       35.5,
        59.0,
        151.3
       ],
       [
-       25.1,
+       28.4,
        67.8,
        151.2
       ],
       [
-       22.0,
+       24.9,
        60.4,
        150.6
       ],
       [
-       20.7,
+       23.3,
        46.1,
        150.2
       ],
       [
-       18.0,
+       20.1,
        40.1,
        149.8
       ],
       [
-       23.5,
+       26.6,
        48.5,
        148.6
       ],
       [
-       27.9,
+       31.7,
        66.8,
        148.5
       ],
       [
-       14.4,
+       15.9,
        31.5,
        148.2
       ],
       [
-       34.3,
+       39.1,
        63.6,
        147.4
       ],
       [
-       18.1,
+       20.2,
        34.0,
        147.2
       ],
       [
-       22.4,
+       25.2,
        48.2,
        146.3
       ],
       [
-       20.0,
+       22.5,
        28.6,
        146.1
       ],
       [
-       14.7,
+       16.3,
        30.9,
        145.2
       ],
       [
-       24.0,
+       27.2,
        49.4,
        145.0
       ],
       [
-       46.5,
+       53.5,
        88.6,
        144.6
       ],
       [
-       25.7,
+       29.2,
        50.1,
        143.8
       ],
       [
-       27.9,
+       31.7,
        52.5,
        143.2
       ],
       [
-       54.2,
+       62.4,
        100.8,
        142.8
       ],
       [
-       17.5,
+       19.6,
        34.2,
        142.2
       ],
       [
-       29.5,
+       33.5,
        57.7,
        142.1
       ],
       [
-       24.7,
+       28.0,
        51.0,
        142.1
       ],
       [
-       17.6,
+       19.7,
        37.6,
        141.5
       ],
       [
-       21.7,
+       24.4,
        45.2,
        141.1
       ],
       [
-       22.4,
+       25.3,
        44.0,
        140.8
       ],
       [
-       36.9,
+       42.2,
        71.0,
        140.6
       ],
       [
-       20.9,
+       23.5,
        35.3,
        140.1
       ],
       [
-       40.2,
+       46.1,
        87.5,
        139.1
       ],
       [
-       27.8,
+       31.6,
        63.6,
        139.1
       ],
       [
-       22.8,
+       25.7,
        51.9,
        136.6
       ],
       [
-       21.6,
+       24.4,
        50.3,
        136.6
       ],
       [
-       43.3,
+       49.7,
        99.4,
        135.8
       ],
       [
-       39.9,
+       45.7,
        69.8,
        135.1
       ],
       [
-       42.8,
+       49.1,
        111.8,
        132.9
       ],
       [
-       29.8,
+       33.9,
        86.0,
        132.9
       ],
       [
-       37.4,
+       42.8,
        60.8,
        131.1
       ],
       [
-       28.3,
+       32.2,
        59.3,
        130.6
       ],
       [
-       25.2,
+       28.5,
        56.8,
        130.3
       ],
       [
-       20.2,
+       22.8,
        46.1,
        129.1
       ],
       [
-       35.0,
+       40.0,
        92.4,
        128.8
       ],
       [
-       25.0,
+       28.4,
        62.7,
        128.8
       ],
       [
-       16.9,
+       18.9,
        27.2,
        125.9
       ],
       [
-       33.9,
+       38.7,
        67.2,
        125.8
       ],
       [
-       47.1,
+       54.2,
        81.4,
        125.8
       ],
       [
-       34.9,
+       39.9,
        112.6,
        124.6
       ],
       [
-       30.8,
+       35.1,
        67.6,
        122.4
       ],
       [
-       54.8,
+       63.1,
        104.8,
        122.4
       ],
       [
-       34.5,
+       39.4,
        61.3,
        122.0
       ],
       [
-       36.2,
+       41.4,
        61.1,
        121.7
       ],
       [
-       25.8,
+       29.3,
        54.6,
        120.0
       ],
       [
-       24.5,
+       27.7,
        57.8,
        119.6
       ],
       [
-       45.0,
+       51.7,
        94.6,
        118.8
       ],
       [
-       32.2,
+       36.7,
        52.6,
        118.8
       ],
       [
-       46.9,
+       53.9,
        98.0,
        118.6
       ],
       [
-       15.1,
+       16.8,
        36.6,
        117.9
       ],
       [
-       52.6,
+       60.5,
        99.4,
        117.8
       ],
       [
-       26.0,
+       29.6,
        54.6,
        115.5
       ],
       [
-       38.5,
+       44.1,
        72.6,
        115.5
       ],
       [
-       26.3,
+       29.8,
        61.6,
        115.5
       ],
       [
-       20.0,
+       22.5,
        38.8,
        115.5
       ],
       [
-       18.1,
+       20.3,
        39.2,
        115.5
       ],
       [
-       37.6,
+       43.0,
        58.2,
        114.2
       ],
       [
-       25.5,
+       28.9,
        66.4,
        113.9
       ],
       [
-       20.3,
+       22.9,
        39.5,
        113.4
       ],
       [
-       32.3,
+       36.9,
        69.0,
        113.4
       ],
       [
-       32.5,
+       37.1,
        64.6,
        113.4
       ],
       [
-       29.5,
+       33.6,
        56.5,
        113.4
       ],
       [
-       27.9,
+       31.7,
        64.4,
        113.4
       ],
       [
-       18.9,
+       21.2,
        43.1,
        113.4
       ],
       [
-       20.5,
+       23.1,
        40.0,
        112.0
       ],
       [
-       33.0,
+       37.6,
        75.6,
        112.0
       ],
       [
-       48.2,
+       55.4,
        98.4,
        112.0
       ],
       [
-       46.5,
+       53.4,
        96.2,
        112.0
       ],
       [
-       26.2,
+       29.7,
        39.3,
        112.0
       ],
       [
-       42.8,
+       49.1,
        98.4,
        112.0
       ],
       [
-       19.8,
+       22.2,
        41.0,
        112.0
       ],
       [
-       51.0,
+       58.7,
        101.9,
        112.0
       ],
       [
-       17.4,
+       19.5,
        33.4,
        112.0
       ],
       [
-       17.4,
+       19.5,
        33.8,
        112.0
       ],
       [
-       24.4,
+       27.7,
        62.0,
        111.0
       ],
       [
-       21.3,
+       24.0,
        39.8,
        111.0
       ],
       [
-       31.5,
+       35.9,
        55.8,
        110.8
       ],
       [
-       42.0,
+       48.2,
        78.2,
        110.3
       ],
       [
-       32.8,
+       37.4,
        63.8,
        110.3
       ],
       [
-       40.4,
+       46.3,
        63.4,
        110.1
       ],
       [
-       20.0,
+       22.5,
        46.2,
        109.2
       ],
       [
-       44.2,
+       50.7,
        93.8,
        109.2
       ],
       [
-       14.0,
+       15.5,
        30.2,
        109.2
       ],
       [
-       13.9,
+       15.4,
        31.4,
        109.2
       ]
@@ -14860,97 +14860,97 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "The 15 pairs with the most cars where public transport takes more than twice as long",
      "unita": "cars",
-     "nota": "Morning cars on that pair (6 a.m. to 10 a.m., weekday), with Google's estimate (factor 2.1). On the right, minutes by public transport versus by car.",
+     "nota": "Morning cars on that pair (6 a.m. to 10 a.m., weekday), with TomTom's estimate (factor 2.5). On the right, minutes by public transport versus by car.",
      "voci": [
       {
        "label": "Torino, Madonna Del Pilone → Torino, Vanchiglia",
        "valore": 894,
        "tono": "rosso",
-       "testo": "894 cars: 35 versus 16 min"
-      },
-      {
-       "label": "Torino, Parella → Torino, San Paolo",
-       "valore": 763,
-       "tono": "rosso",
-       "testo": "763 cars: 30 versus 15 min"
-      },
-      {
-       "label": "Torino, Madonna Del Pilone → Torino, Centro",
-       "valore": 753,
-       "tono": "rosso",
-       "testo": "753 cars: 50 versus 23 min"
+       "testo": "894 cars: 35 versus 17 min"
       },
       {
        "label": "Torino, Mirafiori Sud → Rivoli",
        "valore": 719,
        "tono": "rosso",
-       "testo": "719 cars: 81 versus 31 min"
-      },
-      {
-       "label": "Grugliasco → Torino, Pozzo Strada",
-       "valore": 714,
-       "tono": "rosso",
-       "testo": "714 cars: 35 versus 17 min"
-      },
-      {
-       "label": "Torino, Vanchiglia → Torino, Aurora",
-       "valore": 615,
-       "tono": "rosso",
-       "testo": "615 cars: 27 versus 12 min"
+       "testo": "719 cars: 81 versus 36 min"
       },
       {
        "label": "Torino, Barriera di Milano → Torino, Vanchiglia",
        "valore": 614,
        "tono": "rosso",
-       "testo": "614 cars: 34 versus 15 min"
-      },
-      {
-       "label": "Venaria Reale → Torino, Madonna di Campagna",
-       "valore": 602,
-       "tono": "rosso",
-       "testo": "602 cars: 34 versus 17 min"
-      },
-      {
-       "label": "Torino, Centro → Torino, Borgata Vittoria",
-       "valore": 590,
-       "tono": "rosso",
-       "testo": "590 cars: 36 versus 17 min"
-      },
-      {
-       "label": "Moncalieri → Torino, Mirafiori Sud",
-       "valore": 568,
-       "tono": "rosso",
-       "testo": "568 cars: 55 versus 25 min"
+       "testo": "614 cars: 34 versus 17 min"
       },
       {
        "label": "Settimo Torinese → Torino, Madonna Del Pilone",
        "valore": 544,
        "tono": "rosso",
-       "testo": "544 cars: 86 versus 34 min"
+       "testo": "544 cars: 86 versus 39 min"
       },
       {
        "label": "Torino, Borgata Vittoria → Torino, Centro",
        "valore": 541,
        "tono": "rosso",
-       "testo": "541 cars: 39 versus 17 min"
+       "testo": "541 cars: 39 versus 19 min"
       },
       {
-       "label": "Torino, Madonna di Campagna → Torino, Borgata Vittoria",
-       "valore": 540,
+       "label": "Torino, Madonna Del Pilone → Torino, Borgo Po E Cavoretto",
+       "valore": 438,
        "tono": "rosso",
-       "testo": "540 cars: 22 versus 11 min"
+       "testo": "438 cars: 55 versus 26 min"
       },
       {
-       "label": "Beinasco → Torino, Centro",
-       "valore": 520,
+       "label": "Torino, San Paolo → Torino, San Donato",
+       "valore": 431,
        "tono": "rosso",
-       "testo": "520 cars: 69 versus 34 min"
+       "testo": "431 cars: 32 versus 16 min"
       },
       {
-       "label": "Torino, Mirafiori Nord → Moncalieri",
-       "valore": 520,
+       "label": "Torino, Centro → Torino, Madonna Del Pilone",
+       "valore": 411,
        "tono": "rosso",
-       "testo": "520 cars: 72 versus 33 min"
+       "testo": "411 cars: 53 versus 26 min"
+      },
+      {
+       "label": "Torino, Madonna Del Pilone → Torino, San Salvario",
+       "valore": 403,
+       "tono": "rosso",
+       "testo": "403 cars: 54 versus 27 min"
+      },
+      {
+       "label": "Vinovo → Torino, Mirafiori Sud",
+       "valore": 383,
+       "tono": "rosso",
+       "testo": "383 cars: 81 versus 29 min"
+      },
+      {
+       "label": "Torino, Borgo Po E Cavoretto → Torino, Madonna Del Pilone",
+       "valore": 382,
+       "tono": "rosso",
+       "testo": "382 cars: 56 versus 26 min"
+      },
+      {
+       "label": "Torino, Aurora → Torino, Madonna Del Pilone",
+       "valore": 379,
+       "tono": "rosso",
+       "testo": "379 cars: 54 versus 22 min"
+      },
+      {
+       "label": "Torino, Vanchiglia → Torino, Madonna Del Pilone",
+       "valore": 369,
+       "tono": "rosso",
+       "testo": "369 cars: 37 versus 17 min"
+      },
+      {
+       "label": "Torino, Borgata Vittoria → Pianezza",
+       "valore": 366,
+       "tono": "rosso",
+       "testo": "366 cars: 79 versus 39 min"
+      },
+      {
+       "label": "Beinasco → Torino, Mirafiori Sud",
+       "valore": 340,
+       "tono": "rosso",
+       "testo": "340 cars: 42 versus 21 min"
       }
      ]
     }
@@ -14958,7 +14958,7 @@ window.SCHEDE_RISULTATI = [
    "calcolo": [
     "Zones are those of the 2022 travel survey, with calculation points; each has up to 5 points.",
     "Public transport: on foot, bus, tram and metro, departing between 7:45 and 8:15. We take the median.",
-    "Car: free-flow time times a peak factor, plus 5 minutes. There are two factors: 2.1 from Google Maps and 1.2 from the sensors.",
+    "Car: free-flow time times a peak factor, plus 5 minutes. There are two factors: 2.5 from TomTom and 1.2 from the sensors. Traffic data: TomTom.",
     "Ratio = public transport time divided by car time. The bands are fixed.",
     "The cars of a pair are the survey's car trips, departing between 6 and 10 a.m. on a weekday."
    ],
@@ -14976,8 +14976,8 @@ window.SCHEDE_RISULTATI = [
      "free-flow time × 1.2 (5T sensors) + 5 minutes"
     ],
     [
-     "Car, estimate with Google's slowdown",
-     "free-flow time × 2.1 (Google Maps, 6 routes) + 5 minutes"
+     "Car, estimate with TomTom's slowdown",
+     "free-flow time × 2.5 (TomTom, median of the pairs) + 5 minutes"
     ],
     [
      "Ratio bands",
@@ -14986,8 +14986,8 @@ window.SCHEDE_RISULTATI = [
    ],
    "limiti": [
     "Outside Turin, trains and other operators are missing: pairs between suburban towns are not in the number. Without metropolitan trains, where they exist, public transport looks slower than it is. The timetable is the scheduled one.",
-    "Our road network ignores traffic lights and junctions. The car slowdown at the other hours comes from the sensors. Google's is known only at 8 a.m. and has been scaled.",
-    "Google's slowdown was measured on 6 routes leaving the centre. Inbound, the car may be slower.",
+    "The sensor estimate ignores traffic lights and junctions: it is the most favourable to the car.",
+    "The TomTom estimate is a forecast time on typical traffic, not measured. We use a single service.",
     "The survey is a sample. Trips within a zone and 653 pairs with no connection (5,616 cars) are not in the comparison."
    ],
    "extra": {
@@ -15013,7 +15013,7 @@ window.SCHEDE_RISULTATI = [
    },
    "anima": {
     "tipo": "area",
-    "didascalia": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach 42.2% of residents by public transport and 98.8% to 100% by car (two rush-hour factors, parking included)."
+    "didascalia": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach 42.2% of residents by public transport and 93.9% to 100% by car (two rush-hour factors, parking included)."
    }
   },
   "numero_pubblico": 4,
@@ -15046,7 +15046,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T19:50:46+00:00",
+  "generato": "2026-10-23T20:38:52+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],

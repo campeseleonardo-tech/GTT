@@ -14,6 +14,15 @@ Regole fissate prima di vedere i numeri (blocco L6 di sviluppo/piani/PROMPT_LAVO
     la media dei due giorni; circa 1.200 richieste;
   - controllo: sui 6 percorsi da Piazza Castello (uscita) alle 8 il fattore mediano si confronta col 2,1 di Google; oltre 0,5 di differenza:
     AVVISO e STOP (codice di uscita 4: gli script 93, 94 e 100 NON cambiano finche' Leo non decide).
+CORREZIONE DEL 24/10/2026 (L6bis), decisa DOPO aver visto lo STOP di L6 (TomTom 1,26 contro Google 2,1): i due numeri misuravano cose diverse.
+  - il nostro «tempo a flusso libero» viene dalla rete OSM ai limiti di velocita', senza semafori e incroci: e' troppo veloce;
+  - il fattore di Google (2,1) = (tempo Google - 5) / NOSTRO flusso libero: corregge insieme la rete troppo veloce e il traffico;
+  - il fattore di L6 = tempo TomTom col traffico / tempo TomTom senza traffico: e' solo il traffico (TomTom i semafori li conta gia').
+  Ora per ogni percorso e ora si salvano DUE rapporti (2 decimali, mai i minuti):
+    fattore_rete = tempo TomTom col traffico / nostro flusso libero dello stesso percorso (la stessa grandezza del 2,1 di Google, senza i 5 minuti);
+    congestione  = tempo col traffico / tempo senza traffico (il solo traffico, confrontabile coi sensori 5T).
+  Il nostro flusso libero c'e' solo nel senso in cui i nostri script lo calcolano: i percorsi A in uscita e i B di ritorno danno solo la congestione.
+  Il controllo: mediana di fattore_rete alle 8 sui 6 percorsi B in uscita contro 2,1, soglia 0,5 (invariata).
 Chiave: in config_locale.json («tomtom_chiave», fuori da git). Non viene mai stampata ne' scritta: ogni messaggio d'errore la toglie.
 Risposte grezze: NON si salvano (SALVA_GREZZI = False finche' Leo non ha letto le condizioni d'uso di TomTom). In git e nei rapporti solo
 statistiche per gruppo e ora e, per i percorsi di controllo, il fattore a una cifra. Il file parziale (per riprendere) tiene solo il
@@ -50,7 +59,8 @@ RADICE = comuni.RADICE
 PROC = RADICE / "data" / "processed"
 OUT_JSON = PROC / "tempi_traffico.json"
 RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_TEMPI_TRAFFICO.txt"
-PARZIALE = PROC / "tempi_traffico_parziale.json"
+PARZIALE = PROC / "tempi_traffico_parziale_v2.json"       # v2: due rapporti per richiesta (il parziale di L6 aveva solo la congestione)
+TP_AUTO = PROC / "tp_contro_auto.json"
 R6_BUS = PROC / "r6_bus_contro_auto.json"
 ORE_GIORNO = PROC / "ore_del_giorno.json"
 
@@ -64,7 +74,7 @@ FATTORE_GOOGLE_USCITA = 2.1                                      # controllo: me
 SOGLIA_STOP = 0.5
 FATTORE_MIN, FATTORE_MAX = 1.0, 5.0                              # fuori: AVVISO
 SALVA_GREZZI = False                                             # finche' Leo non ha letto le condizioni d'uso di TomTom
-GRUPPI = ("entrata", "uscita", "controllo_uscita", "controllo_altri", "coppie")
+GRUPPI = ("entrata", "uscita", "controllo_uscita", "controllo_altri", "controllo_ritorno", "coppie")
 
 
 class StopServizio(Exception):
@@ -109,28 +119,32 @@ def richiesta(k, da, a, giorno, ora):
 
 
 def percorsi(m93, solo_controllo):
-    """Elenco di (id, gruppo, nome, (lat, lon) partenza, (lat, lon) arrivo)."""
+    """Elenco di (id, gruppo, nome, (lat, lon) partenza, (lat, lon) arrivo, nostro flusso libero in minuti o None)."""
     out = []
+    t93 = json.loads(TP_AUTO.read_text(encoding="utf-8"))
+    libero_noti = {n["nome"]: n["auto_libero_min"] for n in t93["noti"]}
     # B: gli 8 percorsi noti dello script 93, nei due sensi
     for i, (nome, p, q) in enumerate(m93.NOTI):
         da_castello = p == m93.CASTELLO and i < m93.N_NOTI_TARATURA
-        out.append((f"B{i}a", "controllo_uscita" if da_castello else "controllo_altri", nome, p, q))
-        out.append((f"B{i}r", "controllo_altri", f"{nome.split(' → ')[1]} → {nome.split(' → ')[0]}", q, p))
+        out.append((f"B{i}a", "controllo_uscita" if da_castello else "controllo_altri", nome, p, q, libero_noti[nome]))
+        out.append((f"B{i}r", "controllo_ritorno", f"{nome.split(' → ')[1]} → {nome.split(' → ')[0]}", q, p, None))
     if solo_controllo:
         return out
     # A: punti prioritari e interscambi, verso Piazza Castello e ritorno
     r94 = json.loads(R6_BUS.read_text(encoding="utf-8"))
     for i, l in enumerate(r94["luoghi"]):
         p = (l["lat"], l["lon"])
-        out.append((f"A{i}e", "entrata", f"{l['nome']} → Piazza Castello", p, m93.CASTELLO))
-        out.append((f"A{i}u", "uscita", f"Piazza Castello → {l['nome']}", m93.CASTELLO, p))
+        out.append((f"A{i}e", "entrata", f"{l['nome']} → Piazza Castello", p, m93.CASTELLO, l["libero_min"]))
+        out.append((f"A{i}u", "uscita", f"Piazza Castello → {l['nome']}", m93.CASTELLO, p, None))
     # C: le coppie con piu' auto del mattino, dal punto di maggior peso di ogni zona
     zone = m93.carica_zone(False)
     ore = json.loads(ORE_GIORNO.read_text(encoding="utf-8"))["ore"][0]["coppie"]
     ore = sorted(ore, key=lambda x: -x["auto"])[:N_COPPIE]
+    libero_coppie = {(x["da"], x["a"]): x["libero_min"] for x in t93["coppie"]}
     for i, cp in enumerate(ore):
         pa, pb = zone[cp["da"]]["punti"][0], zone[cp["a"]]["punti"][0]
-        out.append((f"C{i}", "coppie", f"{zone[cp['da']]['nome']} → {zone[cp['a']]['nome']}", (pa["lat"], pa["lon"]), (pb["lat"], pb["lon"])))
+        out.append((f"C{i}", "coppie", f"{zone[cp['da']]['nome']} → {zone[cp['a']]['nome']}", (pa["lat"], pa["lon"]), (pb["lat"], pb["lon"]),
+                    libero_coppie[(cp["da"], cp["a"])]))
     return out
 
 
@@ -157,7 +171,7 @@ def main():
         cartella = Path(tempfile.mkdtemp(prefix="tempi_traffico_prova_"))
         out_json, rapporto, parziale = cartella / OUT_JSON.name, cartella / RAPPORTO.name, cartella / PARZIALE.name
         print(f"PROVA con risposte finte: uscite in {cartella}")
-        elenco = [(i, g, n, (45.0 + .001 * k, 7.6), (45.07, 7.68)) for k, (i, g, n) in enumerate(
+        elenco = [(i, g, n, (45.0 + .001 * k, 7.6), (45.07, 7.68), None if g in ("uscita", "controllo_ritorno") else 8.0) for k, (i, g, n) in enumerate(
             [(f"B{k}", "controllo_uscita", f"p{k}") for k in range(6)] + [(f"A{k}", "entrata", f"a{k}") for k in range(5)]
             + [(f"U{k}", "uscita", f"u{k}") for k in range(5)] + [(f"C{k}", "coppie", f"c{k}") for k in range(10)])]
     else:
@@ -186,12 +200,13 @@ def main():
                     if chiave_r in risposte:
                         continue
                     if args.prova:
-                        risposte[chiave_r] = finti[(p[0], str(g), ora)]
+                        cg = finti[(p[0], str(g), ora)]
+                        risposte[chiave_r] = [round(cg * 1.5, 3) if p[5] else None, cg]
                         continue
-                    tt, nt = richiesta(k, p[3], p[4], g, ora)
+                    tt, nt = richiesta(k, p[3], p[4], g, ora)   # minuti: solo in memoria
                     if tt <= 0 or nt <= 0:
                         c("tempi della risposta maggiori di zero", False, bloccante=True, dettaglio=p[0])
-                    risposte[chiave_r] = round(tt / nt, 3)
+                    risposte[chiave_r] = [round(tt / (p[5] * 60), 3) if p[5] else None, round(tt / nt, 3)]
                     fatte += 1
                     if fatte % 25 == 0:
                         parziale.write_text(json.dumps(risposte), encoding="utf-8")
@@ -208,21 +223,43 @@ def main():
         print(f"STOP: {interrotto}. Salvate {len(risposte)} richieste su {totale} in {parziale.name}: rilancia per riprendere.")
         return 3
 
-    # fattore di ogni percorso e ora = media dei giorni; poi statistiche per gruppo e ora
-    per_perc = {p[0]: {ora: float(np.mean([risposte[f"{p[0]}|{g}|{ora}"] for g in giorni])) for ora in ORE} for p in elenco}
-    stats = {g: {ora: stat([per_perc[p[0]][ora] for p in elenco if p[1] == g]) for ora in ORE} for g in GRUPPI if any(p[1] == g for p in elenco)}
-    tutti = [v for d in per_perc.values() for v in d.values()]
-    c(f"fattori fra {FATTORE_MIN:g} e {FATTORE_MAX:g}", all(FATTORE_MIN <= v <= FATTORE_MAX for v in tutti),
-      dettaglio=f"da {min(tutti):.2f} a {max(tutti):.2f}; fuori: {sum(1 for v in tutti if not FATTORE_MIN <= v <= FATTORE_MAX)} su {len(tutti)}")
-    controllo = stats["controllo_uscita"]["08:00"]["mediana"]
+    # per ogni percorso e ora: media dei giorni, per i due rapporti (fattore_rete solo dove c'e' il nostro flusso libero)
+    def media(pid, ora, i):
+        v = [risposte[f"{pid}|{g}|{ora}"][i] for g in giorni]
+        return None if any(x is None for x in v) else float(np.mean(v))
+
+    per_perc = {p[0]: {ora: {"fattore_rete": media(p[0], ora, 0), "congestione": media(p[0], ora, 1)} for ora in ORE} for p in elenco}
+    stats = {}
+    for g in GRUPPI:
+        if not any(p[1] == g for p in elenco):
+            continue
+        stats[g] = {}
+        for ora in ORE:
+            voce = {"congestione": stat([per_perc[p[0]][ora]["congestione"] for p in elenco if p[1] == g])}
+            fr = [per_perc[p[0]][ora]["fattore_rete"] for p in elenco if p[1] == g and per_perc[p[0]][ora]["fattore_rete"] is not None]
+            if fr:
+                voce["fattore_rete"] = stat(fr)
+            stats[g][ora] = voce
+    cong = [d[ora]["congestione"] for d in per_perc.values() for ora in ORE]
+    rete = [d[ora]["fattore_rete"] for d in per_perc.values() for ora in ORE if d[ora]["fattore_rete"] is not None]
+    c(f"congestione fra {FATTORE_MIN:g} e {FATTORE_MAX:g}", all(FATTORE_MIN <= v <= FATTORE_MAX for v in cong),
+      dettaglio=f"da {min(cong):.2f} a {max(cong):.2f}; fuori: {sum(1 for v in cong if not FATTORE_MIN <= v <= FATTORE_MAX)} su {len(cong)}")
+    c(f"fattore_rete fra {FATTORE_MIN:g} e {FATTORE_MAX:g}", all(FATTORE_MIN <= v <= FATTORE_MAX for v in rete),
+      dettaglio=f"da {min(rete):.2f} a {max(rete):.2f}; fuori: {sum(1 for v in rete if not FATTORE_MIN <= v <= FATTORE_MAX)} su {len(rete)}")
+    controllo = stats["controllo_uscita"]["08:00"]["fattore_rete"]["mediana"]
     stop = abs(controllo - FATTORE_GOOGLE_USCITA) > SOGLIA_STOP
-    c(f"6 percorsi in uscita alle 8: fattore del servizio vicino al 2,1 di Google (entro {SOGLIA_STOP:g})", not stop,
+    c(f"6 percorsi in uscita alle 8: fattore_rete del servizio vicino al 2,1 di Google (entro {SOGLIA_STOP:g})", not stop,
       dettaglio=f"mediana {controllo:.2f} contro {FATTORE_GOOGLE_USCITA:g}" + (" -> STOP: decide Leo" if stop else ""))
 
     nomi = {p[0]: p for p in elenco}
-    controllo_b = [{"percorso": nomi[i][2], "gruppo": nomi[i][1], "fattori": {ora: round(v, 1) for ora, v in d.items()}}
+    controllo_b = [{"percorso": nomi[i][2], "gruppo": nomi[i][1],
+                    "fattore_rete": {ora: (None if v["fattore_rete"] is None else round(v["fattore_rete"], 2)) for ora, v in d.items()},
+                    "congestione": {ora: round(v["congestione"], 2) for ora, v in d.items()}}
                    for i, d in per_perc.items() if i.startswith("B")]
-    out = {"fonte": "TomTom Routing API (tempo col traffico tipico / tempo senza traffico, partenza in un giorno futuro)", "prova": bool(args.prova),
+    out = {"fonte": "TomTom Routing API (tempo col traffico tipico, partenza in un giorno futuro)",
+           "definizioni": {"fattore_rete": "tempo TomTom col traffico / nostro flusso libero dello stesso percorso (come il 2,1 di Google, senza i 5 minuti)",
+                           "congestione": "tempo TomTom col traffico / tempo TomTom senza traffico (solo il traffico)"},
+           "correzione_24_10": "decisa dopo aver visto lo STOP di L6: il primo confronto (congestione 1,26 contro 2,1) metteva a confronto grandezze diverse", "prova": bool(args.prova),
            "solo_controllo": bool(args.solo_controllo), "giorni": [str(g) for g in giorni], "ore": list(ORE), "richieste": len(risposte),
            "grezzi_salvati": SALVA_GREZZI, "stop": stop, "gruppi": stats, "controllo_B": controllo_b, "controlli": list(c.righe)}
     out_json.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -230,11 +267,17 @@ def main():
          f"generato: {dt.datetime.now().isoformat(timespec='seconds')}", "",
          f"Giorni di partenza: {', '.join(str(g) for g in giorni)}; ore: {', '.join(ORE)} (ora italiana); richieste: {len(risposte)}.",
          "Fattore = tempo col traffico tipico / tempo senza traffico, media dei giorni. Le risposte grezze non sono salvate.", "",
+         "fattore_rete = tempo col traffico / nostro flusso libero (come il 2,1 di Google); congestione = tempo col traffico / tempo senza traffico (come i sensori).",
+         "Correzione del 24/10, decisa dopo aver visto lo STOP di L6: il primo confronto metteva a confronto grandezze diverse.", "",
          "FATTORE PER GRUPPO E ORA: mediana (25° - 75° percentile), numero di percorsi"]
     for g, d in stats.items():
-        r.append(f"  {g}: " + " | ".join(f"{ora} {s['mediana']:.2f} ({s['q1']:.2f}-{s['q3']:.2f}), n {s['n']}" for ora, s in d.items()))
-    r += ["", "PERCORSI DI CONTROLLO (fattore a una cifra)"]
-    r += [f"  {b['percorso']} [{b['gruppo']}]: " + " | ".join(f"{ora} {f:g}" for ora, f in b["fattori"].items()) for b in controllo_b]
+        for nome_f in ("fattore_rete", "congestione"):
+            if any(nome_f in s for s in d.values()):
+                r.append(f"  {g}, {nome_f}: " + " | ".join(f"{ora} {s[nome_f]['mediana']:.2f} ({s[nome_f]['q1']:.2f}-{s[nome_f]['q3']:.2f}), n {s[nome_f]['n']}"
+                                                          for ora, s in d.items() if nome_f in s))
+    r += ["", "PERCORSI DI CONTROLLO (2 decimali): fattore_rete / congestione"]
+    r += [f"  {b['percorso']} [{b['gruppo']}]: " + " | ".join(
+        f"{ora} {'-' if b['fattore_rete'][ora] is None else format(b['fattore_rete'][ora], '.2f')} / {b['congestione'][ora]:.2f}" for ora in ORE) for b in controllo_b]
     r += ["", "CONTROLLI"] + [f"  {x}" for x in c.righe]
     rapporto.write_text("\n".join(r) + "\n", encoding="utf-8")
     print(f"scritti {out_json.name} e {rapporto.name}")

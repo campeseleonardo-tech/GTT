@@ -1,88 +1,88 @@
 RAPPORTO R6: IL BUS CONTRO L'AUTO VERSO PIAZZA CASTELLO (Risultato 6, parte C, STIMATO)
-generato: 2026-10-23T20:02:23
+generato: 2026-10-23T22:36:27
 
 Mezzi pubblici: r5py, giorno 2026-10-12, partenza 7:45-8:15, mediana, cammino a 4.8 km/h.
-Auto: flusso libero x fattore di punta + 5 minuti. Fattori dello script 93: basso 2.1 (Google Maps), alto 1.2 (sensori 5T).
-Rapporto = tempo coi mezzi / tempo in auto. Regola fissata prima dei numeri:
-  il bus conviene: rapporto <= 1,5 con entrambi i fattori; dipende dal traffico: <= 1,5 solo col fattore basso; il bus non conviene: oltre 1,5 con entrambi.
+Auto: flusso libero x fattore di punta + 5 minuti. Due stime: 2.59 (TomTom (script 101), mediana di fattore_rete dei punti in entrata alle 8) e 1.2 (sensori 5T, solo traffico: la piu' favorevole all'auto).
+Rapporto = tempo coi mezzi / tempo in auto. Regola della classe (blocco R6 originale, invariata):
+  il bus conviene: rapporto <= 1,5 con entrambe le stime; dipende dal traffico: <= 1,5 solo con la seconda stima; il bus non conviene: oltre 1,5 con entrambe.
 
-PUNTI PRIORITARI DEL R6: 0 il bus conviene, 1 dipende dal traffico, 11 il bus non conviene (su 12)
+PUNTI PRIORITARI DEL R6: 0 il bus conviene, 7 dipende dal traffico, 5 il bus non conviene (su 12)
   luogo | mancano | mezzi min | auto min (fattore alto-basso) | rapporto (basso-alto) | classe
-  SANTA RITA | 450 | 36.0 | 13.7-20.2 | 1.78-2.63 | il bus non conviene
-  METRO MASSAUA | 350 | 25.0 | 15.1-22.7 | 1.10-1.66 | dipende dal traffico
-  PONTE CAVALIERI TEMPLARI | 350 | 51.0 | 18.2-28.0 | 1.82-2.80 | il bus non conviene
-  REGINA MARGHERITA | 350 | 31.0 | 11.6-16.6 | 1.87-2.67 | il bus non conviene
-  PASINI | 250 | 28.0 | 12.1-17.4 | 1.61-2.31 | il bus non conviene
-  LEONARDO DA VINCI | 200 | 59.0 | 19.9-31.1 | 1.90-2.96 | il bus non conviene
-  DROSSO CAP | 200 | 43.0 | 17.4-26.7 | 1.61-2.47 | il bus non conviene
-  STURA LAZIO | 200 | 37.0 | 14.3-21.3 | 1.74-2.59 | il bus non conviene
-  MARSÈ | 150 | 61.0 | 23.2-36.8 | 1.66-2.63 | il bus non conviene
-  DERNA EST | 100 | 34.0 | 13.8-20.4 | 1.67-2.46 | il bus non conviene
-  FERRARA | 80 | 49.0 | 19.9-31.0 | 1.58-2.46 | il bus non conviene
-  ZARA | 60 | 33.0 | 11.9-17.1 | 1.93-2.77 | il bus non conviene
+  SANTA RITA | 450 | 36.0 | 13.7-23.7 | 1.52-2.63 | il bus non conviene
+  METRO MASSAUA | 350 | 25.0 | 15.1-26.9 | 0.93-1.66 | dipende dal traffico
+  PONTE CAVALIERI TEMPLARI | 350 | 51.0 | 18.2-33.4 | 1.53-2.80 | il bus non conviene
+  REGINA MARGHERITA | 350 | 31.0 | 11.6-19.3 | 1.61-2.67 | il bus non conviene
+  PASINI | 250 | 28.0 | 12.1-20.3 | 1.38-2.31 | dipende dal traffico
+  LEONARDO DA VINCI | 200 | 59.0 | 19.9-37.2 | 1.59-2.96 | il bus non conviene
+  DROSSO CAP | 200 | 43.0 | 17.4-31.8 | 1.35-2.47 | dipende dal traffico
+  STURA LAZIO | 200 | 37.0 | 14.3-25.2 | 1.47-2.59 | dipende dal traffico
+  MARSÈ | 150 | 61.0 | 23.2-44.2 | 1.38-2.63 | dipende dal traffico
+  DERNA EST | 100 | 34.0 | 13.8-24.0 | 1.42-2.46 | dipende dal traffico
+  FERRARA | 80 | 49.0 | 19.9-37.1 | 1.32-2.46 | dipende dal traffico
+  ZARA | 60 | 33.0 | 11.9-19.9 | 1.66-2.77 | il bus non conviene
 
-INTERSCAMBI ESISTENTI: 0 il bus conviene, 3 dipende, 2 non conviene (su 5)
+INTERSCAMBI ESISTENTI: 0 il bus conviene, 5 dipende, 0 non conviene (su 5)
   luogo | stato | mezzi min | auto min (fattore alto-basso) | rapporto (basso-alto) | classe
-  STURA | pieno | 39.0 | 17.3-26.6 | 1.47-2.25 | dipende dal traffico
-  VENCHI UNICA | a_meta | 28.0 | 16.0-24.2 | 1.16-1.75 | dipende dal traffico
-  CAIO MARIO | libero | 38.0 | 16.0-24.3 | 1.56-2.38 | il bus non conviene
-  FERMI | non_misurato | 31.0 | 18.6-28.9 | 1.07-1.67 | dipende dal traffico
-  SOFIA | libero | 33.0 | 13.3-19.6 | 1.68-2.48 | il bus non conviene
+  STURA | pieno | 39.0 | 17.3-31.6 | 1.23-2.25 | dipende dal traffico
+  VENCHI UNICA | a_meta | 28.0 | 16.0-28.7 | 0.98-1.75 | dipende dal traffico
+  CAIO MARIO | libero | 38.0 | 16.0-28.8 | 1.32-2.38 | dipende dal traffico
+  FERMI | non_misurato | 31.0 | 18.6-34.4 | 0.90-1.67 | dipende dal traffico
+  SOFIA | libero | 33.0 | 13.3-23.0 | 1.43-2.48 | dipende dal traffico
 
 MINUTI DI PAREGGIO: minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (fattore basso - alto; 0 = il bus e' gia' piu' veloce)
-  mediana dei punti prioritari: 20.85 - 27.5 minuti
-  mediana degli interscambi:    17.4 - 24.7 minuti
+  mediana dei punti prioritari: 16.85 - 27.5 minuti
+  mediana degli interscambi:    12.4 - 24.7 minuti
   luogo | tipo | stato | minuti di pareggio (basso - alto)
-  FERMI | interscambio | non_misurato | 7.1 - 17.4
-  VENCHI UNICA | interscambio | a_meta | 8.8 - 17
-  STURA | interscambio | pieno | 17.4 - 26.7
-  SOFIA | interscambio | libero | 18.4 - 24.7
-  CAIO MARIO | interscambio | libero | 18.7 - 27
-  METRO MASSAUA | punto_prioritario | - | 7.3 - 14.9
-  PASINI | punto_prioritario | - | 15.6 - 20.9
-  DERNA EST | punto_prioritario | - | 18.6 - 25.2
-  REGINA MARGHERITA | punto_prioritario | - | 19.4 - 24.4
-  STURA LAZIO | punto_prioritario | - | 20.7 - 27.7
-  SANTA RITA | punto_prioritario | - | 20.8 - 27.3
-  ZARA | punto_prioritario | - | 20.9 - 26.1
-  DROSSO CAP | punto_prioritario | - | 21.3 - 30.6
-  FERRARA | punto_prioritario | - | 23 - 34.1
-  PONTE CAVALIERI TEMPLARI | punto_prioritario | - | 28 - 37.8
-  MARSÈ | punto_prioritario | - | 29.2 - 42.8
-  LEONARDO DA VINCI | punto_prioritario | - | 32.9 - 44.1
+  FERMI | interscambio | non_misurato | 1.6 - 17.4
+  VENCHI UNICA | interscambio | a_meta | 4.3 - 17
+  STURA | interscambio | pieno | 12.4 - 26.7
+  CAIO MARIO | interscambio | libero | 14.2 - 27
+  SOFIA | interscambio | libero | 15 - 24.7
+  METRO MASSAUA | punto_prioritario | - | 3.1 - 14.9
+  PASINI | punto_prioritario | - | 12.7 - 20.9
+  DERNA EST | punto_prioritario | - | 15 - 25.2
+  DROSSO CAP | punto_prioritario | - | 16.2 - 30.6
+  REGINA MARGHERITA | punto_prioritario | - | 16.7 - 24.4
+  STURA LAZIO | punto_prioritario | - | 16.8 - 27.7
+  FERRARA | punto_prioritario | - | 16.9 - 34.1
+  SANTA RITA | punto_prioritario | - | 17.3 - 27.3
+  ZARA | punto_prioritario | - | 18.1 - 26.1
+  MARSÈ | punto_prioritario | - | 21.8 - 42.8
+  PONTE CAVALIERI TEMPLARI | punto_prioritario | - | 22.6 - 37.8
+  LEONARDO DA VINCI | punto_prioritario | - | 26.8 - 44.1
 
 SENSIBILITA': MINUTI PER PARCHEGGIARE IN CENTRO (la classe ufficiale e' quella con 5)
   minuti | punti: conviene / dipende / non conviene | interscambi: conviene / dipende / non conviene
-  5 | 0 / 1 / 11 | 0 / 3 / 2
-  10 | 1 / 9 / 2 | 2 / 3 / 0
+  5 | 0 / 7 / 5 | 0 / 5 / 0
+  10 | 1 / 11 / 0 | 2 / 3 / 0
   15 | 4 / 8 / 0 | 5 / 0 / 0
   luogo: classe con 5 | 10 | 15 minuti
   SANTA RITA: il bus non conviene | dipende dal traffico | dipende dal traffico
   METRO MASSAUA: dipende dal traffico | il bus conviene | il bus conviene
-  PONTE CAVALIERI TEMPLARI: il bus non conviene | il bus non conviene | dipende dal traffico
+  PONTE CAVALIERI TEMPLARI: il bus non conviene | dipende dal traffico | dipende dal traffico
   REGINA MARGHERITA: il bus non conviene | dipende dal traffico | il bus conviene
-  PASINI: il bus non conviene | dipende dal traffico | il bus conviene
-  LEONARDO DA VINCI: il bus non conviene | il bus non conviene | dipende dal traffico
-  DROSSO CAP: il bus non conviene | dipende dal traffico | dipende dal traffico
-  STURA LAZIO: il bus non conviene | dipende dal traffico | dipende dal traffico
-  MARSÈ: il bus non conviene | dipende dal traffico | dipende dal traffico
-  DERNA EST: il bus non conviene | dipende dal traffico | il bus conviene
-  FERRARA: il bus non conviene | dipende dal traffico | dipende dal traffico
+  PASINI: dipende dal traffico | dipende dal traffico | il bus conviene
+  LEONARDO DA VINCI: il bus non conviene | dipende dal traffico | dipende dal traffico
+  DROSSO CAP: dipende dal traffico | dipende dal traffico | dipende dal traffico
+  STURA LAZIO: dipende dal traffico | dipende dal traffico | dipende dal traffico
+  MARSÈ: dipende dal traffico | dipende dal traffico | dipende dal traffico
+  DERNA EST: dipende dal traffico | dipende dal traffico | il bus conviene
+  FERRARA: dipende dal traffico | dipende dal traffico | dipende dal traffico
   ZARA: il bus non conviene | dipende dal traffico | dipende dal traffico
   STURA: dipende dal traffico | dipende dal traffico | il bus conviene
   VENCHI UNICA: dipende dal traffico | il bus conviene | il bus conviene
-  CAIO MARIO: il bus non conviene | dipende dal traffico | il bus conviene
+  CAIO MARIO: dipende dal traffico | dipende dal traffico | il bus conviene
   FERMI: dipende dal traffico | il bus conviene | il bus conviene
-  SOFIA: il bus non conviene | dipende dal traffico | il bus conviene
+  SOFIA: dipende dal traffico | dipende dal traffico | il bus conviene
 
-Interscambi esistenti del Comune, stesso test. STURA (pieno): 39 minuti coi mezzi contro 17-27 in auto (rapporto 1,5-2,2); dipende dal traffico. VENCHI UNICA (a meta): 28 minuti coi mezzi contro 16-24 in auto (rapporto 1,2-1,8); dipende dal traffico. CAIO MARIO (libero): 38 minuti coi mezzi contro 16-24 in auto (rapporto 1,6-2,4); il bus non conviene. FERMI (non misurato): 31 minuti coi mezzi contro 19-29 in auto (rapporto 1,1-1,7); dipende dal traffico. SOFIA (libero): 33 minuti coi mezzi contro 13-20 in auto (rapporto 1,7-2,5); il bus non conviene. Quelli poco pieni: da VENCHI UNICA dipende dal traffico; da SOFIA il bus non conviene.
+Interscambi esistenti del Comune, stesso test. STURA (pieno): 39 minuti coi mezzi contro 17-32 in auto (rapporto 1,2-2,2); dipende dal traffico. VENCHI UNICA (a meta): 28 minuti coi mezzi contro 16-29 in auto (rapporto 1,0-1,8); dipende dal traffico. CAIO MARIO (libero): 38 minuti coi mezzi contro 16-29 in auto (rapporto 1,3-2,4); dipende dal traffico. FERMI (non misurato): 31 minuti coi mezzi contro 19-34 in auto (rapporto 0,9-1,7); dipende dal traffico. SOFIA (libero): 33 minuti coi mezzi contro 13-23 in auto (rapporto 1,4-2,5); dipende dal traffico. Quelli poco pieni: da VENCHI UNICA dipende dal traffico; da SOFIA dipende dal traffico.
 
 CONTROLLI
   OK     esistono porte.json e tp_contro_auto.json (lancia prima gli script 84 e 93)
-  OK     fattori letti dal JSON dello script 93 (calcolo completo, non prova) — alto 1.2 (sensori), basso 2.1 (Google)
+  OK     fattori letti dal JSON dello script 93 (calcolo completo, non prova) — alto 1.2 (sensori), basso 2.59 (Google)
   OK     tutti i 12 punti prioritari del R6 e i 5 interscambi presenti — 12 punti + 5 interscambi
-  OK     minuti di pareggio fra 0 e 120 — da 7.1 a 44.1
-  OK     mediana dei punti: col fattore alto >= col fattore basso — basso 20.85, alto 27.5
+  OK     minuti di pareggio fra 0 e 120 — da 1.6 a 44.1
+  OK     mediana dei punti: col fattore alto >= col fattore basso — basso 16.85, alto 27.5
   OK     la sensibilita' con 5 minuti coincide con la classe ufficiale
   OK     nessun tempo nullo, negativo o infinito
   OK     tutti i punti del R6 hanno una classe

@@ -75,6 +75,11 @@ def main():
     c(f"esistono {PORTE.name} e {TP_AUTO.name} (lancia prima gli script 84 e 93)", PORTE.exists() and TP_AUTO.exists(), bloccante=True)
     t93 = json.loads(TP_AUTO.read_text(encoding="utf-8"))
     f_alto, f_basso = t93["parametri"]["fattore_punta"], t93["parametri"]["fattore_basso_google"]
+    # L6bis (24/10/2026): per i punti verso Piazza Castello la seconda stima usa il fattore del servizio di percorsi in ENTRATA (script 101), se c'e'
+    f_ent = comuni.fattore_servizio("entrata", "08:00")
+    fonte_basso = "TomTom (script 101), mediana di fattore_rete dei punti in entrata alle 8" if f_ent else t93["parametri"].get("forbice", {}).get("limite_basso", {}).get("fonte", "Google Maps")
+    if f_ent:
+        f_basso = round(float(f_ent), 2)
     c("fattori letti dal JSON dello script 93 (calcolo completo, non prova)", not t93["parametri"].get("prova"),
       dettaglio=f"alto {f_alto:g} (sensori), basso {f_basso:g} (Google)", bloccante=True)
     porte = json.loads(PORTE.read_text(encoding="utf-8"))
@@ -180,7 +185,7 @@ def main():
     out = {"stimato": True,
            "parametri": {"destinazione": "Piazza Castello", "giorno": str(m93.GIORNO), "partenza": f"{m93.PARTENZA:%H:%M}", "finestra_min": m93.FINESTRA_MIN,
                          "velocita_piedi_kmh": m93.VEL_PIEDI_KMH, "minuti_parcheggio": m93.MIN_PARCHEGGIO, "fattore_alto": f_alto,
-                         "fattore_basso": f_basso, "soglia_rapporto": SOGLIA, "punti_spostati": spostati},
+                         "fattore_basso": f_basso, "fonte_basso": fonte_basso, "soglia_rapporto": SOGLIA, "punti_spostati": spostati},
            "regola": {"conviene": "rapporto <= 1,5 con entrambi i fattori", "dipende": "rapporto <= 1,5 solo col fattore basso",
                       "non_conviene": "rapporto oltre 1,5 con entrambi"},
            "pareggio": pareggio,
@@ -192,9 +197,9 @@ def main():
     r = ["RAPPORTO R6: IL BUS CONTRO L'AUTO VERSO PIAZZA CASTELLO (Risultato 6, parte C, STIMATO)",
          f"generato: {dt.datetime.now().isoformat(timespec='seconds')}", "",
          f"Mezzi pubblici: r5py, giorno {m93.GIORNO}, partenza 7:45-8:15, mediana, cammino a {m93.VEL_PIEDI_KMH:g} km/h.",
-         f"Auto: flusso libero x fattore di punta + {m93.MIN_PARCHEGGIO:.0f} minuti. Fattori dello script 93: basso {f_basso:g} (Google Maps), alto {f_alto:g} (sensori 5T).",
-         "Rapporto = tempo coi mezzi / tempo in auto. Regola fissata prima dei numeri:",
-         "  il bus conviene: rapporto <= 1,5 con entrambi i fattori; dipende dal traffico: <= 1,5 solo col fattore basso; il bus non conviene: oltre 1,5 con entrambi.", "",
+         f"Auto: flusso libero x fattore di punta + {m93.MIN_PARCHEGGIO:.0f} minuti. Due stime: {f_basso:g} ({fonte_basso}) e {f_alto:g} (sensori 5T, solo traffico: la piu' favorevole all'auto).",
+         "Rapporto = tempo coi mezzi / tempo in auto. Regola della classe (blocco R6 originale, invariata):",
+         "  il bus conviene: rapporto <= 1,5 con entrambe le stime; dipende dal traffico: <= 1,5 solo con la seconda stima; il bus non conviene: oltre 1,5 con entrambe.", "",
          f"PUNTI PRIORITARI DEL R6: {conta['conviene']} il bus conviene, {conta['dipende']} dipende dal traffico, {conta['non_conviene']} il bus non conviene (su {len(punti)})",
          "  luogo | mancano | mezzi min | auto min (fattore alto-basso) | rapporto (basso-alto) | classe"]
     for l in punti:

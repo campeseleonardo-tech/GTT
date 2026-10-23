@@ -260,10 +260,10 @@ def forma_r6(s):
     # messaggio: minuti di pareggio = minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (script 94, senza soglie scelte da noi)
     pm = ba["pareggio"]["punti"]
     lo_m, hi_m = round(pm["mediana_basso_min"]), round(pm["mediana_alto_min"])
-    forbice_m = f"{lo_m} minuti (stima Google) o {hi_m} (stima sensori)" if hi_m != lo_m else f"{lo_m} minuti"
+    forbice_m = f"{lo_m} minuti (stima TomTom) o {hi_m} (stima sensori)" if hi_m != lo_m else f"{lo_m} minuti"
     pb = sorted((l for l in ba["luoghi"][:n_punti_ba] if l["pareggio_basso_min"] is not None), key=lambda l: l["pareggio_basso_min"])
     pareggio_g = {"tipo": "barre", "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto", "unita": "minuti",
-                  "nota": "Verso Piazza Castello alle 8. Barra scura = stima con il rallentamento di Google, barra chiara = stima con il rallentamento dei sensori. "
+                  "nota": "Verso Piazza Castello alle 8. Barra scura = stima con il rallentamento di TomTom, barra chiara = stima con il rallentamento dei sensori. "
                           "Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
                   "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["pareggio_basso_min"]), "prima": round(l["pareggio_alto_min"]),
                             "testo": f"{round(l['pareggio_basso_min'])}–{round(l['pareggio_alto_min'])} min"} for l in pb]}
@@ -277,9 +277,9 @@ def forma_r6(s):
     gara_g = {"tipo": "gara", "titolo": ("La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale" if od
                          else "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale"),
               "nota": f"Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: "
-                      f"{f_ba_hi} (stima con il rallentamento dei sensori) e {f_ba_lo} (stima con quello di Google, auto chiara).",
+                      f"{f_ba_hi} (stima con il rallentamento dei sensori) e {f_ba_lo} (stima con quello di TomTom, auto chiara).",
               "luoghi": luoghi_gara, "scelto": scelto}
-    mi = lambda l: f"{round(l['pareggio_basso_min'])} minuti (stima Google) o {round(l['pareggio_alto_min'])} (stima sensori)" if l["pareggio_basso_min"] is not None else "nessun collegamento"
+    mi = lambda l: f"{round(l['pareggio_basso_min'])} minuti (stima TomTom) o {round(l['pareggio_alto_min'])} (stima sensori)" if l["pareggio_basso_min"] is not None else "nessun collegamento"
     migliore = pb[0] if pb else None
     if migliore:
         gara_g["nota"] += f" Il punto più promettente è {nome_pulito(migliore['nome'])}: lì bastano {mi(migliore)} persi a parcheggiare in centro."
@@ -304,15 +304,14 @@ def forma_r6(s):
          "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
          f"Auto da fermare: auto che passano per il {quota}% che già oggi lascia l'auto. Posti: parcheggi adatti entro {raggio} metri.",
          "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.",
-         f"Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei {n_punti_ba} punti."],
+         f"Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei {n_punti_ba} punti. Dati di traffico: TomTom."],
         [["Fermate importanti", f"{reg['n_corse']} corse all'ora o metro, e {migliaia(reg['m_auto'])} auto che passano"],
          ["Distanza a piedi", f"{raggio} metri"],
          ["Auto da fermare", f"auto che passano × {quota}%"],
-         ["Bus contro auto", f"verso Piazza Castello alle 8, auto con fattore {f_ba_hi} (sensori) e {f_ba_lo} (Google)"]],
+         ["Bus contro auto", f"verso Piazza Castello alle 8, auto con fattore {f_ba_hi} (sensori) e {f_ba_lo} (TomTom)"]],
         ["Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
-         ("I tempi coi mezzi sono solo GTT, senza treni. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato."
-          if od else f"I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto ha due stime del rallentamento, {f_ba_hi} e {f_ba_lo}: il valore vero può stare anche fuori."),
-         "Il rallentamento di Google è stato misurato su 6 percorsi in uscita dal centro. In entrata l'auto può essere più lenta.",
+         "I tempi coi mezzi sono solo GTT, senza treni. La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
+         "La stima di TomTom è un tempo previsto su traffico tipico, non misurato. Usiamo un solo servizio.",
          "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."],
         anima=anima_fermate(fermate, punti, n_ok, n_pochi, n_nessun))
 

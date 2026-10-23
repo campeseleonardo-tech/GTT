@@ -1,14 +1,14 @@
 RAPPORTO - Area che si espande (script 99)
-generato 2026-10-23T17:58:15+00:00
+generato 2026-10-23T20:36:20+00:00
 
 Sezioni di Torino: 4044; senza collegamento coi mezzi entro 120 minuti: 2
-Fattori di punta: 1.2 (sensori 5T) e 2.1 (Google Maps), + 5 minuti di parcheggio
+Fattori di punta: 1.2 (sensori 5T) e 2.45 (Google Maps), + 5 minuti di parcheggio
 
 Residenti di Torino raggiunti da Piazza Castello (%):
   minuti            10      20      30      45
   coi mezzi        1.6    11.5    42.2    90.6
   auto x1.2       16.5    99.2   100.0   100.0
-  auto x2.1        2.3    60.0    98.8   100.0
+  auto x2.45       1.3    43.3    93.9   100.0
 
 Controlli:
   OK     nessun tempo negativo

@@ -62,7 +62,7 @@ VELOCITA_5T = PROC / "velocita_5t.json"
 ORE_NOTTE = (2, 3, 4)               # strade libere: dalle 2 alle 5
 ORA_PUNTA = 8
 MIN_PARCHEGGIO = 5.0
-FASCE = (1.5, 2.0, 3.0)             # fasce fisse del rapporto TP/auto, decise prima di vedere i numeri
+FASCE = (1.5, 2.0, 3.0)             # fasce fisse del rapporto TP/auto, scelte dopo le prime prove (il metodo e' cambiato 4 volte il 21/10)
 VEL_PIEDI_KMH = 4.8                 # 80 m al minuto, come lo script 18 e tutto il progetto (r5py di serie: 3,6)
 QUOTA_MIN_COLLEGATA = 0.5           # meta' del peso delle coppie di punti con collegamento
 
@@ -297,7 +297,7 @@ def punta(libero, f):
 
 
 def fasce(coppie, f):
-    """auto e coppie per fascia FISSA di rapporto (fissate prima di vedere i numeri)."""
+    """auto e coppie per fascia FISSA di rapporto (scelte dopo le prime prove)."""
     tot = sum(p["auto"] for p in coppie)
     estremi = [0.0, *FASCE, float("inf")]
     out = []
@@ -355,8 +355,13 @@ def main():
     # fattore del limite basso: Google Maps, 6 percorsi controllati a mano; usato solo per il limite basso della forbice
     liberi = [t_auto[(nodi_extra[k][0], nodi_extra[k][1])] / 60.0 for k in range(len(NOTI))]
     fattori_google = {nome: (GOOGLE_AUTO_MIN[nome] - MIN_PARCHEGGIO) / liberi[k] for k, (nome, _, _) in enumerate(NOTI) if nome in GOOGLE_AUTO_MIN}
-    f_basso = round(float(np.median(list(fattori_google.values()))), 1)
-    log(f"  fattore alto (sensori 5T) {args.fattore:g}; fattore basso (Google Maps, 6 percorsi) {f_basso:g}")
+    f_google = round(float(np.median(list(fattori_google.values()))), 1)
+    # L6bis (24/10/2026): se c'e' il fattore del servizio di percorsi (script 101: tempo TomTom col traffico / nostro flusso libero, mediana delle coppie
+    # alle 8), la seconda stima usa quello; il 2,1 di Google resta come controllo. La chiave JSON resta «fattore_basso_google» (nome storico).
+    f_servizio = comuni.fattore_servizio("coppie", "08:00") if not args.prova else None
+    f_basso = round(float(f_servizio), 2) if f_servizio else f_google
+    fonte_basso = ("TomTom (script 101), mediana di fattore_rete delle coppie alle 8" if f_servizio else "Google Maps, 6 percorsi")
+    log(f"  fattore alto (sensori 5T) {args.fattore:g}; seconda stima ({fonte_basso}) {f_basso:g}; Google a mano {f_google:g}")
     log("D1: tempi coi mezzi pubblici (r5py, cammino a 4,8 km/h) ...")
     ids, T = matrice_tp(zone, NOTI, args.lotto, log)
     pos = {i: k for k, i in enumerate(ids)}
@@ -459,7 +464,7 @@ def main():
     sotto_basso = [n["nome"] for n in con_google if (n["google_auto_min"] - n["auto_punta_basso_min"]) / n["google_auto_min"] > SOGLIA_AVVISO_GOOGLE]
     c(f"fattore alto (sensori): tempo di punta non sotto Google di oltre il {int(SOGLIA_AVVISO_GOOGLE * 100)}% in piu' di meta' dei percorsi",
       len(sotto) <= len(con_google) / 2,
-      dettaglio=f"differenza media {diff_media:+.1f} minuti (nostro meno Google); percorsi molto sotto: {len(sotto)} su {len(con_google)} (atteso: e' il limite alto della forbice)")
+      dettaglio=f"differenza media {diff_media:+.1f} minuti (nostro meno Google); percorsi molto sotto: {len(sotto)} su {len(con_google)} (atteso: e' la stima piu' favorevole all'auto)")
     c(f"fattore basso (Google): tempo di punta non sotto Google di oltre il {int(SOGLIA_AVVISO_GOOGLE * 100)}% in piu' di meta' dei percorsi",
       len(sotto_basso) <= len(con_google) / 2,
       dettaglio=f"differenza media {diff_basso:+.1f} minuti; percorsi molto sotto: {len(sotto_basso)} su {len(con_google)}")
@@ -491,8 +496,8 @@ def main():
         "stimato": True,
         "parametri": {"giorno": str(GIORNO), "partenza": f"{PARTENZA:%H:%M}", "finestra_min": FINESTRA_MIN,
                       "tempo_max_min": TEMPO_MAX_MIN, "velocita_piedi_kmh": VEL_PIEDI_KMH, "punti_per_zona": PUNTI_PER_ZONA,
-                      "ore_auto": list(ORE_MATTINO), "fattore_punta": f_alto, "fattore_basso_google": f_basso,
-                      "forbice": {"limite_alto": {"fattore": f_alto, "fonte": "sensori 5T"}, "limite_basso": {"fattore": f_basso, "fonte": "Google Maps, 6 percorsi"}},
+                      "ore_auto": list(ORE_MATTINO), "fattore_punta": f_alto, "fattore_basso_google": f_basso, "fattore_google_manuale": f_google,
+                      "forbice": {"limite_alto": {"fattore": f_alto, "fonte": "sensori 5T"}, "limite_basso": {"fattore": f_basso, "fonte": fonte_basso}},
                       "fattore_sensori": stat_sensori, "fattori_google_per_percorso": fattori_google,
                       "minuti_parcheggio": MIN_PARCHEGGIO,
                       "fasce": list(FASCE), "n_zone": len(zone), "n_zone_torino": len(torino), "punti_spostati": spostati, "prova": prova},
@@ -503,6 +508,7 @@ def main():
                       "rapporto": round(p["rapporto"], 2), "rapporto_basso": round(p["rapporto_basso"], 2)} for p in peggiori],
         "per_zona": per_zona,
         "coppie": [{"da": p["da"], "a": p["a"], "gruppo": p["gruppo"], "auto": round(p["auto"], 1), "tp_min": round(p["tp_min"], 1),
+                    "libero_min": round(p["libero_min"], 2),
                     "auto_punta_min": round(p["auto_punta_min"], 1), "rapporto": round(p["rapporto"], 2),
                     "auto_punta_basso_min": round(p["auto_punta_basso_min"], 1), "rapporto_basso": round(p["rapporto_basso"], 2)}
                    for p in sorted(coppie, key=lambda p: -p["auto"])],
@@ -525,34 +531,34 @@ def main():
          f"generato: {dt.datetime.now().isoformat(timespec='seconds')}", "",
          f"Zone IMQ con punti: {len(zone)} (zone solo «porta» escluse; {len(torino)} di Torino); fino a {PUNTI_PER_ZONA} punti per zona, i piu' pesanti.",
          f"Tempi coi mezzi: r5py, giorno {GIORNO}, mediana delle partenze 7:45-8:15, mezzi pubblici + cammino a {VEL_PIEDI_KMH:g} km/h, massimo {TEMPO_MAX_MIN} minuti.",
-         f"Tempi in auto: rete del modello del traffico, flusso libero x fattore di punta + {MIN_PARCHEGGIO:.0f} minuti (parcheggio e cammino). Il risultato e' una FORBICE con due fattori:",
-         f"  limite ALTO del rapporto = fattore dei sensori 5T, {f_alto:g}: mediana di (velocita' media 2-5 / velocita' alle 8, feriale) su {stat_sensori['sensori_usati']} sensori "
+         f"Tempi in auto: rete del modello del traffico, flusso libero x fattore di punta + {MIN_PARCHEGGIO:.0f} minuti (parcheggio e cammino). Il risultato e' dato con DUE STIME, non un minimo e un massimo:",
+         f"  stima con il rallentamento dei sensori = fattore dei sensori 5T, {f_alto:g} (solo traffico, senza semafori e incroci: la piu' favorevole all'auto): mediana di (velocita' media 2-5 / velocita' alle 8, feriale) su {stat_sensori['sensori_usati']} sensori "
          f"con dati affidabili (su {stat_sensori['sensori_totali']}; periodo {stat_sensori['periodo']['da']} - {stat_sensori['periodo']['a']}, {stat_sensori['giorni_feriali']} giorni feriali);",
          f"    distribuzione fra sensori: minimo {stat_sensori['minimo']:.2f}, 1° quartile {stat_sensori['q1']:.2f}, mediana {stat_sensori['mediana']:.2f}, "
          f"3° quartile {stat_sensori['q3']:.2f}, massimo {stat_sensori['massimo']:.2f}.",
-         f"  limite BASSO del rapporto = fattore da Google Maps, {f_basso:g}: mediana di (tempo Google - 5) / tempo a flusso libero sui 6 percorsi controllati a mano "
-         f"({', '.join(format(x, '.2f') for x in fattori_google.values())}); usato solo per il limite basso della forbice.",
+         f"  seconda stima = {fonte_basso}, fattore {f_basso:g}: " + ("tempo col traffico del servizio / nostro flusso libero (stessa grandezza del 2,1 di Google). " if f_servizio else "")
+         + f"Google Maps a mano: mediana di (tempo Google - 5) / tempo a flusso libero sui 6 percorsi ({', '.join(format(x, '.2f') for x in fattori_google.values())}) = {f_google:g}.",
          f"Punti agganciati alla parte principale della rete: {spostati['n']} su {spostati['su']} spostati (distanza massima {spostati['max_m']:.0f} m).",
          f"Auto: viaggi IMQ in auto conducente, partenza 6-10, feriale. Totale fra le zone incluse: {totale_zone:,.0f}.",
          "Gruppi: (a) Torino-Torino, (b) Torino-cintura e cintura-Torino, (c) cintura-cintura. Il risultato principale usa (a)+(b).",
-         f"Fasce fisse del rapporto (tempo coi mezzi / tempo in auto), decise prima di vedere i numeri: sotto {FASCE[0]:g}, {FASCE[0]:g}-{FASCE[1]:g}, {FASCE[1]:g}-{FASCE[2]:g}, oltre {FASCE[2]:g}.",
-         "", "TITOLO (gruppi a+b): FORBICE",
+         f"Fasce fisse del rapporto (tempo coi mezzi / tempo in auto), scelte dopo le prime prove (il metodo e' cambiato 4 volte il 21/10): sotto {FASCE[0]:g}, {FASCE[0]:g}-{FASCE[1]:g}, {FASCE[1]:g}-{FASCE[2]:g}, oltre {FASCE[2]:g}.",
+         "", "TITOLO (gruppi a+b): DUE STIME",
          f"  al mattino, coi mezzi pubblici si impiega da {titolo['mediano_basso']:.2f} a {titolo['mediano_alto']:.2f} volte il tempo dell'auto (rapporto mediano pesato per le auto; fattore {f_basso:g} - {f_alto:g})",
          f"  quota di auto con rapporto oltre 2: da {100 * titolo['quota_oltre_2_basso']:.1f}% a {100 * titolo['quota_oltre_2_alto']:.1f}% di {titolo['auto_collegate']:,} auto",
-         "", "FASCE E MEDIANA PER GRUPPO (limite basso | limite alto)"]
+         "", "FASCE E MEDIANA PER GRUPPO (stima seconda | stima dei sensori)"]
     for g in ("a", "b", "ab", "c"):
         gg = gruppi[g]
         r.append(f"  ({g}) {gg['nome']}: {gg['coppie']} coppie, {gg['auto']:,} auto" + (f" - {gg['nota']}" if g == "c" else ""))
-        for nome_l, chiave in (("limite basso (Google)", "limite_basso"), ("limite alto (sensori)", "limite_alto")):
+        for nome_l, chiave in (("seconda stima", "limite_basso"), ("stima dei sensori", "limite_alto")):
             rr = gg[chiave]
             r.append(f"      {nome_l}, fattore {rr['fattore']:g}: mediano {rr['mediano']:.2f}; oltre 2: {100 * rr['quota_oltre_2']:.1f}%")
             r.append(f"         {riga_fasce(rr)}")
         r.append(f"      senza collegamento entro {TEMPO_MAX_MIN} minuti (a parte): {gg['senza_collegamento']['coppie']} coppie, {gg['senza_collegamento']['auto']:,} auto")
-    r += ["", f"LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (rapporto oltre 2 col fattore basso {f_basso:g}; solo gruppi a e b)",
+    r += ["", f"LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (rapporto oltre 2 con la seconda stima, fattore {f_basso:g}; solo gruppi a e b)",
           "  da → a | auto | TP min | auto di punta min (basso-alto) | rapporto (basso-alto)"]
     for p in out["peggiori"]:
         r.append(f"  {p['da_nome']} → {p['a_nome']} | {p['auto']:,} | {p['tp_min']:.0f} | {p['auto_punta_basso_min']:.0f}-{p['auto_punta_min']:.0f} | {p['rapporto_basso']:.1f}-{p['rapporto']:.1f}")
-    r += ["", "PER ZONA: quota delle auto in uscita con rapporto oltre 2, limite basso - limite alto (prime 15, gruppi a+b)"]
+    r += ["", "PER ZONA: quota delle auto in uscita con rapporto oltre 2, seconda stima - stima dei sensori (prime 15, gruppi a+b)"]
     for z in per_zona[:15]:
         r.append(f"  {z['nome']}: {100 * (z['quota_oltre_2_basso'] or 0):.0f}% - {100 * (z['quota_oltre_2_alto'] or 0):.0f}% di {z['auto_uscita']:,} auto")
     r += ["", "NOI CONTRO GOOGLE MAPS (martedì 20/10 alle 8:00; i 6 percorsi da Piazza Castello fissano il fattore basso, i 2 di controllo no)",

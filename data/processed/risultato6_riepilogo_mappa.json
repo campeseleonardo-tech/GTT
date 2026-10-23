@@ -551,7 +551,7 @@
     "scripts/84_risultato6_parcheggi.py",
     "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T19:50:46+00:00",
+  "generato": "2026-10-23T20:38:52+00:00",
   "avviso": [
     "Come leggere i tag. ",
     "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -682,48 +682,48 @@
     "punti": [
       "68 fermate importanti non hanno nessun parcheggio adatto vicino; 111 ne hanno troppo pochi.",
       "Servirebbero posti soprattutto in 12 punti d'ingresso: il primo è Santa Rita, dove ne mancano circa 450.",
-      "Dal parcheggio il bus batte l'auto solo se in centro si perdono minuti a parcheggiare. Servono più di 21 minuti (stima Google) o 28 (stima sensori)."
+      "Dal parcheggio il bus batte l'auto solo se in centro si perdono minuti a parcheggiare. Servono più di 17 minuti (stima TomTom) o 28 (stima sensori)."
     ],
     "altri": [
       {
         "tipo": "gara",
         "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale",
-        "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (stima con il rallentamento dei sensori) e 2,1 (stima con quello di Google, auto chiara). Il punto più promettente è Metro Massaua: lì bastano 7 minuti (stima Google) o 15 (stima sensori) persi a parcheggiare in centro.",
+        "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (stima con il rallentamento dei sensori) e 2,6 (stima con quello di TomTom, auto chiara). Il punto più promettente è Metro Massaua: lì bastano 3 minuti (stima TomTom) o 15 (stima sensori) persi a parcheggiare in centro.",
         "luoghi": [
           {
             "nome": "Santa Rita",
             "gruppo": "Punti prioritari",
             "bus": 36.0,
             "auto_min": 13.7,
-            "auto_max": 20.2,
+            "auto_max": 23.7,
             "giudizio": "il bus non conviene",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 36.0,
                 "auto_min": 13.7,
-                "auto_max": 20.2,
+                "auto_max": 23.7,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "13:00",
                 "bus": 35.0,
                 "auto_min": 12.9,
-                "auto_max": 16.6,
+                "auto_max": 21.4,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "17:30",
                 "bus": 37.0,
                 "auto_min": 13.7,
-                "auto_max": 20.2,
+                "auto_max": 24.2,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "21:00",
                 "bus": 36.0,
                 "auto_min": 12.2,
-                "auto_max": 12.2,
+                "auto_max": 18.6,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -733,36 +733,36 @@
             "gruppo": "Punti prioritari",
             "bus": 25.0,
             "auto_min": 15.1,
-            "auto_max": 22.7,
+            "auto_max": 26.9,
             "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 25.0,
                 "auto_min": 15.1,
-                "auto_max": 22.7,
+                "auto_max": 26.9,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 25.0,
                 "auto_min": 14.3,
-                "auto_max": 18.5,
+                "auto_max": 24.2,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "17:30",
                 "bus": 25.0,
                 "auto_min": 15.1,
-                "auto_max": 22.7,
+                "auto_max": 27.4,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 27.0,
                 "auto_min": 13.4,
-                "auto_max": 13.4,
-                "giudizio": "il bus non conviene"
+                "auto_max": 20.9,
+                "giudizio": "dipende dal traffico"
               }
             ]
           },
@@ -771,35 +771,35 @@
             "gruppo": "Punti prioritari",
             "bus": 51.0,
             "auto_min": 18.2,
-            "auto_max": 28.0,
+            "auto_max": 33.4,
             "giudizio": "il bus non conviene",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 51.0,
                 "auto_min": 18.2,
-                "auto_max": 28.0,
+                "auto_max": 33.4,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "13:00",
                 "bus": 49.0,
                 "auto_min": 17.1,
-                "auto_max": 22.5,
+                "auto_max": 29.9,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "17:30",
                 "bus": 49.0,
                 "auto_min": 18.2,
-                "auto_max": 28.0,
-                "giudizio": "il bus non conviene"
+                "auto_max": 34.2,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 47.0,
                 "auto_min": 16.0,
-                "auto_max": 16.0,
+                "auto_max": 25.6,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -809,35 +809,35 @@
             "gruppo": "Punti prioritari",
             "bus": 31.0,
             "auto_min": 11.6,
-            "auto_max": 16.6,
+            "auto_max": 19.3,
             "giudizio": "il bus non conviene",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 31.0,
                 "auto_min": 11.6,
-                "auto_max": 16.6,
+                "auto_max": 19.3,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "13:00",
                 "bus": 31.0,
                 "auto_min": 11.1,
-                "auto_max": 13.8,
+                "auto_max": 17.5,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "17:30",
                 "bus": 30.0,
                 "auto_min": 11.6,
-                "auto_max": 16.6,
+                "auto_max": 19.7,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "21:00",
                 "bus": 31.0,
                 "auto_min": 10.5,
-                "auto_max": 10.5,
+                "auto_max": 15.4,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -847,36 +847,36 @@
             "gruppo": "Punti prioritari",
             "bus": 28.0,
             "auto_min": 12.1,
-            "auto_max": 17.4,
-            "giudizio": "il bus non conviene",
+            "auto_max": 20.3,
+            "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 28.0,
                 "auto_min": 12.1,
-                "auto_max": 17.4,
-                "giudizio": "il bus non conviene"
+                "auto_max": 20.3,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 26.0,
                 "auto_min": 11.5,
-                "auto_max": 14.4,
-                "giudizio": "il bus non conviene"
+                "auto_max": 18.4,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "17:30",
                 "bus": 28.0,
                 "auto_min": 12.1,
-                "auto_max": 17.4,
-                "giudizio": "il bus non conviene"
+                "auto_max": 20.7,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 24.0,
                 "auto_min": 10.9,
-                "auto_max": 10.9,
-                "giudizio": "il bus non conviene"
+                "auto_max": 16.1,
+                "giudizio": "dipende dal traffico"
               }
             ]
           },
@@ -885,35 +885,35 @@
             "gruppo": "Punti prioritari",
             "bus": 59.0,
             "auto_min": 19.9,
-            "auto_max": 31.1,
+            "auto_max": 37.2,
             "giudizio": "il bus non conviene",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 59.0,
                 "auto_min": 19.9,
-                "auto_max": 31.1,
+                "auto_max": 37.2,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "13:00",
                 "bus": 58.0,
                 "auto_min": 18.7,
-                "auto_max": 24.9,
+                "auto_max": 33.2,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "17:30",
                 "bus": 60.0,
                 "auto_min": 19.9,
-                "auto_max": 31.1,
+                "auto_max": 38.1,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "21:00",
                 "bus": 61.0,
                 "auto_min": 17.4,
-                "auto_max": 17.4,
+                "auto_max": 28.4,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -923,35 +923,35 @@
             "gruppo": "Punti prioritari",
             "bus": 43.0,
             "auto_min": 17.4,
-            "auto_max": 26.7,
-            "giudizio": "il bus non conviene",
+            "auto_max": 31.8,
+            "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 43.0,
                 "auto_min": 17.4,
-                "auto_max": 26.7,
-                "giudizio": "il bus non conviene"
+                "auto_max": 31.8,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 43.0,
                 "auto_min": 16.4,
-                "auto_max": 21.6,
+                "auto_max": 28.5,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "17:30",
                 "bus": 44.0,
                 "auto_min": 17.4,
-                "auto_max": 26.7,
-                "giudizio": "il bus non conviene"
+                "auto_max": 32.5,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 49.0,
                 "auto_min": 15.3,
-                "auto_max": 15.3,
+                "auto_max": 24.5,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -961,35 +961,35 @@
             "gruppo": "Punti prioritari",
             "bus": 37.0,
             "auto_min": 14.3,
-            "auto_max": 21.3,
-            "giudizio": "il bus non conviene",
+            "auto_max": 25.2,
+            "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 37.0,
                 "auto_min": 14.3,
-                "auto_max": 21.3,
-                "giudizio": "il bus non conviene"
+                "auto_max": 25.2,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 35.0,
                 "auto_min": 13.6,
-                "auto_max": 17.5,
+                "auto_max": 22.7,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "17:30",
                 "bus": 38.0,
                 "auto_min": 14.3,
-                "auto_max": 21.3,
-                "giudizio": "il bus non conviene"
+                "auto_max": 25.7,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 33.0,
                 "auto_min": 12.8,
-                "auto_max": 12.8,
+                "auto_max": 19.6,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -999,35 +999,35 @@
             "gruppo": "Punti prioritari",
             "bus": 61.0,
             "auto_min": 23.2,
-            "auto_max": 36.8,
-            "giudizio": "il bus non conviene",
+            "auto_max": 44.2,
+            "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 61.0,
                 "auto_min": 23.2,
-                "auto_max": 36.8,
-                "giudizio": "il bus non conviene"
+                "auto_max": 44.2,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 55.0,
                 "auto_min": 21.7,
-                "auto_max": 29.2,
-                "giudizio": "il bus non conviene"
+                "auto_max": 39.4,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "17:30",
                 "bus": 59.0,
                 "auto_min": 23.2,
-                "auto_max": 36.8,
-                "giudizio": "il bus non conviene"
+                "auto_max": 45.3,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 54.0,
                 "auto_min": 20.1,
-                "auto_max": 20.1,
+                "auto_max": 33.5,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -1037,35 +1037,35 @@
             "gruppo": "Punti prioritari",
             "bus": 34.0,
             "auto_min": 13.8,
-            "auto_max": 20.4,
-            "giudizio": "il bus non conviene",
+            "auto_max": 24.0,
+            "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 34.0,
                 "auto_min": 13.8,
-                "auto_max": 20.4,
-                "giudizio": "il bus non conviene"
+                "auto_max": 24.0,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 31.0,
                 "auto_min": 13.0,
-                "auto_max": 16.7,
-                "giudizio": "il bus non conviene"
+                "auto_max": 21.6,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "17:30",
                 "bus": 32.0,
                 "auto_min": 13.8,
-                "auto_max": 20.4,
-                "giudizio": "il bus non conviene"
+                "auto_max": 24.5,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 31.0,
                 "auto_min": 12.3,
-                "auto_max": 12.3,
+                "auto_max": 18.8,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -1075,35 +1075,35 @@
             "gruppo": "Punti prioritari",
             "bus": 49.0,
             "auto_min": 19.9,
-            "auto_max": 31.0,
-            "giudizio": "il bus non conviene",
+            "auto_max": 37.1,
+            "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 49.0,
                 "auto_min": 19.9,
-                "auto_max": 31.0,
-                "giudizio": "il bus non conviene"
+                "auto_max": 37.1,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 46.0,
                 "auto_min": 18.6,
-                "auto_max": 24.8,
-                "giudizio": "il bus non conviene"
+                "auto_max": 33.1,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "17:30",
                 "bus": 49.0,
                 "auto_min": 19.9,
-                "auto_max": 31.0,
-                "giudizio": "il bus non conviene"
+                "auto_max": 37.9,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 49.0,
                 "auto_min": 17.4,
-                "auto_max": 17.4,
+                "auto_max": 28.3,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -1113,35 +1113,35 @@
             "gruppo": "Punti prioritari",
             "bus": 33.0,
             "auto_min": 11.9,
-            "auto_max": 17.1,
+            "auto_max": 19.9,
             "giudizio": "il bus non conviene",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 33.0,
                 "auto_min": 11.9,
-                "auto_max": 17.1,
+                "auto_max": 19.9,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "13:00",
                 "bus": 32.0,
                 "auto_min": 11.3,
-                "auto_max": 14.2,
+                "auto_max": 18.1,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "17:30",
                 "bus": 34.0,
                 "auto_min": 11.9,
-                "auto_max": 17.1,
+                "auto_max": 20.3,
                 "giudizio": "il bus non conviene"
               },
               {
                 "ora": "21:00",
                 "bus": 33.0,
                 "auto_min": 10.8,
-                "auto_max": 10.8,
+                "auto_max": 15.8,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -1151,36 +1151,36 @@
             "gruppo": "Interscambi esistenti",
             "bus": 39.0,
             "auto_min": 17.3,
-            "auto_max": 26.6,
+            "auto_max": 31.6,
             "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 39.0,
                 "auto_min": 17.3,
-                "auto_max": 26.6,
+                "auto_max": 31.6,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 36.0,
                 "auto_min": 16.3,
-                "auto_max": 21.4,
-                "giudizio": "il bus non conviene"
+                "auto_max": 28.3,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "17:30",
                 "bus": 36.0,
                 "auto_min": 17.3,
-                "auto_max": 26.6,
+                "auto_max": 32.3,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 36.0,
                 "auto_min": 15.3,
-                "auto_max": 15.3,
-                "giudizio": "il bus non conviene"
+                "auto_max": 24.3,
+                "giudizio": "dipende dal traffico"
               }
             ]
           },
@@ -1189,36 +1189,36 @@
             "gruppo": "Interscambi esistenti",
             "bus": 28.0,
             "auto_min": 16.0,
-            "auto_max": 24.2,
+            "auto_max": 28.7,
             "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 28.0,
                 "auto_min": 16.0,
-                "auto_max": 24.2,
+                "auto_max": 28.7,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 28.0,
                 "auto_min": 15.1,
-                "auto_max": 19.7,
+                "auto_max": 25.8,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "17:30",
                 "bus": 28.0,
                 "auto_min": 16.0,
-                "auto_max": 24.2,
+                "auto_max": 29.4,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 30.0,
                 "auto_min": 14.2,
-                "auto_max": 14.2,
-                "giudizio": "il bus non conviene"
+                "auto_max": 22.2,
+                "giudizio": "dipende dal traffico"
               }
             ]
           },
@@ -1227,35 +1227,35 @@
             "gruppo": "Interscambi esistenti",
             "bus": 38.0,
             "auto_min": 16.0,
-            "auto_max": 24.3,
-            "giudizio": "il bus non conviene",
+            "auto_max": 28.8,
+            "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 38.0,
                 "auto_min": 16.0,
-                "auto_max": 24.3,
-                "giudizio": "il bus non conviene"
+                "auto_max": 28.8,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 38.0,
                 "auto_min": 15.1,
-                "auto_max": 19.7,
-                "giudizio": "il bus non conviene"
+                "auto_max": 25.9,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "17:30",
                 "bus": 39.0,
                 "auto_min": 16.0,
-                "auto_max": 24.3,
-                "giudizio": "il bus non conviene"
+                "auto_max": 29.4,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 45.0,
                 "auto_min": 14.2,
-                "auto_max": 14.2,
+                "auto_max": 22.3,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -1265,36 +1265,36 @@
             "gruppo": "Interscambi esistenti",
             "bus": 31.0,
             "auto_min": 18.6,
-            "auto_max": 28.9,
+            "auto_max": 34.4,
             "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 31.0,
                 "auto_min": 18.6,
-                "auto_max": 28.9,
+                "auto_max": 34.4,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 31.0,
                 "auto_min": 17.5,
-                "auto_max": 23.2,
+                "auto_max": 30.8,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "17:30",
                 "bus": 31.0,
                 "auto_min": 18.6,
-                "auto_max": 28.9,
+                "auto_max": 35.2,
                 "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 33.0,
                 "auto_min": 16.4,
-                "auto_max": 16.4,
-                "giudizio": "il bus non conviene"
+                "auto_max": 26.4,
+                "giudizio": "dipende dal traffico"
               }
             ]
           },
@@ -1303,35 +1303,35 @@
             "gruppo": "Interscambi esistenti",
             "bus": 33.0,
             "auto_min": 13.3,
-            "auto_max": 19.6,
-            "giudizio": "il bus non conviene",
+            "auto_max": 23.0,
+            "giudizio": "dipende dal traffico",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 33.0,
                 "auto_min": 13.3,
-                "auto_max": 19.6,
-                "giudizio": "il bus non conviene"
+                "auto_max": 23.0,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "13:00",
                 "bus": 31.0,
                 "auto_min": 12.6,
-                "auto_max": 16.1,
-                "giudizio": "il bus non conviene"
+                "auto_max": 20.8,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "17:30",
                 "bus": 33.0,
                 "auto_min": 13.3,
-                "auto_max": 19.6,
-                "giudizio": "il bus non conviene"
+                "auto_max": 23.5,
+                "giudizio": "dipende dal traffico"
               },
               {
                 "ora": "21:00",
                 "bus": 28.0,
                 "auto_min": 12.0,
-                "auto_max": 12.0,
+                "auto_max": 18.1,
                 "giudizio": "il bus non conviene"
               }
             ]
@@ -1343,79 +1343,79 @@
         "tipo": "barre",
         "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto",
         "unita": "minuti",
-        "nota": "Verso Piazza Castello alle 8. Barra scura = stima con il rallentamento di Google, barra chiara = stima con il rallentamento dei sensori. Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
+        "nota": "Verso Piazza Castello alle 8. Barra scura = stima con il rallentamento di TomTom, barra chiara = stima con il rallentamento dei sensori. Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
         "voci": [
           {
             "label": "Metro Massaua",
-            "valore": 7,
+            "valore": 3,
             "prima": 15,
-            "testo": "7–15 min"
+            "testo": "3–15 min"
           },
           {
             "label": "Pasini",
-            "valore": 16,
+            "valore": 13,
             "prima": 21,
-            "testo": "16–21 min"
+            "testo": "13–21 min"
           },
           {
             "label": "Derna Est",
-            "valore": 19,
+            "valore": 15,
             "prima": 25,
-            "testo": "19–25 min"
-          },
-          {
-            "label": "Regina Margherita",
-            "valore": 19,
-            "prima": 24,
-            "testo": "19–24 min"
-          },
-          {
-            "label": "Stura Lazio",
-            "valore": 21,
-            "prima": 28,
-            "testo": "21–28 min"
-          },
-          {
-            "label": "Santa Rita",
-            "valore": 21,
-            "prima": 27,
-            "testo": "21–27 min"
-          },
-          {
-            "label": "Zara",
-            "valore": 21,
-            "prima": 26,
-            "testo": "21–26 min"
+            "testo": "15–25 min"
           },
           {
             "label": "Drosso Cap",
-            "valore": 21,
+            "valore": 16,
             "prima": 31,
-            "testo": "21–31 min"
+            "testo": "16–31 min"
+          },
+          {
+            "label": "Regina Margherita",
+            "valore": 17,
+            "prima": 24,
+            "testo": "17–24 min"
+          },
+          {
+            "label": "Stura Lazio",
+            "valore": 17,
+            "prima": 28,
+            "testo": "17–28 min"
           },
           {
             "label": "Ferrara",
-            "valore": 23,
+            "valore": 17,
             "prima": 34,
-            "testo": "23–34 min"
+            "testo": "17–34 min"
           },
           {
-            "label": "Ponte Cavalieri Templari",
-            "valore": 28,
-            "prima": 38,
-            "testo": "28–38 min"
+            "label": "Santa Rita",
+            "valore": 17,
+            "prima": 27,
+            "testo": "17–27 min"
+          },
+          {
+            "label": "Zara",
+            "valore": 18,
+            "prima": 26,
+            "testo": "18–26 min"
           },
           {
             "label": "Marsè",
-            "valore": 29,
+            "valore": 22,
             "prima": 43,
-            "testo": "29–43 min"
+            "testo": "22–43 min"
+          },
+          {
+            "label": "Ponte Cavalieri Templari",
+            "valore": 23,
+            "prima": 38,
+            "testo": "23–38 min"
           },
           {
             "label": "Leonardo Da Vinci",
-            "valore": 33,
+            "valore": 27,
             "prima": 44,
-            "testo": "33–44 min"
+            "testo": "27–44 min"
           }
         ]
       },
@@ -1423,32 +1423,32 @@
         "tipo": "barre",
         "titolo": "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro",
         "unita": "minuti",
-        "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, con due stime del rallentamento (1,2 e 2,1): il valore vero può stare anche fuori.",
+        "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, con due stime del rallentamento (1,2 e 2,6): il valore vero può stare anche fuori.",
         "voci": [
           {
             "label": "Stura",
             "valore": 39,
-            "testo": "pieno di giorno; 39 contro 17 o 27 in auto"
+            "testo": "pieno di giorno; 39 contro 17 o 32 in auto"
           },
           {
             "label": "Venchi Unica",
             "valore": 28,
-            "testo": "a metà; 28 contro 16 o 24 in auto"
+            "testo": "a metà; 28 contro 16 o 29 in auto"
           },
           {
             "label": "Caio Mario",
             "valore": 38,
-            "testo": "con posti liberi; 38 contro 16 o 24 in auto"
+            "testo": "con posti liberi; 38 contro 16 o 29 in auto"
           },
           {
             "label": "Fermi",
             "valore": 31,
-            "testo": "non misurato; 31 contro 19 o 29 in auto"
+            "testo": "non misurato; 31 contro 19 o 34 in auto"
           },
           {
             "label": "Sofia",
             "valore": 33,
-            "testo": "con posti liberi; 33 contro 13 o 20 in auto"
+            "testo": "con posti liberi; 33 contro 13 o 23 in auto"
           }
         ]
       }
@@ -1458,7 +1458,7 @@
       "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
       "Auto da fermare: auto che passano per il 5,8% che già oggi lascia l'auto. Posti: parcheggi adatti entro 400 metri.",
       "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.",
-      "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei 12 punti."
+      "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei 12 punti. Dati di traffico: TomTom."
     ],
     "criteri": [
       [
@@ -1475,13 +1475,13 @@
       ],
       [
         "Bus contro auto",
-        "verso Piazza Castello alle 8, auto con fattore 1,2 (sensori) e 2,1 (Google)"
+        "verso Piazza Castello alle 8, auto con fattore 1,2 (sensori) e 2,6 (TomTom)"
       ]
     ],
     "limiti": [
       "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
-      "I tempi coi mezzi sono solo GTT, senza treni. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato.",
-      "Il rallentamento di Google è stato misurato su 6 percorsi in uscita dal centro. In entrata l'auto può essere più lenta.",
+      "I tempi coi mezzi sono solo GTT, senza treni. La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
+      "La stima di TomTom è un tempo previsto su traffico tipico, non misurato. Usiamo un solo servizio.",
       "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."
     ],
     "mappa": {
@@ -3307,48 +3307,48 @@
     "punti": [
       "68 important stops have no suitable car park nearby; 111 have too few spaces.",
       "Spaces are needed above all at 12 entry points: the first is Santa Rita, where about 450 are missing.",
-      "From the car park the bus beats the car only if you lose minutes parking downtown. You need more than 21 minutes (Google estimate) or 28 (sensor estimate)."
+      "From the car park the bus beats the car only if you lose minutes parking downtown. You need more than 17 minutes (TomTom estimate) or 28 (sensor estimate)."
     ],
     "altri": [
       {
         "tipo": "gara",
         "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m., 1 p.m., 5:30 p.m. and 9 p.m. on a weekday",
-        "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (estimate with the sensors' slowdown) and 2.1 (estimate with Google's slowdown, faded car). The most promising point is Metro Massaua: there, 7 minutes (Google estimate) or 15 (sensor estimate) lost parking downtown are enough.",
+        "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (estimate with the sensors' slowdown) and 2.6 (estimate with TomTom's slowdown, faded car). The most promising point is Metro Massaua: there, 3 minutes (stima TomTom) or 15 (sensor estimate) lost parking downtown are enough.",
         "luoghi": [
           {
             "nome": "Santa Rita",
             "gruppo": "Priority points",
             "bus": 36.0,
             "auto_min": 13.7,
-            "auto_max": 20.2,
+            "auto_max": 23.7,
             "giudizio": "the bus does not pay off",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 36.0,
                 "auto_min": 13.7,
-                "auto_max": 20.2,
+                "auto_max": 23.7,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "13:00",
                 "bus": 35.0,
                 "auto_min": 12.9,
-                "auto_max": 16.6,
+                "auto_max": 21.4,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "17:30",
                 "bus": 37.0,
                 "auto_min": 13.7,
-                "auto_max": 20.2,
+                "auto_max": 24.2,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "21:00",
                 "bus": 36.0,
                 "auto_min": 12.2,
-                "auto_max": 12.2,
+                "auto_max": 18.6,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3358,36 +3358,36 @@
             "gruppo": "Priority points",
             "bus": 25.0,
             "auto_min": 15.1,
-            "auto_max": 22.7,
+            "auto_max": 26.9,
             "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 25.0,
                 "auto_min": 15.1,
-                "auto_max": 22.7,
+                "auto_max": 26.9,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 25.0,
                 "auto_min": 14.3,
-                "auto_max": 18.5,
+                "auto_max": 24.2,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "17:30",
                 "bus": 25.0,
                 "auto_min": 15.1,
-                "auto_max": 22.7,
+                "auto_max": 27.4,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 27.0,
                 "auto_min": 13.4,
-                "auto_max": 13.4,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 20.9,
+                "giudizio": "depends on traffic"
               }
             ]
           },
@@ -3396,35 +3396,35 @@
             "gruppo": "Priority points",
             "bus": 51.0,
             "auto_min": 18.2,
-            "auto_max": 28.0,
+            "auto_max": 33.4,
             "giudizio": "the bus does not pay off",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 51.0,
                 "auto_min": 18.2,
-                "auto_max": 28.0,
+                "auto_max": 33.4,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "13:00",
                 "bus": 49.0,
                 "auto_min": 17.1,
-                "auto_max": 22.5,
+                "auto_max": 29.9,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "17:30",
                 "bus": 49.0,
                 "auto_min": 18.2,
-                "auto_max": 28.0,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 34.2,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 47.0,
                 "auto_min": 16.0,
-                "auto_max": 16.0,
+                "auto_max": 25.6,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3434,35 +3434,35 @@
             "gruppo": "Priority points",
             "bus": 31.0,
             "auto_min": 11.6,
-            "auto_max": 16.6,
+            "auto_max": 19.3,
             "giudizio": "the bus does not pay off",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 31.0,
                 "auto_min": 11.6,
-                "auto_max": 16.6,
+                "auto_max": 19.3,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "13:00",
                 "bus": 31.0,
                 "auto_min": 11.1,
-                "auto_max": 13.8,
+                "auto_max": 17.5,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "17:30",
                 "bus": 30.0,
                 "auto_min": 11.6,
-                "auto_max": 16.6,
+                "auto_max": 19.7,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "21:00",
                 "bus": 31.0,
                 "auto_min": 10.5,
-                "auto_max": 10.5,
+                "auto_max": 15.4,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3472,36 +3472,36 @@
             "gruppo": "Priority points",
             "bus": 28.0,
             "auto_min": 12.1,
-            "auto_max": 17.4,
-            "giudizio": "the bus does not pay off",
+            "auto_max": 20.3,
+            "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 28.0,
                 "auto_min": 12.1,
-                "auto_max": 17.4,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 20.3,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 26.0,
                 "auto_min": 11.5,
-                "auto_max": 14.4,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 18.4,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "17:30",
                 "bus": 28.0,
                 "auto_min": 12.1,
-                "auto_max": 17.4,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 20.7,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 24.0,
                 "auto_min": 10.9,
-                "auto_max": 10.9,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 16.1,
+                "giudizio": "depends on traffic"
               }
             ]
           },
@@ -3510,35 +3510,35 @@
             "gruppo": "Priority points",
             "bus": 59.0,
             "auto_min": 19.9,
-            "auto_max": 31.1,
+            "auto_max": 37.2,
             "giudizio": "the bus does not pay off",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 59.0,
                 "auto_min": 19.9,
-                "auto_max": 31.1,
+                "auto_max": 37.2,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "13:00",
                 "bus": 58.0,
                 "auto_min": 18.7,
-                "auto_max": 24.9,
+                "auto_max": 33.2,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "17:30",
                 "bus": 60.0,
                 "auto_min": 19.9,
-                "auto_max": 31.1,
+                "auto_max": 38.1,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "21:00",
                 "bus": 61.0,
                 "auto_min": 17.4,
-                "auto_max": 17.4,
+                "auto_max": 28.4,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3548,35 +3548,35 @@
             "gruppo": "Priority points",
             "bus": 43.0,
             "auto_min": 17.4,
-            "auto_max": 26.7,
-            "giudizio": "the bus does not pay off",
+            "auto_max": 31.8,
+            "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 43.0,
                 "auto_min": 17.4,
-                "auto_max": 26.7,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 31.8,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 43.0,
                 "auto_min": 16.4,
-                "auto_max": 21.6,
+                "auto_max": 28.5,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "17:30",
                 "bus": 44.0,
                 "auto_min": 17.4,
-                "auto_max": 26.7,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 32.5,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 49.0,
                 "auto_min": 15.3,
-                "auto_max": 15.3,
+                "auto_max": 24.5,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3586,35 +3586,35 @@
             "gruppo": "Priority points",
             "bus": 37.0,
             "auto_min": 14.3,
-            "auto_max": 21.3,
-            "giudizio": "the bus does not pay off",
+            "auto_max": 25.2,
+            "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 37.0,
                 "auto_min": 14.3,
-                "auto_max": 21.3,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 25.2,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 35.0,
                 "auto_min": 13.6,
-                "auto_max": 17.5,
+                "auto_max": 22.7,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "17:30",
                 "bus": 38.0,
                 "auto_min": 14.3,
-                "auto_max": 21.3,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 25.7,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 33.0,
                 "auto_min": 12.8,
-                "auto_max": 12.8,
+                "auto_max": 19.6,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3624,35 +3624,35 @@
             "gruppo": "Priority points",
             "bus": 61.0,
             "auto_min": 23.2,
-            "auto_max": 36.8,
-            "giudizio": "the bus does not pay off",
+            "auto_max": 44.2,
+            "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 61.0,
                 "auto_min": 23.2,
-                "auto_max": 36.8,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 44.2,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 55.0,
                 "auto_min": 21.7,
-                "auto_max": 29.2,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 39.4,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "17:30",
                 "bus": 59.0,
                 "auto_min": 23.2,
-                "auto_max": 36.8,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 45.3,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 54.0,
                 "auto_min": 20.1,
-                "auto_max": 20.1,
+                "auto_max": 33.5,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3662,35 +3662,35 @@
             "gruppo": "Priority points",
             "bus": 34.0,
             "auto_min": 13.8,
-            "auto_max": 20.4,
-            "giudizio": "the bus does not pay off",
+            "auto_max": 24.0,
+            "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 34.0,
                 "auto_min": 13.8,
-                "auto_max": 20.4,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 24.0,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 31.0,
                 "auto_min": 13.0,
-                "auto_max": 16.7,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 21.6,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "17:30",
                 "bus": 32.0,
                 "auto_min": 13.8,
-                "auto_max": 20.4,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 24.5,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 31.0,
                 "auto_min": 12.3,
-                "auto_max": 12.3,
+                "auto_max": 18.8,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3700,35 +3700,35 @@
             "gruppo": "Priority points",
             "bus": 49.0,
             "auto_min": 19.9,
-            "auto_max": 31.0,
-            "giudizio": "the bus does not pay off",
+            "auto_max": 37.1,
+            "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 49.0,
                 "auto_min": 19.9,
-                "auto_max": 31.0,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 37.1,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 46.0,
                 "auto_min": 18.6,
-                "auto_max": 24.8,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 33.1,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "17:30",
                 "bus": 49.0,
                 "auto_min": 19.9,
-                "auto_max": 31.0,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 37.9,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 49.0,
                 "auto_min": 17.4,
-                "auto_max": 17.4,
+                "auto_max": 28.3,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3738,35 +3738,35 @@
             "gruppo": "Priority points",
             "bus": 33.0,
             "auto_min": 11.9,
-            "auto_max": 17.1,
+            "auto_max": 19.9,
             "giudizio": "the bus does not pay off",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 33.0,
                 "auto_min": 11.9,
-                "auto_max": 17.1,
+                "auto_max": 19.9,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "13:00",
                 "bus": 32.0,
                 "auto_min": 11.3,
-                "auto_max": 14.2,
+                "auto_max": 18.1,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "17:30",
                 "bus": 34.0,
                 "auto_min": 11.9,
-                "auto_max": 17.1,
+                "auto_max": 20.3,
                 "giudizio": "the bus does not pay off"
               },
               {
                 "ora": "21:00",
                 "bus": 33.0,
                 "auto_min": 10.8,
-                "auto_max": 10.8,
+                "auto_max": 15.8,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3776,36 +3776,36 @@
             "gruppo": "Existing park-and-ride",
             "bus": 39.0,
             "auto_min": 17.3,
-            "auto_max": 26.6,
+            "auto_max": 31.6,
             "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 39.0,
                 "auto_min": 17.3,
-                "auto_max": 26.6,
+                "auto_max": 31.6,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 36.0,
                 "auto_min": 16.3,
-                "auto_max": 21.4,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 28.3,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "17:30",
                 "bus": 36.0,
                 "auto_min": 17.3,
-                "auto_max": 26.6,
+                "auto_max": 32.3,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 36.0,
                 "auto_min": 15.3,
-                "auto_max": 15.3,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 24.3,
+                "giudizio": "depends on traffic"
               }
             ]
           },
@@ -3814,36 +3814,36 @@
             "gruppo": "Existing park-and-ride",
             "bus": 28.0,
             "auto_min": 16.0,
-            "auto_max": 24.2,
+            "auto_max": 28.7,
             "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 28.0,
                 "auto_min": 16.0,
-                "auto_max": 24.2,
+                "auto_max": 28.7,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 28.0,
                 "auto_min": 15.1,
-                "auto_max": 19.7,
+                "auto_max": 25.8,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "17:30",
                 "bus": 28.0,
                 "auto_min": 16.0,
-                "auto_max": 24.2,
+                "auto_max": 29.4,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 30.0,
                 "auto_min": 14.2,
-                "auto_max": 14.2,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 22.2,
+                "giudizio": "depends on traffic"
               }
             ]
           },
@@ -3852,35 +3852,35 @@
             "gruppo": "Existing park-and-ride",
             "bus": 38.0,
             "auto_min": 16.0,
-            "auto_max": 24.3,
-            "giudizio": "the bus does not pay off",
+            "auto_max": 28.8,
+            "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 38.0,
                 "auto_min": 16.0,
-                "auto_max": 24.3,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 28.8,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 38.0,
                 "auto_min": 15.1,
-                "auto_max": 19.7,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 25.9,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "17:30",
                 "bus": 39.0,
                 "auto_min": 16.0,
-                "auto_max": 24.3,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 29.4,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 45.0,
                 "auto_min": 14.2,
-                "auto_max": 14.2,
+                "auto_max": 22.3,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3890,36 +3890,36 @@
             "gruppo": "Existing park-and-ride",
             "bus": 31.0,
             "auto_min": 18.6,
-            "auto_max": 28.9,
+            "auto_max": 34.4,
             "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 31.0,
                 "auto_min": 18.6,
-                "auto_max": 28.9,
+                "auto_max": 34.4,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 31.0,
                 "auto_min": 17.5,
-                "auto_max": 23.2,
+                "auto_max": 30.8,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "17:30",
                 "bus": 31.0,
                 "auto_min": 18.6,
-                "auto_max": 28.9,
+                "auto_max": 35.2,
                 "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 33.0,
                 "auto_min": 16.4,
-                "auto_max": 16.4,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 26.4,
+                "giudizio": "depends on traffic"
               }
             ]
           },
@@ -3928,35 +3928,35 @@
             "gruppo": "Existing park-and-ride",
             "bus": 33.0,
             "auto_min": 13.3,
-            "auto_max": 19.6,
-            "giudizio": "the bus does not pay off",
+            "auto_max": 23.0,
+            "giudizio": "depends on traffic",
             "ore": [
               {
                 "ora": "8:00",
                 "bus": 33.0,
                 "auto_min": 13.3,
-                "auto_max": 19.6,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 23.0,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "13:00",
                 "bus": 31.0,
                 "auto_min": 12.6,
-                "auto_max": 16.1,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 20.8,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "17:30",
                 "bus": 33.0,
                 "auto_min": 13.3,
-                "auto_max": 19.6,
-                "giudizio": "the bus does not pay off"
+                "auto_max": 23.5,
+                "giudizio": "depends on traffic"
               },
               {
                 "ora": "21:00",
                 "bus": 28.0,
                 "auto_min": 12.0,
-                "auto_max": 12.0,
+                "auto_max": 18.1,
                 "giudizio": "the bus does not pay off"
               }
             ]
@@ -3968,79 +3968,79 @@
         "tipo": "barre",
         "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
         "unita": "minutes",
-        "nota": "Towards Piazza Castello at 8 a.m. Dark bar = estimate with Google's slowdown, light bar = estimate with the sensors' slowdown. Fewer minutes = more promising point; 0 = the bus is already faster.",
+        "nota": "Towards Piazza Castello at 8 a.m. Dark bar = estimate with TomTom's slowdown, light bar = estimate with the sensors' slowdown. Fewer minutes = more promising point; 0 = the bus is already faster.",
         "voci": [
           {
             "label": "Metro Massaua",
-            "valore": 7,
+            "valore": 3,
             "prima": 15,
-            "testo": "7–15 min"
+            "testo": "3–15 min"
           },
           {
             "label": "Pasini",
-            "valore": 16,
+            "valore": 13,
             "prima": 21,
-            "testo": "16–21 min"
+            "testo": "13–21 min"
           },
           {
             "label": "Derna Est",
-            "valore": 19,
+            "valore": 15,
             "prima": 25,
-            "testo": "19–25 min"
-          },
-          {
-            "label": "Regina Margherita",
-            "valore": 19,
-            "prima": 24,
-            "testo": "19–24 min"
-          },
-          {
-            "label": "Stura Lazio",
-            "valore": 21,
-            "prima": 28,
-            "testo": "21–28 min"
-          },
-          {
-            "label": "Santa Rita",
-            "valore": 21,
-            "prima": 27,
-            "testo": "21–27 min"
-          },
-          {
-            "label": "Zara",
-            "valore": 21,
-            "prima": 26,
-            "testo": "21–26 min"
+            "testo": "15–25 min"
           },
           {
             "label": "Drosso Cap",
-            "valore": 21,
+            "valore": 16,
             "prima": 31,
-            "testo": "21–31 min"
+            "testo": "16–31 min"
+          },
+          {
+            "label": "Regina Margherita",
+            "valore": 17,
+            "prima": 24,
+            "testo": "17–24 min"
+          },
+          {
+            "label": "Stura Lazio",
+            "valore": 17,
+            "prima": 28,
+            "testo": "17–28 min"
           },
           {
             "label": "Ferrara",
-            "valore": 23,
+            "valore": 17,
             "prima": 34,
-            "testo": "23–34 min"
+            "testo": "17–34 min"
           },
           {
-            "label": "Ponte Cavalieri Templari",
-            "valore": 28,
-            "prima": 38,
-            "testo": "28–38 min"
+            "label": "Santa Rita",
+            "valore": 17,
+            "prima": 27,
+            "testo": "17–27 min"
+          },
+          {
+            "label": "Zara",
+            "valore": 18,
+            "prima": 26,
+            "testo": "18–26 min"
           },
           {
             "label": "Marsè",
-            "valore": 29,
+            "valore": 22,
             "prima": 43,
-            "testo": "29–43 min"
+            "testo": "22–43 min"
+          },
+          {
+            "label": "Ponte Cavalieri Templari",
+            "valore": 23,
+            "prima": 38,
+            "testo": "23–38 min"
           },
           {
             "label": "Leonardo Da Vinci",
-            "valore": 33,
+            "valore": 27,
             "prima": 44,
-            "testo": "33–44 min"
+            "testo": "27–44 min"
           }
         ]
       },
@@ -4048,32 +4048,32 @@
         "tipo": "barre",
         "titolo": "Existing park-and-ride sites: how full they are and how long the bus takes to the centre",
         "unita": "minutes",
-        "nota": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, with two estimates of the slowdown (1.2 and 2.1): the true value may lie outside.",
+        "nota": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, with two estimates of the slowdown (1.2 and 2.6): the true value may lie outside.",
         "voci": [
           {
             "label": "Stura",
             "valore": 39,
-            "testo": "full during the day; 39 versus 17 or 27 by car"
+            "testo": "full during the day; 39 versus 17 or 32 by car"
           },
           {
             "label": "Venchi Unica",
             "valore": 28,
-            "testo": "half full; 28 versus 16 or 24 by car"
+            "testo": "half full; 28 versus 16 or 29 by car"
           },
           {
             "label": "Caio Mario",
             "valore": 38,
-            "testo": "with free spaces; 38 versus 16 or 24 by car"
+            "testo": "with free spaces; 38 versus 16 or 29 by car"
           },
           {
             "label": "Fermi",
             "valore": 31,
-            "testo": "not measured; 31 versus 19 or 29 by car"
+            "testo": "not measured; 31 versus 19 or 34 by car"
           },
           {
             "label": "Sofia",
             "valore": 33,
-            "testo": "with free spaces; 33 versus 13 or 20 by car"
+            "testo": "with free spaces; 33 versus 13 or 23 by car"
           }
         ]
       }
@@ -4083,7 +4083,7 @@
       "Cars entering come from the 2022 travel survey, assigned to the fastest route.",
       "Cars to stop: passing cars times the 5.8% who already leave the car today. Spaces: suitable car parks within 400 metres.",
       "Priority points: stops without enough parking, grouped within 1 km, one per entry axis.",
-      "Bus versus car: minutes by public transport to Piazza Castello at 8 am, versus the car including parking. Median of the 12 points."
+      "Bus versus car: minutes by public transport to Piazza Castello at 8 am, versus the car including parking. Median of the 12 points. Traffic data: TomTom."
     ],
     "criteri": [
       [
@@ -4100,13 +4100,13 @@
       ],
       [
         "Bus versus car",
-        "towards Piazza Castello at 8 a.m., car with factor 1.2 (sensors) and 2.1 (Google)"
+        "towards Piazza Castello at 8 a.m., car with factor 1.2 (sensors) and 2.6 (TomTom)"
       ]
     ],
     "limiti": [
       "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude.",
-      "Public transport times are GTT only, without trains. The car slowdown at the other hours comes from the sensors. Google's is known only at 8 a.m. and has been scaled.",
-      "Google's slowdown was measured on 6 routes leaving the centre. Inbound, the car may be slower.",
+      "Public transport times are GTT only, without trains. The sensor estimate ignores traffic lights and junctions: it is the most favourable to the car.",
+      "The TomTom estimate is a forecast time on typical traffic, not measured. We use a single service.",
       "The cost of parking is not in the calculation: it weighs as extra minutes. One point per place and one destination only."
     ],
     "mappa": {

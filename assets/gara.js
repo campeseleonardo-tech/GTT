@@ -1,6 +1,6 @@
 /* Gara bus contro auto: un bus e un'auto partono insieme da un punto e corrono verso Piazza Castello.
    La durata e' proporzionale ai minuti veri (1 minuto vero = 0,15 secondi). L'auto ha una forbice: due auto, una col fattore
-   di punta dei sensori (veloce) e una col fattore di Google (lenta, chiara). Nessun numero e' scritto qui: tutto arriva dai dati.
+   di punta dei sensori (veloce) e una col fattore del servizio di percorsi, TomTom (lenta, chiara). Nessun numero e' scritto qui: tutto arriva dai dati.
 
    Un luogo puo' avere anche «ore»: [{ora: "8:00", bus, auto_min, auto_max, giudizio}, ...]: la gara le corre una dopo l'altra (l'ora e' scritta sopra la corsa
    e nella frase per il lettore di schermo); con «mini» e con «riduci movimento» si vede solo la prima.
@@ -16,10 +16,10 @@
   var contatore = 0;
 
   var TESTI = {
-    it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto", autoLenta: "Auto, stima Google", autoVeloce: "Auto, stima sensori", autoLentaOra: "Auto, stima Google", autoVeloceOra: "Auto, stima sensori",
+    it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto", autoLenta: "Auto, stima TomTom", autoVeloce: "Auto, stima sensori", autoLentaOra: "Auto, stima TomTom", autoVeloceOra: "Auto, stima sensori",
          min: "min", riparti: "Riparti", scegli: "Punto di partenza", prioritari: "Punti prioritari", interscambi: "Interscambi esistenti",
          da: "Da", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + (l.ora ? " alle " + l.ora : "") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? n(l.auto_min) + " o " + n(l.auto_max) + " (due stime)" : n(l.auto_min)) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
-    en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car", autoLenta: "Car, Google estimate", autoVeloce: "Car, sensor estimate", autoLentaOra: "Car, Google estimate", autoVeloceOra: "Car, sensor estimate",
+    en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car", autoLenta: "Car, TomTom estimate", autoVeloce: "Car, sensor estimate", autoLentaOra: "Car, TomTom estimate", autoVeloceOra: "Car, sensor estimate",
          min: "min", riparti: "Replay", scegli: "Starting point", prioritari: "Priority points", interscambi: "Existing park-and-ride",
          da: "From", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + (l.ora ? " at " + l.ora : "") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " or " + n(l.auto_max) + " (two estimates)" : n(l.auto_min)) + " minutes, parking included."; }}
   };

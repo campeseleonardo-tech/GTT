@@ -8,7 +8,8 @@
   "velocita_piedi_kmh": 4.8,
   "minuti_parcheggio": 5.0,
   "fattore_alto": 1.2,
-  "fattore_basso": 2.1,
+  "fattore_basso": 2.59,
+  "fonte_basso": "TomTom (script 101), mediana di fattore_rete dei punti in entrata alle 8",
   "soglia_rapporto": 1.5,
   "punti_spostati": {
    "n": 1,
@@ -23,11 +24,11 @@
  },
  "pareggio": {
   "punti": {
-   "mediana_basso_min": 20.85,
+   "mediana_basso_min": 16.85,
    "mediana_alto_min": 27.5
   },
   "interscambi": {
-   "mediana_basso_min": 17.4,
+   "mediana_basso_min": 12.4,
    "mediana_alto_min": 24.7
   }
  },
@@ -35,20 +36,20 @@
   "5": {
    "punti": {
     "conviene": 0,
-    "dipende": 1,
-    "non_conviene": 11
+    "dipende": 7,
+    "non_conviene": 5
    },
    "interscambi": {
     "conviene": 0,
-    "dipende": 3,
-    "non_conviene": 2
+    "dipende": 5,
+    "non_conviene": 0
    }
   },
   "10": {
    "punti": {
     "conviene": 1,
-    "dipende": 9,
-    "non_conviene": 2
+    "dipende": 11,
+    "non_conviene": 0
    },
    "interscambi": {
     "conviene": 2,
@@ -72,13 +73,13 @@
  "riepilogo": {
   "punti": {
    "conviene": 0,
-   "dipende": 1,
-   "non_conviene": 11
+   "dipende": 7,
+   "non_conviene": 5
   },
   "interscambi": {
    "conviene": 0,
-   "dipende": 3,
-   "non_conviene": 2
+   "dipende": 5,
+   "non_conviene": 0
   },
   "n_punti": 12,
   "n_interscambi": 5
@@ -93,13 +94,13 @@
    "dist_centro_km": 4.4,
    "libero_min": 7.2,
    "auto_alto_min": 13.7,
-   "auto_basso_min": 20.2,
+   "auto_basso_min": 23.7,
    "tp_min": 36.0,
    "rapporto_alto": 2.63,
-   "rapporto_basso": 1.78,
+   "rapporto_basso": 1.52,
    "classe": "non_conviene",
    "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 20.8,
+   "pareggio_basso_min": 17.3,
    "pareggio_alto_min": 27.3,
    "classi_sensibilita": {
     "5": "non_conviene",
@@ -116,13 +117,13 @@
    "dist_centro_km": 5.1,
    "libero_min": 8.4,
    "auto_alto_min": 15.1,
-   "auto_basso_min": 22.7,
+   "auto_basso_min": 26.9,
    "tp_min": 25.0,
    "rapporto_alto": 1.66,
-   "rapporto_basso": 1.1,
+   "rapporto_basso": 0.93,
    "classe": "dipende",
    "classe_testo": "dipende dal traffico",
-   "pareggio_basso_min": 7.3,
+   "pareggio_basso_min": 3.1,
    "pareggio_alto_min": 14.9,
    "classi_sensibilita": {
     "5": "dipende",
@@ -139,17 +140,17 @@
    "dist_centro_km": 7.9,
    "libero_min": 11.0,
    "auto_alto_min": 18.2,
-   "auto_basso_min": 28.0,
+   "auto_basso_min": 33.4,
    "tp_min": 51.0,
    "rapporto_alto": 2.8,
-   "rapporto_basso": 1.82,
+   "rapporto_basso": 1.53,
    "classe": "non_conviene",
    "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 28.0,
+   "pareggio_basso_min": 22.6,
    "pareggio_alto_min": 37.8,
    "classi_sensibilita": {
     "5": "non_conviene",
-    "10": "non_conviene",
+    "10": "dipende",
     "15": "dipende"
    }
   },
@@ -162,13 +163,13 @@
    "dist_centro_km": 3.3,
    "libero_min": 5.5,
    "auto_alto_min": 11.6,
-   "auto_basso_min": 16.6,
+   "auto_basso_min": 19.3,
    "tp_min": 31.0,
    "rapporto_alto": 2.67,
-   "rapporto_basso": 1.87,
+   "rapporto_basso": 1.61,
    "classe": "non_conviene",
    "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 19.4,
+   "pareggio_basso_min": 16.7,
    "pareggio_alto_min": 24.4,
    "classi_sensibilita": {
     "5": "non_conviene",
@@ -185,16 +186,16 @@
    "dist_centro_km": 3.5,
    "libero_min": 5.9,
    "auto_alto_min": 12.1,
-   "auto_basso_min": 17.4,
+   "auto_basso_min": 20.3,
    "tp_min": 28.0,
    "rapporto_alto": 2.31,
-   "rapporto_basso": 1.61,
-   "classe": "non_conviene",
-   "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 15.6,
+   "rapporto_basso": 1.38,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 12.7,
    "pareggio_alto_min": 20.9,
    "classi_sensibilita": {
-    "5": "non_conviene",
+    "5": "dipende",
     "10": "dipende",
     "15": "conviene"
    }
@@ -208,17 +209,17 @@
    "dist_centro_km": 8.0,
    "libero_min": 12.4,
    "auto_alto_min": 19.9,
-   "auto_basso_min": 31.1,
+   "auto_basso_min": 37.2,
    "tp_min": 59.0,
    "rapporto_alto": 2.96,
-   "rapporto_basso": 1.9,
+   "rapporto_basso": 1.59,
    "classe": "non_conviene",
    "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 32.9,
+   "pareggio_basso_min": 26.8,
    "pareggio_alto_min": 44.1,
    "classi_sensibilita": {
     "5": "non_conviene",
-    "10": "non_conviene",
+    "10": "dipende",
     "15": "dipende"
    }
   },
@@ -231,16 +232,16 @@
    "dist_centro_km": 7.5,
    "libero_min": 10.3,
    "auto_alto_min": 17.4,
-   "auto_basso_min": 26.7,
+   "auto_basso_min": 31.8,
    "tp_min": 43.0,
    "rapporto_alto": 2.47,
-   "rapporto_basso": 1.61,
-   "classe": "non_conviene",
-   "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 21.3,
+   "rapporto_basso": 1.35,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 16.2,
    "pareggio_alto_min": 30.6,
    "classi_sensibilita": {
-    "5": "non_conviene",
+    "5": "dipende",
     "10": "dipende",
     "15": "dipende"
    }
@@ -254,16 +255,16 @@
    "dist_centro_km": 4.5,
    "libero_min": 7.8,
    "auto_alto_min": 14.3,
-   "auto_basso_min": 21.3,
+   "auto_basso_min": 25.2,
    "tp_min": 37.0,
    "rapporto_alto": 2.59,
-   "rapporto_basso": 1.74,
-   "classe": "non_conviene",
-   "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 20.7,
+   "rapporto_basso": 1.47,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 16.8,
    "pareggio_alto_min": 27.7,
    "classi_sensibilita": {
-    "5": "non_conviene",
+    "5": "dipende",
     "10": "dipende",
     "15": "dipende"
    }
@@ -277,16 +278,16 @@
    "dist_centro_km": 9.3,
    "libero_min": 15.1,
    "auto_alto_min": 23.2,
-   "auto_basso_min": 36.8,
+   "auto_basso_min": 44.2,
    "tp_min": 61.0,
    "rapporto_alto": 2.63,
-   "rapporto_basso": 1.66,
-   "classe": "non_conviene",
-   "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 29.2,
+   "rapporto_basso": 1.38,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 21.8,
    "pareggio_alto_min": 42.8,
    "classi_sensibilita": {
-    "5": "non_conviene",
+    "5": "dipende",
     "10": "dipende",
     "15": "dipende"
    }
@@ -300,16 +301,16 @@
    "dist_centro_km": 3.6,
    "libero_min": 7.3,
    "auto_alto_min": 13.8,
-   "auto_basso_min": 20.4,
+   "auto_basso_min": 24.0,
    "tp_min": 34.0,
    "rapporto_alto": 2.46,
-   "rapporto_basso": 1.67,
-   "classe": "non_conviene",
-   "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 18.6,
+   "rapporto_basso": 1.42,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 15.0,
    "pareggio_alto_min": 25.2,
    "classi_sensibilita": {
-    "5": "non_conviene",
+    "5": "dipende",
     "10": "dipende",
     "15": "conviene"
    }
@@ -323,16 +324,16 @@
    "dist_centro_km": 8.1,
    "libero_min": 12.4,
    "auto_alto_min": 19.9,
-   "auto_basso_min": 31.0,
+   "auto_basso_min": 37.1,
    "tp_min": 49.0,
    "rapporto_alto": 2.46,
-   "rapporto_basso": 1.58,
-   "classe": "non_conviene",
-   "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 23.0,
+   "rapporto_basso": 1.32,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 16.9,
    "pareggio_alto_min": 34.1,
    "classi_sensibilita": {
-    "5": "non_conviene",
+    "5": "dipende",
     "10": "dipende",
     "15": "dipende"
    }
@@ -346,13 +347,13 @@
    "dist_centro_km": 3.5,
    "libero_min": 5.8,
    "auto_alto_min": 11.9,
-   "auto_basso_min": 17.1,
+   "auto_basso_min": 19.9,
    "tp_min": 33.0,
    "rapporto_alto": 2.77,
-   "rapporto_basso": 1.93,
+   "rapporto_basso": 1.66,
    "classe": "non_conviene",
    "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 20.9,
+   "pareggio_basso_min": 18.1,
    "pareggio_alto_min": 26.1,
    "classi_sensibilita": {
     "5": "non_conviene",
@@ -372,13 +373,13 @@
    "auto_passaggio_txt": 7600,
    "libero_min": 10.3,
    "auto_alto_min": 17.3,
-   "auto_basso_min": 26.6,
+   "auto_basso_min": 31.6,
    "tp_min": 39.0,
    "rapporto_alto": 2.25,
-   "rapporto_basso": 1.47,
+   "rapporto_basso": 1.23,
    "classe": "dipende",
    "classe_testo": "dipende dal traffico",
-   "pareggio_basso_min": 17.4,
+   "pareggio_basso_min": 12.4,
    "pareggio_alto_min": 26.7,
    "classi_sensibilita": {
     "5": "dipende",
@@ -398,13 +399,13 @@
    "auto_passaggio_txt": 7100,
    "libero_min": 9.2,
    "auto_alto_min": 16.0,
-   "auto_basso_min": 24.2,
+   "auto_basso_min": 28.7,
    "tp_min": 28.0,
    "rapporto_alto": 1.75,
-   "rapporto_basso": 1.16,
+   "rapporto_basso": 0.98,
    "classe": "dipende",
    "classe_testo": "dipende dal traffico",
-   "pareggio_basso_min": 8.8,
+   "pareggio_basso_min": 4.3,
    "pareggio_alto_min": 17.0,
    "classi_sensibilita": {
     "5": "dipende",
@@ -424,16 +425,16 @@
    "auto_passaggio_txt": 3900,
    "libero_min": 9.2,
    "auto_alto_min": 16.0,
-   "auto_basso_min": 24.3,
+   "auto_basso_min": 28.8,
    "tp_min": 38.0,
    "rapporto_alto": 2.38,
-   "rapporto_basso": 1.56,
-   "classe": "non_conviene",
-   "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 18.7,
+   "rapporto_basso": 1.32,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 14.2,
    "pareggio_alto_min": 27.0,
    "classi_sensibilita": {
-    "5": "non_conviene",
+    "5": "dipende",
     "10": "dipende",
     "15": "conviene"
    }
@@ -450,13 +451,13 @@
    "auto_passaggio_txt": 1000,
    "libero_min": 11.4,
    "auto_alto_min": 18.6,
-   "auto_basso_min": 28.9,
+   "auto_basso_min": 34.4,
    "tp_min": 31.0,
    "rapporto_alto": 1.67,
-   "rapporto_basso": 1.07,
+   "rapporto_basso": 0.9,
    "classe": "dipende",
    "classe_testo": "dipende dal traffico",
-   "pareggio_basso_min": 7.1,
+   "pareggio_basso_min": 1.6,
    "pareggio_alto_min": 17.4,
    "classi_sensibilita": {
     "5": "dipende",
@@ -476,28 +477,28 @@
    "auto_passaggio_txt": 3100,
    "libero_min": 7.0,
    "auto_alto_min": 13.3,
-   "auto_basso_min": 19.6,
+   "auto_basso_min": 23.0,
    "tp_min": 33.0,
    "rapporto_alto": 2.48,
-   "rapporto_basso": 1.68,
-   "classe": "non_conviene",
-   "classe_testo": "il bus non conviene",
-   "pareggio_basso_min": 18.4,
+   "rapporto_basso": 1.43,
+   "classe": "dipende",
+   "classe_testo": "dipende dal traffico",
+   "pareggio_basso_min": 15.0,
    "pareggio_alto_min": 24.7,
    "classi_sensibilita": {
-    "5": "non_conviene",
+    "5": "dipende",
     "10": "dipende",
     "15": "conviene"
    }
   }
  ],
- "paragrafo_interscambi": "Interscambi esistenti del Comune, stesso test. STURA (pieno): 39 minuti coi mezzi contro 17-27 in auto (rapporto 1,5-2,2); dipende dal traffico. VENCHI UNICA (a meta): 28 minuti coi mezzi contro 16-24 in auto (rapporto 1,2-1,8); dipende dal traffico. CAIO MARIO (libero): 38 minuti coi mezzi contro 16-24 in auto (rapporto 1,6-2,4); il bus non conviene. FERMI (non misurato): 31 minuti coi mezzi contro 19-29 in auto (rapporto 1,1-1,7); dipende dal traffico. SOFIA (libero): 33 minuti coi mezzi contro 13-20 in auto (rapporto 1,7-2,5); il bus non conviene. Quelli poco pieni: da VENCHI UNICA dipende dal traffico; da SOFIA il bus non conviene.",
+ "paragrafo_interscambi": "Interscambi esistenti del Comune, stesso test. STURA (pieno): 39 minuti coi mezzi contro 17-32 in auto (rapporto 1,2-2,2); dipende dal traffico. VENCHI UNICA (a meta): 28 minuti coi mezzi contro 16-29 in auto (rapporto 1,0-1,8); dipende dal traffico. CAIO MARIO (libero): 38 minuti coi mezzi contro 16-29 in auto (rapporto 1,3-2,4); dipende dal traffico. FERMI (non misurato): 31 minuti coi mezzi contro 19-34 in auto (rapporto 0,9-1,7); dipende dal traffico. SOFIA (libero): 33 minuti coi mezzi contro 13-23 in auto (rapporto 1,4-2,5); dipende dal traffico. Quelli poco pieni: da VENCHI UNICA dipende dal traffico; da SOFIA dipende dal traffico.",
  "controlli": [
   "OK     esistono porte.json e tp_contro_auto.json (lancia prima gli script 84 e 93)",
-  "OK     fattori letti dal JSON dello script 93 (calcolo completo, non prova) — alto 1.2 (sensori), basso 2.1 (Google)",
+  "OK     fattori letti dal JSON dello script 93 (calcolo completo, non prova) — alto 1.2 (sensori), basso 2.59 (Google)",
   "OK     tutti i 12 punti prioritari del R6 e i 5 interscambi presenti — 12 punti + 5 interscambi",
-  "OK     minuti di pareggio fra 0 e 120 — da 7.1 a 44.1",
-  "OK     mediana dei punti: col fattore alto >= col fattore basso — basso 20.85, alto 27.5",
+  "OK     minuti di pareggio fra 0 e 120 — da 1.6 a 44.1",
+  "OK     mediana dei punti: col fattore alto >= col fattore basso — basso 16.85, alto 27.5",
   "OK     la sensibilita' con 5 minuti coincide con la classe ufficiale",
   "OK     nessun tempo nullo, negativo o infinito",
   "OK     tutti i punti del R6 hanno una classe",

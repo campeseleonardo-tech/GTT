@@ -115,18 +115,20 @@ def coppie_base(m93, zone, auto, t_auto):
     return base, intra, infiniti
 
 
-def elabora_ora(m93, cfg, f_alto, f_basso, zone, base, T, pos, luoghi, nodi_extra, t_auto):
-    """Tutti i numeri di un'ora: i luoghi del R6 verso Piazza Castello e le coppie di zone."""
+def elabora_ora(m93, cfg, f_alto, f_basso, zone, base, T, pos, luoghi, nodi_extra, t_auto, f_basso_luoghi=None):
+    """Tutti i numeri di un'ora: i luoghi del R6 verso Piazza Castello e le coppie di zone.
+    f_basso: seconda stima per le coppie; f_basso_luoghi: per i luoghi (con il servizio di percorsi, il fattore in entrata)."""
+    f_luoghi = f_basso if f_basso_luoghi is None else f_basso_luoghi
     out_luoghi = []
     for k, l in enumerate(luoghi):
         libero = t_auto[nodi_extra[k]] / 60.0
         tp = T[pos[f"NOTO{k}_A"], pos[f"NOTO{k}_B"]]
         tp = round(float(tp), 1) if tp == tp else None
-        auto_alto, auto_basso = round(m93.punta(libero, f_alto), 1), round(m93.punta(libero, f_basso), 1)
+        auto_alto, auto_basso = round(m93.punta(libero, f_alto), 1), round(m93.punta(libero, f_luoghi), 1)
         out_luoghi.append({"nome": l["nome"], "tipo": l["tipo"], "libero_min": round(libero, 1), "tp_min": tp,
                            "auto_alto_min": auto_alto, "auto_basso_min": auto_basso,
                            "rapporto_alto": round(tp / auto_alto, 2) if tp else None, "rapporto_basso": round(tp / auto_basso, 2) if tp else None,
-                           "pareggio_basso_min": round(max(0.0, tp - libero * f_basso), 1) if tp else None,
+                           "pareggio_basso_min": round(max(0.0, tp - libero * f_luoghi), 1) if tp else None,
                            "pareggio_alto_min": round(max(0.0, tp - libero * f_alto), 1) if tp else None})
     coppie, senza = [], []
     for p in base:
@@ -146,7 +148,7 @@ def elabora_ora(m93, cfg, f_alto, f_basso, zone, base, T, pos, luoghi, nodi_extr
                  "auto_collegate": round(sum(p["auto"] for p in ab)),
                  "senza_collegamento": {"coppie": len(senza_ab), "auto": round(sum(p["auto"] for p in senza_ab))}}
     top = sorted(ab, key=lambda p: -p["auto"])[:COPPIE_SALVATE]
-    return {"ora": cfg["id"], "label": cfg["label"], "partenza": f"{cfg['partenza']:%H:%M}", "fattore_alto": f_alto, "fattore_basso": f_basso,
+    return {"ora": cfg["id"], "label": cfg["label"], "partenza": f"{cfg['partenza']:%H:%M}", "fattore_alto": f_alto, "fattore_basso": f_basso, "fattore_basso_luoghi": f_luoghi,
             "luoghi": out_luoghi, "ab": riepilogo,
             "coppie": [{"da": p["da"], "a": p["a"], "auto": round(p["auto"], 1), "tp_min": round(p["tp_min"], 1), "libero_min": round(p["libero_min"], 1),
                         "auto_alto_min": round(p["auto_punta_min"], 1), "auto_basso_min": round(p["auto_punta_basso_min"], 1)} for p in top],
@@ -197,7 +199,8 @@ def main():
         for f in (TP_AUTO, R6_BUS, VELOCITA_5T):
             c(f"esiste {f.name} (lancia prima gli script 93, 94 e 26)", f.exists(), bloccante=True)
         t93 = json.loads(TP_AUTO.read_text(encoding="utf-8"))
-        f_alto0, f_google = t93["parametri"]["fattore_punta"], t93["parametri"]["fattore_basso_google"]
+        f_alto0, f_t93 = t93["parametri"]["fattore_punta"], t93["parametri"]["fattore_basso_google"]
+        f_google = t93["parametri"].get("fattore_google_manuale", f_t93)   # il 2,1 a mano (resta per la formula riscalata di prima)
         c("fattori letti dal JSON dello script 93 (calcolo completo, non prova)", not t93["parametri"].get("prova"),
           dettaglio=f"alto {f_alto0:g} (sensori), basso {f_google:g} (Google)", bloccante=True)
         r94 = json.loads(R6_BUS.read_text(encoding="utf-8"))
@@ -223,11 +226,23 @@ def main():
     f8 = fattori[ORE[0]["id"]][0]
     c("fattore alle 8 = quello di oggi (script 93) entro 0,1", abs(f8 - f_alto0) <= TOLLERANZA_FATTORE_8 + 1e-9, bloccante=True,
       dettaglio=f"ora {f8:g}, script 93 {f_alto0:g}")
-    f_basso_per_ora = {cfg["id"]: fattore_basso(fattori[cfg["id"]][0], f8, f_google) for cfg in ORE}
-    c("alle 8 il fattore basso e' quello di Google (2,1)", abs(f_basso_per_ora[ORE[0]["id"]] - f_google) < 1e-9, bloccante=True,
-      dettaglio=f"{f_basso_per_ora[ORE[0]['id']]:g} contro {f_google:g}")
+    # L6bis (24/10/2026): con il servizio di percorsi (script 101) la seconda stima ha il suo fattore a ogni ora (coppie per il R8, entrata per il R6);
+    # senza (o in prova) resta quella di prima: il fattore di Google riscalato come i sensori
+    serv_coppie = None if args.prova else {cfg["id"]: comuni.fattore_servizio("coppie", cfg["id"]) for cfg in ORE}
+    serv_entrata = None if args.prova else {cfg["id"]: comuni.fattore_servizio("entrata", cfg["id"]) for cfg in ORE}
+    con_servizio = bool(serv_coppie) and all(v for v in serv_coppie.values()) and all(v for v in serv_entrata.values())
+    if con_servizio:
+        f_basso_per_ora = {k: round(float(v), 2) for k, v in serv_coppie.items()}
+        f_luoghi_per_ora = {k: round(float(v), 2) for k, v in serv_entrata.items()}
+        c("alle 8 la seconda stima e' quella del servizio di percorsi (script 101)", abs(f_basso_per_ora[ORE[0]["id"]] - f_t93) < 1e-9, bloccante=True,
+          dettaglio=f"{f_basso_per_ora[ORE[0]['id']]:g} contro {f_t93:g} dello script 93")
+    else:
+        f_basso_per_ora = {cfg["id"]: fattore_basso(fattori[cfg["id"]][0], f8, f_google) for cfg in ORE}
+        f_luoghi_per_ora = dict(f_basso_per_ora)
+        c("alle 8 il fattore basso e' quello di Google (2,1)", abs(f_basso_per_ora[ORE[0]["id"]] - f_google) < 1e-9, bloccante=True,
+          dettaglio=f"{f_basso_per_ora[ORE[0]['id']]:g} contro {f_google:g}")
     for cfg in ORE:
-        log(f"  {cfg['label']}: fattore alto (sensori) {fattori[cfg['id']][0]:g}, fattore basso (Google scalato) {f_basso_per_ora[cfg['id']]:g}")
+        log(f"  {cfg['label']}: fattore alto (sensori) {fattori[cfg['id']][0]:g}, seconda stima {f_basso_per_ora[cfg['id']]:g} (luoghi {f_luoghi_per_ora[cfg['id']]:g})")
 
     base, intra, infiniti = coppie_base(m93, zone, auto, t_auto)
     c("nessun tempo infinito in auto fra zone", infiniti == 0, bloccante=True, dettaglio=f"{infiniti} coppie")
@@ -243,7 +258,7 @@ def main():
             m93.PARZIALE = PROC / f"ore_del_giorno_parziale_{cfg['id'].replace(':', '')}{'_campione' if args.campione else ''}.npz"
             ids, T = m93.matrice_tp(zone, [(f"{l['nome']} → Piazza Castello", (l["lat"], l["lon"]), m93.CASTELLO) for l in luoghi], args.lotto, log)
         pos = {i: k for k, i in enumerate(ids)}
-        r = elabora_ora(m93, cfg, fattori[cfg["id"]][0], f_basso_per_ora[cfg["id"]], zone, base, T, pos, luoghi, nodi_extra, t_auto)
+        r = elabora_ora(m93, cfg, fattori[cfg["id"]][0], f_basso_per_ora[cfg["id"]], zone, base, T, pos, luoghi, nodi_extra, t_auto, f_luoghi_per_ora[cfg["id"]])
         controlli_ora(c, cfg, r, None)
         risultati.append(r)
 
@@ -278,10 +293,11 @@ def main():
         r.pop("_coppie_tutte")
     out = {"stimato": True, "campione": args.campione or None, "prova": bool(args.prova),
            "parametri": {"giorno": str(m93.GIORNO), "finestra_min": m93.FINESTRA_MIN, "velocita_piedi_kmh": m93.VEL_PIEDI_KMH,
-                         "minuti_parcheggio": m93.MIN_PARCHEGGIO, "fattore_alto_alle_8": f8, "fattore_google_alle_8": f_google,
+                         "minuti_parcheggio": m93.MIN_PARCHEGGIO, "fattore_alto_alle_8": f8, "fattore_google_alle_8": f_google, "seconda_stima_fonte": ("TomTom (script 101)" if con_servizio else "Google riscalato"),
                          "ore": [{"id": o["id"], "partenza": f"{o['partenza']:%H:%M}", "ore_sensori": list(o["ore_sensori"])} for o in ORE],
                          "fattori_sensori": {k: v[1] | {"fattore": v[0]} for k, v in fattori.items()}, "punti_spostati": spostati},
-           "regola_fattore_basso": "fattore_basso(h) = 1 + (fattore Google - 1) x (fattore(h) - 1) / (fattore(8) - 1), mai sotto 1: ipotesi, Google si conosce solo alle 8",
+           "regola_fattore_basso": ("fattore_rete mediano del servizio di percorsi (script 101) per gruppo (coppie per il R8, entrata per il R6) e ora; sostituisce la formula riscalata di L3"
+                                    if con_servizio else "fattore_basso(h) = 1 + (fattore Google - 1) x (fattore(h) - 1) / (fattore(8) - 1), mai sotto 1: ipotesi, Google si conosce solo alle 8"),
            "ore": risultati, "controlli": list(c.righe)}
     out_json.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
 
@@ -290,10 +306,12 @@ def main():
     r_ = ["RAPPORTO ORE DEL GIORNO: BUS CONTRO AUTO A 4 ORE (STIMATO)" + (" - CAMPIONE" if args.campione else "") + (" - PROVA CON DATI FINTI" if args.prova else ""),
           f"generato: {dt.datetime.now().isoformat(timespec='seconds')}", "",
           f"Giorno {m93.GIORNO} (feriale), finestra di {m93.FINESTRA_MIN} minuti attorno all'ora, mediana; cammino a {m93.VEL_PIEDI_KMH:g} km/h; auto = flusso libero x fattore + {m93.MIN_PARCHEGGIO:g} minuti.",
-          "Fattore alto = rallentamento dei sensori 5T alle varie ore; fattore basso = quello di Google (noto solo alle 8) scalato nello stesso rapporto (ipotesi).", "",
-          "FATTORI", "  ora | fattore alto (sensori) | fattore basso (Google scalato) | sensori usati"]
+          "Stima dei sensori = rallentamento dei sensori 5T alle varie ore (solo traffico). Seconda stima = " + (
+              "fattore_rete del servizio di percorsi TomTom (script 101: tempo col traffico / nostro flusso libero), per ora." if con_servizio
+              else "quello di Google (noto solo alle 8) scalato nello stesso rapporto (ipotesi)."), "",
+          "FATTORI", "  ora | stima dei sensori | seconda stima, coppie (luoghi) | sensori usati"]
     for r in risultati:
-        r_.append(f"  {r['label']} | {r['fattore_alto']:g} | {r['fattore_basso']:g} | {fattori[r['ora']][1]['sensori_usati']}")
+        r_.append(f"  {r['label']} | {r['fattore_alto']:g} | {r['fattore_basso']:g} ({r['fattore_basso_luoghi']:g}) | {fattori[r['ora']][1]['sensori_usati']}")
     r_ += ["", "COPPIE DI ZONE (Torino-Torino e Torino-cintura), rapporto = tempo coi mezzi / tempo in auto, mediano pesato per le auto del mattino",
            "  ora | rapporto mediano (basso - alto) | auto con rapporto oltre 2 (basso - alto) | auto collegate | senza collegamento (coppie, auto)"]
     for r in risultati:
