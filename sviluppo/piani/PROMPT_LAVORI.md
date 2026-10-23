@@ -52,9 +52,12 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | **L7** (FATTO 23/10, ESITO_L7) | PC | calcoli rifacibili da un estraneo (requirements, Java, prova da zero), testi del 93, immagini del README, PIANO_RACCOLTA passo 2b | 5 |
 | **L8** (FATTO 24/10, ESITO_L8) | PC | TomTom stima principale (Leo 24/10), più percorsi TomTom (~1.200 richieste, tetto 2.000), Release nuova dati-2026-11 🛑 | 3 |
 | **L9** | PC | chiudere le schede 2-5 (analisi critica), periodo fisso, controllo `git diff` su GitHub | piano generale A |
-| L10 | PC | home e schede: limiti visibili, date dei dati, gara col distacco, ritocchi (Leo guarda) | piano generale A |
-| L11 | PC | mappa: viste consigliate, «Chi abita qui» ridotto, «Vedi sulla mappa» della scheda 4 🛑 Leo sceglie le viste | piano generale A |
-| L12 | PC | vetrina: README (uso di Claude, licenze), file da togliere da git, prova da zero con la Release nuova 🛑 | piano generale B |
+| L10 | PC | home e schede: limiti visibili, date dei dati, gara col distacco, ritocchi, via «Condividi» (Leo guarda) | piano generale A |
+| L11 | PC | mappa pulita: 3 viste consigliate, «Chi abita qui» a 3 viste, via «Copia il link» | piano generale A |
+| L12 | PC | vetrina: IMQ e OMI derivati fuori da git, testo GTT e screenshot fuori, README (uso di Claude), licenze, prova da zero | piano generale B |
+| L13 | PC | risultato nuovo E2 «Dove i mezzi sono lenti, si prende l'auto» dentro la scheda 4 | piano generale E |
+| L14 | PC | risultato nuovo E10 «Quanto costa muoversi» (sesta scheda): carburante, ACI, sosta, tariffe GTT 🛑 | piano generale E, PIANO_COSTI |
+| pulizie finali, main, Pages, LinkedIn | Leo + Claude | dopo L14 (giro da scrivere allora) | piano generale B |
 | main | Leo | unire prova in main, accendere GitHub Pages (la pubblicazione per ultima) | 1 (8, 10) |
 | P8 | PC | metà novembre: R4 con un mese di dati, rilancio | 3 (4) |
 
@@ -66,6 +69,17 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 
 Fonti: `ANALISI_CRITICA.md` (§ = paragrafo), `PIANO_RACCOLTA.md`, `PIANO_AMPLIAMENTO.md`, memoria. Ordine: prima si **chiudono** i 5 risultati di oggi, poi la **vetrina** e la pubblicazione, poi i lavori **periodici**;
 i **risultati nuovi** sono solo un elenco da cui Leo sceglie (niente è pianificato finché non lo dice lui).
+
+### Decisioni di Leo (24/10, sera)
+- Scheda 1: il titolo «città dei 15 minuti» resta. Pubblicazione su GitHub (`main`, Pages) **dopo le pulizie finali**, fra qualche giorno; poi LinkedIn (sotto, «Pubblicare su LinkedIn»).
+- Raccolta: nessun avviso al telefono, nessuna copia fuori casa, niente SSD; lo storico cresce com'è, se ne riparla a novembre (P8).
+- Mappa e pagine: via «Copia il link di questa vista» e «Condividi» **ovunque**; mappa pulita, viste di «Chi abita qui» ridotte; temi consigliati scelti da Claude (L11).
+- Licenze: **via da git i file derivati di IMQ e OMI** (L12). I risultati già riassunti (schede, mappa) restano, con la fonte citata; per rifare i calcoli IMQ e OMI si scaricano a mano dalla fonte.
+- Risultati nuovi scelti: **E2 «Dove i mezzi sono lenti, si prende l'auto»** (L13) e soprattutto **E10 «Quanto costa muoversi»** (L14: auto col caro carburante, contro biglietti e abbonamenti).
+
+### Pubblicare su LinkedIn (dopo `main` e Pages)
+LinkedIn crea l'anteprima solo da una pagina pubblica: serve GitHub Pages (Settings → Pages, ramo `main`, cartella `/`). Le pagine pronte sono la home (anteprima generale) e `r/1.html` … `r/N.html` (una per risultato, immagine 1200×630, titolo e numero; portano alla scheda).
+Prima di ogni post: incollare il link in LinkedIn Post Inspector (`linkedin.com/post-inspector`) e controllare immagine e titolo (LinkedIn tiene le anteprime in memoria: ripassare dall'Inspector dopo ogni modifica). Proposta: un post con la home, poi un post per risultato col suo `r/N.html`.
 
 ### Controllo a mano di Leo (24/10), da scrivere nei documenti R6 e R8 (giro L9)
 Google Maps, martedì, partenza alle 8, tempi «tipici»; TomTom senza i 5 minuti di parcheggio:
@@ -91,7 +105,7 @@ TomTom sta dentro la forchetta di Google in tutti e 3. Le forchette sono larghe 
 
 ### C. Raccolta del Pi (decisioni di Leo, `PIANO_RACCOLTA.md` passi 5-8)
 Situazione 24/10: 87 GB liberi sul Pi, storico 2,9 GB, ~190 MB al giorno (spazio per più di un anno), ma la copia intera ogni giorno si allunga (oggi ~10 minuti, ~1 ora a 10 GB, a dicembre).
-5 crescita: (a) feed dei ritardi ogni 5 minuti, (b) storico per mese (i mesi chiusi si copiano una volta), (c) tutte e due — **consiglio (b) entro dicembre**; 6 avviso al telefono se il Pi si ferma (healthchecks.io, gratis); 7 copia dei mesi chiusi fuori casa (Release o disco); 8 SSD al posto della scheda SD. Il feed degli avvisi GTT dà errore 500 dal 21/10: lasciarlo (non costa) o toglierlo.
+**Leo (24/10): niente per ora, se ne riparla a novembre.** 5 crescita: (a) feed dei ritardi ogni 5 minuti, (b) storico per mese (i mesi chiusi si copiano una volta), (c) tutte e due — **consiglio (b) entro dicembre**; 6 avviso al telefono se il Pi si ferma (healthchecks.io, gratis); 7 copia dei mesi chiusi fuori casa (Release o disco); 8 SSD al posto della scheda SD. Il feed degli avvisi GTT dà errore 500 dal 21/10: lasciarlo (non costa) o toglierlo.
 
 ### D. Lavori periodici
 - **P8, metà novembre**: R4 e R6 con un mese di dati (periodo fisso nuovo), rilancio, Release del mese.
@@ -120,7 +134,7 @@ Dati già pronti salvo dove scritto. Valore = per chi legge il portfolio. Consig
 | E15 | Carico stimato per linea (IMQ sulla rete GTT) | grande | alto | il dato dei passeggeri che manca; [STIMATO] |
 Già congelati da Leo (20/10): bici, telefonia, logistica, eventi.
 
-### Domande per Leo (servono prima di L10-L12)
+### Domande per Leo (risposte del 24/10 sera in «Decisioni di Leo»)
 1. Scheda 1, titolo: tenere «Torino, città dei 15 minuti…» o «A 15 minuti a piedi quasi tutti hanno i servizi essenziali; a 5 minuti solo 2 su 3» (§1.9: l'espressione «città dei 15 minuti» promette più di quello che si misura)?
 2. Mappa: quali 3 viste consigliate (proposta: «Doppio svantaggio», «Ritardi delle linee» alle 8, «Parcheggi di scambio») e quali 3 viste di «Chi abita qui» (proposta: densità, anziani, persone sole)?
 3. Licenze IMQ e OMI: togliere da git i file derivati, o scrivere nel README che sono derivati e restano?
@@ -148,6 +162,94 @@ Prima: git pull --no-rebase origin prova; git fetch origin; git merge --no-edit 
 6. Traduzioni in scripts/schede/testi.json; python -m pyflakes scripts (zero); python scripts\schede_risultati.py (nessuna ATTENZIONE); scripts\RIFAI_MAPPA_E_SCHEDE.bat; python scripts\prova_pagine.py --playwright (0 errori).
 7. Esito sviluppo/piani/ESITO_L9.md (prima/dopo di ogni testo cambiato, i valori delle correlazioni, degli anticipi e del confronto col caso), memoria, commit, git pull --no-rebase origin prova, git push origin prova.
 ALLA FINE un messaggio breve a Leo: cosa è cambiato in ogni scheda e cosa guardare.
+```
+
+---
+
+## L10 — PC: home e schede, ritocchi (analisi critica 3.3-3.5, 3.8-3.11, 1.13) — Leo guarda
+
+Regole (valori predefiniti di Claude): una riga di limite **visibile** sotto ogni numero grande, la più importante dei limiti della scheda (scelta dallo script della scheda, non a mano: il primo limite dell'elenco, che quindi va messo in testa); nel piè di pagina «Dati dal GG/MM al GG/MM/AAAA» dal PERIODO di L9 al posto di «Dati aggiornati al»; i contatori di home, progetto e schede leggono gli stessi numeri (giorni dalla raccolta: INIZIO_RACCOLTA a oggi; passaggi GPS: lo stesso file); gara: all'arrivo, accanto al mezzo più lento, il distacco scritto («+12 min»); barre della scheda 4: la traccia ha la stessa lunghezza in ogni riga (colonna del numero a larghezza fissa); cursore dell'area con `accent-color: var(--oro)`; riquadri della home e delle schede su 3 colonne (con 5 schede: 3 + 2 centrati; con 6 schede: 3 + 3); `docs/METODO.md` sezione «Colori» allineata allo stile «Torino»; via il pulsante «Condividi» da `risultati.html` (Leo, 24/10) e ogni altro «copia il link».
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, sviluppo/piani/ANALISI_CRITICA.md (3.3-3.5, 3.8-3.11, 1.13) e, in sviluppo/piani/PROMPT_LAVORI.md, «Decisioni di Leo (24/10, sera)» e il blocco L10.
+Prima: git pull --no-rebase origin prova; python scripts\controlla_rami.py. Niente controlli grafici (li fa Leo), niente scritture sul Pi, niente unione in main. Un commit per voce.
+1. Applica le voci del blocco L10, una per volta. Controlla con git grep che non resti nessun «Condividi», «copia il link», «Copia il link», «copiaLink», «finCondividi» in pagine, assets e script (anche nei testi inglesi di testi.json).
+2. Traduzioni in testi.json; python -m pyflakes scripts (zero); node --check assets\*.js; python scripts\schede_risultati.py (nessuna ATTENZIONE); scripts\RIFAI_MAPPA_E_SCHEDE.bat; python scripts\prova_pagine.py --playwright (0 errori).
+3. Esito sviluppo/piani/ESITO_L10.md, memoria, commit, git pull --no-rebase origin prova, git push origin prova. Lista per Leo: cosa guardare in home, nelle 5 schede e nel piè di pagina (computer e telefono).
+```
+
+## L11 — PC: mappa pulita (analisi critica 3.12, 4; Leo 24/10)
+
+Scelte di Claude (Leo le ha lasciate a lui): la mappa parte come oggi (satellite, nessun tema), con **3 viste consigliate** in cima al pannello, un clic ciascuna: «Fragili e con pochi servizi» (tema Fragilità sociale, vista Doppio svantaggio), «Ritardi delle linee alle 8» (tema Ritardi, ora 8), «Dove lasciare l'auto» (tema Parcheggi di scambio). «Chi abita qui» da 8 a 3 viste: densità, anziani, persone sole (le altre si tolgono dal pannello e dal codice del template; i dati restano nel 04 solo se servono ad altri temi). Via il pulsante «Copia il link di questa vista» (`#copiaLink` e `costruisciLink` in `scripts/mappa_template.html`); gli indirizzi con `#tema=…&vista=…` usati dalle schede («Vedi sulla mappa») devono continuare a funzionare. «Vedi sulla mappa» anche nella scheda 4: tema «Spostamenti» (se nessun tema mostra l'area che si espande; un tema nuovo NO). Nessun altro tema si toglie.
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, sviluppo/piani/ANALISI_CRITICA.md (3.12, 4) e il blocco L11 di sviluppo/piani/PROMPT_LAVORI.md.
+Prima: git pull --no-rebase origin prova; python scripts\controlla_rami.py. Niente controlli grafici, niente unione in main.
+1. scripts/mappa_template.html e scripts/04_genera_mappa.py come nel blocco L11. Dopo: git grep copiaLink, costruisciLink: zero; i link «Vedi sulla mappa» di tutte le schede (risultati.html, data/schede_risultati.js) aprono il tema e la vista giusti: controllalo con prova_pagine.py (aggiungi una prova che apre ogni link #tema=… delle schede e verifica, nel DOM, tema e vista scelti).
+2. Peso di mappa_torino.html: non deve crescere (oggi ~6,1 MB); scrivilo nell'esito.
+3. python scripts\04_genera_mappa.py, python scripts\prova_pagine.py --playwright (0 errori). Esito sviluppo/piani/ESITO_L11.md, memoria, commit, git pull --no-rebase origin prova, git push origin prova. Lista per Leo: le 3 viste consigliate, «Chi abita qui» a 3 viste, nessun «copia il link».
+```
+
+## L12 — PC: vetrina e licenze (analisi critica 5.7, 5.8, 5.8b, 7; Leo 24/10) — prima delle pulizie finali
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, docs/DATI.md, docs/FONTI_DATI.md, sviluppo/piani/ANALISI_CRITICA.md (5.7, 5.8, 5.8b, 7) e «Decisioni di Leo (24/10, sera)» in sviluppo/piani/PROMPT_LAVORI.md.
+Prima: git pull --no-rebase origin prova; python scripts\controlla_rami.py. Niente controlli grafici, niente unione in main. Un commit per passo.
+1. IMQ e OMI fuori da git (Leo): git rm --cached dei file derivati che ricopiano la fonte (data/processed/imq_*.json, omi_zone.json e ogni altro file che contiene celle o quotazioni della fonte: cercali con lo script 96 e git grep dei nomi); restano sul disco. Aggiorna lo script 96 (--gitignore), docs/DATI.md, docs/FONTI_DATI.md, il README («IMQ 2022 e OMI si scaricano a mano dalla fonte: indirizzi in docs/FONTI_DATI.md; poi rifai_tutto.py --da dati»). Controlla che: (a) le pagine funzionino senza quei file (la mappa li ha già dentro: va bene, sono riassunti con la fonte citata); (b) il controllo automatico su GitHub e scarica_dati.py non li cerchino; (c) gli script che li leggono, se mancano, dicano chiaramente quale file scaricare e da dove.
+2. Testo del rapporto di sostenibilità GTT: via da git data/processed/rapporto_gtt/ (i 104 blocchi di testo del PDF); restano i 980 fatti estratti (docs/rapporti/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md).
+3. Screenshot di lavoro: via da git sviluppo/c5_screenshot/, sviluppo/c6_screenshot/, sviluppo/prove_stile_*.png (e i font di prova); restano sul disco di Leo.
+4. Licenze da riconfermare (GTFS statico GTT, testo della IODL 2.0): riapri le pagine delle fonti e aggiorna docs/FONTI_DATI.md con data e indirizzo.
+5. README: una riga onesta sul metodo di lavoro («codice e documenti scritti con l'aiuto di Claude, un assistente di intelligenza artificiale; scelte, controlli e dati di Leo»), due righe su cos'è sviluppo/ (appunti di lavoro); controlla che README e r/N.html elenchino i risultati attuali.
+6. Prova da zero con la Release dati-2026-11 (se Leo l'ha caricata; se no scrivilo e salta): clone in una cartella temporanea, scarica_dati.py, rifai_tutto.py --solo schede,mappa e le fasi che non chiedono IMQ e OMI: numeri uguali.
+7. Esito sviluppo/piani/ESITO_L12.md (file tolti, peso del repository prima/dopo), memoria, commit, git pull --no-rebase origin prova, git push origin prova.
+```
+
+## L13 — PC: «Dove i mezzi sono lenti, si prende l'auto» (risultato nuovo E2, scelto da Leo)
+
+Dove va: **dentro la scheda 4** (punto chiave + grafico negli «Altri grafici»): ne cambia il messaggio da «quanto più lenti» a «e infatti chi può prende l'auto». Se regge forte in un gruppo (vedi regola), diventa anche il titolo della scheda 4? **No**: il titolo resta quello di L8; lo decide Leo dopo.
+**Regole fissate ora, prima dei numeri** (dalla prova grezza del 23/10 sono noti solo i segni, non i numeri finali con TomTom):
+- coppie di zone dell'indagine IMQ con almeno 30 interviste (SOGLIA_N dello script 14) nella fascia 6-10 di un feriale; quota dei mezzi = viaggi coi mezzi pubblici / (mezzi + auto come conducente + auto come passeggero); rapporto dei tempi = quello TomTom di L8 alle 8;
+- tre gruppi separati: Torino-Torino, Torino-cintura (nei due sensi), cintura-cintura (solo se ci sono almeno 10 coppie);
+- Spearman fra rapporto e quota dei mezzi, con intervallo al 95% (ricampionamento delle coppie, 2.000 volte, seme fisso); «regge» solo se l'intervallo non contiene lo 0;
+- grafico: quota dei mezzi per fascia del rapporto (sotto 1,5; 1,5-2; 2-3; oltre 3) per gruppo, con il numero di coppie e di interviste scritto;
+- frase obbligatoria: «È una relazione, non una causa: chi abita lontano ha anche più spesso l'auto.»
+- I file IMQ dopo L12 non sono in git: lo script li legge dal disco (se mancano, messaggio chiaro); in git va solo il JSON del risultato (riassunti per gruppo e fascia, niente celle della fonte).
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, sviluppo/piani/PIANO_AMPLIAMENTO.md (3.2), sviluppo/piani/ESITO_L8.md e il blocco L13 di sviluppo/piani/PROMPT_LAVORI.md (regole: non cambiarle dopo i numeri).
+Prima: git pull --no-rebase origin prova; python scripts\controlla_rami.py. Niente controlli grafici, niente unione in main.
+1. Script nuovo (prossimo numero libero dalla memoria, oggi 102): scripts/102_scelta_del_mezzo.py. Legge imq_od.json (dal disco), tp_contro_auto.json e tempi_traffico.json; scrive data/processed/scelta_del_mezzo.json e docs/rapporti/RAPPORTO_SCELTA_DEL_MEZZO.txt. Opzione --prova con dati finti. Controlli: interviste totali usate e coppie per gruppo (AVVISO sotto 20 coppie in un gruppo), quote fra 0 e 1, nessuna coppia contata due volte.
+2. Scheda 4 (scripts/schede/r8.py): un punto chiave (sostituisce il meno forte dei 3: scrivi nell'esito quale e perché) e il grafico del blocco L13 negli «Altri grafici»; nel calcolo e nei limiti le regole e la frase obbligatoria. Traduzioni in testi.json. docs/R8_traffico.md: sezione nuova con tabella e comando per rifarlo; aggiungi lo script a rifai_tutto.py dopo il 93.
+3. Prove: pyflakes zero; schede_risultati.py (nessuna ATTENZIONE); RIFAI_MAPPA_E_SCHEDE.bat; prova_pagine.py (0 errori). Esito sviluppo/piani/ESITO_L13.md (Spearman e intervalli per gruppo, regge / non regge), memoria, commit, git pull --no-rebase origin prova, git push origin prova.
+```
+
+## L14 — PC: «Quanto costa muoversi» (risultato nuovo E10, sesta scheda, scelto da Leo) 🛑
+
+Domanda: **quanto costa andare in centro (e fra le zone) in auto e coi mezzi, oggi, col caro carburante?** Due livelli, come in `PIANO_COSTI.md`: costo **che si sente** (carburante + parcheggio; biglietto o quota dell'abbonamento) e costo **pieno** dell'auto (anche assicurazione, bollo, usura, perdita di valore: tabelle ACI). Collegato alle schede 3 e 4 (tempi) e al R6 (parcheggio di scambio: auto fino al parcheggio + mezzi).
+**Dati da raccogliere** (l'agente li cerca sul web, sola lettura; ogni valore in `data/ref/costi.json` con fonte, indirizzo, data di consultazione; se un dato non si trova, lo scrive e si ferma su quel pezzo):
+- carburante: prezzi medi giornalieri benzina e gasolio self a Torino (dati aperti del Ministero delle imprese, «Osservatorio prezzi carburanti», file giornalieri per impianto): media degli impianti della Città di Torino sulle ultime 4 settimane;
+- consumo: un valore per auto media (litri/100 km in uso misto urbano) da una fonte pubblica dichiarata (ACI o agenzia europea); due auto di riferimento (benzina, gasolio);
+- costo pieno: tabelle ACI dei costi chilometrici dell'anno, per le due auto di riferimento, alla percorrenza annua media;
+- parcheggio: tariffe della sosta a pagamento (strisce blu) del Comune di Torino per zona (il catalogo comunale ha le zone blu), due casi: sosta di 2 ore e giornata di lavoro (8 ore, con abbonamenti o tariffe giornaliere se esistono); ZTL: solo una riga nei limiti (chi entra deve avere il permesso);
+- mezzi: tariffe GTT in vigore (biglietto urbano, eventuale biglietto giornaliero, abbonamento mensile e annuale ordinario; per la cintura le tariffe del sistema integrato per zone, se si possono assegnare alle zone IMQ in modo semplice; se no la cintura esce con un AVVISO e la scheda resta su Torino e sui 12 punti del R6);
+- distanze in auto: dalla nostra rete (lunghezza del percorso più veloce, script 93/94); controllo con TomTom sui percorsi B (lengthInMeters, entro ±10%; TomTom si può usare: circa 16 richieste).
+**Regole fissate ora, prima dei numeri:**
+- costo auto che si sente = km × consumo × prezzo medio (andata e ritorno) + parcheggio all'arrivo (2 ore in centro per una commissione, 8 ore per il lavoro); costo pieno = km × costo ACI per km (andata e ritorno) + parcheggio;
+- costo mezzi = 2 biglietti (commissione) oppure abbonamento mensile / 40 viaggi (lavoro: 20 giorni × 2);
+- confronti: Piazza Castello da ognuno dei 12 punti del R6 e dei 5 interscambi (auto fino al centro contro auto fino al parcheggio di scambio + mezzi), e le 600 coppie di zone con più auto del mattino (scheda 4);
+- numero grande: quanto costa in più l'auto per andare al lavoro in centro, al mese, mediana dei 12 punti (costo che si sente), con il costo pieno nel testo;
+- un punto chiave «tempo contro soldi»: minuti in più coi mezzi (TomTom, L8) contro euro risparmiati, per i 12 punti; nessun valore del tempo inventato (si mostrano i due numeri affiancati);
+- limiti obbligatori: prezzi di un periodo preciso (scritto), consumo medio e non della propria auto, le persone con agevolazioni (abbonamenti ridotti) non sono considerate, la ZTL non è nel calcolo.
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, sviluppo/piani/PIANO_COSTI.md, sviluppo/piani/ESITO_L8.md e il blocco L14 di sviluppo/piani/PROMPT_LAVORI.md (regole: non cambiarle dopo i numeri).
+Prima: git pull --no-rebase origin prova; python scripts\controlla_rami.py. Niente controlli grafici, niente unione in main. Un commit per passo.
+1. Dati (blocco L14, «Dati da raccogliere»): cerca le fonti sul web, scarica in data\raw\costi\ (nuova cartella; è l'unico caso in cui scrivi in data\raw: solo file nuovi, mai toccare gli altri) e scrivi data/ref/costi.json (valori, unità, fonte, indirizzo, data). Se una fonte ha licenza non chiara, scrivilo in docs/FONTI_DATI.md e usa solo il valore riassunto. FERMATI e scrivi a Leo se mancano carburante, tariffe GTT o sosta: senza quei tre il risultato non si fa.
+2. Script nuovo (prossimo numero libero, dopo L13: 103): scripts/103_costo_del_viaggio.py. Distanze dalla nostra rete (script 93/94: se non le salvano, aggiungile al loro JSON senza cambiare altro e controlla che i rapporti restino uguali), controllo delle distanze con TomTom sui percorsi B (±10%, AVVISO fuori). Uscite: data/processed/costo_del_viaggio.json, docs/rapporti/RAPPORTO_COSTO_DEL_VIAGGIO.txt. Opzione --prova. Controlli: nessun costo negativo o nullo, km fra 1 e 80, prezzo del carburante fra 1 e 3 euro al litro.
+3. Scheda nuova «Quanto costa muoversi» (scripts/schede/r12.py o il numero interno libero; numero pubblico 6, dopo le 5 di oggi): forma come le altre (domanda, numero grande, animazione, 3 punti chiave, grafico principale, altri grafici, una parte chiusa). Animazione: due «contatori» che salgono insieme mese per mese (auto e mezzi, euro) per il viaggio casa-lavoro mediano. Grafico principale: barre affiancate auto/mezzi per i 12 punti (costo che si sente; il pieno come seconda barra chiara). Altri grafici: «tempo contro soldi» dei 12 punti; costo per le 600 coppie per fascia di distanza. Pagina r/6.html, anteprima, README, home con 6 riquadri (3 + 3). Traduzioni in testi.json.
+4. Documento docs/R12_costi.md (domanda, fonti con data, regole, numeri, limiti, comando per rifarlo); script aggiunto a rifai_tutto.py; i dati dei prezzi si rifanno a mano quando cambiano (scritto nel documento e nella memoria).
+5. Prove: pyflakes zero; schede_risultati.py (6 schede, nessuna ATTENZIONE); RIFAI_MAPPA_E_SCHEDE.bat; prova_pagine.py --playwright (0 errori). Esito sviluppo/piani/ESITO_L14.md (valori raccolti con le fonti, numeri principali), memoria, commit, git pull --no-rebase origin prova, git push origin prova.
+ALLA FINE a Leo: i valori raccolti (carburante, consumo, ACI, sosta, tariffe GTT) con la fonte, il numero grande, cosa guardare.
 ```
 
 ---
