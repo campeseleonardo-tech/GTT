@@ -34,7 +34,7 @@ nel sistema; pagine che funzionano anche senza le animazioni.
 |---|---|---|
 | **I. Barra e piè di pagina comuni** | in alto: Home · Risultati · Mappa · Il progetto · IT/EN. In basso: «Chi sono» (nome, LinkedIn, email, GitHub), licenza, **«dati aggiornati al …»** | home, risultati, progetto (la mappa ha il suo pannello: lì solo il link «Il progetto») |
 | **J. Contatore della raccolta** | «Il Raspberry Pi legge Torino da N giorni: X milioni di posizioni dei mezzi» (numeri scritti dallo script delle schede) | **home**, sotto il titolo |
-| **K. Miniature nei riquadri** | ~~immagine fissa del grafico~~ → dal 23/10 (Leo) l'animazione della scheda in piccolo; le immagini `assets/miniature/` si tolgono in C14 | home |
+| **K. Miniature nei riquadri** | ~~immagine fissa del grafico~~ → dal 23/10 (Leo) l'animazione della scheda in piccolo; le immagini `assets/miniature/` si tolgono in L2 | home |
 | **L. Caricamento della mappa** | mentre arrivano i 6 MB: il contorno di Torino che si disegna e una barra; la finestra delle schede si apre con una dissolvenza | mappa, risultati |
 | **M. Mappa più comoda** | su telefono il pannello sale dal basso; schede dei temi uniformi (titolo = nome del posto, 3-5 righe, fonte in piccolo); «◎ Cintura» diventa «Tutta l'area»; ultime date e sigle tolte dal testo; bottone «copia il link di questa vista» | mappa |
 | **N. Come funziona** | schema animato: sensori e GPS → Raspberry Pi → storico → script → pagine (i livelli dell'IoT della tesi) | `progetto.html` |
@@ -93,7 +93,7 @@ la parte decimale e il % compaiono solo alla fine. Cifre a larghezza fissa e spa
 | 1 servizi | «Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi» | l'idea dei 15 minuti si chiama «città dei 15 minuti»; «smart city» è un'altra cosa (sensori e dati: è il racconto della pagina «Il progetto») |
 | 2 puntualità | «Circa il 5% dei passaggi arriva con più di 10 minuti di ritardo» | «in ritardo» da solo è ambiguo: oltre 5 minuti sono il 14% |
 | 3 parcheggi | «2 fermate importanti su 3 non hanno dove lasciare l'auto» | il risultato vero è quanto è facile lasciare l'auto e proseguire coi mezzi (Leo); i minuti di parcheggio diventano un punto chiave |
-| 4 traffico | resta «Al mattino, coi mezzi pubblici si impiega da 2 a 3 volte il tempo dell'auto» finché non c'è il giorno intero (C15) | |
+| 4 traffico | resta «Al mattino, coi mezzi pubblici si impiega da 2 a 3 volte il tempo dell'auto» finché non c'è il giorno intero (L3) | |
 | 5 case | «Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi» | «fragile» detto di persone suona male; «difficoltà sociali» descrive l'indice senza etichettare chi ci vive |
 
 - **Animazioni** (tutte con «riduci movimento»: figura ferma e numeri scritti):
@@ -102,11 +102,11 @@ la parte decimale e il % compaiono solo alla fine. Cifre a larghezza fissa e spa
   3. **Parcheggi**: la forma di Torino, le 274 fermate importanti che compaiono e si colorano (posti bastanti / pochi / nessuno), poi i 12 punti prioritari che si accendono.
      La scheda cambia centro: numero grande = fermate senza posti bastanti (179 su 274), grafico principale = i 12 punti per bisogno; i minuti di parcheggio passano fra i punti chiave e gli altri grafici.
      La **gara bus contro auto** resta come secondo grafico e **gira da sola** da un punto all'altro (finita una corsa parte la successiva, col nome del punto); la tendina resta, piccola, per chi vuole scegliere.
-  4. **Traffico**: la gara, da sola, su viaggi tipici fra zone (le coppie con più auto del mattino); poi l'area che si espande (C10).
+  4. **Traffico**: l'area che si espande (C10, fatta) è l'animazione principale, anche in home; la gara sui viaggi tipici fra zone (le coppie con più auto del mattino), da sola, va negli altri grafici.
   5. **Case**: 10 omini che compaiono uno alla volta, poi uno si accende.
 
-Come si fa: giro **C14** in `PROMPT_LAVORI.md` (con la bozza di codice `C14_bozza.patch`). **Controlli grafici solo di Leo** (23/10).
+Come si fa: giro **L2** (agente in locale) in `PROMPT_LAVORI.md`, con la bozza di codice `C14_bozza.patch`. **Controlli grafici solo di Leo** (23/10).
 
 **Non solo all'ora di punta** (schede 3 e 4, richiesta di Leo): oggi i tempi coi mezzi sono calcolati solo alle 8. Per l'auto abbiamo già il tempo a strada libera e le velocità
-dei sensori 5T per ora; per i mezzi serve il calcolo a più ore (stesso motore degli script 93 e 94) → giro **C15** (script, cloud) + **P10** (calcolo sul PC). Poi la gara
-mostra le 4 ore una dopo l'altra (8, 13, 17:30, 21; scelte e regola del titolo nel blocco C15 di `PROMPT_LAVORI.md`) e la scheda 4 ha la linea «quante volte il tempo dell'auto, ora per ora». L'ora di punta resta il numero principale.
+dei sensori 5T per ora; per i mezzi serve il calcolo a più ore (stesso motore degli script 93 e 94) → giro **L3** (agente in locale: script 100 e calcolo). Poi la gara
+mostra le 4 ore una dopo l'altra (8, 13, 17:30, 21; scelte e regola del titolo nel blocco L3 di `PROMPT_LAVORI.md`) e la scheda 4 ha la linea «quante volte il tempo dell'auto, ora per ora». L'ora di punta resta il numero principale.

@@ -18,7 +18,7 @@ della qualità dei dati). Cornici, temi in comune, dati da verificare e frase pe
 
 ## 2. Regole di lavoro
 
-- Con Leo: passo passo; decisioni importanti chieste prima, piccole scelte con default dichiarati; spiegazioni semplici, senza gergo.
+- Con Leo: passo passo; decisioni importanti chieste prima, piccole scelte con default dichiarati; spiegazioni semplici, senza gergo. **Chat di pianificazione** (Leo, 23/10): Claude nel cloud scrive piani e prompt dettagliati per l'agente in locale (`sviluppo/piani/PROMPT_LAVORI.md`) e non esegue; **i controlli grafici li fa solo Leo**.
 - **Verifica indipendente** di ogni fatto importante sui file veri prima di darlo a Leo; Claude ricontrolla i numeri degli agenti esterni.
 - Git: sul PC ramo `prova`; **commit e push sempre automatici** a fine lavoro (Leo, 20/10; dettagli in `AGENTS.md`). Nelle sessioni cloud ramo `claude/...`, che Leo unisce in `prova`
   (merge sempre con `--no-edit`). Repository **pubblico**: niente segreti né dati personali in git. Non modificare `data/raw` né lo storico: solo leggere.
@@ -90,7 +90,7 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 ## 6. PROSSIMI PASSI
 
 1. **Leo**: guardare `index.html`, `risultati.html` scheda 4 (grafico area), `progetto.html` (testi da rileggere), mappa anche in vista telefono; se va bene `git checkout main`, `git pull origin main`, `git merge --no-edit prova`, `git push origin main`, `git checkout prova`;
-   Settings > Pages (ramo `main`, cartella `/`), descrizione e argomenti del repository, anteprima social (`assets/anteprima.png`), Post Inspector di LinkedIn sui link `r/N.html`. Ramo `origin/claude/vigilant-volta-l13do5` (piani C14, C15, P10, revisione grafica) non ancora in `prova`: unire o scartare.
+   Settings > Pages (ramo `main`, cartella `/`), descrizione e argomenti del repository, anteprima social (`assets/anteprima.png`), Post Inspector di LinkedIn sui link `r/N.html`. Revisione grafica di Leo (23/10, `PIANO_GRAFICA.md`): giri **L2** (grafica, bozza `C14_bozza.patch`) e **L3** (bus/auto a 4 ore, script 100) in `PROMPT_LAVORI.md`, prima di `main`.
 2. **P7 rimasto**: accessibilità 24 ore (~19 ore, `rifai_tutto.py --solo accessibilita`, GTFS invariato: non serve). **Rilanciando con lo storico vivo cambiano R4 (oltre 5' 14,1% → 15,6%), R6 e R8 (±38% → ±28%, 190.255 → 205.034 esposti)**: aggiornare i risultati è una decisione di Leo (P8).
 3. **P8** (metà novembre): R4 con un mese di dati, rilancio 27 e 70, R9; poi stagione; R6 con altri feriali.
 4. Più avanti: costi (`PIANO_COSTI.md`); R2 ripreso (popolo della notte), treni SFM, scenario fra R3 e R5, effetto ZTL, tram contro bus. Metrica trasversale (Leo, 16/10): «quanti veicoli in meno potrebbero girare»; luoghi «speciali» (stadi, fiere, ospedali…) con parametri fissi. **Congelate** (Leo, 20/10): bici, telefonia, logistica, eventi.

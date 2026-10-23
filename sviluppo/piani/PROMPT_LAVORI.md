@@ -41,6 +41,10 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | C12 (FATTO 23/10) | CLOUD | 404, pagine dei singoli risultati, README, controllo automatico su GitHub, `rifai_tutto.py` | 4 (10), 1 (9), 5 (2, 3) |
 | P7 (FATTO 23/10, tranne le 19 ore di accessibilità; ESITO_P7) | PC | prova «da zero» e rilancio completo 🛑 → main; Leo accende GitHub Pages e scrive la descrizione del repository | 1 (8, 10), 5 (3) |
 | C13 (FATTO 23/10: tutti i gruppi, pyflakes a zero) | CLOUD | pulizia del codice (funzioni comuni, codice morto, prove dei numeri), a pezzi | 5 (5-8) |
+| L1 (FATTO 23/10, esito ESITO_P7 e ESITO_C13_*) | PC | P1, P3, P5, P6, P7 e C13 sui dati veri | — |
+| **L2** | PC | revisione grafica di Leo del 23/10 (ex C14): home, numeri che salgono, schede con una sola parte chiusa, titoli nuovi, animazioni anche in home; prima Leo sceglie se rifare R4, R6, R8 con lo storico di oggi 🛑 | 4 (revisione 23/10) |
+| **L3** | PC | bus contro auto a 4 ore del giorno (ex C15 + P10), script 100, schede 3 e 4 🛑 | 4 (revisione 23/10) |
+| main | Leo | unire prova in main, accendere GitHub Pages (la pubblicazione per ultima) | 1 (8, 10) |
 | P8 | PC | metà novembre: R4 con un mese di dati, rilancio | 3 (4) |
 
 ---
@@ -50,6 +54,8 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 Ogni prompt dice al modello di: leggere `sviluppo/AGENTS.md` e la memoria; controllare i rami prima di iniziare; seguire il piano; provare davvero
 (script lanciati, pagine aperte nel browser); scrivere un esito `ESITO_<giro>.md` accanto ai piani; aggiornare la memoria; fare commit e push.
 I numeri dei risultati non si scrivono mai a mano: si leggono dai file prodotti dagli script.
+**Controlli grafici (Leo, 23/10): li fa solo Leo.** Il modello controlla che il codice giri (script, 0 errori JavaScript con `prova_pagine.py`,
+numeri nei JSON) e scrive a Leo una lista di cosa guardare; non guarda e non giudica schermate, colori o misure (vale anche per i prompt scritti prima).
 
 ---
 
@@ -306,3 +312,76 @@ Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py (fer
 9. Aggiorna sviluppo/MEMORIA_PROGETTO.md (sezioni 4-6, massimo 120 righe) solo con quello che e' cambiato, poi git add -A, git status (niente data\ non voluti, .bak, chiavi), commit, git pull --no-rebase origin prova, git push origin prova.
 Alla fine di' a Leo in 5 righe cosa e' cambiato, cosa deve guardare (index.html, risultati.html scheda 4, progetto.html, mappa) e i passi a mano su GitHub: unire prova in main, Settings > Pages (ramo main, cartella /), descrizione del repository, anteprima social, Post Inspector di LinkedIn sui link r/N.html. P8 (R4 con un mese di dati) resta a meta' novembre.
 ```
+
+## L2 — PC: revisione grafica di Leo del 23/10 (home, numeri che salgono, schede, animazioni)
+
+Cosa vuole Leo e perché: `PIANO_GRAFICA.md`, sezione «Revisione di Leo (23/10)» (titoli, animazioni, struttura delle schede). Era il giro cloud C14: lo fa l'agente
+in locale perché sul PC ci sono i dati e può rilanciare tutto. **Bozza di codice** di Claude: `sviluppo/piani/C14_bozza.patch` (scritta sulla versione di `prova` del 23/10 mattina,
+prima di C10-C13). Sulla `prova` delle 18:32 del 23/10 si applicano ancora 12 file su 16; **non** si applicano `risultati.html`, `scripts/schede/r6.py`, `scripts/schede/r8.py`
+e `scripts/schede/testi.json` (cambiati da C10 e C12): questi si rifanno a mano, guardando la bozza come esempio.
+**Prima di lanciarlo Leo sceglie** (scrivilo in cima al prompt): AGGIORNA_RISULTATI = sì / no (rilanciare R4, R6, R8 con lo storico di oggi: in P7 dava R4 oltre 5' 14,1% → 15,6%,
+oltre 10' 5,44% → 6,19%, R8 errore ±38% → ±28%; i titoli si aggiornano da soli).
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, sviluppo/MEMORIA_PROGETTO.md e sviluppo/piani/PIANO_GRAFICA.md (sezione «Revisione di Leo (23/10)», tutta).
+Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py (fermati se segnala lavoro non unito). Un passo per volta; se un passo fallisce, fermati e dillo a Leo con l'errore.
+REGOLA DI LEO: i controlli grafici li fa solo lui. Tu NON guardi schermate e NON giudichi colori, misure o impaginazione. Controlli che il codice giri: script senza errori, prova_pagine.py con 0 errori JavaScript, numeri giusti nei JSON. Alla fine gli dai una lista di cosa guardare.
+
+0. Solo se in cima al prompt c'è AGGIORNA_RISULTATI = sì: python scripts\rifai_tutto.py --da traffico (49 minuti in P7). Scrivi una tabella prima/dopo dei numeri principali di R4, R6, R8 (docs\rapporti, git diff) e aggiorna i numeri in docs\R4_puntualita.md, docs\R6_parcheggi.md, docs\R8_traffico.md e nella memoria. Commit a parte «Risultati rifatti con lo storico al <data>».
+1. Bozza: git apply --include="assets/*" --include=index.html --include="scripts/schede/comune.py" --include="scripts/schede/home.py" --include="scripts/schede/r1.py" --include="scripts/schede/r4.py" --include="scripts/schede/r10.py" --include="scripts/schede/traduci.py" sviluppo\piani\C14_bozza.patch
+   Leggi TUTTO il diff applicato (git diff) e quello non applicato (le parti di risultati.html, r6.py, r8.py, testi.json nella patch): devi capire cosa fa prima di andare avanti.
+2. NUMERI CHE SALGONO (assets/sito.js, contaSu, dalla bozza): circa 2,6 secondi, partenza e arrivo morbidi; durante la corsa solo interi, senza virgola né %; il testo finale (decimali, %) solo all'arrivo; larghezza fissata a quella del testo finale prima di partire; data-forbice="21,28" fa salire due numeri insieme. git grep data-suffisso: togli gli usi rimasti (anche in r/*.html se lo script delle schede li scrive).
+3. HOME (dalla bozza: index.html, mezzi.js, stile.css, home.py). Titolo «Torino Mobilità» in oro; sottotitolo «Un progetto per capire come si muove la città.»; frase «Da N giorni raccogliamo, minuto per minuto, i dati di bus, tram e traffico di Torino, e continuiamo: per capire chi va dove, e come ci va.» con N = giorni da INIZIO_RACCOLTA (home.py) a oggi, contati nel browser. I 5 riquadri mostrano l'animazione della scheda in piccolo (Anima.html(f.anima, {compatto: true})).
+   Le miniature in assets/miniature/ non servono più: togli da scripts/prova_pagine.py la parte che le rifà (fai_miniature, MINIATURE e la riga della descrizione), cancella la cartella, git grep miniature e aggiorna i rimandi. NON toccare assets/anteprime/ (immagini per i link condivisi, C12) né assets/readme/ (README).
+   Il riquadro è un link <a>: dentro niente pulsanti né tendine (la gara mini non disegna i comandi: verificalo nel codice di gara.js).
+4. SCHEDE: STRUTTURA (risultati.html, a mano: la bozza non si applica perché C10 ha aggiunto l'area e C12 altre cose; tieni tutto quello che c'è di nuovo).
+   Ordine nella scheda aperta: domanda → numero grande (sale; attributi con una funzione attrConta come nella bozza) → animazione (f.anima; se manca la figura vecchia f.unita) → 3 punti chiave → grafico principale → «Vedi sulla mappa» → «Altri grafici» APERTI (sottotitolo, non <details>), compresa l'area della scheda 4 se non è l'animazione principale (vedi 6) → f.extra aperta → UNA sola parte chiusa «Come l'abbiamo calcolato e limiti» (calcolo, confronto, criteri, poi «Limiti»).
+   Via la parte «In English» (la riga parte("In English", …)): l'inglese resta col bottone IT/EN. In comune.py (bozza) forma_base non salva più «english» e controlla_forma non la conta; controlla con git grep english che non resti nulla (anche le pagine r/N.html e il README scritti dallo script delle schede).
+5. TITOLI E TESTI (r1.py, r4.py, r10.py dalla bozza; r6.py a mano, vedi sotto). Titoli della tabella di PIANO_GRAFICA.md. Regole:
+   - i numeri nei titoli si calcolano dai dati, mai a mano («2 su 3» da frazione(n_senza / n_fermate); «Circa il 5%» da round del ritardo oltre 10 minuti: con AGGIORNA_RISULTATI = sì diventa «6%», va bene così);
+   - scheda 5: il 9,5% è dei residenti delle «zone abitate», non di tutti i torinesi (79.598 / 848.748 = 9,4%): il testo dice «dei residenti delle zone abitate». Correggi anche README e r/5.html se lo riportano (li scrive lo script delle schede: controlla che dopo il rilancio sia giusto);
+   - scheda 3 riorganizzata (Leo: il risultato è quanto è facile lasciare l'auto; i minuti di parcheggio sono una postilla): numero grande = fermate importanti senza posti bastanti; grafico principale = i 12 punti per bisogno; altri grafici = gara (gira da sola), minuti di pareggio, parcheggi di scambio esistenti con lo stato (pieno di giorno / a metà / con posti liberi / non misurato, campo «stato» in r6_bus_contro_auto.json); punti chiave = nessun parcheggio / pochi posti, il primo punto d'ingresso, il pareggio. Guarda la parte r6.py della bozza (funzioni frazione e anima_fermate e la fine di forma_r6) e riportala a mano;
+   - ATTENZIONE in r6.py: alcune righe sono IDENTICHE in scheda_r6() e forma_r6() (es. «val = rie.get(...)»). Ogni modifica va cercata dentro la funzione giusta, mai con la prima occorrenza del file. Dopo, python -m pyflakes scripts: deve restare a zero (C13).
+6. ANIMAZIONI (assets/animazioni.js dalla bozza, nuovo; gara.js dalla bozza). Una per scheda, in f.anima, scritta dai moduli Python con i numeri dei dati:
+   scheda 1 «cerchi» (5/10/15 minuti col %); scheda 2 «quadratini» (oltre 5 e oltre 10 minuti, poi le 4 fasce orarie in giro); scheda 3 «fermate» (Torino e le 274 fermate che si colorano, poi i 12 punti; il riquadro del disegno si calcola su fermate + contorno perché molte fermate sono in cintura); scheda 5 «omini».
+   Scheda 4: DIVERSO dalla bozza. Dopo C10 la scheda ha già «l'area che si espande» (f.area, assets/area.js), che è un'animazione: è lei l'animazione principale (mettila al posto di f.anima nella scheda e nella home: nella home una versione piccola, senza tendina, che parte da sola; se area.js non ha una versione piccola, aggiungila con un'opzione, senza cambiare quella grande). La gara sui 6 viaggi tipici (parte r8.py della bozza) va negli «Altri grafici» della scheda 4.
+   Gara (gara.js dalla bozza): opzione giro (finita una corsa, dopo 2,2 secondi la successiva; solo mentre si vede; la tendina ferma il giro), nome della partenza sopra la corsa, campo «arrivo» per luogo, opzione mini (niente comandi). La gara piccola nel pannello R6 della mappa resta come prima (compatto SENZA mini): verificalo in scripts/mappa_template.html (r6Gara).
+   Tutte: con «riduci movimento» la figura finale ferma con i numeri scritti; partono quando entrano nella finestra; se un dato manca la scheda si vede senza animazione e senza errori.
+7. INGLESE: ogni frase nuova ha la traduzione in scripts/schede/testi.json («esatte» o «modelli» con {n0}, {s0}, {t0}); prendi quelle della parte testi.json della bozza e aggiungile a mano (il file è cambiato: non riscriverlo tutto, aggiungi solo le voci). «contorno» in SALTA di traduci.py (bozza). python scripts\schede_risultati.py: NESSUNA riga «ATTENZIONE» (traduzioni mancanti, frasi oltre 20 parole: la regola che divide le frasi non taglia dopo una cifra, «alle 8. L'auto» resta una frase sola).
+8. PROVE (solo funzionamento): python -m pyflakes scripts (zero); node --check assets\*.js; python scripts\schede_risultati.py (5 schede, nessuna ATTENZIONE; ogni forma ha anima o area; numeri delle animazioni uguali ai rapporti: scheda 3 95+111+68 = 274, scheda 1 68,3 / 96,8 / 99,2 se i dati non sono cambiati); scripts\RIFAI_MAPPA_E_SCHEDE.bat; python scripts\prova_pagine.py: 0 errori su tutte le pagine; controllo automatico di GitHub verde dopo il push.
+9. Cancella sviluppo\piani\C14_bozza.patch. Esito in sviluppo/piani/ESITO_L2.md: cosa hai preso dalla bozza, cosa hai rifatto a mano e perché, eventuali scelte tue (con il valore predefinito). Memoria (sezioni 4-6, massimo 120 righe). git add -A, git status, commit, git pull --no-rebase origin prova, git push origin prova.
+Alla fine dai a Leo la LISTA DA GUARDARE (computer e telefono, chiaro e scuro): home (titolo oro, frase dei giorni, 5 riquadri animati, numeri che salgono piano senza virgola né % durante la corsa); schede (niente «In English», una sola parte chiusa, titoli nuovi, le 5 animazioni, gara della scheda 3 che gira da sola, area della scheda 4); mappa (gara piccola nel pannello dei parcheggi come prima).
+```
+
+## L3 — PC: bus contro auto a 4 ore del giorno (schede 3 e 4) 🛑
+
+Richiesta di Leo (23/10): i confronti bus/auto non solo all'ora di punta. Era il giro C15 + P10; in locale si fa in un giro solo. Dopo L2, e dopo che Leo ha guardato L2.
+Scelte di Claude (valori predefiniti; Leo può cambiarle prima del lancio):
+- **4 ore**, le fasce della scheda 2: 8:00 (punta del mattino, c'è già), 13:00, 17:30, 21:00. Feriale 2026-10-12, finestra di 30 minuti, mediana, come gli script 93 e 94.
+- **Auto all'ora h** = flusso libero × fattore(h) + 5 minuti di parcheggio. fattore(h) dai sensori 5T (`data/processed/velocita_5t.json`, feriali): mediana sui sensori urbani di (velocità di notte, 3-5) / (velocità all'ora h). Deve dare 1,2 ± 0,1 alle 8 come oggi, se no ci si ferma.
+  Il fattore di Google (2,1) esiste solo alle 8: alle altre ore si scala nello stesso rapporto, fattore_basso(h) = 1 + (2,1 − 1) × (fattore(h) − 1) / (fattore(8) − 1). È un'ipotesi e va nei limiti delle schede.
+- **Regola del titolo della scheda 4, fissata prima dei numeri**: se a tutte e 4 le ore il rapporto mediano resta entro ±0,3 da quello delle 8, con tutti e due i fattori → «A ogni ora del giorno, coi mezzi pubblici si impiega da X a Y volte il tempo dell'auto»;
+  altrimenti il titolo resta «Al mattino…» e un punto chiave dice da quanto a quanto cambia durante il giorno. Scheda 3: il titolo resta sui parcheggi.
+- L'area che si espande (script 99) resta alle 8: per sezione a 4 ore il calcolo è lungo; solo se Leo lo chiede dopo.
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, sviluppo/MEMORIA_PROGETTO.md, docs/R6_parcheggi.md, docs/R8_traffico.md, sviluppo/piani/ESITO_L2.md e il blocco L3 di sviluppo/piani/PROMPT_LAVORI.md (scelte e regola del titolo: non cambiarle dopo aver visto i numeri).
+Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py. Un passo per volta; se un passo fallisce, fermati e dillo a Leo.
+REGOLA DI LEO: niente controlli grafici, li fa lui.
+1. Leggi gli script 93 e 94: come calcolano i tempi coi mezzi (r5py) e in auto. Non copiarne il codice: riusa le funzioni con comuni.carica_script come fa il 94.
+2. Scrivi scripts/100_ore_del_giorno.py (100 è il prossimo numero libero: controllalo nella memoria; aggiornalo a 101). Sola lettura sui dati. Costante ORE in testa. Per ogni ora: tempi coi mezzi dai 12 punti prioritari e dai 5 interscambi a Piazza Castello (come il 94) e per le coppie di zone del 93 (gruppi a e b; se tutte a 4 ore richiedono più di 2 ore di calcolo, le 600 coppie con più auto, scritto nel rapporto). Auto con fattore(h) e fattore_basso(h) del blocco L3.
+   Uscite: data/processed/ore_del_giorno.json (per ora: luoghi del R6 con tp, auto_alto, auto_basso; coppie con tp, auto, auto_basso; rapporto mediano pesato per le auto del mattino con i due fattori; quota di auto con rapporto oltre 2) e docs/rapporti/RAPPORTO_ORE_DEL_GIORNO.txt.
+   Opzioni: --prova (dati finti piccoli, cartella temporanea), --campione N (solo N zone). Controlli: fattore alle 8 = quello di oggi entro ±0,1 (bloccante); alle 8 tempi coi mezzi uguali a r6_bus_contro_auto.json e tp_contro_auto.json entro 1 minuto (AVVISO); nessun tempo nullo, negativo o infinito (bloccante); di sera i luoghi senza collegamento entro 120 minuti si contano a parte.
+3. Prova: --prova, poi --campione 10 (durata). Stima la durata intera e dilla a Leo; se supera 2 ore prepara scripts\ORE_DEL_GIORNO.bat (cd /d "%~dp0..", log in logs\, stop al primo errore) e chiedi a Leo di lanciarlo in una finestra sua; aggiungi il comando a rifai_tutto.py dopo il 94 e il 93.
+4. Calcolo intero. Buon senso: alle 8 uguale a oggi; a mezzogiorno e di sera l'auto più veloce che alle 8; i mezzi di sera più lenti o uguali. Tabella ora per ora (rapporto mediano, auto oltre 2 volte) nell'esito.
+5. Schede (r6.py, r8.py, gara.js), solo se ore_del_giorno.json c'è; se manca, le schede restano come dopo L2:
+   - gara della scheda 3 e gara dei viaggi tipici della scheda 4: ogni luogo corre alle 4 ore una dopo l'altra (ora scritta sopra la corsa e nella frase per il lettore di schermo: campo facoltativo «ora» per ogni corsa), poi il luogo dopo; nella home (mini) solo le 8;
+   - scheda 4: grafico a linea «Quante volte il tempo dell'auto, ora per ora» (due serie, fattore alto e basso) negli «Altri grafici»; titolo secondo la regola del blocco L3;
+   - limite nuovo nelle schede 3 e 4: «Il rallentamento dell'auto alle altre ore viene dai sensori; quello di Google si conosce solo alle 8 ed è stato scalato.»; traduzioni in testi.json.
+6. Prove: python -m pyflakes scripts (zero); python scripts\schede_risultati.py (nessuna ATTENZIONE); scripts\RIFAI_MAPPA_E_SCHEDE.bat; python scripts\prova_pagine.py (0 errori); docs\R6_parcheggi.md e docs\R8_traffico.md con la tabella delle ore e il comando per rifarle.
+7. Esito sviluppo/piani/ESITO_L3.md (durata, tabella, quale titolo è uscito per la scheda 4 e perché), memoria, commit, git pull --no-rebase origin prova, git push origin prova. Di' a Leo cosa guardare: schede 3 e 4 (gara con le ore, linea ora per ora).
+```
+
+## Dopo L3 (Leo, a mano)
+Leo guarda tutto; se va bene: `git checkout main`, `git pull origin main`, `git merge --no-edit prova`, `git push origin main`, `git checkout prova`; Settings > Pages (ramo `main`, cartella `/`), descrizione e argomenti del repository,
+anteprima social, Post Inspector di LinkedIn sui link `r/N.html`. P8 (R4 con un mese di dati) a metà novembre.
