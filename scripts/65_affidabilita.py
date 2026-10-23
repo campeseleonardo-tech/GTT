@@ -69,7 +69,6 @@ def main():
     tratte_by_id = {t["id"]: t for t in tratte}
     flusso = json.loads((OUT / finale / "tratte_flusso.json").read_text(encoding="utf-8"))["tratte"]
     flusso_per_id = {t["id"]: t["veic_giorno_2v"] for t in flusso}
-    assi = {a["id"]: a for a in json.loads((OUT / "assi.json").read_text(encoding="utf-8"))["assi"]}
 
     ztl = {}
     with (OUT / "tratte_ztl.csv").open(encoding="utf-8", newline="") as fh:
@@ -136,8 +135,6 @@ def main():
     for t in tratte:
         per_asse[t["asse"]].append(t["id"])
         meta_tratta[t["id"]] = t
-    mediana_asse = {a: float(np.median([flusso_per_id.get(i, 0.0) for i in ids]))
-                    for a, ids in per_asse.items()}
 
     # vicini consecutivi di ogni tratta dentro la stessa catena
     per_catena = defaultdict(list)
@@ -162,13 +159,11 @@ def main():
         veic = flusso_per_id.get(tid, 0.0)
         com = t["comune"]
         rt = t["rango"]
-        lung = t["lunghezza_m"] / 1000.0
         motivi = []
         # (c) struttura
         if STRUTTURA.search(t["nome_principale"] or ""):
             motivi.append("struttura (ponte/sottopasso/ecc.)")
         # (a) bordo: entro 1,5 km da una porta
-        geom = t.get("geom")
         # geometria non e' in tratte.json: usa il centroide approssimato dai WKT? usiamo
         # le coordinate del secondo punto del nome via rete
         # qui calcoliamo dal centroide ricavato in fase di creazione se disponibile

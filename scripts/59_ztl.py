@@ -20,7 +20,6 @@ Output: data/processed/traffico_d/ztl_unificata.json
 import csv
 import io
 import json
-import math
 import re
 import sys
 import zipfile
@@ -211,9 +210,7 @@ def main():
                 return True
         return False
 
-    from pyproj import Transformer as _T  # noqa
     # --- tratte: quota dentro ZTL / aree pedonali ---
-    tratte = json.loads((OUT / "tratte.json").read_text(encoding="utf-8"))["tratte"]
     righe_csv = []
     with (OUT / "tratte.csv").open(encoding="utf-8", newline="") as fh:
         for r in csv.DictReader(fh, delimiter=";"):

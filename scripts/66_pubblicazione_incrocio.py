@@ -22,7 +22,6 @@ Output: data/processed/risultato8_traffico_tp_v2.json
 """
 
 import json
-import sys
 from collections import defaultdict
 from pathlib import Path
 
@@ -172,8 +171,6 @@ def main():
             return None, 0
         return max(o["veic_giorno"] for o in voci), len(voci)
 
-    bande = {"A": (q66, 1e18), "B": (q33, q66), "C": (0, q33)}
-
     def banda(chiave):
         v, n = valore(chiave)
         if v is None:
@@ -210,8 +207,6 @@ def main():
     for k in nomi:
         v, _ = valore(k)
         valori.append((k, v if v is not None else 0.0))
-    nostri = np.array([v for _, v in valori])
-    from scipy.stats import spearmanr
     # "atteso": le piÃ¹ trafficate in alto; per le altre non c'Ã¨ un ordine -> solo
     # correlazione fra le 8 piÃ¹ trafficate e la loro posizione Ã¨ banale; si riporta
     # invece il rango medio (controllo descrittivo)

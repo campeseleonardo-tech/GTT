@@ -17,7 +17,6 @@ i comuni confinanti con la stessa regola.
 
 import json
 import re
-import sys
 from pathlib import Path
 
 import numpy as np
@@ -49,7 +48,6 @@ def main():
         cor = json.loads((OUT_DIR / "v3" / "corridoi_v3.json").read_text(encoding="utf-8"))
         corridoi = cor["corridoi"]; sensori = cor["sensori"]
         k = val["varianti"]["V3"]["k_totale"]
-        tar = (OUT_DIR / "v3" / "valutazione_v3.json")
     else:
         corridoi = json.loads((OUT_DIR / "corridoi_modello.json").read_text(encoding="utf-8"))["corridoi"]
         sensori = json.loads((OUT_DIR / "corridoi_modello.json").read_text(encoding="utf-8"))["sensori"]

@@ -12,7 +12,6 @@ Output: docs/rapporti/RAPPORTO_FASE5_VERIFICHE.txt
 """
 
 import csv
-import io
 import json
 import math
 import subprocess
@@ -103,7 +102,6 @@ def main():
         for r in csv.DictReader(fh, delimiter=";"):
             tp[int(r["id_tratta"])] = r
     res = json.loads((PROC / "risultato8_traffico_tp_v2.json").read_text(encoding="utf-8"))
-    contro = {o["nome"]: o for o in res["tratte"] if o["da_guardare"]}
     esempi = list({o["id"] for o in res["tratte"] if o["da_guardare"]})[:5]
     for tid in esempi:
         t = tratte[tid]
@@ -165,8 +163,8 @@ def main():
         toccati_vietati = [v for v in vietati if any(v in riga for riga in gs.splitlines())]
         a_(f"    righe modificate/nuove: {len(gs.splitlines())}")
         a_(f"    file vietati toccati: {toccati_vietati or 'NESSUNO'}")
-        a_(f"    (sviluppo/MEMORIA_PROGETTO.md e mappa_template.html erano gia' modificati prima della "
-           f"sessione; 04_genera_mappa.py non compare -> intatto)")
+        a_("    (sviluppo/MEMORIA_PROGETTO.md e mappa_template.html erano gia' modificati prima della "
+           "sessione; 04_genera_mappa.py non compare -> intatto)")
     except Exception as e:
         a_(f"    git status non disponibile: {e}")
 

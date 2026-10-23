@@ -135,7 +135,6 @@ def punti_metro(z):
     routes = {r["route_id"]: r for r in leggi_csv_zip(z, "routes.txt")}
     metro_routes = {rid for rid, r in routes.items() if r["route_type"] == "1"}
     import pandas as pd
-    from collections import Counter
     with z.open("trips.txt") as fh:
         trips = pd.read_csv(fh, dtype=str, usecols=["trip_id", "route_id"])
     metro_trips = set(trips[trips["route_id"].isin(metro_routes)]["trip_id"])
@@ -213,9 +212,8 @@ def main():
     giorno, am, pm = dati["giorno"], dati["am"], dati["pm"]
 
     rete = rete_osm.carica(RETE_DIR)
-    xy = rete["nodi_xy"]
     meta = rete["meta"]
-    edge_a, edge_b, edge_len = rete["edge_a"], rete["edge_b"], rete["edge_len"]
+    edge_a, edge_len = rete["edge_a"], rete["edge_len"]
     n_edge = len(edge_a)
 
     corridoi, per_chiave, griglia = carica_corridoi()

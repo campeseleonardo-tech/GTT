@@ -64,7 +64,6 @@ def main():
             per_classe[c][3] += float(edge_len[e])
 
     # tratte
-    d = json.loads((OUT / "assi.json").read_text(encoding="utf-8"))
     tratte = json.loads((OUT / "tratte.json").read_text(encoding="utf-8"))["tratte"]
     out = []
     for t in tratte:
