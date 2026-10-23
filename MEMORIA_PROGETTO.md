@@ -1,6 +1,6 @@
 # Memoria del progetto GTT
 
-Ultimo aggiornamento: **21/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
+Ultimo aggiornamento: **23/10/2026**. File unico di memoria: leggerlo all'inizio, aggiornarlo alla fine. Solo lo stato attuale, massimo 120 righe: i dettagli di un
 risultato stanno nel suo documento in `docs/` (`R1_servizi.md` …), i piani aperti in `docs/piani/`, la storia in git. Sezioni fisse (non aggiungerne): 1 Obiettivo · 2 Regole · 3 Cartelle e dati · 4 FATTO · 5 IN CORSO · 6 PROSSIMI PASSI · 7 MANCA · 8 Standard tecnici.
 
 ## 1. Obiettivo
@@ -76,17 +76,17 @@ Catene `.bat` (in `scripts/`): `RACCOLTA_GIORNALIERA` + `INSTALLA_RACCOLTA_GIORN
 
 ## 5. IN CORSO
 
-- **Mappa giro 4**: sul PC `python scripts\04_genera_mappa.py` (file atteso 5,5-6,8 MB), poi `python scripts\prova_pagine_r6.py` (0 errori) e controllo a occhio delle 6 caselle di «Luoghi della città» (`docs/piani/ESITO_MAPPA_GIRO4.md`).
-  Da decidere: «Mercati» e «Cultura» caricano `commercio.js`, che contiene anche le 31.271 attività (peso non misurato); eventuale file più piccolo scritto dal 04.
-- **R6, minuti di pareggio** (codice scritto nel cloud, da lanciare sul PC: 94, 79, schede, 04, prova pagine): titolo della scheda = minuti per parcheggiare in centro oltre i quali il bus dai punti pareggia l'auto (mediana dei 12 punti, forbice dei due fattori).
+- **Lanciati sul PC il 21-22/10** (visto in git): mappa giro 4 (`mappa_torino.html` 6,09 MB), R6 minuti di pareggio (94, rapporto: mediana 20,9-27,5 minuti), script 95 (numeri uguali alla prova
+  nel cloud: Spearman 0,61, 79.598 torinesi = 9,5% in doppio svantaggio) e mappa con la vista «Doppio svantaggio». **Non verificabile da git** (da confermare con Leo): `schede_risultati.py` con 5 schede,
+  `prova_pagine_r6.py` a 0 errori, controllo a occhio delle 6 caselle di «Luoghi della città», tempo di caricamento di «Mercati» e «Cultura» (`commercio.js` con le 31.271 attività).
 - **R4 Giro 6**: attese svuotate (il 14/10 ha quasi niente GPS) → giorni con poco GPS esclusi, poi pubblicazione. B3 (stagione) per gennaio/luglio.
 - **Raccolta parcheggi** su leopi: serve fino a inizio novembre per il R6 (più feriali di riempimento).
-- **Piani aperti** (`docs/piani/`): `PIANO_DOCUMENTI` (restano 11 README, 13 mappa fuori da git), `PIANO_MAPPA` (restano le schede uniformi dei temi), `PIANO_RISULTATI` (R1, R4, R8 «dove il mezzo pubblico non conviene», capienze; parte E case × fragilità × servizi: script 95 e vista «Doppio svantaggio» scritti nel cloud, da lanciare sul PC: 95, 04, prova pagine, vedi `ESITO_CASE_FRAGILITA.md`), `PIANO_SCHEDE`, `PIANO_COSTI`.
+- **Piani aperti** (`docs/piani/`): `PIANO_DOCUMENTI` (restano 11 README, 13 mappa fuori da git), `PIANO_MAPPA` (restano le schede uniformi dei temi), `PIANO_RISULTATI` (restano A2 servizi contesi, A4 cintura, C2 filtro dei punti, C4 tre classi, D4 vista in mappa, E4 facoltativo, F capienze; parte E fatta), `PIANO_SCHEDE`, `PIANO_COSTI`.
 - Sul PC (Leo): cancellare il file `3)` e `scripts/*.bak_18ott`. Il vecchio nome della cartella OMI resta nella storia di git (Leo decide se riscriverla). Condizioni d'uso degli sfondi Esri da controllare prima di pubblicare.
 
 ## 6. PROSSIMI PASSI
 
-1. Sul PC: giro 4 della mappa e R6 minuti di pareggio (sezione 5); `python scripts\prova_pagine_r6.py` dopo ogni modifica a mappa o schede.
+1. Sul PC: confermare schede e prova pagine (sezione 5); poi ricontrollare e cancellare gli `ESITO_*.md` chiusi. `python scripts\prova_pagine_r6.py` dopo ogni modifica a mappa o schede.
 2. Pubblicare su GitHub Pages (ramo `gh-pages` con solo `pubblica/`, oggi 90 MB, `mappa_torino.html` esce dal ramo principale), sfondi Esri; poi README (passo 11 del piano documenti).
 3. Rilanci con più dati: R6 dopo ≥ 5 feriali di parcheggi (inizio novembre); R4 (con R9) con un mese (metà novembre); poi R4 in mappa. Screenshot di Leo per la scheda R6.
 4. R8: errore % per sensore e frase corretta in scheda (il 95,3% vale solo per le strade grandi); D4 (vista in mappa); treni e aziende extraurbane (GTFS mancanti); controllo a mano della copertura TP di corso Moncalieri.
