@@ -53,7 +53,7 @@ Solo dati aperti. Il codice ha licenza [MIT](LICENSE); i dati mantengono la lice
 ## Come rifare i calcoli
 
 ```
-pip install -r requirements.txt
+pip install -r requirements.txt     # per i tempi coi mezzi pubblici (r5py) serve anche Java 21 o più (JAVA_HOME o java nel PATH)
 python scripts/scarica_dati.py      # dati grandi dalla Release di GitHub (IMQ e OMI a mano: vedi docs/DATI.md)
 python scripts/rifai_tutto.py       # tutto, nell'ordine giusto; si ferma e riprende con --riprendi (--elenco mostra le fasi)
 ```
