@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T21:51:53+00:00",
+  "generato": "2026-10-23T22:30:20+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1356,7 +1356,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T21:51:53+00:00",
+  "generato": "2026-10-23T22:30:20+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-23: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -1696,6 +1696,10 @@ window.SCHEDE_RISULTATI = [
     [
      "Distanza dalla fermata",
      "entro 60 m"
+    ],
+    [
+     "Periodo dei dati",
+     "dal 10/10/2026 al 23/10/2026"
     ]
    ],
    "limiti": [
@@ -1954,6 +1958,10 @@ window.SCHEDE_RISULTATI = [
     [
      "Distance from the stop",
      "within 60 m"
+    ],
+    [
+     "Data period",
+     "from 10/10/2,026 to 23/10/2,026"
     ]
    ],
    "limiti": [
@@ -2039,7 +2047,7 @@ window.SCHEDE_RISULTATI = [
   "risultato": "6",
   "titolo": "Parcheggi per lasciare l'auto",
   "tag": "STIMATO / MISURATO (dati scarsi)",
-  "stato": "Aggiornato al 23/10/2026",
+  "stato": "Aggiornato al 24/10/2026",
   "in_breve": "Dove lasciare l'auto prima di entrare in città e proseguire con i mezzi pubblici: come funzionano gli interscambi che ci sono, e dove mancano posti per le auto che entrano ogni mattina.",
   "domanda": "Dove mancano posti per lasciare l'auto prima di entrare in città, vicino a una fermata importante, per le auto che ogni mattina entrano a Torino?",
   "numero_chiave": {
@@ -2588,7 +2596,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T21:51:53+00:00",
+  "generato": "2026-10-23T22:30:20+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2629,7 +2637,7 @@ window.SCHEDE_RISULTATI = [
   ],
   "forma": {
    "etichetta": "STIMATO / MISURATO (dati scarsi)",
-   "titolo": "2 fermate importanti su 3 non hanno abbastanza posti per lasciare l'auto",
+   "titolo": "2 fermate importanti su 3 non hanno abbastanza posti per lasciare l'auto (stima)",
    "domanda": "Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi?",
    "numero": {
     "valore": 179,
@@ -2719,7 +2727,7 @@ window.SCHEDE_RISULTATI = [
    "punti": [
     "68 fermate importanti non hanno nessun parcheggio adatto vicino; 111 ne hanno troppo pochi.",
     "Servirebbero posti soprattutto in 12 punti d'ingresso: il primo è Santa Rita, dove ne mancano circa 450.",
-    "Dal parcheggio il bus batte l'auto solo se in centro si perdono più di 16 minuti (TomTom). Con i sensori, la stima più favorevole all'auto, più di 28 minuti. Con TomTom il bus conviene (al massimo 1,5 volte l'auto) da 8 punti su 12 e 4 interscambi su 5."
+    "Dal parcheggio il bus batte l'auto solo se in centro si perdono più di 16 minuti (TomTom). Con i sensori, la stima più favorevole all'auto, più di 28 minuti. Con TomTom il bus conviene (fino a 1,5 volte l'auto) in 8 punti su 12 e 4 dei 5 interscambi. Dei punti dove il bus conviene, 5 su 8 sono vicini alla soglia: un'auto il 10% più veloce cambia classe."
    ],
    "altri": [
     {
@@ -3511,12 +3519,16 @@ window.SCHEDE_RISULTATI = [
      "auto che passano × 5,8%"
     ],
     [
+     "Periodo del riempimento dei parcheggi",
+     "dal 15/10/2026 al 22/10/2026"
+    ],
+    [
      "Bus contro auto",
      "verso Piazza Castello alle 8; auto: fattore TomTom del percorso (mediana 2,6) + 5 minuti; stima più favorevole all'auto: sensori 5T, fattore 1,2"
     ]
    ],
    "limiti": [
-    "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
+    "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza. Con metà o doppio di chi lascia l'auto, le fermate senza posti bastanti vanno da 135 a 212 su 274.",
     "I tempi coi mezzi sono solo GTT, senza treni. La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
     "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Usiamo un solo servizio.",
     "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."
@@ -5258,7 +5270,7 @@ window.SCHEDE_RISULTATI = [
   },
   "forma_en": {
    "etichetta": "ESTIMATED / MEASURED (little data)",
-   "titolo": "2 in 3 important stops lack enough spaces to leave the car",
+   "titolo": "2 important stops out of 3 do not have enough spaces to leave the car (estimate)",
    "domanda": "Can people driving in from outside find a place to leave the car near an important stop, and continue by public transport?",
    "numero": {
     "valore": 179,
@@ -5348,7 +5360,7 @@ window.SCHEDE_RISULTATI = [
    "punti": [
     "68 important stops have no suitable car park nearby; 111 have too few spaces.",
     "Spaces are needed above all at 12 entry points: the first is Santa Rita, where about 450 are missing.",
-    "From the car park, the bus beats the car only if you lose more than 16 minutes parking downtown (TomTom). With the sensors, the estimate most favourable to the car, more than 28 minutes. With TomTom the bus is worthwhile (at most 1.5 times the car) from 8 points out of 12 and 4 park-and-ride lots out of 5."
+    "From the car park, the bus beats the car only if you lose more than 16 minutes parking downtown (TomTom). With the sensors, the estimate most favourable to the car, more than 28 minutes. With TomTom the bus is worthwhile (up to 1.5 times the car) in 8 points out of 12 and 4 of the 5 park-and-ride lots. Of the points where the bus is worthwhile, 5 out of 8 are close to the threshold: a car 10% faster changes the class."
    ],
    "altri": [
     {
@@ -6140,12 +6152,16 @@ window.SCHEDE_RISULTATI = [
      "passing cars × 5.8%"
     ],
     [
+     "Car park occupancy period",
+     "from 15/10/2,026 to 22/10/2,026"
+    ],
+    [
      "Bus versus car",
      "to Piazza Castello at 8; car: TomTom factor of the route (median 2.6) + 5 minutes; estimate most favourable to the car: 5T sensors, factor 1.2"
     ]
    ],
    "limiti": [
-    "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude.",
+    "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude. With half or double the drivers who leave the car, stops without enough spaces go from 135 to 212 out of 274.",
     "Public transport times are GTT only, without trains. The sensor estimate ignores traffic lights and junctions: it is the most favourable to the car.",
     "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. We use a single service.",
     "The cost of parking is not in the calculation: it weighs as extra minutes. One point per place and one destination only."
@@ -8263,7 +8279,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T21:51:53+00:00",
+  "generato": "2026-10-23T22:30:20+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -8313,7 +8329,7 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": "1,9",
     "unita": "volte",
-    "testo": "il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino (220.307 auto). Con i sensori, la stima più favorevole all'auto, 2,9"
+    "testo": "il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino. Sono il 47% delle auto del mattino (220.307): mancano i viaggi dentro una zona e fra comuni della cintura. Con i sensori, la stima più favorevole all'auto, 2,9."
    },
    "principale": {
     "tipo": "barre_gruppi",
@@ -11507,99 +11523,81 @@ window.SCHEDE_RISULTATI = [
     },
     {
      "tipo": "barre",
-     "titolo": "Le 15 coppie con più auto dove i mezzi pubblici impiegano più del doppio",
+     "titolo": "Le 12 coppie con più auto dove i mezzi pubblici impiegano più del doppio",
      "unita": "auto",
-     "nota": "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.",
+     "nota": "Solo coppie con almeno 30 interviste. Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.",
      "voci": [
       {
-       "label": "Torino, Barriera di Milano → Torino, Falchera",
+       "label": "Barriera di Milano → Falchera",
        "valore": 1208,
        "tono": "rosso",
        "testo": "1.208 auto: 24 contro 12 min"
       },
       {
-       "label": "Torino, Pozzo Strada → Grugliasco",
+       "label": "Pozzo Strada → Grugliasco",
        "valore": 929,
        "tono": "rosso",
        "testo": "929 auto: 34 contro 13 min"
       },
       {
-       "label": "Torino, Falchera → Torino, Barriera di Milano",
+       "label": "Falchera → Barriera di Milano",
        "valore": 890,
        "tono": "rosso",
        "testo": "890 auto: 24 contro 10 min"
       },
       {
-       "label": "Torino, Parella → Torino, San Paolo",
+       "label": "Parella → San Paolo",
        "valore": 763,
        "tono": "rosso",
        "testo": "763 auto: 30 contro 15 min"
       },
       {
-       "label": "Torino, Mirafiori Sud → Rivoli",
-       "valore": 719,
-       "tono": "rosso",
-       "testo": "719 auto: 81 contro 24 min"
-      },
-      {
-       "label": "Torino, Parella → Torino, Cenisia",
+       "label": "Parella → Cenisia",
        "valore": 715,
        "tono": "rosso",
        "testo": "715 auto: 18 contro 8 min"
       },
       {
-       "label": "Grugliasco → Torino, Pozzo Strada",
+       "label": "Grugliasco → Pozzo Strada",
        "valore": 714,
        "tono": "rosso",
        "testo": "714 auto: 35 contro 14 min"
       },
       {
-       "label": "Rivoli → Torino, Nizza Millefonti",
-       "valore": 687,
-       "tono": "rosso",
-       "testo": "687 auto: 73 contro 34 min"
-      },
-      {
-       "label": "Torino, Mercati Generali → Moncalieri",
-       "valore": 644,
-       "tono": "rosso",
-       "testo": "644 auto: 51 contro 24 min"
-      },
-      {
-       "label": "Grugliasco → Torino, Parella",
-       "valore": 614,
-       "tono": "rosso",
-       "testo": "614 auto: 37 contro 16 min"
-      },
-      {
-       "label": "Torino, Mirafiori Nord → Grugliasco",
+       "label": "Mirafiori Nord → Grugliasco",
        "valore": 583,
        "tono": "rosso",
        "testo": "583 auto: 34 contro 16 min"
       },
       {
-       "label": "Settimo Torinese → Torino, Falchera",
-       "valore": 580,
-       "tono": "rosso",
-       "testo": "580 auto: 50 contro 25 min"
-      },
-      {
-       "label": "Moncalieri → Torino, Mirafiori Sud",
-       "valore": 568,
-       "tono": "rosso",
-       "testo": "568 auto: 55 contro 25 min"
-      },
-      {
-       "label": "Settimo Torinese → Torino, Madonna Del Pilone",
-       "valore": 544,
-       "tono": "rosso",
-       "testo": "544 auto: 86 contro 32 min"
-      },
-      {
-       "label": "Torino, Parella → Torino, Madonna di Campagna",
+       "label": "Parella → Madonna di Campagna",
        "valore": 540,
        "tono": "rosso",
        "testo": "540 auto: 31 contro 15 min"
+      },
+      {
+       "label": "Vanchiglia → Madonna Del Pilone",
+       "valore": 369,
+       "tono": "rosso",
+       "testo": "369 auto: 37 contro 18 min"
+      },
+      {
+       "label": "Grugliasco → Mirafiori Nord",
+       "valore": 348,
+       "tono": "rosso",
+       "testo": "348 auto: 37 contro 15 min"
+      },
+      {
+       "label": "Cenisia → Parella",
+       "valore": 260,
+       "tono": "rosso",
+       "testo": "260 auto: 18 contro 9 min"
+      },
+      {
+       "label": "Borgata Vittoria → Aurora",
+       "valore": 177,
+       "tono": "rosso",
+       "testo": "177 auto: 30 contro 14 min"
       }
      ]
     }
@@ -11629,6 +11627,10 @@ window.SCHEDE_RISULTATI = [
      "tempo a flusso libero × 1,2 (sensori 5T, non contano semafori e incroci) + 5 minuti"
     ],
     [
+     "Periodo dei sensori",
+     "dal 09/10/2026 al 22/10/2026"
+    ],
+    [
      "Fasce del rapporto",
      "sotto 1,5, 1,5-2, 2-3, oltre 3"
     ]
@@ -11639,27 +11641,6 @@ window.SCHEDE_RISULTATI = [
     "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Usiamo un solo servizio.",
     "L'indagine è un campione. I viaggi dentro una zona e 653 coppie senza collegamento (5.616 auto) non sono nel confronto."
    ],
-   "extra": {
-    "titolo": "Strade grandi e fermate vicine",
-    "punto": "Il 95,6% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
-    "grafico": {
-     "tipo": "pila",
-     "titolo": "Km di strade grandi di Torino: con o senza trasporto pubblico vicino",
-     "unita": "km",
-     "voci": [
-      {
-       "label": "con fermate frequenti vicine",
-       "valore": 356.3,
-       "tono": "verde"
-      },
-      {
-       "label": "con poco trasporto pubblico",
-       "valore": 16.4,
-       "tono": "rosso"
-      }
-     ]
-    }
-   },
    "anima": {
     "tipo": "area",
     "didascalia": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il 42,2% dei torinesi coi mezzi pubblici e il 90,1% in auto con la stima di TomTom, parcheggio compreso (100% con la stima più favorevole all'auto, dei sensori 5T)."
@@ -11672,7 +11653,7 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": "1.9",
     "unita": "times",
-    "testo": "the car's time: TomTom median ratio, weighted by morning cars (220,307 cars). With the sensors, the estimate most favourable to the car, 2.9"
+    "testo": "the car's time: TomTom median ratio, weighted by morning cars. They are 47% of morning cars (220,307): trips within a zone and between belt towns are missing. With the sensors, the estimate most favourable to the car, 2.9."
    },
    "principale": {
     "tipo": "barre_gruppi",
@@ -14866,99 +14847,81 @@ window.SCHEDE_RISULTATI = [
     },
     {
      "tipo": "barre",
-     "titolo": "The 15 pairs with the most cars where public transport takes more than twice as long",
+     "titolo": "The 12 pairs with the most cars where public transport takes more than twice as long",
      "unita": "cars",
-     "nota": "Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car.",
+     "nota": "Only pairs with at least 30 interviews. Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car.",
      "voci": [
       {
-       "label": "Torino, Barriera di Milano → Torino, Falchera",
+       "label": "Barriera di Milano → Falchera",
        "valore": 1208,
        "tono": "rosso",
        "testo": "1,208 cars: 24 versus 12 min"
       },
       {
-       "label": "Torino, Pozzo Strada → Grugliasco",
+       "label": "Pozzo Strada → Grugliasco",
        "valore": 929,
        "tono": "rosso",
        "testo": "929 cars: 34 versus 13 min"
       },
       {
-       "label": "Torino, Falchera → Torino, Barriera di Milano",
+       "label": "Falchera → Barriera di Milano",
        "valore": 890,
        "tono": "rosso",
        "testo": "890 cars: 24 versus 10 min"
       },
       {
-       "label": "Torino, Parella → Torino, San Paolo",
+       "label": "Parella → San Paolo",
        "valore": 763,
        "tono": "rosso",
        "testo": "763 cars: 30 versus 15 min"
       },
       {
-       "label": "Torino, Mirafiori Sud → Rivoli",
-       "valore": 719,
-       "tono": "rosso",
-       "testo": "719 cars: 81 versus 24 min"
-      },
-      {
-       "label": "Torino, Parella → Torino, Cenisia",
+       "label": "Parella → Cenisia",
        "valore": 715,
        "tono": "rosso",
        "testo": "715 cars: 18 versus 8 min"
       },
       {
-       "label": "Grugliasco → Torino, Pozzo Strada",
+       "label": "Grugliasco → Pozzo Strada",
        "valore": 714,
        "tono": "rosso",
        "testo": "714 cars: 35 versus 14 min"
       },
       {
-       "label": "Rivoli → Torino, Nizza Millefonti",
-       "valore": 687,
-       "tono": "rosso",
-       "testo": "687 cars: 73 versus 34 min"
-      },
-      {
-       "label": "Torino, Mercati Generali → Moncalieri",
-       "valore": 644,
-       "tono": "rosso",
-       "testo": "644 cars: 51 versus 24 min"
-      },
-      {
-       "label": "Grugliasco → Torino, Parella",
-       "valore": 614,
-       "tono": "rosso",
-       "testo": "614 cars: 37 versus 16 min"
-      },
-      {
-       "label": "Torino, Mirafiori Nord → Grugliasco",
+       "label": "Mirafiori Nord → Grugliasco",
        "valore": 583,
        "tono": "rosso",
        "testo": "583 cars: 34 versus 16 min"
       },
       {
-       "label": "Settimo Torinese → Torino, Falchera",
-       "valore": 580,
-       "tono": "rosso",
-       "testo": "580 cars: 50 versus 25 min"
-      },
-      {
-       "label": "Moncalieri → Torino, Mirafiori Sud",
-       "valore": 568,
-       "tono": "rosso",
-       "testo": "568 cars: 55 versus 25 min"
-      },
-      {
-       "label": "Settimo Torinese → Torino, Madonna Del Pilone",
-       "valore": 544,
-       "tono": "rosso",
-       "testo": "544 cars: 86 versus 32 min"
-      },
-      {
-       "label": "Torino, Parella → Torino, Madonna di Campagna",
+       "label": "Parella → Madonna di Campagna",
        "valore": 540,
        "tono": "rosso",
        "testo": "540 cars: 31 versus 15 min"
+      },
+      {
+       "label": "Vanchiglia → Madonna Del Pilone",
+       "valore": 369,
+       "tono": "rosso",
+       "testo": "369 cars: 37 versus 18 min"
+      },
+      {
+       "label": "Grugliasco → Mirafiori Nord",
+       "valore": 348,
+       "tono": "rosso",
+       "testo": "348 cars: 37 versus 15 min"
+      },
+      {
+       "label": "Cenisia → Parella",
+       "valore": 260,
+       "tono": "rosso",
+       "testo": "260 cars: 18 versus 9 min"
+      },
+      {
+       "label": "Borgata Vittoria → Aurora",
+       "valore": 177,
+       "tono": "rosso",
+       "testo": "177 cars: 30 versus 14 min"
       }
      ]
     }
@@ -14988,6 +14951,10 @@ window.SCHEDE_RISULTATI = [
      "free-flow time × 1.2 (5T sensors, they do not count traffic lights and junctions) + 5 minutes"
     ],
     [
+     "Sensor period",
+     "from 09/10/2,026 to 22/10/2,026"
+    ],
+    [
      "Ratio bands",
      "under 1.5, 1.5-2, 2-3, over 3"
     ]
@@ -14998,27 +14965,6 @@ window.SCHEDE_RISULTATI = [
     "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. We use a single service.",
     "The survey is a sample. Trips within a zone and 653 pairs with no connection (5,616 cars) are not in the comparison."
    ],
-   "extra": {
-    "titolo": "Large roads and nearby stops",
-    "punto": "95.6% of the km of large roads have a frequent stop nearby: the stop is there, but it is not enough.",
-    "grafico": {
-     "tipo": "pila",
-     "titolo": "Km of large roads in Turin: with or without public transport nearby",
-     "unita": "km",
-     "voci": [
-      {
-       "label": "with frequent stops nearby",
-       "valore": 356.3,
-       "tono": "verde"
-      },
-      {
-       "label": "with little public transport",
-       "valore": 16.4,
-       "tono": "rosso"
-      }
-     ]
-    }
-   },
    "anima": {
     "tipo": "area",
     "didascalia": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach 42.2% of residents by public transport and 90.1% by car with the TomTom estimate, parking included (100% with the estimate most favourable to the car, from the 5T sensors)."
@@ -15054,7 +15000,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T21:51:53+00:00",
+  "generato": "2026-10-23T22:30:20+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -15098,7 +15044,7 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 79598,
     "unita": "",
-    "testo": "residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate"
+    "testo": "residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. È 1,7 volte quanto ci si aspetterebbe per caso."
    },
    "principale": {
     "tipo": "dispersione",
@@ -15392,12 +15338,12 @@ window.SCHEDE_RISULTATI = [
      "b": 12.88,
      "label": "tendenza"
     },
-    "nota": "Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: ogni 10 punti di servizi in più, 129 euro al m² in più."
+    "nota": "Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: ogni 10 punti di servizi in più, 129 euro al m² in più, ma in parte è l'effetto della distanza dal centro."
    },
    "punti": [
-    "Prezzo e servizi vanno insieme: correlazione di Spearman 0,61 su 46 zone (da 0,39 a 0,79).",
+    "A parità di distanza dal centro il legame prezzo-servizi quasi sparisce: correlazione 0,21 su 46 zone (da −0,12 a 0,52).",
     "5 zone sono in doppio svantaggio: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. Ci abitano 129.285 persone.",
-    "Vicino alla metro le case costano poco di più (+115 euro al m² in media, a pari distanza dal centro). Differenza fra zone, non effetto causale."
+    "A parità di distanza dal centro reggono fragilità-servizi (−0,48) e prezzo-fragilità (−0,69)."
    ],
    "altri": [
     {
@@ -15431,34 +15377,6 @@ window.SCHEDE_RISULTATI = [
        "testo": "517.053 (2.332 sezioni)"
       }
      ]
-    },
-    {
-     "tipo": "barre_diff",
-     "titolo": "Quanto più costano le case vicino alla metro (con metro meno senza metro)",
-     "unita": "€/m²",
-     "nota": "Per fascia di distanza da Piazza Castello (2 km): prezzo medio delle zone con una fermata M1 entro 600 m meno quello delle zone senza, alla stessa distanza dal centro. Su ogni barra il numero di zone. Differenza fra zone, non effetto della metro.",
-     "voci": [
-      {
-       "label": "0-2 km dal centro",
-       "valore": 73,
-       "testo": "(6 zone con metro, 8 senza)"
-      },
-      {
-       "label": "2-4 km dal centro",
-       "valore": 219,
-       "testo": "(3 zone con metro, 16 senza)"
-      },
-      {
-       "label": "4-6 km dal centro",
-       "valore": 52,
-       "testo": "(2 zone con metro, 10 senza)"
-      },
-      {
-       "label": "6-8 km dal centro",
-       "valore": null,
-       "testo": "(0 zone con metro, 1 senza)"
-      }
-     ]
     }
    ],
    "calcolo": [
@@ -15466,7 +15384,7 @@ window.SCHEDE_RISULTATI = [
     "Servizi: punteggio «Tutti i servizi» a piedi in 15 minuti. Fragilità: indice del censimento 2021 (lavoro, istruzione, case, anziani).",
     "Prezzo: centro della forbice OMI per le abitazioni civili. Tendenza: retta dei minimi quadrati.",
     "Doppio svantaggio = fragilità nel 20% più alto e servizi nel 20% più basso. Soglie fissate prima dei numeri: 49,8 e 33,4.",
-    "Metro: zone con una fermata M1 entro 600 m dal centro, contro le altre alla stessa distanza da Piazza Castello."
+    "Legami a parità di distanza dal centro: correlazione parziale sui ranghi, con intervallo al 95% per ricampionamento. Regge solo se l'intervallo non contiene lo zero."
    ],
    "criteri": [
     [
@@ -15482,12 +15400,8 @@ window.SCHEDE_RISULTATI = [
      "punteggio fino a 34,4 su 100 (sezioni) / 33,4 (zone)"
     ],
     [
-     "Metro vicina",
-     "fermata M1 entro 600 m dal centro della zona"
-    ],
-    [
-     "Fasce",
-     "2 km da Piazza Castello"
+     "Legami a parità di distanza",
+     "correlazione parziale sui ranghi, intervallo al 95%; distanza dal centro della zona a Piazza Castello"
     ]
    ],
    "limiti": [
@@ -15515,7 +15429,7 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 79598,
     "unita": "",
-    "testo": "residents of areas with more social difficulties and few services: 9.5% of residents of inhabited areas"
+    "testo": "residents in zones with more social difficulty and few services: 9.5% of residents of inhabited zones. That is 1.7 times what you would expect by chance."
    },
    "principale": {
     "tipo": "dispersione",
@@ -15809,12 +15723,12 @@ window.SCHEDE_RISULTATI = [
      "b": 12.88,
      "label": "trend"
     },
-    "nota": "Each point is a zone, sized by its inhabitants. The line is the trend: for every 10 extra service points, 129 euro per m² more."
+    "nota": "Each point is a zone, as large as its inhabitants. The line is the trend: every 10 more service points, 129 euros per m² more, but partly this is the effect of distance from the centre."
    },
    "punti": [
-    "Price and services go together: Spearman correlation 0.61 over 46 zones (from 0.39 to 0.79).",
+    "At equal distance from the centre the price-services link nearly disappears: correlation 0.21 over 46 zones (from −0.12 to 0.52).",
     "5 zones are in double disadvantage: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. 129,285 people live there.",
-    "Near the metro homes cost a little more (+115 euro per m² on average, at the same distance from the centre). A difference between zones, not a causal effect."
+    "At equal distance from the centre, fragility-services (−0.48) and price-fragility (−0.69) hold."
    ],
    "altri": [
     {
@@ -15848,34 +15762,6 @@ window.SCHEDE_RISULTATI = [
        "testo": "517,053 (2,332 sections)"
       }
      ]
-    },
-    {
-     "tipo": "barre_diff",
-     "titolo": "How much more homes cost near the metro (with metro minus without)",
-     "unita": "€/m²",
-     "nota": "By distance band from Piazza Castello (2 km): average price of zones with an M1 stop within 600 m minus that of zones without, at the same distance from the centre. The number of zones is shown on each bar. A difference between zones, not an effect of the metro.",
-     "voci": [
-      {
-       "label": "0-2 km from the centre",
-       "valore": 73,
-       "testo": "(6 zones with metro, 8 without)"
-      },
-      {
-       "label": "2-4 km from the centre",
-       "valore": 219,
-       "testo": "(3 zones with metro, 16 without)"
-      },
-      {
-       "label": "4-6 km from the centre",
-       "valore": 52,
-       "testo": "(2 zones with metro, 10 without)"
-      },
-      {
-       "label": "6-8 km from the centre",
-       "valore": null,
-       "testo": "(0 zones with metro, 1 without)"
-      }
-     ]
     }
    ],
    "calcolo": [
@@ -15883,7 +15769,7 @@ window.SCHEDE_RISULTATI = [
     "Services: “All services” score within a 15-minute walk. Fragility: 2021 census index (work, education, housing, older people).",
     "Price: middle of the OMI range for residential homes. Trend: least-squares line.",
     "Double disadvantage = fragility in the highest 20% and services in the lowest 20%. Thresholds fixed before the numbers: 49.8 and 33.4.",
-    "Metro: zones with an M1 stop within 600 m of the centre, compared with the others at the same distance from Piazza Castello."
+    "Links at equal distance from the centre: partial rank correlation, with a 95% interval by resampling. It holds only if the interval does not contain zero."
    ],
    "criteri": [
     [
@@ -15899,12 +15785,8 @@ window.SCHEDE_RISULTATI = [
      "score up to 34.4 out of 100 (sections) / 33.4 (zones)"
     ],
     [
-     "Metro nearby",
-     "M1 stop within 600 m of the zone centre"
-    ],
-    [
-     "Bands",
-     "2 km from Piazza Castello"
+     "Links at equal distance",
+     "partial rank correlation, 95% interval; distance from the centre of the zone to Piazza Castello"
     ]
    ],
    "limiti": [

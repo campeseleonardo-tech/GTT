@@ -1,5 +1,5 @@
 {
- "generato_utc": "2026-10-23T18:02:33+00:00",
+ "generato_utc": "2026-10-23T22:18:52+00:00",
  "unita": "zona OMI di Torino; media pesata per abitanti delle sezioni (centro della sezione dentro la zona)",
  "fonti": "OMI 2025/2 (abitazioni civili, centro della forbice di acquisto), censimento ISTAT 2021, indice di vulnerabilita' (script 19), servizi a piedi 15' (script 18), GTFS GTT",
  "avvertenze": [
@@ -194,7 +194,15 @@
     }
    },
    "residenti_doppio_svantaggio": 79598,
-   "quota_residenti_di_riferimento": 0.0948
+   "quota_residenti_di_riferimento": 0.0948,
+   "confronto_col_caso": {
+    "regola": "quota attesa per caso = (quota di residenti con fragilita' alta) x (quota con servizi bassi), se le due condizioni fossero indipendenti",
+    "quota_fragilita_alta": 0.2644,
+    "quota_servizi_bassi": 0.2146,
+    "quota_attesa_per_caso": 0.0567,
+    "quota_osservata": 0.0948,
+    "volte_il_caso": 1.67
+   }
   }
  },
  "e3_valore_metro": {
@@ -263,6 +271,58 @@
    }
   ],
   "avvertenza": "differenza fra zone, non effetto causale (un solo semestre OMI, zone grandi, quotazioni e non compravendite)"
+ },
+ "e4_a_parita_di_distanza": {
+  "controllo": "distanza dal centro di zona a Piazza Castello (m)",
+  "n_zone": 46,
+  "regola": "correlazione parziale sui ranghi (Spearman) a parita' di distanza da Piazza Castello; intervallo al 95% per ricampionamento delle zone (2.000 volte, seme 95); regge solo se l'intervallo non contiene lo 0",
+  "legami": [
+   {
+    "legame": "prezzo-servizi",
+    "spearman": 0.614,
+    "spearman_ic95": [
+     0.387,
+     0.786
+    ],
+    "regge_semplice": true,
+    "parziale": 0.212,
+    "parziale_ic95": [
+     -0.123,
+     0.515
+    ],
+    "regge": false
+   },
+   {
+    "legame": "fragilita-servizi",
+    "spearman": -0.737,
+    "spearman_ic95": [
+     -0.826,
+     -0.591
+    ],
+    "regge_semplice": true,
+    "parziale": -0.481,
+    "parziale_ic95": [
+     -0.664,
+     -0.23
+    ],
+    "regge": true
+   },
+   {
+    "legame": "prezzo-fragilita",
+    "spearman": -0.831,
+    "spearman_ic95": [
+     -0.913,
+     -0.682
+    ],
+    "regge_semplice": true,
+    "parziale": -0.686,
+    "parziale_ic95": [
+     -0.85,
+     -0.372
+    ],
+    "regge": true
+   }
+  ]
  },
  "zone": [
   {

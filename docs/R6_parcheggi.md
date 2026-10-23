@@ -114,6 +114,22 @@ Gli stessi 12 punti e 5 interscambi verso Piazza Castello alle 8:00, 13:00, 17:3
 
 Il messaggio: con TomTom per percorso i punti dove il bus conviene (rapporto ≤ 1,5) sono 8 su 12 alle 8, 6 alle 13, 9 alle 17:30 e 2 la sera. Resta vero che il bus batte l'auto solo se in centro si perdono parecchi minuti a parcheggiare (16 con TomTom, 28 con i sensori alle 8). I mezzi dai punti prioritari la sera non impiegano di più che alle 8 (AVVISO del controllo: l'orario programmato non ha traffico).
 
+### Controllo a mano di Leo (24/10/2026)
+
+Google Maps, martedì, partenza alle 8, tempi «tipici»; TomTom senza i 5 minuti di parcheggio:
+
+| Percorso | TomTom | Google |
+|---|---|---|
+| Regina Margherita → Piazza Castello | 22,7 min | 12-26 |
+| Collegno (Fermi) → Piazza Castello | 31,6 | 18-40 (corso Francia) |
+| Piazza Castello → Collegno | 31,4 | 22-50 |
+
+TomTom sta dentro la forchetta di Google in tutti e 3. Le forchette sono larghe (fino a 22-50): l'incertezza sul tempo in auto è grande. Il 19 minuti preso a mano per Castello → Collegno (fattore Google 1,05) era l'estremo basso.
+
+### Punti vicini alla soglia e sensibilità (giro L9, 24/10)
+
+«Vicino alla soglia» = rapporto TomTom fra 1,35 e 1,65 (±10% attorno a 1,5), regola fissata prima dei numeri. Dei punti dove il bus conviene, 5 su 8 sono vicini alla soglia: basta un'auto più veloce del 10% per cambiare classe. Sensibilità alla quota di chi lascia l'auto (script 84, `porte.json`): con la quota dimezzata o raddoppiata le fermate senza posti bastanti vanno da 135 a 212 su 274 (oggi 179); quelle senza nessun parcheggio restano 68, il numero più solido. Il titolo della scheda dice «(stima)».
+
 ## Mappa e scheda
 
 Tema «Parcheggi per lasciare l'auto»: fermate importanti, parcheggi adatti, punti prioritari, pannello con linee

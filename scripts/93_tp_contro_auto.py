@@ -67,6 +67,7 @@ VELOCITA_5T = PROC / "velocita_5t.json"
 ORE_NOTTE = (2, 3, 4)               # strade libere: dalle 2 alle 5
 ORA_PUNTA = 8
 MIN_PARCHEGGIO = 5.0
+SOGLIA_INTERVISTE = 30              # come SOGLIA_N dello script 14: una coppia si nomina in pagina solo con almeno 30 interviste (L9)
 FASCE = (1.5, 2.0, 3.0)             # fasce fisse del rapporto TP/auto, scelte dopo le prime prove (il metodo e' cambiato 4 volte il 21/10)
 VEL_PIEDI_KMH = 4.8                 # 80 m al minuto, come lo script 18 e tutto il progetto (r5py di serie: 3,6)
 QUOTA_MIN_COLLEGATA = 0.5           # meta' del peso delle coppie di punti con collegamento
@@ -145,6 +146,14 @@ def carica_auto(zone):
         if ora in ORE_MATTINO and par in zone and arr in zone:
             coppie[(par, arr)] += peso
     return coppie
+
+
+def carica_interviste(zone):
+    """Interviste IMQ dietro ogni coppia (zona A, zona B): numero di interviste della coppia, tutti i mezzi, giorno intero (imq_od.json dello script 14,
+    modo «tot»: lo stesso numero da cui lo script 14 decide se la coppia e' affidabile, SOGLIA_N = 30). Le interviste dei soli conducenti in auto
+    del mattino sono al massimo 21 per coppia: con quel conteggio nessuna coppia arriverebbe a 30. Serve a nominare una coppia in pagina (L9)."""
+    d = json.loads((PROC / "imq_od.json").read_text(encoding="utf-8"))
+    return {(a, b): n for a, b, _v, n, _aff in d["od"]["tot"] if a in zone and b in zone}
 
 
 def matrice_auto(zone, extra):
@@ -358,6 +367,7 @@ def main():
 
     zone = carica_zone(args.prova)
     auto = carica_auto(zone)
+    interviste = carica_interviste(zone)
     totale_zone = sum(auto.values())
     if args.prova:
         uscita = defaultdict(float)
@@ -414,7 +424,8 @@ def main():
             if tp is None or quota < QUOTA_MIN_COLLEGATA:
                 senza_link.append({"da": a, "a": b, "gruppo": g, "auto": v, "auto_libero_min": round(ta, 1), "quota_collegata": round(quota, 2)})
                 continue
-            coppie.append({"da": a, "a": b, "gruppo": g, "auto": v, "tp_min": tp, "libero_min": ta, "quota_collegata": quota})
+            coppie.append({"da": a, "a": b, "gruppo": g, "auto": v, "tp_min": tp, "libero_min": ta, "quota_collegata": quota,
+                           "interviste": int(interviste.get((a, b), 0))})
     f_alto = args.fattore                      # sensori 5T: auto piu' veloce, rapporto TP/auto piu' alto
     for p in coppie:
         p["auto_punta_min"] = punta(p["libero_min"], f_alto)
@@ -443,7 +454,8 @@ def main():
             gruppi[g]["nota"] = "dati del mezzo pubblico incompleti: mancano treni e bus di altre aziende"
     base = gruppi["ab"]
     # le coppie peggiori si scelgono col fattore basso (auto piu' lenta): quelle con rapporto oltre 2, in ordine di auto
-    peggiori = sorted((p for p in ab if p["rapporto_basso"] >= 2.0), key=lambda p: -p["auto"])[:15]
+    # L9: una coppia si nomina solo con almeno SOGLIA_INTERVISTE interviste, altrimenti passa la successiva
+    peggiori = sorted((p for p in ab if p["rapporto_basso"] >= 2.0 and p["interviste"] >= SOGLIA_INTERVISTE), key=lambda p: -p["auto"])[:15]
     per_zona = []
     for a in cod:
         mie = [p for p in ab if p["da"] == a]
@@ -538,13 +550,14 @@ def main():
         "peggiori": [{"da": p["da"], "a": p["a"], "da_nome": nomi[p["da"]], "a_nome": nomi[p["a"]], "gruppo": p["gruppo"], "auto": round(p["auto"]),
                       "tp_min": round(p["tp_min"], 1), "auto_punta_min": round(p["auto_punta_min"], 1),
                       "auto_punta_basso_min": round(p["auto_punta_basso_min"], 1),
-                      "rapporto": round(p["rapporto"], 2), "rapporto_basso": round(p["rapporto_basso"], 2), "fattore_basso": round(p["f_basso"], 2)} for p in peggiori],
+                      "rapporto": round(p["rapporto"], 2), "rapporto_basso": round(p["rapporto_basso"], 2), "fattore_basso": round(p["f_basso"], 2),
+                      "interviste": p["interviste"]} for p in peggiori],
         "per_zona": per_zona,
         "coppie": [{"da": p["da"], "a": p["a"], "gruppo": p["gruppo"], "auto": round(p["auto"], 1), "tp_min": round(p["tp_min"], 1),
                     "libero_min": round(p["libero_min"], 2),
                     "auto_punta_min": round(p["auto_punta_min"], 1), "rapporto": round(p["rapporto"], 2),
                     "auto_punta_basso_min": round(p["auto_punta_basso_min"], 1), "rapporto_basso": round(p["rapporto_basso"], 2),
-                    "fattore_basso": round(p["f_basso"], 2), "fattore_proprio": bool(p["f_basso_vero"])}
+                    "fattore_basso": round(p["f_basso"], 2), "fattore_proprio": bool(p["f_basso_vero"]), "interviste": p["interviste"]}
                    for p in sorted(coppie, key=lambda p: -p["auto"])],
         "senza_collegamento": [{**s, "auto": round(s["auto"], 1)} for s in senza_link], "dentro_zona_auto": round(intra),
         "noti": noti, "google": {"data": "martedì 20/10/2026 ore 8:00", "differenza_media_min": diff_media, "differenza_media_basso_min": diff_basso,
@@ -588,7 +601,7 @@ def main():
             r.append(f"      {nome_l}, fattore {rr['fattore']:g}: mediano {rr['mediano']:.2f}; oltre 2: {100 * rr['quota_oltre_2']:.1f}%")
             r.append(f"         {riga_fasce(rr)}")
         r.append(f"      senza collegamento entro {TEMPO_MAX_MIN} minuti (a parte): {gg['senza_collegamento']['coppie']} coppie, {gg['senza_collegamento']['auto']:,} auto")
-    r += ["", f"LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (rapporto oltre 2 con la stima TomTom, fattore mediano {f_basso:g}; solo gruppi a e b)",
+    r += ["", f"LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (rapporto oltre 2 con la stima TomTom, fattore mediano {f_basso:g}; solo gruppi a e b e coppie con almeno 30 interviste)",
           "  da → a | auto | TP min | auto di punta min (basso-alto) | rapporto (basso-alto)"]
     for p in out["peggiori"]:
         r.append(f"  {p['da_nome']} → {p['a_nome']} | {p['auto']:,} | {p['tp_min']:.0f} | {p['auto_punta_basso_min']:.0f}-{p['auto_punta_min']:.0f} | {p['rapporto_basso']:.1f}-{p['rapporto']:.1f}")

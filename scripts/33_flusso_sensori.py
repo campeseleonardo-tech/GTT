@@ -49,6 +49,9 @@ import statistics
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import comuni  # noqa: E402
+
 RADICE = Path(__file__).resolve().parents[1]
 IN = RADICE / "data" / "processed" / "velocita_5t.json"
 ESCLUSI = RADICE / "data" / "processed" / "sensori_esclusi.json"
@@ -144,6 +147,7 @@ def main():
     if not IN.is_file():
         raise SystemExit(f"File di partenza non trovato: {IN}")
     dati = json.loads(IN.read_text(encoding="utf-8"))
+    comuni.controlla_periodo(dati.get("periodo"), "sensori")      # periodo fisso (L9)
     esclusi = leggi_esclusi()
 
     # --- prima passata: blocchi dei sensori non esclusi, per ricavare la mediana ---

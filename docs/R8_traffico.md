@@ -70,6 +70,20 @@ ai sensori corso Unione Sovietica è +177% e corso Sebastopoli +99%.
 - Area che si espande (Piazza Castello, 30 minuti): mezzi 42,2% dei torinesi, auto 90,1% con TomTom (100,0% con i sensori).
 - Limite scritto nelle schede: «Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso.» Un solo servizio.
 
+## Controllo a mano di Leo (24/10/2026) e regole di pagina del giro L9
+
+Google Maps, martedì, partenza alle 8, tempi «tipici»; TomTom senza i 5 minuti di parcheggio:
+
+| Percorso | TomTom | Google |
+|---|---|---|
+| Regina Margherita → Piazza Castello | 22,7 min | 12-26 |
+| Collegno (Fermi) → Piazza Castello | 31,6 | 18-40 (corso Francia) |
+| Piazza Castello → Collegno | 31,4 | 22-50 |
+
+TomTom sta dentro la forchetta di Google in tutti e 3. Le forchette sono larghe (fino a 22-50): l'incertezza sul tempo in auto è grande. Il 19 minuti preso a mano per Castello → Collegno (fattore Google 1,05) era l'estremo basso.
+
+Regole di pagina (L9, fissate prima dei numeri): nel testo del numero grande si dice la quota delle auto del mattino dentro il calcolo (47%: Torino-Torino e Torino-cintura; esclusi i viaggi dentro una zona e fra comuni della cintura). Una coppia si nomina in pagina solo se ha almeno 30 interviste (SOGLIA_N dello script 14, conteggio «tutti i mezzi, giorno intero» di `imq_od.json`: con le sole interviste dei conducenti del mattino nessuna coppia arriva a 30, massimo 21); per questo l'elenco delle coppie peggiori ha 12 coppie invece di 15. La parte «Strade grandi e fermate vicine» non è più nella scheda: il 95,6% dei km di strade grandi ha una fermata frequente vicina (la fermata c'è, ma non basta); resta qui.
+
 ## Noi contro Google Maps
 
 **Due stime, non un minimo e un massimo.** Il tempo in auto non conta semafori e incroci, quindi il fattore di punta è incerto. Il risultato è **dato con due stime**:

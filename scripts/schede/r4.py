@@ -1,6 +1,6 @@
 """Risultato 4 (pubblico 2): puntualita' e attese dei mezzi GTT (comprende il vecchio Risultato 9, l'attesa)."""
 import re
-from schede.comune import DOCS, forma_base, il, leggi, link_linea, migliaia, num, ora, pct2, virgola, voce
+from schede.comune import DOCS, forma_base, il, leggi, link_linea, migliaia, num, ora, pct2, periodo_it, virgola, voce
 
 
 
@@ -450,7 +450,7 @@ def forma_r4(s):
          "Il ritardo è quell'istante meno l'orario ufficiale.",
          f"In anticipo oltre {virgola(abs(par['soglia_anticipo_min']))} minuto; in ritardo oltre {virgola(par['soglia_ritardo_min'])} minuti.",
          "Grappolo: due mezzi attaccati. Buco: intervallo doppio del previsto. Solo linee frequenti."],
-        [list(p) for p in s["parametri"]],
+        [list(p) for p in s["parametri"]] + [["Periodo dei dati", periodo_it(r["periodo"]["da"], r["periodo"]["a"])]],
         [f"Pochi giorni: {gg['0']} feriali, {gg['1']} sabati e {gg['2']} {'domenica' if gg['2'] == 1 else 'domeniche'}, non tutti interi.",
          "Solo le linee urbane viste dal GPS, dalle 5 a mezzanotte.",
          f"Il GPS copre circa il {round(r['copertura_gps']['totale']['copertura_pct'])}% dei passaggi programmati; le corse mai viste non si contano.",

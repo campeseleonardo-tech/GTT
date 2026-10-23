@@ -3,7 +3,7 @@ from datetime import datetime
 import json
 from collections import Counter
 from schede import comune
-from schede.comune import date_it, forma_base, migliaia, nome_pulito, num, ora, virgola, voce
+from schede.comune import date_it, forma_base, migliaia, nome_pulito, num, ora, periodo_it, virgola, voce
 
 
 
@@ -177,6 +177,7 @@ def scheda_r6():
 
 PIAZZA_CASTELLO = (45.0712, 7.6853)
 SOGLIA_BUS = 1.5   # la stessa dello script 94: rapporto massimo perché il bus «convenga»
+VICINO_SOGLIA = (1.35, 1.65)   # L9: «vicino alla soglia» = ±10% attorno a 1,5 (regola fissata prima dei numeri)
 
 
 def giudizio_bus(r_tomtom):
@@ -289,16 +290,23 @@ def forma_r6(s):
     n_nessun, n_pochi, n_ok = conta["Nessun parcheggio"], conta["Posti insufficienti"], conta["Posti sufficienti"]
     a, b = frazione(n_senza / n_fermate)
     primo = ordinati[0]
+    # L9: dei punti dove il bus conviene (rapporto TomTom <= 1,5), quanti sono vicini alla soglia (fra 1,35 e 1,65)
+    conv_punti = [l for l in ba["luoghi"][:n_punti_ba] if l["classe"] == "conviene"]
+    vicini = [l for l in conv_punti if VICINO_SOGLIA[0] <= l["rapporto_basso"] <= VICINO_SOGLIA[1]]
+    # L9: sensibilita' alla quota di chi lascia l'auto (porte.json, script 84): meta' e doppio
+    sq = json.loads((comune.PROC / "risultato6_v2" / "porte.json").read_text(encoding="utf-8"))["sensibilita"]["quota"]
+    senza_q = [sq[k]["nessun"] + sq[k]["insufficienti"] for k in ("x0.5", "x2")]
     return forma_base(
         s,
-        f"{a} fermate importanti su {b} non hanno abbastanza posti per lasciare l'auto",
+        f"{a} fermate importanti su {b} non hanno abbastanza posti per lasciare l'auto (stima)",
         "Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi?",
         {"valore": n_senza, "unita": "",
          "testo": f"fermate importanti su {n_fermate} non hanno posti bastanti a {raggio} metri a piedi"},
         principale,
         [f"{n_nessun} fermate importanti non hanno nessun parcheggio adatto vicino; {n_pochi} ne hanno troppo pochi.",
          f"Servirebbero posti soprattutto in {n_assi} punti d'ingresso: il primo è {nome_pulito(primo['nome'])}, dove ne mancano circa {migliaia(primo['mancano'])}.",
-         f"Dal parcheggio il bus batte l'auto solo se in centro si perdono più di {forbice_m}. Con TomTom il bus conviene (al massimo 1,5 volte l'auto) da {n_conv_p} punti su {n_punti_ba} e {n_conv_i} interscambi su {len(inter)}."],
+         f"Dal parcheggio il bus batte l'auto solo se in centro si perdono più di {forbice_m}. Con TomTom il bus conviene (fino a 1,5 volte l'auto) in {n_conv_p} punti su {n_punti_ba} e {n_conv_i} dei {len(inter)} interscambi. "
+         f"Dei punti dove il bus conviene, {len(vicini)} su {len(conv_punti)} sono vicini alla soglia: un'auto il 10% più veloce cambia classe."],
         [gara_g, pareggio_g, graf_inter],
         [f"Fermate importanti: fuori dal centro, con metro, stazione o capolinea, oppure {reg['n_corse']} corse all'ora.",
          "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
@@ -308,8 +316,10 @@ def forma_r6(s):
         [["Fermate importanti", f"{reg['n_corse']} corse all'ora o metro, e {migliaia(reg['m_auto'])} auto che passano"],
          ["Distanza a piedi", f"{raggio} metri"],
          ["Auto da fermare", f"auto che passano × {quota}%"],
+         ["Periodo del riempimento dei parcheggi", periodo_it(min(rie["giorni_feriali_validi"]), max(rie["giorni_feriali_validi"]))],
          ["Bus contro auto", f"verso Piazza Castello alle 8; auto: fattore TomTom del percorso (mediana {f_ba_lo}) + 5 minuti; stima più favorevole all'auto: sensori 5T, fattore {f_ba_hi}"]],
-        ["Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
+        ["Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza. "
+         f"Con metà o doppio di chi lascia l'auto, le fermate senza posti bastanti vanno da {min(senza_q)} a {max(senza_q)} su {n_fermate}.",
          "I tempi coi mezzi sono solo GTT, senza treni. La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
          "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Usiamo un solo servizio.",
          "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."],

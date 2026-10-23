@@ -40,6 +40,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import comuni  # noqa: E402  (PERIODO fisso dei dati)
 import riassunti_storico as rs  # noqa: E402  (riassunti dello storico, script 97)
 
 RADICE = Path(__file__).resolve().parents[1]
@@ -132,6 +133,7 @@ def main():
         anag_grezza = rs.carica_anagrafica()["sensori"]
         giorni_dati = rs.carica_5t()
 
+    giorni_dati = {d: r for d, r in giorni_dati.items() if comuni.nel_periodo(d, "sensori")}   # periodo fisso (L9): comuni.PERIODO
     anagrafica = {}
     for lcd1, (nome, direzione, lat, lng) in anag_grezza.items():
         anagrafica[lcd1] = dict(via=nome or "", dir=direzione or "?",

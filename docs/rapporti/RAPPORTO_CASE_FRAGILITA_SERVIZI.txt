@@ -1,5 +1,5 @@
 RAPPORTO CASE x FRAGILITA' x SERVIZI (script 95), solo Torino, unita' = zona OMI
-generato 2026-10-23T18:02:33+00:00
+generato 2026-10-23T22:18:52+00:00
 
 Torino: 4,044 sezioni abitate, 848,748 abitanti; zone OMI 47, usate 46 (848,410 abitanti). Escluse (sotto 500 abitanti o senza prezzo): B9 STATI UNITI.
 Avvertenze: OMI = quotazioni, non compravendite; zone grandi; un solo semestre; correlazione, non causa; l'indice di vulnerabilita' non e' una misura di reddito.
@@ -34,6 +34,13 @@ E2  DOPPIO SVANTAGGIO (soglie fissate: fragilita' nel 20% piu' alto e servizi ne
     solo servizi bassi       489 sezioni   100,600 residenti
     nessuna                 2332 sezioni   517,053 residenti
   torinesi in sezioni con entrambe le condizioni: 79,598 (9.5%)
+  confronto col caso: fragilita' alta 26.4% x servizi bassi 21.5% = 5.67% attesi se fossero indipendenti; osservati 9.48%: 1.67 volte il caso
+
+E4  LEGAMI A PARITA' DI DISTANZA DAL CENTRO (correlazione parziale sui ranghi; intervallo 95% per ricampionamento, seme 95; regge solo se l'intervallo non contiene lo 0)
+  controllo: distanza dal centro di zona a Piazza Castello (m); 46 zone
+    prezzo-servizi     Spearman +0.614 (+0.387 / +0.786)  |  a parita' di distanza +0.212 (-0.123 / +0.515)  ->  NON REGGE (l intervallo contiene lo 0)
+    fragilita-servizi  Spearman -0.737 (-0.826 / -0.591)  |  a parita' di distanza -0.481 (-0.664 / -0.230)  ->  REGGE
+    prezzo-fragilita   Spearman -0.831 (-0.913 / -0.682)  |  a parita' di distanza -0.686 (-0.850 / -0.372)  ->  REGGE
 
 E3  IL VALORE DELLA METRO
   zone con una fermata M1 a meno di 600 m dal centro della zona (centroide dell'anello piu' grande), confronto a pari distanza da Piazza Castello, fasce di 2 km; prezzo medio = media semplice fra zone
@@ -54,5 +61,6 @@ CONTROLLI
   OK     nessun prezzo nullo nelle zone usate — 46 zone usate
   OK     abbastanza zone per una correlazione (almeno 10)
   OK     servizi e fragilita' di zona fra 0 e 100
+  OK     la correlazione semplice prezzo-servizi dell'E4 coincide con quella dell'E1
   OK     le 4 classi delle sezioni sommano alle sezioni di riferimento
   OK     fermate della metropolitana trovate nel GTFS (la M1 ne ha circa 23) — 23

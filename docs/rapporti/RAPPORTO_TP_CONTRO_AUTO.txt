@@ -1,5 +1,5 @@
 RAPPORTO TP CONTRO AUTO (Risultato 8, parte D, STIMATO)
-generato: 2026-10-23T23:49:54
+generato: 2026-10-24T00:17:01
 
 Zone IMQ con punti: 71 (zone solo «porta» escluse; 23 di Torino); fino a 5 punti per zona, i piu' pesanti.
 Tempi coi mezzi: r5py, giorno 2026-10-12, mediana delle partenze 7:45-8:15, mezzi pubblici + cammino a 4.8 km/h, massimo 120 minuti.
@@ -42,23 +42,20 @@ FASCE E MEDIANA PER GRUPPO (stima TomTom | stima dei sensori)
          sotto 1.5: 0 auto (0.0%); 1.5-2: 0 auto (0.0%); 2-3: 10,207 auto (16.5%); oltre 3: 51,601 auto (83.5%)
       senza collegamento entro 120 minuti (a parte): 1598 coppie, 13,600 auto
 
-LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (rapporto oltre 2 con la stima TomTom, fattore mediano 2.23; solo gruppi a e b)
+LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (rapporto oltre 2 con la stima TomTom, fattore mediano 2.23; solo gruppi a e b e coppie con almeno 30 interviste)
   da → a | auto | TP min | auto di punta min (basso-alto) | rapporto (basso-alto)
   Torino, Barriera di Milano → Torino, Falchera | 1,208 | 24 | 12-10 | 2.0-2.5
   Torino, Pozzo Strada → Grugliasco | 929 | 34 | 13-12 | 2.7-2.8
   Torino, Falchera → Torino, Barriera di Milano | 890 | 24 | 10-10 | 2.4-2.5
   Torino, Parella → Torino, San Paolo | 763 | 30 | 15-11 | 2.0-2.8
-  Torino, Mirafiori Sud → Rivoli | 719 | 81 | 24-20 | 3.4-4.1
   Torino, Parella → Torino, Cenisia | 715 | 18 | 8-9 | 2.3-2.1
   Grugliasco → Torino, Pozzo Strada | 714 | 35 | 14-12 | 2.5-3.0
-  Rivoli → Torino, Nizza Millefonti | 687 | 73 | 34-24 | 2.2-3.0
-  Torino, Mercati Generali → Moncalieri | 644 | 51 | 24-17 | 2.1-3.0
-  Grugliasco → Torino, Parella | 614 | 37 | 16-13 | 2.3-2.8
   Torino, Mirafiori Nord → Grugliasco | 583 | 34 | 16-12 | 2.1-2.8
-  Settimo Torinese → Torino, Falchera | 580 | 50 | 25-18 | 2.0-2.9
-  Moncalieri → Torino, Mirafiori Sud | 568 | 55 | 25-16 | 2.2-3.4
-  Settimo Torinese → Torino, Madonna Del Pilone | 544 | 86 | 32-22 | 2.7-4.0
   Torino, Parella → Torino, Madonna di Campagna | 540 | 31 | 15-11 | 2.1-2.8
+  Torino, Vanchiglia → Torino, Madonna Del Pilone | 369 | 37 | 18-11 | 2.0-3.4
+  Grugliasco → Torino, Mirafiori Nord | 348 | 37 | 15-12 | 2.4-3.0
+  Torino, Cenisia → Torino, Parella | 260 | 18 | 9-9 | 2.0-2.0
+  Torino, Borgata Vittoria → Torino, Aurora | 177 | 30 | 14-10 | 2.1-3.1
 
 PER ZONA: quota delle auto in uscita con rapporto oltre 2, stima TomTom - stima dei sensori (prime 15, gruppi a+b)
   Pecetto Torinese: 100% - 100% di 179 auto

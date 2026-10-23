@@ -124,6 +124,42 @@ def fattore_servizio(gruppo, ora="08:00"):
         return None
 
 
+# Periodo fisso dei dati (giro L9, 24/10/2026): le date dei dati usati OGGI dai risultati pubblicati, lette dai loro JSON (stessi numeri di prima).
+# Gli script 26, 27, 33, 70, 71, 88 la leggono: i dati arrivati dopo non entrano nei risultati finche' non si cambia qui a mano (lavoro P8).
+# Estremi inclusi, giorni locali.
+PERIODO = {
+    "sensori": ("2026-10-09", "2026-10-22"),     # sensori 5T (velocita_5t.json): script 26, e da li' 33 e 88
+    "gps": ("2026-10-10", "2026-10-23"),         # passaggi dei mezzi (start_date dello storico): script 27 e 70
+    "parcheggi": ("2026-10-15", "2026-10-22"),   # riempimento dei parcheggi 5T: script 71
+}
+
+
+def _iso(giorno):
+    """'2026-10-09', '20261009' o date -> 'AAAA-MM-GG'."""
+    t = giorno.isoformat() if hasattr(giorno, "isoformat") else str(giorno)
+    return t if "-" in t else f"{t[:4]}-{t[4:6]}-{t[6:8]}"
+
+
+def nel_periodo(giorno, chiave):
+    """True se il giorno sta nel periodo fisso PERIODO[chiave]."""
+    da, a = PERIODO[chiave]
+    return da <= _iso(giorno)[:10] <= a
+
+
+def testo_periodo(chiave):
+    """«dal 09/10/2026 al 22/10/2026», per le schede."""
+    da, a = PERIODO[chiave]
+    it = lambda t: f"{t[8:10]}/{t[5:7]}/{t[:4]}"
+    return f"dal {it(da)} al {it(a)}"
+
+
+def controlla_periodo(periodo_json, chiave):
+    """AVVISO (stampato) se il periodo scritto in un JSON non e' quello fisso."""
+    p = (periodo_json or {})
+    if (p.get("da"), p.get("a")) != PERIODO[chiave]:
+        print(f"AVVISO: il periodo dei dati ({p.get('da')} - {p.get('a')}) non e' quello fisso {PERIODO[chiave][0]} - {PERIODO[chiave][1]} (comuni.PERIODO): rilancia lo script che scrive il JSON")
+
+
 class FattoriTomTom:
     """Fattore_rete di TomTom (script 101) per percorso, come stima principale dell'auto dal giro L8 (24/10/2026).
     Auto = nostro flusso libero x fattore_rete del percorso stesso + 5 minuti. Quando il percorso non e' stato chiesto a TomTom:
