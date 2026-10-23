@@ -39,6 +39,8 @@ jobs:
       - name: Prove su dati finti
         run: |
           python scripts/prove/prova_traduzione.py
+          python scripts/prove/prova_funzioni_comuni.py
+          python scripts/comuni.py
           python scripts/prove/prova_riassunti.py
           python scripts/99_area_tempi.py --finto
           python scripts/rifai_tutto.py --prova-secca

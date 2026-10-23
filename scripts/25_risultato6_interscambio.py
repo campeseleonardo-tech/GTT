@@ -42,11 +42,13 @@ import csv
 import io
 import json
 import math
-import statistics
 import sys
 import xml.etree.ElementTree as ET
 import zipfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from comuni import haversine_m, percentile_rank  # noqa: E402  (uguali alle copie che stavano qui)
 
 AQUI = Path(__file__).resolve().parent
 
@@ -76,15 +78,6 @@ RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 INTERSCAMBIO_A_MANO = {"FERMI"}  # fuori Comune di Torino, non nel file del Comune
 GIORNO_TIPO = "20261012"  # stesso giorno tipo feriale usato in 18_accessibilita.py
 GIORNI_SETTIMANA = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
-
-
-def haversine_m(lat1, lon1, lat2, lon2):
-    R = 6371000.0
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dl = math.radians(lon2 - lon1)
-    a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    return 2 * R * math.asin(math.sqrt(a))
 
 
 def dist_punto_segmento_m(plat, plon, alat, alon, blat, blon):
@@ -321,30 +314,6 @@ def carica_parcheggi():
     trovati = {p["nome"].upper() for p in parcheggi if p["interscambio"]}
     mancanti = sorted(interscambio - trovati)
     return parcheggi, file_pk[-1].name, mancanti
-
-
-# --- percentile -------------------------------------------------------------------------
-
-def percentile_rank(valori):
-    """Per ogni valore in 'valori' (dict chiave->numero), ritorna dict chiave->percentile
-    0-100 (posizione relativa fra tutti i valori, 100 = il piu' alto)."""
-    chiavi = list(valori.keys())
-    ordinati = sorted(chiavi, key=lambda k: valori[k])
-    n = len(ordinati)
-    if n <= 1:
-        return {k: 100.0 for k in chiavi}
-    # valori uguali -> stessa posizione (media delle posizioni del gruppo), altrimenti
-    # fermate con lo stesso valore avrebbero percentili diversi a seconda dell'ordine
-    rank = {}
-    i = 0
-    while i < n:
-        j = i
-        while j + 1 < n and valori[ordinati[j + 1]] == valori[ordinati[i]]:
-            j += 1
-        for k in ordinati[i:j + 1]:
-            rank[k] = (i + j) / 2
-        i = j + 1
-    return {k: 100.0 * rank[k] / (n - 1) for k in chiavi}
 
 
 def main():

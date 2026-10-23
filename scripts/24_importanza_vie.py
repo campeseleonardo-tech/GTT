@@ -49,6 +49,9 @@ import statistics
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from comuni import haversine_m  # noqa: E402  (distanza in metri, uguale alla copia che stava qui)
+
 AQUI = Path(__file__).resolve().parent
 
 
@@ -114,15 +117,6 @@ def match_manuale(nome_norm, elenco_norm):
         if re.search(rf"\b{re.escape(voce)}\b", nome_norm):
             return voce
     return None
-
-
-def haversine_m(lat1, lon1, lat2, lon2):
-    R = 6371000.0
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dl = math.radians(lon2 - lon1)
-    a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    return 2 * R * math.asin(math.sqrt(a))
 
 
 # --- A: lettura OSM -----------------------------------------------------------------
