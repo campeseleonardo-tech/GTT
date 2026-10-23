@@ -14,11 +14,15 @@
     var el = document.getElementById("contatore"); if(!el) return;
     var c = H && H.contatore; if(!c){ el.hidden = true; return; }
     var en = window.Sito && Sito.lingua() === "en";
-    var milioni = c.passaggi >= 1e6, v = milioni ? Math.round(c.passaggi / 1e5) / 10 : c.passaggi;
-    var num = function(x, suff){ return '<b class="val" data-valore="' + x + '" data-suffisso="">' + Sito.formattaNumero(x) + '</b>' + (suff || ""); };
+    // giorni dal primo giorno della raccolta a oggi: la raccolta continua («e continuiamo»)
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(c.inizio_raccolta || c.dal || "");
+    if(!m){ el.hidden = true; return; }
+    var oggi = new Date(), d0 = new Date(+m[1], +m[2] - 1, +m[3]);
+    var giorni = Math.max(1, Math.floor((new Date(oggi.getFullYear(), oggi.getMonth(), oggi.getDate()) - d0) / 864e5) + 1);
+    var n = '<b class="val" data-valore="' + giorni + '">' + Sito.formattaNumero(giorni) + '</b>';
     el.innerHTML = en
-      ? "The Raspberry Pi has been reading Turin for " + num(c.giorni) + " days: " + num(v) + (milioni ? " million" : "") + " bus and tram stop passages measured by GPS"
-      : "Il Raspberry Pi legge Torino da " + num(c.giorni) + " giorni: " + num(v) + (milioni ? " milioni" : "") + " di passaggi di bus e tram alle fermate misurati col GPS";
+      ? "For " + n + " days we have been collecting, minute by minute, data on Turin's buses, trams and traffic, and we keep going: to understand who goes where, and how."
+      : "Da " + n + " giorni raccogliamo, minuto per minuto, i dati di bus, tram e traffico di Torino, e continuiamo: per capire chi va dove, e come ci va.";
     el.hidden = false;
     if(window.Sito && Sito.osserva) Sito.osserva(el);
   }

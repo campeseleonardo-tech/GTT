@@ -60,14 +60,14 @@ interscambio, perche' chi arriva in centro non lascia l'auto per prendere un mez
   CITTADELLA               garage_5t              Q001  True  sconosciuto        2 True   non_interscambio
   CTO                      garage_5t              Q009  True  pendolare          3 True   non_interscambio
   D'AZEGLIO GALILEI        garage_5t              Q002  True  pendolare          0 True   non_interscambio
-  EMANUELE FILIBERTO       garage_5t              Q001  True  misto              1 True   non_interscambio
+  EMANUELE FILIBERTO       garage_5t              Q001  True  destinazione       1 True   non_interscambio
   FONTANESI                garage_5t              Q008  True  pendolare          2 True   non_interscambio
   FORTINO                  garage_5t              Q007  True  sconosciuto        0 True   non_interscambio
   GALILEO FERRARIS         garage_5t              Q001  True  pendolare          2 True   non_interscambio
   GARDINO                  garage_5t              Q004  True  sconosciuto        1 True   non_interscambio
   ISOLATO SANTO STEFANO    garage_5t              Q001  True  sconosciuto        1 True   non_interscambio
   ISONZO                   garage_5t              Q004  True  sconosciuto        1 True   non_interscambio
-  LANCIA                   garage_5t              Q004  True  residenziale       1 True   non_interscambio
+  LANCIA                   garage_5t              Q004  True  misto              1 True   non_interscambio
   LERA                     garage_5t              Q013  False sconosciuto        2 True   potenziale
   LINGOTTO                 garage_5t              Q009  True  misto              2 True   non_interscambio
   MADAMA CRISTINA          garage_5t              Q002  True  destinazione       1 True   non_interscambio

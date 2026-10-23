@@ -2,55 +2,55 @@ FLUSSO 5T PER SENSORE, ORA E TIPO DI GIORNO  (v2)  [MISURATO]
 ==============================================================================
 letto da: C:\projects\Progetti\GTT\data\processed\velocita_5t.json
 sensori esclusi da: C:\projects\Progetti\GTT\data\processed\sensori_esclusi.json
-periodo dei dati: 2026-10-09 -> 2026-10-16 (giorni locali)
+periodo dei dati: 2026-10-09 -> 2026-10-22 (giorni locali)
 I sensori NON si sommano tra loro: ogni numero vale per quel sensore.
 Misure diurne: ore locali 6-21 (16 ore). f_diurno solo se tutte e 16 sono ok.
 totale_giorno solo con tutte e 24 le ore ok; le ore mancanti non si interpolano;
 l'ora 1 locale non viene riempita (in quell'ora il sistema non da' dati affidabili).
 
 (1) Copertura
-  sensori in tutto nel file: 109
+  sensori in tutto nel file: 112
   esclusi (nessun valore, campo 'escluso'): 17   [attesi 17]
-  sensori usabili (con valori): 92   [attesi 92]
-  sensori con f_diurno: 91   [atteso: la maggior parte dei 92]
-  sensori con quota_diurna: 23
-  sensori con totale_giorno_stimato: 91
+  sensori usabili (con valori): 95   [attesi 92]
+  sensori con f_diurno: 95   [atteso: la maggior parte dei 92]
+  sensori con quota_diurna: 25
+  sensori con totale_giorno_stimato: 95
   motivo per cui manca il totale giornaliero a molti: serve che TUTTE e 24 le ore siano ok.
 
 (2) Quota diurna (f_diurno / totale_giorno) sui sensori con totale_giorno
-  sensori (x tipo di giorno): 23
-  mediana: 0.9125   minimo: 0.6716   massimo: 0.9407
-  mediana usata per il totale_giorno_stimato: 0.9125
+  sensori (x tipo di giorno): 67
+  mediana: 0.8724   minimo: 0.6572   massimo: 0.9415
+  mediana usata per il totale_giorno_stimato: 0.8724
 
 (3) I 15 sensori urbani con piu' veicoli/giorno (feriale)
     tot = giornaliero misurato; * = solo parziale; stim = stima 24 h (diurno/quota mediana)
     lcd1  via                            dir           tot punta f_diurno punta am punta pm    stim  note
-   40189  Corso Unita' D'italia(TO)      positive    44018    17    40473     3011     3202   44354  
-   40174  Corso Trieste(TO)              positive    37230    18    34567     2658     2907   37882  
-   40095  Corso Orbassano(TO)            positive    26992     8    25102     2497     2403   27509  
-   40097  Corso Orbassano(TO)            positive    24159    18    20673     1605     1851   22655  
-   40040  Corso Giulio Cesare(TO)        positive    18610    18    16964     1479     1512   18591  
-   40022  Corso Francia(TO)              positive    16847    17    15467     1289     1308   16950  
-   40212  Ponte Amedeo VIII(TO)          positive    16537     8    14958     1121     1114   16392  
-   40041  Corso Giulio Cesare(TO)        positive    16151    18    14423      947     1348   15806  
-   40021  Corso Francia(TO)              positive    15438    18    14349     1302     1408   15725  
-   40122  Corso Regina Margherita(TO)    positive    15310     8    14219     1277     1081   15582  
-   40098  Corso Orbassano(TO)            positive    14941     8    13631     1189     1142   14938  
-   35824  SP2(TO) Di Germagnano          negative    14481     8    13575     1307     1009   14877  * parziale su 23 ore ok
-   40194  Corso Vercelli(TO)             positive    14380    18    13122      967     1012   14380  
-   35823  SP2(TO) Di Germagnano          positive    13666    17    12577     1018     1113   13783  * parziale su 23 ore ok
-   36066  SP8(TO) di Druento             positive    11748    18    10920      796     1127   11967  * parziale su 23 ore ok
+   40189  Corso Unita' D'italia(TO)      positive    44582    17    40978     3014     3260   46972  
+   40174  Corso Trieste(TO)              positive    37290    17    32712     2434     2723   37497  
+  40189~2  Corso Unita' D'italia(TO)      positive    35712     0    23808     1488     1488   27290  
+   40095  Corso Orbassano(TO)            positive    27011     8    25161     2529     2373   28841  
+   40097  Corso Orbassano(TO)            positive    23488    18    20663     1653     1915   23685  
+   40040  Corso Giulio Cesare(TO)        positive    19242     8    17274     1537     1495   19801  
+   40022  Corso Francia(TO)              positive    16809    17    15469     1274     1312   17732  
+   40212  Ponte Amedeo VIII(TO)          positive    16490     8    14963     1116     1110   17152  
+   40041  Corso Giulio Cesare(TO)        positive    16456    17    14635     1063     1258   16776  
+   40021  Corso Francia(TO)              positive    15286    18    14207     1314     1335   16285  
+   40122  Corso Regina Margherita(TO)    positive    15222     8    14206     1282     1100   16284  
+   40098  Corso Orbassano(TO)            positive    14792     8    13512     1177     1148   15488  
+   40194  Corso Vercelli(TO)             positive    13959    17    12735      950      987   14598  
+   35824  SP2(TO) Di Germagnano          negative    13875     8    13033     1280      951   14939  * parziale su 23 ore ok
+   35823  SP2(TO) Di Germagnano          positive    13257    18    12234      965     1068   14023  * parziale su 23 ore ok
 
 (4) Profilo orario completo (feriale) dei primi 3 sensori urbani della lista sopra
-  40189  Corso Unita' D'italia(TO) (positive)  totale_giorno=44018 f_diurno=40473 ore_ok=24 ore_diurne_ok=16 quota_diurna=0.9195
+  40189  Corso Unita' D'italia(TO) (positive)  totale_giorno=44582 f_diurno=40978 ore_ok=24 ore_diurne_ok=16 quota_diurna=0.9192
     ora       0     1     2     3     4     5     6     7     8     9    10    11    12    13    14    15    16    17    18    19    20    21    22    23
-    veic/h  469   184    98    84   109   467  1288  2710  3011  2782  2564  2463  2484  2492  2685  2551  2747  3202  3183  2915  2136  1260  1188   946
-  40174  Corso Trieste(TO) (positive)  totale_giorno=37230 f_diurno=34567 ore_ok=24 ore_diurne_ok=16 quota_diurna=0.9285
+    veic/h  477   182    99    79   110   485  1291  2744  3014  2867  2626  2447  2451  2516  2733  2628  2825  3260  3207  2903  2156  1310  1228   944
+  40174  Corso Trieste(TO) (positive)  totale_giorno=37290 f_diurno=32712 ore_ok=24 ore_diurne_ok=16 quota_diurna=0.8772
     ora       0     1     2     3     4     5     6     7     8     9    10    11    12    13    14    15    16    17    18    19    20    21    22    23
-    veic/h  313   141    80    63    87   335  1010  2455  2658  2416  2069  1946  1948  1951  2236  2153  2418  2894  2907  2603  1861  1042   950   694
-  40095  Corso Orbassano(TO) (positive)  totale_giorno=26992 f_diurno=25102 ore_ok=24 ore_diurne_ok=16 quota_diurna=0.93
+    veic/h  558   422   379   362   389   577  1123  2295  2434  2251  1979  1857  1863  1877  2075  2057  2283  2723  2654  2370  1746  1125  1048   843
+  40189~2  Corso Unita' D'italia(TO) (positive)  totale_giorno=35712 f_diurno=23808 ore_ok=24 ore_diurne_ok=16 quota_diurna=0.6667
     ora       0     1     2     3     4     5     6     7     8     9    10    11    12    13    14    15    16    17    18    19    20    21    22    23
-    veic/h  200    82    58    42   103   400   662  2041  2497  1814  1321  1256  1294  1427  1483  1399  1753  2403  2194  1788  1143   627   570   435
+    veic/h 1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488
 
 (5) Sensori esclusi (17), senza nessun valore
        11436  SS460 Di Ceresole                  positive  fuori citta escluso: bloccato
@@ -64,7 +64,7 @@ l'ora 1 locale non viene riempita (in quell'ora il sistema non da' dati affidabi
        14790  SP155(AL)                          negative  fuori citta escluso: morto
        40071  Corso Moncalieri(TO)               positive  urbano      escluso: morto
        40121  Corso Regina Margherita(TO)        positive  urbano      escluso: morto
-       40123  Corso Regina Margherita(TO)        positive  urbano      escluso: morto
+       40123  Corso Regina Margherita(TO)        negative  urbano      escluso: morto
         5057  SS30 Di Val Bormida                positive  fuori citta escluso: morto
         5058  SS30 Di Val Bormida                negative  fuori citta escluso: morto
         7934  SS142 Biellese                     positive  fuori citta escluso: morto
@@ -72,7 +72,7 @@ l'ora 1 locale non viene riempita (in quell'ora il sistema non da' dati affidabi
        11421  SS458 Di Casalborgone              negative  fuori citta escluso: pochi dati
 
 (6) Controlli sui valori orari (solo sensori usabili)
-  valori orari scritti: 2132
+  valori orari scritti: 6379
   valori negativi: 0
   valori oltre 6000 veic/h: 0
-  valore massimo trovato: 3202   [atteso circa 3202]
+  valore massimo trovato: 3433   [atteso circa 3202]

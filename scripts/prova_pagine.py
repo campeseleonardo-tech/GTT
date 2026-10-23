@@ -10,7 +10,7 @@ Cosa fa
      le viste dei parcheggi, l'ingresso, le schede dei risultati.
   3. Controlla nel DOM che il pannello di errore (#jsoff) non sia visibile e che la legenda della vista mostri
      il titolo atteso.
-  4. (Con Playwright e Pillow) rifà le miniature dei riquadri della home in assets/miniature/ (WebP, sotto 40 KB), le anteprime 1200x630 dei risultati
+  4. (Con Playwright e Pillow) rifà le anteprime 1200x630 dei risultati
      in assets/anteprime/rN.jpg (per le pagine r/N.html, link condivisi sui social) e le 3 immagini del README in assets/readme/.
      Fa gli screenshot di ingresso, risultati e mappa (e delle viste dei parcheggi) a 1440x900 e 390x844
      in immagini/ (cartella fuori da git).
@@ -228,62 +228,6 @@ def prova_cambio_indirizzo(br, cartella):
     return errori
 
 
-MINIATURE = RADICE / "assets" / "miniature"
-MINIATURA_LARGHEZZA, MINIATURA_ALTEZZA, MINIATURA_MAX_BYTE = 480, 270, 40_000
-
-
-def fai_miniature(br, cartella):
-    """Una miniatura (WebP, sotto 40 KB) per ogni riquadro della home: lo screenshot del grafico principale della scheda aperta in
-    risultati.html, ritagliato 16:9. Con «riduci movimento», cosi' le animazioni sono gia' nel loro stato finale. Serve Playwright e Pillow;
-    se mancano, o se mancano i dati delle schede, salta senza errore. Ritorna un elenco di errori."""
-    if not isinstance(br, BrowserPlaywright) or not (cartella / "data" / "schede_risultati.js").exists():
-        print("  miniature: non fatte (serve Playwright e data/schede_risultati.js)")
-        return []
-    try:
-        from PIL import Image
-    except ImportError:
-        print("  miniature: non fatte (manca Pillow: pip install pillow)")
-        return []
-    import io
-    errori = []
-    MINIATURE.mkdir(parents=True, exist_ok=True)
-    ctx = br.br.new_context(viewport={"width": 900, "height": 900}, reduced_motion="reduce", color_scheme="light", locale="it-IT")
-    page = ctx.new_page()
-    try:
-        page.goto(f"http://127.0.0.1:{PORTA}/risultati.html", wait_until="load", timeout=60000)
-        quante = page.evaluate("document.querySelectorAll('.scheda').length")
-        for n in range(1, quante + 1):
-            page.evaluate(f"location.hash = '#p{n}'")
-            page.wait_for_timeout(700)
-            grafico = page.locator("#finCorpo .grafico").first
-            if grafico.count() == 0:
-                errori.append(f"miniatura {n}: la scheda non ha un grafico principale")
-                continue
-            img = Image.open(io.BytesIO(grafico.screenshot())).convert("RGB")
-            # ritaglio 16:9 dall'alto, poi scala
-            alt = min(img.height, round(img.width * MINIATURA_ALTEZZA / MINIATURA_LARGHEZZA))
-            img = img.crop((0, 0, img.width, alt)).resize((MINIATURA_LARGHEZZA, round(alt * MINIATURA_LARGHEZZA / img.width)), Image.LANCZOS)
-            if img.height < MINIATURA_ALTEZZA:   # grafico basso: bianco sotto, cosi' tutte le miniature hanno la stessa forma
-                fondo = Image.new("RGB", (MINIATURA_LARGHEZZA, MINIATURA_ALTEZZA), (255, 255, 255))
-                fondo.paste(img, (0, 0))
-                img = fondo
-            for q in (80, 70, 60, 50, 40):
-                buf = io.BytesIO()
-                img.save(buf, "WEBP", quality=q, method=6)
-                if buf.tell() <= MINIATURA_MAX_BYTE:
-                    break
-            (MINIATURE / f"p{n}.webp").write_bytes(buf.getvalue())
-            print(f"  miniatura p{n}.webp: {img.width}x{img.height}, {buf.tell() // 1024} KB (qualita' {q})")
-            if buf.tell() > MINIATURA_MAX_BYTE:
-                errori.append(f"miniatura p{n}.webp pesa {buf.tell()} byte (limite {MINIATURA_MAX_BYTE})")
-            page.evaluate("document.getElementById('finestra').close()")
-    except Exception as e:
-        errori.append(f"miniature: {str(e)[:200]}")
-    finally:
-        ctx.close()
-    return errori
-
-
 ANTEPRIME = RADICE / "assets" / "anteprime"
 IMMAGINI_README = RADICE / "assets" / "readme"
 
@@ -446,7 +390,6 @@ def main():
                     print(f"  screenshot {png.name} ({w}x{h}): {dim} byte" + ("  (meno di 5 KB: probabile pagina vuota)" if dim < 5000 else ""))
                     if dim < 5000:
                         errori.append(f"screenshot {png.name}: file piccolo ({dim} byte): probabile pagina vuota")
-            errori += fai_miniature(br, cartella)
             errori += fai_immagini_condivisione(br, cartella)
     finally:
         srv.shutdown()

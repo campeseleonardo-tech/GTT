@@ -50,6 +50,8 @@
       + ".area .area-fermo{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.area .area-fermo .area-cella p{margin:2px 0 0;font-size:12.5px;line-height:1.25}"
       + ".area .area-cella .t{font:700 15px/1.2 var(--font-titoli,inherit)}"
       + ".area .area-nota{font-size:13px;color:var(--muted,#4a5a7a);margin:8px 0 0}"
+      + ".area-mini{margin:0}.area-mini .area-mappe{gap:6px}.area-mini .area-mappa h6{font-size:12px;margin:0 0 2px}.area-mini .area-quota{font-size:15px;margin-top:2px}"
+      + ".area-mini .area-quota small{font-size:11px}.area-mini .area-minuti{display:block;text-align:center;font-size:17px;margin-top:6px;min-width:0}"
       + "@media (max-width:480px){.area .area-fermo{grid-template-columns:repeat(2,1fr)}}";
     document.head.appendChild(s);
   }
@@ -222,16 +224,63 @@
     el._ferma = ferma;
   }
 
+  /* versione piccola (riquadri della home): senza comandi ne' tabella; le due mappe crescono da sole da 0 a 60 minuti, poi ricominciano
+     (solo mentre si vedono). Con «riduci movimento» si vede ferma la situazione a 30 minuti. */
+  function costruisciMini(el, D){
+    var t = T(), cMezzi = css("--neu-blu", "#6f8fc7"), cAuto = css("--neu-arancio", "#c9a227");
+    var stato = {origine: 0, traffico: "a", minuto: 30};
+    el.innerHTML = '<div class="area-mappe"><div class="area-mappa"><h6>' + esc(t.mezzi) + '</h6><canvas data-k="m" aria-hidden="true"></canvas><div class="area-quota" data-q="m"></div></div>'
+      + '<div class="area-mappa"><h6>' + esc(t.auto) + '</h6><canvas data-k="a" aria-hidden="true"></canvas><div class="area-quota" data-q="a"></div></div></div>'
+      + '<span class="area-minuti" aria-hidden="true"></span>';
+    var cvs = Array.prototype.slice.call(el.querySelectorAll("canvas")), T_ = tempi(D, stato);
+    var larg = (el.clientWidth || 240) / 2 - 6;
+    cvs.forEach(function(cv){ dimensiona(cv, D, larg); });
+    function ridisegna(){
+      var m = stato.minuto, pm = quota(D, T_[0], m), pa = quota(D, T_[1], m);
+      cvs.forEach(function(cv){ var mezzi = cv.getAttribute("data-k") === "m"; disegna(cv, D, mezzi ? T_[0] : T_[1], m, mezzi ? cMezzi : cAuto, stato); });
+      el.querySelector("[data-q=m]").innerHTML = n(Math.round(pm)) + '%';
+      el.querySelector("[data-q=a]").innerHTML = n(Math.round(pa)) + '%';
+      el.querySelector(".area-minuti").textContent = t.dentro + n(m) + " " + t.min;
+    }
+    ridisegna();
+    el.setAttribute("role", "img");
+    el.setAttribute("aria-label", t.parlato("Piazza Castello", 30, n(Math.round(quota(D, T_[0], 30))), n(Math.round(quota(D, T_[1], 30)))));
+    if(ridotto) return;
+    var giro = ++contatore, visibile = false;
+    el._anim = giro;
+    function corsa(){
+      var t0 = null;
+      function passo(ts){
+        if(el._anim !== giro || !document.body.contains(el)) return;
+        if(!visibile){ el._inattesa = true; return; }
+        if(t0 === null) t0 = ts;
+        var f = Math.min(1, (ts - t0) / 1000 / SEC_TOTALI);
+        stato.minuto = Math.round(f * MAX_MIN); ridisegna();
+        if(f < 1) requestAnimationFrame(passo);
+        else setTimeout(function(){ if(el._anim === giro) corsa(); }, 2200);
+      }
+      requestAnimationFrame(passo);
+    }
+    stato.minuto = 0; ridisegna();
+    if("IntersectionObserver" in window) new IntersectionObserver(function(v){
+      visibile = v[0].isIntersecting;
+      if(visibile && el._inattesa){ el._inattesa = false; corsa(); }
+    }).observe(el); else visibile = true;
+    el._inattesa = true;
+    el._ferma = function(){ el._anim = 0; };
+  }
+
   function avvia(el){
     if(el._pronto) return; el._pronto = true;
     stile();
     carica(function(D){
-      costruisci(el, D);
-      window.addEventListener("lingua", function(){ if(el._ferma) el._ferma(); if(document.body.contains(el)) costruisci(el, D); });
+      var mini = el.hasAttribute("data-mini"), fa = mini ? costruisciMini : costruisci;
+      fa(el, D);
+      window.addEventListener("lingua", function(){ if(el._ferma) el._ferma(); if(document.body.contains(el)) fa(el, D); });
     }, function(){ el.textContent = T().caricamentoKo; });
   }
 
-  function html(){ return '<div class="area" data-area="1"></div>'; }
+  function html(opz){ var mini = !!(opz && opz.compatto); return '<div class="area' + (mini ? " area-mini" : "") + '" data-area="1"' + (mini ? ' data-mini="1"' : "") + '></div>'; }
 
   function scansiona(radice){
     var els = (radice.querySelectorAll ? radice.querySelectorAll("[data-area]") : []);

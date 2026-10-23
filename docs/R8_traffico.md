@@ -3,24 +3,24 @@
 **Domanda.** Quanti veicoli passano sulle strade di Torino, e dove c'è molto traffico ma poco trasporto pubblico (TP),
 così che l'auto resta l'unica scelta?
 
-**Tag dati:** [STIMATO] (modello della domanda IMQ 2022 sulla rete OSM, tarato su 20 sensori 5T) + [PROGRAMMATO] per il
+**Tag dati:** [STIMATO] (modello della domanda IMQ 2022 sulla rete OSM, tarato su 22 punti di misura dei sensori 5T) + [PROGRAMMATO] per il
 TP (orario GTFS).
 
 ## Risposta
 
-- Sulle **540 tratte di strade grandi di Torino (343,3 km)** il **95,3% della lunghezza** ha una fermata con almeno 4
+- Sulle **611 tratte di strade grandi di Torino (372,7 km)** il **95,6% della lunghezza** ha una fermata con almeno 4
   passaggi all'ora entro 300 m oppure la metro entro 600 m. La frase giusta è: *lungo le strade grandi di Torino c'è
   quasi sempre una fermata frequente a meno di 300 m*; non vale per tutte le strade.
-- **180 tratte** hanno molto traffico (≥ 11.720 veicoli/giorno, 6-21, due versi); **5** hanno anche poco TP: in pratica
-  **corso Regina Margherita ovest** (scorrimento veloce, circa 34.000 veicoli/giorno, nessuna fermata frequente
-  entro 300 m) e **un tratto di corso Moncalieri** (coperto per un quarto; da controllare a mano).
+- **204 tratte** hanno molto traffico (≥ 10.677 veicoli/giorno, 6-21, due versi: il terzo più alto delle tratte); **5** hanno anche poco TP: in pratica
+  **corso Regina Margherita ovest** (scorrimento veloce, circa 32.000 veicoli/giorno, nessuna fermata frequente
+  entro 300 m) e **un tratto di corso Casale** (coperto per un quarto; da controllare a mano).
 - Una lista precedente di 23 strade era un artefatto: il TP era misurato lungo la strada per nome. Con le fermate
   cercate per posizione è sparita.
 
 ## Qualità della stima: classe C-DEBOLE
 
-Errore mediano **38,4%** (intervallo 90%: 25,5-49,8%), correlazione di Spearman **0,605**, 20 punti di misura, fattore
-di taratura k = 0,953. Fasce pubblicate: metà dei casi entro ±38%, 9 su 10 entro ±64%; fuori da 8.845-105.230
+Errore mediano **28,3%** (intervallo 90%: 24,2-37,9%), correlazione di Spearman **0,639**, 22 punti di misura, fattore
+di taratura k = 0,980. Fasce pubblicate: metà dei casi entro ±28%, 9 su 10 entro ±62%; fuori da 8.974-106.543
 veicoli/giorno è un'estrapolazione e la fascia raddoppia. **Serve a ordinare le strade, non a contare i veicoli.**
 
 | Classe di esito | Condizione | Cosa si pubblica |
@@ -33,13 +33,14 @@ veicoli/giorno è un'estrapolazione e la fascia raddoppia. **Serve a ordinare le
 ## Come si calcola
 
 - **Sensori 5T:** 112 sensori che danno già veicoli/ora; esclusi 17 (11 morti, 5 bloccati, 1 con pochi dati) → 92
-  usabili; abbinamento sensori-corridoi per posizione → 20 unità di confronto su 15 corridoi. Velocità e flusso
+  usabili; abbinamento sensori-corridoi per posizione → 22 unità di confronto. Velocità e flusso
   tipici per sensore × tipo di giorno × ora: `data/processed/velocita_5t.json` (solo letture affidabili).
-- **Metodo C (adottato):** domanda auto IMQ (4,15 milioni di viaggi/giorno) assegnata al percorso più veloce sulla rete
-  OSM (81.966 nodi, 105.890 tratti, porte sul bordo). I modelli più ricchi (attrattori, code, corsie) non hanno
-  migliorato la correlazione (ρ 0,573 e 0,571) e non si adottano: la congestione non funziona (Piazza Castello →
-  Collegno 13,8 minuti nel modello contro 20-35 attesi in punta). Se si riprova, la strada è la congestione
-  (domanda per fascia oraria, capacità reali).
+- **Modello adottato: V4** (script 62-63). Domanda auto IMQ (4,15 milioni di viaggi/giorno) assegnata sulla rete
+  OSM (81.966 nodi, 105.890 tratti, porte sul bordo di rango ≥ 3) con destinazioni per attrattori, congestione con capacità
+  per corsia (funzione BPR, punta del mattino) e ZTL/aree pedonali chiuse. La scelta fra il modello semplice (V0) e V4 la fa
+  una regola fissata prima di vedere i numeri (script 63): con i 20 sensori di metà ottobre vinceva V0 (errore 38,4%, ρ 0,605
+  contro ρ 0,571); con 22 sensori (altri giorni di dati) vince V4 (errore 28,3%, ρ 0,639) e **cambia il modello pubblicato**.
+  La congestione resta debole: Piazza Castello → Collegno 13,8 minuti nel modello contro 20-35 attesi in punta.
 - **Strade:** solo strade grandi; fermate e strade solo per coordinate, mai per nome; un corso che cambia nome o comune
   è un solo asse; l'unità è la tratta d'asse (0,3-1,5 km). ZTL unificata (3 zone + 143 aree pedonali); corsie da OSM
   `lanes` (29% dei tratti).
@@ -49,7 +50,7 @@ veicoli/giorno è un'estrapolazione e la fascia raddoppia. **Serve a ordinare le
 ## Controllo di buon senso
 
 Un giudizio qualitativo di una persona che conosce la città (strade A = molto trafficate, B = medie, C = tranquille) è
-usato solo come controllo, mai per tarare il modello: 10 strade su 18 nella fascia giusta, 4 confronti su 7. Regole
+usato solo come controllo, mai per tarare il modello: 11 strade su 18 nella fascia giusta, 5 confronti su 7. Regole
 che ne vengono: un corso cambia nome lungo il percorso (Trapani → Lecce → Potenza; Agudio → Sturzo), l'asse non si
 ferma al confine comunale; a parità di traffico una strada a due corsie sente meno pressione di una a una corsia; il
 centro-centro non è prioritario. Il modello **sottovaluta** il semicentro (Bolzano, Quintino Sella, Lombardia, Re
@@ -101,7 +102,7 @@ Per gruppo (basso | alto). Cintura-cintura è a parte: mancano treni e altre azi
 
 - Stima debole; senza un sensore sull'asse la classifica mette in cima strade poco credibili (corso Dogliotti circa
   58.500): nella scheda si mostrano solo strade con un sensore sull'asse.
-- 20 punti di misura, tutti fra circa 9.000 e 105.000 veicoli/giorno; a Torino sensori a un solo verso (×2 per i due
+- 22 punti di misura, tutti fra circa 9.000 e 106.500 veicoli/giorno; a Torino sensori a un solo verso (×2 per i due
   versi); la notte è inaffidabile e l'ora di punta non è validata.
 - Domanda IMQ 2022: solo residenti 11-84 anni, feriale medio; mancano merci, turisti, pendolari da fuori.
 - TP programmato: niente ritardi né affollamento. Il centro (ZTL, pedonali) non è stimato bene.

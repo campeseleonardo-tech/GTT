@@ -5,41 +5,43 @@ Taratura leave-one-out con un solo fattore globale (come Fase 3). Metodo A: 36.9
 
 variante   n  err.med             IC90     p90  rho LOO rho grezzo       k
 v0        20    38.4% [ 25.5%, 49.8%]   64.5%    0.605      0.626   0.953
-v4        20    30.5% [ 25.5%, 48.3%]   66.9%    0.571      0.577   1.007
+v4        22    28.3% [ 24.2%, 37.9%]   62.1%    0.639      0.640   0.980
 abl1      20    40.5% [ 26.9%, 54.5%]   63.0%    0.577      0.612   0.995
 abl2      20    29.9% [ 24.1%, 38.5%]   65.8%    0.615      0.638   0.947
 abl3      20    29.0% [ 26.2%, 48.0%]   62.7%    0.586      0.594   1.013
 
 Regola di scelta (piano Fase 5, pacchetto E): V4 si adotta se rho(V4) >= rho(V0) E
 l'errore mediano di V4 non e' peggiore di V0 di piu' di 3 punti.
-  rho(V0)=0.605  rho(V4)=0.571   err(V0)=38.4%  err(V4)=30.5%
-  => VARIANTE FINALE: V0
+  rho(V0)=0.605  rho(V4)=0.639   err(V0)=38.4%  err(V4)=28.3%
+  => VARIANTE FINALE: V4
 
 == Classe di esito (tabella Fase 3, sezione 1) ==
-  variante finale v0: rho=0.605  errore mediano=38.4%  IC90 [25.5%,49.8%]
+  variante finale v4: rho=0.639  errore mediano=28.3%  IC90 [24.2%,37.9%]
   CLASSE = C-DEBOLE   (IC90 a cavallo del 35%: INCERTO)
 
-== Unita' della variante finale (v0) ==
-   40189 Corso Unita' D'italia(TO)  misurato    80,946 modello2v    65,339 previsto    62,281 err  25.5%
-   40174 Corso Trieste(TO)          misurato    69,134 modello2v    62,288 previsto    59,373 err  15.6%
-   40095 Corso Orbassano(TO)        misurato    50,204 modello2v    44,692 previsto    42,600 err  16.2%
-   40097 Corso Orbassano(TO)        misurato    41,346 modello2v    43,277 previsto    41,252 err   0.2%
-    2375 R24 Raccordo Torino-Aeropo misurato    40,092 modello2v    32,139 previsto    30,635 err  24.8%
-   40040 Corso Giulio Cesare(TO)    misurato    33,928 modello2v    25,808 previsto    24,601 err  28.6%
-   40022 Corso Francia(TO)          misurato    30,934 modello2v    42,142 previsto    40,170 err  31.9%
-   40212 Ponte Amedeo VIII(TO)      misurato    29,916 modello2v    22,258 previsto    21,216 err  30.1%
-   40041 Corso Giulio Cesare(TO)    misurato    28,846 modello2v    33,993 previsto    32,403 err  13.0%
-   40021 Corso Francia(TO)          misurato    28,698 modello2v    42,754 previsto    40,754 err  44.9%
-   40122 Corso Regina Margherita(TO misurato    28,438 modello2v    32,401 previsto    30,884 err   9.0%
-   40098 Corso Orbassano(TO)        misurato    27,262 modello2v    41,154 previsto    39,228 err  46.8%
-   40194 Corso Vercelli(TO)         misurato    26,244 modello2v    15,054 previsto    14,350 err  46.4%
-   39977 Corso Agnelli(TO)          misurato    21,104 modello2v    33,937 previsto    32,349 err  56.1%
-   36066 SP8(TO) di Druento         misurato    20,889 modello2v     8,814 previsto     8,402 err  60.6%
-   40182 Corso Unione Sovietica(TO) misurato    19,066 modello2v    52,673 previsto    50,208 err 177.2%
-   40149 Corso Sebastopoli(TO)      misurato    17,342 modello2v    35,315 previsto    33,662 err  99.3%
-   40253 Strada Di Settimo(TO)      misurato    16,888 modello2v     8,791 previsto     8,380 err  51.0%
-   35478 SP1(TO) delle Valli di Lan misurato    15,886 modello2v     8,464 previsto     8,068 err  49.8%
-   39983 Corso Allamano(TO)         misurato    12,636 modello2v    19,914 previsto    18,983 err  51.8%
+== Unita' della variante finale (v4) ==
+   40189 Corso Unita' D'italia(TO)  misurato    81,956 modello2v    57,839 previsto    56,661 err  33.6%
+   40174 Corso Trieste(TO)          misurato    65,424 modello2v    51,811 previsto    50,756 err  24.2%
+   40095 Corso Orbassano(TO)        misurato    50,322 modello2v    50,982 previsto    49,944 err   0.8%
+  40189~2 Corso Unita' D'italia(TO)  misurato    47,616 modello2v    49,298 previsto    48,294 err   1.5%
+   40097 Corso Orbassano(TO)        misurato    41,326 modello2v    47,358 previsto    46,394 err  13.1%
+    2375 R24 Raccordo Torino-Aeropo misurato    39,810 modello2v    28,175 previsto    27,601 err  31.9%
+   40040 Corso Giulio Cesare(TO)    misurato    34,548 modello2v    25,450 previsto    24,932 err  28.9%
+   40022 Corso Francia(TO)          misurato    30,938 modello2v    38,702 previsto    37,914 err  23.8%
+   40212 Ponte Amedeo VIII(TO)      misurato    29,926 modello2v    27,306 previsto    26,750 err  11.0%
+   40041 Corso Giulio Cesare(TO)    misurato    29,270 modello2v    36,855 previsto    36,105 err  24.6%
+   40021 Corso Francia(TO)          misurato    28,414 modello2v    39,408 previsto    38,606 err  37.9%
+   40122 Corso Regina Margherita(TO misurato    28,412 modello2v    31,124 previsto    30,491 err   7.6%
+   40098 Corso Orbassano(TO)        misurato    27,024 modello2v    43,910 previsto    43,017 err  63.0%
+   40194 Corso Vercelli(TO)         misurato    25,470 modello2v    10,376 previsto    10,165 err  61.0%
+   39977 Corso Agnelli(TO)          misurato    22,014 modello2v    31,816 previsto    31,168 err  43.5%
+   36066 SP8(TO) di Druento         misurato    20,611 modello2v    10,889 previsto    10,667 err  49.0%
+  40123~2 Corso Regina Margherita(TO misurato    19,954 modello2v    25,824 previsto    25,298 err  27.8%
+   40182 Corso Unione Sovietica(TO) misurato    19,202 modello2v    52,374 previsto    51,308 err 180.3%
+   40149 Corso Sebastopoli(TO)      misurato    17,424 modello2v    28,422 previsto    27,844 err  62.3%
+   40253 Strada Di Settimo(TO)      misurato    16,856 modello2v    12,617 previsto    12,360 err  27.2%
+   35478 SP1(TO) delle Valli di Lan misurato    15,097 modello2v     6,654 previsto     6,518 err  57.4%
+   39983 Corso Allamano(TO)         misurato    12,820 modello2v    11,882 previsto    11,640 err   9.4%
 
 == Tempi di viaggio (minuti) ==
 percorso                                     flusso libero  V4 punta
@@ -52,5 +54,5 @@ percorso                                     flusso libero  V4 punta
   (atteso Castello->Collegno in punta: 20-35 minuti)
 
 == Velocita' del modello sui tratti dei sensori (punta) vs misurate ==
-  coppie modello/misurato: 20   mediana modello 49.2 km/h   mediana misurata in punta 41.6 km/h
+  coppie modello/misurato: 22   mediana modello 49.6 km/h   mediana misurata in punta 42.1 km/h
 

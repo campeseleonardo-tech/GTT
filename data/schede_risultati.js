@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:15:31+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -362,7 +362,7 @@ window.SCHEDE_RISULTATI = [
   ],
   "forma": {
    "etichetta": "STIMATO",
-   "titolo": "A 15 minuti quasi tutti hanno i servizi; a 5 minuti molti meno",
+   "titolo": "Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi",
    "domanda": "Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata?",
    "numero": {
     "valore": 99.2,
@@ -439,7 +439,7 @@ window.SCHEDE_RISULTATI = [
    },
    "punti": [
     "A 5 minuti solo il 68,3% dei residenti ha tutti e 5 i servizi; a 10 minuti il 96,8%.",
-    "190.255 residenti (22,6%) vivono a meno di 100 m da una strada molto trafficata.",
+    "222.179 residenti (26,4%) vivono a meno di 100 m da una strada molto trafficata.",
     "I 362 residenti senza 3 o più servizi sono in 5 sezioni di collina: dove manca davvero tutto."
    ],
    "altri": [
@@ -447,21 +447,21 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Residenti per distanza da una strada molto trafficata",
      "unita": "residenti",
-     "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 11.720 veicoli al giorno. Stima debole: il modello sbaglia del ±38% in metà dei casi.",
+     "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 10.677 veicoli al giorno. Stima debole: il modello sbaglia del ±28% in metà dei casi.",
      "voci": [
       {
        "label": "esposti (meno di 100 m)",
-       "valore": 190255,
+       "valore": 222179,
        "tono": "rosso"
       },
       {
        "label": "vicini (100-250 m)",
-       "valore": 259977,
+       "valore": 265471,
        "tono": "giallo"
       },
       {
        "label": "lontani (oltre 250 m)",
-       "valore": 391748,
+       "valore": 354330,
        "tono": "verde"
       }
      ]
@@ -534,7 +534,7 @@ window.SCHEDE_RISULTATI = [
     ],
     [
      "Strada molto trafficata",
-     "almeno 11.720 veicoli al giorno"
+     "almeno 10.677 veicoli al giorno"
     ],
     [
      "Esposto al traffico",
@@ -547,19 +547,35 @@ window.SCHEDE_RISULTATI = [
     "I punti nuovi sono ipotesi: non tengono conto di costi, spazi liberi o permessi.",
     "Il traffico è una stima e sostituisce rumore e smog, che non misuriamo."
    ],
-   "english": [
-    "Question: how many Turin residents lack schools, health, shops, stops or green space within 15 minutes on foot?",
-    "Answer: 10,919 residents (1.3%) lack at least one of the 5 services; 362 in inhabited areas lack three or more.",
-    "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."
-   ],
    "mappa": {
     "id": "faseb",
     "nota": "Nella mappa, tema \"Dove mancano i servizi\": all'apertura quanti servizi mancano in ogni zona (0-5, zone poco abitate in grigio); nel menu un servizio alla volta, con i punti dove aggiungerne uno."
+   },
+   "anima": {
+    "tipo": "cerchi",
+    "voci": [
+     {
+      "min": 5,
+      "pct": 68.3,
+      "testo": "tutti e 5 i servizi a 5 minuti a piedi"
+     },
+     {
+      "min": 10,
+      "pct": 96.8,
+      "testo": "tutti e 5 i servizi a 10 minuti a piedi"
+     },
+     {
+      "min": 15,
+      "pct": 99.2,
+      "testo": "tutti e 5 i servizi a 15 minuti a piedi"
+     }
+    ],
+    "didascalia": "Residenti delle zone abitate che hanno scuole, salute, negozi, fermate e verde a 5, 10 e 15 minuti da casa a piedi."
    }
   },
   "forma_en": {
    "etichetta": "ESTIMATED",
-   "titolo": "Within 15 minutes almost everyone has the services; within 5 minutes far fewer do",
+   "titolo": "Turin, a 15-minute city: almost everyone has the services within a 15-minute walk",
    "domanda": "How many people in Turin have the services within 5, 10 and 15 minutes on foot, and how many live on a busy road?",
    "numero": {
     "valore": 99.2,
@@ -636,7 +652,7 @@ window.SCHEDE_RISULTATI = [
    },
    "punti": [
     "Within 5 minutes only 68.3% of residents have all 5 services; within 10 minutes 96.8%.",
-    "190,255 residents (22.6%) live less than 100 m from a very busy road.",
+    "222,179 residents (26.4%) live less than 100 m from a very busy road.",
     "The 362 residents without 3 or more services live in 5 hillside sections: where really everything is missing."
    ],
    "altri": [
@@ -644,21 +660,21 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Residents by distance from a very busy road",
      "unita": "residents",
-     "nota": "Distance from the centre of the census section. Very busy road: at least 11,720 vehicles a day. Weak estimate: the model is off by ±38% in half of the cases.",
+     "nota": "Distance from the centre of the census section. Very busy road: at least 10,677 vehicles a day. Weak estimate: the model is off by ±28% in half of the cases.",
      "voci": [
       {
        "label": "exposed (less than 100 m)",
-       "valore": 190255,
+       "valore": 222179,
        "tono": "rosso"
       },
       {
        "label": "close (100-250 m)",
-       "valore": 259977,
+       "valore": 265471,
        "tono": "giallo"
       },
       {
        "label": "far (over 250 m)",
-       "valore": 391748,
+       "valore": 354330,
        "tono": "verde"
       }
      ]
@@ -731,7 +747,7 @@ window.SCHEDE_RISULTATI = [
     ],
     [
      "Very busy road",
-     "at least 11,720 vehicles a day"
+     "at least 10,677 vehicles a day"
     ],
     [
      "Exposed to traffic",
@@ -747,6 +763,27 @@ window.SCHEDE_RISULTATI = [
    "mappa": {
     "id": "faseb",
     "nota": "Nella mappa, tema \"Dove mancano i servizi\": all'apertura quanti servizi mancano in ogni zona (0-5, zone poco abitate in grigio); nel menu un servizio alla volta, con i punti dove aggiungerne uno."
+   },
+   "anima": {
+    "tipo": "cerchi",
+    "voci": [
+     {
+      "min": 5,
+      "pct": 68.3,
+      "testo": "all 5 services within 5 minutes on foot"
+     },
+     {
+      "min": 10,
+      "pct": 96.8,
+      "testo": "all 5 services within 10 minutes on foot"
+     },
+     {
+      "min": 15,
+      "pct": 99.2,
+      "testo": "all 5 services within 15 minutes on foot"
+     }
+    ],
+    "didascalia": "Residents of inhabited areas with schools, health care, shops, stops and green space within 5, 10 and 15 minutes' walk from home."
    }
   },
   "numero_pubblico": 1,
@@ -760,26 +797,26 @@ window.SCHEDE_RISULTATI = [
   "in_breve": "L'orario alla fermata promette un passaggio ogni tot minuti. Quanto spesso i mezzi GTT arrivano davvero in ritardo, o a coppie lasciando un buco?",
   "domanda": "Quanto spesso i mezzi GTT arrivano in ritardo, e quanto spesso sulle linee frequenti arrivano a grappolo o lasciano buchi? E quanto si aspetta davvero alla fermata, rispetto a quello che promette l'orario?",
   "numero_chiave": {
-   "valore": 14.1,
+   "valore": 15.6,
    "unita": "%",
    "testo": "dei passaggi nei giorni feriali arriva con più di 5 minuti di ritardo"
   },
   "racconto": "Una delle direzioni del progetto: confrontare l'orario promesso con quello reale, usando le posizioni e i ritardi dei mezzi che il Raspberry Pi del progetto raccoglie ogni minuto.",
   "risposta": [
-   "Nei giorni feriali il 14,1% dei passaggi arriva con più di 5 minuti di ritardo; il sabato il 16,8%.",
-   "Sulle linee frequenti il 20,9% delle coppie di mezzi consecutivi arriva a grappolo o lascia un buco.",
-   "Il problema più comune è l'anticipo: il 37,9% dei passaggi feriali arriva più di un minuto prima dell'orario.",
-   "Il feed in tempo reale di GTT, che usavamo prima, dava il 5,4% in ritardo invece del 14,1%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.",
-   "Oltre 10 minuti: 5,44% nei feriali. GTT dichiara il 2,3% per il 2025: il suo metodo non è pubblicato; noi misuriamo a ogni fermata con il GPS, su pochi giorni.",
+   "Nei giorni feriali il 15,6% dei passaggi arriva con più di 5 minuti di ritardo; il sabato il 16,8%.",
+   "Sulle linee frequenti il 21,6% delle coppie di mezzi consecutivi arriva a grappolo o lascia un buco.",
+   "Il problema più comune è l'anticipo: il 36,2% dei passaggi feriali arriva più di un minuto prima dell'orario.",
+   "Il feed in tempo reale di GTT, che usavamo prima, dava il 6% in ritardo invece del 15,6%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.",
+   "Oltre 10 minuti: 6,19% nei feriali. GTT dichiara il 2,3% per il 2025: il suo metodo non è pubblicato; noi misuriamo a ogni fermata con il GPS, su pochi giorni.",
    "Non è la stessa misura: GTT fa la media dell'anno intero, estate e sere comprese, su tutte le linee, con un metodo che non pubblica; noi misuriamo pochi giorni di ottobre, solo le linee urbane, dalle 5 a mezzanotte.",
-   "Il ritardo cresce lungo la corsa: alla prima fermata è 3,92%, a metà corsa 5,24%, a ogni fermata 5,49%, fuori dalle ore di punta 5,30% (media della settimana).",
-   "Tutte e due le misure dicono che i ritardi gravi sono una piccola parte dei passaggi: tra 2,3% e 5,5%.",
-   "Tram e bus: in ritardo oltre 5 minuti il 14,4% dei passaggi dei tram e il 14% dei bus (feriale).",
-   "Linee utili (quelle che toccano più zone affollate): in ritardo oltre 5 minuti il 15,5% dei passaggi, contro l'11,4% delle altre linee (feriale).",
-   "Attesa: Nei giorni feriali, sulle linee frequenti, l'orario promette un'attesa media di 4,7 minuti; quella reale è tra 6,3 e 7,1 minuti.",
-   "Sono da 1,6 a 2,4 minuti in più a ogni attesa: almeno il 34% oltre la promessa.",
+   "Il ritardo cresce lungo la corsa: alla prima fermata è 4,29%, a metà corsa 5,72%, a ogni fermata 6,02%, fuori dalle ore di punta 5,63% (media della settimana).",
+   "Tutte e due le misure dicono che i ritardi gravi sono una piccola parte dei passaggi: tra 2,3% e 6%.",
+   "Tram e bus: in ritardo oltre 5 minuti il 15% dei passaggi dei tram e il 15,8% dei bus (feriale).",
+   "Linee utili (quelle che toccano più zone affollate): in ritardo oltre 5 minuti il 17,1% dei passaggi, contro il 12,9% delle altre linee (feriale).",
+   "Attesa: Nei giorni feriali, sulle linee frequenti, l'orario promette un'attesa media di 4,7 minuti; quella reale è tra 6,3 e 6,5 minuti.",
+   "Sono da 1,5 a 1,7 minuti in più a ogni attesa: almeno il 32% oltre la promessa.",
    "La linea con più attesa in più è la 61 (3,2 minuti in più, stima bassa).",
-   "Attesa alla fermata sulle linee frequenti (feriale): tram, promessa 4,5 min, in più 1,8-2,4 min; bus, promessa 5,6 min, in più 1,1-2,4 min."
+   "Attesa alla fermata sulle linee frequenti (feriale): tram, promessa 4,5 min, in più 1,6-1,7 min; bus, promessa 5,8 min, in più 1,1-1,9 min."
   ],
   "grafici": [
    {
@@ -789,16 +826,16 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "in anticipo (oltre 1 min)",
-      "valore": 37.9
+      "valore": 36.2
      },
      {
       "label": "puntuali (da -1 a +5 min)",
-      "valore": 48.0,
+      "valore": 48.2,
       "tono": "verde"
      },
      {
       "label": "in ritardo (oltre 5 min)",
-      "valore": 14.1,
+      "valore": 15.6,
       "tono": "rosso"
      }
     ]
@@ -810,27 +847,27 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "punta del mattino (7-9)",
-      "valore": 12.3,
+      "valore": 15.1,
       "tono": "rosso"
      },
      {
       "label": "giorno (9-16)",
-      "valore": 15.2,
+      "valore": 15.9,
       "tono": "rosso"
      },
      {
       "label": "punta della sera (16-19)",
-      "valore": 16.8,
+      "valore": 20.4,
       "tono": "rosso"
      },
      {
       "label": "sera (19-24)",
-      "valore": 15.6,
+      "valore": 18.1,
       "tono": "rosso"
      },
      {
       "label": "notte e primo mattino (fino alle 7, dati parziali)",
-      "valore": 5.7,
+      "valore": 6.0,
       "tono": "rosso"
      }
     ]
@@ -842,7 +879,7 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "feriale",
-      "valore": 14.1,
+      "valore": 15.6,
       "tono": "rosso"
      },
      {
@@ -865,61 +902,61 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "linea 17",
-      "valore": 38.1,
+      "valore": 41.2,
       "link": "mappa_torino.html#tema=puntualita&linea=17&ora=8",
       "tono": "rosso"
      },
      {
       "label": "linea 6",
-      "valore": 36.7,
+      "valore": 37.1,
       "link": "mappa_torino.html#tema=puntualita&linea=6&ora=8",
       "tono": "rosso"
      },
      {
       "label": "linea 19",
-      "valore": 30.1,
+      "valore": 34.9,
       "link": "mappa_torino.html#tema=puntualita&linea=19&ora=8",
       "tono": "rosso"
      },
      {
       "label": "linea 68",
-      "valore": 26.9,
+      "valore": 29.3,
       "link": "mappa_torino.html#tema=puntualita&linea=68&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 33",
-      "valore": 26.2,
-      "link": "mappa_torino.html#tema=puntualita&linea=33&ora=8",
-      "tono": "rosso"
-     },
-     {
       "label": "linea 66",
-      "valore": 25.9,
+      "valore": 28.7,
       "link": "mappa_torino.html#tema=puntualita&linea=66&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 61",
-      "valore": 23.1,
-      "link": "mappa_torino.html#tema=puntualita&linea=61&ora=8",
-      "tono": "rosso"
-     },
-     {
-      "label": "linea 4",
-      "valore": 22.7,
-      "link": "mappa_torino.html#tema=puntualita&linea=4&ora=8",
+      "label": "linea 33",
+      "valore": 25.8,
+      "link": "mappa_torino.html#tema=puntualita&linea=33&ora=8",
       "tono": "rosso"
      },
      {
       "label": "linea 72",
-      "valore": 22.2,
+      "valore": 24.3,
       "link": "mappa_torino.html#tema=puntualita&linea=72&ora=8",
       "tono": "rosso"
      },
      {
+      "label": "linea 4",
+      "valore": 23.5,
+      "link": "mappa_torino.html#tema=puntualita&linea=4&ora=8",
+      "tono": "rosso"
+     },
+     {
+      "label": "linea 61",
+      "valore": 22.6,
+      "link": "mappa_torino.html#tema=puntualita&linea=61&ora=8",
+      "tono": "rosso"
+     },
+     {
       "label": "linea 52",
-      "valore": 19.7,
+      "valore": 22.3,
       "link": "mappa_torino.html#tema=puntualita&linea=52&ora=8",
       "tono": "rosso"
      }
@@ -933,13 +970,8 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "linea 14",
-      "valore": 42.4,
+      "valore": 46.6,
       "link": "mappa_torino.html#tema=puntualita&linea=14&ora=8"
-     },
-     {
-      "label": "linea 30",
-      "valore": 41.7,
-      "link": "mappa_torino.html#tema=puntualita&linea=30&ora=8"
      },
      {
       "label": "linea 4",
@@ -948,8 +980,23 @@ window.SCHEDE_RISULTATI = [
      },
      {
       "label": "linea 45",
-      "valore": 31.5,
+      "valore": 37.0,
       "link": "mappa_torino.html#tema=puntualita&linea=45&ora=8"
+     },
+     {
+      "label": "linea 43",
+      "valore": 33.7,
+      "link": "mappa_torino.html#tema=puntualita&linea=43&ora=8"
+     },
+     {
+      "label": "linea 12",
+      "valore": 33.3,
+      "link": "mappa_torino.html#tema=puntualita&linea=12&ora=8"
+     },
+     {
+      "label": "linea 30",
+      "valore": 31.2,
+      "link": "mappa_torino.html#tema=puntualita&linea=30&ora=8"
      },
      {
       "label": "linea 17",
@@ -957,29 +1004,19 @@ window.SCHEDE_RISULTATI = [
       "link": "mappa_torino.html#tema=puntualita&linea=17&ora=8"
      },
      {
-      "label": "linea 29",
-      "valore": 28.8,
-      "link": "mappa_torino.html#tema=puntualita&linea=29&ora=8"
-     },
-     {
-      "label": "linea 61",
-      "valore": 27.2,
-      "link": "mappa_torino.html#tema=puntualita&linea=61&ora=8"
-     },
-     {
-      "label": "linea 43",
-      "valore": 27.0,
-      "link": "mappa_torino.html#tema=puntualita&linea=43&ora=8"
-     },
-     {
       "label": "linea 68",
-      "valore": 23.4,
+      "valore": 25.2,
       "link": "mappa_torino.html#tema=puntualita&linea=68&ora=8"
      },
      {
-      "label": "linea 13",
-      "valore": 23.1,
-      "link": "mappa_torino.html#tema=puntualita&linea=13&ora=8"
+      "label": "linea 29",
+      "valore": 25.0,
+      "link": "mappa_torino.html#tema=puntualita&linea=29&ora=8"
+     },
+     {
+      "label": "linea 18",
+      "valore": 24.4,
+      "link": "mappa_torino.html#tema=puntualita&linea=18&ora=8"
      }
     ]
    },
@@ -987,7 +1024,7 @@ window.SCHEDE_RISULTATI = [
     "tipo": "barre",
     "titolo": "Noi e GTT: passaggi in ritardo oltre 10 minuti",
     "unita": "%",
-    "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 5,44%, alla prima fermata 3,86%, a metà corsa 5,29%, fuori punta 5,27%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
+    "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 6,19%, alla prima fermata 4,37%, a metà corsa 5,95%, fuori punta 5,74%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
     "voci": [
      {
       "label": "GTT (2025, anno intero)",
@@ -995,22 +1032,22 @@ window.SCHEDE_RISULTATI = [
      },
      {
       "label": "noi, a ogni fermata",
-      "valore": 5.49,
+      "valore": 6.02,
       "tono": "rosso"
      },
      {
       "label": "noi, solo alla prima fermata",
-      "valore": 3.92,
+      "valore": 4.29,
       "tono": "rosso"
      },
      {
       "label": "noi, solo a metà corsa",
-      "valore": 5.24,
+      "valore": 5.72,
       "tono": "rosso"
      },
      {
       "label": "noi, fuori dalle ore di punta",
-      "valore": 5.3,
+      "valore": 5.63,
       "tono": "rosso"
      }
     ]
@@ -1019,35 +1056,35 @@ window.SCHEDE_RISULTATI = [
     "tipo": "barre",
     "titolo": "Tram contro bus (feriale)",
     "unita": "%",
-    "nota": "Tram: 195.848 passaggi; bus: 748.428.",
+    "nota": "Tram: 284.278 passaggi; bus: 1.059.887.",
     "voci": [
      {
       "label": "tram: in ritardo oltre 5 min",
-      "valore": 14.4,
+      "valore": 15.0,
       "tono": "rosso"
      },
      {
       "label": "bus: in ritardo oltre 5 min",
-      "valore": 14.0,
+      "valore": 15.8,
       "tono": "rosso"
      },
      {
       "label": "tram: in ritardo oltre 10 min",
-      "valore": 5.66,
+      "valore": 5.98,
       "tono": "rosso"
      },
      {
       "label": "bus: in ritardo oltre 10 min",
-      "valore": 5.38,
+      "valore": 6.24,
       "tono": "rosso"
      },
      {
       "label": "tram: a grappolo o con un buco",
-      "valore": 26.7
+      "valore": 26.6
      },
      {
       "label": "bus: a grappolo o con un buco",
-      "valore": 17.1
+      "valore": 18.3
      }
     ]
    },
@@ -1058,63 +1095,63 @@ window.SCHEDE_RISULTATI = [
     "nota": "Ritardo mediano alle ultime 3 fermate della corsa, in minuti. Solo linee ordinarie con almeno 100 passaggi di fine corsa. I minuti ogni 10 km (ritardo diviso la lunghezza della corsa) sono nel rapporto: per km le linee corte vengono premiate. Clicca una linea per vederla nella mappa: la mappa si apre alle 8 di un feriale.",
     "voci": [
      {
-      "label": "linea 19 (5,4 min ogni 10 km)",
-      "valore": 3.2,
+      "label": "linea 19 (6,5 min ogni 10 km)",
+      "valore": 3.8,
       "link": "mappa_torino.html#tema=puntualita&linea=19&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 4 (2,2 min ogni 10 km)",
-      "valore": 3.2,
-      "link": "mappa_torino.html#tema=puntualita&linea=4&ora=8",
-      "tono": "rosso"
-     },
-     {
-      "label": "linea 17 (1,7 min ogni 10 km)",
-      "valore": 2.9,
+      "label": "linea 17 (2,2 min ogni 10 km)",
+      "valore": 3.8,
       "link": "mappa_torino.html#tema=puntualita&linea=17&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 6 (6,2 min ogni 10 km)",
-      "valore": 2.6,
+      "label": "linea 4 (2,3 min ogni 10 km)",
+      "valore": 3.3,
+      "link": "mappa_torino.html#tema=puntualita&linea=4&ora=8",
+      "tono": "rosso"
+     },
+     {
+      "label": "linea 6 (6,6 min ogni 10 km)",
+      "valore": 3.0,
       "link": "mappa_torino.html#tema=puntualita&linea=6&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 33 (2 min ogni 10 km)",
+      "label": "linea 68 (2,1 min ogni 10 km)",
       "valore": 2.3,
-      "link": "mappa_torino.html#tema=puntualita&linea=33&ora=8",
-      "tono": "rosso"
-     },
-     {
-      "label": "linea 68 (1,6 min ogni 10 km)",
-      "valore": 1.8,
       "link": "mappa_torino.html#tema=puntualita&linea=68&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 44 (1,2 min ogni 10 km)",
-      "valore": 1.6,
-      "link": "mappa_torino.html#tema=puntualita&linea=44&ora=8",
+      "label": "linea 72 (1,9 min ogni 10 km)",
+      "valore": 2.1,
+      "link": "mappa_torino.html#tema=puntualita&linea=72&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 60 (2,2 min ogni 10 km)",
-      "valore": 1.5,
+      "label": "linea 33 (1,8 min ogni 10 km)",
+      "valore": 2.1,
+      "link": "mappa_torino.html#tema=puntualita&linea=33&ora=8",
+      "tono": "rosso"
+     },
+     {
+      "label": "linea 60 (2,6 min ogni 10 km)",
+      "valore": 1.7,
       "link": "mappa_torino.html#tema=puntualita&linea=60&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 132 (1,8 min ogni 10 km)",
-      "valore": 1.5,
+      "label": "linea 132 (2,1 min ogni 10 km)",
+      "valore": 1.7,
       "link": "mappa_torino.html#tema=puntualita&linea=132&ora=8",
       "tono": "rosso"
      },
      {
-      "label": "linea 61 (1,3 min ogni 10 km)",
-      "valore": 1.4,
-      "link": "mappa_torino.html#tema=puntualita&linea=61&ora=8",
+      "label": "linea 42 (2 min ogni 10 km)",
+      "valore": 1.6,
+      "link": "mappa_torino.html#tema=puntualita&linea=42&ora=8",
       "tono": "rosso"
      }
     ]
@@ -1123,25 +1160,25 @@ window.SCHEDE_RISULTATI = [
     "tipo": "barre",
     "titolo": "Linee utili contro altre (feriale)",
     "unita": "%",
-    "nota": "Linee utili = le 54 che toccano più delle zone dove arriva più gente per km² (Risultato 3). Passaggi: 623.308 sulle utili, 320.968 sulle altre.",
+    "nota": "Linee utili = le 54 che toccano più delle zone dove arriva più gente per km² (Risultato 3). Passaggi: 882.649 sulle utili, 461.516 sulle altre.",
     "voci": [
      {
       "label": "linee utili: in ritardo oltre 5 min",
-      "valore": 15.5,
+      "valore": 17.1,
       "tono": "rosso"
      },
      {
       "label": "altre linee: in ritardo oltre 5 min",
-      "valore": 11.4,
+      "valore": 12.9,
       "tono": "rosso"
      },
      {
       "label": "linee utili: a grappolo o con un buco",
-      "valore": 21.9
+      "valore": 22.8
      },
      {
       "label": "altre linee: a grappolo o con un buco",
-      "valore": 17.2
+      "valore": 17.5
      }
     ]
    },
@@ -1158,18 +1195,18 @@ window.SCHEDE_RISULTATI = [
      },
      {
       "label": "giorno (9-16)",
-      "valore": 5.26,
-      "prima": 3.75
+      "valore": 5.28,
+      "prima": 3.88
      },
      {
       "label": "punta della sera (16-19)",
-      "valore": 6.54,
-      "prima": 4.44
+      "valore": 6.56,
+      "prima": 4.41
      },
      {
       "label": "sera (19-24)",
-      "valore": 9.65,
-      "prima": 8.2
+      "valore": 9.95,
+      "prima": 8.21
      }
     ]
    },
@@ -1187,18 +1224,18 @@ window.SCHEDE_RISULTATI = [
      },
      {
       "label": "giorno (9-16)",
-      "valore": 2.96,
-      "prima": 1.51
+      "valore": 1.67,
+      "prima": 1.4
      },
      {
       "label": "punta della sera (16-19)",
-      "valore": 2.42,
-      "prima": 2.1
+      "valore": 1.99,
+      "prima": 2.15
      },
      {
       "label": "sera (19-24)",
-      "valore": 1.58,
-      "prima": 1.45
+      "valore": 1.71,
+      "prima": 1.74
      }
     ]
    },
@@ -1218,35 +1255,35 @@ window.SCHEDE_RISULTATI = [
      },
      {
       "label": "linea 4",
-      "valore": 2.2
+      "valore": 2.1
      },
      {
       "label": "linea 46",
       "valore": 1.9
      },
      {
-      "label": "linea 15",
+      "label": "linea 16 CD",
       "valore": 1.6
      },
      {
-      "label": "linea 16 CD",
-      "valore": 1.6
+      "label": "linea 56",
+      "valore": 1.5
      },
      {
       "label": "linea 2",
       "valore": 1.4
      },
      {
-      "label": "linea 62",
-      "valore": 1.2
+      "label": "linea 15",
+      "valore": 1.3
      },
      {
       "label": "linea 3",
       "valore": 1.2
      },
      {
-      "label": "linea 56",
-      "valore": 1.0
+      "label": "linea 55",
+      "valore": 1.2
      }
     ]
    }
@@ -1260,11 +1297,11 @@ window.SCHEDE_RISULTATI = [
   "parametri": [
    [
     "Periodo",
-    "2026-10-10 - 2026-10-20"
+    "2026-10-10 - 2026-10-23"
    ],
    [
     "Passaggi con GPS valido",
-    "1.300.434 (78,3% di quelli programmati dalle corse viste)"
+    "1.700.323 (79,5% di quelli programmati dalle corse viste)"
    ],
    [
     "Soglia ritardo",
@@ -1280,10 +1317,10 @@ window.SCHEDE_RISULTATI = [
    ]
   ],
   "limiti": [
-   "Pochi giorni (6 feriali, 2 sabati, 1 domeniche), e non tutti interi: sabato 10 dalle 15, lunedì 12 dalle 12, martedì 13 con buchi il pomeriggio e la sera, domenica 18 fino alle 9:30 (poi guasto del feed GTT). Ogni giorno conta con le ore che hanno dati.",
+   "Pochi giorni (8 feriali, 2 sabati, 1 domeniche), e non tutti interi: sabato 10 dalle 15, lunedì 12 dalle 12, martedì 13 con buchi il pomeriggio e la sera, domenica 18 fino alle 9:30 (poi guasto del feed GTT). Ogni giorno conta con le ore che hanno dati.",
    "La raccolta si ferma a mezzanotte e riparte verso le 5: la notte non è misurata.",
    "Il GPS copre solo le linee urbane (circa 90): le extraurbane non ci sono mai. Anche sulle linee coperte alcune corse non sono mai viste dal GPS: se erano saltate davvero, la puntualità reale è peggiore e i buchi sono più di quelli contati.",
-   "Il GPS c'è per circa il 78% dei passaggi delle corse viste; le corse mai viste dal GPS non si contano.",
+   "Il GPS c'è per circa il 80% dei passaggi delle corse viste; le corse mai viste dal GPS non si contano.",
    "Distanza di 60 metri dalla fermata: un mezzo fermo poco prima conta come arrivato poco dopo.",
    "Dice quanto spesso c'è ritardo, non quante persone aspettano né quanto erano pieni i mezzi.",
    "Arrivi misurati con il GPS dei mezzi (a meno di 60 metri dalla fermata); il vecchio feed GTT, controllato col GPS, dava una differenza tipica di 0,5 minuti.",
@@ -1294,18 +1331,18 @@ window.SCHEDE_RISULTATI = [
   ],
   "in_english": [
    "Question: how often do GTT vehicles arrive late, and how often do frequent lines bunch together or leave gaps?",
-   "On weekdays 14.1% of departures arrive more than 5 minutes late; on Saturdays 16.8%. On frequent lines 20.9% of consecutive pairs of vehicles bunch together or leave a gap.",
-   "The most common problem is early arrival: 37.9% of weekday departures arrive more than one minute before the timetable.",
-   "Limits: only 6 weekdays, 2 Saturdays and 1 Sundays of data, some of them partial; the night is not measured.",
-   "Arrivals are now measured with the vehicles' GPS; the GTT real-time feed we used before gave 5.4% late instead of 14.1% because it stops updating a stop at its scheduled time, so it underestimates delays.",
-   "More than 10 minutes late: 5.44% of weekday departures. GTT reports 2.3% for 2025: its method is not published; we measure at every stop with GPS, over a few days.",
-   "Why our number differs from GTT's 2.3% (more than 10 minutes late, 2025): GTT averages the whole year on all lines with an unpublished method; we measure a few October days on urban lines. At the first stop of the trip we get 3.92%, at every stop 5.49% (weekly average).",
-   "Trams vs buses (weekdays): 14.4% of tram departures and 14.0% of bus departures are more than 5 minutes late.",
-   "Delay at the end of the trip (median, last stops): highest on line 19 (3.2 minutes).",
-   "Useful lines (touching the busiest zones per km2): 15.5% of departures more than 5 minutes late, other lines 11.4% (weekdays).",
-   "On weekdays the timetable promises an average wait of 4.7 minutes; the real one is between 6.3 and 7.1 minutes. That is 1.6 to 2.4 minutes more per wait, at least 34% above the promise.",
-   "Limits: only 6 weekdays of data so far; real arrivals are measured with the vehicles' GPS (within 60 metres of the stop); the night is not included.",
-   "Waiting time on frequent lines (weekdays): trams promise 4.5 min, 1.8-2.4 min more in reality; buses 5.6 min, 1.1-2.4 min more."
+   "On weekdays 15.6% of departures arrive more than 5 minutes late; on Saturdays 16.8%. On frequent lines 21.6% of consecutive pairs of vehicles bunch together or leave a gap.",
+   "The most common problem is early arrival: 36.2% of weekday departures arrive more than one minute before the timetable.",
+   "Limits: only 8 weekdays, 2 Saturdays and 1 Sundays of data, some of them partial; the night is not measured.",
+   "Arrivals are now measured with the vehicles' GPS; the GTT real-time feed we used before gave 6.0% late instead of 15.6% because it stops updating a stop at its scheduled time, so it underestimates delays.",
+   "More than 10 minutes late: 6.19% of weekday departures. GTT reports 2.3% for 2025: its method is not published; we measure at every stop with GPS, over a few days.",
+   "Why our number differs from GTT's 2.3% (more than 10 minutes late, 2025): GTT averages the whole year on all lines with an unpublished method; we measure a few October days on urban lines. At the first stop of the trip we get 4.29%, at every stop 6.02% (weekly average).",
+   "Trams vs buses (weekdays): 15.0% of tram departures and 15.8% of bus departures are more than 5 minutes late.",
+   "Delay at the end of the trip (median, last stops): highest on line 19 (3.8 minutes).",
+   "Useful lines (touching the busiest zones per km2): 17.1% of departures more than 5 minutes late, other lines 12.9% (weekdays).",
+   "On weekdays the timetable promises an average wait of 4.7 minutes; the real one is between 6.3 and 6.5 minutes. That is 1.5 to 1.7 minutes more per wait, at least 32% above the promise.",
+   "Limits: only 8 weekdays of data so far; real arrivals are measured with the vehicles' GPS (within 60 metres of the stop); the night is not included.",
+   "Waiting time on frequent lines (weekdays): trams promise 4.5 min, 1.6-1.7 min more in reality; buses 5.8 min, 1.1-1.9 min more."
   ],
   "mappa": {
    "id": "puntualita",
@@ -1319,43 +1356,43 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:15:31+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
-   "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-20: il GPS c'è per il 78% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
+   "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-23: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
   ],
   "scenari": [
    {
-    "nome": "Feriale (6 giorni, 944.276 passaggi)",
+    "nome": "Feriale (8 giorni, 1.344.165 passaggi)",
     "numeri": [
      {
       "label": "Passaggi in ritardo oltre 5 min",
       "prima": null,
-      "dopo": 14.1,
+      "dopo": 15.6,
       "unita": "%"
      },
      {
       "label": "Coppie di bus a grappolo o con un buco (linee frequenti)",
       "prima": null,
-      "dopo": 20.9,
+      "dopo": 21.6,
       "unita": "%"
      },
      {
       "label": "Ritardo mediano",
       "prima": null,
-      "dopo": -0.1,
+      "dopo": 0.1,
       "unita": "min"
      },
      {
       "label": "Passaggi in anticipo oltre 1 min",
       "prima": null,
-      "dopo": 37.9,
+      "dopo": 36.2,
       "unita": "%"
      },
      {
       "label": "Passaggi in ritardo oltre 10 min",
       "prima": null,
-      "dopo": 5.44,
+      "dopo": 6.19,
       "unita": "%"
      }
     ],
@@ -1432,24 +1469,24 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    {
-    "nome": "Feriale (6 giorni)",
+    "nome": "Feriale (8 giorni)",
     "numeri": [
      {
       "label": "Attesa media alla fermata, stima bassa",
-      "prima": 4.73,
-      "dopo": 6.35,
+      "prima": 4.74,
+      "dopo": 6.28,
       "unita": "min"
      },
      {
       "label": "Attesa media alla fermata, stima alta",
-      "prima": 4.73,
-      "dopo": 7.14,
+      "prima": 4.74,
+      "dopo": 6.45,
       "unita": "min"
      },
      {
       "label": "Corse programmate assenti dal GPS",
       "prima": null,
-      "dopo": 13.3,
+      "dopo": 7.6,
       "unita": "%"
      }
     ],
@@ -1481,10 +1518,10 @@ window.SCHEDE_RISULTATI = [
   ],
   "forma": {
    "etichetta": "MISURATO",
-   "titolo": "I ritardi gravi sono circa il 5% dei passaggi",
+   "titolo": "Circa il 6% dei passaggi arriva con più di 10 minuti di ritardo",
    "domanda": "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
    "numero": {
-    "valore": 5.44,
+    "valore": 6.19,
     "unita": "%",
     "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo"
    },
@@ -1499,22 +1536,22 @@ window.SCHEDE_RISULTATI = [
       "voci": [
        {
         "label": "in anticipo (oltre 1 minuto)",
-        "valore": 37.9,
+        "valore": 36.2,
         "tono": "blu"
        },
        {
         "label": "puntuali",
-        "valore": 48.0,
+        "valore": 48.2,
         "tono": "verde"
        },
        {
         "label": "ritardo da 5 a 10 minuti",
-        "valore": 8.66,
+        "valore": 9.41,
         "tono": "giallo"
        },
        {
         "label": "ritardo oltre 10 minuti",
-        "valore": 5.44,
+        "valore": 6.19,
         "tono": "rosso"
        }
       ]
@@ -1572,16 +1609,16 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "Oltre 10 minuti di ritardo: 5,4% dei passaggi a ogni fermata, 3,9% se si guarda solo la partenza.",
-    "La linea più in ritardo è la 17: 38,1% dei passaggi feriali oltre 5 minuti.",
-    "I tram arrivano più a grappolo dei bus: 26,7% delle coppie di mezzi contro 17,1% (feriale)."
+    "Oltre 10 minuti di ritardo: 6,2% dei passaggi a ogni fermata, 4,4% se si guarda solo la partenza.",
+    "La linea più in ritardo è la 17: 41,2% dei passaggi feriali oltre 5 minuti.",
+    "I tram arrivano più a grappolo dei bus: 26,6% delle coppie di mezzi contro 18,3% (feriale)."
    ],
    "altri": [
     {
      "tipo": "barre",
      "titolo": "Noi e GTT: passaggi in ritardo oltre 10 minuti",
      "unita": "%",
-     "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 5,44%, alla prima fermata 3,86%, a metà corsa 5,29%, fuori punta 5,27%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
+     "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 6,19%, alla prima fermata 4,37%, a metà corsa 5,95%, fuori punta 5,74%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
      "voci": [
       {
        "label": "GTT (2025, anno intero)",
@@ -1589,22 +1626,22 @@ window.SCHEDE_RISULTATI = [
       },
       {
        "label": "noi, a ogni fermata",
-       "valore": 5.49,
+       "valore": 6.02,
        "tono": "rosso"
       },
       {
        "label": "noi, solo alla prima fermata",
-       "valore": 3.92,
+       "valore": 4.29,
        "tono": "rosso"
       },
       {
        "label": "noi, solo a metà corsa",
-       "valore": 5.24,
+       "valore": 5.72,
        "tono": "rosso"
       },
       {
        "label": "noi, fuori dalle ore di punta",
-       "valore": 5.3,
+       "valore": 5.63,
        "tono": "rosso"
       }
      ]
@@ -1623,10 +1660,10 @@ window.SCHEDE_RISULTATI = [
       {
        "label": "passaggi in ritardo",
        "valori": [
-        12.3,
-        15.2,
-        16.8,
-        15.6
+        15.1,
+        15.9,
+        20.4,
+        18.1
        ]
       }
      ]
@@ -1642,11 +1679,11 @@ window.SCHEDE_RISULTATI = [
    "criteri": [
     [
      "Periodo",
-     "2026-10-10 - 2026-10-20"
+     "2026-10-10 - 2026-10-23"
     ],
     [
      "Passaggi con GPS valido",
-     "1.300.434 (78,3% di quelli programmati dalle corse viste)"
+     "1.700.323 (79,5% di quelli programmati dalle corse viste)"
     ],
     [
      "Soglia ritardo",
@@ -1662,34 +1699,51 @@ window.SCHEDE_RISULTATI = [
     ]
    ],
    "limiti": [
-    "Pochi giorni: 6 feriali, 2 sabati e 1 domenica, non tutti interi.",
+    "Pochi giorni: 8 feriali, 2 sabati e 1 domenica, non tutti interi.",
     "Solo le linee urbane viste dal GPS, dalle 5 a mezzanotte.",
-    "Il GPS copre circa il 78% dei passaggi programmati; le corse mai viste non si contano.",
+    "Il GPS copre circa il 80% dei passaggi programmati; le corse mai viste non si contano.",
     "Contiamo quanto spesso c'è ritardo, non quante persone aspettano."
-   ],
-   "english": [
-    "Question: how often are GTT vehicles late or bunched? Answer: 5.4% of weekday departures are more than 10 minutes late.",
-    "GTT reports 2.3% for 2025. Counting only the first stop we get 3.9%; the rest is season and method.",
-    "Limit: only 6 weekdays, 2 Saturdays and 1 Sunday of data, urban lines only, no night."
    ],
    "mappa": {
     "id": "puntualita",
     "nota": "Nella mappa, tema «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."
    },
-   "unita": {
+   "anima": {
     "tipo": "quadratini",
     "totale": 100,
-    "colorati": 14,
-    "didascalia": "Su 100 passaggi feriali, circa 14 arrivano con più di 5 minuti di ritardo (14,1%); con più di 10 minuti circa 5."
+    "oltre5": 15.6,
+    "oltre10": 6.19,
+    "testo_tutto": "su 100 passaggi in un feriale arrivano con oltre 5 minuti di ritardo",
+    "fasi": [
+     {
+      "label": "su 100 nella punta del mattino (7-9)",
+      "valore": 15.1
+     },
+     {
+      "label": "su 100 di giorno (9-16)",
+      "valore": 15.9
+     },
+     {
+      "label": "su 100 nella punta della sera (16-19)",
+      "valore": 20.4
+     },
+     {
+      "label": "su 100 la sera (19-24)",
+      "valore": 18.1
+     }
+    ],
+    "legenda5": "oltre 5 minuti",
+    "legenda10": "oltre 10 minuti",
+    "didascalia": "Su 100 passaggi feriali, circa 16 arrivano con più di 5 minuti di ritardo (15,6%); con più di 10 minuti circa 6. Poi il giorno, fascia per fascia."
    },
    "confronto": [
     "GTT dichiara il 2,3% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
-    "Noi misuriamo pochi giorni di ottobre sulle linee urbane: 5,5% a ogni fermata, 3,9% alla partenza.",
-    "Anche contando come GTT alla partenza troviamo il 3,9%; il resto della differenza è stagione e metodo."
+    "Noi misuriamo pochi giorni di ottobre sulle linee urbane: 6% a ogni fermata, 4,3% alla partenza.",
+    "Anche contando come GTT alla partenza troviamo il 4,3%; il resto della differenza è stagione e metodo."
    ],
    "extra": {
     "titolo": "Quanto si aspetta alla fermata",
-    "punto": "Sulle linee frequenti si aspettano da 1,6 a 2,4 minuti in più di quanto promette l'orario (feriale).",
+    "punto": "Sulle linee frequenti si aspettano da 1,5 a 1,7 minuti in più di quanto promette l'orario (feriale).",
     "grafico": {
      "tipo": "barre",
      "titolo": "Attesa media alla fermata, per fascia oraria (feriale)",
@@ -1703,18 +1757,18 @@ window.SCHEDE_RISULTATI = [
       },
       {
        "label": "giorno (9-16)",
-       "valore": 5.26,
-       "prima": 3.75
+       "valore": 5.28,
+       "prima": 3.88
       },
       {
        "label": "punta della sera (16-19)",
-       "valore": 6.54,
-       "prima": 4.44
+       "valore": 6.56,
+       "prima": 4.41
       },
       {
        "label": "sera (19-24)",
-       "valore": 9.65,
-       "prima": 8.2
+       "valore": 9.95,
+       "prima": 8.21
       }
      ]
     }
@@ -1722,10 +1776,10 @@ window.SCHEDE_RISULTATI = [
   },
   "forma_en": {
    "etichetta": "MEASURED",
-   "titolo": "Serious delays are about 5% of stop arrivals",
+   "titolo": "About 6% of stop passages are more than 10 minutes late",
    "domanda": "How often are GTT vehicles late or bunched together?",
    "numero": {
-    "valore": 5.44,
+    "valore": 6.19,
     "unita": "%",
     "testo": "of weekday arrivals are more than 10 minutes late"
    },
@@ -1740,22 +1794,22 @@ window.SCHEDE_RISULTATI = [
       "voci": [
        {
         "label": "early (more than 1 minute)",
-        "valore": 37.9,
+        "valore": 36.2,
         "tono": "blu"
        },
        {
         "label": "on time",
-        "valore": 48.0,
+        "valore": 48.2,
         "tono": "verde"
        },
        {
         "label": "5 to 10 minutes late",
-        "valore": 8.66,
+        "valore": 9.41,
         "tono": "giallo"
        },
        {
         "label": "more than 10 minutes late",
-        "valore": 5.44,
+        "valore": 6.19,
         "tono": "rosso"
        }
       ]
@@ -1813,16 +1867,16 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "More than 10 minutes late: 5.4% of arrivals at every stop, 3.9% if we look only at departure.",
-    "The line with the most delays is line 17: 38.1% of weekday arrivals more than 5 minutes late.",
-    "Trams bunch more than buses: 26.7% of vehicle pairs versus 17.1% (weekday)."
+    "More than 10 minutes late: 6.2% of arrivals at every stop, 4.4% if we look only at departure.",
+    "The line with the most delays is line 17: 41.2% of weekday arrivals more than 5 minutes late.",
+    "Trams bunch more than buses: 26.6% of vehicle pairs versus 18.3% (weekday)."
    ],
    "altri": [
     {
      "tipo": "barre",
      "titolo": "Us and GTT: arrivals more than 10 minutes late",
      "unita": "%",
-     "nota": "Bars = weekly average (weekday 5 : Saturday 1 : Sunday 1). On weekdays: at every stop 5.44%, at the first stop 3.86%, mid-trip 5.29%, off-peak 5.27%. GTT: year 2025, all lines, method not published.",
+     "nota": "Bars = weekly average (weekday 5 : Saturday 1 : Sunday 1). On weekdays: at every stop 6.19%, at the first stop 4.37%, mid-trip 5.95%, off-peak 5.74%. GTT: year 2025, all lines, method not published.",
      "voci": [
       {
        "label": "GTT (2025, whole year)",
@@ -1830,22 +1884,22 @@ window.SCHEDE_RISULTATI = [
       },
       {
        "label": "us, at every stop",
-       "valore": 5.49,
+       "valore": 6.02,
        "tono": "rosso"
       },
       {
        "label": "us, first stop only",
-       "valore": 3.92,
+       "valore": 4.29,
        "tono": "rosso"
       },
       {
        "label": "us, mid-trip only",
-       "valore": 5.24,
+       "valore": 5.72,
        "tono": "rosso"
       },
       {
        "label": "us, outside peak hours",
-       "valore": 5.3,
+       "valore": 5.63,
        "tono": "rosso"
       }
      ]
@@ -1864,10 +1918,10 @@ window.SCHEDE_RISULTATI = [
       {
        "label": "late arrivals",
        "valori": [
-        12.3,
-        15.2,
-        16.8,
-        15.6
+        15.1,
+        15.9,
+        20.4,
+        18.1
        ]
       }
      ]
@@ -1883,11 +1937,11 @@ window.SCHEDE_RISULTATI = [
    "criteri": [
     [
      "Period",
-     "2026-10-10 - 2026-10-20"
+     "2026-10-10 - 2026-10-23"
     ],
     [
      "Arrivals with a valid GPS fix",
-     "1,300,434 (78.3% of those scheduled for the trips seen)"
+     "1,700,323 (79.5% of those scheduled for the trips seen)"
     ],
     [
      "Delay threshold",
@@ -1903,29 +1957,51 @@ window.SCHEDE_RISULTATI = [
     ]
    ],
    "limiti": [
-    "Few days: 6 weekdays, 2 Saturdays and 1 Sunday, not all complete.",
+    "Few days: 8 weekdays, 2 Saturdays and 1 Sunday, not all complete.",
     "Urban lines seen by the GPS only, from 5 a.m. to midnight.",
-    "The GPS covers about 78% of scheduled arrivals; trips never seen are not counted.",
+    "The GPS covers about 80% of scheduled arrivals; trips never seen are not counted.",
     "We count how often there is a delay, not how many people are waiting."
    ],
    "mappa": {
     "id": "puntualita",
     "nota": "Nella mappa, tema «Puntualità delle linee»: ogni linea colorata per ritardo nell'ora scelta con il cursore."
    },
-   "unita": {
+   "anima": {
     "tipo": "quadratini",
     "totale": 100,
-    "colorati": 14,
-    "didascalia": "Out of 100 weekday arrivals, about 14 are more than 5 minutes late (14.1%); more than 10 minutes late, about 5."
+    "oltre5": 15.6,
+    "oltre10": 6.19,
+    "testo_tutto": "in 100 weekday stop passages are more than 5 minutes late",
+    "fasi": [
+     {
+      "label": "in 100 in the morning rush (7-9)",
+      "valore": 15.1
+     },
+     {
+      "label": "in 100 during the day (9-16)",
+      "valore": 15.9
+     },
+     {
+      "label": "in 100 in the evening rush (16-19)",
+      "valore": 20.4
+     },
+     {
+      "label": "in 100 in the evening (19-24)",
+      "valore": 18.1
+     }
+    ],
+    "legenda5": "over 5 minutes",
+    "legenda10": "over 10 minutes",
+    "didascalia": "Out of 100 weekday stop passages, about 16 are more than 5 minutes late (15.6%); about 6 more than 10 minutes. Then the day, time band by time band."
    },
    "confronto": [
     "GTT reports 2.3% over 10 minutes in 2025: yearly average, all lines, method not published.",
-    "We measure a few days in October on urban lines: 5.5% at every stop, 3.9% at departure.",
-    "Even counting at departure like GTT, we find 3.9%; the rest of the difference is season and method."
+    "We measure a few days in October on urban lines: 6% at every stop, 4.3% at departure.",
+    "Even counting at departure like GTT, we find 4.3%; the rest of the difference is season and method."
    ],
    "extra": {
     "titolo": "How long you wait at the stop",
-    "punto": "On frequent lines you wait 1.6 to 2.4 minutes more than the timetable promises (weekday).",
+    "punto": "On frequent lines you wait 1.5 to 1.7 minutes more than the timetable promises (weekday).",
     "grafico": {
      "tipo": "barre",
      "titolo": "Average wait at the stop, by time of day (weekday)",
@@ -1939,18 +2015,18 @@ window.SCHEDE_RISULTATI = [
       },
       {
        "label": "daytime (9-16)",
-       "valore": 5.26,
-       "prima": 3.75
+       "valore": 5.28,
+       "prima": 3.88
       },
       {
        "label": "evening peak (16-19)",
-       "valore": 6.54,
-       "prima": 4.44
+       "valore": 6.56,
+       "prima": 4.41
       },
       {
        "label": "evening (19-24)",
-       "valore": 9.65,
-       "prima": 8.2
+       "valore": 9.95,
+       "prima": 8.21
       }
      ]
     }
@@ -1982,7 +2058,7 @@ window.SCHEDE_RISULTATI = [
     "tipo": "profilo",
     "titolo": "Stura (589 posti): sempre quasi pieno: 80% di notte, 91% di giorno",
     "unita": "",
-    "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+    "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
     "serie": [
      {
       "label": "giorno feriale",
@@ -1993,24 +2069,24 @@ window.SCHEDE_RISULTATI = [
        0.797,
        0.797,
        0.799,
-       0.803,
-       0.827,
-       0.872,
-       0.897,
-       0.917,
-       0.918,
-       0.918,
-       0.914,
-       0.908,
-       0.902,
-       0.893,
-       0.875,
-       0.844,
-       0.812,
+       0.804,
+       0.829,
+       0.877,
+       0.903,
+       0.919,
+       0.921,
+       0.921,
+       0.916,
+       0.91,
+       0.904,
+       0.894,
+       0.877,
+       0.846,
+       0.813,
        0.802,
-       0.8,
-       0.8,
-       0.798
+       0.801,
+       0.801,
+       0.8
       ]
      },
      {
@@ -2049,35 +2125,35 @@ window.SCHEDE_RISULTATI = [
     "tipo": "profilo",
     "titolo": "Venchi Unica (437 posti): sempre intorno al 55%",
     "unita": "",
-    "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+    "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
     "serie": [
      {
       "label": "giorno feriale",
       "valori": [
-       0.532,
-       0.533,
-       0.533,
-       0.533,
-       0.532,
-       0.53,
-       0.531,
-       0.524,
-       0.528,
-       0.55,
-       0.552,
-       0.548,
-       0.549,
-       0.547,
-       0.546,
-       0.543,
+       0.537,
        0.538,
-       0.529,
-       0.517,
-       0.505,
-       0.512,
-       0.516,
+       0.538,
+       0.538,
+       0.537,
+       0.535,
+       0.537,
+       0.53,
+       0.535,
+       0.555,
+       0.556,
+       0.552,
+       0.553,
+       0.552,
+       0.551,
+       0.548,
+       0.542,
+       0.533,
        0.52,
-       0.529
+       0.507,
+       0.515,
+       0.521,
+       0.525,
+       0.532
       ]
      },
      {
@@ -2116,23 +2192,23 @@ window.SCHEDE_RISULTATI = [
     "tipo": "profilo",
     "titolo": "Caio Mario (418 posti): il valore non cambia (1%): forse il contatore è fermo",
     "unita": "",
-    "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+    "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
     "serie": [
      {
       "label": "giorno feriale",
       "valori": [
-       0.017,
+       0.016,
+       0.011,
+       0.01,
+       0.011,
+       0.011,
        0.01,
        0.01,
+       0.009,
+       0.009,
+       0.009,
        0.01,
        0.01,
-       0.01,
-       0.009,
-       0.009,
-       0.009,
-       0.009,
-       0.009,
-       0.009,
        0.009,
        0.009,
        0.01,
@@ -2140,7 +2216,7 @@ window.SCHEDE_RISULTATI = [
        0.011,
        0.011,
        0.01,
-       0.011,
+       0.012,
        0.012,
        0.012,
        0.013,
@@ -2183,35 +2259,35 @@ window.SCHEDE_RISULTATI = [
     "tipo": "profilo",
     "titolo": "Sofia (272 posti): è più pieno di notte che di giorno: 52% di notte, 31% di giorno",
     "unita": "",
-    "nota": "[MISURATO] 7 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
+    "nota": "[MISURATO] 8 giorni validi; linea piena feriale, tratteggiata weekend [DATI SCARSI].",
     "serie": [
      {
       "label": "giorno feriale",
       "valori": [
-       0.521,
-       0.522,
-       0.522,
-       0.523,
-       0.524,
-       0.515,
-       0.494,
-       0.447,
-       0.406,
-       0.365,
-       0.311,
-       0.295,
-       0.302,
+       0.516,
+       0.517,
+       0.519,
+       0.519,
+       0.519,
+       0.51,
+       0.488,
+       0.44,
+       0.4,
+       0.36,
        0.31,
-       0.311,
-       0.313,
+       0.292,
+       0.3,
+       0.308,
+       0.309,
        0.31,
-       0.342,
-       0.379,
+       0.31,
+       0.338,
+       0.378,
        0.42,
-       0.453,
-       0.47,
-       0.493,
-       0.505
+       0.449,
+       0.465,
+       0.487,
+       0.5
       ]
      },
      {
@@ -2390,7 +2466,7 @@ window.SCHEDE_RISULTATI = [
    },
    {
     "voce": "Giorni feriali di riempimento",
-    "valore": "15/10, 16/10, 19/10, 20/10, 21/10"
+    "valore": "15/10, 16/10, 19/10, 20/10, 21/10, 22/10"
    },
    {
     "voce": "Non sappiamo",
@@ -2428,14 +2504,14 @@ window.SCHEDE_RISULTATI = [
    ],
    [
     "Giorni feriali di riempimento",
-    "15/10, 16/10, 19/10, 20/10 e 21/10"
+    "15/10, 16/10, 19/10, 20/10, 21/10 e 22/10"
    ]
   ],
   "limiti": [
    "Auto che passano: modello del traffico (percorso più veloce, senza code), stima debole: solo ordine di grandezza. Le stesse auto passano davanti a più fermate dello stesso corso.",
-   "Riempimento misurato su soli 5 giorni feriali e solo dove il 5T lo trasmette [DATI SCARSI]: Fermi e i parcheggi gratuiti non sono misurati.",
+   "Riempimento misurato su soli 6 giorni feriali e solo dove il 5T lo trasmette [DATI SCARSI]: Fermi e i parcheggi gratuiti non sono misurati.",
    "Quota di chi lascia l'auto: indagine sugli spostamenti 2022, poche interviste.",
-   "Controllo con i sensori 5T del mattino: il modello mette le strade d'ingresso in un ordine simile solo in parte (ρ = 0,52 su 23 luoghi); sottostima gli ingressi da nord-ovest.",
+   "Controllo con i sensori 5T del mattino: il modello mette le strade d'ingresso in un ordine simile solo in parte (ρ = 0,46 su 24 luoghi); sottostima gli ingressi da nord-ovest.",
    "Parcheggi da OpenStreetMap incompleti; posti spesso stimati dalla superficie (±30%).",
    "Distanza a piedi stimata (linea d'aria × 1,3). Treni non considerati."
   ],
@@ -2490,7 +2566,7 @@ window.SCHEDE_RISULTATI = [
    },
    {
     "nome": "Riempimento",
-    "valore": "misurato dal 5T dove c'è (5 giorni feriali, ore 10-16); pieno ≥ 85%",
+    "valore": "misurato dal 5T dove c'è (6 giorni feriali, ore 10-16); pieno ≥ 85%",
     "perche": "un parcheggio pieno non serve",
     "effetto": "colora i parcheggi e mostra i profili; non cambia le classi delle fermate"
    }
@@ -2512,7 +2588,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:15:31+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2523,7 +2599,7 @@ window.SCHEDE_RISULTATI = [
    "About 87,200 cars enter Turin every morning (2022 travel survey) and 5.8% of these drivers already continue by public transport. 179 of 274 important stops outside the centre lack enough suitable parking within 400 m on foot for the cars passing by.",
    "Important stops: outside the centre, with a metro, train station or terminus or at least 10 departures per hour at commuting times, and at least 1,000 cars entering the city passing by.",
    "Limits: car flows come from a simple traffic model (order of magnitude only); occupancy is measured on few days and only where the city's 5T system reports it; trains are not included.",
-   "Check against the 5T morning sensors: the model ranks the entry roads in a similar order only in part (rho = 0.52 over 23 places); it underestimates the entries from the north-west."
+   "Check against the 5T morning sensors: the model ranks the entry roads in a similar order only in part (rho = 0.46 over 24 places); it underestimates the entries from the north-west."
   ],
   "scenari": [
    {
@@ -2553,163 +2629,243 @@ window.SCHEDE_RISULTATI = [
   ],
   "forma": {
    "etichetta": "STIMATO / MISURATO (dati scarsi)",
-   "titolo": "Dai parcheggi di scambio il bus vale l'auto solo se in centro si perdono 21–28 minuti a parcheggiare",
-   "domanda": "Dove mancano posti per lasciare l'auto, e quando il bus da lì verso il centro è veloce quanto l'auto?",
+   "titolo": "2 fermate importanti su 3 non hanno abbastanza posti per lasciare l'auto",
+   "domanda": "Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi?",
    "numero": {
-    "valore": "21–28",
-    "unita": "minuti",
-    "testo": "persi in centro per parcheggiare: sotto questa soglia l'auto batte il bus (mediana dei 12 punti)"
+    "valore": 179,
+    "unita": "",
+    "testo": "fermate importanti su 274 non hanno posti bastanti a 400 metri a piedi"
    },
    "principale": {
-    "tipo": "gara",
-    "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale",
-    "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (sensori, auto veloce) e 2,1 (Google, auto chiara e lenta).",
-    "luoghi": [
+    "tipo": "barre",
+    "titolo": "I 12 punti d'ingresso, per bisogno di parcheggio",
+    "unita": "posti",
+    "nota": "Il bisogno è alto, medio o basso a terzi, in base ai posti che mancano. Le lunghezze sono un ordine di grandezza.",
+    "voci": [
      {
-      "nome": "Santa Rita",
-      "gruppo": "Punti prioritari",
-      "bus": 36.0,
-      "auto_min": 13.7,
-      "auto_max": 20.2,
-      "giudizio": "il bus non conviene"
+      "label": "Santa Rita",
+      "valore": 450,
+      "tono": "rosso",
+      "testo": "bisogno alto"
      },
      {
-      "nome": "Metro Massaua",
-      "gruppo": "Punti prioritari",
-      "bus": 25.0,
-      "auto_min": 15.1,
-      "auto_max": 22.7,
-      "giudizio": "dipende dal traffico"
+      "label": "Metro Massaua",
+      "valore": 350,
+      "tono": "rosso",
+      "testo": "bisogno alto"
      },
      {
-      "nome": "Ponte Cavalieri Templari",
-      "gruppo": "Punti prioritari",
-      "bus": 51.0,
-      "auto_min": 18.2,
-      "auto_max": 28.0,
-      "giudizio": "il bus non conviene"
+      "label": "Ponte Cavalieri Templari",
+      "valore": 350,
+      "tono": "rosso",
+      "testo": "bisogno alto"
      },
      {
-      "nome": "Regina Margherita",
-      "gruppo": "Punti prioritari",
-      "bus": 31.0,
-      "auto_min": 11.6,
-      "auto_max": 16.6,
-      "giudizio": "il bus non conviene"
+      "label": "Regina Margherita",
+      "valore": 350,
+      "tono": "rosso",
+      "testo": "bisogno alto"
      },
      {
-      "nome": "Pasini",
-      "gruppo": "Punti prioritari",
-      "bus": 28.0,
-      "auto_min": 12.1,
-      "auto_max": 17.4,
-      "giudizio": "il bus non conviene"
+      "label": "Pasini",
+      "valore": 250,
+      "tono": "arancio",
+      "testo": "bisogno medio"
      },
      {
-      "nome": "Leonardo Da Vinci",
-      "gruppo": "Punti prioritari",
-      "bus": 59.0,
-      "auto_min": 19.9,
-      "auto_max": 31.1,
-      "giudizio": "il bus non conviene"
+      "label": "Leonardo Da Vinci",
+      "valore": 200,
+      "tono": "arancio",
+      "testo": "bisogno medio"
      },
      {
-      "nome": "Drosso Cap",
-      "gruppo": "Punti prioritari",
-      "bus": 43.0,
-      "auto_min": 17.4,
-      "auto_max": 26.7,
-      "giudizio": "il bus non conviene"
+      "label": "Drosso Cap",
+      "valore": 200,
+      "tono": "arancio",
+      "testo": "bisogno medio"
      },
      {
-      "nome": "Stura Lazio",
-      "gruppo": "Punti prioritari",
-      "bus": 37.0,
-      "auto_min": 14.3,
-      "auto_max": 21.3,
-      "giudizio": "il bus non conviene"
+      "label": "Stura Lazio",
+      "valore": 200,
+      "tono": "arancio",
+      "testo": "bisogno medio"
      },
      {
-      "nome": "Marsè",
-      "gruppo": "Punti prioritari",
-      "bus": 61.0,
-      "auto_min": 23.2,
-      "auto_max": 36.8,
-      "giudizio": "il bus non conviene"
+      "label": "Marsè",
+      "valore": 150,
+      "tono": "giallo",
+      "testo": "bisogno basso"
      },
      {
-      "nome": "Derna Est",
-      "gruppo": "Punti prioritari",
-      "bus": 34.0,
-      "auto_min": 13.8,
-      "auto_max": 20.4,
-      "giudizio": "il bus non conviene"
+      "label": "Derna Est",
+      "valore": 100,
+      "tono": "giallo",
+      "testo": "bisogno basso"
      },
      {
-      "nome": "Ferrara",
-      "gruppo": "Punti prioritari",
-      "bus": 49.0,
-      "auto_min": 19.9,
-      "auto_max": 31.0,
-      "giudizio": "il bus non conviene"
+      "label": "Ferrara",
+      "valore": 80,
+      "tono": "giallo",
+      "testo": "bisogno basso"
      },
      {
-      "nome": "Zara",
-      "gruppo": "Punti prioritari",
-      "bus": 33.0,
-      "auto_min": 11.9,
-      "auto_max": 17.1,
-      "giudizio": "il bus non conviene"
-     },
-     {
-      "nome": "Stura",
-      "gruppo": "Interscambi esistenti",
-      "bus": 39.0,
-      "auto_min": 17.3,
-      "auto_max": 26.6,
-      "giudizio": "dipende dal traffico"
-     },
-     {
-      "nome": "Venchi Unica",
-      "gruppo": "Interscambi esistenti",
-      "bus": 28.0,
-      "auto_min": 16.0,
-      "auto_max": 24.2,
-      "giudizio": "dipende dal traffico"
-     },
-     {
-      "nome": "Caio Mario",
-      "gruppo": "Interscambi esistenti",
-      "bus": 38.0,
-      "auto_min": 16.0,
-      "auto_max": 24.3,
-      "giudizio": "il bus non conviene"
-     },
-     {
-      "nome": "Fermi",
-      "gruppo": "Interscambi esistenti",
-      "bus": 31.0,
-      "auto_min": 18.6,
-      "auto_max": 28.9,
-      "giudizio": "dipende dal traffico"
-     },
-     {
-      "nome": "Sofia",
-      "gruppo": "Interscambi esistenti",
-      "bus": 33.0,
-      "auto_min": 13.3,
-      "auto_max": 19.6,
-      "giudizio": "il bus non conviene"
+      "label": "Zara",
+      "valore": 60,
+      "tono": "giallo",
+      "testo": "bisogno basso"
      }
-    ],
-    "scelto": 1
+    ]
    },
    "punti": [
-    "Interscambi esistenti: pieni Stura (17–27 minuti); poco usati Caio Mario (19–27 minuti), Sofia (18–25 minuti).",
-    "179 fermate importanti su 274 non hanno posti bastanti a 400 metri a piedi.",
-    "Il punto più promettente è Metro Massaua: bastano 7–15 minuti perché il bus pareggi l'auto."
+    "68 fermate importanti non hanno nessun parcheggio adatto vicino; 111 ne hanno troppo pochi.",
+    "Servirebbero posti soprattutto in 12 punti d'ingresso: il primo è Santa Rita, dove ne mancano circa 450.",
+    "Dal parcheggio, il bus batte l'auto solo se in centro si perdono più di 21–28 minuti a parcheggiare."
    ],
    "altri": [
+    {
+     "tipo": "gara",
+     "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale",
+     "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (sensori, auto veloce) e 2,1 (Google, auto chiara e lenta). Il punto più promettente è Metro Massaua: lì bastano 7–15 minuti persi a parcheggiare in centro.",
+     "luoghi": [
+      {
+       "nome": "Santa Rita",
+       "gruppo": "Punti prioritari",
+       "bus": 36.0,
+       "auto_min": 13.7,
+       "auto_max": 20.2,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Metro Massaua",
+       "gruppo": "Punti prioritari",
+       "bus": 25.0,
+       "auto_min": 15.1,
+       "auto_max": 22.7,
+       "giudizio": "dipende dal traffico"
+      },
+      {
+       "nome": "Ponte Cavalieri Templari",
+       "gruppo": "Punti prioritari",
+       "bus": 51.0,
+       "auto_min": 18.2,
+       "auto_max": 28.0,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Regina Margherita",
+       "gruppo": "Punti prioritari",
+       "bus": 31.0,
+       "auto_min": 11.6,
+       "auto_max": 16.6,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Pasini",
+       "gruppo": "Punti prioritari",
+       "bus": 28.0,
+       "auto_min": 12.1,
+       "auto_max": 17.4,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Leonardo Da Vinci",
+       "gruppo": "Punti prioritari",
+       "bus": 59.0,
+       "auto_min": 19.9,
+       "auto_max": 31.1,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Drosso Cap",
+       "gruppo": "Punti prioritari",
+       "bus": 43.0,
+       "auto_min": 17.4,
+       "auto_max": 26.7,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Stura Lazio",
+       "gruppo": "Punti prioritari",
+       "bus": 37.0,
+       "auto_min": 14.3,
+       "auto_max": 21.3,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Marsè",
+       "gruppo": "Punti prioritari",
+       "bus": 61.0,
+       "auto_min": 23.2,
+       "auto_max": 36.8,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Derna Est",
+       "gruppo": "Punti prioritari",
+       "bus": 34.0,
+       "auto_min": 13.8,
+       "auto_max": 20.4,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Ferrara",
+       "gruppo": "Punti prioritari",
+       "bus": 49.0,
+       "auto_min": 19.9,
+       "auto_max": 31.0,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Zara",
+       "gruppo": "Punti prioritari",
+       "bus": 33.0,
+       "auto_min": 11.9,
+       "auto_max": 17.1,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Stura",
+       "gruppo": "Interscambi esistenti",
+       "bus": 39.0,
+       "auto_min": 17.3,
+       "auto_max": 26.6,
+       "giudizio": "dipende dal traffico"
+      },
+      {
+       "nome": "Venchi Unica",
+       "gruppo": "Interscambi esistenti",
+       "bus": 28.0,
+       "auto_min": 16.0,
+       "auto_max": 24.2,
+       "giudizio": "dipende dal traffico"
+      },
+      {
+       "nome": "Caio Mario",
+       "gruppo": "Interscambi esistenti",
+       "bus": 38.0,
+       "auto_min": 16.0,
+       "auto_max": 24.3,
+       "giudizio": "il bus non conviene"
+      },
+      {
+       "nome": "Fermi",
+       "gruppo": "Interscambi esistenti",
+       "bus": 31.0,
+       "auto_min": 18.6,
+       "auto_max": 28.9,
+       "giudizio": "dipende dal traffico"
+      },
+      {
+       "nome": "Sofia",
+       "gruppo": "Interscambi esistenti",
+       "bus": 33.0,
+       "auto_min": 13.3,
+       "auto_max": 19.6,
+       "giudizio": "il bus non conviene"
+      }
+     ],
+     "scelto": 1
+    },
     {
      "tipo": "barre",
      "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto",
@@ -2792,81 +2948,34 @@ window.SCHEDE_RISULTATI = [
     },
     {
      "tipo": "barre",
-     "titolo": "I 12 punti d'ingresso, per bisogno di parcheggio",
-     "unita": "posti",
-     "nota": "Il bisogno è alto, medio o basso a terzi, in base ai posti che mancano. Le lunghezze sono un ordine di grandezza.",
+     "titolo": "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro",
+     "unita": "minuti",
+     "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, fra i due fattori di punta (1,2 e 2,1).",
      "voci": [
       {
-       "label": "Santa Rita",
-       "valore": 450,
-       "tono": "rosso",
-       "testo": "bisogno alto"
+       "label": "Stura",
+       "valore": 39,
+       "testo": "pieno di giorno; 39 contro 17-27 in auto"
       },
       {
-       "label": "Metro Massaua",
-       "valore": 350,
-       "tono": "rosso",
-       "testo": "bisogno alto"
+       "label": "Venchi Unica",
+       "valore": 28,
+       "testo": "a metà; 28 contro 16-24 in auto"
       },
       {
-       "label": "Ponte Cavalieri Templari",
-       "valore": 350,
-       "tono": "rosso",
-       "testo": "bisogno alto"
+       "label": "Caio Mario",
+       "valore": 38,
+       "testo": "con posti liberi; 38 contro 16-24 in auto"
       },
       {
-       "label": "Regina Margherita",
-       "valore": 350,
-       "tono": "rosso",
-       "testo": "bisogno alto"
+       "label": "Fermi",
+       "valore": 31,
+       "testo": "non misurato; 31 contro 19-29 in auto"
       },
       {
-       "label": "Pasini",
-       "valore": 250,
-       "tono": "arancio",
-       "testo": "bisogno medio"
-      },
-      {
-       "label": "Leonardo Da Vinci",
-       "valore": 200,
-       "tono": "arancio",
-       "testo": "bisogno medio"
-      },
-      {
-       "label": "Drosso Cap",
-       "valore": 200,
-       "tono": "arancio",
-       "testo": "bisogno medio"
-      },
-      {
-       "label": "Stura Lazio",
-       "valore": 200,
-       "tono": "arancio",
-       "testo": "bisogno medio"
-      },
-      {
-       "label": "Marsè",
-       "valore": 150,
-       "tono": "giallo",
-       "testo": "bisogno basso"
-      },
-      {
-       "label": "Derna Est",
-       "valore": 100,
-       "tono": "giallo",
-       "testo": "bisogno basso"
-      },
-      {
-       "label": "Ferrara",
-       "valore": 80,
-       "tono": "giallo",
-       "testo": "bisogno basso"
-      },
-      {
-       "label": "Zara",
-       "valore": 60,
-       "tono": "giallo",
-       "testo": "bisogno basso"
+       "label": "Sofia",
+       "valore": 33,
+       "testo": "con posti liberi; 33 contro 13-20 in auto"
       }
      ]
     }
@@ -2876,7 +2985,7 @@ window.SCHEDE_RISULTATI = [
     "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
     "Auto da fermare: auto che passano per il 5,8% che già oggi lascia l'auto. Posti: parcheggi adatti entro 400 metri.",
     "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.",
-    "Minuti di pareggio: tempo coi mezzi verso Piazza Castello alle 8, meno il tempo in auto senza parcheggio."
+    "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei 12 punti."
    ],
    "criteri": [
     [
@@ -2897,271 +3006,1981 @@ window.SCHEDE_RISULTATI = [
     ]
    ],
    "limiti": [
-    "I tempi coi mezzi sono solo GTT, senza treni. L'auto è stimata fra due fattori di punta, 1,2 e 2,1.",
+    "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
+    "I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto sta fra due fattori di punta, 1,2 e 2,1.",
     "Il costo del parcheggio in centro non è nel calcolo: pesa come minuti in più.",
-    "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello.",
-    "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati, con ±30%."
-   ],
-   "english": [
-    "Question: when is the bus from a park-and-ride as fast as the car to the centre?",
-    "Answer: park-and-ride pays off only if parking downtown costs at least 21–28 minutes (median of 12 priority points). Also, 179 of 274 important stops lack enough parking.",
-    "Limit: bus times use GTT only, without trains; parking cost is not considered."
+    "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello."
    ],
    "mappa": {
     "id": "interscambio",
     "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."
    },
-   "unita": {
-    "tipo": "pallini",
-    "pallini": [
+   "anima": {
+    "tipo": "fermate",
+    "contorno": {
+     "d": "M879 130l-33 35l-2 -35l22 -12l13 12zM452 11l123 41l18 -10l2 11l11 14l35 -6l42 -20l3 -17l6 -5l25 -3l34 9l-9 37l9 34l48 23l13 3l-8 28l46 93l43 29l-7 39l-27 21l-21 13l28 44l18 20l30 12l64 3l-8 11l3 8l10 6l12 -1l5 4l-90 145l-79 95l-39 49l-51 48l-40 17l-37 36l-129 15l-120 41l-18 59l-73 6l-70 -8l-19 1l-59 -16l-11 5l-87 -31l-14 -16l8 -25l8 -1l36 8l35 -80l-30 11l-67 -45l-44 -39l-10 -14l13 -18l32 -4l128 80l25 -39l45 -134l-1 -15l-33 5l-57 -11l9 -32l9 -4l6 -11l-20 -24l-25 -6l61 -129l13 -59l-19 -21l-12 -51l13 -8l30 2l12 -4l1 -39l122 13l40 -5l0 -15l-7 -11l-3 -50l9 -10l12 -31l-6 -29l2 -15l38 -36l7 -2l8 11z",
+     "vb": [
+      -297,
+      -606,
+      1582,
+      1730
+     ]
+    },
+    "punti": [
+     [
+      186,
+      477,
+      0,
+      365
+     ],
+     [
+      216,
+      475,
+      1,
+      335
+     ],
+     [
+      123,
+      481,
+      1,
+      427
+     ],
+     [
+      687,
+      138,
+      0,
+      387
+     ],
+     [
+      261,
+      473,
+      2,
+      290
+     ],
+     [
+      295,
+      471,
+      2,
+      257
+     ],
+     [
+      690,
+      150,
+      0,
+      377
+     ],
+     [
+      692,
+      135,
+      0,
+      392
+     ],
+     [
+      445,
+      255,
+      1,
+      267
+     ],
+     [
+      455,
+      252,
+      1,
+      266
+     ],
+     [
+      442,
+      258,
+      1,
+      265
+     ],
+     [
+      426,
+      895,
+      1,
+      414
+     ],
+     [
+      546,
+      301,
+      1,
+      199
+     ],
+     [
+      479,
+      1008,
+      0,
+      513
+     ],
+     [
+      369,
+      154,
+      0,
+      390
+     ],
+     [
+      342,
+      1065,
+      0,
+      602
+     ],
+     [
+      339,
+      1063,
+      0,
+      601
+     ],
+     [
+      393,
+      817,
+      0,
+      354
+     ],
+     [
+      574,
+      300,
+      1,
+      201
+     ],
+     [
+      576,
+      299,
+      1,
+      203
+     ],
+     [
+      476,
+      1024,
+      1,
+      529
+     ],
+     [
+      69,
+      465,
+      0,
+      482
+     ],
+     [
+      1237,
+      976,
+      0,
+      836
+     ],
+     [
+      401,
+      839,
+      0,
+      370
+     ],
+     [
+      241,
+      917,
+      1,
+      519
+     ],
+     [
+      346,
+      682,
+      2,
+      273
+     ],
+     [
+      257,
+      746,
+      2,
+      383
+     ],
+     [
+      680,
+      145,
+      0,
+      378
+     ],
+     [
+      356,
+      671,
+      2,
+      259
+     ],
+     [
+      268,
+      738,
+      1,
+      369
+     ],
+     [
+      175,
+      791,
+      1,
+      475
+     ],
+     [
+      221,
+      475,
+      1,
+      330
+     ],
+     [
+      290,
+      854,
+      1,
+      439
+     ],
+     [
+      136,
+      480,
+      1,
+      414
+     ],
+     [
+      185,
+      787,
+      2,
+      464
+     ],
+     [
+      259,
+      896,
+      1,
+      491
+     ],
+     [
+      245,
+      754,
+      1,
+      397
+     ],
+     [
+      264,
+      887,
+      2,
+      481
+     ],
+     [
+      279,
+      871,
+      2,
+      459
+     ],
+     [
+      248,
+      754,
+      1,
+      395
+     ],
+     [
+      592,
+      599,
+      2,
+      108
+     ],
+     [
+      270,
+      882,
+      2,
+      474
+     ],
+     [
+      204,
+      782,
+      2,
+      446
+     ],
+     [
+      253,
+      900,
+      1,
+      498
+     ],
+     [
+      200,
+      782,
+      2,
+      449
+     ],
+     [
+      236,
+      762,
+      1,
+      409
+     ],
+     [
+      240,
+      648,
+      1,
+      344
+     ],
+     [
+      727,
+      514,
+      1,
+      178
+     ],
+     [
+      299,
+      840,
+      1,
+      423
+     ],
+     [
+      233,
+      762,
+      1,
+      411
+     ],
+     [
+      743,
+      510,
+      1,
+      193
+     ],
+     [
+      325,
+      699,
+      1,
+      300
+     ],
+     [
+      311,
+      828,
+      1,
+      406
+     ],
+     [
+      269,
+      652,
+      1,
+      319
+     ],
+     [
+      375,
+      748,
+      0,
+      304
+     ],
+     [
+      337,
+      685,
+      2,
+      282
+     ],
+     [
+      10,
+      488,
+      1,
+      540
+     ],
+     [
+      784,
+      403,
+      1,
+      253
+     ],
+     [
+      390,
+      729,
+      0,
+      279
+     ],
+     [
+      345,
+      687,
+      2,
+      277
+     ],
+     [
+      334,
+      799,
+      0,
+      369
+     ],
+     [
+      313,
+      825,
+      0,
+      402
+     ],
+     [
+      353,
+      776,
+      1,
+      339
+     ],
+     [
+      331,
+      804,
+      0,
+      375
+     ],
+     [
+      293,
+      721,
+      1,
+      339
+     ],
+     [
+      706,
+      332,
+      0,
+      229
+     ],
+     [
+      1049,
+      -566,
+      0,
+      1177
+     ],
+     [
+      349,
+      780,
+      1,
+      345
+     ],
+     [
+      207,
+      476,
+      0,
+      344
+     ],
+     [
+      47,
+      638,
+      2,
+      522
+     ],
+     [
+      414,
+      698,
+      1,
+      240
+     ],
+     [
+      320,
+      816,
+      0,
+      391
+     ],
+     [
+      779,
+      426,
+      1,
+      241
+     ],
+     [
+      273,
+      876,
+      2,
+      467
+     ],
+     [
+      794,
+      390,
+      1,
+      268
+     ],
+     [
+      159,
+      480,
+      1,
+      392
+     ],
+     [
+      156,
+      478,
+      1,
+      395
+     ],
+     [
+      -57,
+      492,
+      2,
+      607
+     ],
+     [
+      260,
+      901,
+      1,
+      495
+     ],
+     [
+      647,
+      229,
+      2,
+      288
+     ],
+     [
+      672,
+      177,
+      1,
+      345
+     ],
+     [
+      632,
+      261,
+      0,
+      253
+     ],
+     [
+      663,
+      197,
+      0,
+      323
+     ],
+     [
+      223,
+      647,
+      1,
+      359
+     ],
+     [
+      256,
+      650,
+      1,
+      330
+     ],
+     [
+      268,
+      650,
+      1,
+      319
+     ],
+     [
+      399,
+      717,
+      2,
+      264
+     ],
+     [
+      856,
+      357,
+      1,
+      338
+     ],
+     [
+      507,
+      999,
+      1,
+      501
+     ],
+     [
+      722,
+      316,
+      0,
+      252
+     ],
+     [
+      674,
+      534,
+      2,
+      129
+     ],
+     [
+      95,
+      482,
+      1,
+      455
+     ],
+     [
+      553,
+      300,
+      1,
+      200
+     ],
+     [
+      432,
+      675,
+      2,
+      211
+     ],
+     [
+      607,
+      268,
+      0,
+      239
+     ],
+     [
+      324,
+      812,
+      0,
+      385
+     ],
+     [
+      393,
+      348,
+      2,
+      219
+     ],
+     [
+      380,
+      377,
+      2,
+      210
+     ],
+     [
+      936,
+      265,
+      0,
+      452
+     ],
+     [
+      429,
+      679,
+      2,
+      216
+     ],
+     [
+      778,
+      469,
+      2,
+      230
+     ],
+     [
+      532,
+      729,
+      1,
+      230
+     ],
+     [
+      315,
+      828,
+      1,
+      403
+     ],
+     [
+      927,
+      309,
+      1,
+      423
+     ],
+     [
+      516,
+      367,
+      1,
+      137
+     ],
+     [
+      -23,
+      490,
+      1,
+      573
+     ],
+     [
+      367,
+      758,
+      0,
+      316
+     ],
+     [
+      -19,
+      489,
+      1,
+      569
+     ],
+     [
+      620,
+      561,
+      1,
+      93
+     ],
+     [
+      404,
+      716,
+      2,
+      261
+     ],
+     [
+      510,
+      359,
+      1,
+      147
+     ],
+     [
+      294,
+      841,
+      1,
+      426
+     ],
+     [
+      365,
+      760,
+      0,
+      319
+     ],
+     [
+      287,
+      718,
+      1,
+      342
+     ],
+     [
+      750,
+      286,
+      2,
+      293
+     ],
+     [
+      292,
+      602,
+      2,
+      277
+     ],
+     [
+      284,
+      660,
+      1,
+      310
+     ],
+     [
+      333,
+      473,
+      1,
+      219
+     ],
+     [
+      307,
+      515,
+      1,
+      243
+     ],
+     [
+      337,
+      464,
+      1,
+      216
+     ],
+     [
+      281,
+      656,
+      1,
+      311
+     ],
+     [
+      402,
+      713,
+      2,
+      259
+     ],
+     [
+      -175,
+      500,
+      0,
+      725
+     ],
+     [
+      296,
+      666,
+      1,
+      303
+     ],
+     [
+      766,
+      244,
+      0,
+      335
+     ],
+     [
+      711,
+      333,
+      0,
+      232
+     ],
+     [
+      623,
+      282,
+      0,
+      230
+     ],
+     [
+      303,
+      824,
+      1,
+      407
+     ],
+     [
+      621,
+      286,
+      0,
+      225
+     ],
+     [
+      630,
+      276,
+      1,
+      238
+     ],
+     [
+      700,
+      342,
+      0,
+      218
+     ],
+     [
+      600,
+      330,
+      1,
+      177
+     ],
+     [
+      324,
+      679,
+      2,
+      288
+     ],
+     [
+      -178,
+      498,
+      0,
+      728
+     ],
+     [
+      -150,
+      496,
+      0,
+      700
+     ],
+     [
+      289,
+      679,
+      2,
+      316
+     ],
+     [
+      283,
+      501,
+      2,
+      267
+     ],
+     [
+      513,
+      356,
+      0,
+      149
+     ],
+     [
+      99,
+      818,
+      0,
+      552
+     ],
+     [
+      111,
+      814,
+      0,
+      540
+     ],
+     [
+      288,
+      700,
+      1,
+      330
+     ],
+     [
+      482,
+      999,
+      0,
+      504
+     ],
+     [
+      591,
+      352,
+      1,
+      154
+     ],
+     [
+      -257,
+      504,
+      0,
+      807
+     ],
+     [
+      103,
+      818,
+      0,
+      549
+     ],
+     [
+      122,
+      811,
+      2,
+      529
+     ],
+     [
+      444,
+      252,
+      1,
+      270
+     ],
+     [
+      555,
+      262,
+      2,
+      238
+     ],
+     [
+      -95,
+      495,
+      1,
+      645
+     ],
+     [
+      725,
+      1084,
+      2,
+      610
+     ],
+     [
+      588,
+      358,
+      2,
+      147
+     ],
+     [
+      533,
+      260,
+      2,
+      241
+     ],
+     [
+      428,
+      266,
+      1,
+      264
+     ],
+     [
+      688,
+      357,
+      0,
+      199
+     ],
+     [
+      422,
+      290,
+      2,
+      246
+     ],
+     [
+      284,
+      56,
+      0,
+      518
+     ],
+     [
+      312,
+      806,
+      0,
+      388
+     ],
+     [
+      411,
+      310,
+      2,
+      235
+     ],
+     [
+      539,
+      366,
+      0,
+      134
+     ],
+     [
+      -99,
+      493,
+      1,
+      649
+     ],
+     [
+      421,
+      287,
+      2,
+      249
+     ],
+     [
+      718,
+      322,
+      0,
+      245
+     ],
+     [
+      431,
+      264,
+      1,
+      264
+     ],
+     [
+      381,
+      668,
+      0,
+      238
+     ],
+     [
+      691,
+      355,
+      0,
+      202
+     ],
+     [
+      493,
+      994,
+      0,
+      497
+     ],
+     [
+      315,
+      803,
+      0,
+      383
+     ],
+     [
+      530,
+      262,
+      2,
+      239
+     ],
+     [
+      371,
+      396,
+      2,
+      207
+     ],
+     [
+      313,
+      674,
+      2,
+      294
+     ],
+     [
+      434,
+      249,
+      1,
+      277
+     ],
+     [
+      51,
+      460,
+      0,
+      501
+     ],
+     [
+      311,
+      671,
+      2,
+      294
+     ],
+     [
+      299,
+      665,
+      1,
+      300
+     ],
+     [
+      -221,
+      501,
+      0,
+      771
+     ],
+     [
+      302,
+      546,
+      2,
+      252
+     ],
+     [
+      -196,
+      499,
+      0,
+      746
+     ],
+     [
+      609,
+      312,
+      1,
+      197
+     ],
+     [
+      984,
+      257,
+      0,
+      497
+     ],
+     [
+      290,
+      632,
+      1,
+      292
+     ],
+     [
+      709,
+      325,
+      0,
+      236
+     ],
+     [
+      748,
+      294,
+      2,
+      286
+     ],
+     [
+      -224,
+      503,
+      0,
+      774
+     ],
+     [
+      788,
+      288,
+      2,
+      319
+     ],
+     [
+      813,
+      284,
+      2,
+      340
+     ],
+     [
+      360,
+      719,
+      0,
+      290
+     ],
+     [
+      575,
+      378,
+      1,
+      125
+     ],
+     [
+      619,
+      304,
+      0,
+      208
+     ],
+     [
+      598,
+      335,
+      1,
+      172
+     ],
+     [
+      611,
+      307,
+      1,
+      202
+     ],
+     [
+      1029,
+      199,
+      0,
+      566
+     ],
+     [
+      593,
+      391,
+      1,
+      117
+     ],
+     [
+      436,
+      261,
+      1,
+      265
+     ],
+     [
+      310,
+      510,
+      1,
+      240
+     ],
+     [
+      580,
+      375,
+      1,
+      129
+     ],
+     [
+      345,
+      249,
+      0,
+      324
+     ],
+     [
+      -151,
+      501,
+      0,
+      701
+     ],
+     [
+      576,
+      384,
+      2,
+      119
+     ],
+     [
+      265,
+      645,
+      1,
+      320
+     ],
+     [
+      287,
+      774,
+      0,
+      380
+     ],
+     [
+      766,
+      291,
+      2,
+      301
+     ],
+     [
+      600,
+      270,
+      2,
+      235
+     ],
+     [
+      293,
+      571,
+      2,
+      267
+     ],
+     [
+      614,
+      410,
+      0,
+      110
+     ],
+     [
+      651,
+      387,
+      0,
+      152
+     ],
+     [
+      428,
+      675,
+      1,
+      213
+     ],
+     [
+      296,
+      566,
+      2,
+      262
+     ],
+     [
+      677,
+      370,
+      1,
+      182
+     ],
+     [
+      247,
+      761,
+      1,
+      400
+     ],
+     [
+      667,
+      377,
+      1,
+      170
+     ],
+     [
+      266,
+      628,
+      2,
+      312
+     ],
+     [
+      626,
+      435,
+      1,
+      100
+     ],
+     [
+      423,
+      214,
+      1,
+      313
+     ],
+     [
+      442,
+      891,
+      1,
+      406
+     ],
+     [
+      412,
+      205,
+      0,
+      326
+     ],
+     [
+      522,
+      365,
+      0,
+      138
+     ],
+     [
+      391,
+      714,
+      1,
+      267
+     ],
+     [
+      411,
+      953,
+      0,
+      474
+     ],
+     [
+      562,
+      371,
+      0,
+      130
+     ],
+     [
+      442,
+      692,
+      0,
+      220
+     ],
+     [
+      -41,
+      324,
+      0,
+      617
+     ],
+     [
+      -16,
+      321,
+      1,
+      594
+     ],
+     [
+      387,
+      177,
+      2,
+      362
+     ],
+     [
+      374,
+      946,
+      0,
+      479
+     ],
+     [
+      423,
+      230,
+      2,
+      298
+     ],
+     [
+      234,
+      551,
+      2,
+      320
+     ],
+     [
+      403,
+      980,
+      1,
+      502
+     ],
+     [
+      419,
+      201,
+      0,
+      326
+     ],
+     [
+      353,
+      1052,
+      0,
+      586
+     ],
+     [
+      263,
+      687,
+      1,
+      343
+     ],
+     [
+      425,
+      901,
+      1,
+      420
+     ],
+     [
+      423,
+      903,
+      1,
+      423
+     ],
+     [
+      -93,
+      327,
+      0,
+      666
+     ],
+     [
+      -124,
+      288,
+      0,
+      707
+     ],
+     [
+      422,
+      661,
+      1,
+      206
+     ],
+     [
+      434,
+      209,
+      1,
+      313
+     ],
+     [
+      303,
+      789,
+      0,
+      380
+     ],
+     [
+      193,
+      653,
+      1,
+      388
+     ],
+     [
+      231,
+      549,
+      2,
+      323
+     ],
+     [
+      293,
+      784,
+      0,
+      383
+     ],
+     [
+      410,
+      200,
+      0,
+      331
+     ],
+     [
+      297,
+      784,
+      0,
+      380
+     ],
+     [
+      308,
+      789,
+      0,
+      377
+     ],
+     [
+      320,
+      696,
+      1,
+      302
+     ],
+     [
+      -160,
+      269,
+      0,
+      747
+     ],
+     [
+      507,
+      348,
+      0,
+      158
+     ],
+     [
+      379,
+      833,
+      2,
+      374
+     ],
+     [
+      373,
+      852,
+      2,
+      394
+     ],
+     [
+      381,
+      837,
+      2,
+      377
+     ],
+     [
+      486,
+      262,
+      1,
+      246
+     ],
+     [
+      518,
+      255,
+      2,
+      247
+     ],
+     [
+      362,
+      908,
+      1,
+      449
+     ],
+     [
+      153,
+      527,
+      0,
+      398
+     ],
+     [
+      69,
+      552,
+      0,
+      484
+     ],
+     [
+      92,
+      552,
+      1,
+      461
+     ],
+     [
+      50,
+      547,
+      0,
+      502
+     ],
+     [
+      338,
+      167,
+      1,
+      395
+     ],
+     [
+      1245,
+      953,
+      0,
+      830
+     ],
+     [
+      124,
+      549,
+      1,
+      429
+     ],
+     [
+      89,
+      470,
+      0,
+      462
+     ],
+     [
+      527,
+      286,
+      2,
+      215
+     ],
+     [
+      15,
+      539,
+      0,
+      536
+     ],
+     [
+      296,
+      93,
+      1,
+      480
+     ],
+     [
+      890,
+      96,
+      0,
+      528
+     ],
+     [
+      295,
+      548,
+      2,
+      259
+     ],
+     [
+      288,
+      548,
+      2,
+      266
+     ],
+     [
+      274,
+      549,
+      2,
+      280
+     ],
+     [
+      279,
+      549,
+      2,
+      275
+     ],
+     [
+      251,
+      550,
+      1,
+      303
+     ],
+     [
+      485,
+      321,
+      0,
+      190
+     ],
+     [
+      258,
+      551,
+      1,
+      296
+     ],
+     [
+      225,
+      548,
+      2,
+      329
+     ],
+     [
+      454,
+      1043,
+      0,
+      551
+     ],
+     [
+      64,
+      463,
+      0,
+      487
+     ]
+    ],
+    "prioritari": [
+     [
+      331,
+      683
+     ],
+     [
+      219,
+      475
+     ],
+     [
+      492,
+      1012
+     ],
+     [
+      381,
+      374
+     ],
+     [
+      778,
+      469
+     ],
+     [
+      47,
+      638
+     ],
+     [
+      262,
+      891
+     ],
+     [
+      755,
+      291
+     ],
+     [
+      725,
+      1084
+     ],
+     [
+      615,
+      273
+     ],
+     [
+      122,
+      811
+     ],
+     [
+      532,
+      729
+     ]
+    ],
+    "legenda": [
      {
-      "label": "Santa Rita",
-      "tono": "rosso"
+      "label": "posti bastanti",
+      "n": 95,
+      "tono": "verde"
      },
      {
-      "label": "Metro Massaua",
+      "label": "pochi posti",
+      "n": 111,
       "tono": "giallo"
      },
      {
-      "label": "Ponte Cavalieri Templari",
-      "tono": "rosso"
-     },
-     {
-      "label": "Regina Margherita",
-      "tono": "rosso"
-     },
-     {
-      "label": "Pasini",
-      "tono": "rosso"
-     },
-     {
-      "label": "Leonardo Da Vinci",
-      "tono": "rosso"
-     },
-     {
-      "label": "Drosso Cap",
-      "tono": "rosso"
-     },
-     {
-      "label": "Stura Lazio",
-      "tono": "rosso"
-     },
-     {
-      "label": "Marsè",
-      "tono": "rosso"
-     },
-     {
-      "label": "Derna Est",
-      "tono": "rosso"
-     },
-     {
-      "label": "Ferrara",
-      "tono": "rosso"
-     },
-     {
-      "label": "Zara",
+      "label": "nessun parcheggio",
+      "n": 68,
       "tono": "rosso"
      }
     ],
-    "didascalia": "Un pallino per punto prioritario: verde = il bus conviene (0), giallo = dipende (1), rosso = il bus non conviene (11)."
-   },
-   "extra": {
-    "titolo": "Interscambi esistenti e bus verso il centro",
-    "punto": "Gli interscambi esistenti sono poco pieni: di giorno solo 1 su 5 è pieno.",
-    "grafico": {
-     "tipo": "barre",
-     "titolo": "Dagli interscambi esistenti a Piazza Castello, minuti coi mezzi pubblici",
-     "unita": "minuti",
-     "nota": "Alle 8 di un feriale. A destra il tempo in auto, parcheggio compreso, fra i due fattori di punta (1,2 e 2,1).",
-     "voci": [
-      {
-       "label": "Stura",
-       "valore": 39,
-       "testo": "39 contro 17-27 in auto"
-      },
-      {
-       "label": "Venchi Unica",
-       "valore": 28,
-       "testo": "28 contro 16-24 in auto"
-      },
-      {
-       "label": "Caio Mario",
-       "valore": 38,
-       "testo": "38 contro 16-24 in auto"
-      },
-      {
-       "label": "Fermi",
-       "valore": 31,
-       "testo": "31 contro 19-29 in auto"
-      },
-      {
-       "label": "Sofia",
-       "valore": 33,
-       "testo": "33 contro 13-20 in auto"
-      }
-     ]
-    }
+    "didascalia": "Ogni punto è una fermata importante, in Torino e in cintura; la linea è il confine di Torino. I cerchi neri sono i 12 punti dove servirebbero di più nuovi posti."
    }
   },
   "forma_en": {
    "etichetta": "ESTIMATED / MEASURED (little data)",
-   "titolo": "From park-and-ride lots the bus matches the car only if 21–28 minutes are lost parking downtown",
-   "domanda": "Where is there too little room to leave the car, and when is the bus from there to the centre as fast as the car?",
+   "titolo": "2 in 3 important stops lack enough spaces to leave the car",
+   "domanda": "Can people driving in from outside find a place to leave the car near an important stop, and continue by public transport?",
    "numero": {
-    "valore": "21–28",
-    "unita": "minutes",
-    "testo": "lost downtown looking for parking: below this threshold the car beats the bus (median of the 12 points)"
+    "valore": 179,
+    "unita": "",
+    "testo": "important stops out of 274 lack enough parking within 400 metres on foot"
    },
    "principale": {
-    "tipo": "gara",
-    "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m. on a weekday",
-    "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (sensors, fast car) and 2.1 (Google, faded slow car).",
-    "luoghi": [
+    "tipo": "barre",
+    "titolo": "The 12 entry points, by need for parking",
+    "unita": "spaces",
+    "nota": "Need is high, medium or low by thirds, based on the missing spaces. Lengths are an order of magnitude.",
+    "voci": [
      {
-      "nome": "Santa Rita",
-      "gruppo": "Priority points",
-      "bus": 36.0,
-      "auto_min": 13.7,
-      "auto_max": 20.2,
-      "giudizio": "the bus does not pay off"
+      "label": "Santa Rita",
+      "valore": 450,
+      "tono": "rosso",
+      "testo": "high need"
      },
      {
-      "nome": "Metro Massaua",
-      "gruppo": "Priority points",
-      "bus": 25.0,
-      "auto_min": 15.1,
-      "auto_max": 22.7,
-      "giudizio": "depends on traffic"
+      "label": "Metro Massaua",
+      "valore": 350,
+      "tono": "rosso",
+      "testo": "high need"
      },
      {
-      "nome": "Ponte Cavalieri Templari",
-      "gruppo": "Priority points",
-      "bus": 51.0,
-      "auto_min": 18.2,
-      "auto_max": 28.0,
-      "giudizio": "the bus does not pay off"
+      "label": "Ponte Cavalieri Templari",
+      "valore": 350,
+      "tono": "rosso",
+      "testo": "high need"
      },
      {
-      "nome": "Regina Margherita",
-      "gruppo": "Priority points",
-      "bus": 31.0,
-      "auto_min": 11.6,
-      "auto_max": 16.6,
-      "giudizio": "the bus does not pay off"
+      "label": "Regina Margherita",
+      "valore": 350,
+      "tono": "rosso",
+      "testo": "high need"
      },
      {
-      "nome": "Pasini",
-      "gruppo": "Priority points",
-      "bus": 28.0,
-      "auto_min": 12.1,
-      "auto_max": 17.4,
-      "giudizio": "the bus does not pay off"
+      "label": "Pasini",
+      "valore": 250,
+      "tono": "arancio",
+      "testo": "medium need"
      },
      {
-      "nome": "Leonardo Da Vinci",
-      "gruppo": "Priority points",
-      "bus": 59.0,
-      "auto_min": 19.9,
-      "auto_max": 31.1,
-      "giudizio": "the bus does not pay off"
+      "label": "Leonardo Da Vinci",
+      "valore": 200,
+      "tono": "arancio",
+      "testo": "medium need"
      },
      {
-      "nome": "Drosso Cap",
-      "gruppo": "Priority points",
-      "bus": 43.0,
-      "auto_min": 17.4,
-      "auto_max": 26.7,
-      "giudizio": "the bus does not pay off"
+      "label": "Drosso Cap",
+      "valore": 200,
+      "tono": "arancio",
+      "testo": "medium need"
      },
      {
-      "nome": "Stura Lazio",
-      "gruppo": "Priority points",
-      "bus": 37.0,
-      "auto_min": 14.3,
-      "auto_max": 21.3,
-      "giudizio": "the bus does not pay off"
+      "label": "Stura Lazio",
+      "valore": 200,
+      "tono": "arancio",
+      "testo": "medium need"
      },
      {
-      "nome": "Marsè",
-      "gruppo": "Priority points",
-      "bus": 61.0,
-      "auto_min": 23.2,
-      "auto_max": 36.8,
-      "giudizio": "the bus does not pay off"
+      "label": "Marsè",
+      "valore": 150,
+      "tono": "giallo",
+      "testo": "low need"
      },
      {
-      "nome": "Derna Est",
-      "gruppo": "Priority points",
-      "bus": 34.0,
-      "auto_min": 13.8,
-      "auto_max": 20.4,
-      "giudizio": "the bus does not pay off"
+      "label": "Derna Est",
+      "valore": 100,
+      "tono": "giallo",
+      "testo": "low need"
      },
      {
-      "nome": "Ferrara",
-      "gruppo": "Priority points",
-      "bus": 49.0,
-      "auto_min": 19.9,
-      "auto_max": 31.0,
-      "giudizio": "the bus does not pay off"
+      "label": "Ferrara",
+      "valore": 80,
+      "tono": "giallo",
+      "testo": "low need"
      },
      {
-      "nome": "Zara",
-      "gruppo": "Priority points",
-      "bus": 33.0,
-      "auto_min": 11.9,
-      "auto_max": 17.1,
-      "giudizio": "the bus does not pay off"
-     },
-     {
-      "nome": "Stura",
-      "gruppo": "Existing park-and-ride",
-      "bus": 39.0,
-      "auto_min": 17.3,
-      "auto_max": 26.6,
-      "giudizio": "depends on traffic"
-     },
-     {
-      "nome": "Venchi Unica",
-      "gruppo": "Existing park-and-ride",
-      "bus": 28.0,
-      "auto_min": 16.0,
-      "auto_max": 24.2,
-      "giudizio": "depends on traffic"
-     },
-     {
-      "nome": "Caio Mario",
-      "gruppo": "Existing park-and-ride",
-      "bus": 38.0,
-      "auto_min": 16.0,
-      "auto_max": 24.3,
-      "giudizio": "the bus does not pay off"
-     },
-     {
-      "nome": "Fermi",
-      "gruppo": "Existing park-and-ride",
-      "bus": 31.0,
-      "auto_min": 18.6,
-      "auto_max": 28.9,
-      "giudizio": "depends on traffic"
-     },
-     {
-      "nome": "Sofia",
-      "gruppo": "Existing park-and-ride",
-      "bus": 33.0,
-      "auto_min": 13.3,
-      "auto_max": 19.6,
-      "giudizio": "the bus does not pay off"
+      "label": "Zara",
+      "valore": 60,
+      "tono": "giallo",
+      "testo": "low need"
      }
-    ],
-    "scelto": 1
+    ]
    },
    "punti": [
-    "Existing park-and-ride lots: full Stura (17–27 minutes); little used Caio Mario (19–27 minutes), Sofia (18–25 minutes).",
-    "179 important stops out of 274 do not have enough parking within 400 metres on foot.",
-    "The most promising point is Metro Massaua: 7–15 minutes are enough for the bus to match the car."
+    "68 important stops have no suitable car park nearby; 111 have too few spaces.",
+    "Spaces are needed above all at 12 entry points: the first is Santa Rita, where about 450 are missing.",
+    "From the car park, the bus beats the car only if parking downtown takes more than 21–28 minutes."
    ],
    "altri": [
+    {
+     "tipo": "gara",
+     "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m. on a weekday",
+     "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (sensors, fast car) and 2.1 (Google, faded slow car). The most promising point is Metro Massaua: there, 7–15 minutes lost parking downtown are enough.",
+     "luoghi": [
+      {
+       "nome": "Santa Rita",
+       "gruppo": "Priority points",
+       "bus": 36.0,
+       "auto_min": 13.7,
+       "auto_max": 20.2,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Metro Massaua",
+       "gruppo": "Priority points",
+       "bus": 25.0,
+       "auto_min": 15.1,
+       "auto_max": 22.7,
+       "giudizio": "depends on traffic"
+      },
+      {
+       "nome": "Ponte Cavalieri Templari",
+       "gruppo": "Priority points",
+       "bus": 51.0,
+       "auto_min": 18.2,
+       "auto_max": 28.0,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Regina Margherita",
+       "gruppo": "Priority points",
+       "bus": 31.0,
+       "auto_min": 11.6,
+       "auto_max": 16.6,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Pasini",
+       "gruppo": "Priority points",
+       "bus": 28.0,
+       "auto_min": 12.1,
+       "auto_max": 17.4,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Leonardo Da Vinci",
+       "gruppo": "Priority points",
+       "bus": 59.0,
+       "auto_min": 19.9,
+       "auto_max": 31.1,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Drosso Cap",
+       "gruppo": "Priority points",
+       "bus": 43.0,
+       "auto_min": 17.4,
+       "auto_max": 26.7,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Stura Lazio",
+       "gruppo": "Priority points",
+       "bus": 37.0,
+       "auto_min": 14.3,
+       "auto_max": 21.3,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Marsè",
+       "gruppo": "Priority points",
+       "bus": 61.0,
+       "auto_min": 23.2,
+       "auto_max": 36.8,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Derna Est",
+       "gruppo": "Priority points",
+       "bus": 34.0,
+       "auto_min": 13.8,
+       "auto_max": 20.4,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Ferrara",
+       "gruppo": "Priority points",
+       "bus": 49.0,
+       "auto_min": 19.9,
+       "auto_max": 31.0,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Zara",
+       "gruppo": "Priority points",
+       "bus": 33.0,
+       "auto_min": 11.9,
+       "auto_max": 17.1,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Stura",
+       "gruppo": "Existing park-and-ride",
+       "bus": 39.0,
+       "auto_min": 17.3,
+       "auto_max": 26.6,
+       "giudizio": "depends on traffic"
+      },
+      {
+       "nome": "Venchi Unica",
+       "gruppo": "Existing park-and-ride",
+       "bus": 28.0,
+       "auto_min": 16.0,
+       "auto_max": 24.2,
+       "giudizio": "depends on traffic"
+      },
+      {
+       "nome": "Caio Mario",
+       "gruppo": "Existing park-and-ride",
+       "bus": 38.0,
+       "auto_min": 16.0,
+       "auto_max": 24.3,
+       "giudizio": "the bus does not pay off"
+      },
+      {
+       "nome": "Fermi",
+       "gruppo": "Existing park-and-ride",
+       "bus": 31.0,
+       "auto_min": 18.6,
+       "auto_max": 28.9,
+       "giudizio": "depends on traffic"
+      },
+      {
+       "nome": "Sofia",
+       "gruppo": "Existing park-and-ride",
+       "bus": 33.0,
+       "auto_min": 13.3,
+       "auto_max": 19.6,
+       "giudizio": "the bus does not pay off"
+      }
+     ],
+     "scelto": 1
+    },
     {
      "tipo": "barre",
      "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
@@ -3244,81 +5063,34 @@ window.SCHEDE_RISULTATI = [
     },
     {
      "tipo": "barre",
-     "titolo": "The 12 entry points, by need for parking",
-     "unita": "spaces",
-     "nota": "Need is high, medium or low by thirds, based on the missing spaces. Lengths are an order of magnitude.",
+     "titolo": "Existing park-and-ride sites: how full they are and how long the bus takes to the centre",
+     "unita": "minutes",
+     "nota": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, between the two rush-hour factors (1.2 and 2.1).",
      "voci": [
       {
-       "label": "Santa Rita",
-       "valore": 450,
-       "tono": "rosso",
-       "testo": "high need"
+       "label": "Stura",
+       "valore": 39,
+       "testo": "full during the day; 39 versus 17-27 by car"
       },
       {
-       "label": "Metro Massaua",
-       "valore": 350,
-       "tono": "rosso",
-       "testo": "high need"
+       "label": "Venchi Unica",
+       "valore": 28,
+       "testo": "half full; 28 versus 16-24 by car"
       },
       {
-       "label": "Ponte Cavalieri Templari",
-       "valore": 350,
-       "tono": "rosso",
-       "testo": "high need"
+       "label": "Caio Mario",
+       "valore": 38,
+       "testo": "with free spaces; 38 versus 16-24 by car"
       },
       {
-       "label": "Regina Margherita",
-       "valore": 350,
-       "tono": "rosso",
-       "testo": "high need"
+       "label": "Fermi",
+       "valore": 31,
+       "testo": "not measured; 31 versus 19-29 by car"
       },
       {
-       "label": "Pasini",
-       "valore": 250,
-       "tono": "arancio",
-       "testo": "medium need"
-      },
-      {
-       "label": "Leonardo Da Vinci",
-       "valore": 200,
-       "tono": "arancio",
-       "testo": "medium need"
-      },
-      {
-       "label": "Drosso Cap",
-       "valore": 200,
-       "tono": "arancio",
-       "testo": "medium need"
-      },
-      {
-       "label": "Stura Lazio",
-       "valore": 200,
-       "tono": "arancio",
-       "testo": "medium need"
-      },
-      {
-       "label": "Marsè",
-       "valore": 150,
-       "tono": "giallo",
-       "testo": "low need"
-      },
-      {
-       "label": "Derna Est",
-       "valore": 100,
-       "tono": "giallo",
-       "testo": "low need"
-      },
-      {
-       "label": "Ferrara",
-       "valore": 80,
-       "tono": "giallo",
-       "testo": "low need"
-      },
-      {
-       "label": "Zara",
-       "valore": 60,
-       "tono": "giallo",
-       "testo": "low need"
+       "label": "Sofia",
+       "valore": 33,
+       "testo": "with free spaces; 33 versus 13-20 by car"
       }
      ]
     }
@@ -3328,7 +5100,7 @@ window.SCHEDE_RISULTATI = [
     "Cars entering come from the 2022 travel survey, assigned to the fastest route.",
     "Cars to stop: passing cars times the 5.8% who already leave the car today. Spaces: suitable car parks within 400 metres.",
     "Priority points: stops without enough parking, grouped within 1 km, one per entry axis.",
-    "Break-even minutes: travel time by public transport to Piazza Castello at 8 a.m., minus travel time by car without parking."
+    "Bus versus car: minutes by public transport to Piazza Castello at 8 am, versus the car including parking. Median of the 12 points."
    ],
    "criteri": [
     [
@@ -3349,105 +5121,1740 @@ window.SCHEDE_RISULTATI = [
     ]
    ],
    "limiti": [
-    "Public transport times are GTT only, without trains. The car is estimated between two peak factors, 1.2 and 2.1.",
+    "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude.",
+    "Public transport times are GTT only, without trains, and only in the morning. The car lies between two rush-hour factors, 1.2 and 2.1.",
     "The cost of parking downtown is not in the calculation: it counts as extra minutes.",
-    "We look at one point per place and a single destination, Piazza Castello.",
-    "Passing cars come from a traffic model. Spaces are often estimated, with ±30%."
+    "We look at one point per place and a single destination, Piazza Castello."
    ],
    "mappa": {
     "id": "interscambio",
     "nota": "Due domande nella mappa, nel menu «Cosa vedere»: dove ci sono parcheggi e dove servirebbe di più un parcheggio."
    },
-   "unita": {
-    "tipo": "pallini",
-    "pallini": [
+   "anima": {
+    "tipo": "fermate",
+    "contorno": {
+     "d": "M879 130l-33 35l-2 -35l22 -12l13 12zM452 11l123 41l18 -10l2 11l11 14l35 -6l42 -20l3 -17l6 -5l25 -3l34 9l-9 37l9 34l48 23l13 3l-8 28l46 93l43 29l-7 39l-27 21l-21 13l28 44l18 20l30 12l64 3l-8 11l3 8l10 6l12 -1l5 4l-90 145l-79 95l-39 49l-51 48l-40 17l-37 36l-129 15l-120 41l-18 59l-73 6l-70 -8l-19 1l-59 -16l-11 5l-87 -31l-14 -16l8 -25l8 -1l36 8l35 -80l-30 11l-67 -45l-44 -39l-10 -14l13 -18l32 -4l128 80l25 -39l45 -134l-1 -15l-33 5l-57 -11l9 -32l9 -4l6 -11l-20 -24l-25 -6l61 -129l13 -59l-19 -21l-12 -51l13 -8l30 2l12 -4l1 -39l122 13l40 -5l0 -15l-7 -11l-3 -50l9 -10l12 -31l-6 -29l2 -15l38 -36l7 -2l8 11z",
+     "vb": [
+      -297,
+      -606,
+      1582,
+      1730
+     ]
+    },
+    "punti": [
+     [
+      186,
+      477,
+      0,
+      365
+     ],
+     [
+      216,
+      475,
+      1,
+      335
+     ],
+     [
+      123,
+      481,
+      1,
+      427
+     ],
+     [
+      687,
+      138,
+      0,
+      387
+     ],
+     [
+      261,
+      473,
+      2,
+      290
+     ],
+     [
+      295,
+      471,
+      2,
+      257
+     ],
+     [
+      690,
+      150,
+      0,
+      377
+     ],
+     [
+      692,
+      135,
+      0,
+      392
+     ],
+     [
+      445,
+      255,
+      1,
+      267
+     ],
+     [
+      455,
+      252,
+      1,
+      266
+     ],
+     [
+      442,
+      258,
+      1,
+      265
+     ],
+     [
+      426,
+      895,
+      1,
+      414
+     ],
+     [
+      546,
+      301,
+      1,
+      199
+     ],
+     [
+      479,
+      1008,
+      0,
+      513
+     ],
+     [
+      369,
+      154,
+      0,
+      390
+     ],
+     [
+      342,
+      1065,
+      0,
+      602
+     ],
+     [
+      339,
+      1063,
+      0,
+      601
+     ],
+     [
+      393,
+      817,
+      0,
+      354
+     ],
+     [
+      574,
+      300,
+      1,
+      201
+     ],
+     [
+      576,
+      299,
+      1,
+      203
+     ],
+     [
+      476,
+      1024,
+      1,
+      529
+     ],
+     [
+      69,
+      465,
+      0,
+      482
+     ],
+     [
+      1237,
+      976,
+      0,
+      836
+     ],
+     [
+      401,
+      839,
+      0,
+      370
+     ],
+     [
+      241,
+      917,
+      1,
+      519
+     ],
+     [
+      346,
+      682,
+      2,
+      273
+     ],
+     [
+      257,
+      746,
+      2,
+      383
+     ],
+     [
+      680,
+      145,
+      0,
+      378
+     ],
+     [
+      356,
+      671,
+      2,
+      259
+     ],
+     [
+      268,
+      738,
+      1,
+      369
+     ],
+     [
+      175,
+      791,
+      1,
+      475
+     ],
+     [
+      221,
+      475,
+      1,
+      330
+     ],
+     [
+      290,
+      854,
+      1,
+      439
+     ],
+     [
+      136,
+      480,
+      1,
+      414
+     ],
+     [
+      185,
+      787,
+      2,
+      464
+     ],
+     [
+      259,
+      896,
+      1,
+      491
+     ],
+     [
+      245,
+      754,
+      1,
+      397
+     ],
+     [
+      264,
+      887,
+      2,
+      481
+     ],
+     [
+      279,
+      871,
+      2,
+      459
+     ],
+     [
+      248,
+      754,
+      1,
+      395
+     ],
+     [
+      592,
+      599,
+      2,
+      108
+     ],
+     [
+      270,
+      882,
+      2,
+      474
+     ],
+     [
+      204,
+      782,
+      2,
+      446
+     ],
+     [
+      253,
+      900,
+      1,
+      498
+     ],
+     [
+      200,
+      782,
+      2,
+      449
+     ],
+     [
+      236,
+      762,
+      1,
+      409
+     ],
+     [
+      240,
+      648,
+      1,
+      344
+     ],
+     [
+      727,
+      514,
+      1,
+      178
+     ],
+     [
+      299,
+      840,
+      1,
+      423
+     ],
+     [
+      233,
+      762,
+      1,
+      411
+     ],
+     [
+      743,
+      510,
+      1,
+      193
+     ],
+     [
+      325,
+      699,
+      1,
+      300
+     ],
+     [
+      311,
+      828,
+      1,
+      406
+     ],
+     [
+      269,
+      652,
+      1,
+      319
+     ],
+     [
+      375,
+      748,
+      0,
+      304
+     ],
+     [
+      337,
+      685,
+      2,
+      282
+     ],
+     [
+      10,
+      488,
+      1,
+      540
+     ],
+     [
+      784,
+      403,
+      1,
+      253
+     ],
+     [
+      390,
+      729,
+      0,
+      279
+     ],
+     [
+      345,
+      687,
+      2,
+      277
+     ],
+     [
+      334,
+      799,
+      0,
+      369
+     ],
+     [
+      313,
+      825,
+      0,
+      402
+     ],
+     [
+      353,
+      776,
+      1,
+      339
+     ],
+     [
+      331,
+      804,
+      0,
+      375
+     ],
+     [
+      293,
+      721,
+      1,
+      339
+     ],
+     [
+      706,
+      332,
+      0,
+      229
+     ],
+     [
+      1049,
+      -566,
+      0,
+      1177
+     ],
+     [
+      349,
+      780,
+      1,
+      345
+     ],
+     [
+      207,
+      476,
+      0,
+      344
+     ],
+     [
+      47,
+      638,
+      2,
+      522
+     ],
+     [
+      414,
+      698,
+      1,
+      240
+     ],
+     [
+      320,
+      816,
+      0,
+      391
+     ],
+     [
+      779,
+      426,
+      1,
+      241
+     ],
+     [
+      273,
+      876,
+      2,
+      467
+     ],
+     [
+      794,
+      390,
+      1,
+      268
+     ],
+     [
+      159,
+      480,
+      1,
+      392
+     ],
+     [
+      156,
+      478,
+      1,
+      395
+     ],
+     [
+      -57,
+      492,
+      2,
+      607
+     ],
+     [
+      260,
+      901,
+      1,
+      495
+     ],
+     [
+      647,
+      229,
+      2,
+      288
+     ],
+     [
+      672,
+      177,
+      1,
+      345
+     ],
+     [
+      632,
+      261,
+      0,
+      253
+     ],
+     [
+      663,
+      197,
+      0,
+      323
+     ],
+     [
+      223,
+      647,
+      1,
+      359
+     ],
+     [
+      256,
+      650,
+      1,
+      330
+     ],
+     [
+      268,
+      650,
+      1,
+      319
+     ],
+     [
+      399,
+      717,
+      2,
+      264
+     ],
+     [
+      856,
+      357,
+      1,
+      338
+     ],
+     [
+      507,
+      999,
+      1,
+      501
+     ],
+     [
+      722,
+      316,
+      0,
+      252
+     ],
+     [
+      674,
+      534,
+      2,
+      129
+     ],
+     [
+      95,
+      482,
+      1,
+      455
+     ],
+     [
+      553,
+      300,
+      1,
+      200
+     ],
+     [
+      432,
+      675,
+      2,
+      211
+     ],
+     [
+      607,
+      268,
+      0,
+      239
+     ],
+     [
+      324,
+      812,
+      0,
+      385
+     ],
+     [
+      393,
+      348,
+      2,
+      219
+     ],
+     [
+      380,
+      377,
+      2,
+      210
+     ],
+     [
+      936,
+      265,
+      0,
+      452
+     ],
+     [
+      429,
+      679,
+      2,
+      216
+     ],
+     [
+      778,
+      469,
+      2,
+      230
+     ],
+     [
+      532,
+      729,
+      1,
+      230
+     ],
+     [
+      315,
+      828,
+      1,
+      403
+     ],
+     [
+      927,
+      309,
+      1,
+      423
+     ],
+     [
+      516,
+      367,
+      1,
+      137
+     ],
+     [
+      -23,
+      490,
+      1,
+      573
+     ],
+     [
+      367,
+      758,
+      0,
+      316
+     ],
+     [
+      -19,
+      489,
+      1,
+      569
+     ],
+     [
+      620,
+      561,
+      1,
+      93
+     ],
+     [
+      404,
+      716,
+      2,
+      261
+     ],
+     [
+      510,
+      359,
+      1,
+      147
+     ],
+     [
+      294,
+      841,
+      1,
+      426
+     ],
+     [
+      365,
+      760,
+      0,
+      319
+     ],
+     [
+      287,
+      718,
+      1,
+      342
+     ],
+     [
+      750,
+      286,
+      2,
+      293
+     ],
+     [
+      292,
+      602,
+      2,
+      277
+     ],
+     [
+      284,
+      660,
+      1,
+      310
+     ],
+     [
+      333,
+      473,
+      1,
+      219
+     ],
+     [
+      307,
+      515,
+      1,
+      243
+     ],
+     [
+      337,
+      464,
+      1,
+      216
+     ],
+     [
+      281,
+      656,
+      1,
+      311
+     ],
+     [
+      402,
+      713,
+      2,
+      259
+     ],
+     [
+      -175,
+      500,
+      0,
+      725
+     ],
+     [
+      296,
+      666,
+      1,
+      303
+     ],
+     [
+      766,
+      244,
+      0,
+      335
+     ],
+     [
+      711,
+      333,
+      0,
+      232
+     ],
+     [
+      623,
+      282,
+      0,
+      230
+     ],
+     [
+      303,
+      824,
+      1,
+      407
+     ],
+     [
+      621,
+      286,
+      0,
+      225
+     ],
+     [
+      630,
+      276,
+      1,
+      238
+     ],
+     [
+      700,
+      342,
+      0,
+      218
+     ],
+     [
+      600,
+      330,
+      1,
+      177
+     ],
+     [
+      324,
+      679,
+      2,
+      288
+     ],
+     [
+      -178,
+      498,
+      0,
+      728
+     ],
+     [
+      -150,
+      496,
+      0,
+      700
+     ],
+     [
+      289,
+      679,
+      2,
+      316
+     ],
+     [
+      283,
+      501,
+      2,
+      267
+     ],
+     [
+      513,
+      356,
+      0,
+      149
+     ],
+     [
+      99,
+      818,
+      0,
+      552
+     ],
+     [
+      111,
+      814,
+      0,
+      540
+     ],
+     [
+      288,
+      700,
+      1,
+      330
+     ],
+     [
+      482,
+      999,
+      0,
+      504
+     ],
+     [
+      591,
+      352,
+      1,
+      154
+     ],
+     [
+      -257,
+      504,
+      0,
+      807
+     ],
+     [
+      103,
+      818,
+      0,
+      549
+     ],
+     [
+      122,
+      811,
+      2,
+      529
+     ],
+     [
+      444,
+      252,
+      1,
+      270
+     ],
+     [
+      555,
+      262,
+      2,
+      238
+     ],
+     [
+      -95,
+      495,
+      1,
+      645
+     ],
+     [
+      725,
+      1084,
+      2,
+      610
+     ],
+     [
+      588,
+      358,
+      2,
+      147
+     ],
+     [
+      533,
+      260,
+      2,
+      241
+     ],
+     [
+      428,
+      266,
+      1,
+      264
+     ],
+     [
+      688,
+      357,
+      0,
+      199
+     ],
+     [
+      422,
+      290,
+      2,
+      246
+     ],
+     [
+      284,
+      56,
+      0,
+      518
+     ],
+     [
+      312,
+      806,
+      0,
+      388
+     ],
+     [
+      411,
+      310,
+      2,
+      235
+     ],
+     [
+      539,
+      366,
+      0,
+      134
+     ],
+     [
+      -99,
+      493,
+      1,
+      649
+     ],
+     [
+      421,
+      287,
+      2,
+      249
+     ],
+     [
+      718,
+      322,
+      0,
+      245
+     ],
+     [
+      431,
+      264,
+      1,
+      264
+     ],
+     [
+      381,
+      668,
+      0,
+      238
+     ],
+     [
+      691,
+      355,
+      0,
+      202
+     ],
+     [
+      493,
+      994,
+      0,
+      497
+     ],
+     [
+      315,
+      803,
+      0,
+      383
+     ],
+     [
+      530,
+      262,
+      2,
+      239
+     ],
+     [
+      371,
+      396,
+      2,
+      207
+     ],
+     [
+      313,
+      674,
+      2,
+      294
+     ],
+     [
+      434,
+      249,
+      1,
+      277
+     ],
+     [
+      51,
+      460,
+      0,
+      501
+     ],
+     [
+      311,
+      671,
+      2,
+      294
+     ],
+     [
+      299,
+      665,
+      1,
+      300
+     ],
+     [
+      -221,
+      501,
+      0,
+      771
+     ],
+     [
+      302,
+      546,
+      2,
+      252
+     ],
+     [
+      -196,
+      499,
+      0,
+      746
+     ],
+     [
+      609,
+      312,
+      1,
+      197
+     ],
+     [
+      984,
+      257,
+      0,
+      497
+     ],
+     [
+      290,
+      632,
+      1,
+      292
+     ],
+     [
+      709,
+      325,
+      0,
+      236
+     ],
+     [
+      748,
+      294,
+      2,
+      286
+     ],
+     [
+      -224,
+      503,
+      0,
+      774
+     ],
+     [
+      788,
+      288,
+      2,
+      319
+     ],
+     [
+      813,
+      284,
+      2,
+      340
+     ],
+     [
+      360,
+      719,
+      0,
+      290
+     ],
+     [
+      575,
+      378,
+      1,
+      125
+     ],
+     [
+      619,
+      304,
+      0,
+      208
+     ],
+     [
+      598,
+      335,
+      1,
+      172
+     ],
+     [
+      611,
+      307,
+      1,
+      202
+     ],
+     [
+      1029,
+      199,
+      0,
+      566
+     ],
+     [
+      593,
+      391,
+      1,
+      117
+     ],
+     [
+      436,
+      261,
+      1,
+      265
+     ],
+     [
+      310,
+      510,
+      1,
+      240
+     ],
+     [
+      580,
+      375,
+      1,
+      129
+     ],
+     [
+      345,
+      249,
+      0,
+      324
+     ],
+     [
+      -151,
+      501,
+      0,
+      701
+     ],
+     [
+      576,
+      384,
+      2,
+      119
+     ],
+     [
+      265,
+      645,
+      1,
+      320
+     ],
+     [
+      287,
+      774,
+      0,
+      380
+     ],
+     [
+      766,
+      291,
+      2,
+      301
+     ],
+     [
+      600,
+      270,
+      2,
+      235
+     ],
+     [
+      293,
+      571,
+      2,
+      267
+     ],
+     [
+      614,
+      410,
+      0,
+      110
+     ],
+     [
+      651,
+      387,
+      0,
+      152
+     ],
+     [
+      428,
+      675,
+      1,
+      213
+     ],
+     [
+      296,
+      566,
+      2,
+      262
+     ],
+     [
+      677,
+      370,
+      1,
+      182
+     ],
+     [
+      247,
+      761,
+      1,
+      400
+     ],
+     [
+      667,
+      377,
+      1,
+      170
+     ],
+     [
+      266,
+      628,
+      2,
+      312
+     ],
+     [
+      626,
+      435,
+      1,
+      100
+     ],
+     [
+      423,
+      214,
+      1,
+      313
+     ],
+     [
+      442,
+      891,
+      1,
+      406
+     ],
+     [
+      412,
+      205,
+      0,
+      326
+     ],
+     [
+      522,
+      365,
+      0,
+      138
+     ],
+     [
+      391,
+      714,
+      1,
+      267
+     ],
+     [
+      411,
+      953,
+      0,
+      474
+     ],
+     [
+      562,
+      371,
+      0,
+      130
+     ],
+     [
+      442,
+      692,
+      0,
+      220
+     ],
+     [
+      -41,
+      324,
+      0,
+      617
+     ],
+     [
+      -16,
+      321,
+      1,
+      594
+     ],
+     [
+      387,
+      177,
+      2,
+      362
+     ],
+     [
+      374,
+      946,
+      0,
+      479
+     ],
+     [
+      423,
+      230,
+      2,
+      298
+     ],
+     [
+      234,
+      551,
+      2,
+      320
+     ],
+     [
+      403,
+      980,
+      1,
+      502
+     ],
+     [
+      419,
+      201,
+      0,
+      326
+     ],
+     [
+      353,
+      1052,
+      0,
+      586
+     ],
+     [
+      263,
+      687,
+      1,
+      343
+     ],
+     [
+      425,
+      901,
+      1,
+      420
+     ],
+     [
+      423,
+      903,
+      1,
+      423
+     ],
+     [
+      -93,
+      327,
+      0,
+      666
+     ],
+     [
+      -124,
+      288,
+      0,
+      707
+     ],
+     [
+      422,
+      661,
+      1,
+      206
+     ],
+     [
+      434,
+      209,
+      1,
+      313
+     ],
+     [
+      303,
+      789,
+      0,
+      380
+     ],
+     [
+      193,
+      653,
+      1,
+      388
+     ],
+     [
+      231,
+      549,
+      2,
+      323
+     ],
+     [
+      293,
+      784,
+      0,
+      383
+     ],
+     [
+      410,
+      200,
+      0,
+      331
+     ],
+     [
+      297,
+      784,
+      0,
+      380
+     ],
+     [
+      308,
+      789,
+      0,
+      377
+     ],
+     [
+      320,
+      696,
+      1,
+      302
+     ],
+     [
+      -160,
+      269,
+      0,
+      747
+     ],
+     [
+      507,
+      348,
+      0,
+      158
+     ],
+     [
+      379,
+      833,
+      2,
+      374
+     ],
+     [
+      373,
+      852,
+      2,
+      394
+     ],
+     [
+      381,
+      837,
+      2,
+      377
+     ],
+     [
+      486,
+      262,
+      1,
+      246
+     ],
+     [
+      518,
+      255,
+      2,
+      247
+     ],
+     [
+      362,
+      908,
+      1,
+      449
+     ],
+     [
+      153,
+      527,
+      0,
+      398
+     ],
+     [
+      69,
+      552,
+      0,
+      484
+     ],
+     [
+      92,
+      552,
+      1,
+      461
+     ],
+     [
+      50,
+      547,
+      0,
+      502
+     ],
+     [
+      338,
+      167,
+      1,
+      395
+     ],
+     [
+      1245,
+      953,
+      0,
+      830
+     ],
+     [
+      124,
+      549,
+      1,
+      429
+     ],
+     [
+      89,
+      470,
+      0,
+      462
+     ],
+     [
+      527,
+      286,
+      2,
+      215
+     ],
+     [
+      15,
+      539,
+      0,
+      536
+     ],
+     [
+      296,
+      93,
+      1,
+      480
+     ],
+     [
+      890,
+      96,
+      0,
+      528
+     ],
+     [
+      295,
+      548,
+      2,
+      259
+     ],
+     [
+      288,
+      548,
+      2,
+      266
+     ],
+     [
+      274,
+      549,
+      2,
+      280
+     ],
+     [
+      279,
+      549,
+      2,
+      275
+     ],
+     [
+      251,
+      550,
+      1,
+      303
+     ],
+     [
+      485,
+      321,
+      0,
+      190
+     ],
+     [
+      258,
+      551,
+      1,
+      296
+     ],
+     [
+      225,
+      548,
+      2,
+      329
+     ],
+     [
+      454,
+      1043,
+      0,
+      551
+     ],
+     [
+      64,
+      463,
+      0,
+      487
+     ]
+    ],
+    "prioritari": [
+     [
+      331,
+      683
+     ],
+     [
+      219,
+      475
+     ],
+     [
+      492,
+      1012
+     ],
+     [
+      381,
+      374
+     ],
+     [
+      778,
+      469
+     ],
+     [
+      47,
+      638
+     ],
+     [
+      262,
+      891
+     ],
+     [
+      755,
+      291
+     ],
+     [
+      725,
+      1084
+     ],
+     [
+      615,
+      273
+     ],
+     [
+      122,
+      811
+     ],
+     [
+      532,
+      729
+     ]
+    ],
+    "legenda": [
      {
-      "label": "Santa Rita",
-      "tono": "rosso"
+      "label": "enough spaces",
+      "n": 95,
+      "tono": "verde"
      },
      {
-      "label": "Metro Massaua",
+      "label": "few spaces",
+      "n": 111,
       "tono": "giallo"
      },
      {
-      "label": "Ponte Cavalieri Templari",
-      "tono": "rosso"
-     },
-     {
-      "label": "Regina Margherita",
-      "tono": "rosso"
-     },
-     {
-      "label": "Pasini",
-      "tono": "rosso"
-     },
-     {
-      "label": "Leonardo Da Vinci",
-      "tono": "rosso"
-     },
-     {
-      "label": "Drosso Cap",
-      "tono": "rosso"
-     },
-     {
-      "label": "Stura Lazio",
-      "tono": "rosso"
-     },
-     {
-      "label": "Marsè",
-      "tono": "rosso"
-     },
-     {
-      "label": "Derna Est",
-      "tono": "rosso"
-     },
-     {
-      "label": "Ferrara",
-      "tono": "rosso"
-     },
-     {
-      "label": "Zara",
+      "label": "no car park",
+      "n": 68,
       "tono": "rosso"
      }
     ],
-    "didascalia": "One dot per priority point: green = the bus pays off (0), yellow = it depends (1), red = the bus does not pay off (11)."
-   },
-   "extra": {
-    "titolo": "Existing park-and-ride lots and buses to the centre",
-    "punto": "Existing park-and-ride lots are not very full: in the daytime only 1 of 5 is full.",
-    "grafico": {
-     "tipo": "barre",
-     "titolo": "From existing park-and-ride lots to Piazza Castello, minutes by public transport",
-     "unita": "minutes",
-     "nota": "At 8 a.m. on a weekday. On the right, car time including parking, between the two peak factors (1.2 and 2.1).",
-     "voci": [
-      {
-       "label": "Stura",
-       "valore": 39,
-       "testo": "39 versus 17-27 by car"
-      },
-      {
-       "label": "Venchi Unica",
-       "valore": 28,
-       "testo": "28 versus 16-24 by car"
-      },
-      {
-       "label": "Caio Mario",
-       "valore": 38,
-       "testo": "38 versus 16-24 by car"
-      },
-      {
-       "label": "Fermi",
-       "valore": 31,
-       "testo": "31 versus 19-29 by car"
-      },
-      {
-       "label": "Sofia",
-       "valore": 33,
-       "testo": "33 versus 13-20 by car"
-      }
-     ]
-    }
+    "didascalia": "Each dot is an important stop, in Turin and the surrounding towns; the line is the city boundary. The black circles are the 12 points where new spaces are most needed."
    }
   },
   "numero_pubblico": 3,
@@ -3461,16 +6868,16 @@ window.SCHEDE_RISULTATI = [
   "in_breve": "Quante auto passano sulle strade grandi di Torino? E dove c'è tanto traffico ma nessun bus, tram o metro comodo, così che l'auto resta l'unica scelta?",
   "domanda": "Sulle strade grandi di Torino, dove c'è molto traffico e poco trasporto pubblico vicino?",
   "numero_chiave": {
-   "valore": 95.3,
+   "valore": 95.6,
    "unita": "%",
-   "testo": "dei km di strade grandi di Torino hanno fermate frequenti a pochi passi (327,3 km su 343,3)"
+   "testo": "dei km di strade grandi di Torino hanno fermate frequenti a pochi passi (356,3 km su 372,7)"
   },
   "racconto": "Un primo calcolo trovava 23 strade \"con molto traffico e poco trasporto pubblico\". Ricontrollando, quasi tutte erano un errore di misura: i bus si cercavano lungo la strada per nome invece che per posizione delle fermate (Corso Cairoli risultava senza passaggi). Rifatto il calcolo, la lista si è quasi svuotata: è questa la risposta.",
   "risposta": [
-   "Sulle 540 tratte di strade grandi di Torino (343,3 km), il 95,3% della lunghezza ha una fermata con almeno 4 passaggi all'ora entro 300 m, o la metro entro 600 m.",
-   "Le tratte con molto traffico (oltre 11.720 veicoli al giorno) sono 180; quelle che hanno anche poco trasporto pubblico sono 5.",
-   "In pratica è un solo caso: Corso Regina Margherita verso ovest, il tratto a scorrimento veloce (circa 34.000 veicoli al giorno, nessuna fermata frequente entro 300 m). In più un tratto di Corso Moncalieri, coperto solo per un quarto della lunghezza.",
-   "I numeri di traffico sono stime: in metà dei casi l'errore è entro ±38%. Servono a ordinare le strade, non a contare i veicoli."
+   "Sulle 611 tratte di strade grandi di Torino (372,7 km), il 95,6% della lunghezza ha una fermata con almeno 4 passaggi all'ora entro 300 m, o la metro entro 600 m.",
+   "Le tratte con molto traffico (oltre 10.677 veicoli al giorno) sono 204; quelle che hanno anche poco trasporto pubblico sono 5.",
+   "In pratica è un solo caso: Corso Regina Margherita verso ovest, il tratto a scorrimento veloce (circa 32.000 veicoli al giorno, nessuna fermata frequente entro 300 m). In più un tratto di Casale, coperto solo per 25% della lunghezza.",
+   "I numeri di traffico sono stime: in metà dei casi l'errore è entro ±28%. Servono a ordinare le strade, non a contare i veicoli."
   ],
   "grafici": [
    {
@@ -3480,12 +6887,12 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "con fermate frequenti vicine",
-      "valore": 327.3,
+      "valore": 356.3,
       "tono": "verde"
      },
      {
       "label": "con poco trasporto pubblico",
-      "valore": 16.0,
+      "valore": 16.4,
       "tono": "rosso"
      }
     ]
@@ -3497,152 +6904,162 @@ window.SCHEDE_RISULTATI = [
     "nota": "Solo strade con almeno un sensore sullo stesso asse: senza, il modello mette in cima anche strade poco credibili. \"misurato\" = sensore sulla tratta; le altre sono stime. Corso Unione Sovietica è probabilmente sovrastimato: dove c'è il sensore il modello dava quasi il triplo del misurato.",
     "voci": [
      {
-      "label": "Unità d'Italia (misurato)",
-      "valore": 80946
-     },
-     {
-      "label": "Regina Margherita",
-      "valore": 56136
+      "label": "Unità d'Italia",
+      "valore": 52296
      },
      {
       "label": "Orbassano (misurato)",
-      "valore": 50204
+      "valore": 50322
+     },
+     {
+      "label": "Regina Margherita",
+      "valore": 48739
      },
      {
       "label": "Unione Sovietica",
-      "valore": 47774
+      "valore": 48567
      },
      {
       "label": "Francia",
-      "valore": 47616
+      "valore": 39243
      },
      {
-      "label": "Giulio Cesare (misurato)",
-      "valore": 33928
-     },
-     {
-      "label": "Asse di Penetrazione Urbana di Corso Regina Margherita",
-      "valore": 33529
+      "label": "Giulio Cesare",
+      "valore": 37396
      },
      {
       "label": "Giovanni Agnelli",
-      "valore": 31640
+      "valore": 34034
+     },
+     {
+      "label": "Asse di Penetrazione Urbana di Corso Regina Margherita",
+      "valore": 31205
      },
      {
       "label": "Strada di Settimo (misurato)",
-      "valore": 29916
+      "valore": 29926
      },
      {
-      "label": "Vercelli (misurato)",
-      "valore": 26244
+      "label": "Quattro Novembre",
+      "valore": 25977
      }
     ]
    },
    {
     "tipo": "barre",
-    "titolo": "Prova del modello sui 20 sensori: misurato e stimato",
+    "titolo": "Prova del modello sui 22 sensori: misurato e stimato",
     "unita": "veicoli/giorno",
     "nota": "Barra chiara = misurato dal sensore, barra scura = stima del modello senza usare quel sensore.",
     "voci": [
      {
       "label": "Corso Unità d'Italia",
-      "valore": 60268,
-      "prima": 80946
+      "valore": 54449,
+      "prima": 81956
      },
      {
       "label": "Corso Trieste",
-      "valore": 58375,
-      "prima": 69134
+      "valore": 49617,
+      "prima": 65424
      },
      {
       "label": "Corso Orbassano",
-      "valore": 42058,
-      "prima": 50204
+      "valore": 49916,
+      "prima": 50322
+     },
+     {
+      "label": "Corso Unità d'Italia",
+      "valore": 48344,
+      "prima": 47616
      },
      {
       "label": "Corso Orbassano",
-      "valore": 41245,
-      "prima": 41346
+      "valore": 46751,
+      "prima": 41326
      },
      {
       "label": "R24 Raccordo Torino-Aeroporto Caselle",
-      "valore": 30159,
-      "prima": 40092
+      "valore": 27103,
+      "prima": 39810
      },
      {
       "label": "Corso Giulio Cesare",
-      "valore": 24228,
-      "prima": 33928
+      "valore": 24579,
+      "prima": 34548
      },
      {
       "label": "Corso Francia",
-      "valore": 40789,
-      "prima": 30934
+      "valore": 38311,
+      "prima": 30938
      },
      {
       "label": "Ponte Amedeo VIII",
-      "valore": 20918,
-      "prima": 29916
+      "valore": 26625,
+      "prima": 29926
      },
      {
       "label": "Corso Giulio Cesare",
-      "valore": 32592,
-      "prima": 28846
+      "valore": 36474,
+      "prima": 29270
      },
      {
       "label": "Corso Francia",
-      "valore": 41574,
-      "prima": 28698
+      "valore": 39197,
+      "prima": 28414
      },
      {
       "label": "Corso Regina Margherita",
-      "valore": 31008,
-      "prima": 28438
+      "valore": 30585,
+      "prima": 28412
      },
      {
       "label": "Corso Orbassano",
-      "valore": 40010,
-      "prima": 27262
+      "valore": 44057,
+      "prima": 27024
      },
      {
       "label": "Corso Vercelli",
-      "valore": 14077,
-      "prima": 26244
+      "valore": 9941,
+      "prima": 25470
      },
      {
       "label": "Corso Agnelli",
-      "valore": 32947,
-      "prima": 21104
+      "valore": 31592,
+      "prima": 22014
      },
      {
       "label": "SP8 di Druento",
-      "valore": 8236,
-      "prima": 20889
+      "valore": 10514,
+      "prima": 20611
+     },
+     {
+      "label": "Corso Regina Margherita",
+      "valore": 25497,
+      "prima": 19954
      },
      {
       "label": "Corso Unione Sovietica",
-      "valore": 52860,
-      "prima": 19066
+      "valore": 53830,
+      "prima": 19202
      },
      {
       "label": "Corso Sebastopoli",
-      "valore": 34568,
-      "prima": 17342
+      "valore": 28273,
+      "prima": 17424
      },
      {
       "label": "Strada Di Settimo",
-      "valore": 8267,
-      "prima": 16888
+      "valore": 12280,
+      "prima": 16856
      },
      {
       "label": "SP1 delle Valli di Lanzo",
-      "valore": 7968,
-      "prima": 15886
+      "valore": 6438,
+      "prima": 15097
      },
      {
       "label": "Corso Allamano",
-      "valore": 19177,
-      "prima": 12636
+      "valore": 11620,
+      "prima": 12820
      }
     ]
    },
@@ -3654,37 +7071,57 @@ window.SCHEDE_RISULTATI = [
     "voci": [
      {
       "label": "Corso Orbassano",
-      "valore": 0,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Regina Margherita",
-      "valore": 9,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Giulio Cesare",
-      "valore": 13,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Trieste",
-      "valore": 16,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Orbassano",
-      "valore": 16,
-      "tono": "rosso"
-     },
-     {
-      "label": "R24 Raccordo Torino-Aeroporto Caselle",
-      "valore": 25,
+      "valore": 1,
       "tono": "rosso"
      },
      {
       "label": "Corso Unità d'Italia",
-      "valore": 26,
+      "valore": 2,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Regina Margherita",
+      "valore": 8,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Allamano",
+      "valore": 9,
+      "tono": "rosso"
+     },
+     {
+      "label": "Ponte Amedeo VIII",
+      "valore": 11,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Orbassano",
+      "valore": 13,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Francia",
+      "valore": 24,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Trieste",
+      "valore": 24,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Giulio Cesare",
+      "valore": 25,
+      "tono": "rosso"
+     },
+     {
+      "label": "Strada Di Settimo",
+      "valore": 27,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Regina Margherita",
+      "valore": 28,
       "tono": "rosso"
      },
      {
@@ -3693,63 +7130,53 @@ window.SCHEDE_RISULTATI = [
       "tono": "rosso"
      },
      {
-      "label": "Ponte Amedeo VIII",
-      "valore": 30,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Francia",
+      "label": "R24 Raccordo Torino-Aeroporto Caselle",
       "valore": 32,
       "tono": "rosso"
      },
      {
+      "label": "Corso Unità d'Italia",
+      "valore": 34,
+      "tono": "rosso"
+     },
+     {
       "label": "Corso Francia",
-      "valore": 45,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Vercelli",
-      "valore": 46,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Orbassano",
-      "valore": 47,
-      "tono": "rosso"
-     },
-     {
-      "label": "SP1 delle Valli di Lanzo",
-      "valore": 50,
-      "tono": "rosso"
-     },
-     {
-      "label": "Strada Di Settimo",
-      "valore": 51,
-      "tono": "rosso"
-     },
-     {
-      "label": "Corso Allamano",
-      "valore": 52,
+      "valore": 38,
       "tono": "rosso"
      },
      {
       "label": "Corso Agnelli",
-      "valore": 56,
+      "valore": 44,
       "tono": "rosso"
      },
      {
       "label": "SP8 di Druento",
+      "valore": 49,
+      "tono": "rosso"
+     },
+     {
+      "label": "SP1 delle Valli di Lanzo",
+      "valore": 57,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Vercelli",
       "valore": 61,
       "tono": "rosso"
      },
      {
       "label": "Corso Sebastopoli",
-      "valore": 99,
+      "valore": 62,
+      "tono": "rosso"
+     },
+     {
+      "label": "Corso Orbassano",
+      "valore": 63,
       "tono": "rosso"
      },
      {
       "label": "Corso Unione Sovietica",
-      "valore": 177,
+      "valore": 180,
       "tono": "rosso"
      }
     ]
@@ -3757,40 +7184,40 @@ window.SCHEDE_RISULTATI = [
   ],
   "metodo": [
    "Domanda: gli spostamenti in auto dell'indagine sugli spostamenti 2022 (residenti, giorno feriale), assegnati alla strada più veloce sulla rete di OpenStreetMap.",
-   "Taratura su 20 punti di misura dei sensori 5T: un solo fattore per tutta la città, provato togliendo un sensore alla volta e stimandolo con gli altri.",
+   "Taratura su 22 punti di misura dei sensori 5T: un solo fattore per tutta la città, provato togliendo un sensore alla volta e stimandolo con gli altri.",
    "Strade come assi: un corso che cambia nome o comune resta la stessa strada, tagliata in tratte da 300 m a 1,5 km. Strade grandi = Torino, importanza alta o strade principali, almeno 300 m, senza tangenziale e raccordi.",
    "Trasporto pubblico per posizione delle fermate, mai per nome: una tratta è servita dove c'è una fermata con almeno 4 passaggi all'ora entro 300 m (orario ufficiale, mercoledì 14/10), o la metro entro 600 m. Poco trasporto pubblico = servita per metà della lunghezza o meno.",
-   "Molto traffico = il terzo più alto delle tratte. Un modello più ricco (attrazioni, code, ZTL) è stato provato una volta e non ha migliorato l'ordine delle strade: si tiene quello semplice."
+   "Molto traffico = il terzo più alto delle tratte. Il modello è quello più ricco (attrazioni, code, ZTL): con i sensori di ottobre sbaglia meno di quello semplice (errore tipico 28% contro 38%), secondo una regola fissata prima."
   ],
   "parametri": [
    [
     "Strade grandi di Torino",
-    "540 tratte, 343,3 km"
+    "611 tratte, 372,7 km"
    ],
    [
     "Errore tipico (metà dei casi)",
-    "±38% (9 volte su 10 entro ±64%)"
+    "±28% (9 volte su 10 entro ±62%)"
    ],
    [
     "Ordine giusto delle strade (Spearman)",
-    "0,60"
+    "0,64"
    ],
    [
     "Validato tra",
-    "8.800 e 105.000 veicoli/giorno"
+    "9.000 e 107.000 veicoli/giorno"
    ],
    [
     "Soglia 'molto traffico'",
-    "11.720 veicoli/giorno"
+    "10.677 veicoli/giorno"
    ],
    [
     "Confronto con chi conosce la città",
-    "10 strade su 18 nella fascia giusta, 4 confronti su 7 (solo controllo)"
+    "11 strade su 18 nella fascia giusta, 5 confronti su 7 (solo controllo)"
    ]
   ],
   "limiti": [
-   "Stima debole: errore tipico ±38% e intervallo d'incertezza largo (da 26% a 50%). Alcune strade sono molto sbagliate (Corso Unione Sovietica, Corso Sebastopoli): buona per ordinare, non per contare.",
-   "Solo 20 punti di misura, quasi tutti su corsi trafficati: sotto circa 9.000 veicoli al giorno la stima non è verificata.",
+   "Stima debole: errore tipico ±28% e intervallo d'incertezza largo (da 24% a 38%). Alcune strade sono molto sbagliate (Corso Unione Sovietica, Corso Sebastopoli): buona per ordinare, non per contare.",
+   "Solo 22 punti di misura, quasi tutti su corsi trafficati: sotto circa 9.000 veicoli al giorno la stima non è verificata.",
    "Solo i residenti tra 11 e 84 anni (indagine sugli spostamenti): mancano merci, turisti e chi viene da fuori. Il modello non sa fare le code: l'ora di punta non è verificata.",
    "Trasporto pubblico programmato: niente ritardi né affollamento. Il centro (ZTL, aree pedonali) non è stimato bene.",
    "Il valore è per i due versi: sulle poche vie a senso unico vero potrebbe essere il doppio del reale.",
@@ -3798,9 +7225,9 @@ window.SCHEDE_RISULTATI = [
   ],
   "in_english": [
    "Question: on Turin's major roads, where is there a lot of traffic and little public transport nearby?",
-   "Of 540 road sections on Turin's major roads (343.3 km), 95.3% of the length has a frequent stop (at least 4 departures an hour) within 300 m, or the metro within 600 m. Heavy-traffic sections (over 11,720 vehicles a day): 180; of these, 5 also have little public transport.",
+   "Of 611 road sections on Turin's major roads (372.7 km), 95.6% of the length has a frequent stop (at least 4 departures an hour) within 300 m, or the metro within 600 m. Heavy-traffic sections (over 10,677 vehicles a day): 204; of these, 5 also have little public transport.",
    "In practice this is one main case: Corso Regina Margherita westbound, a fast road with no frequent stop within 300 m, plus one stretch of Corso Moncalieri covered for only a quarter of its length.",
-   "Limits: traffic figures are estimates with a typical error of ±38%; use them to rank the roads, not to count vehicles."
+   "Limits: traffic figures are estimates with a typical error of ±28%; use them to rank the roads, not to count vehicles."
   ],
   "mappa": null,
   "fonti": [
@@ -3808,10 +7235,10 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:15:31+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
-   "Traffico stimato con un modello tarato su 20 sensori: errore tipico ±38%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
+   "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
   ],
   "scenari": [
    {
@@ -3820,19 +7247,19 @@ window.SCHEDE_RISULTATI = [
      {
       "label": "Km di strade grandi di Torino",
       "prima": null,
-      "dopo": 343.3,
+      "dopo": 372.7,
       "unita": "km"
      },
      {
       "label": "Con fermate frequenti vicine",
       "prima": null,
-      "dopo": 95.3,
+      "dopo": 95.6,
       "unita": "%"
      },
      {
       "label": "Tratte con molto traffico",
       "prima": null,
-      "dopo": 180,
+      "dopo": 204,
       "unita": "tratte"
      },
      {
@@ -3844,7 +7271,7 @@ window.SCHEDE_RISULTATI = [
      {
       "label": "Errore tipico della stima",
       "prima": null,
-      "dopo": 38,
+      "dopo": 28,
       "unita": "%"
      }
     ],
@@ -3943,6 +7370,62 @@ window.SCHEDE_RISULTATI = [
     "Google conferma i tempi coi mezzi pubblici sui percorsi di controllo: 31 contro 30-35 e 33 contro 30-35 minuti."
    ],
    "altri": [
+    {
+     "tipo": "gara",
+     "titolo": "I viaggi in auto più frequenti del mattino: bus contro auto",
+     "luoghi": [
+      {
+       "nome": "Crocetta",
+       "arrivo": "Centro",
+       "bus": 20.6,
+       "auto_min": 9.4,
+       "auto_max": 12.7,
+       "giudizio": "coi mezzi da 1,6 a 2,2 volte il tempo dell'auto"
+      },
+      {
+       "nome": "San Paolo",
+       "arrivo": "Centro",
+       "bus": 31.3,
+       "auto_min": 11.3,
+       "auto_max": 16.0,
+       "giudizio": "coi mezzi da 2 a 2,8 volte il tempo dell'auto"
+      },
+      {
+       "nome": "Mirafiori Nord",
+       "arrivo": "Santa Rita",
+       "bus": 19.2,
+       "auto_min": 8.2,
+       "auto_max": 10.6,
+       "giudizio": "coi mezzi da 1,8 a 2,3 volte il tempo dell'auto"
+      },
+      {
+       "nome": "Parella",
+       "arrivo": "Centro",
+       "bus": 24.7,
+       "auto_min": 12.5,
+       "auto_max": 18.1,
+       "giudizio": "coi mezzi da 1,4 a 2 volte il tempo dell'auto"
+      },
+      {
+       "nome": "San Donato",
+       "arrivo": "Centro",
+       "bus": 18.7,
+       "auto_min": 9.0,
+       "auto_max": 12.0,
+       "giudizio": "coi mezzi da 1,6 a 2,1 volte il tempo dell'auto"
+      },
+      {
+       "nome": "Barriera di Milano",
+       "arrivo": "Falchera",
+       "bus": 24.0,
+       "auto_min": 9.8,
+       "auto_max": 13.4,
+       "giudizio": "coi mezzi da 1,8 a 2,5 volte il tempo dell'auto"
+      }
+     ],
+     "scelto": 0,
+     "nota": "I 6 viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme."
+    },
     {
      "tipo": "dispersione",
      "titolo": "Tempo in auto e tempo coi mezzi pubblici, una coppia di zone per punto",
@@ -7096,14 +10579,9 @@ window.SCHEDE_RISULTATI = [
     "Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.",
     "L'indagine è un campione. I viaggi dentro una zona e 653 coppie senza collegamento (5.616 auto) non sono nel confronto."
    ],
-   "english": [
-    "Question: for which trips is the car much faster than public transport, and how many cars make them?",
-    "Answer: in the morning public transport takes 2.0 to 2.9 times as long as the car (weighted median). For 41% to 97% of cars it takes more than twice as long.",
-    "Limit: car times lie between the slowdown measured by sensors (1.2) and by Google Maps (2.1). Without metropolitan trains, public transport looks slower than it is."
-   ],
    "extra": {
     "titolo": "Strade grandi e fermate vicine",
-    "punto": "Il 95,3% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
+    "punto": "Il 95,6% dei km di strade grandi ha una fermata frequente vicina: la fermata c'è, ma non basta.",
     "grafico": {
      "tipo": "pila",
      "titolo": "Km di strade grandi di Torino: con o senza trasporto pubblico vicino",
@@ -7111,21 +10589,20 @@ window.SCHEDE_RISULTATI = [
      "voci": [
       {
        "label": "con fermate frequenti vicine",
-       "valore": 327.3,
+       "valore": 356.3,
        "tono": "verde"
       },
       {
        "label": "con poco trasporto pubblico",
-       "valore": 16.0,
+       "valore": 16.4,
        "tono": "rosso"
       }
      ]
     }
    },
-   "area": {
+   "anima": {
     "tipo": "area",
-    "titolo": "L'area che si espande: dove si arriva in 10, 20, 30 e 45 minuti",
-    "nota": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il 42,2% dei torinesi coi mezzi pubblici e dal 98,8% al 100% in auto (due fattori di punta, parcheggio compreso)."
+    "didascalia": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il 42,2% dei torinesi coi mezzi pubblici e dal 98,8% al 100% in auto (due fattori di punta, parcheggio compreso)."
    }
   },
   "forma_en": {
@@ -7220,6 +10697,62 @@ window.SCHEDE_RISULTATI = [
     "Google confirms the public transport times on the check routes: 31 versus 30-35 and 33 versus 30-35 minutes."
    ],
    "altri": [
+    {
+     "tipo": "gara",
+     "titolo": "The most frequent morning car trips: bus versus car",
+     "luoghi": [
+      {
+       "nome": "Crocetta",
+       "arrivo": "Centro",
+       "bus": 20.6,
+       "auto_min": 9.4,
+       "auto_max": 12.7,
+       "giudizio": "by public transport 1.6 to 2.2 times the car time"
+      },
+      {
+       "nome": "San Paolo",
+       "arrivo": "Centro",
+       "bus": 31.3,
+       "auto_min": 11.3,
+       "auto_max": 16.0,
+       "giudizio": "by public transport 2 to 2.8 times the car time"
+      },
+      {
+       "nome": "Mirafiori Nord",
+       "arrivo": "Santa Rita",
+       "bus": 19.2,
+       "auto_min": 8.2,
+       "auto_max": 10.6,
+       "giudizio": "by public transport 1.8 to 2.3 times the car time"
+      },
+      {
+       "nome": "Parella",
+       "arrivo": "Centro",
+       "bus": 24.7,
+       "auto_min": 12.5,
+       "auto_max": 18.1,
+       "giudizio": "by public transport 1.4 to 2 times the car time"
+      },
+      {
+       "nome": "San Donato",
+       "arrivo": "Centro",
+       "bus": 18.7,
+       "auto_min": 9.0,
+       "auto_max": 12.0,
+       "giudizio": "by public transport 1.6 to 2.1 times the car time"
+      },
+      {
+       "nome": "Barriera di Milano",
+       "arrivo": "Falchera",
+       "bus": 24.0,
+       "auto_min": 9.8,
+       "auto_max": 13.4,
+       "giudizio": "by public transport 1.8 to 2.5 times the car time"
+      }
+     ],
+     "scelto": 0,
+     "nota": "The 6 most frequent morning car trips, each from a different area: bus and car start together."
+    },
     {
      "tipo": "dispersione",
      "titolo": "Car time and public transport time, one pair of zones per point",
@@ -10375,7 +13908,7 @@ window.SCHEDE_RISULTATI = [
    ],
    "extra": {
     "titolo": "Large roads and nearby stops",
-    "punto": "95.3% of the km of large roads have a frequent stop nearby: the stop is there, but it is not enough.",
+    "punto": "95.6% of the km of large roads have a frequent stop nearby: the stop is there, but it is not enough.",
     "grafico": {
      "tipo": "pila",
      "titolo": "Km of large roads in Turin: with or without public transport nearby",
@@ -10383,21 +13916,20 @@ window.SCHEDE_RISULTATI = [
      "voci": [
       {
        "label": "with frequent stops nearby",
-       "valore": 327.3,
+       "valore": 356.3,
        "tono": "verde"
       },
       {
        "label": "with little public transport",
-       "valore": 16.0,
+       "valore": 16.4,
        "tono": "rosso"
       }
      ]
     }
    },
-   "area": {
+   "anima": {
     "tipo": "area",
-    "titolo": "The expanding area: where you can get in 10, 20, 30 and 45 minutes",
-    "nota": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach 42.2% of residents by public transport and 98.8% to 100% by car (two rush-hour factors, parking included)."
+    "didascalia": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach 42.2% of residents by public transport and 98.8% to 100% by car (two rush-hour factors, parking included)."
    }
   },
   "numero_pubblico": 4,
@@ -10430,7 +13962,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T14:30:46+00:00",
+  "generato": "2026-10-23T18:15:32+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -10469,12 +14001,12 @@ window.SCHEDE_RISULTATI = [
   ],
   "forma": {
    "etichetta": "STIMATO / CENSIMENTO",
-   "titolo": "Circa 1 torinese su 10 vive dove la fragilità è alta e i servizi sono pochi",
+   "titolo": "Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi",
    "domanda": "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
    "numero": {
     "valore": 79598,
     "unita": "",
-    "testo": "residenti in sezioni con fragilità alta e servizi bassi: il 9,5% dei torinesi"
+    "testo": "residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate"
    },
    "principale": {
     "tipo": "dispersione",
@@ -10872,31 +14404,26 @@ window.SCHEDE_RISULTATI = [
     "Le zone OMI sono grandi: dentro una zona i prezzi e i servizi cambiano molto.",
     "L'indice di fragilità non è il reddito: misura lavoro, istruzione, affollamento e anziani."
    ],
-   "english": [
-    "Question: do homes cost more where services are plentiful, and who lives where fragility is high and services are few?",
-    "Answer: 1 Turin resident in 10 (79.598 people, 9.5%) lives where fragility is high and services are few. Price and services go together (Spearman 0.61 over 46 zones).",
-    "Limit: price quotes, not sales; one semester; large zones. The metro price gap is between zones, not a causal effect."
-   ],
    "mappa": {
     "id": "vulnerabilita",
     "nota": "Vista «Doppio svantaggio» nel tema Fragilità sociale.",
     "vista": "doppio"
    },
-   "unita": {
+   "anima": {
     "tipo": "omini",
     "totale": 10,
     "colorati": 1,
-    "didascalia": "Circa 1 torinese su 10 vive in sezioni con fragilità alta e servizi bassi (9,5% dei residenti)."
+    "didascalia": "Circa 1 torinese su 10 vive dove l'indice di fragilità sociale è alto e i servizi sono pochi (9,5% dei residenti delle zone abitate)."
    }
   },
   "forma_en": {
    "etichetta": "ESTIMATED / CENSUS",
-   "titolo": "About 1 Turin resident in 10 lives where fragility is high and services are few",
+   "titolo": "About 1 Turin resident in 10 lives in an area with more social difficulties and few services",
    "domanda": "Do people pay for services? And who lives where services are few and fragility is high?",
    "numero": {
     "valore": 79598,
     "unita": "",
-    "testo": "residents in sections with high fragility and low services: 9.5% of Turin residents"
+    "testo": "residents of areas with more social difficulties and few services: 9.5% of residents of inhabited areas"
    },
    "principale": {
     "tipo": "dispersione",
@@ -11299,11 +14826,11 @@ window.SCHEDE_RISULTATI = [
     "nota": "Vista «Doppio svantaggio» nel tema Fragilità sociale.",
     "vista": "doppio"
    },
-   "unita": {
+   "anima": {
     "tipo": "omini",
     "totale": 10,
     "colorati": 1,
-    "didascalia": "About 1 in 10 Turin residents live in sections with high fragility and low services (9.5% of residents)."
+    "didascalia": "About 1 Turin resident in 10 lives where the social fragility index is high and services are few (9.5% of residents of inhabited areas)."
    }
   },
   "numero_pubblico": 5,

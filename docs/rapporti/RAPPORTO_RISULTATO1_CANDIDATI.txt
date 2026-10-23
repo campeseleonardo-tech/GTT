@@ -1,5 +1,5 @@
 RAPPORTO RISULTATO 1 - fase B: dove aggiungere un servizio (solo Torino, STIMATO)
-generato: 2026-10-20T14:00:55+00:00
+generato: 2026-10-23T17:53:14+00:00
 cutoff a piedi: 15 min   velocita': 4.8 km/h   cluster: 400 m   max candidati: 5
 
 scuole: 2,529 residenti a zero, 24 zone candidate valutate

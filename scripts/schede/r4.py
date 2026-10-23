@@ -416,6 +416,8 @@ def forma_r4(s):
                 voce("ritardo oltre 10 minuti", c[k]["ritardo10"], tono="rosso")]} for k in ("0", "1", "2")]}
     fasce = [(f, v) for f, _, v in fasce_r4() if f != "notte"]
     nomi_f = {"punta_mattina": "punta mattino (7-9)", "giorno": "giorno (9-16)", "punta_sera": "punta sera (16-19)", "sera": "sera (19-24)"}
+    nomi_anima = {"punta_mattina": "su 100 nella punta del mattino (7-9)", "giorno": "su 100 di giorno (9-16)",
+                  "punta_sera": "su 100 nella punta della sera (16-19)", "sera": "su 100 la sera (19-24)"}
     linea = {"tipo": "linea", "titolo": "Ritardo oltre 5 minuti, per fascia oraria (feriale)", "unita": "%",
              "categorie": [nomi_f[f] for f, _ in fasce], "serie": [{"label": "passaggi in ritardo", "valori": [v for _, v in fasce]}]}
     noi_gtt = next(g for g in s["grafici"] if g["titolo"].startswith("Noi e GTT"))
@@ -435,7 +437,7 @@ def forma_r4(s):
              "grafico": dict(r9["grafici"][0], titolo="Attesa media alla fermata, per fascia oraria (feriale)")}
     return forma_base(
         s,
-        f"I ritardi gravi sono circa il {round(fer['ritardo10'])}% dei passaggi",
+        f"Circa il {round(fer['ritardo10'])}% dei passaggi arriva con più di 10 minuti di ritardo",
         "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
         {"valore": a_fer, "unita": "%", "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo"},
         pila,
@@ -456,9 +458,12 @@ def forma_r4(s):
         [f"Question: how often are GTT vehicles late or bunched? Answer: {fer['ritardo10']:.1f}% of weekday departures are more than 10 minutes late.",
          f"GTT reports {GTT_RITARDO10_2025_PCT}% for 2025. Counting only the first stop we get {b_set:.1f}%; the rest is season and method.",
          f"Limit: only {gg['0']} weekdays, {gg['1']} Saturdays and {gg['2']} Sunday of data, urban lines only, no night."],
-        unita={"tipo": "quadratini", "totale": 100, "colorati": round(fer["ritardo"]),
+        anima={"tipo": "quadratini", "totale": 100, "oltre5": fer["ritardo"], "oltre10": fer["ritardo10"],
+               "testo_tutto": "su 100 passaggi in un feriale arrivano con oltre 5 minuti di ritardo",
+               "fasi": [{"label": nomi_anima[f], "valore": v} for f, v in fasce],
+               "legenda5": "oltre 5 minuti", "legenda10": "oltre 10 minuti",
                "didascalia": f"Su 100 passaggi feriali, circa {round(fer['ritardo'])} arrivano con più di 5 minuti di ritardo ({virgola(fer['ritardo'])}%); "
-                             f"con più di 10 minuti circa {round(fer['ritardo10'])}."},
+                             f"con più di 10 minuti circa {round(fer['ritardo10'])}. Poi il giorno, fascia per fascia."},
         confronto=[f"GTT dichiara il {virgola(GTT_RITARDO10_2025_PCT)}% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
                    f"Noi misuriamo pochi giorni di ottobre sulle linee urbane: {virgola(a_set)}% a ogni fermata, {virgola(b_set)}% alla partenza.",
                    f"Anche contando come GTT alla partenza troviamo il {virgola(b_set)}%; il resto della differenza è stagione e metodo."],

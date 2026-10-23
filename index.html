@@ -33,7 +33,7 @@
   <canvas id="cMezzi" aria-hidden="true"></canvas>
   <div class="dentro">
     <h1 id="titoloHome">Torino Mobilità</h1>
-    <p class="sotto" data-en="A data-analysis project to understand how the city works.">Un progetto di analisi dei dati per capire come funziona la città.</p>
+    <p class="sotto" data-en="A project to understand how the city moves.">Un progetto per capire come si muove la città.</p>
     <p class="contatore" id="contatore" hidden></p>
     <p class="didascalia-eroe"><span class="orologio" id="orologio" aria-hidden="true">07:30</span>
       <span data-en="A typical weekday morning: every dot is a real bus or tram (GPS).">Un mattino feriale tipico: ogni puntino è un bus o un tram veri (GPS).</span></p>
@@ -69,22 +69,26 @@
 <script src="assets/sito.js"></script>
 <script>Sito.avvia();</script>
 <script src="assets/mezzi.js"></script>
+<script src="assets/gara.js"></script>
+<script src="assets/area.js"></script>
+<script src="assets/animazioni.js"></script>
 <script>
 "use strict";
 const esc = Sito.esc, formattaNumero = Sito.formattaNumero, T = Sito.T;
 const schede = (Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI : []).filter(s => s && s.forma && s.forma.numero)
   .sort((a, b) => (parseFloat(a.numero_pubblico != null ? a.numero_pubblico : a.risultato) || 99) - (parseFloat(b.numero_pubblico != null ? b.numero_pubblico : b.risultato) || 99));
 const forma = s => (Sito.lingua() === "en" && s.forma_en) ? s.forma_en : s.forma;
+const forbice = v => { const m = /^(\d+)\s*[–-]\s*(\d+)$/.exec(String(v)); return m ? ` data-forbice="${m[1]},${m[2]}"` : ""; };
 function disegna(){
   document.getElementById("riquadri").innerHTML = schede.length
     ? schede.map(s => {
         const f = forma(s), n = f.numero, num = typeof n.valore === "number";
         const suff = n.unita === "%" ? "%" : "";
         return `<a class="riquadro" href="risultati.html#p${esc(s.numero_pubblico != null ? s.numero_pubblico : s.risultato)}">
-          <img class="miniatura" src="assets/miniature/p${esc(s.numero_pubblico != null ? s.numero_pubblico : s.risultato)}.webp" alt="" width="480" height="270" loading="lazy" onerror="this.remove()">
+          ${f.anima && window.Anima ? `<div class="anteprima">${Anima.html(f.anima, {compatto: true})}</div>` : ""}
           <div class="num">${T("Risultato", "Result")} ${esc(s.numero_pubblico != null ? s.numero_pubblico : s.risultato)}</div>
           <h3>${esc(f.titolo)}</h3>
-          <div class="grande"><span class="val"${num ? ` data-valore="${n.valore}" data-suffisso="${suff}"` : ""}>${formattaNumero(n.valore)}${suff}</span>
+          <div class="grande"><span class="val"${num ? ` data-valore="${n.valore}"` : forbice(n.valore)}>${formattaNumero(n.valore)}${suff}</span>
             <span class="txt">${n.unita && n.unita !== "%" ? esc(n.unita) + " " : ""}${esc(f.numero.testo)}</span></div>
         </a>`;
       }).join("")

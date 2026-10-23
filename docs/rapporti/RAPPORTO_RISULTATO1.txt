@@ -1,5 +1,5 @@
 RAPPORTO RISULTATO 1 - fase A: dove mancano i servizi essenziali (STIMATO, a piedi)
-generato: 2026-10-21T14:13:04+00:00
+generato: 2026-10-23T17:52:22+00:00
 fonte: data/processed/accessibilita.json (giro completo 12/10/2026, [STIMATO])
 cutoff a piedi: 15 min   soglia 'pochissimo': sotto il 10% dei residenti
 

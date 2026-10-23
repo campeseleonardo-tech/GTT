@@ -153,13 +153,37 @@
   "poco di più": "a little more",
   "di più": "more",
   "non di più": "no more",
-  "Vicino alla metro non si può confrontare il prezzo: mancano zone con e senza metro a pari distanza dal centro.": "Near the metro prices cannot be compared: there are no zones with and without a metro at the same distance from the centre."
+  "Vicino alla metro non si può confrontare il prezzo: mancano zone con e senza metro a pari distanza dal centro.": "Near the metro prices cannot be compared: there are no zones with and without a metro at the same distance from the centre.",
+  "Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi?": "Can people driving in from outside find a place to leave the car near an important stop, and continue by public transport?",
+  "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro": "Existing park-and-ride sites: how full they are and how long the bus takes to the centre",
+  "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.": "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude.",
+  "Residenti delle zone abitate che hanno scuole, salute, negozi, fermate e verde a 5, 10 e 15 minuti da casa a piedi.": "Residents of inhabited areas with schools, health care, shops, stops and green space within 5, 10 and 15 minutes' walk from home.",
+  "Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi": "Turin, a 15-minute city: almost everyone has the services within a 15-minute walk",
+  "nessun parcheggio": "no car park",
+  "pochi posti": "few spaces",
+  "posti bastanti": "enough spaces",
+  "oltre 10 minuti": "over 10 minutes",
+  "oltre 5 minuti": "over 5 minutes",
+  "a metà": "half full",
+  "con posti liberi": "with free spaces",
+  "pieno di giorno": "full during the day",
+  "non misurato": "not measured",
+  "su 100 di giorno (9-16)": "in 100 during the day (9-16)",
+  "su 100 la sera (19-24)": "in 100 in the evening (19-24)",
+  "su 100 nella punta del mattino (7-9)": "in 100 in the morning rush (7-9)",
+  "su 100 nella punta della sera (16-19)": "in 100 in the evening rush (16-19)",
+  "su 100 passaggi in un feriale arrivano con oltre 5 minuti di ritardo": "in 100 weekday stop passages are more than 5 minutes late",
+  "I viaggi in auto più frequenti del mattino: bus contro auto": "The most frequent morning car trips: bus versus car"
  },
  "modelli": [
-  {"it": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il {n0}% dei torinesi coi mezzi pubblici e dal {n1}% al {n2}% in auto (due fattori di punta, parcheggio compreso).",
-   "en": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach {n0}% of residents by public transport and {n1}% to {n2}% by car (two rush-hour factors, parking included)."},
-  {"it": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: {n0} (sensori, auto veloce) e {n1} (Google, auto chiara e lenta).",
-   "en": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: {n0} (sensors, fast car) and {n1} (Google, faded slow car)."},
+  {
+   "it": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il {n0}% dei torinesi coi mezzi pubblici e dal {n1}% al {n2}% in auto (due fattori di punta, parcheggio compreso).",
+   "en": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach {n0}% of residents by public transport and {n1}% to {n2}% by car (two rush-hour factors, parking included)."
+  },
+  {
+   "it": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: {n0} (sensori, auto veloce) e {n1} (Google, auto chiara e lenta).",
+   "en": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: {n0} (sensors, fast car) and {n1} (Google, faded slow car)."
+  },
   {
    "it": "Ogni barra è un tempo a piedi: 100% dei residenti delle zone abitate (almeno {n0} abitanti per km²).",
    "en": "Each bar is a walking time: 100% of residents of inhabited areas (at least {n0} inhabitants per km²)."
@@ -559,6 +583,82 @@
   {
    "it": "Vicino alla metro le case costano {t0} ({p1} euro al m² in media, a pari distanza dal centro). Differenza fra zone, non effetto causale.",
    "en": "Near the metro homes cost {t0} ({p1} euro per m² on average, at the same distance from the centre). A difference between zones, not a causal effect."
+  },
+  {
+   "it": "{n0} fermate importanti su {n1} non hanno abbastanza posti per lasciare l'auto",
+   "en": "{n0} in {n1} important stops lack enough spaces to leave the car"
+  },
+  {
+   "it": "{n0} fermate importanti non hanno nessun parcheggio adatto vicino; {n1} ne hanno troppo pochi.",
+   "en": "{n0} important stops have no suitable car park nearby; {n1} have too few spaces."
+  },
+  {
+   "it": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, fra i due fattori di punta ({n0} e {n1}).",
+   "en": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, between the two rush-hour factors ({n0} and {n1})."
+  },
+  {
+   "it": "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei {n0} punti.",
+   "en": "Bus versus car: minutes by public transport to Piazza Castello at 8 am, versus the car including parking. Median of the {n0} points."
+  },
+  {
+   "it": "Circa {n0} torinese su {n1} vive dove l'indice di fragilità sociale è alto e i servizi sono pochi ({n2}% dei residenti delle zone abitate).",
+   "en": "About {n0} Turin resident in {n1} lives where the social fragility index is high and services are few ({n2}% of residents of inhabited areas)."
+  },
+  {
+   "it": "Circa {n0} torinese su {n1} vive in una zona con più difficoltà sociali e pochi servizi",
+   "en": "About {n0} Turin resident in {n1} lives in an area with more social difficulties and few services"
+  },
+  {
+   "it": "Circa il {n0}% dei passaggi arriva con più di 10 minuti di ritardo",
+   "en": "About {n0}% of stop passages are more than 10 minutes late"
+  },
+  {
+   "it": "Dal parcheggio, il bus batte l'auto solo se in centro si perdono più di {s0} minuti a parcheggiare.",
+   "en": "From the car park, the bus beats the car only if parking downtown takes more than {s0} minutes."
+  },
+  {
+   "it": "I {n0} viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme.",
+   "en": "The {n0} most frequent morning car trips, each from a different area: bus and car start together."
+  },
+  {
+   "it": "I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto sta fra due fattori di punta, {n0} e {n1}.",
+   "en": "Public transport times are GTT only, without trains, and only in the morning. The car lies between two rush-hour factors, {n0} and {n1}."
+  },
+  {
+   "it": "Ogni punto è una fermata importante, in Torino e in cintura; la linea è il confine di Torino. I cerchi neri sono i {n0} punti dove servirebbero di più nuovi posti.",
+   "en": "Each dot is an important stop, in Turin and the surrounding towns; the line is the city boundary. The black circles are the {n0} points where new spaces are most needed."
+  },
+  {
+   "it": "Servirebbero posti soprattutto in {n0} punti d'ingresso: il primo è {s0}, dove ne mancano circa {n1}.",
+   "en": "Spaces are needed above all at {n0} entry points: the first is {s0}, where about {n1} are missing."
+  },
+  {
+   "it": "Su 100 passaggi feriali, circa {n0} arrivano con più di 5 minuti di ritardo ({n1}%); con più di 10 minuti circa {n2}. Poi il giorno, fascia per fascia.",
+   "en": "Out of 100 weekday stop passages, about {n0} are more than 5 minutes late ({n1}%); about {n2} more than 10 minutes. Then the day, time band by time band."
+  },
+  {
+   "it": "{t0} Il punto più promettente è {s0}: lì bastano {s1} minuti persi a parcheggiare in centro.",
+   "en": "{t0} The most promising point is {s0}: there, {s1} minutes lost parking downtown are enough."
+  },
+  {
+   "it": "{t0}; {n0} contro {n1}-{n2} in auto",
+   "en": "{t0}; {n0} versus {n1}-{n2} by car"
+  },
+  {
+   "it": "coi mezzi da {n0} a {n1} volte il tempo dell'auto",
+   "en": "by public transport {n0} to {n1} times the car time"
+  },
+  {
+   "it": "fermate importanti su {n0} non hanno posti bastanti a {n1} metri a piedi",
+   "en": "important stops out of {n0} lack enough parking within {n1} metres on foot"
+  },
+  {
+   "it": "residenti in zone con più difficoltà sociali e servizi bassi: il {n0}% dei residenti delle zone abitate",
+   "en": "residents of areas with more social difficulties and few services: {n0}% of residents of inhabited areas"
+  },
+  {
+   "it": "tutti e {n0} i servizi a {n1} minuti a piedi",
+   "en": "all {n0} services within {n1} minutes on foot"
   }
  ]
 }

@@ -17,16 +17,16 @@ Un Raspberry Pi di casa raccoglie ogni minuto la posizione di bus e tram e i sen
 ## I cinque risultati
 
 <!-- RISULTATI-IT:INIZIO -->
-1. **A 15 minuti quasi tutti hanno i servizi; a 5 minuti molti meno**  
+1. **Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi**  
    Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata? → **99,2%** dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/1.html)
-2. **I ritardi gravi sono circa il 5% dei passaggi**  
-   Quanto spesso i mezzi GTT arrivano in ritardo o a coppie? → **5,44%** dei passaggi feriali arriva con oltre 10 minuti di ritardo. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
-3. **Dai parcheggi di scambio il bus vale l'auto solo se in centro si perdono 21–28 minuti a parcheggiare**  
-   Dove mancano posti per lasciare l'auto, e quando il bus da lì verso il centro è veloce quanto l'auto? → **21–28 minuti** persi in centro per parcheggiare: sotto questa soglia l'auto batte il bus (mediana dei 12 punti). [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/3.html)
+2. **Circa il 6% dei passaggi arriva con più di 10 minuti di ritardo**  
+   Quanto spesso i mezzi GTT arrivano in ritardo o a coppie? → **6,19%** dei passaggi feriali arriva con oltre 10 minuti di ritardo. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
+3. **2 fermate importanti su 3 non hanno abbastanza posti per lasciare l'auto**  
+   Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi? → **179** fermate importanti su 274 non hanno posti bastanti a 400 metri a piedi. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/3.html)
 4. **Al mattino, coi mezzi pubblici si impiega da 2 a 3 volte il tempo dell'auto**  
    Per quali spostamenti l'auto è molto più veloce dei mezzi pubblici, e quante auto li fanno? → **2–3 volte** il tempo dell'auto: rapporto mediano, pesato per le auto del mattino (220.307 auto). [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/4.html)
-5. **Circa 1 torinese su 10 vive dove la fragilità è alta e i servizi sono pochi**  
-   Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta? → **79.598** residenti in sezioni con fragilità alta e servizi bassi: il 9,5% dei torinesi. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
+5. **Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi**  
+   Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta? → **79.598** residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
 <!-- RISULTATI-IT:FINE -->
 
 Ogni numero porta la sua etichetta: **misurato** (sensori, GPS dei mezzi), **programmato** (orario ufficiale), **stimato** (calcolo mio su dati veri), **censimento**.
@@ -81,16 +81,16 @@ The site is in Italian and English (button IT/EN); the map is in Italian.
 ## The five results
 
 <!-- RISULTATI-EN:INIZIO -->
-1. **Within 15 minutes almost everyone has the services; within 5 minutes far fewer do**  
+1. **Turin, a 15-minute city: almost everyone has the services within a 15-minute walk**  
    How many people in Turin have the services within 5, 10 and 15 minutes on foot, and how many live on a busy road? → **99.2%** of residents of inhabited areas have all 5 services within a 15-minute walk. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/1.html)
-2. **Serious delays are about 5% of stop arrivals**  
-   How often are GTT vehicles late or bunched together? → **5.44%** of weekday arrivals are more than 10 minutes late. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
-3. **From park-and-ride lots the bus matches the car only if 21–28 minutes are lost parking downtown**  
-   Where is there too little room to leave the car, and when is the bus from there to the centre as fast as the car? → **21–28 minutes** lost downtown looking for parking: below this threshold the car beats the bus (median of the 12 points). [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/3.html)
+2. **About 6% of stop passages are more than 10 minutes late**  
+   How often are GTT vehicles late or bunched together? → **6.19%** of weekday arrivals are more than 10 minutes late. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/2.html)
+3. **2 in 3 important stops lack enough spaces to leave the car**  
+   Can people driving in from outside find a place to leave the car near an important stop, and continue by public transport? → **179** important stops out of 274 lack enough parking within 400 metres on foot. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/3.html)
 4. **In the morning, public transport takes 2 to 3 times as long as the car**  
    For which trips is the car much faster than public transport, and how many cars make them? → **2–3 times** the car's travel time: median ratio, weighted by morning cars (220,307 cars). [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/4.html)
-5. **About 1 Turin resident in 10 lives where fragility is high and services are few**  
-   Do people pay for services? And who lives where services are few and fragility is high? → **79,598** residents in sections with high fragility and low services: 9.5% of Turin residents. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
+5. **About 1 Turin resident in 10 lives in an area with more social difficulties and few services**  
+   Do people pay for services? And who lives where services are few and fragility is high? → **79,598** residents of areas with more social difficulties and few services: 9.5% of residents of inhabited areas. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
 <!-- RISULTATI-EN:FINE -->
 
 Every number carries a label: **measured** (sensors, vehicle GPS), **scheduled** (official timetable), **estimated** (my calculation on real data), **census**.

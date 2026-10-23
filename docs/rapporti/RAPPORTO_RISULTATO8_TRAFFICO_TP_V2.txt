@@ -1,70 +1,70 @@
 RISULTATO 8 - STRADE CON MOLTO TRAFFICO E POCO TRASPORTO PUBBLICO (Fase 5)
 ==========================================================================================
-variante del traffico: v0   classe di esito: C-DEBOLE
-accuratezza dichiarata: in meta' dei casi lo scarto e' entro +-38%; 9 volte su 10 entro +-64%. Fuori dall'intervallo validato la fascia x2.
-UNIVERSO DI TORINO: 540 tratte, 343.3 km (mediana 5,400 veic/giorno)
-lunghezza coperta dal TP (copertura_con_metro>=50%): 327.3 km (95.3%); con la sola copertura_300: 325.8 km (94.9%)
-soglie: molto traffico >= 11,720 veic/giorno (terzo piu' alto) e >= 8,845 (limite basso validato); poco TP = copertura_con_metro <= 50%
-molto traffico: 180   poco TP: 19   DA GUARDARE: 5   robuste: 2   (per corsia: 6)
+variante del traffico: v4   classe di esito: C-DEBOLE
+accuratezza dichiarata: in meta' dei casi lo scarto e' entro +-28%; 9 volte su 10 entro +-62%. Fuori dall'intervallo validato la fascia x2.
+UNIVERSO DI TORINO: 611 tratte, 372.7 km (mediana 4,355 veic/giorno)
+lunghezza coperta dal TP (copertura_con_metro>=50%): 356.3 km (95.6%); con la sola copertura_300: 354.8 km (95.2%)
+soglie: molto traffico >= 10,677 veic/giorno (terzo piu' alto) e >= 8,974 (limite basso validato); poco TP = copertura_con_metro <= 50%
+molto traffico: 204   poco TP: 21   DA GUARDARE: 5   robuste: 3   (per corsia: 7)
 
 == I 15 ASSI 'DA GUARDARE' (tratte consecutive raggruppate) ==
   #  veic/g max  +-50%  /corsia  copTP   freq corsie  nome
-  1      33,529    38%   11,176   0.50   12.0    3.0  regina margherita > asse di penetrazione urb (Torino)
-  2      13,992    38%    3,498   0.25   26.5    4.0  casale > gran madre di dio > moncalieri (Moncalieri,Torino)
+  1      31,993    28%   10,664   0.50   12.0    3.0  regina margherita > asse di penetrazione urb (Torino)
+  2      22,839    28%    5,710   0.25   26.5    4.0  casale > gran madre di dio > moncalieri (Moncalieri,Torino)
 
 == Le 10 tratte/assi con il divario maggiore (traffico alto - TP basso) ==
   #    veic/g  +-50%  /corsia  copTP cop300   freq linee  nome (quartiere) [da guardare]
-  1    80,946    38%   23,127   1.00   1.00   13.5     4  unita d italia (Q009) 
-  2    67,137    38%   22,379   1.00   1.00   25.0     9  unita d italia (Q009) 
-  3    61,741    38%   20,580   1.00   1.00   25.0     9  unita d italia (Q009) 
-  4    58,529    38%   29,265   1.00   1.00   25.0    12  achille mario dogliotti (Q009) 
-  5    33,529    38%   11,176   0.00   0.00    0.0     0  asse di penetrazione urbana di corso reg (Q015) [DA GUARDARE]
-  6    56,136    38%   23,197   1.00   1.00   31.5    11  regina margherita (Q006) 
-  7    55,744    38%   18,581   1.00   1.00   13.5     4  unita d italia (Q009) 
-  8    54,756    38%   24,336   1.00   1.00   31.5    11  regina margherita (Q006) 
-  9    52,602    38%   19,701   1.00   0.88   18.5    11  massimo d azeglio (Q002) 
- 10    36,920    38%   11,758   0.58   0.58    7.0     2  regina margherita (Q015) 
+  1    52,296    28%   17,432   1.00   1.00   25.0     9  unita d italia (Q009) 
+  2    50,881    28%   16,960   1.00   1.00   20.5     3  potenza (Q015) 
+  3    50,678    28%   17,415   1.00   1.00  149.5    34  castelfidardo (Q005) 
+  4    50,322    28%   14,175   1.00   1.00   25.0    25  orbassano (Q023) 
+  5    48,739    28%   20,140   1.00   1.00   31.5    11  regina margherita (Q006) 
+  6    48,567    28%   14,585   1.00   1.00   95.5    30  unione sovietica (Q023) 
+  7    48,358    28%   16,119   1.00   1.00   20.5     5  potenza (Q015) 
+  8    47,977    28%   14,900   1.00   1.00   95.5    29  unione sovietica (Q023) 
+  9    47,616    28%   13,605   1.00   1.00   13.5     4  unita d italia (Q009) 
+ 10    44,796    28%   18,511   1.00   1.00   25.0    24  orbassano (Q023) 
 
 == La lista non deve essere dominata da raccordi/strutture/bordo ==
   tratte da guardare con nome 'ponte/sottopasso/ecc': 0
   tratte da guardare al bordo (porta entro 1,5 km): 0 (l'universo esclude gia' le tratte non affidabili, bordo compreso)
 
 == Tre esempi spiegati ==
-  1) da guardare: asse di penetrazione urbana di corso regina margherita (Q015) - 33,529 veic/giorno +-38%, 3 corsie, 11,176/corsia, TP coperto 0% (freq max 0.0/h), linee 0
-  2) molto traffico ma TP buono: unita d italia - 80,946 veic/giorno, TP coperto 100%, freq max 13.5/h
-  3) poco traffico e poco TP: ettore stampini - 9,485 veic/giorno, TP coperto 40%
+  1) da guardare: asse di penetrazione urbana di corso regina margherita (Q015) - 31,205 veic/giorno +-28%, 3 corsie, 10,402/corsia, TP coperto 0% (freq max 0.0/h), linee 0
+  2) molto traffico ma TP buono: unita d italia - 52,296 veic/giorno, TP coperto 100%, freq max 25.0/h
+  3) poco traffico e poco TP: don luigi sturzo - 9,364 veic/giorno, TP coperto 30%
 
 == Controllo di buon senso: accordo con la conoscenza di Leo (NON taratura) ==
-  strade nella fascia giusta (A/B/C): 10 su 18 (soglie bande: A >= 11,720, B >= 1,948)
+  strade nella fascia giusta (A/B/C): 11 su 18 (soglie bande: A >= 10,677, B >= 1,264)
       cairoli            Leo A   nostro A   OK
-      palestrina         Leo B   nostro A   diverso
+      palestrina         Leo B   nostro B   OK
       agudio             Leo B   nostro A   diverso
       sturzo             Leo B   nostro A   diverso
       cosenza            Leo A   nostro A   OK
-      san massimo        Leo A   nostro A   OK
+      san massimo        Leo A   nostro B   diverso
       pollenzo           Leo B   nostro B   OK
-      pasquale paoli     Leo B   nostro B   OK
+      pasquale paoli     Leo B   nostro C   diverso
       quarto dei mille   Leo C   nostro B   diverso
       rivalta            Leo B   nostro B   OK
       fiume              Leo A   nostro B   diverso
       montebello         Leo B   nostro B   OK
-      bolzano            Leo A   nostro B   diverso
-      quintino sella     Leo B   nostro C   diverso
+      bolzano            Leo A   nostro A   OK
+      quintino sella     Leo B   nostro B   OK
       lombardia          Leo B   nostro B   OK
       racconigi          Leo A   nostro A   OK
       re umberto         Leo B   nostro A   diverso
       castello           Leo B   nostro B   OK
-  confronti giusti: 4 su 7
-      cosenza vs lione                   nostro [32188.8, 42210.5]  diverso
-      vittorio emanuele vs giulio cesare nostro [55352.0, 36807.8]  OK
-      casale vs moncalieri               nostro [34983.1, 29235.1]  OK
-      racconigi vs re umberto            nostro [31655.1, 13018.1]  OK
-      stati uniti vs duca degli abruzzi  nostro [6307.9, 24159.8]  diverso
-      vercelli vs bolzano                nostro [26244.0, 4140.3]  OK
-      agudio vs monte lungo              nostro [25461.0, 31792.4]  diverso
+  confronti giusti: 5 su 7
+      cosenza vs lione                   nostro [42390.6, 33352.7]  OK
+      vittorio emanuele vs giulio cesare nostro [49866.8, 37396.1]  OK
+      casale vs moncalieri               nostro [49064.0, 41432.8]  OK
+      racconigi vs re umberto            nostro [25021.4, 14016.7]  OK
+      stati uniti vs duca degli abruzzi  nostro [13833.1, 20103.2]  diverso
+      vercelli vs bolzano                nostro [25470.0, 18419.7]  OK
+      agudio vs monte lungo              nostro [21785.0, 28719.1]  diverso
 
 == LIMITI DA DICHIARARE OVUNQUE ==
-  - Le stime di traffico sono C-DEBOLE (errore mediano 38%): buone per ordinare, non per contare i veicoli.
+  - Le stime di traffico sono C-DEBOLE (errore mediano 28%): buone per ordinare, non per contare i veicoli.
   - I sensori 5T di Torino sono a un solo verso: la punta mattina/sera del traffico e' stimata solo per la congestione, non validata.
   - La domanda e' l'indagine IMQ 2022: solo residenti 11-84 anni, giorno feriale medio; mancano merci, turisti, non residenti.
   - L'offerta di trasporto pubblico e' quella programmata (GTFS): non tiene conto di ritardi, capienza, affollamento. Nessuna misura dei passeggeri.

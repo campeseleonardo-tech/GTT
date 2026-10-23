@@ -1,28 +1,28 @@
 RAPPORTO ESPOSIZIONE AL TRAFFICO (Piano risultati A3, STIMATO)
-generato: 2026-10-21T14:13:18+00:00
-stima debole: il modello del traffico sbaglia del ±38%
+generato: 2026-10-23T18:06:43+00:00
+stima debole: il modello del traffico sbaglia del ±28%
 
-Strade molto trafficate: 180 tratte, 139.9 km, almeno 11,720 veicoli al giorno (stessa soglia del R8; universo: strade grandi di Torino, 540 tratte).
+Strade molto trafficate: 204 tratte, 159.6 km, almeno 10,677 veicoli al giorno (stessa soglia del R8; universo: strade grandi di Torino, 611 tratte).
 Residenti: zone abitate di Torino (almeno 1,000 ab/km2), 841,980 residenti in 3,545 sezioni.
 Distanza dal centro della sezione alla tratta molto trafficata piu' vicina.
 
 RESIDENTI PER CLASSE
-  esposta (a meno di 100 m)      190,255 residenti   22.6%  (834 sezioni)
-  vicina (100-250 m)             259,977 residenti  30.88%  (1,102 sezioni)
-  lontana (oltre 250 m)          391,748 residenti  46.53%  (1,609 sezioni)
+  esposta (a meno di 100 m)      222,179 residenti  26.39%  (989 sezioni)
+  vicina (100-250 m)             265,471 residenti  31.53%  (1,133 sezioni)
+  lontana (oltre 250 m)          354,330 residenti  42.08%  (1,423 sezioni)
 
 PER CIRCOSCRIZIONE
   Per circoscrizione saltato: le sezioni di sezioni_torino.json non hanno il campo (circoscrizione, circ, cir).
 
 CONTROLLI
-  OK     ci sono tratte molto trafficate — 180
-  OK     tratte molto trafficate = quelle del R8 — qui 180, R8 180
+  OK     ci sono tratte molto trafficate — 204
+  OK     tratte molto trafficate = quelle del R8 — qui 204, R8 204
   OK     tutte le tratte hanno la geometria — senza: []
   OK     ci sono sezioni abitate — 3545
   OK     nessuna distanza negativa
   OK     tutte le distanze calcolate
   OK     somma dei residenti per classe = zone abitate — 841,980 / 841,980
   OK     somma delle sezioni per classe = zone abitate
-  OK     gli esposti sono una minoranza (sotto il 50%) — 22.6%
+  OK     gli esposti sono una minoranza (sotto il 50%) — 26.39%
 
 LIMITI: il traffico e' una stima (classe C-DEBOLE) e sostituisce rumore e smog, che non misuriamo; si guarda il centro della sezione, non le case; non contano strade fuori dall'universo del R8 (autostrade, tangenziale, strade piccole); le strade fuori Torino non sono incluse.

@@ -1,38 +1,38 @@
 VELOCITA' 5T TIPICA (solo letture affidabili)  [MISURATO]
 ========================================================================
-DB (sola lettura): C:\projects\Progetti\GTT\data\storico_backup.sqlite
-periodo (giorni locali): 2026-10-09 -> 2026-10-18
-giorni parziali esclusi (bordo del periodo): 2026-10-08, 2026-10-19
-letture affidabili usate: 242598
-letture scartate (accuratezza = 0): 61634 (14.4% di 427595 flussi)
-letture senza riga in accuratezza_5t (prima del 08/10 21:30 UTC): 122298 (28.6%)
-giorni per tipo: feriale 6, sabato 2, domenica 2
-celle (sensore x tipo x ora): 6862, di cui ok: 6662
-celle ok per tipo: feriale 2252/2266, sabato 2229/2286, domenica 2181/2310
+sorgente (sola lettura): storico SQLite, C:\projects\Progetti\GTT\data\storico_backup.sqlite
+periodo (giorni locali): 2026-10-09 -> 2026-10-22
+giorni parziali esclusi (bordo del periodo): 2026-10-08, 2026-10-23
+letture affidabili usate: 345386
+letture scartate (accuratezza = 0): 89419 (15.6% di 572075 flussi)
+letture senza riga in accuratezza_5t (prima del 08/10 21:30 UTC): 122298 (21.4%)
+giorni per tipo: feriale 10, sabato 2, domenica 2
+celle (sensore x tipo x ora): 6993, di cui ok: 6799
+celle ok per tipo: feriale 2389/2397, sabato 2229/2286, domenica 2181/2310
 
-sensori con almeno una cella ok: 97 su 112 (urbani: 28 su 33)
+sensori con almeno una cella ok: 103 su 112 (urbani: 30 su 33)
 
 -- 10 sensori urbani con piu' celle ok (velocita' feriale km/h) --
    lcd1  via                                direzione    h8   h13   h18    h3  celle ok
-  39977  Corso Agnelli(TO)                  positive   46.8  54.0  49.5  44.8  72
-  39983  Corso Allamano(TO)                 positive   45.8  48.1  48.6  44.0  72
-  40021  Corso Francia(TO)                  positive   39.4  48.9  39.7  55.5  72
-  40022  Corso Francia(TO)                  positive   42.1  42.3  42.4  50.1  72
-  40040  Corso Giulio Cesare(TO)            positive   38.4  48.5  38.6  65.2  72
-  40041  Corso Giulio Cesare(TO)            positive   40.3  48.2  38.1  43.3  72
-  40095  Corso Orbassano(TO)                positive   30.0  51.5  38.3  60.9  72
-  40097  Corso Orbassano(TO)                positive   30.8  39.6  28.4  37.9  72
-  40098  Corso Orbassano(TO)                positive   33.5  41.4  36.5  53.1  72
-  40122  Corso Regina Margherita(TO)        positive   39.8  47.5  41.4  51.7  72
+  39977  Corso Agnelli(TO)                  positive   46.5  52.9  48.2  85.3  72
+  39983  Corso Allamano(TO)                 positive   45.8  47.7  48.2  42.0  72
+  40021  Corso Francia(TO)                  positive   38.1  48.1  39.7  54.6  72
+  40022  Corso Francia(TO)                  positive   41.8  42.4  41.6  50.4  72
+  40040  Corso Giulio Cesare(TO)            positive   38.9  49.1  38.7  88.3  72
+  40041  Corso Giulio Cesare(TO)            positive   40.3  46.9  36.9  64.6  72
+  40095  Corso Orbassano(TO)                positive   28.6  51.7  37.2  60.7  72
+  40097  Corso Orbassano(TO)                positive   30.4  39.5  28.6  39.2  72
+  40098  Corso Orbassano(TO)                positive   33.0  40.6  34.7  51.6  72
+  40122  Corso Regina Margherita(TO)        positive   38.6  46.8  41.1  53.0  72
 
 -- 10 celle feriali urbane piu' lente (ok, velocita' km/h) --
-   12.0  Corso Trieste(TO)                      positive  ora 08  (lcd1 40174)
-   16.7  Corso Trieste(TO)                      positive  ora 18  (lcd1 40174)
-   21.7  Ponte Amedeo VIII(TO)                  positive  ora 18  (lcd1 40212)
-   22.0  SP8(TO) di Druento                     negative  ora 08  (lcd1 36067)
-   22.8  Ponte Amedeo VIII(TO)                  positive  ora 17  (lcd1 40212)
-   22.9  Ponte Amedeo VIII(TO)                  positive  ora 08  (lcd1 40212)
-   24.4  Corso Vercelli(TO)                     positive  ora 09  (lcd1 40194)
-   24.7  Corso Unione Sovietica(TO)             positive  ora 08  (lcd1 40182)
-   24.8  Corso Vercelli(TO)                     positive  ora 07  (lcd1 40194)
-   25.3  Corso Unione Sovietica(TO)             positive  ora 07  (lcd1 40182)
+   16.9  Corso Trieste(TO)                      positive  ora 08  (lcd1 40174)
+   21.4  Ponte Amedeo VIII(TO)                  positive  ora 08  (lcd1 40212)
+   22.1  Ponte Amedeo VIII(TO)                  positive  ora 18  (lcd1 40212)
+   23.0  Corso Trieste(TO)                      positive  ora 18  (lcd1 40174)
+   23.1  Corso Unione Sovietica(TO)             positive  ora 18  (lcd1 40182)
+   23.2  SP8(TO) di Druento                     negative  ora 08  (lcd1 36067)
+   23.5  Ponte Amedeo VIII(TO)                  positive  ora 17  (lcd1 40212)
+   23.9  Corso Vercelli(TO)                     positive  ora 09  (lcd1 40194)
+   24.2  Corso Unione Sovietica(TO)             positive  ora 16  (lcd1 40182)
+   24.4  Corso Unione Sovietica(TO)             positive  ora 08  (lcd1 40182)

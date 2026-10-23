@@ -49,7 +49,7 @@ RAPPORTO = RADICE / "docs/rapporti/RAPPORTO_ESPOSIZIONE_TRAFFICO.txt"
 RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
 
 COMUNE_TORINO = 1272
-SOGLIA_MOLTO_TRAFFICO = 11720      # veicoli/giorno, 6-21, due versi: la stessa del R8
+SOGLIA_MOLTO_TRAFFICO = 11720      # veicoli/giorno, 6-21, due versi: il valore di riserva; di norma si legge la soglia del R8 (terzo piu' alto, cambia con i dati)
 RAGGIO_ESPOSTA_M = 100.0
 RAGGIO_VICINA_M = 250.0
 SOGLIA_ABITATA = 1000              # ab/km2
@@ -97,8 +97,18 @@ def geometrie_da_csv():
     return out
 
 
-def tratte_molto_trafficate(doc):
-    """Tratte dell'universo di Torino del R8 con veic_giorno >= SOGLIA_MOLTO_TRAFFICO."""
+def soglia_r8():
+    """La soglia del R8 (universo_torino.soglie.q66 di risultato8_traffico_tp_v2.json); se il file manca, il valore di riserva."""
+    if R8.is_file():
+        try:
+            return int(json.loads(R8.read_text(encoding="utf-8"))["universo_torino"]["soglie"]["q66"])
+        except (KeyError, ValueError):
+            pass
+    return SOGLIA_MOLTO_TRAFFICO
+
+
+def tratte_molto_trafficate(doc, soglia):
+    """Tratte dell'universo di Torino del R8 con veic_giorno >= soglia."""
     tratte = doc["tratte"]
     mancano = [c for c in CAMPI_TRATTA if tratte and c not in tratte[0]]
     if mancano:
@@ -106,7 +116,7 @@ def tratte_molto_trafficate(doc):
     scelte = [o for o in tratte
               if o["comune"] == "Torino" and o["punteggio"] >= 3 and o["lunghezza_m"] >= 300 and o["affidabile"]
               and o["classe"] not in CLASSI_STRADA_ESCLUSE and o["rango"] < 5 and o["veic_giorno"] > 0]
-    return scelte, [o for o in scelte if o["veic_giorno"] >= SOGLIA_MOLTO_TRAFFICO]
+    return scelte, [o for o in scelte if o["veic_giorno"] >= soglia]
 
 
 def classe_di(d):
@@ -131,10 +141,11 @@ def main():
         if not f.is_file():
             sys.exit(f"ERRORE: manca {f}")
     doc = json.loads(TRATTE.read_text(encoding="utf-8"))
-    universo, molto = tratte_molto_trafficate(doc)
+    soglia = soglia_r8()
+    universo, molto = tratte_molto_trafficate(doc, soglia)
     fascia = round(doc["taratura"]["fascia_50"] * 100)   # «sbaglia del ±X%» in meta' dei casi
     print(f"Tratte: {len(doc['tratte'])} in tutto, {len(universo)} nell'universo di Torino, "
-          f"{len(molto)} molto trafficate (>= {SOGLIA_MOLTO_TRAFFICO:,} veicoli/giorno)")
+          f"{len(molto)} molto trafficate (>= {soglia:,} veicoli/giorno)")
     controlli("ci sono tratte molto trafficate", len(molto) > 0, bloccante=True, dettaglio=f"{len(molto)}")
     if R8.is_file():
         n_r8 = json.loads(R8.read_text(encoding="utf-8"))["conteggi"]["molto_traffico"]
@@ -202,7 +213,7 @@ def main():
         "generato": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "stimato": True,
         "avviso": avviso,
-        "parametri": {"soglia_molto_traffico_veic_giorno": SOGLIA_MOLTO_TRAFFICO, "raggio_esposta_m": RAGGIO_ESPOSTA_M,
+        "parametri": {"soglia_molto_traffico_veic_giorno": soglia, "raggio_esposta_m": RAGGIO_ESPOSTA_M,
                       "raggio_vicina_m": RAGGIO_VICINA_M, "soglia_abitata_ab_km2": SOGLIA_ABITATA,
                       "fascia_errore_pct": fascia},
         "tratte": {"molto_trafficate": len(molto), "universo_torino": len(universo), "km_molto_trafficate": round(km, 1)},
@@ -224,7 +235,7 @@ def main():
            f"generato: {esito['generato']}",
            avviso,
            "",
-           f"Strade molto trafficate: {len(molto)} tratte, {km:,.1f} km, almeno {SOGLIA_MOLTO_TRAFFICO:,} veicoli al giorno "
+           f"Strade molto trafficate: {len(molto)} tratte, {km:,.1f} km, almeno {soglia:,} veicoli al giorno "
            f"(stessa soglia del R8; universo: strade grandi di Torino, {len(universo)} tratte).",
            f"Residenti: zone abitate di Torino (almeno {SOGLIA_ABITATA:,} ab/km2), {tot['residenti']:,} residenti in {len(righe):,} sezioni.",
            "Distanza dal centro della sezione alla tratta molto trafficata piu' vicina.",

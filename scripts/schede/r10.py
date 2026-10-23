@@ -102,10 +102,10 @@ def forma_r10(s):
     nz_usate = cn["zone_usate"]
     return forma_base(
         s,
-        f"Circa 1 torinese su {n_su} vive dove la fragilità è alta e i servizi sono pochi",
+        f"Circa 1 torinese su {n_su} vive in una zona con più difficoltà sociali e pochi servizi",
         "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
         {"valore": se["residenti_doppio_svantaggio"], "unita": "",
-         "testo": f"residenti in sezioni con fragilità alta e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei torinesi"},
+         "testo": f"residenti in zone con più difficoltà sociali e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate"},
         principale,
         [f"Prezzo e servizi vanno insieme: correlazione di Spearman {pct2(e1['spearman'])} su {e1['n_zone']} zone (da {pct2(ic[0])} a {pct2(ic[1])}).",
          f"{len(zd)} zone sono in doppio svantaggio: {nomi_zd}. Ci abitano {migliaia(e2['residenti_zone_doppio_svantaggio'])} persone.",
@@ -129,7 +129,7 @@ def forma_r10(s):
          f"Answer: 1 Turin resident in {n_su} ({migliaia(se['residenti_doppio_svantaggio'])} people, {100 * se['quota_residenti_di_riferimento']:.1f}%) lives where fragility is high and services are few. "
          f"Price and services go together (Spearman {e1['spearman']:.2f} over {e1['n_zone']} zones).",
          "Limit: price quotes, not sales; one semester; large zones. The metro price gap is between zones, not a causal effect."],
-        unita={"tipo": "omini", "totale": 10, "colorati": round(10 * se["quota_residenti_di_riferimento"]),
-               "didascalia": f"Circa {round(10 * se['quota_residenti_di_riferimento'])} torinese su 10 vive in sezioni con fragilità alta e servizi bassi "
-                             f"({virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti)."},
+        anima={"tipo": "omini", "totale": 10, "colorati": round(10 * se["quota_residenti_di_riferimento"]),
+               "didascalia": f"Circa {round(10 * se['quota_residenti_di_riferimento'])} torinese su 10 vive dove l'indice di fragilità sociale è alto e i servizi sono pochi "
+                             f"({virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate)."},
         )

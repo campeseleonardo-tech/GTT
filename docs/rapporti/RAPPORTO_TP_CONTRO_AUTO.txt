@@ -1,11 +1,11 @@
 RAPPORTO TP CONTRO AUTO (Risultato 8, parte D, STIMATO)
-generato: 2026-10-21T22:03:31
+generato: 2026-10-23T19:58:05
 
 Zone IMQ con punti: 71 (zone solo «porta» escluse; 23 di Torino); fino a 5 punti per zona, i piu' pesanti.
 Tempi coi mezzi: r5py, giorno 2026-10-12, mediana delle partenze 7:45-8:15, mezzi pubblici + cammino a 4.8 km/h, massimo 120 minuti.
 Tempi in auto: rete del modello del traffico, flusso libero x fattore di punta + 5 minuti (parcheggio e cammino). Il risultato e' una FORBICE con due fattori:
-  limite ALTO del rapporto = fattore dei sensori 5T, 1.2: mediana di (velocita' media 2-5 / velocita' alle 8, feriale) su 97 sensori con dati affidabili (su 112; periodo 2026-10-09 - 2026-10-18, 6 giorni feriali);
-    distribuzione fra sensori: minimo 0.35, 1° quartile 1.08, mediana 1.16, 3° quartile 1.26, massimo 5.02.
+  limite ALTO del rapporto = fattore dei sensori 5T, 1.2: mediana di (velocita' media 2-5 / velocita' alle 8, feriale) su 102 sensori con dati affidabili (su 112; periodo 2026-10-09 - 2026-10-22, 10 giorni feriali);
+    distribuzione fra sensori: minimo 0.78, 1° quartile 1.10, mediana 1.19, 3° quartile 1.28, massimo 2.98.
   limite BASSO del rapporto = fattore da Google Maps, 2.1: mediana di (tempo Google - 5) / tempo a flusso libero sui 6 percorsi controllati a mano (1.07, 2.04, 2.29, 2.54, 2.17, 1.81); usato solo per il limite basso della forbice.
 Punti agganciati alla parte principale della rete: 2 su 363 spostati (distanza massima 169 m).
 Auto: viaggi IMQ in auto conducente, partenza 6-10, feriale. Totale fra le zone incluse: 465,534.

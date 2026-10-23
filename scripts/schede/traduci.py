@@ -93,7 +93,7 @@ def traduci(testo, mancanti=None):
 
 
 ETICHETTE = {"STIMATO": "ESTIMATED", "MISURATO": "MEASURED", "PROGRAMMATO": "SCHEDULED", "CENSIMENTO": "CENSUS", "dati scarsi": "little data"}
-SALTA = {"tipo", "tono", "link", "id", "vista", "xnome", "ynome", "mappa"}
+SALTA = {"tipo", "tono", "link", "id", "vista", "xnome", "ynome", "mappa", "contorno"}
 
 
 def _grafico_o_valore(o, mancanti):

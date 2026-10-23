@@ -1,16 +1,16 @@
 {
- "variante_finale": "v0",
+ "variante_finale": "v4",
  "classe_esito": "C-DEBOLE",
- "errore_mediano": 0.3836,
+ "errore_mediano": 0.2832,
  "ic90": [
-  0.2554,
-  0.4984
+  0.2416,
+  0.3795
  ],
- "rho_loo": 0.605,
- "rho_grezzo": 0.626,
- "n": 20,
- "k": 0.9532,
- "migliore_di_A": false,
+ "rho_loo": 0.639,
+ "rho_grezzo": 0.64,
+ "n": 22,
+ "k": 0.9796,
+ "migliore_di_A": true,
  "incerto": true,
  "varianti": {
   "v0": {
@@ -28,17 +28,17 @@
    "migliore_di_A": false
   },
   "v4": {
-   "n": 20,
-   "errore_mediano": 0.3050325254250077,
+   "n": 22,
+   "errore_mediano": 0.28316901305956954,
    "ic90": [
-    0.25490592235329307,
-    0.48340795173348
+    0.24160626806782126,
+    0.3794806184078561
    ],
-   "errore_p90": 0.6692455462669364,
-   "errore_peggiore": 1.9246012479643415,
-   "rho_loo": 0.5714285714285714,
-   "rho_grezzo": 0.5774436090225564,
-   "k_totale": 1.0069095696847667,
+   "errore_p90": 0.62133940312759,
+   "errore_peggiore": 1.8033570401095866,
+   "rho_loo": 0.6386222473178995,
+   "rho_grezzo": 0.639751552795031,
+   "k_totale": 0.9796445691732807,
    "migliore_di_A": true
   },
   "abl1": {

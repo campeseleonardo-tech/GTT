@@ -15,10 +15,10 @@
   var TESTI = {
     it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto", autoLenta: "Auto, ora di punta lenta", autoVeloce: "Auto, ora di punta veloce",
          min: "min", riparti: "Riparti", scegli: "Punto di partenza", prioritari: "Punti prioritari", interscambi: "Interscambi esistenti",
-         parlato: function(l){ return "Da " + l.nome + " a Piazza Castello: bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? "da " + n(l.auto_min) + " a " + n(l.auto_max) : n(l.auto_min)) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
+         da: "Da", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? "da " + n(l.auto_min) + " a " + n(l.auto_max) : n(l.auto_min)) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
     en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car", autoLenta: "Car, slow rush hour", autoVeloce: "Car, fast rush hour",
          min: "min", riparti: "Replay", scegli: "Starting point", prioritari: "Priority points", interscambi: "Existing park-and-ride",
-         parlato: function(l){ return "From " + l.nome + " to Piazza Castello: bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " to " + n(l.auto_max) : n(l.auto_min)) + " minutes, parking included."; }}
+         da: "From", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " to " + n(l.auto_max) : n(l.auto_min)) + " minutes, parking included."; }}
   };
   function lingua(){ return (document.documentElement.lang || "it").slice(0, 2) === "en" ? "en" : "it"; }
   function T(){ return TESTI[lingua()]; }
@@ -42,7 +42,9 @@
       + ".gara button:focus-visible,.gara select:focus-visible{outline:3px solid var(--oro,#e3bf55);outline-offset:2px}"
       + ".gara .gv{fill:var(--neu-blu,#6f8fc7)}.gara .gv.auto{fill:var(--neu-arancio,#c9a227)}.gara .gv.chiara{opacity:.5}.gara .gv-vetro{fill:var(--card,#fff);opacity:.85}"
       + ".gara .gara-strada{stroke:var(--line,#c9d1e3);stroke-width:1.5;stroke-dasharray:5 5}.gara .gara-arrivo{stroke:var(--vr-rosso,#a61e33);stroke-width:2}"
-      + ".gara text{font-family:inherit;fill:var(--muted,#5b6578);font-size:13px}.gara text.gara-min{fill:var(--ink,#1b2433);font-size:15px;font-weight:700;opacity:0}"
+      + ".gara text{font-family:inherit;fill:var(--muted,#5b6578);font-size:13px}.gara text.gara-da{fill:var(--ink,#1b2433);font-weight:700;font-size:14px}"
+      + ".gara-mini .gara-comandi,.gara-mini .gara-testo{display:none}"
+      + ".gara text.gara-min{fill:var(--ink,#1b2433);font-size:15px;font-weight:700;opacity:0}"
       + ".gara .gara-compatto select{max-width:100%}.gara .barra-ferma{fill:var(--neu-blu,#6f8fc7)}.gara .barra-ferma.auto{fill:var(--neu-arancio,#c9a227)}";
     document.head.appendChild(s);
   }
@@ -57,7 +59,7 @@
     return v;
   }
 
-  function disegna(el, dati, i){
+  function disegna(el, dati, i, fine){
     var l = dati.luoghi[i], t = T(), cs = corsie(l), H = 20 + cs.length * 36;
     var maxMin = Math.max.apply(null, cs.map(function(c){ return c.min; }));
     var righe = cs.map(function(c, j){
@@ -73,13 +75,14 @@
     }).join("");
     var svg = '<svg viewBox="0 0 480 ' + H + '" role="img" aria-label="' + esc(t.parlato(l)) + '">'
       + '<line class="gara-arrivo" x1="' + (FINE + 2) + '" x2="' + (FINE + 2) + '" y1="8" y2="' + (H - 6) + '"/>'
-      + '<text x="' + (FINE + 2) + '" y="' + 8 + '" text-anchor="end" dx="-4" style="font-size:12px">' + esc(t.centro) + '</text>' + righe + '</svg>';
+      + '<text x="' + (FINE + 2) + '" y="' + 8 + '" text-anchor="end" dx="-4" style="font-size:12px">' + esc(l.arrivo || t.centro) + '</text>'
+      + '<text x="' + VIA + '" y="8" class="gara-da">' + esc(t.da + " " + l.nome) + '</text>' + righe + '</svg>';
     el.querySelector(".gara-svg").innerHTML = svg;
     el.querySelector(".gara-testo").textContent = t.parlato(l);
-    if(!ridotto) corri(el);
+    if(!ridotto) corri(el, fine); else if(fine) fine();
   }
 
-  function corri(el){
+  function corri(el, fine){
     var carri = Array.prototype.slice.call(el.querySelectorAll(".gara-svg g.gv"));
     var etich = Array.prototype.slice.call(el.querySelectorAll(".gara-svg text.gara-min"));
     var id = ++contatore; el._corsa = id;
@@ -95,7 +98,7 @@
         etich[j].style.opacity = f >= 1 ? 1 : 0;
         if(f < 1) finito = false;
       });
-      if(!finito) requestAnimationFrame(passo);
+      if(!finito) requestAnimationFrame(passo); else if(fine) fine();
     }
     requestAnimationFrame(passo);
   }
@@ -103,8 +106,8 @@
   function html(dati){
     var base = (dati.luoghi || []).filter(function(l){ return typeof l.bus === "number" && typeof l.auto_min === "number"; });
     if(!base.length) return "";
-    var d = {luoghi: base, scelto: Math.min(dati.scelto || 0, base.length - 1), compatto: !!dati.compatto};
-    return '<div class="gara' + (d.compatto ? " gara-compatto" : "") + '" data-gara="' + esc(JSON.stringify(d)) + '"></div>';
+    var d = {luoghi: base, scelto: Math.min(dati.scelto || 0, base.length - 1), compatto: !!dati.compatto, mini: !!dati.mini, giro: !!dati.giro && base.length > 1};
+    return '<div class="gara' + (d.compatto ? " gara-compatto" : "") + (d.mini ? " gara-mini" : "") + '" data-gara="' + esc(JSON.stringify(d)) + '"></div>';
   }
 
   function avvia(el){
@@ -119,12 +122,28 @@
         + gruppi.map(function(o){ var op = o.voci.map(function(v){ return '<option value="' + v[0] + '"' + (v[0] === dati.scelto ? " selected" : "") + '>' + esc(v[1]) + '</option>'; }).join("");
             return o.g ? '<optgroup label="' + esc(o.g) + '">' + op + '</optgroup>' : op; }).join("") + '</select>';
     }
-    el.innerHTML = '<div class="gara-svg"></div><p class="gara-testo" aria-live="polite"></p><div class="gara-comandi">' + sel + '<button type="button">' + esc(t.riparti) + '</button></div>';
-    var corrente = dati.scelto;
-    disegna(el, dati, corrente);
-    var s = el.querySelector("select");
-    if(s) s.addEventListener("change", function(){ corrente = parseInt(s.value, 10); disegna(el, dati, corrente); });
-    el.querySelector("button").addEventListener("click", function(){ disegna(el, dati, corrente); });
+    el.innerHTML = '<div class="gara-svg"></div><p class="gara-testo" aria-live="polite"></p>'
+      + (dati.mini ? "" : '<div class="gara-comandi">' + sel + '<button type="button">' + esc(t.riparti) + '</button></div>');
+    var corrente = dati.scelto, s = el.querySelector("select"), giro = dati.giro && !ridotto, visibile = true;
+    // giro: finita una corsa, dopo una pausa parte quella del luogo dopo (solo mentre la gara si vede); scegliere un luogo ferma il giro
+    function prossima(){
+      if(!giro) return;
+      setTimeout(function(){
+        if(!giro || !document.body.contains(el)) return;
+        if(!visibile){ el._attesa = true; return; }
+        corrente = (corrente + 1) % dati.luoghi.length;
+        if(s) s.value = String(corrente);
+        disegna(el, dati, corrente, prossima);
+      }, 2200);
+    }
+    if("IntersectionObserver" in window) new IntersectionObserver(function(v){
+      visibile = v[0].isIntersecting;
+      if(visibile && el._attesa){ el._attesa = false; prossima(); }
+    }).observe(el);
+    disegna(el, dati, corrente, prossima);
+    if(s) s.addEventListener("change", function(){ giro = false; corrente = parseInt(s.value, 10); disegna(el, dati, corrente); });
+    var bt = el.querySelector("button");
+    if(bt) bt.addEventListener("click", function(){ disegna(el, dati, corrente, giro ? prossima : null); });
   }
 
   function scansiona(radice){

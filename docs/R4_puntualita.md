@@ -31,32 +31,32 @@
 
 ## Numeri (feriale; `docs/rapporti/RAPPORTO_RISULTATO4.txt`)
 
-Giorni usati: 6 feriali, 2 sabati, 1 domenica (10-20 ottobre 2026; esclusi 14, 18 e 21/10 per poco GPS). Copertura GPS:
-**78,3%** dei passaggi programmati delle corse viste (1.300.434 su 1.660.225); le corse mai viste dal GPS non si contano.
+Giorni usati: 8 feriali, 2 sabati, 1 domenica (10-23 ottobre 2026; esclusi 14, 18 e 19/10 per poco GPS). Copertura GPS:
+**79,5%** dei passaggi programmati delle corse viste (1.700.323 su 2.139.033); le corse mai viste dal GPS non si contano.
 
 | | GPS | Feed (confronto) |
 |---|---|---|
-| In ritardo oltre 5 minuti | **14,1%** | 5,4% |
-| In ritardo oltre 10 minuti | **5,44%** | 0,0% (la regola del feed scarta i ritardi lunghi) |
-| Grappolo + buco | **20,9%** (15,9% + 5,0%) | 10,5% |
-| Ritardo mediano | −0,1 min | |
-| Tram: oltre 5 · oltre 10 · grappolo+buco | 14,4% · 5,66% · 26,7% | 5,1% · 0,0% · 14,0% |
-| Bus: oltre 5 · oltre 10 · grappolo+buco | 14,0% · 5,38% · 17,1% | 5,5% · 0,0% · 8,4% |
+| In ritardo oltre 5 minuti | **15,6%** | 6,0% |
+| In ritardo oltre 10 minuti | **6,19%** | 0,0% (la regola del feed scarta i ritardi lunghi) |
+| Grappolo + buco | **21,6%** (16,5% + 5,1%) | 10,3% |
+| Ritardo mediano | 0,1 min | |
+| Tram: oltre 5 · oltre 10 · grappolo+buco | 15,0% · 5,98% · 26,6% | 5,2% · 0,0% · 13,3% |
+| Bus: oltre 5 · oltre 10 · grappolo+buco | 15,8% · 6,24% · 18,3% | 6,2% · 0,0% · 8,4% |
 
 - Sabato 16,8% oltre 5 minuti; domenica 12,0% (un solo giorno: [DATI SCARSI]).
-- Fasce (feriale, oltre 5 minuti): punta mattina 12,3% · giorno 15,2% · punta sera 16,8% · sera 15,6% · notte 5,7%.
-- Anticipo (oltre 1 minuto prima): circa il 38% dei passaggi, perché l'orario ufficiale ha margini.
-- **Linee peggiori per ritardo:** 17 (38,1%), 6 (36,7%), 19 (30,1%), 68, 33, 66, 61, 4, 72, 52.
-- **Più irregolari:** 14, 30, 4, 45, 17.
-- **Ritardo a fine corsa** (mediana alle ultime 3 fermate): in testa 19, 4 (tram) e 17, circa 3 minuti.
-- **Linee utili** contro le altre: 15,5% contro 11,4% in ritardo oltre 5 minuti; grappolo+buco 21,9% contro 17,2%.
+- Fasce (feriale, oltre 5 minuti): punta mattina 15,1% · giorno 15,9% · punta sera 20,4% · sera 18,1% · notte 6,0%.
+- Anticipo (oltre 1 minuto prima): circa il 36% dei passaggi, perché l'orario ufficiale ha margini.
+- **Linee peggiori per ritardo:** 17 (41,2%), 6 (37,1%), 19 (34,9%), 68, 66, 33, 72, 4, 61, 52.
+- **Più irregolari:** 14, 4, 45, 43, 12.
+- **Ritardo a fine corsa** (mediana alle ultime 3 fermate): in testa 19, 17 e 4 (tram), da 3,3 a 3,8 minuti.
+- **Linee utili** contro le altre: 17,1% contro 12,9% in ritardo oltre 5 minuti; grappolo+buco 22,8% contro 17,5%.
 - **GTT dichiara 2,3% oltre 10 minuti per il 2025**: il suo metodo non è pubblicato; qui si misura a ogni fermata con il
   GPS, su pochi giorni di ottobre. Confronto solo come ordine di grandezza.
 
 ### Confronto con GTT (oltre 10 minuti, feriale · settimana 5/1/1)
 
-GTT 2,3%. Noi: a ogni fermata 5,44% · 5,49%; solo alla prima fermata 3,86% · 3,92%; a metà corsa 5,29% · 5,24%; fuori dalle ore di punta 5,27% · 5,30%.
-Incertezza: ±1 minuto sui passaggi = 4,6-6,4% (feriale); corse senza GPS tutte puntuali o come i giorni peggiori = 4,3-5,7%. Dettaglio nella sezione «CONFRONTO CON GTT» del rapporto; JSON `confronto_gtt`.
+GTT 2,3%. Noi: a ogni fermata 6,19% · 6,02%; solo alla prima fermata 4,37% · 4,29%; a metà corsa 5,95% · 5,72%; fuori dalle ore di punta 5,74% · 5,63%.
+Incertezza: ±1 minuto sui passaggi = 5,3-7,3% (feriale); corse senza GPS tutte puntuali o come i giorni peggiori = 4,95-6,75%. Dettaglio nella sezione «CONFRONTO CON GTT» del rapporto; JSON `confronto_gtt`.
 
 ### Attese (alla fermata, linee frequenti)
 
@@ -67,11 +67,11 @@ e **alta** (una corsa assente dal GPS conta come saltata); chiavi con più del 2
 
 | Feriale | Promessa | In più (bassa – alta) | Intervalli osservati |
 |---|---|---|---|
-| Città | 4,7 min | **1,6 – 2,4 min** (+34% sulla promessa, stima bassa) | 72.420 |
-| Tram | 4,5 min | 1,8 – 2,4 min | 57.920 |
-| Bus | 5,6 min | 1,1 – 2,4 min | 14.500 |
+| Città | 4,7 min | **1,5 – 1,7 min** (+32% sulla promessa, stima bassa) | 101.309 |
+| Tram | 4,5 min | 1,6 – 1,7 min | 81.853 |
+| Bus | 5,8 min | 1,1 – 1,9 min | 19.456 |
 
-Per fascia l'attesa in più (stima bassa) va da 0,6 min (notte) a 2,1 min (punta sera).
+Per fascia l'attesa in più (stima bassa) va da 0,8 min (notte) a 2,1 min (punta sera).
 
 ## Mappa e scheda
 
