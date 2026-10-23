@@ -176,6 +176,29 @@ def scheda_r6():
 
 
 PIAZZA_CASTELLO = (45.0712, 7.6853)
+SOGLIA_BUS = 1.5   # la stessa dello script 94: rapporto massimo perché il bus «convenga»
+
+
+def giudizio_bus(r_basso, r_alto):
+    """La classe dello script 94 (stessa regola) per il rapporto tempo coi mezzi / tempo in auto con i due fattori."""
+    if r_alto is not None and r_alto <= SOGLIA_BUS:
+        return "il bus conviene"
+    if r_basso is not None and r_basso <= SOGLIA_BUS:
+        return "dipende dal traffico"
+    return "il bus non conviene"
+
+
+def ore_luogo(od, nome):
+    """Le ore del giorno di un luogo per la gara: [{ora, bus, auto_min, auto_max, giudizio}], None se i dati a più ore mancano."""
+    if not od:
+        return None
+    ore = []
+    for o in od["ore"]:
+        l = next((x for x in o["luoghi"] if x["nome"] == nome), None)
+        if l and l["tp_min"] is not None:
+            ore.append({"ora": o["label"], "bus": l["tp_min"], "auto_min": l["auto_alto_min"], "auto_max": l["auto_basso_min"],
+                        "giudizio": giudizio_bus(l["rapporto_basso"], l["rapporto_alto"])})
+    return ore if len(ore) > 1 else None
 
 
 def frazione(q, max_den=5):
@@ -245,11 +268,14 @@ def forma_r6(s):
                   "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["pareggio_basso_min"]), "prima": round(l["pareggio_alto_min"]),
                             "testo": f"{round(l['pareggio_basso_min'])}–{round(l['pareggio_alto_min'])} min"} for l in pb]}
     # gara: un bus e un'auto da ogni punto prioritario e da ogni interscambio verso Piazza Castello (tempi dallo script 94)
+    od = comune.ore_del_giorno()   # script 100: gli stessi luoghi alle altre ore (se mancano, la gara resta alle 8)
     luoghi_gara = [{"nome": nome_pulito(l["nome"]), "gruppo": "Punti prioritari" if l["tipo"] == "punto_prioritario" else "Interscambi esistenti",
-                    "bus": l["tp_min"], "auto_min": l["auto_alto_min"], "auto_max": l["auto_basso_min"], "giudizio": l["classe_testo"]}
+                    "bus": l["tp_min"], "auto_min": l["auto_alto_min"], "auto_max": l["auto_basso_min"], "giudizio": l["classe_testo"],
+                    **({"ore": ore} if (ore := ore_luogo(od, l["nome"])) else {})}
                    for l in ba["luoghi"] if l.get("tp_min") is not None]
     scelto = next((i for i, l in enumerate(luoghi_gara) if l["giudizio"].startswith("dipende")), 0)
-    gara_g = {"tipo": "gara", "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale",
+    gara_g = {"tipo": "gara", "titolo": ("La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale" if od
+                         else "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale"),
               "nota": f"Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: "
                       f"{f_ba_hi} (sensori, auto veloce) e {f_ba_lo} (Google, auto chiara e lenta).",
               "luoghi": luoghi_gara, "scelto": scelto}
@@ -284,7 +310,8 @@ def forma_r6(s):
          ["Auto da fermare", f"auto che passano × {quota}%"],
          ["Bus contro auto", f"verso Piazza Castello alle 8, auto con fattore {f_ba_hi} (sensori) e {f_ba_lo} (Google)"]],
         ["Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
-         f"I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto sta fra due fattori di punta, {f_ba_hi} e {f_ba_lo}.",
+         ("I tempi coi mezzi sono solo GTT, senza treni. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato."
+          if od else f"I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto sta fra due fattori di punta, {f_ba_hi} e {f_ba_lo}."),
          "Il costo del parcheggio in centro non è nel calcolo: pesa come minuti in più.",
          "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello."],
         anima=anima_fermate(fermate, punti, n_ok, n_pochi, n_nessun))

@@ -97,6 +97,19 @@ Perché questa misura: con la classe «1,5 volte» il risultato passava da 1 pun
 
 Regola fissata prima dei numeri, rapporto = mezzi / auto: **il bus conviene** se ≤ 1,5 con entrambi i fattori del R8 (1,2 sensori, 2,1 Google); **dipende dal traffico** se ≤ 1,5 solo col fattore basso; **non conviene** se oltre 1,5 con entrambi. Auto = flusso libero × fattore + minuti di parcheggio (5 ufficiale). Tabelle e sensibilità in testa al documento; dettagli in `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt`.
 
+### Bus contro auto a 4 ore del giorno (script 100, 23/10)
+
+Gli stessi 12 punti e 5 interscambi verso Piazza Castello alle 8:00, 13:00, 17:30 e 21:00 (scelte e ipotesi in `docs/R8_traffico.md`, sezione «Non solo all'ora di punta»).
+
+| Ora | Mezzi dai punti prioritari (mediana) | Minuti di pareggio, punti (auto lenta - veloce) | Punti: conviene / dipende / non conviene | Interscambi |
+|---|---|---|---|---|
+| 8:00 | 36,5 min | 21-28 (20,85 - 27,5) | 0 / 1 / 11 | 0 / 3 / 2 |
+| 13:00 | 35,0 min | 23-27 | 0 / 1 / 11 | 0 / 2 / 3 |
+| 17:30 | 37,5 min | 22-29 | 0 / 1 / 11 | 0 / 3 / 2 |
+| 21:00 | 34,5 min | 28 (i due fattori coincidono) | 0 / 0 / 12 | 0 / 0 / 5 |
+
+Il messaggio non cambia: il bus conviene solo dove è veloce, oggi 1 punto su 12 (Metro Massaua, solo con l'auto lenta), di giorno e alle 17:30; la sera nessuno. I mezzi dai punti prioritari la sera non impiegano di più che alle 8 (AVVISO del controllo: l'orario programmato non ha traffico).
+
 ## Mappa e scheda
 
 Tema «Parcheggi per lasciare l'auto»: fermate importanti, parcheggi adatti, punti prioritari, pannello con linee

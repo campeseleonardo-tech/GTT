@@ -44,6 +44,10 @@ data/processed/avvisi_20261009.json
 data/processed/catalogo/reti.json
 data/processed/importanza_vie.json
 data/processed/imq/
+data/processed/ore_del_giorno_parziale_0800.npz
+data/processed/ore_del_giorno_parziale_1300.npz
+data/processed/ore_del_giorno_parziale_1730.npz
+data/processed/ore_del_giorno_parziale_2100.npz
 data/processed/r6_bus_contro_auto_parziale.npz
 data/processed/rapporto_gtt/rapporto_gtt_2025.pdf
 data/processed/risultato4_gps_prova.json

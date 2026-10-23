@@ -59,7 +59,7 @@ FASI = [
     ("r6", "10 minuti", [(["25_risultato6_interscambio.py"], None), (["68_luoghi_fermate.py"], None), (["69_parcheggi_inventario.py"], None), (["71_parcheggi_riempimento.py"], None),
                          (["72_nodi_tp.py"], None), (["73_segnali_criticita.py"], None), (["81_auto_di_passaggio.py"], None), (["88_confronto_auto_sensori.py"], None),
                          (["82_parcheggi_adatti.py"], None), (["87_popolarita_zone.py"], None), (["83_fermate_importanti.py"], None), (["84_risultato6_parcheggi.py"], None),
-                         (["94_r6_bus_contro_auto.py"], None), (["79_dati_mappa_r6.py"], None), (["85_verifiche_correzioni.py"], None)]),
+                         (["94_r6_bus_contro_auto.py"], None), (["100_ore_del_giorno.py"], "bus contro auto a 4 ore del giorno (r5py, dopo 93 e 94)"), (["79_dati_mappa_r6.py"], None), (["85_verifiche_correzioni.py"], None)]),
     ("r10", "pochi minuti", [(["95_case_fragilita_servizi.py"], None)]),
     ("schede", "1 minuto", [(["schede_risultati.py"], "scrive anche data/home_mezzi.js, data/progetto.js, data/area_tempi.js e le pagine r/N.html")]),
     ("mappa", "1-2 minuti", [(["04_genera_mappa.py"], None)]),

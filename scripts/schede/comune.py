@@ -25,6 +25,16 @@ def leggi(nome):
     return json.loads((PROC / nome).read_text(encoding="utf-8"))
 
 
+def ore_del_giorno():
+    """I risultati dello script 100 (bus contro auto a 4 ore del giorno), oppure None se mancano o sono di prova/campione:
+    le schede 3 e 4 restano allora solo alle 8."""
+    f = PROC / "ore_del_giorno.json"
+    if not f.is_file():
+        return None
+    d = json.loads(f.read_text(encoding="utf-8"))
+    return None if (d.get("prova") or d.get("campione")) else d
+
+
 
 
 def num(label, dopo, unita, prima=None):
@@ -138,7 +148,7 @@ def controlla_forma(nome, f):
         for frase in re.split(r"(?<=[a-zA-ZàèéìòùÀ%)\]»])[.;:] +(?=[A-ZÈÀ])", t):
             if len(frase.split()) > 20:
                 print(f"  ATTENZIONE {nome}: frase di {len(frase.split())} parole: «{frase[:70]}…»")
-    if len(f["punti"]) != 3 or len(f["limiti"]) > 4 or len(f["altri"]) > 3 or len(f["calcolo"]) > 5:
+    if len(f["punti"]) != 3 or len(f["limiti"]) > 4 or len(f["altri"]) > 4 or len(f["calcolo"]) > 5:
         print(f"  ATTENZIONE {nome}: numero di righe fuori misura")
 
 

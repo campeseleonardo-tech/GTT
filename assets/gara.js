@@ -2,6 +2,9 @@
    La durata e' proporzionale ai minuti veri (1 minuto vero = 0,15 secondi). L'auto ha una forbice: due auto, una col fattore
    di punta dei sensori (veloce) e una col fattore di Google (lenta, chiara). Nessun numero e' scritto qui: tutto arriva dai dati.
 
+   Un luogo puo' avere anche «ore»: [{ora: "8:00", bus, auto_min, auto_max, giudizio}, ...]: la gara le corre una dopo l'altra (l'ora e' scritta sopra la corsa
+   e nella frase per il lettore di schermo); con «mini» e con «riduci movimento» si vede solo la prima.
+
    Uso (scheda dei risultati e pannello della mappa, stesso componente):
      contenitore.innerHTML = Gara.html({luoghi: [{nome, gruppo, bus, auto_min, auto_max, giudizio}], scelto: 0, compatto: false});
    Il disegno parte da solo quando il contenitore compare nella pagina (MutationObserver), quindi basta inserire l'html.
@@ -13,12 +16,12 @@
   var contatore = 0;
 
   var TESTI = {
-    it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto", autoLenta: "Auto, ora di punta lenta", autoVeloce: "Auto, ora di punta veloce",
+    it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto", autoLenta: "Auto, ora di punta lenta", autoVeloce: "Auto, ora di punta veloce", autoLentaOra: "Auto, traffico pesante", autoVeloceOra: "Auto, traffico scorrevole",
          min: "min", riparti: "Riparti", scegli: "Punto di partenza", prioritari: "Punti prioritari", interscambi: "Interscambi esistenti",
-         da: "Da", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? "da " + n(l.auto_min) + " a " + n(l.auto_max) : n(l.auto_min)) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
-    en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car", autoLenta: "Car, slow rush hour", autoVeloce: "Car, fast rush hour",
+         da: "Da", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + (l.ora ? " alle " + l.ora : "") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? "da " + n(l.auto_min) + " a " + n(l.auto_max) : n(l.auto_min)) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
+    en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car", autoLenta: "Car, slow rush hour", autoVeloce: "Car, fast rush hour", autoLentaOra: "Car, heavy traffic", autoVeloceOra: "Car, light traffic",
          min: "min", riparti: "Replay", scegli: "Starting point", prioritari: "Priority points", interscambi: "Existing park-and-ride",
-         da: "From", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " to " + n(l.auto_max) : n(l.auto_min)) + " minutes, parking included."; }}
+         da: "From", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + (l.ora ? " at " + l.ora : "") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " to " + n(l.auto_max) : n(l.auto_min)) + " minutes, parking included."; }}
   };
   function lingua(){ return (document.documentElement.lang || "it").slice(0, 2) === "en" ? "en" : "it"; }
   function T(){ return TESTI[lingua()]; }
@@ -53,14 +56,20 @@
   function corsie(l){
     var t = T(), v = [{k: "bus", nome: t.bus, min: l.bus, forma: BUS}];
     if(forbice(l)){
-      v.push({k: "auto", nome: t.autoVeloce, min: l.auto_min, forma: AUTO});
-      v.push({k: "auto chiara", nome: t.autoLenta, min: l.auto_max, forma: AUTO});
+      v.push({k: "auto", nome: l.ora ? t.autoVeloceOra : t.autoVeloce, min: l.auto_min, forma: AUTO});
+      v.push({k: "auto chiara", nome: l.ora ? t.autoLentaOra : t.autoLenta, min: l.auto_max, forma: AUTO});
     } else v.push({k: "auto", nome: t.auto, min: l.auto_min, forma: AUTO});
     return v;
   }
 
-  function disegna(el, dati, i, fine){
-    var l = dati.luoghi[i], t = T(), cs = corsie(l), H = 20 + cs.length * 36;
+  function disegna(el, dati, i, fine, k){
+    var l0 = dati.luoghi[i], k0 = k || 0, ore = (!dati.mini && !ridotto && l0.ore && l0.ore.length > 1) ? l0.ore : null;
+    var l = l0;
+    if(l0.ore && l0.ore.length){   // un'ora alla volta: i campi dell'ora coprono quelli del luogo
+      l = {}; Object.keys(l0).forEach(function(q){ l[q] = l0[q]; });
+      var o = l0.ore[Math.min(k0, l0.ore.length - 1)]; Object.keys(o).forEach(function(q){ l[q] = o[q]; });
+    }
+    var t = T(), cs = corsie(l), H = 20 + cs.length * 36;
     var maxMin = Math.max.apply(null, cs.map(function(c){ return c.min; }));
     var righe = cs.map(function(c, j){
       var y = 22 + j * 36;
@@ -76,10 +85,16 @@
     var svg = '<svg viewBox="0 0 480 ' + H + '" role="img" aria-label="' + esc(t.parlato(l)) + '">'
       + '<line class="gara-arrivo" x1="' + (FINE + 2) + '" x2="' + (FINE + 2) + '" y1="8" y2="' + (H - 6) + '"/>'
       + '<text x="' + (FINE + 2) + '" y="' + 8 + '" text-anchor="end" dx="-4" style="font-size:12px">' + esc(l.arrivo || t.centro) + '</text>'
-      + '<text x="' + VIA + '" y="8" class="gara-da">' + esc(t.da + " " + l.nome) + '</text>' + righe + '</svg>';
+      + '<text x="' + VIA + '" y="8" class="gara-da">' + esc(t.da + " " + l.nome + (l.ora && l0.ore.length > 1 ? " · " + l.ora : "")) + '</text>' + righe + '</svg>';
     el.querySelector(".gara-svg").innerHTML = svg;
     el.querySelector(".gara-testo").textContent = t.parlato(l);
-    if(!ridotto) corri(el, fine); else if(fine) fine();
+    // ore: finita la corsa di un'ora, dopo una pausa parte quella dell'ora dopo; l'ultima chiama fine
+    var dopo = fine;
+    if(ore && k0 + 1 < ore.length) dopo = function(){
+      var mio = el._corsa;
+      setTimeout(function(){ if(el._corsa === mio && document.body.contains(el)) disegna(el, dati, i, fine, k0 + 1); }, 1100);
+    };
+    if(!ridotto) corri(el, dopo); else if(fine) fine();
   }
 
   function corri(el, fine){

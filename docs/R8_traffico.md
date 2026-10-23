@@ -98,6 +98,22 @@ Per gruppo (basso | alto). Cintura-cintura è a parte: mancano treni e altre azi
 | (ab) principale: Torino-Torino e Torino-cintura | 1,96 | 2,94 | 41,4% | 97,0% |
 | (c) cintura-cintura | 2,23 | 3,49 | 78,8% | 100,0% |
 
+### Non solo all'ora di punta: 4 ore del giorno (script 100, 23/10)
+
+Stesso confronto alle 8:00, 13:00, 17:30 e 21:00 di un feriale (partenza 7:45, 12:45, 17:15, 20:45, finestra di 30 minuti, mediana). Auto = flusso libero × fattore dell'ora + 5 minuti.
+Fattore alto = rallentamento misurato dai sensori 5T (mediana di velocità 2-5 / velocità all'ora); fattore basso = quello di Google (2,1, noto solo alle 8) **scalato nello stesso rapporto**
+(`1 + 1,1 × (f(h) − 1) / 0,2`, mai sotto 1): **è un'ipotesi**. Regola del titolo fissata prima: «a ogni ora» solo se il rapporto mediano resta entro ±0,3 da quello delle 8 con tutti e due i fattori (non è il caso: alle 13:00 con il fattore basso è +0,41).
+
+| Ora | Fattore sensori | Fattore Google scalato | Rapporto mediano (auto lenta - veloce) | Auto con rapporto oltre 2 | Auto senza collegamento |
+|---|---|---|---|---|---|
+| 8:00 | 1,2 | 2,1 | 1,96 - 2,94 | 41% - 97% | 5.616 |
+| 13:00 | 1,1 | 1,6 | 2,37 - 3,10 | 89% - 98% | 4.810 |
+| 17:30 | 1,2 | 2,1 | 2,01 - 3,02 | 52% - 97% | 6.095 |
+| 21:00 | 1,0 | 1,0 | 3,32 - 3,32 | 100% - 100% | 9.511 |
+
+Di giorno e di sera l'auto è più veloce (meno traffico) e i mezzi restano lenti: il rapporto sale. Alle 8 i numeri coincidono con quelli degli script 93 e 94 (controllo dello script 100).
+Rifare: `python scripts/100_ore_del_giorno.py` (circa 3-4 minuti dopo 93 e 94; `--campione 10` e `--prova` per provare); è nella fase «r6» di `rifai_tutto.py`.
+
 ## Limiti
 
 - Stima debole; senza un sensore sull'asse la classifica mette in cima strade poco credibili (corso Dogliotti circa
@@ -106,6 +122,7 @@ Per gruppo (basso | alto). Cintura-cintura è a parte: mancano treni e altre azi
   versi); la notte è inaffidabile e l'ora di punta non è validata.
 - Domanda IMQ 2022: solo residenti 11-84 anni, feriale medio; mancano merci, turisti, pendolari da fuori.
 - TP programmato: niente ritardi né affollamento. Il centro (ZTL, pedonali) non è stimato bene.
+- Alle ore diverse dalle 8 il rallentamento dell'auto dei sensori è misurato, quello di Google è scalato (ipotesi); un solo giorno di GTFS (12/10).
 - Convenzione a due versi: ogni tratto OSM a senso unico vale ×2, quindi il doppio del reale sulle vie a senso unico
   vere (al massimo 47 tratte, 24 km).
 - `tratte_traffico.json` dice 539 tratte / 342,8 km, `risultato8_traffico_tp_v2.json` 540 / 343,3 (giri diversi dello
@@ -119,6 +136,7 @@ Per gruppo (basso | alto). Cintura-cintura è a parte: mancano treni e altre azi
 | 33-48, `rete_osm.py` | flusso per sensore, esclusioni, abbinamento, modello della domanda sulla rete |
 | 56-67 | assi e tratte, corsie, ZTL, TP per posizione, valutazione finale |
 | `schede_risultati.py` (`scheda_r8`) | scheda con errore % per sensore |
+| 100 | lo stesso confronto a 4 ore del giorno (8, 13, 17:30, 21) → `ore_del_giorno.json` |
 | 93 | tempo coi mezzi contro auto fra zone IMQ: forbice con due fattori di punta → `tp_contro_auto.json` (si rifà in circa 1 minuto) |
 | 99 | «area che si espande» (scheda 4): da Piazza Castello a ogni sezione di Torino, coi mezzi (r5py) e in auto (rete del modello, gli stessi due fattori del 93); zona-zona di Torino ricopiata dal 93 → `area_tempi.json` → `data/area_tempi.js` (`scripts\AREA_TEMPI.bat`; `--finto` per provare la pagina senza dati) |
 

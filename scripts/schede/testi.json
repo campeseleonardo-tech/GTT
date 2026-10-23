@@ -173,7 +173,14 @@
   "su 100 nella punta del mattino (7-9)": "in 100 in the morning rush (7-9)",
   "su 100 nella punta della sera (16-19)": "in 100 in the evening rush (16-19)",
   "su 100 passaggi in un feriale arrivano con oltre 5 minuti di ritardo": "in 100 weekday stop passages are more than 5 minutes late",
-  "I viaggi in auto più frequenti del mattino: bus contro auto": "The most frequent morning car trips: bus versus car"
+  "I viaggi in auto più frequenti del mattino: bus contro auto": "The most frequent morning car trips: bus versus car",
+  "La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale": "The race: bus and car from a point to Piazza Castello, at 8 a.m., 1 p.m., 5:30 p.m. and 9 p.m. on a weekday",
+  "I tempi coi mezzi sono solo GTT, senza treni. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato.": "Public transport times are GTT only, without trains. The car slowdown at the other hours comes from the sensors. Google's is known only at 8 a.m. and has been scaled.",
+  "La nostra rete stradale non conta semafori e incroci. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato.": "Our road network ignores traffic lights and junctions. The car slowdown at the other hours comes from the sensors. Google's is known only at 8 a.m. and has been scaled.",
+  "Quante volte il tempo dell'auto, ora per ora": "How many times the car time, hour by hour",
+  "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. Due linee: auto lenta (fattore di Google scalato) e auto veloce (sensori).": "Median ratio of public transport time to car time, weighted by morning cars, at 4 hours of the day. Two lines: slow car (scaled Google factor) and fast car (sensors).",
+  "auto lenta": "slow car",
+  "auto veloce": "fast car"
  },
  "modelli": [
   {
@@ -659,6 +666,22 @@
   {
    "it": "tutti e {n0} i servizi a {n1} minuti a piedi",
    "en": "all {n0} services within {n1} minutes on foot"
+  },
+  {
+   "it": "Nel giorno il rapporto mediano va da {n0} a {n1} (auto lenta) e da {n2} a {n3} (auto veloce).",
+   "en": "During the day the median ratio goes from {n0} to {n1} (slow car) and from {n2} to {n3} (fast car)."
+  },
+  {
+   "it": "I {n0} viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme. Poi gli stessi viaggi alle 13, alle 17:30 e alle 21.",
+   "en": "The {n0} most frequent morning car trips, each from a different area: bus and car start together. Then the same trips at 1 p.m., 5:30 p.m. and 9 p.m."
+  },
+  {
+   "it": "A ogni ora del giorno, coi mezzi pubblici si impiega da {n0} a {n1} volte il tempo dell'auto",
+   "en": "At every hour of the day, public transport takes {n0} to {n1} times as long as the car"
+  },
+  {
+   "it": "coi mezzi circa {n0} volte il tempo dell'auto",
+   "en": "by public transport about {n0} times the car time"
   }
  ]
 }

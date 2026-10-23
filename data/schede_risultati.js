@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T18:15:31+00:00",
+  "generato": "2026-10-23T18:30:57+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1356,7 +1356,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T18:15:31+00:00",
+  "generato": "2026-10-23T18:30:57+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-23: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -2588,7 +2588,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T18:15:31+00:00",
+  "generato": "2026-10-23T18:30:57+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2724,7 +2724,7 @@ window.SCHEDE_RISULTATI = [
    "altri": [
     {
      "tipo": "gara",
-     "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale",
+     "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale",
      "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (sensori, auto veloce) e 2,1 (Google, auto chiara e lenta). Il punto più promettente è Metro Massaua: lì bastano 7–15 minuti persi a parcheggiare in centro.",
      "luoghi": [
       {
@@ -2733,7 +2733,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 36.0,
        "auto_min": 13.7,
        "auto_max": 20.2,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 36.0,
+         "auto_min": 13.7,
+         "auto_max": 20.2,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 35.0,
+         "auto_min": 12.9,
+         "auto_max": 16.6,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 37.0,
+         "auto_min": 13.7,
+         "auto_max": 20.2,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 36.0,
+         "auto_min": 12.2,
+         "auto_max": 12.2,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Metro Massaua",
@@ -2741,7 +2771,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 25.0,
        "auto_min": 15.1,
        "auto_max": 22.7,
-       "giudizio": "dipende dal traffico"
+       "giudizio": "dipende dal traffico",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 25.0,
+         "auto_min": 15.1,
+         "auto_max": 22.7,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "13:00",
+         "bus": 25.0,
+         "auto_min": 14.3,
+         "auto_max": 18.5,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "17:30",
+         "bus": 25.0,
+         "auto_min": 15.1,
+         "auto_max": 22.7,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "21:00",
+         "bus": 27.0,
+         "auto_min": 13.4,
+         "auto_max": 13.4,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Ponte Cavalieri Templari",
@@ -2749,7 +2809,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 51.0,
        "auto_min": 18.2,
        "auto_max": 28.0,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 51.0,
+         "auto_min": 18.2,
+         "auto_max": 28.0,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 49.0,
+         "auto_min": 17.1,
+         "auto_max": 22.5,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 49.0,
+         "auto_min": 18.2,
+         "auto_max": 28.0,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 47.0,
+         "auto_min": 16.0,
+         "auto_max": 16.0,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Regina Margherita",
@@ -2757,7 +2847,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.0,
        "auto_min": 11.6,
        "auto_max": 16.6,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 31.0,
+         "auto_min": 11.6,
+         "auto_max": 16.6,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 31.0,
+         "auto_min": 11.1,
+         "auto_max": 13.8,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 30.0,
+         "auto_min": 11.6,
+         "auto_max": 16.6,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 31.0,
+         "auto_min": 10.5,
+         "auto_max": 10.5,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Pasini",
@@ -2765,7 +2885,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 28.0,
        "auto_min": 12.1,
        "auto_max": 17.4,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 28.0,
+         "auto_min": 12.1,
+         "auto_max": 17.4,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 26.0,
+         "auto_min": 11.5,
+         "auto_max": 14.4,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 28.0,
+         "auto_min": 12.1,
+         "auto_max": 17.4,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 24.0,
+         "auto_min": 10.9,
+         "auto_max": 10.9,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Leonardo Da Vinci",
@@ -2773,7 +2923,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 59.0,
        "auto_min": 19.9,
        "auto_max": 31.1,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 59.0,
+         "auto_min": 19.9,
+         "auto_max": 31.1,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 58.0,
+         "auto_min": 18.7,
+         "auto_max": 24.9,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 60.0,
+         "auto_min": 19.9,
+         "auto_max": 31.1,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 61.0,
+         "auto_min": 17.4,
+         "auto_max": 17.4,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Drosso Cap",
@@ -2781,7 +2961,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 43.0,
        "auto_min": 17.4,
        "auto_max": 26.7,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 43.0,
+         "auto_min": 17.4,
+         "auto_max": 26.7,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 43.0,
+         "auto_min": 16.4,
+         "auto_max": 21.6,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 44.0,
+         "auto_min": 17.4,
+         "auto_max": 26.7,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 49.0,
+         "auto_min": 15.3,
+         "auto_max": 15.3,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Stura Lazio",
@@ -2789,7 +2999,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 37.0,
        "auto_min": 14.3,
        "auto_max": 21.3,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 37.0,
+         "auto_min": 14.3,
+         "auto_max": 21.3,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 35.0,
+         "auto_min": 13.6,
+         "auto_max": 17.5,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 38.0,
+         "auto_min": 14.3,
+         "auto_max": 21.3,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 33.0,
+         "auto_min": 12.8,
+         "auto_max": 12.8,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Marsè",
@@ -2797,7 +3037,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 61.0,
        "auto_min": 23.2,
        "auto_max": 36.8,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 61.0,
+         "auto_min": 23.2,
+         "auto_max": 36.8,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 55.0,
+         "auto_min": 21.7,
+         "auto_max": 29.2,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 59.0,
+         "auto_min": 23.2,
+         "auto_max": 36.8,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 54.0,
+         "auto_min": 20.1,
+         "auto_max": 20.1,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Derna Est",
@@ -2805,7 +3075,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 34.0,
        "auto_min": 13.8,
        "auto_max": 20.4,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 34.0,
+         "auto_min": 13.8,
+         "auto_max": 20.4,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 31.0,
+         "auto_min": 13.0,
+         "auto_max": 16.7,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 32.0,
+         "auto_min": 13.8,
+         "auto_max": 20.4,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 31.0,
+         "auto_min": 12.3,
+         "auto_max": 12.3,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Ferrara",
@@ -2813,7 +3113,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 49.0,
        "auto_min": 19.9,
        "auto_max": 31.0,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 49.0,
+         "auto_min": 19.9,
+         "auto_max": 31.0,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 46.0,
+         "auto_min": 18.6,
+         "auto_max": 24.8,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 49.0,
+         "auto_min": 19.9,
+         "auto_max": 31.0,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 49.0,
+         "auto_min": 17.4,
+         "auto_max": 17.4,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Zara",
@@ -2821,7 +3151,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 33.0,
        "auto_min": 11.9,
        "auto_max": 17.1,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 33.0,
+         "auto_min": 11.9,
+         "auto_max": 17.1,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 32.0,
+         "auto_min": 11.3,
+         "auto_max": 14.2,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 34.0,
+         "auto_min": 11.9,
+         "auto_max": 17.1,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 33.0,
+         "auto_min": 10.8,
+         "auto_max": 10.8,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Stura",
@@ -2829,7 +3189,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 39.0,
        "auto_min": 17.3,
        "auto_max": 26.6,
-       "giudizio": "dipende dal traffico"
+       "giudizio": "dipende dal traffico",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 39.0,
+         "auto_min": 17.3,
+         "auto_max": 26.6,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "13:00",
+         "bus": 36.0,
+         "auto_min": 16.3,
+         "auto_max": 21.4,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 36.0,
+         "auto_min": 17.3,
+         "auto_max": 26.6,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "21:00",
+         "bus": 36.0,
+         "auto_min": 15.3,
+         "auto_max": 15.3,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Venchi Unica",
@@ -2837,7 +3227,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 28.0,
        "auto_min": 16.0,
        "auto_max": 24.2,
-       "giudizio": "dipende dal traffico"
+       "giudizio": "dipende dal traffico",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 28.0,
+         "auto_min": 16.0,
+         "auto_max": 24.2,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "13:00",
+         "bus": 28.0,
+         "auto_min": 15.1,
+         "auto_max": 19.7,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "17:30",
+         "bus": 28.0,
+         "auto_min": 16.0,
+         "auto_max": 24.2,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "21:00",
+         "bus": 30.0,
+         "auto_min": 14.2,
+         "auto_max": 14.2,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Caio Mario",
@@ -2845,7 +3265,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 38.0,
        "auto_min": 16.0,
        "auto_max": 24.3,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 38.0,
+         "auto_min": 16.0,
+         "auto_max": 24.3,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 38.0,
+         "auto_min": 15.1,
+         "auto_max": 19.7,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 39.0,
+         "auto_min": 16.0,
+         "auto_max": 24.3,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 45.0,
+         "auto_min": 14.2,
+         "auto_max": 14.2,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Fermi",
@@ -2853,7 +3303,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.0,
        "auto_min": 18.6,
        "auto_max": 28.9,
-       "giudizio": "dipende dal traffico"
+       "giudizio": "dipende dal traffico",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 31.0,
+         "auto_min": 18.6,
+         "auto_max": 28.9,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "13:00",
+         "bus": 31.0,
+         "auto_min": 17.5,
+         "auto_max": 23.2,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "17:30",
+         "bus": 31.0,
+         "auto_min": 18.6,
+         "auto_max": 28.9,
+         "giudizio": "dipende dal traffico"
+        },
+        {
+         "ora": "21:00",
+         "bus": 33.0,
+         "auto_min": 16.4,
+         "auto_max": 16.4,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       },
       {
        "nome": "Sofia",
@@ -2861,7 +3341,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 33.0,
        "auto_min": 13.3,
        "auto_max": 19.6,
-       "giudizio": "il bus non conviene"
+       "giudizio": "il bus non conviene",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 33.0,
+         "auto_min": 13.3,
+         "auto_max": 19.6,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "13:00",
+         "bus": 31.0,
+         "auto_min": 12.6,
+         "auto_max": 16.1,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "17:30",
+         "bus": 33.0,
+         "auto_min": 13.3,
+         "auto_max": 19.6,
+         "giudizio": "il bus non conviene"
+        },
+        {
+         "ora": "21:00",
+         "bus": 28.0,
+         "auto_min": 12.0,
+         "auto_max": 12.0,
+         "giudizio": "il bus non conviene"
+        }
+       ]
       }
      ],
      "scelto": 1
@@ -3007,7 +3517,7 @@ window.SCHEDE_RISULTATI = [
    ],
    "limiti": [
     "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
-    "I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto sta fra due fattori di punta, 1,2 e 2,1.",
+    "I tempi coi mezzi sono solo GTT, senza treni. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato.",
     "Il costo del parcheggio in centro non è nel calcolo: pesa come minuti in più.",
     "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello."
    ],
@@ -4839,7 +5349,7 @@ window.SCHEDE_RISULTATI = [
    "altri": [
     {
      "tipo": "gara",
-     "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m. on a weekday",
+     "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m., 1 p.m., 5:30 p.m. and 9 p.m. on a weekday",
      "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (sensors, fast car) and 2.1 (Google, faded slow car). The most promising point is Metro Massaua: there, 7–15 minutes lost parking downtown are enough.",
      "luoghi": [
       {
@@ -4848,7 +5358,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 36.0,
        "auto_min": 13.7,
        "auto_max": 20.2,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 36.0,
+         "auto_min": 13.7,
+         "auto_max": 20.2,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 35.0,
+         "auto_min": 12.9,
+         "auto_max": 16.6,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 37.0,
+         "auto_min": 13.7,
+         "auto_max": 20.2,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 36.0,
+         "auto_min": 12.2,
+         "auto_max": 12.2,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Metro Massaua",
@@ -4856,7 +5396,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 25.0,
        "auto_min": 15.1,
        "auto_max": 22.7,
-       "giudizio": "depends on traffic"
+       "giudizio": "depends on traffic",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 25.0,
+         "auto_min": 15.1,
+         "auto_max": 22.7,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "13:00",
+         "bus": 25.0,
+         "auto_min": 14.3,
+         "auto_max": 18.5,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "17:30",
+         "bus": 25.0,
+         "auto_min": 15.1,
+         "auto_max": 22.7,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "21:00",
+         "bus": 27.0,
+         "auto_min": 13.4,
+         "auto_max": 13.4,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Ponte Cavalieri Templari",
@@ -4864,7 +5434,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 51.0,
        "auto_min": 18.2,
        "auto_max": 28.0,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 51.0,
+         "auto_min": 18.2,
+         "auto_max": 28.0,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 49.0,
+         "auto_min": 17.1,
+         "auto_max": 22.5,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 49.0,
+         "auto_min": 18.2,
+         "auto_max": 28.0,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 47.0,
+         "auto_min": 16.0,
+         "auto_max": 16.0,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Regina Margherita",
@@ -4872,7 +5472,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.0,
        "auto_min": 11.6,
        "auto_max": 16.6,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 31.0,
+         "auto_min": 11.6,
+         "auto_max": 16.6,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 31.0,
+         "auto_min": 11.1,
+         "auto_max": 13.8,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 30.0,
+         "auto_min": 11.6,
+         "auto_max": 16.6,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 31.0,
+         "auto_min": 10.5,
+         "auto_max": 10.5,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Pasini",
@@ -4880,7 +5510,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 28.0,
        "auto_min": 12.1,
        "auto_max": 17.4,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 28.0,
+         "auto_min": 12.1,
+         "auto_max": 17.4,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 26.0,
+         "auto_min": 11.5,
+         "auto_max": 14.4,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 28.0,
+         "auto_min": 12.1,
+         "auto_max": 17.4,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 24.0,
+         "auto_min": 10.9,
+         "auto_max": 10.9,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Leonardo Da Vinci",
@@ -4888,7 +5548,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 59.0,
        "auto_min": 19.9,
        "auto_max": 31.1,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 59.0,
+         "auto_min": 19.9,
+         "auto_max": 31.1,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 58.0,
+         "auto_min": 18.7,
+         "auto_max": 24.9,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 60.0,
+         "auto_min": 19.9,
+         "auto_max": 31.1,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 61.0,
+         "auto_min": 17.4,
+         "auto_max": 17.4,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Drosso Cap",
@@ -4896,7 +5586,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 43.0,
        "auto_min": 17.4,
        "auto_max": 26.7,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 43.0,
+         "auto_min": 17.4,
+         "auto_max": 26.7,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 43.0,
+         "auto_min": 16.4,
+         "auto_max": 21.6,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 44.0,
+         "auto_min": 17.4,
+         "auto_max": 26.7,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 49.0,
+         "auto_min": 15.3,
+         "auto_max": 15.3,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Stura Lazio",
@@ -4904,7 +5624,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 37.0,
        "auto_min": 14.3,
        "auto_max": 21.3,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 37.0,
+         "auto_min": 14.3,
+         "auto_max": 21.3,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 35.0,
+         "auto_min": 13.6,
+         "auto_max": 17.5,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 38.0,
+         "auto_min": 14.3,
+         "auto_max": 21.3,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 33.0,
+         "auto_min": 12.8,
+         "auto_max": 12.8,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Marsè",
@@ -4912,7 +5662,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 61.0,
        "auto_min": 23.2,
        "auto_max": 36.8,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 61.0,
+         "auto_min": 23.2,
+         "auto_max": 36.8,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 55.0,
+         "auto_min": 21.7,
+         "auto_max": 29.2,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 59.0,
+         "auto_min": 23.2,
+         "auto_max": 36.8,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 54.0,
+         "auto_min": 20.1,
+         "auto_max": 20.1,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Derna Est",
@@ -4920,7 +5700,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 34.0,
        "auto_min": 13.8,
        "auto_max": 20.4,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 34.0,
+         "auto_min": 13.8,
+         "auto_max": 20.4,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 31.0,
+         "auto_min": 13.0,
+         "auto_max": 16.7,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 32.0,
+         "auto_min": 13.8,
+         "auto_max": 20.4,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 31.0,
+         "auto_min": 12.3,
+         "auto_max": 12.3,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Ferrara",
@@ -4928,7 +5738,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 49.0,
        "auto_min": 19.9,
        "auto_max": 31.0,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 49.0,
+         "auto_min": 19.9,
+         "auto_max": 31.0,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 46.0,
+         "auto_min": 18.6,
+         "auto_max": 24.8,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 49.0,
+         "auto_min": 19.9,
+         "auto_max": 31.0,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 49.0,
+         "auto_min": 17.4,
+         "auto_max": 17.4,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Zara",
@@ -4936,7 +5776,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 33.0,
        "auto_min": 11.9,
        "auto_max": 17.1,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 33.0,
+         "auto_min": 11.9,
+         "auto_max": 17.1,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 32.0,
+         "auto_min": 11.3,
+         "auto_max": 14.2,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 34.0,
+         "auto_min": 11.9,
+         "auto_max": 17.1,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 33.0,
+         "auto_min": 10.8,
+         "auto_max": 10.8,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Stura",
@@ -4944,7 +5814,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 39.0,
        "auto_min": 17.3,
        "auto_max": 26.6,
-       "giudizio": "depends on traffic"
+       "giudizio": "depends on traffic",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 39.0,
+         "auto_min": 17.3,
+         "auto_max": 26.6,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "13:00",
+         "bus": 36.0,
+         "auto_min": 16.3,
+         "auto_max": 21.4,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 36.0,
+         "auto_min": 17.3,
+         "auto_max": 26.6,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "21:00",
+         "bus": 36.0,
+         "auto_min": 15.3,
+         "auto_max": 15.3,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Venchi Unica",
@@ -4952,7 +5852,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 28.0,
        "auto_min": 16.0,
        "auto_max": 24.2,
-       "giudizio": "depends on traffic"
+       "giudizio": "depends on traffic",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 28.0,
+         "auto_min": 16.0,
+         "auto_max": 24.2,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "13:00",
+         "bus": 28.0,
+         "auto_min": 15.1,
+         "auto_max": 19.7,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "17:30",
+         "bus": 28.0,
+         "auto_min": 16.0,
+         "auto_max": 24.2,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "21:00",
+         "bus": 30.0,
+         "auto_min": 14.2,
+         "auto_max": 14.2,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Caio Mario",
@@ -4960,7 +5890,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 38.0,
        "auto_min": 16.0,
        "auto_max": 24.3,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 38.0,
+         "auto_min": 16.0,
+         "auto_max": 24.3,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 38.0,
+         "auto_min": 15.1,
+         "auto_max": 19.7,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 39.0,
+         "auto_min": 16.0,
+         "auto_max": 24.3,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 45.0,
+         "auto_min": 14.2,
+         "auto_max": 14.2,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Fermi",
@@ -4968,7 +5928,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.0,
        "auto_min": 18.6,
        "auto_max": 28.9,
-       "giudizio": "depends on traffic"
+       "giudizio": "depends on traffic",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 31.0,
+         "auto_min": 18.6,
+         "auto_max": 28.9,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "13:00",
+         "bus": 31.0,
+         "auto_min": 17.5,
+         "auto_max": 23.2,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "17:30",
+         "bus": 31.0,
+         "auto_min": 18.6,
+         "auto_max": 28.9,
+         "giudizio": "depends on traffic"
+        },
+        {
+         "ora": "21:00",
+         "bus": 33.0,
+         "auto_min": 16.4,
+         "auto_max": 16.4,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       },
       {
        "nome": "Sofia",
@@ -4976,7 +5966,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 33.0,
        "auto_min": 13.3,
        "auto_max": 19.6,
-       "giudizio": "the bus does not pay off"
+       "giudizio": "the bus does not pay off",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 33.0,
+         "auto_min": 13.3,
+         "auto_max": 19.6,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "13:00",
+         "bus": 31.0,
+         "auto_min": 12.6,
+         "auto_max": 16.1,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "17:30",
+         "bus": 33.0,
+         "auto_min": 13.3,
+         "auto_max": 19.6,
+         "giudizio": "the bus does not pay off"
+        },
+        {
+         "ora": "21:00",
+         "bus": 28.0,
+         "auto_min": 12.0,
+         "auto_max": 12.0,
+         "giudizio": "the bus does not pay off"
+        }
+       ]
       }
      ],
      "scelto": 1
@@ -5122,7 +6142,7 @@ window.SCHEDE_RISULTATI = [
    ],
    "limiti": [
     "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude.",
-    "Public transport times are GTT only, without trains, and only in the morning. The car lies between two rush-hour factors, 1.2 and 2.1.",
+    "Public transport times are GTT only, without trains. The car slowdown at the other hours comes from the sensors. Google's is known only at 8 a.m. and has been scaled.",
     "The cost of parking downtown is not in the calculation: it counts as extra minutes.",
     "We look at one point per place and a single destination, Piazza Castello."
    ],
@@ -7235,7 +8255,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T18:15:31+00:00",
+  "generato": "2026-10-23T18:30:57+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -7366,10 +8386,42 @@ window.SCHEDE_RISULTATI = [
    },
    "punti": [
     "Le auto con rapporto oltre 2 sono il 41% con il fattore basso e il 97% con il fattore alto.",
-    "Le 3 coppie peggiori: Torino, Madonna Del Pilone → Torino, Vanchiglia, Torino, Parella → Torino, San Paolo, Torino, Madonna Del Pilone → Torino, Centro.",
+    "Nel giorno il rapporto mediano va da 2 a 3,3 (auto lenta) e da 2,9 a 3,3 (auto veloce).",
     "Google conferma i tempi coi mezzi pubblici sui percorsi di controllo: 31 contro 30-35 e 33 contro 30-35 minuti."
    ],
    "altri": [
+    {
+     "tipo": "linea",
+     "titolo": "Quante volte il tempo dell'auto, ora per ora",
+     "unita": "volte",
+     "nota": "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. Due linee: auto lenta (fattore di Google scalato) e auto veloce (sensori).",
+     "categorie": [
+      "8:00",
+      "13:00",
+      "17:30",
+      "21:00"
+     ],
+     "serie": [
+      {
+       "label": "auto lenta",
+       "valori": [
+        1.96,
+        2.37,
+        2.01,
+        3.32
+       ]
+      },
+      {
+       "label": "auto veloce",
+       "valori": [
+        2.94,
+        3.1,
+        3.02,
+        3.32
+       ]
+      }
+     ]
+    },
     {
      "tipo": "gara",
      "titolo": "I viaggi in auto più frequenti del mattino: bus contro auto",
@@ -7380,7 +8432,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 20.6,
        "auto_min": 9.4,
        "auto_max": 12.7,
-       "giudizio": "coi mezzi da 1,6 a 2,2 volte il tempo dell'auto"
+       "giudizio": "coi mezzi da 1,6 a 2,2 volte il tempo dell'auto",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 20.6,
+         "auto_min": 9.4,
+         "auto_max": 12.7,
+         "giudizio": "coi mezzi da 1,6 a 2,2 volte il tempo dell'auto"
+        },
+        {
+         "ora": "13:00",
+         "bus": 20.7,
+         "auto_min": 9.0,
+         "auto_max": 10.9,
+         "giudizio": "coi mezzi da 1,9 a 2,3 volte il tempo dell'auto"
+        },
+        {
+         "ora": "17:30",
+         "bus": 21.2,
+         "auto_min": 9.4,
+         "auto_max": 12.7,
+         "giudizio": "coi mezzi da 1,7 a 2,3 volte il tempo dell'auto"
+        },
+        {
+         "ora": "21:00",
+         "bus": 20.7,
+         "auto_min": 8.7,
+         "auto_max": 8.7,
+         "giudizio": "coi mezzi circa 2,4 volte il tempo dell'auto"
+        }
+       ]
       },
       {
        "nome": "San Paolo",
@@ -7388,7 +8470,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.3,
        "auto_min": 11.3,
        "auto_max": 16.0,
-       "giudizio": "coi mezzi da 2 a 2,8 volte il tempo dell'auto"
+       "giudizio": "coi mezzi da 2 a 2,8 volte il tempo dell'auto",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 31.3,
+         "auto_min": 11.3,
+         "auto_max": 16.0,
+         "giudizio": "coi mezzi da 2 a 2,8 volte il tempo dell'auto"
+        },
+        {
+         "ora": "13:00",
+         "bus": 30.5,
+         "auto_min": 10.7,
+         "auto_max": 13.4,
+         "giudizio": "coi mezzi da 2,3 a 2,9 volte il tempo dell'auto"
+        },
+        {
+         "ora": "17:30",
+         "bus": 31.5,
+         "auto_min": 11.3,
+         "auto_max": 16.0,
+         "giudizio": "coi mezzi da 2 a 2,8 volte il tempo dell'auto"
+        },
+        {
+         "ora": "21:00",
+         "bus": 30.4,
+         "auto_min": 10.2,
+         "auto_max": 10.2,
+         "giudizio": "coi mezzi circa 3 volte il tempo dell'auto"
+        }
+       ]
       },
       {
        "nome": "Mirafiori Nord",
@@ -7396,7 +8508,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 19.2,
        "auto_min": 8.2,
        "auto_max": 10.6,
-       "giudizio": "coi mezzi da 1,8 a 2,3 volte il tempo dell'auto"
+       "giudizio": "coi mezzi da 1,8 a 2,3 volte il tempo dell'auto",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 19.2,
+         "auto_min": 8.2,
+         "auto_max": 10.6,
+         "giudizio": "coi mezzi da 1,8 a 2,3 volte il tempo dell'auto"
+        },
+        {
+         "ora": "13:00",
+         "bus": 18.8,
+         "auto_min": 8.0,
+         "auto_max": 9.3,
+         "giudizio": "coi mezzi da 2 a 2,4 volte il tempo dell'auto"
+        },
+        {
+         "ora": "17:30",
+         "bus": 19.2,
+         "auto_min": 8.2,
+         "auto_max": 10.6,
+         "giudizio": "coi mezzi da 1,8 a 2,3 volte il tempo dell'auto"
+        },
+        {
+         "ora": "21:00",
+         "bus": 18.7,
+         "auto_min": 7.7,
+         "auto_max": 7.7,
+         "giudizio": "coi mezzi circa 2,4 volte il tempo dell'auto"
+        }
+       ]
       },
       {
        "nome": "Parella",
@@ -7404,7 +8546,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.7,
        "auto_min": 12.5,
        "auto_max": 18.1,
-       "giudizio": "coi mezzi da 1,4 a 2 volte il tempo dell'auto"
+       "giudizio": "coi mezzi da 1,4 a 2 volte il tempo dell'auto",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 24.7,
+         "auto_min": 12.5,
+         "auto_max": 18.1,
+         "giudizio": "coi mezzi da 1,4 a 2 volte il tempo dell'auto"
+        },
+        {
+         "ora": "13:00",
+         "bus": 25.0,
+         "auto_min": 11.8,
+         "auto_max": 15.0,
+         "giudizio": "coi mezzi da 1,7 a 2,1 volte il tempo dell'auto"
+        },
+        {
+         "ora": "17:30",
+         "bus": 24.7,
+         "auto_min": 12.5,
+         "auto_max": 18.1,
+         "giudizio": "coi mezzi da 1,4 a 2 volte il tempo dell'auto"
+        },
+        {
+         "ora": "21:00",
+         "bus": 26.8,
+         "auto_min": 11.2,
+         "auto_max": 11.2,
+         "giudizio": "coi mezzi circa 2,4 volte il tempo dell'auto"
+        }
+       ]
       },
       {
        "nome": "San Donato",
@@ -7412,7 +8584,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 18.7,
        "auto_min": 9.0,
        "auto_max": 12.0,
-       "giudizio": "coi mezzi da 1,6 a 2,1 volte il tempo dell'auto"
+       "giudizio": "coi mezzi da 1,6 a 2,1 volte il tempo dell'auto",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 18.7,
+         "auto_min": 9.0,
+         "auto_max": 12.0,
+         "giudizio": "coi mezzi da 1,6 a 2,1 volte il tempo dell'auto"
+        },
+        {
+         "ora": "13:00",
+         "bus": 18.6,
+         "auto_min": 8.6,
+         "auto_max": 10.3,
+         "giudizio": "coi mezzi da 1,8 a 2,2 volte il tempo dell'auto"
+        },
+        {
+         "ora": "17:30",
+         "bus": 19.1,
+         "auto_min": 9.0,
+         "auto_max": 12.0,
+         "giudizio": "coi mezzi da 1,6 a 2,1 volte il tempo dell'auto"
+        },
+        {
+         "ora": "21:00",
+         "bus": 19.6,
+         "auto_min": 8.3,
+         "auto_max": 8.3,
+         "giudizio": "coi mezzi circa 2,4 volte il tempo dell'auto"
+        }
+       ]
       },
       {
        "nome": "Barriera di Milano",
@@ -7420,11 +8622,41 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.0,
        "auto_min": 9.8,
        "auto_max": 13.4,
-       "giudizio": "coi mezzi da 1,8 a 2,5 volte il tempo dell'auto"
+       "giudizio": "coi mezzi da 1,8 a 2,5 volte il tempo dell'auto",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 24.0,
+         "auto_min": 9.8,
+         "auto_max": 13.4,
+         "giudizio": "coi mezzi da 1,8 a 2,4 volte il tempo dell'auto"
+        },
+        {
+         "ora": "13:00",
+         "bus": 23.3,
+         "auto_min": 9.4,
+         "auto_max": 11.4,
+         "giudizio": "coi mezzi da 2 a 2,5 volte il tempo dell'auto"
+        },
+        {
+         "ora": "17:30",
+         "bus": 23.9,
+         "auto_min": 9.8,
+         "auto_max": 13.4,
+         "giudizio": "coi mezzi da 1,8 a 2,4 volte il tempo dell'auto"
+        },
+        {
+         "ora": "21:00",
+         "bus": 24.4,
+         "auto_min": 9.0,
+         "auto_max": 9.0,
+         "giudizio": "coi mezzi circa 2,7 volte il tempo dell'auto"
+        }
+       ]
       }
      ],
      "scelto": 0,
-     "nota": "I 6 viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme."
+     "nota": "I 6 viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme. Poi gli stessi viaggi alle 13, alle 17:30 e alle 21."
     },
     {
      "tipo": "dispersione",
@@ -10575,7 +11807,7 @@ window.SCHEDE_RISULTATI = [
    ],
    "limiti": [
     "Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero.",
-    "La nostra rete stradale non conta semafori e incroci. I tempi in auto sono stimati fra il rallentamento misurato dai sensori e quello di Google Maps.",
+    "La nostra rete stradale non conta semafori e incroci. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato.",
     "Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.",
     "L'indagine è un campione. I viaggi dentro una zona e 653 coppie senza collegamento (5.616 auto) non sono nel confronto."
    ],
@@ -10693,10 +11925,42 @@ window.SCHEDE_RISULTATI = [
    },
    "punti": [
     "Cars with a ratio above 2 are 41% with the low factor and 97% with the high factor.",
-    "The 3 worst pairs: Torino, Madonna Del Pilone → Torino, Vanchiglia, Torino, Parella → Torino, San Paolo, Torino, Madonna Del Pilone → Torino, Centro.",
+    "During the day the median ratio goes from 2 to 3.3 (slow car) and from 2.9 to 3.3 (fast car).",
     "Google confirms the public transport times on the check routes: 31 versus 30-35 and 33 versus 30-35 minutes."
    ],
    "altri": [
+    {
+     "tipo": "linea",
+     "titolo": "How many times the car time, hour by hour",
+     "unita": "times",
+     "nota": "Median ratio of public transport time to car time, weighted by morning cars, at 4 hours of the day. Two lines: slow car (scaled Google factor) and fast car (sensors).",
+     "categorie": [
+      "8:00",
+      "13:00",
+      "17:30",
+      "21:00"
+     ],
+     "serie": [
+      {
+       "label": "slow car",
+       "valori": [
+        1.96,
+        2.37,
+        2.01,
+        3.32
+       ]
+      },
+      {
+       "label": "fast car",
+       "valori": [
+        2.94,
+        3.1,
+        3.02,
+        3.32
+       ]
+      }
+     ]
+    },
     {
      "tipo": "gara",
      "titolo": "The most frequent morning car trips: bus versus car",
@@ -10707,7 +11971,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 20.6,
        "auto_min": 9.4,
        "auto_max": 12.7,
-       "giudizio": "by public transport 1.6 to 2.2 times the car time"
+       "giudizio": "by public transport 1.6 to 2.2 times the car time",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 20.6,
+         "auto_min": 9.4,
+         "auto_max": 12.7,
+         "giudizio": "by public transport 1.6 to 2.2 times the car time"
+        },
+        {
+         "ora": "13:00",
+         "bus": 20.7,
+         "auto_min": 9.0,
+         "auto_max": 10.9,
+         "giudizio": "by public transport 1.9 to 2.3 times the car time"
+        },
+        {
+         "ora": "17:30",
+         "bus": 21.2,
+         "auto_min": 9.4,
+         "auto_max": 12.7,
+         "giudizio": "by public transport 1.7 to 2.3 times the car time"
+        },
+        {
+         "ora": "21:00",
+         "bus": 20.7,
+         "auto_min": 8.7,
+         "auto_max": 8.7,
+         "giudizio": "by public transport about 2.4 times the car time"
+        }
+       ]
       },
       {
        "nome": "San Paolo",
@@ -10715,7 +12009,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.3,
        "auto_min": 11.3,
        "auto_max": 16.0,
-       "giudizio": "by public transport 2 to 2.8 times the car time"
+       "giudizio": "by public transport 2 to 2.8 times the car time",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 31.3,
+         "auto_min": 11.3,
+         "auto_max": 16.0,
+         "giudizio": "by public transport 2 to 2.8 times the car time"
+        },
+        {
+         "ora": "13:00",
+         "bus": 30.5,
+         "auto_min": 10.7,
+         "auto_max": 13.4,
+         "giudizio": "by public transport 2.3 to 2.9 times the car time"
+        },
+        {
+         "ora": "17:30",
+         "bus": 31.5,
+         "auto_min": 11.3,
+         "auto_max": 16.0,
+         "giudizio": "by public transport 2 to 2.8 times the car time"
+        },
+        {
+         "ora": "21:00",
+         "bus": 30.4,
+         "auto_min": 10.2,
+         "auto_max": 10.2,
+         "giudizio": "by public transport about 3 times the car time"
+        }
+       ]
       },
       {
        "nome": "Mirafiori Nord",
@@ -10723,7 +12047,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 19.2,
        "auto_min": 8.2,
        "auto_max": 10.6,
-       "giudizio": "by public transport 1.8 to 2.3 times the car time"
+       "giudizio": "by public transport 1.8 to 2.3 times the car time",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 19.2,
+         "auto_min": 8.2,
+         "auto_max": 10.6,
+         "giudizio": "by public transport 1.8 to 2.3 times the car time"
+        },
+        {
+         "ora": "13:00",
+         "bus": 18.8,
+         "auto_min": 8.0,
+         "auto_max": 9.3,
+         "giudizio": "by public transport 2 to 2.4 times the car time"
+        },
+        {
+         "ora": "17:30",
+         "bus": 19.2,
+         "auto_min": 8.2,
+         "auto_max": 10.6,
+         "giudizio": "by public transport 1.8 to 2.3 times the car time"
+        },
+        {
+         "ora": "21:00",
+         "bus": 18.7,
+         "auto_min": 7.7,
+         "auto_max": 7.7,
+         "giudizio": "by public transport about 2.4 times the car time"
+        }
+       ]
       },
       {
        "nome": "Parella",
@@ -10731,7 +12085,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.7,
        "auto_min": 12.5,
        "auto_max": 18.1,
-       "giudizio": "by public transport 1.4 to 2 times the car time"
+       "giudizio": "by public transport 1.4 to 2 times the car time",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 24.7,
+         "auto_min": 12.5,
+         "auto_max": 18.1,
+         "giudizio": "by public transport 1.4 to 2 times the car time"
+        },
+        {
+         "ora": "13:00",
+         "bus": 25.0,
+         "auto_min": 11.8,
+         "auto_max": 15.0,
+         "giudizio": "by public transport 1.7 to 2.1 times the car time"
+        },
+        {
+         "ora": "17:30",
+         "bus": 24.7,
+         "auto_min": 12.5,
+         "auto_max": 18.1,
+         "giudizio": "by public transport 1.4 to 2 times the car time"
+        },
+        {
+         "ora": "21:00",
+         "bus": 26.8,
+         "auto_min": 11.2,
+         "auto_max": 11.2,
+         "giudizio": "by public transport about 2.4 times the car time"
+        }
+       ]
       },
       {
        "nome": "San Donato",
@@ -10739,7 +12123,37 @@ window.SCHEDE_RISULTATI = [
        "bus": 18.7,
        "auto_min": 9.0,
        "auto_max": 12.0,
-       "giudizio": "by public transport 1.6 to 2.1 times the car time"
+       "giudizio": "by public transport 1.6 to 2.1 times the car time",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 18.7,
+         "auto_min": 9.0,
+         "auto_max": 12.0,
+         "giudizio": "by public transport 1.6 to 2.1 times the car time"
+        },
+        {
+         "ora": "13:00",
+         "bus": 18.6,
+         "auto_min": 8.6,
+         "auto_max": 10.3,
+         "giudizio": "by public transport 1.8 to 2.2 times the car time"
+        },
+        {
+         "ora": "17:30",
+         "bus": 19.1,
+         "auto_min": 9.0,
+         "auto_max": 12.0,
+         "giudizio": "by public transport 1.6 to 2.1 times the car time"
+        },
+        {
+         "ora": "21:00",
+         "bus": 19.6,
+         "auto_min": 8.3,
+         "auto_max": 8.3,
+         "giudizio": "by public transport about 2.4 times the car time"
+        }
+       ]
       },
       {
        "nome": "Barriera di Milano",
@@ -10747,11 +12161,41 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.0,
        "auto_min": 9.8,
        "auto_max": 13.4,
-       "giudizio": "by public transport 1.8 to 2.5 times the car time"
+       "giudizio": "by public transport 1.8 to 2.5 times the car time",
+       "ore": [
+        {
+         "ora": "8:00",
+         "bus": 24.0,
+         "auto_min": 9.8,
+         "auto_max": 13.4,
+         "giudizio": "by public transport 1.8 to 2.4 times the car time"
+        },
+        {
+         "ora": "13:00",
+         "bus": 23.3,
+         "auto_min": 9.4,
+         "auto_max": 11.4,
+         "giudizio": "by public transport 2 to 2.5 times the car time"
+        },
+        {
+         "ora": "17:30",
+         "bus": 23.9,
+         "auto_min": 9.8,
+         "auto_max": 13.4,
+         "giudizio": "by public transport 1.8 to 2.4 times the car time"
+        },
+        {
+         "ora": "21:00",
+         "bus": 24.4,
+         "auto_min": 9.0,
+         "auto_max": 9.0,
+         "giudizio": "by public transport about 2.7 times the car time"
+        }
+       ]
       }
      ],
      "scelto": 0,
-     "nota": "The 6 most frequent morning car trips, each from a different area: bus and car start together."
+     "nota": "The 6 most frequent morning car trips, each from a different area: bus and car start together. Then the same trips at 1 p.m., 5:30 p.m. and 9 p.m."
     },
     {
      "tipo": "dispersione",
@@ -13902,7 +15346,7 @@ window.SCHEDE_RISULTATI = [
    ],
    "limiti": [
     "Outside Turin, trains and other operators are missing: pairs between suburban towns are not in the number.",
-    "Our road network ignores traffic lights and junctions. Car times are estimated between the slowdown measured by sensors and that of Google Maps.",
+    "Our road network ignores traffic lights and junctions. The car slowdown at the other hours comes from the sensors. Google's is known only at 8 a.m. and has been scaled.",
     "Without metropolitan trains, where they exist, public transport looks slower than it is. The timetable is the scheduled one.",
     "The survey is a sample. Trips within a zone and 653 pairs with no connection (5,616 cars) are not in the comparison."
    ],
@@ -13962,7 +15406,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T18:15:32+00:00",
+  "generato": "2026-10-23T18:30:58+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],

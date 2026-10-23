@@ -10,12 +10,12 @@ Dove deve stare ogni file di `data/`: in git, nella Release di GitHub, come rias
 
 | Posto | File | Peso (MB) | Cosa vuol dire |
 |---|---|---|---|
-| git | 258 | 136,6 | dentro il repository |
+| git | 259 | 137,2 | dentro il repository |
 | Release | 220 | 872,4 | zip nella Release di GitHub |
 | riassunto | 2 | 2.712,1 | dello storico si tengono solo i riassunti (script 97) |
 | fonte | 336 | 147,7 | non si pubblica: si riscarica dalla fonte (IMQ, OMI) |
-| fuori | 428 | 320,5 | nessuno lo cita: non si pubblica |
-| **tutto** | 1244 | 4.189,3 | |
+| fuori | 432 | 320,9 | nessuno lo cita: non si pubblica |
+| **tutto** | 1249 | 4.190,4 | |
 
 Avvisi: file in «git» sopra 50 MB: 0.
 
@@ -23,7 +23,7 @@ Avvisi: file in «git» sopra 50 MB: 0.
 
 | Cartella | File | Peso (MB) | git | Release | riassunto | fonte | fuori |
 |---|---|---|---|---|---|---|---|
-| `data/(radice di data)` | 33 | 2.813,6 | 4 | 2 | 1 | 0 | 26 |
+| `data/(radice di data)` | 33 | 2.813,7 | 4 | 2 | 1 | 0 | 26 |
 | `data/IMQ2013-22_zone_camp_TO` | 6 | 0,1 | 0 | 0 | 0 | 6 | 0 |
 | `data/IMQ2022_opendata_web` | 1 | 59,9 | 0 | 0 | 0 | 1 | 0 |
 | `data/IMQ2022_zone_camp_noTO` | 7 | 5,8 | 0 | 0 | 0 | 7 | 0 |
@@ -32,7 +32,7 @@ Avvisi: file in «git» sopra 50 MB: 0.
 | `data/catalogo` | 6 | 4,4 | 6 | 0 | 0 | 0 | 0 |
 | `data/otp/jdk-25.0.4.1+1-jre` | 320 | 179,1 | 0 | 0 | 0 | 0 | 320 |
 | `data/otp/rete` | 2 | 32,4 | 0 | 2 | 0 | 0 | 0 |
-| `data/processed` | 61 | 79,3 | 47 | 5 | 0 | 0 | 9 |
+| `data/processed` | 66 | 80,4 | 48 | 5 | 0 | 0 | 13 |
 | `data/processed/accessibilita_parziale` | 48 | 1,8 | 0 | 0 | 0 | 0 | 48 |
 | `data/processed/accessibilita_parziale_test` | 3 | 0,0 | 0 | 0 | 0 | 0 | 3 |
 | `data/processed/catalogo` | 7 | 4,4 | 6 | 1 | 0 | 0 | 0 |
@@ -57,7 +57,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/(radice di data)`
 
-33 file, 2.813,6 MB (git: 4, Release: 2, riassunto: 1, fuori: 26). Letti da: 04_genera_mappa.py, 06_dati_live.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py, 31_rapporto_fatti.py (+23). Scritti da: 06_dati_live.py, 30_rapporto_estrai.py, RACCOLTA_GIORNALIERA.bat, supervisore.py.
+33 file, 2.813,7 MB (git: 4, Release: 2, riassunto: 1, fuori: 26). Letti da: 04_genera_mappa.py, 06_dati_live.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py, 31_rapporto_fatti.py (+23). Scritti da: 06_dati_live.py, 30_rapporto_estrai.py, RACCOLTA_GIORNALIERA.bat, supervisore.py.
 
 #### `data/IMQ2013-22_zone_camp_TO`
 
@@ -132,7 +132,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/otp/jdk-25.0.4.1+1-jre`
 
-320 file, 179,1 MB (fuori: 320). Letti da: 01_scarica_dati.py, 04_genera_mappa.py, 05_prepara_sezioni.py, 06_dati_live.py, 11_prepara_catalogo.py, 12_ritardi_gtt.py (+66). Scritti da: 04_genera_mappa.py, 88_confronto_auto_sensori.py, 98_prepara_release.py, TRAFFICO_RILANCIA_SENSORI.bat.
+320 file, 179,1 MB (fuori: 320). Letti da: 01_scarica_dati.py, 04_genera_mappa.py, 05_prepara_sezioni.py, 06_dati_live.py, 100_ore_del_giorno.py, 11_prepara_catalogo.py (+67). Scritti da: 04_genera_mappa.py, 88_confronto_auto_sensori.py, 98_prepara_release.py, TRAFFICO_RILANCIA_SENSORI.bat.
 
 #### `data/otp/rete`
 
@@ -143,7 +143,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/processed`
 
-61 file, 79,3 MB (git: 47, Release: 5, fuori: 9). Letti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 14_prepara_imq.py, 15_prepara_zone_imq.py, 16_prepara_imq_mappa.py (+62). Scritti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 14_prepara_imq.py, 15_prepara_zone_imq.py, 16_prepara_imq_mappa.py (+32).
+66 file, 80,4 MB (git: 48, Release: 5, fuori: 13). Letti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 100_ore_del_giorno.py, 14_prepara_imq.py, 15_prepara_zone_imq.py (+63). Scritti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 14_prepara_imq.py, 15_prepara_zone_imq.py, 16_prepara_imq_mappa.py (+32).
 
 #### `data/processed/accessibilita_parziale`
 
