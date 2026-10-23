@@ -5,6 +5,12 @@ né `data/raw`. Ogni affermazione ha la sua prova (file e riga, numero letto da 
 sui JSON di `data/processed/`; le schermate sono state fatte con Chromium senza schermo a 1440×900, chiaro e scuro (0 errori JavaScript su
 20 pagine aperte). Quello che L2 e L3 faranno già non è riproposto: lo critico solo dove vedo un problema.
 
+**Aggiornamento dopo L2 (23/10 sera, `prova` 36e9372).** L2 ha rifatto R4, R8 e R1 con lo storico al 23/10: R4 oltre 5' 15,6%, oltre 10' 6,19%;
+R8 modello V4 (errore 28,3%, 22 sensori); esposti al traffico 222.179 (26,4%). I numeri citati qui sotto per questi tre risultati sono quelli di prima;
+i problemi restano. Già sistemato da L2: titolo della scheda 3 («non hanno abbastanza posti», §1.8), quadratini della scheda 2 (§3.7), miniature (§3.14).
+Ancora aperti, ricontrollati sul nuovo `data/schede_risultati.js`: §1.1-1.3 (fattore Google, forbice, «fissate prima dei numeri» in `scripts/schede/r8.py:273` e `:288`),
+§1.4-1.6 (scheda 5 «prezzo e servizi vanno insieme», coppie con poche interviste), §1.9 (titolo «città dei 15 minuti»). Seguiti: `PIANO_RACCOLTA.md`, `PIANO_AMPLIAMENTO.md`.
+
 Due parole che uso spesso:
 - **fattore di punta**: per quanto si moltiplica il tempo in auto a strada libera per avere il tempo vero all'ora di punta (1,2 dai sensori, 2,1 da Google).
 - **correlazione parziale**: quanto due cose vanno insieme *a parità* di una terza (qui: la distanza dal centro).
