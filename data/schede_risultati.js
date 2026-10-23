@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T18:30:57+00:00",
+  "generato": "2026-10-23T19:43:25+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1356,7 +1356,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T18:30:57+00:00",
+  "generato": "2026-10-23T19:43:25+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-23: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -2588,7 +2588,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T18:30:57+00:00",
+  "generato": "2026-10-23T19:43:25+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2719,13 +2719,13 @@ window.SCHEDE_RISULTATI = [
    "punti": [
     "68 fermate importanti non hanno nessun parcheggio adatto vicino; 111 ne hanno troppo pochi.",
     "Servirebbero posti soprattutto in 12 punti d'ingresso: il primo è Santa Rita, dove ne mancano circa 450.",
-    "Dal parcheggio, il bus batte l'auto solo se in centro si perdono più di 21–28 minuti a parcheggiare."
+    "Dal parcheggio il bus batte l'auto solo se in centro si perdono minuti a parcheggiare. Servono più di 21 minuti (stima Google) o 28 (stima sensori)."
    ],
    "altri": [
     {
      "tipo": "gara",
      "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale",
-     "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (sensori, auto veloce) e 2,1 (Google, auto chiara e lenta). Il punto più promettente è Metro Massaua: lì bastano 7–15 minuti persi a parcheggiare in centro.",
+     "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (stima con il rallentamento dei sensori) e 2,1 (stima con quello di Google, auto chiara). Il punto più promettente è Metro Massaua: lì bastano 7 minuti (stima Google) o 15 (stima sensori) persi a parcheggiare in centro.",
      "luoghi": [
       {
        "nome": "Santa Rita",
@@ -3380,7 +3380,7 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto",
      "unita": "minuti",
-     "nota": "Verso Piazza Castello alle 8. Barra scura = auto lenta (fattore di Google), barra chiara = auto veloce (fattore dei sensori). Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
+     "nota": "Verso Piazza Castello alle 8. Barra scura = stima con il rallentamento di Google, barra chiara = stima con il rallentamento dei sensori. Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
      "voci": [
       {
        "label": "Metro Massaua",
@@ -3460,32 +3460,32 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro",
      "unita": "minuti",
-     "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, fra i due fattori di punta (1,2 e 2,1).",
+     "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, con due stime del rallentamento (1,2 e 2,1): il valore vero può stare anche fuori.",
      "voci": [
       {
        "label": "Stura",
        "valore": 39,
-       "testo": "pieno di giorno; 39 contro 17-27 in auto"
+       "testo": "pieno di giorno; 39 contro 17 o 27 in auto"
       },
       {
        "label": "Venchi Unica",
        "valore": 28,
-       "testo": "a metà; 28 contro 16-24 in auto"
+       "testo": "a metà; 28 contro 16 o 24 in auto"
       },
       {
        "label": "Caio Mario",
        "valore": 38,
-       "testo": "con posti liberi; 38 contro 16-24 in auto"
+       "testo": "con posti liberi; 38 contro 16 o 24 in auto"
       },
       {
        "label": "Fermi",
        "valore": 31,
-       "testo": "non misurato; 31 contro 19-29 in auto"
+       "testo": "non misurato; 31 contro 19 o 29 in auto"
       },
       {
        "label": "Sofia",
        "valore": 33,
-       "testo": "con posti liberi; 33 contro 13-20 in auto"
+       "testo": "con posti liberi; 33 contro 13 o 20 in auto"
       }
      ]
     }
@@ -3518,8 +3518,8 @@ window.SCHEDE_RISULTATI = [
    "limiti": [
     "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
     "I tempi coi mezzi sono solo GTT, senza treni. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato.",
-    "Il costo del parcheggio in centro non è nel calcolo: pesa come minuti in più.",
-    "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello."
+    "Il rallentamento di Google è stato misurato su 6 percorsi in uscita dal centro. In entrata l'auto può essere più lenta.",
+    "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."
    ],
    "mappa": {
     "id": "interscambio",
@@ -5344,13 +5344,13 @@ window.SCHEDE_RISULTATI = [
    "punti": [
     "68 important stops have no suitable car park nearby; 111 have too few spaces.",
     "Spaces are needed above all at 12 entry points: the first is Santa Rita, where about 450 are missing.",
-    "From the car park, the bus beats the car only if parking downtown takes more than 21–28 minutes."
+    "From the car park the bus beats the car only if you lose minutes parking downtown. You need more than 21 minutes (Google estimate) or 28 (sensor estimate)."
    ],
    "altri": [
     {
      "tipo": "gara",
      "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m., 1 p.m., 5:30 p.m. and 9 p.m. on a weekday",
-     "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (sensors, fast car) and 2.1 (Google, faded slow car). The most promising point is Metro Massaua: there, 7–15 minutes lost parking downtown are enough.",
+     "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (estimate with the sensors' slowdown) and 2.1 (estimate with Google's slowdown, faded car). The most promising point is Metro Massaua: there, 7 minutes (Google estimate) or 15 (sensor estimate) lost parking downtown are enough.",
      "luoghi": [
       {
        "nome": "Santa Rita",
@@ -6005,7 +6005,7 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
      "unita": "minutes",
-     "nota": "Towards Piazza Castello at 8 a.m. Dark bar = slow car (Google factor), light bar = fast car (sensor factor). Fewer minutes = more promising point; 0 = the bus is already faster.",
+     "nota": "Towards Piazza Castello at 8 a.m. Dark bar = estimate with Google's slowdown, light bar = estimate with the sensors' slowdown. Fewer minutes = more promising point; 0 = the bus is already faster.",
      "voci": [
       {
        "label": "Metro Massaua",
@@ -6085,32 +6085,32 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Existing park-and-ride sites: how full they are and how long the bus takes to the centre",
      "unita": "minutes",
-     "nota": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, between the two rush-hour factors (1.2 and 2.1).",
+     "nota": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, with two estimates of the slowdown (1.2 and 2.1): the true value may lie outside.",
      "voci": [
       {
        "label": "Stura",
        "valore": 39,
-       "testo": "full during the day; 39 versus 17-27 by car"
+       "testo": "full during the day; 39 versus 17 or 27 by car"
       },
       {
        "label": "Venchi Unica",
        "valore": 28,
-       "testo": "half full; 28 versus 16-24 by car"
+       "testo": "half full; 28 versus 16 or 24 by car"
       },
       {
        "label": "Caio Mario",
        "valore": 38,
-       "testo": "with free spaces; 38 versus 16-24 by car"
+       "testo": "with free spaces; 38 versus 16 or 24 by car"
       },
       {
        "label": "Fermi",
        "valore": 31,
-       "testo": "not measured; 31 versus 19-29 by car"
+       "testo": "not measured; 31 versus 19 or 29 by car"
       },
       {
        "label": "Sofia",
        "valore": 33,
-       "testo": "with free spaces; 33 versus 13-20 by car"
+       "testo": "with free spaces; 33 versus 13 or 20 by car"
       }
      ]
     }
@@ -6143,8 +6143,8 @@ window.SCHEDE_RISULTATI = [
    "limiti": [
     "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude.",
     "Public transport times are GTT only, without trains. The car slowdown at the other hours comes from the sensors. Google's is known only at 8 a.m. and has been scaled.",
-    "The cost of parking downtown is not in the calculation: it counts as extra minutes.",
-    "We look at one point per place and a single destination, Piazza Castello."
+    "Google's slowdown was measured on 6 routes leaving the centre. Inbound, the car may be slower.",
+    "The cost of parking is not in the calculation: it weighs as extra minutes. One point per place and one destination only."
    ],
    "mappa": {
     "id": "interscambio",
@@ -8255,7 +8255,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T18:30:57+00:00",
+  "generato": "2026-10-23T19:43:25+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -8312,19 +8312,19 @@ window.SCHEDE_RISULTATI = [
     "titolo": "Auto del mattino per rapporto fra tempo coi mezzi pubblici e tempo in auto",
     "unita": "%",
     "max": 100,
-    "nota": "Rapporto 2 = coi mezzi pubblici si impiega il doppio che in auto. Coppie Torino-Torino e Torino-cintura. Limite basso: auto lenta come su Google Maps (fattore 2,1); limite alto: auto veloce come misurano i sensori (fattore 1,2).",
+    "nota": "Rapporto 2 = coi mezzi pubblici si impiega il doppio che in auto. Coppie Torino-Torino e Torino-cintura. Due stime: con il rallentamento di Google Maps (fattore 2,1) e con quello dei sensori (fattore 1,2); il valore vero può stare anche fuori.",
     "gruppi": [
      {
       "label": "sotto 1,5",
       "voci": [
        {
-        "label": "limite basso",
+        "label": "stima con il rallentamento di Google",
         "valore": 3.9,
         "tono": "verde",
         "testo": "3,9% (8.649 auto)"
        },
        {
-        "label": "limite alto",
+        "label": "stima con il rallentamento dei sensori",
         "valore": 0.0,
         "tono": "verde",
         "testo": "0% (0 auto)"
@@ -8335,13 +8335,13 @@ window.SCHEDE_RISULTATI = [
       "label": "1,5-2",
       "voci": [
        {
-        "label": "limite basso",
+        "label": "stima con il rallentamento di Google",
         "valore": 54.6,
         "tono": "giallo",
         "testo": "54,6% (120.360 auto)"
        },
        {
-        "label": "limite alto",
+        "label": "stima con il rallentamento dei sensori",
         "valore": 3.0,
         "tono": "giallo",
         "testo": "3% (6.661 auto)"
@@ -8352,13 +8352,13 @@ window.SCHEDE_RISULTATI = [
       "label": "2-3",
       "voci": [
        {
-        "label": "limite basso",
+        "label": "stima con il rallentamento di Google",
         "valore": 41.1,
         "tono": "arancio",
         "testo": "41,1% (90.508 auto)"
        },
        {
-        "label": "limite alto",
+        "label": "stima con il rallentamento dei sensori",
         "valore": 52.2,
         "tono": "arancio",
         "testo": "52,2% (115.033 auto)"
@@ -8369,13 +8369,13 @@ window.SCHEDE_RISULTATI = [
       "label": "oltre 3",
       "voci": [
        {
-        "label": "limite basso",
+        "label": "stima con il rallentamento di Google",
         "valore": 0.4,
         "tono": "rosso",
         "testo": "0,4% (791 auto)"
        },
        {
-        "label": "limite alto",
+        "label": "stima con il rallentamento dei sensori",
         "valore": 44.8,
         "tono": "rosso",
         "testo": "44,8% (98.612 auto)"
@@ -8385,8 +8385,8 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "Le auto con rapporto oltre 2 sono il 41% con il fattore basso e il 97% con il fattore alto.",
-    "Nel giorno il rapporto mediano va da 2 a 3,3 (auto lenta) e da 2,9 a 3,3 (auto veloce).",
+    "Con la stima di Google il 41% delle auto ha rapporto oltre 2; con quella dei sensori il 97%.",
+    "Nel giorno il rapporto mediano va da 2 a 3,3 (stima Google) e da 2,9 a 3,3 (stima sensori).",
     "Google conferma i tempi coi mezzi pubblici sui percorsi di controllo: 31 contro 30-35 e 33 contro 30-35 minuti."
    ],
    "altri": [
@@ -8394,7 +8394,7 @@ window.SCHEDE_RISULTATI = [
      "tipo": "linea",
      "titolo": "Quante volte il tempo dell'auto, ora per ora",
      "unita": "volte",
-     "nota": "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. Due linee: auto lenta (fattore di Google scalato) e auto veloce (sensori).",
+     "nota": "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. Due linee: stima con il rallentamento di Google (scalato alle altre ore) e stima con quello dei sensori.",
      "categorie": [
       "8:00",
       "13:00",
@@ -8403,7 +8403,7 @@ window.SCHEDE_RISULTATI = [
      ],
      "serie": [
       {
-       "label": "auto lenta",
+       "label": "stima Google",
        "valori": [
         1.96,
         2.37,
@@ -8412,7 +8412,7 @@ window.SCHEDE_RISULTATI = [
        ]
       },
       {
-       "label": "auto veloce",
+       "label": "stima sensori",
        "valori": [
         2.94,
         3.1,
@@ -8432,37 +8432,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 20.6,
        "auto_min": 9.4,
        "auto_max": 12.7,
-       "giudizio": "coi mezzi da 1,6 a 2,2 volte il tempo dell'auto",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 20.6,
-         "auto_min": 9.4,
-         "auto_max": 12.7,
-         "giudizio": "coi mezzi da 1,6 a 2,2 volte il tempo dell'auto"
-        },
-        {
-         "ora": "13:00",
-         "bus": 20.7,
-         "auto_min": 9.0,
-         "auto_max": 10.9,
-         "giudizio": "coi mezzi da 1,9 a 2,3 volte il tempo dell'auto"
-        },
-        {
-         "ora": "17:30",
-         "bus": 21.2,
-         "auto_min": 9.4,
-         "auto_max": 12.7,
-         "giudizio": "coi mezzi da 1,7 a 2,3 volte il tempo dell'auto"
-        },
-        {
-         "ora": "21:00",
-         "bus": 20.7,
-         "auto_min": 8.7,
-         "auto_max": 8.7,
-         "giudizio": "coi mezzi circa 2,4 volte il tempo dell'auto"
-        }
-       ]
+       "giudizio": "coi mezzi 1,6 o 2,2 volte il tempo dell'auto, secondo le due stime"
       },
       {
        "nome": "San Paolo",
@@ -8470,37 +8440,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.3,
        "auto_min": 11.3,
        "auto_max": 16.0,
-       "giudizio": "coi mezzi da 2 a 2,8 volte il tempo dell'auto",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 31.3,
-         "auto_min": 11.3,
-         "auto_max": 16.0,
-         "giudizio": "coi mezzi da 2 a 2,8 volte il tempo dell'auto"
-        },
-        {
-         "ora": "13:00",
-         "bus": 30.5,
-         "auto_min": 10.7,
-         "auto_max": 13.4,
-         "giudizio": "coi mezzi da 2,3 a 2,9 volte il tempo dell'auto"
-        },
-        {
-         "ora": "17:30",
-         "bus": 31.5,
-         "auto_min": 11.3,
-         "auto_max": 16.0,
-         "giudizio": "coi mezzi da 2 a 2,8 volte il tempo dell'auto"
-        },
-        {
-         "ora": "21:00",
-         "bus": 30.4,
-         "auto_min": 10.2,
-         "auto_max": 10.2,
-         "giudizio": "coi mezzi circa 3 volte il tempo dell'auto"
-        }
-       ]
+       "giudizio": "coi mezzi 2 o 2,8 volte il tempo dell'auto, secondo le due stime"
       },
       {
        "nome": "Mirafiori Nord",
@@ -8508,37 +8448,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 19.2,
        "auto_min": 8.2,
        "auto_max": 10.6,
-       "giudizio": "coi mezzi da 1,8 a 2,3 volte il tempo dell'auto",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 19.2,
-         "auto_min": 8.2,
-         "auto_max": 10.6,
-         "giudizio": "coi mezzi da 1,8 a 2,3 volte il tempo dell'auto"
-        },
-        {
-         "ora": "13:00",
-         "bus": 18.8,
-         "auto_min": 8.0,
-         "auto_max": 9.3,
-         "giudizio": "coi mezzi da 2 a 2,4 volte il tempo dell'auto"
-        },
-        {
-         "ora": "17:30",
-         "bus": 19.2,
-         "auto_min": 8.2,
-         "auto_max": 10.6,
-         "giudizio": "coi mezzi da 1,8 a 2,3 volte il tempo dell'auto"
-        },
-        {
-         "ora": "21:00",
-         "bus": 18.7,
-         "auto_min": 7.7,
-         "auto_max": 7.7,
-         "giudizio": "coi mezzi circa 2,4 volte il tempo dell'auto"
-        }
-       ]
+       "giudizio": "coi mezzi 1,8 o 2,3 volte il tempo dell'auto, secondo le due stime"
       },
       {
        "nome": "Parella",
@@ -8546,37 +8456,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.7,
        "auto_min": 12.5,
        "auto_max": 18.1,
-       "giudizio": "coi mezzi da 1,4 a 2 volte il tempo dell'auto",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 24.7,
-         "auto_min": 12.5,
-         "auto_max": 18.1,
-         "giudizio": "coi mezzi da 1,4 a 2 volte il tempo dell'auto"
-        },
-        {
-         "ora": "13:00",
-         "bus": 25.0,
-         "auto_min": 11.8,
-         "auto_max": 15.0,
-         "giudizio": "coi mezzi da 1,7 a 2,1 volte il tempo dell'auto"
-        },
-        {
-         "ora": "17:30",
-         "bus": 24.7,
-         "auto_min": 12.5,
-         "auto_max": 18.1,
-         "giudizio": "coi mezzi da 1,4 a 2 volte il tempo dell'auto"
-        },
-        {
-         "ora": "21:00",
-         "bus": 26.8,
-         "auto_min": 11.2,
-         "auto_max": 11.2,
-         "giudizio": "coi mezzi circa 2,4 volte il tempo dell'auto"
-        }
-       ]
+       "giudizio": "coi mezzi 1,4 o 2 volte il tempo dell'auto, secondo le due stime"
       },
       {
        "nome": "San Donato",
@@ -8584,37 +8464,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 18.7,
        "auto_min": 9.0,
        "auto_max": 12.0,
-       "giudizio": "coi mezzi da 1,6 a 2,1 volte il tempo dell'auto",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 18.7,
-         "auto_min": 9.0,
-         "auto_max": 12.0,
-         "giudizio": "coi mezzi da 1,6 a 2,1 volte il tempo dell'auto"
-        },
-        {
-         "ora": "13:00",
-         "bus": 18.6,
-         "auto_min": 8.6,
-         "auto_max": 10.3,
-         "giudizio": "coi mezzi da 1,8 a 2,2 volte il tempo dell'auto"
-        },
-        {
-         "ora": "17:30",
-         "bus": 19.1,
-         "auto_min": 9.0,
-         "auto_max": 12.0,
-         "giudizio": "coi mezzi da 1,6 a 2,1 volte il tempo dell'auto"
-        },
-        {
-         "ora": "21:00",
-         "bus": 19.6,
-         "auto_min": 8.3,
-         "auto_max": 8.3,
-         "giudizio": "coi mezzi circa 2,4 volte il tempo dell'auto"
-        }
-       ]
+       "giudizio": "coi mezzi 1,6 o 2,1 volte il tempo dell'auto, secondo le due stime"
       },
       {
        "nome": "Barriera di Milano",
@@ -8622,41 +8472,11 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.0,
        "auto_min": 9.8,
        "auto_max": 13.4,
-       "giudizio": "coi mezzi da 1,8 a 2,5 volte il tempo dell'auto",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 24.0,
-         "auto_min": 9.8,
-         "auto_max": 13.4,
-         "giudizio": "coi mezzi da 1,8 a 2,4 volte il tempo dell'auto"
-        },
-        {
-         "ora": "13:00",
-         "bus": 23.3,
-         "auto_min": 9.4,
-         "auto_max": 11.4,
-         "giudizio": "coi mezzi da 2 a 2,5 volte il tempo dell'auto"
-        },
-        {
-         "ora": "17:30",
-         "bus": 23.9,
-         "auto_min": 9.8,
-         "auto_max": 13.4,
-         "giudizio": "coi mezzi da 1,8 a 2,4 volte il tempo dell'auto"
-        },
-        {
-         "ora": "21:00",
-         "bus": 24.4,
-         "auto_min": 9.0,
-         "auto_max": 9.0,
-         "giudizio": "coi mezzi circa 2,7 volte il tempo dell'auto"
-        }
-       ]
+       "giudizio": "coi mezzi 1,8 o 2,5 volte il tempo dell'auto, secondo le due stime"
       }
      ],
      "scelto": 0,
-     "nota": "I 6 viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme. Poi gli stessi viaggi alle 13, alle 17:30 e alle 21."
+     "nota": "I 6 viaggi in auto più frequenti, alle 8 di un feriale, partendo da zone diverse: bus e auto partono insieme."
     },
     {
      "tipo": "dispersione",
@@ -11681,7 +11501,7 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Le 15 coppie con più auto dove i mezzi pubblici impiegano più del doppio",
      "unita": "auto",
-     "nota": "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con il fattore basso 2,1. A destra i minuti coi mezzi contro quelli in auto.",
+     "nota": "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di Google (fattore 2,1). A destra i minuti coi mezzi contro quelli in auto.",
      "voci": [
       {
        "label": "Torino, Madonna Del Pilone → Torino, Vanchiglia",
@@ -11780,7 +11600,7 @@ window.SCHEDE_RISULTATI = [
     "Le zone sono quelle dell'indagine sugli spostamenti 2022 con punti di calcolo; ognuna ha fino a 5 punti.",
     "Mezzi pubblici: a piedi, bus, tram e metro, con partenza fra le 7:45 e le 8:15. Si prende la mediana.",
     "Auto: tempo a flusso libero per un fattore di punta, più 5 minuti. I fattori sono due: 2,1 da Google Maps e 1,2 dai sensori.",
-    "Rapporto = tempo coi mezzi diviso tempo in auto. Le fasce sono fisse e decise prima di vedere i numeri.",
+    "Rapporto = tempo coi mezzi diviso tempo in auto. Le fasce sono fisse.",
     "Le auto di una coppia sono i viaggi in auto dell'indagine, in partenza dalle 6 alle 10 di un feriale."
    ],
    "criteri": [
@@ -11793,22 +11613,22 @@ window.SCHEDE_RISULTATI = [
      "partenza 07:45-8:15 di un feriale, mediana, cammino a 4,8 km/h, al massimo 120 minuti"
     ],
     [
-     "Auto, limite alto",
+     "Auto, stima con il rallentamento dei sensori",
      "tempo a flusso libero × 1,2 (sensori 5T) + 5 minuti"
     ],
     [
-     "Auto, limite basso",
+     "Auto, stima con il rallentamento di Google",
      "tempo a flusso libero × 2,1 (Google Maps, 6 percorsi) + 5 minuti"
     ],
     [
      "Fasce del rapporto",
-     "sotto 1,5, 1,5-2, 2-3, oltre 3 (fissate prima dei numeri)"
+     "sotto 1,5, 1,5-2, 2-3, oltre 3"
     ]
    ],
    "limiti": [
-    "Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero.",
+    "Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero. Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.",
     "La nostra rete stradale non conta semafori e incroci. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato.",
-    "Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.",
+    "Il rallentamento di Google è stato misurato su 6 percorsi in uscita dal centro. In entrata l'auto può essere più lenta.",
     "L'indagine è un campione. I viaggi dentro una zona e 653 coppie senza collegamento (5.616 auto) non sono nel confronto."
    ],
    "extra": {
@@ -11851,19 +11671,19 @@ window.SCHEDE_RISULTATI = [
     "titolo": "Morning cars by ratio of public transport time to car time",
     "unita": "%",
     "max": 100,
-    "nota": "Ratio 2 = public transport takes twice as long as the car. Turin–Turin and Turin–suburb pairs. Low limit: slow car as on Google Maps (factor 2.1); high limit: fast car as the sensors measure (factor 1.2).",
+    "nota": "Ratio 2 = public transport takes twice as long as the car. Turin–Turin and Turin–suburb pairs. Two estimates: with Google Maps' slowdown (factor 2.1) and with the sensors' (factor 1.2); the true value may lie outside.",
     "gruppi": [
      {
       "label": "under 1.5",
       "voci": [
        {
-        "label": "low limit",
+        "label": "estimate with Google's slowdown",
         "valore": 3.9,
         "tono": "verde",
         "testo": "3.9% (8,649 cars)"
        },
        {
-        "label": "high limit",
+        "label": "estimate with the sensors' slowdown",
         "valore": 0.0,
         "tono": "verde",
         "testo": "0% (0 cars)"
@@ -11874,13 +11694,13 @@ window.SCHEDE_RISULTATI = [
       "label": "1.5-2",
       "voci": [
        {
-        "label": "low limit",
+        "label": "estimate with Google's slowdown",
         "valore": 54.6,
         "tono": "giallo",
         "testo": "54.6% (120,360 cars)"
        },
        {
-        "label": "high limit",
+        "label": "estimate with the sensors' slowdown",
         "valore": 3.0,
         "tono": "giallo",
         "testo": "3% (6,661 cars)"
@@ -11891,13 +11711,13 @@ window.SCHEDE_RISULTATI = [
       "label": "2-3",
       "voci": [
        {
-        "label": "low limit",
+        "label": "estimate with Google's slowdown",
         "valore": 41.1,
         "tono": "arancio",
         "testo": "41.1% (90,508 cars)"
        },
        {
-        "label": "high limit",
+        "label": "estimate with the sensors' slowdown",
         "valore": 52.2,
         "tono": "arancio",
         "testo": "52.2% (115,033 cars)"
@@ -11908,13 +11728,13 @@ window.SCHEDE_RISULTATI = [
       "label": "over 3",
       "voci": [
        {
-        "label": "low limit",
+        "label": "estimate with Google's slowdown",
         "valore": 0.4,
         "tono": "rosso",
         "testo": "0.4% (791 cars)"
        },
        {
-        "label": "high limit",
+        "label": "estimate with the sensors' slowdown",
         "valore": 44.8,
         "tono": "rosso",
         "testo": "44.8% (98,612 cars)"
@@ -11924,8 +11744,8 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "Cars with a ratio above 2 are 41% with the low factor and 97% with the high factor.",
-    "During the day the median ratio goes from 2 to 3.3 (slow car) and from 2.9 to 3.3 (fast car).",
+    "With Google's estimate 41% of cars have a ratio above 2; with the sensors' estimate 97%.",
+    "During the day the median ratio goes from 2 to 3.3 (Google estimate) and from 2.9 to 3.3 (sensor estimate).",
     "Google confirms the public transport times on the check routes: 31 versus 30-35 and 33 versus 30-35 minutes."
    ],
    "altri": [
@@ -11933,7 +11753,7 @@ window.SCHEDE_RISULTATI = [
      "tipo": "linea",
      "titolo": "How many times the car time, hour by hour",
      "unita": "times",
-     "nota": "Median ratio of public transport time to car time, weighted by morning cars, at 4 hours of the day. Two lines: slow car (scaled Google factor) and fast car (sensors).",
+     "nota": "Median ratio of public transport time to car time, weighted by morning cars, at 4 times of day. Two lines: estimate with Google's slowdown (scaled to the other hours) and estimate with the sensors' slowdown.",
      "categorie": [
       "8:00",
       "13:00",
@@ -11942,7 +11762,7 @@ window.SCHEDE_RISULTATI = [
      ],
      "serie": [
       {
-       "label": "slow car",
+       "label": "Google estimate",
        "valori": [
         1.96,
         2.37,
@@ -11951,7 +11771,7 @@ window.SCHEDE_RISULTATI = [
        ]
       },
       {
-       "label": "fast car",
+       "label": "sensor estimate",
        "valori": [
         2.94,
         3.1,
@@ -11971,37 +11791,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 20.6,
        "auto_min": 9.4,
        "auto_max": 12.7,
-       "giudizio": "by public transport 1.6 to 2.2 times the car time",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 20.6,
-         "auto_min": 9.4,
-         "auto_max": 12.7,
-         "giudizio": "by public transport 1.6 to 2.2 times the car time"
-        },
-        {
-         "ora": "13:00",
-         "bus": 20.7,
-         "auto_min": 9.0,
-         "auto_max": 10.9,
-         "giudizio": "by public transport 1.9 to 2.3 times the car time"
-        },
-        {
-         "ora": "17:30",
-         "bus": 21.2,
-         "auto_min": 9.4,
-         "auto_max": 12.7,
-         "giudizio": "by public transport 1.7 to 2.3 times the car time"
-        },
-        {
-         "ora": "21:00",
-         "bus": 20.7,
-         "auto_min": 8.7,
-         "auto_max": 8.7,
-         "giudizio": "by public transport about 2.4 times the car time"
-        }
-       ]
+       "giudizio": "by public transport 1.6 or 2.2 times the car time, by the two estimates"
       },
       {
        "nome": "San Paolo",
@@ -12009,37 +11799,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.3,
        "auto_min": 11.3,
        "auto_max": 16.0,
-       "giudizio": "by public transport 2 to 2.8 times the car time",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 31.3,
-         "auto_min": 11.3,
-         "auto_max": 16.0,
-         "giudizio": "by public transport 2 to 2.8 times the car time"
-        },
-        {
-         "ora": "13:00",
-         "bus": 30.5,
-         "auto_min": 10.7,
-         "auto_max": 13.4,
-         "giudizio": "by public transport 2.3 to 2.9 times the car time"
-        },
-        {
-         "ora": "17:30",
-         "bus": 31.5,
-         "auto_min": 11.3,
-         "auto_max": 16.0,
-         "giudizio": "by public transport 2 to 2.8 times the car time"
-        },
-        {
-         "ora": "21:00",
-         "bus": 30.4,
-         "auto_min": 10.2,
-         "auto_max": 10.2,
-         "giudizio": "by public transport about 3 times the car time"
-        }
-       ]
+       "giudizio": "by public transport 2 or 2.8 times the car time, by the two estimates"
       },
       {
        "nome": "Mirafiori Nord",
@@ -12047,37 +11807,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 19.2,
        "auto_min": 8.2,
        "auto_max": 10.6,
-       "giudizio": "by public transport 1.8 to 2.3 times the car time",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 19.2,
-         "auto_min": 8.2,
-         "auto_max": 10.6,
-         "giudizio": "by public transport 1.8 to 2.3 times the car time"
-        },
-        {
-         "ora": "13:00",
-         "bus": 18.8,
-         "auto_min": 8.0,
-         "auto_max": 9.3,
-         "giudizio": "by public transport 2 to 2.4 times the car time"
-        },
-        {
-         "ora": "17:30",
-         "bus": 19.2,
-         "auto_min": 8.2,
-         "auto_max": 10.6,
-         "giudizio": "by public transport 1.8 to 2.3 times the car time"
-        },
-        {
-         "ora": "21:00",
-         "bus": 18.7,
-         "auto_min": 7.7,
-         "auto_max": 7.7,
-         "giudizio": "by public transport about 2.4 times the car time"
-        }
-       ]
+       "giudizio": "by public transport 1.8 or 2.3 times the car time, by the two estimates"
       },
       {
        "nome": "Parella",
@@ -12085,37 +11815,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.7,
        "auto_min": 12.5,
        "auto_max": 18.1,
-       "giudizio": "by public transport 1.4 to 2 times the car time",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 24.7,
-         "auto_min": 12.5,
-         "auto_max": 18.1,
-         "giudizio": "by public transport 1.4 to 2 times the car time"
-        },
-        {
-         "ora": "13:00",
-         "bus": 25.0,
-         "auto_min": 11.8,
-         "auto_max": 15.0,
-         "giudizio": "by public transport 1.7 to 2.1 times the car time"
-        },
-        {
-         "ora": "17:30",
-         "bus": 24.7,
-         "auto_min": 12.5,
-         "auto_max": 18.1,
-         "giudizio": "by public transport 1.4 to 2 times the car time"
-        },
-        {
-         "ora": "21:00",
-         "bus": 26.8,
-         "auto_min": 11.2,
-         "auto_max": 11.2,
-         "giudizio": "by public transport about 2.4 times the car time"
-        }
-       ]
+       "giudizio": "by public transport 1.4 or 2 times the car time, by the two estimates"
       },
       {
        "nome": "San Donato",
@@ -12123,37 +11823,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 18.7,
        "auto_min": 9.0,
        "auto_max": 12.0,
-       "giudizio": "by public transport 1.6 to 2.1 times the car time",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 18.7,
-         "auto_min": 9.0,
-         "auto_max": 12.0,
-         "giudizio": "by public transport 1.6 to 2.1 times the car time"
-        },
-        {
-         "ora": "13:00",
-         "bus": 18.6,
-         "auto_min": 8.6,
-         "auto_max": 10.3,
-         "giudizio": "by public transport 1.8 to 2.2 times the car time"
-        },
-        {
-         "ora": "17:30",
-         "bus": 19.1,
-         "auto_min": 9.0,
-         "auto_max": 12.0,
-         "giudizio": "by public transport 1.6 to 2.1 times the car time"
-        },
-        {
-         "ora": "21:00",
-         "bus": 19.6,
-         "auto_min": 8.3,
-         "auto_max": 8.3,
-         "giudizio": "by public transport about 2.4 times the car time"
-        }
-       ]
+       "giudizio": "by public transport 1.6 or 2.1 times the car time, by the two estimates"
       },
       {
        "nome": "Barriera di Milano",
@@ -12161,41 +11831,11 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.0,
        "auto_min": 9.8,
        "auto_max": 13.4,
-       "giudizio": "by public transport 1.8 to 2.5 times the car time",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 24.0,
-         "auto_min": 9.8,
-         "auto_max": 13.4,
-         "giudizio": "by public transport 1.8 to 2.4 times the car time"
-        },
-        {
-         "ora": "13:00",
-         "bus": 23.3,
-         "auto_min": 9.4,
-         "auto_max": 11.4,
-         "giudizio": "by public transport 2 to 2.5 times the car time"
-        },
-        {
-         "ora": "17:30",
-         "bus": 23.9,
-         "auto_min": 9.8,
-         "auto_max": 13.4,
-         "giudizio": "by public transport 1.8 to 2.4 times the car time"
-        },
-        {
-         "ora": "21:00",
-         "bus": 24.4,
-         "auto_min": 9.0,
-         "auto_max": 9.0,
-         "giudizio": "by public transport about 2.7 times the car time"
-        }
-       ]
+       "giudizio": "by public transport 1.8 or 2.5 times the car time, by the two estimates"
       }
      ],
      "scelto": 0,
-     "nota": "The 6 most frequent morning car trips, each from a different area: bus and car start together. Then the same trips at 1 p.m., 5:30 p.m. and 9 p.m."
+     "nota": "The 6 most frequent car trips, at 8 a.m. on a weekday, starting from different zones: bus and car leave together."
     },
     {
      "tipo": "dispersione",
@@ -15220,7 +14860,7 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "The 15 pairs with the most cars where public transport takes more than twice as long",
      "unita": "cars",
-     "nota": "Morning cars on that pair (6 a.m. to 10 a.m., weekday), with the low factor 2.1. On the right, minutes by public transport versus by car.",
+     "nota": "Morning cars on that pair (6 a.m. to 10 a.m., weekday), with Google's estimate (factor 2.1). On the right, minutes by public transport versus by car.",
      "voci": [
       {
        "label": "Torino, Madonna Del Pilone → Torino, Vanchiglia",
@@ -15319,7 +14959,7 @@ window.SCHEDE_RISULTATI = [
     "Zones are those of the 2022 travel survey, with calculation points; each has up to 5 points.",
     "Public transport: on foot, bus, tram and metro, departing between 7:45 and 8:15. We take the median.",
     "Car: free-flow time times a peak factor, plus 5 minutes. There are two factors: 2.1 from Google Maps and 1.2 from the sensors.",
-    "Ratio = public transport time divided by car time. The bands are fixed and chosen before seeing the numbers.",
+    "Ratio = public transport time divided by car time. The bands are fixed.",
     "The cars of a pair are the survey's car trips, departing between 6 and 10 a.m. on a weekday."
    ],
    "criteri": [
@@ -15332,22 +14972,22 @@ window.SCHEDE_RISULTATI = [
      "departure 07:45-8:15 on a weekday, median, walking at 4.8 km/h, at most 120 minutes"
     ],
     [
-     "Car, high limit",
+     "Car, estimate with the sensors' slowdown",
      "free-flow time × 1.2 (5T sensors) + 5 minutes"
     ],
     [
-     "Car, low limit",
+     "Car, estimate with Google's slowdown",
      "free-flow time × 2.1 (Google Maps, 6 routes) + 5 minutes"
     ],
     [
      "Ratio bands",
-     "under 1.5, 1.5-2, 2-3, over 3 (fixed before the numbers)"
+     "under 1.5, 1.5-2, 2-3, over 3"
     ]
    ],
    "limiti": [
-    "Outside Turin, trains and other operators are missing: pairs between suburban towns are not in the number.",
+    "Outside Turin, trains and other operators are missing: pairs between suburban towns are not in the number. Without metropolitan trains, where they exist, public transport looks slower than it is. The timetable is the scheduled one.",
     "Our road network ignores traffic lights and junctions. The car slowdown at the other hours comes from the sensors. Google's is known only at 8 a.m. and has been scaled.",
-    "Without metropolitan trains, where they exist, public transport looks slower than it is. The timetable is the scheduled one.",
+    "Google's slowdown was measured on 6 routes leaving the centre. Inbound, the car may be slower.",
     "The survey is a sample. Trips within a zone and 653 pairs with no connection (5,616 cars) are not in the comparison."
    ],
    "extra": {
@@ -15406,7 +15046,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T18:30:58+00:00",
+  "generato": "2026-10-23T19:43:26+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],

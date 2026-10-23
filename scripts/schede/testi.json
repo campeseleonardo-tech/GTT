@@ -27,8 +27,6 @@
   "negozi e attività commerciali": "shops and commercial activities",
   "fermate": "public transport stops",
   "verde": "green space",
-  "limite basso": "low limit",
-  "limite alto": "high limit",
   "il doppio": "twice as long",
   "bisogno alto": "high need",
   "bisogno medio": "medium need",
@@ -94,7 +92,6 @@
   "punta della sera (16-19)": "evening peak (16-19)",
   "Dove mancano posti per lasciare l'auto, e quando il bus da lì verso il centro è veloce quanto l'auto?": "Where is there too little room to leave the car, and when is the bus from there to the centre as fast as the car?",
   "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
-  "Verso Piazza Castello alle 8. Barra scura = auto lenta (fattore di Google), barra chiara = auto veloce (fattore dei sensori). Meno minuti = punto più promettente; 0 = il bus è già più veloce.": "Towards Piazza Castello at 8 a.m. Dark bar = slow car (Google factor), light bar = fast car (sensor factor). Fewer minutes = more promising point; 0 = the bus is already faster.",
   "Il bisogno è alto, medio o basso a terzi, in base ai posti che mancano. Le lunghezze sono un ordine di grandezza.": "Need is high, medium or low by thirds, based on the missing spaces. Lengths are an order of magnitude.",
   "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.": "Cars entering come from the 2022 travel survey, assigned to the fastest route.",
   "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.": "Priority points: stops without enough parking, grouped within 1 km, one per entry axis.",
@@ -113,14 +110,10 @@
   "Tempo in auto e tempo coi mezzi pubblici, una coppia di zone per punto": "Car time and public transport time, one pair of zones per point",
   "minuti coi mezzi pubblici": "minutes by public transport",
   "Mezzi pubblici: a piedi, bus, tram e metro, con partenza fra le 7:45 e le 8:15. Si prende la mediana.": "Public transport: on foot, bus, tram and metro, departing between 7:45 and 8:15. We take the median.",
-  "Rapporto = tempo coi mezzi diviso tempo in auto. Le fasce sono fisse e decise prima di vedere i numeri.": "Ratio = public transport time divided by car time. The bands are fixed and chosen before seeing the numbers.",
   "Le auto di una coppia sono i viaggi in auto dell'indagine, in partenza dalle 6 alle 10 di un feriale.": "The cars of a pair are the survey's car trips, departing between 6 and 10 a.m. on a weekday.",
   "Mezzi pubblici": "Public transport",
-  "Auto, limite alto": "Car, high limit",
-  "Auto, limite basso": "Car, low limit",
   "Fasce del rapporto": "Ratio bands",
   "Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero.": "Outside Turin, trains and other operators are missing: pairs between suburban towns are not in the number.",
-  "La nostra rete stradale non conta semafori e incroci. I tempi in auto sono stimati fra il rallentamento misurato dai sensori e quello di Google Maps.": "Our road network ignores traffic lights and junctions. Car times are estimated between the slowdown measured by sensors and that of Google Maps.",
   "Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.": "Without metropolitan trains, where they exist, public transport looks slower than it is. The timetable is the scheduled one.",
   "Strade grandi e fermate vicine": "Large roads and nearby stops",
   "Km di strade grandi di Torino: con o senza trasporto pubblico vicino": "Km of large roads in Turin: with or without public transport nearby",
@@ -180,16 +173,25 @@
   "Quante volte il tempo dell'auto, ora per ora": "How many times the car time, hour by hour",
   "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. Due linee: auto lenta (fattore di Google scalato) e auto veloce (sensori).": "Median ratio of public transport time to car time, weighted by morning cars, at 4 hours of the day. Two lines: slow car (scaled Google factor) and fast car (sensors).",
   "auto lenta": "slow car",
-  "auto veloce": "fast car"
+  "auto veloce": "fast car",
+  "stima con il rallentamento di Google": "estimate with Google's slowdown",
+  "stima con il rallentamento dei sensori": "estimate with the sensors' slowdown",
+  "stima Google": "Google estimate",
+  "stima sensori": "sensor estimate",
+  "Auto, stima con il rallentamento dei sensori": "Car, estimate with the sensors' slowdown",
+  "Auto, stima con il rallentamento di Google": "Car, estimate with Google's slowdown",
+  "Rapporto = tempo coi mezzi diviso tempo in auto. Le fasce sono fisse.": "Ratio = public transport time divided by car time. The bands are fixed.",
+  "Il rallentamento di Google è stato misurato su 6 percorsi in uscita dal centro. In entrata l'auto può essere più lenta.": "Google's slowdown was measured on 6 routes leaving the centre. Inbound, the car may be slower.",
+  "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione.": "The cost of parking is not in the calculation: it weighs as extra minutes. One point per place and one destination only.",
+  "Verso Piazza Castello alle 8. Barra scura = stima con il rallentamento di Google, barra chiara = stima con il rallentamento dei sensori. Meno minuti = punto più promettente; 0 = il bus è già più veloce.": "Towards Piazza Castello at 8 a.m. Dark bar = estimate with Google's slowdown, light bar = estimate with the sensors' slowdown. Fewer minutes = more promising point; 0 = the bus is already faster.",
+  "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. Due linee: stima con il rallentamento di Google (scalato alle altre ore) e stima con quello dei sensori.": "Median ratio of public transport time to car time, weighted by morning cars, at 4 times of day. Two lines: estimate with Google's slowdown (scaled to the other hours) and estimate with the sensors' slowdown.",
+  "Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero. Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.": "Outside Turin, trains and other operators are missing: pairs between suburban towns are not in the number. Without metropolitan trains, where they exist, public transport looks slower than it is. The timetable is the scheduled one.",
+  "La nostra rete stradale non conta semafori e incroci. I tempi in auto sono due stime, col rallentamento dei sensori e con quello di Google Maps: il valore vero può stare anche fuori.": "Our road network ignores traffic lights and junctions. Car times are two estimates, with the sensors' slowdown and with Google Maps': the true value may lie outside."
  },
  "modelli": [
   {
    "it": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il {n0}% dei torinesi coi mezzi pubblici e dal {n1}% al {n2}% in auto (due fattori di punta, parcheggio compreso).",
    "en": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach {n0}% of residents by public transport and {n1}% to {n2}% by car (two rush-hour factors, parking included)."
-  },
-  {
-   "it": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: {n0} (sensori, auto veloce) e {n1} (Google, auto chiara e lenta).",
-   "en": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: {n0} (sensors, fast car) and {n1} (Google, faded slow car)."
   },
   {
    "it": "Ogni barra è un tempo a piedi: 100% dei residenti delle zone abitate (almeno {n0} abitanti per km²).",
@@ -376,10 +378,6 @@
    "en": "Existing park-and-ride lots are not very full: in the daytime only {n0} of {n1} is full."
   },
   {
-   "it": "Alle 8 di un feriale. A destra il tempo in auto, parcheggio compreso, fra i due fattori di punta ({n0} e {n1}).",
-   "en": "At 8 a.m. on a weekday. On the right, car time including parking, between the two peak factors ({n0} and {n1})."
-  },
-  {
    "it": "{n0} contro {s1} in auto",
    "en": "{n0} versus {s1} by car"
   },
@@ -390,10 +388,6 @@
   {
    "it": "il tempo dell'auto: rapporto mediano, pesato per le auto del mattino ({n0} auto)",
    "en": "the car's travel time: median ratio, weighted by morning cars ({n0} cars)"
-  },
-  {
-   "it": "Rapporto 2 = coi mezzi pubblici si impiega il doppio che in auto. Coppie Torino-Torino e Torino-cintura. Limite basso: auto lenta come su Google Maps (fattore {n0}); limite alto: auto veloce come misurano i sensori (fattore {n1}).",
-   "en": "Ratio 2 = public transport takes twice as long as the car. Turin–Turin and Turin–suburb pairs. Low limit: slow car as on Google Maps (factor {n0}); high limit: fast car as the sensors measure (factor {n1})."
   },
   {
    "it": "sotto {n0}",
@@ -424,10 +418,6 @@
    "en": "The {n0} pairs with the most cars where public transport takes more than twice as long"
   },
   {
-   "it": "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con il fattore basso {n0}. A destra i minuti coi mezzi contro quelli in auto.",
-   "en": "Morning cars on that pair (6 a.m. to 10 a.m., weekday), with the low factor {n0}. On the right, minutes by public transport versus by car."
-  },
-  {
    "it": "{n0} auto: {n1} contro {n2} min",
    "en": "{n0} cars: {n1} versus {n2} min"
   },
@@ -454,10 +444,6 @@
   {
    "it": "tempo a flusso libero × {n0} (Google Maps, {n1} percorsi) + {n2} minuti",
    "en": "free-flow time × {n0} (Google Maps, {n1} routes) + {n2} minutes"
-  },
-  {
-   "it": "sotto {n0}, {n1}-{n2}, {n3}-{n4}, oltre {n5} (fissate prima dei numeri)",
-   "en": "under {n0}, {n1}-{n2}, {n3}-{n4}, over {n5} (fixed before the numbers)"
   },
   {
    "it": "L'indagine è un campione. I viaggi dentro una zona e {n0} coppie senza collegamento ({n1} auto) non sono nel confronto.",
@@ -568,10 +554,6 @@
    "en": "The most promising point is {s0}: {s1} minutes are enough for the bus to match the car."
   },
   {
-   "it": "Le auto con rapporto oltre 2 sono il {n0}% con il fattore basso e il {n1}% con il fattore alto.",
-   "en": "Cars with a ratio above 2 are {n0}% with the low factor and {n1}% with the high factor."
-  },
-  {
    "it": "Le 3 coppie peggiori: {s0}.",
    "en": "The 3 worst pairs: {s0}."
   },
@@ -600,10 +582,6 @@
    "en": "{n0} important stops have no suitable car park nearby; {n1} have too few spaces."
   },
   {
-   "it": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, fra i due fattori di punta ({n0} e {n1}).",
-   "en": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, between the two rush-hour factors ({n0} and {n1})."
-  },
-  {
    "it": "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei {n0} punti.",
    "en": "Bus versus car: minutes by public transport to Piazza Castello at 8 am, versus the car including parking. Median of the {n0} points."
   },
@@ -620,16 +598,8 @@
    "en": "About {n0}% of stop passages are more than 10 minutes late"
   },
   {
-   "it": "Dal parcheggio, il bus batte l'auto solo se in centro si perdono più di {s0} minuti a parcheggiare.",
-   "en": "From the car park, the bus beats the car only if parking downtown takes more than {s0} minutes."
-  },
-  {
    "it": "I {n0} viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme.",
    "en": "The {n0} most frequent morning car trips, each from a different area: bus and car start together."
-  },
-  {
-   "it": "I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto sta fra due fattori di punta, {n0} e {n1}.",
-   "en": "Public transport times are GTT only, without trains, and only in the morning. The car lies between two rush-hour factors, {n0} and {n1}."
   },
   {
    "it": "Ogni punto è una fermata importante, in Torino e in cintura; la linea è il confine di Torino. I cerchi neri sono i {n0} punti dove servirebbero di più nuovi posti.",
@@ -642,14 +612,6 @@
   {
    "it": "Su 100 passaggi feriali, circa {n0} arrivano con più di 5 minuti di ritardo ({n1}%); con più di 10 minuti circa {n2}. Poi il giorno, fascia per fascia.",
    "en": "Out of 100 weekday stop passages, about {n0} are more than 5 minutes late ({n1}%); about {n2} more than 10 minutes. Then the day, time band by time band."
-  },
-  {
-   "it": "{t0} Il punto più promettente è {s0}: lì bastano {s1} minuti persi a parcheggiare in centro.",
-   "en": "{t0} The most promising point is {s0}: there, {s1} minutes lost parking downtown are enough."
-  },
-  {
-   "it": "{t0}; {n0} contro {n1}-{n2} in auto",
-   "en": "{t0}; {n0} versus {n1}-{n2} by car"
   },
   {
    "it": "coi mezzi da {n0} a {n1} volte il tempo dell'auto",
@@ -668,10 +630,6 @@
    "en": "all {n0} services within {n1} minutes on foot"
   },
   {
-   "it": "Nel giorno il rapporto mediano va da {n0} a {n1} (auto lenta) e da {n2} a {n3} (auto veloce).",
-   "en": "During the day the median ratio goes from {n0} to {n1} (slow car) and from {n2} to {n3} (fast car)."
-  },
-  {
    "it": "I {n0} viaggi in auto più frequenti del mattino, partendo da zone diverse: bus e auto partono insieme. Poi gli stessi viaggi alle 13, alle 17:30 e alle 21.",
    "en": "The {n0} most frequent morning car trips, each from a different area: bus and car start together. Then the same trips at 1 p.m., 5:30 p.m. and 9 p.m."
   },
@@ -682,6 +640,62 @@
   {
    "it": "coi mezzi circa {n0} volte il tempo dell'auto",
    "en": "by public transport about {n0} times the car time"
+  },
+  {
+   "it": "Dal parcheggio il bus batte l'auto solo se in centro si perdono minuti a parcheggiare. Servono più di {n0} minuti (stima Google) o {n1} (stima sensori).",
+   "en": "From the car park the bus beats the car only if you lose minutes parking downtown. You need more than {n0} minutes (Google estimate) or {n1} (sensor estimate)."
+  },
+  {
+   "it": "Dal parcheggio il bus batte l'auto solo se in centro si perdono minuti a parcheggiare. Servono più di {n0} minuti.",
+   "en": "From the car park the bus beats the car only if you lose minutes parking downtown. You need more than {n0} minutes."
+  },
+  {
+   "it": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: {n0} (stima con il rallentamento dei sensori) e {n1} (stima con quello di Google, auto chiara).",
+   "en": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: {n0} (estimate with the sensors' slowdown) and {n1} (estimate with Google's slowdown, faded car)."
+  },
+  {
+   "it": "{t0} Il punto più promettente è {s0}: lì bastano {w1} persi a parcheggiare in centro.",
+   "en": "{t0} The most promising point is {s0}: there, {w1} lost parking downtown are enough."
+  },
+  {
+   "it": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, con due stime del rallentamento ({n0} e {n1}): il valore vero può stare anche fuori.",
+   "en": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, with two estimates of the slowdown ({n0} and {n1}): the true value may lie outside."
+  },
+  {
+   "it": "{t0}; {n0} contro {n1} o {n2} in auto",
+   "en": "{t0}; {n0} versus {n1} or {n2} by car"
+  },
+  {
+   "it": "I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto ha due stime del rallentamento, {n0} e {n1}: il valore vero può stare anche fuori.",
+   "en": "Public transport times are GTT only, without trains, and only in the morning. The car has two estimates of the slowdown, {n0} and {n1}: the true value may lie outside."
+  },
+  {
+   "it": "Rapporto 2 = coi mezzi pubblici si impiega il doppio che in auto. Coppie Torino-Torino e Torino-cintura. Due stime: con il rallentamento di Google Maps (fattore {n0}) e con quello dei sensori (fattore {n1}); il valore vero può stare anche fuori.",
+   "en": "Ratio 2 = public transport takes twice as long as the car. Turin–Turin and Turin–suburb pairs. Two estimates: with Google Maps' slowdown (factor {n0}) and with the sensors' (factor {n1}); the true value may lie outside."
+  },
+  {
+   "it": "Con la stima di Google il {n0}% delle auto ha rapporto oltre 2; con quella dei sensori il {n1}%.",
+   "en": "With Google's estimate {n0}% of cars have a ratio above 2; with the sensors' estimate {n1}%."
+  },
+  {
+   "it": "Nel giorno il rapporto mediano va da {n0} a {n1} (stima Google) e da {n2} a {n3} (stima sensori).",
+   "en": "During the day the median ratio goes from {n0} to {n1} (Google estimate) and from {n2} to {n3} (sensor estimate)."
+  },
+  {
+   "it": "coi mezzi {n0} o {n1} volte il tempo dell'auto, secondo le due stime",
+   "en": "by public transport {n0} or {n1} times the car time, by the two estimates"
+  },
+  {
+   "it": "I {n0} viaggi in auto più frequenti, alle 8 di un feriale, partendo da zone diverse: bus e auto partono insieme.",
+   "en": "The {n0} most frequent car trips, at 8 a.m. on a weekday, starting from different zones: bus and car leave together."
+  },
+  {
+   "it": "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di Google (fattore {n0}). A destra i minuti coi mezzi contro quelli in auto.",
+   "en": "Morning cars on that pair (6 a.m. to 10 a.m., weekday), with Google's estimate (factor {n0}). On the right, minutes by public transport versus by car."
+  },
+  {
+   "it": "sotto {n0}, {n1}-{n2}, {n3}-{n4}, oltre {n5}",
+   "en": "under {n0}, {n1}-{n2}, {n3}-{n4}, over {n5}"
   }
  ]
 }

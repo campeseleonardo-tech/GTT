@@ -179,7 +179,7 @@ function unitaHtml(u){
   return `<div class="unita">${corpo}${u.didascalia ? `<p class="didascalia">${esc(u.didascalia)}</p>` : ""}</div>`;
 }
 
-/* barre a gruppi: un titolo per gruppo (es. fascia) e sotto le sue barre (es. limite basso e alto), tutte sulla stessa scala */
+/* barre a gruppi: un titolo per gruppo (es. fascia) e sotto le sue barre (es. le due stime), tutte sulla stessa scala */
 function graficoBarreGruppi(g){
   return (g.gruppi || []).map(gr => `<div class="etichetta-gruppo">${esc(gr.label)}</div>` + graficoBarre({voci: gr.voci, unita: g.unita, max: g.max})).join("");
 }
@@ -217,7 +217,9 @@ function graficoLinea(g){
   const X = i => PL + (cat.length > 1 ? i / (cat.length - 1) : .5) * AW, Y = v => PT + (1 - v / tetto) * AH;
   const guide = [0, tetto / 2, tetto].map(v => `<line x1="${PL}" x2="${LW - PR}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" style="stroke:var(--line)"/>`
     + `<text x="${PL - 6}" y="${(Y(v) + 4).toFixed(1)}" text-anchor="end" font-size="10" style="fill:var(--muted)">${formattaNumero(v)}${g.unita === "%" ? "%" : ""}</text>`).join("");
-  const nomi = cat.map((c, i) => `<text x="${X(i).toFixed(1)}" y="${LH - 12}" text-anchor="middle" font-size="10" style="fill:var(--muted)">${esc(c)}</text>`).join("");
+  // l'etichetta non deve uscire dal disegno: centro tenuto a mezza larghezza stimata (0,6 x 10 px per carattere) dal bordo
+  const xEt = (i, c) => Math.min(LW - 3 - c.length * 3, Math.max(3 + c.length * 3, X(i)));
+  const nomi = cat.map((c, i) => `<text x="${xEt(i, String(c)).toFixed(1)}" y="${LH - 12}" text-anchor="middle" font-size="10" style="fill:var(--muted)">${esc(c)}</text>`).join("");
   const linee = serie.map(s => {
     const pts = s.valori.map((v, i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`);
     const punti = s.valori.map((v, i) => `<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3.5" style="fill:var(--accent)"/>`

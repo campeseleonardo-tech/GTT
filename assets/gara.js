@@ -16,12 +16,12 @@
   var contatore = 0;
 
   var TESTI = {
-    it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto", autoLenta: "Auto, ora di punta lenta", autoVeloce: "Auto, ora di punta veloce", autoLentaOra: "Auto, traffico pesante", autoVeloceOra: "Auto, traffico scorrevole",
+    it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto", autoLenta: "Auto, stima Google", autoVeloce: "Auto, stima sensori", autoLentaOra: "Auto, stima Google", autoVeloceOra: "Auto, stima sensori",
          min: "min", riparti: "Riparti", scegli: "Punto di partenza", prioritari: "Punti prioritari", interscambi: "Interscambi esistenti",
-         da: "Da", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + (l.ora ? " alle " + l.ora : "") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? "da " + n(l.auto_min) + " a " + n(l.auto_max) : n(l.auto_min)) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
-    en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car", autoLenta: "Car, slow rush hour", autoVeloce: "Car, fast rush hour", autoLentaOra: "Car, heavy traffic", autoVeloceOra: "Car, light traffic",
+         da: "Da", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + (l.ora ? " alle " + l.ora : "") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? n(l.auto_min) + " o " + n(l.auto_max) + " (due stime)" : n(l.auto_min)) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
+    en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car", autoLenta: "Car, Google estimate", autoVeloce: "Car, sensor estimate", autoLentaOra: "Car, Google estimate", autoVeloceOra: "Car, sensor estimate",
          min: "min", riparti: "Replay", scegli: "Starting point", prioritari: "Priority points", interscambi: "Existing park-and-ride",
-         da: "From", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + (l.ora ? " at " + l.ora : "") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " to " + n(l.auto_max) : n(l.auto_min)) + " minutes, parking included."; }}
+         da: "From", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + (l.ora ? " at " + l.ora : "") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " or " + n(l.auto_max) + " (two estimates)" : n(l.auto_min)) + " minutes, parking included."; }}
   };
   function lingua(){ return (document.documentElement.lang || "it").slice(0, 2) === "en" ? "en" : "it"; }
   function T(){ return TESTI[lingua()]; }
@@ -82,10 +82,13 @@
       return base + '<g class="gv ' + c.k + '" data-min="' + c.min + '" transform="translate(' + VIA + ' ' + (y + 1) + ')">' + c.forma + '</g>'
         + '<text class="gara-min" x="' + (FINE + 8) + '" y="' + (y + 16) + '">' + n(c.min) + ' ' + t.min + '</text>';
     }).join("");
+    // le due scritte in alto (partenza a sinistra, arrivo a destra) non devono toccarsi: stima 0,6 x corpo x caratteri
+    var testoDa = t.da + " " + l.nome + (l.ora && l0.ore.length > 1 ? " · " + l.ora : ""), arrivoTesto = l.arrivo || t.centro;
+    var stimaDa = VIA + testoDa.length * .6 * 14, stimaArrivo = arrivoTesto.length * .6 * 12;
     var svg = '<svg viewBox="0 0 480 ' + H + '" role="img" aria-label="' + esc(t.parlato(l)) + '">'
       + '<line class="gara-arrivo" x1="' + (FINE + 2) + '" x2="' + (FINE + 2) + '" y1="8" y2="' + (H - 6) + '"/>'
       + '<text x="' + (FINE + 2) + '" y="' + 8 + '" text-anchor="end" dx="-4" style="font-size:12px">' + esc(l.arrivo || t.centro) + '</text>'
-      + '<text x="' + VIA + '" y="8" class="gara-da">' + esc(t.da + " " + l.nome + (l.ora && l0.ore.length > 1 ? " · " + l.ora : "")) + '</text>' + righe + '</svg>';
+      + '<text x="' + VIA + '" y="8" class="gara-da"' + (stimaDa > FINE - 14 - stimaArrivo - 12 ? ' style="font-size:12px"' : '') + '>' + esc(testoDa) + '</text>' + righe + '</svg>';
     el.querySelector(".gara-svg").innerHTML = svg;
     el.querySelector(".gara-testo").textContent = t.parlato(l);
     // ore: finita la corsa di un'ora, dopo una pausa parte quella dell'ora dopo; l'ultima chiama fine

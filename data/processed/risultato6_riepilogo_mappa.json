@@ -551,7 +551,7 @@
     "scripts/84_risultato6_parcheggi.py",
     "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T18:30:57+00:00",
+  "generato": "2026-10-23T19:43:25+00:00",
   "avviso": [
     "Come leggere i tag. ",
     "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -682,13 +682,13 @@
     "punti": [
       "68 fermate importanti non hanno nessun parcheggio adatto vicino; 111 ne hanno troppo pochi.",
       "Servirebbero posti soprattutto in 12 punti d'ingresso: il primo è Santa Rita, dove ne mancano circa 450.",
-      "Dal parcheggio, il bus batte l'auto solo se in centro si perdono più di 21–28 minuti a parcheggiare."
+      "Dal parcheggio il bus batte l'auto solo se in centro si perdono minuti a parcheggiare. Servono più di 21 minuti (stima Google) o 28 (stima sensori)."
     ],
     "altri": [
       {
         "tipo": "gara",
         "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale",
-        "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (sensori, auto veloce) e 2,1 (Google, auto chiara e lenta). Il punto più promettente è Metro Massaua: lì bastano 7–15 minuti persi a parcheggiare in centro.",
+        "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: 1,2 (stima con il rallentamento dei sensori) e 2,1 (stima con quello di Google, auto chiara). Il punto più promettente è Metro Massaua: lì bastano 7 minuti (stima Google) o 15 (stima sensori) persi a parcheggiare in centro.",
         "luoghi": [
           {
             "nome": "Santa Rita",
@@ -1343,7 +1343,7 @@
         "tipo": "barre",
         "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto",
         "unita": "minuti",
-        "nota": "Verso Piazza Castello alle 8. Barra scura = auto lenta (fattore di Google), barra chiara = auto veloce (fattore dei sensori). Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
+        "nota": "Verso Piazza Castello alle 8. Barra scura = stima con il rallentamento di Google, barra chiara = stima con il rallentamento dei sensori. Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
         "voci": [
           {
             "label": "Metro Massaua",
@@ -1423,32 +1423,32 @@
         "tipo": "barre",
         "titolo": "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro",
         "unita": "minuti",
-        "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, fra i due fattori di punta (1,2 e 2,1).",
+        "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, con due stime del rallentamento (1,2 e 2,1): il valore vero può stare anche fuori.",
         "voci": [
           {
             "label": "Stura",
             "valore": 39,
-            "testo": "pieno di giorno; 39 contro 17-27 in auto"
+            "testo": "pieno di giorno; 39 contro 17 o 27 in auto"
           },
           {
             "label": "Venchi Unica",
             "valore": 28,
-            "testo": "a metà; 28 contro 16-24 in auto"
+            "testo": "a metà; 28 contro 16 o 24 in auto"
           },
           {
             "label": "Caio Mario",
             "valore": 38,
-            "testo": "con posti liberi; 38 contro 16-24 in auto"
+            "testo": "con posti liberi; 38 contro 16 o 24 in auto"
           },
           {
             "label": "Fermi",
             "valore": 31,
-            "testo": "non misurato; 31 contro 19-29 in auto"
+            "testo": "non misurato; 31 contro 19 o 29 in auto"
           },
           {
             "label": "Sofia",
             "valore": 33,
-            "testo": "con posti liberi; 33 contro 13-20 in auto"
+            "testo": "con posti liberi; 33 contro 13 o 20 in auto"
           }
         ]
       }
@@ -1481,8 +1481,8 @@
     "limiti": [
       "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
       "I tempi coi mezzi sono solo GTT, senza treni. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato.",
-      "Il costo del parcheggio in centro non è nel calcolo: pesa come minuti in più.",
-      "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello."
+      "Il rallentamento di Google è stato misurato su 6 percorsi in uscita dal centro. In entrata l'auto può essere più lenta.",
+      "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."
     ],
     "mappa": {
       "id": "interscambio",
@@ -3307,13 +3307,13 @@
     "punti": [
       "68 important stops have no suitable car park nearby; 111 have too few spaces.",
       "Spaces are needed above all at 12 entry points: the first is Santa Rita, where about 450 are missing.",
-      "From the car park, the bus beats the car only if parking downtown takes more than 21–28 minutes."
+      "From the car park the bus beats the car only if you lose minutes parking downtown. You need more than 21 minutes (Google estimate) or 28 (sensor estimate)."
     ],
     "altri": [
       {
         "tipo": "gara",
         "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m., 1 p.m., 5:30 p.m. and 9 p.m. on a weekday",
-        "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (sensors, fast car) and 2.1 (Google, faded slow car). The most promising point is Metro Massaua: there, 7–15 minutes lost parking downtown are enough.",
+        "nota": "One real minute lasts a split second: the longer the trip, the later the vehicle arrives. The car has two times, parking included: 1.2 (estimate with the sensors' slowdown) and 2.1 (estimate with Google's slowdown, faded car). The most promising point is Metro Massaua: there, 7 minutes (Google estimate) or 15 (sensor estimate) lost parking downtown are enough.",
         "luoghi": [
           {
             "nome": "Santa Rita",
@@ -3968,7 +3968,7 @@
         "tipo": "barre",
         "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
         "unita": "minutes",
-        "nota": "Towards Piazza Castello at 8 a.m. Dark bar = slow car (Google factor), light bar = fast car (sensor factor). Fewer minutes = more promising point; 0 = the bus is already faster.",
+        "nota": "Towards Piazza Castello at 8 a.m. Dark bar = estimate with Google's slowdown, light bar = estimate with the sensors' slowdown. Fewer minutes = more promising point; 0 = the bus is already faster.",
         "voci": [
           {
             "label": "Metro Massaua",
@@ -4048,32 +4048,32 @@
         "tipo": "barre",
         "titolo": "Existing park-and-ride sites: how full they are and how long the bus takes to the centre",
         "unita": "minutes",
-        "nota": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, between the two rush-hour factors (1.2 and 2.1).",
+        "nota": "Bar = minutes by public transport to Piazza Castello at 8 am. On the right, how full the car park is during the day and the time by car, parking included, with two estimates of the slowdown (1.2 and 2.1): the true value may lie outside.",
         "voci": [
           {
             "label": "Stura",
             "valore": 39,
-            "testo": "full during the day; 39 versus 17-27 by car"
+            "testo": "full during the day; 39 versus 17 or 27 by car"
           },
           {
             "label": "Venchi Unica",
             "valore": 28,
-            "testo": "half full; 28 versus 16-24 by car"
+            "testo": "half full; 28 versus 16 or 24 by car"
           },
           {
             "label": "Caio Mario",
             "valore": 38,
-            "testo": "with free spaces; 38 versus 16-24 by car"
+            "testo": "with free spaces; 38 versus 16 or 24 by car"
           },
           {
             "label": "Fermi",
             "valore": 31,
-            "testo": "not measured; 31 versus 19-29 by car"
+            "testo": "not measured; 31 versus 19 or 29 by car"
           },
           {
             "label": "Sofia",
             "valore": 33,
-            "testo": "with free spaces; 33 versus 13-20 by car"
+            "testo": "with free spaces; 33 versus 13 or 20 by car"
           }
         ]
       }
@@ -4106,8 +4106,8 @@
     "limiti": [
       "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude.",
       "Public transport times are GTT only, without trains. The car slowdown at the other hours comes from the sensors. Google's is known only at 8 a.m. and has been scaled.",
-      "The cost of parking downtown is not in the calculation: it counts as extra minutes.",
-      "We look at one point per place and a single destination, Piazza Castello."
+      "Google's slowdown was measured on 6 routes leaving the centre. Inbound, the car may be slower.",
+      "The cost of parking is not in the calculation: it weighs as extra minutes. One point per place and one destination only."
     ],
     "mappa": {
       "id": "interscambio",

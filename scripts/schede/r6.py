@@ -253,17 +253,17 @@ def forma_r6(s):
     stati = {"pieno": "pieno di giorno", "a_meta": "a metà", "libero": "con posti liberi", "non_misurato": "non misurato"}
     graf_inter = {"tipo": "barre", "titolo": "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro", "unita": "minuti",
                   "nota": f"Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, "
-                          f"parcheggio compreso, fra i due fattori di punta ({f_ba_hi} e {f_ba_lo}).",
+                          f"parcheggio compreso, con due stime del rallentamento ({f_ba_hi} e {f_ba_lo}): il valore vero può stare anche fuori.",
                   "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["tp_min"]),
-                            "testo": f"{stati.get(l.get('stato'), 'non misurato')}; {round(l['tp_min'])} contro {round(l['auto_alto_min'])}-{round(l['auto_basso_min'])} in auto"}
+                            "testo": f"{stati.get(l.get('stato'), 'non misurato')}; {round(l['tp_min'])} contro {round(l['auto_alto_min'])} o {round(l['auto_basso_min'])} in auto"}
                            for l in inter]}
     # messaggio: minuti di pareggio = minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (script 94, senza soglie scelte da noi)
     pm = ba["pareggio"]["punti"]
     lo_m, hi_m = round(pm["mediana_basso_min"]), round(pm["mediana_alto_min"])
-    forbice_m = f"{lo_m}–{hi_m}" if hi_m != lo_m else f"{lo_m}"
+    forbice_m = f"{lo_m} minuti (stima Google) o {hi_m} (stima sensori)" if hi_m != lo_m else f"{lo_m} minuti"
     pb = sorted((l for l in ba["luoghi"][:n_punti_ba] if l["pareggio_basso_min"] is not None), key=lambda l: l["pareggio_basso_min"])
     pareggio_g = {"tipo": "barre", "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto", "unita": "minuti",
-                  "nota": "Verso Piazza Castello alle 8. Barra scura = auto lenta (fattore di Google), barra chiara = auto veloce (fattore dei sensori). "
+                  "nota": "Verso Piazza Castello alle 8. Barra scura = stima con il rallentamento di Google, barra chiara = stima con il rallentamento dei sensori. "
                           "Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
                   "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["pareggio_basso_min"]), "prima": round(l["pareggio_alto_min"]),
                             "testo": f"{round(l['pareggio_basso_min'])}–{round(l['pareggio_alto_min'])} min"} for l in pb]}
@@ -277,9 +277,9 @@ def forma_r6(s):
     gara_g = {"tipo": "gara", "titolo": ("La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale" if od
                          else "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale"),
               "nota": f"Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha due tempi, parcheggio compreso: "
-                      f"{f_ba_hi} (sensori, auto veloce) e {f_ba_lo} (Google, auto chiara e lenta).",
+                      f"{f_ba_hi} (stima con il rallentamento dei sensori) e {f_ba_lo} (stima con quello di Google, auto chiara).",
               "luoghi": luoghi_gara, "scelto": scelto}
-    mi = lambda l: f"{round(l['pareggio_basso_min'])}–{round(l['pareggio_alto_min'])} minuti" if l["pareggio_basso_min"] is not None else "nessun collegamento"
+    mi = lambda l: f"{round(l['pareggio_basso_min'])} minuti (stima Google) o {round(l['pareggio_alto_min'])} (stima sensori)" if l["pareggio_basso_min"] is not None else "nessun collegamento"
     migliore = pb[0] if pb else None
     if migliore:
         gara_g["nota"] += f" Il punto più promettente è {nome_pulito(migliore['nome'])}: lì bastano {mi(migliore)} persi a parcheggiare in centro."
@@ -298,7 +298,7 @@ def forma_r6(s):
         principale,
         [f"{n_nessun} fermate importanti non hanno nessun parcheggio adatto vicino; {n_pochi} ne hanno troppo pochi.",
          f"Servirebbero posti soprattutto in {n_assi} punti d'ingresso: il primo è {nome_pulito(primo['nome'])}, dove ne mancano circa {migliaia(primo['mancano'])}.",
-         f"Dal parcheggio, il bus batte l'auto solo se in centro si perdono più di {forbice_m} minuti a parcheggiare."],
+         f"Dal parcheggio il bus batte l'auto solo se in centro si perdono minuti a parcheggiare. Servono più di {forbice_m}."],
         [gara_g, pareggio_g, graf_inter],
         [f"Fermate importanti: fuori dal centro, con metro, stazione o capolinea, oppure {reg['n_corse']} corse all'ora.",
          "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
@@ -311,8 +311,8 @@ def forma_r6(s):
          ["Bus contro auto", f"verso Piazza Castello alle 8, auto con fattore {f_ba_hi} (sensori) e {f_ba_lo} (Google)"]],
         ["Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza.",
          ("I tempi coi mezzi sono solo GTT, senza treni. Il rallentamento dell'auto alle altre ore viene dai sensori. Quello di Google si conosce solo alle 8 ed è stato scalato."
-          if od else f"I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto sta fra due fattori di punta, {f_ba_hi} e {f_ba_lo}."),
-         "Il costo del parcheggio in centro non è nel calcolo: pesa come minuti in più.",
-         "Si guarda un solo punto per luogo e una sola destinazione, Piazza Castello."],
+          if od else f"I tempi coi mezzi sono solo GTT, senza treni, e solo al mattino. L'auto ha due stime del rallentamento, {f_ba_hi} e {f_ba_lo}: il valore vero può stare anche fuori."),
+         "Il rallentamento di Google è stato misurato su 6 percorsi in uscita dal centro. In entrata l'auto può essere più lenta.",
+         "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."],
         anima=anima_fermate(fermate, punti, n_ok, n_pochi, n_nessun))
 

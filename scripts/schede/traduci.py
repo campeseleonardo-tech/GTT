@@ -10,7 +10,7 @@ from pathlib import Path
 FILE = Path(__file__).resolve().parent / "testi.json"
 NUM = r"\d+(?:[.,]\d+)*"
 TIPI = {"n": NUM, "p": r"[+\-−]?" + NUM, "s": r".+?", "t": r".+?", "w": r".+?", "a": r"(?:il |l')"}
-PAROLE = [("minuti", "minutes"), ("nessuno", "none"), (" contro ", " versus "), (" e altre", " and others"), (" e ", " and ")]
+PAROLE = [("minuti", "minutes"), ("nessuno", "none"), (" contro ", " versus "), ("stima Google", "Google estimate"), ("stima sensori", "sensor estimate"), (" o ", " or "), (" e altre", " and others"), (" e ", " and ")]
 CONNETTORI = {"di", "del", "della", "dei", "da", "d'", "de", "al", "e", "→", "-", "–", "+", "(", ")", "/", "Da", "Del", "Di"}
 
 

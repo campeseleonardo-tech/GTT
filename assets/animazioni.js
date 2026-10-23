@@ -29,9 +29,13 @@
   function stile(){
     if(document.getElementById("anima-stile")) return;
     var s = document.createElement("style"); s.id = "anima-stile";
-    s.textContent = ".anima{margin:4px 0 14px}.anima svg{display:block;width:100%;height:auto;overflow:visible}"
-      + ".anima .an-testo{fill:var(--ink);font-family:var(--font-testi);font-size:15px}.anima .an-piccolo{fill:var(--muted);font-family:var(--font-testi);font-size:13px}"
-      + ".anima .an-num{fill:var(--accent);font-family:var(--font-titoli);font-weight:700;font-size:30px;font-variant-numeric:tabular-nums}"
+    s.textContent = ".anima{margin:4px 0 14px}.anima svg{display:block;width:100%;height:auto}"
+      + ".anima .an-testo{color:var(--ink);font-family:var(--font-testi);font-size:15px;overflow-wrap:anywhere}.anima .an-piccolo{fill:var(--muted);font-family:var(--font-testi);font-size:13px}"
+      + ".anima .an-num{color:var(--accent);font-family:var(--font-titoli);font-weight:700;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}"
+      + ".anima .an-cer{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px}.anima .an-cer svg{flex:0 1 260px;width:260px;max-width:100%}"
+      + ".anima .an-righe{flex:1 1 210px;min-width:0}.anima .an-riga{margin:0 0 10px}.anima .an-riga .an-num{display:block}"
+      + ".anima.compatto .an-cer{flex-wrap:nowrap;gap:10px}.anima.compatto .an-cer svg{flex:0 1 120px;width:120px}.anima.compatto .an-righe{flex:1 1 auto}"
+      + ".anima.compatto .an-riga{margin:0 0 4px;display:flex;align-items:baseline;gap:8px;white-space:nowrap}.anima.compatto .an-riga .an-num{display:inline;font-size:20px}.anima.compatto .an-riga .an-testo{font-size:14px;color:var(--muted)}"
       + ".anima .didascalia{margin:6px 0 0;font-size:14px;color:var(--muted);min-height:2.6em}"
       + ".anima .an-cerchio{fill:var(--vr-verde);stroke:var(--vr-verde);stroke-width:2}.anima .an-casa{fill:var(--ink)}"
       + ".anima .an-quadri{display:grid;grid-template-columns:repeat(20,1fr);gap:3px;max-width:520px}"
@@ -53,18 +57,19 @@
     document.head.appendChild(s);
   }
 
-  /* ---------------- servizi: tre cerchi intorno a una casa, 5 -> 10 -> 15 minuti a piedi ---------------- */
+  /* ---------------- servizi: tre cerchi intorno a una casa, 5 -> 10 -> 15 minuti a piedi ----------------
+     Nel disegno SVG solo cerchi e casa; numeri e frasi sono HTML accanto (vanno a capo sotto il disegno se la scheda e' stretta). */
   function cerchi(el, a){
-    var v = a.voci || [], R = [42, 84, 126], cx = 135, cy = 135;
+    var v = a.voci || [], R = [42, 84, 126], cx = 135, cy = 135, compatto = el.classList.contains("compatto");
     var rings = v.map(function(x, i){ return '<circle class="an-cerchio" cx="' + cx + '" cy="' + cy + '" r="' + R[i] + '" style="fill-opacity:' + (.08 + .06 * (2 - i)) + ';stroke-opacity:.8" data-r="' + R[i] + '"/>'; }).reverse().join("");
     var righe = v.map(function(x, i){
-      var y = 62 + i * 70;
-      return '<g class="an-riga" data-i="' + i + '"><text class="an-num" x="300" y="' + y + '" data-pct="' + x.pct + '">' + num(x.pct, 1) + '%</text>'
-        + '<text class="an-testo" x="300" y="' + (y + 22) + '">' + esc(x.testo) + '</text></g>';
+      return '<div class="an-riga" data-i="' + i + '"><b class="an-num" data-pct="' + x.pct + '">' + num(x.pct, 1) + '%</b>'
+        + '<span class="an-testo">' + (compatto ? esc(x.min) + '′' : esc(x.testo)) + '</span></div>';
     }).join("");
     var casa = '<path class="an-casa" d="M' + (cx - 11) + ' ' + (cy + 10) + 'v-12l11-9 11 9v12h-7v-7h-8v7z"/>';
-    el.innerHTML = '<svg viewBox="0 0 480 270" role="img" aria-label="' + esc(a.didascalia) + '">' + rings + casa + righe + '</svg>'
-      + (a.didascalia ? '<p class="didascalia">' + esc(a.didascalia) + '</p>' : "");
+    el.innerHTML = '<div class="an-cer"><svg viewBox="0 0 270 270" role="img" aria-label="' + esc(a.didascalia) + '">' + rings + casa + '</svg>'
+      + '<div class="an-righe">' + righe + '</div></div>'
+      + (a.didascalia && !compatto ? '<p class="didascalia">' + esc(a.didascalia) + '</p>' : "");
     if(ridotto) return;
     var cs = Array.prototype.slice.call(el.querySelectorAll(".an-cerchio")).reverse(), rs = el.querySelectorAll(".an-riga");
     cs.forEach(function(c){ c.setAttribute("r", 0); });
@@ -73,7 +78,7 @@
       if(i >= cs.length) return;
       var c = cs[i], r = parseFloat(c.getAttribute("data-r")), t = rs[i].querySelector(".an-num"), p = parseFloat(t.getAttribute("data-pct"));
       rs[i].style.transition = "opacity .5s"; rs[i].style.opacity = 1;
-      scorri(el, 0, 1, 1500, function(x){ c.setAttribute("r", (r * x).toFixed(1)); t.textContent = num(p * x) ; },
+      scorri(el, 0, 1, 1500, function(x){ c.setAttribute("r", (r * x).toFixed(1)); t.textContent = num(p * x) + "%"; },
         function(){ t.textContent = num(p, 1) + "%"; dopo(350, el, function(){ anello(i + 1); }); });
     }
     anello(0);

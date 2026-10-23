@@ -30,7 +30,7 @@ Perché questa misura: con la classe «1,5 volte» il risultato passava da 1 pun
 
 ### Punti prioritari (rapporto = tempo coi mezzi / tempo in auto)
 
-| Luogo | Posti che mancano | Mezzi (min) | Auto (min, fattore alto-basso) | Rapporto (basso-alto) | Classe (5 min) | Classe con 5 / 10 / 15 min |
+| Luogo | Posti che mancano | Mezzi (min) | Auto (min, stima sensori - stima Google) | Rapporto (stima Google - stima sensori) | Classe (5 min) | Classe con 5 / 10 / 15 min |
 |---|---|---|---|---|---|---|
 | Santa Rita | 450 | 36 | 14-20 | 1,8-2,6 | il bus non conviene | non conviene / dipende / dipende |
 | Metro Massaua | 350 | 25 | 15-23 | 1,1-1,7 | dipende dal traffico | dipende / conviene / conviene |
@@ -47,7 +47,7 @@ Perché questa misura: con la classe «1,5 volte» il risultato passava da 1 pun
 
 ### Interscambi esistenti
 
-| Luogo | Riempimento | Mezzi (min) | Auto (min, fattore alto-basso) | Rapporto (basso-alto) | Classe (5 min) | Classe con 5 / 10 / 15 min |
+| Luogo | Riempimento | Mezzi (min) | Auto (min, stima sensori - stima Google) | Rapporto (stima Google - stima sensori) | Classe (5 min) | Classe con 5 / 10 / 15 min |
 |---|---|---|---|---|---|---|
 | Stura | pieno | 39 | 17-27 | 1,5-2,2 | dipende dal traffico | dipende / dipende / conviene |
 | Venchi Unica | a meta | 28 | 16-24 | 1,2-1,8 | dipende dal traffico | dipende / conviene / conviene |
@@ -95,13 +95,15 @@ Perché questa misura: con la classe «1,5 volte» il risultato passava da 1 pun
 
 ### Bus contro auto verso Piazza Castello (script 94)
 
-Regola fissata prima dei numeri, rapporto = mezzi / auto: **il bus conviene** se ≤ 1,5 con entrambi i fattori del R8 (1,2 sensori, 2,1 Google); **dipende dal traffico** se ≤ 1,5 solo col fattore basso; **non conviene** se oltre 1,5 con entrambi. Auto = flusso libero × fattore + minuti di parcheggio (5 ufficiale). Tabelle e sensibilità in testa al documento; dettagli in `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt`.
+Regola fissata prima dei numeri, rapporto = mezzi / auto: **il bus conviene** se ≤ 1,5 con entrambi i fattori del R8 (1,2 sensori, 2,1 Google); **dipende dal traffico** se ≤ 1,5 solo con la stima di Google (fattore 2,1); **non conviene** se oltre 1,5 con entrambi. Auto = flusso libero × fattore + minuti di parcheggio (5 ufficiale). Tabelle e sensibilità in testa al documento; dettagli in `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt`.
+
+Le due stime non sono un minimo e un massimo: il valore vero può stare anche fuori. Il rallentamento di Google è stato misurato su 6 percorsi **in uscita** dal centro; in entrata l'auto può essere più lenta (limite aperto, vedi `PIANO_GRAFICA` e `ANALISI_CRITICA` 1.1).
 
 ### Bus contro auto a 4 ore del giorno (script 100, 23/10)
 
 Gli stessi 12 punti e 5 interscambi verso Piazza Castello alle 8:00, 13:00, 17:30 e 21:00 (scelte e ipotesi in `docs/R8_traffico.md`, sezione «Non solo all'ora di punta»).
 
-| Ora | Mezzi dai punti prioritari (mediana) | Minuti di pareggio, punti (auto lenta - veloce) | Punti: conviene / dipende / non conviene | Interscambi |
+| Ora | Mezzi dai punti prioritari (mediana) | Minuti di pareggio, punti (stima Google - stima sensori) | Punti: conviene / dipende / non conviene | Interscambi |
 |---|---|---|---|---|
 | 8:00 | 36,5 min | 21-28 (20,85 - 27,5) | 0 / 1 / 11 | 0 / 3 / 2 |
 | 13:00 | 35,0 min | 23-27 | 0 / 1 / 11 | 0 / 2 / 3 |

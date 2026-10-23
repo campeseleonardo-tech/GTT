@@ -59,9 +59,11 @@ ai sensori corso Unione Sovietica è +177% e corso Sebastopoli +99%.
 
 ## Noi contro Google Maps
 
-**Metodo della forbice.** Il tempo in auto non conta semafori e incroci, quindi ha un fattore di punta incerto. Il risultato è una **forbice con due fattori**:
-il **limite alto** del rapporto coi mezzi pubblici usa il fattore dei sensori 5T (1,2: mediana di velocità 2-5 / velocità alle 8 su 97 sensori);
-il **limite basso** usa il fattore di Google Maps (2,1: mediana di (tempo Google − 5) / flusso libero sui 6 percorsi da Piazza Castello). I due percorsi di controllo non entrano nel fattore.
+**Due stime, non un minimo e un massimo.** Il tempo in auto non conta semafori e incroci, quindi il fattore di punta è incerto. Il risultato è **dato con due stime**:
+la **stima con il rallentamento dei sensori** usa il fattore dei sensori 5T (1,2: mediana di velocità 2-5 / velocità alle 8 su 97 sensori);
+la **stima con il rallentamento di Google** usa il fattore di Google Maps (2,1: mediana di (tempo Google − 5) / flusso libero sui 6 percorsi da Piazza Castello). I due percorsi di controllo non entrano nel fattore.
+Il 2,1 è una mediana: Google è fuori dalle due stime in 5 percorsi su 8, quindi **il valore vero può stare anche fuori dalle due stime**.
+Il rallentamento di Google è stato misurato su 6 percorsi **in uscita** dal centro; in entrata l'auto può essere più lenta (l'unico percorso in entrata, Racconigi → Castello, dà 3,6).
 
 Controllo a mano, **martedì 20/10/2026 alle 8:00**. I primi 6 percorsi partono da Piazza Castello; gli ultimi 2 sono di controllo. Tempi in minuti.
 
@@ -77,17 +79,17 @@ Controllo a mano, **martedì 20/10/2026 alle 8:00**. I primi 6 percorsi partono 
 | Moncalieri → Lingotto (controllo) | 33 | 30-35 (solo GTT; col treno 19-23) | 13 | 19 | 14 |
 
 - **Mezzi pubblici**: i nostri tempi sono in linea con Google sui due percorsi di controllo (31 contro 30-35, 33 contro 30-35 solo GTT). Col treno Google scende a 19-23 sul Moncalieri → Lingotto: i treni nei nostri dati non ci sono.
-- **Auto**: col fattore alto siamo sotto Google di 11,4 minuti in media (sui 6 percorsi); col fattore basso di 1,7 (differenza media, nostro meno Google). La verità sta nella forbice.
+- **Auto**: con la stima dei sensori (fattore 1,2) siamo sotto Google di 11,4 minuti in media (sui 6 percorsi); con la stima di Google (fattore 2,1) di 1,7 (differenza media, nostro meno Google). Sono due stime: il valore vero può stare anche fuori.
 - Rapporto mediano coi mezzi pubblici (Torino-Torino e Torino-cintura): **da 1,96 a 2,94**.
 
-### Forbice: rapporto mediano e fasce (Torino-Torino e Torino-cintura, 220.307 auto)
+### Due stime: rapporto mediano e fasce (Torino-Torino e Torino-cintura, 220.307 auto)
 
-Fasce fisse del rapporto (tempo coi mezzi / tempo in auto), fissate prima di vedere i numeri. Celle: auto (% delle auto).
+Fasce fisse del rapporto (tempo coi mezzi / tempo in auto). Il metodo è cambiato 4 volte il 21/10 dopo le prime prove; le fasce sono state scelte dopo. Celle: auto (% delle auto).
 
-| Limite | Fattore | Rapporto mediano | Oltre 2 | sotto 1,5 | 1,5-2 | 2-3 | oltre 3 |
+| Stima | Fattore | Rapporto mediano | Oltre 2 | sotto 1,5 | 1,5-2 | 2-3 | oltre 3 |
 |---|---|---|---|---|---|---|---|
-| **Basso** (Google Maps) | 2,1 | **1,96** | 41,4% | 8.649 (3,9%) | 120.360 (54,6%) | 90.508 (41,1%) | 791 (0,4%) |
-| **Alto** (sensori 5T) | 1,2 | **2,94** | 97,0% | 0 (0,0%) | 6.661 (3,0%) | 115.033 (52,2%) | 98.612 (44,8%) |
+| **Con il rallentamento di Google** | 2,1 | **1,96** | 41,4% | 8.649 (3,9%) | 120.360 (54,6%) | 90.508 (41,1%) | 791 (0,4%) |
+| **Con il rallentamento dei sensori 5T** | 1,2 | **2,94** | 97,0% | 0 (0,0%) | 6.661 (3,0%) | 115.033 (52,2%) | 98.612 (44,8%) |
 
 Per gruppo (basso | alto). Cintura-cintura è a parte: mancano treni e altre aziende.
 
@@ -101,10 +103,10 @@ Per gruppo (basso | alto). Cintura-cintura è a parte: mancano treni e altre azi
 ### Non solo all'ora di punta: 4 ore del giorno (script 100, 23/10)
 
 Stesso confronto alle 8:00, 13:00, 17:30 e 21:00 di un feriale (partenza 7:45, 12:45, 17:15, 20:45, finestra di 30 minuti, mediana). Auto = flusso libero × fattore dell'ora + 5 minuti.
-Fattore alto = rallentamento misurato dai sensori 5T (mediana di velocità 2-5 / velocità all'ora); fattore basso = quello di Google (2,1, noto solo alle 8) **scalato nello stesso rapporto**
-(`1 + 1,1 × (f(h) − 1) / 0,2`, mai sotto 1): **è un'ipotesi**. Regola del titolo fissata prima: «a ogni ora» solo se il rapporto mediano resta entro ±0,3 da quello delle 8 con tutti e due i fattori (non è il caso: alle 13:00 con il fattore basso è +0,41).
+Stima dei sensori = rallentamento misurato dai sensori 5T (mediana di velocità 2-5 / velocità all'ora); stima di Google = quello di Google (2,1, noto solo alle 8) **scalato nello stesso rapporto**
+(`1 + 1,1 × (f(h) − 1) / 0,2`, mai sotto 1): **è un'ipotesi**. Regola del titolo fissata prima (blocco L3): «a ogni ora» solo se il rapporto mediano resta entro ±0,3 da quello delle 8 con tutte e due le stime (non è il caso: alle 13:00 con la stima di Google è +0,41).
 
-| Ora | Fattore sensori | Fattore Google scalato | Rapporto mediano (auto lenta - veloce) | Auto con rapporto oltre 2 | Auto senza collegamento |
+| Ora | Fattore sensori | Fattore Google scalato | Rapporto mediano (stima Google - stima sensori) | Auto con rapporto oltre 2 | Auto senza collegamento |
 |---|---|---|---|---|---|
 | 8:00 | 1,2 | 2,1 | 1,96 - 2,94 | 41% - 97% | 5.616 |
 | 13:00 | 1,1 | 1,6 | 2,37 - 3,10 | 89% - 98% | 4.810 |
@@ -137,7 +139,7 @@ Rifare: `python scripts/100_ore_del_giorno.py` (circa 3-4 minuti dopo 93 e 94; `
 | 56-67 | assi e tratte, corsie, ZTL, TP per posizione, valutazione finale |
 | `schede_risultati.py` (`scheda_r8`) | scheda con errore % per sensore |
 | 100 | lo stesso confronto a 4 ore del giorno (8, 13, 17:30, 21) → `ore_del_giorno.json` |
-| 93 | tempo coi mezzi contro auto fra zone IMQ: forbice con due fattori di punta → `tp_contro_auto.json` (si rifà in circa 1 minuto) |
+| 93 | tempo coi mezzi contro auto fra zone IMQ: due stime con due fattori di punta → `tp_contro_auto.json` (si rifà in circa 1 minuto) |
 | 99 | «area che si espande» (scheda 4): da Piazza Castello a ogni sezione di Torino, coi mezzi (r5py) e in auto (rete del modello, gli stessi due fattori del 93); zona-zona di Torino ricopiata dal 93 → `area_tempi.json` → `data/area_tempi.js` (`scripts\AREA_TEMPI.bat`; `--finto` per provare la pagina senza dati) |
 
 Risultato: `data/processed/risultato8_traffico_tp_v2.json` (universo, assi da guardare, tratte); dettaglio per tratta in
