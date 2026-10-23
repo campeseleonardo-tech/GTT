@@ -45,8 +45,10 @@ da GitHub dopo l'unione. Un giro finito e provato entra in `main` solo nei punti
 | **L2 (FATTO 23/10, Leo guarda)** | PC | revisione grafica di Leo del 23/10 (ex C14): home, numeri che salgono, schede con una sola parte chiusa, titoli nuovi, animazioni anche in home; prima Leo sceglie se rifare R4, R6, R8 con lo storico di oggi 🛑 | 4 (revisione 23/10) |
 | **L3 (FATTO 23/10, Leo guarda)** | PC | bus contro auto a 4 ore del giorno (ex C15 + P10), script 100, schede 3 e 4 🛑 | 4 (revisione 23/10) |
 | **L4 (FATTO 23/10)** | PC | raccolta del Pi: copia che non perde dati, archivio del GTFS, controllo con spazio e scadenze (PIANO_RACCOLTA passi 1, 2a, 3) 🛑 | raccolta FATTO |
-| L5 (da scrivere dopo L4) | PC | problemi gravi delle schede 3 e 4: tempi Google in entrata (G1, Leo a mano), forbice, «fasce fissate prima» (ANALISI_CRITICA 1.1-1.3) | 3 |
-| L6 (da scrivere dopo L5) | PC | calcoli rifacibili da un estraneo (ANALISI_CRITICA 6.1) e PIANO_RACCOLTA passo 2b | 5 |
+| **L4b** (urgente: entro fine ottobre) | PC | snapshot della copia sul disco del Pi invece di /tmp (PIANO_RACCOLTA passo 4) | raccolta |
+| **L5** | PC | scheda 1 (testo che esce), gara della scheda 4 sempre alle 8, testi onesti su «forbice» e «fasce fissate prima» (ANALISI_CRITICA 1.2, 1.3) | 3, 4 |
+| **L6** | PC | tempi in auto col traffico da un servizio di percorsi (TomTom), in entrata e in uscita, a 4 ore; fattore al posto del 2,1 di Google (ANALISI_CRITICA 1.1, 1.14) 🛑 Leo: chiave e condizioni d'uso | 3 |
+| L7 (da scrivere dopo L6) | PC | calcoli rifacibili da un estraneo (ANALISI_CRITICA 6.1) e PIANO_RACCOLTA passo 2b | 5 |
 | main | Leo | unire prova in main, accendere GitHub Pages (la pubblicazione per ultima) | 1 (8, 10) |
 | P8 | PC | metà novembre: R4 con un mese di dati, rilancio | 3 (4) |
 
@@ -431,4 +433,76 @@ REGOLE: verso il Pi solo SSH in sola lettura; tutto quello che scrive o riavvia 
    (2) dopo 5 minuti, doppio clic su scripts\CONTROLLA_LEOPI.bat: la riga GTFS deve dire «versione del <oggi>»;
    (3) doppio clic su scripts\RACCOLTA_GIORNALIERA.bat: esito OK, in data\ c'è storico_backup_ieri.sqlite, in data\gtfs_archivio\ c'è uno zip.
    Memoria: una riga in sezione 4 (raccolta: copia protetta, GTFS archiviato, controllo con spazio e scadenza) e togli dal punto (5) di sezione 7 le parti risolte. Commit, git pull --no-rebase origin prova, git push origin prova.
+```
+
+## L4b — PC: snapshot della copia fuori da /tmp (PIANO_RACCOLTA passo 4) — URGENTE
+
+Perché (ESITO_L4, controllo del 23/10): `/tmp` del Pi è in memoria (tmpfs) con 3,9 GB liberi; lo storico pesa 2,7 GB e cresce ~190 MB al giorno: **fra circa 6 giorni lo snapshot non ci sta più**
+e la copia giornaliera comincia a fallire (in modo pulito, ma senza copie nuove). Il disco del Pi ha 87 GB liberi.
+Regole fissate ora: snapshot in `<dir_remota>/data/tmp_copia/` (sul disco); prima di farlo, controllo che lì ci sia spazio libero ≥ 1,5 volte lo storico (se no ERRORE, la copia di prima resta);
+si cancellano solo file di quella cartella col nome `gtt_storico_*.sqlite` più vecchi di 24 ore (resti di copie interrotte). Il controllo giornaliero guarda la cartella nuova invece di `/tmp`: ALLARME sotto 1,5 volte lo storico.
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, sviluppo/piani/ESITO_L4.md e il blocco L4b di sviluppo/piani/PROMPT_LAVORI.md (regole: non cambiarle).
+Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py. Verso il Pi solo SSH in sola lettura; non lanci tu backup_da_leopi.py né RACCOLTA_GIORNALIERA.bat. Niente controlli grafici.
+0. Chiusura di L4: leggi logs\raccolta_giornaliera.log, logs\backup_da_leopi.log e lancia python scripts\controlla_leopi.py (sola lettura). Scrivi nell'esito se Leo ha già fatto i 3 doppi clic di ESITO_L4 (GTFS archiviato sul Pi? copia con «ieri»? zip in data\gtfs_archivio\?). Se no, ricordaglieli alla fine, prima dei passi di L4b.
+1. scripts/backup_da_leopi.py: remoto_tmp nella cartella del blocco L4b (CFG["dir_remota"] + "/data/tmp_copia"); il codice remoto crea la cartella se manca, controlla lo spazio (os.statvfs) contro 1,5 × peso di storico.sqlite PRIMA del backup SQLite e, se basta, cancella i resti come da regola. Il messaggio di errore dice quanto spazio c'è e quanto ne serve. La pulizia finale (unlink dello snapshot) resta.
+2. scripts/controlla_leopi.py: la riga e la soglia di /tmp passano alla cartella nuova (ALLARME sotto 1,5 volte lo storico); /tmp resta solo come riga informativa.
+3. Prove: python -m pyflakes scripts (zero); python scripts\backup_da_leopi.py --prova (i 5 casi di L4 restano OK); se la parte remota è una stringa di codice, provala in locale su un SQLite finto in una cartella temporanea (copia, controllo dello spazio con una soglia finta, pulizia dei soli resti vecchi); python scripts\controlla_leopi.py.
+4. Esito sviluppo/piani/ESITO_L4b.md, memoria (sezione 7 punto 5: togli /tmp se risolto), commit, git pull --no-rebase origin prova, git push origin prova. Passo per Leo: doppio clic su scripts\RACCOLTA_GIORNALIERA.bat; nel log di backup deve comparire la cartella tmp_copia ed esito OK.
+```
+
+## L5 — PC: ritocchi alle schede 1 e 4 e testi onesti sui tempi in auto (ANALISI_CRITICA 1.2, 1.3)
+
+Richieste di Leo (24/10): nella scheda 1 il testo esce dalla scheda; nella scheda 4 la gara deve essere sempre alla stessa ora, cambiando luogo.
+Causa della scheda 1 (trovata nel codice, `assets/animazioni.js`, funzione `cerchi`): le scritte stanno DENTRO il disegno SVG, partono da x = 300 su una larghezza di 480 e la frase
+«tutti e 5 i servizi a 15 minuti a piedi» (font 15) è lunga circa 280: finisce verso 580; in più `.anima svg{overflow:visible}` la lascia uscire. Nella home (versione piccola) è peggio.
+Scelte di Claude (valori predefiniti): scheda 4, gara sempre **alle 8** (l'ora del numero principale); le altre ore restano nella linea «ora per ora». Scheda 3: la gara con le 4 ore resta com'è (Leo non l'ha chiesta).
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, il blocco L5 di sviluppo/piani/PROMPT_LAVORI.md e sviluppo/piani/ANALISI_CRITICA.md paragrafi 1.2 e 1.3.
+Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py. Niente controlli grafici: li fa Leo. Un passo per volta.
+1. SCHEDA 1 (assets/animazioni.js, cerchi). Nel disegno SVG restano solo i cerchi e la casa; le tre righe (numero % e testo) diventano HTML accanto al disegno: un contenitore flex che va a capo sotto il disegno quando la scheda è stretta (flex-wrap; disegno al massimo 260 px di larghezza, testo con overflow-wrap). Numeri che salgono e righe che compaiono in sincronia coi cerchi come oggi (stessi tempi). Versione piccola (home, compatto): solo i cerchi e, accanto, «5′ 68%», «10′ 97%», «15′ 99%» su tre righe brevi, senza la frase lunga. «Riduci movimento»: tutto fermo e scritto.
+   Poi CONTROLLA TUTTE le altre animazioni e la gara per lo stesso difetto, nel codice: ogni <text> dentro un SVG deve avere spazio per il testo più lungo che i dati possono dare (stima: caratteri × 0,6 × dimensione del font, contro lo spazio fino al bordo del viewBox). Elenca nell'esito ogni testo controllato con la stima. Dove non c'è spazio: testo in HTML, oppure abbreviato dallo script delle schede. Togli overflow:visible da .anima svg se non serve più (se serve a qualcosa, dillo nell'esito).
+2. SCHEDA 4 (scripts/schede/r8.py intorno alle righe 260-280, gara dei 6 viaggi tipici): i luoghi NON hanno più «ore»: solo le 8, e la gara gira da un viaggio all'altro. Titolo e nota della gara: «alle 8 di un feriale», via la frase «Poi gli stessi viaggi alle 13, alle 17:30 e alle 21». La linea «ora per ora» resta. La gara della scheda 3 non cambia.
+3. TESTI ONESTI (ANALISI_CRITICA 1.2 e 1.3), in scripts/schede/r8.py, r6.py, docs/R8_traffico.md, docs/R6_parcheggi.md:
+   - la «forbice» non è un minimo e un massimo (il 2,1 di Google è una mediana: Google è fuori in 5 percorsi su 8): «limite basso / limite alto» → «stima con il rallentamento di Google / stima con il rallentamento dei sensori» (nelle schede, nei criteri, nei grafici a gruppi, nelle note); dove si dice «sta fra» / «stimati fra» → «due stime; il valore vero può stare anche fuori»; docs/R8_traffico.md:62-64 e la frase «La verità sta nella forbice» riscritti allo stesso modo;
+   - via «decise prima di vedere i numeri» / «fissate prima dei numeri» dalla scheda 4 (r8.py righe 303 e 320) e da docs/R8_traffico.md:85; nel documento R8 una riga: «Il metodo è cambiato 4 volte il 21/10 dopo le prime prove; le fasce sono state scelte dopo.»;
+   - nelle schede 3 e 4 un limite: «Il rallentamento di Google è stato misurato su 6 percorsi in uscita dal centro; in entrata l'auto può essere più lenta.» (vale finché non c'è L6);
+   - i nomi interni dei campi JSON (limite_basso, limite_alto) NON si cambiano: cambiano solo i testi.
+   Traduzioni in scripts/schede/testi.json per ogni frase nuova.
+4. Prove: python -m pyflakes scripts (zero); node --check assets\*.js; python scripts\schede_risultati.py (nessuna ATTENZIONE); git grep -n "limite basso\|limite alto\|decise prima\|fissate prima\|sta fra" su scripts/schede e docs: nessun testo rimasto (i nomi dei campi JSON sì); scripts\RIFAI_MAPPA_E_SCHEDE.bat; python scripts\prova_pagine.py (0 errori).
+5. Esito sviluppo/piani/ESITO_L5.md (con l'elenco dei testi SVG controllati), memoria (sezione 7: togli i punti 2 e 3 dei problemi gravi se risolti), commit, git pull --no-rebase origin prova, git push origin prova.
+Da guardare per Leo: scheda 1 su computer e telefono (testo dentro la scheda, anche nella home); scheda 4 (gara alle 8 che cambia viaggio); testi delle schede 3 e 4 («due stime»).
+```
+
+## L6 — PC: tempi in auto con traffico da un servizio di percorsi (ANALISI_CRITICA 1.1 e 1.14) 🛑
+
+Perché: il fattore di Google (2,1) viene da 6 percorsi **in uscita** dal centro, presi a mano; l'unico in entrata dà 3,6 e con quello cambia il messaggio della scheda 3 (12 punti su 12 «il bus conviene»).
+Alle altre ore (L3) il fattore di Google è solo quello dei sensori riscalato. Leo (24/10): meglio che i tempi li raccolga l'agente invece che a mano.
+**Scelta proposta da Claude: TomTom Routing API** (piano gratuito senza carta di credito, oggi circa 2.500 richieste al giorno: da verificare al momento dell'iscrizione). Per ogni percorso e ora di partenza
+(`departAt` in un giorno futuro) dà il tempo previsto col traffico tipico (`travelTimeInSeconds`) e quello senza traffico (`noTrafficTravelTimeInSeconds`): il rapporto è un fattore di punta misurato, per direzione e per ora.
+Alternative: HERE Routing (simile, condizioni da verificare); Google Routes API (la stessa fonte del 2,1, ma serve un conto con carta di credito). Raccogliere da Google Maps con programmi automatici è vietato dalle sue condizioni: non si fa.
+**Prima del giro (Leo):** crea l'account e la chiave, legge le condizioni d'uso (in particolare se si possono salvare i tempi e pubblicare valori ricavati) e scrive la chiave in config_locale.json (`"tomtom_chiave"`, fuori da git).
+Se le condizioni vietano di salvare i tempi: si salvano solo i fattori aggregati (mediane e quartili per gruppo e ora), mai le risposte.
+
+**Regole fissate ora, prima di vedere i numeri:**
+- percorsi: (A) i 12 punti prioritari e i 5 interscambi → Piazza Castello (in entrata) e il ritorno (in uscita); (B) gli 8 percorsi di controllo del 93 (i 6 da Castello verso la cintura, Racconigi → Castello, il controllo della Fase 5), nei due sensi; (C) le 100 coppie di zone con più auto del mattino (`ore_del_giorno.json`), nel senso del viaggio. Stessi punti di partenza e arrivo degli script 93 e 94.
+- partenze: martedì 10/11/2026 e mercoledì 11/11/2026 (settimana senza feste), alle 8:00, 13:00, 17:30, 21:00 ora italiana; per ogni percorso e ora la media dei due giorni. Circa (34 + 16 + 100) × 4 × 2 = 1.200 richieste: un giorno di piano gratuito; pausa fra le richieste come chiede il servizio.
+- fattore di un percorso = tempo col traffico / tempo senza traffico. Per gruppo (entrata, uscita, coppie) e ora: mediana, 25° e 75° percentile.
+- uso nei risultati: la stima «con il rallentamento di Google» diventa la stima «con il rallentamento del servizio di percorsi», con il fattore mediano della direzione giusta (entrata per i punti del R6, coppie per il R8) e dell'ora giusta (sostituisce la formula riscalata di L3). La stima dei sensori 5T resta com'è. Le classi del R6 (≤ 1,5) e la regola del titolo della scheda 4 (±0,3) NON cambiano.
+- controllo: sui 6 percorsi in uscita alle 8 il fattore del servizio si confronta col 2,1 di Google: se la mediana differisce di più di 0,5, AVVISO e ci si ferma prima di cambiare le schede (decide Leo). Facoltativo, Leo a mano: i tempi Google in entrata alle 8 su 6 dei 12 punti, come secondo controllo.
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria, docs/R6_parcheggi.md, docs/R8_traffico.md, sviluppo/piani/ANALISI_CRITICA.md (1.1, 1.2, 1.14), sviluppo/piani/ESITO_L3.md, sviluppo/piani/ESITO_L5.md e il blocco L6 di sviluppo/piani/PROMPT_LAVORI.md (regole: non cambiarle dopo aver visto i numeri).
+Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py. Se config_locale.json non ha "tomtom_chiave", fermati e chiedila a Leo. Niente controlli grafici. Un passo per volta.
+1. Script nuovo scripts/101_tempi_traffico.py (101 è il prossimo numero libero: controllalo nella memoria e aggiornalo). Legge i punti di partenza e arrivo dagli stessi file di 93, 94 e 100 (non copiarne le coordinate a mano). Chiama il servizio (libreria standard: urllib), con pausa fra le richieste, ripresa se si interrompe (parziale salvato), nessuna chiave stampata né scritta nei log o nei file. Risposte grezze solo in data\tempi_traffico_grezzi\ (fuori da git: git check-ignore) e solo se le condizioni lo permettono (Leo lo scrive in cima al prompt: SALVA_GREZZI = sì/no).
+   Uscite in git: data/processed/tempi_traffico.json (per gruppo e ora: mediana, 25° e 75° percentile del fattore, numero di percorsi; per i percorsi B anche i minuti, da confrontare con Google) e docs/rapporti/RAPPORTO_TEMPI_TRAFFICO.txt. Opzioni: --prova (risposte finte, nessuna chiamata), --solo-controllo (solo i percorsi B: circa 64 richieste).
+   Controlli: tutte le risposte con tempo > 0 (bloccante); fattore fra 1 e 5 (AVVISO fuori); il controllo dei 6 percorsi in uscita contro il 2,1 del blocco L6 (AVVISO e STOP oltre 0,5).
+2. Lancia prima --prova, poi --solo-controllo e scrivi la tabella dei percorsi B (servizio contro Google contro i nostri sensori) a Leo. Se scatta lo STOP, fermati qui e aspetta Leo.
+3. Lancio intero. Poi gli script 93, 94 e 100 leggono il fattore del servizio (se tempi_traffico.json c'è) al posto del 2,1 e della formula riscalata, per direzione e ora come nel blocco L6; se il file manca restano come oggi. Il 93 per le coppie usa il fattore del gruppo coppie; il 94 e il 100 per i punti del R6 quello in entrata.
+4. Rilancio: python scripts\rifai_tutto.py --da r8 (o i comandi equivalenti: 93, 94, 100, schede, mappa). Tabella prima/dopo: classi dei 12 punti e dei 5 interscambi, minuti di pareggio, rapporto mediano del R8 a ogni ora, titolo della scheda 4 (regola ±0,3). docs/R6_parcheggi.md e docs/R8_traffico.md aggiornati (fonte nuova, regole, limiti: tempi previsti dal servizio su traffico tipico, non misurati; un solo servizio).
+5. Testi delle schede 3 e 4: «stima con il rallentamento del servizio di percorsi (TomTom)» e il limite di L5 sull'uscita dal centro tolto. Attribuzione della fonte come chiedono le condizioni d'uso (nelle schede e in docs/FONTI_DATI.md). Traduzioni in testi.json.
+6. Prove: pyflakes zero; python scripts\schede_risultati.py (nessuna ATTENZIONE); scripts\RIFAI_MAPPA_E_SCHEDE.bat; python scripts\prova_pagine.py (0 errori); git grep della chiave: zero risultati.
+7. Esito sviluppo/piani/ESITO_L6.md (tabelle dei passi 2 e 4), memoria (sezione 7: punti 1 dei problemi gravi e la critica a L3), commit, git pull --no-rebase origin prova, git push origin prova. Di' a Leo in 5 righe se il messaggio della scheda 3 è cambiato e perché.
 ```
