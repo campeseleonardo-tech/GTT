@@ -72,6 +72,7 @@ def pagine_da_provare():
     out = [(f"mappa {v}", f"mappa_torino.html#tema=interscambio&vista={v}") for v in TITOLI_VISTA]
     out += [(f"mappa tema {t}", f"mappa_torino.html#tema={t}") for t in dict.fromkeys(temi) if t != "interscambio"]
     out.append(("ingresso", "index.html"))
+    out.append(("progetto", "progetto.html"))
     out += [(f"scheda R{n}", f"risultati.html#r{n}") for n in (1, 4, 6, 8, 10)]
     out.append(("elenco schede", "risultati.html"))
     return out
@@ -79,7 +80,7 @@ def pagine_da_provare():
 
 def pagine_screenshot():
     """(nome del file, pagina): ingresso, risultati, mappa e le due viste dei parcheggi."""
-    return [("ingresso", "index.html"), ("risultati", "risultati.html"), ("mappa", "mappa_torino.html"),
+    return [("ingresso", "index.html"), ("risultati", "risultati.html"), ("progetto", "progetto.html"), ("mappa", "mappa_torino.html"),
             ("mappa_parcheggi", "mappa_torino.html#tema=interscambio&vista=parcheggi"),
             ("mappa_mancano", "mappa_torino.html#tema=interscambio&vista=mancano")]
 
@@ -162,7 +163,7 @@ class BrowserPlaywright:
         except Exception:
             # il browser puo' stare in una cartella che Playwright non indovina (es. /opt/pw-browsers)
             base = os.environ.get("PLAYWRIGHT_BROWSERS_PATH", "/opt/pw-browsers")
-            cand = sorted(glob.glob(os.path.join(base, "chromium-*", "chrome-linux", "chrome")))
+            cand = sorted(glob.glob(os.path.join(base, "chromium-*", "chrome-linux", "chrome")) + glob.glob(os.path.join(base, "chromium-*", "chrome-linux64", "chrome")))
             if not cand:
                 self.pw.stop()
                 raise

@@ -7,6 +7,7 @@ Legge i file gia' prodotti dagli script dei risultati e scrive:
   data/processed/risultato8_riepilogo_mappa.json   (Risultato 8, script 56-67)
   data/processed/risultato10_riepilogo_mappa.json  (Risultato 10 = «Case, servizi e fragilita'», da case_fragilita_servizi.json dello script 95)
   data/schede_risultati.js   (tutte le schede, R2 compreso, caricate da sole da risultati.html)
+  data/home_mezzi.js (home) e data/progetto.js (progetto.html), scritti da schede/home.py e schede/progetto.py
 
 Il riepilogo base del Risultato 2 lo scrive 29_risultato2_metro_notte.py: qui si legge e si arricchisce
 solo nel .js (il file JSON di R2 non viene riscritto).
@@ -30,6 +31,7 @@ from schede import comune  # noqa: E402
 from schede.comune import NASCOSTE, RADICE, controlla_forma, leggi  # noqa: E402
 from schede.traduci import traduci_forma  # noqa: E402
 from schede.home import scrivi_home  # noqa: E402
+from schede.progetto import scrivi_progetto  # noqa: E402
 from schede.r1 import forma_r1, scheda_r1  # noqa: E402
 from schede.r10 import forma_r10, scheda_r10  # noqa: E402
 from schede.r2 import arricchisci_r2  # noqa: E402
@@ -88,6 +90,10 @@ def main():
         scrivi_home()   # data/home_mezzi.js: mezzi in movimento e contatore della home
     except FileNotFoundError as e:
         print(f"AVVISO: data/home_mezzi.js non scritto, manca un file: {e.filename}")
+    try:
+        scrivi_progetto()   # data/progetto.js: dati di progetto.html
+    except FileNotFoundError as e:
+        print(f"AVVISO: data/progetto.js non scritto, manca un file: {e.filename}")
 
 
 

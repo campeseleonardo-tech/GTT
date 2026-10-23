@@ -19,7 +19,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import comuni  # noqa: E402
 
 RADICE = comuni.RADICE
-PAGINE = ["index.html", "risultati.html", "mappa_torino.html"]
+PAGINE = ["index.html", "risultati.html", "mappa_torino.html", "progetto.html"]
+# file che una pagina carica da JavaScript con un indirizzo costruito (non si trovano leggendo la pagina)
+CARICATI_DA_SCRIPT = {"risultati.html": ["data/area_tempi.js"]}   # assets/area.js, scheda 4; manca finche' non gira lo script 99
 URL = re.compile(r"^(https?:)?//|^data:|^mailto:|^#|^javascript:", re.I)
 
 RE_SRC = re.compile(r"""<(?:script|img|link)\b[^>]*?\b(?:src|href)\s*=\s*["']([^"']+)["']""", re.I)
@@ -59,6 +61,8 @@ def file_citati(pagina, testo):
                 gruppi = []
         for g in gruppi:
             aggiungi(f"catalogo/{g}.js", "data/")
+    for rel in CARICATI_DA_SCRIPT.get(pagina, []):
+        aggiungi(rel)
     return trovati
 
 

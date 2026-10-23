@@ -77,3 +77,4 @@ data/scenari/gtt_gtfs_notte30.zip
 data/processed/area_tempi_finto.json
 data/processed/area_tempi_prova.json
 !data/area_tempi.js
+!data/progetto.js
