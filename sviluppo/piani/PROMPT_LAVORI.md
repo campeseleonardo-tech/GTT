@@ -287,3 +287,22 @@ Prove, esito in sviluppo/piani/ESITO_C13_<gruppo>.md, memoria, commit e push. Sc
 Sei sul PC di Leo (C:\projects\Progetti\GTT, ramo prova). Leggi sviluppo/AGENTS.md, sviluppo/MEMORIA_PROGETTO.md e docs/R4_puntualita.md. Prima: git pull --no-rebase origin prova, python scripts\controlla_rami.py.
 Rilancia il R4 (27 e 70, come scritto in docs/R4_puntualita.md) su tutti i giorni raccolti; se esiste, aggiorna prima i riassunti dello storico (97). Tabella prima/dopo dei numeri principali (% oltre 5 e oltre 10 minuti, attese, linee peggiori): differenze oltre il 20% = AVVISO da spiegare. Rilancia schede e mappa (RIFAI_MAPPA_E_SCHEDE.bat), prova_pagine.py 0 errori. Aggiorna docs/R4_puntualita.md e la memoria, esito in sviluppo/piani/ESITO_P8.md, commit e push su prova. Se Leo dice ok, unisci in main.
 ```
+
+---
+
+## L1 — PC: tutto quello che manca dei giri PC (P1, P3, P5, P6, P7), con C13 provato sui dati veri
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md e sviluppo/MEMORIA_PROGETTO.md (sezioni 5 e 6) e gli esiti ESITO_C10, C11, C12 e ESITO_C13_21-29 in sviluppo/piani/.
+Prima: git pull --no-rebase origin prova e python scripts\controlla_rami.py (fermati se segnala lavoro non unito). Un passo per volta; se un passo fallisce, fermati e dillo a Leo con l'errore.
+1. P1: se manca config_locale.json crealo da scripts\config_locale.esempio.json chiedendo a Leo i valori (non finiscono in git); scripts\CONTROLLA_LEOPI.bat deve funzionare.
+2. P3 (solo se non fatto: guarda ESITO_C3/ESITO_P3): scripts\RIASSUNTI_STORICO.bat (prima un mese con --mese 2026-10), python scripts\confronta_riassunti.py (avvisi: 0), python scripts\96_inventario_dati.py --gitignore, python scripts\98_prepara_release.py; di' a Leo nomi e pesi degli zip (li carica lui a mano nella Release).
+3. python scripts\97_riassunti_storico.py --solo ora --rifai (l'ora tipica deve coprire quasi tutta l'ora).
+4. P6: scripts\AREA_TEMPI.bat. Controlli di buon senso nel rapporto docs\rapporti\RAPPORTO_AREA_TEMPI.txt: Piazza Castello-Porta Nuova coi mezzi sotto 15 minuti, auto in centro sotto 10, nessun tempo negativo, quante sezioni senza collegamento. Se sono strani, fermati.
+5. scripts\RIFAI_MAPPA_E_SCHEDE.bat; poi python scripts\prova_pagine.py (0 errori). Controlla che esistano data\area_tempi.js, data\progetto.js, r\1.html..5.html, assets\anteprime\r1..r5.jpg, assets\readme\*.jpg e che il README elenchi i 5 risultati con numeri veri.
+6. C13 sui dati veri: per lo script 25 e 29 rilancia e confronta i rapporti con quelli di prima (uguali salvo la data). Poi, un gruppo per volta (33-50, 51-67, 68-95): togli le copie di funzioni comuni (comuni.py) e le segnalazioni pyflakes (python -m pyflakes scripts), rilancia gli script toccati, confronta i rapporti (git diff docs\rapporti: cambia solo la data), un commit per gruppo, scrivi sviluppo/piani/ESITO_C13_<gruppo>.md. Nessun numero dei risultati deve cambiare: se cambia, ripristina e dillo a Leo.
+7. P7: python scripts\rifai_tutto.py --elenco, poi il rilancio completo in una finestra a parte (anche ore; log in logs\rifai_tutto.log). Se un comando e' fuori ordine, correggi la lista FASI in scripts\rifai_tutto.py e riparti con --riprendi. Alla fine i rapporti in docs\rapporti hanno gli stessi numeri di prima (cambiano le date) e prova_pagine.py da' 0 errori. Prova "da zero" in una cartella temporanea: git clone, python scripts\scarica_dati.py, python scripts\rifai_tutto.py --solo schede,mappa. Scrivi le differenze in sviluppo/piani/ESITO_P7.md.
+8. Controlla su GitHub che il controllo automatico (Actions, controllo.yml) sia verde sull'ultimo commit; se e' rosso, correggi.
+9. Aggiorna sviluppo/MEMORIA_PROGETTO.md (sezioni 4-6, massimo 120 righe) solo con quello che e' cambiato, poi git add -A, git status (niente data\ non voluti, .bak, chiavi), commit, git pull --no-rebase origin prova, git push origin prova.
+Alla fine di' a Leo in 5 righe cosa e' cambiato, cosa deve guardare (index.html, risultati.html scheda 4, progetto.html, mappa) e i passi a mano su GitHub: unire prova in main, Settings > Pages (ramo main, cartella /), descrizione del repository, anteprima social, Post Inspector di LinkedIn sui link r/N.html. P8 (R4 con un mese di dati) resta a meta' novembre.
+```
