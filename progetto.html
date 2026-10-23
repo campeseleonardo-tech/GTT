@@ -200,7 +200,7 @@ html:not(.js) .colfig{grid-column:1;grid-row:2}
     var c = P && P.contatore, d = P && P.doppio, r = P && P.ritardi;
     var milioni = c && c.passaggi >= 1e6;
     var v = {
-      "sistema.giorni": c && num(c.giorni),
+      "sistema.giorni": c && num(Sito.giorniRaccolta(c)),
       "sistema.sensori": P && num(P.sensori_5t),
       "sistema.passaggi": c && (milioni ? num(Math.round(c.passaggi / 1e5) / 10) + T(" milioni", " million") : num(c.passaggi)),
       "doppio.residenti": d && num(d.residenti), "doppio.n_su": d && num(d.n_su),
@@ -235,7 +235,7 @@ html:not(.js) .colfig{grid-column:1;grid-row:2}
     var passi = [
       [T("Sensori e GPS", "Sensors and GPS"), T("bus e tram, " + (P ? P.sensori_5t : "") + " sensori del traffico", "buses and trams, " + (P ? P.sensori_5t : "") + " traffic sensors")],
       [T("Raspberry Pi", "Raspberry Pi"), T("legge Torino ogni minuto", "reads Turin every minute")],
-      [T("Storico", "History"), c ? T(c.giorni + " giorni di dati", c.giorni + " days of data") : ""],
+      [T("Storico", "History"), c ? T(Sito.giorniRaccolta(c) + " giorni di dati", Sito.giorniRaccolta(c) + " days of data") : ""],
       [T("Script", "Scripts"), T("calcoli, controlli, risultati", "calculations, checks, results")],
       [T("Pagine", "Pages"), T("mappa e schede dei risultati", "map and result cards")]
     ];

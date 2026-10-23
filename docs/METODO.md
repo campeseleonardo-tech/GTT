@@ -55,6 +55,4 @@ si mostra solo con l'indice dedicato, mai per nazionalità.
 
 ## Colori
 
-Uguali in mappa e schede: gradiente «bene/male» = **verde → rosso**; quantità neutre (abitanti, spostamenti,
-pendolari, prezzi) = **blu → arancione smorzati**; categorie = un colore per gruppo. Le legende scrivono sempre i
-numeri (daltonismo).
+Stile «Torino» (22/10/2026), uguale in mappa e schede; i colori stanno solo in `assets/stile.css` (la mappa copia le variabili). Gradiente «bene/male» = **verde acqua → granata**; quantità neutre (abitanti, spostamenti, pendolari, prezzi) = **blu → oro**; categorie = un colore per gruppo (blu e oro). Blu e oro sono i colori del sito (barra in alto, titoli, cursori); c'è anche la versione scura. Le legende scrivono sempre i numeri (daltonismo).

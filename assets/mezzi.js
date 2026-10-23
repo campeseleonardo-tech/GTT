@@ -14,11 +14,9 @@
     var el = document.getElementById("contatore"); if(!el) return;
     var c = H && H.contatore; if(!c){ el.hidden = true; return; }
     var en = window.Sito && Sito.lingua() === "en";
-    // giorni dal primo giorno della raccolta a oggi: la raccolta continua («e continuiamo»)
-    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(c.inizio_raccolta || c.dal || "");
-    if(!m){ el.hidden = true; return; }
-    var oggi = new Date(), d0 = new Date(+m[1], +m[2] - 1, +m[3]);
-    var giorni = Math.max(1, Math.floor((new Date(oggi.getFullYear(), oggi.getMonth(), oggi.getDate()) - d0) / 864e5) + 1);
+    // giorni dal primo giorno della raccolta a oggi (Sito.giorniRaccolta, come in progetto.html): la raccolta continua («e continuiamo»)
+    var giorni = Sito.giorniRaccolta(c);
+    if(!giorni){ el.hidden = true; return; }
     var n = '<b class="val" data-valore="' + giorni + '">' + Sito.formattaNumero(giorni) + '</b>';
     el.innerHTML = en
       ? "For " + n + " days we have been collecting, minute by minute, data on Turin's buses, trams and traffic, and we keep going: to understand who goes where, and how."
