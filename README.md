@@ -26,7 +26,7 @@ Un Raspberry Pi di casa raccoglie ogni minuto la posizione di bus e tram e i sen
 4. **Al mattino, coi mezzi pubblici si impiega 1,9 volte il tempo dell'auto**  
    Per quali spostamenti l'auto è molto più veloce dei mezzi pubblici, e quante auto li fanno? → **1,9 volte** il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino. Sono il 47% delle auto del mattino (220.307): mancano i viaggi dentro una zona e fra comuni della cintura. Con i sensori, la stima più favorevole all'auto, 2,9.. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/4.html)
 5. **Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi**  
-   Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta? → **79.598** residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
+   Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta? → **79.598** residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. È 1,7 volte quanto ci si aspetterebbe per caso.. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
 <!-- RISULTATI-IT:FINE -->
 
 Ogni numero porta la sua etichetta: **misurato** (sensori, GPS dei mezzi), **programmato** (orario ufficiale), **stimato** (calcolo mio su dati veri), **censimento**.
@@ -90,7 +90,7 @@ The site is in Italian and English (button IT/EN); the map is in Italian.
 4. **In the morning, public transport takes 1.9 times as long as the car**  
    For which trips is the car much faster than public transport, and how many cars make them? → **1.9 times** the car's time: TomTom median ratio, weighted by morning cars. They are 47% of morning cars (220,307): trips within a zone and between belt towns are missing. With the sensors, the estimate most favourable to the car, 2.9.. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/4.html)
 5. **About 1 Turin resident in 10 lives in an area with more social difficulties and few services**  
-   Do people pay for services? And who lives where services are few and fragility is high? → **79,598** residents of areas with more social difficulties and few services: 9.5% of residents of inhabited areas. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
+   Do people pay for services? And who lives where services are few and fragility is high? → **79,598** residents in zones with more social difficulty and few services: 9.5% of residents of inhabited zones. That is 1.7 times what you would expect by chance.. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
 <!-- RISULTATI-EN:FINE -->
 
 Every number carries a label: **measured** (sensors, vehicle GPS), **scheduled** (official timetable), **estimated** (my calculation on real data), **census**.

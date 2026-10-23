@@ -7,6 +7,9 @@ Domande (sviluppo/piani/PIANO_RISULTATI.md, parte E):
       le 5 zone piu' care e le 5 piu' convenienti rispetto ai servizi.
   E2  Doppio svantaggio: zone con fragilita' nel 20% piu' alto E servizi nel 20% piu' basso. Lo stesso conto per
       sezione (quintili delle sezioni di Torino abitate, fuori le zone grigie sotto 1.000 ab/km2, come la mappa).
+  E4  (giro L9) Correlazione PARZIALE sui ranghi a parita' di distanza da Piazza Castello, per prezzo-servizi, fragilita'-servizi e
+      prezzo-fragilita', con intervallo al 95% (ricampionamento delle zone, seme fisso): «regge» solo se l'intervallo non contiene lo 0.
+      E in E2: il doppio svantaggio confrontato col caso (quanto ci si aspetterebbe se fragilita' alta e servizi bassi fossero indipendenti).
   E3  Il valore della metro: zone con una fermata M1 entro 600 m dal centro della zona contro le altre, a pari
       distanza da Piazza Castello (fasce di 2 km). Differenza fra zone, NON effetto causale.
 
@@ -84,6 +87,29 @@ def pearson(x, y):
 
 def spearman(x, y):
     return pearson(ranghi(x), ranghi(y))
+
+
+def parziale(x, y, z):
+    """Correlazione parziale sui ranghi (Spearman) fra x e y a parita' di z: (r_xy - r_xz r_yz) / sqrt((1 - r_xz^2)(1 - r_yz^2))."""
+    rxy, rxz, ryz = spearman(x, y), spearman(x, z), spearman(y, z)
+    if None in (rxy, rxz, ryz):
+        return None
+    den = math.sqrt((1 - rxz ** 2) * (1 - ryz ** 2))
+    return (rxy - rxz * ryz) / den if den else None
+
+
+def ic_parziale(x, y, z, n_boot=2000):
+    """Intervallo al 95% della correlazione parziale, ricampionando le zone (seme fisso)."""
+    rnd = random.Random(SEME)
+    n = len(x)
+    ris = []
+    for _ in range(n_boot):
+        idx = [rnd.randrange(n) for _ in range(n)]
+        r = parziale([x[i] for i in idx], [y[i] for i in idx], [z[i] for i in idx])
+        if r is not None:
+            ris.append(r)
+    ris.sort()
+    return (ris[int(0.025 * len(ris))], ris[min(len(ris) - 1, int(0.975 * len(ris)))]) if ris else (None, None)
 
 
 def retta(x, y):
@@ -277,6 +303,9 @@ def calcola(radice, c):
     c("abbastanza zone per una correlazione (almeno 10)", len(ok) >= 10, bloccante=True)
     c("servizi e fragilita' di zona fra 0 e 100", all(0 <= z["servizi"] <= 100 and 0 <= z["fragilita"] <= 100 for z in ok), bloccante=True)
     ab_usati = sum(z["ab"] for z in ok)
+    for z in ok:      # centro della zona (anello piu' grande) e distanza da Piazza Castello: servono alla correlazione parziale (E4) e alla metro (E3)
+        z["centro"] = centroide_anello(z["rings"][max(z["area"], key=z["area"].get)])
+        z["d_castello"] = comuni.haversine_m(z["centro"][0], z["centro"][1], comuni.CENTRO_LAT, comuni.CENTRO_LON)
 
     # --- E1
     x = [z["servizi"] for z in ok]
@@ -296,6 +325,21 @@ def calcola(radice, c):
           "piu_care_dei_servizi": [riga(z) for z in reversed(per_res[-5:])],
           "piu_convenienti_dei_servizi": [riga(z) for z in per_res[:5]]}
 
+    # --- E4: legami a parita' di distanza dal centro (L9): correlazione parziale sui ranghi, intervallo al 95%, «regge» se l'intervallo non contiene lo 0
+    dist = [z["d_castello"] for z in ok]
+    var = {"prezzo": [z["prezzo"] for z in ok], "servizi": [z["servizi"] for z in ok], "fragilita": [z["fragilita"] for z in ok]}
+    e4 = {"controllo": "distanza dal centro di zona a Piazza Castello (m)", "n_zone": len(ok),
+          "regola": "correlazione parziale sui ranghi (Spearman) a parita' di distanza da Piazza Castello; intervallo al 95% per ricampionamento delle zone (2.000 volte, seme 95); regge solo se l'intervallo non contiene lo 0",
+          "legami": []}
+    for nome, a_, b_ in (("prezzo-servizi", "prezzo", "servizi"), ("fragilita-servizi", "fragilita", "servizi"), ("prezzo-fragilita", "prezzo", "fragilita")):
+        s_ = spearman(var[a_], var[b_])
+        s_lo, s_hi = ic_bootstrap(var[a_], var[b_])
+        p_ = parziale(var[a_], var[b_], dist)
+        p_lo, p_hi = ic_parziale(var[a_], var[b_], dist)
+        e4["legami"].append({"legame": nome, "spearman": round(s_, 3), "spearman_ic95": [round(s_lo, 3), round(s_hi, 3)], "regge_semplice": bool(s_lo > 0 or s_hi < 0),
+                             "parziale": round(p_, 3), "parziale_ic95": [round(p_lo, 3), round(p_hi, 3)], "regge": bool(p_lo > 0 or p_hi < 0)})
+    c("la correlazione semplice prezzo-servizi dell'E4 coincide con quella dell'E1", abs(e4["legami"][0]["spearman"] - e1["spearman"]) < 1e-9, bloccante=True)
+
     # --- E2 per zona (soglie fissate sulle zone usate)
     s_frag = quantile_soglia([z["fragilita"] for z in ok], QUANTILE_ALTO)
     s_serv = quantile_soglia([z["servizi"] for z in ok], QUANTILE_BASSO)
@@ -314,6 +358,14 @@ def calcola(radice, c):
         classi[k][1] += s["p"]
     c("le 4 classi delle sezioni sommano alle sezioni di riferimento",
       sum(v[0] for v in classi.values()) == len(ref) and sum(v[1] for v in classi.values()) == sum(s["p"] for s in ref), bloccante=True)
+    # confronto col caso (L9): se fragilita' alta e servizi bassi fossero indipendenti, la quota attesa sarebbe il prodotto delle due quote (pesate per abitanti)
+    tot_ref = sum(s["p"] for s in ref)
+    p_f = sum(s["p"] for s in ref if v_sez[s["id"]] > sf) / tot_ref
+    p_s = sum(s["p"] for s in ref if punt[s["id"]] <= ss) / tot_ref
+    osservata = classi["tutte_e_due"][1] / tot_ref
+    caso = {"regola": "quota attesa per caso = (quota di residenti con fragilita' alta) x (quota con servizi bassi), se le due condizioni fossero indipendenti",
+            "quota_fragilita_alta": round(p_f, 4), "quota_servizi_bassi": round(p_s, 4), "quota_attesa_per_caso": round(p_f * p_s, 4),
+            "quota_osservata": round(osservata, 4), "volte_il_caso": round(osservata / (p_f * p_s), 2)}
     e2 = {"soglie_fissate": {"fragilita_sopra": round(s_frag, 2), "servizi_fino_a": round(s_serv, 2),
                               "regola": "fragilita' nel 20% piu' alto e servizi nel 20% piu' basso (sulle zone usate); per sezione: quintili delle sezioni di Torino con almeno 1.000 ab/km2"},
           "zone": [{"zona": z["nome"], "abitanti": z["ab"], "fragilita": round(z["fragilita"], 1), "servizi": round(z["servizi"], 1),
@@ -324,14 +376,13 @@ def calcola(radice, c):
                       "sezioni_di_riferimento": len(ref), "residenti_di_riferimento": sum(s["p"] for s in ref),
                       "classi": {k: {"sezioni": v[0], "residenti": v[1]} for k, v in classi.items()},
                       "residenti_doppio_svantaggio": classi["tutte_e_due"][1],
-                      "quota_residenti_di_riferimento": round(classi["tutte_e_due"][1] / sum(s["p"] for s in ref), 4)}}
+                      "quota_residenti_di_riferimento": round(classi["tutte_e_due"][1] / sum(s["p"] for s in ref), 4),
+                      "confronto_col_caso": caso}}
 
     # --- E3: metro
     c("fermate della metropolitana trovate nel GTFS (la M1 ne ha circa 23)", len(metro) >= 15, dettaglio=f"{len(metro)}")
     for z in ok:
-        la, lo = centroide_anello(z["rings"][max(z["area"], key=z["area"].get)])
-        z["centro"] = (la, lo)
-        z["d_castello"] = comuni.haversine_m(la, lo, comuni.CENTRO_LAT, comuni.CENTRO_LON)
+        la, lo = z["centro"]
         z["d_metro"] = min((comuni.haversine_m(la, lo, m[0], m[1]) for m in metro), default=None)
         z["metro"] = z["d_metro"] is not None and z["d_metro"] < RAGGIO_METRO_M
         z["fascia"] = int(z["d_castello"] // FASCIA_M)
@@ -365,7 +416,7 @@ def calcola(radice, c):
         "conteggi": {"sezioni_torino": len(torino), "abitanti_torino": tot_ab, "zone_omi": len(zone), "zone_usate": len(ok),
                      "abitanti_zone_usate": ab_usati, "zone_sotto_500": [z["nome"] for z in piccole], "zone_senza_prezzo": senza_prezzo,
                      "sezioni_senza_zona": len(senza_zona), "fermate_metro": len(metro)},
-        "e1_si_paga_per_i_servizi": e1, "e2_doppio_svantaggio": e2, "e3_valore_metro": e3, "zone": zone_out,
+        "e1_si_paga_per_i_servizi": e1, "e2_doppio_svantaggio": e2, "e3_valore_metro": e3, "e4_a_parita_di_distanza": e4, "zone": zone_out,
     }
 
 
@@ -395,6 +446,15 @@ def rapporto(ris, righe_controlli):
     for k, v in s["classi"].items():
         L.append(f"    {nomi[k]:<22} {v['sezioni']:>5} sezioni  {v['residenti']:>8,} residenti")
     L.append(f"  torinesi in sezioni con entrambe le condizioni: {s['residenti_doppio_svantaggio']:,} ({s['quota_residenti_di_riferimento'] * 100:.1f}%)")
+    cc = s["confronto_col_caso"]
+    L.append(f"  confronto col caso: fragilita' alta {cc['quota_fragilita_alta'] * 100:.1f}% x servizi bassi {cc['quota_servizi_bassi'] * 100:.1f}% = {cc['quota_attesa_per_caso'] * 100:.2f}% attesi se fossero indipendenti; "
+             f"osservati {cc['quota_osservata'] * 100:.2f}%: {cc['volte_il_caso']:.2f} volte il caso")
+    e4 = ris["e4_a_parita_di_distanza"]
+    L += ["", "E4  LEGAMI A PARITA' DI DISTANZA DAL CENTRO (correlazione parziale sui ranghi; intervallo 95% per ricampionamento, seme 95; regge solo se l'intervallo non contiene lo 0)",
+          f"  controllo: {e4['controllo']}; {e4['n_zone']} zone"]
+    for g in e4["legami"]:
+        L.append(f"    {g['legame']:<18} Spearman {g['spearman']:+.3f} ({g['spearman_ic95'][0]:+.3f} / {g['spearman_ic95'][1]:+.3f})  |  a parita' di distanza {g['parziale']:+.3f} "
+                 f"({g['parziale_ic95'][0]:+.3f} / {g['parziale_ic95'][1]:+.3f})  ->  {'REGGE' if g['regge'] else 'NON REGGE (l intervallo contiene lo 0)'}")
     L += ["", "E3  IL VALORE DELLA METRO", "  " + e3["regola"], "  zone con metro: " + (", ".join(e3["zone_con_metro"]) or "nessuna")]
     for f in e3["fasce"]:
         cm, sm = f["con_metro"], f["senza_metro"]

@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T22:17:40+00:00",
+  "generato": "2026-10-23T22:19:28+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1356,7 +1356,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T22:17:40+00:00",
+  "generato": "2026-10-23T22:19:29+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-23: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -2588,7 +2588,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T22:17:40+00:00",
+  "generato": "2026-10-23T22:19:29+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -8263,7 +8263,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T22:17:40+00:00",
+  "generato": "2026-10-23T22:19:29+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -14976,7 +14976,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T22:17:40+00:00",
+  "generato": "2026-10-23T22:19:29+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -15020,7 +15020,7 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 79598,
     "unita": "",
-    "testo": "residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate"
+    "testo": "residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. È 1,7 volte quanto ci si aspetterebbe per caso."
    },
    "principale": {
     "tipo": "dispersione",
@@ -15314,12 +15314,12 @@ window.SCHEDE_RISULTATI = [
      "b": 12.88,
      "label": "tendenza"
     },
-    "nota": "Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: ogni 10 punti di servizi in più, 129 euro al m² in più."
+    "nota": "Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: ogni 10 punti di servizi in più, 129 euro al m² in più, ma in parte è l'effetto della distanza dal centro."
    },
    "punti": [
-    "Prezzo e servizi vanno insieme: correlazione di Spearman 0,61 su 46 zone (da 0,39 a 0,79).",
+    "A parità di distanza dal centro il legame prezzo-servizi quasi sparisce: correlazione 0,21 su 46 zone (da −0,12 a 0,52).",
     "5 zone sono in doppio svantaggio: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. Ci abitano 129.285 persone.",
-    "Vicino alla metro le case costano poco di più (+115 euro al m² in media, a pari distanza dal centro). Differenza fra zone, non effetto causale."
+    "A parità di distanza dal centro reggono fragilità-servizi (−0,48) e prezzo-fragilità (−0,69)."
    ],
    "altri": [
     {
@@ -15353,34 +15353,6 @@ window.SCHEDE_RISULTATI = [
        "testo": "517.053 (2.332 sezioni)"
       }
      ]
-    },
-    {
-     "tipo": "barre_diff",
-     "titolo": "Quanto più costano le case vicino alla metro (con metro meno senza metro)",
-     "unita": "€/m²",
-     "nota": "Per fascia di distanza da Piazza Castello (2 km): prezzo medio delle zone con una fermata M1 entro 600 m meno quello delle zone senza, alla stessa distanza dal centro. Su ogni barra il numero di zone. Differenza fra zone, non effetto della metro.",
-     "voci": [
-      {
-       "label": "0-2 km dal centro",
-       "valore": 73,
-       "testo": "(6 zone con metro, 8 senza)"
-      },
-      {
-       "label": "2-4 km dal centro",
-       "valore": 219,
-       "testo": "(3 zone con metro, 16 senza)"
-      },
-      {
-       "label": "4-6 km dal centro",
-       "valore": 52,
-       "testo": "(2 zone con metro, 10 senza)"
-      },
-      {
-       "label": "6-8 km dal centro",
-       "valore": null,
-       "testo": "(0 zone con metro, 1 senza)"
-      }
-     ]
     }
    ],
    "calcolo": [
@@ -15388,7 +15360,7 @@ window.SCHEDE_RISULTATI = [
     "Servizi: punteggio «Tutti i servizi» a piedi in 15 minuti. Fragilità: indice del censimento 2021 (lavoro, istruzione, case, anziani).",
     "Prezzo: centro della forbice OMI per le abitazioni civili. Tendenza: retta dei minimi quadrati.",
     "Doppio svantaggio = fragilità nel 20% più alto e servizi nel 20% più basso. Soglie fissate prima dei numeri: 49,8 e 33,4.",
-    "Metro: zone con una fermata M1 entro 600 m dal centro, contro le altre alla stessa distanza da Piazza Castello."
+    "Legami a parità di distanza dal centro: correlazione parziale sui ranghi, con intervallo al 95% per ricampionamento. Regge solo se l'intervallo non contiene lo zero."
    ],
    "criteri": [
     [
@@ -15404,12 +15376,8 @@ window.SCHEDE_RISULTATI = [
      "punteggio fino a 34,4 su 100 (sezioni) / 33,4 (zone)"
     ],
     [
-     "Metro vicina",
-     "fermata M1 entro 600 m dal centro della zona"
-    ],
-    [
-     "Fasce",
-     "2 km da Piazza Castello"
+     "Legami a parità di distanza",
+     "correlazione parziale sui ranghi, intervallo al 95%; distanza dal centro della zona a Piazza Castello"
     ]
    ],
    "limiti": [
@@ -15437,7 +15405,7 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 79598,
     "unita": "",
-    "testo": "residents of areas with more social difficulties and few services: 9.5% of residents of inhabited areas"
+    "testo": "residents in zones with more social difficulty and few services: 9.5% of residents of inhabited zones. That is 1.7 times what you would expect by chance."
    },
    "principale": {
     "tipo": "dispersione",
@@ -15731,12 +15699,12 @@ window.SCHEDE_RISULTATI = [
      "b": 12.88,
      "label": "trend"
     },
-    "nota": "Each point is a zone, sized by its inhabitants. The line is the trend: for every 10 extra service points, 129 euro per m² more."
+    "nota": "Each point is a zone, as large as its inhabitants. The line is the trend: every 10 more service points, 129 euros per m² more, but partly this is the effect of distance from the centre."
    },
    "punti": [
-    "Price and services go together: Spearman correlation 0.61 over 46 zones (from 0.39 to 0.79).",
+    "At equal distance from the centre the price-services link nearly disappears: correlation 0.21 over 46 zones (from −0.12 to 0.52).",
     "5 zones are in double disadvantage: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. 129,285 people live there.",
-    "Near the metro homes cost a little more (+115 euro per m² on average, at the same distance from the centre). A difference between zones, not a causal effect."
+    "At equal distance from the centre, fragility-services (−0.48) and price-fragility (−0.69) hold."
    ],
    "altri": [
     {
@@ -15770,34 +15738,6 @@ window.SCHEDE_RISULTATI = [
        "testo": "517,053 (2,332 sections)"
       }
      ]
-    },
-    {
-     "tipo": "barre_diff",
-     "titolo": "How much more homes cost near the metro (with metro minus without)",
-     "unita": "€/m²",
-     "nota": "By distance band from Piazza Castello (2 km): average price of zones with an M1 stop within 600 m minus that of zones without, at the same distance from the centre. The number of zones is shown on each bar. A difference between zones, not an effect of the metro.",
-     "voci": [
-      {
-       "label": "0-2 km from the centre",
-       "valore": 73,
-       "testo": "(6 zones with metro, 8 without)"
-      },
-      {
-       "label": "2-4 km from the centre",
-       "valore": 219,
-       "testo": "(3 zones with metro, 16 without)"
-      },
-      {
-       "label": "4-6 km from the centre",
-       "valore": 52,
-       "testo": "(2 zones with metro, 10 without)"
-      },
-      {
-       "label": "6-8 km from the centre",
-       "valore": null,
-       "testo": "(0 zones with metro, 1 without)"
-      }
-     ]
     }
    ],
    "calcolo": [
@@ -15805,7 +15745,7 @@ window.SCHEDE_RISULTATI = [
     "Services: “All services” score within a 15-minute walk. Fragility: 2021 census index (work, education, housing, older people).",
     "Price: middle of the OMI range for residential homes. Trend: least-squares line.",
     "Double disadvantage = fragility in the highest 20% and services in the lowest 20%. Thresholds fixed before the numbers: 49.8 and 33.4.",
-    "Metro: zones with an M1 stop within 600 m of the centre, compared with the others at the same distance from Piazza Castello."
+    "Links at equal distance from the centre: partial rank correlation, with a 95% interval by resampling. It holds only if the interval does not contain zero."
    ],
    "criteri": [
     [
@@ -15821,12 +15761,8 @@ window.SCHEDE_RISULTATI = [
      "score up to 34.4 out of 100 (sections) / 33.4 (zones)"
     ],
     [
-     "Metro nearby",
-     "M1 stop within 600 m of the zone centre"
-    ],
-    [
-     "Bands",
-     "2 km from Piazza Castello"
+     "Links at equal distance",
+     "partial rank correlation, 95% interval; distance from the centre of the zone to Piazza Castello"
     ]
    ],
    "limiti": [

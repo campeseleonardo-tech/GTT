@@ -58,10 +58,15 @@ def scheda_r10():
 
 def forma_r10(s):
     j = leggi("case_fragilita_servizi.json")
-    e1, e2, e3 = j["e1_si_paga_per_i_servizi"], j["e2_doppio_svantaggio"], j["e3_valore_metro"]
+    e1, e2 = j["e1_si_paga_per_i_servizi"], j["e2_doppio_svantaggio"]
     cn, se = j["conteggi"], e2["sezioni"]
+    # L9: legami a parita' di distanza dal centro (correlazione parziale sui ranghi, intervallo al 95%) e confronto col caso
+    leg = {g["legame"]: g for g in j["e4_a_parita_di_distanza"]["legami"]}
+    gp, gf, gx = leg["prezzo-servizi"], leg["fragilita-servizi"], leg["prezzo-fragilita"]
+    meno = lambda x: pct2(x).replace("-", "−")
+    caso = se["confronto_col_caso"]
+    volte_caso = virgola(round(caso["volte_il_caso"], 1))
     retta = e1["retta"]
-    ic = e1["spearman_ic95"]
     soglie = e2["soglie_fissate"]
     n_su = s["_n_su"]
     # grafico principale: una zona = un punto (servizi, prezzo, abitanti, nome) e la retta di tendenza
@@ -72,19 +77,18 @@ def forma_r10(s):
                   "punti": [[z["servizi"], z["prezzo"], z["abitanti"], nome_zona(z["zona"])] for z in zone],
                   "retta": {"a": retta["intercetta_eur_m2"], "b": retta["pendenza_eur_m2_per_punto_servizi"], "label": "tendenza"},
                   "nota": f"Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: ogni 10 punti di servizi in più, "
-                          f"{migliaia(round(10 * retta['pendenza_eur_m2_per_punto_servizi']))} euro al m² in più."}
+                          f"{migliaia(round(10 * retta['pendenza_eur_m2_per_punto_servizi']))} euro al m² in più, ma in parte è l'effetto della distanza dal centro."}
     zd = e2["zone"]
     nomi_zd = ", ".join(nome_zona(z["zona"]) for z in zd[:5]) + (" e altre" if len(zd) > 5 else "")
-    # metro: media delle differenze nelle fasce dove si hanno sia zone con metro sia senza
-    fasce = [f for f in e3["fasce"] if f["differenza"] is not None]
-    diff_media = round(sum(f["differenza"] for f in fasce) / len(fasce)) if fasce else None
-    senza_media = round(sum(f["senza_metro"]["prezzo_medio"] for f in fasce) / len(fasce)) if fasce else None
-    if diff_media is None:
-        kp_metro = "Vicino alla metro non si può confrontare il prezzo: mancano zone con e senza metro a pari distanza dal centro."
+    # legami a parita' di distanza dal centro: quelli che reggono (intervallo al 95% senza lo 0) e quelli che no
+    if gp["regge"]:
+        kp_prezzo = f"Prezzo e servizi vanno insieme anche a parità di distanza dal centro: correlazione {meno(gp['parziale'])} su {e1['n_zone']} zone."
     else:
-        entita = "poco di più" if 0 < diff_media < 0.15 * senza_media else "di più" if diff_media > 0 else "non di più"
-        kp_metro = (f"Vicino alla metro le case costano {entita} ({'+' if diff_media > 0 else ''}{migliaia(diff_media)} euro al m² in media, a pari distanza dal centro). "
-                    "Differenza fra zone, non effetto causale.")
+        kp_prezzo = (f"A parità di distanza dal centro il legame prezzo-servizi quasi sparisce: correlazione {meno(gp['parziale'])} "
+                     f"su {e1['n_zone']} zone (da {meno(gp['parziale_ic95'][0])} a {meno(gp['parziale_ic95'][1])}).")
+    kp_altri = ("A parità di distanza dal centro reggono fragilità-servizi "
+                f"({meno(gf['parziale'])}) e prezzo-fragilità ({meno(gx['parziale'])})." if gf["regge"] and gx["regge"]
+                else "A parità di distanza dal centro non reggono tutti i legami: vedi il rapporto.")
     classi = se["classi"]
     nomi_classi = [("tutte_e_due", "fragilità alta e servizi bassi", "rosso"), ("solo_fragilita", "solo fragilità alta", "arancio"),
                    ("solo_servizi", "solo servizi bassi", "blu"), ("nessuna", "nessuna delle due", "verde")]
@@ -93,42 +97,35 @@ def forma_r10(s):
                            f"servizi bassi = punteggio fino a {virgola(se['soglia_servizi_fino_a'])} su 100 (il 20% più basso).",
                    "voci": [{"label": n, "valore": classi[k]["residenti"], "tono": tn, "testo": f"{migliaia(classi[k]['residenti'])} ({migliaia(classi[k]['sezioni'])} sezioni)"}
                             for k, n, tn in nomi_classi]}
-    graf_metro = {"tipo": "barre_diff", "titolo": "Quanto più costano le case vicino alla metro (con metro meno senza metro)", "unita": "€/m²",
-                  "nota": "Per fascia di distanza da Piazza Castello (2 km): prezzo medio delle zone con una fermata M1 entro 600 m meno quello delle zone senza, "
-                          "alla stessa distanza dal centro. Su ogni barra il numero di zone. Differenza fra zone, non effetto della metro.",
-                  "voci": [{"label": f"{f['fascia_km']} km dal centro", "valore": f["differenza"],
-                            "testo": f"({f['con_metro']['zone']} zone con metro, {f['senza_metro']['zone']} senza)"}
-                           for f in e3["fasce"]]}
     nz_usate = cn["zone_usate"]
     return forma_base(
         s,
         f"Circa 1 torinese su {n_su} vive in una zona con più difficoltà sociali e pochi servizi",
         "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
         {"valore": se["residenti_doppio_svantaggio"], "unita": "",
-         "testo": f"residenti in zone con più difficoltà sociali e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate"},
+         "testo": f"residenti in zone con più difficoltà sociali e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate. È {volte_caso} volte quanto ci si aspetterebbe per caso."},
         principale,
-        [f"Prezzo e servizi vanno insieme: correlazione di Spearman {pct2(e1['spearman'])} su {e1['n_zone']} zone (da {pct2(ic[0])} a {pct2(ic[1])}).",
+        [kp_prezzo,
          f"{len(zd)} zone sono in doppio svantaggio: {nomi_zd}. Ci abitano {migliaia(e2['residenti_zone_doppio_svantaggio'])} persone.",
-         kp_metro],
-        [graf_classi, graf_metro],
+         kp_altri],
+        [graf_classi],
         [f"Unità: le {nz_usate} zone OMI di Torino con almeno 500 abitanti. Le sezioni si sommano nella zona, pesate per abitanti.",
          "Servizi: punteggio «Tutti i servizi» a piedi in 15 minuti. Fragilità: indice del censimento 2021 (lavoro, istruzione, case, anziani).",
          "Prezzo: centro della forbice OMI per le abitazioni civili. Tendenza: retta dei minimi quadrati.",
          f"Doppio svantaggio = fragilità nel 20% più alto e servizi nel 20% più basso. Soglie fissate prima dei numeri: {virgola(soglie['fragilita_sopra'])} e {virgola(soglie['servizi_fino_a'])}.",
-         "Metro: zone con una fermata M1 entro 600 m dal centro, contro le altre alla stessa distanza da Piazza Castello."],
+         "Legami a parità di distanza dal centro: correlazione parziale sui ranghi, con intervallo al 95% per ricampionamento. Regge solo se l'intervallo non contiene lo zero."],
         [["Zone", f"{nz_usate} zone OMI di Torino, almeno 500 abitanti"],
          ["Fragilità alta", f"indice sopra {virgola(se['soglia_fragilita_sopra'])} su 100 (sezioni) / {virgola(soglie['fragilita_sopra'])} (zone)"],
          ["Servizi bassi", f"punteggio fino a {virgola(se['soglia_servizi_fino_a'])} su 100 (sezioni) / {virgola(soglie['servizi_fino_a'])} (zone)"],
-         ["Metro vicina", "fermata M1 entro 600 m dal centro della zona"],
-         ["Fasce", "2 km da Piazza Castello"]],
+         ["Legami a parità di distanza", "correlazione parziale sui ranghi, intervallo al 95%; distanza dal centro della zona a Piazza Castello"]],
         ["I prezzi sono quotazioni OMI, non compravendite.",
          "C'è un solo semestre di quotazioni (2025/2).",
          "Le zone OMI sono grandi: dentro una zona i prezzi e i servizi cambiano molto.",
          "L'indice di fragilità non è il reddito: misura lavoro, istruzione, affollamento e anziani."],
         ["Question: do homes cost more where services are plentiful, and who lives where fragility is high and services are few?",
          f"Answer: 1 Turin resident in {n_su} ({migliaia(se['residenti_doppio_svantaggio'])} people, {100 * se['quota_residenti_di_riferimento']:.1f}%) lives where fragility is high and services are few. "
-         f"Price and services go together (Spearman {e1['spearman']:.2f} over {e1['n_zone']} zones).",
-         "Limit: price quotes, not sales; one semester; large zones. The metro price gap is between zones, not a causal effect."],
+         f"At equal distance from the centre the link between price and services nearly disappears (partial correlation {gp['parziale']:.2f} over {e1['n_zone']} zones).",
+         "Limit: price quotes, not sales; one semester; large zones. Links are correlations, not causes."],
         anima={"tipo": "omini", "totale": 10, "colorati": round(10 * se["quota_residenti_di_riferimento"]),
                "didascalia": f"Circa {round(10 * se['quota_residenti_di_riferimento'])} torinese su 10 vive dove l'indice di fragilità sociale è alto e i servizi sono pochi "
                              f"({virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate)."},

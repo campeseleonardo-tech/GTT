@@ -201,7 +201,10 @@
   "Auto: tempo a flusso libero per il fattore TomTom della coppia, più 5 minuti. Le coppie non chieste a TomTom prendono la mediana della loro fascia. Dati di traffico: TomTom.": "Car: free-flow time times the TomTom factor of the pair, plus 5 minutes. Pairs not asked to TomTom take the median of their band. Traffic data: TomTom.",
   "Auto, stima TomTom": "Car, TomTom estimate",
   "Auto, stima più favorevole all'auto": "Car, estimate most favourable to the car",
-  "Solo coppie con almeno 30 interviste. Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.": "Only pairs with at least 30 interviews. Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car."
+  "Solo coppie con almeno 30 interviste. Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.": "Only pairs with at least 30 interviews. Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car.",
+  "Legami a parità di distanza dal centro: correlazione parziale sui ranghi, con intervallo al 95% per ricampionamento. Regge solo se l'intervallo non contiene lo zero.": "Links at equal distance from the centre: partial rank correlation, with a 95% interval by resampling. It holds only if the interval does not contain zero.",
+  "Legami a parità di distanza": "Links at equal distance",
+  "correlazione parziale sui ranghi, intervallo al 95%; distanza dal centro della zona a Piazza Castello": "partial rank correlation, 95% interval; distance from the centre of the zone to Piazza Castello"
  },
  "modelli": [
   {
@@ -791,6 +794,22 @@
   {
    "it": "il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino. Sono il {n0}% delle auto del mattino ({n1}): mancano i viaggi dentro una zona e fra comuni della cintura. Con i sensori, la stima più favorevole all'auto, {n2}.",
    "en": "the car's time: TomTom median ratio, weighted by morning cars. They are {n0}% of morning cars ({n1}): trips within a zone and between belt towns are missing. With the sensors, the estimate most favourable to the car, {n2}."
+  },
+  {
+   "it": "residenti in zone con più difficoltà sociali e servizi bassi: il {n0}% dei residenti delle zone abitate. È {n1} volte quanto ci si aspetterebbe per caso.",
+   "en": "residents in zones with more social difficulty and few services: {n0}% of residents of inhabited zones. That is {n1} times what you would expect by chance."
+  },
+  {
+   "it": "Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: ogni 10 punti di servizi in più, {n0} euro al m² in più, ma in parte è l'effetto della distanza dal centro.",
+   "en": "Each point is a zone, as large as its inhabitants. The line is the trend: every 10 more service points, {n0} euros per m² more, but partly this is the effect of distance from the centre."
+  },
+  {
+   "it": "A parità di distanza dal centro il legame prezzo-servizi quasi sparisce: correlazione {p0} su {n1} zone (da {p2} a {p3}).",
+   "en": "At equal distance from the centre the price-services link nearly disappears: correlation {p0} over {n1} zones (from {p2} to {p3})."
+  },
+  {
+   "it": "A parità di distanza dal centro reggono fragilità-servizi ({p0}) e prezzo-fragilità ({p1}).",
+   "en": "At equal distance from the centre, fragility-services ({p0}) and price-fragility ({p1}) hold."
   }
  ]
 }
