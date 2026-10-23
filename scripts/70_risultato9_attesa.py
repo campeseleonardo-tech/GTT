@@ -85,9 +85,9 @@ def attesa(s2, s1):
 
 # ---------- GTFS: calendario e fermate ----------
 
-def carica_calendario():
+def carica_calendario(percorso=None):
     servizio, cal, eccezioni, fermate = {}, {}, defaultdict(dict), {}
-    with zipfile.ZipFile(r4.GTFS) as z:
+    with zipfile.ZipFile(percorso or r4.GTFS) as z:
         leggi = lambda n: csv.DictReader(io.TextIOWrapper(z.open(n), encoding="utf-8-sig"))
         for r in leggi("trips.txt"):
             servizio[r["trip_id"]] = r["service_id"]
@@ -377,14 +377,13 @@ def main():
     freq = float(args[args.index("--freq") + 1]) if "--freq" in args else FREQ_MAX
     scrivi = not prova and "--freq" not in args
 
-    print("Carico il GTFS...", file=sys.stderr)
-    trip_info, nome_linea, prog, _modo_gtfs, _ultima_seq, _km_corsa = r4.carica_gtfs()
+    gtfs = r4.GtfsPerGiorno(True)   # il GTFS valido in ogni giorno (data/gtfs_archivio); con un solo GTFS e' sempre lo stesso
     modo_linea = None
     if IN_R4.exists():
         modo_linea = json.loads(IN_R4.read_text(encoding="utf-8")).get("modo_linea")
     if not modo_linea:
         print(f"AVVISO: manca modo_linea in {IN_R4.name} (lancia prima scripts/27): niente attesa per modo", file=sys.stderr)
-    servizio, cal, eccezioni, fermate = carica_calendario()
+    fermate = {}                    # unione delle fermate delle versioni usate
     sorg = r4.apri_sorgente("--riassunti" in args)
     print(f"Sorgente dei dati: {sorg.nome}", file=sys.stderr)
     giorni = sorg.giorni()
@@ -393,21 +392,28 @@ def main():
         giorni = [GIORNO_PROVA]
     else:
         # Giro 6: stessi giorni dello script 27 (via quelli con poco GPS)
-        giorni, esclusi_gps = r4.giorni_gps_validi(sorg, giorni, trip_info)
+        giorni, esclusi_gps = r4.giorni_gps_validi(sorg, giorni, lambda g: gtfs.stato(g).trip_info)
         for e in esclusi_gps:
             print(f"Giorno escluso (poco GPS): {e['giorno']}, {e['corse_viste']} corse viste, mediana del tipo {e['mediana_tipo']}",
                   file=sys.stderr)
     acc, esempi, per_giorno, gps = {}, {}, {}, None
+    cal_di = None
     tipi_giorno = {t: 0 for t in r4.TIPI}
     for n, giorno in enumerate(giorni, 1):
         print(f"[{n}/{len(giorni)}] {giorno}...", file=sys.stderr)
+        st = gtfs.stato(giorno)
+        trip_info, nome_linea, prog = st.trip_info, st.nome_linea, st.prog
+        if cal_di != st.path:
+            servizio, cal, eccezioni, _f = carica_calendario(st.path)
+            cal_di = st.path
+        fermate.update(st.fermate)
         tipo, conteggi, passaggi = elabora_giorno(sorg, giorno, trip_info, nome_linea, prog, servizio, cal,
-                                                  eccezioni, acc, esempi, fermate)
+                                                  eccezioni, acc, esempi, st.fermate)
         tipi_giorno[tipo] += 1
         per_giorno[giorno] = {"tipo": tipo, **conteggi}
         if giorno == GIORNO_PROVA:
             print("  controllo GPS...", file=sys.stderr)
-            gps = controllo_gps_giorno(sorg, giorno, (trip_info, nome_linea, prog), fermate)
+            gps = controllo_gps_giorno(sorg, giorno, (trip_info, nome_linea, prog), st.fermate)
         del passaggi
     sorg.chiudi()
 

@@ -48,17 +48,19 @@ LAT_MIN, LAT_MAX, LON_MIN, LON_MAX = 44.7, 45.4, 7.3, 8.1     # Torino e cintura
 
 
 # ---------------------------------------------------------------- passaggi
-def riassumi_passaggi(db, r9, c, mese, rifai, giorni_tutti, ctx, fermate, gtfs_nome):
+def riassumi_passaggi(db, r9, c, mese, rifai, giorni_tutti, gtfs):
+    """gtfs: r4.GtfsPerGiorno, il GTFS valido in ogni giorno."""
     r4 = r9.r4
     presenti = rs.giorni_passaggi_presenti(c.cartella_out)
     ultimi = set(giorni_tutti[-2:])      # il giorno in corso e quello appena finito possono essere incompleti
     daf = [g for g in giorni_tutti if (not mese or rs.mese_da_giorno(g) == mese)]
     daf = [g for g in daf if rifai or g not in presenti or g in ultimi]
     print(f"\n[passaggi] giorni da riassumere: {len(daf)} su {len(giorni_tutti)} ({', '.join(daf[:6])}{'...' if len(daf) > 6 else ''})")
-    trip_info = ctx[0]
     tot = {"gps": 0, "feed": 0}
     for n, giorno in enumerate(daf, 1):
         print(f"  [{n}/{len(daf)}] {giorno}...", flush=True)
+        st = gtfs.stato(giorno)
+        trip_info, ctx, fermate, gtfs_nome = st.trip_info, st.ctx, st.fermate, Path(st.path).name
         base = r4.mezzanotte_utc(giorno).timestamp()
         pf, sc, tipo, es, n_letti = db.passaggi_feed(giorno, ctx)
         pg, cop = db.passaggi_gps(giorno, ctx, fermate)
@@ -297,6 +299,7 @@ def main():
         tmp = Path(tempfile.mkdtemp(prefix="riassunti_prova_"))
         finto = storico_finto.crea(tmp)
         r4.DB, r4.GTFS = finto["db"], finto["gtfs"]
+        r4.GTFS_ARCHIVIO = None      # la prova usa solo il GTFS finto
         r9.GIORNO_PROVA = finto["giorno_controllo"]
         cart_out = tmp / "storico_riassunti"
         print(f"PROVA: storico finto in {tmp}")
@@ -306,6 +309,7 @@ def main():
         r4.DB = Path(args.db)
     if args.gtfs:
         r4.GTFS = Path(args.gtfs)
+        r4.GTFS_ARCHIVIO = None      # un GTFS scelto a mano vale per tutti i giorni
     if not Path(r4.DB).exists():
         sys.exit(f"ERRORE: non trovo lo storico {r4.DB}. Questo script gira sul PC di Leo (o con --prova nel cloud).")
     c.cartella_out = cart_out
@@ -319,12 +323,12 @@ def main():
         sensori = parcheggi = None
         parti = [args.solo] if args.solo else ["passaggi", "5t", "parcheggi", "ora"]
         if "passaggi" in parti or "ora" in parti:
-            print("Carico il GTFS...")
-            trip_info, nome_linea, prog, modo_linea, _us, _km = r4.carica_gtfs()
-            fermate = r4.carica_fermate()
-            ctx = (trip_info, nome_linea, prog)
+            gtfs = r4.GtfsPerGiorno(True)    # il GTFS valido in ogni giorno (data/gtfs_archivio); con uno solo e' sempre lo stesso
+            modo_linea = {}
+            for p_ in sorted({r4.gtfs_del_giorno(g) for g in giorni_tutti}, key=str):
+                modo_linea.update(r4.modi_linea(p_))
         if "passaggi" in parti:
-            riassumi_passaggi(db, r9, c, args.mese, args.rifai, giorni_tutti, ctx, fermate, Path(r4.GTFS).name)
+            riassumi_passaggi(db, r9, c, args.mese, args.rifai, giorni_tutti, gtfs)
         if "5t" in parti:
             sensori = riassumi_5t(db, c, args.mese, args.rifai)
         if "parcheggi" in parti:
@@ -339,7 +343,7 @@ def main():
             rs.salva_anagrafica(sensori, parcheggi, cart_out)
             print(f"\nAnagrafica: {len(sensori)} sensori, {len(parcheggi)} parcheggi")
         if "ora" in parti:
-            ris, errore = costruisci_ora_tipica(db, r4, giorni_tutti, modo_linea, ctx[0])
+            ris, errore = costruisci_ora_tipica(db, r4, giorni_tutti, modo_linea, None)
             if ris is None:
                 c(f"ora tipica: {errore}", False)
             else:

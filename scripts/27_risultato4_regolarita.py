@@ -60,6 +60,7 @@ import csv
 import io
 import json
 import math
+import re
 import sqlite3
 import sys
 import zipfile
@@ -68,6 +69,7 @@ from calendar import monthrange
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import comuni  # noqa: E402  (haversine_m per la lunghezza delle corse)
@@ -76,6 +78,7 @@ import riassunti_storico as rs  # noqa: E402  (sorgente alternativa: i riassunti
 RADICE = Path(__file__).resolve().parent.parent
 DB = RADICE / "data" / "storico_backup.sqlite"
 GTFS = RADICE / "data" / "raw" / "gtt_gtfs_20261003_224530.zip"
+GTFS_ARCHIVIO = RADICE / "data" / "gtfs_archivio"   # zip del GTFS archiviati dal Pi (L4): per ogni giorno si usa il GTFS valido allora
 OUT_JSON = RADICE / "data" / "processed" / "risultato4_regolarita.json"
 OUT_RAPPORTO = RADICE / "docs" / "rapporti" / "RAPPORTO_RISULTATO4.txt"
 OUT_RAPPORTO.parent.mkdir(parents=True, exist_ok=True)
@@ -177,8 +180,8 @@ def da_gttfs(g):
 
 # ---------- GTFS ----------
 
-def carica_gtfs():
-    """Ritorna trip_info, nome_linea, prog e, in piu': modo_linea (nome -> tram/metro/bus da route_type),
+def carica_gtfs(percorso=None):
+    """(percorso: default GTFS) Ritorna trip_info, nome_linea, prog e, in piu': modo_linea (nome -> tram/metro/bus da route_type),
     ultima_seq (corsa -> ultima stop_sequence) e km_corsa (corsa -> somma delle distanze in linea d'aria fra fermate
     consecutive)."""
     trip_info = {}
@@ -187,7 +190,7 @@ def carica_gtfs():
     prog = {}
     coord = {}
     per_corsa = {}
-    with zipfile.ZipFile(GTFS) as z:
+    with zipfile.ZipFile(percorso or GTFS) as z:
         with z.open("routes.txt") as f:
             for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
                 nome_linea[r["route_id"]] = r["route_short_name"]
@@ -220,10 +223,70 @@ def carica_gtfs():
     return trip_info, nome_linea, prog, modo_linea, ultima_seq, km_corsa
 
 
-def carica_fermate():
+def versioni_gtfs():
+    """[(AAAAMMGG, percorso)] degli zip del GTFS archiviati dal Pi (data/gtfs_archivio/gtt_gtfs_AAAAMMGG[_n].zip), in ordine di data."""
+    if not GTFS_ARCHIVIO or not Path(GTFS_ARCHIVIO).is_dir():
+        return []
+    out = []
+    for f in sorted(Path(GTFS_ARCHIVIO).glob("gtt_gtfs_*.zip")):
+        m = re.fullmatch(r"gtt_gtfs_(\d{8})(?:_\d+)?\.zip", f.name)
+        if m:
+            out.append((m.group(1), f))
+    return sorted(out, key=lambda x: (x[0], x[1].name))
+
+
+def modi_linea(percorso):
+    """nome della linea -> tram/metro/bus da routes.txt di un GTFS (senza caricare il resto)."""
+    modi = {}
+    with zipfile.ZipFile(percorso) as z, z.open("routes.txt") as f:
+        for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
+            modi[r["route_short_name"]] = {"0": "tram", "1": "metro"}.get(r.get("route_type", ""), "bus")
+    return modi
+
+
+def gtfs_del_giorno(giorno):
+    """GTFS valido in un giorno (AAAAMMGG): il piu' recente archiviato con data <= giorno; per i giorni prima del primo archivio
+    (o senza archivio) quello di oggi in data/raw (GTFS). Con un solo GTFS tutti i giorni usano lo stesso: i numeri non cambiano."""
+    valido = None
+    for data, f in versioni_gtfs():
+        if data <= giorno:
+            valido = f
+    return valido or GTFS
+
+
+class GtfsPerGiorno:
+    """Il GTFS giusto per ogni giorno. stato(giorno) ritorna un oggetto con trip_info, nome_linea, prog, modo_linea, ultima_seq, km_corsa,
+    fermate, ctx, prima_seq, meta_seq; ricarica solo quando la versione cambia (in memoria ce n'e' una alla volta)."""
+
+    def __init__(self, con_fermate=True):
+        self.con_fermate = con_fermate
+        self.percorso, self.corrente = None, None
+
+    def stato(self, giorno):
+        p = gtfs_del_giorno(giorno)
+        if p != self.percorso:
+            print(f"Carico il GTFS {Path(p).name} (giorno {giorno})...", file=sys.stderr)
+            self.corrente = None   # libera la versione precedente prima di caricare la nuova
+            trip_info, nome_linea, prog, modo_linea, ultima_seq, km_corsa = carica_gtfs(p)
+            seqs = defaultdict(list)
+            for (tid_, seq_) in prog:
+                seqs[tid_].append(seq_)
+            prima_seq, meta_seq = {}, {}
+            for tid_, lista_ in seqs.items():
+                lista_.sort()
+                prima_seq[tid_], meta_seq[tid_] = lista_[0], lista_[(len(lista_) - 1) // 2]
+            print(f"GTFS: {len(trip_info)} corse, {len(prog)} fermate di corsa", file=sys.stderr)
+            self.corrente = SimpleNamespace(
+                path=p, trip_info=trip_info, nome_linea=nome_linea, prog=prog, modo_linea=modo_linea, ultima_seq=ultima_seq, km_corsa=km_corsa,
+                fermate=carica_fermate(p) if self.con_fermate else {}, ctx=(trip_info, nome_linea, prog), prima_seq=prima_seq, meta_seq=meta_seq)
+            self.percorso = p
+        return self.corrente
+
+
+def carica_fermate(percorso=None):
     """stop_id -> (nome, lat, lon) da stops.txt (come lo script 70)."""
     fermate = {}
-    with zipfile.ZipFile(GTFS) as z:
+    with zipfile.ZipFile(percorso or GTFS) as z:
         with z.open("stops.txt") as f:
             for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
                 try:
@@ -294,7 +357,7 @@ def giorni_gps_validi(sorg, giorni, trip_info):
     viste, tipo = {}, {}
     for giorno in giorni:
         data = datetime.strptime(giorno, "%Y%m%d").date()
-        viste[giorno] = sorg.corse_viste(giorno, trip_info)
+        viste[giorno] = sorg.corse_viste(giorno, trip_info(giorno) if callable(trip_info) else trip_info)
         tipo[giorno] = tipo_giorno_data(data)
     validi, esclusi = [], []
     for giorno in giorni:
@@ -616,14 +679,11 @@ def main():
     gps = fonte == "gps"
     forza_riassunti = "--riassunti" in sys.argv[1:]
 
-    print("Carico il GTFS...", file=sys.stderr)
-    trip_info, nome_linea, prog, modo_linea, ultima_seq, km_corsa = carica_gtfs()
-    fermate = carica_fermate() if gps else {}
-    print(f"GTFS: {len(trip_info)} corse, {len(prog)} fermate di corsa", file=sys.stderr)
+    gtfs = GtfsPerGiorno(gps)   # il GTFS valido in ogni giorno (data/gtfs_archivio); finche' c'e' un solo GTFS e' sempre lo stesso
+    modo_linea = {}             # unione dei modi delle versioni usate
 
     sorg = apri_sorgente(forza_riassunti)
     print(f"Sorgente dei dati: {sorg.nome}", file=sys.stderr)
-    ctx = (trip_info, nome_linea, prog)
     giorni = sorg.giorni()
     if prova:
         giorni = [g for g in giorni if g == GIORNO_PROVA]
@@ -631,7 +691,7 @@ def main():
             raise SystemExit(f"Nessuna riga per {GIORNO_PROVA}")
     esclusi_gps = []
     if gps and not prova:
-        giorni, esclusi_gps = giorni_gps_validi(sorg, giorni, trip_info)
+        giorni, esclusi_gps = giorni_gps_validi(sorg, giorni, lambda g: gtfs.stato(g).trip_info)
         for e in esclusi_gps:
             print(f"Giorno escluso (poco GPS): {e['giorno']}, {e['corse_viste']} corse viste, mediana del tipo {e['mediana_tipo']}",
                   file=sys.stderr)
@@ -651,14 +711,6 @@ def main():
     conf_scarti = {"fuori_gtfs": 0, "lettura_lontana": 0, "usati": 0}
     letti_totali = 0
     # B1/B2: contatori [passaggi, oltre 5, oltre 10]
-    seqs = defaultdict(list)
-    for (tid_, seq_) in prog:
-        seqs[tid_].append(seq_)
-    prima_seq, meta_seq = {}, {}
-    for tid_, lista_ in seqs.items():
-        lista_.sort()
-        prima_seq[tid_], meta_seq[tid_] = lista_[0], lista_[(len(lista_) - 1) // 2]
-    del seqs
     def_cnt = defaultdict(lambda: [0, 0, 0])      # (definizione, tipo)
     punta_n = defaultdict(int)                    # tipo: passaggi nelle ore di punta (per il controllo della somma)
     sh_cnt = defaultdict(lambda: [0, 0, 0])       # (tipo, spostamento)
@@ -673,6 +725,10 @@ def main():
 
     for n, giorno in enumerate(giorni, 1):
         print(f"[{n}/{len(giorni)}] giorno {giorno}...", file=sys.stderr)
+        st = gtfs.stato(giorno)
+        ultima_seq, km_corsa, fermate, ctx = st.ultima_seq, st.km_corsa, st.fermate, st.ctx
+        prima_seq, meta_seq = st.prima_seq, st.meta_seq
+        modo_linea.update(st.modo_linea)
         passaggi, sc, tipo, es, n_letti = sorg.passaggi_feed(giorno, ctx)
         letti_totali += n_letti
         l = lontane.setdefault(tipo, [0, 0])
