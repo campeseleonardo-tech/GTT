@@ -1,16 +1,17 @@
 RAPPORTO - Area che si espande (script 99)
-generato 2026-10-23T20:36:20+00:00
+generato 2026-10-23T21:50:25+00:00
 
 Sezioni di Torino: 4044; senza collegamento coi mezzi entro 120 minuti: 2
-Fattori di punta: 1.2 (sensori 5T) e 2.45 (Google Maps), + 5 minuti di parcheggio
+Auto: flusso libero x fattore + 5 minuti di parcheggio. Stima TomTom (principale): fattore della zona della sezione, mediana 2.46; stima dei sensori 5T (la piu' favorevole all'auto): fattore 1.2.
 
 Residenti di Torino raggiunti da Piazza Castello (%):
   minuti            10      20      30      45
   coi mezzi        1.6    11.5    42.2    90.6
-  auto x1.2       16.5    99.2   100.0   100.0
-  auto x2.45       1.3    43.3    93.9   100.0
+  auto sensori x1.2    16.5    99.2   100.0   100.0
+  auto TomTom      1.9    37.8    90.1   100.0
 
 Controlli:
+  OK     tutte le zone di Torino hanno il fattore del proprio percorso (chiesto a TomTom) — 23 su 23
   OK     nessun tempo negativo
   OK     tutte le sezioni hanno una zona
   OK     tabella zona-zona completa (nessuna coppia vuota) — 23 x 22 coppie

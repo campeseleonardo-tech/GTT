@@ -57,6 +57,19 @@ centro-centro non è prioritario. Il modello **sottovaluta** il semicentro (Bolz
 Umberto, Vittorio Emanuele II) e **sopravvaluta** raccordi e strade corte (Palestrina, Monte Lungo, Quarto dei Mille);
 ai sensori corso Unione Sovietica è +177% e corso Sebastopoli +99%.
 
+## L8 (24/10/2026): TomTom è la stima principale
+
+**Decisione di Leo, presa dopo aver visto i numeri di L6bis:** i tempi in auto si prendono da TomTom; la stima dei sensori 5T resta come «stima più favorevole all'auto» (non conta semafori e incroci). La scelta è motivata dal **difetto di metodo provato** (la nostra rete va ai limiti di velocità, senza semafori), non dai risultati. Le regole sono state fissate prima dei numeri nuovi (blocco L8 di `sviluppo/piani/PROMPT_LAVORI.md`) e non sono state cambiate dopo averli visti.
+
+- **Auto** = nostro flusso libero × `fattore_rete` TomTom + 5 minuti. Il fattore è quello **del percorso stesso** quando è stato chiesto a TomTom; per le coppie di zone non chieste, la **mediana delle coppie TomTom della stessa ora e della stessa fascia di flusso libero** (terzili del nostro flusso libero fra le coppie TomTom di quell'ora). Area che si espande: fattore della zona (Piazza Castello → punto di maggior peso della zona, alle 8). Sensori: stessa formula col fattore 5T, solo come sensibilità.
+- **Richieste** (`scripts/101_tempi_traffico.py --estendi`, martedì 10/11/2026, ore italiane): C1 coppie 101-600 alle 8:00 (500), C2 coppie 101-300 alle 13:00, 17:30 e 21:00 (600), D Piazza Castello → ognuna delle **71 zone con punti** (il blocco ne diceva 101: le altre zone sono rappresentate solo da «porte» e non hanno un punto di calcolo). In tutto **1.171 richieste nuove** (tetto bloccante 2.000), nessun rifiuto di TomTom; con le 1.200 di L6bis sono 2.371. Si salvano solo rapporti a 2 decimali per percorso, mai i minuti né le risposte.
+- **Quante auto hanno il fattore del proprio percorso:** alle 8, 600 coppie su 2.061 (**83,2% delle auto**); alle altre ore 300 coppie (circa 60% delle auto). Tutti i 17 luoghi del R6 e tutte le 23 zone di Torino dell'area hanno il proprio fattore.
+- **Controllo di coerenza** (100 coppie di L6bis, solo martedì contro media dei due giorni): differenza mediana 08:00 0,009, 13:00 0,007, 17:30 0,007, 21:00 0,003, tutte sotto 0,05: nessun AVVISO.
+- Mediana di `fattore_rete` TomTom: coppie 101-600 alle 8 **2,14** (le prime 100: 2,45); zone da Piazza Castello **1,88**; punti in entrata 2,59.
+- Numeri (alle 8): rapporto mediano coi mezzi pubblici **1,85** con TomTom (2,94 con i sensori), pesato per le 220.307 auto; auto con rapporto oltre 2: **35,4%** con TomTom, 97,0% con i sensori. Titolo della scheda: «Al mattino, coi mezzi pubblici si impiega 1,9 volte il tempo dell'auto» (la regola ±0,3 delle 4 ore, applicata alla sola stima TomTom, non scatta: alle 21:00 il rapporto è 2,30, 0,45 sopra quello delle 8).
+- Area che si espande (Piazza Castello, 30 minuti): mezzi 42,2% dei torinesi, auto 90,1% con TomTom (100,0% con i sensori).
+- Limite scritto nelle schede: «Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso.» Un solo servizio.
+
 ## Noi contro Google Maps
 
 **Due stime, non un minimo e un massimo.** Il tempo in auto non conta semafori e incroci, quindi il fattore di punta è incerto. Il risultato è **dato con due stime**:
@@ -99,37 +112,37 @@ Controllo a mano, **martedì 20/10/2026 alle 8:00**. I primi 6 percorsi partono 
 
 - **Mezzi pubblici**: i nostri tempi sono in linea con Google sui due percorsi di controllo (31 contro 30-35, 33 contro 30-35 solo GTT). Col treno Google scende a 19-23 sul Moncalieri → Lingotto: i treni nei nostri dati non ci sono.
 - **Auto**: con la stima dei sensori (fattore 1,2) siamo sotto Google di 11,4 minuti in media (sui 6 percorsi); con il fattore di Google (2,1) di 1,7 (differenza media, nostro meno Google); con quello di TomTom (2,45) l'auto è più lenta ancora. Sono due stime: il valore vero può stare anche fuori.
-- Rapporto mediano coi mezzi pubblici (Torino-Torino e Torino-cintura): **da 1,75 a 2,94** (prima della correzione, con Google: da 1,96 a 2,94).
+- Rapporto mediano coi mezzi pubblici (Torino-Torino e Torino-cintura): **1,85** con TomTom per percorso (L8; con TomTom a fattore unico, L6bis: 1,75; con Google: 1,96) e 2,94 con i sensori.
 
-### Due stime: rapporto mediano e fasce (Torino-Torino e Torino-cintura, 220.307 auto)
+### Stima TomTom e stima dei sensori: rapporto mediano e fasce (Torino-Torino e Torino-cintura, 220.307 auto)
 
 Fasce fisse del rapporto (tempo coi mezzi / tempo in auto). Il metodo è cambiato 4 volte il 21/10 dopo le prime prove; le fasce sono state scelte dopo. Celle: auto (% delle auto).
 
 | Stima | Fattore | Rapporto mediano | Oltre 2 | sotto 1,5 | 1,5-2 | 2-3 | oltre 3 |
 |---|---|---|---|---|---|---|---|
-| **Con il rallentamento di TomTom** | 2,45 | **1,75** | 13,8% | 37.207 (16,9%) | 152.644 (69,3%) | 30.350 (13,8%) | 106 (0,0%) |
-| **Con il rallentamento dei sensori 5T** | 1,20 | **2,94** | 97,0% | 0 (0,0%) | 6.661 (3,0%) | 115.033 (52,2%) | 98.612 (44,8%) |
+| **Stima TomTom (fattore: mediana dei fattori applicati)** | 2,23 | **1,85** | 35,4% | 28.510 (12,9%) | 113.791 (51,7%) | 73.728 (33,5%) | 4.278 (1,9%) |
+| **Stima più favorevole all'auto (sensori 5T)** | 1,20 | **2,94** | 97,0% | 0 (0,0%) | 6.661 (3,0%) | 115.033 (52,2%) | 98.612 (44,8%) |
 
-Per gruppo (stima TomTom | stima sensori). Cintura-cintura è a parte: mancano treni e altre aziende.
+Per gruppo (mediano e quota oltre 2: stima TomTom | stima dei sensori). Cintura-cintura è a parte: mancano treni e altre aziende.
 
 | Gruppo | Mediano basso | Mediano alto | Oltre 2 basso | Oltre 2 alto |
 |---|---|---|---|---|
-| (a) Torino-Torino | 1,76 | 2,78 | 16,4% | 93,5% |
-| (b) Torino-cintura (e cintura-Torino) | 1,73 | 3,07 | 11,5% | 100,0% |
-| (ab) principale: Torino-Torino e Torino-cintura | 1,75 | 2,94 | 13,8% | 97,0% |
-| (c) cintura-cintura | 1,98 | 3,49 | 46,8% | 100,0% |
+| (a) Torino-Torino | 1,69 | 2,78 | 14,5% | 93,5% |
+| (b) Torino-cintura (e cintura-Torino) | 2,03 | 3,07 | 53,8% | 100,0% |
+| (ab) principale: Torino-Torino e Torino-cintura | 1,85 | 2,94 | 35,4% | 97,0% |
+| (c) cintura-cintura | 2,22 | 3,49 | 62,9% | 100,0% |
 
 ### Non solo all'ora di punta: 4 ore del giorno (script 100, 23/10)
 
 Stesso confronto alle 8:00, 13:00, 17:30 e 21:00 di un feriale (partenza 7:45, 12:45, 17:15, 20:45, finestra di 30 minuti, mediana). Auto = flusso libero × fattore dell'ora + 5 minuti.
-Stima dei sensori = rallentamento misurato dai sensori 5T (mediana di velocità 2-5 / velocità all'ora); stima di TomTom = fattore_rete mediano di TomTom per ogni ora (gruppo «coppie» per le coppie di zone del R8, «entrata» per i punti del R6): non c'è più nessuna ipotesi di scala. (Fino al 23/10 la stima era quella di Google, noto solo alle 8 e **scalato** nello stesso rapporto dei sensori con `1 + 1,1 × (f(h) − 1) / 0,2`, mai sotto 1: un'ipotesi, ora sostituita.) Regola del titolo fissata prima (blocco L3): «a ogni ora» solo se il rapporto mediano resta entro ±0,3 da quello delle 8 con tutte e due le stime (non è il caso: alle 13:00 con la stima di Google (fino al 23/10) era +0,41).
+Stima dei sensori = rallentamento misurato dai sensori 5T (mediana di velocità 2-5 / velocità all'ora); stima di TomTom = fattore_rete mediano di TomTom per ogni ora (gruppo «coppie» per le coppie di zone del R8, «entrata» per i punti del R6): non c'è più nessuna ipotesi di scala. (Fino al 23/10 la stima era quella di Google, noto solo alle 8 e **scalato** nello stesso rapporto dei sensori con `1 + 1,1 × (f(h) − 1) / 0,2`, mai sotto 1: un'ipotesi, ora sostituita.) Regola del titolo fissata prima (blocco L3): «a ogni ora» solo se il rapporto mediano resta entro ±0,3 da quello delle 8 con tutte e due le stime (dal giro L8 si applica alla sola stima TomTom; non è il caso: alle 21:00 la differenza dalle 8 è oltre 0,3).
 
-| Ora | Fattore sensori | Fattore TomTom, rete (punti del R6) | Rapporto mediano (stima TomTom - stima sensori) | Auto con rapporto oltre 2 | Auto senza collegamento |
+| Ora | Fattore sensori | Fattore TomTom, mediana applicata (punti del R6) | Rapporto mediano (stima TomTom - stima sensori) | Auto con rapporto oltre 2 | Auto senza collegamento |
 |---|---|---|---|---|---|
-| 8:00 | 1,2 | 2,45 (punti: 2,59) | 1,75 - 2,94 | 14% - 97% | 5.616 |
-| 13:00 | 1,1 | 2,06 (punti: 2,27) | 1,96 - 3,10 | 44% - 98% | 4.810 |
-| 17:30 | 1,2 | 2,43 (punti: 2,66) | 1,79 - 3,02 | 19% - 97% | 6.095 |
-| 21:00 | 1,0 | 1,87 (punti: 1,88) | 2,14 - 3,32 | 72% - 100% | 9.511 |
+| 8:00 | 1,2 | 2,23 (punti: 2,59) | 1,85 - 2,94 | 35% - 97% | 5.616 |
+| 13:00 | 1,1 | 1,89 (punti: 2,27) | 2,10 - 3,10 | 58% - 98% | 4.810 |
+| 17:30 | 1,2 | 2,15 (punti: 2,66) | 1,92 - 3,02 | 41% - 97% | 6.095 |
+| 21:00 | 1,0 | 1,71 (punti: 1,88) | 2,30 - 3,32 | 74% - 100% | 9.511 |
 
 Di giorno e di sera l'auto è più veloce (meno traffico) e i mezzi restano lenti: il rapporto sale. Alle 8 i numeri coincidono con quelli degli script 93 e 94 (controllo dello script 100).
 Rifare: `python scripts/100_ore_del_giorno.py` (circa 3-4 minuti dopo 93 e 94; `--campione 10` e `--prova` per provare); è nella fase «r6» di `rifai_tutto.py`.

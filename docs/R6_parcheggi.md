@@ -8,52 +8,52 @@ solo per pochi garage.
 
 ## Messaggio
 
-**I parcheggi di scambio convengono solo se in centro si perdono abbastanza minuti a parcheggiare.** Misura principale (script 94): i **minuti di pareggio**, cioè quanti minuti per parcheggiare in centro rendono il tempo in auto uguale al tempo coi mezzi da quel punto a Piazza Castello alle 8 (minuti = tempo coi mezzi − flusso libero × fattore di punta). Con le due stime dell'auto (TomTom e sensori; dal 24/10, prima Google) vengono due valori per punto, non un minimo e un massimo; il titolo della scheda usa la mediana dei 12 punti. Non c'è nessuna soglia scelta da noi: la classe con 1,5 volte e la sensibilità a 5/10/15 minuti restano sotto, solo per confronto. I numeri si leggono in `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt` (sezione «MINUTI DI PAREGGIO»).
+**I parcheggi di scambio convengono solo se in centro si perdono abbastanza minuti a parcheggiare.** Misura principale (script 94): i **minuti di pareggio**, cioè quanti minuti per parcheggiare in centro rendono il tempo in auto uguale al tempo coi mezzi da quel punto a Piazza Castello alle 8 (minuti = tempo coi mezzi − flusso libero × fattore di punta). Dal 24/10 la stima principale dell'auto è TomTom (per percorso) e i sensori 5T restano come stima più favorevole all'auto: vengono due valori per punto, non un minimo e un massimo; il titolo della scheda usa la mediana dei 12 punti. Non c'è nessuna soglia scelta da noi: la classe con 1,5 volte e la sensibilità a 5/10/15 minuti restano sotto, solo per confronto. I numeri si leggono in `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt` (sezione «MINUTI DI PAREGGIO»).
 
-Numeri (calcolo sul PC): mediana dei 12 punti **17-28 minuti** (prima della correzione del 24/10: 21-28); i più promettenti sono vicini alla metro (Metro Massaua 3-15, e fra gli interscambi Fermi 2-17 e Venchi Unica 4-17); i più lontani 27-44 (Leonardo da Vinci). Stura è pieno anche se servono 12-27 minuti: chi lo usa sceglie per altri motivi (costo, ZTL, stress del traffico), che il calcolo dei tempi non vede.
+Numeri (calcolo sul PC, 24/10, TomTom per percorso): mediana dei 12 punti **16-28 minuti** (TomTom - sensori; con TomTom a fattore unico 17-28; con Google 21-28); i più promettenti sono vicini alla metro (Metro Massaua 3-15, Regina Margherita 8-24, e fra gli interscambi Fermi 0-17 e Venchi Unica 4-17); i più lontani 29-43 (Ponte Cavalieri Templari, Marsè). Stura è pieno anche se servono 14-27 minuti: chi lo usa sceglie per altri motivi (costo, ZTL, stress del traffico), che il calcolo dei tempi non vede.
 
-Confronto con la letteratura (da verificare sulla fonte originale, vedi `sviluppo/TESI_E_PROGETTO.md`): in media servono circa 7,8 minuti per trovare parcheggio, molto meno dei 17-28 minuti di pareggio.
+Confronto con la letteratura (da verificare sulla fonte originale, vedi `sviluppo/TESI_E_PROGETTO.md`): in media servono circa 7,8 minuti per trovare parcheggio, meno dei 16 minuti di pareggio con TomTom (28 con i sensori).
 
-Perché questa misura: con la classe «1,5 volte» il risultato passa da 0 punti su 12 «il bus conviene» e 7 «dipende» (5 minuti di parcheggio) a 1 e 11 (10 minuti) e a 4 e 8 (15 minuti). Il risultato vero è quindi la soglia stessa, ed è la conclusione classica sui parcheggi di scambio: funzionano se parcheggiare in centro è scomodo o caro.
+Perché questa misura: con la classe «1,5 volte» e la sola stima TomTom il risultato passa da 8 punti su 12 «il bus conviene» (5 minuti di parcheggio) a 10 (10 minuti) e a 12 (15 minuti). Il risultato vero è quindi la soglia stessa, ed è la conclusione classica sui parcheggi di scambio: funzionano se parcheggiare in centro è scomodo o caro.
 
-- Interscambi esistenti: pieno e con bus competitivo, Stura; poco usati e senza bus competitivo, Caio Mario e Sofia (Caio Mario ha il contatore fermo).
+- Interscambi esistenti (con TomTom): pieno e con bus che conviene, Stura; poco usati: Caio Mario con bus che conviene (ha il contatore fermo), Sofia senza (rapporto oltre 1,5).
 - Fermate importanti senza posti bastanti: 179 su 274.
 - Limiti: tempi coi mezzi solo GTT, senza treni; parcheggio in centro fissato a 5 minuti; costo del parcheggio non considerato.
 
 ### Sensibilità ai minuti per parcheggiare in centro
 
-| Minuti | Punti: conviene / dipende / non conviene | Interscambi: conviene / dipende / non conviene |
+| Minuti | Punti: conviene / non conviene | Interscambi: conviene / non conviene |
 |---|---|---|
-| 5 | 0 / 7 / 5 | 0 / 5 / 0 |
-| 10 | 1 / 11 / 0 | 2 / 3 / 0 |
-| 15 | 4 / 8 / 0 | 5 / 0 / 0 |
+| 5 | 8 / 4 | 4 / 1 |
+| 10 | 10 / 2 | 5 / 0 |
+| 15 | 12 / 0 | 5 / 0 |
 
 ### Punti prioritari (rapporto = tempo coi mezzi / tempo in auto)
 
-| Luogo | Posti che mancano | Mezzi (min) | Auto (min, stima sensori - stima TomTom) | Rapporto (stima TomTom - stima sensori) | Classe (5 min) | Classe con 5 / 10 / 15 min |
+| Luogo | Posti che mancano | Mezzi (min) | Auto (min, sensori - TomTom) | Rapporto (TomTom - sensori) | Classe (5 min) | Classe con 5 / 10 / 15 min |
 |---|---|---|---|---|---|---|
-| Santa Rita | 450 | 36 | 14-24 | 1,5-2,6 | il bus non conviene | non conviene / dipende / dipende |
-| Metro Massaua | 350 | 25 | 15-27 | 0,9-1,7 | dipende dal traffico | dipende / conviene / conviene |
-| Ponte Cavalieri Templari | 350 | 51 | 18-33 | 1,5-2,8 | il bus non conviene | non conviene / dipende / dipende |
-| Regina Margherita | 350 | 31 | 12-19 | 1,6-2,7 | il bus non conviene | non conviene / dipende / conviene |
-| Pasini | 250 | 28 | 12-20 | 1,4-2,3 | dipende dal traffico | dipende / dipende / conviene |
-| Leonardo Da Vinci | 200 | 59 | 20-37 | 1,6-3,0 | il bus non conviene | non conviene / dipende / dipende |
-| Drosso Cap | 200 | 43 | 17-32 | 1,4-2,5 | dipende dal traffico | dipende / dipende / dipende |
-| Stura Lazio | 200 | 37 | 14-25 | 1,5-2,6 | dipende dal traffico | dipende / dipende / dipende |
-| Marsè | 150 | 61 | 23-44 | 1,4-2,6 | dipende dal traffico | dipende / dipende / dipende |
-| Derna Est | 100 | 34 | 14-24 | 1,4-2,5 | dipende dal traffico | dipende / dipende / conviene |
-| Ferrara | 80 | 49 | 20-37 | 1,3-2,5 | dipende dal traffico | dipende / dipende / dipende |
-| Zara | 60 | 33 | 12-20 | 1,7-2,8 | il bus non conviene | non conviene / dipende / dipende |
+| Santa Rita | 450 | 36 | 14-27 | 1,3-2,6 | il bus conviene | conviene / conviene / conviene |
+| Metro Massaua | 350 | 25 | 15-27 | 0,9-1,7 | il bus conviene | conviene / conviene / conviene |
+| Ponte Cavalieri Templari | 350 | 51 | 18-27 | 1,9-2,8 | il bus non conviene | non conviene / non conviene / conviene |
+| Regina Margherita | 350 | 31 | 12-28 | 1,1-2,7 | il bus conviene | conviene / conviene / conviene |
+| Pasini | 250 | 28 | 12-20 | 1,4-2,3 | il bus conviene | conviene / conviene / conviene |
+| Leonardo Da Vinci | 200 | 59 | 20-38 | 1,5-3,0 | il bus non conviene | non conviene / conviene / conviene |
+| Drosso Cap | 200 | 43 | 17-31 | 1,4-2,5 | il bus conviene | conviene / conviene / conviene |
+| Stura Lazio | 200 | 37 | 14-27 | 1,4-2,6 | il bus conviene | conviene / conviene / conviene |
+| Marsè | 150 | 61 | 23-34 | 1,8-2,6 | il bus non conviene | non conviene / non conviene / conviene |
+| Derna Est | 100 | 34 | 14-24 | 1,4-2,5 | il bus conviene | conviene / conviene / conviene |
+| Ferrara | 80 | 49 | 20-35 | 1,4-2,5 | il bus conviene | conviene / conviene / conviene |
+| Zara | 60 | 33 | 12-19 | 1,8-2,8 | il bus non conviene | non conviene / conviene / conviene |
 
 ### Interscambi esistenti
 
-| Luogo | Riempimento | Mezzi (min) | Auto (min, stima sensori - stima TomTom) | Rapporto (stima TomTom - stima sensori) | Classe (5 min) | Classe con 5 / 10 / 15 min |
+| Luogo | Riempimento | Mezzi (min) | Auto (min, sensori - TomTom) | Rapporto (TomTom - sensori) | Classe (5 min) | Classe con 5 / 10 / 15 min |
 |---|---|---|---|---|---|---|
-| Stura | pieno | 39 | 17-32 | 1,2-2,2 | dipende dal traffico | dipende / dipende / conviene |
-| Venchi Unica | a meta | 28 | 16-29 | 1,0-1,8 | dipende dal traffico | dipende / conviene / conviene |
-| Caio Mario | libero | 38 | 16-29 | 1,3-2,4 | dipende dal traffico | dipende / dipende / conviene |
-| Fermi | non misurato | 31 | 19-34 | 0,9-1,7 | dipende dal traffico | dipende / conviene / conviene |
-| Sofia | libero | 33 | 13-23 | 1,4-2,5 | dipende dal traffico | dipende / dipende / conviene |
+| Stura | pieno | 39 | 17-30 | 1,3-2,2 | il bus conviene | conviene / conviene / conviene |
+| Venchi Unica | a meta | 28 | 16-29 | 1,0-1,8 | il bus conviene | conviene / conviene / conviene |
+| Caio Mario | libero | 38 | 16-30 | 1,3-2,4 | il bus conviene | conviene / conviene / conviene |
+| Fermi | non misurato | 31 | 19-37 | 0,8-1,7 | il bus conviene | conviene / conviene / conviene |
+| Sofia | libero | 33 | 13-22 | 1,5-2,5 | il bus non conviene | non conviene / conviene / conviene |
 
 ## Come si calcola
 
@@ -95,26 +95,24 @@ Perché questa misura: con la classe «1,5 volte» il risultato passa da 0 punti
 
 ### Bus contro auto verso Piazza Castello (script 94)
 
-Regola della classe (originale, invariata), rapporto = mezzi / auto: **il bus conviene** se ≤ 1,5 con entrambe le stime del R8 (sensori 1,2; TomTom in entrata 2,59 dal 24/10, prima Google 2,1); **dipende dal traffico** se ≤ 1,5 solo con la stima di TomTom (fattore 2,59); **non conviene** se oltre 1,5 con entrambi. Auto = flusso libero × fattore + minuti di parcheggio (5 ufficiale). Tabelle e sensibilità in testa al documento; dettagli in `docs/rapporti/RAPPORTO_R6_BUS_CONTRO_AUTO.txt`.
+**Dal giro L8 (24/10/2026, decisione di Leo) la stima dell'auto è una, quella di TomTom, col fattore del percorso stesso** (percorso «luogo → Piazza Castello» alle 8, script 101; tutti i 17 luoghi hanno il proprio fattore: da 1,88 a 4,1, mediana 2,59). Auto = flusso libero × fattore + 5 minuti di parcheggio (sensibilità 10 e 15). Rapporto = mezzi / auto. Classi, **solo con la stima TomTom e con la soglia di prima (1,5)**: **il bus conviene** se il rapporto è ≤ 1,5, **non conviene** se è oltre; la classe «dipende dal traffico» non c'è più. La stima dei sensori 5T (fattore 1,2, la più favorevole all'auto: non conta semafori e incroci) resta come sensibilità nel JSON (`rapporto_alto`, `pareggio_alto_min`) e nel testo.
 
-Le due stime non sono un minimo e un massimo: il valore vero può stare anche fuori. **Cosa misura ognuna.** La stima dei sensori usa il solo rallentamento del traffico (fattore 1,2 alle 8), senza semafori e incroci: è la più favorevole all'auto. La stima TomTom è il tempo previsto da TomTom col traffico tipico, diviso il **nostro** tempo a flusso libero (la rete OSM ai limiti di velocità, senza semafori e incroci): il fattore corregge insieme la rete troppo veloce e il traffico, come faceva il 2,1 di Google. Per i punti si usa la mediana dei 17 percorsi **in entrata** verso Piazza Castello, alle 8: **2,59** (25°-75° percentile 2,42-2,73). TomTom è un tempo previsto su traffico tipico (due giorni feriali futuri, 10 e 11/11/2026), non misurato; un solo servizio. Dati di traffico: TomTom (`docs/FONTI_DATI.md`).
+**Numeri (alle 8, 5 minuti di parcheggio):** punti «il bus conviene / non conviene» **8 / 4** su 12; interscambi **4 / 1** su 5; minuti di pareggio (mediana dei 12 punti) **16** con TomTom e 28 con i sensori. Prima (L6bis, fattore unico d'entrata 2,59, tre classi): 0 / 7 «dipende» / 5 e interscambi 0 / 5 / 0; pareggio 17-28. Cambia la classe di alcuni punti perché ognuno ha il proprio fattore, non la mediana.
 
-**Correzione del 24/10, decisa dopo aver visto lo STOP del primo controllo.** Il primo confronto metteva a confronto grandezze diverse (TomTom col traffico / TomTom senza traffico = 1,26, contro il 2,1 di Google, che include anche la rete troppo veloce): non era un disaccordo fra le fonti ma un errore nella regola. Si è confrontata la stessa grandezza: sui 6 percorsi in uscita alle 8 il fattore TomTom è 1,98 contro il 2,1 di Google (entro la soglia di 0,5). Il 2,1 di Google era stato misurato su 6 percorsi in **uscita**; in entrata TomTom dà di più (2,59).
+Correzione del 24/10 (L6bis) e motivi: vedi `docs/R8_traffico.md` (sezioni «L8» e «Noi contro Google Maps»). TomTom è un tempo previsto su traffico tipico (partenze di martedì 10/11/2026; mercoledì 11 per i percorsi di L6), non misurato; un solo servizio. Dati di traffico: TomTom (`docs/FONTI_DATI.md`).
 
-Prima / dopo la correzione (alle 8, 5 minuti di parcheggio): punti «il bus conviene / dipende / non conviene» da 0 / 1 / 11 a 0 / 7 / 5; interscambi da 0 / 3 / 2 a 0 / 5 / 0; minuti di pareggio (mediana dei 12 punti) da 21-28 a 17-28.
-
-### Bus contro auto a 4 ore del giorno (script 100, 23/10)
+### Bus contro auto a 4 ore del giorno (script 100; dal giro L8 con TomTom per percorso e per ora)
 
 Gli stessi 12 punti e 5 interscambi verso Piazza Castello alle 8:00, 13:00, 17:30 e 21:00 (scelte e ipotesi in `docs/R8_traffico.md`, sezione «Non solo all'ora di punta»).
 
-| Ora | Mezzi dai punti prioritari (mediana) | Minuti di pareggio, punti (stima TomTom - stima sensori) | Punti: conviene / dipende / non conviene | Interscambi |
+| Ora | Mezzi dai punti prioritari (mediana) | Minuti di pareggio, punti (stima TomTom - stima sensori) | Punti: conviene / non conviene | Interscambi: conviene / non conviene |
 |---|---|---|---|---|
-| 8:00 | 36,5 min | 17-28 (16,85 - 27,50) | 0 / 7 / 5 | 0 / 5 / 0 |
-| 13:00 | 35,0 min | 19-27 (18,55 - 26,75) | 0 / 5 / 7 | 0 / 5 / 0 |
-| 17:30 | 37,5 min | 17-28 (16,90 - 28,50) | 0 / 8 / 4 | 0 / 5 / 0 |
-| 21:00 | 34,5 min | 22-28 (22,30 - 28,00) | 0 / 2 / 10 | 0 / 3 / 2 |
+| 8:00 | 36,5 min | 16-28 (16,00 - 27,50) | 8 / 4 | 4 / 1 |
+| 13:00 | 35,0 min | 18-27 (17,85 - 26,75) | 6 / 6 | 5 / 0 |
+| 17:30 | 37,5 min | 17-28 (16,75 - 28,50) | 9 / 3 | 5 / 0 |
+| 21:00 | 34,5 min | 21-28 (21,10 - 28,00) | 2 / 10 | 3 / 2 |
 
-Il messaggio cambia in parte: con la stima TomTom (auto più lenta in entrata) i punti dove il bus è competitivo con almeno una stima salgono a 7 su 12 alle 8, 5 alle 13, 8 alle 17:30 e 2 la sera; nessuno «conviene» con entrambe le stime. Resta vero che il bus batte l'auto solo se in centro si perdono molti minuti a parcheggiare (17-28 alle 8). I mezzi dai punti prioritari la sera non impiegano di più che alle 8 (AVVISO del controllo: l'orario programmato non ha traffico).
+Il messaggio: con TomTom per percorso i punti dove il bus conviene (rapporto ≤ 1,5) sono 8 su 12 alle 8, 6 alle 13, 9 alle 17:30 e 2 la sera. Resta vero che il bus batte l'auto solo se in centro si perdono parecchi minuti a parcheggiare (16 con TomTom, 28 con i sensori alle 8). I mezzi dai punti prioritari la sera non impiegano di più che alle 8 (AVVISO del controllo: l'orario programmato non ha traffico).
 
 ## Mappa e scheda
 

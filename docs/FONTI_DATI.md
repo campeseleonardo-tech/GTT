@@ -68,6 +68,8 @@ Si usano solo **rapporti** (tempo col traffico / nostro tempo a flusso libero; t
 **Da fare prima di unire in `main`: Leo legge le condizioni d'uso di TomTom** (cosa si può salvare e pubblicare, come citare).
 Google Maps NON si usa da programma (le sue condizioni vietano la raccolta automatica): il 2,1 di Google viene da 6 percorsi controllati a mano il 20/10 e resta come confronto.
 
+
+**Giro L8 (24/10/2026).** Dal giro L8 TomTom è la stima principale dell'auto (decisione di Leo, dopo L6bis). Richieste totali **2.371**: 1.200 di L6bis (percorsi base: 17 luoghi in entrata e uscita, 8 percorsi di controllo nei due sensi, 100 coppie di zone; martedì 10 e mercoledì 11/11/2026, ore 8:00, 13:00, 17:30 e 21:00) e **1.171 di L8** (coppie 101-600 alle 8, coppie 101-300 alle altre tre ore, Piazza Castello → 71 zone alle 8; solo martedì 10/11/2026). Si salvano **solo rapporti** (fattore_rete e congestione, 2 decimali, per percorso, per gruppo e ora) in `data/processed/tempi_traffico.json` e nel rapporto; **mai i minuti né le risposte grezze**; il file di ripresa è fuori da git. Ancora da fare prima di unire in `main`: leggere le condizioni d'uso di TomTom.
 ## Non pubbliche o non trovate
 
 - Dati da telefonia mobile (TIM/Wind usati dall'Agenzia, Vodafone usati con il Politecnico): non pubblici, nessuna richiesta inviata (idea congelata).

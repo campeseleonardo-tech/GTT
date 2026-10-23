@@ -1,101 +1,101 @@
 RAPPORTO TP CONTRO AUTO (Risultato 8, parte D, STIMATO)
-generato: 2026-10-23T22:36:11
+generato: 2026-10-23T23:49:54
 
 Zone IMQ con punti: 71 (zone solo «porta» escluse; 23 di Torino); fino a 5 punti per zona, i piu' pesanti.
 Tempi coi mezzi: r5py, giorno 2026-10-12, mediana delle partenze 7:45-8:15, mezzi pubblici + cammino a 4.8 km/h, massimo 120 minuti.
-Tempi in auto: rete del modello del traffico, flusso libero x fattore di punta + 5 minuti (parcheggio e cammino). Il risultato e' dato con DUE STIME, non un minimo e un massimo:
+Tempi in auto: rete del modello del traffico, flusso libero x fattore di punta + 5 minuti (parcheggio e cammino). La stima principale e' quella di TomTom (giro L8); quella dei sensori e' la piu' favorevole all'auto:
   stima con il rallentamento dei sensori = fattore dei sensori 5T, 1.2 (solo traffico, senza semafori e incroci: la piu' favorevole all'auto): mediana di (velocita' media 2-5 / velocita' alle 8, feriale) su 102 sensori con dati affidabili (su 112; periodo 2026-10-09 - 2026-10-22, 10 giorni feriali);
     distribuzione fra sensori: minimo 0.78, 1° quartile 1.10, mediana 1.19, 3° quartile 1.28, massimo 2.98.
-  seconda stima = TomTom (script 101), mediana di fattore_rete delle coppie alle 8, fattore 2.45: tempo col traffico del servizio / nostro flusso libero (stessa grandezza del 2,1 di Google). Google Maps a mano: mediana di (tempo Google - 5) / tempo a flusso libero sui 6 percorsi (1.07, 2.04, 2.29, 2.54, 2.17, 1.81) = 2.1.
+  stima principale = TomTom (script 101), per coppia: fattore_rete della coppia o mediana della sua fascia di flusso libero; fattore mediano applicato 2.23: tempo col traffico del servizio / nostro flusso libero (stessa grandezza del 2,1 di Google); 600 coppie su 2061 (83.2% delle auto) hanno il fattore della propria coppia, le altre la mediana della fascia. Google Maps a mano: mediana di (tempo Google - 5) / tempo a flusso libero sui 6 percorsi (1.07, 2.04, 2.29, 2.54, 2.17, 1.81) = 2.1.
 Punti agganciati alla parte principale della rete: 2 su 363 spostati (distanza massima 169 m).
 Auto: viaggi IMQ in auto conducente, partenza 6-10, feriale. Totale fra le zone incluse: 465,534.
 Gruppi: (a) Torino-Torino, (b) Torino-cintura e cintura-Torino, (c) cintura-cintura. Il risultato principale usa (a)+(b).
 Fasce fisse del rapporto (tempo coi mezzi / tempo in auto), scelte dopo le prime prove (il metodo e' cambiato 4 volte il 21/10): sotto 1.5, 1.5-2, 2-3, oltre 3.
 
-TITOLO (gruppi a+b): DUE STIME
-  al mattino, coi mezzi pubblici si impiega da 1.75 a 2.94 volte il tempo dell'auto (rapporto mediano pesato per le auto; fattore 2.45 - 1.2)
-  quota di auto con rapporto oltre 2: da 13.8% a 97.0% di 220,307 auto
+TITOLO (gruppi a+b): stima TomTom e stima dei sensori
+  al mattino, coi mezzi pubblici si impiega 1.85 volte il tempo dell'auto con la stima TomTom (rapporto mediano pesato per le auto; fattore mediano 2.23) e 2.94 con quella dei sensori (1.2)
+  quota di auto con rapporto oltre 2: da 35.4% a 97.0% di 220,307 auto
 
-FASCE E MEDIANA PER GRUPPO (stima seconda | stima dei sensori)
+FASCE E MEDIANA PER GRUPPO (stima TomTom | stima dei sensori)
   (a) Torino-Torino: 506 coppie, 103,190 auto
-      seconda stima, fattore 2.45: mediano 1.76; oltre 2: 16.4%
-         sotto 1.5: 22,342 auto (21.7%); 1.5-2: 63,910 auto (61.9%); 2-3: 16,939 auto (16.4%); oltre 3: 0 auto (0.0%)
+      stima TomTom, fattore 2.57: mediano 1.69; oltre 2: 14.5%
+         sotto 1.5: 23,122 auto (22.4%); 1.5-2: 65,093 auto (63.1%); 2-3: 14,975 auto (14.5%); oltre 3: 0 auto (0.0%)
       stima dei sensori, fattore 1.2: mediano 2.78; oltre 2: 93.5%
          sotto 1.5: 0 auto (0.0%); 1.5-2: 6,661 auto (6.5%); 2-3: 66,427 auto (64.4%); oltre 3: 30,101 auto (29.2%)
       senza collegamento entro 120 minuti (a parte): 0 coppie, 0 auto
   (b) Torino-cintura (e cintura-Torino): 1555 coppie, 117,117 auto
-      seconda stima, fattore 2.45: mediano 1.73; oltre 2: 11.5%
-         sotto 1.5: 14,865 auto (12.7%); 1.5-2: 88,734 auto (75.8%); 2-3: 13,412 auto (11.5%); oltre 3: 106 auto (0.1%)
+      stima TomTom, fattore 1.98: mediano 2.03; oltre 2: 53.8%
+         sotto 1.5: 5,388 auto (4.6%); 1.5-2: 48,698 auto (41.6%); 2-3: 58,753 auto (50.2%); oltre 3: 4,278 auto (3.7%)
       stima dei sensori, fattore 1.2: mediano 3.07; oltre 2: 100.0%
          sotto 1.5: 0 auto (0.0%); 1.5-2: 0 auto (0.0%); 2-3: 48,606 auto (41.5%); oltre 3: 68,511 auto (58.5%)
       senza collegamento entro 120 minuti (a parte): 653 coppie, 5,616 auto
   (ab) principale: Torino-Torino e Torino-cintura: 2061 coppie, 220,307 auto
-      seconda stima, fattore 2.45: mediano 1.75; oltre 2: 13.8%
-         sotto 1.5: 37,207 auto (16.9%); 1.5-2: 152,644 auto (69.3%); 2-3: 30,350 auto (13.8%); oltre 3: 106 auto (0.0%)
+      stima TomTom, fattore 2.23: mediano 1.85; oltre 2: 35.4%
+         sotto 1.5: 28,510 auto (12.9%); 1.5-2: 113,791 auto (51.7%); 2-3: 73,728 auto (33.5%); oltre 3: 4,278 auto (1.9%)
       stima dei sensori, fattore 1.2: mediano 2.94; oltre 2: 97.0%
          sotto 1.5: 0 auto (0.0%); 1.5-2: 6,661 auto (3.0%); 2-3: 115,033 auto (52.2%); oltre 3: 98,612 auto (44.8%)
       senza collegamento entro 120 minuti (a parte): 653 coppie, 5,616 auto
   (c) cintura-cintura: 658 coppie, 61,808 auto - dati del mezzo pubblico incompleti: mancano treni e bus di altre aziende
-      seconda stima, fattore 2.45: mediano 1.98; oltre 2: 46.8%
-         sotto 1.5: 1,266 auto (2.0%); 1.5-2: 31,628 auto (51.2%); 2-3: 23,268 auto (37.6%); oltre 3: 5,646 auto (9.1%)
+      stima TomTom, fattore 2.33: mediano 2.22; oltre 2: 62.9%
+         sotto 1.5: 2,455 auto (4.0%); 1.5-2: 20,489 auto (33.1%); 2-3: 31,014 auto (50.2%); oltre 3: 7,850 auto (12.7%)
       stima dei sensori, fattore 1.2: mediano 3.49; oltre 2: 100.0%
          sotto 1.5: 0 auto (0.0%); 1.5-2: 0 auto (0.0%); 2-3: 10,207 auto (16.5%); oltre 3: 51,601 auto (83.5%)
       senza collegamento entro 120 minuti (a parte): 1598 coppie, 13,600 auto
 
-LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (rapporto oltre 2 con la seconda stima, fattore 2.45; solo gruppi a e b)
+LE 15 COPPIE PEGGIORI PER AUTO COINVOLTE (rapporto oltre 2 con la stima TomTom, fattore mediano 2.23; solo gruppi a e b)
   da → a | auto | TP min | auto di punta min (basso-alto) | rapporto (basso-alto)
-  Torino, Madonna Del Pilone → Torino, Vanchiglia | 894 | 35 | 17-11 | 2.0-3.2
-  Torino, Mirafiori Sud → Rivoli | 719 | 81 | 36-20 | 2.3-4.1
-  Torino, Barriera di Milano → Torino, Vanchiglia | 614 | 34 | 17-11 | 2.1-3.2
-  Settimo Torinese → Torino, Madonna Del Pilone | 544 | 86 | 39-22 | 2.2-4.0
-  Torino, Borgata Vittoria → Torino, Centro | 541 | 39 | 19-12 | 2.1-3.3
-  Torino, Madonna Del Pilone → Torino, Borgo Po E Cavoretto | 438 | 55 | 26-15 | 2.1-3.6
-  Torino, San Paolo → Torino, San Donato | 431 | 32 | 16-10 | 2.0-3.1
-  Torino, Centro → Torino, Madonna Del Pilone | 411 | 53 | 26-15 | 2.1-3.5
-  Torino, Madonna Del Pilone → Torino, San Salvario | 403 | 54 | 27-16 | 2.0-3.5
-  Vinovo → Torino, Mirafiori Sud | 383 | 81 | 29-17 | 2.8-4.9
-  Torino, Borgo Po E Cavoretto → Torino, Madonna Del Pilone | 382 | 56 | 26-15 | 2.1-3.7
-  Torino, Aurora → Torino, Madonna Del Pilone | 379 | 54 | 22-13 | 2.4-4.0
-  Torino, Vanchiglia → Torino, Madonna Del Pilone | 369 | 37 | 17-11 | 2.1-3.4
-  Torino, Borgata Vittoria → Pianezza | 366 | 79 | 39-22 | 2.0-3.7
-  Beinasco → Torino, Mirafiori Sud | 340 | 42 | 21-13 | 2.0-3.3
+  Torino, Barriera di Milano → Torino, Falchera | 1,208 | 24 | 12-10 | 2.0-2.5
+  Torino, Pozzo Strada → Grugliasco | 929 | 34 | 13-12 | 2.7-2.8
+  Torino, Falchera → Torino, Barriera di Milano | 890 | 24 | 10-10 | 2.4-2.5
+  Torino, Parella → Torino, San Paolo | 763 | 30 | 15-11 | 2.0-2.8
+  Torino, Mirafiori Sud → Rivoli | 719 | 81 | 24-20 | 3.4-4.1
+  Torino, Parella → Torino, Cenisia | 715 | 18 | 8-9 | 2.3-2.1
+  Grugliasco → Torino, Pozzo Strada | 714 | 35 | 14-12 | 2.5-3.0
+  Rivoli → Torino, Nizza Millefonti | 687 | 73 | 34-24 | 2.2-3.0
+  Torino, Mercati Generali → Moncalieri | 644 | 51 | 24-17 | 2.1-3.0
+  Grugliasco → Torino, Parella | 614 | 37 | 16-13 | 2.3-2.8
+  Torino, Mirafiori Nord → Grugliasco | 583 | 34 | 16-12 | 2.1-2.8
+  Settimo Torinese → Torino, Falchera | 580 | 50 | 25-18 | 2.0-2.9
+  Moncalieri → Torino, Mirafiori Sud | 568 | 55 | 25-16 | 2.2-3.4
+  Settimo Torinese → Torino, Madonna Del Pilone | 544 | 86 | 32-22 | 2.7-4.0
+  Torino, Parella → Torino, Madonna di Campagna | 540 | 31 | 15-11 | 2.1-2.8
 
-PER ZONA: quota delle auto in uscita con rapporto oltre 2, seconda stima - stima dei sensori (prime 15, gruppi a+b)
+PER ZONA: quota delle auto in uscita con rapporto oltre 2, stima TomTom - stima dei sensori (prime 15, gruppi a+b)
+  Pecetto Torinese: 100% - 100% di 179 auto
   Candiolo: 100% - 100% di 187 auto
   Caselle Torinese: 100% - 100% di 870 auto
   Volpiano: 100% - 100% di 1,253 auto
+  Baldissero Torinese: 100% - 100% di 128 auto
   La Loggia: 100% - 100% di 576 auto
+  Vinovo: 100% - 100% di 1,440 auto
+  Volvera E Limitrofi: 100% - 100% di 379 auto
   Avigliana E Limitrofi: 100% - 100% di 195 auto
-  Volvera E Limitrofi: 76% - 100% di 379 auto
-  Vinovo: 70% - 100% di 1,440 auto
-  Torino, Madonna Del Pilone: 60% - 100% di 6,112 auto
-  Pecetto Torinese: 46% - 100% di 179 auto
-  Torino, Borgata Vittoria: 44% - 100% di 8,230 auto
-  San Mauro Torinese: 44% - 100% di 2,294 auto
-  Torino, Regio Parco: 37% - 100% di 2,440 auto
-  Torino, Borgo Po E Cavoretto: 34% - 100% di 4,193 auto
-  Givoletto E Limitrofi: 33% - 100% di 580 auto
-  Torino, Falchera: 27% - 100% di 4,126 auto
+  Givoletto E Limitrofi: 100% - 100% di 580 auto
+  Gassino Torinese E Limitrofi: 100% - 100% di 1,067 auto
+  Poirino E Limitrofi: 100% - 100% di 207 auto
+  Chivasso: 100% - 100% di 574 auto
+  Brandizzo: 100% - 100% di 191 auto
+  Grugliasco: 82% - 100% di 3,892 auto
 
-NOI CONTRO GOOGLE MAPS (martedì 20/10 alle 8:00; i 6 percorsi da Piazza Castello fissano il fattore basso, i 2 di controllo no)
-  percorso | flusso libero | nostro di punta, fattore alto 1.2 | nostro di punta, fattore basso 2.45 | Google auto | differenza alto / basso (nostro - Google) | mezzi pubblici nostri
-  Piazza Castello → Collegno | 13.1 | 20.7 | 37.1 | 19 | +1.7 / +18.1 | 47
-  Piazza Castello → Venaria Reale | 12.7 | 20.3 | 36.2 | 31 | -10.7 / +5.2 | 64
-  Piazza Castello → Settimo Torinese | 14.4 | 22.3 | 40.3 | 38 | -15.7 / +2.3 | 62
-  Piazza Castello → Moncalieri | 11.4 | 18.7 | 32.9 | 34 | -15.3 / -1.1 | 48
-  Piazza Castello → Orbassano | 18.0 | 26.6 | 49.1 | 44 | -17.4 / +5.1 | 74
-  Piazza Castello → Rivoli | 18.2 | 26.8 | 49.6 | 38 | -11.2 / +11.6 | 66
-  Corso Racconigi → Piazza Castello (solo controllo) | 6.4 | 12.6 | 20.6 | 29 | -16.4 / -8.4 | 31 (Google 30-35, mezzi pubblici)
-  Moncalieri → Lingotto (solo controllo) | 6.8 | 13.2 | 21.7 | 14 | -0.8 / +7.7 | 33 (Google 30-35, solo GTT; col treno 19-23)
-  differenza media sui 6 percorsi: fattore alto -11.4 minuti, fattore basso +6.9 minuti
+NOI CONTRO GOOGLE MAPS (martedì 20/10 alle 8:00; per la stima TomTom si usa il fattore di ogni percorso)
+  percorso | flusso libero | nostro di punta, sensori (fattore 1.2) | nostro di punta, TomTom (fattore del percorso) | Google auto | differenza alto / basso (nostro - Google) | mezzi pubblici nostri
+  Piazza Castello → Collegno | 13.1 | 20.7 | 36.5 | 19 | +1.7 / +17.5 | 47
+  Piazza Castello → Venaria Reale | 12.7 | 20.3 | 31.3 | 31 | -10.7 / +0.3 | 64
+  Piazza Castello → Settimo Torinese | 14.4 | 22.3 | 33.1 | 38 | -15.7 / -4.9 | 62
+  Piazza Castello → Moncalieri | 11.4 | 18.7 | 26.3 | 34 | -15.3 / -7.7 | 48
+  Piazza Castello → Orbassano | 18.0 | 26.6 | 40.5 | 44 | -17.4 / -3.5 | 74
+  Piazza Castello → Rivoli | 18.2 | 26.8 | 41.0 | 38 | -11.2 / +3.0 | 66
+  Corso Racconigi → Piazza Castello (solo controllo) | 6.4 | 12.6 | 24.1 | 29 | -16.4 / -4.9 | 31 (Google 30-35, mezzi pubblici)
+  Moncalieri → Lingotto (solo controllo) | 6.8 | 13.2 | 15.1 | 14 | -0.8 / +1.1 | 33 (Google 30-35, solo GTT; col treno 19-23)
+  differenza media sui 6 percorsi: sensori -11.4 minuti, TomTom +0.8 minuti
 
 CONTROLLI
   OK     nessun tempo negativo o nullo fra zone diverse
   OK     nessun tempo infinito in auto fra zone — 0 coppie di zone, 0 percorsi noti; punti spostati: 2 su 363
   OK     coppie senza collegamento coi mezzi entro 120 minuti (contate a parte, per gruppo) — a: 0 coppie, 0 auto; b: 653 coppie, 5,616 auto; c: 1598 coppie, 13,600 auto
   OK     somma delle auto = totale IMQ 06-10 delle zone incluse — 465,534 / 465,534 (collegate 282,115, senza collegamento 19,216, dentro la zona 164,203)
-  AVVISO Piazza Castello → Collegno in auto di punta nella fascia 20-35 minuti, con tutti e due i fattori — 13.1 minuti a flusso libero; di punta 20.7 (fattore 1.2) e 37.1 (fattore 2.45)
+  AVVISO Piazza Castello → Collegno in auto di punta nella fascia 20-35 minuti, con tutti e due i fattori — 13.1 minuti a flusso libero; di punta 20.7 (fattore 1.2) e 36.5 (fattore 2.23)
   AVVISO fattore alto (sensori): tempo di punta non sotto Google di oltre il 25% in piu' di meta' dei percorsi — differenza media -11.4 minuti (nostro meno Google); percorsi molto sotto: 5 su 6 (atteso: e' la stima piu' favorevole all'auto)
-  OK     fattore basso (Google): tempo di punta non sotto Google di oltre il 25% in piu' di meta' dei percorsi — differenza media +6.9 minuti; percorsi molto sotto: 0 su 6
+  OK     stima TomTom: tempo di punta non sotto Google di oltre il 25% in piu' di meta' dei percorsi — differenza media +0.8 minuti; percorsi molto sotto: 0 su 6
 
-LIMITI: tempi TP da orario programmato (ottimisti); fuori Torino mancano treni e altre aziende (gruppo c a parte, gruppo b da leggere con cautela); la rete stradale non conta semafori e incroci: i tempi in auto sono stimati fra il rallentamento misurato dai sensori 5T e quello di Google Maps, piu' 5 minuti per parcheggiare; il centro di ogni zona e' una media di punti; IMQ e' un'indagine campionaria.
+LIMITI: tempi TP da orario programmato (ottimisti); fuori Torino mancano treni e altre aziende (gruppo c a parte, gruppo b da leggere con cautela); la rete stradale non conta semafori e incroci: i tempi in auto sono previsti da TomTom su traffico tipico di un feriale di novembre (non misurati in un giorno preciso; un solo servizio), con la stima dei sensori 5T come la piu' favorevole all'auto, piu' 5 minuti per parcheggiare; il centro di ogni zona e' una media di punti; IMQ e' un'indagine campionaria.

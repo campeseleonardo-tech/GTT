@@ -258,7 +258,7 @@ def forma_r6(s):
     # messaggio: minuti di pareggio = minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (script 94, senza soglie scelte da noi)
     pm = ba["pareggio"]["punti"]
     lo_m, hi_m = round(pm["mediana_basso_min"]), round(pm["mediana_alto_min"])
-    forbice_m = f"{lo_m} minuti con la stima TomTom, {hi_m} con quella dei sensori 5T (la più favorevole all'auto)" if hi_m != lo_m else f"{lo_m} minuti"
+    forbice_m = f"{lo_m} minuti (TomTom). Con i sensori, la stima più favorevole all'auto, più di {hi_m} minuti" if hi_m != lo_m else f"{lo_m} minuti"
     n_conv_p = sum(1 for l in ba["luoghi"][:n_punti_ba] if l["classe"] == "conviene")
     n_conv_i = sum(1 for l in inter if l["classe"] == "conviene")
     pb = sorted((l for l in ba["luoghi"][:n_punti_ba] if l["pareggio_basso_min"] is not None), key=lambda l: l["pareggio_basso_min"])
@@ -298,13 +298,13 @@ def forma_r6(s):
         principale,
         [f"{n_nessun} fermate importanti non hanno nessun parcheggio adatto vicino; {n_pochi} ne hanno troppo pochi.",
          f"Servirebbero posti soprattutto in {n_assi} punti d'ingresso: il primo è {nome_pulito(primo['nome'])}, dove ne mancano circa {migliaia(primo['mancano'])}.",
-         f"Dal parcheggio il bus batte l'auto solo se in centro si perdono più di {forbice_m}. Con la stima TomTom il bus conviene (non impiega più di una volta e mezza l'auto) da {n_conv_p} punti su {n_punti_ba} e da {n_conv_i} interscambi su {len(inter)}."],
+         f"Dal parcheggio il bus batte l'auto solo se in centro si perdono più di {forbice_m}. Con TomTom il bus conviene (al massimo 1,5 volte l'auto) da {n_conv_p} punti su {n_punti_ba} e {n_conv_i} interscambi su {len(inter)}."],
         [gara_g, pareggio_g, graf_inter],
         [f"Fermate importanti: fuori dal centro, con metro, stazione o capolinea, oppure {reg['n_corse']} corse all'ora.",
          "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
          f"Auto da fermare: auto che passano per il {quota}% che già oggi lascia l'auto. Posti: parcheggi adatti entro {raggio} metri.",
          "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.",
-         "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio: tempo a flusso libero per il fattore TomTom del percorso, più 5 minuti. Dati di traffico: TomTom."],
+         "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto. Auto: tempo a flusso libero per il fattore TomTom del percorso, più 5 minuti. Dati di traffico: TomTom."],
         [["Fermate importanti", f"{reg['n_corse']} corse all'ora o metro, e {migliaia(reg['m_auto'])} auto che passano"],
          ["Distanza a piedi", f"{raggio} metri"],
          ["Auto da fermare", f"auto che passano × {quota}%"],

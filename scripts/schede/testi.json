@@ -186,7 +186,21 @@
   "La nostra rete stradale non conta semafori e incroci. I tempi in auto sono due stime, col rallentamento dei sensori e con quello di Google Maps: il valore vero può stare anche fuori.": "Our road network ignores traffic lights and junctions. Car times are two estimates, with the sensors' slowdown and with TomTom's: the true value may lie outside.",
   "I tempi coi mezzi sono solo GTT, senza treni. La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.": "Public transport times are GTT only, without trains. The sensor estimate ignores traffic lights and junctions: it is the most favourable to the car.",
   "La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.": "The sensor estimate ignores traffic lights and junctions: it is the most favourable to the car.",
-  "La stima di TomTom è un tempo previsto su traffico tipico, non misurato. Usiamo un solo servizio.": "The TomTom estimate is a forecast time on typical traffic, not measured. We use a single service."
+  "La stima di TomTom è un tempo previsto su traffico tipico, non misurato. Usiamo un solo servizio.": "The TomTom estimate is a forecast time on typical traffic, not measured. We use a single service.",
+  "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha il tempo previsto da TomTom, parcheggio compreso; la stima più favorevole all'auto (sensori 5T) è un po' più veloce.": "A real minute is over in a flash: the longer the trip, the later the vehicle arrives. The car has the time forecast by TomTom, parking included; the estimate most favourable to the car (5T sensors) is a bit faster.",
+  "Verso Piazza Castello alle 8. Barra scura = stima di TomTom, barra chiara = stima più favorevole all'auto (sensori 5T). Meno minuti = punto più promettente; 0 = il bus è già più veloce.": "To Piazza Castello at 8. Dark bar = TomTom estimate, light bar = estimate most favourable to the car (5T sensors). Fewer minutes = more promising point; 0 = the bus is already faster.",
+  "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, con la stima di TomTom (con la stima più favorevole all'auto, dei sensori 5T, l'auto è un po' più veloce).": "Bar = minutes by public transport to Piazza Castello at 8. On the right, how full the car park is in the daytime and the car time, parking included, with the TomTom estimate (with the estimate most favourable to the car, from the 5T sensors, the car is a bit faster).",
+  "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto. Auto: tempo a flusso libero per il fattore TomTom del percorso, più 5 minuti. Dati di traffico: TomTom.": "Bus versus car: minutes by public transport to Piazza Castello at 8, versus the car. Car: free-flow time times the TomTom factor of the route, plus 5 minutes. Traffic data: TomTom.",
+  "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Usiamo un solo servizio.": "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. We use a single service.",
+  "Rapporto 2 = coi mezzi pubblici si impiega il doppio che in auto. Coppie Torino-Torino e Torino-cintura. Stima principale: tempo in auto previsto da TomTom; accanto la stima più favorevole all'auto (sensori 5T).": "Ratio 2 = public transport takes twice as long as the car. Turin-Turin and Turin-belt pairs. Main estimate: car time forecast by TomTom; next to it the estimate most favourable to the car (5T sensors).",
+  "stima più favorevole all'auto (sensori 5T)": "estimate most favourable to the car (5T sensors)",
+  "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. Due linee: stima TomTom (a ogni ora) e stima più favorevole all'auto (sensori 5T).": "Median ratio between public transport time and car time, weighted by morning cars, at 4 hours of the day. Two lines: TomTom estimate (at every hour) and estimate most favourable to the car (5T sensors).",
+  "sensori 5T, la più favorevole all'auto": "5T sensors, the most favourable to the car",
+  "minuti in auto (ora di punta, stima TomTom)": "minutes by car (rush hour, TomTom estimate)",
+  "Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.": "Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car.",
+  "Auto: tempo a flusso libero per il fattore TomTom della coppia, più 5 minuti. Le coppie non chieste a TomTom prendono la mediana della loro fascia. Dati di traffico: TomTom.": "Car: free-flow time times the TomTom factor of the pair, plus 5 minutes. Pairs not asked to TomTom take the median of their band. Traffic data: TomTom.",
+  "Auto, stima TomTom": "Car, TomTom estimate",
+  "Auto, stima più favorevole all'auto": "Car, estimate most favourable to the car"
  },
  "modelli": [
   {
@@ -696,6 +710,70 @@
   {
    "it": "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto col parcheggio. Mediana dei {n0} punti. Dati di traffico: TomTom.",
    "en": "Bus versus car: minutes by public transport to Piazza Castello at 8 am, versus the car including parking. Median of the {n0} points. Traffic data: TomTom."
+  },
+  {
+   "it": "Dal parcheggio il bus batte l'auto solo se in centro si perdono più di {n0} minuti (TomTom). Con i sensori, la stima più favorevole all'auto, più di {n1} minuti. Con TomTom il bus conviene (al massimo 1,5 volte l'auto) da {n2} punti su {n3} e {n4} interscambi su {n5}.",
+   "en": "From the car park, the bus beats the car only if you lose more than {n0} minutes parking downtown (TomTom). With the sensors, the estimate most favourable to the car, more than {n1} minutes. With TomTom the bus is worthwhile (at most 1.5 times the car) from {n2} points out of {n3} and {n4} park-and-ride lots out of {n5}."
+  },
+  {
+   "it": "{n0} min (sensori {n1})",
+   "en": "{n0} min (sensors {n1})"
+  },
+  {
+   "it": "pieno di giorno; {n0} contro {n1} in auto",
+   "en": "full in the daytime; {n0} versus {n1} by car"
+  },
+  {
+   "it": "a metà; {n0} contro {n1} in auto",
+   "en": "half full; {n0} versus {n1} by car"
+  },
+  {
+   "it": "con posti liberi; {n0} contro {n1} in auto",
+   "en": "with free spaces; {n0} versus {n1} by car"
+  },
+  {
+   "it": "non misurato; {n0} contro {n1} in auto",
+   "en": "not measured; {n0} versus {n1} by car"
+  },
+  {
+   "it": "verso Piazza Castello alle 8; auto: fattore TomTom del percorso (mediana {n0}) + 5 minuti; stima più favorevole all'auto: sensori 5T, fattore {n1}",
+   "en": "to Piazza Castello at 8; car: TomTom factor of the route (median {n0}) + 5 minutes; estimate most favourable to the car: 5T sensors, factor {n1}"
+  },
+  {
+   "it": "Al mattino, coi mezzi pubblici si impiega {n0} volte il tempo dell'auto",
+   "en": "In the morning, public transport takes {n0} times as long as the car"
+  },
+  {
+   "it": "A ogni ora del giorno, coi mezzi pubblici si impiega {n0} volte il tempo dell'auto",
+   "en": "At every hour of the day, public transport takes {n0} times as long as the car"
+  },
+  {
+   "it": "il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino ({n0} auto). Con i sensori, la stima più favorevole all'auto, {n1}",
+   "en": "the car's time: TomTom median ratio, weighted by morning cars ({n0} cars). With the sensors, the estimate most favourable to the car, {n1}"
+  },
+  {
+   "it": "Con TomTom il {n0}% delle auto ha rapporto oltre 2; con i sensori il {n1}%.",
+   "en": "With TomTom {n0}% of cars have a ratio above 2; with the sensors {n1}%."
+  },
+  {
+   "it": "Nel giorno il rapporto mediano va da {n0} a {n1} (TomTom) e da {n2} a {n3} (sensori).",
+   "en": "During the day the median ratio goes from {n0} to {n1} (TomTom) and from {n2} to {n3} (sensors)."
+  },
+  {
+   "it": "coi mezzi {n0} volte il tempo dell'auto ({n1} con la stima dei sensori)",
+   "en": "by public transport {n0} times the car's time ({n1} with the sensor estimate)"
+  },
+  {
+   "it": "tempo a flusso libero × fattore TomTom della coppia (mediana {n0}) + {n1} minuti",
+   "en": "free-flow time × TomTom factor of the pair (median {n0}) + {n1} minutes"
+  },
+  {
+   "it": "tempo a flusso libero × {n0} (sensori 5T, non contano semafori e incroci) + {n1} minuti",
+   "en": "free-flow time × {n0} (5T sensors, they do not count traffic lights and junctions) + {n1} minutes"
+  },
+  {
+   "it": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il {n0}% dei torinesi coi mezzi pubblici e il {n1}% in auto con la stima di TomTom, parcheggio compreso ({n2}% con la stima più favorevole all'auto, dei sensori 5T).",
+   "en": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach {n0}% of residents by public transport and {n1}% by car with the TomTom estimate, parking included ({n2}% with the estimate most favourable to the car, from the 5T sensors)."
   }
  ]
 }
