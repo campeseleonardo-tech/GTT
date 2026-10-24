@@ -6,9 +6,10 @@ Legge i file gia' prodotti dagli script dei risultati e scrive:
   data/processed/risultato6_v2/mappa_r6.json   (Risultato 6, da 79 e 84) -> data/processed/risultato6_riepilogo_mappa.json
   data/processed/risultato8_riepilogo_mappa.json   (Risultato 8, script 56-67)
   data/processed/risultato10_riepilogo_mappa.json  (Risultato 10 = «Case, servizi e fragilita'», da case_fragilita_servizi.json dello script 95)
+  data/processed/risultato12_riepilogo_mappa.json  (Risultato 12 = «Quanto costa muoversi», da costo_del_viaggio.json dello script 103)
   data/schede_risultati.js   (tutte le schede, R2 compreso, caricate da sole da risultati.html)
   data/home_mezzi.js (home) e data/progetto.js (progetto.html), scritti da schede/home.py e schede/progetto.py;
-  r/1.html ... r/5.html (pagine da condividere) e gli elenchi dei risultati nel README.md, scritti da schede/pagine_r.py
+  r/1.html ... r/6.html (pagine da condividere) e gli elenchi dei risultati nel README.md, scritti da schede/pagine_r.py
 
 Il riepilogo base del Risultato 2 lo scrive 29_risultato2_metro_notte.py: qui si legge e si arricchisce
 solo nel .js (il file JSON di R2 non viene riscritto).
@@ -37,6 +38,7 @@ from schede.pagine_r import aggiorna_readme, scrivi_pagine_r  # noqa: E402
 from schede.progetto import scrivi_progetto  # noqa: E402
 from schede.r1 import forma_r1, scheda_r1  # noqa: E402
 from schede.r10 import forma_r10, scheda_r10  # noqa: E402
+from schede.r12 import forma_r12, scheda_r12  # noqa: E402
 from schede.r2 import arricchisci_r2  # noqa: E402
 from schede.r4 import forma_r4, scheda_r4  # noqa: E402
 from schede.r6 import forma_r6, scheda_r6  # noqa: E402
@@ -45,12 +47,12 @@ from schede.r8 import forma_r8, scheda_r8  # noqa: E402
 
 
 
-FORME = {"risultato1": forma_r1, "risultato4": forma_r4, "risultato6": forma_r6, "risultato8": forma_r8, "risultato10": forma_r10}
+FORME = {"risultato1": forma_r1, "risultato4": forma_r4, "risultato6": forma_r6, "risultato8": forma_r8, "risultato10": forma_r10, "risultato12": forma_r12}
 
 
 
 # numerazione pubblica: in pagina i risultati sono 1-5; i numeri interni e i link #rN restano validi
-NUMERO_PUBBLICO = {"risultato1": 1, "risultato4": 2, "risultato6": 3, "risultato8": 4, "risultato10": 5}
+NUMERO_PUBBLICO = {"risultato1": 1, "risultato4": 2, "risultato6": 3, "risultato8": 4, "risultato10": 5, "risultato12": 6}
 
 
 
@@ -59,7 +61,8 @@ def main():
     schede = []
     for nome, fabbrica in (("risultato1", scheda_r1), ("risultato2", None),
                            ("risultato4", scheda_r4), ("risultato6", scheda_r6),
-                           ("risultato8", scheda_r8), ("risultato10", scheda_r10)):
+                           ("risultato8", scheda_r8), ("risultato10", scheda_r10),
+                           ("risultato12", scheda_r12)):
         if nome in NASCOSTE:
             continue
         file = f"{nome}_riepilogo_mappa.json"

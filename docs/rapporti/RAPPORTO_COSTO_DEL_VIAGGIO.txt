@@ -1,0 +1,63 @@
+QUANTO COSTA MUOVERSI (script 103) - prezzi consultati il 2026-10-24
+
+Lavoro in centro, al mese, mediana dei 12 punti del R6 (km mediano 6.2):
+  auto che si sente 307.29 euro, auto piena 404.03 euro, mezzi 38.0 euro
+  differenza che si sente 269.29 euro, differenza piena 366.03 euro; minuti in piu' coi mezzi 11.0
+Commissione (2 ore in centro): auto che si sente 5.16, auto piena 10.0, mezzi 4.0 euro
+
+PUNTI E INTERSCAMBI (km, minuti in piu' coi mezzi, auto che si sente al mese, auto piena al mese, mezzi al mese)
+  SANTA RITA: 5.2 km, 9.2 min, 301 / 382 / 38 euro
+  METRO MASSAUA: 5.9 km, -1.9 min, 306 / 398 / 38 euro
+  PONTE CAVALIERI TEMPLARI: 8.8 km, 24.4 min, 322 / 459 / 38 euro
+  REGINA MARGHERITA: 4.2 km, 3.3 min, 296 / 362 / 38 euro
+  PASINI: 4.4 km, 7.6 min, 297 / 365 / 38 euro
+  LEONARDO DA VINCI: 9.7 km, 20.5 min, 327 / 477 / 38 euro
+  DROSSO CAP: 7.8 km, 11.7 min, 316 / 437 / 38 euro
+  STURA LAZIO: 6.5 km, 10.1 min, 309 / 411 / 38 euro
+  MARSÈ: 13.3 km, 27.5 min, 347 / 554 / 38 euro
+  DERNA EST: 5.7 km, 10.3 min, 304 / 393 / 38 euro
+  FERRARA: 9.5 km, 14.2 min, 326 / 474 / 38 euro
+  ZARA: 4.3 km, 14.2 min, 296 / 362 / 38 euro
+  STURA: 8.0 km, 8.8 min, 317 / 441 / 38 euro
+  VENCHI UNICA: 6.4 km, -0.8 min, 308 / 407 / 38 euro
+  CAIO MARIO: 6.7 km, 7.9 min, 310 / 413 / 38 euro
+  FERMI: 8.4 km, -5.6 min, 320 / 451 / 38 euro
+  SOFIA: 5.7 km, 11.2 min, 305 / 394 / 38 euro
+
+COPPIE TORINO-TORINO per fascia di distanza (lavoro al mese, senza sosta; mediana)
+  0.0-3.0 km: 52 coppie, auto che si sente 14.3, piena 53.49, mezzi 38.0
+  3.0-6.0 km: 191 coppie, auto che si sente 25.08, piena 93.82, mezzi 38.0
+  6.0-10.0 km: 207 coppie, auto che si sente 43.92, piena 164.31, mezzi 38.0
+  10.0-None km: 56 coppie, auto che si sente 64.45, piena 241.13, mezzi 38.0
+
+CONTROLLO DELLE LUNGHEZZE CON TOMTOM
+  SANTA RITA: rete 5.2 km, TomTom 5.87 km (-11%)
+  METRO MASSAUA: rete 5.91 km, TomTom 6.31 km (-6%)
+  PONTE CAVALIERI TEMPLARI: rete 8.79 km, TomTom 8.87 km (-1%)
+  REGINA MARGHERITA: rete 4.22 km, TomTom 7.07 km (-40%)
+  PASINI: rete 4.4 km, TomTom 3.98 km (+10%)
+  LEONARDO DA VINCI: rete 9.68 km, TomTom 10.33 km (-6%)
+  DROSSO CAP: rete 7.79 km, TomTom 10.36 km (-25%)
+  STURA LAZIO: rete 6.53 km, TomTom 8.04 km (-19%)
+  MARSÈ: rete 13.3 km, TomTom 13.21 km (+1%)
+  DERNA EST: rete 5.68 km, TomTom 4.8 km (+18%)
+  FERRARA: rete 9.51 km, TomTom 12.55 km (-24%)
+  ZARA: rete 4.26 km, TomTom 4.26 km (-0%)
+  STURA: rete 7.98 km, TomTom 10.77 km (-26%)
+  VENCHI UNICA: rete 6.36 km, TomTom 6.76 km (-6%)
+  CAIO MARIO: rete 6.66 km, TomTom 7.6 km (-12%)
+  FERMI: rete 8.45 km, TomTom 12.77 km (-34%)
+  SOFIA: rete 5.73 km, TomTom 4.73 km (+21%)
+
+CONTROLLI
+OK     prezzi dei carburanti fra 1 e 3 euro al litro — benzina 2.004, gasolio 2.249
+OK     tutti i luoghi hanno una lunghezza
+OK     coppie Torino-Torino con le zone sul grafo — 0 fuori
+OK     richieste TomTom per la lunghezza andate a buon fine — 17 su 17
+OK     chilometri fra 1 e 80 — da 1.5 a 14.2
+OK     nessun costo negativo o nullo
+OK     l'auto che si sente costa meno dell'auto piena
+OK     coppie nelle fasce = coppie con chilometri — 506 coppie
+OK     coppie Torino-Torino in ogni fascia — 52, 191, 207, 56
+AVVISO lunghezze della nostra rete entro il 10% di TomTom — 11 su 17 fuori: SANTA RITA -11%, REGINA MARGHERITA -40%, PASINI +10%, DROSSO CAP -25%, STURA LAZIO -19%, DERNA EST +18%, FERRARA -24%, STURA -26%, CAIO MARIO -12%, FERMI -34%, SOFIA +21%
+AVVISO cintura: tariffe a zone non assegnate alle zone dell'indagine — la cintura resta fuori; la scheda usa Torino e i punti del R6

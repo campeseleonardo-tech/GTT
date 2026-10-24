@@ -1,0 +1,1051 @@
+{
+  "risultato": "12",
+  "titolo": "Quanto costa muoversi",
+  "tag": "STIMATO / PREZZI",
+  "stato": "Fatto",
+  "in_breve": "Quanto costa andare in centro in auto e quanto coi mezzi pubblici, coi prezzi di oggi?",
+  "domanda": "Quanto costa andare in centro in auto e quanto coi mezzi pubblici, oggi?",
+  "numero_chiave": {
+    "valore": 269,
+    "unita": "euro",
+    "testo": "in più al mese per andare al lavoro in centro in auto invece che coi mezzi"
+  },
+  "racconto": "",
+  "risposta": [],
+  "grafici": [],
+  "metodo": [],
+  "limiti": [],
+  "parametri": [],
+  "mappa": null,
+  "fonti": [
+    "docs/rapporti/RAPPORTO_COSTO_DEL_VIAGGIO.txt",
+    "data/processed/costo_del_viaggio.json",
+    "data/ref/costi.json"
+  ],
+  "generato": "2026-10-24T11:40:09+00:00",
+  "avviso": [
+    "Dati [STIMATO]: prezzi di ottobre 2026 e chilometri della rete stradale. Costo medio di una Golf, non della propria auto."
+  ],
+  "in_english": [],
+  "scenari": [
+    {
+      "nome": "Oggi",
+      "numeri": [
+        {
+          "label": "Auto, lavoro in centro (costo che si sente, al mese)",
+          "prima": null,
+          "dopo": 307.3,
+          "unita": "euro"
+        },
+        {
+          "label": "Auto, costo pieno (al mese)",
+          "prima": null,
+          "dopo": 404.0,
+          "unita": "euro"
+        },
+        {
+          "label": "Mezzi pubblici, abbonamento (al mese)",
+          "prima": null,
+          "dopo": 38.0,
+          "unita": "euro"
+        },
+        {
+          "label": "Minuti in più coi mezzi (mediana)",
+          "prima": null,
+          "dopo": 11.0,
+          "unita": "min"
+        }
+      ],
+      "nota": "Mediana dei 12 punti prioritari del risultato 3, verso Piazza Castello."
+    }
+  ],
+  "forma": {
+    "tipo_dato": "Tipo di dato: calcolato con prezzi pubblici di ottobre 2026 e con i tempi in auto di TomTom.",
+    "titolo": "Per andare al lavoro in centro l'auto costa circa 270 euro al mese più dei mezzi pubblici",
+    "domanda": "Quanto costa andare in centro in auto e quanto coi mezzi pubblici, oggi?",
+    "numero": {
+      "valore": 269,
+      "unita": "euro",
+      "testo": "in più al mese per andare al lavoro in centro in auto invece che coi mezzi pubblici. Col costo pieno dell'auto sono ~366 euro.",
+      "breve": "in più al mese, in auto"
+    },
+    "principale": {
+      "tipo": "barre_gruppi",
+      "titolo": "Un mese di lavoro in centro, dai 12 punti prioritari: auto e mezzi pubblici",
+      "unita": "euro",
+      "nota": "La barra chiara è il costo pieno dell'auto. Il parcheggio in centro pesa più del carburante.",
+      "gruppi": [
+        {
+          "label": "Regina Margherita (4,2 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 296,
+              "prima": 362,
+              "tono": "rosso",
+              "testo": "296 (362 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Zara (4,3 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 296,
+              "prima": 362,
+              "tono": "rosso",
+              "testo": "296 (362 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Pasini (4,4 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 297,
+              "prima": 365,
+              "tono": "rosso",
+              "testo": "297 (365 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Santa Rita (5,2 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 301,
+              "prima": 382,
+              "tono": "rosso",
+              "testo": "301 (382 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Derna Est (5,7 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 304,
+              "prima": 393,
+              "tono": "rosso",
+              "testo": "304 (393 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Metro Massaua (5,9 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 306,
+              "prima": 398,
+              "tono": "rosso",
+              "testo": "306 (398 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Stura Lazio (6,5 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 309,
+              "prima": 411,
+              "tono": "rosso",
+              "testo": "309 (411 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Drosso Cap (7,8 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 316,
+              "prima": 437,
+              "tono": "rosso",
+              "testo": "316 (437 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Ponte Cavalieri Templari (8,8 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 322,
+              "prima": 459,
+              "tono": "rosso",
+              "testo": "322 (459 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Ferrara (9,5 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 326,
+              "prima": 474,
+              "tono": "rosso",
+              "testo": "326 (474 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Leonardo Da Vinci (9,7 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 327,
+              "prima": 477,
+              "tono": "rosso",
+              "testo": "327 (477 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Marsè (13,3 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 347,
+              "prima": 554,
+              "tono": "rosso",
+              "testo": "347 (554 col costo pieno)"
+            },
+            {
+              "label": "Mezzi pubblici",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        }
+      ]
+    },
+    "punti": [
+      "Un mese di lavoro in centro costa ~307 euro in auto, 38 con l'abbonamento. Col costo pieno dell'auto sono ~404 euro.",
+      "Pesa il parcheggio: 8 ore in centro costano 13,60 euro al giorno, il carburante del viaggio ~2 euro.",
+      "Coi mezzi pubblici si impiegano ~11 minuti in più, ma si risparmiano ~269 euro al mese."
+    ],
+    "altri": [
+      {
+        "tipo": "dispersione",
+        "titolo": "Tempo contro soldi: minuti in più coi mezzi e euro risparmiati al mese",
+        "dnome": "posti che mancano",
+        "xlabel": "minuti in più coi mezzi pubblici",
+        "ylabel": "euro risparmiati al mese",
+        "passo_x": 5,
+        "passo_y": 50,
+        "xnome": "minuti in più",
+        "ynome": "euro al mese",
+        "punti": [
+          [
+            3.3,
+            257.95570872066725,
+            350,
+            "Regina Margherita"
+          ],
+          [
+            14.2,
+            258.17105286705726,
+            60,
+            "Zara"
+          ],
+          [
+            7.6,
+            258.9843027612095,
+            250,
+            "Pasini"
+          ],
+          [
+            9.2,
+            263.49235051596827,
+            450,
+            "Santa Rita"
+          ],
+          [
+            10.3,
+            266.24565125892906,
+            100,
+            "Derna Est"
+          ],
+          [
+            0.0,
+            267.5486729796433,
+            350,
+            "Metro Massaua"
+          ],
+          [
+            10.1,
+            271.03249288129814,
+            200,
+            "Stura Lazio"
+          ],
+          [
+            11.7,
+            278.2252091924563,
+            200,
+            "Drosso Cap"
+          ],
+          [
+            24.4,
+            283.85145115890185,
+            350,
+            "Ponte Cavalieri Templari"
+          ],
+          [
+            14.2,
+            287.9703683757964,
+            80,
+            "Ferrara"
+          ],
+          [
+            20.5,
+            288.9233849686356,
+            200,
+            "Leonardo Da Vinci"
+          ],
+          [
+            27.5,
+            309.44510182788105,
+            150,
+            "Marsè"
+          ]
+        ],
+        "nota": "Un punto per luogo, grande quanto i posti che mancano. Se i mezzi sono già più veloci dell'auto, i minuti in più valgono zero."
+      },
+      {
+        "tipo": "barre_gruppi",
+        "titolo": "Un mese di lavoro tra due zone di Torino, per distanza: auto e mezzi pubblici",
+        "unita": "euro",
+        "nota": "Solo il carburante e il costo pieno, senza parcheggio: la barra chiara è il costo pieno dell'auto.",
+        "gruppi": [
+          {
+            "label": "Sotto 3 km (52 coppie)",
+            "voci": [
+              {
+                "label": "Auto",
+                "valore": 14,
+                "prima": 53,
+                "tono": "rosso",
+                "testo": "14 (53 col costo pieno)"
+              },
+              {
+                "label": "Mezzi pubblici",
+                "valore": 38,
+                "tono": "verde",
+                "testo": "38"
+              }
+            ]
+          },
+          {
+            "label": "Da 3 a 6 km (191 coppie)",
+            "voci": [
+              {
+                "label": "Auto",
+                "valore": 25,
+                "prima": 94,
+                "tono": "rosso",
+                "testo": "25 (94 col costo pieno)"
+              },
+              {
+                "label": "Mezzi pubblici",
+                "valore": 38,
+                "tono": "verde",
+                "testo": "38"
+              }
+            ]
+          },
+          {
+            "label": "Da 6 a 10 km (207 coppie)",
+            "voci": [
+              {
+                "label": "Auto",
+                "valore": 44,
+                "prima": 164,
+                "tono": "rosso",
+                "testo": "44 (164 col costo pieno)"
+              },
+              {
+                "label": "Mezzi pubblici",
+                "valore": 38,
+                "tono": "verde",
+                "testo": "38"
+              }
+            ]
+          },
+          {
+            "label": "Oltre 10 km (56 coppie)",
+            "voci": [
+              {
+                "label": "Auto",
+                "valore": 64,
+                "prima": 241,
+                "tono": "rosso",
+                "testo": "64 (241 col costo pieno)"
+              },
+              {
+                "label": "Mezzi pubblici",
+                "valore": 38,
+                "tono": "verde",
+                "testo": "38"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "barre",
+        "titolo": "Una commissione in centro (2 ore di sosta): costo di andata e ritorno",
+        "unita": "euro",
+        "nota": "Mediana dei 12 punti. Il costo pieno comprende anche assicurazione, usura e perdita di valore.",
+        "voci": [
+          {
+            "label": "Auto, costo che si sente",
+            "valore": 5.2,
+            "tono": "rosso",
+            "testo": "5,16"
+          },
+          {
+            "label": "Auto, costo pieno",
+            "valore": 10.0,
+            "tono": "arancio",
+            "testo": "10,00"
+          },
+          {
+            "label": "Mezzi pubblici, 2 biglietti",
+            "valore": 4.0,
+            "tono": "verde",
+            "testo": "4,00"
+          }
+        ]
+      }
+    ],
+    "calcolo": [
+      "Prezzi del 24/10/2026. Carburante: media self degli impianti entro 5 km da Piazza Castello (Osservatorio prezzi). Tariffe GTT e sosta dalle pagine ufficiali, costo ACI 2026 della Gazzetta Ufficiale.",
+      "Auto che si sente: chilometri × consumo urbano × prezzo del carburante, andata e ritorno, più il parcheggio. Auto piena: chilometri × costo ACI per chilometro, più il parcheggio.",
+      "Auto di riferimento: la stessa Golf da 115 CV, a benzina e a gasolio. Consumo in città: 7,2 e 6,2 litri ogni 100 km. Il costo è la media delle due.",
+      "Lavoro: 20 giorni al mese, 8 ore di sosta a tariffa ordinaria (1,70 euro l'ora). Mezzi pubblici: abbonamento mensile urbano (38 euro).",
+      "Commissione: 2 ore di sosta contro 2 biglietti urbani (2,00 euro l'uno).",
+      "Punti: i 12 punti prioritari del risultato 3 verso Piazza Castello. Coppie: 506 coppie di zone di Torino, senza parcheggio.",
+      "Chilometri: percorso più veloce sulla rete stradale, controllato con TomTom su 17 percorsi. Minuti in più: dal confronto di tempi del risultato 4, alle 8."
+    ],
+    "criteri": [
+      [
+        "Carburante, self, prezzo del giorno",
+        "benzina 2,004, gasolio 2,249 euro al litro"
+      ],
+      [
+        "Consumo in città",
+        "benzina 7,2, gasolio 6,2 litri ogni 100 km"
+      ],
+      [
+        "Costo pieno ACI",
+        "benzina 0,5568, gasolio 0,5047 euro al km"
+      ],
+      [
+        "Mezzi pubblici",
+        "biglietto 2,00 euro, abbonamento mensile 38 euro"
+      ],
+      [
+        "Sosta in centro",
+        "1,70 euro l'ora, tariffa ordinaria"
+      ]
+    ],
+    "limiti": [
+      "Carburante: prezzi del giorno, non la media di 4 settimane. Una Golf di consumo medio, non la propria auto; abbonamenti ridotti e agevolazioni non considerati.",
+      "La zona a traffico limitato e gli abbonamenti alla sosta non sono nel calcolo. Per il centro vale la tariffa ordinaria.",
+      "Chilometri: su 11 dei 17 percorsi TomTom dà una lunghezza diversa di oltre il 10%. Pesa poco: il parcheggio vale la maggior parte del costo.",
+      "Solo Torino: le tariffe a zone della cintura non sono assegnate alle zone dell'indagine."
+    ],
+    "anima": {
+      "tipo": "contatori",
+      "mesi": 12,
+      "etichetta": "mesi di lavoro",
+      "righe": [
+        {
+          "label": "Auto",
+          "mese": 307.3,
+          "tono": "rosso"
+        },
+        {
+          "label": "Mezzi pubblici",
+          "mese": 38.0,
+          "tono": "verde"
+        }
+      ],
+      "didascalia": "In un anno di lavoro in centro: ~3.687 euro in auto, 456 euro coi mezzi pubblici (costo che si sente)."
+    },
+    "chiave": {
+      "valore": "~270",
+      "unita": "euro",
+      "testo": "in più al mese per andare al lavoro in centro in auto"
+    }
+  },
+  "forma_en": {
+    "tipo_dato": "Type of data: calculated from public prices of October 2026 and TomTom car times.",
+    "titolo": "Going to work in the centre costs about 270 euros a month more by car than by public transport",
+    "domanda": "How much does it cost to go to the centre by car and by public transport, today?",
+    "numero": {
+      "valore": 269,
+      "unita": "euros",
+      "testo": "more a month to go to work in the centre by car instead of by public transport. At the car's full cost it is ~366 euros.",
+      "breve": "more a month, by car"
+    },
+    "principale": {
+      "tipo": "barre_gruppi",
+      "titolo": "A month of work in the centre, from the 12 priority points: car and public transport",
+      "unita": "euros",
+      "nota": "The light bar is the full cost of the car. Parking in the centre weighs more than fuel.",
+      "gruppi": [
+        {
+          "label": "Regina Margherita (4.2 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 296,
+              "prima": 362,
+              "tono": "rosso",
+              "testo": "296 (362 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Zara (4.3 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 296,
+              "prima": 362,
+              "tono": "rosso",
+              "testo": "296 (362 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Pasini (4.4 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 297,
+              "prima": 365,
+              "tono": "rosso",
+              "testo": "297 (365 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Santa Rita (5.2 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 301,
+              "prima": 382,
+              "tono": "rosso",
+              "testo": "301 (382 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Derna Est (5.7 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 304,
+              "prima": 393,
+              "tono": "rosso",
+              "testo": "304 (393 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Metro Massaua (5.9 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 306,
+              "prima": 398,
+              "tono": "rosso",
+              "testo": "306 (398 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Stura Lazio (6.5 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 309,
+              "prima": 411,
+              "tono": "rosso",
+              "testo": "309 (411 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Drosso Cap (7.8 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 316,
+              "prima": 437,
+              "tono": "rosso",
+              "testo": "316 (437 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Ponte Cavalieri Templari (8.8 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 322,
+              "prima": 459,
+              "tono": "rosso",
+              "testo": "322 (459 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Ferrara (9.5 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 326,
+              "prima": 474,
+              "tono": "rosso",
+              "testo": "326 (474 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Leonardo Da Vinci (9.7 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 327,
+              "prima": 477,
+              "tono": "rosso",
+              "testo": "327 (477 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        },
+        {
+          "label": "Marsè (13.3 km)",
+          "voci": [
+            {
+              "label": "Auto",
+              "valore": 347,
+              "prima": 554,
+              "tono": "rosso",
+              "testo": "347 (554 at full cost)"
+            },
+            {
+              "label": "Public transport",
+              "valore": 38,
+              "tono": "verde",
+              "testo": "38"
+            }
+          ]
+        }
+      ]
+    },
+    "punti": [
+      "A month of work in the centre costs ~307 euros by car, 38 with the pass. At the car's full cost it is ~404 euros.",
+      "Parking weighs the most: 8 hours in the centre cost 13.60 euros a day, the fuel for the trip ~2 euros.",
+      "Public transport takes ~11 minutes longer, but saves ~269 euros a month."
+    ],
+    "altri": [
+      {
+        "tipo": "dispersione",
+        "titolo": "Time against money: extra minutes by public transport and euros saved per month",
+        "dnome": "missing spaces",
+        "xlabel": "extra minutes by public transport",
+        "ylabel": "euros saved per month",
+        "passo_x": 5,
+        "passo_y": 50,
+        "xnome": "minuti in più",
+        "ynome": "euro al mese",
+        "punti": [
+          [
+            3.3,
+            257.95570872066725,
+            350,
+            "Regina Margherita"
+          ],
+          [
+            14.2,
+            258.17105286705726,
+            60,
+            "Zara"
+          ],
+          [
+            7.6,
+            258.9843027612095,
+            250,
+            "Pasini"
+          ],
+          [
+            9.2,
+            263.49235051596827,
+            450,
+            "Santa Rita"
+          ],
+          [
+            10.3,
+            266.24565125892906,
+            100,
+            "Derna Est"
+          ],
+          [
+            0.0,
+            267.5486729796433,
+            350,
+            "Metro Massaua"
+          ],
+          [
+            10.1,
+            271.03249288129814,
+            200,
+            "Stura Lazio"
+          ],
+          [
+            11.7,
+            278.2252091924563,
+            200,
+            "Drosso Cap"
+          ],
+          [
+            24.4,
+            283.85145115890185,
+            350,
+            "Ponte Cavalieri Templari"
+          ],
+          [
+            14.2,
+            287.9703683757964,
+            80,
+            "Ferrara"
+          ],
+          [
+            20.5,
+            288.9233849686356,
+            200,
+            "Leonardo Da Vinci"
+          ],
+          [
+            27.5,
+            309.44510182788105,
+            150,
+            "Marsè"
+          ]
+        ],
+        "nota": "One point per place, as large as the missing spaces. If public transport is already faster than the car, the extra minutes are zero."
+      },
+      {
+        "tipo": "barre_gruppi",
+        "titolo": "A month of work between two zones of Turin, by distance: car and public transport",
+        "unita": "euros",
+        "nota": "Fuel and full cost only, without parking: the light bar is the full cost of the car.",
+        "gruppi": [
+          {
+            "label": "Under 3 km (52 pairs)",
+            "voci": [
+              {
+                "label": "Auto",
+                "valore": 14,
+                "prima": 53,
+                "tono": "rosso",
+                "testo": "14 (53 at full cost)"
+              },
+              {
+                "label": "Public transport",
+                "valore": 38,
+                "tono": "verde",
+                "testo": "38"
+              }
+            ]
+          },
+          {
+            "label": "From 3 to 6 km (191 pairs)",
+            "voci": [
+              {
+                "label": "Auto",
+                "valore": 25,
+                "prima": 94,
+                "tono": "rosso",
+                "testo": "25 (94 at full cost)"
+              },
+              {
+                "label": "Public transport",
+                "valore": 38,
+                "tono": "verde",
+                "testo": "38"
+              }
+            ]
+          },
+          {
+            "label": "From 6 to 10 km (207 pairs)",
+            "voci": [
+              {
+                "label": "Auto",
+                "valore": 44,
+                "prima": 164,
+                "tono": "rosso",
+                "testo": "44 (164 at full cost)"
+              },
+              {
+                "label": "Public transport",
+                "valore": 38,
+                "tono": "verde",
+                "testo": "38"
+              }
+            ]
+          },
+          {
+            "label": "Over 10 km (56 pairs)",
+            "voci": [
+              {
+                "label": "Auto",
+                "valore": 64,
+                "prima": 241,
+                "tono": "rosso",
+                "testo": "64 (241 at full cost)"
+              },
+              {
+                "label": "Public transport",
+                "valore": 38,
+                "tono": "verde",
+                "testo": "38"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "barre",
+        "titolo": "An errand in the centre (2 hours of parking): round-trip cost",
+        "unita": "euros",
+        "nota": "Median of the 12 points. The full cost also includes insurance, wear and loss of value.",
+        "voci": [
+          {
+            "label": "Car, the cost you feel",
+            "valore": 5.2,
+            "tono": "rosso",
+            "testo": "5.16"
+          },
+          {
+            "label": "Car, full cost",
+            "valore": 10.0,
+            "tono": "arancio",
+            "testo": "10.00"
+          },
+          {
+            "label": "Public transport, 2 tickets",
+            "valore": 4.0,
+            "tono": "verde",
+            "testo": "4.00"
+          }
+        ]
+      }
+    ],
+    "calcolo": [
+      "Prices of 24/10/2026. Fuel: self-service average of the stations within 5 km of Piazza Castello (fuel price observatory). GTT fares and parking from the official pages, 2026 ACI cost from the Gazzetta Ufficiale.",
+      "The car cost you feel: kilometres × urban consumption × fuel price, round trip, plus parking. The full car cost: kilometres × ACI cost per kilometre, plus parking.",
+      "Reference cars: the same 115 hp Golf, petrol and diesel. Urban consumption: 7.2 and 6.2 litres per 100 km. The cost is the average of the two.",
+      "Work: 20 days a month, 8 hours of parking at the ordinary rate (1.70 euros an hour). Public transport: monthly urban pass (38 euros).",
+      "Errand: 2 hours of parking against 2 urban tickets (2.00 euros each).",
+      "Points: the 12 priority points of result 3 towards Piazza Castello. Pairs: 506 pairs of zones in Turin, without parking.",
+      "Kilometres: fastest route on the road network, checked with TomTom on 17 routes. Extra minutes: from the time comparison of result 4, at 8."
+    ],
+    "criteri": [
+      [
+        "Fuel, self-service, price of the day",
+        "petrol 2.004, diesel 2.249 euros per litre"
+      ],
+      [
+        "Urban consumption",
+        "petrol 7.2, diesel 6.2 litres per 100 km"
+      ],
+      [
+        "Full ACI cost",
+        "petrol 0.5568, diesel 0.5047 euros per km"
+      ],
+      [
+        "Public transport",
+        "ticket 2.00 euros, monthly pass 38 euros"
+      ],
+      [
+        "Parking in the centre",
+        "1.70 euros an hour, ordinary rate"
+      ]
+    ],
+    "limiti": [
+      "Fuel: prices of the day, not a 4-week average. A Golf of average consumption, not your own car; reduced passes and concessions not considered.",
+      "The limited traffic zone and parking passes are not in the calculation. The ordinary rate is used for the centre.",
+      "Kilometres: on 11 of the 17 routes TomTom gives a length that differs by more than 10%. It matters little: parking is most of the cost.",
+      "Turin only: the zoned fares of the surrounding towns are not assigned to the survey zones."
+    ],
+    "anima": {
+      "tipo": "contatori",
+      "mesi": 12,
+      "etichetta": "months of work",
+      "righe": [
+        {
+          "label": "Auto",
+          "mese": 307.3,
+          "tono": "rosso"
+        },
+        {
+          "label": "Public transport",
+          "mese": 38.0,
+          "tono": "verde"
+        }
+      ],
+      "didascalia": "In a year of work in the centre: ~3,687 euros by car, 456 euros by public transport (the cost you feel)."
+    },
+    "chiave": {
+      "valore": "~270",
+      "unita": "euros",
+      "testo": "more a month to go to work in the centre by car"
+    }
+  },
+  "numero_pubblico": 6
+}

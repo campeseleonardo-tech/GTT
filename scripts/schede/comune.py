@@ -108,6 +108,7 @@ TIPO_DATO = {   # una riga nella parte chiusa «Come e' stato calcolato, e limit
     "STIMATO": "Tipo di dato: calcolato da dati veri, non misurato direttamente.",
     "MISURATO": "Tipo di dato: misurato, con la posizione GPS dei mezzi.",
     "STIMATO / CENSIMENTO": "Tipo di dato: calcolato da dati veri, con gli abitanti del censimento 2021.",
+    "STIMATO / PREZZI": "Tipo di dato: calcolato con prezzi pubblici di ottobre 2026 e con i tempi in auto di TomTom.",
     "STIMATO / MISURATO (dati scarsi)": "Tipo di dato: calcolato da dati veri e in parte misurato, su pochi giorni di dati.",
     "STIMATO / MISURATO / PROGRAMMATO": "Tipo di dato: calcolato da dati veri, con tempi in auto di TomTom, misure dei sensori e orari ufficiali dei mezzi.",
 }

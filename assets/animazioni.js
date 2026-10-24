@@ -2,7 +2,8 @@
    Ogni scheda porta in f.anima la sua descrizione (scritta da scripts/schede/*.py: tutti i numeri e i testi arrivano dai dati).
    Uso: contenitore.innerHTML = Anima.html(f.anima, {compatto: true|false}); l'animazione parte da sola quando compare nella pagina.
    Tipi: «cerchi» (servizi a piedi), «quadratini» (ritardi, anche per fascia oraria), «fermate» (forma di Torino con le fermate),
-   «omini» (1 su N), «area» (assets/area.js, l'area che si espande) e «gara» (assets/gara.js, che qui gira da sola da un luogo all'altro).
+   «omini» (1 su N), «area» (assets/area.js, l'area che si espande), «gara» (assets/gara.js, che qui gira da sola da un luogo all'altro) e
+   «contatori» (due costi in euro che salgono insieme, mese per mese: la scheda «Quanto costa muoversi»).
    Con «riduci movimento» si vede subito la figura finale, con i numeri scritti. */
 (function(){
   "use strict";
@@ -53,7 +54,12 @@
       + ".anima .an-omini svg{width:26px;height:52px;fill:var(--omino);transition:fill .5s ease,opacity .45s ease,transform .45s ease}"
       + ".anima .an-omini svg.nascosto{opacity:0;transform:translateY(6px)}.anima .an-omini svg.acceso{fill:var(--vr-rosso)}"
       + ".anima.compatto .didascalia{font-size:13px;min-height:0}.anima.compatto .an-omini svg{width:20px;height:40px}"
-      + ".anima.compatto .an-fascia{font-size:13.5px}.anima.compatto .an-fascia b{font-size:19px}";
+      + ".anima.compatto .an-fascia{font-size:13.5px}.anima.compatto .an-fascia b{font-size:19px}"
+      + ".anima .an-cr{display:grid;grid-template-columns:minmax(76px,26%) 1fr 8ch;gap:8px;align-items:center;margin:0 0 8px}"
+      + ".anima .an-traccia{display:block;height:16px;border-radius:3px;background:var(--traccia);overflow:hidden}.anima .an-traccia i{display:block;height:100%;width:0;background:var(--vr-rosso)}"
+      + ".anima .an-traccia i.t-verde{background:var(--vr-verde)}"
+      + ".anima .an-eur{font:700 20px/1.1 var(--font-titoli);color:var(--accent);text-align:right;font-variant-numeric:tabular-nums}"
+      + ".anima.compatto .an-cr{margin:0 0 4px}.anima.compatto .an-eur{font-size:16px}";
     document.head.appendChild(s);
   }
 
@@ -163,6 +169,22 @@
     dopo(200 + tot * 160 + 600, el, function(){ for(var i = 0; i < n; i++) os[i].classList.add("acceso"); });
   }
 
+  /* ---------------- costi: due contatori in euro che salgono insieme, mese per mese; poi ricomincia ---------------- */
+  function contatori(el, a){
+    var righe = a.righe || [], mesi = Math.max(1, a.mesi || 12), max = 1;
+    righe.forEach(function(r){ max = Math.max(max, r.mese * mesi); });
+    el.innerHTML = '<div role="img" aria-label="' + esc(a.didascalia) + '"><p class="an-fascia"><b class="an-m">0</b><span>' + esc(a.etichetta || "") + '</span></p>'
+      + righe.map(function(r){ return '<div class="an-cr"><span class="an-testo">' + esc(r.label) + '</span><span class="an-traccia"><i class="t-' + esc(r.tono || "") + '"></i></span><b class="an-eur"></b></div>'; }).join("")
+      + '</div>' + (a.didascalia && !el.classList.contains("compatto") ? '<p class="didascalia">' + esc(a.didascalia) + '</p>' : "");
+    var barre = el.querySelectorAll(".an-traccia i"), euro = el.querySelectorAll(".an-eur"), m = el.querySelector(".an-m");
+    function disegna(v){
+      m.textContent = Math.round(v);
+      righe.forEach(function(r, i){ var e = r.mese * v; barre[i].style.width = (e / max * 100) + "%"; euro[i].textContent = "€ " + num(e); });
+    }
+    if(ridotto){ disegna(mesi); return; }
+    (function ciclo(){ scorri(el, 0, mesi, 5200, disegna, function(){ dopo(3200, el, ciclo); }); })();
+  }
+
   function gara(el, a, compatto){
     el.innerHTML = window.Gara ? Gara.html({luoghi: a.luoghi, scelto: a.scelto || 0, compatto: compatto, mini: compatto, giro: true}) : "";
     if(a.didascalia && !compatto) el.insertAdjacentHTML("beforeend", '<p class="didascalia">' + esc(a.didascalia) + '</p>');
@@ -174,7 +196,7 @@
     el.innerHTML = (window.Area ? Area.html({compatto: compatto}) : "") + (a.didascalia && !compatto ? '<p class="didascalia">' + esc(a.didascalia) + '</p>' : "");
   }
 
-  var TIPI = {cerchi: cerchi, quadratini: quadratini, fermate: fermate, omini: omini, area: area};
+  var TIPI = {cerchi: cerchi, quadratini: quadratini, fermate: fermate, omini: omini, area: area, contatori: contatori};
 
   function html(a, opz){
     if(!a || !a.tipo) return "";

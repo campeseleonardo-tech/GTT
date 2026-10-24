@@ -86,7 +86,7 @@ def _elenco(schede, lingua):
         f = s["forma_en"] if lingua == "en" and s.get("forma_en") else s["forma"]
         n = s["numero_pubblico"]
         grande = _grande(f, lingua)
-        righe.append(f"{n}. **{f['titolo']}**  \n   {f['domanda']} → **{grande}** {f['numero']['testo']}. [{'Open' if lingua == 'en' else 'Apri'}]({SITO}r/{n}.html)")
+        righe.append(f"{n}. **{f['titolo']}**  \n   {f['domanda']} → **{grande}** {f['numero']['testo'].rstrip('.')}. [{'Open' if lingua == 'en' else 'Apri'}]({SITO}r/{n}.html)")
     return "\n".join(righe)
 
 

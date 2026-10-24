@@ -262,7 +262,34 @@
   "il tempo dell'auto, coi mezzi pubblici": "the car's time, by public transport",
   "il tempo dell'auto coi mezzi pubblici, al mattino": "the car's time by public transport, in the morning",
   "residenti con pochi servizi e più difficoltà": "residents with few services and more difficulties",
-  "vive dove i servizi sono pochi e le difficoltà sociali alte": "lives where services are few and social difficulties high"
+  "vive dove i servizi sono pochi e le difficoltà sociali alte": "lives where services are few and social difficulties high",
+  "Tipo di dato: calcolato con prezzi pubblici di ottobre 2026 e con i tempi in auto di TomTom.": "Type of data: calculated from public prices of October 2026 and TomTom car times.",
+  "Quanto costa andare in centro in auto e quanto coi mezzi pubblici, oggi?": "How much does it cost to go to the centre by car and by public transport, today?",
+  "euro": "euros",
+  "in più al mese, in auto": "more a month, by car",
+  "Un mese di lavoro in centro, dai 12 punti prioritari: auto e mezzi pubblici": "A month of work in the centre, from the 12 priority points: car and public transport",
+  "La barra chiara è il costo pieno dell'auto. Il parcheggio in centro pesa più del carburante.": "The light bar is the full cost of the car. Parking in the centre weighs more than fuel.",
+  "Tempo contro soldi: minuti in più coi mezzi e euro risparmiati al mese": "Time against money: extra minutes by public transport and euros saved per month",
+  "posti che mancano": "missing spaces",
+  "minuti in più coi mezzi pubblici": "extra minutes by public transport",
+  "euro risparmiati al mese": "euros saved per month",
+  "Un punto per luogo, grande quanto i posti che mancano. Se i mezzi sono già più veloci dell'auto, i minuti in più valgono zero.": "One point per place, as large as the missing spaces. If public transport is already faster than the car, the extra minutes are zero.",
+  "Un mese di lavoro tra due zone di Torino, per distanza: auto e mezzi pubblici": "A month of work between two zones of Turin, by distance: car and public transport",
+  "Solo il carburante e il costo pieno, senza parcheggio: la barra chiara è il costo pieno dell'auto.": "Fuel and full cost only, without parking: the light bar is the full cost of the car.",
+  "Mediana dei 12 punti. Il costo pieno comprende anche assicurazione, usura e perdita di valore.": "Median of the 12 points. The full cost also includes insurance, wear and loss of value.",
+  "Auto, costo che si sente": "Car, the cost you feel",
+  "Auto, costo pieno": "Car, full cost",
+  "Mezzi pubblici, 2 biglietti": "Public transport, 2 tickets",
+  "Auto che si sente: chilometri × consumo urbano × prezzo del carburante, andata e ritorno, più il parcheggio. Auto piena: chilometri × costo ACI per chilometro, più il parcheggio.": "The car cost you feel: kilometres × urban consumption × fuel price, round trip, plus parking. The full car cost: kilometres × ACI cost per kilometre, plus parking.",
+  "Carburante: prezzi del giorno, non la media di 4 settimane. Una Golf di consumo medio, non la propria auto; abbonamenti ridotti e agevolazioni non considerati.": "Fuel: prices of the day, not a 4-week average. A Golf of average consumption, not your own car; reduced passes and concessions not considered.",
+  "Solo Torino: le tariffe a zone della cintura non sono assegnate alle zone dell'indagine.": "Turin only: the zoned fares of the surrounding towns are not assigned to the survey zones.",
+  "La zona a traffico limitato e gli abbonamenti alla sosta non sono nel calcolo. Per il centro vale la tariffa ordinaria.": "The limited traffic zone and parking passes are not in the calculation. The ordinary rate is used for the centre.",
+  "Carburante, self, prezzo del giorno": "Fuel, self-service, price of the day",
+  "Consumo in città": "Urban consumption",
+  "Costo pieno ACI": "Full ACI cost",
+  "Sosta in centro": "Parking in the centre",
+  "in più al mese per andare al lavoro in centro in auto": "more a month to go to work in the centre by car",
+  "mesi di lavoro": "months of work"
  },
  "modelli": [
   {
@@ -1032,6 +1059,102 @@
   {
    "it": "Prova sulla scelta del mezzo senza esito. Dalle 6 alle 10 di un feriale le coppie di zone con almeno {n0} interviste sono {n1}.",
    "en": "Test on the choice of transport inconclusive. Between 6 and 10 on a weekday, the pairs of zones with at least {n0} interviews number {n1}."
+  },
+  {
+   "it": "Per andare al lavoro in centro l'auto costa circa {n0} euro al mese più dei mezzi pubblici",
+   "en": "Going to work in the centre costs about {n0} euros a month more by car than by public transport"
+  },
+  {
+   "it": "in più al mese per andare al lavoro in centro in auto invece che coi mezzi pubblici. Col costo pieno dell'auto sono ~{n0} euro.",
+   "en": "more a month to go to work in the centre by car instead of by public transport. At the car's full cost it is ~{n0} euros."
+  },
+  {
+   "it": "Pesa il parcheggio: {n0} ore in centro costano {n1} euro al giorno, il carburante del viaggio ~{n2} euro.",
+   "en": "Parking weighs the most: {n0} hours in the centre cost {n1} euros a day, the fuel for the trip ~{n2} euros."
+  },
+  {
+   "it": "Coi mezzi pubblici si impiegano ~{n0} minuti in più, ma si risparmiano ~{n1} euro al mese.",
+   "en": "Public transport takes ~{n0} minutes longer, but saves ~{n1} euros a month."
+  },
+  {
+   "it": "Sotto {n0} km ({n1} coppie)",
+   "en": "Under {n0} km ({n1} pairs)"
+  },
+  {
+   "it": "Da {n0} a {n1} km ({n2} coppie)",
+   "en": "From {n0} to {n1} km ({n2} pairs)"
+  },
+  {
+   "it": "Oltre {n0} km ({n1} coppie)",
+   "en": "Over {n0} km ({n1} pairs)"
+  },
+  {
+   "it": "Una commissione in centro ({n0} ore di sosta): costo di andata e ritorno",
+   "en": "An errand in the centre ({n0} hours of parking): round-trip cost"
+  },
+  {
+   "it": "Lavoro: {n0} giorni al mese, {n1} ore di sosta a tariffa ordinaria ({n2} euro l'ora). Mezzi pubblici: abbonamento mensile urbano ({n3} euro).",
+   "en": "Work: {n0} days a month, {n1} hours of parking at the ordinary rate ({n2} euros an hour). Public transport: monthly urban pass ({n3} euros)."
+  },
+  {
+   "it": "Commissione: {n0} ore di sosta contro 2 biglietti urbani ({n1} euro l'uno).",
+   "en": "Errand: {n0} hours of parking against 2 urban tickets ({n1} euros each)."
+  },
+  {
+   "it": "Punti: i {n0} punti prioritari del risultato 3 verso Piazza Castello. Coppie: {n1} coppie di zone di Torino, senza parcheggio.",
+   "en": "Points: the {n0} priority points of result 3 towards Piazza Castello. Pairs: {n1} pairs of zones in Turin, without parking."
+  },
+  {
+   "it": "Chilometri: percorso più veloce sulla rete stradale, controllato con TomTom su {n0} percorsi. Minuti in più: dal confronto di tempi del risultato 4, alle 8.",
+   "en": "Kilometres: fastest route on the road network, checked with TomTom on {n0} routes. Extra minutes: from the time comparison of result 4, at 8."
+  },
+  {
+   "it": "Chilometri: su {n0} dei {n1} percorsi TomTom dà una lunghezza diversa di oltre il {n2}%. Pesa poco: il parcheggio vale la maggior parte del costo.",
+   "en": "Kilometres: on {n0} of the {n1} routes TomTom gives a length that differs by more than {n2}%. It matters little: parking is most of the cost."
+  },
+  {
+   "it": "In un anno di lavoro in centro: ~{n0} euro in auto, {n1} euro coi mezzi pubblici (costo che si sente).",
+   "en": "In a year of work in the centre: ~{n0} euros by car, {n1} euros by public transport (the cost you feel)."
+  },
+  {
+   "it": "{s0} ({n1} km)",
+   "en": "{s0} ({n1} km)"
+  },
+  {
+   "it": "{n0} ({n1} col costo pieno)",
+   "en": "{n0} ({n1} at full cost)"
+  },
+  {
+   "it": "Un mese di lavoro in centro costa ~{n0} euro in auto, {n1} con l'abbonamento. Col costo pieno dell'auto sono ~{n2} euro.",
+   "en": "A month of work in the centre costs ~{n0} euros by car, {n1} with the pass. At the car's full cost it is ~{n2} euros."
+  },
+  {
+   "it": "Prezzi del {n0}/{n1}/2026. Carburante: media self degli impianti entro 5 km da Piazza Castello (Osservatorio prezzi). Tariffe GTT e sosta dalle pagine ufficiali, costo ACI 2026 della Gazzetta Ufficiale.",
+   "en": "Prices of {n0}/{n1}/2026. Fuel: self-service average of the stations within 5 km of Piazza Castello (fuel price observatory). GTT fares and parking from the official pages, 2026 ACI cost from the Gazzetta Ufficiale."
+  },
+  {
+   "it": "Auto di riferimento: la stessa Golf da 115 CV, a benzina e a gasolio. Consumo in città: {n0} e {n1} litri ogni 100 km. Il costo è la media delle due.",
+   "en": "Reference cars: the same 115 hp Golf, petrol and diesel. Urban consumption: {n0} and {n1} litres per 100 km. The cost is the average of the two."
+  },
+  {
+   "it": "benzina {n0}, gasolio {n1} euro al litro",
+   "en": "petrol {n0}, diesel {n1} euros per litre"
+  },
+  {
+   "it": "benzina {n0}, gasolio {n1} litri ogni 100 km",
+   "en": "petrol {n0}, diesel {n1} litres per 100 km"
+  },
+  {
+   "it": "benzina {n0}, gasolio {n1} euro al km",
+   "en": "petrol {n0}, diesel {n1} euros per km"
+  },
+  {
+   "it": "biglietto {n0} euro, abbonamento mensile {n1} euro",
+   "en": "ticket {n0} euros, monthly pass {n1} euros"
+  },
+  {
+   "it": "{n0} euro l'ora, tariffa ordinaria",
+   "en": "{n0} euros an hour, ordinary rate"
   }
  ]
 }

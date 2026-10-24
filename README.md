@@ -26,7 +26,9 @@ Un Raspberry Pi di casa raccoglie ogni minuto la posizione di bus e tram e i sen
 4. **Al mattino, coi mezzi pubblici si impiega 1,9 volte il tempo dell'auto**  
    Al mattino, quanto ci si mette in più coi mezzi pubblici che in auto? → **1,9 volte** il tempo dell'auto, per un viaggio tipico del mattino. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/4.html)
 5. **Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi**  
-   Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta? → **79.598** residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. È 1,7 volte quanto ci si aspetterebbe per caso.. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
+   Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta? → **79.598** residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. È 1,7 volte quanto ci si aspetterebbe per caso. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
+6. **Per andare al lavoro in centro l'auto costa circa 270 euro al mese più dei mezzi pubblici**  
+   Quanto costa andare in centro in auto e quanto coi mezzi pubblici, oggi? → **269 euro** in più al mese per andare al lavoro in centro in auto invece che coi mezzi pubblici. Col costo pieno dell'auto sono ~366 euro. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/6.html)
 <!-- RISULTATI-IT:FINE -->
 
 Ogni numero porta la sua etichetta: **misurato** (sensori, GPS dei mezzi), **programmato** (orario ufficiale), **stimato** (calcolo mio su dati veri), **censimento**.
@@ -93,7 +95,9 @@ The site is in Italian and English (button IT/EN); the map is in Italian.
 4. **In the morning, public transport takes 1.9 times as long as the car**  
    In the morning, how much longer does it take by public transport than by car? → **1.9 times** the car's travel time, for a typical morning trip. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/4.html)
 5. **About 1 Turin resident in 10 lives in an area with more social difficulties and few services**  
-   Do people pay for services? And who lives where services are few and fragility is high? → **79,598** residents in zones with more social difficulty and few services: 9.5% of residents of inhabited zones. That is 1.7 times what you would expect by chance.. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
+   Do people pay for services? And who lives where services are few and fragility is high? → **79,598** residents in zones with more social difficulty and few services: 9.5% of residents of inhabited zones. That is 1.7 times what you would expect by chance. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
+6. **Going to work in the centre costs about 270 euros a month more by car than by public transport**  
+   How much does it cost to go to the centre by car and by public transport, today? → **269 euros** more a month to go to work in the centre by car instead of by public transport. At the car's full cost it is ~366 euros. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/6.html)
 <!-- RISULTATI-EN:FINE -->
 
 Every number carries a label: **measured** (sensors, vehicle GPS), **scheduled** (official timetable), **estimated** (my calculation on real data), **census**.
