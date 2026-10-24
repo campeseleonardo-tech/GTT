@@ -210,6 +210,8 @@ In testa al loro prompt in `PROMPT_LAVORI.md`, Leo o Claude aggiungono:
 
 ### L15-L18 — CLOUD, una sessione: schede con meno rumore, animazioni da sole, home da scorrere, toro della mappa
 
+**FATTO (24/10, `ESITO_L15-18.md`)**: L15, L16, L17 e L18 fatti nella stessa sessione, con `prova_design` in `prova_pagine.py` (`--solo-design`). Il testo qui sotto resta come riferimento.
+
 Come risparmiare token (vale per tutto il giro):
 - **Da leggere:** `sviluppo/AGENTS.md`, la memoria e questa sezione. Gli ESITO solo se serve un fatto preciso. Niente ANALISI_CRITICA, PROMPT_LAVORI, ESITO_C*.
 - **File grandi:** `mappa_torino.html` (6 MB) non si apre mai: si cerca con grep il blocco `id="caricamento"`. `scripts/mappa_template.html` (~2.500 righe): solo i pezzi trovati con grep (`caricamento`, `car-testo`, `"fine"`). I file degli script delle schede e degli asset si leggono interi una sola volta.

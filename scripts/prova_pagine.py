@@ -292,6 +292,7 @@ def prova_link_mappa(br, cartella):
 
 # ---------------------------------------------------------------- prova_design (giri L15-L18): controlli nel DOM, solo con Playwright
 # le etichette (STIMATO, MISURATO, ...) si cercano solo in maiuscolo: «sezioni di censimento» e «misurato» in una frase sono parole normali
+PESO_MAPPA_MAX = 5_906_557 + 54_637   # byte: peso di mappa_torino.html dopo L11 piu' il toro del caricamento (L18)
 VIETATE_IT = (re.compile(r"STIMAT|MISURAT|PROGRAMMAT|CENSIMENTO"), re.compile(r"\bstim[ae]\b|\bstimat|sensor[ei]|più favorevole all'auto|\bpunta\b|\bnoi\b|\bnostr\w*|\babbiamo\b|Limite:", re.I))
 VIETATE_EN = (re.compile(r"ESTIMATED|MEASURED|SCHEDULED|CENSUS"), re.compile(r"\bwe\b|\bour\b|peak|sensor|Limit:|\bestimate", re.I))
 
@@ -513,12 +514,61 @@ def design_l17(br, cartella):
     return errori
 
 
+def design_l18(br, cartella):
+    """L18: il toro nel caricamento della mappa. #caricamento ha i tracciati del toro e non il contorno di Torino; resta visibile almeno 2 secondi
+    dall'apertura; con «riduci movimento» il toro e' fermo e intero e sparisce appena la mappa e' pronta; la mappa non pesa piu' del limite."""
+    errori = []
+    pagina = cartella / "mappa_torino.html"
+    if not pagina.exists():
+        print("  L18: non provata (manca mappa_torino.html)")
+        return []
+    peso = pagina.stat().st_size
+    if peso > PESO_MAPPA_MAX:
+        errori.append(f"mappa_torino.html pesa {peso:,} byte, oltre il limite {PESO_MAPPA_MAX:,} (5.906.557 di L11 più il toro): semplificare i tracciati")
+    JS_FINE = """() => { window.__fine = null; const guarda = () => { const c = document.getElementById('caricamento');
+        if (!c) { if (window.__fine === null) window.__fine = performance.now(); return; }
+        new MutationObserver(() => { if (c.classList.contains('fine') && window.__fine === null) window.__fine = performance.now(); }).observe(c, {attributes: true}); };
+      new MutationObserver((m, o) => { if (document.getElementById('caricamento')) { o.disconnect(); guarda(); } }).observe(document, {childList: true, subtree: true}); }"""
+    for ridotto in (False, True):
+        ctx = br.br.new_context(viewport={"width": DESKTOP[0], "height": DESKTOP[1]}, reduced_motion="reduce" if ridotto else "no-preference")
+        page = ctx.new_page()
+        nome = "mappa, caricamento" + (" (riduci movimento)" if ridotto else "")
+        try:
+            page.add_init_script("(" + JS_FINE + ")()")
+            page.goto(f"http://127.0.0.1:{PORTA}/mappa_torino.html", wait_until="commit", timeout=60000)
+            page.wait_for_selector("#caricamento", state="attached", timeout=20000)
+            r = page.evaluate("""() => { const c = document.getElementById('caricamento'), s = c.querySelector('svg'), p = c.querySelector('path');
+                const st = getComputedStyle(p);
+                return {paths: c.querySelectorAll('path').length, vb: s.getAttribute('viewBox'), testo: c.querySelector('.car-testo').textContent,
+                        anim: st.animationName, dash: st.strokeDashoffset, riempi: st.fillOpacity}; }""")
+            if r["paths"] < 20 or r["vb"] != "0 0 600 1001":
+                errori.append(f"{nome}: non c'è il toro ({r['paths']} tracciati, viewBox {r['vb']})")
+            if r["testo"] != "Caricamento della mappa…":
+                errori.append(f"{nome}: testo «{r['testo']}»")
+            if ridotto and (r["anim"] != "none" or float(r["riempi"]) != 1):
+                errori.append(f"{nome}: il toro non è fermo e intero (animazione {r['anim']}, riempimento {r['riempi']})")
+            page.wait_for_timeout(5000)
+            fine = page.evaluate("window.__fine")
+            if fine is None:
+                errori.append(f"{nome}: il caricamento non sparisce")
+            elif not ridotto and fine < 1950:
+                errori.append(f"{nome}: sparito dopo {fine:.0f} ms, meno dei 2 secondi dall'apertura")
+            if "M879 130l-33" in page.content():
+                errori.append(f"{nome}: c'è ancora il contorno di Torino")
+        except Exception as e:
+            errori.append(f"{nome}: {str(e)[:200]}")
+        finally:
+            ctx.close()
+    print(f"  L18 (toro nel caricamento: tracciati, almeno 2 secondi, riduci movimento, peso {peso:,} byte): {'OK' if not errori else 'ERRORE'}")
+    return errori
+
+
 def prova_design(br, cartella):
     """Controlli di design dei giri L15-L18 (DOM). Solo con Playwright e con data/schede_risultati.js."""
     if not isinstance(br, BrowserPlaywright) or not (cartella / "data" / "schede_risultati.js").exists():
         print("  prova_design: non provata (serve Playwright e data/schede_risultati.js)")
         return []
-    return design_l15(br, cartella) + design_l16(br, cartella) + design_l17(br, cartella)
+    return design_l15(br, cartella) + design_l16(br, cartella) + design_l17(br, cartella) + design_l18(br, cartella)
 
 
 ANTEPRIME = RADICE / "assets" / "anteprime"
