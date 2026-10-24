@@ -89,7 +89,7 @@
       return base + '<g class="gv ' + c.k + '" data-min="' + c.min + '" transform="translate(' + VIA + ' ' + (y + 2) + ')">' + c.forma + '</g>' + tx;
     }).join("");
     var esito = l.giudizio ? '<text class="gara-esito" x="' + VIA + '" y="' + (H - 8) + '" style="font-size:14px;fill:var(--ink,#1b2433);' + (statico ? "" : "opacity:0") + '">' + esc(l.giudizio.charAt(0).toUpperCase() + l.giudizio.slice(1)) + '</text>' : "";
-    return '<svg viewBox="0 0 480 ' + H + '" role="img" aria-label="' + esc(t.parlatoGiro(l)) + '">'
+    return '<svg viewBox="0 0 480 ' + H + '" role="img" aria-label="' + esc(t.parlato(l)) + '">'
       + '<line class="gara-arrivo" x1="' + (FINE + 2) + '" x2="' + (FINE + 2) + '" y1="28" y2="' + (H - 30) + '"/>'
       + '<text x="' + VIA + '" y="20" class="gara-da" style="font-size:17px">' + esc(nomeT) + (nomeT !== l.nome ? '<title>' + esc(l.nome) + '</title>' : "") + '</text>'
       + '<text x="' + (FINE + 2) + '" y="20" text-anchor="end" style="font-size:13px">' + esc(arrivoT) + (arrivoT !== arrivo ? '<title>' + esc(arrivo) + '</title>' : "") + '</text>'
