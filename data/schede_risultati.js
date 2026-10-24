@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-24T00:23:37+00:00",
+  "generato": "2026-10-24T00:30:16+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1358,7 +1358,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-24T00:23:37+00:00",
+  "generato": "2026-10-24T00:30:16+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-22: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -2610,7 +2610,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-24T00:23:37+00:00",
+  "generato": "2026-10-24T00:30:16+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2912,7 +2912,7 @@ window.SCHEDE_RISULTATI = [
       {
        "label": "Fermi",
        "valore": 31,
-       "testo": "31 contro 37 in auto · non misurato"
+       "testo": "31 contro 37 in auto · riempimento non noto"
       },
       {
        "label": "Sofia",
@@ -4786,7 +4786,7 @@ window.SCHEDE_RISULTATI = [
    },
    "punti": [
     "68 important stops have no car park nearby, 111 have too few.",
-    "The first of the 12 entry points where spaces are needed is Santa Rita: about 450 are missing.",
+    "The first of the 12 entry points where spaces are needed is Santa Rita: ~450 are missing.",
     "In 8 points out of 12, once the car is left, the bus reaches the centre in at most 1.5 times the car's time."
    ],
    "altri": [
@@ -4958,7 +4958,7 @@ window.SCHEDE_RISULTATI = [
       {
        "label": "Fermi",
        "valore": 31,
-       "testo": "31 against 37 by car · not measured"
+       "testo": "31 against 37 by car · occupancy unknown"
       },
       {
        "label": "Sofia",
@@ -7123,7 +7123,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-24T00:23:38+00:00",
+  "generato": "2026-10-24T00:30:16+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -7169,100 +7169,56 @@ window.SCHEDE_RISULTATI = [
   "forma": {
    "tipo_dato": "Tipo di dato: calcolato da dati veri, con tempi in auto di TomTom, misure dei sensori e orari ufficiali dei mezzi.",
    "titolo": "Al mattino, coi mezzi pubblici si impiega 1,9 volte il tempo dell'auto",
-   "domanda": "Per quali spostamenti l'auto è molto più veloce dei mezzi pubblici, e quante auto li fanno?",
+   "domanda": "Al mattino, quanto ci si mette in più coi mezzi pubblici che in auto?",
    "numero": {
     "valore": "1,9",
     "unita": "volte",
-    "testo": "il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino. Sono il 47% delle auto del mattino (220.307): mancano i viaggi dentro una zona e fra comuni della cintura. Con i sensori, la stima più favorevole all'auto, 2,9."
+    "testo": "il tempo dell'auto, per un viaggio tipico del mattino"
    },
    "principale": {
-    "tipo": "barre_gruppi",
-    "titolo": "Auto del mattino per rapporto fra tempo coi mezzi pubblici e tempo in auto",
+    "tipo": "barre",
+    "titolo": "Auto del mattino, per quante volte i mezzi pubblici impiegano più dell'auto",
     "unita": "%",
     "max": 100,
-    "nota": "Rapporto 2 = coi mezzi pubblici si impiega il doppio che in auto. Coppie Torino-Torino e Torino-cintura. Stima principale: tempo in auto previsto da TomTom; accanto la stima più favorevole all'auto (sensori 5T).",
-    "gruppi": [
+    "nota": "Ogni barra è una fascia: coi mezzi pubblici si impiega quel multiplo del tempo in auto (TomTom). Coppie Torino-Torino e Torino-cintura.",
+    "voci": [
      {
-      "label": "sotto 1,5",
-      "voci": [
-       {
-        "label": "stima TomTom",
-        "valore": 12.9,
-        "tono": "verde",
-        "testo": "12,9% (28.510 auto)"
-       },
-       {
-        "label": "stima più favorevole all'auto (sensori 5T)",
-        "valore": 0.0,
-        "tono": "verde",
-        "testo": "0% (0 auto)"
-       }
-      ]
+      "label": "meno di 1,5 volte",
+      "valore": 13,
+      "tono": "verde",
+      "testo": "13% (28.510 auto)"
      },
      {
-      "label": "1,5-2",
-      "voci": [
-       {
-        "label": "stima TomTom",
-        "valore": 51.7,
-        "tono": "giallo",
-        "testo": "51,7% (113.791 auto)"
-       },
-       {
-        "label": "stima più favorevole all'auto (sensori 5T)",
-        "valore": 3.0,
-        "tono": "giallo",
-        "testo": "3% (6.661 auto)"
-       }
-      ]
+      "label": "da 1,5 a 2 volte",
+      "valore": 52,
+      "tono": "giallo",
+      "testo": "52% (113.791 auto)"
      },
      {
-      "label": "2-3",
-      "voci": [
-       {
-        "label": "stima TomTom",
-        "valore": 33.5,
-        "tono": "arancio",
-        "testo": "33,5% (73.728 auto)"
-       },
-       {
-        "label": "stima più favorevole all'auto (sensori 5T)",
-        "valore": 52.2,
-        "tono": "arancio",
-        "testo": "52,2% (115.033 auto)"
-       }
-      ]
+      "label": "da 2 a 3 volte",
+      "valore": 33,
+      "tono": "arancio",
+      "testo": "33% (73.728 auto)"
      },
      {
-      "label": "oltre 3",
-      "voci": [
-       {
-        "label": "stima TomTom",
-        "valore": 1.9,
-        "tono": "rosso",
-        "testo": "1,9% (4.278 auto)"
-       },
-       {
-        "label": "stima più favorevole all'auto (sensori 5T)",
-        "valore": 44.8,
-        "tono": "rosso",
-        "testo": "44,8% (98.612 auto)"
-       }
-      ]
+      "label": "oltre 3 volte",
+      "valore": 2,
+      "tono": "rosso",
+      "testo": "2% (4.278 auto)"
      }
     ]
    },
    "punti": [
-    "Con TomTom il 35% delle auto ha rapporto oltre 2; con i sensori il 97%.",
-    "Nel giorno il rapporto mediano va da 1,9 a 2,3 (TomTom) e da 2,9 a 3,3 (sensori).",
-    "Google conferma i tempi coi mezzi pubblici sui percorsi di controllo: 31 contro 30-35 e 33 contro 30-35 minuti."
+    "Per il ~35% delle auto del mattino i mezzi pubblici impiegano più del doppio.",
+    "Nelle 4 ore del giorno il tempo coi mezzi va da 1,9 a 2,3 volte quello dell'auto.",
+    "Un tragitto frequente tipico: Barriera di Milano → Falchera, ~24 minuti coi mezzi contro ~12 in auto."
    ],
    "altri": [
     {
      "tipo": "linea",
      "titolo": "Quante volte il tempo dell'auto, ora per ora",
      "unita": "volte",
-     "nota": "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. Due linee: stima TomTom (a ogni ora) e stima più favorevole all'auto (sensori 5T).",
+     "nota": "Rapporto fra il tempo coi mezzi e il tempo in auto (TomTom), pesato per le auto del mattino, alle 4 ore del giorno.",
      "categorie": [
       "8:00",
       "13:00",
@@ -7271,21 +7227,12 @@ window.SCHEDE_RISULTATI = [
      ],
      "serie": [
       {
-       "label": "stima TomTom",
+       "label": "rapporto",
        "valori": [
-        1.85,
+        1.9,
         2.1,
-        1.92,
+        1.9,
         2.3
-       ]
-      },
-      {
-       "label": "sensori 5T, la più favorevole all'auto",
-       "valori": [
-        2.94,
-        3.1,
-        3.02,
-        3.32
        ]
       }
      ]
@@ -7300,7 +7247,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 20.6,
        "auto_min": 15.8,
        "auto_max": 15.8,
-       "giudizio": "coi mezzi 1,3 volte il tempo dell'auto (2,2 con la stima dei sensori)"
+       "giudizio": "coi mezzi 1,3 volte il tempo dell'auto"
       },
       {
        "nome": "San Paolo",
@@ -7308,7 +7255,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.3,
        "auto_min": 16.2,
        "auto_max": 16.2,
-       "giudizio": "coi mezzi 1,9 volte il tempo dell'auto (2,8 con la stima dei sensori)"
+       "giudizio": "coi mezzi 1,9 volte il tempo dell'auto"
       },
       {
        "nome": "Mirafiori Nord",
@@ -7316,7 +7263,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 19.2,
        "auto_min": 15.4,
        "auto_max": 15.4,
-       "giudizio": "coi mezzi 1,2 volte il tempo dell'auto (2,3 con la stima dei sensori)"
+       "giudizio": "coi mezzi 1,2 volte il tempo dell'auto"
       },
       {
        "nome": "Parella",
@@ -7324,7 +7271,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.7,
        "auto_min": 16.0,
        "auto_max": 16.0,
-       "giudizio": "coi mezzi 1,5 volte il tempo dell'auto (2 con la stima dei sensori)"
+       "giudizio": "coi mezzi 1,5 volte il tempo dell'auto"
       },
       {
        "nome": "San Donato",
@@ -7332,7 +7279,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 18.7,
        "auto_min": 12.2,
        "auto_max": 12.2,
-       "giudizio": "coi mezzi 1,5 volte il tempo dell'auto (2,1 con la stima dei sensori)"
+       "giudizio": "coi mezzi 1,5 volte il tempo dell'auto"
       },
       {
        "nome": "Barriera di Milano",
@@ -7340,16 +7287,16 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.0,
        "auto_min": 11.7,
        "auto_max": 11.7,
-       "giudizio": "coi mezzi 2 volte il tempo dell'auto (2,5 con la stima dei sensori)"
+       "giudizio": "coi mezzi 2 volte il tempo dell'auto"
       }
      ],
      "scelto": 0,
-     "nota": "I 6 viaggi in auto più frequenti, alle 8 di un feriale, partendo da zone diverse: bus e auto partono insieme."
+     "nota": "Bus e auto partono insieme, uno dopo l'altro, per i 6 viaggi in auto più frequenti del mattino. L'auto ha il tempo previsto da TomTom, parcheggio compreso."
     },
     {
      "tipo": "dispersione",
      "titolo": "Tempo in auto e tempo coi mezzi pubblici, una coppia di zone per punto",
-     "xlabel": "minuti in auto (ora di punta, stima TomTom)",
+     "xlabel": "minuti in auto (mattino, TomTom)",
      "ylabel": "minuti coi mezzi pubblici",
      "punti": [
       [
@@ -10363,85 +10310,85 @@ window.SCHEDE_RISULTATI = [
        "label": "il doppio"
       }
      ],
-     "nota": "Ogni punto è una coppia di zone, grande quanto le auto del mattino. Sono le 600 coppie con più auto (83,2% delle auto). Sopra una linea il mezzo pubblico impiega più di quel multiplo dell'auto."
+     "nota": "Ogni punto è una coppia di zone, grande quanto le auto del mattino; sopra una linea i mezzi pubblici impiegano più di quel multiplo del tempo in auto."
     },
     {
      "tipo": "barre",
-     "titolo": "Le 12 coppie con più auto dove i mezzi pubblici impiegano più del doppio",
+     "titolo": "I tragitti dove coi mezzi pubblici si impiega più del doppio dell'auto",
      "unita": "auto",
-     "nota": "Solo coppie con almeno 30 interviste. Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.",
+     "nota": "Ogni barra è il numero di auto del mattino su quel tragitto. A destra i minuti coi mezzi contro quelli in auto.",
      "voci": [
       {
        "label": "Barriera di Milano → Falchera",
        "valore": 1208,
        "tono": "rosso",
-       "testo": "1.208 auto: 24 contro 12 min"
+       "testo": "24 contro 12 min · 1.208 auto"
       },
       {
        "label": "Pozzo Strada → Grugliasco",
        "valore": 929,
        "tono": "rosso",
-       "testo": "929 auto: 34 contro 13 min"
+       "testo": "34 contro 13 min · 929 auto"
       },
       {
        "label": "Falchera → Barriera di Milano",
        "valore": 890,
        "tono": "rosso",
-       "testo": "890 auto: 24 contro 10 min"
+       "testo": "24 contro 10 min · 890 auto"
       },
       {
        "label": "Parella → San Paolo",
        "valore": 763,
        "tono": "rosso",
-       "testo": "763 auto: 30 contro 15 min"
+       "testo": "30 contro 15 min · 763 auto"
       },
       {
        "label": "Parella → Cenisia",
        "valore": 715,
        "tono": "rosso",
-       "testo": "715 auto: 18 contro 8 min"
+       "testo": "18 contro 8 min · 715 auto"
       },
       {
        "label": "Grugliasco → Pozzo Strada",
        "valore": 714,
        "tono": "rosso",
-       "testo": "714 auto: 35 contro 14 min"
+       "testo": "35 contro 14 min · 714 auto"
       },
       {
        "label": "Mirafiori Nord → Grugliasco",
        "valore": 583,
        "tono": "rosso",
-       "testo": "583 auto: 34 contro 16 min"
+       "testo": "34 contro 16 min · 583 auto"
       },
       {
        "label": "Parella → Madonna di Campagna",
        "valore": 540,
        "tono": "rosso",
-       "testo": "540 auto: 31 contro 15 min"
+       "testo": "31 contro 15 min · 540 auto"
       },
       {
        "label": "Vanchiglia → Madonna Del Pilone",
        "valore": 369,
        "tono": "rosso",
-       "testo": "369 auto: 37 contro 18 min"
+       "testo": "37 contro 18 min · 369 auto"
       },
       {
        "label": "Grugliasco → Mirafiori Nord",
        "valore": 348,
        "tono": "rosso",
-       "testo": "348 auto: 37 contro 15 min"
+       "testo": "37 contro 15 min · 348 auto"
       },
       {
        "label": "Cenisia → Parella",
        "valore": 260,
        "tono": "rosso",
-       "testo": "260 auto: 18 contro 9 min"
+       "testo": "18 contro 9 min · 260 auto"
       },
       {
        "label": "Borgata Vittoria → Aurora",
        "valore": 177,
        "tono": "rosso",
-       "testo": "177 auto: 30 contro 14 min"
+       "testo": "30 contro 14 min · 177 auto"
       }
      ]
     }
@@ -10450,8 +10397,11 @@ window.SCHEDE_RISULTATI = [
     "Le zone sono quelle dell'indagine sugli spostamenti 2022 con punti di calcolo; ognuna ha fino a 5 punti.",
     "Mezzi pubblici: a piedi, bus, tram e metro, con partenza fra le 7:45 e le 8:15. Si prende la mediana.",
     "Auto: tempo a flusso libero per il fattore TomTom della coppia, più 5 minuti. Le coppie non chieste a TomTom prendono la mediana della loro fascia. Dati di traffico: TomTom.",
-    "Rapporto = tempo coi mezzi diviso tempo in auto. Le fasce sono fisse.",
-    "Le auto di una coppia sono i viaggi in auto dell'indagine, in partenza dalle 6 alle 10 di un feriale."
+    "Con i sensori del traffico la stima è più favorevole all'auto: fattore 1,2, senza semafori e incroci. Il rapporto mediano diventa 2,9 e il 97% delle auto ha rapporto oltre 2.",
+    "Rapporto = tempo coi mezzi diviso tempo in auto, in fasce fisse. Le auto di una coppia sono i viaggi in auto dell'indagine, dalle 6 alle 10 di un feriale.",
+    "Il numero grande vale per il 47% delle auto del mattino (220.307). Mancano i viaggi dentro una zona e fra comuni della cintura.",
+    "Su percorsi noti Google conferma i tempi coi mezzi: 31 contro 30-35 e 33 contro 30-35 minuti.",
+    "Il grafico a punti mostra le 600 coppie con più auto (83,2% delle auto). L'elenco dei tragitti usa solo coppie con almeno 30 interviste."
    ],
    "criteri": [
     [
@@ -10482,7 +10432,7 @@ window.SCHEDE_RISULTATI = [
    "limiti": [
     "Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero. Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.",
     "La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
-    "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Usiamo un solo servizio.",
+    "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Si usa un solo servizio.",
     "L'indagine è un campione. I viaggi dentro una zona e 653 coppie senza collegamento (5.616 auto) non sono nel confronto."
    ],
    "mappa": {
@@ -10491,106 +10441,62 @@ window.SCHEDE_RISULTATI = [
    },
    "anima": {
     "tipo": "area",
-    "didascalia": "Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. Da Piazza Castello in 30 minuti si raggiunge il 42,2% dei torinesi coi mezzi pubblici e il 90,1% in auto con la stima di TomTom, parcheggio compreso (100% con la stima più favorevole all'auto, dei sensori 5T)."
+    "didascalia": "Da Piazza Castello, alle 7:45 di un feriale. In 30 minuti si raggiungono ~42% dei torinesi coi mezzi pubblici e ~90% in auto (TomTom, parcheggio compreso)."
    }
   },
   "forma_en": {
    "tipo_dato": "Type of data: calculated from real data, with car times from TomTom, sensor measurements and the official timetables of the vehicles.",
    "titolo": "In the morning, public transport takes 1.9 times as long as the car",
-   "domanda": "For which trips is the car much faster than public transport, and how many cars make them?",
+   "domanda": "In the morning, how much longer does it take by public transport than by car?",
    "numero": {
     "valore": "1.9",
     "unita": "times",
-    "testo": "the car's time: TomTom median ratio, weighted by morning cars. They are 47% of morning cars (220,307): trips within a zone and between belt towns are missing. With the sensors, the estimate most favourable to the car, 2.9."
+    "testo": "the car's travel time, for a typical morning trip"
    },
    "principale": {
-    "tipo": "barre_gruppi",
-    "titolo": "Morning cars by ratio of public transport time to car time",
+    "tipo": "barre",
+    "titolo": "Morning cars, by how many times public transport takes longer than the car",
     "unita": "%",
     "max": 100,
-    "nota": "Ratio 2 = public transport takes twice as long as the car. Turin-Turin and Turin-belt pairs. Main estimate: car time forecast by TomTom; next to it the estimate most favourable to the car (5T sensors).",
-    "gruppi": [
+    "nota": "Each bar is a band: public transport takes that multiple of the car's travel time (TomTom). Turin-Turin and Turin-belt pairs.",
+    "voci": [
      {
-      "label": "under 1.5",
-      "voci": [
-       {
-        "label": "TomTom estimate",
-        "valore": 12.9,
-        "tono": "verde",
-        "testo": "12.9% (28,510 cars)"
-       },
-       {
-        "label": "estimate most favourable to the car (5T sensors)",
-        "valore": 0.0,
-        "tono": "verde",
-        "testo": "0% (0 cars)"
-       }
-      ]
+      "label": "less than 1.5 times",
+      "valore": 13,
+      "tono": "verde",
+      "testo": "13% (28,510 cars)"
      },
      {
-      "label": "1.5-2",
-      "voci": [
-       {
-        "label": "TomTom estimate",
-        "valore": 51.7,
-        "tono": "giallo",
-        "testo": "51.7% (113,791 cars)"
-       },
-       {
-        "label": "estimate most favourable to the car (5T sensors)",
-        "valore": 3.0,
-        "tono": "giallo",
-        "testo": "3% (6,661 cars)"
-       }
-      ]
+      "label": "1.5 to 2 times",
+      "valore": 52,
+      "tono": "giallo",
+      "testo": "52% (113,791 cars)"
      },
      {
-      "label": "2-3",
-      "voci": [
-       {
-        "label": "TomTom estimate",
-        "valore": 33.5,
-        "tono": "arancio",
-        "testo": "33.5% (73,728 cars)"
-       },
-       {
-        "label": "estimate most favourable to the car (5T sensors)",
-        "valore": 52.2,
-        "tono": "arancio",
-        "testo": "52.2% (115,033 cars)"
-       }
-      ]
+      "label": "2 to 3 times",
+      "valore": 33,
+      "tono": "arancio",
+      "testo": "33% (73,728 cars)"
      },
      {
-      "label": "over 3",
-      "voci": [
-       {
-        "label": "TomTom estimate",
-        "valore": 1.9,
-        "tono": "rosso",
-        "testo": "1.9% (4,278 cars)"
-       },
-       {
-        "label": "estimate most favourable to the car (5T sensors)",
-        "valore": 44.8,
-        "tono": "rosso",
-        "testo": "44.8% (98,612 cars)"
-       }
-      ]
+      "label": "more than 3 times",
+      "valore": 2,
+      "tono": "rosso",
+      "testo": "2% (4,278 cars)"
      }
     ]
    },
    "punti": [
-    "With TomTom 35% of cars have a ratio above 2; with the sensors 97%.",
-    "During the day the median ratio goes from 1.9 to 2.3 (TomTom) and from 2.9 to 3.3 (sensors).",
-    "Google confirms the public transport times on the check routes: 31 versus 30-35 and 33 versus 30-35 minutes."
+    "For ~35% of morning cars, public transport takes more than twice as long.",
+    "Across the 4 times of the day, public transport time goes from 1.9 to 2.3 times the car's.",
+    "A typical frequent trip: Barriera di Milano → Falchera, ~24 minutes by public transport against ~12 by car."
    ],
    "altri": [
     {
      "tipo": "linea",
      "titolo": "How many times the car time, hour by hour",
      "unita": "times",
-     "nota": "Median ratio between public transport time and car time, weighted by morning cars, at 4 hours of the day. Two lines: TomTom estimate (at every hour) and estimate most favourable to the car (5T sensors).",
+     "nota": "Ratio between public transport time and car time (TomTom), weighted by morning cars, at 4 times of the day.",
      "categorie": [
       "8:00",
       "13:00",
@@ -10599,21 +10505,12 @@ window.SCHEDE_RISULTATI = [
      ],
      "serie": [
       {
-       "label": "TomTom estimate",
+       "label": "ratio",
        "valori": [
-        1.85,
+        1.9,
         2.1,
-        1.92,
+        1.9,
         2.3
-       ]
-      },
-      {
-       "label": "5T sensors, the most favourable to the car",
-       "valori": [
-        2.94,
-        3.1,
-        3.02,
-        3.32
        ]
       }
      ]
@@ -10628,7 +10525,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 20.6,
        "auto_min": 15.8,
        "auto_max": 15.8,
-       "giudizio": "by public transport 1.3 times the car's time (2.2 with the sensor estimate)"
+       "giudizio": "by public transport 1.3 times the car's time"
       },
       {
        "nome": "San Paolo",
@@ -10636,7 +10533,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.3,
        "auto_min": 16.2,
        "auto_max": 16.2,
-       "giudizio": "by public transport 1.9 times the car's time (2.8 with the sensor estimate)"
+       "giudizio": "by public transport 1.9 times the car's time"
       },
       {
        "nome": "Mirafiori Nord",
@@ -10644,7 +10541,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 19.2,
        "auto_min": 15.4,
        "auto_max": 15.4,
-       "giudizio": "by public transport 1.2 times the car's time (2.3 with the sensor estimate)"
+       "giudizio": "by public transport 1.2 times the car's time"
       },
       {
        "nome": "Parella",
@@ -10652,7 +10549,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.7,
        "auto_min": 16.0,
        "auto_max": 16.0,
-       "giudizio": "by public transport 1.5 times the car's time (2 with the sensor estimate)"
+       "giudizio": "by public transport 1.5 times the car's time"
       },
       {
        "nome": "San Donato",
@@ -10660,7 +10557,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 18.7,
        "auto_min": 12.2,
        "auto_max": 12.2,
-       "giudizio": "by public transport 1.5 times the car's time (2.1 with the sensor estimate)"
+       "giudizio": "by public transport 1.5 times the car's time"
       },
       {
        "nome": "Barriera di Milano",
@@ -10668,16 +10565,16 @@ window.SCHEDE_RISULTATI = [
        "bus": 24.0,
        "auto_min": 11.7,
        "auto_max": 11.7,
-       "giudizio": "by public transport 2 times the car's time (2.5 with the sensor estimate)"
+       "giudizio": "by public transport 2 times the car's time"
       }
      ],
      "scelto": 0,
-     "nota": "The 6 most frequent car trips, at 8 a.m. on a weekday, starting from different zones: bus and car leave together."
+     "nota": "Bus and car leave together, one trip after the other, for the 6 most frequent morning car trips. The car has the time forecast by TomTom, parking included."
     },
     {
      "tipo": "dispersione",
      "titolo": "Car time and public transport time, one pair of zones per point",
-     "xlabel": "minutes by car (rush hour, TomTom estimate)",
+     "xlabel": "minutes by car (morning, TomTom)",
      "ylabel": "minutes by public transport",
      "punti": [
       [
@@ -13691,85 +13588,85 @@ window.SCHEDE_RISULTATI = [
        "label": "twice as long"
       }
      ],
-     "nota": "Each point is a pair of zones, sized by morning cars. These are the 600 pairs with the most cars (83.2% of cars). Above a line, public transport takes more than that multiple of the car's time."
+     "nota": "Each point is a pair of zones, sized by the morning cars; above a line public transport takes more than that multiple of the car's time."
     },
     {
      "tipo": "barre",
-     "titolo": "The 12 pairs with the most cars where public transport takes more than twice as long",
+     "titolo": "Trips where public transport takes more than twice as long as the car",
      "unita": "cars",
-     "nota": "Only pairs with at least 30 interviews. Morning cars on that pair (6 to 10, weekday), with the TomTom estimate. On the right, minutes by public transport versus by car.",
+     "nota": "Each bar is the number of morning cars on that trip. On the right, minutes by public transport against minutes by car.",
      "voci": [
       {
        "label": "Barriera di Milano → Falchera",
        "valore": 1208,
        "tono": "rosso",
-       "testo": "1,208 cars: 24 versus 12 min"
+       "testo": "24 against 12 min · 1,208 cars"
       },
       {
        "label": "Pozzo Strada → Grugliasco",
        "valore": 929,
        "tono": "rosso",
-       "testo": "929 cars: 34 versus 13 min"
+       "testo": "34 against 13 min · 929 cars"
       },
       {
        "label": "Falchera → Barriera di Milano",
        "valore": 890,
        "tono": "rosso",
-       "testo": "890 cars: 24 versus 10 min"
+       "testo": "24 against 10 min · 890 cars"
       },
       {
        "label": "Parella → San Paolo",
        "valore": 763,
        "tono": "rosso",
-       "testo": "763 cars: 30 versus 15 min"
+       "testo": "30 against 15 min · 763 cars"
       },
       {
        "label": "Parella → Cenisia",
        "valore": 715,
        "tono": "rosso",
-       "testo": "715 cars: 18 versus 8 min"
+       "testo": "18 against 8 min · 715 cars"
       },
       {
        "label": "Grugliasco → Pozzo Strada",
        "valore": 714,
        "tono": "rosso",
-       "testo": "714 cars: 35 versus 14 min"
+       "testo": "35 against 14 min · 714 cars"
       },
       {
        "label": "Mirafiori Nord → Grugliasco",
        "valore": 583,
        "tono": "rosso",
-       "testo": "583 cars: 34 versus 16 min"
+       "testo": "34 against 16 min · 583 cars"
       },
       {
        "label": "Parella → Madonna di Campagna",
        "valore": 540,
        "tono": "rosso",
-       "testo": "540 cars: 31 versus 15 min"
+       "testo": "31 against 15 min · 540 cars"
       },
       {
        "label": "Vanchiglia → Madonna Del Pilone",
        "valore": 369,
        "tono": "rosso",
-       "testo": "369 cars: 37 versus 18 min"
+       "testo": "37 against 18 min · 369 cars"
       },
       {
        "label": "Grugliasco → Mirafiori Nord",
        "valore": 348,
        "tono": "rosso",
-       "testo": "348 cars: 37 versus 15 min"
+       "testo": "37 against 15 min · 348 cars"
       },
       {
        "label": "Cenisia → Parella",
        "valore": 260,
        "tono": "rosso",
-       "testo": "260 cars: 18 versus 9 min"
+       "testo": "18 against 9 min · 260 cars"
       },
       {
        "label": "Borgata Vittoria → Aurora",
        "valore": 177,
        "tono": "rosso",
-       "testo": "177 cars: 30 versus 14 min"
+       "testo": "30 against 14 min · 177 cars"
       }
      ]
     }
@@ -13778,8 +13675,11 @@ window.SCHEDE_RISULTATI = [
     "Zones are those of the 2022 travel survey, with calculation points; each has up to 5 points.",
     "Public transport: on foot, bus, tram and metro, departing between 7:45 and 8:15. We take the median.",
     "Car: free-flow time times the TomTom factor of the pair, plus 5 minutes. Pairs not asked to TomTom take the median of their band. Traffic data: TomTom.",
-    "Ratio = public transport time divided by car time. The bands are fixed.",
-    "The cars of a pair are the survey's car trips, departing between 6 and 10 a.m. on a weekday."
+    "With the traffic sensors the estimate is more favourable to the car: factor 1.2, without traffic lights and junctions. The median ratio becomes 2.9 and 97% of cars have a ratio above 2.",
+    "Ratio = public transport time divided by car time, in fixed bands. The cars of a pair are the survey's car trips, leaving between 6 and 10 a.m. on a weekday.",
+    "The big number holds for 47% of morning cars (220,307). Trips within a single zone and between towns of the belt are missing.",
+    "On known routes Google confirms the public transport times: 31 against 30-35 and 33 against 30-35 minutes.",
+    "The scatter chart shows the 600 pairs with the most cars (83.2% of cars). The list of trips uses only pairs with at least 30 interviews."
    ],
    "criteri": [
     [
@@ -13810,7 +13710,7 @@ window.SCHEDE_RISULTATI = [
    "limiti": [
     "Outside Turin, trains and other operators are missing: pairs between suburban towns are not in the number. Without metropolitan trains, where they exist, public transport looks slower than it is. The timetable is the scheduled one.",
     "The sensor estimate ignores traffic lights and junctions: it is the most favourable to the car.",
-    "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. We use a single service.",
+    "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. A single service is used.",
     "The survey is a sample. Trips within a zone and 653 pairs with no connection (5,616 cars) are not in the comparison."
    ],
    "mappa": {
@@ -13819,7 +13719,7 @@ window.SCHEDE_RISULTATI = [
    },
    "anima": {
     "tipo": "area",
-    "didascalia": "At 7:45 on a weekday, from Piazza Castello or from a zone of Turin. For Piazza Castello each square is a census section. From Piazza Castello in 30 minutes you reach 42.2% of residents by public transport and 90.1% by car with the TomTom estimate, parking included (100% with the estimate most favourable to the car, from the 5T sensors)."
+    "didascalia": "From Piazza Castello, at 7:45 a.m. on a weekday. In 30 minutes you reach ~42% of Turin residents by public transport and ~90% by car (TomTom, parking included)."
    }
   },
   "numero_pubblico": 4,
@@ -13852,7 +13752,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-24T00:23:38+00:00",
+  "generato": "2026-10-24T00:30:16+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],

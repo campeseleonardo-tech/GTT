@@ -2,7 +2,7 @@
 import json
 import re
 from schede import comune
-from schede.comune import forma_base, leggi, migliaia, nome_pulito, num, ora, periodo_it, virgola, voce
+from schede.comune import circa, forma_base, leggi, migliaia, nome_pulito, num, ora, periodo_it, virgola, voce
 
 
 
@@ -199,9 +199,8 @@ def area_tempi_js():
         + json.dumps(dati, separators=(",", ":")) + ";\n", encoding="utf-8")
     q = a["quote_residenti"]
     return {"tipo": "area", "titolo": "L'area che si espande: dove si arriva in 10, 20, 30 e 45 minuti",
-            "nota": f"Alle 7:45 di un feriale, da Piazza Castello o da una zona di Torino. Per Piazza Castello ogni quadratino è una sezione di censimento. "
-                    f"Da Piazza Castello in 30 minuti si raggiunge il {virgola(q['mezzi']['30'])}% dei torinesi coi mezzi pubblici e il {virgola(q['auto_basso']['30'])}% "
-                    f"in auto con la stima di TomTom, parcheggio compreso ({virgola(q['auto_alto']['30'])}% con la stima più favorevole all'auto, dei sensori 5T)."}
+            "nota": f"Da Piazza Castello, alle 7:45 di un feriale. In 30 minuti si raggiungono {circa(q['mezzi']['30'], '%')} dei torinesi coi mezzi pubblici "
+                    f"e {circa(q['auto_basso']['30'], '%')} in auto (TomTom, parcheggio compreso)."}
 
 
 SOGLIA_INTERVISTE = 30   # L9: una coppia si nomina in pagina solo con almeno 30 interviste (SOGLIA_N dello script 14; l'elenco filtrato lo scrive lo script 93)
@@ -216,32 +215,29 @@ def forma_r8(s):
     lo, hi = ab["limite_basso"], ab["limite_alto"]            # lo = stima TomTom (principale, rapporto piu' basso), hi = sensori 5T (la piu' favorevole all'auto)
     x = virgola(round(ti["mediano_basso"], 1))               # numero grande e titolo: rapporto mediano TomTom alle 8, una cifra decimale (blocco L8)
     f_lo, f_hi = virgola(lo["fattore"]), virgola(hi["fattore"])
-    q_lo, q_hi = virgola(round(100 * ti["quota_oltre_2_basso"])), virgola(round(100 * ti["quota_oltre_2_alto"]))
+    q_hi = virgola(round(100 * ti["quota_oltre_2_alto"]))
     coppie_ab = [p for p in t["coppie"] if p["gruppo"] in ("a", "b")]
     ordinate = sorted(coppie_ab, key=lambda p: -p["auto"])[:600]
     quota_punti = 100 * sum(p["auto"] for p in ordinate) / max(1, sum(p["auto"] for p in coppie_ab))
     f1, f2, f3 = par["fasce"]
-    nomi_fasce = [f"sotto {virgola(f1)}", f"{virgola(f1)}-{virgola(f2)}", f"{virgola(f2)}-{virgola(f3)}", f"oltre {virgola(f3)}"]
+    nomi_fasce = [f"meno di {virgola(f1)} volte", f"da {virgola(f1)} a {virgola(f2)} volte", f"da {virgola(f2)} a {virgola(f3)} volte", f"oltre {virgola(f3)} volte"]
     toni = ["verde", "giallo", "arancio", "rosso"]
-    principale = {"tipo": "barre_gruppi", "titolo": "Auto del mattino per rapporto fra tempo coi mezzi pubblici e tempo in auto", "unita": "%", "max": 100,
-                  "nota": "Rapporto 2 = coi mezzi pubblici si impiega il doppio che in auto. Coppie Torino-Torino e Torino-cintura. "
-                          "Stima principale: tempo in auto previsto da TomTom; accanto la stima più favorevole all'auto (sensori 5T).",
-                  "gruppi": [{"label": n, "voci": [
-                      {"label": "stima TomTom", "valore": round(a["pct"], 1), "tono": tn, "testo": f"{virgola(round(a['pct'], 1))}% ({migliaia(a['auto'])} auto)"},
-                      {"label": "stima più favorevole all'auto (sensori 5T)", "valore": round(b["pct"], 1), "tono": tn, "testo": f"{virgola(round(b['pct'], 1))}% ({migliaia(b['auto'])} auto)"}]}
-                      for n, a, b, tn in zip(nomi_fasce, lo["fasce"], hi["fasce"], toni)]}
+    principale = {"tipo": "barre", "titolo": "Auto del mattino, per quante volte i mezzi pubblici impiegano più dell'auto", "unita": "%", "max": 100,
+                  "nota": "Ogni barra è una fascia: coi mezzi pubblici si impiega quel multiplo del tempo in auto (TomTom). Coppie Torino-Torino e Torino-cintura.",
+                  "voci": [{"label": n, "valore": round(a["pct"]), "tono": tn, "testo": f"{round(a['pct'])}% ({migliaia(a['auto'])} auto)"}
+                           for n, a, tn in zip(nomi_fasce, lo["fasce"], toni)]}
     disp = {"tipo": "dispersione", "titolo": "Tempo in auto e tempo coi mezzi pubblici, una coppia di zone per punto",
-            "xlabel": "minuti in auto (ora di punta, stima TomTom)", "ylabel": "minuti coi mezzi pubblici",
+            "xlabel": "minuti in auto (mattino, TomTom)", "ylabel": "minuti coi mezzi pubblici",
             "punti": [[p["auto_punta_basso_min"], p["tp_min"], p["auto"]] for p in ordinate],
             "linee": [{"k": f1, "label": f"{virgola(f1)} volte"}, {"k": f2, "label": "il doppio"}],
-            "nota": f"Ogni punto è una coppia di zone, grande quanto le auto del mattino. Sono le {len(ordinate)} coppie con più auto "
-                    f"({virgola(quota_punti)}% delle auto). Sopra una linea il mezzo pubblico impiega più di quel multiplo dell'auto."}
+            "nota": "Ogni punto è una coppia di zone, grande quanto le auto del mattino; sopra una linea i mezzi pubblici impiegano più di quel multiplo del tempo in auto."}
     peggiori = t["peggiori"]
-    pare = {"tipo": "barre", "titolo": f"Le {len(t['peggiori'])} coppie con più auto dove i mezzi pubblici impiegano più del doppio", "unita": "auto",
-            "nota": "Solo coppie con almeno 30 interviste. Auto del mattino su quella coppia (dalle 6 alle 10, giorno feriale), con la stima di TomTom. A destra i minuti coi mezzi contro quelli in auto.",
+    pare = {"tipo": "barre", "titolo": "I tragitti dove coi mezzi pubblici si impiega più del doppio dell'auto", "unita": "auto",
+            "nota": "Ogni barra è il numero di auto del mattino su quel tragitto. A destra i minuti coi mezzi contro quelli in auto.",
             "voci": [{"label": f"{p['da_nome'].replace('Torino, ', '')} → {p['a_nome'].replace('Torino, ', '')}", "valore": p["auto"], "tono": "rosso",
-                      "testo": f"{migliaia(p['auto'])} auto: {round(p['tp_min'])} contro {round(p['auto_punta_basso_min'])} min"} for p in peggiori]}
+                      "testo": f"{round(p['tp_min'])} contro {round(p['auto_punta_basso_min'])} min · {migliaia(p['auto'])} auto"} for p in peggiori]}
     p3 = peggiori[:3]
+    p1 = peggiori[0]
     conferme = [n for n in t["noti"] if n["google_mezzi_min"]]
     txt_conf = " e ".join(f"{round(n['tp_min'])} contro {n['google_mezzi_min'][0]}-{n['google_mezzi_min'][1]}" for n in conferme)
     # gara (Leo, 23/10; 24/10: sempre alle 8, cambia solo il luogo): viaggi tipici del mattino fra zone, le coppie con più auto, una partenza diversa per corsa
@@ -257,12 +253,12 @@ def forma_r8(s):
         viste.add(p["da"])
         v = {"nome": corto(p["da"]), "arrivo": corto(p["a"]), "bus": p["tp_min"],
              "auto_min": p["auto_punta_basso_min"], "auto_max": p["auto_punta_basso_min"],       # un'auto sola: TomTom
-             "giudizio": f"coi mezzi {virgola(round(p['rapporto_basso'], 1))} volte il tempo dell'auto ({virgola(round(p['rapporto'], 1))} con la stima dei sensori)"}
+             "giudizio": f"coi mezzi {virgola(round(p['rapporto_basso'], 1))} volte il tempo dell'auto"}
         viaggi.append(v)
         if len(viaggi) == 6:
             break
     gara = {"tipo": "gara", "titolo": "I viaggi in auto più frequenti del mattino: bus contro auto", "luoghi": viaggi, "scelto": 0,
-            "nota": f"I {len(viaggi)} viaggi in auto più frequenti, alle 8 di un feriale, partendo da zone diverse: bus e auto partono insieme."}
+            "nota": f"Bus e auto partono insieme, uno dopo l'altro, per i {len(viaggi)} viaggi in auto più frequenti del mattino. L'auto ha il tempo previsto da TomTom, parcheggio compreso."}
     # regola del titolo (fissata prima dei numeri, blocco L3): se a tutte le ore il rapporto mediano resta entro ±0,3 da quello delle 8, con tutti e due i fattori,
     # il titolo dice «a ogni ora del giorno»; altrimenti resta «al mattino» e un punto chiave dice come cambia durante il giorno
     ore_linea, tutto_il_giorno, punto_giorno = None, False, None
@@ -270,14 +266,12 @@ def forma_r8(s):
         o8 = od["ore"][0]["ab"]
         scarto = max(abs(o["ab"]["limite_basso"]["mediano"] - o8["limite_basso"]["mediano"]) for o in od["ore"])      # L8: regola ±0,3 sulla sola stima TomTom
         tutto_il_giorno = scarto <= 0.3 + 1e-9
-        bassi, alti = [o["ab"]["limite_basso"]["mediano"] for o in od["ore"]], [o["ab"]["limite_alto"]["mediano"] for o in od["ore"]]
-        punto_giorno = (f"Nel giorno il rapporto mediano va da {virgola(round(min(bassi), 1))} a {virgola(round(max(bassi), 1))} (TomTom) "
-                        f"e da {virgola(round(min(alti), 1))} a {virgola(round(max(alti), 1))} (sensori).")
+        bassi = [o["ab"]["limite_basso"]["mediano"] for o in od["ore"]]
+        punto_giorno = f"Nelle 4 ore del giorno il tempo coi mezzi va da {virgola(round(min(bassi), 1))} a {virgola(round(max(bassi), 1))} volte quello dell'auto."
         ore_linea = {"tipo": "linea", "titolo": "Quante volte il tempo dell'auto, ora per ora", "unita": "volte",
-                     "nota": "Rapporto mediano fra tempo coi mezzi e tempo in auto, pesato per le auto del mattino, alle 4 ore del giorno. "
-                             "Due linee: stima TomTom (a ogni ora) e stima più favorevole all'auto (sensori 5T).",
+                     "nota": "Rapporto fra il tempo coi mezzi e il tempo in auto (TomTom), pesato per le auto del mattino, alle 4 ore del giorno.",
                      "categorie": [o["label"] for o in od["ore"]],
-                     "serie": [{"label": "stima TomTom", "valori": [round(v, 2) for v in bassi]}, {"label": "sensori 5T, la più favorevole all'auto", "valori": [round(v, 2) for v in alti]}]}
+                     "serie": [{"label": "rapporto", "valori": [round(v, 1) for v in bassi]}]}
     area = area_tempi_js()
     anima = {"tipo": "area", "didascalia": area["nota"]} if area else None   # l'animazione principale della scheda (e della home): l'area che si espande
     senza_ab = ab["senza_collegamento"]
@@ -291,24 +285,30 @@ def forma_r8(s):
         s,
         (f"A ogni ora del giorno, coi mezzi pubblici si impiega {x} volte il tempo dell'auto" if tutto_il_giorno
          else f"Al mattino, coi mezzi pubblici si impiega {x} volte il tempo dell'auto"),
-        "Per quali spostamenti l'auto è molto più veloce dei mezzi pubblici, e quante auto li fanno?",
-        {"valore": x, "unita": "volte",
-         "testo": f"il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino. Sono il {round(100 * ti['auto_collegate'] / t['totale_auto_zone'])}% delle auto del mattino ({migliaia(ti['auto_collegate'])}): mancano i viaggi dentro una zona e fra comuni della cintura. Con i sensori, la stima più favorevole all'auto, {virgola(round(ti['mediano_alto'], 1))}."},
+        "Al mattino, quanto ci si mette in più coi mezzi pubblici che in auto?",
+        {"valore": x, "unita": "volte", "testo": "il tempo dell'auto, per un viaggio tipico del mattino"},
         principale,
-        [f"Con TomTom il {q_lo}% delle auto ha rapporto oltre 2; con i sensori il {q_hi}%.",
-         (punto_giorno if (punto_giorno and not tutto_il_giorno)
+        [f"Per il {circa(100 * ti['quota_oltre_2_basso'], '%')} delle auto del mattino i mezzi pubblici impiegano più del doppio.",
+         (punto_giorno if punto_giorno
           else "Le 3 coppie peggiori: " + " · ".join(f"{p['da_nome'].replace('Torino, ', '')} → {p['a_nome'].replace('Torino, ', '')}" for p in p3) + "."),
-         f"Google conferma i tempi coi mezzi pubblici sui percorsi di controllo: {txt_conf} minuti."],
+         f"Un tragitto frequente tipico: {p1['da_nome'].replace('Torino, ', '')} → {p1['a_nome'].replace('Torino, ', '')}, "
+         f"{circa(p1['tp_min'], ' minuti')} coi mezzi contro {circa(p1['auto_punta_basso_min'])} in auto."],
         ([ore_linea] if ore_linea else []) + [gara, disp, pare],
         ["Le zone sono quelle dell'indagine sugli spostamenti 2022 con punti di calcolo; ognuna ha fino a 5 punti.",
          "Mezzi pubblici: a piedi, bus, tram e metro, con partenza fra le 7:45 e le 8:15. Si prende la mediana.",
          "Auto: tempo a flusso libero per il fattore TomTom della coppia, più 5 minuti. Le coppie non chieste a TomTom prendono la mediana della loro fascia. Dati di traffico: TomTom.",
-         "Rapporto = tempo coi mezzi diviso tempo in auto. Le fasce sono fisse.",
-         "Le auto di una coppia sono i viaggi in auto dell'indagine, in partenza dalle 6 alle 10 di un feriale."],
+         f"Con i sensori del traffico la stima è più favorevole all'auto: fattore {f_hi}, senza semafori e incroci. "
+         f"Il rapporto mediano diventa {virgola(round(ti['mediano_alto'], 1))} e il {q_hi}% delle auto ha rapporto oltre 2.",
+         "Rapporto = tempo coi mezzi diviso tempo in auto, in fasce fisse. Le auto di una coppia sono i viaggi in auto dell'indagine, dalle 6 alle 10 di un feriale.",
+         f"Il numero grande vale per il {round(100 * ti['auto_collegate'] / t['totale_auto_zone'])}% delle auto del mattino ({migliaia(ti['auto_collegate'])}). "
+         "Mancano i viaggi dentro una zona e fra comuni della cintura.",
+         f"Su percorsi noti Google conferma i tempi coi mezzi: {txt_conf} minuti.",
+         f"Il grafico a punti mostra le {len(ordinate)} coppie con più auto ({virgola(quota_punti)}% delle auto). "
+         f"L'elenco dei tragitti usa solo coppie con almeno {SOGLIA_INTERVISTE} interviste."],
         par_crit,
         ["Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero. Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.",
          "La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
-         "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Usiamo un solo servizio.",
+         "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Si usa un solo servizio.",
          f"L'indagine è un campione. I viaggi dentro una zona e {migliaia(senza_ab['coppie'])} coppie senza collegamento ({migliaia(senza_ab['auto'])} auto) non sono nel confronto."],
         ["Question: for which trips is the car much faster than public transport, and how many cars make them?",
          f"Answer: in the morning public transport takes {ti['mediano_basso']:.1f} times as long as the car (weighted median, TomTom estimate; {ti['mediano_alto']:.1f} with the 5T sensors, the estimate most favourable to the car). "

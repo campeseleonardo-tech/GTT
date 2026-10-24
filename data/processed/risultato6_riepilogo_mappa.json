@@ -551,7 +551,7 @@
     "scripts/84_risultato6_parcheggi.py",
     "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-24T00:23:37+00:00",
+  "generato": "2026-10-24T00:30:16+00:00",
   "avviso": [
     "Come leggere i tag. ",
     "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -853,7 +853,7 @@
           {
             "label": "Fermi",
             "valore": 31,
-            "testo": "31 contro 37 in auto · non misurato"
+            "testo": "31 contro 37 in auto · riempimento non noto"
           },
           {
             "label": "Sofia",
@@ -2727,7 +2727,7 @@
     },
     "punti": [
       "68 important stops have no car park nearby, 111 have too few.",
-      "The first of the 12 entry points where spaces are needed is Santa Rita: about 450 are missing.",
+      "The first of the 12 entry points where spaces are needed is Santa Rita: ~450 are missing.",
       "In 8 points out of 12, once the car is left, the bus reaches the centre in at most 1.5 times the car's time."
     ],
     "altri": [
@@ -2899,7 +2899,7 @@
           {
             "label": "Fermi",
             "valore": 31,
-            "testo": "31 against 37 by car · not measured"
+            "testo": "31 against 37 by car · occupancy unknown"
           },
           {
             "label": "Sofia",

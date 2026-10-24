@@ -237,7 +237,24 @@
   "La gara: bus e auto verso Piazza Castello, alle 8 di un feriale": "The race: bus and car to Piazza Castello, at 8 a.m. on a weekday",
   "Bus e auto partono insieme da ogni parcheggio, uno dopo l'altro. L'auto ha il tempo previsto da TomTom, parcheggio compreso.": "Bus and car leave together from each car park, one after the other. The car has the time forecast by TomTom, parking included.",
   "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra il tempo in auto, parcheggio compreso (TomTom), e quanto è pieno il parcheggio di giorno.": "Bar = minutes by public transport to Piazza Castello at 8 a.m. On the right, the car time with parking included (TomTom), and how full the car park is during the day.",
-  "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Si usa un solo servizio.": "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. A single service is used."
+  "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Si usa un solo servizio.": "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. A single service is used.",
+  "Al mattino, quanto ci si mette in più coi mezzi pubblici che in auto?": "In the morning, how much longer does it take by public transport than by car?",
+  "il tempo dell'auto, per un viaggio tipico del mattino": "the car's travel time, for a typical morning trip",
+  "Auto del mattino, per quante volte i mezzi pubblici impiegano più dell'auto": "Morning cars, by how many times public transport takes longer than the car",
+  "Ogni barra è una fascia: coi mezzi pubblici si impiega quel multiplo del tempo in auto (TomTom). Coppie Torino-Torino e Torino-cintura.": "Each bar is a band: public transport takes that multiple of the car's travel time (TomTom). Turin-Turin and Turin-belt pairs.",
+  "meno di 1,5 volte": "less than 1.5 times",
+  "da 1,5 a 2 volte": "1.5 to 2 times",
+  "da 2 a 3 volte": "2 to 3 times",
+  "oltre 3 volte": "more than 3 times",
+  "Rapporto fra il tempo coi mezzi e il tempo in auto (TomTom), pesato per le auto del mattino, alle 4 ore del giorno.": "Ratio between public transport time and car time (TomTom), weighted by morning cars, at 4 times of the day.",
+  "rapporto": "ratio",
+  "Bus e auto partono insieme, uno dopo l'altro, per i 6 viaggi in auto più frequenti del mattino. L'auto ha il tempo previsto da TomTom, parcheggio compreso.": "Bus and car leave together, one trip after the other, for the 6 most frequent morning car trips. The car has the time forecast by TomTom, parking included.",
+  "minuti in auto (mattino, TomTom)": "minutes by car (morning, TomTom)",
+  "Ogni punto è una coppia di zone, grande quanto le auto del mattino; sopra una linea i mezzi pubblici impiegano più di quel multiplo del tempo in auto.": "Each point is a pair of zones, sized by the morning cars; above a line public transport takes more than that multiple of the car's time.",
+  "I tragitti dove coi mezzi pubblici si impiega più del doppio dell'auto": "Trips where public transport takes more than twice as long as the car",
+  "Ogni barra è il numero di auto del mattino su quel tragitto. A destra i minuti coi mezzi contro quelli in auto.": "Each bar is the number of morning cars on that trip. On the right, minutes by public transport against minutes by car.",
+  "Rapporto = tempo coi mezzi diviso tempo in auto, in fasce fisse. Le auto di una coppia sono i viaggi in auto dell'indagine, dalle 6 alle 10 di un feriale.": "Ratio = public transport time divided by car time, in fixed bands. The cars of a pair are the survey's car trips, leaving between 6 and 10 a.m. on a weekday.",
+  "riempimento non noto": "occupancy unknown"
  },
  "modelli": [
   {
@@ -959,6 +976,46 @@
   {
    "it": "Con la stima dei sensori del traffico, più favorevole all'auto (fattore {n0}), il pareggio sale a {n1} minuti.",
    "en": "With the traffic-sensor estimate, more favourable to the car (factor {n0}), the break-even rises to {n1} minutes."
+  },
+  {
+   "it": "Per il ~{n0}% delle auto del mattino i mezzi pubblici impiegano più del doppio.",
+   "en": "For ~{n0}% of morning cars, public transport takes more than twice as long."
+  },
+  {
+   "it": "Nelle 4 ore del giorno il tempo coi mezzi va da {n0} a {n1} volte quello dell'auto.",
+   "en": "Across the 4 times of the day, public transport time goes from {n0} to {n1} times the car's."
+  },
+  {
+   "it": "Un tragitto frequente tipico: {s0}, ~{n1} minuti coi mezzi contro ~{n2} in auto.",
+   "en": "A typical frequent trip: {s0}, ~{n1} minutes by public transport against ~{n2} by car."
+  },
+  {
+   "it": "coi mezzi {n0} volte il tempo dell'auto",
+   "en": "by public transport {n0} times the car's time"
+  },
+  {
+   "it": "{n0} contro {n1} min · {n2} auto",
+   "en": "{n0} against {n1} min · {n2} cars"
+  },
+  {
+   "it": "Con i sensori del traffico la stima è più favorevole all'auto: fattore {n0}, senza semafori e incroci. Il rapporto mediano diventa {n1} e il {n2}% delle auto ha rapporto oltre 2.",
+   "en": "With the traffic sensors the estimate is more favourable to the car: factor {n0}, without traffic lights and junctions. The median ratio becomes {n1} and {n2}% of cars have a ratio above 2."
+  },
+  {
+   "it": "Il numero grande vale per il {n0}% delle auto del mattino ({n1}). Mancano i viaggi dentro una zona e fra comuni della cintura.",
+   "en": "The big number holds for {n0}% of morning cars ({n1}). Trips within a single zone and between towns of the belt are missing."
+  },
+  {
+   "it": "Su percorsi noti Google conferma i tempi coi mezzi: {n0} contro {n1}-{n2} e {n3} contro {n4}-{n5} minuti.",
+   "en": "On known routes Google confirms the public transport times: {n0} against {n1}-{n2} and {n3} against {n4}-{n5} minutes."
+  },
+  {
+   "it": "Il grafico a punti mostra le {n0} coppie con più auto ({n1}% delle auto). L'elenco dei tragitti usa solo coppie con almeno {n2} interviste.",
+   "en": "The scatter chart shows the {n0} pairs with the most cars ({n1}% of cars). The list of trips uses only pairs with at least {n2} interviews."
+  },
+  {
+   "it": "Da Piazza Castello, alle 7:45 di un feriale. In 30 minuti si raggiungono ~{n0}% dei torinesi coi mezzi pubblici e ~{n1}% in auto (TomTom, parcheggio compreso).",
+   "en": "From Piazza Castello, at 7:45 a.m. on a weekday. In 30 minutes you reach ~{n0}% of Turin residents by public transport and ~{n1}% by car (TomTom, parking included)."
   }
  ]
 }

@@ -1,14 +1,14 @@
-/* Gara bus contro auto: un bus e un'auto partono insieme da un punto e corrono verso Piazza Castello.
-   La durata e' proporzionale ai minuti veri (1 minuto vero = 0,15 secondi). L'auto ha una forbice: due auto, una col fattore
-   di punta dei sensori (veloce) e una col fattore del servizio di percorsi, TomTom (lenta, chiara). Nessun numero e' scritto qui: tutto arriva dai dati.
+/* Gara bus contro auto: un bus e un'auto partono insieme da un luogo e corrono verso l'arrivo (di solito Piazza Castello).
+   La durata e' proporzionale ai minuti veri (1 minuto vero = 0,15 secondi). Nessun numero e' scritto qui: tutto arriva dai dati.
 
-   Un luogo puo' avere anche «ore»: [{ora: "8:00", bus, auto_min, auto_max, giudizio}, ...]: la gara le corre una dopo l'altra (l'ora e' scritta sopra la corsa
-   e nella frase per il lettore di schermo); con «mini» e con «riduci movimento» si vede solo la prima.
+   Due modi, stesso componente:
+   - «giro» (schede dei risultati): nessun comando. Le corse vanno da sole una dopo l'altra, col nome del luogo sopra (nome lungo: «...», nome intero nel title),
+     un'auto sola (auto_min: TomTom, parcheggio compreso); all'arrivo i minuti e il distacco. Con «riduci movimento» tutte le corse ferme, una sotto l'altra.
+   - normale (pannello della mappa, compatto): una corsa, con la forbice fra due auto (auto_min e auto_max) e il pulsante «Riparti».
 
-   Uso (scheda dei risultati e pannello della mappa, stesso componente):
-     contenitore.innerHTML = Gara.html({luoghi: [{nome, gruppo, bus, auto_min, auto_max, giudizio}], scelto: 0, compatto: false});
-   Il disegno parte da solo quando il contenitore compare nella pagina (MutationObserver), quindi basta inserire l'html.
-   Con «riduci movimento» al posto della corsa ci sono barre ferme con i minuti. */
+   Uso:
+     contenitore.innerHTML = Gara.html({luoghi: [{nome, gruppo, arrivo, bus, auto_min, auto_max, giudizio}], giro: true});
+   Il disegno parte da solo quando il contenitore compare nella pagina (MutationObserver), quindi basta inserire l'html. */
 (function(){
   "use strict";
   var SEC_PER_MIN = 0.15, VIA = 8, FINE = 396, LARG_VEICOLO = 40;
@@ -18,11 +18,13 @@
   var TESTI = {
     it: {punto: "Punto", centro: "Piazza Castello", bus: "Bus", auto: "Auto, stima TomTom", autoLenta: "Auto, stima TomTom", autoVeloce: "Auto, stima sensori", autoLentaOra: "Auto, stima TomTom", autoVeloceOra: "Auto, stima sensori",
          min: "min", riparti: "Riparti", scegli: "Punto di partenza", prioritari: "Punti prioritari", interscambi: "Interscambi esistenti",
-         da: "Da", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + (l.ora ? " alle " + l.ora : "") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? n(l.auto_min) + " o " + n(l.auto_max) + " (due stime)" : n(l.auto_min) + " (stima TomTom)") + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
+         da: "Da", autoSola: "Auto", parlato: function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + (l.ora ? " alle " + l.ora : "") + ": bus " + n(l.bus) + " minuti; auto " + (forbice(l) ? n(l.auto_min) + " o " + n(l.auto_max) + " (due stime)" : n(l.auto_min) + " (stima TomTom)") + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); }},
     en: {punto: "Start", centro: "Piazza Castello", bus: "Bus", auto: "Car, TomTom estimate", autoLenta: "Car, TomTom estimate", autoVeloce: "Car, sensor estimate", autoLentaOra: "Car, TomTom estimate", autoVeloceOra: "Car, sensor estimate",
          min: "min", riparti: "Replay", scegli: "Starting point", prioritari: "Priority points", interscambi: "Existing park-and-ride",
-         da: "From", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + (l.ora ? " at " + l.ora : "") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " or " + n(l.auto_max) + " (two estimates)" : n(l.auto_min) + " (TomTom estimate)") + " minutes, parking included."; }}
+         da: "From", autoSola: "Car", parlato: function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + (l.ora ? " at " + l.ora : "") + ": bus " + n(l.bus) + " minutes; car " + (forbice(l) ? n(l.auto_min) + " or " + n(l.auto_max) + " (two estimates)" : n(l.auto_min) + " (TomTom estimate)") + " minutes, parking included."; }}
   };
+  TESTI.it.parlatoGiro = function(l){ return "Da " + l.nome + " a " + (l.arrivo || "Piazza Castello") + ": bus " + n(l.bus) + " minuti, auto " + n(l.auto_min) + " minuti, parcheggio compreso." + (l.giudizio ? " " + l.giudizio + "." : ""); };
+  TESTI.en.parlatoGiro = function(l){ return "From " + l.nome + " to " + (l.arrivo || "Piazza Castello") + ": bus " + n(l.bus) + " minutes, car " + n(l.auto_min) + " minutes, parking included." + (l.giudizio ? " " + l.giudizio + "." : ""); };
   function lingua(){ return (document.documentElement.lang || "it").slice(0, 2) === "en" ? "en" : "it"; }
   function T(){ return TESTI[lingua()]; }
   function n(v){ return window.Sito && Sito.formattaNumero ? Sito.formattaNumero(Math.round(v)) : String(Math.round(v)); }
@@ -62,13 +64,8 @@
     return v;
   }
 
-  function disegna(el, dati, i, fine, k){
-    var l0 = dati.luoghi[i], k0 = k || 0, ore = (!dati.mini && !ridotto && l0.ore && l0.ore.length > 1) ? l0.ore : null;
-    var l = l0;
-    if(l0.ore && l0.ore.length){   // un'ora alla volta: i campi dell'ora coprono quelli del luogo
-      l = {}; Object.keys(l0).forEach(function(q){ l[q] = l0[q]; });
-      var o = l0.ore[Math.min(k0, l0.ore.length - 1)]; Object.keys(o).forEach(function(q){ l[q] = o[q]; });
-    }
+  function disegna(el, dati, i) {
+    var l = dati.luoghi[i];
     var t = T(), cs = corsie(l), H = 20 + cs.length * 36;
     var maxMin = Math.max.apply(null, cs.map(function(c){ return c.min; })), minMin = Math.min.apply(null, cs.map(function(c){ return c.min; }));
     var distacco = Math.round(maxMin) - Math.round(minMin);      // scritto all'arrivo, accanto al mezzo piu' lento
@@ -85,7 +82,7 @@
         + '<text class="gara-min" x="' + (FINE + 8) + '" y="' + (y + 16) + '">' + n(c.min) + ' ' + t.min + scia + '</text>';
     }).join("");
     // le due scritte in alto (partenza a sinistra, arrivo a destra) non devono toccarsi: stima 0,6 x corpo x caratteri
-    var testoDa = t.da + " " + l.nome + (l.ora && l0.ore.length > 1 ? " · " + l.ora : ""), arrivoTesto = l.arrivo || t.centro;
+    var testoDa = t.da + " " + l.nome, arrivoTesto = l.arrivo || t.centro;
     var stimaDa = VIA + testoDa.length * .6 * 14, stimaArrivo = arrivoTesto.length * .6 * 12;
     var svg = '<svg viewBox="0 0 480 ' + H + '" role="img" aria-label="' + esc(t.parlato(l)) + '">'
       + '<line class="gara-arrivo" x1="' + (FINE + 2) + '" x2="' + (FINE + 2) + '" y1="8" y2="' + (H - 6) + '"/>'
@@ -93,13 +90,7 @@
       + '<text x="' + VIA + '" y="8" class="gara-da"' + (stimaDa > FINE - 14 - stimaArrivo - 12 ? ' style="font-size:12px"' : '') + '>' + esc(testoDa) + '</text>' + righe + '</svg>';
     el.querySelector(".gara-svg").innerHTML = svg;
     el.querySelector(".gara-testo").textContent = t.parlato(l);
-    // ore: finita la corsa di un'ora, dopo una pausa parte quella dell'ora dopo; l'ultima chiama fine
-    var dopo = fine;
-    if(ore && k0 + 1 < ore.length) dopo = function(){
-      var mio = el._corsa;
-      setTimeout(function(){ if(el._corsa === mio && document.body.contains(el)) disegna(el, dati, i, fine, k0 + 1); }, 1100);
-    };
-    if(!ridotto) corri(el, dopo); else if(fine) fine();
+    if(!ridotto) corri(el, null);
   }
 
   function corri(el, fine){
@@ -123,47 +114,85 @@
     requestAnimationFrame(passo);
   }
 
+  /* ---------------- modo «giro» (schede): senza comandi, una corsa dopo l'altra ---------------- */
+  var GA = {x0: VIA, fine: FINE, passo: 50, alto: 40};
+  function taglia(testo, maxCar){ return testo.length > maxCar ? testo.slice(0, Math.max(1, maxCar - 1)).trim() + "…" : testo; }
+  /* il disegno di un luogo: nome sopra (e arrivo a destra), due corsie (bus, auto) con il distacco all'arrivo, frase di esito sotto.
+     statico = true (riduci movimento): i mezzi sono gia' all'arrivo e i minuti scritti */
+  function svgGiro(l, statico){
+    var t = T(), arrivo = l.arrivo || t.centro;
+    var maxArrivo = 22, arrivoT = taglia(arrivo, maxArrivo);
+    var spazio = Math.floor((FINE - VIA - arrivoT.length * 7.2 - 18) / 9.6);    // caratteri del nome a 17 px (circa 9,6 px l'uno)
+    var nomeT = taglia(l.nome, Math.max(8, spazio));
+    var cs = [{k: "bus", nome: t.bus, min: l.bus, forma: BUS}, {k: "auto", nome: t.autoSola, min: l.auto_min, forma: AUTO}];
+    var maxMin = Math.max(cs[0].min, cs[1].min), distacco = Math.round(maxMin) - Math.round(Math.min(cs[0].min, cs[1].min));
+    var H = 44 + cs.length * GA.passo + (l.giudizio ? 26 : 8);
+    var righe = cs.map(function(c, j){
+      var y = 50 + j * GA.passo;
+      var scia = distacco >= 1 && c.min === maxMin ? '<tspan class="gara-distacco" x="' + (FINE + 8) + '" dy="16" style="font-size:13px;font-weight:700">+' + n(distacco) + ' ' + t.min + '</tspan>' : "";
+      var base = '<text x="' + VIA + '" y="' + (y - 4) + '">' + esc(c.nome) + '</text><line class="gara-strada" x1="' + VIA + '" x2="' + FINE + '" y1="' + (y + 28) + '" y2="' + (y + 28) + '"/>';
+      var tx = '<text class="gara-min" x="' + (FINE + 8) + '" y="' + (y + 18) + '"' + (statico ? ' style="opacity:1"' : "") + '>' + n(c.min) + ' ' + t.min + scia + '</text>';
+      if(statico){
+        var w = Math.max(6, c.min / maxMin * (FINE - VIA));
+        return base + '<rect class="barra-ferma' + (c.k === "auto" ? " auto" : "") + '" x="' + VIA + '" y="' + (y + 4) + '" width="' + w.toFixed(1) + '" height="18" rx="3"/>' + tx;
+      }
+      return base + '<g class="gv ' + c.k + '" data-min="' + c.min + '" transform="translate(' + VIA + ' ' + (y + 2) + ')">' + c.forma + '</g>' + tx;
+    }).join("");
+    var esito = l.giudizio ? '<text class="gara-esito" x="' + VIA + '" y="' + (H - 8) + '" style="font-size:14px;fill:var(--ink,#1b2433);' + (statico ? "" : "opacity:0") + '">' + esc(l.giudizio.charAt(0).toUpperCase() + l.giudizio.slice(1)) + '</text>' : "";
+    return '<svg viewBox="0 0 480 ' + H + '" role="img" aria-label="' + esc(t.parlatoGiro(l)) + '">'
+      + '<line class="gara-arrivo" x1="' + (FINE + 2) + '" x2="' + (FINE + 2) + '" y1="28" y2="' + (H - 30) + '"/>'
+      + '<text x="' + VIA + '" y="20" class="gara-da" style="font-size:17px">' + esc(nomeT) + (nomeT !== l.nome ? '<title>' + esc(l.nome) + '</title>' : "") + '</text>'
+      + '<text x="' + (FINE + 2) + '" y="20" text-anchor="end" style="font-size:13px">' + esc(arrivoT) + (arrivoT !== arrivo ? '<title>' + esc(arrivo) + '</title>' : "") + '</text>'
+      + righe + esito + '</svg>';
+  }
+  function avviaGiro(el, dati){
+    stile();
+    var luoghi = dati.luoghi;
+    if(ridotto){
+      el.innerHTML = luoghi.map(function(l){ return '<div class="gara-svg">' + svgGiro(l, true) + '</div>'; }).join("");
+      return;
+    }
+    el.innerHTML = '<div class="gara-svg"></div>';
+    var cont = el.querySelector(".gara-svg"), i = 0, visibile = true, attesa = false;
+    function corsa(){
+      cont.innerHTML = svgGiro(luoghi[i], false);
+      var esito = cont.querySelector(".gara-esito");
+      corri(el, function(){
+        if(esito) esito.style.opacity = 1;
+        setTimeout(prossima, 2200);
+      });
+    }
+    function prossima(){
+      if(!document.body.contains(el)) return;
+      if(!visibile){ attesa = true; return; }
+      i = (i + 1) % luoghi.length;
+      corsa();
+    }
+    if("IntersectionObserver" in window) new IntersectionObserver(function(v){
+      visibile = v[0].isIntersecting;
+      if(visibile && attesa){ attesa = false; prossima(); }
+    }).observe(el);
+    corsa();
+  }
+
   function html(dati){
     var base = (dati.luoghi || []).filter(function(l){ return typeof l.bus === "number" && typeof l.auto_min === "number"; });
     if(!base.length) return "";
-    var d = {luoghi: base, scelto: Math.min(dati.scelto || 0, base.length - 1), compatto: !!dati.compatto, mini: !!dati.mini, giro: !!dati.giro && base.length > 1};
+    var d = {luoghi: base, scelto: Math.min(dati.scelto || 0, base.length - 1), compatto: !!dati.compatto, mini: !!dati.mini, giro: !!dati.giro};
     return '<div class="gara' + (d.compatto ? " gara-compatto" : "") + (d.mini ? " gara-mini" : "") + '" data-gara="' + esc(JSON.stringify(d)) + '"></div>';
   }
 
   function avvia(el){
     if(el._pronto) return; el._pronto = true;
     var dati; try { dati = JSON.parse(el.getAttribute("data-gara")); } catch(e){ return; }
+    if(dati.giro){ avviaGiro(el, dati); return; }
     stile();
-    var t = T(), uid = "gara" + (++contatore), sel = "";
-    if(!dati.compatto && dati.luoghi.length > 1){
-      var gruppi = [];
-      dati.luoghi.forEach(function(l, i){ var g = l.gruppo || ""; var o = gruppi.filter(function(x){ return x.g === g; })[0]; if(!o){ o = {g: g, voci: []}; gruppi.push(o); } o.voci.push([i, l.nome]); });
-      sel = '<label for="' + uid + '" class="visually-hidden" style="position:absolute;left:-9999px">' + esc(t.scegli) + '</label><select id="' + uid + '">'
-        + gruppi.map(function(o){ var op = o.voci.map(function(v){ return '<option value="' + v[0] + '"' + (v[0] === dati.scelto ? " selected" : "") + '>' + esc(v[1]) + '</option>'; }).join("");
-            return o.g ? '<optgroup label="' + esc(o.g) + '">' + op + '</optgroup>' : op; }).join("") + '</select>';
-    }
+    var t = T();
     el.innerHTML = '<div class="gara-svg"></div><p class="gara-testo" aria-live="polite"></p>'
-      + (dati.mini ? "" : '<div class="gara-comandi">' + sel + '<button type="button">' + esc(t.riparti) + '</button></div>');
-    var corrente = dati.scelto, s = el.querySelector("select"), giro = dati.giro && !ridotto, visibile = true;
-    // giro: finita una corsa, dopo una pausa parte quella del luogo dopo (solo mentre la gara si vede); scegliere un luogo ferma il giro
-    function prossima(){
-      if(!giro) return;
-      setTimeout(function(){
-        if(!giro || !document.body.contains(el)) return;
-        if(!visibile){ el._attesa = true; return; }
-        corrente = (corrente + 1) % dati.luoghi.length;
-        if(s) s.value = String(corrente);
-        disegna(el, dati, corrente, prossima);
-      }, 2200);
-    }
-    if("IntersectionObserver" in window) new IntersectionObserver(function(v){
-      visibile = v[0].isIntersecting;
-      if(visibile && el._attesa){ el._attesa = false; prossima(); }
-    }).observe(el);
-    disegna(el, dati, corrente, prossima);
-    if(s) s.addEventListener("change", function(){ giro = false; corrente = parseInt(s.value, 10); disegna(el, dati, corrente); });
+      + (dati.mini ? "" : '<div class="gara-comandi"><button type="button">' + esc(t.riparti) + '</button></div>');
+    disegna(el, dati, 0);
     var bt = el.querySelector("button");
-    if(bt) bt.addEventListener("click", function(){ disegna(el, dati, corrente, giro ? prossima : null); });
+    if(bt) bt.addEventListener("click", function(){ disegna(el, dati, 0); });
   }
 
   function scansiona(radice){

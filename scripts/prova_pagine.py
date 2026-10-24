@@ -290,6 +290,169 @@ def prova_link_mappa(br, cartella):
     return errori
 
 
+# ---------------------------------------------------------------- prova_design (giri L15-L18): controlli nel DOM, solo con Playwright
+# le etichette (STIMATO, MISURATO, ...) si cercano solo in maiuscolo: «sezioni di censimento» e «misurato» in una frase sono parole normali
+VIETATE_IT = (re.compile(r"STIMAT|MISURAT|PROGRAMMAT|CENSIMENTO"), re.compile(r"\bstim[ae]\b|\bstimat|sensor[ei]|più favorevole all'auto|\bpunta\b|\bnoi\b|\bnostr\w*|\babbiamo\b|Limite:", re.I))
+VIETATE_EN = (re.compile(r"ESTIMATED|MEASURED|SCHEDULED|CENSUS"), re.compile(r"\bwe\b|\bour\b|peak|sensor|Limit:|\bestimate", re.I))
+
+
+def _leggi_schede(cartella):
+    js = cartella / "data" / "schede_risultati.js"
+    testo = js.read_text(encoding="utf-8")
+    return json.loads(testo[testo.index("["):].split(chr(10) + "window.SCHEDE_PERIODO")[0].rstrip().rstrip(";"))
+
+
+def design_l15(br, cartella):
+    """L15: ogni scheda in italiano e inglese: fuori dalla parte chiusa niente parole vietate (etichette, «stima», «sensori», «punta», «noi», «Limite:»),
+    punti chiave di al massimo 25 parole, numero grande uguale a quello dei dati. Con «riduci movimento» (numeri subito finali)."""
+    errori, schede = [], _leggi_schede(cartella)
+    for lingua, vietate in (("it", VIETATE_IT), ("en", VIETATE_EN)):
+        ctx = br.br.new_context(viewport={"width": DESKTOP[0], "height": DESKTOP[1]}, reduced_motion="reduce")
+        page = ctx.new_page()
+        try:
+            for s in schede:
+                n = s.get("numero_pubblico")
+                if n is None:
+                    continue
+                page.goto(f"http://127.0.0.1:{PORTA}/risultati.html?lang={lingua}#p{n}", wait_until="load", timeout=60000)
+                page.wait_for_timeout(900)
+                r = page.evaluate("""() => {
+                  const c = document.getElementById('finCorpo').cloneNode(true);
+                  c.querySelectorAll('details').forEach(d => d.remove());
+                  const punti = [...c.querySelectorAll('ul.punti li')].map(li => li.textContent.trim());
+                  const grande = (c.querySelector('.grande') || {textContent: ''}).textContent.replace(/\\s+/g, ' ').trim();
+                  const val = (document.querySelector('#finCorpo .grande .val') || {textContent: ''}).textContent.trim();
+                  return {visibile: document.getElementById('finMeta').textContent + ' ' + document.getElementById('finTitolo').textContent + ' ' + c.textContent.replace(/\\s+/g, ' '),
+                          punti, val, aperta: document.getElementById('finestra').open,
+                          chiusa: document.querySelectorAll('#finCorpo details.parte').length, tipo: !!document.querySelector('#finCorpo details.parte p')};
+                }""")
+                f = s["forma_en"] if lingua == "en" and s.get("forma_en") else s["forma"]
+                nome = f"scheda {n} ({lingua})"
+                if not r["aperta"]:
+                    errori.append(f"{nome}: la scheda non si apre")
+                    continue
+                for rx in vietate:
+                    for m in rx.finditer(r["visibile"]):
+                        ctxt = r["visibile"][max(0, m.start() - 40):m.end() + 40]
+                        errori.append(f"{nome}: parola vietata fuori dalla parte chiusa «{m.group(0)}» in «…{ctxt}…»")
+                if len(r["punti"]) != 3:
+                    errori.append(f"{nome}: {len(r['punti'])} punti chiave invece di 3")
+                for p in r["punti"]:
+                    if len(p.split()) > 25:
+                        errori.append(f"{nome}: punto chiave di {len(p.split())} parole: «{p[:60]}…»")
+                v = f["numero"]["valore"]
+                atteso = page.evaluate("(v) => typeof v === 'number' ? Sito.formattaNumero(v) : String(v)", v)
+                if r["val"].rstrip("%") != atteso:
+                    errori.append(f"{nome}: il numero grande è «{r['val']}», nei dati «{atteso}»")
+                if r["chiusa"] != 1:
+                    errori.append(f"{nome}: {r['chiusa']} parti chiuse invece di una")
+        finally:
+            ctx.close()
+    print(f"  L15 (schede 1-5, IT e EN: parole vietate, punti chiave, numero grande): {'OK' if not errori else 'ERRORE'}")
+    return errori
+
+
+def design_l16(br, cartella):
+    """L16: gara e area da sole. Nessun comando dentro .gara e .area; ogni testo della gara dentro il disegno, testi e mezzi che non si toccano;
+    il nome del luogo cambia fra due corse; i minuti dell'area cambiano da soli entro 3 secondi; con «riduci movimento» tutto fermo e i numeri scritti."""
+    errori = []
+    JS_GARA = """() => [...document.querySelectorAll('.gara svg')].map(svg => {
+        const vb = svg.viewBox.baseVal, r = [];
+        const testi = [...svg.querySelectorAll('text')].filter(t => !t.closest('text, tspan') || true);
+        const box = e => { const b = e.getBBox(); return {x: b.x, y: b.y, w: b.width, h: b.height, t: (e.textContent || '').slice(0, 30)}; };
+        const fuori = testi.map(box).filter(b => b.x < -1 || b.y < -1 || b.x + b.w > vb.width + 1 || b.y + b.h > vb.height + 1);
+        const bb = [...svg.querySelectorAll('text.gara-da, text.gara-min, text.gara-esito')].map(e => { const q = e.getBoundingClientRect(); return {x: q.left, y: q.top, r: q.right, b: q.bottom, t: e.textContent.slice(0, 20)}; });
+        const toc = [];
+        for (let i = 0; i < bb.length; i++) for (let j = i + 1; j < bb.length; j++) {
+          const a = bb[i], c = bb[j];
+          if (a.x < c.r - 1 && c.x < a.r - 1 && a.y < c.b - 1 && c.y < a.b - 1) toc.push(a.t + ' / ' + c.t);
+        }
+        const veic = [...svg.querySelectorAll('g.gv')].map(g => { const q = g.getBoundingClientRect(); return {y: q.top, b: q.bottom}; });
+        let corsie = false; if (veic.length === 2) corsie = veic[0].b > veic[1].y + 1 && veic[1].b > veic[0].y + 1;
+        return {fuori, toc, corsie, nome: (svg.querySelector('text.gara-da') || {textContent: ''}).textContent};
+      })"""
+    for lingua in ("it", "en"):
+        ctx = br.br.new_context(viewport={"width": DESKTOP[0], "height": DESKTOP[1]})
+        page = ctx.new_page()
+        try:
+            for n_, cosa in ((3, "gara"), (4, "gara"), (4, "area")):
+                page.goto(f"http://127.0.0.1:{PORTA}/risultati.html?lang={lingua}#p{n_}", wait_until="load", timeout=60000)
+                page.wait_for_timeout(800)
+                nome = f"scheda {n_} {cosa} ({lingua})"
+                comandi = page.evaluate("document.querySelectorAll('#finCorpo .gara select, #finCorpo .gara button, #finCorpo .gara input, #finCorpo .area select, #finCorpo .area button, #finCorpo .area input').length")
+                if comandi:
+                    errori.append(f"{nome}: {comandi} comandi (select, button, input) dentro la gara o l'area")
+                if cosa == "gara":
+                    el = page.locator("#finCorpo .gara").first
+                    if el.count() == 0:
+                        errori.append(f"{nome}: gara assente")
+                        continue
+                    el.scroll_into_view_if_needed()
+                    page.wait_for_timeout(1500)
+                    r = page.evaluate(JS_GARA)
+                    for g in r:
+                        if g["fuori"]:
+                            errori.append(f"{nome}: testi fuori dal disegno: {g['fuori'][:3]}")
+                        if g["toc"]:
+                            errori.append(f"{nome}: testi che si toccano: {g['toc'][:3]}")
+                        if g["corsie"]:
+                            errori.append(f"{nome}: le corsie si toccano")
+                    primo = r[0]["nome"] if r else ""
+                    cambiato = False
+                    for _ in range(40):          # fino a 40 s: una corsa dura al massimo una decina di secondi, piu' la pausa
+                        page.wait_for_timeout(1000)
+                        if page.evaluate("(document.querySelector('#finCorpo .gara svg text.gara-da') || {textContent: ''}).textContent") != primo:
+                            cambiato = True
+                            break
+                    if not cambiato:
+                        errori.append(f"{nome}: il nome del luogo non cambia fra due corse (resta «{primo}»)")
+                else:
+                    el = page.locator("#finCorpo .area").first
+                    if el.count() == 0:
+                        errori.append(f"{nome}: area assente")
+                        continue
+                    el.scroll_into_view_if_needed()
+                    page.wait_for_timeout(600)
+                    a = page.evaluate("document.querySelector('#finCorpo .area-minuti').textContent")
+                    page.wait_for_timeout(2400)
+                    b = page.evaluate("document.querySelector('#finCorpo .area-minuti').textContent")
+                    if a == b:
+                        errori.append(f"{nome}: i minuti dell'area non cambiano da soli in 3 secondi (restano «{a}»)")
+        finally:
+            ctx.close()
+        # riduci movimento: tutto fermo, numeri scritti
+        ctx = br.br.new_context(viewport={"width": DESKTOP[0], "height": DESKTOP[1]}, reduced_motion="reduce")
+        page = ctx.new_page()
+        try:
+            for n_, cosa in ((3, "gara"), (4, "gara"), (4, "area")):
+                page.goto(f"http://127.0.0.1:{PORTA}/risultati.html?lang={lingua}#p{n_}", wait_until="load", timeout=60000)
+                page.wait_for_timeout(1200)
+                nome = f"scheda {n_} {cosa} ({lingua}, riduci movimento)"
+                if cosa == "gara":
+                    r = page.evaluate("""() => ({svg: document.querySelectorAll('#finCorpo .gara svg').length, mezzi: document.querySelectorAll('#finCorpo .gara g.gv').length,
+                        min: [...document.querySelectorAll('#finCorpo .gara text.gara-min')].filter(t => getComputedStyle(t).opacity !== '1').length})""")
+                    if r["svg"] < 2 or r["mezzi"] or r["min"]:
+                        errori.append(f"{nome}: non è tutto fermo con i minuti scritti: {r}")
+                else:
+                    a = page.evaluate("document.querySelector('#finCorpo .area-minuti').textContent")
+                    page.wait_for_timeout(2000)
+                    b = page.evaluate("[document.querySelector('#finCorpo .area-minuti').textContent, document.querySelector('#finCorpo [data-q=m]').textContent, document.querySelector('#finCorpo [data-q=a]').textContent]")
+                    if a != b[0] or not a.startswith("30") or "%" not in b[1] or "%" not in b[2]:
+                        errori.append(f"{nome}: area non ferma a 30 minuti con le quote scritte: {a} / {b}")
+        finally:
+            ctx.close()
+    print(f"  L16 (gara e area da sole, senza comandi, testi nel disegno, riduci movimento): {'OK' if not errori else 'ERRORE'}")
+    return errori
+
+
+def prova_design(br, cartella):
+    """Controlli di design dei giri L15-L18 (DOM). Solo con Playwright e con data/schede_risultati.js."""
+    if not isinstance(br, BrowserPlaywright) or not (cartella / "data" / "schede_risultati.js").exists():
+        print("  prova_design: non provata (serve Playwright e data/schede_risultati.js)")
+        return []
+    return design_l15(br, cartella) + design_l16(br, cartella)
+
+
 ANTEPRIME = RADICE / "assets" / "anteprime"
 IMMAGINI_README = RADICE / "assets" / "readme"
 
@@ -412,6 +575,7 @@ def main():
     ap.add_argument("--cartella", default=None, help="cartella da servire (default: radice del progetto)")
     ap.add_argument("--senza-screenshot", action="store_true")
     ap.add_argument("--playwright", action="store_true", help="usa Playwright anche su Windows")
+    ap.add_argument("--solo-design", action="store_true", help="solo i controlli di design (prova_design), veloci: per lavorare sulle schede e sulla home")
     args = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")
     cartella = (RADICE / args.cartella) if args.cartella else RADICE
@@ -422,6 +586,15 @@ def main():
     print(f"browser: {br.nome}")
     errori, assenti_tot = [], {}
     srv = avvia_server(cartella)
+    if args.solo_design:
+        try:
+            errori = prova_design(br, cartella)
+        finally:
+            srv.shutdown()
+            srv.server_close()
+            br.chiudi()
+        print("\nERRORI:\n" + "\n".join("  - " + e for e in errori) if errori else "\nOK: controlli di design")
+        return 1 if errori else 0
     pagine = pagine_da_provare()
     try:
         for nome, pagina in pagine:
@@ -441,6 +614,7 @@ def main():
             print(f"  {nome}: {len(err)} errori, {len(assenti)} file assenti, DOM {len(dom)} caratteri")
         errori += prova_cambio_indirizzo(br, cartella)
         errori += prova_link_mappa(br, cartella)
+        errori += prova_design(br, cartella)
         if not args.senza_screenshot:
             IMMAGINI.mkdir(exist_ok=True)
             for nome, pagina in pagine_screenshot():

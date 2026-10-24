@@ -229,11 +229,11 @@ def forma_r6(s):
     n_punti_ba = ba["riepilogo"]["n_punti"]
     inter = [l for l in ba["luoghi"] if l["tipo"] == "interscambio"]
     f_ba_lo, f_ba_hi = virgola(ba["parametri"]["fattore_basso"]), virgola(ba["parametri"]["fattore_alto"])
-    stati = {"pieno": "pieno di giorno", "a_meta": "a metà", "libero": "con posti liberi", "non_misurato": "non misurato"}
+    stati = {"pieno": "pieno di giorno", "a_meta": "a metà", "libero": "con posti liberi", "non_misurato": "riempimento non noto"}
     graf_inter = {"tipo": "barre", "titolo": "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro", "unita": "minuti",
                   "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra il tempo in auto, parcheggio compreso (TomTom), e quanto è pieno il parcheggio di giorno.",
                   "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["tp_min"]),
-                            "testo": f"{round(l['tp_min'])} contro {round(l['auto_basso_min'])} in auto · {stati.get(l.get('stato'), 'non misurato')}"}
+                            "testo": f"{round(l['tp_min'])} contro {round(l['auto_basso_min'])} in auto · {stati.get(l.get('stato'), 'riempimento non noto')}"}
                            for l in inter]}
     # minuti di pareggio = minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (script 94): una frase del calcolo, non piu' un grafico
     pm = ba["pareggio"]["punti"]

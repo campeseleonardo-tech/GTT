@@ -24,7 +24,7 @@ Un Raspberry Pi di casa raccoglie ogni minuto la posizione di bus e tram e i sen
 3. **2 fermate importanti su 3 non hanno abbastanza posti per lasciare l'auto**  
    Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi? → **179** fermate importanti su 274 non hanno posti bastanti a 400 metri a piedi. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/3.html)
 4. **Al mattino, coi mezzi pubblici si impiega 1,9 volte il tempo dell'auto**  
-   Per quali spostamenti l'auto è molto più veloce dei mezzi pubblici, e quante auto li fanno? → **1,9 volte** il tempo dell'auto: rapporto mediano TomTom, pesato per le auto del mattino. Sono il 47% delle auto del mattino (220.307): mancano i viaggi dentro una zona e fra comuni della cintura. Con i sensori, la stima più favorevole all'auto, 2,9.. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/4.html)
+   Al mattino, quanto ci si mette in più coi mezzi pubblici che in auto? → **1,9 volte** il tempo dell'auto, per un viaggio tipico del mattino. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/4.html)
 5. **Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi**  
    Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta? → **79.598** residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. È 1,7 volte quanto ci si aspetterebbe per caso.. [Apri](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
 <!-- RISULTATI-IT:FINE -->
@@ -91,7 +91,7 @@ The site is in Italian and English (button IT/EN); the map is in Italian.
 3. **2 in 3 important stops lack enough spaces to leave the car**  
    Can people driving in from outside find a place to leave the car near an important stop, and continue by public transport? → **179** important stops out of 274 lack enough parking within 400 metres on foot. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/3.html)
 4. **In the morning, public transport takes 1.9 times as long as the car**  
-   For which trips is the car much faster than public transport, and how many cars make them? → **1.9 times** the car's time: TomTom median ratio, weighted by morning cars. They are 47% of morning cars (220,307): trips within a zone and between belt towns are missing. With the sensors, the estimate most favourable to the car, 2.9.. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/4.html)
+   In the morning, how much longer does it take by public transport than by car? → **1.9 times** the car's travel time, for a typical morning trip. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/4.html)
 5. **About 1 Turin resident in 10 lives in an area with more social difficulties and few services**  
    Do people pay for services? And who lives where services are few and fragility is high? → **79,598** residents in zones with more social difficulty and few services: 9.5% of residents of inhabited zones. That is 1.7 times what you would expect by chance.. [Open](https://campeseleonardo-tech.github.io/Turin-mobility/r/5.html)
 <!-- RISULTATI-EN:FINE -->
