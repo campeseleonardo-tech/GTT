@@ -525,6 +525,12 @@ def design_l18(br, cartella):
     peso = pagina.stat().st_size
     if peso > PESO_MAPPA_MAX:
         errori.append(f"mappa_torino.html pesa {peso:,} byte, oltre il limite {PESO_MAPPA_MAX:,} (5.906.557 di L11 più il toro): semplificare i tracciati")
+    # gara del pannello (giro L19): un'auto sola (TomTom), nessun comando; stesso pezzo nel template e nella mappa
+    for f in (pagina, cartella / "scripts" / "mappa_template.html"):
+        testo = f.read_text(encoding="utf-8")
+        riga = next((r for r in testo.splitlines() if "return Gara.html(" in r), "")
+        if "giro:true" not in riga or "auto_alto_min" in riga or "compatto" in riga:
+            errori.append(f"{f.name}: la gara del pannello non è «giro:true» con la sola auto TomTom ({riga.strip()[:80]})")
     JS_FINE = """() => { window.__fine = null; const guarda = () => { const c = document.getElementById('caricamento');
         if (!c) { if (window.__fine === null) window.__fine = performance.now(); return; }
         new MutationObserver(() => { if (c.classList.contains('fine') && window.__fine === null) window.__fine = performance.now(); }).observe(c, {attributes: true}); };
@@ -564,7 +570,7 @@ def design_l18(br, cartella):
             errori.append(f"{nome}: {str(e)[:200]}")
         finally:
             ctx.close()
-    print(f"  L18 (toro nel caricamento: tracciati, almeno 2 secondi, linea infinita senza oro pieno, riduci movimento, peso {peso:,} byte): {'OK' if not errori else 'ERRORE'}")
+    print(f"  L18 (toro nel caricamento: tracciati, almeno 2 secondi, linea infinita senza oro pieno, gara del pannello, riduci movimento, peso {peso:,} byte): {'OK' if not errori else 'ERRORE'}")
     return errori
 
 

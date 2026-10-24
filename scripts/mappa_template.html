@@ -1122,7 +1122,7 @@ function r6BusAuto(p){
 /* gara piccola bus contro auto dello stesso punto (componente comune assets/gara.js, parte da sola quando compare nel pannello) */
 function r6Gara(p){
   const b=p.bus_auto; if(!b||b.tp_min==null||!window.Gara) return "";
-  return Gara.html({compatto:true, luoghi:[{nome:p.nome, bus:b.tp_min, auto_min:b.auto_alto_min, auto_max:b.auto_basso_min, giudizio:b.classe_testo}]});
+  return Gara.html({giro:true, luoghi:[{nome:p.nome, bus:b.tp_min, auto_min:b.auto_basso_min, auto_max:b.auto_basso_min, giudizio:b.classe_testo}]});   // un'auto sola (TomTom), nessun comando: come nelle schede
 }
 function r6SchedaPunto(p){
   const fer = r6Righe(p.fermate.map(f=>`${esc(f.nome)} (${esc(f.classe.toLowerCase())})${f.mancano?`: mancano circa ${r6N(f.mancano)} posti`:""}`), "—");
