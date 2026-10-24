@@ -377,7 +377,7 @@
     "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
     "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T23:57:50+00:00",
+  "generato": "2026-10-24T00:23:38+00:00",
   "avviso": [
     "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
     "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -421,7 +421,7 @@
     }
   ],
   "forma": {
-    "etichetta": "STIMATO / MISURATO / PROGRAMMATO",
+    "tipo_dato": "Tipo di dato: calcolato da dati veri, con tempi in auto di TomTom, misure dei sensori e orari ufficiali dei mezzi.",
     "titolo": "Al mattino, coi mezzi pubblici si impiega 1,9 volte il tempo dell'auto",
     "domanda": "Per quali spostamenti l'auto è molto più veloce dei mezzi pubblici, e quante auto li fanno?",
     "numero": {
@@ -3749,7 +3749,7 @@
     }
   },
   "forma_en": {
-    "etichetta": "ESTIMATED / MEASURED / SCHEDULED",
+    "tipo_dato": "Type of data: calculated from real data, with car times from TomTom, sensor measurements and the official timetables of the vehicles.",
     "titolo": "In the morning, public transport takes 1.9 times as long as the car",
     "domanda": "For which trips is the car much faster than public transport, and how many cars make them?",
     "numero": {

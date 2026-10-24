@@ -210,7 +210,34 @@
   "Periodo dei sensori": "Sensor period",
   "Fragilità sociale e servizi a piedi, una zona OMI per punto (46 zone)": "Social fragility and services on foot, one OMI zone per dot (46 zones)",
   "indice di fragilità sociale, 0-100": "social fragility index, 0-100",
-  "fragilità": "fragility"
+  "fragilità": "fragility",
+  "Tipo di dato: calcolato da dati veri, non misurato direttamente.": "Type of data: calculated from real data, not measured directly.",
+  "Tipo di dato: misurato, con la posizione GPS dei mezzi.": "Type of data: measured, with the GPS position of the vehicles.",
+  "Tipo di dato: calcolato da dati veri, con gli abitanti del censimento 2021.": "Type of data: calculated from real data, with the residents of the 2021 census.",
+  "Tipo di dato: calcolato da dati veri e in parte misurato, su pochi giorni di dati.": "Type of data: calculated from real data and partly measured, over few days of data.",
+  "Tipo di dato: calcolato da dati veri, con tempi in auto di TomTom, misure dei sensori e orari ufficiali dei mezzi.": "Type of data: calculated from real data, with car times from TomTom, sensor measurements and the official timetables of the vehicles.",
+  "Il traffico è un modello e sostituisce rumore e smog, che non sono misurati.": "Traffic comes from a model and stands in for noise and smog, which are not measured.",
+  "GPS e dato ufficiale GTT: passaggi con oltre 10 minuti di ritardo": "GPS and official GTT figure: arrivals more than 10 minutes late",
+  "Il GPS è la media della settimana, in quattro modi di contare. GTT è l'anno 2025, tutte le linee, con un metodo non pubblicato.": "GPS is the weekly average, counted in four ways. GTT is the year 2025, all lines, with an unpublished method.",
+  "GPS, a ogni fermata": "GPS, at every stop",
+  "GPS, solo alla prima fermata": "GPS, first stop only",
+  "GPS, solo a metà corsa": "GPS, mid-trip only",
+  "GPS, fuori dalle ore di punta": "GPS, outside rush hours",
+  "mattino (7-9)": "morning (7-9)",
+  "sera (16-19)": "evening (16-19)",
+  "tarda sera (19-24)": "late evening (19-24)",
+  "su 100 al mattino (7-9)": "out of 100 in the morning (7-9)",
+  "su 100 alla sera (16-19)": "out of 100 in the evening (16-19)",
+  "su 100 a tarda sera (19-24)": "out of 100 in the late evening (19-24)",
+  "Si conta quanto spesso c'è ritardo, non quante persone aspettano.": "The figure counts how often there is a delay, not how many people are waiting.",
+  "Quanto si aspetta in più di quanto dice l'orario": "How much longer the wait is than the timetable says",
+  "Ogni barra è una fascia del giorno feriale: i minuti di attesa in più rispetto all'orario. A destra l'attesa reale contro quella promessa.": "Each bar is a part of the weekday: the extra minutes of waiting compared with the timetable. On the right, the real wait against the promised one.",
+  "Il grafico mostra la media della settimana (feriale 5 : sabato 1 : domenica 1).": "The chart shows the weekly average (weekday 5 : Saturday 1 : Sunday 1).",
+  "GPS, escluse le fasce 7-9 e 16-19": "GPS, excluding 7-9 and 16-19",
+  "La gara: bus e auto verso Piazza Castello, alle 8 di un feriale": "The race: bus and car to Piazza Castello, at 8 a.m. on a weekday",
+  "Bus e auto partono insieme da ogni parcheggio, uno dopo l'altro. L'auto ha il tempo previsto da TomTom, parcheggio compreso.": "Bus and car leave together from each car park, one after the other. The car has the time forecast by TomTom, parking included.",
+  "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra il tempo in auto, parcheggio compreso (TomTom), e quanto è pieno il parcheggio di giorno.": "Bar = minutes by public transport to Piazza Castello at 8 a.m. On the right, the car time with parking included (TomTom), and how full the car park is during the day.",
+  "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Si usa un solo servizio.": "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. A single service is used."
  },
  "modelli": [
   {
@@ -828,6 +855,110 @@
   {
    "it": "Ogni punto è una zona, grande quanto i suoi abitanti. A parità di distanza dal centro il legame quasi sparisce ({p0}): la linea mostra soprattutto l'effetto della distanza dal centro.",
    "en": "Each dot is a zone, sized by its residents. At equal distance from the centre the link nearly disappears ({p0}): the line mostly shows the effect of distance from the centre."
+  },
+  {
+   "it": "A 5 minuti solo ~{n0}% dei residenti ha tutti e 5 i servizi; a 10 minuti ~{n1}%.",
+   "en": "Within 5 minutes only ~{n0}% of residents have all 5 services; within 10 minutes ~{n1}%."
+  },
+  {
+   "it": "~{n0} mila residenti (~{n1}%) vivono a meno di {n2} m da una strada molto trafficata",
+   "en": "~{n0} thousand residents (~{n1}%) live less than {n2} m from a very busy road"
+  },
+  {
+   "it": "Distanza dal centro della sezione. Strada molto trafficata: almeno {n0} veicoli al giorno.",
+   "en": "Distance from the centre of the section. Very busy road: at least {n0} vehicles a day."
+  },
+  {
+   "it": "Il traffico viene da un modello tarato sui sensori, che sbaglia del ±{n0}% in metà dei casi.",
+   "en": "Traffic comes from a model calibrated on the sensors, which is off by ±{n0}% in half of the cases."
+  },
+  {
+   "it": "~{n0} mila residenti (~{n1}%) vivono a meno di {n2} m da una strada molto trafficata.",
+   "en": "~{n0} thousand residents (~{n1}%) live less than {n2} m from a very busy road."
+  },
+  {
+   "it": "Guardando solo la partenza dal capolinea, i passaggi con oltre 10 minuti di ritardo sono ~{n0}%.",
+   "en": "Counting only the departure from the terminus, arrivals more than 10 minutes late are ~{n0}%."
+  },
+  {
+   "it": "La linea più in ritardo è la {s0}: ~{n0}% dei passaggi feriali oltre 5 minuti.",
+   "en": "The most delayed line is {s0}: ~{n0}% of weekday arrivals are more than 5 minutes late."
+  },
+  {
+   "it": "I tram arrivano a grappolo più dei bus: ~{n0}% delle coppie di mezzi contro ~{n1}%.",
+   "en": "Trams bunch together more than buses: ~{n0}% of pairs of vehicles against ~{n1}%."
+  },
+  {
+   "it": "Il GPS misura pochi giorni di ottobre sulle linee urbane: {n0}% a ogni fermata, {n1}% alla partenza.",
+   "en": "The GPS measures a few days of October on urban lines: {n0}% at every stop, {n1}% at departure."
+  },
+  {
+   "it": "Anche contando come GTT alla partenza si trova il {n0}%; il resto della differenza è stagione e metodo.",
+   "en": "Even counting at departure like GTT, the figure is {n0}%; the rest of the difference is season and method."
+  },
+  {
+   "it": "Nei soli feriali: {n0}% a ogni fermata, {n1}% alla prima, {n2}% a metà corsa, {n3}% fuori punta.",
+   "en": "On weekdays only: {n0}% at every stop, {n1}% at the first, {n2}% mid-trip, {n3}% outside rush hours."
+  },
+  {
+   "it": "Sulle linee frequenti si aspetta ~{n0} minuto e mezzo in più di quanto promette l'orario.",
+   "en": "On frequent lines the wait is ~{n0} and a half minutes longer than the timetable promises."
+  },
+  {
+   "it": "Sulle linee frequenti si aspetta ~{n0} minuti e mezzo in più di quanto promette l'orario.",
+   "en": "On frequent lines the wait is ~{n0} and a half minutes longer than the timetable promises."
+  },
+  {
+   "it": "Sulle linee frequenti si aspetta ~{n0} minuti in più di quanto promette l'orario.",
+   "en": "On frequent lines the wait is ~{n0} minutes longer than the timetable promises."
+  },
+  {
+   "it": "Sulle linee frequenti si aspetta ~mezzo minuto in più di quanto promette l'orario.",
+   "en": "On frequent lines the wait is ~half a minute longer than the timetable promises."
+  },
+  {
+   "it": "~{n0} min invece di ~{n1}",
+   "en": "~{n0} min instead of ~{n1}"
+  },
+  {
+   "it": "Nei soli feriali: {n0}% a ogni fermata, {n1}% alla prima, {n2}% a metà corsa, {n3}% escluse le fasce 7-9 e 16-19.",
+   "en": "On weekdays only: {n0}% at every stop, {n1}% at the first, {n2}% mid-trip, {n3}% excluding 7-9 and 16-19."
+  },
+  {
+   "it": "Solo feriali: {n0}% a ogni fermata, {n1}% alla prima, {n2}% a metà corsa, {n3}% senza le fasce 7-9 e 16-19.",
+   "en": "Weekdays only: {n0}% at every stop, {n1}% at the first, {n2}% mid-trip, {n3}% without the 7-9 and 16-19 bands."
+  },
+  {
+   "it": "{n0} zone sono in doppio svantaggio: {w1}. Ci abitano ~{n2} mila persone.",
+   "en": "{n0} zones are in double disadvantage: {w1}. ~{n2} thousand people live there."
+  },
+  {
+   "it": "{n0} fermate importanti non hanno nessun parcheggio vicino, {n1} troppo pochi.",
+   "en": "{n0} important stops have no car park nearby, {n1} have too few."
+  },
+  {
+   "it": "Il primo dei {n0} punti d'ingresso dove servono posti è {s1}: ne mancano ~{n2}.",
+   "en": "The first of the {n0} entry points where spaces are needed is {s1}: ~{n2} are missing."
+  },
+  {
+   "it": "In {n0} punti su {n1}, lasciata l'auto, il bus arriva in centro in al più {n2} volte il tempo dell'auto.",
+   "en": "In {n0} points out of {n1}, once the car is left, the bus reaches the centre in at most {n2} times the car's time."
+  },
+  {
+   "it": "{n0} contro {n1} in auto · {t2}",
+   "en": "{n0} against {n1} by car · {t2}"
+  },
+  {
+   "it": "Pareggio: con {n0} minuti persi a parcheggiare in centro, l'auto impiega quanto il bus (mediana dei {n1} punti, TomTom).",
+   "en": "Break-even: with {n0} minutes lost parking downtown, the car takes as long as the bus (median of the {n1} points, TomTom)."
+  },
+  {
+   "it": "Dei punti dove il bus conviene, {n0} su {n1} sono vicini alla soglia: un'auto il {n2}% più veloce cambia classe.",
+   "en": "Of the points where the bus pays off, {n0} out of {n1} are close to the threshold: a car {n2}% faster changes the class."
+  },
+  {
+   "it": "Con la stima dei sensori del traffico, più favorevole all'auto (fattore {n0}), il pareggio sale a {n1} minuti.",
+   "en": "With the traffic-sensor estimate, more favourable to the car (factor {n0}), the break-even rises to {n1} minutes."
   }
  ]
 }

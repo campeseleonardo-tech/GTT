@@ -237,7 +237,7 @@
     "scripts/21_risultato1_vuoti.py",
     "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T23:57:50+00:00",
+  "generato": "2026-10-24T00:23:37+00:00",
   "avviso": [
     "Dati [STIMATO] — solo comune di Torino",
     "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -359,7 +359,7 @@
     }
   ],
   "forma": {
-    "etichetta": "STIMATO",
+    "tipo_dato": "Tipo di dato: calcolato da dati veri, non misurato direttamente.",
     "titolo": "Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi",
     "domanda": "Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata?",
     "numero": {
@@ -436,8 +436,8 @@
       ]
     },
     "punti": [
-      "A 5 minuti solo il 68,3% dei residenti ha tutti e 5 i servizi; a 10 minuti il 96,8%.",
-      "222.179 residenti (26,4%) vivono a meno di 100 m da una strada molto trafficata.",
+      "A 5 minuti solo ~68% dei residenti ha tutti e 5 i servizi; a 10 minuti ~97%.",
+      "~222 mila residenti (~26%) vivono a meno di 100 m da una strada molto trafficata.",
       "I 362 residenti senza 3 o più servizi sono in 5 sezioni di collina: dove manca davvero tutto."
     ],
     "altri": [
@@ -445,7 +445,7 @@
         "tipo": "barre",
         "titolo": "Residenti per distanza da una strada molto trafficata",
         "unita": "residenti",
-        "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 10.677 veicoli al giorno. Stima debole: il modello sbaglia del ±28% in metà dei casi.",
+        "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 10.677 veicoli al giorno.",
         "voci": [
           {
             "label": "esposti (meno di 100 m)",
@@ -503,7 +503,8 @@
       "I tipi di servizio sono cinque, contati separatamente: scuole, salute, negozi, fermate, verde.",
       "Si cammina sulla rete stradale reale (OpenStreetMap), a 80 m al minuto.",
       "Residenti dal censimento ISTAT 2021; le zone con meno di 1.000 abitanti per km² sono grigie e contate a parte.",
-      "Si è esposti se il centro della sezione è a meno di 100 m da una strada molto trafficata."
+      "Si è esposti se il centro della sezione è a meno di 100 m da una strada molto trafficata.",
+      "Il traffico viene da un modello tarato sui sensori, che sbaglia del ±28% in metà dei casi."
     ],
     "criteri": [
       [
@@ -543,7 +544,7 @@
       "Solo Torino: in cintura il catalogo dei servizi manca, quindi «zero» spesso vuol dire dato mancante.",
       "Si conta se un servizio c'è, non quanto è grande né se ha posto. Le fermate usano l'orario programmato: niente ritardi né affollamento.",
       "I punti nuovi sono ipotesi: non tengono conto di costi, spazi liberi o permessi.",
-      "Il traffico è una stima e sostituisce rumore e smog, che non misuriamo."
+      "Il traffico è un modello e sostituisce rumore e smog, che non sono misurati."
     ],
     "mappa": {
       "id": "faseb",
@@ -572,7 +573,7 @@
     }
   },
   "forma_en": {
-    "etichetta": "ESTIMATED",
+    "tipo_dato": "Type of data: calculated from real data, not measured directly.",
     "titolo": "Turin, a 15-minute city: almost everyone has the services within a 15-minute walk",
     "domanda": "How many people in Turin have the services within 5, 10 and 15 minutes on foot, and how many live on a busy road?",
     "numero": {
@@ -649,8 +650,8 @@
       ]
     },
     "punti": [
-      "Within 5 minutes only 68.3% of residents have all 5 services; within 10 minutes 96.8%.",
-      "222,179 residents (26.4%) live less than 100 m from a very busy road.",
+      "Within 5 minutes only ~68% of residents have all 5 services; within 10 minutes ~97%.",
+      "~222 thousand residents (~26%) live less than 100 m from a very busy road.",
       "The 362 residents without 3 or more services live in 5 hillside sections: where really everything is missing."
     ],
     "altri": [
@@ -658,7 +659,7 @@
         "tipo": "barre",
         "titolo": "Residents by distance from a very busy road",
         "unita": "residents",
-        "nota": "Distance from the centre of the census section. Very busy road: at least 10,677 vehicles a day. Weak estimate: the model is off by ±28% in half of the cases.",
+        "nota": "Distance from the centre of the section. Very busy road: at least 10,677 vehicles a day.",
         "voci": [
           {
             "label": "exposed (less than 100 m)",
@@ -716,7 +717,8 @@
       "There are five types of service, counted separately: schools, health, shops, stops, green space.",
       "Walking follows the real street network (OpenStreetMap), at 80 m per minute.",
       "Residents come from the ISTAT 2021 census; areas with fewer than 1,000 inhabitants per km² are shown in grey and counted separately.",
-      "A section is exposed if its centre is less than 100 m from a very busy road."
+      "A section is exposed if its centre is less than 100 m from a very busy road.",
+      "Traffic comes from a model calibrated on the sensors, which is off by ±28% in half of the cases."
     ],
     "criteri": [
       [
@@ -756,7 +758,7 @@
       "Turin only: the service catalogue is missing for the surrounding towns, so “zero” often means missing data.",
       "We count whether a service exists, not how big it is or whether it has room. Stops use the scheduled timetable: no delays and no crowding.",
       "New points are hypotheses: they ignore costs, free space and permits.",
-      "Traffic is an estimate standing in for noise and smog, which we do not measure."
+      "Traffic comes from a model and stands in for noise and smog, which are not measured."
     ],
     "mappa": {
       "id": "faseb",

@@ -98,10 +98,6 @@ function schedaValida(r){
 function numeroDi(s){ return s.numero_pubblico != null ? s.numero_pubblico : s.risultato; }
 
 /* ---------------- elenco ---------------- */
-function etichetta(s){
-  const t = forma(s).etichetta || "";
-  return t ? `<span class="pill ${/MISURATO|MEASURED/.test(t) ? "misurato" : ""}">${esc(t)}</span>` : "";
-}
 function mostraGalleria(){
   const g = $("galleria");
   if(!schede.length){
@@ -209,7 +205,7 @@ function graficoPila100(g){
     const tot = r.voci.reduce((a, v) => a + Math.max(0, v.valore || 0), 0) || 1;
     const pezzi = r.voci.map(v => {
       const w = Math.max(0, v.valore) / tot * 100;
-      return `<span style="width:${w}%;background:${TONO_COL[v.tono] || "var(--neu-blu)"};color:${TONO_TESTO[v.tono] || "var(--ink)"}" title="${esc(v.label)}: ${conUnita(v.valore, "%")}">${w >= 9 ? formattaNumero(Math.round(w * 10) / 10) + "%" : ""}</span>`;
+      return `<span style="width:${w}%;background:${TONO_COL[v.tono] || "var(--neu-blu)"};color:${TONO_TESTO[v.tono] || "var(--ink)"}" title="${esc(v.label)}: ${conUnita(Math.round(v.valore), "%")}">${w >= 9 ? formattaNumero(Math.round(w)) + "%" : ""}</span>`;
     }).join("");
     return `<div class="pila100-riga"><span class="barra-etichetta">${esc(r.label)}</span><div class="pila" role="img" aria-label="${esc(r.label)}">${pezzi}</div></div>`;
   }).join("");
@@ -284,17 +280,11 @@ function grafico(g){
 function elenco(arr, tag){ return Array.isArray(arr) && arr.length ? `<${tag}>${arr.map(x => `<li>${esc(x)}</li>`).join("")}</${tag}>` : ""; }
 function parte(titolo, html){ return html ? `<details class="parte"><summary>${titolo}</summary>${html}</details>` : ""; }
 
-/* una riga di limite sotto il numero grande: il primo dei limiti della scheda (lo script della scheda lo mette in testa) */
-function limiteVisibile(f){
-  const l = Array.isArray(f.limiti) && f.limiti[0];
-  return l ? `<p class="limite-vis"><b>${T("Limite", "Limit")}:</b> ${esc(l)}</p>` : "";
-}
-
 let corrente = -1;
 function apri(i){
   corrente = i;
   const s = schede[i], f = forma(s);
-  $("finMeta").innerHTML = `${T("Risultato", "Result")} ${esc(numeroDi(s))} ${etichetta(s)}`;
+  $("finMeta").textContent = `${T("Risultato", "Result")} ${numeroDi(s)}`;
   $("finTitolo").textContent = f.titolo;
   const mappa = `<div class="azioni">${f.mappa
     ? `<a class="btn primario" href="mappa_torino.html#tema=${encodeURIComponent(f.mappa.id)}${f.mappa.vista ? "&vista=" + encodeURIComponent(f.mappa.vista) : ""}">${T("Vedi sulla mappa", "See on the map")}</a>` : ""}</div>`;
@@ -302,7 +292,7 @@ function apri(i){
     ? `<div class="sottotitolo">${T("I criteri", "The criteria")}</div><table class="param">${f.criteri.map(c => `<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td></tr>`).join("")}</table>` : "";
   const confronto = Array.isArray(f.confronto) && f.confronto.length
     ? `<div class="sottotitolo">${T("Confronto con GTT", "Comparison with GTT")}</div>${elenco(f.confronto, "ul")}` : "";
-  // tutti gli altri grafici sono aperti (Leo, 23/10); resta chiusa solo la parte «come l'abbiamo calcolato e limiti»
+  // tutti gli altri grafici sono aperti (Leo, 23/10); resta chiusa solo la parte «come è stato calcolato, e limiti»
   const extra = f.extra
     ? `<div class="sottotitolo">${esc(f.extra.titolo)}</div><p>${esc(f.extra.punto)}</p>${grafico(f.extra.grafico)}` : "";
   const altri = (f.altri || []).length || f.area ? `<div class="sottotitolo">${T("Altri grafici", "More charts")}</div>${(f.area ? [f.area] : []).concat(f.altri || []).map(grafico).join("")}` : "";
@@ -310,13 +300,12 @@ function apri(i){
   $("finCorpo").innerHTML =
     `<p class="domanda">${esc(f.domanda)}</p>` +
     `<div class="grande"><span class="val"${attrConta(f.numero)}>${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>` +
-    limiteVisibile(f) +
     figura +
     elenco(f.punti, "ul").replace("<ul>", '<ul class="punti">') +
     grafico(f.principale) + mappa +
     altri + extra +
-    parte(T("Come l'abbiamo calcolato e limiti", "How we calculated it, and limits"),
-          elenco(f.calcolo, "ol") + confronto + criteri + `<div class="sottotitolo">${T("Limiti", "Limits")}</div>` + elenco(f.limiti, "ul"));
+    parte(T("Come è stato calcolato, e limiti", "How it was calculated, and limits"),
+          (f.tipo_dato ? `<p>${esc(f.tipo_dato)}</p>` : "") + elenco(f.calcolo, "ol") + confronto + criteri + `<div class="sottotitolo">${T("Limiti", "Limits")}</div>` + elenco(f.limiti, "ul"));
   const d = $("finestra");
   if(!d.open) d.showModal();
   d.scrollTop = 0;

@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-23T23:57:50+00:00",
+  "generato": "2026-10-24T00:23:37+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -361,7 +361,7 @@ window.SCHEDE_RISULTATI = [
    }
   ],
   "forma": {
-   "etichetta": "STIMATO",
+   "tipo_dato": "Tipo di dato: calcolato da dati veri, non misurato direttamente.",
    "titolo": "Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi",
    "domanda": "Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata?",
    "numero": {
@@ -438,8 +438,8 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "A 5 minuti solo il 68,3% dei residenti ha tutti e 5 i servizi; a 10 minuti il 96,8%.",
-    "222.179 residenti (26,4%) vivono a meno di 100 m da una strada molto trafficata.",
+    "A 5 minuti solo ~68% dei residenti ha tutti e 5 i servizi; a 10 minuti ~97%.",
+    "~222 mila residenti (~26%) vivono a meno di 100 m da una strada molto trafficata.",
     "I 362 residenti senza 3 o più servizi sono in 5 sezioni di collina: dove manca davvero tutto."
    ],
    "altri": [
@@ -447,7 +447,7 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Residenti per distanza da una strada molto trafficata",
      "unita": "residenti",
-     "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 10.677 veicoli al giorno. Stima debole: il modello sbaglia del ±28% in metà dei casi.",
+     "nota": "Distanza dal centro della sezione. Strada molto trafficata: almeno 10.677 veicoli al giorno.",
      "voci": [
       {
        "label": "esposti (meno di 100 m)",
@@ -505,7 +505,8 @@ window.SCHEDE_RISULTATI = [
     "I tipi di servizio sono cinque, contati separatamente: scuole, salute, negozi, fermate, verde.",
     "Si cammina sulla rete stradale reale (OpenStreetMap), a 80 m al minuto.",
     "Residenti dal censimento ISTAT 2021; le zone con meno di 1.000 abitanti per km² sono grigie e contate a parte.",
-    "Si è esposti se il centro della sezione è a meno di 100 m da una strada molto trafficata."
+    "Si è esposti se il centro della sezione è a meno di 100 m da una strada molto trafficata.",
+    "Il traffico viene da un modello tarato sui sensori, che sbaglia del ±28% in metà dei casi."
    ],
    "criteri": [
     [
@@ -545,7 +546,7 @@ window.SCHEDE_RISULTATI = [
     "Solo Torino: in cintura il catalogo dei servizi manca, quindi «zero» spesso vuol dire dato mancante.",
     "Si conta se un servizio c'è, non quanto è grande né se ha posto. Le fermate usano l'orario programmato: niente ritardi né affollamento.",
     "I punti nuovi sono ipotesi: non tengono conto di costi, spazi liberi o permessi.",
-    "Il traffico è una stima e sostituisce rumore e smog, che non misuriamo."
+    "Il traffico è un modello e sostituisce rumore e smog, che non sono misurati."
    ],
    "mappa": {
     "id": "faseb",
@@ -574,7 +575,7 @@ window.SCHEDE_RISULTATI = [
    }
   },
   "forma_en": {
-   "etichetta": "ESTIMATED",
+   "tipo_dato": "Type of data: calculated from real data, not measured directly.",
    "titolo": "Turin, a 15-minute city: almost everyone has the services within a 15-minute walk",
    "domanda": "How many people in Turin have the services within 5, 10 and 15 minutes on foot, and how many live on a busy road?",
    "numero": {
@@ -651,8 +652,8 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "Within 5 minutes only 68.3% of residents have all 5 services; within 10 minutes 96.8%.",
-    "222,179 residents (26.4%) live less than 100 m from a very busy road.",
+    "Within 5 minutes only ~68% of residents have all 5 services; within 10 minutes ~97%.",
+    "~222 thousand residents (~26%) live less than 100 m from a very busy road.",
     "The 362 residents without 3 or more services live in 5 hillside sections: where really everything is missing."
    ],
    "altri": [
@@ -660,7 +661,7 @@ window.SCHEDE_RISULTATI = [
      "tipo": "barre",
      "titolo": "Residents by distance from a very busy road",
      "unita": "residents",
-     "nota": "Distance from the centre of the census section. Very busy road: at least 10,677 vehicles a day. Weak estimate: the model is off by ±28% in half of the cases.",
+     "nota": "Distance from the centre of the section. Very busy road: at least 10,677 vehicles a day.",
      "voci": [
       {
        "label": "exposed (less than 100 m)",
@@ -718,7 +719,8 @@ window.SCHEDE_RISULTATI = [
     "There are five types of service, counted separately: schools, health, shops, stops, green space.",
     "Walking follows the real street network (OpenStreetMap), at 80 m per minute.",
     "Residents come from the ISTAT 2021 census; areas with fewer than 1,000 inhabitants per km² are shown in grey and counted separately.",
-    "A section is exposed if its centre is less than 100 m from a very busy road."
+    "A section is exposed if its centre is less than 100 m from a very busy road.",
+    "Traffic comes from a model calibrated on the sensors, which is off by ±28% in half of the cases."
    ],
    "criteri": [
     [
@@ -758,7 +760,7 @@ window.SCHEDE_RISULTATI = [
     "Turin only: the service catalogue is missing for the surrounding towns, so “zero” often means missing data.",
     "We count whether a service exists, not how big it is or whether it has room. Stops use the scheduled timetable: no delays and no crowding.",
     "New points are hypotheses: they ignore costs, free space and permits.",
-    "Traffic is an estimate standing in for noise and smog, which we do not measure."
+    "Traffic comes from a model and stands in for noise and smog, which are not measured."
    ],
    "mappa": {
     "id": "faseb",
@@ -806,10 +808,10 @@ window.SCHEDE_RISULTATI = [
    "Nei giorni feriali il 16% dei passaggi arriva con più di 5 minuti di ritardo; il sabato il 16,9%.",
    "Sulle linee frequenti il 21,6% delle coppie di mezzi consecutivi arriva a grappolo o lascia un buco.",
    "Il problema più comune è l'anticipo: il 35,4% dei passaggi feriali arriva più di un minuto prima dell'orario.",
-   "Il feed in tempo reale di GTT, che usavamo prima, dava il 6,2% in ritardo invece del 16%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.",
-   "Oltre 10 minuti: 6,41% nei feriali. GTT dichiara il 2,3% per il 2025: il suo metodo non è pubblicato; noi misuriamo a ogni fermata con il GPS, su pochi giorni.",
-   "Non è la stessa misura: GTT fa la media dell'anno intero, estate e sere comprese, su tutte le linee, con un metodo che non pubblica; noi misuriamo pochi giorni di ottobre, solo le linee urbane, dalle 5 a mezzanotte.",
-   "Il ritardo cresce lungo la corsa: alla prima fermata è 5,28%, a metà corsa 5,86%, a ogni fermata 6,18%, fuori dalle ore di punta 5,79% (media della settimana).",
+   "Il feed in tempo reale di GTT, usato in precedenza, dava il 6,2% in ritardo invece del 16%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.",
+   "Oltre 10 minuti: 6,41% nei feriali. GTT dichiara il 2,3% per il 2025: il suo metodo non è pubblicato; qui si misura a ogni fermata con il GPS, su pochi giorni.",
+   "Non è la stessa misura: GTT fa la media dell'anno intero, estate e sere comprese, su tutte le linee, con un metodo che non pubblica; il GPS misura pochi giorni di ottobre, solo le linee urbane, dalle 5 a mezzanotte.",
+   "Il ritardo cresce lungo la corsa: alla prima fermata è 5,28%, a metà corsa 5,86%, a ogni fermata 6,18%, escluse le fasce 7-9 e 16-19 5,79% (media della settimana).",
    "Tutte e due le misure dicono che i ritardi gravi sono una piccola parte dei passaggi: tra 2,3% e 6,2%.",
    "Tram e bus: in ritardo oltre 5 minuti il 15,4% dei passaggi dei tram e il 16,2% dei bus (feriale).",
    "Linee utili (quelle che toccano più zone affollate): in ritardo oltre 5 minuti il 17,5% dei passaggi, contro il 13,2% delle altre linee (feriale).",
@@ -846,7 +848,7 @@ window.SCHEDE_RISULTATI = [
     "unita": "%",
     "voci": [
      {
-      "label": "punta del mattino (7-9)",
+      "label": "mattino (7-9)",
       "valore": 15.5,
       "tono": "rosso"
      },
@@ -856,12 +858,12 @@ window.SCHEDE_RISULTATI = [
       "tono": "rosso"
      },
      {
-      "label": "punta della sera (16-19)",
+      "label": "sera (16-19)",
       "valore": 20.4,
       "tono": "rosso"
      },
      {
-      "label": "sera (19-24)",
+      "label": "tarda sera (19-24)",
       "valore": 18.2,
       "tono": "rosso"
      },
@@ -1022,32 +1024,32 @@ window.SCHEDE_RISULTATI = [
    },
    {
     "tipo": "barre",
-    "titolo": "Noi e GTT: passaggi in ritardo oltre 10 minuti",
+    "titolo": "GPS e dato ufficiale GTT: passaggi con oltre 10 minuti di ritardo",
     "unita": "%",
-    "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 6,41%, alla prima fermata 5,48%, a metà corsa 6,15%, fuori punta 5,96%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
+    "nota": "Il GPS è la media della settimana, in quattro modi di contare. GTT è l'anno 2025, tutte le linee, con un metodo non pubblicato.",
     "voci": [
      {
       "label": "GTT (2025, anno intero)",
-      "valore": 2.3
+      "valore": 2
      },
      {
-      "label": "noi, a ogni fermata",
-      "valore": 6.18,
+      "label": "GPS, a ogni fermata",
+      "valore": 6,
       "tono": "rosso"
      },
      {
-      "label": "noi, solo alla prima fermata",
-      "valore": 5.28,
+      "label": "GPS, solo alla prima fermata",
+      "valore": 5,
       "tono": "rosso"
      },
      {
-      "label": "noi, solo a metà corsa",
-      "valore": 5.86,
+      "label": "GPS, solo a metà corsa",
+      "valore": 6,
       "tono": "rosso"
      },
      {
-      "label": "noi, fuori dalle ore di punta",
-      "valore": 5.79,
+      "label": "GPS, escluse le fasce 7-9 e 16-19",
+      "valore": 6,
       "tono": "rosso"
      }
     ]
@@ -1189,7 +1191,7 @@ window.SCHEDE_RISULTATI = [
     "nota": "Barra chiara = attesa promessa, barra scura = attesa reale (stima bassa).",
     "voci": [
      {
-      "label": "punta del mattino (7-9)",
+      "label": "mattino (7-9)",
       "valore": 5.84,
       "prima": 4.53
      },
@@ -1199,12 +1201,12 @@ window.SCHEDE_RISULTATI = [
       "prima": 3.88
      },
      {
-      "label": "punta della sera (16-19)",
+      "label": "sera (16-19)",
       "valore": 6.54,
       "prima": 4.41
      },
      {
-      "label": "sera (19-24)",
+      "label": "tarda sera (19-24)",
       "valore": 9.96,
       "prima": 8.21
      }
@@ -1218,7 +1220,7 @@ window.SCHEDE_RISULTATI = [
     "nota": "Barra chiara = stima bassa, barra scura = stima alta.",
     "voci": [
      {
-      "label": "punta del mattino (7-9)",
+      "label": "mattino (7-9)",
       "valore": 1.65,
       "prima": 1.31
      },
@@ -1228,12 +1230,12 @@ window.SCHEDE_RISULTATI = [
       "prima": 1.44
      },
      {
-      "label": "punta della sera (16-19)",
+      "label": "sera (16-19)",
       "valore": 1.98,
       "prima": 2.12
      },
      {
-      "label": "sera (19-24)",
+      "label": "tarda sera (19-24)",
       "valore": 1.7,
       "prima": 1.74
      }
@@ -1356,7 +1358,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T23:57:50+00:00",
+  "generato": "2026-10-24T00:23:37+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-22: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -1517,7 +1519,7 @@ window.SCHEDE_RISULTATI = [
    }
   ],
   "forma": {
-   "etichetta": "MISURATO",
+   "tipo_dato": "Tipo di dato: misurato, con la posizione GPS dei mezzi.",
    "titolo": "Circa il 6% dei passaggi arriva con più di 10 minuti di ritardo",
    "domanda": "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
    "numero": {
@@ -1609,39 +1611,39 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "Oltre 10 minuti di ritardo: 6,4% dei passaggi a ogni fermata, 5,5% se si guarda solo la partenza.",
-    "La linea più in ritardo è la 17: 41,4% dei passaggi feriali oltre 5 minuti.",
-    "I tram arrivano più a grappolo dei bus: 26,8% delle coppie di mezzi contro 18,3% (feriale)."
+    "Guardando solo la partenza dal capolinea, i passaggi con oltre 10 minuti di ritardo sono ~5%.",
+    "La linea più in ritardo è la 17: ~41% dei passaggi feriali oltre 5 minuti.",
+    "I tram arrivano a grappolo più dei bus: ~27% delle coppie di mezzi contro ~18%."
    ],
    "altri": [
     {
      "tipo": "barre",
-     "titolo": "Noi e GTT: passaggi in ritardo oltre 10 minuti",
+     "titolo": "GPS e dato ufficiale GTT: passaggi con oltre 10 minuti di ritardo",
      "unita": "%",
-     "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 6,41%, alla prima fermata 5,48%, a metà corsa 6,15%, fuori punta 5,96%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
+     "nota": "Il GPS è la media della settimana, in quattro modi di contare. GTT è l'anno 2025, tutte le linee, con un metodo non pubblicato.",
      "voci": [
       {
        "label": "GTT (2025, anno intero)",
-       "valore": 2.3
+       "valore": 2
       },
       {
-       "label": "noi, a ogni fermata",
-       "valore": 6.18,
+       "label": "GPS, a ogni fermata",
+       "valore": 6,
        "tono": "rosso"
       },
       {
-       "label": "noi, solo alla prima fermata",
-       "valore": 5.28,
+       "label": "GPS, solo alla prima fermata",
+       "valore": 5,
        "tono": "rosso"
       },
       {
-       "label": "noi, solo a metà corsa",
-       "valore": 5.86,
+       "label": "GPS, solo a metà corsa",
+       "valore": 6,
        "tono": "rosso"
       },
       {
-       "label": "noi, fuori dalle ore di punta",
-       "valore": 5.79,
+       "label": "GPS, escluse le fasce 7-9 e 16-19",
+       "valore": 6,
        "tono": "rosso"
       }
      ]
@@ -1651,19 +1653,19 @@ window.SCHEDE_RISULTATI = [
      "titolo": "Ritardo oltre 5 minuti, per fascia oraria (feriale)",
      "unita": "%",
      "categorie": [
-      "punta mattino (7-9)",
+      "mattino (7-9)",
       "giorno (9-16)",
-      "punta sera (16-19)",
-      "sera (19-24)"
+      "sera (16-19)",
+      "tarda sera (19-24)"
      ],
      "serie": [
       {
        "label": "passaggi in ritardo",
        "valori": [
-        15.5,
-        16.3,
-        20.4,
-        18.2
+        16,
+        16,
+        20,
+        18
        ]
       }
      ]
@@ -1706,7 +1708,7 @@ window.SCHEDE_RISULTATI = [
     "Pochi giorni: 7 feriali, 2 sabati e 1 domenica, non tutti interi.",
     "Solo le linee urbane viste dal GPS, dalle 5 a mezzanotte.",
     "Il GPS copre circa il 80% dei passaggi programmati; le corse mai viste non si contano.",
-    "Contiamo quanto spesso c'è ritardo, non quante persone aspettano."
+    "Si conta quanto spesso c'è ritardo, non quante persone aspettano."
    ],
    "mappa": {
     "id": "puntualita",
@@ -1720,7 +1722,7 @@ window.SCHEDE_RISULTATI = [
     "testo_tutto": "su 100 passaggi in un feriale arrivano con oltre 5 minuti di ritardo",
     "fasi": [
      {
-      "label": "su 100 nella punta del mattino (7-9)",
+      "label": "su 100 al mattino (7-9)",
       "valore": 15.5
      },
      {
@@ -1728,11 +1730,11 @@ window.SCHEDE_RISULTATI = [
       "valore": 16.3
      },
      {
-      "label": "su 100 nella punta della sera (16-19)",
+      "label": "su 100 alla sera (16-19)",
       "valore": 20.4
      },
      {
-      "label": "su 100 la sera (19-24)",
+      "label": "su 100 a tarda sera (19-24)",
       "valore": 18.2
      }
     ],
@@ -1742,44 +1744,50 @@ window.SCHEDE_RISULTATI = [
    },
    "confronto": [
     "GTT dichiara il 2,3% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
-    "Noi misuriamo pochi giorni di ottobre sulle linee urbane: 6,2% a ogni fermata, 5,3% alla partenza.",
-    "Anche contando come GTT alla partenza troviamo il 5,3%; il resto della differenza è stagione e metodo."
+    "Il GPS misura pochi giorni di ottobre sulle linee urbane: 6,2% a ogni fermata, 5,3% alla partenza.",
+    "Anche contando come GTT alla partenza si trova il 5,3%; il resto della differenza è stagione e metodo.",
+    "Il grafico mostra la media della settimana (feriale 5 : sabato 1 : domenica 1).",
+    "Solo feriali: 6,41% a ogni fermata, 5,48% alla prima, 6,15% a metà corsa, 5,96% senza le fasce 7-9 e 16-19."
    ],
    "extra": {
     "titolo": "Quanto si aspetta alla fermata",
-    "punto": "Sulle linee frequenti si aspettano da 1,6 a 1,7 minuti in più di quanto promette l'orario (feriale).",
+    "punto": "Sulle linee frequenti si aspetta ~1 minuto e mezzo in più di quanto promette l'orario.",
     "grafico": {
      "tipo": "barre",
-     "titolo": "Attesa media alla fermata, per fascia oraria (feriale)",
+     "titolo": "Quanto si aspetta in più di quanto dice l'orario",
      "unita": "min",
-     "nota": "Barra chiara = attesa promessa, barra scura = attesa reale (stima bassa).",
+     "nota": "Ogni barra è una fascia del giorno feriale: i minuti di attesa in più rispetto all'orario. A destra l'attesa reale contro quella promessa.",
      "voci": [
       {
-       "label": "punta del mattino (7-9)",
-       "valore": 5.84,
-       "prima": 4.53
+       "label": "mattino (7-9)",
+       "valore": 1.3,
+       "tono": "rosso",
+       "testo": "~6 min invece di ~5"
       },
       {
        "label": "giorno (9-16)",
-       "valore": 5.32,
-       "prima": 3.88
+       "valore": 1.4,
+       "tono": "rosso",
+       "testo": "~5 min invece di ~4"
       },
       {
-       "label": "punta della sera (16-19)",
-       "valore": 6.54,
-       "prima": 4.41
+       "label": "sera (16-19)",
+       "valore": 2.1,
+       "tono": "rosso",
+       "testo": "~7 min invece di ~4"
       },
       {
-       "label": "sera (19-24)",
-       "valore": 9.96,
-       "prima": 8.21
+       "label": "tarda sera (19-24)",
+       "valore": 1.7,
+       "tono": "rosso",
+       "testo": "~10 min invece di ~8"
       }
      ]
     }
    }
   },
   "forma_en": {
-   "etichetta": "MEASURED",
+   "tipo_dato": "Type of data: measured, with the GPS position of the vehicles.",
    "titolo": "About 6% of stop passages are more than 10 minutes late",
    "domanda": "How often are GTT vehicles late or bunched together?",
    "numero": {
@@ -1871,39 +1879,39 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "More than 10 minutes late: 6.4% of arrivals at every stop, 5.5% if we look only at departure.",
-    "The line with the most delays is line 17: 41.4% of weekday arrivals more than 5 minutes late.",
-    "Trams bunch more than buses: 26.8% of vehicle pairs versus 18.3% (weekday)."
+    "Counting only the departure from the terminus, arrivals more than 10 minutes late are ~5%.",
+    "The most delayed line is 17: ~41% of weekday arrivals are more than 5 minutes late.",
+    "Trams bunch together more than buses: ~27% of pairs of vehicles against ~18%."
    ],
    "altri": [
     {
      "tipo": "barre",
-     "titolo": "Us and GTT: arrivals more than 10 minutes late",
+     "titolo": "GPS and official GTT figure: arrivals more than 10 minutes late",
      "unita": "%",
-     "nota": "Bars = weekly average (weekday 5 : Saturday 1 : Sunday 1). On weekdays: at every stop 6.41%, at the first stop 5.48%, mid-trip 6.15%, off-peak 5.96%. GTT: year 2025, all lines, method not published.",
+     "nota": "GPS is the weekly average, counted in four ways. GTT is the year 2025, all lines, with an unpublished method.",
      "voci": [
       {
        "label": "GTT (2025, whole year)",
-       "valore": 2.3
+       "valore": 2
       },
       {
-       "label": "us, at every stop",
-       "valore": 6.18,
+       "label": "GPS, at every stop",
+       "valore": 6,
        "tono": "rosso"
       },
       {
-       "label": "us, first stop only",
-       "valore": 5.28,
+       "label": "GPS, first stop only",
+       "valore": 5,
        "tono": "rosso"
       },
       {
-       "label": "us, mid-trip only",
-       "valore": 5.86,
+       "label": "GPS, mid-trip only",
+       "valore": 6,
        "tono": "rosso"
       },
       {
-       "label": "us, outside peak hours",
-       "valore": 5.79,
+       "label": "GPS, excluding 7-9 and 16-19",
+       "valore": 6,
        "tono": "rosso"
       }
      ]
@@ -1913,19 +1921,19 @@ window.SCHEDE_RISULTATI = [
      "titolo": "Delay over 5 minutes, by time of day (weekday)",
      "unita": "%",
      "categorie": [
-      "morning peak (7-9)",
+      "morning (7-9)",
       "daytime (9-16)",
-      "evening peak (16-19)",
-      "evening (19-24)"
+      "evening (16-19)",
+      "late evening (19-24)"
      ],
      "serie": [
       {
        "label": "late arrivals",
        "valori": [
-        15.5,
-        16.3,
-        20.4,
-        18.2
+        16,
+        16,
+        20,
+        18
        ]
       }
      ]
@@ -1968,7 +1976,7 @@ window.SCHEDE_RISULTATI = [
     "Few days: 7 weekdays, 2 Saturdays and 1 Sunday, not all complete.",
     "Urban lines seen by the GPS only, from 5 a.m. to midnight.",
     "The GPS covers about 80% of scheduled arrivals; trips never seen are not counted.",
-    "We count how often there is a delay, not how many people are waiting."
+    "The figure counts how often there is a delay, not how many people are waiting."
    ],
    "mappa": {
     "id": "puntualita",
@@ -1982,7 +1990,7 @@ window.SCHEDE_RISULTATI = [
     "testo_tutto": "in 100 weekday stop passages are more than 5 minutes late",
     "fasi": [
      {
-      "label": "in 100 in the morning rush (7-9)",
+      "label": "out of 100 in the morning (7-9)",
       "valore": 15.5
      },
      {
@@ -1990,11 +1998,11 @@ window.SCHEDE_RISULTATI = [
       "valore": 16.3
      },
      {
-      "label": "in 100 in the evening rush (16-19)",
+      "label": "out of 100 in the evening (16-19)",
       "valore": 20.4
      },
      {
-      "label": "in 100 in the evening (19-24)",
+      "label": "out of 100 in the late evening (19-24)",
       "valore": 18.2
      }
     ],
@@ -2004,37 +2012,43 @@ window.SCHEDE_RISULTATI = [
    },
    "confronto": [
     "GTT reports 2.3% over 10 minutes in 2025: yearly average, all lines, method not published.",
-    "We measure a few days in October on urban lines: 6.2% at every stop, 5.3% at departure.",
-    "Even counting at departure like GTT, we find 5.3%; the rest of the difference is season and method."
+    "The GPS measures a few days of October on urban lines: 6.2% at every stop, 5.3% at departure.",
+    "Even counting at departure like GTT, the figure is 5.3%; the rest of the difference is season and method.",
+    "The chart shows the weekly average (weekday 5 : Saturday 1 : Sunday 1).",
+    "Weekdays only: 6.41% at every stop, 5.48% at the first, 6.15% mid-trip, 5.96% without the 7-9 and 16-19 bands."
    ],
    "extra": {
     "titolo": "How long you wait at the stop",
-    "punto": "On frequent lines you wait 1.6 to 1.7 minutes more than the timetable promises (weekday).",
+    "punto": "On frequent lines the wait is ~1 and a half minutes longer than the timetable promises.",
     "grafico": {
      "tipo": "barre",
-     "titolo": "Average wait at the stop, by time of day (weekday)",
+     "titolo": "How much longer the wait is than the timetable says",
      "unita": "min",
-     "nota": "Light bar = promised wait, dark bar = actual wait (low estimate).",
+     "nota": "Each bar is a part of the weekday: the extra minutes of waiting compared with the timetable. On the right, the real wait against the promised one.",
      "voci": [
       {
-       "label": "morning peak (7-9)",
-       "valore": 5.84,
-       "prima": 4.53
+       "label": "morning (7-9)",
+       "valore": 1.3,
+       "tono": "rosso",
+       "testo": "~6 min instead of ~5"
       },
       {
        "label": "daytime (9-16)",
-       "valore": 5.32,
-       "prima": 3.88
+       "valore": 1.4,
+       "tono": "rosso",
+       "testo": "~5 min instead of ~4"
       },
       {
-       "label": "evening peak (16-19)",
-       "valore": 6.54,
-       "prima": 4.41
+       "label": "evening (16-19)",
+       "valore": 2.1,
+       "tono": "rosso",
+       "testo": "~7 min instead of ~4"
       },
       {
-       "label": "evening (19-24)",
-       "valore": 9.96,
-       "prima": 8.21
+       "label": "late evening (19-24)",
+       "valore": 1.7,
+       "tono": "rosso",
+       "testo": "~10 min instead of ~8"
       }
      ]
     }
@@ -2596,7 +2610,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-23T23:57:50+00:00",
+  "generato": "2026-10-24T00:23:37+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2636,8 +2650,8 @@ window.SCHEDE_RISULTATI = [
    }
   ],
   "forma": {
-   "etichetta": "STIMATO / MISURATO (dati scarsi)",
-   "titolo": "2 fermate importanti su 3 non hanno abbastanza posti per lasciare l'auto (stima)",
+   "tipo_dato": "Tipo di dato: calcolato da dati veri e in parte misurato, su pochi giorni di dati.",
+   "titolo": "2 fermate importanti su 3 non hanno abbastanza posti per lasciare l'auto",
    "domanda": "Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi?",
    "numero": {
     "valore": 179,
@@ -2725,15 +2739,15 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "68 fermate importanti non hanno nessun parcheggio adatto vicino; 111 ne hanno troppo pochi.",
-    "Servirebbero posti soprattutto in 12 punti d'ingresso: il primo è Santa Rita, dove ne mancano circa 450.",
-    "Dal parcheggio il bus batte l'auto solo se in centro si perdono più di 16 minuti (TomTom). Con i sensori, la stima più favorevole all'auto, più di 28 minuti. Con TomTom il bus conviene (fino a 1,5 volte l'auto) in 8 punti su 12 e 4 dei 5 interscambi. Dei punti dove il bus conviene, 5 su 8 sono vicini alla soglia: un'auto il 10% più veloce cambia classe."
+    "68 fermate importanti non hanno nessun parcheggio vicino, 111 troppo pochi.",
+    "Il primo dei 12 punti d'ingresso dove servono posti è Santa Rita: ne mancano ~450.",
+    "In 8 punti su 12, lasciata l'auto, il bus arriva in centro in al più 1,5 volte il tempo dell'auto."
    ],
    "altri": [
     {
      "tipo": "gara",
-     "titolo": "La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale",
-     "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha il tempo previsto da TomTom, parcheggio compreso; la stima più favorevole all'auto (sensori 5T) è un po' più veloce. Il punto più promettente è Metro Massaua: lì bastano 3 minuti con la stima TomTom (15 con quella dei sensori) persi a parcheggiare in centro.",
+     "titolo": "La gara: bus e auto verso Piazza Castello, alle 8 di un feriale",
+     "nota": "Bus e auto partono insieme da ogni parcheggio, uno dopo l'altro. L'auto ha il tempo previsto da TomTom, parcheggio compreso.",
      "luoghi": [
       {
        "nome": "Santa Rita",
@@ -2741,37 +2755,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 36.0,
        "auto_min": 26.8,
        "auto_max": 26.8,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 36.0,
-         "auto_min": 26.8,
-         "auto_max": 26.8,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 35.0,
-         "auto_min": 25.6,
-         "auto_max": 25.6,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 37.0,
-         "auto_min": 28.3,
-         "auto_max": 28.3,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 36.0,
-         "auto_min": 21.0,
-         "auto_max": 21.0,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Metro Massaua",
@@ -2779,37 +2763,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 25.0,
        "auto_min": 26.9,
        "auto_max": 26.9,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 25.0,
-         "auto_min": 26.9,
-         "auto_max": 26.9,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 25.0,
-         "auto_min": 24.1,
-         "auto_max": 24.1,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 25.0,
-         "auto_min": 27.4,
-         "auto_max": 27.4,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 27.0,
-         "auto_min": 20.4,
-         "auto_max": 20.4,
-         "giudizio": "il bus conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Ponte Cavalieri Templari",
@@ -2817,37 +2771,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 51.0,
        "auto_min": 26.6,
        "auto_max": 26.6,
-       "giudizio": "il bus non conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 51.0,
-         "auto_min": 26.6,
-         "auto_max": 26.6,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 49.0,
-         "auto_min": 23.0,
-         "auto_max": 23.0,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 49.0,
-         "auto_min": 26.6,
-         "auto_max": 26.6,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 47.0,
-         "auto_min": 21.2,
-         "auto_max": 21.2,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus non conviene"
       },
       {
        "nome": "Regina Margherita",
@@ -2855,37 +2779,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.0,
        "auto_min": 27.7,
        "auto_max": 27.7,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 31.0,
-         "auto_min": 27.7,
-         "auto_max": 27.7,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 31.0,
-         "auto_min": 26.5,
-         "auto_max": 26.5,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 30.0,
-         "auto_min": 28.8,
-         "auto_max": 28.8,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 31.0,
-         "auto_min": 21.6,
-         "auto_max": 21.6,
-         "giudizio": "il bus conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Pasini",
@@ -2893,37 +2787,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 28.0,
        "auto_min": 20.4,
        "auto_max": 20.4,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 28.0,
-         "auto_min": 20.4,
-         "auto_max": 20.4,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 26.0,
-         "auto_min": 16.7,
-         "auto_max": 16.7,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 28.0,
-         "auto_min": 19.3,
-         "auto_max": 19.3,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 24.0,
-         "auto_min": 15.4,
-         "auto_max": 15.4,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Leonardo Da Vinci",
@@ -2931,37 +2795,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 59.0,
        "auto_min": 38.5,
        "auto_max": 38.5,
-       "giudizio": "il bus non conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 59.0,
-         "auto_min": 38.5,
-         "auto_max": 38.5,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 58.0,
-         "auto_min": 35.6,
-         "auto_max": 35.6,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 60.0,
-         "auto_min": 40.1,
-         "auto_max": 40.1,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 61.0,
-         "auto_min": 30.2,
-         "auto_max": 30.2,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus non conviene"
       },
       {
        "nome": "Drosso Cap",
@@ -2969,37 +2803,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 43.0,
        "auto_min": 31.3,
        "auto_max": 31.3,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 43.0,
-         "auto_min": 31.3,
-         "auto_max": 31.3,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 43.0,
-         "auto_min": 29.1,
-         "auto_max": 29.1,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 44.0,
-         "auto_min": 33.0,
-         "auto_max": 33.0,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 49.0,
-         "auto_min": 26.0,
-         "auto_max": 26.0,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Stura Lazio",
@@ -3007,37 +2811,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 37.0,
        "auto_min": 26.9,
        "auto_max": 26.9,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 37.0,
-         "auto_min": 26.9,
-         "auto_max": 26.9,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 35.0,
-         "auto_min": 23.2,
-         "auto_max": 23.2,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 38.0,
-         "auto_min": 25.5,
-         "auto_max": 25.5,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 33.0,
-         "auto_min": 20.8,
-         "auto_max": 20.8,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Marsè",
@@ -3045,37 +2819,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 61.0,
        "auto_min": 33.5,
        "auto_max": 33.5,
-       "giudizio": "il bus non conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 61.0,
-         "auto_min": 33.5,
-         "auto_max": 33.5,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 55.0,
-         "auto_min": 27.9,
-         "auto_max": 27.9,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 59.0,
-         "auto_min": 32.4,
-         "auto_max": 32.4,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 54.0,
-         "auto_min": 25.4,
-         "auto_max": 25.4,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus non conviene"
       },
       {
        "nome": "Derna Est",
@@ -3083,37 +2827,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 34.0,
        "auto_min": 23.7,
        "auto_max": 23.7,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 34.0,
-         "auto_min": 23.7,
-         "auto_max": 23.7,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 31.0,
-         "auto_min": 22.6,
-         "auto_max": 22.6,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 32.0,
-         "auto_min": 26.3,
-         "auto_max": 26.3,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 31.0,
-         "auto_min": 19.9,
-         "auto_max": 19.9,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Ferrara",
@@ -3121,37 +2835,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 49.0,
        "auto_min": 34.8,
        "auto_max": 34.8,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 49.0,
-         "auto_min": 34.8,
-         "auto_max": 34.8,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 46.0,
-         "auto_min": 32.1,
-         "auto_max": 32.1,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 49.0,
-         "auto_min": 36.2,
-         "auto_max": 36.2,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 49.0,
-         "auto_min": 27.4,
-         "auto_max": 27.4,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Zara",
@@ -3159,37 +2843,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 33.0,
        "auto_min": 18.8,
        "auto_max": 18.8,
-       "giudizio": "il bus non conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 33.0,
-         "auto_min": 18.8,
-         "auto_max": 18.8,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 32.0,
-         "auto_min": 17.3,
-         "auto_max": 17.3,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 34.0,
-         "auto_min": 19.6,
-         "auto_max": 19.6,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 33.0,
-         "auto_min": 15.8,
-         "auto_max": 15.8,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus non conviene"
       },
       {
        "nome": "Stura",
@@ -3197,37 +2851,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 39.0,
        "auto_min": 30.2,
        "auto_max": 30.2,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 39.0,
-         "auto_min": 30.2,
-         "auto_max": 30.2,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 36.0,
-         "auto_min": 27.3,
-         "auto_max": 27.3,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 36.0,
-         "auto_min": 32.3,
-         "auto_max": 32.3,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 36.0,
-         "auto_min": 24.3,
-         "auto_max": 24.3,
-         "giudizio": "il bus conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Venchi Unica",
@@ -3235,37 +2859,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 28.0,
        "auto_min": 28.8,
        "auto_max": 28.8,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 28.0,
-         "auto_min": 28.8,
-         "auto_max": 28.8,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 28.0,
-         "auto_min": 25.8,
-         "auto_max": 25.8,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 28.0,
-         "auto_min": 29.6,
-         "auto_max": 29.6,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 30.0,
-         "auto_min": 21.9,
-         "auto_max": 21.9,
-         "giudizio": "il bus conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Caio Mario",
@@ -3273,37 +2867,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 38.0,
        "auto_min": 30.1,
        "auto_max": 30.1,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 38.0,
-         "auto_min": 30.1,
-         "auto_max": 30.1,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 38.0,
-         "auto_min": 29.6,
-         "auto_max": 29.6,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 39.0,
-         "auto_min": 33.3,
-         "auto_max": 33.3,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 45.0,
-         "auto_min": 25.2,
-         "auto_max": 25.2,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Fermi",
@@ -3311,37 +2875,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.0,
        "auto_min": 36.6,
        "auto_max": 36.6,
-       "giudizio": "il bus conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 31.0,
-         "auto_min": 36.6,
-         "auto_max": 36.6,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 31.0,
-         "auto_min": 32.4,
-         "auto_max": 32.4,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 31.0,
-         "auto_min": 36.5,
-         "auto_max": 36.5,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 33.0,
-         "auto_min": 28.0,
-         "auto_max": 28.0,
-         "giudizio": "il bus conviene"
-        }
-       ]
+       "giudizio": "il bus conviene"
       },
       {
        "nome": "Sofia",
@@ -3349,151 +2883,41 @@ window.SCHEDE_RISULTATI = [
        "bus": 33.0,
        "auto_min": 21.8,
        "auto_max": 21.8,
-       "giudizio": "il bus non conviene",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 33.0,
-         "auto_min": 21.8,
-         "auto_max": 21.8,
-         "giudizio": "il bus non conviene"
-        },
-        {
-         "ora": "13:00",
-         "bus": 31.0,
-         "auto_min": 20.6,
-         "auto_max": 20.6,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "17:30",
-         "bus": 33.0,
-         "auto_min": 23.4,
-         "auto_max": 23.4,
-         "giudizio": "il bus conviene"
-        },
-        {
-         "ora": "21:00",
-         "bus": 28.0,
-         "auto_min": 18.1,
-         "auto_max": 18.1,
-         "giudizio": "il bus non conviene"
-        }
-       ]
+       "giudizio": "il bus non conviene"
       }
      ],
      "scelto": 0
     },
     {
      "tipo": "barre",
-     "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto",
-     "unita": "minuti",
-     "nota": "Verso Piazza Castello alle 8. Barra scura = stima di TomTom, barra chiara = stima più favorevole all'auto (sensori 5T). Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
-     "voci": [
-      {
-       "label": "Metro Massaua",
-       "valore": 3,
-       "prima": 15,
-       "testo": "3 min (sensori 15)"
-      },
-      {
-       "label": "Regina Margherita",
-       "valore": 8,
-       "prima": 24,
-       "testo": "8 min (sensori 24)"
-      },
-      {
-       "label": "Pasini",
-       "valore": 13,
-       "prima": 21,
-       "testo": "13 min (sensori 21)"
-      },
-      {
-       "label": "Santa Rita",
-       "valore": 14,
-       "prima": 27,
-       "testo": "14 min (sensori 27)"
-      },
-      {
-       "label": "Stura Lazio",
-       "valore": 15,
-       "prima": 28,
-       "testo": "15 min (sensori 28)"
-      },
-      {
-       "label": "Derna Est",
-       "valore": 15,
-       "prima": 25,
-       "testo": "15 min (sensori 25)"
-      },
-      {
-       "label": "Drosso Cap",
-       "valore": 17,
-       "prima": 31,
-       "testo": "17 min (sensori 31)"
-      },
-      {
-       "label": "Ferrara",
-       "valore": 19,
-       "prima": 34,
-       "testo": "19 min (sensori 34)"
-      },
-      {
-       "label": "Zara",
-       "valore": 19,
-       "prima": 26,
-       "testo": "19 min (sensori 26)"
-      },
-      {
-       "label": "Leonardo Da Vinci",
-       "valore": 26,
-       "prima": 44,
-       "testo": "26 min (sensori 44)"
-      },
-      {
-       "label": "Ponte Cavalieri Templari",
-       "valore": 29,
-       "prima": 38,
-       "testo": "29 min (sensori 38)"
-      },
-      {
-       "label": "Marsè",
-       "valore": 32,
-       "prima": 43,
-       "testo": "32 min (sensori 43)"
-      }
-     ]
-    },
-    {
-     "tipo": "barre",
      "titolo": "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro",
      "unita": "minuti",
-     "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, parcheggio compreso, con la stima di TomTom (con la stima più favorevole all'auto, dei sensori 5T, l'auto è un po' più veloce).",
+     "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra il tempo in auto, parcheggio compreso (TomTom), e quanto è pieno il parcheggio di giorno.",
      "voci": [
       {
        "label": "Stura",
        "valore": 39,
-       "testo": "pieno di giorno; 39 contro 30 in auto"
+       "testo": "39 contro 30 in auto · pieno di giorno"
       },
       {
        "label": "Venchi Unica",
        "valore": 28,
-       "testo": "a metà; 28 contro 29 in auto"
+       "testo": "28 contro 29 in auto · a metà"
       },
       {
        "label": "Caio Mario",
        "valore": 38,
-       "testo": "con posti liberi; 38 contro 30 in auto"
+       "testo": "38 contro 30 in auto · con posti liberi"
       },
       {
        "label": "Fermi",
        "valore": 31,
-       "testo": "non misurato; 31 contro 37 in auto"
+       "testo": "31 contro 37 in auto · non misurato"
       },
       {
        "label": "Sofia",
        "valore": 33,
-       "testo": "con posti liberi; 33 contro 22 in auto"
+       "testo": "33 contro 22 in auto · con posti liberi"
       }
      ]
     }
@@ -3503,7 +2927,10 @@ window.SCHEDE_RISULTATI = [
     "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
     "Auto da fermare: auto che passano per il 5,8% che già oggi lascia l'auto. Posti: parcheggi adatti entro 400 metri.",
     "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.",
-    "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto. Auto: tempo a flusso libero per il fattore TomTom del percorso, più 5 minuti. Dati di traffico: TomTom."
+    "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto. Auto: tempo a flusso libero per il fattore TomTom del percorso, più 5 minuti. Dati di traffico: TomTom.",
+    "Pareggio: con 16 minuti persi a parcheggiare in centro, l'auto impiega quanto il bus (mediana dei 12 punti, TomTom).",
+    "Dei punti dove il bus conviene, 5 su 8 sono vicini alla soglia: un'auto il 10% più veloce cambia classe.",
+    "Con la stima dei sensori del traffico, più favorevole all'auto (fattore 1,2), il pareggio sale a 28 minuti."
    ],
    "criteri": [
     [
@@ -3530,7 +2957,7 @@ window.SCHEDE_RISULTATI = [
    "limiti": [
     "Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza. Con metà o doppio di chi lascia l'auto, le fermate senza posti bastanti vanno da 135 a 212 su 274.",
     "I tempi coi mezzi sono solo GTT, senza treni. La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
-    "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Usiamo un solo servizio.",
+    "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Si usa un solo servizio.",
     "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."
    ],
    "mappa": {
@@ -5269,8 +4696,8 @@ window.SCHEDE_RISULTATI = [
    }
   },
   "forma_en": {
-   "etichetta": "ESTIMATED / MEASURED (little data)",
-   "titolo": "2 important stops out of 3 do not have enough spaces to leave the car (estimate)",
+   "tipo_dato": "Type of data: calculated from real data and partly measured, over few days of data.",
+   "titolo": "2 in 3 important stops lack enough spaces to leave the car",
    "domanda": "Can people driving in from outside find a place to leave the car near an important stop, and continue by public transport?",
    "numero": {
     "valore": 179,
@@ -5358,15 +4785,15 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "68 important stops have no suitable car park nearby; 111 have too few spaces.",
-    "Spaces are needed above all at 12 entry points: the first is Santa Rita, where about 450 are missing.",
-    "From the car park, the bus beats the car only if you lose more than 16 minutes parking downtown (TomTom). With the sensors, the estimate most favourable to the car, more than 28 minutes. With TomTom the bus is worthwhile (up to 1.5 times the car) in 8 points out of 12 and 4 of the 5 park-and-ride lots. Of the points where the bus is worthwhile, 5 out of 8 are close to the threshold: a car 10% faster changes the class."
+    "68 important stops have no car park nearby, 111 have too few.",
+    "The first of the 12 entry points where spaces are needed is Santa Rita: about 450 are missing.",
+    "In 8 points out of 12, once the car is left, the bus reaches the centre in at most 1.5 times the car's time."
    ],
    "altri": [
     {
      "tipo": "gara",
-     "titolo": "The race: bus and car from a point to Piazza Castello, at 8 a.m., 1 p.m., 5:30 p.m. and 9 p.m. on a weekday",
-     "nota": "A real minute is over in a flash: the longer the trip, the later the vehicle arrives. The car has the time forecast by TomTom, parking included; the estimate most favourable to the car (5T sensors) is a bit faster. The most promising point is Metro Massaua: there, 3 minutes con la stima TomTom (15 con quella dei sensori) lost parking downtown are enough.",
+     "titolo": "The race: bus and car to Piazza Castello, at 8 a.m. on a weekday",
+     "nota": "Bus and car leave together from each car park, one after the other. The car has the time forecast by TomTom, parking included.",
      "luoghi": [
       {
        "nome": "Santa Rita",
@@ -5374,37 +4801,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 36.0,
        "auto_min": 26.8,
        "auto_max": 26.8,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 36.0,
-         "auto_min": 26.8,
-         "auto_max": 26.8,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 35.0,
-         "auto_min": 25.6,
-         "auto_max": 25.6,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 37.0,
-         "auto_min": 28.3,
-         "auto_max": 28.3,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 36.0,
-         "auto_min": 21.0,
-         "auto_max": 21.0,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Metro Massaua",
@@ -5412,37 +4809,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 25.0,
        "auto_min": 26.9,
        "auto_max": 26.9,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 25.0,
-         "auto_min": 26.9,
-         "auto_max": 26.9,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 25.0,
-         "auto_min": 24.1,
-         "auto_max": 24.1,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 25.0,
-         "auto_min": 27.4,
-         "auto_max": 27.4,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 27.0,
-         "auto_min": 20.4,
-         "auto_max": 20.4,
-         "giudizio": "the bus pays off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Ponte Cavalieri Templari",
@@ -5450,37 +4817,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 51.0,
        "auto_min": 26.6,
        "auto_max": 26.6,
-       "giudizio": "the bus does not pay off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 51.0,
-         "auto_min": 26.6,
-         "auto_max": 26.6,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 49.0,
-         "auto_min": 23.0,
-         "auto_max": 23.0,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 49.0,
-         "auto_min": 26.6,
-         "auto_max": 26.6,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 47.0,
-         "auto_min": 21.2,
-         "auto_max": 21.2,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus does not pay off"
       },
       {
        "nome": "Regina Margherita",
@@ -5488,37 +4825,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.0,
        "auto_min": 27.7,
        "auto_max": 27.7,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 31.0,
-         "auto_min": 27.7,
-         "auto_max": 27.7,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 31.0,
-         "auto_min": 26.5,
-         "auto_max": 26.5,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 30.0,
-         "auto_min": 28.8,
-         "auto_max": 28.8,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 31.0,
-         "auto_min": 21.6,
-         "auto_max": 21.6,
-         "giudizio": "the bus pays off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Pasini",
@@ -5526,37 +4833,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 28.0,
        "auto_min": 20.4,
        "auto_max": 20.4,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 28.0,
-         "auto_min": 20.4,
-         "auto_max": 20.4,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 26.0,
-         "auto_min": 16.7,
-         "auto_max": 16.7,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 28.0,
-         "auto_min": 19.3,
-         "auto_max": 19.3,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 24.0,
-         "auto_min": 15.4,
-         "auto_max": 15.4,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Leonardo Da Vinci",
@@ -5564,37 +4841,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 59.0,
        "auto_min": 38.5,
        "auto_max": 38.5,
-       "giudizio": "the bus does not pay off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 59.0,
-         "auto_min": 38.5,
-         "auto_max": 38.5,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 58.0,
-         "auto_min": 35.6,
-         "auto_max": 35.6,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 60.0,
-         "auto_min": 40.1,
-         "auto_max": 40.1,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 61.0,
-         "auto_min": 30.2,
-         "auto_max": 30.2,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus does not pay off"
       },
       {
        "nome": "Drosso Cap",
@@ -5602,37 +4849,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 43.0,
        "auto_min": 31.3,
        "auto_max": 31.3,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 43.0,
-         "auto_min": 31.3,
-         "auto_max": 31.3,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 43.0,
-         "auto_min": 29.1,
-         "auto_max": 29.1,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 44.0,
-         "auto_min": 33.0,
-         "auto_max": 33.0,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 49.0,
-         "auto_min": 26.0,
-         "auto_max": 26.0,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Stura Lazio",
@@ -5640,37 +4857,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 37.0,
        "auto_min": 26.9,
        "auto_max": 26.9,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 37.0,
-         "auto_min": 26.9,
-         "auto_max": 26.9,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 35.0,
-         "auto_min": 23.2,
-         "auto_max": 23.2,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 38.0,
-         "auto_min": 25.5,
-         "auto_max": 25.5,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 33.0,
-         "auto_min": 20.8,
-         "auto_max": 20.8,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Marsè",
@@ -5678,37 +4865,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 61.0,
        "auto_min": 33.5,
        "auto_max": 33.5,
-       "giudizio": "the bus does not pay off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 61.0,
-         "auto_min": 33.5,
-         "auto_max": 33.5,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 55.0,
-         "auto_min": 27.9,
-         "auto_max": 27.9,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 59.0,
-         "auto_min": 32.4,
-         "auto_max": 32.4,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 54.0,
-         "auto_min": 25.4,
-         "auto_max": 25.4,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus does not pay off"
       },
       {
        "nome": "Derna Est",
@@ -5716,37 +4873,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 34.0,
        "auto_min": 23.7,
        "auto_max": 23.7,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 34.0,
-         "auto_min": 23.7,
-         "auto_max": 23.7,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 31.0,
-         "auto_min": 22.6,
-         "auto_max": 22.6,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 32.0,
-         "auto_min": 26.3,
-         "auto_max": 26.3,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 31.0,
-         "auto_min": 19.9,
-         "auto_max": 19.9,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Ferrara",
@@ -5754,37 +4881,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 49.0,
        "auto_min": 34.8,
        "auto_max": 34.8,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 49.0,
-         "auto_min": 34.8,
-         "auto_max": 34.8,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 46.0,
-         "auto_min": 32.1,
-         "auto_max": 32.1,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 49.0,
-         "auto_min": 36.2,
-         "auto_max": 36.2,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 49.0,
-         "auto_min": 27.4,
-         "auto_max": 27.4,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Zara",
@@ -5792,37 +4889,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 33.0,
        "auto_min": 18.8,
        "auto_max": 18.8,
-       "giudizio": "the bus does not pay off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 33.0,
-         "auto_min": 18.8,
-         "auto_max": 18.8,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 32.0,
-         "auto_min": 17.3,
-         "auto_max": 17.3,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 34.0,
-         "auto_min": 19.6,
-         "auto_max": 19.6,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 33.0,
-         "auto_min": 15.8,
-         "auto_max": 15.8,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus does not pay off"
       },
       {
        "nome": "Stura",
@@ -5830,37 +4897,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 39.0,
        "auto_min": 30.2,
        "auto_max": 30.2,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 39.0,
-         "auto_min": 30.2,
-         "auto_max": 30.2,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 36.0,
-         "auto_min": 27.3,
-         "auto_max": 27.3,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 36.0,
-         "auto_min": 32.3,
-         "auto_max": 32.3,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 36.0,
-         "auto_min": 24.3,
-         "auto_max": 24.3,
-         "giudizio": "the bus pays off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Venchi Unica",
@@ -5868,37 +4905,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 28.0,
        "auto_min": 28.8,
        "auto_max": 28.8,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 28.0,
-         "auto_min": 28.8,
-         "auto_max": 28.8,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 28.0,
-         "auto_min": 25.8,
-         "auto_max": 25.8,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 28.0,
-         "auto_min": 29.6,
-         "auto_max": 29.6,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 30.0,
-         "auto_min": 21.9,
-         "auto_max": 21.9,
-         "giudizio": "the bus pays off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Caio Mario",
@@ -5906,37 +4913,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 38.0,
        "auto_min": 30.1,
        "auto_max": 30.1,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 38.0,
-         "auto_min": 30.1,
-         "auto_max": 30.1,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 38.0,
-         "auto_min": 29.6,
-         "auto_max": 29.6,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 39.0,
-         "auto_min": 33.3,
-         "auto_max": 33.3,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 45.0,
-         "auto_min": 25.2,
-         "auto_max": 25.2,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Fermi",
@@ -5944,37 +4921,7 @@ window.SCHEDE_RISULTATI = [
        "bus": 31.0,
        "auto_min": 36.6,
        "auto_max": 36.6,
-       "giudizio": "the bus pays off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 31.0,
-         "auto_min": 36.6,
-         "auto_max": 36.6,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 31.0,
-         "auto_min": 32.4,
-         "auto_max": 32.4,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 31.0,
-         "auto_min": 36.5,
-         "auto_max": 36.5,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 33.0,
-         "auto_min": 28.0,
-         "auto_max": 28.0,
-         "giudizio": "the bus pays off"
-        }
-       ]
+       "giudizio": "the bus pays off"
       },
       {
        "nome": "Sofia",
@@ -5982,151 +4929,41 @@ window.SCHEDE_RISULTATI = [
        "bus": 33.0,
        "auto_min": 21.8,
        "auto_max": 21.8,
-       "giudizio": "the bus does not pay off",
-       "ore": [
-        {
-         "ora": "8:00",
-         "bus": 33.0,
-         "auto_min": 21.8,
-         "auto_max": 21.8,
-         "giudizio": "the bus does not pay off"
-        },
-        {
-         "ora": "13:00",
-         "bus": 31.0,
-         "auto_min": 20.6,
-         "auto_max": 20.6,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "17:30",
-         "bus": 33.0,
-         "auto_min": 23.4,
-         "auto_max": 23.4,
-         "giudizio": "the bus pays off"
-        },
-        {
-         "ora": "21:00",
-         "bus": 28.0,
-         "auto_min": 18.1,
-         "auto_max": 18.1,
-         "giudizio": "the bus does not pay off"
-        }
-       ]
+       "giudizio": "the bus does not pay off"
       }
      ],
      "scelto": 0
     },
     {
      "tipo": "barre",
-     "titolo": "Minutes spent parking downtown beyond which the bus from the point is as fast as the car",
-     "unita": "minutes",
-     "nota": "To Piazza Castello at 8. Dark bar = TomTom estimate, light bar = estimate most favourable to the car (5T sensors). Fewer minutes = more promising point; 0 = the bus is already faster.",
-     "voci": [
-      {
-       "label": "Metro Massaua",
-       "valore": 3,
-       "prima": 15,
-       "testo": "3 min (sensors 15)"
-      },
-      {
-       "label": "Regina Margherita",
-       "valore": 8,
-       "prima": 24,
-       "testo": "8 min (sensors 24)"
-      },
-      {
-       "label": "Pasini",
-       "valore": 13,
-       "prima": 21,
-       "testo": "13 min (sensors 21)"
-      },
-      {
-       "label": "Santa Rita",
-       "valore": 14,
-       "prima": 27,
-       "testo": "14 min (sensors 27)"
-      },
-      {
-       "label": "Stura Lazio",
-       "valore": 15,
-       "prima": 28,
-       "testo": "15 min (sensors 28)"
-      },
-      {
-       "label": "Derna Est",
-       "valore": 15,
-       "prima": 25,
-       "testo": "15 min (sensors 25)"
-      },
-      {
-       "label": "Drosso Cap",
-       "valore": 17,
-       "prima": 31,
-       "testo": "17 min (sensors 31)"
-      },
-      {
-       "label": "Ferrara",
-       "valore": 19,
-       "prima": 34,
-       "testo": "19 min (sensors 34)"
-      },
-      {
-       "label": "Zara",
-       "valore": 19,
-       "prima": 26,
-       "testo": "19 min (sensors 26)"
-      },
-      {
-       "label": "Leonardo Da Vinci",
-       "valore": 26,
-       "prima": 44,
-       "testo": "26 min (sensors 44)"
-      },
-      {
-       "label": "Ponte Cavalieri Templari",
-       "valore": 29,
-       "prima": 38,
-       "testo": "29 min (sensors 38)"
-      },
-      {
-       "label": "Marsè",
-       "valore": 32,
-       "prima": 43,
-       "testo": "32 min (sensors 43)"
-      }
-     ]
-    },
-    {
-     "tipo": "barre",
      "titolo": "Existing park-and-ride sites: how full they are and how long the bus takes to the centre",
      "unita": "minutes",
-     "nota": "Bar = minutes by public transport to Piazza Castello at 8. On the right, how full the car park is in the daytime and the car time, parking included, with the TomTom estimate (with the estimate most favourable to the car, from the 5T sensors, the car is a bit faster).",
+     "nota": "Bar = minutes by public transport to Piazza Castello at 8 a.m. On the right, the car time with parking included (TomTom), and how full the car park is during the day.",
      "voci": [
       {
        "label": "Stura",
        "valore": 39,
-       "testo": "full in the daytime; 39 versus 30 by car"
+       "testo": "39 against 30 by car · full during the day"
       },
       {
        "label": "Venchi Unica",
        "valore": 28,
-       "testo": "half full; 28 versus 29 by car"
+       "testo": "28 against 29 by car · half full"
       },
       {
        "label": "Caio Mario",
        "valore": 38,
-       "testo": "with free spaces; 38 versus 30 by car"
+       "testo": "38 against 30 by car · with free spaces"
       },
       {
        "label": "Fermi",
        "valore": 31,
-       "testo": "not measured; 31 versus 37 by car"
+       "testo": "31 against 37 by car · not measured"
       },
       {
        "label": "Sofia",
        "valore": 33,
-       "testo": "with free spaces; 33 versus 22 by car"
+       "testo": "33 against 22 by car · with free spaces"
       }
      ]
     }
@@ -6136,7 +4973,10 @@ window.SCHEDE_RISULTATI = [
     "Cars entering come from the 2022 travel survey, assigned to the fastest route.",
     "Cars to stop: passing cars times the 5.8% who already leave the car today. Spaces: suitable car parks within 400 metres.",
     "Priority points: stops without enough parking, grouped within 1 km, one per entry axis.",
-    "Bus versus car: minutes by public transport to Piazza Castello at 8, versus the car. Car: free-flow time times the TomTom factor of the route, plus 5 minutes. Traffic data: TomTom."
+    "Bus versus car: minutes by public transport to Piazza Castello at 8, versus the car. Car: free-flow time times the TomTom factor of the route, plus 5 minutes. Traffic data: TomTom.",
+    "Break-even: with 16 minutes lost parking downtown, the car takes as long as the bus (median of the 12 points, TomTom).",
+    "Of the points where the bus pays off, 5 out of 8 are close to the threshold: a car 10% faster changes the class.",
+    "With the traffic-sensor estimate, more favourable to the car (factor 1.2), the break-even rises to 28 minutes."
    ],
    "criteri": [
     [
@@ -6163,7 +5003,7 @@ window.SCHEDE_RISULTATI = [
    "limiti": [
     "Passing cars come from a traffic model. Spaces are often estimated: the missing ones are an order of magnitude. With half or double the drivers who leave the car, stops without enough spaces go from 135 to 212 out of 274.",
     "Public transport times are GTT only, without trains. The sensor estimate ignores traffic lights and junctions: it is the most favourable to the car.",
-    "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. We use a single service.",
+    "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. A single service is used.",
     "The cost of parking is not in the calculation: it weighs as extra minutes. One point per place and one destination only."
    ],
    "mappa": {
@@ -8283,7 +7123,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-23T23:57:50+00:00",
+  "generato": "2026-10-24T00:23:38+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -8327,7 +7167,7 @@ window.SCHEDE_RISULTATI = [
    }
   ],
   "forma": {
-   "etichetta": "STIMATO / MISURATO / PROGRAMMATO",
+   "tipo_dato": "Tipo di dato: calcolato da dati veri, con tempi in auto di TomTom, misure dei sensori e orari ufficiali dei mezzi.",
    "titolo": "Al mattino, coi mezzi pubblici si impiega 1,9 volte il tempo dell'auto",
    "domanda": "Per quali spostamenti l'auto è molto più veloce dei mezzi pubblici, e quante auto li fanno?",
    "numero": {
@@ -11655,7 +10495,7 @@ window.SCHEDE_RISULTATI = [
    }
   },
   "forma_en": {
-   "etichetta": "ESTIMATED / MEASURED / SCHEDULED",
+   "tipo_dato": "Type of data: calculated from real data, with car times from TomTom, sensor measurements and the official timetables of the vehicles.",
    "titolo": "In the morning, public transport takes 1.9 times as long as the car",
    "domanda": "For which trips is the car much faster than public transport, and how many cars make them?",
    "numero": {
@@ -15012,7 +13852,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T23:57:50+00:00",
+  "generato": "2026-10-24T00:23:38+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -15050,7 +13890,7 @@ window.SCHEDE_RISULTATI = [
    }
   ],
   "forma": {
-   "etichetta": "STIMATO / CENSIMENTO",
+   "tipo_dato": "Tipo di dato: calcolato da dati veri, con gli abitanti del censimento 2021.",
    "titolo": "Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi",
    "domanda": "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
    "numero": {
@@ -15354,7 +14194,7 @@ window.SCHEDE_RISULTATI = [
    },
    "punti": [
     "A parità di distanza dal centro il legame prezzo-servizi quasi sparisce: correlazione 0,21 su 46 zone (da −0,12 a 0,52).",
-    "5 zone sono in doppio svantaggio: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. Ci abitano 129.285 persone.",
+    "5 zone sono in doppio svantaggio: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. Ci abitano ~129 mila persone.",
     "A parità di distanza dal centro reggono fragilità-servizi (−0,48) e prezzo-fragilità (−0,69)."
    ],
    "altri": [
@@ -15729,7 +14569,7 @@ window.SCHEDE_RISULTATI = [
    }
   },
   "forma_en": {
-   "etichetta": "ESTIMATED / CENSUS",
+   "tipo_dato": "Type of data: calculated from real data, with the residents of the 2021 census.",
    "titolo": "About 1 Turin resident in 10 lives in an area with more social difficulties and few services",
    "domanda": "Do people pay for services? And who lives where services are few and fragility is high?",
    "numero": {
@@ -16033,7 +14873,7 @@ window.SCHEDE_RISULTATI = [
    },
    "punti": [
     "At equal distance from the centre the price-services link nearly disappears: correlation 0.21 over 46 zones (from −0.12 to 0.52).",
-    "5 zones are in double disadvantage: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. 129,285 people live there.",
+    "5 zones are in double disadvantage: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. ~129 thousand people live there.",
     "At equal distance from the centre, fragility-services (−0.48) and price-fragility (−0.69) hold."
    ],
    "altri": [

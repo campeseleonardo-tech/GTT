@@ -1,6 +1,6 @@
 """Risultato 4 (pubblico 2): puntualita' e attese dei mezzi GTT (comprende il vecchio Risultato 9, l'attesa)."""
 import re
-from schede.comune import DOCS, forma_base, il, leggi, link_linea, migliaia, num, ora, pct2, periodo_it, virgola, voce
+from schede.comune import DOCS, circa, forma_base, il, intero, leggi, link_linea, migliaia, minuti_a_parole, num, ora, pct2, periodo_it, virgola, voce
 
 
 
@@ -22,11 +22,11 @@ def fasce_r4():
 
 
 # GTT: passaggi bus e tram in ritardo oltre 10 minuti nel 2025, 2,3% (rapporto di sostenibilita' GTT 2025, p. 128;
-# sintesi in docs/rapporti/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md). Costante: non esce da nessun nostro calcolo.
+# sintesi in docs/rapporti/RIASSUNTO_RAPPORTO_SOSTENIBILITA_2025.md). Costante: non esce da nessun calcolo del progetto.
 GTT_RITARDO10_2025_PCT = 2.3
 
 
-DEF_R4 = (("a", "a ogni fermata"), ("b", "solo alla prima fermata"), ("c", "solo a metà corsa"), ("d", "fuori dalle ore di punta"))
+DEF_R4 = (("a", "a ogni fermata"), ("b", "solo alla prima fermata"), ("c", "solo a metà corsa"), ("d", "escluse le fasce 7-9 e 16-19"))
 
 
 
@@ -72,8 +72,8 @@ def scheda_r4():
                         key=lambda x: -x[1]["ritardo"])[:10]
     peggio_irr = sorted((x for x in linee if (x[1].get("coppie") or 0) >= par["min_coppie"] and str(x[0]).isdigit()),
                         key=lambda x: -(x[1]["grappolo"] + x[1]["buco"]))[:10]
-    nomi_fasce = {"punta_mattina": "punta del mattino (7-9)", "giorno": "giorno (9-16)",
-                  "punta_sera": "punta della sera (16-19)", "sera": "sera (19-24)", "notte": "notte e primo mattino (fino alle 7, dati parziali)"}
+    nomi_fasce = {"punta_mattina": "mattino (7-9)", "giorno": "giorno (9-16)",
+                  "punta_sera": "sera (16-19)", "sera": "tarda sera (19-24)", "notte": "notte e primo mattino (fino alle 7, dati parziali)"}
     modi = r.get("modi") or {}
     tram_f, bus_f = (modi.get("tram") or {}).get("0"), (modi.get("bus") or {}).get("0")
     utili = (r.get("linee_utili") or {}).get("0")
@@ -87,20 +87,17 @@ def scheda_r4():
     if cg:
         dd = cg["definizioni"]
         sett = {k: dd[k]["settimana"]["ritardo10_pct"] for k, _ in DEF_R4}
-        fer10 = {k: dd[k]["per_tipo"]["0"]["ritardo10_pct"] for k, _ in DEF_R4}
         grafici_nuovi.append({
-            "tipo": "barre", "titolo": "Noi e GTT: passaggi in ritardo oltre 10 minuti", "unita": "%",
-            "nota": f"Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata {pct2(fer10['a'])}%, "
-                    f"alla prima fermata {pct2(fer10['b'])}%, a metà corsa {pct2(fer10['c'])}%, fuori punta {pct2(fer10['d'])}%. "
-                    f"GTT: anno 2025, tutte le linee, metodo non pubblicato.",
-            "voci": [voce("GTT (2025, anno intero)", GTT_RITARDO10_2025_PCT)]
-                    + [voce(f"noi, {nome}", sett[k], tono="rosso") for k, nome in DEF_R4]})
+            "tipo": "barre", "titolo": "GPS e dato ufficiale GTT: passaggi con oltre 10 minuti di ritardo", "unita": "%",
+            "nota": "Il GPS è la media della settimana, in quattro modi di contare. GTT è l'anno 2025, tutte le linee, con un metodo non pubblicato.",
+            "voci": [voce("GTT (2025, anno intero)", intero(GTT_RITARDO10_2025_PCT))]
+                    + [voce(f"GPS, {nome}", intero(sett[k]), tono="rosso") for k, nome in DEF_R4]})
         basso, alto = min([GTT_RITARDO10_2025_PCT] + list(sett.values())), max(sett.values())
         righe_gtt = [
             "Non è la stessa misura: GTT fa la media dell'anno intero, estate e sere comprese, su tutte le linee, con un metodo che non pubblica; "
-            "noi misuriamo pochi giorni di ottobre, solo le linee urbane, dalle 5 a mezzanotte.",
+            "il GPS misura pochi giorni di ottobre, solo le linee urbane, dalle 5 a mezzanotte.",
             f"{'Il ritardo cresce lungo la corsa: ' if sett['b'] < sett['a'] else ''}alla prima fermata è {pct2(sett['b'])}%, "
-            f"a metà corsa {pct2(sett['c'])}%, a ogni fermata {pct2(sett['a'])}%, fuori dalle ore di punta {pct2(sett['d'])}% (media della settimana).",
+            f"a metà corsa {pct2(sett['c'])}%, a ogni fermata {pct2(sett['a'])}%, escluse le fasce 7-9 e 16-19 {pct2(sett['d'])}% (media della settimana).",
             f"Tutte e due le misure dicono che i ritardi gravi sono una piccola parte dei passaggi: tra {virgola(basso)}% e {virgola(alto)}%.",
         ]
         righe_gtt_en = [
@@ -155,10 +152,10 @@ def scheda_r4():
             "consecutivi arriva a grappolo o lascia un buco.",
             f"Il problema più comune è l'anticipo: {il(fer['anticipo'])}% dei passaggi feriali arriva "
             "più di un minuto prima dell'orario.",
-            f"Il feed in tempo reale di GTT, che usavamo prima, dava il {virgola(cf_fer['ritardo'])}% in ritardo invece del "
+            f"Il feed in tempo reale di GTT, usato in precedenza, dava il {virgola(cf_fer['ritardo'])}% in ritardo invece del "
             f"{virgola(fer['ritardo'])}%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.",
             *([f"Oltre 10 minuti: {pct2(fer['ritardo10'])}% nei feriali. GTT dichiara il {virgola(rif10)}% per il 2025: "
-               "il suo metodo non è pubblicato; noi misuriamo a ogni fermata con il GPS, su pochi giorni."]
+               "il suo metodo non è pubblicato; qui si misura a ogni fermata con il GPS, su pochi giorni."]
               if "ritardo10" in fer and rif10 is not None else []),
             *righe_gtt,
             *([f"Tram e bus: in ritardo oltre 5 minuti {il(tram_f['ritardo'])}% dei passaggi dei tram e {il(bus_f['ritardo'])}% "
@@ -281,8 +278,8 @@ def scheda_r9():
     r = leggi("risultato9_attesa.json")
     par = r["parametri"]
     nomi_tipo = {"0": "Feriale", "1": "Sabato", "2": "Domenica"}
-    nomi_fasce = {"punta_mattina": "punta del mattino (7-9)", "giorno": "giorno (9-16)",
-                  "punta_sera": "punta della sera (16-19)", "sera": "sera (19-24)",
+    nomi_fasce = {"punta_mattina": "mattino (7-9)", "giorno": "giorno (9-16)",
+                  "punta_sera": "sera (16-19)", "sera": "tarda sera (19-24)",
                   "notte": "primo mattino (fino alle 7)"}
     fer = r["citta"]["0"]
     gps = r["controllo_gps"] or {}
@@ -415,12 +412,12 @@ def forma_r4(s):
                 voce("ritardo da 5 a 10 minuti", round(c[k]["ritardo"] - c[k]["ritardo10"], 2), tono="giallo"),
                 voce("ritardo oltre 10 minuti", c[k]["ritardo10"], tono="rosso")]} for k in ("0", "1", "2")]}
     fasce = [(f, v) for f, _, v in fasce_r4() if f != "notte"]
-    nomi_f = {"punta_mattina": "punta mattino (7-9)", "giorno": "giorno (9-16)", "punta_sera": "punta sera (16-19)", "sera": "sera (19-24)"}
-    nomi_anima = {"punta_mattina": "su 100 nella punta del mattino (7-9)", "giorno": "su 100 di giorno (9-16)",
-                  "punta_sera": "su 100 nella punta della sera (16-19)", "sera": "su 100 la sera (19-24)"}
+    nomi_f = {"punta_mattina": "mattino (7-9)", "giorno": "giorno (9-16)", "punta_sera": "sera (16-19)", "sera": "tarda sera (19-24)"}
+    nomi_anima = {"punta_mattina": "su 100 al mattino (7-9)", "giorno": "su 100 di giorno (9-16)",
+                  "punta_sera": "su 100 alla sera (16-19)", "sera": "su 100 a tarda sera (19-24)"}
     linea = {"tipo": "linea", "titolo": "Ritardo oltre 5 minuti, per fascia oraria (feriale)", "unita": "%",
-             "categorie": [nomi_f[f] for f, _ in fasce], "serie": [{"label": "passaggi in ritardo", "valori": [v for _, v in fasce]}]}
-    noi_gtt = next(g for g in s["grafici"] if g["titolo"].startswith("Noi e GTT"))
+             "categorie": [nomi_f[f] for f, _ in fasce], "serie": [{"label": "passaggi in ritardo", "valori": [round(v) for _, v in fasce]}]}
+    gps_gtt = next(g for g in s["grafici"] if g["titolo"].startswith("GPS e dato ufficiale GTT"))
     linee = [(n, v["0"]) for n, v in r["linee"].items() if "0" in v]
     peggio = max((x for x in linee if x[1]["passaggi"] >= par.get("min_passaggi_classifica", 2000) and str(x[0]).isdigit()),
                  key=lambda x: x[1]["ritardo"])
@@ -428,23 +425,27 @@ def forma_r4(s):
     gb_tram, gb_bus = tram["grappolo"] + tram["buco"], bus["grappolo"] + bus["buco"]
     dist = int(r["regole_gps"]["dist_gps_m"])
     gg = r["giorni"]
-    r9 = scheda_r9()
-    f9 = r9["scenari"][0]["numeri"]
-    attese = (f9[0], f9[1])
+    a9 = leggi("risultato9_attesa.json")
+    fer9, per_fascia = a9["citta"]["0"], a9["citta_fascia"]["0"]
+    in_piu = (fer9["in_piu_min_bassa"] + fer9["in_piu_min_alta"]) / 2
+    ordine_f = [f for f in ("punta_mattina", "giorno", "punta_sera", "sera") if per_fascia.get(f)]
     extra = {"titolo": "Quanto si aspetta alla fermata",
-             "punto": f"Sulle linee frequenti si aspettano da {virgola(attese[0]['dopo'] - attese[0]['prima'])} a "
-                      f"{virgola(attese[1]['dopo'] - attese[1]['prima'])} minuti in più di quanto promette l'orario (feriale).",
-             "grafico": dict(r9["grafici"][0], titolo="Attesa media alla fermata, per fascia oraria (feriale)")}
+             "punto": f"Sulle linee frequenti si aspetta {minuti_a_parole(in_piu)} in più di quanto promette l'orario.",
+             "grafico": {"tipo": "barre", "titolo": "Quanto si aspetta in più di quanto dice l'orario", "unita": "min",
+                         "nota": "Ogni barra è una fascia del giorno feriale: i minuti di attesa in più rispetto all'orario. A destra l'attesa reale contro quella promessa.",
+                         "voci": [{"label": nomi_f[f], "valore": round(per_fascia[f]["in_piu_min_bassa"], 1), "tono": "rosso",
+                                   "testo": f"{circa(per_fascia[f]['reale_min_bassa'], ' min')} invece di {circa(per_fascia[f]['promessa_min'])}"}
+                                  for f in ordine_f]}}
     return forma_base(
         s,
         f"Circa il {round(fer['ritardo10'])}% dei passaggi arriva con più di 10 minuti di ritardo",
         "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
         {"valore": a_fer, "unita": "%", "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo"},
         pila,
-        [f"Oltre 10 minuti di ritardo: {virgola(a_fer)}% dei passaggi a ogni fermata, {virgola(b_fer)}% se si guarda solo la partenza.",
-         f"La linea più in ritardo è la {peggio[0]}: {virgola(peggio[1]['ritardo'])}% dei passaggi feriali oltre 5 minuti.",
-         f"I tram arrivano più a grappolo dei bus: {virgola(gb_tram)}% delle coppie di mezzi contro {virgola(gb_bus)}% (feriale)."],
-        [noi_gtt, linea],
+        [f"Guardando solo la partenza dal capolinea, i passaggi con oltre 10 minuti di ritardo sono {circa(b_fer, '%')}.",
+         f"La linea più in ritardo è la {peggio[0]}: {circa(peggio[1]['ritardo'], '%')} dei passaggi feriali oltre 5 minuti.",
+         f"I tram arrivano a grappolo più dei bus: {circa(gb_tram, '%')} delle coppie di mezzi contro {circa(gb_bus, '%')}."],
+        [gps_gtt, linea],
         ["Il Raspberry Pi registra ogni minuto la posizione GPS dei mezzi GTT.",
          f"Il passaggio è l'istante in cui il GPS è a meno di {dist} metri dalla fermata.",
          "Il ritardo è quell'istante meno l'orario ufficiale.",
@@ -454,7 +455,7 @@ def forma_r4(s):
         [f"Pochi giorni: {gg['0']} feriali, {gg['1']} sabati e {gg['2']} {'domenica' if gg['2'] == 1 else 'domeniche'}, non tutti interi.",
          "Solo le linee urbane viste dal GPS, dalle 5 a mezzanotte.",
          f"Il GPS copre circa il {round(r['copertura_gps']['totale']['copertura_pct'])}% dei passaggi programmati; le corse mai viste non si contano.",
-         "Contiamo quanto spesso c'è ritardo, non quante persone aspettano."],
+         "Si conta quanto spesso c'è ritardo, non quante persone aspettano."],
         [f"Question: how often are GTT vehicles late or bunched? Answer: {fer['ritardo10']:.1f}% of weekday departures are more than 10 minutes late.",
          f"GTT reports {GTT_RITARDO10_2025_PCT}% for 2025. Counting only the first stop we get {b_set:.1f}%; the rest is season and method.",
          f"Limit: only {gg['0']} weekdays, {gg['1']} Saturdays and {gg['2']} Sunday of data, urban lines only, no night."],
@@ -465,6 +466,9 @@ def forma_r4(s):
                "didascalia": f"Su 100 passaggi feriali, circa {round(fer['ritardo'])} arrivano con più di 5 minuti di ritardo ({virgola(fer['ritardo'])}%); "
                              f"con più di 10 minuti circa {round(fer['ritardo10'])}. Poi il giorno, fascia per fascia."},
         confronto=[f"GTT dichiara il {virgola(GTT_RITARDO10_2025_PCT)}% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
-                   f"Noi misuriamo pochi giorni di ottobre sulle linee urbane: {virgola(a_set)}% a ogni fermata, {virgola(b_set)}% alla partenza.",
-                   f"Anche contando come GTT alla partenza troviamo il {virgola(b_set)}%; il resto della differenza è stagione e metodo."],
+                   f"Il GPS misura pochi giorni di ottobre sulle linee urbane: {virgola(a_set)}% a ogni fermata, {virgola(b_set)}% alla partenza.",
+                   f"Anche contando come GTT alla partenza si trova il {virgola(b_set)}%; il resto della differenza è stagione e metodo.",
+                   "Il grafico mostra la media della settimana (feriale 5 : sabato 1 : domenica 1).",
+                   f"Solo feriali: {pct2(a_fer)}% a ogni fermata, {pct2(b_fer)}% alla prima, {pct2(dd['c']['per_tipo']['0']['ritardo10_pct'])}% a metà corsa, "
+                   f"{pct2(dd['d']['per_tipo']['0']['ritardo10_pct'])}% senza le fasce 7-9 e 16-19."],
         extra=extra)

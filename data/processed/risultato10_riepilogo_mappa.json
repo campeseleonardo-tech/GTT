@@ -25,7 +25,7 @@
     "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
     "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-23T23:57:50+00:00",
+  "generato": "2026-10-24T00:23:38+00:00",
   "avviso": [
     "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -63,7 +63,7 @@
     }
   ],
   "forma": {
-    "etichetta": "STIMATO / CENSIMENTO",
+    "tipo_dato": "Tipo di dato: calcolato da dati veri, con gli abitanti del censimento 2021.",
     "titolo": "Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi",
     "domanda": "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
     "numero": {
@@ -367,7 +367,7 @@
     },
     "punti": [
       "A parità di distanza dal centro il legame prezzo-servizi quasi sparisce: correlazione 0,21 su 46 zone (da −0,12 a 0,52).",
-      "5 zone sono in doppio svantaggio: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. Ci abitano 129.285 persone.",
+      "5 zone sono in doppio svantaggio: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. Ci abitano ~129 mila persone.",
       "A parità di distanza dal centro reggono fragilità-servizi (−0,48) e prezzo-fragilità (−0,69)."
     ],
     "altri": [
@@ -742,7 +742,7 @@
     }
   },
   "forma_en": {
-    "etichetta": "ESTIMATED / CENSUS",
+    "tipo_dato": "Type of data: calculated from real data, with the residents of the 2021 census.",
     "titolo": "About 1 Turin resident in 10 lives in an area with more social difficulties and few services",
     "domanda": "Do people pay for services? And who lives where services are few and fragility is high?",
     "numero": {
@@ -1046,7 +1046,7 @@
     },
     "punti": [
       "At equal distance from the centre the price-services link nearly disappears: correlation 0.21 over 46 zones (from −0.12 to 0.52).",
-      "5 zones are in double disadvantage: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. 129,285 people live there.",
+      "5 zones are in double disadvantage: Mirafiori Sud, Lucento - Vallette, Rebaudengo - Regio Parco, Corona Nord, Barca - Bertolla. ~129 thousand people live there.",
       "At equal distance from the centre, fragility-services (−0.48) and price-fragility (−0.69) hold."
     ],
     "altri": [

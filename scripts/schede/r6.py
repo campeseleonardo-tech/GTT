@@ -3,7 +3,7 @@ from datetime import datetime
 import json
 from collections import Counter
 from schede import comune
-from schede.comune import date_it, forma_base, migliaia, nome_pulito, num, ora, periodo_it, virgola, voce
+from schede.comune import circa, date_it, forma_base, migliaia, nome_pulito, num, ora, periodo_it, virgola, voce
 
 
 
@@ -180,26 +180,6 @@ SOGLIA_BUS = 1.5   # la stessa dello script 94: rapporto massimo perché il bus 
 VICINO_SOGLIA = (1.35, 1.65)   # L9: «vicino alla soglia» = ±10% attorno a 1,5 (regola fissata prima dei numeri)
 
 
-def giudizio_bus(r_tomtom):
-    """La classe dello script 94 (stessa regola, dal giro L8 con la sola stima TomTom) per il rapporto tempo coi mezzi / tempo in auto."""
-    if r_tomtom is not None and r_tomtom <= SOGLIA_BUS:
-        return "il bus conviene"
-    return "il bus non conviene"
-
-
-def ore_luogo(od, nome):
-    """Le ore del giorno di un luogo per la gara: [{ora, bus, auto_min, auto_max, giudizio}], None se i dati a più ore mancano."""
-    if not od:
-        return None
-    ore = []
-    for o in od["ore"]:
-        l = next((x for x in o["luoghi"] if x["nome"] == nome), None)
-        if l and l["tp_min"] is not None:
-            ore.append({"ora": o["label"], "bus": l["tp_min"], "auto_min": l["auto_basso_min"], "auto_max": l["auto_basso_min"],   # un'auto sola: TomTom
-                        "giudizio": giudizio_bus(l["rapporto_basso"])})
-    return ore if len(ore) > 1 else None
-
-
 def frazione(q, max_den=5):
     """La frazione semplice più vicina a q (es. 0,65 -> 2 su 3), con denominatore fino a max_den."""
     return min(((round(q * d), d) for d in range(2, max_den + 1) if round(q * d) > 0), key=lambda x: (abs(x[0] / x[1] - q), x[1]))
@@ -251,39 +231,21 @@ def forma_r6(s):
     f_ba_lo, f_ba_hi = virgola(ba["parametri"]["fattore_basso"]), virgola(ba["parametri"]["fattore_alto"])
     stati = {"pieno": "pieno di giorno", "a_meta": "a metà", "libero": "con posti liberi", "non_misurato": "non misurato"}
     graf_inter = {"tipo": "barre", "titolo": "I parcheggi di scambio che ci sono già: quanto sono pieni e quanto ci mette il bus al centro", "unita": "minuti",
-                  "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra quanto è pieno il parcheggio di giorno e il tempo in auto, "
-                          "parcheggio compreso, con la stima di TomTom (con la stima più favorevole all'auto, dei sensori 5T, l'auto è un po' più veloce).",
+                  "nota": "Barra = minuti coi mezzi pubblici fino a Piazza Castello alle 8. A destra il tempo in auto, parcheggio compreso (TomTom), e quanto è pieno il parcheggio di giorno.",
                   "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["tp_min"]),
-                            "testo": f"{stati.get(l.get('stato'), 'non misurato')}; {round(l['tp_min'])} contro {round(l['auto_basso_min'])} in auto"}
+                            "testo": f"{round(l['tp_min'])} contro {round(l['auto_basso_min'])} in auto · {stati.get(l.get('stato'), 'non misurato')}"}
                            for l in inter]}
-    # messaggio: minuti di pareggio = minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (script 94, senza soglie scelte da noi)
+    # minuti di pareggio = minuti per parcheggiare in centro che rendono l'auto lenta quanto il bus (script 94): una frase del calcolo, non piu' un grafico
     pm = ba["pareggio"]["punti"]
     lo_m, hi_m = round(pm["mediana_basso_min"]), round(pm["mediana_alto_min"])
-    forbice_m = f"{lo_m} minuti (TomTom). Con i sensori, la stima più favorevole all'auto, più di {hi_m} minuti" if hi_m != lo_m else f"{lo_m} minuti"
     n_conv_p = sum(1 for l in ba["luoghi"][:n_punti_ba] if l["classe"] == "conviene")
-    n_conv_i = sum(1 for l in inter if l["classe"] == "conviene")
-    pb = sorted((l for l in ba["luoghi"][:n_punti_ba] if l["pareggio_basso_min"] is not None), key=lambda l: l["pareggio_basso_min"])
-    pareggio_g = {"tipo": "barre", "titolo": "Minuti per parcheggiare in centro oltre i quali il bus dal punto è veloce quanto l'auto", "unita": "minuti",
-                  "nota": "Verso Piazza Castello alle 8. Barra scura = stima di TomTom, barra chiara = stima più favorevole all'auto (sensori 5T). "
-                          "Meno minuti = punto più promettente; 0 = il bus è già più veloce.",
-                  "voci": [{"label": nome_pulito(l["nome"]), "valore": round(l["pareggio_basso_min"]), "prima": round(l["pareggio_alto_min"]),
-                            "testo": f"{round(l['pareggio_basso_min'])} min (sensori {round(l['pareggio_alto_min'])})"} for l in pb]}
-    # gara: un bus e un'auto da ogni punto prioritario e da ogni interscambio verso Piazza Castello (tempi dallo script 94)
-    od = comune.ore_del_giorno()   # script 100: gli stessi luoghi alle altre ore (se mancano, la gara resta alle 8)
+    # gara: un bus e un'auto da ogni punto prioritario e da ogni interscambio verso Piazza Castello, alle 8 (tempi dello script 94, auto TomTom)
     luoghi_gara = [{"nome": nome_pulito(l["nome"]), "gruppo": "Punti prioritari" if l["tipo"] == "punto_prioritario" else "Interscambi esistenti",
-                    "bus": l["tp_min"], "auto_min": l["auto_basso_min"], "auto_max": l["auto_basso_min"], "giudizio": l["classe_testo"],
-                    **({"ore": ore} if (ore := ore_luogo(od, l["nome"])) else {})}
+                    "bus": l["tp_min"], "auto_min": l["auto_basso_min"], "auto_max": l["auto_basso_min"], "giudizio": l["classe_testo"]}
                    for l in ba["luoghi"] if l.get("tp_min") is not None]
-    scelto = next((i for i, l in enumerate(luoghi_gara) if l["giudizio"] == "il bus conviene"), 0)
-    gara_g = {"tipo": "gara", "titolo": ("La gara: bus e auto da un punto a Piazza Castello, alle 8, alle 13, alle 17:30 e alle 21 di un feriale" if od
-                         else "La gara: bus e auto da un punto a Piazza Castello, alle 8 di un feriale"),
-              "nota": "Un minuto vero dura un attimo: più la corsa è lunga, più il mezzo arriva tardi. L'auto ha il tempo previsto da TomTom, parcheggio compreso; "
-                      "la stima più favorevole all'auto (sensori 5T) è un po' più veloce.",
-              "luoghi": luoghi_gara, "scelto": scelto}
-    mi = lambda l: f"{round(l['pareggio_basso_min'])} minuti con la stima TomTom ({round(l['pareggio_alto_min'])} con quella dei sensori)" if l["pareggio_basso_min"] is not None else "nessun collegamento"
-    migliore = pb[0] if pb else None
-    if migliore:
-        gara_g["nota"] += f" Il punto più promettente è {nome_pulito(migliore['nome'])}: lì bastano {mi(migliore)} persi a parcheggiare in centro."
+    gara_g = {"tipo": "gara", "titolo": "La gara: bus e auto verso Piazza Castello, alle 8 di un feriale",
+              "nota": "Bus e auto partono insieme da ogni parcheggio, uno dopo l'altro. L'auto ha il tempo previsto da TomTom, parcheggio compreso.",
+              "luoghi": luoghi_gara, "scelto": 0}
     # il messaggio (Leo, 23/10): quanto è facile lasciare l'auto vicino a una fermata importante e proseguire coi mezzi
     fermate = r["fermate"]
     conta = Counter(f["classe"] for f in fermate)
@@ -298,21 +260,23 @@ def forma_r6(s):
     senza_q = [sq[k]["nessun"] + sq[k]["insufficienti"] for k in ("x0.5", "x2")]
     return forma_base(
         s,
-        f"{a} fermate importanti su {b} non hanno abbastanza posti per lasciare l'auto (stima)",
+        f"{a} fermate importanti su {b} non hanno abbastanza posti per lasciare l'auto",
         "Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi?",
         {"valore": n_senza, "unita": "",
          "testo": f"fermate importanti su {n_fermate} non hanno posti bastanti a {raggio} metri a piedi"},
         principale,
-        [f"{n_nessun} fermate importanti non hanno nessun parcheggio adatto vicino; {n_pochi} ne hanno troppo pochi.",
-         f"Servirebbero posti soprattutto in {n_assi} punti d'ingresso: il primo è {nome_pulito(primo['nome'])}, dove ne mancano circa {migliaia(primo['mancano'])}.",
-         f"Dal parcheggio il bus batte l'auto solo se in centro si perdono più di {forbice_m}. Con TomTom il bus conviene (fino a 1,5 volte l'auto) in {n_conv_p} punti su {n_punti_ba} e {n_conv_i} dei {len(inter)} interscambi. "
-         f"Dei punti dove il bus conviene, {len(vicini)} su {len(conv_punti)} sono vicini alla soglia: un'auto il 10% più veloce cambia classe."],
-        [gara_g, pareggio_g, graf_inter],
+        [f"{n_nessun} fermate importanti non hanno nessun parcheggio vicino, {n_pochi} troppo pochi.",
+         f"Il primo dei {n_assi} punti d'ingresso dove servono posti è {nome_pulito(primo['nome'])}: ne mancano {circa(primo['mancano'])}.",
+         f"In {n_conv_p} punti su {n_punti_ba}, lasciata l'auto, il bus arriva in centro in al più {virgola(SOGLIA_BUS)} volte il tempo dell'auto."],
+        [gara_g, graf_inter],
         [f"Fermate importanti: fuori dal centro, con metro, stazione o capolinea, oppure {reg['n_corse']} corse all'ora.",
          "Le auto in entrata vengono dall'indagine sugli spostamenti 2022, assegnate al percorso più veloce.",
          f"Auto da fermare: auto che passano per il {quota}% che già oggi lascia l'auto. Posti: parcheggi adatti entro {raggio} metri.",
          "Punti prioritari: fermate senza posti bastanti raggruppate entro 1 km, uno per asse d'ingresso.",
-         "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto. Auto: tempo a flusso libero per il fattore TomTom del percorso, più 5 minuti. Dati di traffico: TomTom."],
+         "Bus contro auto: minuti coi mezzi verso Piazza Castello alle 8, contro l'auto. Auto: tempo a flusso libero per il fattore TomTom del percorso, più 5 minuti. Dati di traffico: TomTom.",
+         f"Pareggio: con {lo_m} minuti persi a parcheggiare in centro, l'auto impiega quanto il bus (mediana dei {n_punti_ba} punti, TomTom).",
+         f"Dei punti dove il bus conviene, {len(vicini)} su {len(conv_punti)} sono vicini alla soglia: un'auto il 10% più veloce cambia classe.",
+         f"Con la stima dei sensori del traffico, più favorevole all'auto (fattore {f_ba_hi}), il pareggio sale a {hi_m} minuti."],
         [["Fermate importanti", f"{reg['n_corse']} corse all'ora o metro, e {migliaia(reg['m_auto'])} auto che passano"],
          ["Distanza a piedi", f"{raggio} metri"],
          ["Auto da fermare", f"auto che passano × {quota}%"],
@@ -321,7 +285,7 @@ def forma_r6(s):
         ["Le auto che passano vengono da un modello del traffico. I posti sono spesso stimati: quelli che mancano sono un ordine di grandezza. "
          f"Con metà o doppio di chi lascia l'auto, le fermate senza posti bastanti vanno da {min(senza_q)} a {max(senza_q)} su {n_fermate}.",
          "I tempi coi mezzi sono solo GTT, senza treni. La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
-         "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Usiamo un solo servizio.",
+         "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Si usa un solo servizio.",
          "Il costo del parcheggio non è nel calcolo: pesa come minuti in più. Si guarda un solo punto per luogo e una sola destinazione."],
         anima=anima_fermate(fermate, punti, n_ok, n_pochi, n_nessun),
         pareggio={"tomtom": lo_m, "sensori": hi_m})   # minuti di pareggio mediani dei punti (la home li legge)

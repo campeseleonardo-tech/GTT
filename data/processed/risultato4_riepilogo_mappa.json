@@ -15,10 +15,10 @@
     "Nei giorni feriali il 16% dei passaggi arriva con più di 5 minuti di ritardo; il sabato il 16,9%.",
     "Sulle linee frequenti il 21,6% delle coppie di mezzi consecutivi arriva a grappolo o lascia un buco.",
     "Il problema più comune è l'anticipo: il 35,4% dei passaggi feriali arriva più di un minuto prima dell'orario.",
-    "Il feed in tempo reale di GTT, che usavamo prima, dava il 6,2% in ritardo invece del 16%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.",
-    "Oltre 10 minuti: 6,41% nei feriali. GTT dichiara il 2,3% per il 2025: il suo metodo non è pubblicato; noi misuriamo a ogni fermata con il GPS, su pochi giorni.",
-    "Non è la stessa misura: GTT fa la media dell'anno intero, estate e sere comprese, su tutte le linee, con un metodo che non pubblica; noi misuriamo pochi giorni di ottobre, solo le linee urbane, dalle 5 a mezzanotte.",
-    "Il ritardo cresce lungo la corsa: alla prima fermata è 5,28%, a metà corsa 5,86%, a ogni fermata 6,18%, fuori dalle ore di punta 5,79% (media della settimana).",
+    "Il feed in tempo reale di GTT, usato in precedenza, dava il 6,2% in ritardo invece del 16%: smette di aggiornare la fermata all'orario previsto e così sottostima i ritardi.",
+    "Oltre 10 minuti: 6,41% nei feriali. GTT dichiara il 2,3% per il 2025: il suo metodo non è pubblicato; qui si misura a ogni fermata con il GPS, su pochi giorni.",
+    "Non è la stessa misura: GTT fa la media dell'anno intero, estate e sere comprese, su tutte le linee, con un metodo che non pubblica; il GPS misura pochi giorni di ottobre, solo le linee urbane, dalle 5 a mezzanotte.",
+    "Il ritardo cresce lungo la corsa: alla prima fermata è 5,28%, a metà corsa 5,86%, a ogni fermata 6,18%, escluse le fasce 7-9 e 16-19 5,79% (media della settimana).",
     "Tutte e due le misure dicono che i ritardi gravi sono una piccola parte dei passaggi: tra 2,3% e 6,2%.",
     "Tram e bus: in ritardo oltre 5 minuti il 15,4% dei passaggi dei tram e il 16,2% dei bus (feriale).",
     "Linee utili (quelle che toccano più zone affollate): in ritardo oltre 5 minuti il 17,5% dei passaggi, contro il 13,2% delle altre linee (feriale).",
@@ -55,7 +55,7 @@
       "unita": "%",
       "voci": [
         {
-          "label": "punta del mattino (7-9)",
+          "label": "mattino (7-9)",
           "valore": 15.5,
           "tono": "rosso"
         },
@@ -65,12 +65,12 @@
           "tono": "rosso"
         },
         {
-          "label": "punta della sera (16-19)",
+          "label": "sera (16-19)",
           "valore": 20.4,
           "tono": "rosso"
         },
         {
-          "label": "sera (19-24)",
+          "label": "tarda sera (19-24)",
           "valore": 18.2,
           "tono": "rosso"
         },
@@ -231,32 +231,32 @@
     },
     {
       "tipo": "barre",
-      "titolo": "Noi e GTT: passaggi in ritardo oltre 10 minuti",
+      "titolo": "GPS e dato ufficiale GTT: passaggi con oltre 10 minuti di ritardo",
       "unita": "%",
-      "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 6,41%, alla prima fermata 5,48%, a metà corsa 6,15%, fuori punta 5,96%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
+      "nota": "Il GPS è la media della settimana, in quattro modi di contare. GTT è l'anno 2025, tutte le linee, con un metodo non pubblicato.",
       "voci": [
         {
           "label": "GTT (2025, anno intero)",
-          "valore": 2.3
+          "valore": 2
         },
         {
-          "label": "noi, a ogni fermata",
-          "valore": 6.18,
+          "label": "GPS, a ogni fermata",
+          "valore": 6,
           "tono": "rosso"
         },
         {
-          "label": "noi, solo alla prima fermata",
-          "valore": 5.28,
+          "label": "GPS, solo alla prima fermata",
+          "valore": 5,
           "tono": "rosso"
         },
         {
-          "label": "noi, solo a metà corsa",
-          "valore": 5.86,
+          "label": "GPS, solo a metà corsa",
+          "valore": 6,
           "tono": "rosso"
         },
         {
-          "label": "noi, fuori dalle ore di punta",
-          "valore": 5.79,
+          "label": "GPS, escluse le fasce 7-9 e 16-19",
+          "valore": 6,
           "tono": "rosso"
         }
       ]
@@ -398,7 +398,7 @@
       "nota": "Barra chiara = attesa promessa, barra scura = attesa reale (stima bassa).",
       "voci": [
         {
-          "label": "punta del mattino (7-9)",
+          "label": "mattino (7-9)",
           "valore": 5.84,
           "prima": 4.53
         },
@@ -408,12 +408,12 @@
           "prima": 3.88
         },
         {
-          "label": "punta della sera (16-19)",
+          "label": "sera (16-19)",
           "valore": 6.54,
           "prima": 4.41
         },
         {
-          "label": "sera (19-24)",
+          "label": "tarda sera (19-24)",
           "valore": 9.96,
           "prima": 8.21
         }
@@ -427,7 +427,7 @@
       "nota": "Barra chiara = stima bassa, barra scura = stima alta.",
       "voci": [
         {
-          "label": "punta del mattino (7-9)",
+          "label": "mattino (7-9)",
           "valore": 1.65,
           "prima": 1.31
         },
@@ -437,12 +437,12 @@
           "prima": 1.44
         },
         {
-          "label": "punta della sera (16-19)",
+          "label": "sera (16-19)",
           "valore": 1.98,
           "prima": 2.12
         },
         {
-          "label": "sera (19-24)",
+          "label": "tarda sera (19-24)",
           "valore": 1.7,
           "prima": 1.74
         }
@@ -565,7 +565,7 @@
     "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
     "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-23T23:57:50+00:00",
+  "generato": "2026-10-24T00:23:37+00:00",
   "avviso": [
     "Dati [MISURATO] — pochi giorni",
     "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-22: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -726,7 +726,7 @@
     }
   ],
   "forma": {
-    "etichetta": "MISURATO",
+    "tipo_dato": "Tipo di dato: misurato, con la posizione GPS dei mezzi.",
     "titolo": "Circa il 6% dei passaggi arriva con più di 10 minuti di ritardo",
     "domanda": "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
     "numero": {
@@ -818,39 +818,39 @@
       ]
     },
     "punti": [
-      "Oltre 10 minuti di ritardo: 6,4% dei passaggi a ogni fermata, 5,5% se si guarda solo la partenza.",
-      "La linea più in ritardo è la 17: 41,4% dei passaggi feriali oltre 5 minuti.",
-      "I tram arrivano più a grappolo dei bus: 26,8% delle coppie di mezzi contro 18,3% (feriale)."
+      "Guardando solo la partenza dal capolinea, i passaggi con oltre 10 minuti di ritardo sono ~5%.",
+      "La linea più in ritardo è la 17: ~41% dei passaggi feriali oltre 5 minuti.",
+      "I tram arrivano a grappolo più dei bus: ~27% delle coppie di mezzi contro ~18%."
     ],
     "altri": [
       {
         "tipo": "barre",
-        "titolo": "Noi e GTT: passaggi in ritardo oltre 10 minuti",
+        "titolo": "GPS e dato ufficiale GTT: passaggi con oltre 10 minuti di ritardo",
         "unita": "%",
-        "nota": "Barre = media della settimana (feriale 5 : sabato 1 : domenica 1). Nei feriali: a ogni fermata 6,41%, alla prima fermata 5,48%, a metà corsa 6,15%, fuori punta 5,96%. GTT: anno 2025, tutte le linee, metodo non pubblicato.",
+        "nota": "Il GPS è la media della settimana, in quattro modi di contare. GTT è l'anno 2025, tutte le linee, con un metodo non pubblicato.",
         "voci": [
           {
             "label": "GTT (2025, anno intero)",
-            "valore": 2.3
+            "valore": 2
           },
           {
-            "label": "noi, a ogni fermata",
-            "valore": 6.18,
+            "label": "GPS, a ogni fermata",
+            "valore": 6,
             "tono": "rosso"
           },
           {
-            "label": "noi, solo alla prima fermata",
-            "valore": 5.28,
+            "label": "GPS, solo alla prima fermata",
+            "valore": 5,
             "tono": "rosso"
           },
           {
-            "label": "noi, solo a metà corsa",
-            "valore": 5.86,
+            "label": "GPS, solo a metà corsa",
+            "valore": 6,
             "tono": "rosso"
           },
           {
-            "label": "noi, fuori dalle ore di punta",
-            "valore": 5.79,
+            "label": "GPS, escluse le fasce 7-9 e 16-19",
+            "valore": 6,
             "tono": "rosso"
           }
         ]
@@ -860,19 +860,19 @@
         "titolo": "Ritardo oltre 5 minuti, per fascia oraria (feriale)",
         "unita": "%",
         "categorie": [
-          "punta mattino (7-9)",
+          "mattino (7-9)",
           "giorno (9-16)",
-          "punta sera (16-19)",
-          "sera (19-24)"
+          "sera (16-19)",
+          "tarda sera (19-24)"
         ],
         "serie": [
           {
             "label": "passaggi in ritardo",
             "valori": [
-              15.5,
-              16.3,
-              20.4,
-              18.2
+              16,
+              16,
+              20,
+              18
             ]
           }
         ]
@@ -915,7 +915,7 @@
       "Pochi giorni: 7 feriali, 2 sabati e 1 domenica, non tutti interi.",
       "Solo le linee urbane viste dal GPS, dalle 5 a mezzanotte.",
       "Il GPS copre circa il 80% dei passaggi programmati; le corse mai viste non si contano.",
-      "Contiamo quanto spesso c'è ritardo, non quante persone aspettano."
+      "Si conta quanto spesso c'è ritardo, non quante persone aspettano."
     ],
     "mappa": {
       "id": "puntualita",
@@ -929,7 +929,7 @@
       "testo_tutto": "su 100 passaggi in un feriale arrivano con oltre 5 minuti di ritardo",
       "fasi": [
         {
-          "label": "su 100 nella punta del mattino (7-9)",
+          "label": "su 100 al mattino (7-9)",
           "valore": 15.5
         },
         {
@@ -937,11 +937,11 @@
           "valore": 16.3
         },
         {
-          "label": "su 100 nella punta della sera (16-19)",
+          "label": "su 100 alla sera (16-19)",
           "valore": 20.4
         },
         {
-          "label": "su 100 la sera (19-24)",
+          "label": "su 100 a tarda sera (19-24)",
           "valore": 18.2
         }
       ],
@@ -951,44 +951,50 @@
     },
     "confronto": [
       "GTT dichiara il 2,3% oltre 10 minuti nel 2025: media dell'anno, tutte le linee, metodo non pubblicato.",
-      "Noi misuriamo pochi giorni di ottobre sulle linee urbane: 6,2% a ogni fermata, 5,3% alla partenza.",
-      "Anche contando come GTT alla partenza troviamo il 5,3%; il resto della differenza è stagione e metodo."
+      "Il GPS misura pochi giorni di ottobre sulle linee urbane: 6,2% a ogni fermata, 5,3% alla partenza.",
+      "Anche contando come GTT alla partenza si trova il 5,3%; il resto della differenza è stagione e metodo.",
+      "Il grafico mostra la media della settimana (feriale 5 : sabato 1 : domenica 1).",
+      "Solo feriali: 6,41% a ogni fermata, 5,48% alla prima, 6,15% a metà corsa, 5,96% senza le fasce 7-9 e 16-19."
     ],
     "extra": {
       "titolo": "Quanto si aspetta alla fermata",
-      "punto": "Sulle linee frequenti si aspettano da 1,6 a 1,7 minuti in più di quanto promette l'orario (feriale).",
+      "punto": "Sulle linee frequenti si aspetta ~1 minuto e mezzo in più di quanto promette l'orario.",
       "grafico": {
         "tipo": "barre",
-        "titolo": "Attesa media alla fermata, per fascia oraria (feriale)",
+        "titolo": "Quanto si aspetta in più di quanto dice l'orario",
         "unita": "min",
-        "nota": "Barra chiara = attesa promessa, barra scura = attesa reale (stima bassa).",
+        "nota": "Ogni barra è una fascia del giorno feriale: i minuti di attesa in più rispetto all'orario. A destra l'attesa reale contro quella promessa.",
         "voci": [
           {
-            "label": "punta del mattino (7-9)",
-            "valore": 5.84,
-            "prima": 4.53
+            "label": "mattino (7-9)",
+            "valore": 1.3,
+            "tono": "rosso",
+            "testo": "~6 min invece di ~5"
           },
           {
             "label": "giorno (9-16)",
-            "valore": 5.32,
-            "prima": 3.88
+            "valore": 1.4,
+            "tono": "rosso",
+            "testo": "~5 min invece di ~4"
           },
           {
-            "label": "punta della sera (16-19)",
-            "valore": 6.54,
-            "prima": 4.41
+            "label": "sera (16-19)",
+            "valore": 2.1,
+            "tono": "rosso",
+            "testo": "~7 min invece di ~4"
           },
           {
-            "label": "sera (19-24)",
-            "valore": 9.96,
-            "prima": 8.21
+            "label": "tarda sera (19-24)",
+            "valore": 1.7,
+            "tono": "rosso",
+            "testo": "~10 min invece di ~8"
           }
         ]
       }
     }
   },
   "forma_en": {
-    "etichetta": "MEASURED",
+    "tipo_dato": "Type of data: measured, with the GPS position of the vehicles.",
     "titolo": "About 6% of stop passages are more than 10 minutes late",
     "domanda": "How often are GTT vehicles late or bunched together?",
     "numero": {
@@ -1080,39 +1086,39 @@
       ]
     },
     "punti": [
-      "More than 10 minutes late: 6.4% of arrivals at every stop, 5.5% if we look only at departure.",
-      "The line with the most delays is line 17: 41.4% of weekday arrivals more than 5 minutes late.",
-      "Trams bunch more than buses: 26.8% of vehicle pairs versus 18.3% (weekday)."
+      "Counting only the departure from the terminus, arrivals more than 10 minutes late are ~5%.",
+      "The most delayed line is 17: ~41% of weekday arrivals are more than 5 minutes late.",
+      "Trams bunch together more than buses: ~27% of pairs of vehicles against ~18%."
     ],
     "altri": [
       {
         "tipo": "barre",
-        "titolo": "Us and GTT: arrivals more than 10 minutes late",
+        "titolo": "GPS and official GTT figure: arrivals more than 10 minutes late",
         "unita": "%",
-        "nota": "Bars = weekly average (weekday 5 : Saturday 1 : Sunday 1). On weekdays: at every stop 6.41%, at the first stop 5.48%, mid-trip 6.15%, off-peak 5.96%. GTT: year 2025, all lines, method not published.",
+        "nota": "GPS is the weekly average, counted in four ways. GTT is the year 2025, all lines, with an unpublished method.",
         "voci": [
           {
             "label": "GTT (2025, whole year)",
-            "valore": 2.3
+            "valore": 2
           },
           {
-            "label": "us, at every stop",
-            "valore": 6.18,
+            "label": "GPS, at every stop",
+            "valore": 6,
             "tono": "rosso"
           },
           {
-            "label": "us, first stop only",
-            "valore": 5.28,
+            "label": "GPS, first stop only",
+            "valore": 5,
             "tono": "rosso"
           },
           {
-            "label": "us, mid-trip only",
-            "valore": 5.86,
+            "label": "GPS, mid-trip only",
+            "valore": 6,
             "tono": "rosso"
           },
           {
-            "label": "us, outside peak hours",
-            "valore": 5.79,
+            "label": "GPS, excluding 7-9 and 16-19",
+            "valore": 6,
             "tono": "rosso"
           }
         ]
@@ -1122,19 +1128,19 @@
         "titolo": "Delay over 5 minutes, by time of day (weekday)",
         "unita": "%",
         "categorie": [
-          "morning peak (7-9)",
+          "morning (7-9)",
           "daytime (9-16)",
-          "evening peak (16-19)",
-          "evening (19-24)"
+          "evening (16-19)",
+          "late evening (19-24)"
         ],
         "serie": [
           {
             "label": "late arrivals",
             "valori": [
-              15.5,
-              16.3,
-              20.4,
-              18.2
+              16,
+              16,
+              20,
+              18
             ]
           }
         ]
@@ -1177,7 +1183,7 @@
       "Few days: 7 weekdays, 2 Saturdays and 1 Sunday, not all complete.",
       "Urban lines seen by the GPS only, from 5 a.m. to midnight.",
       "The GPS covers about 80% of scheduled arrivals; trips never seen are not counted.",
-      "We count how often there is a delay, not how many people are waiting."
+      "The figure counts how often there is a delay, not how many people are waiting."
     ],
     "mappa": {
       "id": "puntualita",
@@ -1191,7 +1197,7 @@
       "testo_tutto": "in 100 weekday stop passages are more than 5 minutes late",
       "fasi": [
         {
-          "label": "in 100 in the morning rush (7-9)",
+          "label": "out of 100 in the morning (7-9)",
           "valore": 15.5
         },
         {
@@ -1199,11 +1205,11 @@
           "valore": 16.3
         },
         {
-          "label": "in 100 in the evening rush (16-19)",
+          "label": "out of 100 in the evening (16-19)",
           "valore": 20.4
         },
         {
-          "label": "in 100 in the evening (19-24)",
+          "label": "out of 100 in the late evening (19-24)",
           "valore": 18.2
         }
       ],
@@ -1213,37 +1219,43 @@
     },
     "confronto": [
       "GTT reports 2.3% over 10 minutes in 2025: yearly average, all lines, method not published.",
-      "We measure a few days in October on urban lines: 6.2% at every stop, 5.3% at departure.",
-      "Even counting at departure like GTT, we find 5.3%; the rest of the difference is season and method."
+      "The GPS measures a few days of October on urban lines: 6.2% at every stop, 5.3% at departure.",
+      "Even counting at departure like GTT, the figure is 5.3%; the rest of the difference is season and method.",
+      "The chart shows the weekly average (weekday 5 : Saturday 1 : Sunday 1).",
+      "Weekdays only: 6.41% at every stop, 5.48% at the first, 6.15% mid-trip, 5.96% without the 7-9 and 16-19 bands."
     ],
     "extra": {
       "titolo": "How long you wait at the stop",
-      "punto": "On frequent lines you wait 1.6 to 1.7 minutes more than the timetable promises (weekday).",
+      "punto": "On frequent lines the wait is ~1 and a half minutes longer than the timetable promises.",
       "grafico": {
         "tipo": "barre",
-        "titolo": "Average wait at the stop, by time of day (weekday)",
+        "titolo": "How much longer the wait is than the timetable says",
         "unita": "min",
-        "nota": "Light bar = promised wait, dark bar = actual wait (low estimate).",
+        "nota": "Each bar is a part of the weekday: the extra minutes of waiting compared with the timetable. On the right, the real wait against the promised one.",
         "voci": [
           {
-            "label": "morning peak (7-9)",
-            "valore": 5.84,
-            "prima": 4.53
+            "label": "morning (7-9)",
+            "valore": 1.3,
+            "tono": "rosso",
+            "testo": "~6 min instead of ~5"
           },
           {
             "label": "daytime (9-16)",
-            "valore": 5.32,
-            "prima": 3.88
+            "valore": 1.4,
+            "tono": "rosso",
+            "testo": "~5 min instead of ~4"
           },
           {
-            "label": "evening peak (16-19)",
-            "valore": 6.54,
-            "prima": 4.41
+            "label": "evening (16-19)",
+            "valore": 2.1,
+            "tono": "rosso",
+            "testo": "~7 min instead of ~4"
           },
           {
-            "label": "evening (19-24)",
-            "valore": 9.96,
-            "prima": 8.21
+            "label": "late evening (19-24)",
+            "valore": 1.7,
+            "tono": "rosso",
+            "testo": "~10 min instead of ~8"
           }
         ]
       }

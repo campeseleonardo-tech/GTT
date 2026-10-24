@@ -1,6 +1,6 @@
 """Risultato 10 (pubblico 5): case, servizi e fragilita'."""
 import re
-from schede.comune import forma_base, leggi, migliaia, num, ora, pct2, virgola
+from schede.comune import circa_mila, forma_base, leggi, migliaia, num, ora, pct2, virgola
 
 
 
@@ -118,7 +118,7 @@ def forma_r10(s):
          "testo": f"residenti in zone con più difficoltà sociali e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate. È {volte_caso} volte quanto ci si aspetterebbe per caso."},
         principale,
         [kp_prezzo,
-         f"{len(zd)} zone sono in doppio svantaggio: {nomi_zd}. Ci abitano {migliaia(e2['residenti_zone_doppio_svantaggio'])} persone.",
+         f"{len(zd)} zone sono in doppio svantaggio: {nomi_zd}. Ci abitano {circa_mila(e2['residenti_zone_doppio_svantaggio'])} persone.",
          kp_altri],
         [prezzo_servizi, graf_classi],
         [f"Unità: le {nz_usate} zone OMI di Torino con almeno 500 abitanti. Le sezioni si sommano nella zona, pesate per abitanti.",

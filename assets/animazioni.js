@@ -63,7 +63,7 @@
     var v = a.voci || [], R = [42, 84, 126], cx = 135, cy = 135, compatto = el.classList.contains("compatto");
     var rings = v.map(function(x, i){ return '<circle class="an-cerchio" cx="' + cx + '" cy="' + cy + '" r="' + R[i] + '" style="fill-opacity:' + (.08 + .06 * (2 - i)) + ';stroke-opacity:.8" data-r="' + R[i] + '"/>'; }).reverse().join("");
     var righe = v.map(function(x, i){
-      return '<div class="an-riga" data-i="' + i + '"><b class="an-num" data-pct="' + x.pct + '">' + num(x.pct, 1) + '%</b>'
+      return '<div class="an-riga" data-i="' + i + '"><b class="an-num" data-pct="' + x.pct + '">~' + num(x.pct) + '%</b>'
         + '<span class="an-testo">' + (compatto ? esc(x.min) + '′' : esc(x.testo)) + '</span></div>';
     }).join("");
     var casa = '<path class="an-casa" d="M' + (cx - 11) + ' ' + (cy + 10) + 'v-12l11-9 11 9v12h-7v-7h-8v7z"/>';
@@ -78,8 +78,8 @@
       if(i >= cs.length) return;
       var c = cs[i], r = parseFloat(c.getAttribute("data-r")), t = rs[i].querySelector(".an-num"), p = parseFloat(t.getAttribute("data-pct"));
       rs[i].style.transition = "opacity .5s"; rs[i].style.opacity = 1;
-      scorri(el, 0, 1, 1500, function(x){ c.setAttribute("r", (r * x).toFixed(1)); t.textContent = num(p * x) + "%"; },
-        function(){ t.textContent = num(p, 1) + "%"; dopo(350, el, function(){ anello(i + 1); }); });
+      scorri(el, 0, 1, 1500, function(x){ c.setAttribute("r", (r * x).toFixed(1)); t.textContent = "~" + num(p * x) + "%"; },
+        function(){ t.textContent = "~" + num(p) + "%"; dopo(350, el, function(){ anello(i + 1); }); });
     }
     anello(0);
   }

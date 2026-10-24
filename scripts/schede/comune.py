@@ -69,6 +69,52 @@ def virgola(x):
 
 
 
+def circa(x, unita=""):
+    """Numero secondario con il segno «~» davanti, arrotondato all'intero: circa(68.3, "%") -> «~68%», circa(2.4, " volte") -> «~2 volte».
+    Un testo gia' scritto prende solo il «~». Il numero grande, i conteggi piccoli e il testo del calcolo restano precisi (niente circa)."""
+    if isinstance(x, str):
+        return "~" + x
+    return "~" + migliaia(round(x)) + unita
+
+
+
+
+def circa_mila(n):
+    """Conteggio grande arrotondato: 222179 -> «~222 mila»; sotto i 10.000 resta intero con il «~» (circa(n))."""
+    return f"~{migliaia(round(n / 1000))} mila" if n >= 10000 else circa(n)
+
+
+
+
+def minuti_a_parole(x):
+    """Minuti arrotondati al mezzo minuto e scritti a parole: 1.6 -> «~1 minuto e mezzo», 0.5 -> «~mezzo minuto», 3 -> «~3 minuti»."""
+    m = round(x * 2) / 2
+    intero_, mezzo = int(m), (m % 1) > 0
+    if intero_ == 0:
+        return "~mezzo minuto" if mezzo else "~0 minuti"
+    return f"~{intero_} {'minuto' if intero_ == 1 else 'minuti'}" + (" e mezzo" if mezzo else "")
+
+
+
+
+def intero(x):
+    """Valore di una barra: intero senza «~» (sotto 1 resta com'e', per non far sparire i valori piccoli)."""
+    return round(x) if abs(x) >= 1 else x
+
+
+
+
+TIPO_DATO = {   # una riga nella parte chiusa «Come e' stato calcolato, e limiti»: il tipo di dato, a parole
+    "STIMATO": "Tipo di dato: calcolato da dati veri, non misurato direttamente.",
+    "MISURATO": "Tipo di dato: misurato, con la posizione GPS dei mezzi.",
+    "STIMATO / CENSIMENTO": "Tipo di dato: calcolato da dati veri, con gli abitanti del censimento 2021.",
+    "STIMATO / MISURATO (dati scarsi)": "Tipo di dato: calcolato da dati veri e in parte misurato, su pochi giorni di dati.",
+    "STIMATO / MISURATO / PROGRAMMATO": "Tipo di dato: calcolato da dati veri, con tempi in auto di TomTom, misure dei sensori e orari ufficiali dei mezzi.",
+}
+
+
+
+
 def periodo_it(da, a):
     """«dal 10/10/2026 al 23/10/2026» da due date AAAA-MM-GG (le date dei dati usati, scritte nei JSON)."""
     it = lambda t: f"{t[8:10]}/{t[5:7]}/{t[:4]}"
@@ -137,7 +183,7 @@ NASCOSTE = {"risultato2"}   # in pausa: docs/R2_metro_notte.md
 
 
 # ---------------------------------------------------------------- Forma nuova delle schede
-# Ogni scheda ha un campo "forma" con tutto quello che la pagina mostra: etichetta, titolo-risposta, domanda in una riga,
+# Ogni scheda ha un campo "forma" con tutto quello che la pagina mostra: tipo di dato (nella parte chiusa), titolo-risposta, domanda in una riga,
 # numero grande, grafico principale, 3 punti chiave, e le parti chiuse (altri grafici, calcolo, limiti, inglese).
 # I campi vecchi restano nel JSON ma la pagina non li usa. I numeri vengono sempre dai file dei risultati.
 
@@ -150,13 +196,16 @@ def controlla_forma(nome, f):
     """Avvisi sui testi della forma: frasi di oltre 20 parole e parole che non vanno nelle pagine."""
     testi = [f["titolo"], f["domanda"], f["numero"]["testo"], *f["punti"], *f["calcolo"], *f.get("confronto", []),
              *f["limiti"], *(a for a in [f.get("extra", {}).get("punto")] if a)]
+    for p in f["punti"]:
+        if len(p.split()) > 25:
+            print(f"  ATTENZIONE {nome}: punto chiave di {len(p.split())} parole (massimo 25): «{p[:60]}…»")
     for t in testi:
         if PAROLE_VIETATE.search(t):
             print(f"  ATTENZIONE {nome}: parola da togliere in «{t[:60]}»")
         for frase in re.split(r"(?<=[a-zA-ZàèéìòùÀ%)\]»])[.;:] +(?=[A-ZÈÀ])", t):
             if len(frase.split()) > 20:
                 print(f"  ATTENZIONE {nome}: frase di {len(frase.split())} parole: «{frase[:70]}…»")
-    if len(f["punti"]) != 3 or len(f["limiti"]) > 4 or len(f["altri"]) > 4 or len(f["calcolo"]) > 5:
+    if len(f["punti"]) != 3 or len(f["limiti"]) > 4 or len(f["altri"]) > 4 or len(f["calcolo"]) > 8:
         print(f"  ATTENZIONE {nome}: numero di righe fuori misura")
 
 
@@ -164,7 +213,7 @@ def controlla_forma(nome, f):
 
 def forma_base(s, titolo, domanda, numero, principale, punti, altri, calcolo, criteri, limiti, english=None, mappa=True, **extra):
     """La forma di una scheda. «english» non si usa più (l'inglese viene da traduci.py): resta come argomento per non cambiare le chiamate."""
-    f = {"etichetta": s["tag"], "titolo": titolo, "domanda": domanda, "numero": numero, "principale": principale,
+    f = {"tipo_dato": TIPO_DATO[s["tag"]], "titolo": titolo, "domanda": domanda, "numero": numero, "principale": principale,
          "punti": punti, "altri": altri, "calcolo": calcolo, "criteri": criteri, "limiti": limiti}
     if mappa and s.get("mappa"):
         f["mappa"] = {"id": s["mappa"]["id"], "nota": s["mappa"]["nota"]}

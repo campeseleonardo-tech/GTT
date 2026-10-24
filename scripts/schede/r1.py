@@ -1,5 +1,5 @@
 """Risultato 1 (pubblico 1): dove mancano i servizi a piedi."""
-from schede.comune import forma_base, il, leggi, migliaia, num, numero_di, ora, virgola, voce
+from schede.comune import circa, circa_mila, forma_base, leggi, migliaia, num, numero_di, ora, virgola, voce
 
 
 
@@ -252,8 +252,7 @@ def forma_r1(s):
                   "righe": righe}
     grafico_traffico = {"tipo": "barre", "titolo": "Residenti per distanza da una strada molto trafficata", "unita": "residenti",
                         "nota": f"Distanza dal centro della sezione. Strada molto trafficata: almeno "
-                                f"{migliaia(pr['soglia_molto_traffico_veic_giorno'])} veicoli al giorno. "
-                                f"Stima debole: il modello sbaglia del ±{pr['fascia_errore_pct']}% in metà dei casi.",
+                                f"{migliaia(pr['soglia_molto_traffico_veic_giorno'])} veicoli al giorno.",
                         "voci": [voce(f"esposti (meno di {raggio} m)", classi["esposta"]["residenti"], tono="rosso"),
                                  voce(f"vicini ({raggio}-{raggio_v} m)", classi["vicina"]["residenti"], tono="giallo"),
                                  voce(f"lontani (oltre {raggio_v} m)", classi["lontana"]["residenti"], tono="verde")]}
@@ -265,7 +264,8 @@ def forma_r1(s):
                "I tipi di servizio sono cinque, contati separatamente: scuole, salute, negozi, fermate, verde.",
                f"Si cammina sulla rete stradale reale (OpenStreetMap), a {par['Velocità a piedi'].split(' (')[0]}.",
                f"Residenti dal censimento ISTAT 2021; le zone con meno di {soglia} abitanti per km² sono grigie e contate a parte.",
-               f"Si è esposti se il centro della sezione è a meno di {raggio} m da una strada molto trafficata."]
+               f"Si è esposti se il centro della sezione è a meno di {raggio} m da una strada molto trafficata.",
+               f"Il traffico viene da un modello tarato sui sensori, che sbaglia del ±{pr['fascia_errore_pct']}% in metà dei casi."]
     parametri = [["Tempi a piedi", "5, 10 e 15 minuti"] if p[0] == "Tempo a piedi" else list(p) for p in s["parametri"]]
     parametri += [["Strada molto trafficata", f"almeno {migliaia(pr['soglia_molto_traffico_veic_giorno'])} veicoli al giorno"],
                   ["Esposto al traffico", f"a meno di {raggio} m dalla strada"]]
@@ -279,8 +279,8 @@ def forma_r1(s):
         {"valore": round(quota(15, 5), 1), "unita": "%",
          "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi"},
         principale,
-        [f"A 5 minuti solo {il(quota(5, 5))}% dei residenti ha tutti e 5 i servizi; a 10 minuti {il(quota(10, 5))}%.",
-         f"{migliaia(classi['esposta']['residenti'])} residenti ({virgola(classi['esposta']['quota'])}%) vivono a meno di "
+        [f"A 5 minuti solo {circa(quota(5, 5), '%')} dei residenti ha tutti e 5 i servizi; a 10 minuti {circa(quota(10, 5), '%')}.",
+         f"{circa_mila(classi['esposta']['residenti'])} residenti ({circa(classi['esposta']['quota'], '%')}) vivono a meno di "
          f"{raggio} m da una strada molto trafficata.",
          f"I {migliaia(tre_o_piu)} residenti senza 3 o più servizi sono in {n_critiche} {'sezione' if n_critiche == 1 else 'sezioni'} di collina: dove manca davvero tutto."],
         [grafico_traffico, grafico_senza],
@@ -289,7 +289,7 @@ def forma_r1(s):
         ["Solo Torino: in cintura il catalogo dei servizi manca, quindi «zero» spesso vuol dire dato mancante.",
          "Si conta se un servizio c'è, non quanto è grande né se ha posto. Le fermate usano l'orario programmato: niente ritardi né affollamento.",
          "I punti nuovi sono ipotesi: non tengono conto di costi, spazi liberi o permessi.",
-         "Il traffico è una stima e sostituisce rumore e smog, che non misuriamo."],
+         "Il traffico è un modello e sostituisce rumore e smog, che non sono misurati."],
         ["Question: how many Turin residents lack schools, health, shops, stops or green space within 15 minutes on foot?",
          f"Answer: {senza:,} residents ({quota_senza:.1f}%) lack at least one of the 5 services; {tre_o_piu:,} in inhabited areas lack three or more.",
          "Limit: only Turin is covered, because the service catalogue is missing for the surrounding towns."],
