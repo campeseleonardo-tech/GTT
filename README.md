@@ -37,7 +37,8 @@ Ogni risultato dichiara i suoi limiti nella sua scheda.
 - **Raccolta**: un Raspberry Pi (Python, SQLite) legge ogni minuto la posizione dei mezzi GTT, i ritardi e i sensori 5T del traffico e dei parcheggi.
 - **Calcoli**: script Python numerati in `scripts/` (numpy, scipy, pandas, r5py per i percorsi in trasporto pubblico). Per ogni risultato c'è un documento in `docs/` (domanda, criteri, numeri, limiti).
 - **Pagine**: HTML e JavaScript senza librerie; i dati arrivano da file `.js` scritti dagli script. La mappa e le schede stanno in `mappa_torino.html` e `risultati.html`.
-- **Appunti di lavoro** (piani, memoria, prove): in `sviluppo/`.
+- **Metodo di lavoro**: codice e documenti scritti con l'aiuto di Claude, un assistente di intelligenza artificiale; scelte, controlli e dati sono di Leo.
+- **Appunti di lavoro** in `sviluppo/`: i piani dei giri di lavoro (`sviluppo/piani/`), la memoria del progetto, la tesi e le prove di stile. Sono appunti scritti mentre si lavora, non documentazione: quella sta in `docs/`.
 
 ## Fonti e licenze
 
@@ -57,6 +58,8 @@ pip install -r requirements.txt     # per i tempi coi mezzi pubblici (r5py) serv
 python scripts/scarica_dati.py      # dati grandi dalla Release di GitHub (IMQ e OMI a mano: vedi docs/DATI.md)
 python scripts/rifai_tutto.py       # tutto, nell'ordine giusto; si ferma e riprende con --riprendi (--elenco mostra le fasi)
 ```
+
+IMQ 2022 e OMI si scaricano a mano dalla fonte: indirizzi in [`docs/FONTI_DATI.md`](docs/FONTI_DATI.md); poi `python scripts/rifai_tutto.py --da dati`. Le pagine funzionano senza (la mappa li ha già dentro, con la fonte citata); i calcoli che li usano si fermano con un messaggio che dice cosa scaricare.
 
 Solo le pagine: `python scripts/rifai_tutto.py --solo schede,mappa`. Controllo delle pagine: `python scripts/prova_pagine.py`.
 
@@ -101,7 +104,8 @@ Each result states its limits on its own card.
 - **Collection**: a Raspberry Pi (Python, SQLite) reads the position of GTT vehicles, delays and the 5T traffic and parking sensors every minute.
 - **Calculations**: numbered Python scripts in `scripts/` (numpy, scipy, pandas, r5py for public-transport routing). Each result has a document in `docs/` (question, criteria, numbers, limits).
 - **Pages**: plain HTML and JavaScript, no libraries; data come from `.js` files written by the scripts.
-- **Working notes** (plans, memory, tests): in `sviluppo/` (Italian).
+- **Way of working**: code and documents written with the help of Claude, an AI assistant; choices, checks and data are Leo's.
+- **Working notes** in `sviluppo/` (Italian): the plans of each work round (`sviluppo/piani/`), the project memory, the thesis and style tests. They are notes written while working, not documentation: that is in `docs/`.
 
 ## Sources and licences
 
@@ -121,6 +125,8 @@ pip install -r requirements.txt
 python scripts/scarica_dati.py      # large data from the GitHub Release (IMQ and OMI by hand: see docs/DATI.md)
 python scripts/rifai_tutto.py       # everything, in the right order; stops and resumes with --riprendi (--elenco lists the steps)
 ```
+
+IMQ 2022 and OMI are downloaded by hand from the source: addresses in [`docs/FONTI_DATI.md`](docs/FONTI_DATI.md); then `python scripts/rifai_tutto.py --da dati`. The pages work without them (the map already contains them, with the source cited); the calculations that use them stop with a message saying what to download.
 
 Pages only: `python scripts/rifai_tutto.py --solo schede,mappa`. Page checks: `python scripts/prova_pagine.py`.
 

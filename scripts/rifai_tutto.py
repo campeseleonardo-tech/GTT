@@ -93,6 +93,34 @@ def scegli_fasi(args):
     return list(NOMI)
 
 
+# File derivati da IMQ e OMI: fuori da git (giro L12). Se mancano, si ferma subito e dice cosa scaricare.
+FONTI_IMQ = ["imq_zone.json", "imq_zone_geo.json", "imq_od.json", "imq_aggregati.json", "imq_residenti.json", "imq_mappa.json"]
+FONTI_OMI = ["omi_zone.json"]
+FONTI_DOMANDA = ["traffico_c/domanda_auto.json", "traffico_c/v3/domanda_v3.json"]
+
+
+def controlla_fonti(fasi):
+    """Ritorna un messaggio se mancano file derivati da IMQ/OMI che le fasi scelte non rifanno da sole; altrimenti None."""
+    proc = RADICE / "data" / "processed"
+    servono = []
+    if any(f in fasi for f in ("traffico", "r6", "r8")):
+        servono += [n for n in FONTI_IMQ if n != "imq_mappa.json"]      # zone, geometrie e coppie dell'IMQ (40, 41, 93, 99...)
+    if "mappa" in fasi:
+        servono += ["imq_mappa.json"] + FONTI_OMI                       # la mappa li ha dentro: senza, rifarla perderebbe due temi
+    if "r10" in fasi and "dati" not in fasi:
+        servono += FONTI_OMI                       # la fase dati li rifa dal grezzo (08), se c'e'
+    if "traffico" not in fasi and any(f in fasi for f in ("r6", "r8")):
+        servono += FONTI_DOMANDA                   # la fase traffico li rifa dall'IMQ (40, 49)
+    servono = list(dict.fromkeys(servono))
+    mancano = [n for n in servono if not (proc / n).exists()]
+    if not mancano:
+        return None
+    return ("Mancano file derivati da IMQ 2022 / OMI, che non stanno in git (licenza non chiara):\n  " + "\n  ".join(f"data/processed/{n}" for n in mancano)
+            + "\nScarica le fonti a mano (indirizzi in docs/FONTI_DATI.md): IMQ in data/raw/IMQ2022_opendata_web, poi python scripts/14_prepara_imq.py, "
+              "15_prepara_zone_imq.py, 16_prepara_imq_mappa.py; OMI in data/raw/omi_2025_2, poi python scripts/08_prepara_omi.py "
+              "(o python scripts/rifai_tutto.py --da dati). Poi rilancia questo comando.")
+
+
 def mostra(p):
     try:
         return p.relative_to(RADICE)
@@ -168,6 +196,10 @@ def main():
         print(f"OK: {len(elenco)} comandi in {len(fasi)} fasi, tutti gli script esistono.")
         return 0
 
+    messaggio = controlla_fonti(fasi)
+    if messaggio:
+        print(messaggio)
+        return 1
     LOGS.mkdir(exist_ok=True)
     stato = carica_stato() if args.riprendi else {"fatti": []}
     fatti = set(stato["fatti"])

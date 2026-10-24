@@ -182,6 +182,7 @@ def centro_sezione(rings):
 # ---------------------------------------------------------------- lettura dati
 def leggi_json(percorso):
     if not percorso.is_file():
+        comuni.richiedi_fonte(percorso)      # omi_zone.json: fuori da git (L12), il messaggio dice dove scaricare la fonte
         sys.exit(f"Manca {percorso}")
     return json.loads(percorso.read_text(encoding="utf-8"))
 

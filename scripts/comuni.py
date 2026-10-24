@@ -146,6 +146,34 @@ def nel_periodo(giorno, chiave):
     return da <= _iso(giorno)[:10] <= a
 
 
+# File derivati da IMQ 2022 e OMI: ricopiano le celle o le quotazioni della fonte, quindi (giro L12, 24/10/2026) non stanno in git.
+# Se mancano, gli script si fermano con un messaggio che dice cosa scaricare e da dove (docs/FONTI_DATI.md).
+def _come_rifare(nome):
+    n = Path(nome).name
+    if n.startswith("imq_"):
+        return ("IMQ 2022 (Agenzia della mobilita' piemontese: dati aperti e zone di campionamento)",
+                "scarica i dati IMQ nella cartella data/raw/IMQ2022_opendata_web, poi python scripts/14_prepara_imq.py, 15_prepara_zone_imq.py e 16_prepara_imq_mappa.py")
+    if n == "omi_zone.json":
+        return ("OMI (Agenzia delle Entrate: quotazioni e perimetri delle zone)",
+                "scarica quotazioni e KML OMI in data/raw/omi_2025_2, poi python scripts/08_prepara_omi.py")
+    if n.startswith("domanda") or "domanda_" in n:
+        return ("IMQ 2022 (matrice di domanda per coppia di zone)",
+                "con i file IMQ al loro posto: python scripts/rifai_tutto.py --da traffico")
+    return (None, None)
+
+
+def richiedi_fonte(*percorsi):
+    """Si ferma con un messaggio chiaro se manca uno dei file derivati da IMQ/OMI (o un altro file); ritorna i percorsi se ci sono tutti."""
+    for p in percorsi:
+        if not Path(p).exists():
+            fonte, come = _come_rifare(p)
+            if fonte is None:
+                raise SystemExit(f"ERRORE: manca {p}")
+            raise SystemExit(f"ERRORE: manca {Path(p).name} ({p}).\n  Deriva da {fonte} e non sta in git (licenza non chiara).\n"
+                             f"  Come rifarlo: {come}.\n  Indirizzi delle fonti: docs/FONTI_DATI.md. Spiegazione: README, «Dati».")
+    return percorsi
+
+
 def controlla_copia_storico(db):
     """AVVISO se il giorno (locale) dell'ultimo cambio della copia dello storico e' dentro un PERIODO: sarebbe un giorno a meta'."""
     import datetime as _dt

@@ -179,7 +179,9 @@ def leggi_area_comuni():
 
 def main():
     if not (VALORI.is_file() and ZONE.is_file() and KML_DIR.is_dir()):
-        sys.exit("File OMI non trovati in data/raw/omi_2025_2")
+        sys.exit("ERRORE: file OMI non trovati in data/raw/omi_2025_2. Non stanno in git (licenza non chiara): scarica a mano le quotazioni "
+                 "(due CSV) e i perimetri (cartella TO20252 con i KML) dal servizio Forniture dati OMI dell'Agenzia delle Entrate; "
+                 "indirizzi in docs/FONTI_DATI.md. Poi rilancia questo script.")
 
     comuni_area = leggi_area_comuni()  # atteso: 69 comuni (include Moncucco 5070)
 

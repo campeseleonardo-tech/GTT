@@ -356,6 +356,7 @@ def main():
     ap.add_argument("--fattore", type=float, default=None, help="fattore di punta (se manca: dai sensori 5T)")
     ap.add_argument("--lotto", type=int, default=20, help="origini per chiamata r5py (e per salvataggio)")
     args = ap.parse_args()
+    comuni.richiedi_fonte(PROC / "imq_zone.json", PROC / "imq_od.json")      # L12: derivati da IMQ, fuori da git
     t_inizio = time.time()
     c = comuni.Controlli()
     fattore_sensori, stat_sensori = fattore_da_sensori()

@@ -4,18 +4,18 @@ Dove deve stare ogni file di `data/`: in git, nella Release di GitHub, come rias
 
 <!-- INVENTARIO:INIZIO -->
 
-*Inventario scritto da `scripts/96_inventario_dati.py` il 23/10/2026 sulla cartella `data/`. Le proposte sono automatiche (regole in testa allo script): decide Leo, fonte per fonte (piano 2, passo 3).*
+*Inventario scritto da `scripts/96_inventario_dati.py` il 24/10/2026 sulla cartella `data/`. Le proposte sono automatiche (regole in testa allo script): decide Leo, fonte per fonte (piano 2, passo 3).*
 
 ### Totali per posto
 
 | Posto | File | Peso (MB) | Cosa vuol dire |
 |---|---|---|---|
-| git | 259 | 137,2 | dentro il repository |
+| git | 148 | 129,6 | dentro il repository |
 | Release | 220 | 872,4 | zip nella Release di GitHub |
-| riassunto | 2 | 2.712,1 | dello storico si tengono solo i riassunti (script 97) |
-| fonte | 336 | 147,7 | non si pubblica: si riscarica dalla fonte (IMQ, OMI) |
-| fuori | 432 | 320,9 | nessuno lo cita: non si pubblica |
-| **tutto** | 1249 | 4.190,4 | |
+| riassunto | 3 | 5.525,2 | dello storico si tengono solo i riassunti (script 97) |
+| fonte | 449 | 155,8 | non si pubblica: si riscarica dalla fonte (IMQ, OMI) |
+| fuori | 436 | 323,7 | nessuno lo cita: non si pubblica |
+| **tutto** | 1256 | 7.006,7 | |
 
 Avvisi: file in «git» sopra 50 MB: 0.
 
@@ -23,7 +23,7 @@ Avvisi: file in «git» sopra 50 MB: 0.
 
 | Cartella | File | Peso (MB) | git | Release | riassunto | fonte | fuori |
 |---|---|---|---|---|---|---|---|
-| `data/(radice di data)` | 33 | 2.813,7 | 4 | 2 | 1 | 0 | 26 |
+| `data/(radice di data)` | 34 | 5.629,4 | 4 | 2 | 2 | 0 | 26 |
 | `data/IMQ2013-22_zone_camp_TO` | 6 | 0,1 | 0 | 0 | 0 | 6 | 0 |
 | `data/IMQ2022_opendata_web` | 1 | 59,9 | 0 | 0 | 0 | 1 | 0 |
 | `data/IMQ2022_zone_camp_noTO` | 7 | 5,8 | 0 | 0 | 0 | 7 | 0 |
@@ -32,14 +32,14 @@ Avvisi: file in «git» sopra 50 MB: 0.
 | `data/catalogo` | 6 | 4,4 | 6 | 0 | 0 | 0 | 0 |
 | `data/otp/jdk-25.0.4.1+1-jre` | 320 | 179,1 | 0 | 0 | 0 | 0 | 320 |
 | `data/otp/rete` | 2 | 32,4 | 0 | 2 | 0 | 0 | 0 |
-| `data/processed` | 66 | 80,4 | 48 | 5 | 0 | 0 | 13 |
+| `data/processed` | 72 | 81,0 | 43 | 5 | 0 | 7 | 17 |
 | `data/processed/accessibilita_parziale` | 48 | 1,8 | 0 | 0 | 0 | 0 | 48 |
 | `data/processed/accessibilita_parziale_test` | 3 | 0,0 | 0 | 0 | 0 | 0 | 3 |
 | `data/processed/catalogo` | 7 | 4,4 | 6 | 1 | 0 | 0 | 0 |
 | `data/processed/imq` | 6 | 11,1 | 0 | 0 | 0 | 6 | 0 |
-| `data/processed/rapporto_gtt` | 105 | 5,4 | 104 | 1 | 0 | 0 | 0 |
+| `data/processed/rapporto_gtt` | 105 | 5,4 | 1 | 1 | 0 | 103 | 0 |
 | `data/processed/risultato6_v2` | 24 | 19,6 | 24 | 0 | 0 | 0 | 0 |
-| `data/processed/traffico_c` | 37 | 66,9 | 32 | 4 | 1 | 0 | 0 |
+| `data/processed/traffico_c` | 37 | 66,9 | 29 | 4 | 1 | 3 | 0 |
 | `data/processed/traffico_d` | 40 | 166,2 | 28 | 12 | 0 | 0 | 0 |
 | `data/raw` | 45 | 38,9 | 0 | 45 | 0 | 0 | 0 |
 | `data/raw/IMQ2022_opendata_web` | 2 | 59,9 | 0 | 0 | 0 | 2 | 0 |
@@ -57,7 +57,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/(radice di data)`
 
-33 file, 2.813,7 MB (git: 4, Release: 2, riassunto: 1, fuori: 26). Letti da: 04_genera_mappa.py, 06_dati_live.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py, 31_rapporto_fatti.py (+23). Scritti da: 06_dati_live.py, 30_rapporto_estrai.py, RACCOLTA_GIORNALIERA.bat, supervisore.py.
+34 file, 5.629,4 MB (git: 4, Release: 2, riassunto: 2, fuori: 26). Letti da: 04_genera_mappa.py, 06_dati_live.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py, 31_rapporto_fatti.py (+23). Scritti da: 06_dati_live.py, 30_rapporto_estrai.py, RACCOLTA_GIORNALIERA.bat, supervisore.py.
 
 #### `data/IMQ2013-22_zone_camp_TO`
 
@@ -132,7 +132,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/otp/jdk-25.0.4.1+1-jre`
 
-320 file, 179,1 MB (fuori: 320). Letti da: 01_scarica_dati.py, 04_genera_mappa.py, 05_prepara_sezioni.py, 06_dati_live.py, 100_ore_del_giorno.py, 11_prepara_catalogo.py (+67). Scritti da: 04_genera_mappa.py, 88_confronto_auto_sensori.py, 98_prepara_release.py, TRAFFICO_RILANCIA_SENSORI.bat.
+320 file, 179,1 MB (fuori: 320). Letti da: 01_scarica_dati.py, 04_genera_mappa.py, 05_prepara_sezioni.py, 06_dati_live.py, 100_ore_del_giorno.py, 101_tempi_traffico.py (+68). Scritti da: 04_genera_mappa.py, 88_confronto_auto_sensori.py, 98_prepara_release.py, TRAFFICO_RILANCIA_SENSORI.bat.
 
 #### `data/otp/rete`
 
@@ -143,7 +143,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/processed`
 
-66 file, 80,4 MB (git: 48, Release: 5, fuori: 13). Letti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 100_ore_del_giorno.py, 14_prepara_imq.py, 15_prepara_zone_imq.py (+63). Scritti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 14_prepara_imq.py, 15_prepara_zone_imq.py, 16_prepara_imq_mappa.py (+32).
+72 file, 81,0 MB (git: 43, Release: 5, fonte: 7, fuori: 17). Letti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 100_ore_del_giorno.py, 101_tempi_traffico.py, 14_prepara_imq.py (+65). Scritti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 14_prepara_imq.py, 15_prepara_zone_imq.py, 16_prepara_imq_mappa.py (+32).
 
 #### `data/processed/accessibilita_parziale`
 
@@ -182,7 +182,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/processed/rapporto_gtt`
 
-105 file, 5,4 MB (git: 104, Release: 1). Letti da: 04_genera_mappa.py, 16_prepara_imq_mappa.py, 23_vulnerabilita_incrocio.py, 29_risultato2_metro_notte.py, 30_rapporto_estrai.py, 31_rapporto_fatti.py (+7). Scritti da: 04_genera_mappa.py, 16_prepara_imq_mappa.py, 23_vulnerabilita_incrocio.py, 29_risultato2_metro_notte.py, 30_rapporto_estrai.py, 31_rapporto_fatti.py (+1).
+105 file, 5,4 MB (git: 1, Release: 1, fonte: 103). Letti da: 04_genera_mappa.py, 16_prepara_imq_mappa.py, 23_vulnerabilita_incrocio.py, 29_risultato2_metro_notte.py, 30_rapporto_estrai.py, 31_rapporto_fatti.py (+8). Scritti da: 04_genera_mappa.py, 16_prepara_imq_mappa.py, 23_vulnerabilita_incrocio.py, 29_risultato2_metro_notte.py, 30_rapporto_estrai.py, 31_rapporto_fatti.py (+1).
 
 #### `data/processed/risultato6_v2`
 
@@ -215,7 +215,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/processed/traffico_c`
 
-37 file, 66,9 MB (git: 32, Release: 4, riassunto: 1). Letti da: 39_fattibilita_rete.py, 40_domanda_imq.py, 41_zone_punti.py, 42_instradamento.py, 43_segmenti_corridoi.py, 44_taratura_validazione.py (+26). Scritti da: 39_fattibilita_rete.py, 40_domanda_imq.py, 41_zone_punti.py, 42_instradamento.py, 43_segmenti_corridoi.py, 44_taratura_validazione.py (+11).
+37 file, 66,9 MB (git: 29, Release: 4, riassunto: 1, fonte: 3). Letti da: 39_fattibilita_rete.py, 40_domanda_imq.py, 41_zone_punti.py, 42_instradamento.py, 43_segmenti_corridoi.py, 44_taratura_validazione.py (+27). Scritti da: 39_fattibilita_rete.py, 40_domanda_imq.py, 41_zone_punti.py, 42_instradamento.py, 43_segmenti_corridoi.py, 44_taratura_validazione.py (+11).
 
 #### `data/processed/traffico_d`
 
@@ -230,7 +230,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 | File | MB | Legge | Scrive | Posto | Nota |
 |---|---|---|---|---|---|
 | `IMQ2022_opendata_web.accdb` | 59,9 | 13_esporta_imq.ps1 | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
-| `IMQ2022_opendata_web_metodologia.txt` | 0,0 | 13_esporta_imq.ps1, scarica_dati.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); via cartella |
+| `IMQ2022_opendata_web_metodologia.txt` | 0,0 | 13_esporta_imq.ps1, comuni.py, rifai_tutto.py, scarica_dati.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); via cartella |
 
 #### `data/raw/Redditi_e_principali_variabili_IRPEF_su_base_comunale_CSV_2024`
 
@@ -251,11 +251,11 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/raw/istat`
 
-139 file, 557,3 MB (Release: 139). Letti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 14_prepara_imq.py, 15_prepara_zone_imq.py, 16_prepara_imq_mappa.py (+24). Scritti da: 04_genera_mappa.py, costruisci_prove_stile.py.
+139 file, 557,3 MB (Release: 139). Letti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 14_prepara_imq.py, 15_prepara_zone_imq.py, 16_prepara_imq_mappa.py (+27). Scritti da: 04_genera_mappa.py, costruisci_prove_stile.py, prova_gtfs_per_giorno.py.
 
 #### `data/raw/omi_2025_2`
 
-314 file, 10,9 MB (fonte: 314). Letti da: 08_prepara_omi.py, scarica_dati.py. Scritti da: —.
+314 file, 10,9 MB (fonte: 314). Letti da: 08_prepara_omi.py, comuni.py, rifai_tutto.py, scarica_dati.py. Scritti da: —.
 
 #### `data/ref`
 
@@ -291,6 +291,7 @@ Prese il 22/10/2026, dopo l'inventario sui dati veri. Lo script 96 le applica da
 | Cosa | Deciso | Perché / come si rifà |
 |---|---|---|
 | **IMQ 2022**: file originale (`.accdb`), spostamenti e interviste (`data/processed/imq/*.csv`), zone di campionamento | **fonte**: non entrano né in git né nella Release; si riscaricano dalla fonte | Licenza non indicata (© Agenzia, «per studio e ricerca»). Indirizzo: pagina «open data IMQ 2022» di MTM (in `docs/FONTI_DATI.md`); poi gli script 13-16 rifanno i file. Leo scrive all'Agenzia per chiedere il permesso |
+| **File derivati da IMQ e OMI** (L12, 24/10/2026): `processed/imq_*.json` (zone, geometrie, coppie, aggregati, residenti, mappa), `processed/omi_zone.json`, `processed/traffico_c/domanda_auto.json`, `processed/traffico_c/v3/domanda_v3.json`, `domanda_nodi.npz` | **fonte**: via da git (`git rm --cached`), restano sul disco di Leo; non nella Release | Ricopiano celle IMQ e quotazioni OMI. Restano in git i risultati riassunti (schede, mappa, rapporti) con la fonte citata. Se mancano, gli script lo dicono (`comuni.richiedi_fonte`, controllo in `rifai_tutto.py`); nella storia di git le vecchie copie restano (toglierle richiede di riscrivere la storia: scelta di Leo) |
 | **OMI**: file grezzi (`data/raw/omi_2025_2/`) | **fonte**: non si pubblicano; si riscaricano a mano | Nessuna licenza esplicita, solo «citare la fonte». Procedura: servizio Forniture dati OMI, semestre 2025/2, provincia di Torino |
 | **File del Pi** (`live.js`, `stat.js`, `agg_cache.json`, `replay_*.js`, `get_*.xml`) | **fuori** | Servivano alla vecchia mappa live; la mappa non usa più dati live |
 | Java di OTP, `data/backup/`, cache e prove | **fuori** | Strumenti, copie e avanzi, non dati |

@@ -987,9 +987,7 @@ def confine_torino():
 def leggi_omi():
     """Legge data/processed/omi_zone.json (O1); ritorna lista compatta o None."""
     f = RADICE / "data" / "processed" / "omi_zone.json"
-    if not f.is_file():
-        print("  (omi_zone.json non trovato: tema Valore immobiliare vuoto; lancia 08_prepara_omi.py)")
-        return None
+    comuni.richiedi_fonte(f)      # L12: il file non sta in git; senza, la mappa perderebbe il tema Prezzo delle case: ci si ferma
     try:
         dati_omi = json.loads(f.read_text(encoding="utf-8"))
         # Calcola log: comuni, zone, zone con tipologia ab
@@ -1006,9 +1004,7 @@ def leggi_omi():
 def leggi_imq():
     """Legge data/processed/imq_mappa.json (attivita' 10); ritorna l'oggetto o None."""
     f = RADICE / "data" / "processed" / "imq_mappa.json"
-    if not f.is_file():
-        print("  (imq_mappa.json non trovato: tema Mobilita' (IMQ) vuoto; lancia 16_prepara_imq_mappa.py)")
-        return None
+    comuni.richiedi_fonte(f)      # L12: il file non sta in git; senza, la mappa perderebbe il tema Spostamenti: ci si ferma
     try:
         dati_imq = json.loads(f.read_text(encoding="utf-8"))
         n_zone = len(dati_imq.get("zone", []))
