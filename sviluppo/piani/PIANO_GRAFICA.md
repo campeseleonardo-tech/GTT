@@ -275,3 +275,50 @@ Ordine dei passi:
 - La linea è sottile, perché i tratti del toro sono doppi (contorno di una forma piena).
 - Con «riduci movimento»: toro a linee fermo e intero.
 - Gara del pannello della mappa: solo l'auto TomTom e nessun comando, come nelle schede.
+
+### Controllo del 25/10 e sessione in locale L20 (circa 2 ore)
+**Controllo fatto nel cloud** su `origin/prova` 19afecd (L19 compreso):
+- `schede_risultati.py` rifà le schede identiche (cambia solo «generato»).
+- `prova_pagine.py --playwright`: 0 errori su 20 pagine; prove L15-L18 e link della mappa tutte OK; peso della mappa 5.958.369 byte; 461 file e 146,3 MB in git.
+- Nessun ramo `claude/*` ha commit fuori da `prova`.
+- `main` è indietro: manca L19.
+- La Release `dati-2026-11` esiste ma è una **bozza** (draft): non è pubblicata, quindi `scarica_dati.py` prende ancora `dati-2026-10`.
+- GitHub Pages è spento (404).
+
+**Risposte di Leo (25/10):**
+- L13 e poi L14; L14 si ferma solo sul pezzo dei dati che mancano e il lavoro va avanti.
+- Pages adesso; alla fine l'agente unisce `prova` in `main` se tutte le prove passano; LinkedIn dopo L14.
+- Extra: velocità vera dei bus (E4) nella scheda 2.
+- Scheda 5: domanda con la sola seconda parte.
+
+**Prima del lancio, Leo a mano:**
+1. Pubblicare la bozza della Release: Releases → `dati-2026-11` (Draft) → Edit → «Publish release».
+2. Accendere Pages: Settings → Pages → Branch `main`, cartella `/` → Save.
+
+**Regole di E4, fissate ora** (valori predefiniti di Claude):
+- Velocità commerciale dei bus e dei tram dal GPS = distanza fra fermate / tempo fra i passaggi. È lo stesso calcolo del livello «Velocità» di `04_genera_mappa.py`, da riusare e non riscrivere.
+- Feriali del `comuni.PERIODO`, media pesata sui passaggi, ora per ora dalle 5 alle 24, bus e tram separati e insieme.
+- Script `104_velocita_bus.py`: scrive `data/processed/velocita_bus.json` e `docs/rapporti/RAPPORTO_VELOCITA_BUS.txt`.
+- Controlli: velocità fra 5 e 40 km/h; AVVISO per le ore con meno di 1.000 passaggi.
+- Scheda 2:
+  - un punto chiave «Alle 8 un bus va in media a ~N km/h» (sostituisce il meno forte dei 3: scriverlo nell'esito);
+  - un grafico a linea ora per ora negli «Altri grafici»;
+  - nel calcolo come si misura, e che le fermate e i semafori sono compresi.
+- Nessun numero scritto a mano.
+
+```
+Sei sul PC di Leo, cartella C:\projects\Progetti\GTT, ramo prova. Leggi sviluppo/AGENTS.md, la memoria e, in sviluppo/piani/PIANO_GRAFICA.md, la «Discussione di design» (valori predefiniti: valgono per ogni testo e scheda nuova) e «Controllo del 25/10 e sessione in locale L20». Non leggere altri piani né esiti salvo i blocchi citati qui.
+Prima: git pull --no-rebase origin prova; python scripts\controlla_rami.py (se un ramo ha commit non in prova, fermati e dillo a Leo).
+Lavoro di circa 2 ore, in quest'ordine di priorità. Un commit per passo e git push origin prova dopo ognuno, così niente si perde se il tempo finisce. Niente controlli grafici (li fa Leo), niente telefono, niente scritture sul Pi.
+1. L13: esegui il blocco L13 di sviluppo/piani/PROMPT_LAVORI.md, con le regole di design (testi impersonali, niente etichette né riga «Limite», in vista solo TomTom, circa() sui numeri secondari, punti chiave ≤ 25 parole).
+2. L14: esegui il blocco L14 di PROMPT_LAVORI.md, con le stesse regole e in più: campi chiave e numero.breve della scheda 6, gara e contatori senza comandi, home a 6 riquadri (3 + 3), r/6.html. Lo STOP vale solo per i dati: se mancano carburante, tariffe GTT o sosta, scrivi in ESITO_L14.md cosa manca e dove hai cercato, non fare la scheda e passa al punto 3.
+3. Scheda 5: la domanda diventa solo la seconda parte («Chi vive dove i servizi sono pochi e le difficoltà sociali sono alte?», inglese in testi.json).
+4. E4, velocità vera dei bus nella scheda 2: regole in «Controllo del 25/10 e sessione in locale L20».
+5. Rilancio e prove: scripts\RIFAI_MAPPA_E_SCHEDE.bat; python -m pyflakes scripts (zero); node --check assets\*.js; python scripts\schede_risultati.py (nessuna ATTENZIONE); python scripts\prova_pagine.py --playwright (0 errori, prova_design compresa).
+6. Prova da zero con la Release dati-2026-11 (se è ancora una bozza, scrivilo e salta): clone in una cartella temporanea, python scripts\scarica_dati.py, python scripts\rifai_tutto.py --solo schede; data\schede_risultati.js uguale a quello di prova (salvo «generato»). Poi cancella la cartella temporanea.
+7. Pulizie: file «3)» nella radice e scripts\*.bak_18ott se ci sono; git status pulito (niente data\ fuori dalle regole, .bak, chiavi).
+8. Esito unico sviluppo/piani/ESITO_L20.md (una sezione per punto, numeri nuovi, cosa è saltato e perché), memoria, commit, git pull --no-rebase origin prova, git push origin prova.
+9. Solo se il punto 5 è tutto verde: git checkout main; git pull origin main; git merge --no-edit prova; git push origin main; git checkout prova. Se qualcosa non è verde, non unire e scrivilo.
+Se il tempo finisce prima, fermati dopo l'ultimo punto chiuso, fai il punto 8 e scrivi a Leo da dove ripartire.
+ALLA FINE a Leo: per ogni punto fatto/saltato; numero grande e titolo della scheda 6; il valore di E4; cosa guardare (scheda 4 con la parte nuova, scheda 6, scheda 2, home a 6 riquadri); se main è stato aggiornato.
+```
