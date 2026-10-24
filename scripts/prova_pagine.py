@@ -37,6 +37,7 @@ Come si lancia
 Non modifica nessun dato: scrive solo gli screenshot in immagini/.
 """
 import glob
+import shutil
 import http.server
 import json
 import os
@@ -90,6 +91,10 @@ class Silenzioso(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *args):
         pass
 
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-store")   # il browser non deve riusare script vecchi (Edge tiene il profilo fra una prova e l'altra)
+        super().end_headers()
+
 
 def avvia_server(cartella):
     os.chdir(cartella)
@@ -120,6 +125,7 @@ class BrowserWindows:
         """Edge/Chrome headless lanciato con PowerShell e -Wait: da Python il browser esce subito senza scrivere nulla."""
         cartella = Path(tempfile.gettempdir()) / "prova_pagine"
         cartella.mkdir(exist_ok=True)
+        shutil.rmtree(cartella / ("profilo_" + tag), ignore_errors=True)   # profilo nuovo a ogni apertura: niente cache di file vecchi
         out, err = cartella / f"{tag}_out.txt", cartella / f"{tag}_err.txt"
         args = ["--headless=new", "--disable-gpu", "--no-first-run", f"--user-data-dir={cartella / ('profilo_' + tag)}",
                 f"--window-size={w},{h}", "--enable-logging=stderr", "--v=0", "--virtual-time-budget=15000", *extra, url]
