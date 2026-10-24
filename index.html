@@ -22,11 +22,12 @@
 <meta name="twitter:description" content="Un progetto di analisi dei dati su mobilità e servizi a Torino: chi va dove, dove mancano servizi, dove il trasporto pubblico fa fatica. Ogni numero viene da dati veri.">
 <meta name="twitter:image" content="https://campeseleonardo-tech.github.io/Turin-mobility/assets/anteprima.png">
 <link rel="stylesheet" href="assets/stile.css">
+<link rel="stylesheet" href="assets/progetto.css">
 </head>
 <body>
 <header class="barra-alta"><div class="dentro">
   <a class="marchio" href="index.html"><img src="assets/logo.png" alt="" width="23" height="34">Torino Mobilità</a>
-  <nav aria-label="Pagine del sito" data-en-label="Site pages"><a href="index.html" aria-current="page" data-en="Home">Home</a><a href="risultati.html" data-en="Results">Risultati</a><a href="mappa_torino.html" data-en="Map">Mappa</a><a href="progetto.html" data-en="The project">Il progetto</a></nav>
+  <nav aria-label="Pagine del sito" data-en-label="Site pages"><a href="index.html" aria-current="page" data-en="Home">Home</a><a href="risultati.html" data-en="Results">Risultati</a><a href="mappa_torino.html" data-en="Map">Mappa</a><a href="#progetto" data-en="The project">Il progetto</a></nav>
   <div class="lingua" role="group" aria-label="Lingua"  data-en-label="Language"><button type="button" data-l="it" aria-pressed="true" title="Italiano">IT</button><button type="button" data-l="en" aria-pressed="false" title="English">EN</button></div>
 </div></header>
 <section class="eroe" id="eroe" aria-labelledby="titoloHome">
@@ -40,18 +41,22 @@
   </div>
 </section>
 <main>
-<ul class="intro">
-  <li data-en="Who goes where, where services are missing, where public transport has problems.">Chi va dove, dove mancano servizi, dove sono le criticità del trasporto pubblico.</li>
-  <li data-en="Every number comes from real data and carries its limits with it.">Ogni numero viene da dati veri e porta con sé i suoi limiti.</li>
-</ul>
-<div class="bottoni">
-  <a class="btn primario" href="mappa_torino.html" data-en="Map">Mappa</a>
-  <a class="btn" href="risultati.html" data-en="Results">Risultati</a>
-</div>
+<section class="in-breve" aria-labelledby="hBreve">
+  <h2 class="sezione" id="hBreve" data-en="In brief">In breve</h2>
+  <p class="lead" data-en="Who goes where, where services are missing, where public transport struggles: every number comes from real data and has its limits.">Chi va dove, dove mancano i servizi, dove il trasporto pubblico fa fatica: ogni numero viene da dati veri e ha i suoi limiti.</p>
+  <p class="lead" data-en="Three numbers to start with, each with its own card.">Tre numeri per cominciare, ognuno con la sua scheda.</p>
+  <div id="numeriChiave" class="num-chiavi"></div>
+  <p class="bottone-mappa"><a class="btn primario" href="mappa_torino.html" data-en="Open the map">Apri la mappa</a></p>
+</section>
 
-<h2 class="sezione" data-en="Five results">Cinque risultati</h2>
+<h2 class="sezione" id="hRisultati" data-en="The results at a glance">I risultati in breve</h2>
 <div id="riquadri" class="riquadri"></div>
 </main>
+<section class="fascia-progetto" id="progetto" aria-labelledby="hProg"><div class="dentro">
+  <h2 id="hProg" data-en="The project">Il progetto</h2>
+  <p class="sub" data-en="In 2020 my thesis promised that sensors and data would change cities. This project checks that promise on real data from Turin.">Nel 2020 la mia tesi prometteva che sensori e dati avrebbero cambiato le città. Questo progetto controlla quella promessa sui dati veri di Torino.</p>
+  <div class="scena" id="scena"></div>
+</div></section>
 <footer class="piede"><div class="dentro">
   <div>
     <h2 data-en="About me">Chi sono</h2>
@@ -66,12 +71,14 @@
 
 <script src="data/schede_risultati.js"></script>
 <script src="data/home_mezzi.js" onerror="window.HOME_MEZZI=null"></script>
+<script src="data/progetto.js" onerror="window.PROGETTO=null"></script>
 <script src="assets/sito.js"></script>
 <script>Sito.avvia();</script>
 <script src="assets/mezzi.js"></script>
 <script src="assets/gara.js"></script>
 <script src="assets/area.js"></script>
 <script src="assets/animazioni.js"></script>
+<script src="assets/progetto.js"></script>
 <script>
 "use strict";
 const esc = Sito.esc, formattaNumero = Sito.formattaNumero, T = Sito.T;
@@ -89,14 +96,27 @@ function disegna(){
           <div class="num">${T("Risultato", "Result")} ${esc(s.numero_pubblico != null ? s.numero_pubblico : s.risultato)}</div>
           <h3>${esc(f.titolo)}</h3>
           <div class="grande"><span class="val"${num ? ` data-valore="${n.valore}"` : forbice(n.valore)}>${formattaNumero(n.valore)}${suff}</span>
-            <span class="txt">${n.unita && n.unita !== "%" ? esc(n.unita) + " " : ""}${esc(f.numero.testo)}</span></div>
+            <span class="txt">${n.unita && n.unita !== "%" ? esc(n.unita) + " " : ""}${esc(n.breve || n.testo)}</span></div>
         </a>`;
       }).join("")
     : `<p class="vuoto">${T("I risultati non sono ancora disponibili.", "The results are not available yet.")}</p>`;
   Sito.osserva(document.getElementById("riquadri"));
 }
+/* i tre numeri chiave (campo «chiave» delle schede 4, 2 e 5), ognuno col link alla sua scheda: numeri fermi, scritti dallo script delle schede */
+function numeriChiave(){
+  const el = document.getElementById("numeriChiave"), voci = [];
+  for(const n of [4, 2, 5]){
+    const s = schede.find(x => x.numero_pubblico === n), c = s && forma(s).chiave;
+    if(c) voci.push(`<a class="num-chiave" href="risultati.html#p${n}"><span class="val">${esc(String(c.valore))}${c.unita === "%" ? "%" : ""}</span>
+      <span class="txt">${c.unita && c.unita !== "%" ? esc(c.unita) + " " : ""}${esc(c.testo)}</span></a>`);
+  }
+  el.innerHTML = voci.join("");
+  el.hidden = !voci.length;
+}
 disegna();
-window.addEventListener("lingua", disegna);
+numeriChiave();
+window.addEventListener("lingua", () => { disegna(); numeriChiave(); });
+Progetto.monta(document.getElementById("scena"));
 Sito.dataAggiornamento();
 </script>
 </body>

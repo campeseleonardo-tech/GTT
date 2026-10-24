@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-24T00:30:16+00:00",
+  "generato": "2026-10-24T00:36:03+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -367,7 +367,8 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 99.2,
     "unita": "%",
-    "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi"
+    "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi",
+    "breve": "dei residenti ha i servizi a 15 minuti"
    },
    "principale": {
     "tipo": "pila100",
@@ -581,7 +582,8 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 99.2,
     "unita": "%",
-    "testo": "of residents of inhabited areas have all 5 services within a 15-minute walk"
+    "testo": "of residents of inhabited areas have all 5 services within a 15-minute walk",
+    "breve": "of residents have the services within 15 minutes"
    },
    "principale": {
     "tipo": "pila100",
@@ -1358,7 +1360,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-24T00:30:16+00:00",
+  "generato": "2026-10-24T00:36:03+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-22: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -1525,7 +1527,8 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 6.41,
     "unita": "%",
-    "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo"
+    "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo",
+    "breve": "dei passaggi in ritardo di oltre 10 minuti"
    },
    "principale": {
     "tipo": "pila100",
@@ -1784,6 +1787,11 @@ window.SCHEDE_RISULTATI = [
       }
      ]
     }
+   },
+   "chiave": {
+    "valore": "~6",
+    "unita": "%",
+    "testo": "dei passaggi arriva con oltre 10 minuti di ritardo"
    }
   },
   "forma_en": {
@@ -1793,7 +1801,8 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 6.41,
     "unita": "%",
-    "testo": "of weekday arrivals are more than 10 minutes late"
+    "testo": "of weekday arrivals are more than 10 minutes late",
+    "breve": "of arrivals more than 10 minutes late"
    },
    "principale": {
     "tipo": "pila100",
@@ -2052,6 +2061,11 @@ window.SCHEDE_RISULTATI = [
       }
      ]
     }
+   },
+   "chiave": {
+    "valore": "~6",
+    "unita": "%",
+    "testo": "of arrivals are more than 10 minutes late"
    }
   },
   "numero_pubblico": 2,
@@ -2610,7 +2624,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-24T00:30:16+00:00",
+  "generato": "2026-10-24T00:36:03+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -2656,7 +2670,8 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 179,
     "unita": "",
-    "testo": "fermate importanti su 274 non hanno posti bastanti a 400 metri a piedi"
+    "testo": "fermate importanti su 274 non hanno posti bastanti a 400 metri a piedi",
+    "breve": "fermate importanti senza posti per l'auto"
    },
    "principale": {
     "tipo": "barre",
@@ -4702,7 +4717,8 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 179,
     "unita": "",
-    "testo": "important stops out of 274 lack enough parking within 400 metres on foot"
+    "testo": "important stops out of 274 lack enough parking within 400 metres on foot",
+    "breve": "important stops without parking spaces"
    },
    "principale": {
     "tipo": "barre",
@@ -7123,7 +7139,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-24T00:30:16+00:00",
+  "generato": "2026-10-24T00:36:03+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -7173,7 +7189,8 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": "1,9",
     "unita": "volte",
-    "testo": "il tempo dell'auto, per un viaggio tipico del mattino"
+    "testo": "il tempo dell'auto, per un viaggio tipico del mattino",
+    "breve": "il tempo dell'auto, coi mezzi pubblici"
    },
    "principale": {
     "tipo": "barre",
@@ -10439,6 +10456,11 @@ window.SCHEDE_RISULTATI = [
     "id": "imq",
     "nota": "Nella mappa, tema «Spostamenti»: quanti spostamenti partono da ogni zona e dove vanno (indagine 2022, feriale)."
    },
+   "chiave": {
+    "valore": "1,9",
+    "unita": "volte",
+    "testo": "il tempo dell'auto coi mezzi pubblici, al mattino"
+   },
    "anima": {
     "tipo": "area",
     "didascalia": "Da Piazza Castello, alle 7:45 di un feriale. In 30 minuti si raggiungono ~42% dei torinesi coi mezzi pubblici e ~90% in auto (TomTom, parcheggio compreso)."
@@ -10451,7 +10473,8 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": "1.9",
     "unita": "times",
-    "testo": "the car's travel time, for a typical morning trip"
+    "testo": "the car's travel time, for a typical morning trip",
+    "breve": "the car's time, by public transport"
    },
    "principale": {
     "tipo": "barre",
@@ -13717,6 +13740,11 @@ window.SCHEDE_RISULTATI = [
     "id": "imq",
     "nota": "Nella mappa, tema «Spostamenti»: quanti spostamenti partono da ogni zona e dove vanno (indagine 2022, feriale)."
    },
+   "chiave": {
+    "valore": "1.9",
+    "unita": "times",
+    "testo": "the car's time by public transport, in the morning"
+   },
    "anima": {
     "tipo": "area",
     "didascalia": "From Piazza Castello, at 7:45 a.m. on a weekday. In 30 minutes you reach ~42% of Turin residents by public transport and ~90% by car (TomTom, parking included)."
@@ -13752,7 +13780,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-24T00:30:16+00:00",
+  "generato": "2026-10-24T00:36:03+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -13796,7 +13824,8 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 79598,
     "unita": "",
-    "testo": "residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. È 1,7 volte quanto ci si aspetterebbe per caso."
+    "testo": "residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. È 1,7 volte quanto ci si aspetterebbe per caso.",
+    "breve": "residenti con pochi servizi e più difficoltà"
    },
    "principale": {
     "tipo": "dispersione",
@@ -14466,6 +14495,11 @@ window.SCHEDE_RISULTATI = [
     "totale": 10,
     "colorati": 1,
     "didascalia": "Circa 1 torinese su 10 vive dove l'indice di fragilità sociale è alto e i servizi sono pochi (9,5% dei residenti delle zone abitate)."
+   },
+   "chiave": {
+    "valore": "~1",
+    "unita": "torinese su 10",
+    "testo": "vive dove i servizi sono pochi e le difficoltà sociali alte"
    }
   },
   "forma_en": {
@@ -14475,7 +14509,8 @@ window.SCHEDE_RISULTATI = [
    "numero": {
     "valore": 79598,
     "unita": "",
-    "testo": "residents in zones with more social difficulty and few services: 9.5% of residents of inhabited zones. That is 1.7 times what you would expect by chance."
+    "testo": "residents in zones with more social difficulty and few services: 9.5% of residents of inhabited zones. That is 1.7 times what you would expect by chance.",
+    "breve": "residents with few services and more difficulties"
    },
    "principale": {
     "tipo": "dispersione",
@@ -15145,6 +15180,11 @@ window.SCHEDE_RISULTATI = [
     "totale": 10,
     "colorati": 1,
     "didascalia": "About 1 Turin resident in 10 lives where the social fragility index is high and services are few (9.5% of residents of inhabited areas)."
+   },
+   "chiave": {
+    "valore": "~1",
+    "unita": "Turin resident in 10",
+    "testo": "lives where services are few and social difficulties high"
    }
   },
   "numero_pubblico": 5,

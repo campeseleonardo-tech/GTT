@@ -14,16 +14,18 @@
   }
   function T(it, en){ return lang === "en" ? en : it; }
   /* testi fissi della pagina: l'elemento ha l'italiano dentro e l'inglese in data-en */
-  function traduciStatico(){
-    document.documentElement.lang = lang;
-    document.querySelectorAll("[data-en]").forEach(function(el){
+  function traduciStatico(radice){
+    var r = radice || document;      // con «radice» solo i testi di quel pezzo di pagina (per i pezzi scritti dal codice, es. le tappe del progetto)
+    if(!radice) document.documentElement.lang = lang;
+    r.querySelectorAll("[data-en]").forEach(function(el){
       if(el.dataset.it === undefined) el.dataset.it = el.innerHTML;
       el.innerHTML = lang === "en" ? el.dataset.en : el.dataset.it;
     });
-    document.querySelectorAll("[data-en-label]").forEach(function(el){
+    r.querySelectorAll("[data-en-label]").forEach(function(el){
       if(el.dataset.itLabel === undefined) el.dataset.itLabel = el.getAttribute("aria-label") || "";
       el.setAttribute("aria-label", lang === "en" ? el.dataset.enLabel : el.dataset.itLabel);
     });
+    if(radice) return;
     document.querySelectorAll(".lingua button").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.l === lang ? "true" : "false"); });
     var tit = document.querySelector("title");
     if(tit){ if(tit.dataset.it === undefined) tit.dataset.it = tit.textContent; if(tit.dataset.en) tit.textContent = lang === "en" ? tit.dataset.en : tit.dataset.it; }
@@ -103,5 +105,5 @@
     traduciStatico();
   }
   window.Sito = {esc: esc, formattaNumero: formattaNumero, contaSu: contaSu, osserva: osserva, dataAggiornamento: dataAggiornamento, giorniRaccolta: giorniRaccolta, ridotto: ridotto,
-                 T: T, lingua: function(){ return lang; }, impostaLingua: impostaLingua, avvia: avvia};
+                 T: T, traduci: traduciStatico, lingua: function(){ return lang; }, impostaLingua: impostaLingua, avvia: avvia};
 })();

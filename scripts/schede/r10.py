@@ -115,7 +115,8 @@ def forma_r10(s):
         f"Circa 1 torinese su {n_su} vive in una zona con più difficoltà sociali e pochi servizi",
         "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
         {"valore": se["residenti_doppio_svantaggio"], "unita": "",
-         "testo": f"residenti in zone con più difficoltà sociali e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate. È {volte_caso} volte quanto ci si aspetterebbe per caso."},
+         "testo": f"residenti in zone con più difficoltà sociali e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate. È {volte_caso} volte quanto ci si aspetterebbe per caso.",
+         "breve": "residenti con pochi servizi e più difficoltà"},
         principale,
         [kp_prezzo,
          f"{len(zd)} zone sono in doppio svantaggio: {nomi_zd}. Ci abitano {circa_mila(e2['residenti_zone_doppio_svantaggio'])} persone.",
@@ -141,4 +142,5 @@ def forma_r10(s):
         anima={"tipo": "omini", "totale": 10, "colorati": round(10 * se["quota_residenti_di_riferimento"]),
                "didascalia": f"Circa {round(10 * se['quota_residenti_di_riferimento'])} torinese su 10 vive dove l'indice di fragilità sociale è alto e i servizi sono pochi "
                              f"({virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate)."},
+        chiave={"valore": "~1", "unita": f"torinese su {n_su}", "testo": "vive dove i servizi sono pochi e le difficoltà sociali alte"},
         )

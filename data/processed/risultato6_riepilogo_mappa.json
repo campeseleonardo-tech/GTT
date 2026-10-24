@@ -551,7 +551,7 @@
     "scripts/84_risultato6_parcheggi.py",
     "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-24T00:30:16+00:00",
+  "generato": "2026-10-24T00:36:03+00:00",
   "avviso": [
     "Come leggere i tag. ",
     "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -597,7 +597,8 @@
     "numero": {
       "valore": 179,
       "unita": "",
-      "testo": "fermate importanti su 274 non hanno posti bastanti a 400 metri a piedi"
+      "testo": "fermate importanti su 274 non hanno posti bastanti a 400 metri a piedi",
+      "breve": "fermate importanti senza posti per l'auto"
     },
     "principale": {
       "tipo": "barre",
@@ -2643,7 +2644,8 @@
     "numero": {
       "valore": 179,
       "unita": "",
-      "testo": "important stops out of 274 lack enough parking within 400 metres on foot"
+      "testo": "important stops out of 274 lack enough parking within 400 metres on foot",
+      "breve": "important stops without parking spaces"
     },
     "principale": {
       "tipo": "barre",

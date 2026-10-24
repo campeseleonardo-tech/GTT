@@ -237,7 +237,7 @@
     "scripts/21_risultato1_vuoti.py",
     "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-24T00:30:16+00:00",
+  "generato": "2026-10-24T00:36:03+00:00",
   "avviso": [
     "Dati [STIMATO] — solo comune di Torino",
     "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -365,7 +365,8 @@
     "numero": {
       "valore": 99.2,
       "unita": "%",
-      "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi"
+      "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi",
+      "breve": "dei residenti ha i servizi a 15 minuti"
     },
     "principale": {
       "tipo": "pila100",
@@ -579,7 +580,8 @@
     "numero": {
       "valore": 99.2,
       "unita": "%",
-      "testo": "of residents of inhabited areas have all 5 services within a 15-minute walk"
+      "testo": "of residents of inhabited areas have all 5 services within a 15-minute walk",
+      "breve": "of residents have the services within 15 minutes"
     },
     "principale": {
       "tipo": "pila100",

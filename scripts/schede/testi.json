@@ -254,7 +254,15 @@
   "I tragitti dove coi mezzi pubblici si impiega più del doppio dell'auto": "Trips where public transport takes more than twice as long as the car",
   "Ogni barra è il numero di auto del mattino su quel tragitto. A destra i minuti coi mezzi contro quelli in auto.": "Each bar is the number of morning cars on that trip. On the right, minutes by public transport against minutes by car.",
   "Rapporto = tempo coi mezzi diviso tempo in auto, in fasce fisse. Le auto di una coppia sono i viaggi in auto dell'indagine, dalle 6 alle 10 di un feriale.": "Ratio = public transport time divided by car time, in fixed bands. The cars of a pair are the survey's car trips, leaving between 6 and 10 a.m. on a weekday.",
-  "riempimento non noto": "occupancy unknown"
+  "riempimento non noto": "occupancy unknown",
+  "dei residenti ha i servizi a 15 minuti": "of residents have the services within 15 minutes",
+  "dei passaggi in ritardo di oltre 10 minuti": "of arrivals more than 10 minutes late",
+  "dei passaggi arriva con oltre 10 minuti di ritardo": "of arrivals are more than 10 minutes late",
+  "fermate importanti senza posti per l'auto": "important stops without parking spaces",
+  "il tempo dell'auto, coi mezzi pubblici": "the car's time, by public transport",
+  "il tempo dell'auto coi mezzi pubblici, al mattino": "the car's time by public transport, in the morning",
+  "residenti con pochi servizi e più difficoltà": "residents with few services and more difficulties",
+  "vive dove i servizi sono pochi e le difficoltà sociali alte": "lives where services are few and social difficulties high"
  },
  "modelli": [
   {
@@ -1016,6 +1024,10 @@
   {
    "it": "Da Piazza Castello, alle 7:45 di un feriale. In 30 minuti si raggiungono ~{n0}% dei torinesi coi mezzi pubblici e ~{n1}% in auto (TomTom, parcheggio compreso).",
    "en": "From Piazza Castello, at 7:45 a.m. on a weekday. In 30 minutes you reach ~{n0}% of Turin residents by public transport and ~{n1}% by car (TomTom, parking included)."
+  },
+  {
+   "it": "torinese su {n0}",
+   "en": "Turin resident in {n0}"
   }
  ]
 }

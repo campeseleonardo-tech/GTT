@@ -277,7 +277,7 @@ def forma_r1(s):
         "Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi",
         "Quanti torinesi hanno i servizi a 5, 10 e 15 minuti a piedi, e quanti vivono su una strada trafficata?",
         {"valore": round(quota(15, 5), 1), "unita": "%",
-         "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi"},
+         "testo": "dei residenti delle zone abitate ha tutti e 5 i servizi a 15 minuti a piedi", "breve": "dei residenti ha i servizi a 15 minuti"},
         principale,
         [f"A 5 minuti solo {circa(quota(5, 5), '%')} dei residenti ha tutti e 5 i servizi; a 10 minuti {circa(quota(10, 5), '%')}.",
          f"{circa_mila(classi['esposta']['residenti'])} residenti ({circa(classi['esposta']['quota'], '%')}) vivono a meno di "

@@ -25,7 +25,7 @@
     "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
     "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-24T00:30:16+00:00",
+  "generato": "2026-10-24T00:36:03+00:00",
   "avviso": [
     "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -69,7 +69,8 @@
     "numero": {
       "valore": 79598,
       "unita": "",
-      "testo": "residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. È 1,7 volte quanto ci si aspetterebbe per caso."
+      "testo": "residenti in zone con più difficoltà sociali e servizi bassi: il 9,5% dei residenti delle zone abitate. È 1,7 volte quanto ci si aspetterebbe per caso.",
+      "breve": "residenti con pochi servizi e più difficoltà"
     },
     "principale": {
       "tipo": "dispersione",
@@ -739,6 +740,11 @@
       "totale": 10,
       "colorati": 1,
       "didascalia": "Circa 1 torinese su 10 vive dove l'indice di fragilità sociale è alto e i servizi sono pochi (9,5% dei residenti delle zone abitate)."
+    },
+    "chiave": {
+      "valore": "~1",
+      "unita": "torinese su 10",
+      "testo": "vive dove i servizi sono pochi e le difficoltà sociali alte"
     }
   },
   "forma_en": {
@@ -748,7 +754,8 @@
     "numero": {
       "valore": 79598,
       "unita": "",
-      "testo": "residents in zones with more social difficulty and few services: 9.5% of residents of inhabited zones. That is 1.7 times what you would expect by chance."
+      "testo": "residents in zones with more social difficulty and few services: 9.5% of residents of inhabited zones. That is 1.7 times what you would expect by chance.",
+      "breve": "residents with few services and more difficulties"
     },
     "principale": {
       "tipo": "dispersione",
@@ -1418,6 +1425,11 @@
       "totale": 10,
       "colorati": 1,
       "didascalia": "About 1 Turin resident in 10 lives where the social fragility index is high and services are few (9.5% of residents of inhabited areas)."
+    },
+    "chiave": {
+      "valore": "~1",
+      "unita": "Turin resident in 10",
+      "testo": "lives where services are few and social difficulties high"
     }
   },
   "numero_pubblico": 5

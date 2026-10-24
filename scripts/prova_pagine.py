@@ -445,12 +445,80 @@ def design_l16(br, cartella):
     return errori
 
 
+def design_l17(br, cartella):
+    """L17: home da scorrere. I 3 numeri chiave uguali ai dati; un riquadro per scheda con anteprima, titolo e numero (testo breve); #progetto con le 6 tappe;
+    con «riduci movimento» nessuna animazione; 0 errori in index, risultati e progetto; peso della home sotto 1 MB (HTML + JS e CSS propri)."""
+    errori, schede = [], _leggi_schede(cartella)
+    per_numero = {s["numero_pubblico"]: s for s in schede if s.get("numero_pubblico") is not None}
+    for lingua in ("it", "en"):
+        ctx = br.br.new_context(viewport={"width": DESKTOP[0], "height": DESKTOP[1]}, reduced_motion="reduce")
+        page = ctx.new_page()
+        brutti = []
+        page.on("pageerror", lambda e: brutti.append(str(e)[:200]))
+        page.on("console", lambda m: brutti.append(m.text[:200]) if m.type == "error" and "Failed to load resource" not in m.text else None)
+        try:
+            page.goto(f"http://127.0.0.1:{PORTA}/index.html?lang={lingua}", wait_until="load", timeout=60000)
+            page.wait_for_timeout(1500)
+            nome = f"home ({lingua})"
+            r = page.evaluate("""() => ({
+              chiavi: [...document.querySelectorAll('#numeriChiave .num-chiave')].map(a => ({href: a.getAttribute('href'), val: a.querySelector('.val').textContent.trim()})),
+              riquadri: [...document.querySelectorAll('#riquadri .riquadro')].map(a => ({href: a.getAttribute('href'), anteprima: !!a.querySelector('.anteprima .anima'),
+                 titolo: (a.querySelector('h3') || {textContent: ''}).textContent.trim(), val: (a.querySelector('.grande .val') || {textContent: ''}).textContent.trim(),
+                 txt: (a.querySelector('.grande .txt') || {textContent: ''}).textContent.trim()})),
+              tappe: document.querySelectorAll('#progetto .testi section').length, figure: document.querySelectorAll('#progetto figure').length,
+              titoloProgetto: (document.querySelector('#progetto h2') || {textContent: ''}).textContent.trim(),
+              navProgetto: [...document.querySelectorAll('.barra-alta nav a')].some(a => a.getAttribute('href') === '#progetto'),
+              animazioni: document.getAnimations().length,
+              intro: document.querySelectorAll('ul.intro, .bottoni').length})""")
+            if len(r["chiavi"]) != 3:
+                errori.append(f"{nome}: {len(r['chiavi'])} numeri chiave invece di 3")
+            for c, n_ in zip(r["chiavi"], (4, 2, 5)):
+                f = (per_numero[n_]["forma_en"] if lingua == "en" and per_numero[n_].get("forma_en") else per_numero[n_]["forma"])
+                k = f.get("chiave") or {}
+                atteso = str(page.evaluate("(v) => typeof v === 'number' ? Sito.formattaNumero(v) : String(v)", k.get("valore"))) + ("%" if k.get("unita") == "%" else "")
+                if c["val"] != atteso or c["href"] != f"risultati.html#p{n_}":
+                    errori.append(f"{nome}: numero chiave della scheda {n_} è «{c['val']}» ({c['href']}), nei dati «{atteso}»")
+            if len(r["riquadri"]) != len(per_numero):
+                errori.append(f"{nome}: {len(r['riquadri'])} riquadri per {len(per_numero)} schede")
+            for q, n_ in zip(r["riquadri"], sorted(per_numero)):
+                f = (per_numero[n_]["forma_en"] if lingua == "en" and per_numero[n_].get("forma_en") else per_numero[n_]["forma"])
+                if not q["anteprima"] or q["titolo"] != f["titolo"] or not q["val"] or q["href"] != f"risultati.html#p{n_}":
+                    errori.append(f"{nome}: riquadro {n_} incompleto (anteprima {q['anteprima']}, titolo «{q['titolo'][:30]}», numero «{q['val']}», link {q['href']})")
+                breve = f["numero"].get("breve")
+                if not breve or breve not in q["txt"] or len(breve.split()) > 8:
+                    errori.append(f"{nome}: riquadro {n_}: testo breve mancante o oltre 8 parole («{breve}»)")
+            if r["tappe"] != 6 or r["figure"] != 6:
+                errori.append(f"{nome}: #progetto ha {r['tappe']} tappe e {r['figure']} disegni invece di 6 e 6")
+            if r["titoloProgetto"].lower() not in ("il progetto", "the project") or not r["navProgetto"]:
+                errori.append(f"{nome}: titolo «{r['titoloProgetto']}» o link «Il progetto» della barra verso #progetto mancanti")
+            if r["animazioni"]:
+                errori.append(f"{nome}: con «riduci movimento» ci sono {r['animazioni']} animazioni CSS in corso")
+            if r["intro"]:
+                errori.append(f"{nome}: restano la lista «intro» o i due bottoni vecchi")
+            for pagina in ("risultati.html", "progetto.html"):
+                page.goto(f"http://127.0.0.1:{PORTA}/{pagina}?lang={lingua}", wait_until="load", timeout=60000)
+                page.wait_for_timeout(1200)
+            if brutti:
+                errori.append(f"{nome}: errori JavaScript in index, risultati o progetto: {brutti[:3]}")
+        finally:
+            ctx.close()
+    # peso della home: index.html e i file propri che carica (script, stili); font e immagini non contano
+    index = (cartella / "index.html").read_text(encoding="utf-8")
+    file_home = ["index.html"] + re.findall(r'<script src="([^"]+)"', index) + re.findall(r'<link rel="stylesheet" href="([^"]+)"', index)
+    peso = sum((cartella / f).stat().st_size for f in file_home if (cartella / f).is_file())
+    print(f"  peso della home (HTML, script e stili propri): {peso / 1e6:.2f} MB su {len(file_home)} file")
+    if peso >= 1_000_000:
+        errori.append(f"la home pesa {peso / 1e6:.2f} MB (limite 1 MB, HTML + JS e CSS propri)")
+    print(f"  L17 (home: numeri chiave, riquadri, tappe del progetto, riduci movimento): {'OK' if not errori else 'ERRORE'}")
+    return errori
+
+
 def prova_design(br, cartella):
     """Controlli di design dei giri L15-L18 (DOM). Solo con Playwright e con data/schede_risultati.js."""
     if not isinstance(br, BrowserPlaywright) or not (cartella / "data" / "schede_risultati.js").exists():
         print("  prova_design: non provata (serve Playwright e data/schede_risultati.js)")
         return []
-    return design_l15(br, cartella) + design_l16(br, cartella)
+    return design_l15(br, cartella) + design_l16(br, cartella) + design_l17(br, cartella)
 
 
 ANTEPRIME = RADICE / "assets" / "anteprime"

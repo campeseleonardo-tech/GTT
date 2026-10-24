@@ -51,7 +51,7 @@ def sembra_nome(t):
     for tok in re.split(r"[\s,]+", t):
         if not tok:
             continue
-        if tok in CONNETTORI or re.fullmatch(r"[\d.,:+\-–/→×%()±€]+", tok) or re.fullmatch(r"[A-Z0-9À-Ý][^\s]*", tok):
+        if tok in CONNETTORI or re.fullmatch(r"[~\d.,:+\-–/→×%()±€]+", tok) or re.fullmatch(r"[A-Z0-9À-Ý][^\s]*", tok):
             continue
         return False
     return True
@@ -83,7 +83,7 @@ def traduci(testo, mancanti=None):
             else:
                 valori[nome] = v
         return re.sub(r"\{([nspwta]\d)\}", lambda x: valori[x.group(1)], en)
-    if re.fullmatch(r"[\d.,:\s\-–+]+", testo):     # solo cifre e punteggiatura (es. «1,5-2», «21–28»): i decimali passano al formato inglese
+    if re.fullmatch(r"[~\d.,:\s\-–+]+", testo):     # solo cifre e punteggiatura (es. «1,5-2», «21–28»): i decimali passano al formato inglese
         return re.sub(NUM, lambda x: numero_en(x.group()) if re.search(r"[.,]", x.group()) else x.group(), testo)
     if sembra_nome(testo):
         return testo

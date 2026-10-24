@@ -377,7 +377,7 @@
     "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
     "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-24T00:30:16+00:00",
+  "generato": "2026-10-24T00:36:03+00:00",
   "avviso": [
     "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
     "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -427,7 +427,8 @@
     "numero": {
       "valore": "1,9",
       "unita": "volte",
-      "testo": "il tempo dell'auto, per un viaggio tipico del mattino"
+      "testo": "il tempo dell'auto, per un viaggio tipico del mattino",
+      "breve": "il tempo dell'auto, coi mezzi pubblici"
     },
     "principale": {
       "tipo": "barre",
@@ -3693,6 +3694,11 @@
       "id": "imq",
       "nota": "Nella mappa, tema «Spostamenti»: quanti spostamenti partono da ogni zona e dove vanno (indagine 2022, feriale)."
     },
+    "chiave": {
+      "valore": "1,9",
+      "unita": "volte",
+      "testo": "il tempo dell'auto coi mezzi pubblici, al mattino"
+    },
     "anima": {
       "tipo": "area",
       "didascalia": "Da Piazza Castello, alle 7:45 di un feriale. In 30 minuti si raggiungono ~42% dei torinesi coi mezzi pubblici e ~90% in auto (TomTom, parcheggio compreso)."
@@ -3705,7 +3711,8 @@
     "numero": {
       "valore": "1.9",
       "unita": "times",
-      "testo": "the car's travel time, for a typical morning trip"
+      "testo": "the car's travel time, for a typical morning trip",
+      "breve": "the car's time, by public transport"
     },
     "principale": {
       "tipo": "barre",
@@ -6970,6 +6977,11 @@
     "mappa": {
       "id": "imq",
       "nota": "Nella mappa, tema «Spostamenti»: quanti spostamenti partono da ogni zona e dove vanno (indagine 2022, feriale)."
+    },
+    "chiave": {
+      "valore": "1.9",
+      "unita": "times",
+      "testo": "the car's time by public transport, in the morning"
     },
     "anima": {
       "tipo": "area",

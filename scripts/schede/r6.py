@@ -263,7 +263,7 @@ def forma_r6(s):
         f"{a} fermate importanti su {b} non hanno abbastanza posti per lasciare l'auto",
         "Chi arriva in auto da fuori trova dove lasciarla vicino a una fermata importante, per proseguire coi mezzi?",
         {"valore": n_senza, "unita": "",
-         "testo": f"fermate importanti su {n_fermate} non hanno posti bastanti a {raggio} metri a piedi"},
+         "testo": f"fermate importanti su {n_fermate} non hanno posti bastanti a {raggio} metri a piedi", "breve": "fermate importanti senza posti per l'auto"},
         principale,
         [f"{n_nessun} fermate importanti non hanno nessun parcheggio vicino, {n_pochi} troppo pochi.",
          f"Il primo dei {n_assi} punti d'ingresso dove servono posti è {nome_pulito(primo['nome'])}: ne mancano {circa(primo['mancano'])}.",

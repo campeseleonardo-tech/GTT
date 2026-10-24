@@ -440,7 +440,7 @@ def forma_r4(s):
         s,
         f"Circa il {round(fer['ritardo10'])}% dei passaggi arriva con più di 10 minuti di ritardo",
         "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
-        {"valore": a_fer, "unita": "%", "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo"},
+        {"valore": a_fer, "unita": "%", "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo", "breve": "dei passaggi in ritardo di oltre 10 minuti"},
         pila,
         [f"Guardando solo la partenza dal capolinea, i passaggi con oltre 10 minuti di ritardo sono {circa(b_fer, '%')}.",
          f"La linea più in ritardo è la {peggio[0]}: {circa(peggio[1]['ritardo'], '%')} dei passaggi feriali oltre 5 minuti.",
@@ -471,4 +471,5 @@ def forma_r4(s):
                    "Il grafico mostra la media della settimana (feriale 5 : sabato 1 : domenica 1).",
                    f"Solo feriali: {pct2(a_fer)}% a ogni fermata, {pct2(b_fer)}% alla prima, {pct2(dd['c']['per_tipo']['0']['ritardo10_pct'])}% a metà corsa, "
                    f"{pct2(dd['d']['per_tipo']['0']['ritardo10_pct'])}% senza le fasce 7-9 e 16-19."],
-        extra=extra)
+        extra=extra,
+        chiave={"valore": f"~{round(a_fer)}", "unita": "%", "testo": "dei passaggi arriva con oltre 10 minuti di ritardo"})
