@@ -1,0 +1,65 @@
+RAPPORTO FINALE - TRAFFICO VEICOLARE STIMATO (metodo C, Risultato 8)
+==========================================================================
+Classe di esito (pacchetto F): C-DEBOLE   variante finale: V0_globale
+Taratura: k = 1.583
+Corridoi totali: 10,743  con stima: 10,122  senza stima: 621
+Fiducia: alta 19 (sensore sul corridoio), media 0, bassa 10724
+
+ATTENZIONE - cosa si puo' pubblicare:
+  essendo la classe C-DEBOLE, il valore pubblicabile e' solo la CLASSE a 3 livelli
+  (alto/medio/basso, campo classe3), marcata come DEBOLE. I numeri di veicoli/giorno
+  ci sono nel file ma vanno usati con cautela: la correlazione di rango e' 0,58.
+
+Soglie classe3: medio da 336, alto da 1,520 veicoli/giorno (dopo taratura).
+
+== 30 corridoi di Torino con piu' traffico stimato [STIMATO] ==
+     78,940 veic/g  alto  fiducia bassa Lungo Po Armando Diaz (Torino)             p4
+     75,987 veic/g  alto  fiducia bassa Lungo Po Luigi Cadorna (Torino)            p4
+     49,603 veic/g  alto  fiducia bassa Autostrada Serenissima (Torino)            p5
+     49,332 veic/g  alto  fiducia bassa Corso Germano Sommeiller (Torino)          p3
+     49,095 veic/g  alto  fiducia bassa Sottopasso Michele Lanza (Torino)          p4
+     45,764 veic/g  alto  fiducia alta  Corso Unità d'Italia (Torino)              p4  (sensore: 81,956)
+     44,294 veic/g  alto  fiducia bassa Corso Palermo (Torino)                     p3
+     38,842 veic/g  alto  fiducia bassa Ponte Duca degli Abruzzi (Torino)          p4
+     37,752 veic/g  alto  fiducia bassa Sottopasso Repubblica (Torino)             p4
+     35,558 veic/g  alto  fiducia bassa Ponte Amedeo VIII (Torino)                 p3
+     35,048 veic/g  alto  fiducia bassa Ponte Regio Parco (Torino)                 p3
+     34,726 veic/g  alto  fiducia bassa Ponte delle Benne (Torino)                 p3
+     34,689 veic/g  alto  fiducia bassa Ponte Umberto I (Torino)                   p4
+     33,633 veic/g  alto  fiducia bassa Ponte Sassi (Torino)                       p3
+     32,607 veic/g  alto  fiducia bassa Rondò Rivella (Torino)                     p4
+     31,399 veic/g  alto  fiducia bassa Rondò della Forca (Torino)                 p4
+     27,488 veic/g  alto  fiducia bassa Via Tommaso Valperga di Caluso (Torino)    p2
+     26,910 veic/g  alto  fiducia bassa Corso San Maurizio (Torino)                p3
+     26,819 veic/g  alto  fiducia bassa Corso Massimo D'Azeglio (Torino)           p4
+     26,263 veic/g  alto  fiducia bassa Corso Cairoli (Torino)                     p3
+     26,246 veic/g  alto  fiducia bassa Via Giovanni Pierluigi da Palestrina (Tori p2
+     24,992 veic/g  alto  fiducia bassa Piazzale Romolo e Remo (Torino)            p4
+     24,116 veic/g  alto  fiducia bassa Corso Chieri (Torino)                      p3
+     23,880 veic/g  alto  fiducia bassa Ponte Regina Margherita (Torino)           p4
+     23,763 veic/g  alto  fiducia bassa Piazza Gian Lorenzo Bernini (Torino)       p4
+     23,657 veic/g  alto  fiducia alta  Raccordo Autostradale Torino-Caselle (Tori p5  (sensore: 39,810)
+     22,853 veic/g  alto  fiducia bassa Sottopasso Statuto (Torino)                p4
+     22,158 veic/g  alto  fiducia bassa Piazzale Autostrade (Torino)               p4
+     21,689 veic/g  alto  fiducia bassa Corso Mediterraneo (Torino)                p3
+     21,216 veic/g  alto  fiducia bassa Via Giovanni Falcone (Torino)              p2
+
+== 10 sorprese rispetto al senso comune ==
+    231,221 veic/g [STIMATO]  Via Ivrea (Caluso E Limitrofi)                punteggio 2 - molto piu' traffico del previsto per la classe di strada
+    222,738 veic/g [STIMATO]  Strada dell'Olmo (Villanova D'Asti E Limitrof punteggio 1 - molto piu' traffico del previsto per la classe di strada
+    135,682 veic/g [STIMATO]  Viale Lombardore (Caluso E Limitrofi)         punteggio 1 - molto piu' traffico del previsto per la classe di strada
+    122,823 veic/g [STIMATO]  Via Chivasso (Caluso E Limitrofi)             punteggio 2 - molto piu' traffico del previsto per la classe di strada
+    117,060 veic/g [STIMATO]  Corso Luigi Einaudi (Caluso E Limitrofi)      punteggio 2 - molto piu' traffico del previsto per la classe di strada
+    103,158 veic/g [STIMATO]  Via Bardassano (Gassino Torinese E Limitrofi) punteggio 2 - molto piu' traffico del previsto per la classe di strada
+     87,194 veic/g [STIMATO]  Strada della Varletta (Villanova D'Asti E Lim punteggio 1 - molto piu' traffico del previsto per la classe di strada
+     71,885 veic/g [STIMATO]  Via Tiburzio Garrone (Caluso E Limitrofi)     punteggio 2 - molto piu' traffico del previsto per la classe di strada
+     71,350 veic/g [STIMATO]  Via Brandizzo (Volpiano)                      punteggio 2 - molto piu' traffico del previsto per la classe di strada
+     67,945 veic/g [STIMATO]  Corso Arnaud (Volpiano)                       punteggio 2 - molto piu' traffico del previsto per la classe di strada
+
+== Limiti (da dichiarare sempre) ==
+  - IMQ 2022: solo residenti 11-84 anni, giorno feriale medio, campione telefonico. Mancano merci, turisti, non residenti: il modello sottostima in media (k = 1,7).
+  - Zone grandi (23 quartieri + 189 comuni): il traffico e' distribuito per punti, non per singolo indirizzo.
+  - Assegnazione tutto-o-niente senza congestione ne' capacita': il traffico si concentra sui percorsi piu' veloci; i valori sui singoli tratti sono indicativi.
+  - Peso che non produce flusso: ~46% dei viaggi (vedi riepilogo del pacchetto D), quasi tutto viaggi con entrambi gli estremi fuori dal taglio OSM (praticamente non attraversano l'area studiata); dentro Torino l'area persa e' ~2% dei viaggi.
+  - Traffico esterno concentrato su poche porte: i valori sui tratti di bordo non sono attendibili.
+  - 17 sensori esclusi (morti/bloccati) non usati per tarare; 3 codici lcd1 condivisi da 2 sensori.

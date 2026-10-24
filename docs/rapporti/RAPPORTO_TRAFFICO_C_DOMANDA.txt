@@ -1,0 +1,45 @@
+RAPPORTO DOMANDA AUTO IMQ 2022 (pacchetto B, metodo C)
+======================================================================
+righe di spostamenti.csv lette: 48,964
+
+== Totali (controlli, tolleranza 5%) ==
+  auto conducente (solo 03 unico motorizzato) :      4,153,663 viaggi/giorno   (riferimento ~4.180.000)
+     = 50.5% del totale spostamenti/giorno (8,217,863)
+  con almeno un estremo in quartiere Torino  :        950,893 viaggi/giorno   (riferimento ~970.000)
+  un estremo fuori dalle 212 zone            :         53,335 viaggi/giorno  (610 interviste)
+  esclusi perche' misti (auto + altro mezzo) :         27,141 viaggi/giorno  (315 interviste)
+     = 0.65% del peso auto (soglia di attenzione 8%)
+  celle OD x ora distinte                    : 20,210
+
+== Profilo orario (quota del peso per ora di partenza) ==
+  00:00   0.26%  
+  01:00   0.14%  
+  02:00   0.04%  
+  03:00   0.08%  
+  04:00   0.24%  
+  05:00   0.88%  #
+  06:00   1.83%  ##
+  07:00   9.32%  #########
+  08:00   9.92%  ##########
+  09:00   5.30%  #####
+  10:00   6.52%  #######
+  11:00   5.77%  ######
+  12:00   5.85%  ######
+  13:00   4.94%  #####
+  14:00   5.25%  #####
+  15:00   6.42%  ######
+  16:00   8.23%  ########
+  17:00   9.20%  #########
+  18:00   8.33%  ########
+  19:00   5.41%  #####
+  20:00   2.64%  ###
+  21:00   1.39%  #
+  22:00   1.23%  #
+  23:00   0.83%  #
+  picco 7-8-9: 24.53%   picco 16-17-18: 25.76%
+
+== Celle OD con meno di 30 interviste (campione debole) ==
+  celle: 20,129 su 20,210 (99.6%)
+  peso in quelle celle: 3,816,471 = 91.9% del peso
+
+Output: C:\projects\Progetti\GTT\data\processed\traffico_c\domanda_auto.json

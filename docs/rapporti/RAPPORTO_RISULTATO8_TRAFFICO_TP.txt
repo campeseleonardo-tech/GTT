@@ -1,0 +1,118 @@
+RISULTATO 8 - STRADE CON MOLTO TRAFFICO E POCO TRASPORTO PUBBLICO (Fase 4, pacchetto D)
+====================================================================================
+variante del traffico: V3   classe di esito: C-DEBole
+universo di Torino: 1013 corridoi; prima cintura: 699
+soglie: molto traffico >= 3,053 veic/giorno (quarto piu' alto); poco TP <= 0.00 pass/h in punta (quarto piu' basso)
+molto traffico: 254   poco TP: 401   DA GUARDARE: 36 (di cui 3 ponti/sottopassi, esclusi dalla presentazione)   robusti: 25   stabili: 36
+
+== CONTROLLO DEL PIANO: la lista non e' dominata da strade di bordo (gia' escluse dall'universo se non affidabili), da ponti/sottopassi corti (qui sotto, esclusi dalla presentazione) ne' da strade < 300 m (gia' escluse). Strutture trovate = 3: Ponte Umberto I (Torino), Sottopasso Michele Lanza (To, Ponte Diga (Torino)
+
+== ASSI 'DA GUARDARE' (raggruppati per via) ==
+     17,913 veic/g  TP   0.0- 0.0/h  Via Giovanni Pierluigi da Palestrina     1 tratti   0.5 km  linee -
+     16,325 veic/g  TP   0.0- 0.0/h  Corso Cosenza                            1 tratti   3.4 km  linee -
+     13,678 veic/g  TP   0.0- 0.0/h  Via Tommaso Agudio                       1 tratti   2.0 km  linee -
+     13,545 veic/g  TP   0.0- 0.0/h  Corso Cairoli                            1 tratti   1.4 km  linee 24,93/
+     10,918 veic/g  TP   0.0- 0.0/h  Via San Massimo                          1 tratti   0.9 km  linee -
+     10,754 veic/g  TP   0.0- 0.0/h  Via Principe Amedeo                      1 tratti   0.9 km  linee -
+     10,731 veic/g  TP   0.0- 0.0/h  Via Giuseppe Pomba                       1 tratti   0.4 km  linee -
+     10,049 veic/g  TP   0.0- 0.0/h  Via Giambattista Bogino                  1 tratti   0.5 km  linee -
+      9,390 veic/g  TP   0.0- 0.0/h  Via San Marino                           1 tratti   1.7 km  linee -
+      8,170 veic/g  TP   0.0- 0.0/h  Via San Francesco da Paola               1 tratti   1.0 km  linee -
+      8,072 veic/g  TP   0.0- 0.0/h  Via Giuseppe Barbaroux                   1 tratti   0.7 km  linee -
+      7,482 veic/g  TP   0.0- 0.0/h  Via Quarto dei Mille                     1 tratti   0.4 km  linee -
+      7,434 veic/g  TP   0.0- 0.0/h  Via Giuseppe Verdi                       1 tratti   1.0 km  linee -
+      7,054 veic/g  TP   0.0- 0.0/h  Corso Don Luigi Sturzo                   1 tratti   2.4 km  linee -
+      6,926 veic/g  TP   0.0- 0.0/h  Via Giovanni Giolitti                    1 tratti   1.1 km  linee -
+      6,576 veic/g  TP   0.0- 0.0/h  Via Cesare Battisti                      1 tratti   0.3 km  linee -
+      6,186 veic/g  TP   0.0- 0.0/h  Via Pollenzo                             1 tratti   0.6 km  linee -
+      5,545 veic/g  TP   0.0- 0.0/h  Via Rivalta                              1 tratti   0.5 km  linee -
+      5,542 veic/g  TP   0.0- 0.0/h  Via Pasquale Paoli                       1 tratti   0.8 km  linee -
+      5,305 veic/g  TP   0.0- 0.0/h  Via dell'Arcivescovado                   1 tratti   0.4 km  linee -
+      4,960 veic/g  TP   0.0- 0.0/h  Via Porta Palatina                       1 tratti   0.4 km  linee -
+      4,774 veic/g  TP   0.0- 0.0/h  Via Giovanni Emanuel                     1 tratti   0.3 km  linee -
+      4,060 veic/g  TP   0.0- 0.0/h  Piazza Camillo Benso Conte di Cavour     1 tratti   1.6 km  linee -
+      4,052 veic/g  TP   0.0- 0.0/h  Via San Tommaso                          1 tratti   0.3 km  linee -
+      3,906 veic/g  TP   0.0- 0.0/h  Via Stampatori                           1 tratti   0.3 km  linee -
+      3,830 veic/g  TP   0.0- 0.0/h  Via Cenischia                            1 tratti   0.5 km  linee -
+      3,679 veic/g  TP   0.0- 0.0/h  Via Vipacco                              1 tratti   0.4 km  linee -
+      3,515 veic/g  TP   0.0- 0.0/h  Via Don Leonardo Murialdo                1 tratti   0.5 km  linee -
+      3,294 veic/g  TP   0.0- 0.0/h  Via Gassino                              1 tratti   0.3 km  linee -
+      3,284 veic/g  TP   0.0- 0.0/h  Strada di Pecetto                        1 tratti   3.1 km  linee -
+
+== I 30 corridoi con il divario maggiore (traffico alto - TP basso) ==
+  #  veic/giorno  +-50%  TP/h am  linee    div  nome
+  1       17,913    27%      0.0      0   0.97  Via Giovanni Pierluigi da Palestrina (Torino (-, 0.51 km)
+  2       16,325    27%      0.0      0   0.96  Corso Cosenza (Torino) (-, 3.39 km)
+  3       13,678    27%      0.0      0   0.94  Via Tommaso Agudio (Torino) (-, 2.03 km)
+  4       13,545    27%      0.0      2   0.94  Corso Cairoli (Torino) (-, 1.35 km)
+  5       10,918    27%      0.0      0   0.92  Via San Massimo (Torino) (-, 0.9 km)
+  6       10,754    27%      0.0      0   0.91  Via Principe Amedeo (Torino) (-, 0.88 km)
+  7       10,731    27%      0.0      0   0.91  Via Giuseppe Pomba (Torino) (-, 0.36 km)
+  8       10,049    27%      0.0      0   0.91  Via Giambattista Bogino (Torino) (-, 0.45 km)
+  9        9,390    27%      0.0      0   0.90  Via San Marino (Torino) (-, 1.66 km)
+ 10        8,170    54%      0.0      0   0.88  Via San Francesco da Paola (Torino) (-, 0.97 km)
+ 11        8,072    54%      0.0      0   0.88  Via Giuseppe Barbaroux (Torino) (-, 0.65 km)
+ 12        7,482    54%      0.0      0   0.87  Via Quarto dei Mille (Torino) (-, 0.37 km)
+ 13        7,434    54%      0.0      0   0.87  Via Giuseppe Verdi (Torino) (-, 0.98 km)
+ 14        7,054    54%      0.0      0   0.85  Corso Don Luigi Sturzo (Torino) (-, 2.35 km)
+ 15        6,926    54%      0.0      0   0.85  Via Giovanni Giolitti (Torino) (-, 1.11 km)
+ 16        6,576    54%      0.0      0   0.84  Via Cesare Battisti (Torino) (-, 0.3 km)
+ 17        6,186    54%      0.0      0   0.84  Via Pollenzo (Torino) (-, 0.58 km)
+ 18        5,545    54%      0.0      0   0.83  Via Rivalta (Torino) (-, 0.46 km)
+ 19        5,542    54%      0.0      0   0.83  Via Pasquale Paoli (Torino) (-, 0.75 km)
+ 20        5,305    54%      0.0      0   0.82  Via dell'Arcivescovado (Torino) (-, 0.44 km)
+ 21        4,960    54%      0.0      0   0.82  Via Porta Palatina (Torino) (-, 0.43 km)
+ 22        4,774    54%      0.0      0   0.81  Via Giovanni Emanuel (Torino) (-, 0.32 km)
+ 23        4,060    54%      0.0      0   0.79  Piazza Camillo Benso Conte di Cavour (Torino (-, 1.64 km)
+ 24        4,052    54%      0.0      0   0.79  Via San Tommaso (Torino) (-, 0.35 km)
+ 25        3,906    54%      0.0      0   0.78  Via Stampatori (Torino) (-, 0.35 km)
+ 26        3,830    54%      0.0      0   0.78  Via Cenischia (Torino) (-, 0.46 km)
+ 27        3,679    54%      0.0      0   0.77  Via Vipacco (Torino) (-, 0.42 km)
+ 28        3,515    54%      0.0      0   0.77  Via Don Leonardo Murialdo (Torino) (-, 0.46 km)
+ 29        3,294    54%      0.0      0   0.76  Via Gassino (Torino) (-, 0.32 km)
+ 30        3,284    54%      0.0      0   0.76  Strada di Pecetto (Torino) (-, 3.14 km)
+
+== Tre esempi spiegati ==
+  molto_traffico_poco_tp: Via Giovanni Pierluigi da Palestrina (Torino) (-) - 17,913 veic/giorno +-27%, TP 0.0/h, linee 0, metro False, ferrovia False
+  molto_traffico_tp_buono: Piazza Diciotto Dicembre (Torino) (-) - 7,156 veic/giorno +-54%, TP 95.5/h, linee 26, metro True, ferrovia True
+  poco_traffico_poco_tp: Via del Carmine (Torino) (-) - 3,015 veic/giorno +-54%, TP 0.0/h, linee 0, metro False, ferrovia False
+
+== Prima cintura: corridoi con molto traffico e poco TP ==
+     11,418 veic/g  TP   0.0/h  Strada Candiolo (Orbassano)              (Orbassano)
+     11,291 veic/g  TP   0.0/h  Via Assietta (Collegno)                  (Collegno)
+     10,986 veic/g  TP   0.0/h  Via Italia (San Mauro Torinese)          (San Mauro Torinese)
+     10,900 veic/g  TP   0.0/h  Via Leinì (Settimo Torinese)             (Settimo Torinese)
+      8,385 veic/g  TP   0.0/h  Via Luigi Tenco (Nichelino)              (Nichelino)
+      8,220 veic/g  TP   0.0/h  Via Santhià (Nichelino)                  (Nichelino)
+      7,159 veic/g  TP   0.0/h  Via Leinì (Settimo Torinese)             (Settimo Torinese)
+      7,152 veic/g  TP   0.0/h  Via Don Milani (Borgaro Torinese)        (Borgaro Torinese)
+      6,961 veic/g  TP   0.0/h  Via Mongreno (Pino Torinese)             (Pino Torinese)
+      6,587 veic/g  TP   0.0/h  Ponte Vittorio Emanuele III (San Mauro T (San Mauro Torinese)
+      6,557 veic/g  TP   0.0/h  Strada Provinciale della Reggia di Venar (Venaria Reale)
+      6,416 veic/g  TP   0.0/h  Strada vicinale Sanda Palera (Moncalieri (Moncalieri)
+      6,409 veic/g  TP   0.0/h  Traforo del Pino (Pino Torinese)         (Pino Torinese)
+      6,303 veic/g  TP   0.0/h  Via Galileo Galilei (Beinasco)           (Beinasco)
+      6,079 veic/g  TP   0.0/h  Via Alessandro La Marmora (Grugliasco)   (Grugliasco)
+  totale prima cintura: 699 corridoi, 33 da guardare
+
+== Controllo di buon senso su strade note ==
+     29,270 veic/g  TP  32.0/h  Corso Giulio Cesare (Torino)             molto traffico, TP ok
+     19,954 veic/g  TP  33.0/h  Corso Regina Margherita (Torino)         molto traffico, TP ok
+     19,954 veic/g  TP  33.0/h  Corso Regina Margherita (Torino)         molto traffico, TP ok
+     19,202 veic/g  TP  34.0/h  Corso Unione Sovietica (Torino)          molto traffico, TP ok
+     17,424 veic/g  TP  22.5/h  Corso Sebastopoli (Torino)               molto traffico, TP ok
+     17,424 veic/g  TP  22.5/h  Corso Sebastopoli (Torino)               molto traffico, TP ok
+     16,006 veic/g  TP  13.0/h  Corso Trapani (Torino)                   molto traffico, TP ok
+     15,851 veic/g  TP  29.5/h  Corso Casale (Torino)                    molto traffico, TP ok
+     13,451 veic/g  TP  11.0/h  Corso Lecce (Torino)                     molto traffico, TP ok
+     12,136 veic/g  TP  13.0/h  Via Nizza (Torino)                       molto traffico, TP ok
+     10,785 veic/g  TP  40.0/h  Corso Vittorio Emanuele II (Torino)      molto traffico, TP ok
+      8,100 veic/g  TP  28.5/h  Corso Peschiera (Torino)                 molto traffico, TP ok
+
+== LIMITI DA DICHIARARE OVUNQUE ==
+  - Le stime di traffico sono C-DEBole (errore mediano 27%): buone per ordinare, non per contare i veicoli.
+  - I sensori 5T di Torino sono a un solo verso: la punta mattina/sera del traffico non e' stimata; si confronta il totale diurno (circa simmetrico fra i due versi).
+  - La domanda e' l'indagine IMQ 2022: solo residenti 11-84 anni, giorno feriale medio, campione telefonico. Mancano merci, turisti, non residenti.
+  - L'offerta di trasporto pubblico e' quella programmata (GTFS): non tiene conto di ritardi, capienza, affollamento. Non c'e' nessuna misura dei passeggeri.
+  - Il trasporto pubblico e' quello dei corridoi con almeno un tratto servito; la metropolitana non scorre sulle strade ed e' solo un flag (metro_vicina).
+  - Le strade di bordo (valori non affidabili) e le autostrade/tangenziali sono fuori dall'universo.

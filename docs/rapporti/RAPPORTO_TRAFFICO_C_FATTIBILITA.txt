@@ -1,0 +1,58 @@
+PROVA DI FATTIBILITA' - PACCHETTO A (metodo C, Risultato 8)
+========================================================================
+data/ora: 2026-10-24 00:46:09
+
+== 1. Ambiente ==
+  Python: 3.14.3  (C:\Users\campe\AppData\Local\Python\pythoncore-3.14-64\python.exe)
+  Java (per r5py): cartella del progetto
+  pacchetti: numpy=2.5.3, scipy=1.18.1, pandas=3.0.6, geopandas=1.2.0, shapely=2.2.0, networkx=3.7, osmium=?, psutil=7.2.2, matplotlib=3.11.2
+  r5py: 1.1.7 (import ok, Java raggiungibile)
+  disco C: 285.7 GB liberi su 510.5 GB
+  RAM: 7.9 GB totali, 2.2 GB disponibili ora
+
+== 2. Costruzione della rete stradale dal taglio OSM ==
+    lettura OSM (torino_cintura.osm.pbf) ...
+    way percorribili: 63,388
+    nodi di giunzione: 81,966   tratti (archi base): 105,890   (6.6 s)
+  tempo costruzione: 6.7 s   RAM processo: 592 MB
+  rete salvata in C:\projects\Progetti\GTT\data\processed\traffico_c\rete (21 MB)
+  nodi 81,966 · tratti 105,890 · archi orientati 167,976 · 8,592 km di strada
+
+== 3. Instradamento di 200 coppie di punti sparsi ==
+  200 Dijkstra (albero dei cammini minimi) in 1.96 s = 10 ms per origine;  RAM 786 MB
+  percorsi ricostruiti con geometria: 196/200
+  lunghezza media: 21578.0 km · tempo medio: 20.2 min
+  percorsi che passano su tangenziale/autostrada: 116/196
+
+== 4. Controlli di buon senso ==
+  piazza Castello -> Collegno: 13.1 min in auto (atteso 20-35 min; nodo di partenza a 4 m, arrivo a 48 m)
+  distanza in linea d'aria: 9.0 km
+
+  10 percorsi a campione (lunghezza di rete / in linea d'aria, tempo):
+    44.9122,7.8478 -> 44.9853,7.8338   rete   9.66 km   aria  8.20 km   rapporto 1.18   tempo  10.8 min
+    45.0144,7.8369 -> 44.9332,7.5379   rete  35.70 km   aria 25.19 km   rapporto 1.42   tempo  30.5 min
+    44.9532,7.7729 -> 44.9699,7.6972   rete  14.57 km   aria  6.24 km   rapporto 2.34   tempo  18.2 min
+    45.0415,7.6750 -> 45.0652,7.6714   rete   3.74 km   aria  2.64 km   rapporto 1.41   tempo   4.7 min
+    45.2068,7.5630 -> 45.1154,7.6490   rete  13.63 km   aria 12.20 km   rapporto 1.12   tempo  14.3 min
+    45.0745,7.8368 -> 45.0734,7.6419   rete  20.66 km   aria 15.31 km   rapporto 1.35   tempo  25.5 min
+    45.0649,7.5410 -> 45.0596,7.6243   rete   8.69 km   aria  6.57 km   rapporto 1.32   tempo   9.4 min
+    44.9897,7.7025 -> 45.0767,7.6055   rete  14.94 km   aria 12.32 km   rapporto 1.21   tempo  17.3 min
+    45.0604,7.6848 -> 45.0450,7.5780   rete  10.84 km   aria  8.57 km   rapporto 1.26   tempo  12.8 min
+    44.9872,7.7461 -> 45.1257,7.6425   rete  35.67 km   aria 17.42 km   rapporto 2.05   tempo  26.2 min
+  rapporto rete/aria: mediana 1.34, min 1.12, max 2.34
+  (atteso > 1 sempre; valori 1,0-1,1 sono percorsi quasi rettilinei; > 3 sarebbe sospetto)
+
+== 5. Stima del giro completo ==
+  con   400 punti di origine:    25.9 s (0.4 min)
+  con   600 punti di origine:    38.9 s (0.6 min)
+  con   800 punti di origine:    51.8 s (0.9 min)
+  con  1200 punti di origine:    77.7 s (1.3 min)
+  costo unitario stimato per origine: 65 ms (Dijkstra + somma dei flussi)
+
+== Esito ==
+  MOTORE SCELTO: grafo proprio (pyosmium + scipy.sparse.csgraph.dijkstra).
+  Motivo: r5py (r5) importa e funziona ma serve a percorsi puntuali, non
+  all'assegnazione di flusso su tutta la rete per centinaia di origini.
+  La rete si costruisce in 7 s e sta in 798 MB: la prova passa.
+  La geometria dei percorsi e' disponibile (usata per la ricostruzione).
+  Giro completo stimato ben sotto le 8 ore anche con 1200 punti.

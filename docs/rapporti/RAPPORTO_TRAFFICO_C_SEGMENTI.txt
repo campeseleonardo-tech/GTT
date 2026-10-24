@@ -1,0 +1,81 @@
+RAPPORTO TRATTI E CORRIDOI (pacchetto E, metodo C)
+======================================================================
+  tratti totali: 105,890
+  tratti assegnati a un corridoio per nome: 67,822
+  tratti assegnati per vicinanza (<=25 m): 18,147
+  tratti senza corridoio: 19,921 (strade senza nome o nole)
+  corridoi con almeno un tratto: 10,122 su 10,743
+  corridoi senza flusso: 621
+
+  CONTROLLI
+   flussi negativi: 0
+   nodi con ingresso != uscita (oltre 1% del flusso medio): 174 (0.21% dei 81,966 nodi)
+   veicoli-km diurni (6-21) del modello: 24,880,463
+
+  20 corridoi con piu' veicoli-km diurni (modello grezzo):
+       31,327 veic/g  Autostrada Serenissima (Torino)               punteggio 5    51.2 km  max 192,773
+       22,684 veic/g  Tangenziale Sud (Nichelino)                   punteggio 5    59.2 km  max 35,747
+       22,887 veic/g  Tangenziale Nord (Venaria Reale)              punteggio 5    36.7 km  max 45,356
+       23,083 veic/g  Autostrada dei Vini (Riva Presso Chieri E Lim punteggio 5    28.6 km  max 42,332
+       10,277 veic/g  Autostrada del Pinerolese (Volvera E Limitrof punteggio 5    50.5 km  max 32,591
+       48,284 veic/g  Via Padana Inferiore (Riva Presso Chieri E Li punteggio 4     9.9 km  max 79,520
+       14,941 veic/g  Raccordo Autostradale Torino-Caselle (Torino) punteggio 5    23.7 km  max 25,890
+        8,269 veic/g  Corso Francia (Collegno)                      punteggio 5    42.6 km  max 29,044
+       23,551 veic/g  Strada statale 460 di Ceresole (Leini)        punteggio 5    12.4 km  max 148,094
+       62,114 veic/g  Strada della Rezza (Chieri)                   punteggio 3     4.3 km  max 70,119
+       60,974 veic/g  Strada Provinciale di Rivarossa (Volpiano)    punteggio 3     4.0 km  max 142,495
+       23,676 veic/g  Corso Savona (Villastellone)                  punteggio 4     9.7 km  max 76,734
+       26,086 veic/g  Via Mario Caudana (Gassino Torinese E Limitro punteggio 3     8.7 km  max 72,851
+       10,258 veic/g  Corso Regina Margherita (Torino)              punteggio 4    20.6 km  max 48,731
+       14,909 veic/g  Diramazione per Moncalieri (Moncalieri)       punteggio 5    14.2 km  max 32,316
+        6,528 veic/g  Autostrada della Valle d'Aosta (Caluso E Limi punteggio 5    27.4 km  max 109,911
+       28,903 veic/g  Corso Unità d'Italia (Torino)                 punteggio 4     6.0 km  max 46,257
+       12,096 veic/g  Corso Orbassano                               punteggio 4    14.2 km  max 46,850
+       85,691 veic/g  Viale Lombardore (Caluso E Limitrofi)         punteggio 1     1.9 km  max 89,307
+       38,544 veic/g  Via Pinerolo (Vigone E Limitrofi)             punteggio 4     3.8 km  max 50,977
+
+  Sensori (unita' di confronto) - modello grezzo sul tratto piu' vicino:
+     35478  SP1(TO) delle Valli di Lanzo        modello      4,064   misurato     15,097   tratto a 5.3 m
+     36066  SP8(TO) di Druento                  modello      9,081   misurato     20,611   tratto a 6.3 m
+      2375  R24 Raccordo Torino-Aeroporto Case  modello     15,997   misurato     39,810   tratto a 2.6 m
+     39977  Corso Agnelli(TO)                   modello     17,026   misurato     22,014   tratto a 2.7 m
+     39983  Corso Allamano(TO)                  modello     10,058   misurato     12,820   tratto a 1.5 m
+     40021  Corso Francia(TO)                   modello     21,550   misurato     28,414   tratto a 0.3 m
+     40022  Corso Francia(TO)                   modello     21,244   misurato     30,938   tratto a 4.9 m
+     40040  Corso Giulio Cesare(TO)             modello     16,646   misurato     34,548   tratto a 1.0 m
+     40041  Corso Giulio Cesare(TO)             modello     23,071   misurato     29,270   tratto a 0.9 m
+     40095  Corso Orbassano(TO)                 modello     21,992   misurato     50,322   tratto a 3.1 m
+     40097  Corso Orbassano(TO)                 modello     21,237   misurato     41,326   tratto a 0.6 m
+     40098  Corso Orbassano(TO)                 modello     20,054   misurato     27,024   tratto a 0.9 m
+     40122  Corso Regina Margherita(TO)         modello     16,230   misurato     28,412   tratto a 1.1 m
+    40123~2  Corso Regina Margherita(TO)         modello     26,983   misurato     19,954   tratto a 3.2 m
+     40149  Corso Sebastopoli(TO)               modello     18,062   misurato     17,424   tratto a 0.3 m
+     40174  Corso Trieste(TO)                   modello     42,483   misurato     65,424   tratto a 0.8 m
+     40182  Corso Unione Sovietica(TO)          modello     26,201   misurato     19,202   tratto a 0.6 m
+     40189  Corso Unita' D'italia(TO)           modello     46,257   misurato     81,956   tratto a 2.9 m
+    40189~2  Corso Unita' D'italia(TO)           modello     43,137   misurato     47,616   tratto a 1.2 m
+     40194  Corso Vercelli(TO)                  modello      7,567   misurato     25,470   tratto a 6.2 m
+     40212  Ponte Amedeo VIII(TO)               modello     11,164   misurato     29,926   tratto a 0.3 m
+     40253  Strada Di Settimo(TO)               modello      4,783   misurato     16,856   tratto a 2.2 m
+
+  20 corridoi di Torino (chiave quartiere) con piu' traffico diurno medio:
+       49,855 veic/g  Lungo Po Armando Diaz (Torino)                punteggio 4     0.3 km
+       47,990 veic/g  Lungo Po Luigi Cadorna (Torino)               punteggio 4     0.2 km
+       31,327 veic/g  Autostrada Serenissima (Torino)               punteggio 5    51.2 km
+       31,156 veic/g  Corso Germano Sommeiller (Torino)             punteggio 3     0.7 km
+       31,006 veic/g  Sottopasso Michele Lanza (Torino)             punteggio 4     1.5 km
+       28,903 veic/g  Corso Unità d'Italia (Torino)                 punteggio 4     6.0 km
+       27,974 veic/g  Corso Palermo (Torino)                        punteggio 3     2.6 km
+       24,531 veic/g  Ponte Duca degli Abruzzi (Torino)             punteggio 4     0.0 km
+       23,843 veic/g  Sottopasso Repubblica (Torino)                punteggio 4     1.4 km
+       22,457 veic/g  Ponte Amedeo VIII (Torino)                    punteggio 3     0.1 km
+       22,135 veic/g  Ponte Regio Parco (Torino)                    punteggio 3     0.1 km
+       21,932 veic/g  Ponte delle Benne (Torino)                    punteggio 3     0.0 km
+       21,908 veic/g  Ponte Umberto I (Torino)                      punteggio 4     0.1 km
+       21,241 veic/g  Ponte Sassi (Torino)                          punteggio 3     0.2 km
+       20,593 veic/g  Rondò Rivella (Torino)                        punteggio 4     0.2 km
+       19,830 veic/g  Rondò della Forca (Torino)                    punteggio 4     0.2 km
+       17,360 veic/g  Via Tommaso Valperga di Caluso (Torino)       punteggio 2     0.6 km
+       16,995 veic/g  Corso San Maurizio (Torino)                   punteggio 3     3.8 km
+       16,938 veic/g  Corso Massimo D'Azeglio (Torino)              punteggio 4     6.6 km
+       16,587 veic/g  Corso Cairoli (Torino)                        punteggio 3     1.5 km
