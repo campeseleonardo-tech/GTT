@@ -113,173 +113,137 @@ mostra le 4 ore una dopo l'altra (8, 13, 17:30, 21; scelte e regola del titolo n
 
 ---
 
-## Discussione di design (dopo il 24/10/2026, sessione cloud `claude/epic-clarke-6zdofk`)
+## Discussione di design (24/10/2026, sessione cloud `claude/epic-clarke-6zdofk`)
 
-Fatta su `origin/prova` dopo L9; L9b-L12 in corso sul PC (prompt sul ramo `claude/vigilant-volta-l13do5`). Bozza: `sviluppo/prove_design/toro_caricamento.html`
-(file del toro: `sviluppo/prove_design/toro.svg`, quello di Leo). Niente di questa sezione è già applicato al sito.
+Base: `origin/prova` dopo L12 (2112dc6), cioè con L9b, L10, L11 e L12 fatti. Bozza del toro: `sviluppo/prove_design/toro_caricamento.html`; disegno di Leo: `sviluppo/prove_design/toro.svg`.
+Il sito non è stato toccato. Provato nel cloud il 24/10:
+- `python scripts/schede_risultati.py` gira e rifà le schede identiche (cambia solo «generato»; avviso atteso: `data/progetto.js` non si riscrive senza `omi_zone.json`);
+- `pip install playwright` + `python scripts/prova_pagine.py --playwright` dà 0 errori su 20 pagine, ma riscrive `assets/anteprime/*.jpg` e `assets/readme/*.jpg`.
 
 ### Decisioni di Leo
+**Mappa:** «quando si carica la mappa si deve vedere la forma del toro anziché il profilo della città», per **almeno 2 secondi**. Variante **B**: le linee d'oro si disegnano, poi l'oro riempie i tratti.
 
-**Mappa, caricamento.** «Quando si carica la mappa si deve vedere la forma del toro anziché il profilo della città; fai caricare la mappa per almeno 1-2 secondi
-così che si veda bene l'animazione.» Disegno: lo SVG di Leo (28 tracciati pieni, 54 KB).
-
-**Risultati, in generale.**
-- Via le scritte STIMATO / PROGRAMMATO / MISURATO dalla grafica: «sono dati che devono stare nel "come lo abbiamo calcolato", non aggiunti in grafica rumorosa».
-- Meno rumore, descrizioni più semplici: «meno dati di quello che è stato lo sviluppo, più dati che parlino per sé stessi, esplicativi e concisi».
-- Tutto scritto in modo **impersonale**, senza io/noi.
-- Via «Condividi» ovunque (lo fa già L10).
+**Schede, in generale:**
+- Via STIMATO / PROGRAMMATO / MISURATO dalla grafica: stanno nel «come è stato calcolato».
+- «Meno dati di quello che è stato lo sviluppo, più dati che parlino per sé stessi, esplicativi e concisi.»
+- Testi **impersonali**, senza io/noi.
 - «Punta del mattino» → **mattino**, «punta della sera» → **sera**.
-- **Tilde «~»** per i numeri meno importanti: **solo i numeri secondari** (il numero grande resta preciso).
+- **Tilde «~» solo sui numeri secondari.**
+- Via la riga «Limite: …» messa da L10 sotto il numero grande: i limiti tornano solo nella parte chiusa.
+- Schede 3 e 4: in vista **solo TomTom**; la stima dei sensori 5T va nel calcolo, con una frase.
 
-**Schede.**
-- 1: i 5/10/15 minuti della scheda aperta (68,3 → 96,8 → 99,2%) senza virgole, con ~.
-- 2: «attesa media alla fermata prima/dopo» non si capisce: semplificare il concetto.
-- 3: via «(stima)»; gara: «dal parcheggio» resta schiacciata; via ore, tendina del punto e «Riparti»: una gara animata per ogni parcheggio, poi la successiva; spiegazione più facile; la storia del parcheggio «troppi dati, troppe scritte, troppo da capire».
-- 4: via stimato/misurato/programmato; spiegazione più semplice; animazione dell'area senza tendina della partenza, senza scelta della stima, senza «Parti»: va da sola, un po' più lenta, sempre da Piazza Castello, auto con TomTom; descrizioni uniformi fra loro; gara tagliata, stesse modifiche della scheda 3 (qui non ci sono ore, va bene); «le 12 coppie» → qualcosa come «i tragitti dove i mezzi pubblici ci mettono molto più dell'auto».
-- 5: va abbastanza bene; via «Condividi».
+**Schede, una per una:**
+- **Scheda 1:** i 5/10/15 minuti della scheda aperta con ~ e senza virgole.
+- **Scheda 2:** «attesa media prima/dopo» non si capisce: semplificare.
+- **Scheda 3:** via «(stima)»; storia del parcheggio più semplice («troppi dati, troppe scritte»); gara non schiacciata, senza ore, senza scelta del punto, senza «Riparti»: una gara per parcheggio, poi la successiva.
+- **Scheda 4:** spiegazione più semplice e testi uniformi. Area senza tendina della partenza, senza scelta della stima, senza «Parti»: va da sola, un po' più lenta, da Piazza Castello, auto TomTom. Gara non tagliata, come nella scheda 3. «Le 12 coppie» diventa «i tragitti dove coi mezzi pubblici si impiega più del doppio dell'auto».
+- **Scheda 5:** va bene («Condividi» l'ha già tolto L10).
 
-**Home (temi 1 e 2).** Una home sola da scorrere, in tre parti:
-1. una spiegazione con qualche numero chiave;
-2. i risultati in breve: per ognuno solo anteprima animata, titolo e numeri molto importanti;
-3. «Il progetto» in fondo, «più riconoscibile».
+**Home:** una sola pagina da scorrere, in tre parti:
+1. spiegazione con alcuni numeri chiave;
+2. i risultati in breve: anteprima animata, titolo e numero grande;
+3. «Il progetto» in fondo, ben riconoscibile.
 
-`risultati.html` e `progetto.html` **restano intatte per ora**: «poi vedremo la differenza e decideremo se cancellarle o ripristinarle».
+`risultati.html` e `progetto.html` **restano intatte**: si decide dopo se toglierle.
 
-**Fuori dallo scopo.**
-- **Telefono:** «cosa si vede dal telefono non mi interessa, è un ordine». Nessun lavoro e nessuna prova a misura di telefono in questi giri; le regole che ci sono già nel CSS restano come sono.
-- **Gerarchia dei riquadri:** «decideremo dopo quali e come metterli»; per ora tutti alla pari.
-- **Altri temi** (scheda aperta in generale, anteprime LinkedIn, tipografia, animazioni oltre a quelle qui sopra): in disparte.
+**Fuori dallo scopo:**
+- il **telefono** («è un ordine»): nessun lavoro e nessuna prova a misura di telefono;
+- la gerarchia dei riquadri (si decide dopo): per ora tutti alla pari;
+- anteprime LinkedIn, tipografia, altre animazioni.
 
-**Quando.** I giri L15-L18 sono per un agente in cloud, da far partire **dopo L12** (Leo ne discute il modo con Claude prima di lanciarli).
+**Organizzazione:** una sessione cloud sola, con i giri L15-L18 in fila (prompt qui sotto). Poi L13 e L14 sul PC, con le regole nuove.
 
-### Valori predefiniti di Claude (piccole scelte; si cambiano con una riga)
+### Valori predefiniti di Claude (si cambiano con una riga)
+- **Fasce:** mattino (7-9), giorno (9-16), sera (16-19), **tarda sera (19-24)**. Il nome «sera» per la 19-24 si sarebbe scontrato con la 16-19. In inglese: morning, daytime, evening, late evening.
+- **Tilde:** funzione unica `circa()` in `scripts/schede/comune.py`.
+  - Il numero grande resta preciso.
+  - Nei punti chiave, nelle didascalie e nelle animazioni: percentuali, minuti e rapporti interi con ~ (~68%, ~2 volte); il mezzo minuto scritto a parole («~1 minuto e mezzo»).
+  - Conteggi piccoli esatti (12 punti, 68 fermate); conteggi grandi arrotondati (~222 mila).
+  - Valori delle barre: interi senza ~. Nel calcolo: tutto preciso.
+- **Parole vietate fuori dalla parte chiusa**, IT ed EN: STIMATO/MISURATO/PROGRAMMATO/CENSIMENTO, «stima», «sensori», «più favorevole all'auto», «punta», noi/nostro/abbiamo, «Limite:». Nella parte chiusa una riga «Tipo di dato: …» a parole. Titolo della parte chiusa: «Come è stato calcolato, e limiti». Il «Chi sono» del piè di pagina resta in prima persona.
+- **Misure dei testi:** punti chiave al massimo ~25 parole e un numero principale ciascuno; note dei grafici al massimo 2 frasi.
+- **Scheda 2, attesa.**
+  - Grafico «Quanto si aspetta in più di quanto dice l'orario»: una barra per fascia = minuti in più, a destra «~6 min invece di ~5».
+  - Punto chiave: «Sulle linee frequenti si aspetta ~1 minuto e mezzo in più di quanto promette l'orario.»
+  - «Noi e GTT» diventa «GPS e dato ufficiale GTT».
+- **Scheda 3.**
+  - Punti chiave: (1) «68 fermate importanti non hanno nessun parcheggio vicino, 111 troppo pochi»; (2) il primo dei 12 punti d'ingresso con i posti che mancano (~); (3) in quanti dei 12 punti, lasciata l'auto, il bus arriva in centro quasi come l'auto (TomTom, senza soglie in minuti).
+  - Tolto il grafico «minuti per parcheggiare oltre i quali…»: diventa una frase del calcolo.
+  - Restano: i 12 punti (grafico principale), la gara, gli interscambi che ci sono già.
+- **Scheda 4.**
+  - Domanda e testo del numero grande in una frase ciascuno: la quota del 47% e le coppie escluse vanno nel calcolo.
+  - Grafico principale e linea ora per ora con una sola stima (TomTom).
+  - La verifica con Google va nel calcolo.
+  - La dispersione delle 600 coppie resta, con una nota di una frase.
+- **Gara (schede 3 e 4).**
+  - Nessun comando; solo le 8; un'auto sola (TomTom, parcheggio compreso).
+  - Le corse vanno una dopo l'altra, col nome del luogo sopra. Scheda 3: i 12 punti, poi i 5 interscambi. Scheda 4: i 6 viaggi più frequenti.
+  - Il distacco di L10 resta.
+  - Con «riduci movimento»: tutte le corse ferme all'arrivo, una sotto l'altra.
+  - Nomi lunghi: a capo o «…», col nome intero nel `title`.
+- **Area (scheda 4 e anteprima in home).**
+  - Senza tendine, senza «Parti/Ferma», senza cursore; da sola, ~1,5 volte più lenta di oggi, fino a 45 minuti, pausa ~3 s e ricomincia.
+  - «N minuti» scritto grande; i % coi mezzi e in auto scritti accanto alle aree.
+  - Con «riduci movimento»: ferma a 30 minuti.
+  - I dati delle altre zone restano nel file e la pagina non li usa più.
+- **Home.**
+  - **Parte 1, «In breve»:** 2-3 frasi impersonali e 3 numeri chiave letti dal campo nuovo `chiave` delle schede 4, 2 e 5 (1,9 volte; ~6% oltre 10 minuti; ~1 su 10), ognuno col link alla sua scheda, più un bottone per la mappa. Sostituisce la lista «intro» e i due bottoni di oggi.
+  - **Parte 2:** i riquadri hanno il numero grande con un campo nuovo `numero.breve` (al massimo ~6 parole) al posto del testo lungo; clic → `risultati.html#pN`.
+  - **Parte 3:** le 6 tappe di `progetto.html` con lo stesso codice, spostato in `assets/progetto.js`, in una fascia scura come l'eroe, bordo oro, titolo «Il progetto», àncora `#progetto`. In home il link «Il progetto» della barra porta a `#progetto`.
+  - Le anteprime partono solo quando il riquadro entra nella finestra.
+- **Caricamento della mappa.**
+  - Testo «Caricamento della mappa…».
+  - Con «riduci movimento»: toro fermo e intero, nessuna attesa in più.
+  - Coordinate del toro arrotondate a interi.
+  - Peso di `mappa_torino.html` non oltre 5.906.557 byte (dopo L11) più il toro: se lo supera, semplificare i tracciati.
 
-| Voce | Valore predefinito | Perché |
-|---|---|---|
-| Durata minima del caricamento | 2 secondi dall'apertura della pagina; con «riduci movimento» nessuna attesa e toro fermo e intero | «almeno 1-2 secondi» |
-| Forma del toro | variante **B** della bozza (linee d'oro che si disegnano, poi l'oro riempie i tratti come nell'immagine); Leo può scegliere A o C | è la più fedele all'immagine |
-| Testo del caricamento | «Caricamento della mappa…» (impersonale) | oggi «Carico la mappa…» |
-| Fasce orarie | mattino (7-9) · giorno (9-16) · sera (16-19) · **tarda sera (19-24)** | «sera» per 16-19 si scontra con la fascia 19-24 che si chiama già «sera» |
-| Tilde | numero grande preciso; nei punti chiave, didascalie e animazioni percentuali, minuti e rapporti interi con ~ (~68%, ~2 volte, ~1 min e mezzo); conteggi piccoli esatti senza ~ (12 punti, 68 fermate, 5 zone); conteggi grandi arrotondati (~222 mila); nelle etichette delle barre interi senza ~; nel «come è stato calcolato» tutto preciso | «solo i numeri secondari» |
-| Etichette | la pastiglia STIMATO/MISURATO sparisce da scheda, riquadri e anteprime; nel «come è stato calcolato» una riga «Tipo di dato: …» spiegata a parole | decisione di Leo |
-| Stima più favorevole all'auto (sensori 5T) | sparisce da grafici, punti chiave, gara e area delle schede 3 e 4: resta solo TomTom; i sensori restano nel «come è stato calcolato» come prova di sensibilità (una frase con i due numeri) | «via la stima» e «meno dati»; TomTom è la stima principale dal 24/10 |
-| Titolo della parte chiusa | «Come è stato calcolato, e limiti» | impersonale |
-| «Chi sono» | resta in prima persona (nome, contatti): è l'unica eccezione all'impersonale | è una firma, non un testo del risultato |
-| Riga di limite di L10 sotto il numero grande | resta, al massimo ~12 parole, senza le parole stima/misurato | serietà visibile (analisi 3.11) senza rumore |
-| Area della scheda 4 | ~1,5 volte più lenta di oggi; gira da sola (fino a 45 minuti, pausa ~3 s, ricomincia); via il cursore, al suo posto «N minuti» scritto grande | «va da sola, un po' più lenta» |
-| Gara (schede 3 e 4) | una corsa per luogo, alle 8, poi la successiva dopo una pausa; il nome del luogo sopra la corsa; il distacco scritto all'arrivo (L10); nessun comando | «una gara animata e poi quella dopo» |
-| Scheda 2, attesa | grafico «Quanto si aspetta in più di quanto dice l'orario»: una barra per fascia = minuti in più; a destra «~6 min invece di ~5»; punto: «Sulle linee frequenti si aspetta ~1 minuto e mezzo in più di quanto promette l'orario.» | oggi «4,53 → 5,85» con barra chiara/scura non si capisce |
-| Home, numeri chiave | 3 numeri letti dalle schede (non scritti a mano): scheda 4 (1,9 volte), scheda 2 (~6% oltre 10 minuti), scheda 5 (~1 su 10), più il contatore della raccolta (L10) | i tre più forti dopo L9; la scelta definitiva va con la gerarchia |
-| Home, «Il progetto» | le 6 tappe di `progetto.html` dentro la home, stesso codice (spostato in `assets/progetto.js`, usato da tutte e due le pagine), in una fascia scura come l'eroe con bordo oro e titolo «Il progetto» | «più riconoscibile»; codice in comune, così se `progetto.html` sparisce non si perde niente |
-| Clic su un riquadro della home | apre `risultati.html#pN` come oggi | le pagine restano intatte |
+### Aperto (dopo i giri)
+- La gerarchia dei riquadri (6 dopo L14).
+- Tenere o togliere `risultati.html` e `progetto.html`.
+- Il nome della fascia 19-24.
+- I temi lasciati in disparte.
+- La domanda della scheda 5: in L9b la risposta di Leo è arrivata come segnaposto, quindi la domanda è rimasta com'era. Se Leo vuole «solo la seconda parte», si cambia in L15 punto 2.
 
-### Aperto (si decide dopo)
-- Gerarchia dei riquadri (6 dopo L14): quali in testa e come.
-- `risultati.html` e `progetto.html`: cancellare o tenere, dopo aver visto la home nuova.
-- Variante del toro (A, B, C): Leo guarda la bozza.
-- Nome della fascia 19-24 («tarda sera» predefinito).
-- I temi lasciati in disparte (anteprime LinkedIn, tipografia, scheda aperta in generale).
+### Per L13 e L14 (sul PC, dopo questi giri)
+In testa al loro prompt in `PROMPT_LAVORI.md`, Leo o Claude aggiungono:
+«Segui anche le regole della "Discussione di design" in sviluppo/piani/PIANO_GRAFICA.md: testi impersonali, niente etichette né riga "Limite", in vista solo TomTom, tilde sui numeri secondari con circa(), fasce senza "punta", gara e area senza comandi, campi `chiave` e `numero.breve` nella scheda 6.»
 
-### Per L13 e L14 (già scritti, da fare dopo L15-L18 o prima: decide Leo)
-Se L13/L14 partono **dopo** L15-L18, devono seguire le regole qui sopra (impersonale, niente etichette, solo TomTom in vista, tilde sui numeri secondari, fasce senza «punta»).
-Basta aggiungere in testa al loro prompt: «Segui anche le regole della "Discussione di design" in sviluppo/piani/PIANO_GRAFICA.md.» Se partono **prima**, L15 le applica anche alla scheda 6 e alla parte nuova della scheda 4.
+### L15-L18 — CLOUD, una sessione: schede con meno rumore, animazioni da sole, home da scorrere, toro della mappa
 
-### Regole comuni ai giri L15-L18 (cloud)
-- Partono dal ramo `prova` **dopo L12** (meglio: dopo l'ultimo ESITO arrivato su `origin/prova`), su un ramo di sessione `claude/...`; commit e push lì, Leo unisce in `prova`.
-- Nel cloud non ci sono lo storico, `data/raw`, il Pi e Windows. `data/processed/` è in git; se `scripts/schede_risultati.py` non gira per un file mancante (dopo L12 IMQ e OMI non sono in git), **non inventare dati**: cambia il codice, prova con `scripts/prove/` dove serve, e scrivi a Leo di lanciare `scripts\RIFAI_MAPPA_E_SCHEDE.bat`.
-- **Controlli grafici solo di Leo.** Prove solo di funzionamento: `python -m pyflakes scripts` zero, `node --check assets/*.js`, `python scripts/prova_pagine.py --playwright` 0 errori JavaScript, controlli nel DOM scritti nei prompt. Solo misura computer (1440×900): **niente telefono**.
-- Numeri mai a mano: si leggono dai JSON. Testi inglesi in `scripts/schede/testi.json` e negli attributi `data-en`.
-- Stile «Torino» (colori solo in `assets/stile.css`), numeri scritti accanto ai colori, animazioni ferme con «riduci movimento», niente «condividi»/«copia il link», peso della mappa non oltre quello di dopo L11.
-- Esito `sviluppo/piani/ESITO_L1x.md` con prima/dopo di ogni testo cambiato e la lista per Leo di cosa guardare; memoria aggiornata.
-
-## L15 — CLOUD: schede con meno rumore (testi, etichette, tilde, fasce)
-
-Perché: decisioni di Leo qui sopra («Risultati, in generale» e schede 1-5). File: `scripts/schede/comune.py`, `r1.py`, `r4.py` (scheda 2), `r6.py` (scheda 3), `r8.py` (scheda 4),
-`r10.py` (scheda 5), `testi.json`, `traduci.py` se serve, `pagine_r.py` (anteprime), `risultati.html` (pastiglia dell'etichetta in `#finMeta`, titolo della parte chiusa),
-`assets/animazioni.js` (percentuali dei cerchi con ~), `scripts/prova_pagine.py` (prove nuove), `data/schede_risultati.js` e `r/` se si possono rifare nel cloud.
-
-Regole fissate:
-- Funzione unica `circa(x, ...)` in `comune.py` per la tilde (regole della tabella); i numeri grandi restano come oggi.
-- Nella parte visibile della scheda (domanda, numero grande, riga di limite, punti chiave, titoli e note dei grafici, didascalie) non compaiono più: STIMATO, MISURATO, PROGRAMMATO, CENSIMENTO, «stima», «(stima)», «stima debole», «stima bassa», «sensori 5T», «più favorevole all'auto», «noi», «nostro», «abbiamo», «punta». Tutto questo, se serve, va nel «come è stato calcolato» (calcolo, criteri, limiti), detto in modo impersonale.
-- Punti chiave: al massimo ~25 parole ciascuno, un numero principale per punto; note dei grafici: al massimo 2 frasi.
-- Scheda 2: grafico dell'attesa come nella tabella; «Noi e GTT» → «GPS e dato ufficiale GTT».
-- Scheda 3: titolo senza «(stima)»; 3 punti chiave semplici. (1) Fermate senza posti: «68 non hanno nessun parcheggio vicino, 111 troppo pochi». (2) Il primo dei 12 punti d'ingresso, con i posti che mancano con la ~. (3) In quanti dei 12 punti il bus dal parcheggio arriva in centro quasi come l'auto: solo TomTom, senza soglie in minuti. Via dagli «Altri grafici» la barra «minuti per parcheggiare oltre i quali…»: la sua idea va in una frase del calcolo. Restano: i 12 punti (principale), la gara, i parcheggi di scambio che ci sono già (solo TomTom).
-- Scheda 4: domanda e testo del numero grande in una frase ciascuno (la quota 47% e le coppie escluse vanno nel calcolo). Grafico principale: solo TomTom. Linea ora per ora: una sola linea (TomTom). Punto sulla verifica con Google: nel calcolo. «Le 12 coppie con più auto dove…» → «I tragitti dove coi mezzi pubblici si impiega più del doppio dell'auto». Dispersione delle 600 coppie: resta, con una nota di una frase.
-- Scheda 1: cerchi e punto 1 con ~ (~68%, ~97%, ~99% nei cerchi; 99,2% resta nel numero grande).
-- Fasce: mattino, giorno, sera, tarda sera (tabella) in r4.py (tutte e quattro le mappe di nomi) e nei testi inglesi (morning, daytime, evening, late evening).
-
-```
-Sessione cloud sul repository Turin-mobility. Leggi sviluppo/AGENTS.md, sviluppo/MEMORIA_PROGETTO.md e, in sviluppo/piani/PIANO_GRAFICA.md, la sezione «Discussione di design» (decisioni di Leo, valori predefiniti, regole comuni) e il blocco L15.
-Prima: git fetch origin; parti da origin/prova (git checkout -B <ramo della sessione> origin/prova se il ramo è vuoto); leggi gli ESITO_L9b..L12 (e L13/L14 se ci sono) per sapere cosa è già cambiato; python scripts/controlla_rami.py.
-Niente controlli grafici (li fa Leo), niente telefono, niente dati inventati. Un commit per scheda più uno per le parti comuni.
-1. Parti comuni: circa() in scripts/schede/comune.py; pastiglia dell'etichetta tolta da risultati.html (#finMeta), dalle anteprime (pagine_r.py / prova_pagine.py) e dai riquadri se c'è; nel «come è stato calcolato» una riga «Tipo di dato» a parole; titolo della parte chiusa «Come è stato calcolato, e limiti» (IT/EN).
-2. Schede 1, 2, 3, 4, 5 come nel blocco L15, una alla volta; traduzioni in testi.json.
-3. Controllo automatico nuovo in scripts/prova_pagine.py (o uno script di prova a parte): apre ogni scheda di risultati.html in IT e in EN e, nel testo visibile fuori dalla parte chiusa, cerca le parole vietate del blocco L15 (anche in inglese: ESTIMATED, MEASURED, SCHEDULED, "we ", "our ", "peak", "sensor"); 0 trovate. Conta le parole dei punti chiave (massimo ~25).
-4. Prove: python -m pyflakes scripts (zero); node --check assets/*.js; python scripts/schede_risultati.py se gira nel cloud (nessuna ATTENZIONE; se manca un file, scrivilo e lascia a Leo RIFAI_MAPPA_E_SCHEDE.bat); python scripts/prova_pagine.py --playwright (0 errori).
-5. Esito sviluppo/piani/ESITO_L15.md: tabella prima/dopo di ogni testo visibile cambiato, scheda per scheda; cosa è passato nel «come è stato calcolato»; lista per Leo di cosa guardare. Memoria; commit; git push -u origin <ramo della sessione>.
-```
-
-## L16 — CLOUD: gara e area che vanno da sole
-
-Perché: schede 3 e 4 (decisioni di Leo). File: `assets/gara.js`, `assets/area.js`, `assets/animazioni.js` (anteprima della home), `scripts/schede/r6.py` e `r8.py` (dati della gara: un'ora sola, solo TomTom), `risultati.html` se passa opzioni, `scripts/prova_pagine.py`.
-
-Regole fissate:
-- **Gara:** nessun comando (via `select`, «Riparti», le «ore»: solo le 8); un'auto sola (TomTom, parcheggio compreso); le corse dei luoghi una dopo l'altra, con il nome del luogo sopra; il distacco all'arrivo (L10) resta. Scheda 3: i 12 punti d'ingresso, poi i 5 interscambi. Scheda 4: i 6 viaggi più frequenti. Con «riduci movimento»: tutte le corse ferme all'arrivo, una sotto l'altra, coi minuti scritti.
-- **Gara tagliata o schiacciata:** nessun testo deve uscire dal disegno e nessuna corsia deve sovrapporsi a un'altra. Lo si controlla con una prova automatica: per ogni corsa, ogni `<text>` ha il riquadro (getBBox) dentro il `viewBox` e le corsie non si toccano. Se un nome è troppo lungo, va a capo o si accorcia con «…» e il nome intero resta nel `title`.
-- **Area (scheda 4 e anteprima in home):** via la tendina della partenza, via la scelta della stima (solo TomTom), via «Parti/Ferma» e il cursore; parte da sola quando compare, ~1,5 volte più lenta di oggi, fino a 45 minuti, pausa ~3 s, ricomincia; sempre da Piazza Castello; «N minuti» scritto grande al posto del cursore; i % coi mezzi e in auto restano scritti accanto alle aree. I dati delle altre zone restano nel file (non si toccano gli script dei dati), la pagina non li usa più.
-- Testi delle animazioni impersonali e con la tilde (blocco L15).
+Come risparmiare token (vale per tutto il giro):
+- **Da leggere:** `sviluppo/AGENTS.md`, la memoria e questa sezione. Gli ESITO solo se serve un fatto preciso. Niente ANALISI_CRITICA, PROMPT_LAVORI, ESITO_C*.
+- **File grandi:** `mappa_torino.html` (6 MB) non si apre mai: si cerca con grep il blocco `id="caricamento"`. `scripts/mappa_template.html` (~2.500 righe): solo i pezzi trovati con grep (`caricamento`, `car-testo`, `"fine"`). I file degli script delle schede e degli asset si leggono interi una sola volta.
+- **Prove:**
+  - `pip install playwright` una volta; `prova_pagine.py --playwright` solo alla fine di ogni giro, non a ogni modifica.
+  - Le prove nuove vanno in una funzione sola di `prova_pagine.py` (`prova_design`), che fa i controlli nel DOM elencati qui sotto.
+  - Dopo ogni prova: `git checkout -- assets/readme/`. Le anteprime `assets/anteprime/*.jpg` si tengono solo se il giro le cambia apposta (L15, etichetta tolta).
+- **Esito e memoria:** un esito solo, `sviluppo/piani/ESITO_L15-18.md`, con una sezione per giro; memoria aggiornata una volta alla fine.
 
 ```
-Sessione cloud sul repository Turin-mobility. Leggi sviluppo/AGENTS.md, la memoria e, in sviluppo/piani/PIANO_GRAFICA.md, la «Discussione di design» e il blocco L16. Parti dal ramo con L15 fatto (o da origin/prova se L15 è già unito); leggi ESITO_L15.
-Niente controlli grafici, niente telefono. Un commit per la gara, uno per l'area.
-1. assets/gara.js e i dati della gara in scripts/schede/r6.py e r8.py come nel blocco L16. Prova automatica in prova_pagine.py: apri le schede 3 e 4, aspetta 2 corse, controlla che (a) non ci siano select né button dentro .gara, (b) ogni <text> stia dentro il viewBox, (c) le corsie non si sovrappongano, (d) cambi il nome del luogo fra una corsa e l'altra. Con riduci movimento (emulazione di Playwright): tutte le corse scritte, nessuna animazione.
-2. assets/area.js come nel blocco L16 (scheda 4 e anteprima in home). Prova: nessun select/button/input dentro .area; dopo ~3 s il numero dei minuti è cambiato da solo; con riduci movimento figura ferma a 30 minuti e % scritti.
-3. pyflakes zero; node --check assets/*.js; schede_risultati.py se gira nel cloud; prova_pagine.py --playwright (0 errori). Esito sviluppo/piani/ESITO_L16.md (durate vecchie e nuove, cosa è stato tolto), lista per Leo; memoria; commit; push sul ramo della sessione.
-```
+Sessione cloud sul repository Turin-mobility. Leggi sviluppo/AGENTS.md, sviluppo/MEMORIA_PROGETTO.md e, in sviluppo/piani/PIANO_GRAFICA.md, solo la sezione «Discussione di design» (decisioni di Leo, valori predefiniti, come risparmiare token). Non leggere altri piani né esiti salvo un fatto preciso che ti serve.
+Prima: git fetch origin; parti da origin/prova (git checkout -B <ramo della sessione> origin/prova se il ramo non ha commit suoi); python scripts/controlla_rami.py; pip install playwright.
+Regole: niente controlli grafici (li fa Leo), niente telefono, numeri mai a mano (dai JSON con python scripts/schede_risultati.py, che nel cloud gira), testi inglesi in scripts/schede/testi.json e data-en, colori solo in assets/stile.css, animazioni ferme con «riduci movimento». Un commit per giro (o per scheda in L15), push dopo ogni giro: git push -u origin <ramo della sessione>. Se un giro si ferma, scrivilo nell'esito e vai avanti solo se il giro dopo non ne dipende.
 
-## L17 — CLOUD: home da scorrere (spiegazione, risultati in breve, il progetto)
+L15 — schede con meno rumore. File: scripts/schede/comune.py (circa()), r1.py, r4.py (scheda 2), r6.py (scheda 3), r8.py (scheda 4), r10.py (scheda 5), testi.json, pagine_r.py; risultati.html (via la pastiglia di etichetta() in #finMeta, via limiteVisibile, titolo della parte chiusa); assets/animazioni.js (cerchi con ~).
+ 1. Parti comuni (circa(), etichetta, riga «Limite», «Tipo di dato» nel calcolo, titolo della parte chiusa, fasce in tutte le mappe di nomi di r4.py).
+ 2. Schede 1-5 come nei valori predefiniti, una per commit; nel calcolo finisce tutto ciò che si toglie dalla vista (sensori, 47%, verifica Google, soglie dei minuti), detto in modo impersonale.
+ 3. prova_design (parte L15): ogni scheda in IT e EN, testo visibile fuori dalla parte chiusa senza le parole vietate (anche ESTIMATED, MEASURED, SCHEDULED, "we ", "our ", "peak", "sensor", "Limit:"); punti chiave ≤ 25 parole; numero grande uguale a prima.
+ 4. schede_risultati.py (nessuna ATTENZIONE), pyflakes zero, node --check assets/*.js, prova_pagine.py --playwright 0 errori. Esito: prima/dopo di ogni testo visibile cambiato.
 
-Perché: temi 1 e 2 (decisione di Leo). File: `index.html`, `assets/stile.css`, `assets/progetto.js` (nuovo: il codice delle tappe preso da `progetto.html`), `progetto.html` (usa `assets/progetto.js`: **stesso aspetto e stessi testi di prima**), `scripts/schede/home.py` e/o `comune.py` (campo dei numeri chiave e del testo breve), `testi.json`, `scripts/prova_pagine.py`.
-`risultati.html` non si tocca (salvo quanto fatto in L15-L16).
+L16 — gara e area da sole. File: assets/gara.js, assets/area.js, assets/animazioni.js, scripts/schede/r6.py e r8.py (dati della gara: solo le 8, solo TomTom).
+ 1. Gara e area come nei valori predefiniti.
+ 2. prova_design (parte L16): nessun select/button/input dentro .gara e .area; ogni <text> della gara col getBBox dentro il viewBox e corsie che non si toccano; il nome del luogo cambia fra due corse; il numero dei minuti dell'area cambia da solo entro 3 s; con riduci movimento (emulazione Playwright) tutto fermo e numeri scritti.
+ 3. Prove come L15. Esito: durate vecchie e nuove, cosa è stato tolto.
 
-Regole fissate:
-- **Parte 1, sotto l'eroe:** «In breve». 2-3 frasi impersonali su cosa si misura e come (Raspberry Pi, GPS, sensori, dati aperti), poi i 3 numeri chiave (tabella dei valori predefiniti), letti da un campo nuovo `chiave` delle schede scelte (`{valore, testo}`, scritto dagli script delle schede, IT/EN), ognuno col link alla sua scheda; il contatore della raccolta (L10) resta nell'eroe. Le due frasi di oggi («Chi va dove…», «Ogni numero viene da dati veri…») e i due bottoni sono sostituiti da questa parte; il link alla mappa resta come bottone sotto i numeri.
-- **Parte 2, «I risultati»:** riquadri con solo anteprima animata, titolo e numero grande con una parola breve (campo nuovo `numero.breve`, al massimo ~6 parole, es. «volte il tempo dell'auto»); via il testo lungo del numero. Tutti alla pari (gerarchia rimandata). Clic → `risultati.html#pN`.
-- **Parte 3, «Il progetto»:** le 6 tappe di `progetto.html` con lo stesso codice (`assets/progetto.js`), in una fascia scura come l'eroe, bordo oro e titolo grande «Il progetto»; un'àncora `#progetto`; il «Chi sono» resta nel piè di pagina (non due volte).
-- Barra in alto invariata (Home · Risultati · Mappa · Il progetto); in home il link «Il progetto» porta a `#progetto`.
-- Animazioni della home: ogni anteprima parte solo quando il suo riquadro entra nella finestra (analisi 3, critica a L2); con «riduci movimento» tutto fermo.
-- Peso della home (HTML + JS propri, senza i dati delle schede) scritto nell'esito: sotto 1 MB.
+L17 — home da scorrere. File: index.html, assets/stile.css, assets/progetto.js (nuovo, codice delle tappe preso da progetto.html), progetto.html (usa assets/progetto.js, testi e aspetto invariati), scripts/schede/ (campi chiave e numero.breve, IT/EN). risultati.html non si tocca.
+ 1. assets/progetto.js; prova che i testi visibili di progetto.html in IT e EN siano identici prima e dopo.
+ 2. Campi chiave e numero.breve; index.html con le tre parti dei valori predefiniti.
+ 3. prova_design (parte L17): i 3 numeri chiave uguali a data/schede_risultati.js; un riquadro per scheda con anteprima, titolo, numero; #progetto con le 6 tappe; con riduci movimento nessuna animazione; 0 errori in index, risultati, progetto. Peso della home (HTML + JS propri) nell'esito: sotto 1 MB.
 
-```
-Sessione cloud sul repository Turin-mobility. Leggi sviluppo/AGENTS.md, la memoria e, in sviluppo/piani/PIANO_GRAFICA.md, la «Discussione di design» e il blocco L17. Parti dal ramo con L16 fatto; leggi ESITO_L15 e ESITO_L16.
-Niente controlli grafici, niente telefono. Un commit per parte (codice comune del progetto, parte 1, parte 2, parte 3).
-1. Sposta il codice delle tappe da progetto.html in assets/progetto.js (stile in assets/stile.css) senza cambiare progetto.html a vista: prova automatica che i testi visibili di progetto.html in IT e in EN siano identici prima e dopo (salvo L15).
-2. Campi nuovi chiave e numero.breve negli script delle schede (IT/EN in testi.json), poi index.html con le tre parti del blocco L17.
-3. Prove in prova_pagine.py su index.html (1440×900, IT ed EN): (a) i 3 numeri chiave uguali a quelli di data/schede_risultati.js; (b) un riquadro per scheda, ognuno con anteprima, titolo, numero; (c) #progetto esiste e contiene le 6 tappe; (d) nessun «Condividi»/«copia il link»; (e) con riduci movimento nessuna animazione in corso; 0 errori JavaScript in index, risultati, progetto.
-4. pyflakes zero; node --check assets/*.js; schede_risultati.py se gira nel cloud; prova_pagine.py --playwright. Esito sviluppo/piani/ESITO_L17.md (peso della home, cosa è stato tolto dalla home vecchia), lista per Leo: cosa guardare scorrendo la home dall'alto in fondo e in cosa differisce da risultati.html e progetto.html (per decidere se tenerle); memoria; commit; push sul ramo della sessione.
-```
+L18 — toro nel caricamento della mappa. File: scripts/mappa_template.html (blocco #caricamento: stile, svg, testo, chiusura con classe "fine"), mappa_torino.html (solo lo stesso blocco), sviluppo/prove_design/toro_caricamento.html (variante B, solo lettura).
+ 1. Toro variante B al posto del contorno di Torino, durata minima 2 s dall'apertura, riduci movimento, testo, coordinate intere.
+ 2. 04_genera_mappa.py non gira nel cloud (mancano i dati): stesso blocco sostituito anche in mappa_torino.html con un piccolo script Python (solo quel pezzo); controlla che i due blocchi siano identici. Peso prima/dopo nell'esito (limite nei valori predefiniti).
+ 3. prova_design (parte L18): #caricamento con i tracciati del toro e senza il contorno di Torino; visibile almeno 2 s; con riduci movimento sparisce appena la mappa è pronta; 0 errori; prova_link_mappa di L11 ancora tutta OK.
 
-## L18 — CLOUD: il toro nel caricamento della mappa
-
-Perché: decisione di Leo. File: `scripts/mappa_template.html` (blocco `#caricamento`, righe ~149-161 e ~184-188, e la chiusura del caricamento a ~2511), `sviluppo/prove_design/toro.svg` (solo lettura), `mappa_torino.html` (solo il blocco `#caricamento`, vedi regole), `scripts/prova_pagine.py`.
-
-Regole fissate:
-- Il contorno di Torino del caricamento è sostituito dal toro di Leo, nella variante scelta in `sviluppo/prove_design/toro_caricamento.html` (predefinita **B**), in oro `#e3bf55` sul fondo scuro di oggi. Barra e testo restano; testo «Caricamento della mappa…».
-- Il caricamento resta almeno **2 secondi** dall'apertura della pagina anche se la mappa è pronta prima; poi la dissolvenza di oggi. Con «riduci movimento»: toro fermo e intero, nessuna attesa in più.
-- Peso: il toro va dentro la pagina come SVG; coordinate arrotondate a interi, nessun dato in più. Peso di `mappa_torino.html` non oltre quello dopo L11 (scritto in ESITO_L11): se lo supera, semplifica i tracciati (meno punti) finché rientra e scrivilo.
-- Nel cloud `04_genera_mappa.py` non gira (mancano i dati): cambia il template e applica **lo stesso blocco** anche a `mappa_torino.html` con una sostituzione solo di quel pezzo, poi controlla che il blocco nei due file sia identico. Leo rigenera la mappa sul PC al prossimo `RIFAI_MAPPA_E_SCHEDE.bat`: il risultato deve essere lo stesso.
-
-```
-Sessione cloud sul repository Turin-mobility. Leggi sviluppo/AGENTS.md, la memoria e, in sviluppo/piani/PIANO_GRAFICA.md, la «Discussione di design» e il blocco L18 (variante del toro: quella scritta da Leo nella discussione, altrimenti B). Parti dal ramo con L17 fatto.
-Niente controlli grafici, niente telefono. Un commit.
-1. scripts/mappa_template.html: toro, durata minima, testo, riduci movimento come nel blocco L18 (il codice della variante è in sviluppo/prove_design/toro_caricamento.html). Stesso blocco in mappa_torino.html; controllo che i due blocchi siano identici.
-2. Prova in prova_pagine.py: apri mappa_torino.html; il #caricamento contiene i tracciati del toro e non il contorno di Torino; resta visibile almeno 2 s (misura il tempo fra apertura e classe "fine"); con riduci movimento sparisce appena la mappa è pronta; 0 errori JavaScript; tutti i temi come prima.
-3. Peso di mappa_torino.html prima e dopo nell'esito sviluppo/piani/ESITO_L18.md; lista per Leo (aprire la mappa, guardare il toro e la durata; poi RIFAI_MAPPA_E_SCHEDE.bat sul PC e riguardare); memoria; commit; push sul ramo della sessione.
-```
-
-### Tutti e quattro di seguito (un prompt solo, per la sessione cloud)
-
-```
-Sessione cloud sul repository Turin-mobility. Leggi sviluppo/AGENTS.md, la memoria e, in sviluppo/piani/PIANO_GRAFICA.md, la «Discussione di design» e i blocchi L15, L16, L17, L18.
-Fai i quattro giri in quest'ordine sullo stesso ramo della sessione, partendo da origin/prova dopo L12, ognuno col suo esito e i suoi commit; push dopo ogni giro. Se un giro si ferma (prova che non passa, file che manca), scrivilo nel suo esito e passa al successivo solo se non dipende da quello. Alla fine scrivi a Leo il nome del ramo e, per ogni giro, cosa guardare.
+Fine: esito sviluppo/piani/ESITO_L15-18.md (una sezione per giro, prove, cosa resta aperto), memoria (una volta), push. Messaggio a Leo: il nome del ramo e, per ogni giro, cosa guardare (schede 1-5, home dall'alto in fondo confrontata con risultati.html e progetto.html, mappa al caricamento); sul PC dopo l'unione: RIFAI_MAPPA_E_SCHEDE.bat (la mappa rigenerata deve avere lo stesso caricamento).
 ```
