@@ -249,3 +249,29 @@ L18 — toro nel caricamento della mappa. File: scripts/mappa_template.html (blo
 
 Fine: esito sviluppo/piani/ESITO_L15-18.md (una sezione per giro, prove, cosa resta aperto), memoria (una volta), push. Messaggio a Leo: il nome del ramo e, per ogni giro, cosa guardare (schede 1-5, home dall'alto in fondo confrontata con risultati.html e progetto.html, mappa al caricamento); sul PC dopo l'unione: RIFAI_MAPPA_E_SCHEDE.bat (la mappa rigenerata deve avere lo stesso caricamento).
 ```
+
+### Dopo L15-L18 (24/10/2026, Leo: «va tutto bene, a parte il toro»)
+Stato verificato il 24/10:
+- `main` = `prova` = ff6fbca;
+- la Release `dati-2026-11` **non è caricata**: su GitHub c'è solo `dati-2026-10`;
+- GitHub Pages **non è acceso**: `campeseleonardo-tech.github.io/Turin-mobility/` risponde 404;
+- descrizione del repository «GTT project».
+
+**Toro (Leo):** «volevo si caricasse come si caricava prima il profilo della città, con una linea che si crea sul contorno del toro». Quindi è lo stesso effetto del vecchio contorno: la linea d'oro corre sul contorno, va e torna in 2,4 s finché la mappa è pronta, il riempimento resta appena accennato, **niente oro pieno**. La durata minima di 2 s resta.
+
+Ordine dei passi:
+
+| # | Chi | Cosa |
+|---|---|---|
+| 1 | Leo, a mano | caricare la Release `dati-2026-11`; accendere Pages; scrivere descrizione e argomenti del repository |
+| 2 | CLOUD | **L19**: toro come il vecchio contorno, gara del pannello della mappa con una sola auto e senza «Riparti», immagini del README dalla home nuova |
+| 3 | PC | **L13** e **L14** (blocchi in `PROMPT_LAVORI.md`) con le regole della «Discussione di design» |
+| 4 | Leo + Claude | decisioni rimaste: gerarchia dei 6 riquadri; tenere o togliere `risultati.html` e `progetto.html`; poi un giro cloud breve (L21) |
+| 5 | PC | **L20**: pulizie finali, prova da zero con la Release, `main`, controllo delle anteprime per LinkedIn |
+| 6 | Leo | post su LinkedIn (home, poi un post per risultato con `r/N.html`) |
+
+**Valori predefiniti di Claude per L19:**
+- Animazione del toro = quella del vecchio contorno: `stroke-dasharray:1` con `pathLength="1"`, `animation:car-disegna 2.4s ease-in-out infinite alternate`, riempimento `rgba(143,176,234,.10)`, linea oro `#e3bf55`.
+- La linea è sottile, perché i tratti del toro sono doppi (contorno di una forma piena).
+- Con «riduci movimento»: toro a linee fermo e intero.
+- Gara del pannello della mappa: solo l'auto TomTom e nessun comando, come nelle schede.
