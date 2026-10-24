@@ -14,7 +14,11 @@ Partenza da `origin/prova` (ff6fbca) più il commit del piano «Dopo L15-L18».
 - La prova controlla nel template e in `mappa_torino.html` che la chiamata sia `giro:true`, senza `auto_alto_min` né `compatto`.
 
 ## 3. Immagini del README
-Rifatte con `prova_pagine.py --playwright` dalla home nuova (`assets/readme/*.jpg`); le anteprime `assets/anteprime/` tenute solo se cambiano davvero (vedi sotto).
+Rifatte con `prova_pagine.py --playwright` dalla home nuova (`assets/readme/*.jpg`). Le anteprime `assets/anteprime/` sono cambiate solo per la ricompressione: ripristinate.
 
 ## Prove
 `node --check assets/*.js`, `pyflakes scripts`, `prova_pagine.py --playwright` (0 errori, `prova_link_mappa` OK), peso di `mappa_torino.html` entro 5.961.194 byte.
+
+## Correzioni dopo la prova di Leo sul PC
+- La gara delle schede non partiva (`t.parlatoGiro is not a function` dopo la pulizia di `gara.js`): corretto, la prova di design lo trova.
+- Il toro non si disegnava: con `vector-effect:non-scaling-stroke` il tratteggio ignora `pathLength`. Ora lo spessore è in unità del disegno (`stroke-width:45`, il gruppo è scalato di 0,1: circa 1,5 px) e la linea si crea sul contorno.
