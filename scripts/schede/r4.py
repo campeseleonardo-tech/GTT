@@ -396,6 +396,22 @@ def scheda_r9():
 
 
 
+def velocita_bus():
+    """Velocità dei bus dal GPS (script 104, E4): (km/h alle 8, grafico a linea ora per ora, riga del calcolo) oppure None se il file manca."""
+    try:
+        v = leggi("velocita_bus.json")
+    except FileNotFoundError:
+        return None
+    bus = v["velocita"]["bus"]
+    ore = [int(o) for o in bus]
+    linea = {"tipo": "linea", "titolo": "Velocità media dei bus, ora per ora (feriale)", "unita": "km/h",
+             "nota": "Distanza percorsa divisa per il tempo, fermate e semafori compresi.",
+             "categorie": [str(o) for o in ore], "serie": [{"label": "velocità dei bus", "valori": [round(bus[str(o)]["kmh"]) for o in ore]}]}
+    calcolo = ("Velocità dei bus: distanza fra posizioni GPS consecutive divisa per il tempo, fermate e semafori compresi. "
+               "Media dei giorni feriali, pesata sui rilevamenti.")
+    return bus["8"]["kmh"], linea, calcolo
+
+
 def forma_r4(s):
     r = leggi("risultato4_regolarita.json")
     c, par = r["citta"], r["parametri"]
@@ -436,21 +452,24 @@ def forma_r4(s):
                          "voci": [{"label": nomi_f[f], "valore": round(per_fascia[f]["in_piu_min_bassa"], 1), "tono": "rosso",
                                    "testo": f"{circa(per_fascia[f]['reale_min_bassa'], ' min')} invece di {circa(per_fascia[f]['promessa_min'])}"}
                                   for f in ordine_f]}}
+    vb = velocita_bus()
     return forma_base(
         s,
         f"Circa il {round(fer['ritardo10'])}% dei passaggi arriva con più di 10 minuti di ritardo",
         "Quanto spesso i mezzi GTT arrivano in ritardo o a coppie?",
         {"valore": a_fer, "unita": "%", "testo": "dei passaggi feriali arriva con oltre 10 minuti di ritardo", "breve": "dei passaggi in ritardo di oltre 10 minuti"},
         pila,
-        [f"Guardando solo la partenza dal capolinea, i passaggi con oltre 10 minuti di ritardo sono {circa(b_fer, '%')}.",
+        [(f"Alle 8 di un feriale un bus va in media a {circa(vb[0], ' km/h')}, fermate e semafori compresi." if vb else
+          f"Guardando solo la partenza dal capolinea, i passaggi con oltre 10 minuti di ritardo sono {circa(b_fer, '%')}."),
          f"La linea più in ritardo è la {peggio[0]}: {circa(peggio[1]['ritardo'], '%')} dei passaggi feriali oltre 5 minuti.",
          f"I tram arrivano a grappolo più dei bus: {circa(gb_tram, '%')} delle coppie di mezzi contro {circa(gb_bus, '%')}."],
-        [gps_gtt, linea],
+        [gps_gtt, linea] + ([vb[1]] if vb else []),
         ["Il Raspberry Pi registra ogni minuto la posizione GPS dei mezzi GTT.",
          f"Il passaggio è l'istante in cui il GPS è a meno di {dist} metri dalla fermata.",
          "Il ritardo è quell'istante meno l'orario ufficiale.",
          f"In anticipo oltre {virgola(abs(par['soglia_anticipo_min']))} minuto; in ritardo oltre {virgola(par['soglia_ritardo_min'])} minuti.",
-         "Grappolo: due mezzi attaccati. Buco: intervallo doppio del previsto. Solo linee frequenti."],
+         "Grappolo: due mezzi attaccati. Buco: intervallo doppio del previsto. Solo linee frequenti."]
+        + ([vb[2]] if vb else []),
         [list(p) for p in s["parametri"]] + [["Periodo dei dati", periodo_it(r["periodo"]["da"], r["periodo"]["a"])]],
         [f"Pochi giorni: {gg['0']} feriali, {gg['1']} sabati e {gg['2']} {'domenica' if gg['2'] == 1 else 'domeniche'}, non tutti interi.",
          "Solo le linee urbane viste dal GPS, dalle 5 a mezzanotte.",

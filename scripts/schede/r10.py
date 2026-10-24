@@ -31,7 +31,7 @@ def scheda_r10():
         "tag": "STIMATO / CENSIMENTO",
         "stato": "Fatto",
         "in_breve": "Le case costano di più dove ci sono più servizi? E dove la fragilità sociale è alta e i servizi sono pochi?",
-        "domanda": "Si paga per i servizi? E chi vive dove la fragilità è alta e i servizi sono pochi?",
+        "domanda": "Chi vive dove i servizi sono pochi e le difficoltà sociali sono alte?",
         "numero_chiave": {"valore": se["residenti_doppio_svantaggio"], "unita": "",
                           "testo": f"residenti in sezioni con fragilità alta e pochi servizi ({virgola(100 * quota)}% dei residenti)"},
         "racconto": "", "risposta": [], "grafici": [], "metodo": [], "limiti": [], "parametri": [],
@@ -113,7 +113,7 @@ def forma_r10(s):
     return forma_base(
         s,
         f"Circa 1 torinese su {n_su} vive in una zona con più difficoltà sociali e pochi servizi",
-        "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
+        "Chi vive dove i servizi sono pochi e le difficoltà sociali sono alte?",
         {"valore": se["residenti_doppio_svantaggio"], "unita": "",
          "testo": f"residenti in zone con più difficoltà sociali e servizi bassi: il {virgola(100 * se['quota_residenti_di_riferimento'])}% dei residenti delle zone abitate. È {volte_caso} volte quanto ci si aspetterebbe per caso.",
          "breve": "residenti con pochi servizi e più difficoltà"},

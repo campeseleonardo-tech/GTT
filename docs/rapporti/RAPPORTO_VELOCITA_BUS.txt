@@ -1,0 +1,35 @@
+VELOCITA' DEI BUS E DEI TRAM (script 104) - feriali, GPS, periodo 2026-10-10 / 2026-10-22, 9 giorni feriali
+
+ora   bus km/h (campioni)   tram km/h (campioni)   tutti km/h
+ 5     18.8 ( 51795)     13.9 ( 13446)    17.8
+ 6     17.4 ( 93693)     13.1 ( 27006)    16.4
+ 7     13.8 (122562)     11.3 ( 33078)    13.3
+ 8     13.0 (133887)     11.1 ( 34389)    12.6
+ 9     14.2 (139595)     11.4 ( 38451)    13.6
+10     14.6 (126155)     11.7 ( 35144)    13.9
+11     14.3 (114464)     11.5 ( 31086)    13.7
+12     14.5 (118104)     11.6 ( 29518)    13.9
+13     14.3 (111877)     11.3 ( 26672)    13.8
+14     14.1 (117707)     11.3 ( 27286)    13.6
+15     14.3 (118782)     11.4 ( 27840)    13.7
+16     13.4 (129524)     11.2 ( 30443)    13.0
+17     12.8 (139422)     10.9 ( 34114)    12.4
+18     13.0 (137948)     11.0 ( 34118)    12.6
+19     14.3 (132103)     11.5 ( 33888)    13.7
+20     16.3 (105427)     12.9 ( 27882)    15.6
+21     17.8 ( 74608)     13.5 ( 17131)    17.0
+22     17.3 ( 48461)     13.8 ( 10783)    16.7
+23     18.0 ( 33440)     14.0 (  7457)    17.3
+
+CONTROLLI
+OK     storico dei mezzi letto
+OK     linee dei mezzi presenti nel GTFS — 3 senza tipo (contate come bus): 9BU, FLEU, NPVU
+OK     bus: almeno 10 ore con dati — 19 ore
+OK     bus: velocita' fra 5 e 40 km/h
+OK     bus: ogni ora con almeno 1000 campioni — ore con meno: 
+OK     tram: almeno 10 ore con dati — 19 ore
+OK     tram: velocita' fra 5 e 40 km/h
+OK     tram: ogni ora con almeno 1000 campioni — ore con meno: 
+OK     tutti: almeno 10 ore con dati — 19 ore
+OK     tutti: velocita' fra 5 e 40 km/h
+OK     tutti: ogni ora con almeno 1000 campioni — ore con meno: 

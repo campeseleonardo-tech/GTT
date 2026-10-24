@@ -4,7 +4,7 @@
   "tag": "STIMATO / CENSIMENTO",
   "stato": "Fatto",
   "in_breve": "Le case costano di più dove ci sono più servizi? E dove la fragilità sociale è alta e i servizi sono pochi?",
-  "domanda": "Si paga per i servizi? E chi vive dove la fragilità è alta e i servizi sono pochi?",
+  "domanda": "Chi vive dove i servizi sono pochi e le difficoltà sociali sono alte?",
   "numero_chiave": {
     "valore": 79598,
     "unita": "",
@@ -25,7 +25,7 @@
     "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
     "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-24T11:40:09+00:00",
+  "generato": "2026-10-24T11:48:10+00:00",
   "avviso": [
     "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -65,7 +65,7 @@
   "forma": {
     "tipo_dato": "Tipo di dato: calcolato da dati veri, con gli abitanti del censimento 2021.",
     "titolo": "Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi",
-    "domanda": "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
+    "domanda": "Chi vive dove i servizi sono pochi e le difficoltà sociali sono alte?",
     "numero": {
       "valore": 79598,
       "unita": "",
@@ -750,7 +750,7 @@
   "forma_en": {
     "tipo_dato": "Type of data: calculated from real data, with the residents of the 2021 census.",
     "titolo": "About 1 Turin resident in 10 lives in an area with more social difficulties and few services",
-    "domanda": "Do people pay for services? And who lives where services are few and fragility is high?",
+    "domanda": "Who lives where services are few and social difficulties are high?",
     "numero": {
       "valore": 79598,
       "unita": "",

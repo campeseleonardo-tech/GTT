@@ -119,7 +119,6 @@
   "Km di strade grandi di Torino: con o senza trasporto pubblico vicino": "Km of large roads in Turin: with or without public transport nearby",
   "con fermate frequenti vicine": "with frequent stops nearby",
   "con poco trasporto pubblico": "with little public transport",
-  "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?": "Do people pay for services? And who lives where services are few and fragility is high?",
   "tendenza": "trend",
   "punteggio «Tutti i servizi» a piedi, 0-100": "“All services” score on foot, 0-100",
   "prezzo delle case, euro al m²": "house price, euro per m²",
@@ -289,7 +288,13 @@
   "Costo pieno ACI": "Full ACI cost",
   "Sosta in centro": "Parking in the centre",
   "in più al mese per andare al lavoro in centro in auto": "more a month to go to work in the centre by car",
-  "mesi di lavoro": "months of work"
+  "mesi di lavoro": "months of work",
+  "Chi vive dove i servizi sono pochi e le difficoltà sociali sono alte?": "Who lives where services are few and social difficulties are high?",
+  "Velocità media dei bus, ora per ora (feriale)": "Average bus speed, hour by hour (weekday)",
+  "Distanza percorsa divisa per il tempo, fermate e semafori compresi.": "Distance covered divided by time, stops and traffic lights included.",
+  "velocità dei bus": "bus speed",
+  "Velocità dei bus: distanza fra posizioni GPS consecutive divisa per il tempo, fermate e semafori compresi. Media dei giorni feriali, pesata sui rilevamenti.": "Bus speed: distance between consecutive GPS positions divided by time, stops and traffic lights included. Average of weekdays, weighted by readings.",
+  "km/h": "km/h"
  },
  "modelli": [
   {
@@ -1155,6 +1160,10 @@
   {
    "it": "{n0} euro l'ora, tariffa ordinaria",
    "en": "{n0} euros an hour, ordinary rate"
+  },
+  {
+   "it": "Alle 8 di un feriale un bus va in media a ~{n0} km/h, fermate e semafori compresi.",
+   "en": "At 8 on a weekday a bus goes at an average of ~{n0} km/h, stops and traffic lights included."
   }
  ]
 }

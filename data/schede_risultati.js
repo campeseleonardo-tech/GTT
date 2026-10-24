@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-24T11:40:09+00:00",
+  "generato": "2026-10-24T11:48:10+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1360,7 +1360,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-24T11:40:09+00:00",
+  "generato": "2026-10-24T11:48:10+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-22: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -1614,7 +1614,7 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "Guardando solo la partenza dal capolinea, i passaggi con oltre 10 minuti di ritardo sono ~5%.",
+    "Alle 8 di un feriale un bus va in media a ~13 km/h, fermate e semafori compresi.",
     "La linea più in ritardo è la 17: ~41% dei passaggi feriali oltre 5 minuti.",
     "I tram arrivano a grappolo più dei bus: ~27% delle coppie di mezzi contro ~18%."
    ],
@@ -1672,6 +1672,59 @@ window.SCHEDE_RISULTATI = [
        ]
       }
      ]
+    },
+    {
+     "tipo": "linea",
+     "titolo": "Velocità media dei bus, ora per ora (feriale)",
+     "unita": "km/h",
+     "nota": "Distanza percorsa divisa per il tempo, fermate e semafori compresi.",
+     "categorie": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23"
+     ],
+     "serie": [
+      {
+       "label": "velocità dei bus",
+       "valori": [
+        19,
+        17,
+        14,
+        13,
+        14,
+        15,
+        14,
+        14,
+        14,
+        14,
+        14,
+        13,
+        13,
+        13,
+        14,
+        16,
+        18,
+        17,
+        18
+       ]
+      }
+     ]
     }
    ],
    "calcolo": [
@@ -1679,7 +1732,8 @@ window.SCHEDE_RISULTATI = [
     "Il passaggio è l'istante in cui il GPS è a meno di 60 metri dalla fermata.",
     "Il ritardo è quell'istante meno l'orario ufficiale.",
     "In anticipo oltre 1 minuto; in ritardo oltre 5 minuti.",
-    "Grappolo: due mezzi attaccati. Buco: intervallo doppio del previsto. Solo linee frequenti."
+    "Grappolo: due mezzi attaccati. Buco: intervallo doppio del previsto. Solo linee frequenti.",
+    "Velocità dei bus: distanza fra posizioni GPS consecutive divisa per il tempo, fermate e semafori compresi. Media dei giorni feriali, pesata sui rilevamenti."
    ],
    "criteri": [
     [
@@ -1888,7 +1942,7 @@ window.SCHEDE_RISULTATI = [
     ]
    },
    "punti": [
-    "Counting only the departure from the terminus, arrivals more than 10 minutes late are ~5%.",
+    "At 8 on a weekday a bus goes at an average of ~13 km/h, stops and traffic lights included.",
     "The most delayed line is 17: ~41% of weekday arrivals are more than 5 minutes late.",
     "Trams bunch together more than buses: ~27% of pairs of vehicles against ~18%."
    ],
@@ -1946,6 +2000,59 @@ window.SCHEDE_RISULTATI = [
        ]
       }
      ]
+    },
+    {
+     "tipo": "linea",
+     "titolo": "Average bus speed, hour by hour (weekday)",
+     "unita": "km/h",
+     "nota": "Distance covered divided by time, stops and traffic lights included.",
+     "categorie": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23"
+     ],
+     "serie": [
+      {
+       "label": "bus speed",
+       "valori": [
+        19,
+        17,
+        14,
+        13,
+        14,
+        15,
+        14,
+        14,
+        14,
+        14,
+        14,
+        13,
+        13,
+        13,
+        14,
+        16,
+        18,
+        17,
+        18
+       ]
+      }
+     ]
     }
    ],
    "calcolo": [
@@ -1953,7 +2060,8 @@ window.SCHEDE_RISULTATI = [
     "An arrival is the moment the GPS is less than 60 metres from the stop.",
     "The delay is that moment minus the official timetable.",
     "Early: more than 1 minute; late: more than 5 minutes.",
-    "Bunching: two vehicles right behind each other. Gap: an interval twice the planned one. Frequent lines only."
+    "Bunching: two vehicles right behind each other. Gap: an interval twice the planned one. Frequent lines only.",
+    "Bus speed: distance between consecutive GPS positions divided by time, stops and traffic lights included. Average of weekdays, weighted by readings."
    ],
    "criteri": [
     [
@@ -2624,7 +2732,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-24T11:40:09+00:00",
+  "generato": "2026-10-24T11:48:10+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -7139,7 +7247,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-24T11:40:09+00:00",
+  "generato": "2026-10-24T11:48:10+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -13759,7 +13867,7 @@ window.SCHEDE_RISULTATI = [
   "tag": "STIMATO / CENSIMENTO",
   "stato": "Fatto",
   "in_breve": "Le case costano di più dove ci sono più servizi? E dove la fragilità sociale è alta e i servizi sono pochi?",
-  "domanda": "Si paga per i servizi? E chi vive dove la fragilità è alta e i servizi sono pochi?",
+  "domanda": "Chi vive dove i servizi sono pochi e le difficoltà sociali sono alte?",
   "numero_chiave": {
    "valore": 79598,
    "unita": "",
@@ -13780,7 +13888,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-24T11:40:09+00:00",
+  "generato": "2026-10-24T11:48:10+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],
@@ -13820,7 +13928,7 @@ window.SCHEDE_RISULTATI = [
   "forma": {
    "tipo_dato": "Tipo di dato: calcolato da dati veri, con gli abitanti del censimento 2021.",
    "titolo": "Circa 1 torinese su 10 vive in una zona con più difficoltà sociali e pochi servizi",
-   "domanda": "Si paga per i servizi? E chi vive dove i servizi sono pochi e la fragilità è alta?",
+   "domanda": "Chi vive dove i servizi sono pochi e le difficoltà sociali sono alte?",
    "numero": {
     "valore": 79598,
     "unita": "",
@@ -14505,7 +14613,7 @@ window.SCHEDE_RISULTATI = [
   "forma_en": {
    "tipo_dato": "Type of data: calculated from real data, with the residents of the 2021 census.",
    "titolo": "About 1 Turin resident in 10 lives in an area with more social difficulties and few services",
-   "domanda": "Do people pay for services? And who lives where services are few and fragility is high?",
+   "domanda": "Who lives where services are few and social difficulties are high?",
    "numero": {
     "valore": 79598,
     "unita": "",
@@ -15214,7 +15322,7 @@ window.SCHEDE_RISULTATI = [
    "data/processed/costo_del_viaggio.json",
    "data/ref/costi.json"
   ],
-  "generato": "2026-10-24T11:40:09+00:00",
+  "generato": "2026-10-24T11:48:10+00:00",
   "avviso": [
    "Dati [STIMATO]: prezzi di ottobre 2026 e chilometri della rete stradale. Costo medio di una Golf, non della propria auto."
   ],
