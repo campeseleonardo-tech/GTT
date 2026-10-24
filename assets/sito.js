@@ -81,21 +81,27 @@
     els.forEach(function(e){ if(!e.dataset.fatto) io.observe(e); });
   }
 
-  /* «dati aggiornati al …»: la data più recente fra le schede */
+  /* «Dati dal 09/10 al 22/10/2026»: il periodo fisso dei dati (comuni.PERIODO, scritto da scripts/schede_risultati.py in data/schede_risultati.js) */
   function dataAggiornamento(){
     var el = document.getElementById("datiAggiornati");
-    var s = Array.isArray(window.SCHEDE_RISULTATI) ? window.SCHEDE_RISULTATI : [];
-    var d = s.map(function(x){ return x && x.generato; }).filter(Boolean).sort().pop();
-    if(el && d){
-      var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d);
-      if(m) el.textContent = T("Dati aggiornati al ", "Data updated on ") + m[3] + "/" + m[2] + "/" + m[1] + ".";
-    }
+    var p = window.SCHEDE_PERIODO;
+    if(!el || !p) return;
+    var da = /^(\d{4})-(\d{2})-(\d{2})$/.exec(p.da || ""), a = /^(\d{4})-(\d{2})-(\d{2})$/.exec(p.a || "");
+    if(da && a) el.textContent = T("Dati dal ", "Data from ") + da[3] + "/" + da[2] + T(" al ", " to ") + a[3] + "/" + a[2] + "/" + a[1] + ".";
+  }
+
+  /* giorni dalla raccolta: dal primo giorno (INIZIO_RACCOLTA, nel contatore dei dati) a oggi; la stessa regola per home e progetto */
+  function giorniRaccolta(c){
+    var m = c && /^(\d{4})-(\d{2})-(\d{2})$/.exec(c.inizio_raccolta || c.dal || "");
+    if(!m) return null;
+    var oggi = new Date(), d0 = new Date(+m[1], +m[2] - 1, +m[3]);
+    return Math.max(1, Math.floor((new Date(oggi.getFullYear(), oggi.getMonth(), oggi.getDate()) - d0) / 864e5) + 1);
   }
 
   function avvia(){
     document.querySelectorAll(".lingua button").forEach(function(b){ b.addEventListener("click", function(){ impostaLingua(b.dataset.l); }); });
     traduciStatico();
   }
-  window.Sito = {esc: esc, formattaNumero: formattaNumero, contaSu: contaSu, osserva: osserva, dataAggiornamento: dataAggiornamento, ridotto: ridotto,
+  window.Sito = {esc: esc, formattaNumero: formattaNumero, contaSu: contaSu, osserva: osserva, dataAggiornamento: dataAggiornamento, giorniRaccolta: giorniRaccolta, ridotto: ridotto,
                  T: T, lingua: function(){ return lang; }, impostaLingua: impostaLingua, avvia: avvia};
 })();

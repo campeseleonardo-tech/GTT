@@ -175,6 +175,7 @@ def main():
     ap.add_argument("--prova", type=int, default=0, help="usa solo N sezioni")
     ap.add_argument("--finto", action="store_true", help="tempi finti dalla distanza (solo per provare la pagina)")
     args = ap.parse_args()
+    comuni.richiedi_fonte(ZONE_GEO)      # L12: derivato da IMQ, fuori da git
     c = comuni.Controlli()
     sezioni = carica_sezioni(args.prova)
     log(f"sezioni di Torino con residenti: {len(sezioni)} ({sum(s['res'] for s in sezioni):,} residenti)")

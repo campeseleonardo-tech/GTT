@@ -182,6 +182,7 @@ def centro_sezione(rings):
 # ---------------------------------------------------------------- lettura dati
 def leggi_json(percorso):
     if not percorso.is_file():
+        comuni.richiedi_fonte(percorso)      # omi_zone.json: fuori da git (L12), il messaggio dice dove scaricare la fonte
         sys.exit(f"Manca {percorso}")
     return json.loads(percorso.read_text(encoding="utf-8"))
 
@@ -338,6 +339,8 @@ def calcola(radice, c):
         p_lo, p_hi = ic_parziale(var[a_], var[b_], dist)
         e4["legami"].append({"legame": nome, "spearman": round(s_, 3), "spearman_ic95": [round(s_lo, 3), round(s_hi, 3)], "regge_semplice": bool(s_lo > 0 or s_hi < 0),
                              "parziale": round(p_, 3), "parziale_ic95": [round(p_lo, 3), round(p_hi, 3)], "regge": bool(p_lo > 0 or p_hi < 0)})
+    a_fs, b_fs = retta(var["fragilita"], var["servizi"])        # L9b: retta di tendenza del grafico principale della scheda 5 (servizi = a + b x fragilita')
+    e4["retta_fragilita_servizi"] = {"intercetta_servizi": round(a_fs, 2), "pendenza_servizi_per_punto_fragilita": round(b_fs, 3)}
     c("la correlazione semplice prezzo-servizi dell'E4 coincide con quella dell'E1", abs(e4["legami"][0]["spearman"] - e1["spearman"]) < 1e-9, bloccante=True)
 
     # --- E2 per zona (soglie fissate sulle zone usate)

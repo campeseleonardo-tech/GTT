@@ -31,32 +31,35 @@
 
 ## Numeri (feriale; `docs/rapporti/RAPPORTO_RISULTATO4.txt`)
 
-Giorni usati: 8 feriali, 2 sabati, 1 domenica (10-23 ottobre 2026; esclusi 14, 18 e 19/10 per poco GPS). Copertura GPS:
-**79,5%** dei passaggi programmati delle corse viste (1.700.323 su 2.139.033); le corse mai viste dal GPS non si contano.
+Periodo fisso a giorni interi (`comuni.PERIODO["gps"]`, giro L9b): dal 10 al 22 ottobre 2026, mai il giorno della copia dello storico.
+Giorni usati: 7 feriali, 2 sabati, 1 domenica (esclusi 14, 18 e 19/10 per poco GPS). Copertura GPS:
+**79,8%** dei passaggi programmati delle corse viste (1.606.548 su 2.013.755); le corse mai viste dal GPS non si contano.
+Un rilancio con lo stesso periodo dà gli stessi numeri (prova del giro L9b).
 
 | | GPS | Feed (confronto) |
 |---|---|---|
-| In ritardo oltre 5 minuti | **15,6%** | 6,0% |
-| In ritardo oltre 10 minuti | **6,19%** | 0,0% (la regola del feed scarta i ritardi lunghi) |
-| Grappolo + buco | **21,6%** (16,5% + 5,1%) | 10,3% |
+| In ritardo oltre 5 minuti | **16,0%** | 6,2% |
+| In ritardo oltre 10 minuti | **6,41%** | 0,0% (la regola del feed scarta i ritardi lunghi) |
+| Grappolo + buco | **21,6%** (16,4% + 5,2%) | 10,3% |
 | Ritardo mediano | 0,1 min | |
-| Tram: oltre 5 · oltre 10 · grappolo+buco | 15,0% · 5,98% · 26,6% | 5,2% · 0,0% · 13,3% |
-| Bus: oltre 5 · oltre 10 · grappolo+buco | 15,8% · 6,24% · 18,3% | 6,2% · 0,0% · 8,4% |
+| Tram: oltre 5 · oltre 10 · grappolo+buco | 15,4% · 6,20% · 26,8% | 5,4% · 0,0% · 13,4% |
+| Bus: oltre 5 · oltre 10 · grappolo+buco | 16,2% · 6,47% · 18,3% | 6,4% · 0,0% · 8,4% |
 
-- Sabato 16,8% oltre 5 minuti; domenica 12,0% (un solo giorno: [DATI SCARSI]).
-- Fasce (feriale, oltre 5 minuti): punta mattina 15,1% · giorno 15,9% · punta sera 20,4% · sera 18,1% · notte 6,0%.
-- Anticipo (oltre 1 minuto prima): circa il 36% dei passaggi, perché l'orario ufficiale ha margini.
-- **Linee peggiori per ritardo:** 17 (41,2%), 6 (37,1%), 19 (34,9%), 68, 66, 33, 72, 4, 61, 52.
-- **Più irregolari:** 14, 4, 45, 43, 12.
-- **Ritardo a fine corsa** (mediana alle ultime 3 fermate): in testa 19, 17 e 4 (tram), da 3,3 a 3,8 minuti.
-- **Linee utili** contro le altre: 17,1% contro 12,9% in ritardo oltre 5 minuti; grappolo+buco 22,8% contro 17,5%.
+- Sabato 16,9% oltre 5 minuti; domenica 12,1% (un solo giorno: [DATI SCARSI]).
+- Fasce (feriale, oltre 5 minuti): punta mattina 15,5% · giorno 16,3% · punta sera 20,4% · sera 18,2% · notte 5,9%.
+- Anticipo (oltre 1 minuto prima), feriale: 35,4% a ogni fermata, 29,0% alla prima fermata (dopo la correzione della partenza), 35,9% a metà corsa, 35,7% fuori punta: l'orario ufficiale ha margini.
+- **Linee peggiori per ritardo:** 17 (41,4%), 6 (39,6%), 19 (36,7%), 68, 66, 33, 4, 72, 61, 52.
+- **Più irregolari:** 14, 4, 45, 43, 17.
+- **Ritardo a fine corsa** (mediana alle ultime 3 fermate): in testa 19, 17 e 4 (tram), da 3,4 a 4,1 minuti.
+- **Linee utili** contro le altre: 17,5% contro 13,2% in ritardo oltre 5 minuti; grappolo+buco 22,9% contro 17,2%.
 - **GTT dichiara 2,3% oltre 10 minuti per il 2025**: il suo metodo non è pubblicato; qui si misura a ogni fermata con il
   GPS, su pochi giorni di ottobre. Confronto solo come ordine di grandezza.
 
 ### Confronto con GTT (oltre 10 minuti, feriale · settimana 5/1/1)
 
-GTT 2,3%. Noi: a ogni fermata 6,19% · 6,02%; solo alla prima fermata 4,37% · 4,29%; a metà corsa 5,95% · 5,72%; fuori dalle ore di punta 5,74% · 5,63%.
-Incertezza: ±1 minuto sui passaggi = 5,3-7,3% (feriale); corse senza GPS tutte puntuali o come i giorni peggiori = 4,95-6,75%. Dettaglio nella sezione «CONFRONTO CON GTT» del rapporto; JSON `confronto_gtt`.
+GTT 2,3%. Noi: a ogni fermata 6,41% · 6,18%; solo alla prima fermata 5,48% · 5,28%; a metà corsa 6,15% · 5,86%; fuori dalle ore di punta 5,96% · 5,79%.
+**Partenza al capolinea (giro L9b).** Prima, alla prima fermata di una corsa il passaggio era il punto GPS più vicino alla fermata: ma al capolinea il bus aspetta fermo lì vicino, e il punto più vicino cadeva spesso durante l'attesa, prima della partenza vera. Risultato: alla prima fermata sembrava in anticipo il 56,1% dei passaggi (36,0% a ogni fermata) e il ritardo alla partenza era sottostimato (4,29%). Ora, per la sola prima fermata di ogni corsa, il passaggio è l'ultimo istante del gruppo di posizioni vicine alla fermata, cioè quando il bus se ne va (`cerca_vincolata(..., partenza=True)` nello script 27, che vale anche per lo script 70: usa le stesse funzioni); per le altre fermate niente cambia. Dopo la correzione l'anticipo alla prima fermata è il 29,0% (sotto il 30% fissato), il ritardo alla partenza 5,28% (prima 4,29%). La prova con una corsa finta (bus fermo 4 minuti, poi parte) è `scripts/prove/prova_capolinea.py`.
+Incertezza: ±1 minuto sui passaggi = 5,5-7,6% (feriale); corse senza GPS tutte puntuali o come i giorni peggiori = 5,16-6,93%. Dettaglio nella sezione «CONFRONTO CON GTT» del rapporto; JSON `confronto_gtt`.
 
 ### Attese (alla fermata, linee frequenti)
 
@@ -67,9 +70,9 @@ e **alta** (una corsa assente dal GPS conta come saltata); chiavi con più del 2
 
 | Feriale | Promessa | In più (bassa – alta) | Intervalli osservati |
 |---|---|---|---|
-| Città | 4,7 min | **1,5 – 1,7 min** (+32% sulla promessa, stima bassa) | 101.309 |
-| Tram | 4,5 min | 1,6 – 1,7 min | 81.853 |
-| Bus | 5,8 min | 1,1 – 1,9 min | 19.456 |
+| Città | 4,8 min | **1,6 – 1,7 min** (+33% sulla promessa, stima bassa) | 92.004 |
+| Tram | 4,5 min | 1,7 – 1,7 min | 73.550 |
+| Bus | 5,7 min | 1,1 – 2,0 min | 18.454 |
 
 Per fascia l'attesa in più (stima bassa) va da 0,8 min (notte) a 2,1 min (punta sera).
 

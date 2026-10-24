@@ -1,5 +1,5 @@
 RAPPORTO CASE x FRAGILITA' x SERVIZI (script 95), solo Torino, unita' = zona OMI
-generato 2026-10-23T22:18:52+00:00
+generato 2026-10-23T23:24:19+00:00
 
 Torino: 4,044 sezioni abitate, 848,748 abitanti; zone OMI 47, usate 46 (848,410 abitanti). Escluse (sotto 500 abitanti o senza prezzo): B9 STATI UNITI.
 Avvertenze: OMI = quotazioni, non compravendite; zone grandi; un solo semestre; correlazione, non causa; l'indice di vulnerabilita' non e' una misura di reddito.

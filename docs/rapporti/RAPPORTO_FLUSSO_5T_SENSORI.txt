@@ -10,8 +10,8 @@ l'ora 1 locale non viene riempita (in quell'ora il sistema non da' dati affidabi
 
 (1) Copertura
   sensori in tutto nel file: 112
-  esclusi (nessun valore, campo 'escluso'): 17   [attesi 17]
-  sensori usabili (con valori): 95   [attesi 92]
+  esclusi (nessun valore, campo 'escluso'): 16   [attesi 17]
+  sensori usabili (con valori): 96   [attesi 92]
   sensori con f_diurno: 95   [atteso: la maggior parte dei 92]
   sensori con quota_diurna: 25
   sensori con totale_giorno_stimato: 95
@@ -52,7 +52,7 @@ l'ora 1 locale non viene riempita (in quell'ora il sistema non da' dati affidabi
     ora       0     1     2     3     4     5     6     7     8     9    10    11    12    13    14    15    16    17    18    19    20    21    22    23
     veic/h 1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488  1488
 
-(5) Sensori esclusi (17), senza nessun valore
+(5) Sensori esclusi (16), senza nessun valore
        11436  SS460 Di Ceresole                  positive  fuori citta escluso: bloccato
        11437  SS460 Di Ceresole                  negative  fuori citta escluso: bloccato
        13703  SS11 Padana Superiore              positive  fuori citta escluso: bloccato
@@ -69,10 +69,9 @@ l'ora 1 locale non viene riempita (in quell'ora il sistema non da' dati affidabi
         5058  SS30 Di Val Bormida                negative  fuori citta escluso: morto
         7934  SS142 Biellese                     positive  fuori citta escluso: morto
         7935  SS142 Biellese                     negative  fuori citta escluso: morto
-       11421  SS458 Di Casalborgone              negative  fuori citta escluso: pochi dati
 
 (6) Controlli sui valori orari (solo sensori usabili)
-  valori orari scritti: 6379
+  valori orari scritti: 6393
   valori negativi: 0
   valori oltre 6000 veic/h: 0
   valore massimo trovato: 3433   [atteso circa 3202]

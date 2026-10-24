@@ -41,6 +41,7 @@ jobs:
           python scripts/prove/prova_gtfs_archivio.py
           python scripts/prove/prova_gtfs_per_giorno.py
           python scripts/prove/prova_fattori_tomtom.py
+          python scripts/prove/prova_capolinea.py
           python scripts/backup_da_leopi.py --prova
           python scripts/99_area_tempi.py --finto
           python scripts/rifai_tutto.py --prova-secca

@@ -69,15 +69,27 @@ def forma_r10(s):
     retta = e1["retta"]
     soglie = e2["soglie_fissate"]
     n_su = s["_n_su"]
-    # grafico principale: una zona = un punto (servizi, prezzo, abitanti, nome) e la retta di tendenza
+    # grafico principale (L9b): una zona = un punto (fragilita', servizi, abitanti, nome) e la retta di tendenza: e' il legame che regge a parita' di distanza
     zone = j["zone"]
-    principale = {"tipo": "dispersione", "titolo": f"Prezzo delle case e servizi a piedi, una zona OMI per punto ({len(zone)} zone)",
-                  "xlabel": "punteggio «Tutti i servizi» a piedi, 0-100", "ylabel": "prezzo delle case, euro al m²",
-                  "passo_x": 20, "passo_y": 500, "xnome": "servizi", "ynome": "euro al m²",
-                  "punti": [[z["servizi"], z["prezzo"], z["abitanti"], nome_zona(z["zona"])] for z in zone],
-                  "retta": {"a": retta["intercetta_eur_m2"], "b": retta["pendenza_eur_m2_per_punto_servizi"], "label": "tendenza"},
-                  "nota": f"Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: ogni 10 punti di servizi in più, "
-                          f"{migliaia(round(10 * retta['pendenza_eur_m2_per_punto_servizi']))} euro al m² in più, ma in parte è l'effetto della distanza dal centro."}
+    rfs = j["e4_a_parita_di_distanza"]["retta_fragilita_servizi"]
+    ic_f = f"da {meno(gf['parziale_ic95'][0])} a {meno(gf['parziale_ic95'][1])}"
+    principale = {"tipo": "dispersione", "titolo": f"Fragilità sociale e servizi a piedi, una zona OMI per punto ({len(zone)} zone)",
+                  "xlabel": "indice di fragilità sociale, 0-100", "ylabel": "punteggio «Tutti i servizi» a piedi, 0-100",
+                  "passo_x": 10, "passo_y": 20, "xnome": "fragilità", "ynome": "servizi",
+                  "punti": [[z["fragilita"], z["servizi"], z["abitanti"], nome_zona(z["zona"])] for z in zone],
+                  "retta": {"a": rfs["intercetta_servizi"], "b": rfs["pendenza_servizi_per_punto_fragilita"], "label": "tendenza"},
+                  "nota": ("Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: più la fragilità è alta, meno servizi. "
+                           + (f"Il legame regge anche a parità di distanza dal centro: correlazione {meno(gf['parziale'])} ({ic_f})." if gf["regge"]
+                              else f"A parità di distanza dal centro il legame non regge: correlazione {meno(gf['parziale'])} ({ic_f})."))}
+    # il vecchio grafico principale va fra gli altri: prezzo e servizi, con la nota sul legame che sparisce a parita' di distanza
+    prezzo_servizi = {"tipo": "dispersione", "titolo": f"Prezzo delle case e servizi a piedi, una zona OMI per punto ({len(zone)} zone)",
+                      "xlabel": "punteggio «Tutti i servizi» a piedi, 0-100", "ylabel": "prezzo delle case, euro al m²",
+                      "passo_x": 20, "passo_y": 500, "xnome": "servizi", "ynome": "euro al m²",
+                      "punti": [[z["servizi"], z["prezzo"], z["abitanti"], nome_zona(z["zona"])] for z in zone],
+                      "retta": {"a": retta["intercetta_eur_m2"], "b": retta["pendenza_eur_m2_per_punto_servizi"], "label": "tendenza"},
+                      "nota": ("Ogni punto è una zona, grande quanto i suoi abitanti. "
+                               + (f"A parità di distanza dal centro il legame regge: correlazione {meno(gp['parziale'])}." if gp["regge"]
+                                  else f"A parità di distanza dal centro il legame quasi sparisce ({meno(gp['parziale'])}): la linea mostra soprattutto l'effetto della distanza dal centro."))}
     zd = e2["zone"]
     nomi_zd = ", ".join(nome_zona(z["zona"]) for z in zd[:5]) + (" e altre" if len(zd) > 5 else "")
     # legami a parita' di distanza dal centro: quelli che reggono (intervallo al 95% senza lo 0) e quelli che no
@@ -108,7 +120,7 @@ def forma_r10(s):
         [kp_prezzo,
          f"{len(zd)} zone sono in doppio svantaggio: {nomi_zd}. Ci abitano {migliaia(e2['residenti_zone_doppio_svantaggio'])} persone.",
          kp_altri],
-        [graf_classi],
+        [prezzo_servizi, graf_classi],
         [f"Unità: le {nz_usate} zone OMI di Torino con almeno 500 abitanti. Le sezioni si sommano nella zona, pesate per abitanti.",
          "Servizi: punteggio «Tutti i servizi» a piedi in 15 minuti. Fragilità: indice del censimento 2021 (lavoro, istruzione, case, anziani).",
          "Prezzo: centro della forbice OMI per le abitazioni civili. Tendenza: retta dei minimi quadrati.",

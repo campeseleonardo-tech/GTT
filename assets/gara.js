@@ -70,17 +70,19 @@
       var o = l0.ore[Math.min(k0, l0.ore.length - 1)]; Object.keys(o).forEach(function(q){ l[q] = o[q]; });
     }
     var t = T(), cs = corsie(l), H = 20 + cs.length * 36;
-    var maxMin = Math.max.apply(null, cs.map(function(c){ return c.min; }));
+    var maxMin = Math.max.apply(null, cs.map(function(c){ return c.min; })), minMin = Math.min.apply(null, cs.map(function(c){ return c.min; }));
+    var distacco = Math.round(maxMin) - Math.round(minMin);      // scritto all'arrivo, accanto al mezzo piu' lento
     var righe = cs.map(function(c, j){
       var y = 22 + j * 36;
+      var scia = distacco >= 1 && c.min === maxMin ? '<tspan class="gara-distacco" x="' + (FINE + 8) + '" dy="15" style="font-size:13px;font-weight:700">+' + n(distacco) + ' ' + t.min + '</tspan>' : "";
       var base = '<text x="' + VIA + '" y="' + (y - 5) + '">' + esc(c.nome) + '</text><line class="gara-strada" x1="' + VIA + '" x2="' + FINE + '" y1="' + (y + 23) + '" y2="' + (y + 23) + '"/>';
       if(ridotto){
         var w = Math.max(6, c.min / maxMin * (FINE - VIA));
         return base + '<rect class="barra-ferma' + (c.k.indexOf("auto") === 0 ? " auto" : "") + '" x="' + VIA + '" y="' + (y + 3) + '" width="' + w.toFixed(1) + '" height="16" rx="3"' + (c.k.indexOf("chiara") > 0 ? ' opacity=".5"' : "") + '/>'
-          + '<text class="gara-min" style="opacity:1" x="' + (FINE + 8) + '" y="' + (y + 16) + '">' + n(c.min) + ' ' + t.min + '</text>';
+          + '<text class="gara-min" style="opacity:1" x="' + (FINE + 8) + '" y="' + (y + 16) + '">' + n(c.min) + ' ' + t.min + scia + '</text>';
       }
       return base + '<g class="gv ' + c.k + '" data-min="' + c.min + '" transform="translate(' + VIA + ' ' + (y + 1) + ')">' + c.forma + '</g>'
-        + '<text class="gara-min" x="' + (FINE + 8) + '" y="' + (y + 16) + '">' + n(c.min) + ' ' + t.min + '</text>';
+        + '<text class="gara-min" x="' + (FINE + 8) + '" y="' + (y + 16) + '">' + n(c.min) + ' ' + t.min + scia + '</text>';
     }).join("");
     // le due scritte in alto (partenza a sinistra, arrivo a destra) non devono toccarsi: stima 0,6 x corpo x caratteri
     var testoDa = t.da + " " + l.nome + (l.ora && l0.ore.length > 1 ? " · " + l.ora : ""), arrivoTesto = l.arrivo || t.centro;

@@ -28,6 +28,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))   # il pacchetto schede/ sta accanto a questo file
+from comuni import PERIODO  # noqa: E402  (periodo fisso dei dati, per il piede delle pagine)
 from schede import comune  # noqa: E402
 from schede.comune import NASCOSTE, RADICE, controlla_forma, leggi  # noqa: E402
 from schede.traduci import traduci_forma  # noqa: E402
@@ -81,7 +82,9 @@ def main():
         print(f"{file}: {s['titolo']} - {sum(len(sc['numeri']) for sc in s['scenari'])} numeri, "
               f"{len(s.get('grafici', []))} grafici")
     comune.OUT_JS.write_text("// generato da scripts/schede_risultati.py - non modificare a mano\n"
-                      "window.SCHEDE_RISULTATI = " + json.dumps(schede, ensure_ascii=False, indent=1) + ";\n",
+                      "window.SCHEDE_RISULTATI = " + json.dumps(schede, ensure_ascii=False, indent=1) + ";\n"
+                      # periodo fisso dei dati (comuni.PERIODO), per il piede delle pagine: dal primo all'ultimo giorno fra i tre periodi
+                      "window.SCHEDE_PERIODO = " + json.dumps({"da": min(p[0] for p in PERIODO.values()), "a": max(p[1] for p in PERIODO.values())}) + ";\n",
                       encoding="utf-8")
     try:
         mostra = comune.OUT_JS.relative_to(RADICE)

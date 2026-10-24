@@ -19,7 +19,8 @@ Cosa fa
        Release    data/raw/ e, fuori da raw, i file da 5 MB in su che qualcuno legge (zip nella Release di GitHub)
        git        file sotto 5 MB letti da una pagina o da uno script, o scritti da uno script dei risultati
                   (sopra 5 MB solo se una pagina li carica; sopra 50 MB sempre Release: AVVISO)
-       fonte      IMQ 2022 e OMI grezzi (decisione di Leo 22/10): licenza non chiara, non si pubblicano, si riscaricano dalla fonte
+       fonte      IMQ 2022 e OMI grezzi (decisione di Leo 22/10) e i file derivati che ne ricopiano le celle o le quotazioni (L12, 24/10):
+                  licenza non chiara, non si pubblicano, si riscaricano dalla fonte
        fuori      nessuno script e nessuna pagina lo cita: probabilmente avanzo (non si pubblica)
      «fuori» anche: strumenti (cartelle jdk/jre), copie di sicurezza (backup, «prima_correzioni»), cache e prove (_parziale, _test).
      Zip, pdf, pbf e simili letti solo dagli script vanno in Release anche se piccoli.
@@ -55,7 +56,9 @@ ESTENSIONI_GREZZE = (".zip", ".pdf", ".pbf", ".gz", ".accdb", ".7z", ".xlsx")
 FUORI_SE = re.compile(r"(^|/)(jdk|jre)[^/]*/|(^|/)backup[^/]*/|_prima_|prima_correzioni|_parziale|_test(/|\.|$)|(^|/)STOP_RACCOLTA|"
                       r"^(live\.js|stat\.js|agg_cache\.json|get_[a-z]+\.xml|replay_[^/]*\.js)$", re.I)
 # decisioni di Leo (22/10/2026): licenza non chiara -> il file non si pubblica, si riscarica dalla fonte (docs/FONTI_DATI.md)
-FONTE_SE = re.compile(r"(^|/)imq[^/]*/|(^|/)imq2022|^raw/omi", re.I)
+# giro L12 (24/10/2026): anche i file derivati che ricopiano la fonte (celle IMQ, quotazioni OMI) restano fuori da git: processed/imq_*.json, omi_zone.json
+# e le matrici di domanda per coppia di zone (traffico_c/domanda_*, v3/domanda_v3.json). I risultati riassunti (schede, mappa) restano.
+FONTE_SE = re.compile(r"(^|/)imq[^/]*/|(^|/)imq2022|^raw/omi|^processed/(imq_[^/]*\.json|omi_zone\.json|traffico_c/domanda_[^/]*|traffico_c/v3/domanda_v3\.json|rapporto_gtt/(blocchi/|pagine\.json))", re.I)
 RAGGRUPPA_SOPRA = 30          # cartelle con piu' file di cosi' = una riga sola
 CARTELLE_GENERICHE = {"data", "raw", "processed"}
 INIZIO, FINE = "<!-- INVENTARIO:INIZIO -->", "<!-- INVENTARIO:FINE -->"

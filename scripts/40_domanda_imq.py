@@ -54,7 +54,8 @@ TOTALE_RIFERIMENTO = 8217863.0
 
 def main():
     if not SPOSTAMENTI.is_file():
-        sys.exit(f"Non trovo {SPOSTAMENTI}")
+        sys.exit(f"ERRORE: non trovo {SPOSTAMENTI}. I dati IMQ 2022 non stanno in git (licenza non chiara): scaricali dalla fonte "
+                 "(indirizzi in docs/FONTI_DATI.md), poi python scripts/14_prepara_imq.py.")
 
     zone_ok = {z["cod"] for z in json.loads(ZONE_JSON.read_text(encoding="utf-8"))}
     quartieri_torino = {c for c in zone_ok if c.startswith("Q")}

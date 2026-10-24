@@ -2,10 +2,9 @@ VELOCITA' 5T TIPICA (solo letture affidabili)  [MISURATO]
 ========================================================================
 sorgente (sola lettura): storico SQLite, C:\projects\Progetti\GTT\data\storico_backup.sqlite
 periodo (giorni locali): 2026-10-09 -> 2026-10-22
-giorni parziali esclusi (bordo del periodo): 2026-10-08, 2026-10-23
 letture affidabili usate: 345386
-letture scartate (accuratezza = 0): 89419 (15.6% di 572075 flussi)
-letture senza riga in accuratezza_5t (prima del 08/10 21:30 UTC): 122298 (21.4%)
+letture scartate (accuratezza = 0): 84921 (19.7% di 430307 flussi)
+letture senza riga in accuratezza_5t (prima del 08/10 21:30 UTC): 0 (0.0%)
 giorni per tipo: feriale 10, sabato 2, domenica 2
 celle (sensore x tipo x ora): 6993, di cui ok: 6799
 celle ok per tipo: feriale 2389/2397, sabato 2229/2286, domenica 2181/2310

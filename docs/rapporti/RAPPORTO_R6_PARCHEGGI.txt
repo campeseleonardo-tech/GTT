@@ -1,5 +1,5 @@
 RAPPORTO R6 - PARCHEGGI PER LASCIARE L'AUTO PRIMA DI ENTRARE IN CITTA' (script 84)
-Generato il 23/10/2026 20:02.
+Generato il 24/10/2026 01:23.
 
 == Fermate importanti ==
   274 fermate (fuori da Q001-Q009): nessun parcheggio 68, posti insufficienti 111, posti sufficienti 95, poche auto da fermare 0

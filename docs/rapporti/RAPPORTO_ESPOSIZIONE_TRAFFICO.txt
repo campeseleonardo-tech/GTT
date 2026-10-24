@@ -1,5 +1,5 @@
 RAPPORTO ESPOSIZIONE AL TRAFFICO (Piano risultati A3, STIMATO)
-generato: 2026-10-23T18:06:43+00:00
+generato: 2026-10-23T23:14:46+00:00
 stima debole: il modello del traffico sbaglia del ±28%
 
 Strade molto trafficate: 204 tratte, 159.6 km, almeno 10,677 veicoli al giorno (stessa soglia del R8; universo: strade grandi di Torino, 611 tratte).

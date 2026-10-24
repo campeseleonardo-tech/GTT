@@ -105,7 +105,7 @@ function etichetta(s){
 function mostraGalleria(){
   const g = $("galleria");
   if(!schede.length){
-    g.innerHTML = `<div class="vuoto" style="grid-column:1/-1">${T("Nessun risultato trovato.", "No results found.")}</div>`;
+    g.innerHTML = `<div class="vuoto" style="flex:1 1 100%">${T("Nessun risultato trovato.", "No results found.")}</div>`;
     return;
   }
   g.innerHTML = schede.map((s, i) => {
@@ -128,16 +128,24 @@ const TONO_COL = {verde:"var(--vr-verde)", rosso:"var(--vr-rosso)", giallo:"var(
 const TONO_TESTO = {verde:"var(--su-verde)", rosso:"var(--su-rosso)", giallo:"var(--su-giallo)", blu:"var(--su-giallo)", arancio:"var(--su-giallo)"};
 const PALETTE_PILA = ["var(--neu-blu)", "var(--neu-arancio)", "var(--pila-3)", "var(--pila-4)", "var(--pila-5)"];
 
+/* testo del numero di una barra, e larghezza (in caratteri) della colonna dei numeri: la stessa in tutte le righe del grafico */
+function testoValore(g, v){
+  const sep = g.forbice ? " – " : " → ";
+  return v.testo ? esc(v.testo)
+    : (typeof v.prima === "number" ? conUnita(v.prima, g.unita === "%" ? "%" : "") + sep : "") + conUnita(v.valore, g.unita === "%" ? "%" : "");
+}
+function larghezzaValori(g, voci){
+  return Math.max(3, ...voci.map(v => testoValore(g, v).replace(/&[a-z#0-9]+;/g, "x").length));
+}
 function graficoBarre(g){
   const voci = g.voci || [];
   const max = g.max || Math.max(1, ...voci.flatMap(v => [Math.abs(v.valore||0), Math.abs(v.prima||0)]));
+  const larghezza = g.larghezza || larghezzaValori(g, voci);
   const righe = voci.map(v => {
     const pct = x => Math.max(1.5, Math.abs(x) / max * 100);
     const haPrima = typeof v.prima === "number";
-    const sep = g.forbice ? " – " : " → ";
-    const val = v.testo ? esc(v.testo)
-      : (haPrima ? conUnita(v.prima, g.unita === "%" ? "%" : "") + sep : "") + conUnita(v.valore, g.unita === "%" ? "%" : "");
-    return `<div class="barra-riga">
+    const val = testoValore(g, v);
+    return `<div class="barra-riga" style="--cv:${Math.ceil(larghezza * 1.12)}ch">
       <span class="barra-etichetta" title="${esc(v.label)}">${v.link ? `<a href="${esc(v.link)}" class="barra-link">${esc(v.label)}</a>` : esc(v.label)}</span>
       <span class="barra-traccia">
         ${haPrima ? `<span style="width:${pct(v.prima)}%;background:var(--neu-blu-chiaro)"></span>` : ""}
@@ -181,7 +189,8 @@ function unitaHtml(u){
 
 /* barre a gruppi: un titolo per gruppo (es. fascia) e sotto le sue barre (es. le due stime), tutte sulla stessa scala */
 function graficoBarreGruppi(g){
-  return (g.gruppi || []).map(gr => `<div class="etichetta-gruppo">${esc(gr.label)}</div>` + graficoBarre({voci: gr.voci, unita: g.unita, max: g.max})).join("");
+  const tuttiValori = larghezzaValori(g, (g.gruppi || []).flatMap(gr => gr.voci || []));
+  return (g.gruppi || []).map(gr => `<div class="etichetta-gruppo">${esc(gr.label)}</div>` + graficoBarre({voci: gr.voci, unita: g.unita, max: g.max, larghezza: tuttiValori})).join("");
 }
 
 function graficoPila(g){
@@ -275,6 +284,12 @@ function grafico(g){
 function elenco(arr, tag){ return Array.isArray(arr) && arr.length ? `<${tag}>${arr.map(x => `<li>${esc(x)}</li>`).join("")}</${tag}>` : ""; }
 function parte(titolo, html){ return html ? `<details class="parte"><summary>${titolo}</summary>${html}</details>` : ""; }
 
+/* una riga di limite sotto il numero grande: il primo dei limiti della scheda (lo script della scheda lo mette in testa) */
+function limiteVisibile(f){
+  const l = Array.isArray(f.limiti) && f.limiti[0];
+  return l ? `<p class="limite-vis"><b>${T("Limite", "Limit")}:</b> ${esc(l)}</p>` : "";
+}
+
 let corrente = -1;
 function apri(i){
   corrente = i;
@@ -282,7 +297,7 @@ function apri(i){
   $("finMeta").innerHTML = `${T("Risultato", "Result")} ${esc(numeroDi(s))} ${etichetta(s)}`;
   $("finTitolo").textContent = f.titolo;
   const mappa = `<div class="azioni">${f.mappa
-    ? `<a class="btn primario" href="mappa_torino.html#tema=${encodeURIComponent(f.mappa.id)}${f.mappa.vista ? "&vista=" + encodeURIComponent(f.mappa.vista) : ""}">${T("Vedi sulla mappa", "See on the map")}</a>` : ""}<button type="button" class="btn" id="finCondividi">${T("Condividi", "Share")}</button></div>`;
+    ? `<a class="btn primario" href="mappa_torino.html#tema=${encodeURIComponent(f.mappa.id)}${f.mappa.vista ? "&vista=" + encodeURIComponent(f.mappa.vista) : ""}">${T("Vedi sulla mappa", "See on the map")}</a>` : ""}</div>`;
   const criteri = Array.isArray(f.criteri) && f.criteri.length
     ? `<div class="sottotitolo">${T("I criteri", "The criteria")}</div><table class="param">${f.criteri.map(c => `<tr><td>${esc(c[0])}</td><td>${esc(c[1])}</td></tr>`).join("")}</table>` : "";
   const confronto = Array.isArray(f.confronto) && f.confronto.length
@@ -295,18 +310,13 @@ function apri(i){
   $("finCorpo").innerHTML =
     `<p class="domanda">${esc(f.domanda)}</p>` +
     `<div class="grande"><span class="val"${attrConta(f.numero)}>${valoreGrande(f.numero)}</span><span class="txt">${dopoGrande(f.numero)}${esc(f.numero.testo)}</span></div>` +
+    limiteVisibile(f) +
     figura +
     elenco(f.punti, "ul").replace("<ul>", '<ul class="punti">') +
     grafico(f.principale) + mappa +
     altri + extra +
     parte(T("Come l'abbiamo calcolato e limiti", "How we calculated it, and limits"),
           elenco(f.calcolo, "ol") + confronto + criteri + `<div class="sottotitolo">${T("Limiti", "Limits")}</div>` + elenco(f.limiti, "ul"));
-  // «Condividi»: copia l'indirizzo della pagina del risultato (r/N.html), quella con l'anteprima per i social
-  $("finCondividi").addEventListener("click", async () => {
-    const b = $("finCondividi"), url = new URL("r/" + numeroDi(s) + ".html", location.href).href;
-    try { await navigator.clipboard.writeText(url); b.textContent = T("Link copiato", "Link copied"); setTimeout(() => { b.textContent = T("Condividi", "Share"); }, 2200); }
-    catch(e){ window.prompt(T("Copia questo link", "Copy this link"), url); }
-  });
   const d = $("finestra");
   if(!d.open) d.showModal();
   d.scrollTop = 0;

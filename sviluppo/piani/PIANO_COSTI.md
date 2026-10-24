@@ -2,6 +2,7 @@
 
 Idee di Leo del 18/10/2026: guardare il trasporto nel suo insieme. Discusse con Claude il 18/10; piacciono a
 Leo. **Bozza**: si riprende dopo il Risultato 8. Nessun dato scaricato finora.
+**24/10: Leo sceglie i costi del viaggio come sesto risultato: giro L14 in `PROMPT_LAVORI.md` (dati, regole, scheda).** Costo del servizio, taxi e logistica restano fuori.
 
 ## Ordine proposto da Claude
 

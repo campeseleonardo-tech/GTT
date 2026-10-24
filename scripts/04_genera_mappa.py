@@ -49,6 +49,11 @@ RAW = RADICE / "data" / "raw"
 TEMPLATE = next((c for c in (AQUI / "mappa_template.html", RADICE / "scripts" / "mappa_template.html") if c.is_file()),
                 RADICE / "scripts" / "mappa_template.html")
 USCITA = RADICE / "mappa_torino.html"
+for _c in (AQUI, RADICE / "scripts"):
+    if (_c / "comuni.py").is_file():
+        sys.path.insert(0, str(_c))
+        break
+import comuni  # noqa: E402  (PERIODO fisso dei dati)
 TIPI_GIORNO = ["fer", "sab", "dom"]
 csv.field_size_limit(10**8)
 
@@ -404,7 +409,7 @@ def compatta_fermate(stops):
     return stops
 
 
-COLONNE_SEZ = ["p", "a", "c", "f", "occ", "p1564", "sen", "p014", "em", "ist9", "it", "pf1", "pf3", "v", "r1"]
+COLONNE_SEZ = ["p", "a", "c", "sen", "pf1", "pf3", "v", "r1"]      # L11: «Chi abita qui» ha 3 viste (densita', anziani, persone sole)
 
 
 def compatta_sezioni(sez):
@@ -807,6 +812,10 @@ def calcola_velocita():
                     base = (ts, la, lo)
                     continue
                 loc = _locale(datetime.fromtimestamp(base[0], timezone.utc))
+                if not comuni.nel_periodo(loc.date(), "gps"):      # periodo fisso (L9b): solo giorni interi di comuni.PERIODO
+                    chiudi_sosta()
+                    base = (ts, la, lo)
+                    continue
                 tipo = 1 if loc.weekday() == 5 else 2 if loc.weekday() == 6 else 0
                 chiave = (ln, tipo, loc.hour, loc.toordinal())
                 if primo is None or base[0] < primo: primo = base[0]
@@ -978,9 +987,7 @@ def confine_torino():
 def leggi_omi():
     """Legge data/processed/omi_zone.json (O1); ritorna lista compatta o None."""
     f = RADICE / "data" / "processed" / "omi_zone.json"
-    if not f.is_file():
-        print("  (omi_zone.json non trovato: tema Valore immobiliare vuoto; lancia 08_prepara_omi.py)")
-        return None
+    comuni.richiedi_fonte(f)      # L12: il file non sta in git; senza, la mappa perderebbe il tema Prezzo delle case: ci si ferma
     try:
         dati_omi = json.loads(f.read_text(encoding="utf-8"))
         # Calcola log: comuni, zone, zone con tipologia ab
@@ -997,9 +1004,7 @@ def leggi_omi():
 def leggi_imq():
     """Legge data/processed/imq_mappa.json (attivita' 10); ritorna l'oggetto o None."""
     f = RADICE / "data" / "processed" / "imq_mappa.json"
-    if not f.is_file():
-        print("  (imq_mappa.json non trovato: tema Mobilita' (IMQ) vuoto; lancia 16_prepara_imq_mappa.py)")
-        return None
+    comuni.richiedi_fonte(f)      # L12: il file non sta in git; senza, la mappa perderebbe il tema Spostamenti: ci si ferma
     try:
         dati_imq = json.loads(f.read_text(encoding="utf-8"))
         n_zone = len(dati_imq.get("zone", []))

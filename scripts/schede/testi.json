@@ -207,7 +207,10 @@
   "correlazione parziale sui ranghi, intervallo al 95%; distanza dal centro della zona a Piazza Castello": "partial rank correlation, 95% interval; distance from the centre of the zone to Piazza Castello",
   "Periodo dei dati": "Data period",
   "Periodo del riempimento dei parcheggi": "Car park occupancy period",
-  "Periodo dei sensori": "Sensor period"
+  "Periodo dei sensori": "Sensor period",
+  "Fragilità sociale e servizi a piedi, una zona OMI per punto (46 zone)": "Social fragility and services on foot, one OMI zone per dot (46 zones)",
+  "indice di fragilità sociale, 0-100": "social fragility index, 0-100",
+  "fragilità": "fragility"
  },
  "modelli": [
   {
@@ -817,6 +820,14 @@
   {
    "it": "dal {n0}/{n1}/{n2} al {n3}/{n4}/{n5}",
    "en": "from {n0}/{n1}/{n2} to {n3}/{n4}/{n5}"
+  },
+  {
+   "it": "Ogni punto è una zona, grande quanto i suoi abitanti. La linea è la tendenza: più la fragilità è alta, meno servizi. Il legame regge anche a parità di distanza dal centro: correlazione {p0} (da {p1} a {p2}).",
+   "en": "Each dot is a zone, sized by its residents. The line is the trend: the higher the fragility, the fewer the services. The link holds even at equal distance from the centre: correlation {p0} (from {p1} to {p2})."
+  },
+  {
+   "it": "Ogni punto è una zona, grande quanto i suoi abitanti. A parità di distanza dal centro il legame quasi sparisce ({p0}): la linea mostra soprattutto l'effetto della distanza dal centro.",
+   "en": "Each dot is a zone, sized by its residents. At equal distance from the centre the link nearly disappears ({p0}): the line mostly shows the effect of distance from the centre."
   }
  ]
 }

@@ -1,5 +1,5 @@
 RAPPORTO R6 - PARCHEGGI ADATTI A LASCIARE L'AUTO (script 82)
-Generato il 23/10/2026 20:02.
+Generato il 24/10/2026 01:23.
 
 == Catena dei conteggi ==
   trovati 5205 -> aperti 3431 -> fuori dalla zona centrale 3208 -> con almeno 20 posti 2006 -> adatti (non di destinazione) 1874

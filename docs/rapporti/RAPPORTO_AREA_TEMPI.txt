@@ -1,5 +1,5 @@
 RAPPORTO - Area che si espande (script 99)
-generato 2026-10-23T21:50:25+00:00
+generato 2026-10-23T23:19:31+00:00
 
 Sezioni di Torino: 4044; senza collegamento coi mezzi entro 120 minuti: 2
 Auto: flusso libero x fattore + 5 minuti di parcheggio. Stima TomTom (principale): fattore della zona della sezione, mediana 2.46; stima dei sensori 5T (la piu' favorevole all'auto): fattore 1.2.

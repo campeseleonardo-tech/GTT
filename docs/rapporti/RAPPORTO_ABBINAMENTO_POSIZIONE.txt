@@ -1,13 +1,13 @@
 ABBINAMENTO SENSORI 5T -> CORRIDOI, PER POSIZIONE
 ========================================================================================
-sensori usabili (non esclusi): 95   [atteso 92]
+sensori usabili (non esclusi): 96   [atteso 92]
 funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanza)
 
 (1) Classi
   SICURO    (stesso nome, <= 60 m): 16   [atteso circa 14-15]
   DA_VEDERE (nome diverso, <= 40 m): 9
-  NESSUNO: 70
-  totale: 95   [deve essere 92: NON TORNA]
+  NESSUNO: 71
+  totale: 96   [deve essere 92: NON TORNA]
 
 (2) SICURO - abbinamento confermato dalla regola di prima
     lcd1  via                            dir       corridoio                       p     km  dist_m
@@ -42,7 +42,7 @@ funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanz
    36067  SP8(TO) di Druento               negative  Via Torino (Druento)              2    26.2  Via Torino (Druento) 26
    35824  SP2(TO) Di Germagnano            negative  Via Torino (San Maurizio Canaves  4    26.6  Via Torino (San Maurizio C 27
 
-(4) NESSUNO - sensori senza corridoio entro le soglie: 70
+(4) NESSUNO - sensori senza corridoio entro le soglie: 71
        11361  SS455 Di Pontestura              positive  fuori citta nessun corridoio entro 60 m
        11362  SS455 Di Pontestura              negative  fuori citta nessun corridoio entro 60 m
        11369  SS456 Del Turchino               positive  fuori citta nessun corridoio entro 60 m
@@ -50,6 +50,7 @@ funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanz
        11404  SS457 Di Moncalvo                positive  fuori citta nessun corridoio entro 60 m
        11405  SS457 Di Moncalvo                negative  fuori citta nessun corridoio entro 60 m
        11420  SS458 Di Casalborgone            positive  fuori citta nessun corridoio entro 60 m
+       11421  SS458 Di Casalborgone            negative  fuori citta nessun corridoio entro 60 m
        11432  SS460 Di Ceresole                positive  fuori citta nessun corridoio entro 60 m
        11433  SS460 Di Ceresole                negative  fuori citta nessun corridoio entro 60 m
        12070  SS527 Bustese                    positive  fuori citta nessun corridoio entro 60 m
@@ -114,7 +115,7 @@ funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanz
         9752  SS299 Di Alagna                  positive  fuori citta nessun corridoio entro 60 m
         9753  SS299 Di Alagna                  negative  fuori citta nessun corridoio entro 60 m
 
-(5) Coppie di versi (stesso nome, segno opposto, <= 200 m): 36
+(5) Coppie di versi (stesso nome, segno opposto, <= 200 m): 37
       SP1(TO) delle Valli di Lanzo          35478 +  35479     0.0 m
       SP122(TO) di Chieri                   35518 +  35519     0.0 m
       SP13(TO) di Front                     35559 +  35560     0.0 m
@@ -142,6 +143,7 @@ funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanz
       SS455 Di Pontestura                   11361 +  11362     0.0 m
       SS456 Del Turchino                    11369 +  11370     0.0 m
       SS457 Di Moncalvo                     11404 +  11405     0.0 m
+      SS458 Di Casalborgone                 11420 +  11421     0.0 m
       SS460 Di Ceresole                     11432 +  11433     0.0 m
       SS527 Bustese                         12070 +  12071     0.0 m
       SS564 Monregalese                     12291 +  12292     0.0 m
@@ -152,6 +154,6 @@ funzioni normalizza/haversine_m: prese dallo script 24 (stessa regola di distanz
       SS662 Di Savigliano                   13076 + 13077~2     0.0 m
       SS662 Di Savigliano                   13077 +  13078     0.0 m
 
-(6) Sensori usabili senza compagno di verso (23 su 95):
-      11420 2375 35823 35824 39977 39983 40021 40022 40040 40041 40095 40097
-      40098 40122 40123~2 40149 40174 40182 40189 40189~2 40194 40212 40253
+(6) Sensori usabili senza compagno di verso (22 su 96):
+      2375 35823 35824 39977 39983 40021 40022 40040 40041 40095 40097 40098
+      40122 40123~2 40149 40174 40182 40189 40189~2 40194 40212 40253

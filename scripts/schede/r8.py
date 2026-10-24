@@ -150,7 +150,8 @@ def scheda_r8():
             f"Limits: traffic figures are estimates with a typical error of ±{fascia50}%; use them to rank the roads, not "
             "to count vehicles.",
         ],
-        "mappa": None,
+        "mappa": {"id": "imq", "tema": "Spostamenti",
+                  "nota": "Nella mappa, tema «Spostamenti»: quanti spostamenti partono da ogni zona e dove vanno (indagine 2022, feriale)."},
         "fonti": ["docs/R8_traffico.md", "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
                   "data/processed/risultato8_traffico_tp_v2.json"],
         "generato": ora(),
@@ -314,4 +315,4 @@ def forma_r8(s):
          f"For {100 * ti['quota_oltre_2_basso']:.0f}% of cars it takes more than twice as long ({100 * ti['quota_oltre_2_alto']:.0f}% with the sensors).",
          "Limit: car times are forecast by TomTom for typical traffic on a November weekday, not measured on a specific day; we use a single service. "
          "Without metropolitan trains, public transport looks slower than it is."],
-        mappa=False, **({"anima": anima} if anima else {}))
+        **({"anima": anima} if anima else {}))

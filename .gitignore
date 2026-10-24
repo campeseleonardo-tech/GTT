@@ -10,6 +10,11 @@ agenti/
 chiave_deepseek.txt
 # screenshot di scripts/prova_pagine.py
 immagini/
+# screenshot e font di prova dei giri di lavoro: restano sul disco di Leo (giro L12)
+sviluppo/c5_screenshot/
+sviluppo/c6_screenshot/
+sviluppo/prove_stile_*.png
+sviluppo/prove_stile_font/
 # dati di accesso al Raspberry Pi di casa (scripts/config_locale.esempio.json)
 config_locale.json
 # vecchia copia che scriveva lo script 86 (ora solo controllo): se compare sul PC, non va in git
@@ -44,11 +49,20 @@ data/processed/avvisi_20261009.json
 data/processed/catalogo/reti.json
 data/processed/importanza_vie.json
 data/processed/imq/
+data/processed/imq_aggregati.json
+data/processed/imq_mappa.json
+data/processed/imq_od.json
+data/processed/imq_residenti.json
+data/processed/imq_zone.json
+data/processed/imq_zone_geo.json
+data/processed/omi_zone.json
 data/processed/ore_del_giorno_parziale_0800.npz
 data/processed/ore_del_giorno_parziale_1300.npz
 data/processed/ore_del_giorno_parziale_1730.npz
 data/processed/ore_del_giorno_parziale_2100.npz
 data/processed/r6_bus_contro_auto_parziale.npz
+data/processed/rapporto_gtt/blocchi/
+data/processed/rapporto_gtt/pagine.json
 data/processed/rapporto_gtt/rapporto_gtt_2025.pdf
 data/processed/risultato4_gps_prova.json
 data/processed/risultato4_regolarita_v1.json
@@ -56,10 +70,13 @@ data/processed/risultato9_riepilogo_mappa.json
 data/processed/sezioni_torino.json
 data/processed/tp_contro_auto_parziale.npz
 data/processed/tp_corridoi.json
+data/processed/traffico_c/domanda_auto.json
+data/processed/traffico_c/domanda_nodi.npz
 data/processed/traffico_c/prova_5t_codici.sqlite
 data/processed/traffico_c/rete/
 data/processed/traffico_c/segmenti.csv
 data/processed/traffico_c/tp_tratti.csv
+data/processed/traffico_c/v3/domanda_v3.json
 data/processed/traffico_d/abl1/tratte_flusso.json
 data/processed/traffico_d/abl2/tratte_flusso.json
 data/processed/traffico_d/abl3/tratte_flusso.json
