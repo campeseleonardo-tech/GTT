@@ -150,7 +150,7 @@ def nel_periodo(giorno, chiave):
 # Se mancano, gli script si fermano con un messaggio che dice cosa scaricare e da dove (docs/FONTI_DATI.md).
 def _come_rifare(nome):
     n = Path(nome).name
-    if n.startswith("imq_"):
+    if n.startswith("imq_") or Path(nome).parent.name == "imq":
         return ("IMQ 2022 (Agenzia della mobilita' piemontese: dati aperti e zone di campionamento)",
                 "scarica i dati IMQ nella cartella data/raw/IMQ2022_opendata_web, poi python scripts/14_prepara_imq.py, 15_prepara_zone_imq.py e 16_prepara_imq_mappa.py")
     if n == "omi_zone.json":

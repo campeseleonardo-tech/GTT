@@ -22,6 +22,21 @@ def nome_strada(n):
 
 
 
+def testo_scelta_del_mezzo():
+    """Limite sulla prova della scelta del mezzo (script 102, regola fissata prima, L13): se nella fascia 6-10 troppe poche coppie hanno abbastanza interviste, lo dice; se la relazione e' valutabile, per ora non si scrive."""
+    try:
+        sc = leggi("scelta_del_mezzo.json")
+    except FileNotFoundError:
+        return None
+    if sc["regole"].get("prova"):
+        return None
+    coppie = sum(g["coppie"] for g in sc["gruppi"].values())
+    if any(g.get("spearman") is not None for g in sc["gruppi"].values()):
+        return None
+    return (f"Prova sulla scelta del mezzo senza esito. Dalle 6 alle 10 di un feriale le coppie di zone con almeno "
+            f"{sc['regole']['soglia_interviste']} interviste sono {coppie}.")
+
+
 def scheda_r8():
     r = leggi("risultato8_traffico_tp_v2.json")
     v = leggi("traffico_d/valutazione_fase5.json")
@@ -211,6 +226,7 @@ def forma_r8(s):
     t = json.loads((comune.PROC / "tp_contro_auto.json").read_text(encoding="utf-8"))
     sens5t = leggi("velocita_5t.json")
     par, ti = t["parametri"], t["titolo"]
+    scelta_testo = testo_scelta_del_mezzo()
     ab = t["gruppi"]["ab"]
     lo, hi = ab["limite_basso"], ab["limite_alto"]            # lo = stima TomTom (principale, rapporto piu' basso), hi = sensori 5T (la piu' favorevole all'auto)
     x = virgola(round(ti["mediano_basso"], 1))               # numero grande e titolo: rapporto mediano TomTom alle 8, una cifra decimale (blocco L8)
@@ -307,9 +323,10 @@ def forma_r8(s):
          f"L'elenco dei tragitti usa solo coppie con almeno {SOGLIA_INTERVISTE} interviste."],
         par_crit,
         ["Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero. Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.",
-         "La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
+         *([] if scelta_testo else ["La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto."]),
          "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Si usa un solo servizio.",
-         f"L'indagine è un campione. I viaggi dentro una zona e {migliaia(senza_ab['coppie'])} coppie senza collegamento ({migliaia(senza_ab['auto'])} auto) non sono nel confronto."],
+         f"L'indagine è un campione. I viaggi dentro una zona e {migliaia(senza_ab['coppie'])} coppie senza collegamento ({migliaia(senza_ab['auto'])} auto) non sono nel confronto."]
+        + ([scelta_testo] if scelta_testo else []),
         ["Question: for which trips is the car much faster than public transport, and how many cars make them?",
          f"Answer: in the morning public transport takes {ti['mediano_basso']:.1f} times as long as the car (weighted median, TomTom estimate; {ti['mediano_alto']:.1f} with the 5T sensors, the estimate most favourable to the car). "
          f"For {100 * ti['quota_oltre_2_basso']:.0f}% of cars it takes more than twice as long ({100 * ti['quota_oltre_2_alto']:.0f}% with the sensors).",

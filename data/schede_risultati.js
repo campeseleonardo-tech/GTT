@@ -239,7 +239,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/21_risultato1_vuoti.py",
    "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-24T11:07:33+00:00",
+  "generato": "2026-10-24T11:23:19+00:00",
   "avviso": [
    "Dati [STIMATO] — solo comune di Torino",
    "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."
@@ -1360,7 +1360,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO9_ATTESA.txt",
    "scripts/70_risultato9_attesa.py"
   ],
-  "generato": "2026-10-24T11:07:33+00:00",
+  "generato": "2026-10-24T11:23:19+00:00",
   "avviso": [
    "Dati [MISURATO] — pochi giorni",
    "Arrivi misurati con il GPS dei mezzi GTT raccolto dal Raspberry Pi, 2026-10-10 - 2026-10-22: il GPS c'è per il 80% dei passaggi programmati delle corse viste (prima si usava il feed GTT, che sottostima i ritardi: confronto nella scheda). Giorni non tutti interi e solo linee urbane viste dal GPS: vedi i limiti."
@@ -2624,7 +2624,7 @@ window.SCHEDE_RISULTATI = [
    "scripts/84_risultato6_parcheggi.py",
    "data/processed/risultato6_v2/mappa_r6.json"
   ],
-  "generato": "2026-10-24T11:07:33+00:00",
+  "generato": "2026-10-24T11:23:19+00:00",
   "avviso": [
    "Come leggere i tag. ",
    "[MISURATO] = misura vera, fatta dai sensori del sistema 5T. [STIMATO] = calcolo nostro su dati veri, non una misura diretta. [DATI SCARSI] = pochi dati, da prendere con cautela."
@@ -7139,7 +7139,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_RISULTATO8_TRAFFICO_TP_V2.txt",
    "data/processed/risultato8_traffico_tp_v2.json"
   ],
-  "generato": "2026-10-24T11:07:33+00:00",
+  "generato": "2026-10-24T11:23:19+00:00",
   "avviso": [
    "Dati [STIMATO] (traffico) / [MISURATO] (sensori 5T) / [PROGRAMMATO] (orari GTT)",
    "Traffico stimato con un modello tarato su 22 sensori: errore tipico ±28%. Trasporto pubblico = fermate con almeno 4 passaggi all'ora entro 300 m o metro entro 600 m."
@@ -10448,9 +10448,9 @@ window.SCHEDE_RISULTATI = [
    ],
    "limiti": [
     "Fuori Torino mancano treni e altre aziende: le coppie fra comuni della cintura non sono nel numero. Senza i treni metropolitani, dove ci sono, i mezzi pubblici risultano più lenti del vero. L'orario è quello programmato.",
-    "La stima dei sensori non conta semafori e incroci: è la più favorevole all'auto.",
     "Tempi in auto previsti da TomTom su traffico tipico di un feriale di novembre, non misurati in un giorno preciso. Si usa un solo servizio.",
-    "L'indagine è un campione. I viaggi dentro una zona e 653 coppie senza collegamento (5.616 auto) non sono nel confronto."
+    "L'indagine è un campione. I viaggi dentro una zona e 653 coppie senza collegamento (5.616 auto) non sono nel confronto.",
+    "Prova sulla scelta del mezzo senza esito. Dalle 6 alle 10 di un feriale le coppie di zone con almeno 30 interviste sono 1."
    ],
    "mappa": {
     "id": "imq",
@@ -13732,9 +13732,9 @@ window.SCHEDE_RISULTATI = [
    ],
    "limiti": [
     "Outside Turin, trains and other operators are missing: pairs between suburban towns are not in the number. Without metropolitan trains, where they exist, public transport looks slower than it is. The timetable is the scheduled one.",
-    "The sensor estimate ignores traffic lights and junctions: it is the most favourable to the car.",
     "Car times forecast by TomTom for typical traffic on a November weekday, not measured on a specific day. A single service is used.",
-    "The survey is a sample. Trips within a zone and 653 pairs with no connection (5,616 cars) are not in the comparison."
+    "The survey is a sample. Trips within a zone and 653 pairs with no connection (5,616 cars) are not in the comparison.",
+    "Test on the choice of transport inconclusive. Between 6 and 10 on a weekday, the pairs of zones with at least 30 interviews number 1."
    ],
    "mappa": {
     "id": "imq",
@@ -13780,7 +13780,7 @@ window.SCHEDE_RISULTATI = [
    "docs/rapporti/RAPPORTO_CASE_FRAGILITA_SERVIZI.txt",
    "data/processed/case_fragilita_servizi.json"
   ],
-  "generato": "2026-10-24T11:07:33+00:00",
+  "generato": "2026-10-24T11:23:19+00:00",
   "avviso": [
    "Dati [STIMATO] (servizi, indice) / [CENSIMENTO] (abitanti). Differenza fra zone, non effetto causale."
   ],

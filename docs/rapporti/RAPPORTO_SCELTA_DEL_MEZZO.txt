@@ -1,0 +1,27 @@
+SCELTA DEL MEZZO (script 102) - partenze 6-10 di un feriale, indagine IMQ 2022, tempi TomTom alle 8
+È una relazione, non una causa: chi abita lontano ha anche più spesso l'auto.
+
+Torino-Torino: 1 coppie, 32 interviste
+  Spearman None, intervallo 95% None, non regge; quota mezzi 50.0%
+  rapporto 0.0-1.5: quota mezzi None%, 0 coppie, 0 interviste
+  rapporto 1.5-2.0: quota mezzi 50.0%, 1 coppie, 32 interviste
+  rapporto 2.0-3.0: quota mezzi None%, 0 coppie, 0 interviste
+  rapporto 3.0-None: quota mezzi None%, 0 coppie, 0 interviste
+Torino-cintura (e cintura-Torino): 0 coppie, 0 interviste
+cintura-cintura: 0 coppie, 0 interviste (gruppo non valutato)
+
+VARIANTE a giornata intera (NON e' la regola fissata, solo per informare)
+Torino-Torino: 57 coppie, Spearman -0.103, intervallo 95% [-0.364, 0.172], non regge
+Torino-cintura (e cintura-Torino): 15 coppie, Spearman -0.57, intervallo 95% [-0.912, -0.057], regge
+cintura-cintura: 17 coppie, Spearman -0.528, intervallo 95% [-0.811, -0.015], regge
+
+CONTROLLI
+OK     mezzi pubblici riconosciuti (almeno la linea urbana GTT) — 12 codici
+OK     nessuna coppia contata due volte — 0 doppie
+OK     quote dei mezzi fra 0 e 1
+OK     rapporti dei tempi positivi
+OK     interviste totali usate (viaggi 6-10 in coppie con almeno 30) — 32 viaggi in 1 coppie; 2718 coppie sotto le 30 interviste o senza viaggi
+AVVISO gruppo Torino-Torino: almeno 20 coppie — 1 coppie
+OK     gruppo Torino-Torino: quota 1.5-2.0 fra 0 e 1
+AVVISO gruppo Torino-cintura (e cintura-Torino): almeno 20 coppie — 0 coppie
+AVVISO gruppo cintura-cintura: almeno 10 coppie — 0 coppie: gruppo non valutato

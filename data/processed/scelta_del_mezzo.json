@@ -1,0 +1,232 @@
+{
+ "titolo": "Dove i mezzi pubblici sono lenti, si prende l'auto?",
+ "frase": "È una relazione, non una causa: chi abita lontano ha anche più spesso l'auto.",
+ "regole": {
+  "ore_partenza": [
+   6,
+   10
+  ],
+  "soglia_interviste": 30,
+  "ricampionamenti": 2000,
+  "seme": 20261024,
+  "fasce": [
+   [
+    0.0,
+    1.5
+   ],
+   [
+    1.5,
+    2.0
+   ],
+   [
+    2.0,
+    3.0
+   ],
+   [
+    3.0,
+    null
+   ]
+  ],
+  "rapporto": "TomTom alle 8 (rapporto_basso di tp_contro_auto.json)",
+  "quota": "mezzi pubblici / (mezzi pubblici + auto conducente + auto passeggero)",
+  "prova": false
+ },
+ "gruppi": {
+  "a": {
+   "nome": "Torino-Torino",
+   "coppie": 1,
+   "interviste": 32,
+   "rapporto_mediano": 1.54,
+   "quota_mezzi_totale": 0.5001,
+   "spearman": null,
+   "intervallo95": null,
+   "regge": false,
+   "fasce": [
+    {
+     "da": 0.0,
+     "a": 1.5,
+     "coppie": 0,
+     "interviste": 0,
+     "quota_mezzi": null
+    },
+    {
+     "da": 1.5,
+     "a": 2.0,
+     "coppie": 1,
+     "interviste": 32,
+     "quota_mezzi": 0.5001
+    },
+    {
+     "da": 2.0,
+     "a": 3.0,
+     "coppie": 0,
+     "interviste": 0,
+     "quota_mezzi": null
+    },
+    {
+     "da": 3.0,
+     "a": null,
+     "coppie": 0,
+     "interviste": 0,
+     "quota_mezzi": null
+    }
+   ]
+  },
+  "b": {
+   "nome": "Torino-cintura (e cintura-Torino)",
+   "coppie": 0,
+   "interviste": 0
+  },
+  "c": {
+   "nome": "cintura-cintura",
+   "coppie": 0,
+   "interviste": 0,
+   "non_valutato": true
+  }
+ },
+ "variante_giornata": {
+  "nota": "variante a giornata intera, non e' la regola fissata: solo per informare, non entra nelle schede",
+  "gruppi": {
+   "a": {
+    "nome": "Torino-Torino",
+    "coppie": 57,
+    "interviste": 2389,
+    "rapporto_mediano": 1.56,
+    "quota_mezzi_totale": 0.3025,
+    "spearman": -0.103,
+    "intervallo95": [
+     -0.364,
+     0.172
+    ],
+    "regge": false,
+    "fasce": [
+     {
+      "da": 0.0,
+      "a": 1.5,
+      "coppie": 21,
+      "interviste": 945,
+      "quota_mezzi": 0.3342
+     },
+     {
+      "da": 1.5,
+      "a": 2.0,
+      "coppie": 34,
+      "interviste": 1369,
+      "quota_mezzi": 0.2899
+     },
+     {
+      "da": 2.0,
+      "a": 3.0,
+      "coppie": 2,
+      "interviste": 75,
+      "quota_mezzi": 0.1598
+     },
+     {
+      "da": 3.0,
+      "a": null,
+      "coppie": 0,
+      "interviste": 0,
+      "quota_mezzi": null
+     }
+    ]
+   },
+   "b": {
+    "nome": "Torino-cintura (e cintura-Torino)",
+    "coppie": 15,
+    "interviste": 560,
+    "rapporto_mediano": 1.53,
+    "quota_mezzi_totale": 0.1739,
+    "spearman": -0.57,
+    "intervallo95": [
+     -0.912,
+     -0.057
+    ],
+    "regge": true,
+    "fasce": [
+     {
+      "da": 0.0,
+      "a": 1.5,
+      "coppie": 5,
+      "interviste": 186,
+      "quota_mezzi": 0.2842
+     },
+     {
+      "da": 1.5,
+      "a": 2.0,
+      "coppie": 7,
+      "interviste": 283,
+      "quota_mezzi": 0.1438
+     },
+     {
+      "da": 2.0,
+      "a": 3.0,
+      "coppie": 3,
+      "interviste": 91,
+      "quota_mezzi": 0.0486
+     },
+     {
+      "da": 3.0,
+      "a": null,
+      "coppie": 0,
+      "interviste": 0,
+      "quota_mezzi": null
+     }
+    ]
+   },
+   "c": {
+    "nome": "cintura-cintura",
+    "coppie": 17,
+    "interviste": 817,
+    "rapporto_mediano": 1.88,
+    "quota_mezzi_totale": 0.0475,
+    "spearman": -0.528,
+    "intervallo95": [
+     -0.811,
+     -0.015
+    ],
+    "regge": true,
+    "fasce": [
+     {
+      "da": 0.0,
+      "a": 1.5,
+      "coppie": 2,
+      "interviste": 108,
+      "quota_mezzi": 0.0775
+     },
+     {
+      "da": 1.5,
+      "a": 2.0,
+      "coppie": 12,
+      "interviste": 566,
+      "quota_mezzi": 0.0478
+     },
+     {
+      "da": 2.0,
+      "a": 3.0,
+      "coppie": 3,
+      "interviste": 143,
+      "quota_mezzi": 0.025
+     },
+     {
+      "da": 3.0,
+      "a": null,
+      "coppie": 0,
+      "interviste": 0,
+      "quota_mezzi": null
+     }
+    ]
+   }
+  }
+ },
+ "controlli": [
+  "OK     mezzi pubblici riconosciuti (almeno la linea urbana GTT) — 12 codici",
+  "OK     nessuna coppia contata due volte — 0 doppie",
+  "OK     quote dei mezzi fra 0 e 1",
+  "OK     rapporti dei tempi positivi",
+  "OK     interviste totali usate (viaggi 6-10 in coppie con almeno 30) — 32 viaggi in 1 coppie; 2718 coppie sotto le 30 interviste o senza viaggi",
+  "AVVISO gruppo Torino-Torino: almeno 20 coppie — 1 coppie",
+  "OK     gruppo Torino-Torino: quota 1.5-2.0 fra 0 e 1",
+  "AVVISO gruppo Torino-cintura (e cintura-Torino): almeno 20 coppie — 0 coppie",
+  "AVVISO gruppo cintura-cintura: almeno 10 coppie — 0 coppie: gruppo non valutato"
+ ]
+}

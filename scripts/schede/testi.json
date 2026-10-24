@@ -1028,6 +1028,10 @@
   {
    "it": "torinese su {n0}",
    "en": "Turin resident in {n0}"
+  },
+  {
+   "it": "Prova sulla scelta del mezzo senza esito. Dalle 6 alle 10 di un feriale le coppie di zone con almeno {n0} interviste sono {n1}.",
+   "en": "Test on the choice of transport inconclusive. Between 6 and 10 on a weekday, the pairs of zones with at least {n0} interviews number {n1}."
   }
  ]
 }

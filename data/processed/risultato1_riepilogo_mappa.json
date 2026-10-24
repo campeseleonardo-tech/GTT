@@ -237,7 +237,7 @@
     "scripts/21_risultato1_vuoti.py",
     "scripts/22_risultato1_candidati.py"
   ],
-  "generato": "2026-10-24T11:07:33+00:00",
+  "generato": "2026-10-24T11:23:19+00:00",
   "avviso": [
     "Dati [STIMATO] — solo comune di Torino",
     "Distanze a piedi sulla rete stradale (15 min a 80 m/min) su 848.748 residenti (censimento 2021). Servizi dal catalogo comunale: la cintura non è confrontabile (manca il dato, non il servizio). I punti nuovi sono ipotesi di posizione, calcolate gruppo per gruppo: non si sommano tra gruppi e non tengono conto di costi o spazi disponibili."

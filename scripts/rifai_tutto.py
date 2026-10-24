@@ -55,7 +55,7 @@ FASI = [
                                 (["63_v4_valutazione.py"], None), (["65_affidabilita.py"], None), (["66_pubblicazione_incrocio.py"], None), (["67_verifiche_fase5.py"], None)]),
     ("r1", "pochi minuti", [(["21_risultato1_vuoti.py"], None), (["22_risultato1_candidati.py"], None), (["23_vulnerabilita_incrocio.py"], None), (["92_esposizione_traffico.py"], None)]),
     ("r4", "pochi minuti", [(["27_risultato4_regolarita.py"], None), (["70_risultato9_attesa.py"], None)]),
-    ("r8", "10-30 minuti", [(["93_tp_contro_auto.py"], "r5py: la parte lenta"), (["99_area_tempi.py"], None)]),
+    ("r8", "10-30 minuti", [(["93_tp_contro_auto.py"], "r5py: la parte lenta"), (["102_scelta_del_mezzo.py"], "legge i file IMQ dal disco"), (["99_area_tempi.py"], None)]),
     ("r6", "10 minuti", [(["25_risultato6_interscambio.py"], None), (["68_luoghi_fermate.py"], None), (["69_parcheggi_inventario.py"], None), (["71_parcheggi_riempimento.py"], None),
                          (["72_nodi_tp.py"], None), (["73_segnali_criticita.py"], None), (["81_auto_di_passaggio.py"], None), (["88_confronto_auto_sensori.py"], None),
                          (["82_parcheggi_adatti.py"], None), (["87_popolarita_zone.py"], None), (["83_fermate_importanti.py"], None), (["84_risultato6_parcheggi.py"], None),

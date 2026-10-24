@@ -161,6 +161,16 @@ Stima dei sensori = rallentamento misurato dai sensori 5T (mediana di velocità 
 Di giorno e di sera l'auto è più veloce (meno traffico) e i mezzi restano lenti: il rapporto sale. Alle 8 i numeri coincidono con quelli degli script 93 e 94 (controllo dello script 100).
 Rifare: `python scripts/100_ore_del_giorno.py` (circa 3-4 minuti dopo 93 e 94; `--campione 10` e `--prova` per provare); è nella fase «r6» di `rifai_tutto.py`.
 
+## Scelta del mezzo (giro L13, script 102)
+
+Domanda: nelle coppie di zone dove i mezzi pubblici impiegano molto più dell'auto, una quota minore di persone usa i mezzi? Regole fissate il 24/10/2026 **prima** dei numeri: viaggi dell'indagine IMQ 2022 con partenza dalle 6 alle 10 di un feriale; quota dei mezzi = mezzi pubblici / (mezzi pubblici + auto conducente + auto passeggero); coppie con almeno 30 interviste (viaggi che entrano nella quota); rapporto dei tempi = stima TomTom alle 8; tre gruppi separati (cintura-cintura solo con almeno 10 coppie); Spearman con intervallo al 95% (2.000 ricampionamenti, seme 20261024), «regge» solo se l'intervallo non contiene lo 0; fasce del rapporto sotto 1,5, 1,5-2, 2-3, oltre 3. Frase obbligatoria: «È una relazione, non una causa: chi abita lontano ha anche più spesso l'auto.»
+
+**Risultato con la regola fissata: non valutabile.** Le coppie di zone diverse con almeno 30 interviste nella fascia 6-10 sono: Torino-Torino 1, Torino-cintura (e cintura-Torino) 0, cintura-cintura 0. Con una sola coppia non si calcola né la correlazione né l'intervallo; la scheda 4 lo dice in una riga fra i limiti e non fa affermazioni.
+
+Variante a giornata intera (**non è la regola fissata**, solo per informare; non entra nelle schede): Torino-Torino: 57 coppie, Spearman -0,103, intervallo [-0,364, 0,172], non regge; Torino-cintura (e cintura-Torino): 15 coppie, Spearman -0,57, intervallo [-0,912, -0,057], regge; cintura-cintura: 17 coppie, Spearman -0,528, intervallo [-0,811, -0,015], regge. Per usarla in pagina servirebbe una regola nuova, decisa da Leo, e non scelta guardando questi numeri.
+
+Si rifà con `python scriptsB_scelta_del_mezzo.py` (legge `data/processed/imq/spostamenti.csv` e `mezzi.csv`, fuori da git, e `tp_contro_auto.json`; `--prova` per dati finti). Uscite: `data/processed/scelta_del_mezzo.json`, `docs/rapporti/RAPPORTO_SCELTA_DEL_MEZZO.txt`.
+
 ## Limiti
 
 - Stima debole; senza un sensore sull'asse la classifica mette in cima strade poco credibili (corso Dogliotti circa
