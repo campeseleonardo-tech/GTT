@@ -75,7 +75,7 @@ def pagine_da_provare():
     out += [(f"mappa tema {t}", f"mappa_torino.html#tema={t}") for t in dict.fromkeys(temi) if t != "interscambio"]
     out.append(("ingresso", "index.html"))
     out.append(("progetto", "progetto.html"))
-    out += [(f"scheda R{n}", f"risultati.html#r{n}") for n in (1, 4, 6, 8, 10)]
+    out += [(f"scheda R{n}", f"risultati.html#r{n}") for n in (1, 4, 6, 8, 10, 12)]
     out.append(("elenco schede", "risultati.html"))
     return out
 
@@ -355,7 +355,7 @@ def design_l15(br, cartella):
                     errori.append(f"{nome}: {r['chiusa']} parti chiuse invece di una")
         finally:
             ctx.close()
-    print(f"  L15 (schede 1-5, IT e EN: parole vietate, punti chiave, numero grande): {'OK' if not errori else 'ERRORE'}")
+    print(f"  L15 (schede 1-6, IT e EN: parole vietate, punti chiave, numero grande): {'OK' if not errori else 'ERRORE'}")
     return errori
 
 
@@ -449,6 +449,41 @@ def design_l16(br, cartella):
         finally:
             ctx.close()
     print(f"  L16 (gara e area da sole, senza comandi, testi nel disegno, riduci movimento): {'OK' if not errori else 'ERRORE'}")
+    return errori
+
+
+def design_l20(br, cartella):
+    """L20: scheda 6, contatori di euro che salgono da soli (nessun comando); con «riduci movimento» i numeri finali sono quelli dei dati."""
+    errori = []
+    for riduci in (False, True):
+        ctx = br.br.new_context(viewport={"width": DESKTOP[0], "height": DESKTOP[1]}, reduced_motion="reduce" if riduci else "no-preference")
+        page = ctx.new_page()
+        try:
+            page.goto(f"http://127.0.0.1:{PORTA}/risultati.html#p6", wait_until="load", timeout=60000)
+            page.wait_for_timeout(1200)
+            nome = "scheda 6 contatori" + (" (riduci movimento)" if riduci else "")
+            n_ctrl = page.evaluate("document.querySelectorAll('#finCorpo .anima button, #finCorpo .anima select, #finCorpo .anima input').length")
+            if n_ctrl:
+                errori.append(f"{nome}: {n_ctrl} comandi dentro l'animazione")
+            def euro():
+                return page.evaluate("[...document.querySelectorAll('#finCorpo .anima .an-eur')].map(e => e.textContent.trim())")
+            prima = euro()
+            if len(prima) != 2:
+                errori.append(f"{nome}: {len(prima)} contatori invece di 2")
+                continue
+            if riduci:
+                dati = page.evaluate("(window.SCHEDE_RISULTATI.find(s => s.numero_pubblico === 6).forma.anima.righe || []).map(r => Math.round(r.mese * 12))")
+                scritti = [int("".join(ch for ch in t if ch.isdigit()) or 0) for t in prima]
+                if scritti != dati:
+                    errori.append(f"{nome}: contatori {scritti}, nei dati {dati}")
+            else:
+                page.wait_for_timeout(2500)
+                dopo = euro()
+                if dopo == prima or all(t.replace("€", "").strip() in ("", "0") for t in dopo):
+                    errori.append(f"{nome}: i contatori non salgono da soli ({prima} -> {dopo})")
+        finally:
+            ctx.close()
+    print(f"  L20 (scheda 6: contatori da soli, senza comandi, riduci movimento): {'OK' if not errori else 'ERRORE'}")
     return errori
 
 
@@ -585,7 +620,7 @@ def prova_design(br, cartella):
     if not isinstance(br, BrowserPlaywright) or not (cartella / "data" / "schede_risultati.js").exists():
         print("  prova_design: non provata (serve Playwright e data/schede_risultati.js)")
         return []
-    return design_l15(br, cartella) + design_l16(br, cartella) + design_l17(br, cartella) + design_l18(br, cartella)
+    return design_l15(br, cartella) + design_l16(br, cartella) + design_l17(br, cartella) + design_l18(br, cartella) + design_l20(br, cartella)
 
 
 ANTEPRIME = RADICE / "assets" / "anteprime"
