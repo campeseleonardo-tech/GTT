@@ -82,6 +82,15 @@ Tema «Puntualità delle linee» (linee colorate per % di ritardo oltre 5 minuti
 15-20 · 20-30 · oltre 30%), link dalla scheda con `#tema=puntualita&linea=17&ora=8`. Scheda `scheda_r4` (con la parte
 attese `scheda_r9`) in `scripts/schede_risultati.py`.
 
+## Velocità dei bus e dei tram (giro L20, E4, script 104)
+
+Velocità commerciale dal GPS, fermate e semafori compresi: distanza fra posizioni consecutive divisa per il tempo (stesso calcolo del livello «Velocità» della mappa, funzione `calcola_velocita` dello script 04, soste brevi incluse, capolinea escluso). Giorni feriali del periodo fisso (2026-10-10 / 2026-10-22, 9 feriali), media pesata sui rilevamenti, ora per ora dalle 5 alle 24; bus e tram dal tipo di linea del GTFS. Regole fissate prima dei numeri (`sviluppo/piani/PIANO_GRAFICA.md`, «Regole di E4»): velocità fra 5 e 40 km/h, AVVISO per le ore con meno di 1.000 rilevamenti.
+
+- **Alle 8 un bus va in media a 13,0 km/h** (tram 11,1, insieme 12,6).
+- Ora più lenta per i bus: le 17 (12,8 km/h); più veloce: le 5 (18,8 km/h).
+- Nella scheda 2 il dato è un punto chiave (al posto di «guardando solo la partenza dal capolinea», già nel calcolo) e un grafico a linea negli «altri grafici».
+- Si rifà con `python scripts\104_velocita_bus.py` (legge la copia dello storico; senza storico tiene `data/processed/velocita_bus.json`). Uscite: `data/processed/velocita_bus.json`, `docs/rapporti/RAPPORTO_VELOCITA_BUS.txt`.
+
 ## Limiti
 
 - Pochi giorni (non tutti interi), solo linee urbane viste dal GPS; niente extraurbane.

@@ -277,6 +277,7 @@ Ordine dei passi:
 - Gara del pannello della mappa: solo l'auto TomTom e nessun comando, come nelle schede.
 
 ### Controllo del 25/10 e sessione in locale L20 (circa 2 ore)
+**FATTO il 25/10 (`ESITO_L20.md`); `main` NON unito: le condizioni d'uso di TomTom (11.4 e 11.6.1) vietano di salvare i risultati e creare database derivati, decide Leo.**
 **Controllo fatto nel cloud** su `origin/prova` 19afecd (L19 compreso):
 - `schede_risultati.py` rifà le schede identiche (cambia solo «generato»).
 - `prova_pagine.py --playwright`: 0 errori su 20 pagine; prove L15-L18 e link della mappa tutte OK; peso della mappa 5.958.369 byte; 461 file e 146,3 MB in git.

@@ -231,6 +231,8 @@ Prima: git pull --no-rebase origin prova; python scripts\controlla_rami.py. Nien
 
 ## L13 — PC: «Dove i mezzi sono lenti, si prende l'auto» (risultato nuovo E2, scelto da Leo)
 
+**FATTO il 25/10 in L20 (`ESITO_L20.md`): con la regola fissata il risultato è non valutabile (1 coppia con almeno 30 interviste nella fascia 6-10).**
+
 Dove va: **dentro la scheda 4** (punto chiave + grafico negli «Altri grafici»): ne cambia il messaggio da «quanto più lenti» a «e infatti chi può prende l'auto». Se regge forte in un gruppo (vedi regola), diventa anche il titolo della scheda 4? **No**: il titolo resta quello di L8; lo decide Leo dopo.
 **Regole fissate ora, prima dei numeri** (dalla prova grezza del 23/10 sono noti solo i segni, non i numeri finali con TomTom):
 - coppie di zone dell'indagine IMQ con almeno 30 interviste (SOGLIA_N dello script 14) nella fascia 6-10 di un feriale; quota dei mezzi = viaggi coi mezzi pubblici / (mezzi + auto come conducente + auto come passeggero); rapporto dei tempi = quello TomTom di L8 alle 8;
@@ -249,6 +251,8 @@ Prima: git pull --no-rebase origin prova; python scripts\controlla_rami.py. Nien
 ```
 
 ## L14 — PC: «Quanto costa muoversi» (risultato nuovo E10, sesta scheda, scelto da Leo) 🛑
+
+**FATTO il 25/10 in L20 (`ESITO_L20.md`, `docs/R12_costi.md`).**
 
 Domanda: **quanto costa andare in centro (e fra le zone) in auto e coi mezzi, oggi, col caro carburante?** Due livelli, come in `PIANO_COSTI.md`: costo **che si sente** (carburante + parcheggio; biglietto o quota dell'abbonamento) e costo **pieno** dell'auto (anche assicurazione, bollo, usura, perdita di valore: tabelle ACI). Collegato alle schede 3 e 4 (tempi) e al R6 (parcheggio di scambio: auto fino al parcheggio + mezzi).
 **Dati da raccogliere** (l'agente li cerca sul web, sola lettura; ogni valore in `data/ref/costi.json` con fonte, indirizzo, data di consultazione; se un dato non si trova, lo scrive e si ferma su quel pezzo):

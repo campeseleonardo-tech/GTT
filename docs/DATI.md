@@ -10,12 +10,12 @@ Dove deve stare ogni file di `data/`: in git, nella Release di GitHub, come rias
 
 | Posto | File | Peso (MB) | Cosa vuol dire |
 |---|---|---|---|
-| git | 148 | 129,6 | dentro il repository |
-| Release | 220 | 872,4 | zip nella Release di GitHub |
-| riassunto | 3 | 5.525,2 | dello storico si tengono solo i riassunti (script 97) |
+| git | 153 | 129,6 | dentro il repository |
+| Release | 221 | 891,9 | zip nella Release di GitHub |
+| riassunto | 3 | 5.670,3 | dello storico si tengono solo i riassunti (script 97) |
 | fonte | 449 | 155,8 | non si pubblica: si riscarica dalla fonte (IMQ, OMI) |
-| fuori | 436 | 323,7 | nessuno lo cita: non si pubblica |
-| **tutto** | 1256 | 7.006,7 | |
+| fuori | 447 | 331,7 | nessuno lo cita: non si pubblica |
+| **tutto** | 1273 | 7.179,3 | |
 
 Avvisi: file in «git» sopra 50 MB: 0.
 
@@ -23,16 +23,18 @@ Avvisi: file in «git» sopra 50 MB: 0.
 
 | Cartella | File | Peso (MB) | git | Release | riassunto | fonte | fuori |
 |---|---|---|---|---|---|---|---|
-| `data/(radice di data)` | 34 | 5.629,4 | 4 | 2 | 2 | 0 | 26 |
+| `data/(radice di data)` | 35 | 5.775,8 | 4 | 2 | 2 | 0 | 27 |
 | `data/IMQ2013-22_zone_camp_TO` | 6 | 0,1 | 0 | 0 | 0 | 6 | 0 |
 | `data/IMQ2022_opendata_web` | 1 | 59,9 | 0 | 0 | 0 | 1 | 0 |
 | `data/IMQ2022_zone_camp_noTO` | 7 | 5,8 | 0 | 0 | 0 | 7 | 0 |
 | `data/backup` | 2 | 22,6 | 0 | 0 | 0 | 0 | 2 |
 | `data/backup/risultato6_v2_prima_correzioni` | 19 | 18,1 | 0 | 0 | 0 | 0 | 19 |
 | `data/catalogo` | 6 | 4,4 | 6 | 0 | 0 | 0 | 0 |
+| `data/fonti_costi` | 10 | 6,7 | 0 | 0 | 0 | 0 | 10 |
+| `data/gtfs_archivio` | 1 | 19,5 | 0 | 1 | 0 | 0 | 0 |
 | `data/otp/jdk-25.0.4.1+1-jre` | 320 | 179,1 | 0 | 0 | 0 | 0 | 320 |
 | `data/otp/rete` | 2 | 32,4 | 0 | 2 | 0 | 0 | 0 |
-| `data/processed` | 72 | 81,0 | 43 | 5 | 0 | 7 | 17 |
+| `data/processed` | 76 | 81,0 | 47 | 5 | 0 | 7 | 17 |
 | `data/processed/accessibilita_parziale` | 48 | 1,8 | 0 | 0 | 0 | 0 | 48 |
 | `data/processed/accessibilita_parziale_test` | 3 | 0,0 | 0 | 0 | 0 | 0 | 3 |
 | `data/processed/catalogo` | 7 | 4,4 | 6 | 1 | 0 | 0 | 0 |
@@ -47,7 +49,7 @@ Avvisi: file in «git» sopra 50 MB: 0.
 | `data/raw/ex_quartieri` | 6 | 0,1 | 0 | 6 | 0 | 0 | 0 |
 | `data/raw/istat` | 139 | 557,3 | 0 | 139 | 0 | 0 | 0 |
 | `data/raw/omi_2025_2` | 314 | 10,9 | 0 | 0 | 0 | 314 | 0 |
-| `data/ref` | 2 | 0,0 | 1 | 0 | 0 | 0 | 1 |
+| `data/ref` | 3 | 0,0 | 2 | 0 | 0 | 0 | 1 |
 | `data/scenari` | 3 | 17,8 | 1 | 2 | 0 | 0 | 0 |
 | `data/storico_riassunti` | 5 | 13,5 | 5 | 0 | 0 | 0 | 0 |
 
@@ -57,7 +59,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/(radice di data)`
 
-34 file, 5.629,4 MB (git: 4, Release: 2, riassunto: 2, fuori: 26). Letti da: 04_genera_mappa.py, 06_dati_live.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py, 31_rapporto_fatti.py (+23). Scritti da: 06_dati_live.py, 30_rapporto_estrai.py, RACCOLTA_GIORNALIERA.bat, supervisore.py.
+35 file, 5.775,8 MB (git: 4, Release: 2, riassunto: 2, fuori: 27). Letti da: 04_genera_mappa.py, 06_dati_live.py, 104_velocita_bus.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py (+24). Scritti da: 06_dati_live.py, 30_rapporto_estrai.py, RACCOLTA_GIORNALIERA.bat, supervisore.py.
 
 #### `data/IMQ2013-22_zone_camp_TO`
 
@@ -92,14 +94,14 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 | File | MB | Legge | Scrive | Posto | Nota |
 |---|---|---|---|---|---|
-| `mappa_torino_prima_correzioni.html` | 22,6 | 04_genera_mappa.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py (+12) | FETCH_LEOPI_E_VELOCITA_5T.bat, RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; via cartella |
-| `schede_risultati_prima_correzioni.js` | 0,1 | 04_genera_mappa.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py (+12) | FETCH_LEOPI_E_VELOCITA_5T.bat, RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; via cartella |
+| `mappa_torino_prima_correzioni.html` | 22,6 | 04_genera_mappa.py, 104_velocita_bus.py, 24_importanza_vie.py, 26_velocita_5t.py (+13) | FETCH_LEOPI_E_VELOCITA_5T.bat, RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; via cartella |
+| `schede_risultati_prima_correzioni.js` | 0,1 | 04_genera_mappa.py, 104_velocita_bus.py, 24_importanza_vie.py, 26_velocita_5t.py (+13) | FETCH_LEOPI_E_VELOCITA_5T.bat, RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; via cartella |
 
 #### `data/backup/risultato6_v2_prima_correzioni`
 
 | File | MB | Legge | Scrive | Posto | Nota |
 |---|---|---|---|---|---|
-| `eventi.json` | 0,0 | 04_genera_mappa.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py (+12) | FETCH_LEOPI_E_VELOCITA_5T.bat, RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; via cartella |
+| `eventi.json` | 0,0 | 04_genera_mappa.py, 104_velocita_bus.py, 24_importanza_vie.py, 26_velocita_5t.py (+13) | FETCH_LEOPI_E_VELOCITA_5T.bat, RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; via cartella |
 | `istat2011_proporzioni.json` | 0,0 | 73_segnali_criticita.py | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; via cartella |
 | `luoghi.json` | 1,1 | 68_luoghi_fermate.py, 72_nodi_tp.py, 73_segnali_criticita.py, 77_strade_comuni.py (+5) | 68_luoghi_fermate.py | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
 | `nodi.json` | 1,6 | 72_nodi_tp.py, 73_segnali_criticita.py, 80_porte_interscambio.py, 83_fermate_importanti.py (+2) | 72_nodi_tp.py | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
@@ -108,7 +110,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 | `riempimento.json` | 0,0 | 71_parcheggi_riempimento.py, 72_nodi_tp.py, 80_porte_interscambio.py, 84_risultato6_parcheggi.py (+1) | 71_parcheggi_riempimento.py | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
 | `scenari.json` | 0,2 | 80_porte_interscambio.py, 83_fermate_importanti.py | — | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
 | `segnali.json` | 2,1 | 73_segnali_criticita.py, 80_porte_interscambio.py, 81_auto_di_passaggio.py, 83_fermate_importanti.py (+1) | 73_segnali_criticita.py | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
-| `istat2011_proporzioni.json` | 0,0 | 04_genera_mappa.py, 24_importanza_vie.py, 26_velocita_5t.py, 27_risultato4_regolarita.py (+12) | FETCH_LEOPI_E_VELOCITA_5T.bat, RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; via cartella |
+| `istat2011_proporzioni.json` | 0,0 | 04_genera_mappa.py, 104_velocita_bus.py, 24_importanza_vie.py, 26_velocita_5t.py (+13) | FETCH_LEOPI_E_VELOCITA_5T.bat, RACCOLTA_GIORNALIERA.bat | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; via cartella |
 | `luoghi.json` | 1,1 | 68_luoghi_fermate.py, 72_nodi_tp.py, 73_segnali_criticita.py, 77_strade_comuni.py (+5) | 68_luoghi_fermate.py | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
 | `mappa_r6.json` | 0,3 | 04_genera_mappa.py, 79_dati_mappa_r6.py, prova_pagine.py, schede_risultati.py | 79_dati_mappa_r6.py | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
 | `nodi.json` | 1,6 | 72_nodi_tp.py, 73_segnali_criticita.py, 80_porte_interscambio.py, 83_fermate_importanti.py (+2) | 72_nodi_tp.py | fuori | strumento (Java), copia di sicurezza, prova o cache: non e' un dato del progetto; nome |
@@ -130,9 +132,30 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 | `servizi.js` | 0,0 | 95_case_fragilita_servizi.py, prova_scheda_case.py, schede_risultati.py | 95_case_fragilita_servizi.py, prova_scheda_case.py | git | la mappa lo carica quando si apre «Luoghi della città»; nome |
 | `sicurezza_sport.js` | 0,1 | 11_prepara_catalogo.py, 49_v3_punti_domanda.py, 87_popolarita_zone.py, mappa_template.html (+1) | — | git | la mappa lo carica quando si apre «Luoghi della città»; via nome senza estensione |
 
+#### `data/fonti_costi`
+
+| File | MB | Legge | Scrive | Posto | Nota |
+|---|---|---|---|---|---|
+| `aci.txt` | 0,7 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `aci_gu_2026.pdf` | 2,8 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `aciraw.txt` | 0,4 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `main.js` | 2,7 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `pag.html` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `t_1-1.json` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `t_1-x.json` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `t_2-x.json` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `torino_5km.json` | 0,1 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+| `torino_area.json` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
+
+#### `data/gtfs_archivio`
+
+| File | MB | Legge | Scrive | Posto | Nota |
+|---|---|---|---|---|---|
+| `gtt_gtfs_20261023.zip` | 19,5 | 27_risultato4_regolarita.py, 70_risultato9_attesa.py, 97_riassunti_storico.py, RACCOLTA_GIORNALIERA.bat (+1) | RACCOLTA_GIORNALIERA.bat | Release | archivio o documento grezzo (zip, pdf, pbf...): non va in git; via cartella |
+
 #### `data/otp/jdk-25.0.4.1+1-jre`
 
-320 file, 179,1 MB (fuori: 320). Letti da: 01_scarica_dati.py, 04_genera_mappa.py, 05_prepara_sezioni.py, 06_dati_live.py, 100_ore_del_giorno.py, 101_tempi_traffico.py (+68). Scritti da: 04_genera_mappa.py, 88_confronto_auto_sensori.py, 98_prepara_release.py, TRAFFICO_RILANCIA_SENSORI.bat.
+320 file, 179,1 MB (fuori: 320). Letti da: 01_scarica_dati.py, 04_genera_mappa.py, 05_prepara_sezioni.py, 06_dati_live.py, 100_ore_del_giorno.py, 101_tempi_traffico.py (+70). Scritti da: 04_genera_mappa.py, 88_confronto_auto_sensori.py, 98_prepara_release.py, TRAFFICO_RILANCIA_SENSORI.bat.
 
 #### `data/otp/rete`
 
@@ -143,7 +166,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/processed`
 
-72 file, 81,0 MB (git: 43, Release: 5, fonte: 7, fuori: 17). Letti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 100_ore_del_giorno.py, 101_tempi_traffico.py, 14_prepara_imq.py (+65). Scritti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 14_prepara_imq.py, 15_prepara_zone_imq.py, 16_prepara_imq_mappa.py (+32).
+76 file, 81,0 MB (git: 47, Release: 5, fonte: 7, fuori: 17). Letti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 100_ore_del_giorno.py, 101_tempi_traffico.py, 102_scelta_del_mezzo.py (+68). Scritti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 104_velocita_bus.py, 14_prepara_imq.py, 15_prepara_zone_imq.py (+33).
 
 #### `data/processed/accessibilita_parziale`
 
@@ -175,9 +198,9 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 |---|---|---|---|---|---|
 | `comuni.csv` | 0,0 | 13_esporta_imq.ps1, 14_prepara_imq.py, 15_prepara_zone_imq.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
 | `interviste.csv` | 4,0 | 13_esporta_imq.ps1, 14_prepara_imq.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
-| `mezzi.csv` | 0,0 | 13_esporta_imq.ps1, 14_prepara_imq.py, 16_prepara_imq_mappa.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
+| `mezzi.csv` | 0,0 | 102_scelta_del_mezzo.py, 13_esporta_imq.ps1, 14_prepara_imq.py, 16_prepara_imq_mappa.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
 | `scopi.csv` | 0,0 | 13_esporta_imq.ps1 | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
-| `spostamenti.csv` | 7,1 | 13_esporta_imq.ps1, 14_prepara_imq.py, 16_prepara_imq_mappa.py, 40_domanda_imq.py (+5) | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
+| `spostamenti.csv` | 7,1 | 102_scelta_del_mezzo.py, 13_esporta_imq.ps1, 14_prepara_imq.py, 16_prepara_imq_mappa.py (+6) | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
 | `zone_camp.csv` | 0,0 | 13_esporta_imq.ps1, 14_prepara_imq.py | — | fonte | IMQ 2022 e OMI: licenza non chiara, non si pubblica; si riscarica dalla fonte (decisione di Leo); nome |
 
 #### `data/processed/rapporto_gtt`
@@ -215,7 +238,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/processed/traffico_c`
 
-37 file, 66,9 MB (git: 29, Release: 4, riassunto: 1, fonte: 3). Letti da: 39_fattibilita_rete.py, 40_domanda_imq.py, 41_zone_punti.py, 42_instradamento.py, 43_segmenti_corridoi.py, 44_taratura_validazione.py (+27). Scritti da: 39_fattibilita_rete.py, 40_domanda_imq.py, 41_zone_punti.py, 42_instradamento.py, 43_segmenti_corridoi.py, 44_taratura_validazione.py (+11).
+37 file, 66,9 MB (git: 29, Release: 4, riassunto: 1, fonte: 3). Letti da: 103_costo_del_viaggio.py, 39_fattibilita_rete.py, 40_domanda_imq.py, 41_zone_punti.py, 42_instradamento.py, 43_segmenti_corridoi.py (+28). Scritti da: 39_fattibilita_rete.py, 40_domanda_imq.py, 41_zone_punti.py, 42_instradamento.py, 43_segmenti_corridoi.py, 44_taratura_validazione.py (+11).
 
 #### `data/processed/traffico_d`
 
@@ -251,7 +274,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 #### `data/raw/istat`
 
-139 file, 557,3 MB (Release: 139). Letti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 14_prepara_imq.py, 15_prepara_zone_imq.py, 16_prepara_imq_mappa.py (+27). Scritti da: 04_genera_mappa.py, costruisci_prove_stile.py, prova_gtfs_per_giorno.py.
+139 file, 557,3 MB (Release: 139). Letti da: 04_genera_mappa.py, 05_prepara_sezioni.py, 08_prepara_omi.py, 104_velocita_bus.py, 14_prepara_imq.py, 15_prepara_zone_imq.py (+28). Scritti da: 04_genera_mappa.py, costruisci_prove_stile.py, prova_gtfs_per_giorno.py.
 
 #### `data/raw/omi_2025_2`
 
@@ -261,6 +284,7 @@ Le cartelle con più di 30 file sono in una riga sola (elenco completo: rilancia
 
 | File | MB | Legge | Scrive | Posto | Nota |
 |---|---|---|---|---|---|
+| `costi.json` | 0,0 | 103_costo_del_viaggio.py, rifai_tutto.py | — | git | nome |
 | `eventi_luoghi.json` | 0,0 | — | — | fuori | nessuno script e nessuna pagina lo cita: avanzo? |
 | `parcheggi_osservazioni.json` | 0,0 | 80_porte_interscambio.py, 84_risultato6_parcheggi.py | — | git | nome |
 

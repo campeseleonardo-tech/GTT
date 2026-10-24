@@ -6,7 +6,7 @@
 *Italiano · [English below](#turin-mobility-english)*
 
 **Come si muove Torino, letto dai dati veri.** Un progetto personale di analisi dei dati: chi va dove, dove mancano servizi, dove il trasporto pubblico fa fatica.
-Un Raspberry Pi di casa raccoglie ogni minuto la posizione di bus e tram e i sensori del traffico; una mappa e cinque risultati raccontano cosa ne esce.
+Un Raspberry Pi di casa raccoglie ogni minuto la posizione di bus e tram e i sensori del traffico; una mappa e sei risultati raccontano cosa ne esce.
 
 **Il sito: <https://campeseleonardo-tech.github.io/Turin-mobility/>**
 
@@ -14,7 +14,7 @@ Un Raspberry Pi di casa raccoglie ogni minuto la posizione di bus e tram e i sen
 |---|---|---|
 | ![Home](assets/readme/home.jpg) | ![Un risultato](assets/readme/scheda.jpg) | ![La mappa](assets/readme/mappa.jpg) |
 
-## I cinque risultati
+## I sei risultati
 
 <!-- RISULTATI-IT:INIZIO -->
 1. **Torino, città dei 15 minuti: quasi tutti hanno i servizi a 15 minuti a piedi**  
@@ -78,12 +78,12 @@ questo progetto è la verifica, sui dati veri di Torino.
 *[Italiano sopra](#torino-mobilità)*
 
 **How Turin moves, read from real data.** A personal data-analysis project: who travels where, where services are missing, where public transport struggles.
-A Raspberry Pi at home collects the position of buses and trams and the traffic sensors every minute; a map and five results show what comes out of it.
+A Raspberry Pi at home collects the position of buses and trams and the traffic sensors every minute; a map and six results show what comes out of it.
 The site is in Italian and English (button IT/EN); the map is in Italian.
 
 **The site: <https://campeseleonardo-tech.github.io/Turin-mobility/>**
 
-## The five results
+## The six results
 
 <!-- RISULTATI-EN:INIZIO -->
 1. **Turin, a 15-minute city: almost everyone has the services within a 15-minute walk**  

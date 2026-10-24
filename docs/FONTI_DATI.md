@@ -58,6 +58,14 @@ Le zone di campionamento: «IMQ2013-22_zone_camp_TO» (Torino) e «IMQ2022_zone_
 OpenStreetMap, estratto Geofabrik Nord-Ovest, tagliato all'area Torino + cintura dallo script 17 in `data/otp/rete/torino_cintura.osm.pbf`.
 L'estratto intero si riscarica da https://download.geofabrik.de/europe/italy/nord-ovest.html
 
+### Costi del viaggio (giro L14, 24/10/2026)
+
+Prezzi consultati il 24/10/2026 e scritti a mano in `data/ref/costi.json` (valore, fonte, indirizzo, data); lo script 103 non contiene prezzi. Si copiano solo i valori, mai tabelle o file:
+- carburante: Osservatorio prezzi carburanti del Ministero delle imprese e del made in Italy, interrogazione di zona (https://carburanti.mise.gov.it/ospzSearch/zona), 107 impianti self entro 5 km da Piazza Castello; dato aperto del Ministero. I file CSV con lo storico (mimit.gov.it) non rispondono dal PC di Leo: la media delle 4 settimane non si è potuta fare;
+- costo chilometrico ACI 2026: Tabelle nazionali ACI, Gazzetta Ufficiale n. 297 del 23/12/2025, supplemento ordinario n. 40 (atto ufficiale), due valori: Volkswagen Golf VIII 115 CV a benzina e a gasolio;
+- consumo in città: schede tecniche WLTP a bassa velocità (autotijd.be per la benzina, km77.com per il gasolio), due valori;
+- tariffe GTT (biglietti, abbonamenti) e sosta a pagamento: pagine ufficiali di GTT (gtt.to.it); le pagine non riportano la data dei prezzi.
+
 ### Tempi in auto col traffico (TomTom)
 
 Servizio **TomTom Routing API** (piano gratuito, chiave personale in `config_locale.json`, fuori da git), usato dallo script 101 (L6, 24/10/2026):

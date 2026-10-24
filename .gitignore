@@ -68,6 +68,10 @@ data/processed/risultato4_gps_prova.json
 data/processed/risultato4_regolarita_v1.json
 data/processed/risultato9_riepilogo_mappa.json
 data/processed/sezioni_torino.json
+data/processed/tempi_traffico_controllo.json
+data/processed/tempi_traffico_parziale_controllo.json
+data/processed/tempi_traffico_parziale_v2.json
+data/processed/tempi_traffico_parziale_v2_controllo.json
 data/processed/tp_contro_auto_parziale.npz
 data/processed/tp_corridoi.json
 data/processed/traffico_c/domanda_auto.json
