@@ -540,13 +540,18 @@ def design_l18(br, cartella):
             r = page.evaluate("""() => { const c = document.getElementById('caricamento'), s = c.querySelector('svg'), p = c.querySelector('path');
                 const st = getComputedStyle(p);
                 return {paths: c.querySelectorAll('path').length, vb: s.getAttribute('viewBox'), testo: c.querySelector('.car-testo').textContent,
-                        anim: st.animationName, dash: st.strokeDashoffset, riempi: st.fillOpacity}; }""")
+                        anim: st.animationName, giri: st.animationIterationCount, dir: st.animationDirection, dash: st.strokeDashoffset, riempi: st.fill}; }""")
             if r["paths"] < 20 or r["vb"] != "0 0 600 1001":
                 errori.append(f"{nome}: non c'è il toro ({r['paths']} tracciati, viewBox {r['vb']})")
             if r["testo"] != "Caricamento della mappa…":
                 errori.append(f"{nome}: testo «{r['testo']}»")
-            if ridotto and (r["anim"] != "none" or float(r["riempi"]) != 1):
-                errori.append(f"{nome}: il toro non è fermo e intero (animazione {r['anim']}, riempimento {r['riempi']})")
+            if ridotto and (r["anim"] != "none" or float(r["dash"].replace("px", "")) != 0):
+                errori.append(f"{nome}: il toro non è a linee fermo e intero (animazione {r['anim']}, tratteggio {r['dash']})")
+            if not ridotto and (r["anim"] != "car-disegna" or r["giri"] != "infinite" or "alternate" not in r["dir"]):
+                errori.append(f"{nome}: la linea non corre avanti e indietro all'infinito (animazione {r['anim']}, giri {r['giri']}, direzione {r['dir']})")
+            m_ = re.match(r"rgba?\(([^)]*)\)", r["riempi"])
+            if m_ and (len(m_.group(1).split(",")) < 4 or float(m_.group(1).split(",")[3]) > 0.3):
+                errori.append(f"{nome}: il toro ha un riempimento pieno ({r['riempi']})")
             page.wait_for_timeout(5000)
             fine = page.evaluate("window.__fine")
             if fine is None:
@@ -559,7 +564,7 @@ def design_l18(br, cartella):
             errori.append(f"{nome}: {str(e)[:200]}")
         finally:
             ctx.close()
-    print(f"  L18 (toro nel caricamento: tracciati, almeno 2 secondi, riduci movimento, peso {peso:,} byte): {'OK' if not errori else 'ERRORE'}")
+    print(f"  L18 (toro nel caricamento: tracciati, almeno 2 secondi, linea infinita senza oro pieno, riduci movimento, peso {peso:,} byte): {'OK' if not errori else 'ERRORE'}")
     return errori
 
 
