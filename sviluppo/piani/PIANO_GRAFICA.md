@@ -323,3 +323,27 @@ Lavoro di circa 2 ore, in quest'ordine di priorità. Un commit per passo e git p
 Se il tempo finisce prima, fermati dopo l'ultimo punto chiuso, fai il punto 8 e scrivi a Leo da dove ripartire.
 ALLA FINE a Leo: per ogni punto fatto/saltato; numero grande e titolo della scheda 6; il valore di E4; cosa guardare (scheda 4 con la parte nuova, scheda 6, scheda 2, home a 6 riquadri); se main è stato aggiornato.
 ```
+
+### Controllo di L20 (25/10) e giro L21 (in locale)
+**Controllo fatto nel cloud** su `origin/prova` caaecd8:
+- 6 schede, rifatte identiche da `schede_risultati.py`.
+- `prova_pagine.py --playwright`: 0 errori su 21 pagine; prove L15 (schede 1-6), L16, L17, L18, L20 e link della mappa tutte OK.
+- L13 è «non valutabile» con la regola fissata (1 coppia con 30 interviste): giusto non forzarlo.
+- L14: numero grande 269 euro al mese, plausibile; il parcheggio vale quasi tutto il costo.
+- E4: 13,0 km/h alle 8.
+- `main` non è stato unito: l'agente ha letto le condizioni d'uso di TomTom.
+- La Release `dati-2026-11` è **ancora una bozza**; Pages è **ancora spento** (404).
+
+**Decisione di Leo (25/10):** «ho un permesso speciale: cancella i riferimenti a TomTom (verranno spiegati solo se mi viene chiesto); nessuna citazione TomTom nei dati, solo nelle fonti alla fine.»
+Leo chiedeva anche di chiamarli «dati misurati manualmente», ma **non si usa**: è falso. Sono tempi previsti da un servizio di navigazione, e misurati a mano sono solo i 3 percorsi di controllo con Google del 24/10. Si usa una formula neutra e vera.
+
+**Valori predefiniti di Claude per L21:**
+- **Testo visibile** (schede, home, progetto, mappa, `r/N.html`, anteprime, README): il nome TomTom sparisce.
+  - Al suo posto: «tempi in auto con il traffico tipico» (in inglese «car times with typical traffic»).
+  - Nel calcolo: «tempi di percorrenza in auto con il traffico tipico di un feriale, da un servizio di navigazione stradale (vedi Fonti)».
+  - «Fattore TomTom» → «fattore di traffico».
+  - Nella scheda 6: «controllato con un servizio di navigazione su 17 percorsi».
+- **Fonti alla fine:** ogni scheda ha un campo nuovo `fonti` (breve elenco), mostrato come ultima riga della parte chiusa «Come è stato calcolato, e limiti». Nelle schede 3, 4 e 6 compare «TomTom (tempi di percorrenza in auto, uso autorizzato)»; le altre fonti sono quelle già in `docs/FONTI_DATI.md` (GTT GPS e orari, 5T, ISTAT, IMQ, OMI, Comune di Torino, ecc.). È l'unico posto del sito con il nome.
+- **Non si toccano:** nomi di variabili, chiavi JSON, commenti del codice, `docs/R*.md`, `docs/rapporti/` (documentazione tecnica: «spiegati se mi viene chiesto»).
+- **`docs/FONTI_DATI.md`:** la riga TomTom dice «uso con permesso di TomTom (Leo, 25/10/2026)». Memoria: la condizione per `main` è chiusa.
+- **Prova:** in `prova_design` nessun «TomTom» nel testo visibile di home, schede (IT/EN, parte chiusa compresa) e progetto, fuori dalle righe «Fonti»; la riga «Fonti» c'è in ogni scheda.
